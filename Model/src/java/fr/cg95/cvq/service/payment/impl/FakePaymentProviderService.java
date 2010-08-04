@@ -33,7 +33,10 @@ public final class FakePaymentProviderService implements IPaymentProviderService
             String domainName = payment.getPaymentSpecificData().get("domainName");
             String scheme = payment.getPaymentSpecificData().get("scheme");
             String port = payment.getPaymentSpecificData().get("port");
-            
+
+            if (payment.getPaymentSpecificData().get("callbackUrl") != null)
+                callbackUrl = payment.getPaymentSpecificData().get("callbackUrl");
+
             if(port == null) port = "80";
             if(scheme == null) scheme = "https";
             

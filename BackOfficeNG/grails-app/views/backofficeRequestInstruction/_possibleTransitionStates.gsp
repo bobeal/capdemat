@@ -17,7 +17,7 @@
       <input type="hidden" name="stateType" value="${stateType}" />
       <input type="hidden" name="id" value="${id}" />
       
-      <input class="submitStateChange" type="button" value="${message(code:'action.confirm')}" />
+      <input class="submitStateChange" name="submitButton" type="button" value="${message(code:'action.confirm')}" />
       <input class="cancelStateChange" type="button" value="${message(code:'action.cancel')}" />
     </form>
   </g:else>

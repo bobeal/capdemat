@@ -32,6 +32,7 @@ public class SecurityService {
                 "backofficeRequestInstruction" : /.*/,
                 "backofficeRequestType" : /.*/,
                 "backofficeStatistic" : /.*/,
+                "backofficeTicketBooking" : /.*/,
                 "system" : /error/
             ],
             (SecurityContext.FRONT_OFFICE_CONTEXT) : [

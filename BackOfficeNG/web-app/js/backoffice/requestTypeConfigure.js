@@ -13,6 +13,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
   var zct = zenexity.capdemat.tools;
   var zcv = zenexity.capdemat.Validation;
   var zcbrp = zenexity.capdemat.bong.requesttype;
+  var zcb = zenexity.capdemat.bong;
   
   var yue = YAHOO.util.Event;
   var yus = YAHOO.util.Selector;
@@ -37,7 +38,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         yue.on("requestTypeId", "change", zcbrp.Conf.changeRequestType);
       },
       prepareSimpleClick : function(e) {
-        return (yue.getTarget(e).id||'').split('_')[0];
+        return (yue.getTarget(e).getAttribute('id') || '').split('_')[0];
       },
       saveRequestTypeDelays: function(e) {
         var form = yud.get('requestTypeDelaysForm');
@@ -80,6 +81,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       },
       dispatchEvent : function(e) {
         var method = zct.capitalize(yue.getTarget(e).id.split('_')[1]);
+        
+        // VBAOP temp hack
+        if (method === 'TicketBooking')
+          zenexity.capdemat.baseUrl = '/CapDemat/backoffice/ticketBooking';
+        else
+          zenexity.capdemat.baseUrl = '/CapDemat/backoffice/requestType';
+        
         var el = yud.get(['requestType',method].join(''));
         zct.siblings(el,function(n){zct.style(n,{'display':'none'})});
         zct.style(el,{'display':'block'});
@@ -102,6 +110,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       },
       displayRules : function(e) {
         zcbrp.Rules.init();
+      },
+      displayTicketBooking : function(e) {
+        zcb.TicketBooking.init();
       },
       changeRequestType : function() {
         yud.get("requestTypeId").form.submit();

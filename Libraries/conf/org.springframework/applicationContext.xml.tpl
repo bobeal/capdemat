@@ -120,7 +120,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     class="fr.cg95.cvq.service.request.impl.LocalReferentialService">
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
   </bean>
-
   <bean id="localReferentialServiceToLocalReferentialCheckInjector"
     class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
     <property name="staticMethod"
@@ -130,11 +129,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <ref local="localReferentialService" />
       </list>
     </property>
-  </bean>
-
-  <bean id="placeReservationService" 
-    class="fr.cg95.cvq.service.request.impl.PlaceReservationService">
-    <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
   </bean>
   
   <bean id="categoryService" class="fr.cg95.cvq.service.request.impl.CategoryService">
@@ -284,7 +278,12 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="requestServiceRegistry" ref="requestServiceRegistry" />
     <property name="requestWorkflowService" ref="requestWorkflowService" />
   </bean>
-  
+
+   <bean id="ticketBookingService" class="fr.cg95.cvq.service.request.impl.TicketBookingService">
+    <property name="ticketBookingDAO" ref="ticketBookingDAO" />
+    <property name="localReferentialService" ref="localReferentialService" />
+  </bean>
+
   <!-- *************************************************************************  -->
   <!-- ************************ DOCUMENTS RELATED SERVICES *********************  -->
   <!-- *************************************************************************  -->
@@ -506,15 +505,15 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="filingDelay" value="12"/>
   </bean>
 
-  <bean id="placeReservationRequestService" 
-    class="fr.cg95.cvq.service.request.reservation.impl.PlaceReservationRequestService" 
+  <bean id="ticketBookingRequestService"
+    class="fr.cg95.cvq.service.request.reservation.impl.TicketBookingRequestService"
     parent="requestService">
-    <property name="label" value="Place Reservation"/>
+    <property name="label" value="Ticket Booking"/>
+    <property name="localReferentialFilename" value="local_referential_tbr"/>
+    <property name="externalReferentialFilename" value="external_referential_tor"/>
     <property name="supportUnregisteredCreation" value="true"/>
-    <property name="placeReservationFilename" value="place_reservation_prr"/>
-    <property name="externalReferentialFilename" value="external_referential_prr"/>
-    <property name="placeReservationService" ref="placeReservationService" />
     <property name="defaultDisplayGroup" value="culture" />
+    <property name="ticketBookingService" ref="ticketBookingService" />
   </bean>
   
   <bean id="remoteSupportRequestService" 
@@ -678,5 +677,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="externalServiceTraceDAO" class="fr.cg95.cvq.dao.external.hibernate.ExternalServiceTraceDAO" parent="genericDAO" />
 
   <bean id="externalServiceMappingDAO" class="fr.cg95.cvq.dao.external.hibernate.ExternalServiceMappingDAO" parent="genericDAO" />
+  
+  <bean id="ticketBookingDAO" class="fr.cg95.cvq.dao.request.hibernate.TicketBookingDAO" parent="genericDAO" />
 
 </beans>

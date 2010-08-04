@@ -88,11 +88,6 @@
     <xb:package>fr.cg95.cvq.xml.request.urbanism</xb:package>
   </xb:namespace>
 
-  <!-- Place Reservation Request -->
-  <xb:namespace uri="http://www.cg95.fr/cvq/schema/prr">
-    <xb:package>fr.cg95.cvq.xml.request.reservation</xb:package>
-  </xb:namespace>
-
   <!-- Remote Support Request -->
   <xb:namespace uri="http://www.cg95.fr/cvq/schema/rsr">
     <xb:package>fr.cg95.cvq.xml.request.social</xb:package>
@@ -146,6 +141,11 @@
   <!-- Study Grant Request -->
   <xb:namespace uri="http://www.cg95.fr/cvq/schema/sgr">
     <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
+  </xb:namespace>
+
+  <!-- Ticket Office Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/tbr">
+    <xb:package>fr.cg95.cvq.xml.request.reservation</xb:package>
   </xb:namespace>
 
 </xb:config>

@@ -138,15 +138,22 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
     /*
      * Request Instruction Worflow managment
      * ------------------------------------------------------------------------------------------ */
+    //FIXME: yui yl.isArray return false for a NodeList
+    function isNodeList(o) {
+      return Object.prototype.toString.apply(o) === '[object NodeList]';
+    }
 
     function submitChangeStateForm(targetEl , formId) {
       // bad strategy to refresh tag state ...
       var form = yud.get(formId);
       var newTagStateEl;
-      zct.each(form.newState, function(){
+      zct.each(isNodeList(form.newState) ? form.newState : [form.newState], function(){
         if (this.checked) newTagStateEl = yud.getNextSibling(this);
       });
 
+      var submitButton = yus.query('input[name=submitButton]', formId);
+      yud.setAttribute(submitButton[0], 'disabled', 'true');
+      
       zct.doAjaxFormSubmitCall(
           formId,
           null,
@@ -161,6 +168,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
               zcbr.Information.refreshTab("Historique");
             } else {
               zct.Notifier.processMessage('modelError',response.success_msg);
+              submitButton[0].removeAttribute('disabled');
             }
           });
     }

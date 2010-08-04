@@ -57,16 +57,19 @@
 .editableTree li ul li.last { padding: .5em 0 0 0; }
 .editableTree li ul         { margin: .5em 0 0 5em; clear: both; font-size: .95em;/*border-top: 1px dashed #FFD053;*/}
 
-.editableTree li a                 { width: 16px; height: 16px; float: left; margin: 0 .3em; cursor: pointer; }
+.editableTree li a                 { width: 16px; height: 16px; float: left; margin: 0 .3em; cursor: pointer; background-repeat:no-repeat; }
 .editableTree li a span            { display: none; }
 .editableTree li a.associate       { background-image: url(../../images/icons/16-associate.png); }
 .editableTree li a.unassociate     { background-image: url(../../images/icons/16-unassociate.png); }
+.editableTree li a.modifyItem      { background-image: url(../../images/icons/16-unassociate.png); } /* hacks for ticket booking */
+.editableTree li a.cancelEditItem  { background-image: url(../../images/icons/16-associate.png); } /* hacks for ticket booking */
 .editableTree li a.editItem        { background-image: url(../../images/icons/16-edit.png); }
 .editableTree li a.deleteItem      { background-image: url(../../images/icons/16-delete.png); }
 .editableTree li a.createSubItem   { background-image: url(../../images/icons/16-add.png); }
 .editableTree li a.currentEditItem { cursor: default; }
 .editableTree li a:hover           { background-color: transparent;}
 .editableTree li strong            { float: left; font-weight: normal !important; }
+.editableTree h3                   { margin: 0 .5em .5em !important; }
 
 .newItem { font-size: 1.25em; }
 
@@ -98,8 +101,8 @@ p.field a.calendarLink { float : none; }
 .editableList li a.link-close span { display : inline; }
 .editableList li a.associate       { background-image: url(../../images/icons/16-associate.png); }
 .editableList li a.unassociate     { background-image: url(../../images/icons/16-unassociate.png); }
-.editableList li a.activate       { background-image: url(../../images/icons/16-unactive.png); }
-.editableList li a.unactivate     { background-image: url(../../images/icons/16-active.png); }
+.editableList li a.activate        { background-image: url(../../images/icons/16-unactive.png); }
+.editableList li a.unactivate      { background-image: url(../../images/icons/16-active.png); }
 .editableList li a.editItem        { background-image: url(../../images/icons/16-edit.png); }
 .editableList li a.deleteItem      { background-image: url(../../images/icons/16-delete.png); }
 .editableList li a.createSubItem   { background-image: url(../../images/icons/16-add.png); }
@@ -308,3 +311,48 @@ dl.localResources dd a               { display : block; }
 
 form.localResourceUpload       { padding : 0; margin-left : 10px; }
 form.localResourceUpload label { width : auto; }
+
+
+
+/* Ticket Booking specific
+TODO : externalize this rules in a ticketBooking.css file
+-------------------------------------------------------------- */
+#entertainments.editableTree .editItem.mainbox,
+#subscribers.editableList .editItem.mainbox { margin: 0 !important; padding: 0 !important;}
+
+#entertainments.editableTree .listItem label { font-size: 1em; }
+
+#entertainments.editableTree li ul          { margin-left: 3em; }
+#entertainments.editableTree li ul li       { padding: 0.2em 0; }
+#entertainments.editableTree li a.editFares { background-image: url(../../images/icons/16-ticket.png); }
+#entertainments.editableTree h3             { margin : .5em 0 !important; text-indent:0; }                             
+#entertainments.editableTree li a           { min-width: 16px; width: auto; background-position: right top; }
+
+#entertainments.editableTree li a.createSubItem.text       { padding-right: 18px; font-size: .85em; }
+#entertainments.editableTree li a.createSubItem.text:hover { background-color: #00f }
+
+form.listItem.createSubItem { float: right; margin-top: .25em; }
+
+form.listItem.fares a       { float: right !important; margin-top: .25em; }
+form.listItem.fares p.button { margin-left: 42%; }
+
+form.listItem.fares dl { margin-bottom: 1em; }
+form.listItem.fares dl dt,
+form.listItem.fares dl dd { padding: .3em 0; overflow: auto; border-bottom: 1px dashed #ccc; }
+form.listItem.fares dl dt { font-size: 1.1em; }
+form.listItem.fares dl dd { background: #eee; }
+
+form.listItem.fares dl dd strong,
+form.listItem.fares dl dd em      { float: left; }
+form.listItem.fares dl dd strong  { width: 20%; font-size 1.1em; font-style: italic; }
+form.listItem.fares dl dd em      { width: 50% }
+
+form.listItem.fares dl dd em .tag.subscriber { 
+  padding: 0 .2em;
+  border-bottom: 1px solid; border-right: 1px solid;
+  -moz-border-radius: .2em; -webkit-border-radius: .2em;
+  font-size: .7em; 
+  color: #fff; background: #ff00aa; border-color:#ff0088; /* violet */
+}
+
+

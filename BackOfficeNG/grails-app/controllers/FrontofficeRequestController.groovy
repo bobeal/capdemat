@@ -45,10 +45,12 @@ class FrontofficeRequestController {
         requests = filterRequests(state,params)
         requests = requestAdaptorService.prepareRecords(requests)
         requests.records.each {
-            it.externalInformations = requestExternalService.loadExternalInformations(
-                requestSearchService.getById(it.id, true))
-            it.lastAgentNote = requestAdaptorService.prepareNote(
-                requestNoteService.getLastAgentNote(it.id, null))
+            if (!it.state.equals(RequestState.ARCHIVED.toString())) {
+                it.externalInformations = requestExternalService.loadExternalInformations(
+                    requestSearchService.getById(it.id, true))
+                it.lastAgentNote = requestAdaptorService.prepareNote(
+                    requestNoteService.getLastAgentNote(it.id, null))
+            }
         }
         
         return ([

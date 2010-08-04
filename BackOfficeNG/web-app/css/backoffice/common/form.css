@@ -103,10 +103,11 @@ form.editable-list-form,  form.listItem {
 
 form.editable-list-form .error  { margin: 0; }
 
-form.editable-list-form label   { width: 30%; margin: .7em 0 .7em; font-size: 0.9em; clear: both; }
+form.editable-list-form label   { width: 33%; margin: .5em 0 .7em; font-size: 0.9em; clear: both; }
 
+form.editable-list-form textarea,
 form.editable-list-form select,
-form.editable-list-form input   { float: left; margin: .5em 0 .5em 1%; }
+form.editable-list-form input   { float: left; margin: 0 0 .2em 1%; }
 form.editable-list-form input.required { font-size: 1em; font-style: normal; }
 
 form.editable-list-form fieldset {
@@ -126,7 +127,7 @@ form.editable-list-form p.same-line                    { clear: both; margin: .5
 form.editable-list-form p.same-line input              { width: 25%;  margin: .5em 0; }
 form.editable-list-form p.same-line input.form-button,
 form.editable-list-form p.same-line input.first-button { width: auto; margin: .75em 1em 0 0; }
-form.editable-list-form p.same-line input.first-button { margin-left: 31%; }
+form.editable-list-form p.same-line input.first-button { margin-left: 34%; }
 form.editable-list-form p.same-line label              { width: 20%; clear: none; }
 
 form.editable-list-form ul    { margin: .5em 0  0 21%; clear: both; overflow: auto; }
@@ -139,7 +140,17 @@ form.listItem p        { overflow: auto; }
 form.listItem p.button { margin-left: 36%; }
 form.listItem p.error  { margin-bottom: 1em; font-size: 1.1em; }
 
+form.listItem span.required  { font-weight: bold; }
+
 form.listItem img.calendar { cursor: pointer; }
+
+/* FIXME */
+form.editable-list-form img { margin: 0 10px; }
+
+/* FIXME : test */
+form.editable-list-form .calendarLink     { margin: .1em; }
+form.editable-list-form .calendarLink img { margin: 0; }
+
 
 
 /* Validation classes

@@ -52,6 +52,14 @@
               </li>
             </g:if>
           </ul>
+          <!-- Payment confirmation -->
+          <g:if test="${paymentStatus}">
+          <ul>
+            <li>${message(code:'payment.header.statusAt')}: ${paymentStatus}</li>
+            <li>${message(code:'payment.property.bankReference')}: ${bankReference}</li>
+            <li>${message(code:'payment.property.cvqReference')}: ${cvqReference}</li>
+          </ul>
+          </g:if>
         </div>
       </g:if>
     </div>

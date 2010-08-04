@@ -26,3 +26,8 @@ form.editable-list-form p.same-line input.first-button { margin-left: 31%; }
 form.listItem p { height: 1%; }
 form.listItem p.button { margin-left: 22%; }
 
+
+/* configuration.css
+-------------------------------------------------------------- */
+form.listItem.fares p.button { margin-left: 20% !important; }
+

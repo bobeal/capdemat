@@ -17,9 +17,7 @@ import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
 import fr.cg95.cvq.generator.tool.XmlValidator;
 import fr.cg95.cvq.schema.referential.LocalReferentialDocument;
-import fr.cg95.cvq.schema.referential.PlaceReservationDocument;
 import fr.cg95.cvq.schema.referential.LocalReferentialDocument.LocalReferential;
-import fr.cg95.cvq.schema.referential.PlaceReservationDocument.PlaceReservation;
 
 /**
  * The enumeration plugin is interested in global (ie statically defined enumerations strings)
@@ -40,7 +38,6 @@ public class EnumerationPlugin implements IPluginGenerator {
     private static Logger logger = Logger.getLogger(EnumerationPlugin.class);
 
     private static String LOCAL_REFERENTIAL_TYPE = "LocalReferentialDataType";
-    private static String PLACE_RESERVATION_TYPE = "PlaceReservationDataType";
 
     private static String XML_HEADER_DECLARATION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 
@@ -70,17 +67,9 @@ public class EnumerationPlugin implements IPluginGenerator {
      */
     private boolean waitingForLocalReferential;
 
-    /**
-     * To know when we have to parse user documentation to retrieve a place reservation element's
-     * information.
-     */
-    private boolean waitingForPlaceReservation;
-
     private LocalReferentialDocument requestLrdDoc;
-    private PlaceReservationDocument requestPrdDoc;
     
     private LocalReferential.Data currentLocalReferentialData;
-    private PlaceReservation.Data currentPlaceReservationData;
     
     public void initialize(Node configurationNode) {
         logger.debug("initialize()");
@@ -111,9 +100,7 @@ public class EnumerationPlugin implements IPluginGenerator {
     public void endRequest(String requestName) {
         logger.debug("endRequest() Name : " + requestName);
         generateLocalReferential();
-        generatePlaceReservation();
         requestLrdDoc = null;
-        requestPrdDoc = null;
     }
 
     public void startElement(String elementName, String type) {
@@ -124,17 +111,12 @@ public class EnumerationPlugin implements IPluginGenerator {
             // local referential : LocalReferentialDataType
             logger.debug("startElement() got a local referential : " + currentElementName);
             waitingForLocalReferential = true;
-        } else if (type.indexOf(PLACE_RESERVATION_TYPE) != -1) {
-            // place reservation : PlaceReservationDataType
-            logger.debug("startElement() got a place reservation : " + currentElementName);
-            waitingForPlaceReservation = true;
         }
     }
 
     public void endElement(String elementName) {
         currentElementName = null;
         waitingForLocalReferential = false;
-        waitingForPlaceReservation = false;
         currentLocalReferentialData = null;
     }
 
@@ -155,19 +137,6 @@ public class EnumerationPlugin implements IPluginGenerator {
             localReferential.setDataArray(localReferential.sizeOfDataArray() - 1, 
                     currentLocalReferentialData);
         }
-        
-        if (waitingForPlaceReservation) {
-            // can't be inherited for the moment
-            PlaceReservation placeReservation = null;
-            if (requestPrdDoc == null) {
-                requestPrdDoc = PlaceReservationDocument.Factory.newInstance();
-                placeReservation = requestPrdDoc.addNewPlaceReservation();
-                placeReservation.setRequest(currentRequestName);
-            } else {
-                placeReservation = requestPrdDoc.getPlaceReservation();
-            }
-            placeReservation.setData(currentPlaceReservationData);
-        }
     }
 
     public void endElementProperties() {
@@ -181,16 +150,6 @@ public class EnumerationPlugin implements IPluginGenerator {
                 currentLocalReferentialData = LocalReferential.Data.Factory.newInstance();
             currentLocalReferentialData.setName(currentElementName);
             LocalReferential.Data.Label label = currentLocalReferentialData.addNewLabel();
-            label.setLang(userDocumentation.getLang());
-            label.setStringValue(userDocumentation.getText());
-        }
-        
-        if (waitingForPlaceReservation
-            && userDocumentation.getSourceUri().equalsIgnoreCase(SHORT_DESC)) {
-            if (currentPlaceReservationData == null)
-                currentPlaceReservationData = PlaceReservation.Data.Factory.newInstance();
-            currentPlaceReservationData.setName(currentElementName);
-            PlaceReservation.Data.Label label = currentPlaceReservationData.addNewLabel();
             label.setLang(userDocumentation.getLang());
             label.setStringValue(userDocumentation.getText());
         }
@@ -225,32 +184,6 @@ public class EnumerationPlugin implements IPluginGenerator {
         writeXmlFile(outputFile.toString(), requestLrdDoc);
     }
 
-    /**
-     * Create and save the XML file containing all place reservation data declared in a given
-     * request.
-     */
-    private void generatePlaceReservation() {
-        
-        logger.debug("generatePlaceReservation()");
-
-        if (requestPrdDoc == null) {
-            logger.debug("generatePlaceReservation() nothing to generate, returning");
-            return;
-        }
-        logger.debug(requestPrdDoc.toString());
-        
-        if (!XmlValidator.validate(requestPrdDoc)) {
-            logger.error("generatePlaceReservation() place reservation file is not valid, cancelling generation ...");
-            return;
-        }
-
-        String currentNamespaceAlias =
-            currentRequestNamespace.substring(currentRequestNamespace.lastIndexOf('/') + 1);
-        StringBuffer outputFile = new StringBuffer().append(localReferentialDir).append("/")
-            .append("place_reservation_").append(currentNamespaceAlias).append(".xml");
-
-        writeXmlFile(outputFile.toString(), requestPrdDoc);
-    }
     
     private final void writeXmlFile(final String filename, final XmlObject xmlObject) {
 

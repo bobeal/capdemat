@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <request>TicketBookingRequest</request>
+    <data name="entertainmentCategories">
+        <label lang="fr">Catégories de spéctacles</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+            <entry key="Musique">
+                <label lang="fr">Musique</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="The-atre">
+                <label lang="fr">Théatre</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Confe-rence">
+                <label lang="fr">Conférence</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Sport">
+                <label lang="fr">Sport</label>
+                <message lang="fr"/>
+            </entry>
+        </entries>
+    </data>
+    <data name="placeCategories">
+        <label lang="fr">Catégories de places</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+            <entry key="A">
+                <label lang="fr">A</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="B">
+                <label lang="fr">B</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="C">
+                <label lang="fr">C</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="GRE">
+                <label lang="fr">GRE</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="chere">
+                <label lang="fr">chere</label>
+                <message lang="fr"/>
+            </entry>
+        </entries>
+    </data>
+    <data name="rateTypes">
+        <label lang="fr">Types de tarif</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+            <entry key="Etudiant---Cho-meur">
+                <label lang="fr">Etudiant / Chômeur</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Vermeil">
+                <label lang="fr">Vermeil</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Re-duit">
+                <label lang="fr">Réduit</label>
+            </entry>
+            <entry key="Plein">
+                <label lang="fr">Plein</label>
+            </entry>
+            <entry key="Reduit">
+                <label lang="fr">Réduit</label>
+            </entry>
+        </entries>
+    </data>
+    <data name="ticketBookingConfiguration">
+        <label lang="fr">Configuration</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+            <entry key="Taille-du-panier">
+                <label lang="fr">Taille du panier</label>
+                <message lang="fr">20</message>
+            </entry>
+        </entries>
+    </data>
+</LocalReferential>

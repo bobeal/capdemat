@@ -3,6 +3,7 @@ package fr.cg95.cvq.service.request.impl;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -260,8 +261,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             RequestType requestType = 
                 requestTypeService.getRequestTypeByLabel(requestService.getLabel());
             request.setRequestType(requestType);
-            checkSubjectPolicy(request.getSubjectId(), request.getHomeFolderId(),
-                    requestService.getSubjectPolicy(), request.getRequestType());
+            checkSubjectPolicy(request.getSubjectId(), requestService.getSubjectPolicy(), request);
         }
         
         if (request.getSubjectId() != null) {
@@ -375,6 +375,50 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         }
     }
 
+    @Override
+    @Context(types = {ContextType.UNAUTH_ECITIZEN, ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    public void checkSubjectPolicy(final Long subjectId, final String policy, final Request request)
+        throws CvqException, CvqModelException {
+
+        // first, check general subject policy
+        if (!policy.equals(IRequestWorkflowService.SUBJECT_POLICY_NONE)) {
+            if (subjectId == null)
+                throw new CvqModelException("model.request.subject_is_required");
+            Individual subject = individualService.getById(subjectId);
+            if (policy.equals(IRequestWorkflowService.SUBJECT_POLICY_INDIVIDUAL)) {
+                if (!(subject instanceof Individual)) {
+                    throw new CvqModelException("model.request.wrong_subject_type");
+                }
+            } else if (policy.equals(IRequestWorkflowService.SUBJECT_POLICY_ADULT)) {
+                if (!(subject instanceof Adult)) {
+                    throw new CvqModelException("model.request.wrong_subject_type");
+                }
+            } else if (policy.equals(IRequestWorkflowService.SUBJECT_POLICY_CHILD)) {
+                if (!(subject instanceof Child)) {
+                    throw new CvqModelException("model.request.wrong_subject_type");
+                }
+            }
+        } else {
+            if (subjectId != null)
+                throw new CvqModelException("model.request.subject_not_supported");
+        }
+        
+        // then check that request's subject is allowed to issue this request
+        // ie that it is authorized to issue it (no current one, an open season, ...)
+        if (!policy.equals(IRequestWorkflowService.SUBJECT_POLICY_NONE)) {
+            Individual individual = individualService.getById(subjectId);
+            boolean isAuthorized = false;
+            for (Long authorizedSubjectId : getAuthorizedSubjects(request)) {
+                if (authorizedSubjectId.equals(individual.getId())) {
+                    isAuthorized = true;
+                    break;
+                }
+            }
+            if (!isAuthorized)
+                throw new CvqModelException("request.error.subjectNotAuthorized");
+        }
+    }
+
     /**
      * Get the list of eligible subjects for the current request service. Does
      * not make any control on already existing requests.
@@ -420,7 +464,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             Set<RequestSeason> openSeasons = requestTypeService.getOpenSeasons(requestType);
             // no open seasons, no registration is possible
             if (openSeasons.isEmpty())
-                return null;
+                return Collections.emptyMap();
 
             Set<Long> eligibleSubjects = 
                 getEligibleSubjects(homeFolderId, requestService.getSubjectPolicy());
@@ -482,7 +526,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                     requestService.getLabel(), excludedStates);
             if (requestService.getSubjectPolicy().equals(IRequestWorkflowService.SUBJECT_POLICY_NONE)) {
                 if (!homeFolderSubjectIds.isEmpty()) {
-                    return null;
+                    return Collections.emptyMap();
                 } else {
                     return result;
                 }
@@ -492,6 +536,33 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                 return result;
             }
         }
+    }
+
+    @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public List<Long> getAuthorizedSubjects(final Request request)
+        throws CvqException, CvqObjectNotFoundException {
+        List<Long> subjects = new ArrayList<Long>();
+        if (SecurityContext.getCurrentEcitizen() != null
+            && !requestTypeService.getSubjectPolicy(request.getRequestType().getId())
+                .equals(IRequestWorkflowService.SUBJECT_POLICY_NONE)) {
+            Map<Long, Set<RequestSeason>> authorizedSubjects =
+                getAuthorizedSubjects(request.getRequestType(),
+                    SecurityContext.getCurrentEcitizen().getHomeFolder().getId());
+            if (request.getRequestSeason() == null) {
+                subjects = new ArrayList<Long>(authorizedSubjects.keySet());
+            } else {
+                for (Map.Entry<Long, Set<RequestSeason>> subject : authorizedSubjects.entrySet()) {
+                    if (subject.getValue().contains(request.getRequestSeason())) {
+                        subjects.add(subject.getKey());
+                    }
+                }
+            }
+            if (request.getSubjectId() != null && !subjects.contains(request.getSubjectId())) {
+                subjects.add(request.getSubjectId());
+            }
+        }
+        return subjects;
     }
 
     private void setAdministrativeInformation(Request request) throws CvqException {

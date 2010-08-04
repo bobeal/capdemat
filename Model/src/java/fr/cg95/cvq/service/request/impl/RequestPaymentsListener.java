@@ -59,7 +59,7 @@ public class RequestPaymentsListener implements ApplicationListener<PaymentEvent
                 Request request = getById(requestId);
                 IRequestService requestService = 
                     requestServiceRegistry.getRequestService(request);
-                if (payment.getState().equals(PaymentState.VALIDATED))
+                if (payment.getState().equals(PaymentState.VALIDATED)) {
                     if (requestService.onPaymentValidated(request, payment.getBankReference())) {
                         if (request.getState().equals(RequestState.PENDING))
                             requestWorkflowService.updateRequestState(request.getId(), 
@@ -67,16 +67,17 @@ public class RequestPaymentsListener implements ApplicationListener<PaymentEvent
                         requestWorkflowService.updateRequestState(request.getId(), 
                                 RequestState.VALIDATED, "request.message.paymentValidated");
                     }
-                else if (payment.getState().equals(PaymentState.CANCELLED))
+                } else if (payment.getState().equals(PaymentState.CANCELLED)) {
                     if (requestService.onPaymentCancelled(request)) {
                         requestWorkflowService.updateRequestState(request.getId(), 
                                 RequestState.CANCELLED, "request.message.paymentCancelled");
                     }
-                else if (payment.getState().equals(PaymentState.REFUSED))
+                } else if (payment.getState().equals(PaymentState.REFUSED)) {
                     if (requestService.onPaymentRefused(request)) {
                         requestWorkflowService.updateRequestState(request.getId(), 
                                 RequestState.REJECTED, "request.message.paymentRefused");                        
                     }
+                }
             }
         }
     }

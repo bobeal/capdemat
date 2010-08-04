@@ -263,12 +263,6 @@
     alter table perischool_contact_individual 
         drop constraint FK5B659D57B7531222;
 
-    alter table place_reservation_request_place_reservation 
-        drop constraint FK9493CEF91BB5C277;
-
-    alter table place_reservation_request_place_reservation 
-        drop constraint FK9493CEF921FCBFA6;
-
     alter table purchase_item 
         drop constraint FKB1132791A8364360;
 
@@ -377,6 +371,9 @@
     alter table study_grant_request_tax_household_city 
         drop constraint FK1B56894819BB0CC1;
 
+    alter table tbr_ticket 
+        drop constraint FK231823E7CFCF80C3;
+
     alter table technical_intervention_request 
         drop constraint FKC051B8C974526C97;
 
@@ -386,8 +383,17 @@
     alter table technical_intervention_request_intervention_type 
         drop constraint FK5ADF79AC43EECED8;
 
-    alter table ticket_type_selection 
-        drop constraint FK3B70C45A19329425;
+    alter table ticket_event 
+        drop constraint FK9B59C7A7E386AF5C;
+
+    alter table ticket_fare 
+        drop constraint FK15872D81914D9745;
+
+    alter table ticket_place_category 
+        drop constraint FK228856C92803C01C;
+
+    alter table ticket_subscriber_limits 
+        drop constraint FK2A415CAF42EA14;
 
     drop table address;
 
@@ -531,12 +537,6 @@
 
     drop table perischool_contact_individual;
 
-    drop table place_reservation_data;
-
-    drop table place_reservation_request;
-
-    drop table place_reservation_request_place_reservation;
-
     drop table purchase_item;
 
     drop table purchase_item_specific_data;
@@ -597,11 +597,25 @@
 
     drop table study_grant_request_tax_household_city;
 
+    drop table tbr_ticket;
+
     drop table technical_intervention_request;
 
     drop table technical_intervention_request_intervention_type;
 
-    drop table ticket_type_selection;
+    drop table ticket_booking_request;
+
+    drop table ticket_entertainment;
+
+    drop table ticket_event;
+
+    drop table ticket_fare;
+
+    drop table ticket_place_category;
+
+    drop table ticket_subscriber;
+
+    drop table ticket_subscriber_limits;
 
     drop table vo_card_request;
 
@@ -1749,27 +1763,6 @@
         primary key (id)
     );
 
-    create table place_reservation_data (
-        id int8 not null,
-        name varchar(255),
-        primary key (id)
-    );
-
-    create table place_reservation_request (
-        id int8 not null,
-        subscriber_number varchar(255),
-        is_subscriber bool,
-        payment_reference varchar(255),
-        primary key (id)
-    );
-
-    create table place_reservation_request_place_reservation (
-        place_reservation_request_id int8 not null,
-        place_reservation_id int8 not null,
-        place_reservation_index int4 not null,
-        primary key (place_reservation_request_id, place_reservation_index)
-    );
-
     create table purchase_item (
         id int8 not null,
         item_type varchar(64) not null,
@@ -2138,6 +2131,21 @@
         primary key (study_grant_request_id, tax_household_city_index)
     );
 
+    create table tbr_ticket (
+        id int8 not null,
+        event_name varchar(255),
+        event_place varchar(255),
+        place_category_id int8,
+        place_number bytea,
+        price numeric(19, 2),
+        fare_type varchar(255),
+        place_category varchar(255),
+        event_date timestamp,
+        ticket_booking_request_id int8,
+        tbr_ticket_index int4,
+        primary key (id)
+    );
+
     create table technical_intervention_request (
         id int8 not null,
         other_intervention_label varchar(255),
@@ -2153,12 +2161,77 @@
         primary key (technical_intervention_request_id, intervention_type_index)
     );
 
-    create table ticket_type_selection (
+    create table ticket_booking_request (
         id int8 not null,
-        name varchar(255),
-        number int8,
-        place_reservation_data_id int8,
+        rules_and_regulations_acceptance bool,
+        subscriber_last_name varchar(255),
+        total_price numeric(19, 2),
+        subscriber_number varchar(255),
+        subscriber_first_name varchar(255),
+        is_subscriber bool,
+        payment_reference varchar(255),
         primary key (id)
+    );
+
+    create table ticket_entertainment (
+        id int8 not null,
+        external_id varchar(255),
+        information varchar(255),
+        name varchar(255),
+        link varchar(255),
+        category varchar(255),
+        logo bytea,
+        primary key (id)
+    );
+
+    create table ticket_event (
+        id int8 not null,
+        external_id varchar(255),
+        date timestamp,
+        booking_start timestamp,
+        booking_end timestamp,
+        place varchar(255),
+        link varchar(255),
+        address varchar(255),
+        ticket_entertainment_id int8 not null,
+        primary key (id)
+    );
+
+    create table ticket_fare (
+        id int8 not null,
+        external_id varchar(255),
+        name varchar(255),
+        price float4,
+        with_subscriber bool,
+        ticket_place_category_id int8,
+        fares_index int4,
+        primary key (id)
+    );
+
+    create table ticket_place_category (
+        id int8 not null,
+        external_id varchar(255),
+        name varchar(255),
+        place_number int4,
+        booked_place_number int4,
+        ticket_event_id int8,
+        place_categories_index int4,
+        primary key (id)
+    );
+
+    create table ticket_subscriber (
+        id int8 not null,
+        number varchar(255),
+        first_name varchar(255),
+        last_name varchar(255),
+        primary key (id)
+    );
+
+    create table ticket_subscriber_limits (
+        id int8 not null,
+        value int4,
+        key varchar(255) not null,
+        primary key (id, key)
     );
 
     create table vo_card_request (
@@ -2606,16 +2679,6 @@
         foreign key (address_id) 
         references address;
 
-    alter table place_reservation_request_place_reservation 
-        add constraint FK9493CEF91BB5C277 
-        foreign key (place_reservation_request_id) 
-        references place_reservation_request;
-
-    alter table place_reservation_request_place_reservation 
-        add constraint FK9493CEF921FCBFA6 
-        foreign key (place_reservation_id) 
-        references place_reservation_data;
-
     alter table purchase_item 
         add constraint FKB1132791A8364360 
         foreign key (payment_id) 
@@ -2796,6 +2859,11 @@
         foreign key (study_grant_request_id) 
         references study_grant_request;
 
+    alter table tbr_ticket 
+        add constraint FK231823E7CFCF80C3 
+        foreign key (ticket_booking_request_id) 
+        references ticket_booking_request;
+
     alter table technical_intervention_request 
         add constraint FKC051B8C974526C97 
         foreign key (intervention_place_id) 
@@ -2811,9 +2879,24 @@
         foreign key (technical_intervention_request_id) 
         references technical_intervention_request;
 
-    alter table ticket_type_selection 
-        add constraint FK3B70C45A19329425 
-        foreign key (place_reservation_data_id) 
-        references place_reservation_data;
+    alter table ticket_event 
+        add constraint FK9B59C7A7E386AF5C 
+        foreign key (ticket_entertainment_id) 
+        references ticket_entertainment;
+
+    alter table ticket_fare 
+        add constraint FK15872D81914D9745 
+        foreign key (ticket_place_category_id) 
+        references ticket_place_category;
+
+    alter table ticket_place_category 
+        add constraint FK228856C92803C01C 
+        foreign key (ticket_event_id) 
+        references ticket_event;
+
+    alter table ticket_subscriber_limits 
+        add constraint FK2A415CAF42EA14 
+        foreign key (id) 
+        references ticket_subscriber;
 
     create sequence hibernate_sequence;

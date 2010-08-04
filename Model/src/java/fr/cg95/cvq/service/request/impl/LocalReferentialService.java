@@ -614,7 +614,7 @@ public class LocalReferentialService
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.NONE)
+    @Context(types = {ContextType.AGENT,ContextType.ECITIZEN,ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.NONE)
     public LocalReferentialType getLocalReferentialDataByName(final String dataName)
         throws CvqException {
 

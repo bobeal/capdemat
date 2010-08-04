@@ -520,7 +520,9 @@
     var el = new YAHOO.util.Element(node);
     if (typeof text != "object" && text != null) {
       if(!append) el.get('element').innerHTML = "";
-      el.appendChild((!!node && node.ownerDocument || document).createTextNode(text));
+      // FIXME : ?
+      // el.appendChild((!!node && node.ownerDocument || document).createTextNode(text));
+      el.get('element').innerHTML += text;
     }
   };
 
@@ -834,6 +836,7 @@
         zct.style(el.get('element'),{'background-color':color||'#20aa20'});
         zct.text(el.get('element'),message);
         if (!cn && triggerEl) {
+          // FIXME: decouple CSS class ''mainbox' from JS
           var box = yud.getAncestorByClassName(triggerEl, "mainbox");
           var relative = box ? box : triggerEl;
           var pos = yud.getXY(relative);
@@ -861,6 +864,7 @@
        **/
       displaySuccess : function(message,cn,triggerEl) { zct.Notifier.animateMessage(message,cn, undefined,triggerEl);},
       displayWarning : function(message,cn,triggerEl) { zct.Notifier.animateMessage(message,cn,'orange',triggerEl);},
+      displayError : function(message,cn,triggerEl) { zct.Notifier.animateMessage(message,cn,'red',triggerEl);},
       /**
        * @description Displays unexpected error message, injected dynamically.
        * @method displayUnexpectedError

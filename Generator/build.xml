@@ -49,7 +49,6 @@
       <include name="MilitaryCensusRequest.xsd" />
       <include name="MusicSchoolRegistrationRequest.xsd" />
       <include name="PerischoolActivityRegistrationRequest.xsd" />
-      <include name="PlaceReservationRequest.xsd" />
       <include name="RecreationActivityRegistrationRequest.xsd" />
       <include name="RemoteSupportRequest.xsd" />
       <include name="SchoolCanteenRegistrationRequest.xsd" />
@@ -84,10 +83,10 @@
       <fileset dir="${src.xml.schema.dir}/request">
         <include name="VoCardRequest.xsd" />
         <include name="HomeFolderModificationRequest.xsd" />
+        <include name="TicketBookingRequest.xsd" />
       </fileset>
       <fileset dir="${src.xml.schema.dir}/referential">
         <include name="ReferentialData.xsd" />
-        <include name="PlaceReservationData.xsd" />
       </fileset>
       <fileset dir="${conf.xmlbeans.dir}" includes="generator.xsdconfig" />
     </xmlbean>
@@ -130,20 +129,19 @@
     </taskdef>
 
     <generator>
-      <fileset refid="generated-requests" />
       <!--
-      <fileset id="generated-requests" dir="${src.xml.schema.dir}/request">
-      	<include name="BirthDetailsRequest.xsd" />
-      	<include name="SchoolCanteenRegistrationRequest.xsd" />
-      </fileset>
+      <fileset refid="generated-requests" />
       -->
+      <fileset id="generated-requests" dir="${src.xml.schema.dir}/request">
+      	<include name="TicketBookingRequest.xsd" />
+      </fileset>
       <plugins>
         <fileset dir="${src.xml.plugins.dir}">
-          <include name="pdf_plugin.xml" />
+          <include name="model_plugin.xml" />
           <!--
           <include name="bo_plugin.xml" />
+          <include name="pdf_plugin.xml" />
           <include name="fong_plugin.xml" />
-          <include name="model_plugin.xml" />
           <include name="i18n_plugin.xml" />
           <include name="enumeration_plugin.xml" />
           -->

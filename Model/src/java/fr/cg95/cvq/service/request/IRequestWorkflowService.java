@@ -173,6 +173,9 @@ public interface IRequestWorkflowService {
             @IsHomeFolder Long homeFolderId) 
         throws CvqException, CvqObjectNotFoundException;
 
+    List<Long> getAuthorizedSubjects(@IsRequest final Request request)
+        throws CvqException, CvqObjectNotFoundException;
+
     /**
      * Get a clone of a request with the given label whose subject is either the given subject 
      * either the given home folder (depending on the subject policy supported by the associated
@@ -218,4 +221,7 @@ public interface IRequestWorkflowService {
     void checkSubjectPolicy(@IsSubject final Long subjectId, @IsHomeFolder Long homeFolderId,
         final String policy, @IsRequestType final RequestType requestType)
         throws CvqException, CvqModelException;
+
+    void checkSubjectPolicy(@IsSubject final Long subjectId, final String policy,
+            @IsRequest final Request request) throws CvqException, CvqModelException;
 }

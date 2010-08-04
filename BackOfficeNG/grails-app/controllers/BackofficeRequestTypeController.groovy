@@ -105,6 +105,8 @@ class BackofficeRequestTypeController {
         if (requestService.isOfRegistrationKind()) {
             baseConfigurationItems["seasons"] = ["requestType.configuration.seasons", false]
         }
+        if (requestType.label == 'Ticket Booking')
+          baseConfigurationItems["ticketBooking"] = ["requestType.configuration.ticketBooking", false]
         return ["requestType":requestType, "requestTypeLabel":requestTypeLabel,
                 "baseConfigurationItems":baseConfigurationItems,
                 "requestTypes":requestAdaptorService.translateAndSortRequestTypes()]

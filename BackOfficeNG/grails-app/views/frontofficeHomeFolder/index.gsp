@@ -53,9 +53,10 @@
       <div class="yui-u first">
         <g:render template="adults" />
       </div>
-      <div class="yui-u">
-        <g:render template="children" />
-      </div>
+%{--      FIXME: CG77 hack to disable child --}%
+%{--      <div class="yui-u">--}%
+%{--        <g:render template="children" />--}%
+%{--      </div>--}%
     </div>
   </body>
 </html>

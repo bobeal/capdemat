@@ -23,6 +23,7 @@
         </g:each>
       </select>
 
+      <label for="_individuals.children.${listIndex}.birthDate" class="required"><g:message code="homeFolder.individual.property.birthDate" /> <span><g:message code="homeFolder.individual.property.birthDate.help" /></span></label>
       <div class="date required validate-date">
         <select id="_individuals.children.${listIndex}.birthDate_day" name="_individuals.children[${listIndex}].birthDate_day"
           class="day ${stepStates != null && stepStates['children']?.invalidFields?.contains('birthDate') ? 'validation-failed' : ''}">

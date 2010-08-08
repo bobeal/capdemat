@@ -40,7 +40,7 @@
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="family">
+  <xs:element name="familyAccountsResponse">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="accounts">

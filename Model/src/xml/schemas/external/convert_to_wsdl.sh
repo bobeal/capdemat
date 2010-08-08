@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SAXON9_JAR=/home/bor/java/saxon9-1-0-1/saxon9.jar
+SAXON9_JAR=saxon9he.jar
 
 for i in $(find . -type f -name "*.xsd")
     do

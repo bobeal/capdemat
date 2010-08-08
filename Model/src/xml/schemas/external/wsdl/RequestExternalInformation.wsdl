@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:schema="http://www.capwebct.fr/modules/payment/schema/rei"
+                  xmlns:tns="http://www.capwebct.fr/modules/payment/schema/rei"
+                  name=""
+                  targetNamespace="http://www.capwebct.fr/modules/payment/schema/rei">
+   <wsdl:types>
+      <xs:schema xmlns:rei="http://www.capwebct.fr/modules/payment/schema/rei"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 targetNamespace="http://www.capwebct.fr/modules/payment/schema/rei"
+                 elementFormDefault="qualified"
+                 attributeFormDefault="unqualified">
+
+         <xs:element name="getExternalInformationRequest">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="LocalAuthority" type="xs:string">
+                     <xs:annotation>
+                        <xs:documentation>
+              The local authority to which the family belongs
+            </xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+                  <xs:element name="RequestId" type="xs:long">
+                     <xs:annotation>
+                        <xs:documentation>
+              The external identifier of the home folder for whom the accounts are requested
+            </xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+
+         <xs:element name="getExternalInformationResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="unbounded" name="ExternalInformation"
+                              type="rei:externalInformationType">
+                     <xs:annotation>
+                        <xs:documentation>
+              The container for the home folder's deposit accounts list
+            </xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+
+         <xs:complexType name="externalInformationType">
+            <xs:sequence>
+               <xs:element name="Key" type="xs:string"/>
+               <xs:element name="Value" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="getExternalInformationRequestMessage">
+      <wsdl:part name="body" element="schema:getExternalInformationRequest"/>
+   </wsdl:message>
+   <wsdl:message name="getExternalInformationResponseMessage">
+      <wsdl:part name="body" element="schema:getExternalInformationResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="PortType">
+      <wsdl:operation name="getExternalInformation">
+         <wsdl:input name="getExternalInformationInput"
+                     message="tns:getExternalInformationRequestMessage"/>
+         <wsdl:output name="getExternalInformationOutput"
+                      message="tns:getExternalInformationResponseMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="Binding" type="tns:PortType">
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+      <wsdl:operation name="getExternalInformation">
+         <wsdlsoap:operation soapAction="http://www.capwebct.fr/modules/payment/schema/rei/getExternalInformation"/>
+         <wsdl:input name="getExternalInformationInput">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getExternalInformationOutput">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="Service">
+      <wsdl:port name="Port" binding="tns:Binding">
+         <wsdlsoap:address location=""/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:schema="http://www.capwebct.fr/modules/payment/schema/cns"
+                  xmlns:tns="http://www.capwebct.fr/modules/payment/schema/cns"
+                  name=""
+                  targetNamespace="http://www.capwebct.fr/modules/payment/schema/cns">
+   <wsdl:types>
+      <xs:schema xmlns:cns="http://www.capwebct.fr/modules/payment/schema/cns"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 targetNamespace="http://www.capwebct.fr/modules/payment/schema/cns"
+                 elementFormDefault="qualified"
+                 attributeFormDefault="unqualified">
+
+         <xs:element name="getConsumptionsRequest">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="LocalAuthority" type="xs:string">
+                     <xs:annotation>
+                        <xs:documentation>
+              The local authority to which the family belongs
+            </xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+                  <xs:element name="RequestId" type="xs:long">
+                     <xs:annotation>
+                        <xs:documentation>
+              The external identifier of the home folder for whom the accounts are requested
+            </xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+                  <xs:element name="DateFrom" type="xs:dateTime" minOccurs="0">
+                     <xs:annotation>
+                        <xs:documentation>
+              The date to search from
+            </xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+                  <xs:element name="DateTo" type="xs:dateTime" minOccurs="0">
+                     <xs:annotation>
+                        <xs:documentation>
+              The date to search to. Defaults to today (included) if not provided.
+            </xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+
+         <xs:element name="getConsumptionsResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="unbounded" name="Consumption"
+                              type="cns:consumptionType">
+                     <xs:annotation>
+                        <xs:documentation>
+              The container for the home folder's deposit accounts list
+            </xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+
+         <xs:complexType name="consumptionType">
+            <xs:sequence>
+               <xs:element name="Date" type="xs:dateTime"/>
+               <xs:element name="Label" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="getConsumptionsRequestMessage">
+      <wsdl:part name="body" element="schema:getConsumptionsRequest"/>
+   </wsdl:message>
+   <wsdl:message name="getConsumptionsResponseMessage">
+      <wsdl:part name="body" element="schema:getConsumptionsResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="PortType">
+      <wsdl:operation name="getConsumptions">
+         <wsdl:input name="getConsumptionsInput" message="tns:getConsumptionsRequestMessage"/>
+         <wsdl:output name="getConsumptionsOutput" message="tns:getConsumptionsResponseMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="Binding" type="tns:PortType">
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+      <wsdl:operation name="getConsumptions">
+         <wsdlsoap:operation soapAction="http://www.capwebct.fr/modules/payment/schema/cns/getConsumptions"/>
+         <wsdl:input name="getConsumptionsInput">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getConsumptionsOutput">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="Service">
+      <wsdl:port name="Port" binding="tns:Binding">
+         <wsdlsoap:address location=""/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

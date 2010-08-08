@@ -42,13 +42,13 @@
                         <xs:documentation>
               The external identifier of the home folder for whom the accounts are requested
             </xs:documentation>
-                     </xs:annotation>
+                     </xs:annotation>   
                   </xs:element>
                </xs:sequence>
             </xs:complexType>
          </xs:element>
 
-         <xs:element name="family">
+         <xs:element name="familyAccountsResponse">
             <xs:complexType>
                <xs:sequence>
                   <xs:element minOccurs="0" name="accounts">
@@ -83,7 +83,7 @@
                      </xs:annotation>
                      <xs:complexType>
                         <xs:sequence>
-                           <xs:element minOccurs="0" maxOccurs="unbounded" name="contract"
+                           <xs:element minOccurs="0" maxOccurs="unbounded" name="individual-contract"
                                        type="fam:individualContractType"/>
                         </xs:sequence>
                      </xs:complexType>
@@ -351,13 +351,13 @@
    <wsdl:message name="familyAccountsRequestMessage">
       <wsdl:part name="body" element="schema:familyAccountsRequest"/>
    </wsdl:message>
-   <wsdl:message name="familyMessage">
-      <wsdl:part name="body" element="schema:family"/>
+   <wsdl:message name="familyAccountsResponseMessage">
+      <wsdl:part name="body" element="schema:familyAccountsResponse"/>
    </wsdl:message>
    <wsdl:portType name="PortType">
       <wsdl:operation name="familyAccounts">
          <wsdl:input name="familyAccountsInput" message="tns:familyAccountsRequestMessage"/>
-         <wsdl:output name="familyAccountsOutput" message="tns:familyMessage"/>
+         <wsdl:output name="familyAccountsOutput" message="tns:familyAccountsResponseMessage"/>
       </wsdl:operation>
    </wsdl:portType>
    <wsdl:binding name="Binding" type="tns:PortType">

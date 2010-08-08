@@ -31,7 +31,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import fr.capwebct.modules.payment.schema.fam.FamilyDocument;
+import fr.capwebct.modules.payment.schema.fam.FamilyAccountsResponseDocument;
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItemDetail;
@@ -135,7 +135,7 @@ public class FakeExternalService implements IExternalProviderService {
         File file = new File(pathToFile);
         logger.debug("getAccountsByHomeFolder() gonna parse file " + file);
         try {
-            FamilyDocument familyDocument = FamilyDocument.Factory.parse(file);
+            FamilyAccountsResponseDocument familyDocument = FamilyAccountsResponseDocument.Factory.parse(file);
             Map<String, List<ExternalAccountItem> > externalAccounts = 
                 ExternalServiceUtils.parseFamilyDocument(familyDocument, getLabel());
             

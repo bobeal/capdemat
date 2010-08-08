@@ -62,7 +62,7 @@
             </xs:complexType>
          </xs:element>
 
-         <xs:element name="accountDetails">
+         <xs:element name="accountDetailsResponse">
             <xs:complexType>
                <xs:sequence>
                   <xs:element minOccurs="0" maxOccurs="unbounded" name="accountDetail"
@@ -133,13 +133,13 @@
    <wsdl:message name="accountDetailsRequestMessage">
       <wsdl:part name="body" element="schema:accountDetailsRequest"/>
    </wsdl:message>
-   <wsdl:message name="accountDetailsMessage">
-      <wsdl:part name="body" element="schema:accountDetails"/>
+   <wsdl:message name="accountDetailsResponseMessage">
+      <wsdl:part name="body" element="schema:accountDetailsResponse"/>
    </wsdl:message>
    <wsdl:portType name="PortType">
       <wsdl:operation name="accountDetails">
          <wsdl:input name="accountDetailsInput" message="tns:accountDetailsRequestMessage"/>
-         <wsdl:output name="accountDetailsOutput" message="tns:accountDetailsMessage"/>
+         <wsdl:output name="accountDetailsOutput" message="tns:accountDetailsResponseMessage"/>
       </wsdl:operation>
    </wsdl:portType>
    <wsdl:binding name="Binding" type="tns:PortType">

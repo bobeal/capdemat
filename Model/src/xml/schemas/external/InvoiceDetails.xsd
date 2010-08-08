@@ -39,7 +39,7 @@
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="invoiceDetails">
+  <xs:element name="invoiceDetailsResponse">
     <xs:complexType>
       <xs:sequence>
         <xs:element name="invoiceDetail" minOccurs="0" maxOccurs="unbounded" 

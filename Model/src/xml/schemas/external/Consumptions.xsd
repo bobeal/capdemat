@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.capwebct.fr/modules/payment/schema/cns"
+  xmlns:cns="http://www.capwebct.fr/modules/payment/schema/cns"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:element name="getConsumptionsRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="LocalAuthority"  type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              The local authority to which the family belongs
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="RequestId" type="xs:long">
+          <xs:annotation>
+            <xs:documentation>
+              The external identifier of the home folder for whom the accounts are requested
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="DateFrom" type="xs:dateTime" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>
+              The date to search from
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="DateTo" type="xs:dateTime" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>
+              The date to search to. Defaults to today (included) if not provided.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="getConsumptionsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="Consumption" type="cns:consumptionType">
+          <xs:annotation>
+            <xs:documentation>
+              The container for the home folder's deposit accounts list
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="consumptionType">
+    <xs:sequence>
+      <xs:element name="Date" type="xs:dateTime" />
+      <xs:element name="Label" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

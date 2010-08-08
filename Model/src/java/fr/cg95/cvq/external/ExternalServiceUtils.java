@@ -10,10 +10,10 @@ import org.apache.xmlbeans.XmlObject;
 
 import fr.capwebct.modules.payment.schema.fam.AccountType;
 import fr.capwebct.modules.payment.schema.fam.ContractType;
-import fr.capwebct.modules.payment.schema.fam.FamilyDocument;
+import fr.capwebct.modules.payment.schema.fam.FamilyAccountsResponseDocument;
 import fr.capwebct.modules.payment.schema.fam.IndividualContractType;
 import fr.capwebct.modules.payment.schema.fam.InvoiceType;
-import fr.capwebct.modules.payment.schema.fam.FamilyDocument.Family;
+import fr.capwebct.modules.payment.schema.fam.FamilyAccountsResponseDocument.FamilyAccountsResponse;
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
@@ -27,9 +27,9 @@ public class ExternalServiceUtils {
     public static final String EXTERNAL_FAMILY_ACCOUNT_ID_KEY = "externalFamilyAccountId";
     public static final String EXTERNAL_INDIVIDUAL_ID_KEY = "externalIndividualId";
 
-    public static Map<String, List<ExternalAccountItem>> parseFamilyDocument(FamilyDocument familyDocument,
-            final String externalServiceLabel) {
-        Family family = familyDocument.getFamily();
+    public static Map<String, List<ExternalAccountItem>> parseFamilyDocument(
+            FamilyAccountsResponseDocument familyDocument, final String externalServiceLabel) {
+        FamilyAccountsResponse family = familyDocument.getFamilyAccountsResponse();
 
         Map<String, List<ExternalAccountItem>> resultMap = 
             new HashMap<String, List<ExternalAccountItem>>();

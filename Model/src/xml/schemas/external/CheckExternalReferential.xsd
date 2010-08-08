@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.capwebct.fr/modules/payment/schema/cer"
+  xmlns:cer="http://www.capwebct.fr/modules/payment/schema/cer"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
+    schemaLocation="http://people.zenexity.fr/~bor/capdemat/V4_2/common/CVQCommonElements.xsd" />
+
+  <xs:element name="checkExternalReferentialRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Request" type="cvq:RequestType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="checkExternalReferentialResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Message" type="xs:string" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

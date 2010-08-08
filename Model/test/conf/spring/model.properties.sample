@@ -50,6 +50,9 @@ plugins.externalservices.capwebctpaymentmodule.load_account_details_uri=http://l
 plugins.externalservices.capwebctpaymentmodule.get_family_accounts_uri=http://localhost:8090/PaymentModule/webservice
 plugins.externalservices.capwebctpaymentmodule.credit_account_uri=http://localhost:8090/PaymentModule/webservice
 plugins.externalservices.capwebctpaymentmodule.send_request_uri=http://localhost:8090/PaymentModule/webservice
+plugins.externalservices.capwebctpaymentmodule.check_external_referential_uri=http://localhost:8090/PaymentModule/webservice
+plugins.externalservices.capwebctpaymentmodule.load_external_information_uri=http://localhost:8090/PaymentModule/webservice
+plugins.externalservices.capwebctpaymentmodule.get_consumptions_uri=http://localhost:8090/PaymentModule/webservice
 
 # ExternalServices - eDemande
 plugins.externalservices.edemande.connexion_service_uri=http://edemtest:80/Extranet_WSAxis/services/ConnexionService

@@ -11,6 +11,8 @@ import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
 
+import com.octo.captcha.service.CaptchaServiceException
+
 class FrontofficeHomeFolderController {
 
     IHomeFolderService homeFolderService
@@ -99,7 +101,13 @@ class FrontofficeHomeFolderController {
             bind(adult)
             model["adult"] = adult
             model["invalidFields"] = individualService.validate(adult, true)
-            if (!jcaptchaService.validateResponse("captchaImage", session.id, params.captchaText)) {
+            boolean captchaIsValid = false
+            try {
+                captchaIsValid = jcaptchaService.validateResponse("captchaImage", session.id, params.captchaText)
+            } catch (CaptchaServiceException e) {
+                // no need to throw an exception when the captcha has expired...
+            }
+            if (!captchaIsValid) {
                 model["invalidFields"].add("captchaText")
             }
             if (model["invalidFields"].isEmpty()) {

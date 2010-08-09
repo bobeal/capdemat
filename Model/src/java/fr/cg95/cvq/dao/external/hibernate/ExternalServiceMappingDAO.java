@@ -31,4 +31,13 @@ public class ExternalServiceMappingDAO
         .createCriteria(ExternalServiceIdentifierMapping.class)
         .add(Restrictions.eq("homeFolderId", homeFolderId)).list();
     }
+
+    @Override
+    public ExternalServiceIdentifierMapping getIdentifierMapping(String externalServiceLabel,
+            String externalCapdematId) {
+        return (ExternalServiceIdentifierMapping)HibernateUtil.getSession()
+            .createCriteria(ExternalServiceIdentifierMapping.class)
+            .add(Restrictions.eq("externalServiceLabel", externalServiceLabel))
+            .add(Restrictions.eq("externalCapDematId", externalCapdematId)).uniqueResult();
+    }
 }

@@ -26,17 +26,24 @@
     <property name="externalService" ref="externalService" />  
   </bean>    
   
+  <bean id="homeFolderMappingServiceEndpoint"
+    class="fr.cg95.cvq.exporter.service.endpoint.HomeFolderMappingServiceEndpoint">
+    <constructor-arg ref="xmlBeanMarshaller" />
+    <property name="externalService" ref="externalService" />
+  </bean>
+  
   <bean class="org.springframework.ws.server.endpoint.mapping.PayloadRootQNameEndpointMapping">
     <property name="mappings">
         <props>
             <prop key="{http://www.capwebct.fr/capdemat}GetHomeFoldersRequest">homeFolderServiceEndpoint</prop>
             <prop key="{http://www.capwebct.fr/capdemat}GetRequestsRequest">requestServiceEndpoint</prop>
             <prop key="{http://www.capwebct.fr/capdemat}AckRequestsRequest">ackRequestServiceEndpoint</prop>
+            <prop key="{http://www.capwebct.fr/capdemat}homeFolderMappingServiceRequest">homeFolderMappingServiceEndpoint</prop>
         </props>
     </property>
     <property name="interceptors">
       <list>
-        <!-- <bean class="org.springframework.ws.server.endpoint.interceptor.PayloadLoggingInterceptor"/> -->
+        <bean class="org.springframework.ws.server.endpoint.interceptor.PayloadLoggingInterceptor"/>
         <ref bean="wsSecurityInterceptor" />
       </list>
     </property>

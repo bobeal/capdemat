@@ -10,40 +10,51 @@ import java.util.Set;
 
 import static org.junit.Assert.*;
 
+import org.junit.Test;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.xmlbeans.XmlBeansMarshaller;
 
 import fr.capwebct.capdemat.AckRequestType;
 import fr.capwebct.capdemat.AckRequestsRequestDocument;
 import fr.capwebct.capdemat.GetRequestsRequestDocument;
+import fr.capwebct.capdemat.HomeFolderMappingRequestDocument;
+import fr.capwebct.capdemat.HomeFolderMappingType;
+import fr.capwebct.capdemat.IndividualMappingType;
 import fr.capwebct.capdemat.AckRequestsRequestDocument.AckRequestsRequest;
 import fr.capwebct.capdemat.AckRequestsResponseDocument.AckRequestsResponse;
 import fr.capwebct.capdemat.GetRequestsRequestDocument.GetRequestsRequest;
 import fr.capwebct.capdemat.GetRequestsResponseDocument.GetRequestsResponse;
+import fr.capwebct.capdemat.HomeFolderMappingRequestDocument.HomeFolderMappingRequest;
+import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
+import fr.cg95.cvq.business.external.ExternalServiceIndividualMapping;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.users.CreationBean;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.ExternalServiceBean;
-import fr.cg95.cvq.external.IExternalProviderService;
-import fr.cg95.cvq.external.IExternalService;
+import fr.cg95.cvq.external.ExternalServiceTestCase;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
+import fr.cg95.cvq.service.request.IRequestExportService;
+import fr.cg95.cvq.service.request.IRequestExternalService;
 import fr.cg95.cvq.service.request.IRequestTypeService;
-import fr.cg95.cvq.service.request.RequestTestCase;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.xml.common.RequestStateType;
 
-public class RequestServiceEndpointTest extends RequestTestCase {
+public class RequestServiceEndpointTest extends ExternalServiceTestCase {
     
-    private IExternalProviderService fakeExternalService;
     private String fakeExternalServiceLabel = "Fake External Service";
+    @Autowired
+    private IRequestExternalService requestExternalService;
+    @Autowired
+    private IRequestExportService requestExportService;
 
     @Override
     public void onSetUp() throws Exception {
@@ -61,23 +72,16 @@ public class RequestServiceEndpointTest extends RequestTestCase {
         lacb.registerExternalService(fakeExternalService, esb);
     }
     
+    @Test
     public void testGetAndAckFlow() throws Exception {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
         
         /* Initialize internal variables */
-        AckRequestServiceEndpoint endpoint1 = 
-            new AckRequestServiceEndpoint(new XmlBeansMarshaller());
-        RequestServiceEndpoint endpoint2 = new RequestServiceEndpoint(new XmlBeansMarshaller());
-        IExternalService externalService = getApplicationBean("externalService");
-        ILocalAuthorityRegistry localAuthorityRegistry = getApplicationBean("localAuthorityRegistry");
-        endpoint1.setExternalService(externalService);
-        endpoint2.setExternalService(externalService);
-        endpoint2.setRequestSearchService(requestSearchService);
-        endpoint2.setLocalAuthorityRegistry(localAuthorityRegistry);
-        endpoint2.setRequestDAO((IRequestDAO)getApplicationBean("requestDAO"));
-        
+        AckRequestServiceEndpoint endpoint1 = gimmeAckRequestServiceEndpoint();
+        RequestServiceEndpoint endpoint2 = gimmeRequestServiceEndpoint();
+
         try {
             for (ExternalServiceTrace trace :
                 externalService.getTraces(Collections.<Critere>emptySet(),
@@ -108,6 +112,7 @@ public class RequestServiceEndpointTest extends RequestTestCase {
             int getCountBefore = getResponse.getRequestArray().length;
             assertEquals(1, getCountBefore);
             
+            continueWithNewTransaction();
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
             Set<Critere> criteriaSet = new HashSet<Critere>();
@@ -133,6 +138,7 @@ public class RequestServiceEndpointTest extends RequestTestCase {
             assertNotNull(ackResponse);
             assertTrue(ackResponse.getAccomplished());
             
+            continueWithNewTransaction();
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
             assertEquals(2, externalService.getTracesCount(criteriaSet).longValue());
@@ -155,22 +161,15 @@ public class RequestServiceEndpointTest extends RequestTestCase {
         }
     }
     
+    @Test
     public void testAckServiceEndpoint() throws Exception {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
         
         /* Initialize internal variables */
-        AckRequestServiceEndpoint endpoint1 = 
-            new AckRequestServiceEndpoint(new XmlBeansMarshaller());
-        RequestServiceEndpoint endpoint2 = new RequestServiceEndpoint(new XmlBeansMarshaller());
-        IExternalService externalService = getApplicationBean("externalService");
-        ILocalAuthorityRegistry localAuthorityRegistry = getApplicationBean("localAuthorityRegistry");
-        endpoint1.setExternalService(externalService);
-        endpoint2.setExternalService(externalService);
-        endpoint2.setRequestSearchService(requestSearchService);
-        endpoint2.setLocalAuthorityRegistry(localAuthorityRegistry);
-        endpoint2.setRequestDAO((IRequestDAO)getApplicationBean("requestDAO"));
-        
+        AckRequestServiceEndpoint endpoint1 = gimmeAckRequestServiceEndpoint();
+        RequestServiceEndpoint endpoint2 = gimmeRequestServiceEndpoint();
+
         try {
             for (ExternalServiceTrace trace :
                 externalService.getTraces(Collections.<Critere>emptySet(),
@@ -209,13 +208,14 @@ public class RequestServiceEndpointTest extends RequestTestCase {
             
             assertEquals(1, getCountBefore);
             
+            continueWithNewTransaction();
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             
             Set<Critere> criteriaSet = new HashSet<Critere>();
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_DATE,
                 DateUtils.parseDate("13/07/2007"), Critere.GT));
             long tracesCount = externalService.getTracesCount(criteriaSet);
-            assertNotSame(0, tracesCount);
+            assertTrue("Should have found at least one trace", tracesCount > 0);
             
             /* Create acknowledged traces */
             AckRequestType[] types = new AckRequestType[3];
@@ -242,9 +242,10 @@ public class RequestServiceEndpointTest extends RequestTestCase {
             AckRequestsResponse ackResponse = (AckRequestsResponse) endpoint1.invokeInternal(ackRequestDocument);
             assertNotNull(ackResponse);
 
+            continueWithNewTransaction();
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             
-            assertEquals(externalService.getTracesCount(criteriaSet).longValue(), tracesCount+3);
+            assertEquals(tracesCount+3, externalService.getTracesCount(criteriaSet).longValue());
             
             criteriaSet = new HashSet<Critere>();
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_STATUS,
@@ -269,21 +270,14 @@ public class RequestServiceEndpointTest extends RequestTestCase {
         
     }
     
+    @Test
     public void testSecuredEndpoint() throws Exception {
         try {
-            SecurityContext.resetCurrentSite();
-            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-            SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-            IExternalService externalService = getApplicationBean("externalService");
-            ILocalAuthorityRegistry localAuthorityRegistry = getApplicationBean("localAuthorityRegistry");
-            
+
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
             
-            XmlBeansMarshaller xmlBeansMarshaller = new XmlBeansMarshaller();
-            RequestServiceEndpoint endpoint = new RequestServiceEndpoint(xmlBeansMarshaller);
-            endpoint.setRequestSearchService(requestSearchService);
-            endpoint.setExternalService(externalService);
-            endpoint.setLocalAuthorityRegistry(localAuthorityRegistry);
+            RequestServiceEndpoint endpoint = gimmeRequestServiceEndpoint();
+
             GetRequestsRequestDocument pendedRequestDocument = 
                 GetRequestsRequestDocument.Factory.newInstance();
             GetRequestsRequest pendedRequest = GetRequestsRequest.Factory.newInstance();
@@ -304,19 +298,14 @@ public class RequestServiceEndpointTest extends RequestTestCase {
         
     }
     
+    @Test
     public void testAccessPermissions() {
         try {
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
-            IExternalService externalService = getApplicationBean("externalService");
-            ILocalAuthorityRegistry localAuthorityRegistry = getApplicationBean("localAuthorityRegistry");
-            
-            XmlBeansMarshaller xmlBeansMarshaller = new XmlBeansMarshaller();
-            RequestServiceEndpoint endpoint = new RequestServiceEndpoint(xmlBeansMarshaller);
-            endpoint.setRequestSearchService(requestSearchService);
-            endpoint.setExternalService(externalService);
-            endpoint.setLocalAuthorityRegistry(localAuthorityRegistry);
-            
+
+            RequestServiceEndpoint endpoint = gimmeRequestServiceEndpoint();
+
             GetRequestsRequestDocument pendedRequestDocument = 
                 GetRequestsRequestDocument.Factory.newInstance();
             GetRequestsRequest pendedRequest = GetRequestsRequest.Factory.newInstance();
@@ -333,27 +322,18 @@ public class RequestServiceEndpointTest extends RequestTestCase {
         }
     }
     
+    @Test
     public void testRequestServiceEndpoint() throws Exception {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
         
-        IExternalService externalService = getApplicationBean("externalService");
-        
         try {
             int completeCountBefore = 0;
-            ILocalAuthorityRegistry localAuthorityRegistry = getApplicationBean("localAuthorityRegistry");
-            
-            XmlBeansMarshaller xmlBeansMarshaller = new XmlBeansMarshaller();
-            
+
             /* Initialize internal variables */
-            RequestServiceEndpoint endpoint = new RequestServiceEndpoint(xmlBeansMarshaller);
-            AckRequestServiceEndpoint endpoint2 = new AckRequestServiceEndpoint(new XmlBeansMarshaller());
-            endpoint.setRequestSearchService(requestSearchService);
-            endpoint.setExternalService(externalService);
-            endpoint.setLocalAuthorityRegistry(localAuthorityRegistry);
-            endpoint.setRequestDAO((IRequestDAO)getApplicationBean("requestDAO"));
-            
-            endpoint2.setExternalService(externalService);
+            RequestServiceEndpoint endpoint = gimmeRequestServiceEndpoint();
+            AckRequestServiceEndpoint endpoint2 = gimmeAckRequestServiceEndpoint();
+
             GetRequestsRequestDocument pendedRequestDocument = GetRequestsRequestDocument.Factory.newInstance();
             GetRequestsRequest pendedRequest = GetRequestsRequest.Factory.newInstance();
             
@@ -442,5 +422,95 @@ public class RequestServiceEndpointTest extends RequestTestCase {
                 HibernateUtil.getSession().delete(trace);
             }
         }
+    }
+    
+    @Test
+    public void testHomeFolderMapping() throws CvqException {
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        
+        try {
+
+            /* Initialize internal variables */
+            XmlBeansMarshaller xmlBeansMarshaller = new XmlBeansMarshaller();
+            HomeFolderMappingServiceEndpoint endpoint = new HomeFolderMappingServiceEndpoint(xmlBeansMarshaller);
+            endpoint.setExternalService(externalService);
+
+            /* Create new request and child entities */
+            CreationBean cb = gimmeAnHomeFolder();
+            continueWithNewTransaction();
+
+            HomeFolderMappingRequestDocument homeFolderMappingRequestDocument =
+                HomeFolderMappingRequestDocument.Factory.newInstance();
+            HomeFolderMappingRequest homeFolderMappingRequest =
+                homeFolderMappingRequestDocument.addNewHomeFolderMappingRequest();
+            homeFolderMappingRequest.setLocalAuthority(localAuthorityName);
+
+            SecurityContext.setCurrentAgent(agentNameWithManageRoles);
+            
+            externalService.addHomeFolderMapping(fakeExternalServiceLabel, cb.getHomeFolderId(), "OriginalHomeFolderId");
+            continueWithNewTransaction();
+            Individual individual = individualService.getByLogin(cb.getLogin());
+            externalService.setExternalId(fakeExternalServiceLabel, cb.getHomeFolderId(), individual.getId(), "OriginalIndividualId");
+            continueWithNewTransaction();
+            
+            ExternalServiceIdentifierMapping esim =
+                externalService.getIdentifierMapping(fakeExternalServiceLabel, cb.getHomeFolderId());
+            HomeFolderMappingType homeFolderMappingType = homeFolderMappingRequest.addNewHomeFolderMapping();
+            homeFolderMappingType.setExternalCapDematId(esim.getExternalCapDematId());
+            homeFolderMappingType.setExternalId("ExternalHomeFolderId");
+            
+            IndividualMappingType individualMappingType = homeFolderMappingRequest.addNewIndividualMapping();
+            String externalCapdematId = null;
+            for (ExternalServiceIndividualMapping indMapping : esim.getIndividualsMappings()) {
+                if (indMapping.getExternalId().equals("OriginalIndividualId")) {
+                    externalCapdematId = indMapping.getExternalCapDematId();
+                    individualMappingType.setExternalCapDematId(indMapping.getExternalCapDematId());
+                    individualMappingType.setExternalId("ExternalIndividualId");
+                    break;
+                }
+            }
+
+            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+            endpoint.invokeInternal(homeFolderMappingRequestDocument);
+            
+            continueWithNewTransaction();
+            esim = externalService.getIdentifierMapping(fakeExternalServiceLabel, cb.getHomeFolderId());
+            assertEquals("ExternalHomeFolderId", esim.getExternalId());
+            for (ExternalServiceIndividualMapping indMapping : esim.getIndividualsMappings()) {
+                if (indMapping.getExternalCapDematId().equals(externalCapdematId)) {
+                    assertEquals("ExternalIndividualId", indMapping.getExternalId());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Unwaited exception trown : " + e.getMessage());
+        } finally {
+            SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
+            SecurityContext.setCurrentAgent(agentNameWithManageRoles);
+            for (ExternalServiceTrace trace :
+                externalService.getTraces(Collections.<Critere>emptySet(),
+                    null, null, 0, 0)) {
+                HibernateUtil.getSession().delete(trace);
+            }
+        }
+    }
+    
+    private RequestServiceEndpoint gimmeRequestServiceEndpoint() {
+        RequestServiceEndpoint endpoint = new RequestServiceEndpoint(new XmlBeansMarshaller());
+        endpoint.setRequestSearchService(requestSearchService);
+        endpoint.setExternalService(externalService);
+        endpoint.setLocalAuthorityRegistry(localAuthorityRegistry);
+        endpoint.setRequestDAO((IRequestDAO)getApplicationBean("requestDAO"));
+        endpoint.setRequestExternalService(requestExternalService);
+        endpoint.setRequestExportService(requestExportService);
+        
+        return endpoint;
+    }
+
+    private AckRequestServiceEndpoint gimmeAckRequestServiceEndpoint() {
+        AckRequestServiceEndpoint endpoint = new AckRequestServiceEndpoint(new XmlBeansMarshaller());
+        endpoint.setExternalService(externalService);
+        
+        return endpoint;
     }
 }

@@ -336,6 +336,13 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
     }
 
     @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public ExternalServiceIdentifierMapping
+        getIdentifierMapping(String externalServiceLabel, String externalCapdematId) {
+        return externalServiceMappingDAO.getIdentifierMapping(externalServiceLabel, externalCapdematId);
+    }
+
+    @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public List<ExternalServiceIdentifierMapping> getIdentifierMappings(Long homeFolderId) {
         return externalServiceMappingDAO.getIdentifierMappings(homeFolderId);
@@ -345,16 +352,16 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void setExternalId(String externalServiceLabel, Long homeFolderId, Long individualId, 
             String externalId) {
-        ExternalServiceIndividualMapping newMapping = 
-            new ExternalServiceIndividualMapping(individualId, null, externalId);
         ExternalServiceIdentifierMapping identifierMapping = 
             getIdentifierMapping(externalServiceLabel, homeFolderId);
         
         if (identifierMapping.getIndividualsMappings() == null) {
-            identifierMapping.addIndividualMapping(individualId, null, externalId);
+            identifierMapping.addIndividualMapping(individualId, UUID.randomUUID().toString(), externalId);
         } else {
             Iterator<ExternalServiceIndividualMapping> it = 
                 identifierMapping.getIndividualsMappings().iterator();
+            ExternalServiceIndividualMapping newMapping = 
+                new ExternalServiceIndividualMapping(individualId, UUID.randomUUID().toString(), externalId);
             while (it.hasNext()) {
                 ExternalServiceIndividualMapping esim = it.next();
                 if (esim.getIndividualId().equals(individualId)) {

@@ -116,11 +116,9 @@ public class ExternalServiceIdentifierMapping implements Serializable {
     
     public void addIndividualMapping(final Long individualId, final String externalCapDematId, 
             final String externalId) {
-        ExternalServiceIndividualMapping esim = new ExternalServiceIndividualMapping();
-        esim.setIndividualId(individualId);
-        esim.setExternalCapDematId(externalCapDematId);
-        esim.setExternalId(externalId);
-        
+        ExternalServiceIndividualMapping esim = 
+            new ExternalServiceIndividualMapping(individualId, externalCapDematId, externalId);
+
         if (this.individualsMappings == null)
             this.individualsMappings = new HashSet<ExternalServiceIndividualMapping>();
         

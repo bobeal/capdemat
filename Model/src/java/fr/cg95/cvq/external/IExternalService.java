@@ -103,6 +103,9 @@ public interface IExternalService {
     ExternalServiceIdentifierMapping getIdentifierMapping(final String externalServiceLabel,
             @IsHomeFolder final Long homeFolderId);
 
+    ExternalServiceIdentifierMapping getIdentifierMapping(final String externalServiceLabel, 
+            final String externalCapdematId);
+
     /**
      * Add a new mapping for the given object.
      *

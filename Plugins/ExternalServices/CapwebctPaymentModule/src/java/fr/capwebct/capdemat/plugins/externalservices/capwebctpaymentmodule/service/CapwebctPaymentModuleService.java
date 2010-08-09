@@ -1,12 +1,11 @@
 package fr.capwebct.capdemat.plugins.externalservices.capwebctpaymentmodule.service;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -16,23 +15,34 @@ import org.apache.xmlbeans.XmlObject;
 
 import fr.capwebct.capdemat.plugins.externalservices.capwebctpaymentmodule.webservice.client.ICapwebctPaymentModuleClient;
 import fr.capwebct.modules.payment.schema.acc.AccountDetailType;
-import fr.capwebct.modules.payment.schema.acc.AccountDetailsDocument;
 import fr.capwebct.modules.payment.schema.acc.AccountDetailsRequestDocument;
+import fr.capwebct.modules.payment.schema.acc.AccountDetailsResponseDocument;
 import fr.capwebct.modules.payment.schema.acc.AccountDetailsRequestDocument.AccountDetailsRequest;
 import fr.capwebct.modules.payment.schema.ban.AccountUpdateType;
-import fr.capwebct.modules.payment.schema.ban.BankTransactionDocument;
 import fr.capwebct.modules.payment.schema.ban.ContractUpdateType;
+import fr.capwebct.modules.payment.schema.ban.CreditAccountRequestDocument;
 import fr.capwebct.modules.payment.schema.ban.FamilyType;
 import fr.capwebct.modules.payment.schema.ban.InvoiceUpdateType;
 import fr.capwebct.modules.payment.schema.ban.PaymentType;
-import fr.capwebct.modules.payment.schema.ban.BankTransactionDocument.BankTransaction;
+import fr.capwebct.modules.payment.schema.ban.CreditAccountRequestDocument.CreditAccountRequest;
+import fr.capwebct.modules.payment.schema.cer.CheckExternalReferentialRequestDocument;
+import fr.capwebct.modules.payment.schema.cer.CheckExternalReferentialResponseDocument;
+import fr.capwebct.modules.payment.schema.cer.CheckExternalReferentialRequestDocument.CheckExternalReferentialRequest;
+import fr.capwebct.modules.payment.schema.cns.ConsumptionType;
+import fr.capwebct.modules.payment.schema.cns.GetConsumptionsRequestDocument;
+import fr.capwebct.modules.payment.schema.cns.GetConsumptionsResponseDocument;
+import fr.capwebct.modules.payment.schema.cns.GetConsumptionsRequestDocument.GetConsumptionsRequest;
 import fr.capwebct.modules.payment.schema.fam.FamilyAccountsRequestDocument;
-import fr.capwebct.modules.payment.schema.fam.FamilyDocument;
+import fr.capwebct.modules.payment.schema.fam.FamilyAccountsResponseDocument;
 import fr.capwebct.modules.payment.schema.fam.FamilyAccountsRequestDocument.FamilyAccountsRequest;
 import fr.capwebct.modules.payment.schema.inv.InvoiceDetailType;
-import fr.capwebct.modules.payment.schema.inv.InvoiceDetailsDocument;
 import fr.capwebct.modules.payment.schema.inv.InvoiceDetailsRequestDocument;
+import fr.capwebct.modules.payment.schema.inv.InvoiceDetailsResponseDocument;
 import fr.capwebct.modules.payment.schema.inv.InvoiceDetailsRequestDocument.InvoiceDetailsRequest;
+import fr.capwebct.modules.payment.schema.rei.ExternalInformationType;
+import fr.capwebct.modules.payment.schema.rei.GetExternalInformationRequestDocument;
+import fr.capwebct.modules.payment.schema.rei.GetExternalInformationResponseDocument;
+import fr.capwebct.modules.payment.schema.rei.GetExternalInformationRequestDocument.GetExternalInformationRequest;
 import fr.capwebct.modules.payment.schema.sre.SendRequestRequestDocument;
 import fr.capwebct.modules.payment.schema.sre.SendRequestRequestDocument.SendRequestRequest;
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
@@ -72,10 +82,10 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
         far.setLocalAuthority(SecurityContext.getCurrentSite().getName());
         far.setHomeFolderId(homeFolderId);
 
-        FamilyDocument familyDocument = 
-            (FamilyDocument) capwebctPaymentModuleClient.getFamilyAccounts(farDocument);
+        FamilyAccountsResponseDocument familyAccountsResponseDocument = 
+            (FamilyAccountsResponseDocument) capwebctPaymentModuleClient.getFamilyAccounts(farDocument);
 
-        return ExternalServiceUtils.parseFamilyDocument(familyDocument, getLabel());
+        return ExternalServiceUtils.parseFamilyDocument(familyAccountsResponseDocument, getLabel());
     }
 
     public void loadDepositAccountDetails(ExternalDepositAccountItem edai) throws CvqException {
@@ -106,11 +116,11 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
         accountDetailsRequest.setStartSearch(calendar);
         
         // Calls webservice
-        AccountDetailsDocument accountDetailsDocument = (AccountDetailsDocument) 
+        AccountDetailsResponseDocument accountDetailsDocument = (AccountDetailsResponseDocument) 
             capwebctPaymentModuleClient.loadAccountDetails(accountDetailsRequestDocument);
 
         AccountDetailType[] accountDetailTypes = 
-            accountDetailsDocument.getAccountDetails().getAccountDetailArray();
+            accountDetailsDocument.getAccountDetailsResponse().getAccountDetailArray();
         for (int i = 0; i < accountDetailTypes.length; i++) {
             AccountDetailType accountDetailType = accountDetailTypes[i];
             ExternalDepositAccountItemDetail edaiDetail = new ExternalDepositAccountItemDetail();
@@ -146,11 +156,11 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
                 eii.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_FAMILY_ACCOUNT_ID_KEY));
 
         // Calls webservice
-        InvoiceDetailsDocument invoiceDetailsDocument = (InvoiceDetailsDocument) 
+        InvoiceDetailsResponseDocument invoiceDetailsResponseDocument = (InvoiceDetailsResponseDocument) 
             capwebctPaymentModuleClient.loadInvoiceDetails(invoiceDetailsRequestDocument);
 
         InvoiceDetailType[] invoiceDetailTypes = 
-            invoiceDetailsDocument.getInvoiceDetails().getInvoiceDetailArray();
+            invoiceDetailsResponseDocument.getInvoiceDetailsResponse().getInvoiceDetailArray();
         for (int i = 0; i < invoiceDetailTypes.length; i++) {
             ExternalInvoiceItemDetail eiiDetail = new ExternalInvoiceItemDetail();
             InvoiceDetailType invoiceDetailType = invoiceDetailTypes[i];
@@ -171,11 +181,11 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
             String bankReference, Long homeFolderId, String externalHomeFolderId, String externalId, 
             Date validationDate) throws CvqException {
         
-        BankTransactionDocument bankTransactionDocument = 
-            BankTransactionDocument.Factory.newInstance();
-        BankTransaction bankTransaction = bankTransactionDocument.addNewBankTransaction();
+        CreditAccountRequestDocument creditAccountRequestDocument = 
+            CreditAccountRequestDocument.Factory.newInstance();
+        CreditAccountRequest creditAccountRequest = creditAccountRequestDocument.addNewCreditAccountRequest();
 
-        FamilyType familyType = bankTransaction.addNewFamily();
+        FamilyType familyType = creditAccountRequest.addNewFamily();
         familyType.setId(homeFolderId);
         familyType.setZip(SecurityContext.getCurrentSite().getPostalCode());
 
@@ -189,7 +199,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
                 broker = purchaseItem.getSupportedBroker();
             totalAmount += purchaseItem.getAmount().intValue();
         }
-        PaymentType paymentType = bankTransaction.addNewPayment();
+        PaymentType paymentType = creditAccountRequest.addNewPayment();
         paymentType.setPaymentBroker(broker);
         paymentType.setCvqAck(cvqReference);
         paymentType.setPaymentAck(bankReference);
@@ -248,16 +258,16 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
             }
         }
         if (accountUpdateTypes.size() > 0)
-            bankTransaction.addNewAccounts().setAccountArray(
+            creditAccountRequest.addNewAccounts().setAccountArray(
                     accountUpdateTypes.toArray(new AccountUpdateType[]{}));
         if (contractUpdateTypes.size() > 0)
-            bankTransaction.addNewContracts().setContractArray(
+            creditAccountRequest.addNewContracts().setContractArray(
                     contractUpdateTypes.toArray(new ContractUpdateType[]{}));
         if (invoiceUpdateTypes.size() > 0)
-            bankTransaction.addNewInvoices().setInvoiceArray(
+            creditAccountRequest.addNewInvoices().setInvoiceArray(
                     invoiceUpdateTypes.toArray(new InvoiceUpdateType[]{}));
         
-        capwebctPaymentModuleClient.creditAccount(bankTransactionDocument);
+        capwebctPaymentModuleClient.creditAccount(creditAccountRequestDocument);
     }
 
     public String sendRequest(XmlObject requestXml) throws CvqException {
@@ -267,21 +277,8 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
         SendRequestRequest sendRequestRequest =
             sendRequestRequestDocument.addNewSendRequestRequest();
 
-        RequestType request = null;
-        try {
-            request = (RequestType)requestXml.getClass()
-                .getMethod("get" + requestXml.getClass().getSimpleName()
-                .replace("DocumentImpl", "")).invoke(requestXml);
-        } catch (IllegalAccessException e) {
-            logger.error("fillXmlObject() Illegal access exception while filling request xml");
-            throw new CvqException("Illegal access exception while filling request xml");
-        } catch (InvocationTargetException e) {
-            logger.error("fillXmlObject() Invocation target exception while filling request xml");
-            throw new CvqException("Invocation target exception while filling request xml");
-        } catch (NoSuchMethodException e) {
-            logger.error("fillXmlObject() No such method exception while filling request xml");
-            throw new CvqException("No such method exception while filling request xml");
-        }
+        RequestType request = (RequestType) requestXml;
+
         if (request instanceof SchoolRegistrationRequest)
             sendRequestRequest.setSchoolRegistrationRequest((SchoolRegistrationRequest) request);
         else if (request instanceof SchoolCanteenRegistrationRequest)
@@ -306,12 +303,71 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
     }
 
     public List<String> checkExternalReferential(final XmlObject requestXml) {
-        return new ArrayList<String>(0);
+        CheckExternalReferentialRequestDocument checkExternalReferentialRequestDocument =
+            CheckExternalReferentialRequestDocument.Factory.newInstance();
+        CheckExternalReferentialRequest checkExternalReferentialRequest =
+            checkExternalReferentialRequestDocument.addNewCheckExternalReferentialRequest();
+        checkExternalReferentialRequest.setRequest(ExternalServiceUtils.getRequestTypeFromXmlObject(requestXml));
+        
+        CheckExternalReferentialResponseDocument checkExternalReferentialResponseDocument =
+            (CheckExternalReferentialResponseDocument) capwebctPaymentModuleClient.checkExternalReferential(checkExternalReferentialRequestDocument);
+        String[] messages = 
+            checkExternalReferentialResponseDocument.getCheckExternalReferentialResponse().getMessageArray();
+        List<String> result = new ArrayList<String>();
+        for (int i = 0; i < messages.length; i++) {
+            result.add(messages[i]);
+        }
+
+        return result;
     }
 
     public Map<String, Object> loadExternalInformations(XmlObject requestXml)
         throws CvqException {
-        return Collections.emptyMap();
+        GetExternalInformationRequestDocument getExternalInformationRequestDocument =
+            GetExternalInformationRequestDocument.Factory.newInstance();
+        GetExternalInformationRequest getExternalInformationRequest =
+            getExternalInformationRequestDocument.addNewGetExternalInformationRequest();
+        getExternalInformationRequest.setLocalAuthority(SecurityContext.getCurrentSite().getName());
+        RequestType requestType = (RequestType) requestXml;
+        getExternalInformationRequest.setRequestId(requestType.getId());
+
+        GetExternalInformationResponseDocument getExternalInformationResponseDocument =
+            (GetExternalInformationResponseDocument) capwebctPaymentModuleClient.loadExternalInformation(getExternalInformationRequestDocument);
+        ExternalInformationType[] externalInformations = 
+            getExternalInformationResponseDocument.getGetExternalInformationResponse().getExternalInformationArray();
+        Map<String, Object> result = new HashMap<String, Object>();
+        for (int i = 0; i < externalInformations.length; i++) {
+            ExternalInformationType externalInformation = externalInformations[i];
+            result.put(externalInformation.getKey(), externalInformation.getValue());
+        }
+
+        return result;
+    }
+
+    public Map<Date, String> getConsumptions(Long key, Date dateFrom, Date dateTo)
+        throws CvqException {
+        GetConsumptionsRequestDocument getConsumptionsRequestDocument =
+            GetConsumptionsRequestDocument.Factory.newInstance();
+        GetConsumptionsRequest getConsumptionsRequest =
+            getConsumptionsRequestDocument.addNewGetConsumptionsRequest();
+        getConsumptionsRequest.setLocalAuthority(SecurityContext.getCurrentSite().getName());
+        getConsumptionsRequest.setRequestId(key);
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(dateFrom);
+        getConsumptionsRequest.setDateFrom(calendar);
+        calendar.setTime(dateTo);
+        getConsumptionsRequest.setDateTo(calendar);
+
+        GetConsumptionsResponseDocument getConsumptionsResponseDocument = 
+            (GetConsumptionsResponseDocument) capwebctPaymentModuleClient.getConsumptions(getConsumptionsRequestDocument);
+        ConsumptionType[] consumptions = 
+            getConsumptionsResponseDocument.getGetConsumptionsResponse().getConsumptionArray();
+        Map<Date, String> result = new HashMap<Date, String>();
+        for (int i = 0; i < consumptions.length; i++) {
+            result.put(consumptions[i].getDate().getTime(), consumptions[i].getLabel());
+        }
+        
+        return result;
     }
 
     public void checkConfiguration(ExternalServiceBean externalServiceBean)
@@ -320,11 +376,6 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
 
     /** ***** Not Implemented methods ****** */
     /** *********************************** */
-
-    public Map<Date, String> getConsumptions(Long key, Date dateFrom, Date dateTo)
-            throws CvqException {
-        return null;
-    }
 
     public String helloWorld() throws CvqException {
         return null;

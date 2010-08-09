@@ -125,8 +125,7 @@ public class RequestExternalService implements IRequestExternalService {
     public Set<String> getGenerableRequestTypes() {
         Set<String> result = new HashSet<String>();
         for (ExternalServiceBean esb :
-            SecurityContext.getCurrentConfigurationBean().getExternalServices()
-            .values()) {
+            SecurityContext.getCurrentConfigurationBean().getExternalServices().values()) {
             if (esb.getGenerateTracedRequest())
                 result.addAll(esb.getRequestTypes());
         }
@@ -153,26 +152,18 @@ public class RequestExternalService implements IRequestExternalService {
         if (!request.getState().equals(RequestState.VALIDATED))
             throw new CvqException("plugins.externalservices.error.requestMustBeValidated");
 
-        // get the external services interested by this request type
-        String requestTypeLabel = request.getRequestType().getLabel();
-        Set<IExternalProviderService> externalProviderServices = 
-            getExternalServicesByRequestType(requestTypeLabel);
-        if (externalProviderServices == null || externalProviderServices.isEmpty())
+        if (!hasMatchingExternalService(request.getRequestType().getLabel()))
             return;
 
-        externalService.sendRequest(requestExportService.fillRequestXml(request), 
-                externalProviderServices);
+        externalService.sendRequest(requestExportService.fillRequestXml(request),
+                getExternalServicesByRequestType(request.getRequestType().getLabel()));
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Map<String, Object> loadExternalInformations(Request request) throws CvqException {
 
-        // get the external services interested by this request type
-        String requestTypeLabel = request.getRequestType().getLabel();
-        Set<IExternalProviderService> externalProviderServices = 
-            getExternalServicesByRequestType(requestTypeLabel);
-        if (externalProviderServices == null || externalProviderServices.isEmpty())
+        if (!hasMatchingExternalService(request.getRequestType().getLabel()))
             return Collections.emptyMap();
 
         return externalService.loadExternalInformations(requestExportService.fillRequestXml(request));

@@ -13,7 +13,7 @@
                  elementFormDefault="qualified"
                  attributeFormDefault="unqualified">
 
-         <xs:element name="bank-transaction">
+         <xs:element name="creditAccountRequest">
             <xs:annotation>
                <xs:documentation>
         A message sent to an external service after a successful payment upon data managed by it
@@ -188,12 +188,22 @@
 
       </xs:schema>
    </wsdl:types>
-   <wsdl:message name="bank-transactionMessage">
-      <wsdl:part name="body" element="schema:bank-transaction"/>
+   <wsdl:message name="creditAccountRequestMessage">
+      <wsdl:part name="body" element="schema:creditAccountRequest"/>
    </wsdl:message>
-   <wsdl:portType name="PortType"/>
+   <wsdl:portType name="PortType">
+      <wsdl:operation name="creditAccount">
+         <wsdl:input name="creditAccountInput" message="tns:creditAccountRequestMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
    <wsdl:binding name="Binding" type="tns:PortType">
       <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+      <wsdl:operation name="creditAccount">
+         <wsdlsoap:operation soapAction="http://www.capwebct.fr/modules/payment/schema/ban/creditAccount"/>
+         <wsdl:input name="creditAccountInput">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+      </wsdl:operation>
    </wsdl:binding>
    <wsdl:service name="Service">
       <wsdl:port name="Port" binding="tns:Binding">

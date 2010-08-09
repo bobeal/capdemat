@@ -11,4 +11,12 @@ public interface ICapwebctPaymentModuleClient {
     Object creditAccount(Object requestPayload);
 
     Object sendRequest(Object requestPayload);
+
+    Object checkExternalReferential(Object requestPayload);
+
+    Object loadExternalInformation(Object requestPayload);
+
+    Object getConsumptions(Object requestPayload);
+    
+    void setFake(boolean fake);
 }

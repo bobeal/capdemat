@@ -48,7 +48,7 @@
             </xs:complexType>
          </xs:element>
 
-         <xs:element name="invoiceDetails">
+         <xs:element name="invoiceDetailsResponse">
             <xs:complexType>
                <xs:sequence>
                   <xs:element name="invoiceDetail" minOccurs="0" maxOccurs="unbounded"
@@ -112,13 +112,13 @@
    <wsdl:message name="invoiceDetailsRequestMessage">
       <wsdl:part name="body" element="schema:invoiceDetailsRequest"/>
    </wsdl:message>
-   <wsdl:message name="invoiceDetailsMessage">
-      <wsdl:part name="body" element="schema:invoiceDetails"/>
+   <wsdl:message name="invoiceDetailsResponseMessage">
+      <wsdl:part name="body" element="schema:invoiceDetailsResponse"/>
    </wsdl:message>
    <wsdl:portType name="PortType">
       <wsdl:operation name="invoiceDetails">
          <wsdl:input name="invoiceDetailsInput" message="tns:invoiceDetailsRequestMessage"/>
-         <wsdl:output name="invoiceDetailsOutput" message="tns:invoiceDetailsMessage"/>
+         <wsdl:output name="invoiceDetailsOutput" message="tns:invoiceDetailsResponseMessage"/>
       </wsdl:operation>
    </wsdl:portType>
    <wsdl:binding name="Binding" type="tns:PortType">

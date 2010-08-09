@@ -5,7 +5,7 @@
   elementFormDefault="qualified"
   attributeFormDefault="unqualified">
 
-  <xs:element name="bank-transaction">
+  <xs:element name="creditAccountRequest">
     <xs:annotation>
       <xs:documentation>
         A message sent to an external service after a successful payment upon data managed by it

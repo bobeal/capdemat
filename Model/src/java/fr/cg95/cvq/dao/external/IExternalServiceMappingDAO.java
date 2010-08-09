@@ -14,4 +14,6 @@ public interface IExternalServiceMappingDAO extends IGenericDAO {
         getIdentifierMapping(String externalServiceLabel, Long homeFolderId);
     
     List<ExternalServiceIdentifierMapping> getIdentifierMappings(Long homeFolderId);
+
+    ExternalServiceIdentifierMapping getIdentifierMapping(String externalServiceLabel, String externalCapdematId);
 }

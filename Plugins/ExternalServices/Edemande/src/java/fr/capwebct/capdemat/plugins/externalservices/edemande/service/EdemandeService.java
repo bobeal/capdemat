@@ -335,7 +335,7 @@ public class EdemandeService implements IExternalProviderService {
             StringUtils.defaultString(sgr.getSubject().getAdult().getBirthPlace().getCity())
             : "");
         model.put("birthDate", formatDate(sgr.getSubjectInformations().getSubjectBirthDate()));
-        model.put("frenchRIB", FrenchRIB.xmlToModel(sgr.getFrenchRIB()));
+        model.put("frenchRIB", FrenchRIB.xmlToModel(sgr.getFrenchRIB()).format(" "));
         try {
             model.put("email",
                 StringUtils.defaultIfEmpty(sgr.getSubject().getAdult().getEmail(),
@@ -367,7 +367,7 @@ public class EdemandeService implements IExternalProviderService {
         model.put("firstName", WordUtils.capitalizeFully(
             sgr.getAccountHolderFirstName(), new char[]{' ', '-'}));
         model.put("birthDate", formatDate(sgr.getAccountHolderBirthDate()));
-        model.put("frenchRIB", FrenchRIB.xmlToModel(sgr.getFrenchRIB()));
+        model.put("frenchRIB", FrenchRIB.xmlToModel(sgr.getFrenchRIB()).format(" "));
         try {
             //FIXME placeholder
             model.put("email",
@@ -412,7 +412,7 @@ public class EdemandeService implements IExternalProviderService {
         } else if (sgr.getSubject().getAdult().getOfficePhone() != null && !sgr.getSubject().getAdult().getOfficePhone().trim().isEmpty()) {
             model.put("phone", sgr.getSubject().getAdult().getOfficePhone());
         }
-        model.put("frenchRIB", FrenchRIB.xmlToModel(sgr.getFrenchRIB()));
+        model.put("frenchRIB", FrenchRIB.xmlToModel(sgr.getFrenchRIB()).format(" "));
         model.put("firstRequest", sgr.getSubjectInformations().getSubjectFirstRequest());
         model.put("creationDate", formatDate(sgr.getCreationDate()));
         model.put("taxHouseholdCityCode",

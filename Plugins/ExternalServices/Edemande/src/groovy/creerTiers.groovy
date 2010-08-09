@@ -52,12 +52,12 @@
           <msDescription>Virement bancaire</msDescription>
         </moModePaiement>
         <moAgence>
-          <miBanque>${frenchRIB.bankCode}</miBanque>
-          <miAgence>${frenchRIB.counterCode}</miAgence>
+          <miBanque>${frenchRIB.split()[0]}</miBanque>
+          <miAgence>${frenchRIB.split()[1]}</miAgence>
           <msLibelle></msLibelle>
         </moAgence>
-        <msCompte>${frenchRIB.accountNumber}</msCompte>
-        <miCleRib>${frenchRIB.accountKey}</miCleRib>
+        <msCompte>${frenchRIB.split()[2]}</msCompte>
+        <miCleRib>${frenchRIB.split()[3]}</miCleRib>
         <mbEtranger>false</mbEtranger>
         <mbIban>false</mbIban>
         <mbUsuel>true</mbUsuel>

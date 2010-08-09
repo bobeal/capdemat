@@ -150,11 +150,11 @@
         <msDescription>Virement bancaire</msDescription>
       </moModePaiement>
       <moAgence>
-        <miBanque>${frenchRIB.bankCode}</miBanque>
-        <miAgence>${frenchRIB.counterCode}</miAgence>
+        <miBanque>${frenchRIB.split()[0]}</miBanque>
+        <miAgence>${frenchRIB.split()[1]}</miAgence>
       </moAgence>
-      <msCompte>${frenchRIB.accountNumber}</msCompte>
-      <miCleRib>${frenchRIB.accountKey}</miCleRib>
+      <msCompte>${frenchRIB.split()[2]}</msCompte>
+      <miCleRib>${frenchRIB.split()[3]}</miCleRib>
       <mbEtranger>false</mbEtranger>
       <mbIban>false</mbIban>
       <mbUsuel>true</mbUsuel>
@@ -191,7 +191,7 @@
    <moGeneral type="noeud" nom="DEMANDE">
     <mbPremiereDem type="booleen" nom="Indicateur Première Demande">${firstRequest}</mbPremiereDem>
     <mdtDateCreation type="date" nom="Date de validation de la demande par l'étudiant">${creationDate}</mdtDateCreation>
-    <msRIB type="texte" nom="RIB">${frenchRIB.bankCode} ${frenchRIB.counterCode} ${frenchRIB.accountNumber} ${frenchRIB.accountKey}</msRIB>
+    <msRIB type="texte" nom="RIB">${frenchRIB}</msRIB>
    </moGeneral>
    <moFoyerFiscal type="noeud" nom="FOYER FISCAL">
     <mdMtRevenuBrutGlobal type="montant" nom="Revenu brut global pour l'année 2008 et inférieur à 32 000 euros">${taxHouseholdIncome}</mdMtRevenuBrutGlobal>

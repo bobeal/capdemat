@@ -121,7 +121,7 @@ class FrontofficeHomeFolderController {
                 if (params.requestTypeLabel) {
                     flash.precedeByAccountCreation = true
                     redirect(controller : "frontofficeRequest", action : "edit",
-                        params : ["label" : params.requestTypeLabel])
+                        params : ["label" : params.requestTypeLabel, "requestSeasonId" : params.requestSeasonId])
                     return false
                 }
             } else {

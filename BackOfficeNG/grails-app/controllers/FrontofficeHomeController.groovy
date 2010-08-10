@@ -116,7 +116,8 @@ class FrontofficeHomeController {
                     'groups': requestTypeAdaptorService.getDisplayGroups(null)]
         } else {
             flash.errorMessage = message(code : error)
-            redirect(controller : "frontofficeRequest", action : "login", params : ["id" : params.id, "requestTypeLabel" : params.requestTypeLabel])
+            redirect(controller : "frontofficeRequest", action : "login",
+                params : ["id" : params.id, "requestTypeLabel" : params.requestTypeLabel, "requestSeasonId" : params.requestSeasonId])
             return false
         }
     }
@@ -135,12 +136,14 @@ class FrontofficeHomeController {
                 session.currentEcitizen = params.login
                 SecurityContext.setCurrentEcitizen(params.login)
                 if (params.requestTypeLabel)
-                    redirect(controller : "frontofficeRequest", action : "edit", params : ["label" : params.requestTypeLabel])
+                    redirect(controller : "frontofficeRequest", action : "edit",
+                        params : ["label" : params.requestTypeLabel, "requestSeasonId" : params.requestSeasonId])
                 else
                     redirect(controller:'frontofficeRequestType')
                 return false
             } else {
-                redirect(controller : "frontofficeRequest", action : "edit", params : ["label" : params.requestTypeLabel])
+                redirect(controller : "frontofficeRequest", action : "edit",
+                    params : ["label" : params.requestTypeLabel, "requestSeasonId" : params.requestSeasonId])
                 return false
             }
         } else {

@@ -136,6 +136,7 @@ alter table request add column specific_data_id int8;
 alter table request_action alter column request_id drop not null;
 
 alter table alignment_certificate_request drop constraint FK9EBFB38B82587E99;
+alter table alignment_certificate_request drop constraint fk9ebfb38bed1b9492;
 
 alter table alignment_numbering_connection_request drop constraint FKEBD1311082587E99;
 

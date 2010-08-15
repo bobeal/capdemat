@@ -49,7 +49,6 @@
 
   <target name="clean-plugins" depends="init">
     <ant dir="${plugins.csvimporters.concerto.dir}" target="clean" />
-    <ant dir="${plugins.csvimporters.subscriberslist.dir}" target="clean" />
     <ant dir="${plugins.paymentproviders.paylineV4.dir}" target="clean" />
     <ant dir="${plugins.paymentproviders.spplus.dir}" target="clean" />
     <ant dir="${plugins.paymentproviders.wynid.dir}" target="clean" />
@@ -149,7 +148,6 @@
 
   <target name="deploy-plugins" depends="init, deploy-model">
     <ant dir="${plugins.csvimporters.concerto.dir}" target="deploy" />
-    <ant dir="${plugins.csvimporters.subscriberslist.dir}" target="deploy" />
     <ant dir="${plugins.paymentproviders.paylineV4.dir}" target="deploy" />
     <ant dir="${plugins.paymentproviders.spplus.dir}" target="deploy" />
     <ant dir="${plugins.paymentproviders.wynid.dir}" target="deploy" />
@@ -162,10 +160,6 @@
 
   <target name="deploy-plugin-concerto" depends="init, compile-model">
     <ant dir="${plugins.csvimporters.concerto.dir}" target="deploy" />
-  </target>
-
-  <target name="deploy-plugin-subscriberslist" depends="init, compile-model">
-    <ant dir="${plugins.csvimporters.subscriberslist.dir}" target="deploy" />
   </target>
 
   <target name="deploy-plugin-paylineV4" depends="init, compile-model">

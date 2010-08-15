@@ -8,8 +8,6 @@
 	<classpathentry kind="src" output="Plugins/ExternalServices/Edemande/build/classes" path="Plugins/ExternalServices/Edemande/src/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Clever/build/test" path="Plugins/ExternalServices/Clever/test/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Clever/build/classes" path="Plugins/ExternalServices/Clever/src/java"/>
-	<classpathentry kind="src" output="Plugins/CsvImporters/SubscribersList/build/test" path="Plugins/CsvImporters/SubscribersList/test/java"/>
-	<classpathentry kind="src" output="Plugins/CsvImporters/SubscribersList/build/classes" path="Plugins/CsvImporters/SubscribersList/src/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Horanet/build/classes" path="Plugins/ExternalServices/Horanet/src/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Horanet/build/test" path="Plugins/ExternalServices/Horanet/test/java"/>
 	<classpathentry kind="src" output="Plugins/PaymentProviders/Wynid/build/classes" path="Plugins/PaymentProviders/Wynid/src/java"/>

@@ -1393,7 +1393,7 @@
     </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:maxLength value="10" />
-      <xs:pattern value="^0[1-9][0-9]{8}" />
+      <xs:pattern value="0[1-9]{1}\d{8}" />
     </xs:restriction>
   </xs:simpleType>
 
@@ -1408,7 +1408,7 @@
     </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:maxLength value="10" />
-      <xs:pattern value="^0[67][0-9]{8}" />
+      <xs:pattern value="0[67]{1}\d{8}" />
     </xs:restriction>
   </xs:simpleType>
 
@@ -2018,7 +2018,7 @@
         </xs:annotation>
         <xs:simpleType>
           <xs:restriction base="xs:string">
-            <xs:pattern value="^[a-zA-Z0-9]{1,11}$" />
+            <xs:pattern value="[a-zA-Z0-9]{1,11}" />
           </xs:restriction>
         </xs:simpleType>
       </xs:element>

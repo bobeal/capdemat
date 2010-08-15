@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <request>TicketOfficeRequest</request>
+    <data name="entertainmentCategories">
+        <label lang="fr">Catégories de spectacles</label>
+    </data>
+    <data name="placeCategories">
+        <label lang="fr">Catégories de places</label>
+    </data>
+    <data name="rateTypes">
+        <label lang="fr">Type de tarif</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+            <entry key="Plein">
+                <label lang="fr">Plein</label>
+            </entry>
+            <entry key="Reduit">
+                <label lang="fr">Réduit</label>
+            </entry>
+        </entries>
+    </data>
+    <data name="ticketBookingConfiguration">
+        <label lang="fr">Configuration</label>
+    </data>
+</LocalReferential>

@@ -645,3 +645,15 @@ create table ticket_subscriber_limits (
 alter table ticket_subscriber_limits add constraint FK2A415CAF42EA14
     foreign key (id) references ticket_subscriber;
 
+drop table ticket_type_selection;
+drop table place_reservation_request_place_reservation;
+drop table place_reservation_data;
+drop table place_reservation_request;
+
+DELETE FROM request_action where request_id in (select id FROM request where request_type_id = (select id from request_type where label = 'Place Reservation'));
+DELETE FROM request_note where request_id in (select id FROM request where request_type_id = (select id from request_type where label = 'Place Reservation'));
+DELETE FROM request where request_type_id = (select id from request_type where label = 'Place Reservation');
+DELETE FROM forms where request_type_id = (select id from request_type where label = 'Place Reservation');
+DELETE FROM requirement where request_type_id = (select id from request_type where label = 'Place Reservation');
+DELETE FROM request_season where request_type_id = (select id from request_type where label = 'Place Reservation');
+DELETE FROM request_type where label = 'Place Reservation';

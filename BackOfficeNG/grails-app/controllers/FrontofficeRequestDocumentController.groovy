@@ -1,6 +1,7 @@
 import fr.cg95.cvq.service.request.IRequestLockService
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestDocumentService
+import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.business.document.DocumentState
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.service.document.IDocumentService
@@ -14,11 +15,21 @@ class FrontofficeRequestDocumentController {
     IRequestLockService requestLockService
     IRequestSearchService requestSearchService
     IRequestDocumentService requestDocumentService
+    IRequestWorkflowService requestWorkflowService
     IDocumentService documentService
     IDocumentTypeService documentTypeService
 
     DocumentAdaptorService documentAdaptorService
     RequestTypeAdaptorService requestTypeAdaptorService
+
+    def afterInterceptor = {
+        if (params.action != "edit" || request.post) {
+            def rqt = requestSearchService.getById(Long.valueOf(params.requestId), true)
+            if (RequestState.UNCOMPLETE.equals(rqt.state)) {
+                requestWorkflowService.rewindWorkflow(rqt)
+            }
+        }
+    }
 
     // TODO : Must we update rqt.stepState.document as far as document step id is optionnal
     def edit = {

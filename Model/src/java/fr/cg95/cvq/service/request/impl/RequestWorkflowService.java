@@ -1316,8 +1316,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void rewindWorkflow(Request request, String note)
         throws CvqException, CvqInvalidTransitionException {
-        if (request.getState().equals(RequestState.PENDING)
-            || request.getState().equals(RequestState.UNCOMPLETE)) {
+        if (request.getState().equals(RequestState.UNCOMPLETE)) {
             request.setState(RequestState.PENDING);
             Date date = new Date();
             updateLastModificationInformation(request, date);

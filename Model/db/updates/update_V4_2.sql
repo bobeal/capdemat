@@ -6,7 +6,7 @@ create or replace function migrate_drafts() returns void as $$
     r record;
   begin
     for r in select * from request where draft = 't' loop
-      insert into request_action values (
+      insert into request_action (id, agent_id, note, date, message, request_id, resulting_state, file, type) values (
         nextval('hibernate_sequence'),
         r.requester_id,
         null,

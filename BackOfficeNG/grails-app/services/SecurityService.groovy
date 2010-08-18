@@ -43,6 +43,7 @@ public class SecurityService {
                 "frontofficeRequestType" : /.*/,
                 "frontofficeDocument" : [/details/,/binary/],
                 "frontofficeHome" : [/loginAgent/,/logout/],
+                "frontofficeHomeFolder" : /.*/,
                 "serviceAutocomplete" : /.*/,
                 "system" : /error/
             ]

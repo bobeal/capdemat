@@ -14,25 +14,37 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
     var isActive = false;
     var autocompletes = {};
 
-    var enableStreetName = function(fieldsetId) {
-      if(document.getElementById(fieldsetId + "_streetName")) {
-        var fieldset = document.getElementById(fieldsetId);
-        var inputAssistance = document.getElementById(fieldsetId + "_inputAssistance");
-        if(fieldset && inputAssistance) fieldset.removeChild(inputAssistance);
-        document.getElementById(fieldsetId + "_streetName").disabled = false;
+    var reorderAddressFields = function(fieldsetId) {
+      if (zc.baseUrl.indexOf('backoffice') > 0)
+        return;
+      var addressEl = yud.get(fieldsetId);
+      if (!addressEl) return;
+      var fieldNamesToOrder = ['city', 'postalCode', 'streetName', 'streetNumber'];
+      var addressFields = yud.getChildren(addressEl.cloneNode(true));
+      addressEl.innerHTML = '';
+      var divAutoComplete = document.createElement("div");
+      yud.addClass(divAutoComplete, 'autocompleteZone');
+      var help = document.createElement("p");
+      help.innerHTML = 'Les champs surlignés en vert disposent d\'un système d\'aide à la saisie.'
+      addressEl.appendChild(help);
+      addressEl.appendChild(divAutoComplete);
+      for (var i=0; i<fieldNamesToOrder.length; i++) {
+        for (var j=0; j<addressFields.length; j++) {
+          var it = addressFields[j];
+          if (!it) continue;
+          if ((it.getAttribute('id') + '').indexOf(fieldNamesToOrder[i]) > 0
+              || (it.getAttribute('for') + '').indexOf(fieldNamesToOrder[i]) > 0) {
+            yud.removeClass(it, 'line1');
+            yud.removeClass(it, 'line2');
+            divAutoComplete.appendChild(it);
+            addressFields[j] = undefined; // hack !
+          }
+        }
       }
-    };
-
-    var disableStreetName = function(fieldsetId) {
-      if(document.getElementById(fieldsetId + "_streetName") && document.getElementById(fieldsetId + "_cityInseeCode").value == "") {
-        var inputAssistance = document.createElement("span");
-        inputAssistance.id = fieldsetId + "_inputAssistance";
-        inputAssistance.className = "inputAssistance";
-        inputAssistance.innerHTML = "Renseigner la ville en premier";
-        yud.insertBefore(inputAssistance, yus.query("label[for=" + fieldsetId + "_streetNumber]")[0]);
-        document.getElementById(fieldsetId + "_streetName").disabled = true;
-      }
-    };
+      for (var i=0; i<addressFields.length; i++)
+        if (!!addressFields[i] && addressFields[i].nodeName != 'BR')
+          addressEl.appendChild(addressFields[i]);
+    }
 
     var autocompleteBindFieldset = function(fieldsetId) {
       autocompletes[fieldsetId] = {
@@ -40,7 +52,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
         postalCode:{},
         city: {}
       };
-      disableStreetName(fieldsetId);
+      reorderAddressFields(fieldsetId);
       var streetNameAutocomplete;
       if(document.getElementById(fieldsetId + "_streetName")) {
         autocompletes[fieldsetId].streetName = new zcc.AutoComplete({
@@ -49,6 +61,9 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
           url: zc.contextPath + "/autocomplete/ways",
           idField: "id",
           minimumChars: 2,
+          urlParams : {
+            city : yus.query("#"+fieldsetId + "_cityInseeCode")[0].value
+          },
           resultText: function(result) {
             return result.name;
           },
@@ -81,7 +96,6 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
             document.getElementById(fieldsetId + "_streetNumber").value = "";
             document.getElementById(fieldsetId + "_streetMatriculation").value = "";
             document.getElementById(fieldsetId + "_streetRivoliCode").value = "";
-            enableStreetName(fieldsetId);
           }
         });
       }
@@ -107,7 +121,6 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
             document.getElementById(fieldsetId + "_streetNumber").value = "";
             document.getElementById(fieldsetId + "_streetMatriculation").value = "";
             document.getElementById(fieldsetId + "_streetRivoliCode").value = "";
-            enableStreetName(fieldsetId);
           }
         });
       }

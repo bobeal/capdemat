@@ -58,6 +58,12 @@ public class PaymentInitializationDateCheckerJob {
             lacb.getMailAsMap("hasAgentNotification", "getAgentNotificationData", 
                     "NotCommitPaymentAlert");
         
+        if (agentNotificationMap == null) {
+            logger.info("checkInitializedPayment() " + SecurityContext.getCurrentSite().getName()
+                    + " has not configured a notification for pending payments, returning");
+            return;
+        }
+        
 		String mailSubject = agentNotificationMap.get("mailSubject");
 		String mailBodyFilename = agentNotificationMap.get("mailData");
         String mailBody = 

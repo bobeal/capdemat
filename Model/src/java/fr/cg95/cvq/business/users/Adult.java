@@ -121,6 +121,7 @@ public class Adult extends Individual {
             adult.setNameOfUse(adultType.getNameOfUse());
             if (adultType.getFamilyStatus() != null)
                 adult.setFamilyStatus(FamilyStatusType.forString(adultType.getFamilyStatus().toString()));
+            adult.setExternalCapDematId(adultType.getExternalCapdematId());
             adult.setHomePhone(adultType.getHomePhone());
             adult.setMobilePhone(adultType.getMobilePhone());
             adult.setOfficePhone(adultType.getOfficePhone());

@@ -60,6 +60,9 @@
             <fileset dir="${joda.lib.dir}" />
             <fileset dir="${jsch.lib.dir}" />
             <fileset dir="${groovy.lib.dir}" />
+            <fileset dir="${jdom.lib.dir}">
+              <include name="jdom.jar" />
+            </fileset>
         </copy>
     </target>
 

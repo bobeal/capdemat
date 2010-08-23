@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -53,19 +54,29 @@ public class TicketBookingServiceTest extends ServiceTestCase {
         et.setName("CapDemat show");
         et.setCategory("Fiction");
         ticketBookingService.createEntertainment(et);
+        continueWithNewTransaction();
+
         assertEquals(2, ticketBookingService.getAllEntertainments().size());
-        
-        continueWithNewTransaction();
-        
+
         ticketBookingService.deleteEntertainment(et.getId());
-        assertEquals(1, ticketBookingService.getAllEntertainments().size());
-        
         continueWithNewTransaction();
-        
+
+        assertEquals(1, ticketBookingService.getAllEntertainments().size());
+
         et = ticketBookingService.getAllEntertainments().get(0);
         et.setName("Super Zeneexity Show");
         ticketBookingService.updateEntertainment(et);
+        continueWithNewTransaction();
+
         assertNotSame("Zenexity show", et.getName());
+    }
+
+    private Date yesterday() {
+        return (new DateTime()).minusDays(1).toDate();
+    }
+
+    private Date tomorow() {
+        return (new DateTime()).plusDays(1).toDate();
     }
 
     @Test
@@ -84,11 +95,14 @@ public class TicketBookingServiceTest extends ServiceTestCase {
            ev = new Event();
            ev.setDate(new DateTime().plusHours(hourOffset).toDate());
            ev.setPlace("Salle de reunion " + hourOffset);
+           ev.setBookingStart(yesterday());
+           ev.setBookingEnd(tomorow());
            ev.setEntertainment(et);
            et.getEvents().add(ev);
            hourOffset += 2;
        }
        ticketBookingService.createEntertainment(et);
+       continueWithNewTransaction();
        
        et = new Entertainment();
        et.setName("CapDemat show");
@@ -97,6 +111,8 @@ public class TicketBookingServiceTest extends ServiceTestCase {
        for (int i = 0; i < 10; i++) {
            ev = new Event();
            ev.setDate(new DateTime().plusHours(hourOffset).toDate());
+           ev.setBookingStart(yesterday());
+           ev.setBookingEnd(tomorow());
            ev.setPlace("Salle de conference " + hourOffset);
            ev.setEntertainment(et);
            et.getEvents().add(ev);
@@ -104,7 +120,7 @@ public class TicketBookingServiceTest extends ServiceTestCase {
        }
        ticketBookingService.createEntertainment(et);
        continueWithNewTransaction();
-       
+
        assertEquals(20, ticketBookingService.getEvents(new HashSet<Critere>(), null, null, -1, 0).size());
        assertEquals(10, ticketBookingService.getEvents(new HashSet<Critere>(), null, null, 10, 0).size());
 
@@ -112,13 +128,11 @@ public class TicketBookingServiceTest extends ServiceTestCase {
                new HashSet<Critere>(), Entertainment.SEARCH_BY_NAME, null, -1, 0);
        assertEquals(20, sortedEvents.size());
        assertEquals("CapDemat show", sortedEvents.get(0).getEntertainment().getName());
-       assertTrue("0 must be little than 10", 
-               sortedEvents.get(0).getEntertainment().getName().compareTo(
+       assertTrue(sortedEvents.get(0).getEntertainment().getName().compareTo(
                        sortedEvents.get(10).getEntertainment().getName()) < 0);
-       
+
        sortedEvents = ticketBookingService.getEvents(
                new HashSet<Critere>(), Event.SEARCH_BY_DATE, null, -1, 0);
-       assertTrue("0 must be little than 1", 
-               sortedEvents.get(0).getDate().compareTo(sortedEvents.get(1).getDate()) < 0);
+       assertTrue(sortedEvents.get(0).getDate().compareTo(sortedEvents.get(1).getDate()) < 0);
    }
 }

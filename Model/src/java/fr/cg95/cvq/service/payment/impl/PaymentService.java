@@ -81,6 +81,11 @@ public final class PaymentService implements IPaymentService,
         
         Payment payment = new Payment();
         String broker = purchaseItem.getSupportedBroker();
+
+        // Damn quick hack to link an external service item to a broker
+        if (broker == null && getAllBrokers() != null && getAllBrokers().size() == 1)
+            broker = getAllBrokers().keySet().iterator().next();
+
         if (broker == null || broker.equals(""))
             throw new CvqInvalidBrokerException("payment.missing_broker");
         else if (payment.getPurchaseItems() == null || payment.getPurchaseItems().isEmpty())
@@ -113,6 +118,11 @@ public final class PaymentService implements IPaymentService,
         checkPurchaseItem(purchaseItem);
 
         String broker = purchaseItem.getSupportedBroker();
+
+        // Damn quick hack to link an external service item to a broker
+        if (broker == null && getAllBrokers() != null && getAllBrokers().size() == 1)
+            broker = getAllBrokers().keySet().iterator().next();
+
         if (broker == null || broker.equals(""))
             throw new CvqInvalidBrokerException("payment.missing_broker");
         if (payment.getBroker().equals(""))

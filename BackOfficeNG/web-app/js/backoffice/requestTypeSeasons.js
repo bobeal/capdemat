@@ -24,7 +24,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
 
   zcbrt.Seasons = function() {
     var content = {head : 'Attention !', body : 'Confirmez-vous la suppression ?'};
-    var c = function(id) {
+    var createCalendars = function(id) {
       zcb.Calendar("registrationStart_" + id);
       zcb.Calendar("registrationEnd_" + id);
       zcb.Calendar("validationAuthorizationStart_" + id);

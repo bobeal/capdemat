@@ -3,7 +3,6 @@ package fr.capwebct.capdemat.plugins.externalservices.horanet.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
@@ -156,22 +155,9 @@ public class HoranetServiceV3 implements IExternalProviderService {
 
             logger.debug("sendRequest() calling HoraNet on " + endPoint2.toString());
             logger.debug("sendRequest() with SOAP action URI " + SOAP_ACTION_URI);
-            
-            RequestType request = null;
-            try {
-                String classSimpleName = requestXml.getClass().getSimpleName();
-                String methodNameToInvoke = "get" + classSimpleName.substring(0, classSimpleName.lastIndexOf("Document"));
-                request = (RequestType) requestXml.getClass().getMethod(methodNameToInvoke).invoke(requestXml);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-                return null;
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-                return null;
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-                return null;
-            }
+
+            RequestType request = (RequestType) requestXml;
+
             // FIXME : Horanet could/should extract school from XML
             String schoolName = "";
             try {

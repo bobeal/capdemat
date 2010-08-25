@@ -290,13 +290,13 @@ public final class PaymentService implements IPaymentService,
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT,  ContextType.ADMIN}, privilege = ContextPrivilege.READ)
     public final List<Payment> getByHomeFolder(final Long homeFolderId) {
         return paymentDAO.findByHomeFolder(homeFolderId);
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.READ)
     public final Payment getById(final Long id)
         throws CvqObjectNotFoundException {
         return (Payment) paymentDAO.findById(Payment.class, id);

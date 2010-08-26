@@ -72,7 +72,7 @@
   </fieldset>
 
   <g:each var="it" in="${individuals?.children}" status="index">
-  <fieldset class="individual edit summary-box">
+  <fieldset class="individual edit summary-box ${stepStates != null && stepStates['children']?.invalidFields.contains('children[' + index + ']') ? 'validation-failed' : ''}">
     <h4>
       ${it.firstName} ${it.lastName}
       <input type="hidden" name="objectToManage[${index}]" value="individuals" />

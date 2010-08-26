@@ -84,7 +84,7 @@
     </g:else>
   </fieldset>
     <g:each var="it" in="${individuals?.foreignAdults}" status="index">
-    <fieldset class="individual edit summary-box">
+    <fieldset class="individual edit summary-box ${stepStates != null && stepStates['children']?.invalidFields.contains('foreignAdults[' + index + ']') ? 'validation-failed' : ''}">
       <h4>
         <g:capdematEnumToField var="${it.title}" i18nKeyPrefix="homeFolder.adult.title" /> ${it.firstName} ${it.lastName}
         <input type="hidden" name="objectToManage[${index}]" value="individuals" />

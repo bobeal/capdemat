@@ -31,6 +31,11 @@
   background: #eee;
 }
 
+#requestTabView .individual.edit.validation-failed {
+  background: #FFCCCC;
+  border-color : #CC2020 !important;
+}
+
 #requestTabView .individual.edit h4                      { margin: 0 0 .5em; font-size: 1.6em; font-weight: normal; }
 #requestTabView .individual.edit h4 input[type="submit"] { margin: 0; font-size: .6em; }
 

@@ -103,9 +103,10 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
                     }
                     if (xmlRequest.getSubject() != null && xmlRequest.getSubject().getChild() != null) {
                         if (esimInd.getIndividualId() != null
-                                && esimInd.getIndividualId().equals(xmlRequest.getSubject().getChild().getId()))
+                                && esimInd.getIndividualId().equals(xmlRequest.getSubject().getChild().getId())) {
                             xmlRequest.getSubject().getChild().setExternalCapdematId(esimInd.getExternalCapDematId());
-                        xmlRequest.getSubject().getChild().setExternalId(esimInd.getExternalId());
+                            xmlRequest.getSubject().getChild().setExternalId(esimInd.getExternalId());
+                        }
                     }
                 }
             } else {

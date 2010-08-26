@@ -93,6 +93,20 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
                 getIdentifierMapping(externalServiceLabel, xmlHomeFolder.getId());
             if (esim != null) {
                 fillHomeFolderWithEsim(xmlHomeFolder, esim);
+                // To Refactor : also fill requester and subject with external capdemat ids for Horanet
+                for (ExternalServiceIndividualMapping esimInd : esim.getIndividualsMappings()) {
+                    if (esimInd.getIndividualId() != null
+                            && esimInd.getIndividualId().equals(xmlRequest.getRequester().getId())) {
+                        xmlRequest.getRequester().setExternalCapdematId(esimInd.getExternalCapDematId());
+                        xmlRequest.getRequester().setExternalId(esimInd.getExternalId());
+                    }
+                    if (xmlRequest.getSubject() != null && xmlRequest.getSubject().getChild() != null) {
+                        if (esimInd.getIndividualId() != null
+                                && esimInd.getIndividualId().equals(xmlRequest.getSubject().getChild().getId()))
+                            xmlRequest.getSubject().getChild().setExternalCapdematId(esimInd.getExternalCapDematId());
+                        xmlRequest.getSubject().getChild().setExternalId(esimInd.getExternalId());
+                    }
+                }
             } else {
                 // no existing external service mapping : create a new one to store
                 // the CapDemat external identifier

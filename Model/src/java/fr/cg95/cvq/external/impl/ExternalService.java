@@ -93,46 +93,24 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
             ExternalServiceIdentifierMapping esim = 
                 getIdentifierMapping(externalServiceLabel, xmlHomeFolder.getId());
             if (esim != null) {
-                fillHomeFolderWithEsim(xmlHomeFolder, esim);
-                // To Refactor : also fill requester and subject with external capdemat ids for Horanet
-                for (ExternalServiceIndividualMapping esimInd : esim.getIndividualsMappings()) {
-                    if (esimInd.getIndividualId() != null
-                            && esimInd.getIndividualId().equals(xmlRequest.getRequester().getId())) {
-                        xmlRequest.getRequester().setExternalCapdematId(esimInd.getExternalCapDematId());
-                        xmlRequest.getRequester().setExternalId(esimInd.getExternalId());
-                    }
-                    if (xmlRequest.getSubject() != null && xmlRequest.getSubject().getChild() != null) {
-                        if (esimInd.getIndividualId() != null
-                                && esimInd.getIndividualId().equals(xmlRequest.getSubject().getChild().getId())) {
-                            xmlRequest.getSubject().getChild().setExternalCapdematId(esimInd.getExternalCapDematId());
-                            xmlRequest.getSubject().getChild().setExternalId(esimInd.getExternalId());
-                        }
-                    }
-                }
+                fillRequestWithEsim(xmlRequest, esim);
             } else {
                 // no existing external service mapping : create a new one to store
                 // the CapDemat external identifier
-                esim = new ExternalServiceIdentifierMapping();
-                esim.setExternalServiceLabel(externalServiceLabel);
-                esim.setHomeFolderId(xmlHomeFolder.getId());
-                esim.setExternalCapDematId(UUID.randomUUID().toString());
-                xmlHomeFolder.setExternalCapdematId(esim.getExternalCapDematId());
+                esim = new ExternalServiceIdentifierMapping(externalServiceLabel, xmlHomeFolder.getId(), 
+                        UUID.randomUUID().toString(), null);
                 for (IndividualType xmlIndividual : xmlHomeFolder.getIndividualsArray()) {
-                    String externalCapDematId = UUID.randomUUID().toString();
-                    esim.addIndividualMapping(xmlIndividual.getId(), externalCapDematId, "");
-                    xmlIndividual.setExternalCapdematId(externalCapDematId);
+                    esim.addIndividualMapping(xmlIndividual.getId(), UUID.randomUUID().toString(), null);
                 }
                 
                 externalServiceMappingDAO.create(esim);
                 
-                // Yet another fucking Hibernate hack
-                ExternalServiceIdentifierMapping esimTest = 
-                    getIdentifierMapping(externalServiceLabel, xmlHomeFolder.getId());
-                if (esimTest == null) {
-                    logger.warn("sendError() Esim was not created, trying a flush");
-                    HibernateUtil.getSession().flush();
-                }
+                // Need to flush if we want EPSs to see the newly created ESIM
+                HibernateUtil.getSession().flush();
+
+                fillRequestWithEsim(xmlRequest, esim);
             }
+
             ExternalServiceTrace est = null;
             if (!externalProviderService.handlesTraces()) {
                 est = new ExternalServiceTrace(new Date(), String.valueOf(xmlRequest.getId()),
@@ -176,7 +154,7 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
         for (ExternalServiceIdentifierMapping esim : esimList) {
             IExternalProviderService externalProviderService = 
                 getExternalServiceByLabel(esim.getExternalServiceLabel());
-            fillHomeFolderWithEsim(xmlRequest.getHomeFolder(), esim);
+            fillRequestWithEsim(xmlRequest, esim);
             try {
                 informations.putAll(externalProviderService.loadExternalInformations(xmlRequest));
             } catch (CvqException e) {
@@ -300,19 +278,44 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
         return resultMap;
     }
 
-    private void fillHomeFolderWithEsim(HomeFolderType xmlHomeFolder, 
-            ExternalServiceIdentifierMapping esim) {
+    private void fillRequestWithEsim(RequestType xmlRequest, ExternalServiceIdentifierMapping esim) {
         
+        HomeFolderType xmlHomeFolder = xmlRequest.getHomeFolder();
         xmlHomeFolder.setExternalId(esim.getExternalId());
         xmlHomeFolder.setExternalCapdematId(esim.getExternalCapDematId());
-        for (IndividualType xmlIndividual : xmlHomeFolder.getIndividualsArray()) {
-            Set<ExternalServiceIndividualMapping> esimSet =
-                esim.getIndividualsMappings();
-            for (ExternalServiceIndividualMapping esimTemp : esimSet) {
-                if (esimTemp.getIndividualId().equals(xmlIndividual.getId())) {
-                    xmlIndividual.setExternalId(esimTemp.getExternalId());
-                    xmlIndividual.setExternalCapdematId(esimTemp.getExternalCapDematId());
-                    break;
+
+        for (ExternalServiceIndividualMapping esimInd : esim.getIndividualsMappings()) {
+            if (esimInd.getIndividualId() == null) {
+                logger.warn("fillRequestWithEsim() Got an ESIM without individual id " + esimInd.getExternalCapDematId());
+                continue;
+            }
+            
+            if (esimInd.getIndividualId().equals(xmlRequest.getRequester().getId())) {
+                xmlRequest.getRequester().setExternalCapdematId(esimInd.getExternalCapDematId());
+                xmlRequest.getRequester().setExternalId(esimInd.getExternalId());
+            }
+            
+            if (xmlRequest.getSubject() != null && xmlRequest.getSubject().getChild() != null) {
+                IndividualType individualType = null;
+                if (xmlRequest.getSubject().getChild() != null)
+                    individualType = xmlRequest.getSubject().getChild();
+                else if (xmlRequest.getSubject().getAdult() != null)
+                    individualType = xmlRequest.getSubject().getAdult();
+                else if (xmlRequest.getSubject().getIndividual() != null)
+                    individualType = xmlRequest.getSubject().getIndividual();
+                
+                if (individualType == null) {
+                    logger.warn("fillRequestWithEsim() Unable to extract individual from requets " + xmlRequest.getId());
+                } else if (esimInd.getIndividualId().equals(individualType.getId())) {
+                    individualType.setExternalCapdematId(esimInd.getExternalCapDematId());
+                    individualType.setExternalId(esimInd.getExternalId());
+                }
+            }
+            
+            for (IndividualType xmlIndividual : xmlHomeFolder.getIndividualsArray()) {
+                if (esimInd.getIndividualId().equals(xmlIndividual.getId())) {
+                    xmlIndividual.setExternalId(esimInd.getExternalId());
+                    xmlIndividual.setExternalCapdematId(esimInd.getExternalCapDematId());
                 }
             }
         }

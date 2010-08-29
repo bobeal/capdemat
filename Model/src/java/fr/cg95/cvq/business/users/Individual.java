@@ -112,10 +112,6 @@ public class Individual implements Historizable, Serializable {
 
         if (this.id != null)
             individualType.setId(this.id.longValue());
-        if (this.externalId != null)
-            individualType.setExternalId(this.externalId);
-        if (this.externalCapDematId != null)
-            individualType.setExternalCapdematId(this.externalCapDematId);
         if (this.login != null)
             individualType.setLogin(this.login);
         if (this.publicKey != null)

@@ -104,30 +104,12 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     @Context(types = {ContextType.SUPER_ADMIN})
     public void checkLocalAuthDocumentsValidity()
         throws CvqException {
-
         logger.debug("checkLocalAuthDocumentsValidity() dealing with " 
             + SecurityContext.getCurrentSite().getName());
-        
-        Date currentDate = new Date();
-        List<Document> wholeList = new ArrayList<Document>();
-
-        // get all documents whose state is PENDING, CHECKED or VALIDATED
-        wholeList.addAll(documentDAO.listByState(DocumentState.PENDING));
-        wholeList.addAll(documentDAO.listByState(DocumentState.CHECKED));
-        wholeList.addAll(documentDAO.listByState(DocumentState.VALIDATED));
-
-        // if end validity date is reached, set them outofdate
-        for (Document doc : wholeList) {
-            if (doc.getEndValidityDate() != null
-                && doc.getEndValidityDate().before(currentDate)) {
-                logger.debug("checkLocalAuthDocumentsValidity() document " + doc.getId() 
-                        + " has reached its end validity date (" 
-                        + doc.getEndValidityDate() + ") !");
-                doc.setState(DocumentState.OUTDATED);
-                documentDAO.update(doc);
-
-                addActionTrace(STATE_CHANGE_ACTION, DocumentState.OUTDATED, doc);
-            }
+        for (Long id : documentDAO.listOutdated()) {
+            HibernateUtil.beginTransaction();
+            updateDocumentState(id, DocumentState.OUTDATED, "", null);
+            HibernateUtil.commitTransaction();
         }
     }
 
@@ -409,8 +391,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         addActionTrace(STATE_CHANGE_ACTION, DocumentState.REFUSED, document);
     }
 
-    @Context(types = {ContextType.AGENT})
-    public void outDated(final Long id)
+    private void outDated(final Long id)
         throws CvqException, CvqObjectNotFoundException, CvqInvalidTransitionException {
 
         Document document = getById(id);

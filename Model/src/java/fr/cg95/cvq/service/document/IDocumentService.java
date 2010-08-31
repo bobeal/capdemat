@@ -158,15 +158,6 @@ public interface IDocumentService {
                CvqInvalidTransitionException;
 
     /**
-     * Set the document state to out of date when its validity duration has
-     * been reached. This method should not be called directly. Instead, an
-     * autonomous validity checker should do this stuff ...
-     */
-    void outDated(final Long id)
-        throws CvqException, CvqObjectNotFoundException,
-               CvqInvalidTransitionException;
-
-    /**
      * Get possible state transitions from the given document state.
      *
      * @return an array of {@link fr.cg95.cvq.business.document.DocumentState}

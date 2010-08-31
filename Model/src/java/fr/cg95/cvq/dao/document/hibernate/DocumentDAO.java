@@ -12,9 +12,12 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.event.PostDeleteEvent;
+import org.hibernate.event.PostDeleteEventListener;
 
 import fr.cg95.cvq.business.document.ContentType;
 import fr.cg95.cvq.business.document.Document;
+import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.document.DocumentState;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
@@ -29,7 +32,7 @@ import fr.cg95.cvq.util.Critere;
  * 
  * TODO; refactor to conform to simple search DAO method pattern in CapDemat
  */
-public class DocumentDAO extends GenericDAO implements IDocumentDAO {
+public class DocumentDAO extends GenericDAO implements IDocumentDAO, PostDeleteEventListener {
 
     @SuppressWarnings("unchecked")
     public List<Document> listProvidedDocuments(final Long docTypeId,
@@ -107,6 +110,14 @@ public class DocumentDAO extends GenericDAO implements IDocumentDAO {
             .setString(2, DocumentState.VALIDATED.toString())
             .setDate(3, new Date())
             .list();
+    }
+
+    @Override
+    public void onPostDelete(PostDeleteEvent event) {
+        Object entity = event.getEntity();
+        if (entity instanceof DocumentBinary) {
+            ((DocumentBinary)entity).removeData();
+        }
     }
 
     private Criteria buildSearchCriteria(Hashtable<String,Object> params) {

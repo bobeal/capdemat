@@ -323,6 +323,10 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     </property>
   </bean>
 
+  <bean id="ZDBInitializer" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="staticMethod" value="zdb.ZDB.readConfiguration" />
+  </bean>
+
   <!-- *******************************************************************  -->
   <!-- *********************** USERS SERVICES*****************************  -->
   <!-- *******************************************************************  -->

@@ -18,6 +18,7 @@ import edu.yale.its.tp.cas.client.CASAuthenticationException
 import javax.servlet.ServletException
 
 import org.hibernate.SessionFactory
+import zdb.core.Store
 
 class SessionFilters {
 
@@ -100,6 +101,7 @@ class SessionFilters {
                     if (controllerName == "serviceProvisioning") {
                         la = localAuthorityRegistry.getLocalAuthorityByName(lacb.name)
                     }
+                    Store.init(new File(localAuthorityRegistry.assetsBase + la.name, "zdb"))
                     SecurityContext.setCurrentSite(la, SecurityContext.BACK_OFFICE_CONTEXT)
                     SecurityContext.setCurrentLocale(request.getLocale())
 
@@ -125,7 +127,7 @@ class SessionFilters {
                     HibernateUtil.commitTransaction();
                 // No matter what happens, close the Session.
                 HibernateUtil.closeSession();
-
+                Store.release();
                 SecurityContext.resetCurrentSite();
             }
         }

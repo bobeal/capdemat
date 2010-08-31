@@ -24,7 +24,12 @@ public class SystemController {
                     "message":exception.message, 
                     "i18nkey":message(code:'error.permission')] as JSON)
         else if (session.frontContext) {
-            if (ExceptionUtils.isModelException(exception)) {
+            def concurrentModificationException = ExceptionUtils.extractConcurrentModificationException(exception)
+            if (concurrentModificationException != null) {
+                render(view : "concurrentModification", model : [
+                    "i18nKey" : concurrentModificationException.i18nKey,
+                    "i18nArgs" : concurrentModificationException.i18nArgs])
+            } else if (ExceptionUtils.isModelException(exception)) {
                 return [
                     "i18nKey" : ExceptionUtils.getModelI18nKey(exception),
                     "i18nArgs" : ExceptionUtils.getModelI18nArgs(exception)

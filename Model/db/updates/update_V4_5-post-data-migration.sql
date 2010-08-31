@@ -13,3 +13,7 @@ alter table study_grant_request
 alter table study_grant_request drop constraint FK7D2F0A761EE1CD99;
 delete from french_r_i_b where id in (select french_r_i_b_id from study_grant_request);
 alter table study_grant_request drop column french_r_i_b_id;
+
+alter table document_binary drop column data;
+alter table document_binary drop column preview;
+alter table document_binary alter column zdb_id set not null;

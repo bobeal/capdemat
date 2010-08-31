@@ -8,7 +8,6 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.util.*;
 
@@ -30,8 +29,6 @@ import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfStamper;
 import com.lowagie.text.pdf.PdfWriter;
 
-import eu.medsea.mimeutil.MimeUtil2;
-import eu.medsea.mimeutil.detector.OpendesktopMimeDetector;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.document.ContentType;
 import fr.cg95.cvq.business.document.Document;
@@ -67,26 +64,6 @@ import fr.cg95.cvq.util.translation.ITranslationService;
  * @author bor@zenexity.fr
  */
 public class DocumentService implements IDocumentService, ApplicationListener<UserEvent> {
-
-    private class MimeUtil extends MimeUtil2 {
-
-        public MimeUtil() {
-            super();
-            registerMimeDetector("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
-            registerMimeDetector("eu.medsea.mimeutil.detector.OpendesktopMimeDetector");
-        }
-
-        @Override
-        protected void finalize()
-            throws Throwable {
-            unregisterMimeDetector("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
-            Object detector =
-                unregisterMimeDetector("eu.medsea.mimeutil.detector.OpendesktopMimeDetector");
-            Field timerField = OpendesktopMimeDetector.class.getDeclaredField("timer");
-            ((Timer)timerField.get(detector)).purge();
-            timerField.set(detector, null);
-        }
-    }
 
     static Logger logger = Logger.getLogger(DocumentService.class);
 
@@ -176,52 +153,6 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         }
     }
 
-    public void launchDocumentMissingValuesComputing() {
-        localAuthorityRegistry.browseAndCallback(this, "computeMissingValues", null);
-    }
-
-    @Context(types = {ContextType.SUPER_ADMIN})
-    public void computeMissingValues() {
-        for (Long docId : documentDAO.listByMissingComputedValues()) {
-            HibernateUtil.beginTransaction();
-            Document document;
-            try {
-                document = (Document)documentDAO.findById(Document.class, docId);
-            } catch (CvqObjectNotFoundException e1) {
-                // document shouldn't disappear...
-                continue;
-            }
-            boolean modified = false;
-            for (DocumentBinary page : document.getDatas()) {
-                if (page.getContentType() == null
-                    || page.getContentType().equals(ContentType.OCTET_STREAM)) {
-                    try {
-                        page.setContentType(ContentType.forString(
-                            MimeUtil2.getMostSpecificMimeType(new MimeUtil().getMimeTypes(page.getData()))
-                                .toString()));
-                        modified = true;
-                    } catch (Exception e) {
-                        logger.info("failed to create preview for document_binary " + page.getId(), e);
-                    }
-                }
-                if (page.getPreview() == null
-                    && page.getContentType() != null && page.getContentType().isAllowed()) {
-                    try {
-                        createPreview(page);
-                        modified = true;
-                    } catch (Exception e) {
-                        logger.info("failed to create preview for document_binary " + page.getId(), e);
-                    }
-                }
-            }
-            if (modified) {
-                documentDAO.update(document);
-            }
-            HibernateUtil.commitTransaction();
-            HibernateUtil.closeSession();
-        }
-    }
-
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
     public Long create(Document document)
         throws CvqException, CvqObjectNotFoundException {
@@ -277,10 +208,8 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         checkDataSize(data);
         Document document = getById(documentId);
         checkMimeType(document, document.getDatas().size(), data);
-        DocumentBinary documentBinary = new DocumentBinary();
         try {
-            documentBinary.setContentType(mimeTypeFromBytes(data));
-            documentBinary.setData(data);
+            DocumentBinary documentBinary = new DocumentBinary(mimeTypeFromBytes(data), data);
             createPreview(documentBinary);
             if (document.getDatas() == null) {
                 List<DocumentBinary> dataList = new ArrayList<DocumentBinary>();
@@ -337,7 +266,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
     private ContentType mimeTypeFromBytes(final byte[] data) {
         return ContentType.forString(
-            MimeUtil2.getMostSpecificMimeType(new MimeUtil().getMimeTypes(data)).toString());
+            MimeUtil.getMostSpecificMimeType(new MimeUtil().getMimeTypes(data)).toString());
     }
 
     private void checkMimeType(final Document document, final int index, final byte[] data)
@@ -773,8 +702,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
                 }
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 pdDoc.save(baos);
-                DocumentBinary docBin = new DocumentBinary(baos.toByteArray());
-                docBin.setContentType(ContentType.PDF);
+                DocumentBinary docBin = new DocumentBinary(ContentType.PDF, baos.toByteArray());
                 createPreview(docBin);
                 for (DocumentBinary page : doc.getDatas()) {
                     documentDAO.delete(page);
@@ -827,8 +755,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             document.close();
         }
 
-        DocumentBinary mergeImgToPdfDocBin = new DocumentBinary(baos.toByteArray());
-        mergeImgToPdfDocBin.setContentType(ContentType.PDF);
+        DocumentBinary mergeImgToPdfDocBin = new DocumentBinary(ContentType.PDF, baos.toByteArray());
         createPreview(mergeImgToPdfDocBin);
         for (DocumentBinary page : doc.getDatas()) {
             documentDAO.delete(page);

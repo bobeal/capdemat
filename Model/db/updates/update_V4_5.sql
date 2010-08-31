@@ -7,3 +7,5 @@ create table bank_account (
 
 alter table bafa_grant_request add column bank_account_id int8;
 alter table study_grant_request add column bank_account_id int8;
+
+alter table document_binary add column zdb_id varchar(255) unique;

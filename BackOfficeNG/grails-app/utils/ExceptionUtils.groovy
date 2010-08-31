@@ -1,4 +1,5 @@
 import fr.cg95.cvq.exception.CvqException
+import fr.cg95.cvq.exception.CvqConcurrentModificationException
 import fr.cg95.cvq.security.PermissionException
 
 class ExceptionUtils {
@@ -45,5 +46,14 @@ class ExceptionUtils {
             cause = cause?.cause
         }
         return null;
+    }
+
+    def static extractConcurrentModificationException(ex) {
+        def cause = ex
+        while (cause) {
+            if (cause instanceof CvqConcurrentModificationException) return cause;
+            cause = cause.cause
+        }
+        return null
     }
 }

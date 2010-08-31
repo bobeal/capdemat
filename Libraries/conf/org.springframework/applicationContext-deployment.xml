@@ -139,6 +139,14 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <prop key="hibernate.cache.use_query_cache">false</prop>
       </props>
     </property>
+
+    <property name="eventListeners">
+      <map>
+        <entry key="post-delete">
+          <ref bean="documentDAO" />
+        </entry>
+      </map>
+    </property>
   </bean>
 
   <bean id="templateSessionFactory"

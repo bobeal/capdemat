@@ -45,6 +45,8 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.orm.hibernate3.LocalSessionFactoryBean;
 
+import zdb.core.Store;
+
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource;
@@ -770,7 +772,7 @@ public class LocalAuthorityRegistry
         }
 
         try {
-            
+            Store.init(new File(assetsBase + lacb.getName(), "zdb"));
             HibernateUtil.beginTransaction();
 
             if (args == null || args.length == 0) {
@@ -796,6 +798,7 @@ public class LocalAuthorityRegistry
             e.printStackTrace();
             HibernateUtil.rollbackTransaction();
         } finally {
+            Store.release();
             HibernateUtil.closeSession();
             SecurityContext.resetCurrentSite();
         }

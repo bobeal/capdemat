@@ -77,6 +77,8 @@
             </fileset>
             <fileset dir="${saxon.lib.dir}" />
             <fileset dir="${gson.lib.dir}" />
+            <fileset dir="${zenexity.lib.dir}" />
+            <fileset dir="${lucene.lib.dir}" />
         </copy>
     </target>
 

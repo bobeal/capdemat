@@ -96,7 +96,7 @@
 	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.transaction-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-compress-1.0.jar"/>
 	<classpathentry kind="lib" path="Libraries/net.sf/oval-1.50.jar"/>
-	<classpathentry kind="lib" path="Libraries/mime-util/mime-util-2.1.3.jar"/>
+	<classpathentry kind="lib" path="Libraries/mime-util/mime-util-2.1.3-capdemat.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/pdfbox/pdfbox-1.3.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-lang-3.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.aop-3.0.1.RELEASE.jar"/>
@@ -106,5 +106,6 @@
 	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-Model-4.4.2.jar"/>
 	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.4.2.jar"/>
 	<classpathentry kind="lib" path="Libraries/gson/gson-1.6.jar"/>
+	<classpathentry kind="lib" path="Libraries/com.zenexity/ZDB.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

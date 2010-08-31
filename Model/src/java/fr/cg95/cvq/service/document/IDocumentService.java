@@ -194,10 +194,6 @@ public interface IDocumentService {
     
     PDDocument byteToPDDocument(byte[] data) throws CvqException;
 
-    void launchDocumentMissingValuesComputing();
-
-    void computeMissingValues();
-
     void rotate(Long id, int index, boolean trigonometric)
         throws CvqException, DocumentException, IOException;
 }

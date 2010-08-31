@@ -32,5 +32,9 @@ for dir in $(echo $CommonLibPath | sed 's/:/ /g'); do
 done
 
 CLASSPATH="${CLASSPATH}:$CAPDEMAT_WEBAPP"
+for lib in $(find $GRAILS_HOME/lib  -name *.jar); do
+  CLASSPATH="${CLASSPATH}:$lib"
+done
+
 
 export CLASSPATH

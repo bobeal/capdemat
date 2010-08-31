@@ -84,10 +84,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         
         // VBAOP temp hack
         if (method === 'TicketBooking')
-          zenexity.capdemat.baseUrl = '/CapDemat/backoffice/ticketBooking';
+          zenexity.capdemat.baseUrl = zenexity.capdemat.baseUrl.replace('requestType','ticketBooking');
         else
-          zenexity.capdemat.baseUrl = '/CapDemat/backoffice/requestType';
-        
+          zenexity.capdemat.baseUrl = zenexity.capdemat.baseUrl.replace('ticketBooking','requestType');
+
         var el = yud.get(['requestType',method].join(''));
         zct.siblings(el,function(n){zct.style(n,{'display':'none'})});
         zct.style(el,{'display':'block'});

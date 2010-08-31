@@ -541,11 +541,21 @@ class FrontofficeRequestCreationController {
                     }
                     if (submitAction[1] == 'step'
                         && ["adults", "children", "foreignAdults"].contains(currentStep)) {
-                        try {
-                            validateRequest(objectToBind.individuals, [currentStep])
-                        } catch (CvqValidationException e) {
-                            requestAdaptorService
-                                .stepState(cRequest.stepStates.get(currentStep), 'invalid', '')
+                        objectToBind.individuals[currentStep].eachWithIndex { individual, i ->
+                            try {
+                                validateRequest(individual, [currentStep])
+                            } catch (CvqValidationException e) {
+                                if (cRequest.stepStates.get(currentStep).state != "invalid") {
+                                    requestAdaptorService
+                                        .stepState(cRequest.stepStates.get(currentStep), 'invalid', '')
+                                }
+                                e.invalidFields[""].each {
+                                    def invalidElement = currentStep + '[' + i + ']'
+                                    if (!it.startsWith("homeFolder.") && !cRequest.stepStates.get(currentStep).invalidFields.contains(invalidElement)) {
+                                        cRequest.stepStates.get(currentStep).invalidFields.add(invalidElement)
+                                    }
+                                }
+                            }
                         }
                     }
                 }

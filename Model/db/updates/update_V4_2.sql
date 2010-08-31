@@ -6,7 +6,7 @@ create or replace function migrate_drafts() returns void as $$
     r record;
   begin
     for r in select * from request where draft = 't' loop
-      insert into request_action values (
+      insert into request_action (id, agent_id, note, date, message, request_id, resulting_state, file, type) values (
         nextval('hibernate_sequence'),
         r.requester_id,
         null,
@@ -644,4 +644,34 @@ create table ticket_subscriber_limits (
 
 alter table ticket_subscriber_limits add constraint FK2A415CAF42EA14
     foreign key (id) references ticket_subscriber;
+
+drop table ticket_type_selection;
+drop table place_reservation_request_place_reservation;
+drop table place_reservation_data;
+drop table place_reservation_request;
+
+DELETE FROM request_action where request_id in (select id FROM request where request_type_id = (select id from request_type where label = 'Place Reservation'));
+DELETE FROM request_note where request_id in (select id FROM request where request_type_id = (select id from request_type where label = 'Place Reservation'));
+DELETE FROM request where request_type_id = (select id from request_type where label = 'Place Reservation');
+DELETE FROM forms where request_type_id = (select id from request_type where label = 'Place Reservation');
+DELETE FROM requirement where request_type_id = (select id from request_type where label = 'Place Reservation');
+DELETE FROM request_season where request_type_id = (select id from request_type where label = 'Place Reservation');
+DELETE FROM request_type where label = 'Place Reservation';
+
+-- validation required policy
+
+UPDATE individual SET first_name = NULL where first_name NOTNULL AND char_length(trim(from first_name)) = 0;
+UPDATE individual SET last_name = NULL where last_name NOTNULL AND char_length(trim(from last_name)) = 0;
+UPDATE individual SET sex = NULL where sex NOTNULL AND char_length(trim(from sex)) = 0;
+
+UPDATE adult SET title = NULL where title NOTNULL AND char_length(trim(from title)) = 0;
+UPDATE adult SET family_status = NULL where family_status NOTNULL AND char_length(trim(from family_status)) = 0;
+UPDATE adult SET home_phone = NULL where home_phone NOTNULL AND char_length(trim(from home_phone)) = 0;
+UPDATE adult SET mobile_phone = NULL where mobile_phone NOTNULL AND char_length(trim(from mobile_phone)) = 0;
+UPDATE adult SET office_phone = NULL where office_phone NOTNULL AND char_length(trim(from office_phone)) = 0;
+UPDATE adult SET email = NULL where email NOTNULL AND char_length(trim(from email)) = 0;
+
+UPDATE address SET street_name = NULL where street_name NOTNULL AND char_length(trim(from street_name)) = 0;
+UPDATE address SET postal_code = NULL where postal_code NOTNULL AND char_length(trim(from postal_code)) = 0;
+UPDATE address SET city = NULL where city NOTNULL AND char_length(trim(from city)) = 0;
 

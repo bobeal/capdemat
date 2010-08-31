@@ -23,6 +23,7 @@
         </g:each>
       </select>
 
+      <label for="_individuals.children.${listIndex}.birthDate" class="required"><g:message code="homeFolder.individual.property.birthDate" /> <span><g:message code="homeFolder.individual.property.birthDate.help" /></span></label>
       <div class="date required validate-date">
         <select id="_individuals.children.${listIndex}.birthDate_day" name="_individuals.children[${listIndex}].birthDate_day"
           class="day ${stepStates != null && stepStates['children']?.invalidFields?.contains('birthDate') ? 'validation-failed' : ''}">
@@ -72,7 +73,7 @@
   </fieldset>
 
   <g:each var="it" in="${individuals?.children}" status="index">
-  <fieldset class="individual edit summary-box">
+  <fieldset class="individual edit summary-box ${stepStates != null && stepStates['children']?.invalidFields.contains('children[' + index + ']') ? 'validation-failed' : ''}">
     <h4>
       ${it.firstName} ${it.lastName}
       <input type="hidden" name="objectToManage[${index}]" value="individuals" />

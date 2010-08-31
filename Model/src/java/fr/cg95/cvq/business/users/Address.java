@@ -6,6 +6,7 @@ import net.sf.oval.constraint.MatchPattern;
 import net.sf.oval.constraint.MaxLength;
 import net.sf.oval.constraint.NotNull;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import fr.cg95.cvq.xml.common.AddressType;
@@ -146,8 +147,7 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
     }
 
     public void setStreetNumber(String streetNumber) {
-        if (streetNumber != null)
-            this.streetNumber = streetNumber.toUpperCase();
+        this.streetNumber = StringUtils.upperCase(streetNumber);
     }
 
     /**
@@ -160,8 +160,7 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
     }
 
     public void setStreetName(String streetName) {
-        if (streetName != null)
-            this.streetName = streetName.toUpperCase();
+        this.streetName = StringUtils.upperCase(streetName);
     }
 
     /**
@@ -174,8 +173,7 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
     }
 
     public void setPlaceNameOrService(String placeNameOrService) {
-        if (placeNameOrService != null)
-            this.placeNameOrService = placeNameOrService.toUpperCase();
+        this.placeNameOrService = StringUtils.upperCase(placeNameOrService);
     }
 
     /**
@@ -201,8 +199,7 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
     }
 
     public void setCity(String city) {
-        if (city != null)
-            this.city = city.toUpperCase();
+        this.city = StringUtils.upperCase(city);
     }
 
     /**
@@ -215,8 +212,7 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
     }
 
     public void setCountryName(String countryName) {
-        if (countryName != null)
-            this.countryName = countryName.toUpperCase();
+        this.countryName = StringUtils.upperCase(countryName);
     }
 
     @Override

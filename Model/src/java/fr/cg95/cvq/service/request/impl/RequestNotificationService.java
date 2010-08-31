@@ -167,8 +167,11 @@ public class RequestNotificationService implements ApplicationListener<CapDematE
                         + failure.getValue().getLocalizedMessage() + "\n";
                 }
             }
+            body += "\n\n" + SecurityContext.getCurrentSite().getServerNames().first();
             mailService.send(null, SecurityContext.getCurrentSite().getAdminEmail(), null,
-                translationService.translate("requestArchive.notification.subject"), body);
+                translationService.translate("requestArchive.notification.subject",
+                    new String[]{ SecurityContext.getCurrentSite().getDisplayTitle() }),
+                body);
         } else {
             logger.warn("notifyRequestArchiving() : no admin email to notify");
         }

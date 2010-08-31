@@ -64,10 +64,6 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
         HomeFolderType homeFolderType = HomeFolderType.Factory.newInstance();
         if (this.id != null)
             homeFolderType.setId(this.id.longValue());
-        if (this.externalId != null)
-            homeFolderType.setExternalId(this.externalId);
-        if (this.externalCapDematId != null)
-            homeFolderType.setExternalCapdematId(this.externalCapDematId);
         if (this.adress != null)
             homeFolderType.setAddress(Address.modelToXml(this.adress));
 

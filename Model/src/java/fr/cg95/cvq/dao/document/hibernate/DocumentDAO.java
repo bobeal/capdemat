@@ -3,6 +3,7 @@ package fr.cg95.cvq.dao.document.hibernate;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -63,14 +64,6 @@ public class DocumentDAO extends GenericDAO implements IDocumentDAO {
         return (List<Document>)crit.list();
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Document> listByState(final DocumentState documentState) {
-        Criteria crit = HibernateUtil.getSession().createCriteria(Document.class);
-        crit.add(Critere.compose("state", documentState, Critere.EQUALS));
-        crit.addOrder(Order.asc("id"));
-        return (List<Document>)crit.list();
-    }
-
     public Integer searchCount(Hashtable<String,Object> searchParams) {
         Criteria criteria = this.buildSearchCriteria(searchParams);
         criteria.setProjection(Projections.rowCount());
@@ -99,6 +92,17 @@ public class DocumentDAO extends GenericDAO implements IDocumentDAO {
             result.add(id.longValue());
         }
         return result;
+    }
+
+    @Override
+    public List<Long> listOutdated() {
+        return HibernateUtil.getSession()
+            .createQuery("select id from Document where state in ('?', '?', '?') and endValidityDate < ?")
+            .setString(0, DocumentState.PENDING.toString())
+            .setString(1, DocumentState.CHECKED.toString())
+            .setString(2, DocumentState.VALIDATED.toString())
+            .setDate(3, new Date())
+            .list();
     }
 
     private Criteria buildSearchCriteria(Hashtable<String,Object> params) {

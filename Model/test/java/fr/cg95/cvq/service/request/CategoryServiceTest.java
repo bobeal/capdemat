@@ -16,15 +16,27 @@ import fr.cg95.cvq.security.SecurityContext;
 
 public class CategoryServiceTest extends RequestTestCase {
 
+    private final String newCategoryName = "New Category";
+    private int initialNbOfCategories = 0;
+    
+    @Override
+    public void onSetUp() throws Exception {
+
+        super.onSetUp();
+
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
+
+        initialNbOfCategories = categoryService.getAll().size();
+    }
+    
     @Test
     public void testCreateDelete() throws CvqException {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        int nbOfCategories = categoryService.getAll().size();
-
-        Category category = new Category("Environnement", "category@blop.fr");
+        Category category = new Category(newCategoryName, "category@blop.fr");
         category.addEmail("category@dummy.fr");
         category.addEmail("blop@valdoise.fr");
 
@@ -39,10 +51,10 @@ public class CategoryServiceTest extends RequestTestCase {
         Long newCategoryId = categoryService.create(category);
 
         continueWithNewTransaction();
-        
-        assertEquals(nbOfCategories + 1, categoryService.getAll().size());
+
+        assertEquals(initialNbOfCategories + 1, categoryService.getAll().size());
         Category newCategory = categoryService.getById(newCategoryId);
-        assertEquals("Environnement", newCategory.getName());
+        assertEquals(newCategoryName, newCategory.getName());
         assertEquals("category@blop.fr", newCategory.getPrimaryEmail());
         assertEquals(2, newCategory.getEmails().size());
 
@@ -67,7 +79,7 @@ public class CategoryServiceTest extends RequestTestCase {
 
         continueWithNewTransaction();
         
-        assertEquals(nbOfCategories, categoryService.getAll().size());
+        assertEquals(initialNbOfCategories, categoryService.getAll().size());
     }
     
     @Test
@@ -76,12 +88,12 @@ public class CategoryServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
         
-        Category category = new Category("Environnement", null);
+        Category category = new Category(newCategoryName, null);
         categoryService.create(category);
         
         continueWithNewTransaction();
         
-        assertEquals(2, categoryService.getAll().size());
+        assertEquals(initialNbOfCategories + 1, categoryService.getAll().size());
         
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         assertEquals(1, categoryService.getAll().size());
@@ -94,9 +106,9 @@ public class CategoryServiceTest extends RequestTestCase {
     public void testAgentAssociation() throws CvqException {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
-        Category category = new Category("Environnement", "category@blop.fr");
+        
+        Category category = new Category(newCategoryName, "category@blop.fr");
         Long associatedCategoryId = categoryService.create(category);
 
         continueWithNewTransaction();

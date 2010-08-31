@@ -19,7 +19,7 @@ import fr.cg95.cvq.util.Critere;
 public class PaymentFilterAspect implements Ordered {
 
     @SuppressWarnings("unchecked")
-    @Before("fr.cg95.cvq.SystemArchitecture.businessService() && @annotation(paymentFilter) && within(fr.cg95.cvq.payment..*)")
+    @Before("fr.cg95.cvq.SystemArchitecture.businessService() && @annotation(paymentFilter) && within(fr.cg95.cvq.service.payment..*)")
     public void contextAnnotatedMethod(JoinPoint joinPoint, PaymentFilter paymentFilter) {
         Object[] arguments = joinPoint.getArgs();
         Set<Critere> criteriaSet = (Set<Critere>) arguments[0];

@@ -29,9 +29,9 @@ public interface IDocumentDAO extends IGenericDAO {
     List<Document> listByIndividual(final Long individualId);
 
     /**
-     * Return the documents which are in the given state.
+     * Return the IDs of outdated documents.
      */
-    List<Document> listByState(final DocumentState documentState);
+    List<Long> listOutdated();
 
     /**
      * Return the {@link Document documents} that response to passed criterias.

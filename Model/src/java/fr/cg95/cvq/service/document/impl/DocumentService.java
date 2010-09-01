@@ -110,6 +110,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             HibernateUtil.beginTransaction();
             updateDocumentState(id, DocumentState.OUTDATED, "", null);
             HibernateUtil.commitTransaction();
+            HibernateUtil.closeSession();
         }
     }
 

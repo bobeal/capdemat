@@ -675,3 +675,6 @@ UPDATE address SET street_name = NULL where street_name NOTNULL AND char_length(
 UPDATE address SET postal_code = NULL where postal_code NOTNULL AND char_length(trim(from postal_code)) = 0;
 UPDATE address SET city = NULL where city NOTNULL AND char_length(trim(from city)) = 0;
 
+alter table holiday_security_request add column other_contact bool;
+update holiday_security_request set other_contact = false;
+update holiday_security_request set other_contact = true where other_contact_last_name is not null;

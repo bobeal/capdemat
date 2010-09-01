@@ -32,6 +32,14 @@ hsr.property.alertPhone.help =
 hsr.property.alertPhone.validationError =
 
 
+hsr.property.otherContact.help =
+hsr.property.otherContact.validationError =
+
+
+hsr.property.otherContactInformations.help =
+hsr.property.otherContactInformations.validationError =
+
+
 hsr.property.otherContactLastName.help =
 hsr.property.otherContactLastName.validationError =
 

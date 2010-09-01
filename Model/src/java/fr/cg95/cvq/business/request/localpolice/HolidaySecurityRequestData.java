@@ -36,11 +36,13 @@ public class HolidaySecurityRequestData implements Serializable {
 
     public HolidaySecurityRequestData() {
       
-        alarm = Boolean.valueOf(false);
+        rulesAndRegulationsAcceptance = Boolean.valueOf(false);
+      
+        otherContact = Boolean.valueOf(false);
       
         light = Boolean.valueOf(false);
       
-        rulesAndRegulationsAcceptance = Boolean.valueOf(false);
+        alarm = Boolean.valueOf(false);
       
     }
 
@@ -59,99 +61,17 @@ public class HolidaySecurityRequestData implements Serializable {
 
   
     
-      @MaxLength(
-        
-          value = 38,
-        
-        
-        profiles = {"contact"},
-        message = "otherContactLastName"
-      )
-    
       @NotNull(
         
         
-        profiles = {"contact"},
-        message = "otherContactLastName"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"contact"},
-        message = "otherContactLastName"
-      )
-    
-    private String otherContactLastName;
-
-    public final void setOtherContactLastName(final String otherContactLastName) {
-        this.otherContactLastName = otherContactLastName;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="other_contact_last_name"
-        *  length="38"
-      
-    */
-    public final String getOtherContactLastName() {
-        return this.otherContactLastName;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"registration"},
-        message = "absenceEndDate"
-      )
-    
-    private java.util.Date absenceEndDate;
-
-    public final void setAbsenceEndDate(final java.util.Date absenceEndDate) {
-        this.absenceEndDate = absenceEndDate;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="absence_end_date"
-        
-      
-    */
-    public final java.util.Date getAbsenceEndDate() {
-        return this.absenceEndDate;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"additional"},
-        message = "alarm"
-      )
-    
-    private Boolean alarm;
-
-    public final void setAlarm(final Boolean alarm) {
-        this.alarm = alarm;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="alarm"
-        
-      
-    */
-    public final Boolean getAlarm() {
-        return this.alarm;
-    }
-  
-    
-      @NotNull(
-        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['otherContact'].test(_this.otherContact.toString());" +
+                
+              
+            
+            "return active",
         
         profiles = {"contact"},
         message = "otherContactAddress"
@@ -159,6 +79,15 @@ public class HolidaySecurityRequestData implements Serializable {
     
       @AssertValid(
         
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['otherContact'].test(_this.otherContact.toString());" +
+                
+              
+            
+            "return active",
         
         profiles = {"contact"},
         message = "otherContactAddress"
@@ -183,10 +112,94 @@ public class HolidaySecurityRequestData implements Serializable {
     }
   
     
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "rulesAndRegulationsAcceptance"
+      )
+    
+    private Boolean rulesAndRegulationsAcceptance;
+
+    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
+        this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="rules_and_regulations_acceptance"
+        
+      
+    */
+    public final Boolean getRulesAndRegulationsAcceptance() {
+        return this.rulesAndRegulationsAcceptance;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"contact"},
+        message = "otherContact"
+      )
+    
+    private Boolean otherContact;
+
+    public final void setOtherContact(final Boolean otherContact) {
+        this.otherContact = otherContact;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="other_contact"
+        
+      
+    */
+    public final Boolean getOtherContact() {
+        return this.otherContact;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"registration"},
+        message = "absenceStartDate"
+      )
+    
+    private java.util.Date absenceStartDate;
+
+    public final void setAbsenceStartDate(final java.util.Date absenceStartDate) {
+        this.absenceStartDate = absenceStartDate;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="absence_start_date"
+        
+      
+    */
+    public final java.util.Date getAbsenceStartDate() {
+        return this.absenceStartDate;
+    }
+  
+    
       @MaxLength(
         
           value = 38,
         
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['otherContact'].test(_this.otherContact.toString());" +
+                
+              
+            
+            "return active",
         
         profiles = {"contact"},
         message = "otherContactFirstName"
@@ -195,12 +208,30 @@ public class HolidaySecurityRequestData implements Serializable {
       @NotNull(
         
         
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['otherContact'].test(_this.otherContact.toString());" +
+                
+              
+            
+            "return active",
+        
         profiles = {"contact"},
         message = "otherContactFirstName"
       )
     
       @NotBlank(
         
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['otherContact'].test(_this.otherContact.toString());" +
+                
+              
+            
+            "return active",
         
         profiles = {"contact"},
         message = "otherContactFirstName"
@@ -224,35 +255,19 @@ public class HolidaySecurityRequestData implements Serializable {
     }
   
     
-      @NotNull(
-        
-        
-        profiles = {"additional"},
-        message = "light"
-      )
-    
-    private Boolean light;
-
-    public final void setLight(final Boolean light) {
-        this.light = light;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="light"
-        
-      
-    */
-    public final Boolean getLight() {
-        return this.light;
-    }
-  
-    
       @MaxLength(
         
           value = 10,
         
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['otherContact'].test(_this.otherContact.toString());" +
+                
+              
+            
+            "return active",
         
         profiles = {"contact"},
         message = "otherContactPhone"
@@ -260,6 +275,15 @@ public class HolidaySecurityRequestData implements Serializable {
     
       @NotNull(
         
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['otherContact'].test(_this.otherContact.toString());" +
+                
+              
+            
+            "return active",
         
         profiles = {"contact"},
         message = "otherContactPhone"
@@ -267,6 +291,15 @@ public class HolidaySecurityRequestData implements Serializable {
     
       @NotBlank(
         
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['otherContact'].test(_this.otherContact.toString());" +
+                
+              
+            
+            "return active",
         
         profiles = {"contact"},
         message = "otherContactPhone"
@@ -293,25 +326,25 @@ public class HolidaySecurityRequestData implements Serializable {
       @NotNull(
         
         
-        profiles = {"rules"},
-        message = "rulesAndRegulationsAcceptance"
+        profiles = {"additional"},
+        message = "light"
       )
     
-    private Boolean rulesAndRegulationsAcceptance;
+    private Boolean light;
 
-    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
-        this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+    public final void setLight(final Boolean light) {
+        this.light = light;
     }
 
     /**
  
         * @hibernate.property
-        *  column="rules_and_regulations_acceptance"
+        *  column="light"
         
       
     */
-    public final Boolean getRulesAndRegulationsAcceptance() {
-        return this.rulesAndRegulationsAcceptance;
+    public final Boolean getLight() {
+        return this.light;
     }
   
     
@@ -356,28 +389,121 @@ public class HolidaySecurityRequestData implements Serializable {
     }
   
     
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['otherContact'].test(_this.otherContact.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"contact"},
+        message = "otherContactLastName"
+      )
+    
       @NotNull(
         
         
-        profiles = {"registration"},
-        message = "absenceStartDate"
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['otherContact'].test(_this.otherContact.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"contact"},
+        message = "otherContactLastName"
       )
     
-    private java.util.Date absenceStartDate;
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['otherContact'].test(_this.otherContact.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"contact"},
+        message = "otherContactLastName"
+      )
+    
+    private String otherContactLastName;
 
-    public final void setAbsenceStartDate(final java.util.Date absenceStartDate) {
-        this.absenceStartDate = absenceStartDate;
+    public final void setOtherContactLastName(final String otherContactLastName) {
+        this.otherContactLastName = otherContactLastName;
     }
 
     /**
  
         * @hibernate.property
-        *  column="absence_start_date"
+        *  column="other_contact_last_name"
+        *  length="38"
+      
+    */
+    public final String getOtherContactLastName() {
+        return this.otherContactLastName;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"additional"},
+        message = "alarm"
+      )
+    
+    private Boolean alarm;
+
+    public final void setAlarm(final Boolean alarm) {
+        this.alarm = alarm;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="alarm"
         
       
     */
-    public final java.util.Date getAbsenceStartDate() {
-        return this.absenceStartDate;
+    public final Boolean getAlarm() {
+        return this.alarm;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"registration"},
+        message = "absenceEndDate"
+      )
+    
+    private java.util.Date absenceEndDate;
+
+    public final void setAbsenceEndDate(final java.util.Date absenceEndDate) {
+        this.absenceEndDate = absenceEndDate;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="absence_end_date"
+        
+      
+    */
+    public final java.util.Date getAbsenceEndDate() {
+        return this.absenceEndDate;
     }
   
 }

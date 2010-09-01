@@ -62,21 +62,24 @@
     
       
       <dl>
-        <dt><g:message code="hsr.property.otherContactLastName.label" /></dt><dd>${rqt.otherContactLastName?.toString()}</dd>
+        <dt><g:message code="hsr.property.otherContact.label" /></dt>
+          <dd><g:message code="message.${rqt.otherContact ? 'yes' : 'no'}" /></dd>
+          
 
       </dl>
       
     
       
+      <h4><g:message code="hsr.property.otherContactInformations.label" /></h4>
       <dl>
-        <dt><g:message code="hsr.property.otherContactFirstName.label" /></dt><dd>${rqt.otherContactFirstName?.toString()}</dd>
+        
+          <dt><g:message code="hsr.property.otherContactLastName.label" /></dt><dd>${rqt.otherContactLastName?.toString()}</dd>
 
-      </dl>
-      
-    
-      
-      <dl>
-        <dt><g:message code="hsr.property.otherContactAddress.label" /></dt>
+        
+          <dt><g:message code="hsr.property.otherContactFirstName.label" /></dt><dd>${rqt.otherContactFirstName?.toString()}</dd>
+
+        
+          <dt><g:message code="hsr.property.otherContactAddress.label" /></dt>
           <dd>
           <g:if test="${rqt.otherContactAddress}">
               <p>${rqt.otherContactAddress?.additionalDeliveryInformation}</p>
@@ -89,13 +92,10 @@
           </dd>
           
 
-      </dl>
-      
-    
-      
-      <dl>
-        <dt><g:message code="hsr.property.otherContactPhone.label" /></dt><dd>${rqt.otherContactPhone?.toString()}</dd>
+        
+          <dt><g:message code="hsr.property.otherContactPhone.label" /></dt><dd>${rqt.otherContactPhone?.toString()}</dd>
 
+        
       </dl>
       
     

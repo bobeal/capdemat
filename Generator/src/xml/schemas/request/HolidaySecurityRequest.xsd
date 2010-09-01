@@ -37,7 +37,11 @@
              </step>
             <step index="1" name="rules" />
             <step index="2" name="contactphone" />
-            <step index="3" name="contact" required="false" />
+            <step index="3" name="contact">
+                <conditions>
+                    <condition name="isOtherContact" />
+                </conditions>
+            </step>
             <step index="4" name="additional" required="false"/>
             <step index="5" ref="document" />
             <step index="6" ref="validation" />
@@ -147,7 +151,114 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="OtherContactLastName" type="cvq:LastNameType">
+            <xs:element name="OtherContact" type="xs:boolean" default="false">
+                <xs:annotation>
+                  <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                    Souhaitez-vous renseigner un autre contact à prévenir en cas d'alerte ?
+                  </xs:documentation>
+                  <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                    Souhaitez-vous renseigner un autre contact à prévenir en cas d'alerte ?
+                  </xs:documentation>
+                  <xs:appinfo>
+                    <common>
+                      <step name="contact" />
+                      <conditions>
+                        <condition name="isOtherContact" type="trigger" />
+                      </conditions>
+                    </common>
+                    <fo />
+                    <bo column="1" />
+                    <pdf />
+                  </xs:appinfo>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="OtherContactInformations" type="hsr:HsrOtherContactType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                   Informations conçernant l'autre contact
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Autre contact
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="contact" />
+                    <conditions>
+                      <condition name="isOtherContact" type="filled" required="true" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="Alarm" type="xs:boolean" default="false" >
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Système d'alarme
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Alarme
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Alarm system
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Alarm
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="additional" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="Light" type="xs:boolean" default="false" >
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Système d'éclairage automatique
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Eclairage automatique
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Automatic light system
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Automatic light
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="additional" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:complexType name="HsrOtherContactType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Informations sur l'autre contact
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Informations sur l'autre contact
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+    
+    <xs:element name="OtherContactLastName" type="cvq:LastNameType">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Nom de l'autre personne à contacter
@@ -244,57 +355,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="Alarm" type="xs:boolean" default="false" >
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Système d'alarme
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Alarme
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Alarm system
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Alarm
-                </xs:documentation>
-                <xs:appinfo>
-                  <common>
-                    <step name="additional" />
-                  </common>
-                  <fo />
-                  <bo column="1" />
-                  <pdf />
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-            <xs:element name="Light" type="xs:boolean" default="false" >
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Système d'éclairage automatique
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Eclairage automatique
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Automatic light system
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Automatic light
-                </xs:documentation>
-                <xs:appinfo>
-                  <common>
-                    <step name="additional" />
-                  </common>
-                  <fo />
-                  <bo column="1" />
-                  <pdf />
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-          </xs:sequence>
-        </xs:extension>
-      </xs:complexContent>
+       </xs:sequence>
     </xs:complexType>
-  </xs:element>
+    
 </xs:schema>

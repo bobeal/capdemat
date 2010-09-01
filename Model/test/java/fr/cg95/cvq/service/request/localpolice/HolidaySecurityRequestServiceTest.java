@@ -44,31 +44,26 @@ public class HolidaySecurityRequestServiceTest extends RequestTestCase {
           
           
             
-              if ("OtherContactLastName".length() > 38)
-                  request.setOtherContactLastName("OtherContactLastName".substring(0, 38));
-              else
-                  request.setOtherContactLastName("OtherContactLastName");
-            
-          
-        
-          
-          
-               request.setAbsenceEndDate(new Date());
-          
-        
-          
-          
-               request.setAlarm(Boolean.valueOf(true));
-          
-        
-          
-          
-            
             
               
                 request.setOtherContactAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
               
             
+          
+        
+          
+          
+               request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setOtherContact(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setAbsenceStartDate(new Date());
           
         
           
@@ -83,11 +78,6 @@ public class HolidaySecurityRequestServiceTest extends RequestTestCase {
         
           
           
-               request.setLight(Boolean.valueOf(true));
-          
-        
-          
-          
             
               if ("OtherContactPhone".length() > 10)
                   request.setOtherContactPhone("OtherContactPhone".substring(0, 10));
@@ -98,7 +88,7 @@ public class HolidaySecurityRequestServiceTest extends RequestTestCase {
         
           
           
-               request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
+               request.setLight(Boolean.valueOf(true));
           
         
           
@@ -113,7 +103,22 @@ public class HolidaySecurityRequestServiceTest extends RequestTestCase {
         
           
           
-               request.setAbsenceStartDate(new Date());
+            
+              if ("OtherContactLastName".length() > 38)
+                  request.setOtherContactLastName("OtherContactLastName".substring(0, 38));
+              else
+                  request.setOtherContactLastName("OtherContactLastName");
+            
+          
+        
+          
+          
+               request.setAlarm(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setAbsenceEndDate(new Date());
           
         
         // Means Of Contact

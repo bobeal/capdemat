@@ -14,7 +14,7 @@
   <body>
     <g:set var="requestTypeInfo">
       {"label": "${requestTypeLabel}"
-        ,"steps": [  "registration-required",  "rules-required",  "contactphone-required",  "contact",  "additional",  "document",  "validation-required"  ]
+        ,"steps": [  "registration-required",  "rules-required",  "contactphone-required",  "contact-required",  "additional",  "document",  "validation-required"  ]
       }
     </g:set>
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
@@ -126,7 +126,9 @@
           <a href="#contact"><em>
           <span class="tag-state ${stepStates!= null ? stepStates.contact.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.contact.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
-          <g:message code="hsr.step.contact.label" />
+          <strong>
+            <g:message code="hsr.step.contact.label" /> *
+          </strong>
             
           </em></a>
         </li>    
@@ -298,6 +300,8 @@
            <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.contact.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.contact.i18nKey : 'request.step.state.uncomplete'}" /></span>
+  
+             <span class="tag-state tag-required"><g:message code="request.step.required" /></span>
   
              <g:message code="hsr.step.contact.label" />
              <span><g:message code="hsr.step.contact.desc" /></span>

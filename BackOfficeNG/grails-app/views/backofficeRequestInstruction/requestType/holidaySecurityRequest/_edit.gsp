@@ -149,25 +149,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="hsr.property.otherContactLastName.label" /> * : </dt><dd id="otherContactLastName" class="action-editField validate-lastName required-true i18n-hsr.property.otherContactLastName maxLength-38" ><span>${rqt?.otherContactLastName}</span></dd>
-              </dl>
-              
-            
-              
-              <dl>
-                <dt class="required"><g:message code="hsr.property.otherContactFirstName.label" /> * : </dt><dd id="otherContactFirstName" class="action-editField validate-firstName required-true i18n-hsr.property.otherContactFirstName maxLength-38" ><span>${rqt?.otherContactFirstName}</span></dd>
-              </dl>
-              
-            
-              
-              <dl>
-                <dt class="required"><g:message code="hsr.property.otherContactAddress.label" /> * : </dt><dd id="otherContactAddress" class="action-editField validate-address required-true i18n-hsr.property.otherContactAddress" ><div><p class="additionalDeliveryInformation">${rqt?.otherContactAddress?.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${rqt?.otherContactAddress?.additionalGeographicalInformation}</p><span class="streetNumber">${rqt?.otherContactAddress?.streetNumber}</span> <span class="streetName">${rqt?.otherContactAddress?.streetName}</span><p class="placeNameOrService">${rqt?.otherContactAddress?.placeNameOrService}</p><span class="postalCode">${rqt?.otherContactAddress?.postalCode}</span> <span class="city">${rqt?.otherContactAddress?.city}</span><p class="countryName">${rqt?.otherContactAddress?.countryName}</p></div></dd>
-              </dl>
-              
-            
-              
-              <dl>
-                <dt class="required"><g:message code="hsr.property.otherContactPhone.label" /> * : </dt><dd id="otherContactPhone" class="action-editField validate-phone required-true i18n-hsr.property.otherContactPhone maxLength-10" ><span>${rqt?.otherContactPhone}</span></dd>
+                <dt class="required condition-isOtherContact-trigger"><g:message code="hsr.property.otherContact.label" /> * : </dt><dd id="otherContact" class="action-editField validate-boolean required-true i18n-hsr.property.otherContact" ><span class="value-${rqt?.otherContact}"><g:message code="message.${rqt?.otherContact ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
@@ -176,6 +158,21 @@
           
           <!-- column start -->
           <div class="yui-u">
+            
+              
+              <h3><g:message code="hsr.property.otherContactInformations.label" /></h3>
+              <dl class="required condition-isOtherContact-filled">
+                
+                  <dt class="required"><g:message code="hsr.property.otherContactLastName.label" /> * : </dt><dd id="otherContactLastName" class="action-editField validate-lastName required-true i18n-hsr.property.otherContactLastName maxLength-38" ><span>${rqt?.otherContactLastName}</span></dd>
+                
+                  <dt class="required"><g:message code="hsr.property.otherContactFirstName.label" /> * : </dt><dd id="otherContactFirstName" class="action-editField validate-firstName required-true i18n-hsr.property.otherContactFirstName maxLength-38" ><span>${rqt?.otherContactFirstName}</span></dd>
+                
+                  <dt class="required"><g:message code="hsr.property.otherContactAddress.label" /> * : </dt><dd id="otherContactAddress" class="action-editField validate-address required-true i18n-hsr.property.otherContactAddress" ><div><p class="additionalDeliveryInformation">${rqt?.otherContactAddress?.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${rqt?.otherContactAddress?.additionalGeographicalInformation}</p><span class="streetNumber">${rqt?.otherContactAddress?.streetNumber}</span> <span class="streetName">${rqt?.otherContactAddress?.streetName}</span><p class="placeNameOrService">${rqt?.otherContactAddress?.placeNameOrService}</p><span class="postalCode">${rqt?.otherContactAddress?.postalCode}</span> <span class="city">${rqt?.otherContactAddress?.city}</span><p class="countryName">${rqt?.otherContactAddress?.countryName}</p></div></dd>
+                
+                  <dt class="required"><g:message code="hsr.property.otherContactPhone.label" /> * : </dt><dd id="otherContactPhone" class="action-editField validate-phone required-true i18n-hsr.property.otherContactPhone maxLength-10" ><span>${rqt?.otherContactPhone}</span></dd>
+                
+              </dl>
+              
             
           </div>
           <!-- column end -->

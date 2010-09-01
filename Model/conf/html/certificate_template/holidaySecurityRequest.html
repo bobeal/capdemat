@@ -108,17 +108,30 @@
   <h2>${i18n.translate('hsr.step.contact.label')}</h2>
   
     
-      <p class="label">${i18n.translate('hsr.property.otherContactLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.otherContactLastName?.toString())}</div>
+      <p class="label">${i18n.translate('hsr.property.otherContact.label')}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.otherContact ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
 
     
   
     
-      <p class="label">${i18n.translate('hsr.property.otherContactFirstName.label')}</p><div class="response">${StringUtils.defaultString(rqt.otherContactFirstName?.toString())}</div>
+      <h3>${i18n.translate('hsr.property.otherContactInformations.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('hsr.property.otherContactLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.otherContactLastName?.toString())}</div>
 
-    
-  
-    
-      <p class="label">${i18n.translate('hsr.property.otherContactAddress.label')}</p>
+        
+          <p class="label">${i18n.translate('hsr.property.otherContactFirstName.label')}</p><div class="response">${StringUtils.defaultString(rqt.otherContactFirstName?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('hsr.property.otherContactAddress.label')}</p>
           <div class="response">
             <% if(rqt.otherContactAddress) { %>
               <p>${StringUtils.defaultString(rqt.otherContactAddress?.additionalDeliveryInformation)}</p>
@@ -131,11 +144,11 @@
           </div>
           
 
-    
-  
-    
-      <p class="label">${i18n.translate('hsr.property.otherContactPhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.otherContactPhone?.toString())}</div>
+        
+          <p class="label">${i18n.translate('hsr.property.otherContactPhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.otherContactPhone?.toString())}</div>
 
+        
+      </div>
     
   
 

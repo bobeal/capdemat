@@ -1510,16 +1510,17 @@
 
     create table holiday_security_request (
         id int8 not null,
-        other_contact_last_name varchar(38),
-        absence_end_date timestamp,
-        alarm bool,
         other_contact_address_id int8,
-        other_contact_first_name varchar(38),
-        light bool,
-        other_contact_phone varchar(10),
         rules_and_regulations_acceptance bool,
-        alert_phone varchar(10),
+        other_contact bool,
         absence_start_date timestamp,
+        other_contact_first_name varchar(38),
+        other_contact_phone varchar(10),
+        light bool,
+        alert_phone varchar(10),
+        other_contact_last_name varchar(38),
+        alarm bool,
+        absence_end_date timestamp,
         primary key (id)
     );
 

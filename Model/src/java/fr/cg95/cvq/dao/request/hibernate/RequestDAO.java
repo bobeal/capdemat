@@ -621,27 +621,10 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             .add(Restrictions.eq("requestId", requestId)).uniqueResult();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public List<Long> cleanRequestLocks(int maxDelay) {
-        List<RequestLock> requestLocks =
-            (List<RequestLock>)HibernateUtil.getSession()
-            .createCriteria(RequestLock.class)
-            .add(Restrictions.lt("date",
-                new DateTime().minusMinutes(maxDelay)
-                    .toDate()))
-            .list();
-        List<Long> requestIds =  new ArrayList<Long>(requestLocks.size());
-        for (RequestLock lock : requestLocks) {
-            requestIds.add(lock.getRequestId());
-        }
-        if (!requestIds.isEmpty()) {
-            HibernateUtil.getSession()
-            .createQuery("delete from RequestLock where requestId in (:requestIds)")
-            .setParameterList("requestIds", requestIds, Hibernate.LONG)
-            .executeUpdate();
-        }
-        return requestIds;
+    public void cleanRequestLocks(int maxDelay) {
+        HibernateUtil.getSession().createQuery("delete from RequestLock where date < :date")
+            .setTimestamp("date", new DateTime().minusMinutes(maxDelay).toDate()).executeUpdate();
     }
 
     @Override

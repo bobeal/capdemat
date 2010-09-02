@@ -103,7 +103,7 @@ public interface IRequestDAO extends IGenericDAO {
 
     RequestLock getRequestLock(Long requestId);
 
-    List<Long> cleanRequestLocks(int maxDelay);
+    void cleanRequestLocks(int maxDelay);
 
     Request findById(Long id, final boolean full)
         throws CvqObjectNotFoundException;

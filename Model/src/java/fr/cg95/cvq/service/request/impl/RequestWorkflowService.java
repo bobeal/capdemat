@@ -1136,7 +1136,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             Date date = new Date();
             updateLastModificationInformation(request, date);
             requestActionService.addWorfklowAction(request.getId(), null, date,
-                RequestState.PENDING, null);
+                RequestState.PENDING, requestPdfService.generateCertificate(request));
         } else {
             throw new CvqInvalidTransitionException();
         }

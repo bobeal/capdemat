@@ -178,7 +178,7 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
             sb.append(" and request_action.resulting_state = '").append(resultingState).append("'");
         }
 
-        if (requestTypesId != null) {
+        if (!requestTypesId.isEmpty()) {
             sb.append(" and request.request_type_id in (");
             for (int i = 0; i < requestTypesId.size(); i++) {
                 sb.append("'").append(requestTypesId.get(i)).append("'");

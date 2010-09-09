@@ -154,6 +154,11 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
         for (ExternalServiceIdentifierMapping esim : esimList) {
             IExternalProviderService externalProviderService = 
                 getExternalServiceByLabel(esim.getExternalServiceLabel());
+            if (externalProviderService == null) {
+                logger.warn("loadExternalInformations() External service " + esim.getExternalServiceLabel() 
+                        + " is no longer existing");
+                continue;
+            }
             fillRequestWithEsim(xmlRequest, esim);
             try {
                 informations.putAll(externalProviderService.loadExternalInformations(xmlRequest));
@@ -182,6 +187,11 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
         for (ExternalServiceIdentifierMapping esim : esimList) {
             IExternalProviderService externalProviderService = 
                 getExternalServiceByLabel(esim.getExternalServiceLabel());
+            if (externalProviderService == null) {
+                logger.warn("getExternalAccounts() External service " + esim.getExternalServiceLabel() 
+                        + " is no longer existing");
+                continue;
+            }
             ExternalServiceBean esb = getBeanForExternalService(externalProviderService);
             // ask accounts information by home folder or by request
             // according to what the external service supports

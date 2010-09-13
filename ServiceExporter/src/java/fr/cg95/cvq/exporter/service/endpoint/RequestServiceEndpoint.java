@@ -151,8 +151,11 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
         
         Set<RequestType> resultArray = new HashSet<RequestType>();
         for (Request r : requests) {
-            RequestType rt = null;
             
+            if (r.getState().equals(RequestState.ARCHIVED))
+                continue;
+            
+            RequestType rt = null;
             if (localAuthorityRegistry.getRequestXmlResource(r.getId()).exists()) {
                 rt = RequestType.Factory.parse(localAuthorityRegistry.getRequestXmlResource(r.getId()));
             } else {

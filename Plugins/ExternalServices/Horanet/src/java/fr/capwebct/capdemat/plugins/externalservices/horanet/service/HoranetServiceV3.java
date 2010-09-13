@@ -29,6 +29,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.rpc.ParameterMode;
 import javax.xml.rpc.ServiceException;
 import javax.xml.soap.SOAPException;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.apache.axis.Constants;
 import org.apache.axis.attachments.AttachmentPart;
@@ -43,6 +51,7 @@ import org.jaxen.XPath;
 import org.jaxen.dom.DOMXPath;
 import org.jdom.output.XMLOutputter;
 import org.w3c.dom.Document;
+import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -132,8 +141,35 @@ public class HoranetServiceV3 implements IExternalProviderService {
 
             XmlOptions xmlOptions = new XmlOptions();
             xmlOptions.setCharacterEncoding("ISO-8859-1");
-            ByteArrayDataSource bds = 
-                new ByteArrayDataSource(requestXml.xmlText(xmlOptions), "text/xml; charset=iso-8859-1");
+
+            String requestAsString = null;
+            try {
+                DocumentFragment documentFragment = (DocumentFragment) requestXml.newDomNode();
+                Source source = new DOMSource(documentFragment);
+                StringWriter stringWriter = new StringWriter();
+                Result result = new StreamResult(stringWriter);
+                TransformerFactory factory = TransformerFactory.newInstance();
+                Transformer transformer = factory.newTransformer();
+                transformer.transform(source, result);
+                requestAsString = stringWriter.getBuffer().toString();
+                requestAsString = requestAsString.substring(requestAsString.indexOf('>') + 1);
+            } catch (TransformerConfigurationException e) {
+                e.printStackTrace();
+            } catch (TransformerException e) {
+                e.printStackTrace();
+            }
+           
+            if (requestAsString == null) {
+                logger.error("sendRequest() unable to parse request document as a string");
+                return "";
+            } else {
+                logger.debug("sendRequest() sending to Horanet : " + requestAsString);
+            }
+            
+//            ByteArrayDataSource bds = 
+//                new ByteArrayDataSource(requestXml.xmlText(xmlOptions), "text/xml; charset=iso-8859-1");
+            ByteArrayDataSource bds =
+                new ByteArrayDataSource(requestAsString, "text/xml; charset=iso-8859-1");
             DataHandler dhSource = new DataHandler(bds);
 
             call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, login);

@@ -1,0 +1,80 @@
+bgr.duration.value =
+
+bgr.step.subject.label =
+bgr.step.subject.desc =
+
+bgr.step.internship.label =
+bgr.step.internship.desc =
+
+bgr.step.bankReference.label =
+bgr.step.bankReference.desc =
+
+
+bgr.property.subjectBirthDate.help =
+bgr.property.subjectBirthDate.validationError =
+
+
+bgr.property.subjectBirthCity.help =
+bgr.property.subjectBirthCity.validationError =
+
+
+bgr.property.subjectAddress.help =
+bgr.property.subjectAddress.validationError =
+
+
+bgr.property.subjectPhone.help =
+bgr.property.subjectPhone.validationError =
+
+
+bgr.property.subjectEmail.help =
+bgr.property.subjectEmail.validationError =
+
+
+bgr.property.internshipStartDate.help =
+bgr.property.internshipStartDate.validationError =
+
+
+bgr.property.internshipEndDate.help =
+bgr.property.internshipEndDate.validationError =
+
+
+bgr.property.internshipInstituteName.help =
+bgr.property.internshipInstituteName.validationError =
+
+
+bgr.property.internshipInstituteAddress.help =
+bgr.property.internshipInstituteAddress.validationError =
+
+
+bgr.property.isSubjectAccountHolder.help =
+bgr.property.isSubjectAccountHolder.validationError =
+
+
+bgr.property.accountHolderTitle.help =
+bgr.property.accountHolderTitle.validationError =
+
+
+bgr.property.accountHolderLastName.help =
+bgr.property.accountHolderLastName.validationError =
+
+
+bgr.property.accountHolderFirstName.help =
+bgr.property.accountHolderFirstName.validationError =
+
+
+bgr.property.accountHolderBirthDate.help =
+bgr.property.accountHolderBirthDate.validationError =
+
+
+bgr.property.accountHolderEdemandeId.help =
+bgr.property.accountHolderEdemandeId.validationError =
+
+
+bgr.property.frenchRIB.help =
+bgr.property.frenchRIB.validationError =
+
+
+bgr.property.edemandeId.help =
+bgr.property.edemandeId.validationError =
+
+

@@ -46,3 +46,40 @@ alter table study_grant_request drop column subject_address_id;
 alter table study_grant_request drop column subject_phone;
 alter table study_grant_request drop column subject_mobile_phone;
 alter table study_grant_request drop column subject_email;
+
+create table b_a_f_a_grant_request (
+  id int8 not null,
+  account_holder_first_name varchar(38),
+  account_holder_edemande_id varchar(255),
+  internship_institute_address_id int8,
+  edemande_id varchar(255),
+  internship_start_date timestamp,
+  internship_end_date timestamp,
+  is_subject_account_holder bool,
+  french_r_i_b_id int8,
+  subject_birth_city varchar(32),
+  account_holder_birth_date timestamp,
+  subject_birth_date timestamp,
+  internship_institute_name varchar(255),
+  subject_address_id int8,
+  account_holder_last_name varchar(38),
+  subject_phone varchar(10),
+  subject_email varchar(255),
+  account_holder_title varchar(255),
+  primary key (id)
+);
+
+alter table b_a_f_a_grant_request
+  add constraint FK2079D97A681FBDDD
+  foreign key (internship_institute_address_id)
+  references address;
+
+alter table b_a_f_a_grant_request
+  add constraint FK2079D97A87B85F15
+  foreign key (subject_address_id)
+  references address;
+
+alter table b_a_f_a_grant_request
+  add constraint FK2079D97A1EE1CD99
+  foreign key (french_r_i_b_id)
+  references french_r_i_b;

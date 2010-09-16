@@ -1,0 +1,220 @@
+
+
+<%
+
+  import org.apache.commons.lang.StringUtils
+  
+  def localReferentialWidget(rqt, javaName, lrEntries, depth) {
+    def lrHtml = ''
+    def currentLrDatas = rqt[javaName].collect{it.name}
+    if (lrTypes[javaName].entriesSupportMultiple) { 
+      lrHtml += "<ul ${depth==0 ? 'class="dataTree"' : ''}>"
+      lrEntries.eachWithIndex { entry, i -> 
+      if (entry.entries) { 
+        lrHtml += "<li>"
+        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
+        lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
+        lrHtml += "</li>"
+      } else {
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
+      } 
+    } 
+    lrHtml += "</ul>"
+    } else { 
+      lrEntries.each { entry -> 
+        lrHtml += "${currentLrDatas?.contains(entry.key) ? entry.labelsMap.fr: ''}"
+      } 
+    }
+    println lrHtml
+  }
+
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>${i18n.translate('bgr.label')}</title>
+  <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
+</head>
+<body>
+  <div id="hd">
+    <p>${localAuthority.displayTitle}</p>
+    <img src="file://${logoPath}" alt="mairie2424" />
+  </div>
+  <h1>${i18n.translate('bgr.label')}</h1>
+  <div class="localAuthority">
+    <h2>${i18n.translate('pdf.localAutorityReservedSection')}</h2>
+    <ul>
+      <li>${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
+      <li>${i18n.translate('property.requester')} : <strong>${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong></li>
+      <li>${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong></li>
+      <li>${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
+    </ul>
+  </div>
+
+  
+  <h2>${i18n.translate('bgr.step.subject.label')}</h2>
+  
+    
+      <p class="label">${i18n.translate('request.property.subject.label')}</p>
+           <div class="response">${subject?.fullName}</div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('bgr.property.subjectBirthDate.label')}</p>
+          <div class="response">${rqt.subjectBirthDate ? String.format('%td/%<tm/%<tY',rqt.subjectBirthDate) : ''}</div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('bgr.property.subjectBirthCity.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectBirthCity?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('bgr.property.subjectAddress.label')}</p>
+          <div class="response">
+            <% if(rqt.subjectAddress) { %>
+              <p>${StringUtils.defaultString(rqt.subjectAddress?.additionalDeliveryInformation)}</p>
+              <p>${StringUtils.defaultString(rqt.subjectAddress?.additionalGeographicalInformation)}</p>
+              <p>${StringUtils.defaultString(rqt.subjectAddress?.streetNumber)} ${StringUtils.defaultString(rqt.subjectAddress?.streetName)}</p>
+              <p>${StringUtils.defaultString(rqt.subjectAddress?.placeNameOrService)}</p>
+              <p>${StringUtils.defaultString(rqt.subjectAddress?.postalCode)} ${StringUtils.defaultString(rqt.subjectAddress?.city)}</p>
+              <p>${StringUtils.defaultString(rqt.subjectAddress?.countryName)}</p>
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('bgr.property.subjectPhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectPhone?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('bgr.property.subjectEmail.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectEmail?.toString())}</div>
+
+    
+  
+
+  
+  <h2>${i18n.translate('bgr.step.internship.label')}</h2>
+  
+    
+      <p class="label">${i18n.translate('bgr.property.internshipStartDate.label')}</p>
+          <div class="response">${rqt.internshipStartDate ? String.format('%td/%<tm/%<tY',rqt.internshipStartDate) : ''}</div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('bgr.property.internshipEndDate.label')}</p>
+          <div class="response">${rqt.internshipEndDate ? String.format('%td/%<tm/%<tY',rqt.internshipEndDate) : ''}</div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('bgr.property.internshipInstituteName.label')}</p><div class="response">${StringUtils.defaultString(rqt.internshipInstituteName?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('bgr.property.internshipInstituteAddress.label')}</p>
+          <div class="response">
+            <% if(rqt.internshipInstituteAddress) { %>
+              <p>${StringUtils.defaultString(rqt.internshipInstituteAddress?.additionalDeliveryInformation)}</p>
+              <p>${StringUtils.defaultString(rqt.internshipInstituteAddress?.additionalGeographicalInformation)}</p>
+              <p>${StringUtils.defaultString(rqt.internshipInstituteAddress?.streetNumber)} ${StringUtils.defaultString(rqt.internshipInstituteAddress?.streetName)}</p>
+              <p>${StringUtils.defaultString(rqt.internshipInstituteAddress?.placeNameOrService)}</p>
+              <p>${StringUtils.defaultString(rqt.internshipInstituteAddress?.postalCode)} ${StringUtils.defaultString(rqt.internshipInstituteAddress?.city)}</p>
+              <p>${StringUtils.defaultString(rqt.internshipInstituteAddress?.countryName)}</p>
+            <% } %>
+          </div>
+          
+
+    
+  
+
+  
+  <h2>${i18n.translate('bgr.step.bankReference.label')}</h2>
+  
+    
+      <p class="label">${i18n.translate('bgr.property.isSubjectAccountHolder.label')}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.isSubjectAccountHolder ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('bgr.property.accountHolderTitle.label')}</p>
+          <div class="response">
+            <% if(rqt.accountHolderTitle) { %>
+              ${i18n.translate('bgr.property.accountHolderTitle.' + StringUtils.uncapitalize(rqt.accountHolderTitle.toString()))}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('bgr.property.accountHolderLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.accountHolderLastName?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('bgr.property.accountHolderFirstName.label')}</p><div class="response">${StringUtils.defaultString(rqt.accountHolderFirstName?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('bgr.property.accountHolderBirthDate.label')}</p>
+          <div class="response">${rqt.accountHolderBirthDate ? String.format('%td/%<tm/%<tY',rqt.accountHolderBirthDate) : ''}</div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('bgr.property.frenchRIB.label')}</p>
+          <div class="response">
+            <% if(rqt.frenchRIB) { %>
+              <p>
+                ${rqt.frenchRIB?.bankCode}
+                ${rqt.frenchRIB?.counterCode}
+                ${rqt.frenchRIB?.accountNumber}
+                ${rqt.frenchRIB?.accountKey}
+              </p>
+            <% } %>
+          </div>
+          
+
+    
+  
+
+  
+  <h2>${i18n.translate('contact.property.meansOfContact')}</h2>
+  <div class="response choice">
+    <% if (rqt.meansOfContact) { %>
+      <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
+        <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
+          ${i18n.translate('request.meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+        </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
+      <% } %>
+    <% } else { %>
+      <span class="checked">${i18n.translate('request.meansOfContact.none')}</span>
+    <% } %>
+  </div>
+</body>
+</html>
+

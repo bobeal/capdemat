@@ -44,6 +44,9 @@ public interface IDocumentTypeService {
     Integer IDENTITY_PHOTO_TYPE = new Integer(34);
     Integer REGISTRATION_CERTIFICATE = new Integer(35);
     Integer REVENUE_TAXES_NOTIFICATION_TWO_YEARS_AGO = new Integer(36);
+    Integer BAFA_INTERNSHIP_CERTIFICATE = new Integer(37);
+    Integer BAFA_BLOCK_RELEASE_CERTIFICATE = new Integer(38);
+    Integer BAFA_GENERAL_TRAINING_CERTIFICATE = new Integer(39);
 
     /**
      * Get a document type by type id.

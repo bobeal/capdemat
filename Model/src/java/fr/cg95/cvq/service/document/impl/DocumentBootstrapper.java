@@ -142,6 +142,15 @@ public class DocumentBootstrapper {
 
         checkDocumentType("Revenue Taxes Notification Two Years Ago", 36, 
                 DocumentUsageType.REUSABLE, 1, DocumentTypeValidity.YEAR);
+
+        checkDocumentType("B.A.F.A. Internship Certificate", 37,
+                DocumentUsageType.REUSABLE, 1, DocumentTypeValidity.YEAR);
+
+        checkDocumentType("B.A.F.A. Block Release Certificate", 38,
+                DocumentUsageType.REUSABLE, 1, DocumentTypeValidity.YEAR);
+
+        checkDocumentType("B.A.F.A. General Training Certificate", 39,
+                DocumentUsageType.REUSABLE, 1, DocumentTypeValidity.YEAR);
     }
 
     public void setDocumentTypeDAO(IDocumentTypeDAO documentTypeDAO) {

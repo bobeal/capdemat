@@ -163,4 +163,9 @@
     <xb:package>fr.cg95.cvq.xml.request.reservation</xb:package>
   </xb:namespace>
 
+  <!-- BAFA Grant Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/bgr">
+    <xb:package>fr.cg95.cvq.xml.request.social</xb:package>
+  </xb:namespace>
+
 </xb:config>

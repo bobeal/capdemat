@@ -486,6 +486,18 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="filingDelay" value="12"/>
   </bean>
 
+  <bean id="bAFAGrantRequestService"
+    class="fr.cg95.cvq.service.request.social.impl.BAFAGrantRequestService"
+    parent="requestService">
+    <!-- Service specific -->
+    <property name="label" value="BAFA Grant"/>
+    <property name="subjectPolicy" value="SUBJECT_POLICY_INDIVIDUAL" />
+    <property name="defaultDisplayGroup" value="social" />
+    <property name="requestDAO" ref="requestDAO"/>
+    <property name="filingDelay" value="12"/>
+    <property name="supportUnregisteredCreation" value="true" />
+  </bean>
+
  <bean id="birthDetailsRequestService" 
     class="fr.cg95.cvq.service.request.civil.impl.BirthDetailsRequestService" 
     parent="requestService">

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/bgr"
+  xmlns:bgr="http://www.cg95.fr/cvq/schema/bgr"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
+    schemaLocation="../common/CVQCommonElements.xsd" />
+  <xs:element name="BAFAGrantRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Demande de subvention individuelle au titre du stage d'approfondissement B.A.F.A.
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Subvention B.A.F.A.
+      </xs:documentation>
+      <xs:appinfo>
+        <model namespace="social" />
+        <common>
+          <namespace name="social" />
+          <steps>
+            <step index="0" name="subject">
+              <widgets>
+                <subject>
+                  <autofill name="subjectFilling" type="trigger" />
+                </subject>
+              </widgets>
+            </step>
+            <step index="1" name="internship" />
+            <step index="2" name="bankReference">
+              <conditions>
+                <condition name="isSubjectAccountHolder" />
+              </conditions>
+            </step>
+            <step index="3" ref="document" />
+            <step index="4" ref="validation" />
+            <step index="5" ref="administration" />
+          </steps>
+        </common>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="cvq:RequestType">
+          <xs:sequence>
+            <xs:element name="SubjectBirthDate" type="xs:date">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Né le
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="subject" />
+                    <autofill name="subjectFilling" type="listener" field="BirthDate" />
+                  </common>
+                  <pdf />
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="SubjectBirthCity" type="cvq:CityType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  À
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="subject" />
+                    <autofill name="subjectFilling" type="listener" field="BirthCity" />
+                  </common>
+                  <pdf />
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="SubjectAddress" type="cvq:AddressType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Résidant
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="subject" />
+                    <autofill name="subjectFilling" type="listener" field="Adress" />
+                  </common>
+                  <model namespace="users" isTiedToRequest="true" />
+                  <pdf />
+                  <fo />
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="SubjectPhone" type="cvq:PhoneType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Téléphone
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="subject" />
+                    <autofill name="subjectFilling" type="listener" field="homePhone" />
+                  </common>
+                  <pdf />
+                  <fo />
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="SubjectEmail" type="cvq:EmailType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Courriel
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="subject" />
+                    <autofill name="subjectFilling" type="listener" field="email" />
+                  </common>
+                  <pdf />
+                  <fo />
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="InternshipStartDate" type="xs:date">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Date de début
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="internship" />
+                  </common>
+                  <pdf />
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="InternshipEndDate" type="xs:date">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Date de fin
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="internship" />
+                  </common>
+                  <pdf />
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="InternshipInstituteName" type="xs:string">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom de l'organisme
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="internship" />
+                  </common>
+                  <pdf />
+                  <fo />
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="InternshipInstituteAddress" type="cvq:AddressType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Adresse de l'organisme
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" isTiedToRequest="true" />
+                  <common>
+                    <step name="internship" />
+                  </common>
+                  <pdf />
+                  <fo />
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="IsSubjectAccountHolder" type="xs:boolean" default="true">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Êtes-vous titulaire du compte ?
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="bankReference" />
+                    <conditions>
+                      <condition name="isSubjectAccountHolder" type="trigger" />
+                    </conditions>
+                  </common>
+                  <pdf />
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AccountHolderTitle" type="cvq:TitleType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Civilité du titulaire du compte
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="bankReference" />
+                    <conditions>
+                      <condition name="isSubjectAccountHolder" type="unfilled" required="true" />
+                    </conditions>
+                  </common>
+                 <pdf />
+                  <fo />
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AccountHolderLastName" type="cvq:LastNameType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom du titulaire du compte
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="bankReference" />
+                    <conditions>
+                      <condition name="isSubjectAccountHolder" type="unfilled" required="true" />
+                    </conditions>
+                  </common>
+                 <pdf />
+                  <fo />
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AccountHolderFirstName" type="cvq:FirstNameType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Prénom du titulaire du compte
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="bankReference" />
+                    <conditions>
+                      <condition name="isSubjectAccountHolder" type="unfilled" required="true" />
+                    </conditions>
+                  </common>
+                  <pdf />
+                  <fo />
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AccountHolderBirthDate" type="xs:date" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Date de naissance du titulaire du compte
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="bankReference" />
+                    <conditions>
+                      <condition name="isSubjectAccountHolder" type="unfilled" required="true" />
+                    </conditions>
+                  </common>
+                 <pdf />
+                  <fo />
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AccountHolderEdemandeId" type="xs:string">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Identifiant du titulaire du compte dans Grand Angle
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step ref="administration" />
+                  </common>
+                  <bo column="2" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="FrenchRIB" type="cvq:FrenchRIBType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Relevé d'identité bancaire
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" isTiedToRequest="true" />
+                  <common>
+                    <step name="bankReference" />
+                  </common>
+                  <pdf />
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="EdemandeId" type="xs:string">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Identifiant de la demande dans Grand Angle
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step ref="administration" />
+                  </common>
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

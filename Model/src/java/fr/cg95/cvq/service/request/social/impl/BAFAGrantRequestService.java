@@ -4,9 +4,7 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.social.BAFAGrantRequest;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 
@@ -15,8 +13,6 @@ import fr.cg95.cvq.service.request.impl.RequestService;
  *
  */
 public class BAFAGrantRequestService extends RequestService {
-
-    private IRequestDAO requestDAO;
 
     @Override
     public void init() {
@@ -43,21 +39,5 @@ public class BAFAGrantRequestService extends RequestService {
         if (subject instanceof Adult) {
             ((Adult)subject).setEmail(bgr.getSubjectEmail());
         }
-    }
-
-    public void setEdemandeId(Long requestId, String edemandeId)
-        throws CvqException {
-        BAFAGrantRequest request = (BAFAGrantRequest) requestDAO.findById(Request.class, requestId);
-        request.setEdemandeId(edemandeId);
-    }
-
-    public void setAccountHolderEdemandeId(@IsRequest final Long requestId, final String accountHolderEdemandeId)
-        throws CvqException {
-        BAFAGrantRequest request = (BAFAGrantRequest) requestDAO.findById(Request.class, requestId);
-        request.setAccountHolderEdemandeId(accountHolderEdemandeId);
-    }
-
-    public void setRequestDAO(IRequestDAO requestDAO) {
-        this.requestDAO = requestDAO;
     }
 }

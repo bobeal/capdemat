@@ -1,5 +1,10 @@
 package fr.capwebct.capdemat.plugins.externalservices.edemande.webservice.client;
 
+import fr.capwebct.capdemat.plugins.externalservices.edemande.adapters.EdemandeRequest.Config;
+import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.xml.common.FrenchRIBType;
+import groovy.text.TemplateEngine;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -13,39 +18,35 @@ import org.springframework.ws.client.WebServiceClientException;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
 import com.unilog.gda.edem.service.ChargerDemandeDocument;
+import com.unilog.gda.edem.service.ChargerDemandeDocument.ChargerDemande;
 import com.unilog.gda.edem.service.ChargerDemandeResponseDocument;
 import com.unilog.gda.edem.service.ChargerTypeDemandeDocument;
+import com.unilog.gda.edem.service.ChargerTypeDemandeDocument.ChargerTypeDemande;
 import com.unilog.gda.edem.service.ChargerTypeDemandeResponseDocument;
 import com.unilog.gda.edem.service.EnregistrerValiderFormulaireDocument;
+import com.unilog.gda.edem.service.EnregistrerValiderFormulaireDocument.EnregistrerValiderFormulaire;
 import com.unilog.gda.edem.service.EnregistrerValiderFormulaireResponseDocument;
 import com.unilog.gda.edem.service.ExistenceCommunePostaleDocument;
+import com.unilog.gda.edem.service.ExistenceCommunePostaleDocument.ExistenceCommunePostale;
 import com.unilog.gda.edem.service.ExistenceCommunePostaleResponseDocument;
 import com.unilog.gda.edem.service.InitialiserFormulaireDocument;
+import com.unilog.gda.edem.service.InitialiserFormulaireDocument.InitialiserFormulaire;
 import com.unilog.gda.edem.service.InitialiserFormulaireResponseDocument;
 import com.unilog.gda.edem.service.InitialiserSuiviDemandeDocument;
+import com.unilog.gda.edem.service.InitialiserSuiviDemandeDocument.InitialiserSuiviDemande;
 import com.unilog.gda.edem.service.InitialiserSuiviDemandeResponseDocument;
 import com.unilog.gda.edem.service.RechercheDemandesTiersDocument;
+import com.unilog.gda.edem.service.RechercheDemandesTiersDocument.RechercheDemandesTiers;
 import com.unilog.gda.edem.service.RechercheDemandesTiersResponseDocument;
 import com.unilog.gda.edem.service.RechercherTiersDocument;
+import com.unilog.gda.edem.service.RechercherTiersDocument.RechercherTiers;
 import com.unilog.gda.edem.service.RechercherTiersResponseDocument;
 import com.unilog.gda.edem.service.VerifierRIBDocument;
-import com.unilog.gda.edem.service.VerifierRIBResponseDocument;
-import com.unilog.gda.edem.service.ChargerDemandeDocument.ChargerDemande;
-import com.unilog.gda.edem.service.ChargerTypeDemandeDocument.ChargerTypeDemande;
-import com.unilog.gda.edem.service.EnregistrerValiderFormulaireDocument.EnregistrerValiderFormulaire;
-import com.unilog.gda.edem.service.ExistenceCommunePostaleDocument.ExistenceCommunePostale;
-import com.unilog.gda.edem.service.InitialiserFormulaireDocument.InitialiserFormulaire;
-import com.unilog.gda.edem.service.InitialiserSuiviDemandeDocument.InitialiserSuiviDemande;
-import com.unilog.gda.edem.service.RechercheDemandesTiersDocument.RechercheDemandesTiers;
-import com.unilog.gda.edem.service.RechercherTiersDocument.RechercherTiers;
 import com.unilog.gda.edem.service.VerifierRIBDocument.VerifierRIB;
+import com.unilog.gda.edem.service.VerifierRIBResponseDocument;
 import com.unilog.gda.glob.service.GestionCompteDocument;
-import com.unilog.gda.glob.service.GestionCompteResponseDocument;
 import com.unilog.gda.glob.service.GestionCompteDocument.GestionCompte;
-
-import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.xml.common.FrenchRIBType;
-import groovy.text.TemplateEngine;
+import com.unilog.gda.glob.service.GestionCompteResponseDocument;
 
 public class EdemandeClient implements IEdemandeClient {
 
@@ -55,15 +56,14 @@ public class EdemandeClient implements IEdemandeClient {
     private WebServiceTemplate edemandeFormulaireService;
     private WebServiceTemplate edemandeSuiviDemandeService;
     private TemplateEngine templateEngine;
-    private ClassPathResource enregistrerValiderFormulaireTemplate;
-    private ClassPathResource rechercherTiersTemplate;
-    private ClassPathResource creerTiersTemplate;
+    private ClassPathResource templateDirectory;
 
-    public ChargerTypeDemandeResponseDocument chargerTypeDemande()
+    @Override
+    public ChargerTypeDemandeResponseDocument chargerTypeDemande(String psCodeTypeDemande)
         throws CvqException {
         ChargerTypeDemandeDocument chargerTypeDemandeDocument = ChargerTypeDemandeDocument.Factory.newInstance();
         ChargerTypeDemande chargerTypeDemande = chargerTypeDemandeDocument.addNewChargerTypeDemande();
-        chargerTypeDemande.setPsCodeTypeDemande("Mobil_Etudes_Extranet");
+        chargerTypeDemande.setPsCodeTypeDemande(psCodeTypeDemande);
         logger.debug("chargerTypeDemande() got payload : " + chargerTypeDemande.xmlText());
         ChargerTypeDemandeResponseDocument result;
         try {
@@ -79,12 +79,13 @@ public class EdemandeClient implements IEdemandeClient {
         return result;
     }
 
-    public InitialiserFormulaireResponseDocument initialiserFormulaire(String psCodeTiers)
+    @Override
+    public InitialiserFormulaireResponseDocument initialiserFormulaire(String psCodeTypeDemande, String psCodeTiers)
         throws CvqException {
         InitialiserFormulaireDocument initialiserFormulaireDocument = InitialiserFormulaireDocument.Factory.newInstance();
         InitialiserFormulaire initialiserFormulaire = initialiserFormulaireDocument.addNewInitialiserFormulaire();
         initialiserFormulaire.setPsCodeTiers(psCodeTiers);
-        initialiserFormulaire.setPsCodeTypeDemande("Mobil_Etudes_Extranet");
+        initialiserFormulaire.setPsCodeTypeDemande(psCodeTypeDemande);
         logger.debug("initialiserFormulaire() got payload : " + initialiserFormulaire.xmlText());
         InitialiserFormulaireResponseDocument result;
         try {
@@ -100,11 +101,29 @@ public class EdemandeClient implements IEdemandeClient {
         return result;
     }
 
+    @Override
     public EnregistrerValiderFormulaireResponseDocument enregistrerValiderFormulaire(Map<String, Object> model)
         throws CvqException {
+        StringWriter form = new StringWriter();
+        try {
+            templateEngine.createTemplate(templateDirectory.createRelative("Formulaire_" + ((Config)model.get("config")).name() + ".groovy").getURL()).make(model).writeTo(form);
+        } catch (FileNotFoundException e) {
+            logger.error("template parsing failed", e);
+            throw new CvqException("Erreur lors de la construction de la demande");
+        } catch (CompilationFailedException e) {
+            logger.error("template parsing failed", e);
+            throw new CvqException("Erreur lors de la construction de la demande");
+        } catch (ClassNotFoundException e) {
+            logger.error("template parsing failed", e);
+            throw new CvqException("Erreur lors de la construction de la demande");
+        } catch (IOException e) {
+            logger.error("template parsing failed", e);
+            throw new CvqException("Erreur lors de la construction de la demande");
+        }
+        model.put("form", form.toString());
         StringWriter request = new StringWriter();
         try {
-            templateEngine.createTemplate(enregistrerValiderFormulaireTemplate.getURL()).make(model).writeTo(request);
+            templateEngine.createTemplate(templateDirectory.createRelative("enregistrerValiderFormulaire.groovy").getURL()).make(model).writeTo(request);
         } catch (FileNotFoundException e) {
             logger.error("template parsing failed", e);
             throw new CvqException("Erreur lors de la construction de la demande");
@@ -136,6 +155,7 @@ public class EdemandeClient implements IEdemandeClient {
         return result;
     }
 
+    @Override
     public InitialiserSuiviDemandeResponseDocument initialiserSuiviDemande(String psCodeTiers)
         throws CvqException {
         InitialiserSuiviDemandeDocument initialiserSuiviDemandeDocument = InitialiserSuiviDemandeDocument.Factory.newInstance();
@@ -156,11 +176,12 @@ public class EdemandeClient implements IEdemandeClient {
         return result;
     }
 
+    @Override
     public RechercherTiersResponseDocument rechercherTiers(Map<String, Object> model)
         throws CvqException {
         StringWriter request = new StringWriter();
         try {
-            templateEngine.createTemplate(rechercherTiersTemplate.getURL()).make(model).writeTo(request);
+            templateEngine.createTemplate(templateDirectory.createRelative("rechercherTiers.groovy").getURL()).make(model).writeTo(request);
         } catch (FileNotFoundException e) {
             logger.error("template parsing failed", e);
             throw new CvqException("Erreur lors de la construction de la demande");
@@ -192,11 +213,12 @@ public class EdemandeClient implements IEdemandeClient {
         return result;
     }
 
+    @Override
     public GestionCompteResponseDocument creerTiers(Map<String, Object> model)
         throws CvqException {
         StringWriter request = new StringWriter();
         try {
-            templateEngine.createTemplate(creerTiersTemplate.getURL()).make(model).writeTo(request);
+            templateEngine.createTemplate(templateDirectory.createRelative("creerTiers.groovy").getURL()).make(model).writeTo(request);
         } catch (FileNotFoundException e) {
             logger.error("template parsing failed", e);
             throw new CvqException("Erreur lors de la construction de la demande");
@@ -228,6 +250,7 @@ public class EdemandeClient implements IEdemandeClient {
         return result;
     }
 
+    @Override
     public RechercheDemandesTiersResponseDocument rechercheDemandesTiers(String psCodeTiers)
         throws CvqException {
         RechercheDemandesTiersDocument rechercheDemandesTiersDocument = RechercheDemandesTiersDocument.Factory.newInstance();
@@ -249,6 +272,7 @@ public class EdemandeClient implements IEdemandeClient {
         return result;
     }
 
+    @Override
     public ChargerDemandeResponseDocument chargerDemande(String psCodeTiers, String psCodeDemande)
         throws CvqException {
         ChargerDemandeDocument chargerDemandeDocument = ChargerDemandeDocument.Factory.newInstance();
@@ -271,6 +295,7 @@ public class EdemandeClient implements IEdemandeClient {
         return result;
     }
 
+    @Override
     public ExistenceCommunePostaleResponseDocument existenceCommunePostale(String postalCode, String city)
         throws CvqException {
         ExistenceCommunePostaleDocument existenceCommunePostaleDocument = ExistenceCommunePostaleDocument.Factory.newInstance();
@@ -292,6 +317,7 @@ public class EdemandeClient implements IEdemandeClient {
         return result;
     }
 
+    @Override
     public VerifierRIBResponseDocument verifierRIB(FrenchRIBType frenchRIB)
         throws CvqException {
         VerifierRIBDocument verifierRIBDocument = VerifierRIBDocument.Factory.newInstance();
@@ -331,17 +357,7 @@ public class EdemandeClient implements IEdemandeClient {
         this.templateEngine = templateEngine;
     }
 
-    public void setEnregistrerValiderFormulaireTemplate(
-            ClassPathResource enregistrerValiderFormulaireTemplate) {
-        this.enregistrerValiderFormulaireTemplate = enregistrerValiderFormulaireTemplate;
+    public void setTemplateDirectory(ClassPathResource templateDirectory) {
+        this.templateDirectory = templateDirectory;
     }
-
-    public void setRechercherTiersTemplate(ClassPathResource rechercherTiersTemplate) {
-        this.rechercherTiersTemplate = rechercherTiersTemplate;
-    }
-
-    public void setCreerTiersTemplate(ClassPathResource creerTiersTemplate) {
-        this.creerTiersTemplate = creerTiersTemplate;
-    }
-
 }

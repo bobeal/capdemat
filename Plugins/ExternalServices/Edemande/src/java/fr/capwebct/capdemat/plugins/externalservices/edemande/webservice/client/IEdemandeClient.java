@@ -18,10 +18,10 @@ import fr.cg95.cvq.xml.common.FrenchRIBType;
 
 public interface IEdemandeClient {
 
-    ChargerTypeDemandeResponseDocument chargerTypeDemande()
+    ChargerTypeDemandeResponseDocument chargerTypeDemande(String psCodeTypeDemande)
         throws CvqException;
 
-    InitialiserFormulaireResponseDocument initialiserFormulaire(String psCodeTiers)
+    InitialiserFormulaireResponseDocument initialiserFormulaire(String psCodeTypeDemande, String psCodeTiers)
         throws CvqException;
 
     EnregistrerValiderFormulaireResponseDocument enregistrerValiderFormulaire(Map<String, Object> model)

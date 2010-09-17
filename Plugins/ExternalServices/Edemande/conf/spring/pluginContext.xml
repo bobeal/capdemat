@@ -9,7 +9,7 @@
     <property name="edemandeClient" ref="edemandeClient" />
     <property name="externalHomeFolderService" ref="externalHomeFolderService" />
     <property name="requestExternalActionService" ref="requestExternalActionService" />
-    <property name="requestService" ref="studyGrantRequestService" />
+    <property name="requestSearchService" ref="requestSearchService" />
     <property name="documentService" ref="documentService" />
     <property name="requestDocumentService" ref="requestDocumentService" />
     <property name="requestWorkflowService" ref="requestWorkflowService" />
@@ -69,19 +69,9 @@
     <property name="templateEngine">
       <bean class="groovy.text.GStringTemplateEngine" />
     </property>
-    <property name="enregistrerValiderFormulaireTemplate">
+    <property name="templateDirectory">
       <bean class="org.springframework.core.io.ClassPathResource">
-        <constructor-arg value="enregistrerValiderFormulaire.groovy" />
-       </bean>
-    </property>
-    <property name="rechercherTiersTemplate">
-      <bean class="org.springframework.core.io.ClassPathResource">
-        <constructor-arg value="rechercherTiers.groovy" />
-       </bean>
-    </property>
-    <property name="creerTiersTemplate">
-      <bean class="org.springframework.core.io.ClassPathResource">
-        <constructor-arg value="creerTiers.groovy" />
+        <constructor-arg value="/" />
        </bean>
     </property>
   </bean>

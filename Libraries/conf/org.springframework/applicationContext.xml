@@ -450,7 +450,6 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="subjectPolicy" value="SUBJECT_POLICY_ADULT" />
     <property name="isOfRegistrationKind" value="true"/>
     <property name="defaultDisplayGroup" value="school" />
-    <property name="requestDAO" ref="requestDAO"/>
     <property name="filingDelay" value="12"/>
     <property name="supportUnregisteredCreation" value="true" />
   </bean>
@@ -493,7 +492,6 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="label" value="BAFA Grant"/>
     <property name="subjectPolicy" value="SUBJECT_POLICY_INDIVIDUAL" />
     <property name="defaultDisplayGroup" value="social" />
-    <property name="requestDAO" ref="requestDAO"/>
     <property name="filingDelay" value="12"/>
     <property name="supportUnregisteredCreation" value="true" />
   </bean>

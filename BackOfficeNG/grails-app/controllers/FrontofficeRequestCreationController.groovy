@@ -482,7 +482,6 @@ class FrontofficeRequestCreationController {
             else if (submitAction[1] == 'tbrCancelSubscriberMode') {}
             else if (submitAction[1] == 'tbrUpdateSubscriberMode') {
                 try {
-                    println params
                     ticketBookingRequestService.switchSubscriberMode(cRequest, new Boolean(params.isSubscriber),
                         params.subscriberNumber, params.subscriberFirstName, params.subscriberLastName)
                 } catch (CvqTicketBookingException ctbe) {
@@ -977,7 +976,7 @@ class FrontofficeRequestCreationController {
                     it.eventName + " ("+ DateUtils.format(it.eventDate)+ ") " + it.eventPlace,
                     it.price * 100,
                     cRequest.id.toString(), 'capdemat',
-                    'Régie démo de Blainville',
+                    null,
                     it.placeNumber.intValue(),
                     it.price * 100))
         }

@@ -7,5 +7,5 @@
  <mdtDateFinStage type="date" nom="Date de fin de stage">${internshipEndDate}</mdtDateFinStage>
 </moEtudes>
 <moOrganisme type="noeud" nom="ORGANISME">
- <msNomOrganisme type="texte" nom="Nom de l'organisme">${internshipInstituteName}</msNomEtab>
+ <msNomOrganisme type="texte" nom="Nom de l'organisme">${internshipInstituteName}</msNomOrganisme>
 </moOrganisme>

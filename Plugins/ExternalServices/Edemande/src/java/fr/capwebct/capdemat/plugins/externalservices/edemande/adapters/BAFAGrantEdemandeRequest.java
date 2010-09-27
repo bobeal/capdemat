@@ -162,6 +162,8 @@ public class BAFAGrantEdemandeRequest implements EdemandeRequest {
         result.put("internshipStartDate", service.formatDate(request.getInternshipStartDate()));
         result.put("internshipEndDate", service.formatDate(request.getInternshipEndDate()));
         result.put("internshipInstituteName", request.getInternshipInstituteName());
+        // FIXME hack to avoid template compilation exception
+        result.put("taxHouseholdCityCode", "");
         return result;
     }
 

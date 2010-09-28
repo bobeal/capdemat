@@ -59,6 +59,7 @@ import fr.cg95.cvq.external.ExternalServiceUtils;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.xml.common.RequestType;
+import fr.cg95.cvq.xml.request.civil.BirthDetailsRequestDocument.BirthDetailsRequest;
 import fr.cg95.cvq.xml.request.school.PerischoolActivityRegistrationRequestDocument.PerischoolActivityRegistrationRequest;
 import fr.cg95.cvq.xml.request.school.RecreationActivityRegistrationRequestDocument.RecreationActivityRegistrationRequest;
 import fr.cg95.cvq.xml.request.school.SchoolCanteenRegistrationRequestDocument.SchoolCanteenRegistrationRequest;
@@ -287,6 +288,8 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
             sendRequestRequest.setPerischoolActivityRegistrationRequest((PerischoolActivityRegistrationRequest) request);
         else if (request instanceof RecreationActivityRegistrationRequest)
             sendRequestRequest.setRecreationActivityRegistrationRequest((RecreationActivityRegistrationRequest) request);
+        else if (request instanceof BirthDetailsRequest)
+            sendRequestRequest.setBirthDetailsRequest((BirthDetailsRequest) request);
         else
             sendRequestRequest.setRequest(request);
         sendRequestRequest.setRequestTypeLabel(request.getRequestTypeLabel());

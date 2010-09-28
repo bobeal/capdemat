@@ -6,6 +6,7 @@
   xmlns:scrr="http://www.cg95.fr/cvq/schema/scrr" 
   xmlns:parr="http://www.cg95.fr/cvq/schema/parr" 
   xmlns:rarr="http://www.cg95.fr/cvq/schema/rarr" 
+  xmlns:bdr="http://www.cg95.fr/cvq/schema/bdr" 
   xmlns:xs="http://www.w3.org/2001/XMLSchema" 
   elementFormDefault="qualified"
   attributeFormDefault="unqualified">
@@ -20,6 +21,8 @@
     schemaLocation="http://people.zenexity.fr/~bor/capdemat/V4_2/schemas/PerischoolActivityRegistrationRequest.xsd" />
   <xs:import namespace="http://www.cg95.fr/cvq/schema/rarr"
     schemaLocation="http://people.zenexity.fr/~bor/capdemat/V4_2/schemas/RecreationActivityRegistrationRequest.xsd" />
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/bdr"
+    schemaLocation="http://people.zenexity.fr/~bor/capdemat/V4_2/schemas/BirthDetailsRequest.xsd" />
 
   <xs:element name="SendRequestRequest">
     <xs:complexType>
@@ -31,11 +34,12 @@
             </xs:documentation>
           </xs:annotation>
         </xs:element>
-	<xs:element name="Request" type="cvq:RequestType" />
+        <xs:element name="Request" type="cvq:RequestType" />
         <xs:element ref="scrr:SchoolCanteenRegistrationRequest" />
         <xs:element ref="srr:SchoolRegistrationRequest" />
         <xs:element ref="parr:PerischoolActivityRegistrationRequest" />
         <xs:element ref="rarr:RecreationActivityRegistrationRequest" />
+        <xs:element ref="bdr:BirthDetailsRequest" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

@@ -82,7 +82,7 @@ public class DocumentDAO extends GenericDAO implements IDocumentDAO {
     @Override
     public List<Long> listOutdated() {
         return HibernateUtil.getSession()
-            .createQuery("select id from Document where state in ('?', '?', '?') and endValidityDate < ?")
+            .createQuery("select id from Document where state in (?, ?, ?) and endValidityDate < ?")
             .setString(0, DocumentState.PENDING.toString())
             .setString(1, DocumentState.CHECKED.toString())
             .setString(2, DocumentState.VALIDATED.toString())

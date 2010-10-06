@@ -7,7 +7,7 @@
     
       
             <label for="subjectId" class="required"><g:message code="request.property.subject.label" /> *  <span><g:message code="request.property.subject.help" /></span></label>
-            <select id="subjectId" name="subjectId" <g:if test="${isEdition}">disabled="disabled"</g:if> class="required validate-not-first  ${stepStates != null && stepStates['subject']?.invalidFields.contains('subjectId') ? 'validation-failed' : ''}" title="<g:message code="request.property.subject.validationError" /> ">
+            <select id="subjectId" name="subjectId" <g:if test="${isEdition}">disabled="disabled"</g:if> class="required validate-not-first  ${stepStates != null && stepStates['subject']?.invalidFields?.contains('subjectId') ? 'validation-failed' : ''}" title="<g:message code="request.property.subject.validationError" /> ">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${subjects}">
                 <option value="${it.key}" ${it.key == rqt.subjectId ? 'selected="selected"': ''}>${it.value}</option>
@@ -17,7 +17,7 @@
 
     
       <label for="subjectTitle" class="required"><g:message code="hcar.property.subjectTitle.label" /> *  <span><g:message code="hcar.property.subjectTitle.help" /></span></label>
-            <select id="subjectTitle" name="subjectTitle" class="required condition-isMadam-trigger  validate-not-first ${stepStates != null && stepStates['subject']?.invalidFields.contains('subjectTitle') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.subjectTitle.validationError" />">
+            <select id="subjectTitle" name="subjectTitle" class="required condition-isMadam-trigger  validate-not-first ${stepStates != null && stepStates['subject']?.invalidFields?.contains('subjectTitle') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.subjectTitle.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
                 <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == rqt.subjectTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.subjectTitle" /></option>
@@ -28,13 +28,13 @@
     
       <label for="subjectMaidenName" class="required condition-isMadam-filled"><g:message code="hcar.property.subjectMaidenName.label" /> *  <span><g:message code="hcar.property.subjectMaidenName.help" /></span></label>
             <input type="text" id="subjectMaidenName" name="subjectMaidenName" value="${rqt.subjectMaidenName?.toString()}" 
-                    class="required condition-isMadam-filled  validate-lastName ${stepStates != null && stepStates['subject']?.invalidFields.contains('subjectMaidenName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.subjectMaidenName.validationError" />"  maxlength="38" />
+                    class="required condition-isMadam-filled  validate-lastName ${stepStates != null && stepStates['subject']?.invalidFields?.contains('subjectMaidenName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.subjectMaidenName.validationError" />"  maxlength="38" />
             
 
     
       <label class="required"><g:message code="hcar.property.subjectBirthDate.label" /> *  <span><g:message code="hcar.property.subjectBirthDate.help" /></span></label>
             <div class="date required  validate-date required ">
-              <select class="day ${stepStates != null && stepStates['subject']?.invalidFields.contains('subjectBirthDate') ? 'validation-failed' : ''}"
+              <select class="day ${stepStates != null && stepStates['subject']?.invalidFields?.contains('subjectBirthDate') ? 'validation-failed' : ''}"
                 id="subjectBirthDate_day"
                 name="subjectBirthDate_day">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -48,7 +48,7 @@
                   </option>
                 </g:each>
               </select>
-              <select class="month ${stepStates != null && stepStates['subject']?.invalidFields.contains('subjectBirthDate') ? 'validation-failed' : ''}"
+              <select class="month ${stepStates != null && stepStates['subject']?.invalidFields?.contains('subjectBirthDate') ? 'validation-failed' : ''}"
                 id="subjectBirthDate_month"
                 name="subjectBirthDate_month">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -63,7 +63,7 @@
                 </g:each>
               </select>
               <input type="text" maxlength="4" size="3"
-                class="year ${stepStates != null && stepStates['subject']?.invalidFields.contains('subjectBirthDate') ? 'validation-failed' : ''}"
+                class="year ${stepStates != null && stepStates['subject']?.invalidFields?.contains('subjectBirthDate') ? 'validation-failed' : ''}"
                 id="subjectBirthDate_year"
                 name="subjectBirthDate_year"
                 value="${rqt.subjectBirthDate ? rqt.subjectBirthDate.year + 1900 : params['subjectBirthDate_year']}"
@@ -74,13 +74,13 @@
     
       <label for="subjectBirthCity" class="required"><g:message code="hcar.property.subjectBirthCity.label" /> *  <span><g:message code="hcar.property.subjectBirthCity.help" /></span></label>
             <input type="text" id="subjectBirthCity" name="subjectBirthCity" value="${rqt.subjectBirthCity?.toString()}" 
-                    class="required  validate-city ${stepStates != null && stepStates['subject']?.invalidFields.contains('subjectBirthCity') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.subjectBirthCity.validationError" />"  maxlength="32" />
+                    class="required  validate-city ${stepStates != null && stepStates['subject']?.invalidFields?.contains('subjectBirthCity') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.subjectBirthCity.validationError" />"  maxlength="32" />
             
 
     
       <label for="subjectBirthCountry" class="required"><g:message code="hcar.property.subjectBirthCountry.label" /> *  <span><g:message code="hcar.property.subjectBirthCountry.help" /></span></label>
             <input type="text" id="subjectBirthCountry" name="subjectBirthCountry" value="${rqt.subjectBirthCountry?.toString()}" 
-                    class="required   ${stepStates != null && stepStates['subject']?.invalidFields.contains('subjectBirthCountry') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.subjectBirthCountry.validationError" />"  maxlength="50" />
+                    class="required   ${stepStates != null && stepStates['subject']?.invalidFields?.contains('subjectBirthCountry') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.subjectBirthCountry.validationError" />"  maxlength="50" />
             
 
     
@@ -92,7 +92,7 @@
     <legend><g:message code="hcar.property.legalAccess.label" /></legend>
     
       <label class="required"><g:message code="hcar.property.legalAccessPresence.label" /> *  <span><g:message code="hcar.property.legalAccessPresence.help" /></span></label>
-            <ul class="yes-no required ${stepStates != null && stepStates['subject']?.invalidFields.contains('legalAccessPresence') ? 'validation-failed' : ''}">
+            <ul class="yes-no required ${stepStates != null && stepStates['subject']?.invalidFields?.contains('legalAccessPresence') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="legalAccessPresence_${it ? 'yes' : 'no'}" class="required condition-isLegalAccessPresence-trigger  validate-one-required boolean" title="" value="${it}" name="legalAccessPresence" ${it == rqt.legalAccessPresence ? 'checked="checked"': ''} />
@@ -104,7 +104,7 @@
 
     
       <label for="legalAccessKind" class="required condition-isLegalAccessPresence-filled"><g:message code="hcar.property.legalAccessKind.label" /> *  <span><g:message code="hcar.property.legalAccessKind.help" /></span></label>
-            <select id="legalAccessKind" name="legalAccessKind" class="required condition-isLegalAccessPresence-filled  validate-not-first ${stepStates != null && stepStates['subject']?.invalidFields.contains('legalAccessKind') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.legalAccessKind.validationError" />">
+            <select id="legalAccessKind" name="legalAccessKind" class="required condition-isLegalAccessPresence-filled  validate-not-first ${stepStates != null && stepStates['subject']?.invalidFields?.contains('legalAccessKind') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.legalAccessKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['safeguardingJustice','guardianship','curatorship']}">
                 <option value="fr.cg95.cvq.business.request.social.HcarLegalAccessKindType_${it}" ${it == rqt.legalAccessKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.legalAccessKind" /></option>
@@ -114,7 +114,7 @@
 
     
       <label for="legalAccessRepresentativeKind" class="required condition-isLegalAccessPresence-filled"><g:message code="hcar.property.legalAccessRepresentativeKind.label" /> *  <span><g:message code="hcar.property.legalAccessRepresentativeKind.help" /></span></label>
-            <select id="legalAccessRepresentativeKind" name="legalAccessRepresentativeKind" class="required condition-isLegalAccessPresence-filled condition-isOtherLegalAccessRepresentative-trigger  validate-not-first ${stepStates != null && stepStates['subject']?.invalidFields.contains('legalAccessRepresentativeKind') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.legalAccessRepresentativeKind.validationError" />">
+            <select id="legalAccessRepresentativeKind" name="legalAccessRepresentativeKind" class="required condition-isLegalAccessPresence-filled condition-isOtherLegalAccessRepresentative-trigger  validate-not-first ${stepStates != null && stepStates['subject']?.invalidFields?.contains('legalAccessRepresentativeKind') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.legalAccessRepresentativeKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['FamilyMember','Agency','Other']}">
                 <option value="fr.cg95.cvq.business.request.social.HcarLegalAccessRepresentativeKindType_${it}" ${it == rqt.legalAccessRepresentativeKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.legalAccessRepresentativeKind" /></option>
@@ -125,19 +125,19 @@
     
       <label for="legalAccessRepresentativeKindDetail" class="required condition-isOtherLegalAccessRepresentative-filled"><g:message code="hcar.property.legalAccessRepresentativeKindDetail.label" /> *  <span><g:message code="hcar.property.legalAccessRepresentativeKindDetail.help" /></span></label>
             <input type="text" id="legalAccessRepresentativeKindDetail" name="legalAccessRepresentativeKindDetail" value="${rqt.legalAccessRepresentativeKindDetail?.toString()}" 
-                    class="required condition-isOtherLegalAccessRepresentative-filled   ${stepStates != null && stepStates['subject']?.invalidFields.contains('legalAccessRepresentativeKindDetail') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.legalAccessRepresentativeKindDetail.validationError" />"  maxlength="80" />
+                    class="required condition-isOtherLegalAccessRepresentative-filled   ${stepStates != null && stepStates['subject']?.invalidFields?.contains('legalAccessRepresentativeKindDetail') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.legalAccessRepresentativeKindDetail.validationError" />"  maxlength="80" />
             
 
     
       <label for="legalAccessRepresentativeName" class="required condition-isLegalAccessPresence-filled"><g:message code="hcar.property.legalAccessRepresentativeName.label" /> *  <span><g:message code="hcar.property.legalAccessRepresentativeName.help" /></span></label>
             <input type="text" id="legalAccessRepresentativeName" name="legalAccessRepresentativeName" value="${rqt.legalAccessRepresentativeName?.toString()}" 
-                    class="required condition-isLegalAccessPresence-filled  validate-lastName ${stepStates != null && stepStates['subject']?.invalidFields.contains('legalAccessRepresentativeName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.legalAccessRepresentativeName.validationError" />"  maxlength="38" />
+                    class="required condition-isLegalAccessPresence-filled  validate-lastName ${stepStates != null && stepStates['subject']?.invalidFields?.contains('legalAccessRepresentativeName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.legalAccessRepresentativeName.validationError" />"  maxlength="38" />
             
 
     
       <label for="legalAccessRepresentativeFirstName" class="required condition-isLegalAccessPresence-filled"><g:message code="hcar.property.legalAccessRepresentativeFirstName.label" /> *  <span><g:message code="hcar.property.legalAccessRepresentativeFirstName.help" /></span></label>
             <input type="text" id="legalAccessRepresentativeFirstName" name="legalAccessRepresentativeFirstName" value="${rqt.legalAccessRepresentativeFirstName?.toString()}" 
-                    class="required condition-isLegalAccessPresence-filled  validate-firstName ${stepStates != null && stepStates['subject']?.invalidFields.contains('legalAccessRepresentativeFirstName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.legalAccessRepresentativeFirstName.validationError" />"  maxlength="38" />
+                    class="required condition-isLegalAccessPresence-filled  validate-firstName ${stepStates != null && stepStates['subject']?.invalidFields?.contains('legalAccessRepresentativeFirstName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.legalAccessRepresentativeFirstName.validationError" />"  maxlength="38" />
             
 
     
@@ -149,7 +149,7 @@
     <legend><g:message code="hcar.property.family.label" /></legend>
     
       <label for="familyStatus" class="required"><g:message code="hcar.property.familyStatus.label" /> *  <span><g:message code="hcar.property.familyStatus.help" /></span></label>
-            <select id="familyStatus" name="familyStatus" class="required  validate-not-first ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyStatus') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyStatus.validationError" />">
+            <select id="familyStatus" name="familyStatus" class="required  validate-not-first ${stepStates != null && stepStates['subject']?.invalidFields?.contains('familyStatus') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyStatus.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','PACS','Other']}">
                 <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == rqt.familyStatus?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.familyStatus" /></option>
@@ -159,7 +159,7 @@
 
     
       <label class="required"><g:message code="hcar.property.familyFamilyDependents.label" /> *  <span><g:message code="hcar.property.familyFamilyDependents.help" /></span></label>
-            <ul class="yes-no required ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyFamilyDependents') ? 'validation-failed' : ''}">
+            <ul class="yes-no required ${stepStates != null && stepStates['subject']?.invalidFields?.contains('familyFamilyDependents') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="familyFamilyDependents_${it ? 'yes' : 'no'}" class="required condition-isFamilyDependents-trigger  validate-one-required boolean" title="" value="${it}" name="familyFamilyDependents" ${it == rqt.familyFamilyDependents ? 'checked="checked"': ''} />
@@ -181,19 +181,19 @@
     
         <label for="familyDependents.${listIndex}.familyDependentLastName" class="required"><g:message code="hcar.property.familyDependentLastName.label" /> *  <span><g:message code="hcar.property.familyDependentLastName.help" /></span></label>
             <input type="text" id="familyDependents.${listIndex}.familyDependentLastName" name="familyDependents[${listIndex}].familyDependentLastName" value="${editList?.familyDependents?.familyDependentLastName?.toString()}" 
-                    class="required  validate-lastName ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyDependents.familyDependentLastName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyDependentLastName.validationError" />"  maxlength="38" />
+                    class="required  validate-lastName ${stepStates != null && stepStates['subject']?.invalidFields?.contains('familyDependents.familyDependentLastName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyDependentLastName.validationError" />"  maxlength="38" />
             
 
     
         <label for="familyDependents.${listIndex}.familyDependentFirstName" class="required"><g:message code="hcar.property.familyDependentFirstName.label" /> *  <span><g:message code="hcar.property.familyDependentFirstName.help" /></span></label>
             <input type="text" id="familyDependents.${listIndex}.familyDependentFirstName" name="familyDependents[${listIndex}].familyDependentFirstName" value="${editList?.familyDependents?.familyDependentFirstName?.toString()}" 
-                    class="required  validate-firstName ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyDependents.familyDependentFirstName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyDependentFirstName.validationError" />"  maxlength="38" />
+                    class="required  validate-firstName ${stepStates != null && stepStates['subject']?.invalidFields?.contains('familyDependents.familyDependentFirstName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyDependentFirstName.validationError" />"  maxlength="38" />
             
 
     
         <label class="required"><g:message code="hcar.property.familyDependentBirthDate.label" /> *  <span><g:message code="hcar.property.familyDependentBirthDate.help" /></span></label>
             <div class="date required  validate-date required ">
-              <select class="day ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyDependents.familyDependentBirthDate') ? 'validation-failed' : ''}"
+              <select class="day ${stepStates != null && stepStates['subject']?.invalidFields?.contains('familyDependents.familyDependentBirthDate') ? 'validation-failed' : ''}"
                 id="familyDependents.${listIndex}.familyDependentBirthDate_day"
                 name="familyDependents[${listIndex}].familyDependentBirthDate_day">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -207,7 +207,7 @@
                   </option>
                 </g:each>
               </select>
-              <select class="month ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyDependents.familyDependentBirthDate') ? 'validation-failed' : ''}"
+              <select class="month ${stepStates != null && stepStates['subject']?.invalidFields?.contains('familyDependents.familyDependentBirthDate') ? 'validation-failed' : ''}"
                 id="familyDependents.${listIndex}.familyDependentBirthDate_month"
                 name="familyDependents[${listIndex}].familyDependentBirthDate_month">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -222,7 +222,7 @@
                 </g:each>
               </select>
               <input type="text" maxlength="4" size="3"
-                class="year ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyDependents.familyDependentBirthDate') ? 'validation-failed' : ''}"
+                class="year ${stepStates != null && stepStates['subject']?.invalidFields?.contains('familyDependents.familyDependentBirthDate') ? 'validation-failed' : ''}"
                 id="familyDependents.${listIndex}.familyDependentBirthDate_year"
                 name="familyDependents[${listIndex}].familyDependentBirthDate_year"
                 value="${editList?.familyDependents?.familyDependentBirthDate ? editList?.familyDependents?.familyDependentBirthDate.year + 1900 : params['familyDependents.familyDependentBirthDate_year']}"
@@ -232,7 +232,7 @@
 
     
         <label for="familyDependents.${listIndex}.familyDependentActualSituation" class="required"><g:message code="hcar.property.familyDependentActualSituation.label" /> *  <span><g:message code="hcar.property.familyDependentActualSituation.help" /></span></label>
-            <select id="familyDependents.${listIndex}.familyDependentActualSituation" name="familyDependents[${listIndex}].familyDependentActualSituation" class="required  validate-not-first ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyDependents.familyDependentActualSituation') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyDependentActualSituation.validationError" />">
+            <select id="familyDependents.${listIndex}.familyDependentActualSituation" name="familyDependents[${listIndex}].familyDependentActualSituation" class="required  validate-not-first ${stepStates != null && stepStates['subject']?.invalidFields?.contains('familyDependents.familyDependentActualSituation') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyDependentActualSituation.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Schooling','Learning','MedicoSocial']}">
                 <option value="fr.cg95.cvq.business.request.social.HcarFamilyDependentActualSituationType_${it}" ${it == editList?.familyDependents?.familyDependentActualSituation?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.familyDependentActualSituation" /></option>

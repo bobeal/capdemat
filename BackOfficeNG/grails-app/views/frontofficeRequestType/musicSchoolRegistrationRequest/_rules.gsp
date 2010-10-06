@@ -10,7 +10,7 @@
                 </g:if>
                 <span><g:message code="msrr.property.rulesAndRegulationsAcceptance.help" /></span>
               </label>
-              <ul class="yes-no  ${stepStates != null && stepStates['rules']?.invalidFields.contains('rulesAndRegulationsAcceptance') ? 'validation-failed' : ''}">
+              <ul class="yes-no  ${stepStates != null && stepStates['rules']?.invalidFields?.contains('rulesAndRegulationsAcceptance') ? 'validation-failed' : ''}">
                 <g:each in="${[true,false]}">
                   <li>
                     <input type="radio" id="rulesAndRegulationsAcceptance_${it ? 'yes' : 'no'}" class="  validate-acceptance" title="" value="${it}" name="rulesAndRegulationsAcceptance" ${it == rqt.rulesAndRegulationsAcceptance ? 'checked="checked"': ''} />

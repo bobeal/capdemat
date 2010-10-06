@@ -10,7 +10,7 @@
                 </g:if>
                 <span><g:message code="hsr.property.rulesAndRegulationsAcceptance.help" /></span>
               </label>
-              <ul class="yes-no required ${stepStates != null && stepStates['rules']?.invalidFields.contains('rulesAndRegulationsAcceptance') ? 'validation-failed' : ''}">
+              <ul class="yes-no required ${stepStates != null && stepStates['rules']?.invalidFields?.contains('rulesAndRegulationsAcceptance') ? 'validation-failed' : ''}">
                 <g:each in="${[true,false]}">
                   <li>
                     <input type="radio" id="rulesAndRegulationsAcceptance_${it ? 'yes' : 'no'}" class="required  validate-acceptance" title="" value="${it}" name="rulesAndRegulationsAcceptance" ${it == rqt.rulesAndRegulationsAcceptance ? 'checked="checked"': ''} />

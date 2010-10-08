@@ -761,25 +761,23 @@ public class EdemandeService implements IExternalProviderService {
             } else if (entry.getValue() instanceof AddressType) {
                 AddressType addressType = (AddressType)entry.getValue();
                 Map<String, String> address = new HashMap<String, String>();
-                address.put("additionalDeliveryInformation",
+                address.put("additionalDeliveryInformation", StringUtils.defaultString(
+                    StringEscapeUtils.escapeXml(addressType.getAdditionalDeliveryInformation())));
+                address.put("additionalGeographicalInformation", StringUtils.defaultString(
                     StringEscapeUtils.escapeXml(
-                        addressType.getAdditionalDeliveryInformation()));
-                address.put("additionalGeographicalInformation",
-                    StringEscapeUtils.escapeXml(
-                        addressType.getAdditionalGeographicalInformation()));
-                address.put("city",
-                    StringEscapeUtils.escapeXml(addressType.getCity()));
-                address.put("countryName",
-                    StringEscapeUtils.escapeXml(addressType.getCountryName()));
-                address.put("placeNameOrService",
-                    StringEscapeUtils.escapeXml(
-                        addressType.getPlaceNameOrService()));
-                address.put("postalCode",
-                    StringEscapeUtils.escapeXml(addressType.getPostalCode()));
-                address.put("streetName",
-                    StringEscapeUtils.escapeXml(addressType.getStreetName()));
-                address.put("streetNumber",
-                    StringEscapeUtils.escapeXml(addressType.getStreetNumber()));
+                        addressType.getAdditionalGeographicalInformation())));
+                address.put("city", StringUtils.defaultString(
+                    StringEscapeUtils.escapeXml(addressType.getCity())));
+                address.put("countryName", StringUtils.defaultString(
+                    StringEscapeUtils.escapeXml(addressType.getCountryName())));
+                address.put("placeNameOrService", StringUtils.defaultString(
+                    StringEscapeUtils.escapeXml(addressType.getPlaceNameOrService())));
+                address.put("postalCode", StringUtils.defaultString(
+                    StringEscapeUtils.escapeXml(addressType.getPostalCode())));
+                address.put("streetName", StringUtils.defaultString(
+                    StringEscapeUtils.escapeXml(addressType.getStreetName())));
+                address.put("streetNumber", StringUtils.defaultString(
+                    StringEscapeUtils.escapeXml(addressType.getStreetNumber())));
                 entry.setValue(address);
             }
         }

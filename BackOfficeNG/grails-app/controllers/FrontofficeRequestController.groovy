@@ -77,7 +77,8 @@ class FrontofficeRequestController {
         requests = filterRequests(state,params)
         requests = requestAdaptorService.prepareRecords(requests)
         requests.records.each {
-            if (!it.state.equals(RequestState.ARCHIVED.toString())) {
+            if (![RequestState.ARCHIVED.toString(),
+                    RequestState.DRAFT.toString()].contains(it.state)) {
                 it.externalInformations = requestExternalService.loadExternalInformations(
                     requestSearchService.getById(it.id, true))
                 it.lastAgentNote = requestAdaptorService.prepareNote(

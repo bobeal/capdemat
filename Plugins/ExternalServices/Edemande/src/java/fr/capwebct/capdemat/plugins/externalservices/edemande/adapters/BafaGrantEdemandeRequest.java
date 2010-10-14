@@ -11,13 +11,13 @@ import fr.cg95.cvq.xml.common.IndividualType;
 import fr.cg95.cvq.xml.common.SexType;
 import fr.cg95.cvq.xml.common.TitleType;
 import fr.cg95.cvq.xml.common.TitleType.Enum;
-import fr.cg95.cvq.xml.request.social.impl.BAFAGrantRequestDocumentImpl.BAFAGrantRequestImpl;
+import fr.cg95.cvq.xml.request.social.impl.BafaGrantRequestDocumentImpl.BafaGrantRequestImpl;
 
-public class BAFAGrantEdemandeRequest implements EdemandeRequest {
+public class BafaGrantEdemandeRequest implements EdemandeRequest {
 
-    private BAFAGrantRequestImpl request;
+    private BafaGrantRequestImpl request;
 
-    public BAFAGrantEdemandeRequest(BAFAGrantRequestImpl request) {
+    public BafaGrantEdemandeRequest(BafaGrantRequestImpl request) {
         this.request = request;
     }
 

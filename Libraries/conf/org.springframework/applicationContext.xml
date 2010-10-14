@@ -485,11 +485,11 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="filingDelay" value="12"/>
   </bean>
 
-  <bean id="bAFAGrantRequestService"
-    class="fr.cg95.cvq.service.request.social.impl.BAFAGrantRequestService"
+  <bean id="bafaGrantRequestService"
+    class="fr.cg95.cvq.service.request.social.impl.BafaGrantRequestService"
     parent="requestService">
     <!-- Service specific -->
-    <property name="label" value="BAFA Grant"/>
+    <property name="label" value="Bafa Grant"/>
     <property name="subjectPolicy" value="SUBJECT_POLICY_INDIVIDUAL" />
     <property name="defaultDisplayGroup" value="social" />
     <property name="filingDelay" value="12"/>

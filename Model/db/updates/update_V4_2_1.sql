@@ -83,3 +83,32 @@ alter table b_a_f_a_grant_request
   add constraint FK2079D97A1EE1CD99
   foreign key (french_r_i_b_id)
   references french_r_i_b;
+
+alter table b_a_f_a_grant_request rename to bafa_grant_request;
+
+alter table bafa_grant_request drop constraint FK2079D97A681FBDDD;
+alter table bafa_grant_request drop constraint FK2079D97A87B85F15;
+alter table bafa_grant_request drop constraint FK2079D97A1EE1CD99;
+
+alter table bafa_grant_request
+  add constraint FK50AFA827681FBDDD
+  foreign key (internship_institute_address_id)
+  references address;
+
+alter table bafa_grant_request
+  add constraint FK50AFA82787B85F15
+  foreign key (subject_address_id)
+  references address;
+
+alter table bafa_grant_request
+  add constraint FK50AFA8271EE1CD99
+  foreign key (french_r_i_b_id)
+  references french_r_i_b;
+
+update request set specific_data_class = 'fr.cg95.cvq.business.request.social.BafaGrantRequestData' where specific_data_class = 'fr.cg95.cvq.business.request.social.BAFAGrantRequestData';
+
+update request_type set label = 'Bafa Grant' where label = 'BAFA Grant';
+
+update document_type set name = 'Bafa Internship Certificate' where name = 'B.A.F.A. Internship Certificate';
+update document_type set name = 'Bafa Block Release Certificate' where name = 'B.A.F.A. Block Release Certificate';
+update document_type set name = 'Bafa General Training Certificate' where name = 'B.A.F.A. General Training Certificate';

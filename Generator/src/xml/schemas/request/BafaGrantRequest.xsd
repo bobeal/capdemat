@@ -7,13 +7,13 @@
   attributeFormDefault="unqualified">
   <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
     schemaLocation="../common/CVQCommonElements.xsd" />
-  <xs:element name="BAFAGrantRequest">
+  <xs:element name="BafaGrantRequest">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Demande de subvention individuelle au titre du stage d'approfondissement B.A.F.A.
+        Demande de subvention individuelle au titre du stage d'approfondissement Bafa
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Subvention B.A.F.A.
+        Subvention Bafa
       </xs:documentation>
       <xs:appinfo>
         <model namespace="social" />

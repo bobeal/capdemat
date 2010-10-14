@@ -17,14 +17,14 @@
     alter table alignment_numbering_connection_request 
         drop constraint FKEBD13110C6C3DEB1;
 
-    alter table b_a_f_a_grant_request 
-        drop constraint FK2079D97A681FBDDD;
+    alter table bafa_grant_request 
+        drop constraint FK50AFA827681FBDDD;
 
-    alter table b_a_f_a_grant_request 
-        drop constraint FK2079D97A87B85F15;
+    alter table bafa_grant_request 
+        drop constraint FK50AFA82787B85F15;
 
-    alter table b_a_f_a_grant_request 
-        drop constraint FK2079D97A1EE1CD99;
+    alter table bafa_grant_request 
+        drop constraint FK50AFA8271EE1CD99;
 
     alter table bulky_waste_collection_request 
         drop constraint FK1F104ECB1AE70A63;
@@ -436,7 +436,7 @@
 
     drop table alignment_numbering_connection_request;
 
-    drop table b_a_f_a_grant_request;
+    drop table bafa_grant_request;
 
     drop table birth_details_request;
 
@@ -759,7 +759,7 @@
         primary key (id)
     );
 
-    create table b_a_f_a_grant_request (
+    create table bafa_grant_request (
         id int8 not null,
         account_holder_first_name varchar(38),
         account_holder_edemande_id varchar(255),
@@ -2493,18 +2493,18 @@
         foreign key (other_address_id) 
         references address;
 
-    alter table b_a_f_a_grant_request 
-        add constraint FK2079D97A681FBDDD 
+    alter table bafa_grant_request 
+        add constraint FK50AFA827681FBDDD 
         foreign key (internship_institute_address_id) 
         references address;
 
-    alter table b_a_f_a_grant_request 
-        add constraint FK2079D97A87B85F15 
+    alter table bafa_grant_request 
+        add constraint FK50AFA82787B85F15 
         foreign key (subject_address_id) 
         references address;
 
-    alter table b_a_f_a_grant_request 
-        add constraint FK2079D97A1EE1CD99 
+    alter table bafa_grant_request 
+        add constraint FK50AFA8271EE1CD99 
         foreign key (french_r_i_b_id) 
         references french_r_i_b;
 

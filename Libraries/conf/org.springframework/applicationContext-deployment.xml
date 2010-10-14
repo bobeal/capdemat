@@ -82,7 +82,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/school/PerischoolContactIndividual.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/school/RecreationAuthorizedIndividual.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/school/RecreationContactIndividual.hbm.xml</value>
-        <value>fr/cg95/cvq/business/request/social/BAFAGrantRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/BafaGrantRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/DhrRealAsset.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/DhrNotRealAsset.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/DhrPreviousDwelling.hbm.xml</value>

@@ -22,10 +22,10 @@ import fr.cg95.cvq.service.request.condition.IConditionChecker;
  * Generated class file, do not edit !
  *
  * @hibernate.class
- *  table="b_a_f_a_grant_request"
+ *  table="bafa_grant_request"
  *  lazy="false"
  */
-public class BAFAGrantRequestData implements Serializable {
+public class BafaGrantRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,7 +34,7 @@ public class BAFAGrantRequestData implements Serializable {
 
     private Long id;
 
-    public BAFAGrantRequestData() {
+    public BafaGrantRequestData() {
       
         isSubjectAccountHolder = Boolean.valueOf(true);
       

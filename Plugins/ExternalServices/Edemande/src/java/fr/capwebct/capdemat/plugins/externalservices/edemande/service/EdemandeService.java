@@ -36,7 +36,7 @@ import com.jcraft.jsch.SftpException;
 import com.unilog.gda.edem.service.EnregistrerValiderFormulaireResponseDocument;
 import com.unilog.gda.glob.service.GestionCompteResponseDocument;
 
-import fr.capwebct.capdemat.plugins.externalservices.edemande.adapters.BAFAGrantEdemandeRequest;
+import fr.capwebct.capdemat.plugins.externalservices.edemande.adapters.BafaGrantEdemandeRequest;
 import fr.capwebct.capdemat.plugins.externalservices.edemande.adapters.EdemandeRequest;
 import fr.capwebct.capdemat.plugins.externalservices.edemande.adapters.StudyGrantEdemandeRequest;
 import fr.capwebct.capdemat.plugins.externalservices.edemande.webservice.client.IEdemandeClient;
@@ -52,7 +52,7 @@ import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.business.request.external.RequestExternalActionState;
 import fr.cg95.cvq.business.request.school.StudyGrantRequest;
-import fr.cg95.cvq.business.request.social.BAFAGrantRequest;
+import fr.cg95.cvq.business.request.social.BafaGrantRequest;
 import fr.cg95.cvq.business.users.FrenchRIB;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
@@ -72,8 +72,8 @@ import fr.cg95.cvq.util.translation.ITranslationService;
 import fr.cg95.cvq.xml.common.AddressType;
 import fr.cg95.cvq.xml.request.school.StudyGrantRequestDocument;
 import fr.cg95.cvq.xml.request.school.impl.StudyGrantRequestDocumentImpl.StudyGrantRequestImpl;
-import fr.cg95.cvq.xml.request.social.BAFAGrantRequestDocument;
-import fr.cg95.cvq.xml.request.social.impl.BAFAGrantRequestDocumentImpl.BAFAGrantRequestImpl;
+import fr.cg95.cvq.xml.request.social.BafaGrantRequestDocument;
+import fr.cg95.cvq.xml.request.social.impl.BafaGrantRequestDocumentImpl.BafaGrantRequestImpl;
 
 public class EdemandeService implements IExternalProviderService {
 
@@ -789,10 +789,10 @@ public class EdemandeService implements IExternalProviderService {
             return new StudyGrantEdemandeRequest((StudyGrantRequestImpl)((StudyGrantRequestDocument)requestXml).getStudyGrantRequest());
         } else if (requestXml instanceof StudyGrantRequestImpl) {
             return new StudyGrantEdemandeRequest((StudyGrantRequestImpl) requestXml);
-        } else if (requestXml instanceof BAFAGrantRequestDocument) {
-            return new BAFAGrantEdemandeRequest((BAFAGrantRequestImpl)((BAFAGrantRequestDocument)requestXml).getBAFAGrantRequest());
-        } else if (requestXml instanceof BAFAGrantRequestImpl) {
-            return new BAFAGrantEdemandeRequest((BAFAGrantRequestImpl) requestXml);
+        } else if (requestXml instanceof BafaGrantRequestDocument) {
+            return new BafaGrantEdemandeRequest((BafaGrantRequestImpl)((BafaGrantRequestDocument)requestXml).getBafaGrantRequest());
+        } else if (requestXml instanceof BafaGrantRequestImpl) {
+            return new BafaGrantEdemandeRequest((BafaGrantRequestImpl) requestXml);
         } else {
             throw new IllegalArgumentException();
         }
@@ -803,8 +803,8 @@ public class EdemandeService implements IExternalProviderService {
         Request rqt = requestSearchService.getById(request.getId(), true);
         if (request instanceof StudyGrantEdemandeRequest) {
             ((StudyGrantRequest)rqt).setEdemandeId(psCodeDemande);
-        } else if (request instanceof BAFAGrantEdemandeRequest) {
-            ((BAFAGrantRequest)rqt).setEdemandeId(psCodeDemande);
+        } else if (request instanceof BafaGrantEdemandeRequest) {
+            ((BafaGrantRequest)rqt).setEdemandeId(psCodeDemande);
         } else {
             throw new IllegalArgumentException();
         }
@@ -815,8 +815,8 @@ public class EdemandeService implements IExternalProviderService {
         Request rqt = requestSearchService.getById(request.getId(), true);
         if (request instanceof StudyGrantEdemandeRequest) {
             ((StudyGrantRequest)rqt).setAccountHolderEdemandeId(psCodeTiersAH);
-        } else if (request instanceof BAFAGrantEdemandeRequest) {
-            ((BAFAGrantRequest)rqt).setAccountHolderEdemandeId(psCodeTiersAH);
+        } else if (request instanceof BafaGrantEdemandeRequest) {
+            ((BafaGrantRequest)rqt).setAccountHolderEdemandeId(psCodeTiersAH);
         } else {
             throw new IllegalArgumentException();
         }

@@ -33,13 +33,13 @@ import fr.cg95.cvq.util.development.BusinessObjectsFactory;
  * Generated class file, do not edit !
  * Extend it to define your own specific test cases.
  */
-public class BAFAGrantRequestServiceTest extends RequestTestCase {
+public class BafaGrantRequestServiceTest extends RequestTestCase {
     
-    @Resource(name="bAFAGrantRequestService")
+    @Resource(name="bafaGrantRequestService")
     protected IRequestService requestService;
 
-    protected BAFAGrantRequest fillMeARequest() {
-        BAFAGrantRequest request = new BAFAGrantRequest();
+    protected BafaGrantRequest fillMeARequest() {
+        BafaGrantRequest request = new BafaGrantRequest();
         
           
           
@@ -170,11 +170,11 @@ public class BAFAGrantRequestServiceTest extends RequestTestCase {
         // Means Of Contact
         MeansOfContact meansOfContact = meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.EMAIL);
         request.setMeansOfContact(meansOfContact);
-        BAFAGrantRequestFeeder.feed(request);
+        BafaGrantRequestFeeder.feed(request);
         return request;
     }
 
-    protected void completeValidateAndDelete(BAFAGrantRequest request)
+    protected void completeValidateAndDelete(BafaGrantRequest request)
         throws CvqException, IOException {
         // add a document to the request
         ///////////////////////////////
@@ -236,12 +236,12 @@ public class BAFAGrantRequestServiceTest extends RequestTestCase {
         assertNotNull(homeFolderId);
         // fill and create the request
         //////////////////////////////
-        BAFAGrantRequest request = fillMeARequest();
+        BafaGrantRequest request = fillMeARequest();
         request.setRequesterId(SecurityContext.getCurrentUserId());
         request.setHomeFolderId(homeFolderId);
-        BAFAGrantRequestFeeder.setSubject(request, requestService.getSubjectPolicy(), null, homeFolder);
+        BafaGrantRequestFeeder.setSubject(request, requestService.getSubjectPolicy(), null, homeFolder);
         Long requestId = requestWorkflowService.create(request, null);
-        BAFAGrantRequest requestFromDb = (BAFAGrantRequest) requestSearchService.getById(requestId, true);
+        BafaGrantRequest requestFromDb = (BafaGrantRequest) requestSearchService.getById(requestId, true);
         assertEquals(requestId, requestFromDb.getId());
         assertNotNull(requestFromDb.getRequesterId());
         assertNotNull(requestFromDb.getRequesterLastName());
@@ -260,20 +260,20 @@ public class BAFAGrantRequestServiceTest extends RequestTestCase {
             return;
         startTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        BAFAGrantRequest request = fillMeARequest();
+        BafaGrantRequest request = fillMeARequest();
         Address address = BusinessObjectsFactory.gimmeAdress("12", "Rue d'Aligre", "Paris", "75012");
         Adult requester = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "requester", address, FamilyStatusType.MARRIED);
         requester.setPassword("requester");
         requester.setAdress(address);
         homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
-        BAFAGrantRequestFeeder
+        BafaGrantRequestFeeder
             .setSubject(request, requestService.getSubjectPolicy(), requester, null);
         Long requestId = requestWorkflowService.create(request, requester, null);
         // close current session and re-open a new one
         continueWithNewTransaction();
         // start testing request creation
         /////////////////////////////////
-        BAFAGrantRequest requestFromDb = (BAFAGrantRequest) requestSearchService.getById(requestId, true);
+        BafaGrantRequest requestFromDb = (BafaGrantRequest) requestSearchService.getById(requestId, true);
         assertEquals(requestId, requestFromDb.getId());
         assertNotNull(requestFromDb.getRequesterId());
         assertNotNull(requestFromDb.getRequesterLastName());

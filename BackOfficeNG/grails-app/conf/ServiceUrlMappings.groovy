@@ -6,5 +6,6 @@ class ServiceUrlMappings {
     "/autocomplete/$action?" (controller: "serviceAutocomplete")
     "/service/request/$requestId/documents" (controller: "serviceRequestExternal", action: "requestDocuments")
     "/service/request/$requestId/document/$documentId?" (controller: "serviceRequestExternal", action: "requestDocument")
+    "/service/paylineV4/$action?/$id?" (controller : "servicePaylineV4")
   }
 }

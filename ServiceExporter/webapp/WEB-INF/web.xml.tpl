@@ -82,11 +82,6 @@
   </filter-mapping>
 
   <filter-mapping>
-    <filter-name>Hibernate Back Office Filter</filter-name>
-    <url-pattern>/payment/*</url-pattern>
-  </filter-mapping>
-
-  <filter-mapping>
     <filter-name>Hibernate Front Office Filter</filter-name>
     <url-pattern>/frontoffice/*</url-pattern>
   </filter-mapping>
@@ -111,21 +106,10 @@
   </servlet>
 
   <servlet>
-    <servlet-name>payment</servlet-name>
-    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <load-on-startup>2</load-on-startup>
-  </servlet>
-
-  <servlet>
     <servlet-name>external</servlet-name>
     <servlet-class>org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>
     <load-on-startup>2</load-on-startup>
   </servlet>
-    
-  <servlet-mapping>
-    <servlet-name>payment</servlet-name>
-    <url-pattern>/payment/*</url-pattern>
-  </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>main</servlet-name>

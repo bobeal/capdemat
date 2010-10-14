@@ -179,6 +179,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
                 documentDAO.update(document);
             }
             HibernateUtil.commitTransaction();
+            HibernateUtil.closeSession();
         }
     }
 

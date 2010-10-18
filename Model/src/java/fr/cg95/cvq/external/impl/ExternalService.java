@@ -16,8 +16,6 @@ import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
 import org.springframework.context.ApplicationListener;
 
-import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
-import fr.cg95.cvq.business.external.ExternalServiceIndividualMapping;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
@@ -26,9 +24,11 @@ import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.Payment;
 import fr.cg95.cvq.business.payment.PaymentEvent;
 import fr.cg95.cvq.business.payment.PurchaseItem;
-import fr.cg95.cvq.dao.external.IExternalServiceMappingDAO;
+import fr.cg95.cvq.business.users.external.HomeFolderMapping;
+import fr.cg95.cvq.business.users.external.IndividualMapping;
 import fr.cg95.cvq.dao.external.IExternalServiceTraceDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.users.external.IExternalHomeFolderDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.ExternalServiceUtils;
@@ -40,6 +40,7 @@ import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.annotation.RequestFilter;
+import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.xml.common.HomeFolderType;
 import fr.cg95.cvq.xml.common.IndividualType;
@@ -49,9 +50,10 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
 
     private static Logger logger = Logger.getLogger(ExternalService.class);
 
+    private IExternalHomeFolderService externalHomeFolderService;
+
     private IExternalServiceTraceDAO externalServiceTraceDAO;
-    private IExternalServiceMappingDAO externalServiceMappingDAO;
-    
+
     @Override
     public boolean authenticate(String externalServiceLabel, String password) {
         IExternalProviderService externalProviderService =
@@ -91,21 +93,21 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
             // before sending the request to the external service, eventually set 
             // the external identifiers if they are known ...
             String externalServiceLabel = externalProviderService.getLabel();
-            ExternalServiceIdentifierMapping esim = 
-                getIdentifierMapping(externalServiceLabel, xmlHomeFolder.getId());
+            HomeFolderMapping esim = 
+                externalHomeFolderService.getHomeFolderMapping(externalServiceLabel, xmlHomeFolder.getId());
             if (esim != null) {
                 fillRequestWithEsim(xmlRequest, esim);
             } else {
                 // no existing external service mapping : create a new one to store
                 // the CapDemat external identifier
-                esim = new ExternalServiceIdentifierMapping(externalServiceLabel, xmlHomeFolder.getId(), 
+                esim = new HomeFolderMapping(externalServiceLabel, xmlHomeFolder.getId(), 
                         UUID.randomUUID().toString(), null);
                 for (IndividualType xmlIndividual : xmlHomeFolder.getIndividualsArray()) {
                     esim.addIndividualMapping(xmlIndividual.getId(), UUID.randomUUID().toString(), null);
                 }
-                
-                externalServiceMappingDAO.create(esim);
-                
+
+                externalHomeFolderService.createHomeFolderMapping(esim);
+
                 // Need to flush if we want EPSs to see the newly created ESIM
                 HibernateUtil.getSession().flush();
 
@@ -123,7 +125,7 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
                 String externalId = externalProviderService.sendRequest(xmlRequest);
                 if (externalId != null && !externalId.equals("")) {
                     esim.setExternalId(externalId);
-                    externalServiceMappingDAO.update(esim);
+                    externalHomeFolderService.modifyHomeFolderMapping(esim);
                 }
                 if (!externalProviderService.handlesTraces()) {
                     est.setStatus(TraceStatusEnum.SENT);
@@ -146,13 +148,13 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
         throws CvqException {
         
         RequestType xmlRequest = ExternalServiceUtils.getRequestTypeFromXmlObject(xmlObject);
-        List<ExternalServiceIdentifierMapping> esimList = 
-            externalServiceMappingDAO.getIdentifierMappings(xmlRequest.getHomeFolder().getId());
+        List<HomeFolderMapping> esimList = 
+            externalHomeFolderService.getHomeFolderMappings(xmlRequest.getHomeFolder().getId());
         if (esimList == null || esimList.isEmpty())
             return Collections.emptyMap();
         
         Map<String, Object> informations = new TreeMap<String, Object>();
-        for (ExternalServiceIdentifierMapping esim : esimList) {
+        for (HomeFolderMapping esim : esimList) {
             IExternalProviderService externalProviderService = 
                 getExternalServiceByLabel(esim.getExternalServiceLabel());
             if (externalProviderService == null) {
@@ -179,13 +181,13 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
         
         // FIXME : this can cause backward compatibility problems
         //         not sure that all existing accounts have a mapping
-        List<ExternalServiceIdentifierMapping> esimList = 
-            externalServiceMappingDAO.getIdentifierMappings(homeFolderId);
+        List<HomeFolderMapping> esimList = 
+            externalHomeFolderService.getHomeFolderMappings(homeFolderId);
         if (esimList == null || esimList.isEmpty())
             return Collections.emptySet();
         
         Set<ExternalAccountItem> accountsInfoSet = new HashSet<ExternalAccountItem>();
-        for (ExternalServiceIdentifierMapping esim : esimList) {
+        for (HomeFolderMapping esim : esimList) {
             IExternalProviderService externalProviderService = 
                 getExternalServiceByLabel(esim.getExternalServiceLabel());
             if (externalProviderService == null) {
@@ -261,8 +263,8 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
                             externalServiceLabel + " has been found");
                     continue;
                 }
-                ExternalServiceIdentifierMapping esim = 
-                    getIdentifierMapping(externalServiceLabel, payment.getHomeFolderId());
+                HomeFolderMapping esim = 
+                    externalHomeFolderService.getHomeFolderMapping(externalServiceLabel, payment.getHomeFolderId());
                 service.creditHomeFolderAccounts(externalServicesToNotify.get(externalServiceLabel), 
                         payment.getCvqReference(), payment.getBankReference(), 
                         payment.getHomeFolderId(), 
@@ -289,13 +291,13 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
         return resultMap;
     }
 
-    private void fillRequestWithEsim(RequestType xmlRequest, ExternalServiceIdentifierMapping esim) {
+    private void fillRequestWithEsim(RequestType xmlRequest, HomeFolderMapping esim) {
         
         HomeFolderType xmlHomeFolder = xmlRequest.getHomeFolder();
         xmlHomeFolder.setExternalId(esim.getExternalId());
         xmlHomeFolder.setExternalCapdematId(esim.getExternalCapDematId());
 
-        for (ExternalServiceIndividualMapping esimInd : esim.getIndividualsMappings()) {
+        for (IndividualMapping esimInd : esim.getIndividualsMappings()) {
             if (esimInd.getIndividualId() == null) {
                 logger.warn("fillRequestWithEsim() Got an ESIM without individual id " + esimInd.getExternalCapDematId());
                 continue;
@@ -369,60 +371,6 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
         return externalServiceTraceDAO.getCount(criteriaSet, true);
     }
 
-    @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public ExternalServiceIdentifierMapping
-        getIdentifierMapping(String externalServiceLabel, Long homeFolderId) {
-        return externalServiceMappingDAO
-            .getIdentifierMapping(externalServiceLabel, homeFolderId);
-    }
-
-    @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public ExternalServiceIdentifierMapping
-        getIdentifierMapping(String externalServiceLabel, String externalCapdematId) {
-        return externalServiceMappingDAO.getIdentifierMapping(externalServiceLabel, externalCapdematId);
-    }
-
-    @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public List<ExternalServiceIdentifierMapping> getIdentifierMappings(Long homeFolderId) {
-        return externalServiceMappingDAO.getIdentifierMappings(homeFolderId);
-    }
-
-    @Override
-    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void setExternalId(String externalServiceLabel, Long homeFolderId, Long individualId, 
-            String externalId) {
-        ExternalServiceIdentifierMapping identifierMapping = 
-            getIdentifierMapping(externalServiceLabel, homeFolderId);
-        
-        if (identifierMapping.getIndividualsMappings() == null) {
-            identifierMapping.addIndividualMapping(individualId, UUID.randomUUID().toString(), externalId);
-        } else {
-            Iterator<ExternalServiceIndividualMapping> it = 
-                identifierMapping.getIndividualsMappings().iterator();
-            ExternalServiceIndividualMapping newMapping = 
-                new ExternalServiceIndividualMapping(individualId, UUID.randomUUID().toString(), externalId);
-            while (it.hasNext()) {
-                ExternalServiceIndividualMapping esim = it.next();
-                if (esim.getIndividualId().equals(individualId)) {
-                    newMapping.setExternalCapDematId(esim.getExternalCapDematId());
-                    it.remove();
-                    break;
-                }
-            }
-            identifierMapping.getIndividualsMappings().add(newMapping);
-        }
-        externalServiceMappingDAO.update(identifierMapping);
-    }
-
-    @Override
-    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void deleteIdentifierMappings(final String externalServiceLabel, final Long homeFolderId) {
-        ExternalServiceIdentifierMapping esim = getIdentifierMapping(externalServiceLabel, homeFolderId);
-        externalServiceMappingDAO.delete(esim);
-    }
 
     /**
      * Get the configuration bean associated to the given external provider service.
@@ -453,25 +401,6 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
     }
 
     @Override
-    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void addHomeFolderMapping(String externalServiceLabel, Long homeFolderId,
-            String externalId) {
-
-        ExternalServiceIdentifierMapping esim =
-            getIdentifierMapping(externalServiceLabel, homeFolderId);
-        if (esim == null) {
-            esim = new ExternalServiceIdentifierMapping();
-            esim.setExternalServiceLabel(externalServiceLabel);
-            esim.setHomeFolderId(homeFolderId);
-            esim.setExternalCapDematId(UUID.randomUUID().toString());
-        }
-
-        esim.setExternalId(externalId);
-
-        externalServiceMappingDAO.create(esim);
-    }
-
-    @Override
     public void onApplicationEvent(PaymentEvent paymentEvent) {
         logger.debug("onApplicationEvent() got a payment event of type " + paymentEvent.getEvent());
         if (paymentEvent.getEvent().equals(PaymentEvent.EVENT_TYPE.PAYMENT_VALIDATED))
@@ -488,7 +417,8 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
         this.externalServiceTraceDAO = externalServiceTraceDAO;
     }
 
-    public void setExternalServiceMappingDAO(IExternalServiceMappingDAO externalServiceMappingDAO) {
-        this.externalServiceMappingDAO = externalServiceMappingDAO;
+    public void setExternalHomeFolderService(IExternalHomeFolderService externalHomeFolderService) {
+        this.externalHomeFolderService = externalHomeFolderService;
     }
+
 }

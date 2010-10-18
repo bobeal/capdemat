@@ -29,7 +29,7 @@
   <bean id="homeFolderMappingServiceEndpoint"
     class="fr.cg95.cvq.external.endpoint.HomeFolderMappingServiceEndpoint">
     <constructor-arg ref="xmlBeanMarshaller" />
-    <property name="externalService" ref="externalService" />
+    <property name="externalHomeFolderService" ref="externalHomeFolderService" />
   </bean>
   
   <bean id="documentListServiceEndpoint" 

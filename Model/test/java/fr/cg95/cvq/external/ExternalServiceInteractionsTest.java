@@ -112,7 +112,7 @@ public class ExternalServiceInteractionsTest extends ExternalServiceTestCase {
         lacb.unregisterExternalService(mockExternalService);
         
         HibernateUtil.getSession().delete(
-                externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL,
+                externalHomeFolderService.getHomeFolderMapping(EXTERNAL_SERVICE_LABEL,
                         cb.getHomeFolderId()));
 
         for (ExternalServiceTrace trace :

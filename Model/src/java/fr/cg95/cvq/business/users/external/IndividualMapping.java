@@ -1,11 +1,11 @@
-package fr.cg95.cvq.business.external;
+package fr.cg95.cvq.business.users.external;
 
 import java.io.Serializable;
 
 /**
  * @author bor@zenexity.fr
  */
-public class ExternalServiceIndividualMapping implements Serializable {
+public class IndividualMapping implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,10 +26,10 @@ public class ExternalServiceIndividualMapping implements Serializable {
     private String externalId = "";
 
     
-    public ExternalServiceIndividualMapping() {
+    public IndividualMapping() {
     }
 
-    public ExternalServiceIndividualMapping(Long individualId, String externalCapDematId,
+    public IndividualMapping(Long individualId, String externalCapDematId,
             String externalId) {
         this.externalCapDematId = externalCapDematId;
         this.individualId = individualId;
@@ -89,7 +89,7 @@ public class ExternalServiceIndividualMapping implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ExternalServiceIndividualMapping other = (ExternalServiceIndividualMapping) obj;
+        IndividualMapping other = (IndividualMapping) obj;
         if (individualId == null) {
             if (other.individualId != null)
                 return false;

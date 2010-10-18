@@ -7,11 +7,11 @@ import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
 
-import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
+import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.security.annotation.IsIndividual;
@@ -85,8 +85,6 @@ public interface IExternalService {
             Set<IExternalProviderService> externalProviderServices)
         throws CvqException;
 
-    List<ExternalServiceIdentifierMapping>
-        getIdentifierMappings(@IsHomeFolder Long homeFolderId);
 
     Long addTrace(ExternalServiceTrace trace);
 
@@ -100,37 +98,6 @@ public interface IExternalService {
 
     Long getLastTracesCount(Set<Critere> criteriaSet);
 
-    ExternalServiceIdentifierMapping getIdentifierMapping(final String externalServiceLabel,
-            @IsHomeFolder final Long homeFolderId);
-
-    ExternalServiceIdentifierMapping getIdentifierMapping(final String externalServiceLabel, 
-            final String externalCapdematId);
-
-    /**
-     * Add a new mapping for the given object.
-     *
-     * If a mapping already exists for the given external service label and home folder id,
-     * its external id will be replaced by the given one.
-     */
-    void addHomeFolderMapping(final String externalServiceLabel,
-            @IsHomeFolder final Long homeFolderId, final String externalId);
-
-    /**
-     * Set the external id of an individual for the given external service.
-     * 
-     * The mapping for the home folder must exist prior to this action.
-     * To be used on external id retrieval from the external service.
-     */
-    void setExternalId(String externalServiceLabel,
-        @IsHomeFolder Long homeFolderId, @IsIndividual Long individualId,
-        String externalId);
-
-    /**
-     * Delete mappings for the given external service and home folder (included individual mappings).
-     */
-    void deleteIdentifierMappings(final String externalServiceLabel,
-            @IsHomeFolder final Long homeFolderId);
-    
     IExternalProviderService getExternalServiceByLabel(final String externalServiceLabel);
 
     ExternalServiceBean getBeanForExternalService(IExternalProviderService externalProviderService);

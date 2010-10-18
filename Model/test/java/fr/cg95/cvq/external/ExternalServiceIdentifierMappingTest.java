@@ -12,13 +12,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
-import fr.cg95.cvq.business.external.ExternalServiceIndividualMapping;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.external.HomeFolderMapping;
+import fr.cg95.cvq.business.users.external.IndividualMapping;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -40,8 +40,8 @@ public class ExternalServiceIdentifierMappingTest extends ExternalServiceTestCas
             HibernateUtil.getSession().delete(trace);
         }
         continueWithNewTransaction();
-        ExternalServiceIdentifierMapping esimFromDb = 
-            externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL, (Long) null);
+        HomeFolderMapping esimFromDb = 
+            externalHomeFolderService.getHomeFolderMapping(EXTERNAL_SERVICE_LABEL, (Long) null);
         assertNull(esimFromDb);        
         assertEquals(0, externalService.getTracesCount(Collections.<Critere>emptySet()).longValue());
         super.onTearDown();
@@ -88,7 +88,7 @@ public class ExternalServiceIdentifierMappingTest extends ExternalServiceTestCas
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
 
-        ExternalServiceIdentifierMapping esim = new ExternalServiceIdentifierMapping();
+        HomeFolderMapping esim = new HomeFolderMapping();
         esim.setExternalServiceLabel(EXTERNAL_SERVICE_LABEL);
         esim.setExternalId("External Id 1");
         esim.setHomeFolderId(homeFolder.getId());
@@ -107,7 +107,7 @@ public class ExternalServiceIdentifierMappingTest extends ExternalServiceTestCas
         context.assertIsSatisfied();
         
         lacb.unregisterExternalService(mockExternalService);
-        externalService.deleteIdentifierMappings(EXTERNAL_SERVICE_LABEL, cb.getHomeFolderId());
+        externalHomeFolderService.deleteHomeFolderMappings(EXTERNAL_SERVICE_LABEL, cb.getHomeFolderId());
     }
 
     @Test
@@ -127,19 +127,19 @@ public class ExternalServiceIdentifierMappingTest extends ExternalServiceTestCas
 
         continueWithNewTransaction();
         
-        externalService.setExternalId(fakeExternalService.getLabel(), cb.getHomeFolderId(), 
+        externalHomeFolderService.setExternalId(fakeExternalService.getLabel(), cb.getHomeFolderId(), 
                 homeFolderResponsible.getId(), "external ID");
         
         continueWithNewTransaction();
         
-        ExternalServiceIdentifierMapping esimFromDb =
-            externalService.getIdentifierMapping(fakeExternalService.getLabel(), cb.getHomeFolderId());
+        HomeFolderMapping esimFromDb =
+            externalHomeFolderService.getHomeFolderMapping(fakeExternalService.getLabel(), cb.getHomeFolderId());
         assertNotNull(esimFromDb);
         assertNotNull(esimFromDb.getIndividualsMappings());
-        Set<ExternalServiceIndividualMapping> esimIndividuals = esimFromDb.getIndividualsMappings();
+        Set<IndividualMapping> esimIndividuals = esimFromDb.getIndividualsMappings();
         assertEquals(5, esimIndividuals.size());
-        ExternalServiceIndividualMapping esimIndividual = null;
-        for (ExternalServiceIndividualMapping m : esimIndividuals) {
+        IndividualMapping esimIndividual = null;
+        for (IndividualMapping m : esimIndividuals) {
             if (m.getIndividualId().equals(homeFolderService.getHomeFolderResponsible(cb.getHomeFolderId()).getId()))
                 esimIndividual = m;
         }
@@ -147,6 +147,6 @@ public class ExternalServiceIdentifierMappingTest extends ExternalServiceTestCas
         assertEquals("external ID", esimIndividual.getExternalId());
         
         unregisterFakeExternalService();
-        externalService.deleteIdentifierMappings(fakeExternalService.getLabel(), cb.getHomeFolderId());
+        externalHomeFolderService.deleteHomeFolderMappings(fakeExternalService.getLabel(), cb.getHomeFolderId());
     }
 }

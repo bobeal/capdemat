@@ -62,6 +62,7 @@ import fr.cg95.cvq.service.request.IRequestDocumentService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.school.IStudyGrantRequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
+import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.translation.ITranslationService;
 import fr.cg95.cvq.xml.common.AddressType;
@@ -74,6 +75,7 @@ public class EdemandeService implements IExternalProviderService {
     private String label;
     private IEdemandeClient edemandeClient;
     private IExternalService externalService;
+    private IExternalHomeFolderService externalHomeFolderService;
     private IStudyGrantRequestService requestService;
     private IRequestDocumentService requestDocumentService;
     private IDocumentService documentService;
@@ -142,7 +144,7 @@ public class EdemandeService implements IExternalProviderService {
             } else {
                 // tiers has been created in eDemande, store its code locally
                 sgr.getSubject().getAdult().setExternalId(psCodeTiersS);
-                externalService.setExternalId(label, sgr.getHomeFolder().getId(), 
+                externalHomeFolderService.setExternalId(label, sgr.getHomeFolder().getId(), 
                         sgr.getSubject().getAdult().getId(), psCodeTiersS);
             }
         }
@@ -898,6 +900,10 @@ public class EdemandeService implements IExternalProviderService {
 
     public void setExternalService(IExternalService externalService) {
         this.externalService = externalService;
+    }
+
+    public void setExternalHomeFolderService(IExternalHomeFolderService externalHomeFolderService) {
+        this.externalHomeFolderService = externalHomeFolderService;
     }
 
     public void setRequestWorkflowService(IRequestWorkflowService requestWorkflowService) {

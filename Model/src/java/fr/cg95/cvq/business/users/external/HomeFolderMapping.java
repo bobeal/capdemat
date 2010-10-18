@@ -1,16 +1,17 @@
-package fr.cg95.cvq.business.external;
+package fr.cg95.cvq.business.users.external;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+
 /**
  * @hibernate.class
- *  table="external_service_identifier_mapping"
+ *  table="home_folder_mapping"
  *
  * @author bor@zenexity.fr
  */
-public class ExternalServiceIdentifierMapping implements Serializable {
+public class HomeFolderMapping implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,13 +22,13 @@ public class ExternalServiceIdentifierMapping implements Serializable {
     private String externalCapDematId;
     private String externalId;
     
-    private Set<ExternalServiceIndividualMapping> individualsMappings;
+    private Set<IndividualMapping> individualsMappings;
 
     
-    public ExternalServiceIdentifierMapping() {
+    public HomeFolderMapping() {
     }
 
-    public ExternalServiceIdentifierMapping(String externalServiceLabel, Long homeFolderId,
+    public HomeFolderMapping(String externalServiceLabel, Long homeFolderId,
             String externalCapDematId, String externalId) {
         this.externalServiceLabel = externalServiceLabel;
         this.homeFolderId = homeFolderId;
@@ -99,28 +100,28 @@ public class ExternalServiceIdentifierMapping implements Serializable {
     /**
      * @hibernate.set
      *  lazy="true"
-     *  table="external_service_individual_mapping"
+     *  table="individual_mapping"
      *  cascade="all"
      * @hibernate.key
      *  column="mapping_id"
      * @hibernate.composite-element
-     *  class="fr.cg95.cvq.business.external.ExternalServiceIndividualMapping"
+     *  class="fr.cg95.cvq.business.users.external.IndividualMapping"
      */
-    public Set<ExternalServiceIndividualMapping> getIndividualsMappings() {
+    public Set<IndividualMapping> getIndividualsMappings() {
         return individualsMappings;
     }
 
-    public void setIndividualsMappings(Set<ExternalServiceIndividualMapping> individualsMappings) {
+    public void setIndividualsMappings(Set<IndividualMapping> individualsMappings) {
         this.individualsMappings = individualsMappings;
     }
     
     public void addIndividualMapping(final Long individualId, final String externalCapDematId, 
             final String externalId) {
-        ExternalServiceIndividualMapping esim = 
-            new ExternalServiceIndividualMapping(individualId, externalCapDematId, externalId);
+        IndividualMapping esim = 
+            new IndividualMapping(individualId, externalCapDematId, externalId);
 
         if (this.individualsMappings == null)
-            this.individualsMappings = new HashSet<ExternalServiceIndividualMapping>();
+            this.individualsMappings = new HashSet<IndividualMapping>();
         
         this.individualsMappings.add(esim);
     }

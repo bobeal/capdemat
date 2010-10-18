@@ -99,7 +99,10 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/reservation/TbrTicket.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/MeansOfContact.hbm.xml</value>
         <value>fr/cg95/cvq/business/external/ExternalServiceTrace.hbm.xml</value>
-        <value>fr/cg95/cvq/business/external/ExternalServiceIdentifierMapping.hbm.xml</value>
+        <value>fr/cg95/cvq/business/users/external/HomeFolderMapping.hbm.xml</value>
+        <value>fr/cg95/cvq/business/users/external/ExternalHomeFolder.hbm.xml</value>
+        <value>fr/cg95/cvq/business/users/external/ExternalIndividual.hbm.xml</value>
+        <value>fr/cg95/cvq/business/users/external/ExternalApplication.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/RequestDocument.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/IndividualRole.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/ticket/Entertainment.hbm.xml</value>

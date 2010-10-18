@@ -89,9 +89,6 @@
     alter table electoral_roll_registration_request 
         drop constraint FK45625529F0159453;
 
-    alter table external_service_individual_mapping 
-        drop constraint FK5BC5D7E648C97698;
-
     alter table forms 
         drop constraint FK5D18C2FC5FD0068;
 
@@ -217,6 +214,9 @@
 
     alter table individual 
         drop constraint FKFD3DA2998BD77771;
+
+    alter table individual_mapping 
+        drop constraint FK19DDB928D20F5682;
 
     alter table individual_role 
         drop constraint FK3C7D4E5CD4C3A2D8;
@@ -447,10 +447,6 @@
 
     drop table electoral_roll_registration_request;
 
-    drop table external_service_identifier_mapping;
-
-    drop table external_service_individual_mapping;
-
     drop table external_service_traces;
 
     drop table forms;
@@ -501,9 +497,13 @@
 
     drop table home_folder;
 
+    drop table home_folder_mapping;
+
     drop table home_folder_modification_request;
 
     drop table individual;
+
+    drop table individual_mapping;
 
     drop table individual_role;
 
@@ -954,22 +954,6 @@
         motive varchar(255),
         electoral_number int8,
         primary key (id)
-    );
-
-    create table external_service_identifier_mapping (
-        id int8 not null,
-        external_service_label varchar(255),
-        home_folder_id int8,
-        external_capdemat_id varchar(255),
-        external_id varchar(255),
-        primary key (id)
-    );
-
-    create table external_service_individual_mapping (
-        mapping_id int8 not null,
-        individual_id int8,
-        external_capdemat_id varchar(255),
-        external_id varchar(255)
     );
 
     create table external_service_traces (
@@ -1537,6 +1521,15 @@
         primary key (id)
     );
 
+    create table home_folder_mapping (
+        id int8 not null,
+        external_service_label varchar(255),
+        home_folder_id int8,
+        external_capdemat_id varchar(255),
+        external_id varchar(255),
+        primary key (id)
+    );
+
     create table home_folder_modification_request (
         id int8 not null,
         primary key (id)
@@ -1563,6 +1556,13 @@
         home_folder_id int8,
         home_folder_index int4,
         primary key (id)
+    );
+
+    create table individual_mapping (
+        mapping_id int8 not null,
+        individual_id int8,
+        external_capdemat_id varchar(255),
+        external_id varchar(255)
     );
 
     create table individual_role (
@@ -2394,11 +2394,6 @@
         foreign key (subject_address_outside_city_id) 
         references address;
 
-    alter table external_service_individual_mapping 
-        add constraint FK5BC5D7E648C97698 
-        foreign key (mapping_id) 
-        references external_service_identifier_mapping;
-
     alter table forms 
         add constraint FK5D18C2FC5FD0068 
         foreign key (request_type_id) 
@@ -2608,6 +2603,11 @@
         add constraint FKFD3DA2998BD77771 
         foreign key (home_folder_id) 
         references home_folder;
+
+    alter table individual_mapping 
+        add constraint FK19DDB928D20F5682 
+        foreign key (mapping_id) 
+        references home_folder_mapping;
 
     alter table individual_role 
         add constraint FK3C7D4E5CD4C3A2D8 

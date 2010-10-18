@@ -12,6 +12,7 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.RequestTestCase;
+import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 
 /**
  * FIXME : dependency on request test case has to be fixed
@@ -20,6 +21,9 @@ public class ExternalServiceTestCase extends RequestTestCase {
 
     @Autowired
     protected IExternalService externalService;
+    @Autowired
+    protected IExternalHomeFolderService externalHomeFolderService;
+    
     @Resource(name="fakeExternalService")
     protected IExternalProviderService fakeExternalService;
     

@@ -7,6 +7,7 @@
     class="fr.capwebct.capdemat.plugins.externalservices.edemande.service.EdemandeService">
     <property name="label" value="Edemande" />
     <property name="edemandeClient" ref="edemandeClient" />
+    <property name="externalService" ref="externalHomeFolderService" />
     <property name="externalService" ref="externalService" />
     <property name="requestService" ref="studyGrantRequestService" />
     <property name="documentService" ref="documentService" />

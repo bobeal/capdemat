@@ -26,12 +26,12 @@ import fr.capwebct.capdemat.AckRequestsResponseDocument.AckRequestsResponse;
 import fr.capwebct.capdemat.GetRequestsRequestDocument.GetRequestsRequest;
 import fr.capwebct.capdemat.GetRequestsResponseDocument.GetRequestsResponse;
 import fr.capwebct.capdemat.HomeFolderMappingRequestDocument.HomeFolderMappingRequest;
-import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
-import fr.cg95.cvq.business.external.ExternalServiceIndividualMapping;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.external.HomeFolderMapping;
+import fr.cg95.cvq.business.users.external.IndividualMapping;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
@@ -436,7 +436,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             /* Initialize internal variables */
             XmlBeansMarshaller xmlBeansMarshaller = new XmlBeansMarshaller();
             HomeFolderMappingServiceEndpoint endpoint = new HomeFolderMappingServiceEndpoint(xmlBeansMarshaller);
-            endpoint.setExternalService(externalService);
+            endpoint.setExternalHomeFolderService(externalHomeFolderService);
 
             /* Create new request and child entities */
             CreationBean cb = gimmeAnHomeFolder();
@@ -450,21 +450,21 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
 
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             
-            externalService.addHomeFolderMapping(fakeExternalServiceLabel, cb.getHomeFolderId(), "OriginalHomeFolderId");
+            externalHomeFolderService.addHomeFolderMapping(fakeExternalServiceLabel, cb.getHomeFolderId(), "OriginalHomeFolderId");
             continueWithNewTransaction();
             Individual individual = individualService.getByLogin(cb.getLogin());
-            externalService.setExternalId(fakeExternalServiceLabel, cb.getHomeFolderId(), individual.getId(), "OriginalIndividualId");
+            externalHomeFolderService.setExternalId(fakeExternalServiceLabel, cb.getHomeFolderId(), individual.getId(), "OriginalIndividualId");
             continueWithNewTransaction();
             
-            ExternalServiceIdentifierMapping esim =
-                externalService.getIdentifierMapping(fakeExternalServiceLabel, cb.getHomeFolderId());
+            HomeFolderMapping homeFolderMapping =
+                externalHomeFolderService.getHomeFolderMapping(fakeExternalServiceLabel, cb.getHomeFolderId());
             HomeFolderMappingType homeFolderMappingType = homeFolderMappingRequest.addNewHomeFolderMapping();
-            homeFolderMappingType.setExternalCapDematId(esim.getExternalCapDematId());
+            homeFolderMappingType.setExternalCapDematId(homeFolderMapping.getExternalCapDematId());
             homeFolderMappingType.setExternalId("ExternalHomeFolderId");
             
             IndividualMappingType individualMappingType = homeFolderMappingRequest.addNewIndividualMapping();
             String externalCapdematId = null;
-            for (ExternalServiceIndividualMapping indMapping : esim.getIndividualsMappings()) {
+            for (IndividualMapping indMapping : homeFolderMapping.getIndividualsMappings()) {
                 if (indMapping.getExternalId().equals("OriginalIndividualId")) {
                     externalCapdematId = indMapping.getExternalCapDematId();
                     individualMappingType.setExternalCapDematId(indMapping.getExternalCapDematId());
@@ -477,9 +477,9 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             endpoint.invokeInternal(homeFolderMappingRequestDocument);
             
             continueWithNewTransaction();
-            esim = externalService.getIdentifierMapping(fakeExternalServiceLabel, cb.getHomeFolderId());
-            assertEquals("ExternalHomeFolderId", esim.getExternalId());
-            for (ExternalServiceIndividualMapping indMapping : esim.getIndividualsMappings()) {
+            homeFolderMapping = externalHomeFolderService.getHomeFolderMapping(fakeExternalServiceLabel, cb.getHomeFolderId());
+            assertEquals("ExternalHomeFolderId", homeFolderMapping.getExternalId());
+            for (IndividualMapping indMapping : homeFolderMapping.getIndividualsMappings()) {
                 if (indMapping.getExternalCapDematId().equals(externalCapdematId)) {
                     assertEquals("ExternalIndividualId", indMapping.getExternalId());
                 }

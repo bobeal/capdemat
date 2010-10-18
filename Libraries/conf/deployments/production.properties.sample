@@ -26,6 +26,9 @@ agent.contributor_group=CVQ_CONTRIBUTORS
 fake_payment.url=/service/fakePayment
 fake_payment.callbackUrl=/frontoffice/payment/status
 
+provisioning.authorizeAlreadyCreated=true
+provisioning.secret=changeme
+
 ###############################################################################
 ######################### Plugins configuration ###############################
 ###############################################################################

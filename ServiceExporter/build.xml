@@ -178,15 +178,4 @@
     </javac>
   </target>
 
-  <target name="run-provisioning-test" depends="compile-tests">
-
-    <ant dir="${basedir}/.." target="build-war-serviceexporter" />
-
-    <java classname="fr.cg95.cvq.exporter.service.ProvisioningServiceTest">
-      <arg value="agent_de_test" />
-      <classpath refid="classpath.compile.test" />
-    </java>
-
-  </target>
-
 </project>

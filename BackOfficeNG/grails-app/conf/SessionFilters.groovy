@@ -72,26 +72,34 @@ class SessionFilters {
                 try {
                     ILocalAuthorityRegistry localAuthorityRegistry =
                         applicationContext.getBean("localAuthorityRegistry")
-                    LocalAuthority la = localAuthorityRegistry.getLocalAuthorityByServerName(request.serverName)
-                    if (la == null) {
-                    	log.error "No local authority found for domain : ${request.serverName}"
-                    	response.setStatus(500)
-                    	render "No local authority found for domain : ${request.serverName}"
-                    	return false
-                    }
-                    LocalAuthorityConfigurationBean lacb =
-                    	localAuthorityRegistry.getLocalAuthorityBeanByName(la.name)
-                    if (lacb == null) {
-                    	log.error "No LACB found for local authority : ${la.name}"
-                    	response.setStatus(500)
-                    	render "No LACB found for local authority : ${la.name}"
-                    	return false
+                    LocalAuthority la
+                    LocalAuthorityConfigurationBean lacb
+                    if (controllerName != "serviceProvisioning") {
+	                    la = localAuthorityRegistry.getLocalAuthorityByServerName(request.serverName)
+	                    if (la == null) {
+	                        log.error "No local authority found for domain : ${request.serverName}"
+	                        response.setStatus(500)
+	                        render "No local authority found for domain : ${request.serverName}"
+	                        return false
+	                    }
+	                    lacb = localAuthorityRegistry.getLocalAuthorityBeanByName(la.name)
+	                    if (lacb == null) {
+	                        log.error "No LACB found for local authority : ${la.name}"
+	                        response.setStatus(500)
+	                        render "No LACB found for local authority : ${la.name}"
+	                        return false
+	                    }
+                    } else {
+                        lacb = localAuthorityRegistry.getLocalAuthorityBeanByName(params.localAuthority)
                     }
                     SessionFactory sessionFactory = lacb.getSessionFactory()
                     HibernateUtil.setSessionFactory(sessionFactory)
 
                     HibernateUtil.beginTransaction()
 
+                    if (controllerName == "serviceProvisioning") {
+                        la = localAuthorityRegistry.getLocalAuthorityByName(lacb.name)
+                    }
                     SecurityContext.setCurrentSite(la, SecurityContext.BACK_OFFICE_CONTEXT)
                     SecurityContext.setCurrentLocale(request.getLocale())
 
@@ -333,5 +341,11 @@ class SessionFilters {
               return true
 			    }
 		    }
+
+        setProvisioningContext(uri: '/service/provisioning/**') {
+            before = {
+                SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT)
+            }
+        }
     }
 }

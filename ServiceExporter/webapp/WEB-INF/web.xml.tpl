@@ -10,7 +10,6 @@
     <param-value>
       /WEB-INF/applicationContext.xml,
       /WEB-INF/applicationContext-deployment.xml,
-      /WEB-INF/applicationContext-exportedservices.xml,
       /WEB-INF/applicationContext-serviceexporter.xml,
       classpath*:pluginContext.xml
     </param-value>
@@ -100,31 +99,10 @@
   </listener>
 
   <servlet>
-    <servlet-name>main</servlet-name>
-    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <load-on-startup>2</load-on-startup>
-  </servlet>
-
-  <servlet>
     <servlet-name>external</servlet-name>
     <servlet-class>org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>
     <load-on-startup>2</load-on-startup>
   </servlet>
-
-  <servlet-mapping>
-    <servlet-name>main</servlet-name>
-    <url-pattern>/backoffice/*</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>main</servlet-name>
-    <url-pattern>/frontoffice/*</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>main</servlet-name>
-    <url-pattern>/provisioning/*</url-pattern>
-  </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>external</servlet-name>

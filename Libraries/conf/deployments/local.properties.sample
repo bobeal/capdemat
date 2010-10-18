@@ -29,6 +29,9 @@ fake_payment.callbackUrl=/CapDemat/frontoffice/payment/status
 
 addresses_referential_url = http://localhost:9000
 
+provisioning.authorizeAlreadyCreated=true
+provisioning.secret=changeme
+
 ###############################################################################
 ######################### Plugins configuration ###############################
 ###############################################################################

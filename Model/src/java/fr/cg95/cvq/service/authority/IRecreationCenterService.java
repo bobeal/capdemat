@@ -16,4 +16,8 @@ public interface IRecreationCenterService {
 
     RecreationCenter getById(final Long id)
         throws CvqObjectNotFoundException;
+
+    RecreationCenter getByName(String name);
+
+    void modify(RecreationCenter recreationCenter);
 }

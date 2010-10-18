@@ -20,14 +20,4 @@
     </property>
   </bean>
 
-  <bean id="provisioningService" 
-    class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
-    <property name="serviceUrl">
-      <value>http://${serverName}:${httpPort}${contextPath}/ProvisioningService</value>
-    </property>
-    <property name="serviceInterface">
-      <value>fr.cg95.cvq.exporter.service.IProvisioningService</value>
-    </property>
-  </bean>
-
 </beans>

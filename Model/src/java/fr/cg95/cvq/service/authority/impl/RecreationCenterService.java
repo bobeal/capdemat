@@ -24,6 +24,11 @@ public final class RecreationCenterService implements IRecreationCenterService {
     private IRecreationCenterDAO recreationCenterDAO;
 
     @Override
+    public RecreationCenter getByName(String name) {
+        return recreationCenterDAO.findByName(name);
+    }
+
+    @Override
     public RecreationCenter getById(final Long id)
         throws CvqObjectNotFoundException {
         return (RecreationCenter)recreationCenterDAO.findById(
@@ -44,6 +49,11 @@ public final class RecreationCenterService implements IRecreationCenterService {
         logger.debug("Created recreation center object with id : "
             + recreationCenterId);
         return recreationCenterId;
+    }
+
+    @Override
+    public void modify(RecreationCenter recreationCenter) {
+        recreationCenterDAO.update(recreationCenter);
     }
 
     public void setDAO(IRecreationCenterDAO recreationCenterDAO) {

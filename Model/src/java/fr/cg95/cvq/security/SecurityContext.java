@@ -157,6 +157,56 @@ public class SecurityContext {
     }
 
     /**
+     * Return the agent who is doing a request on behalf of an ecitizen in
+     * {@link #FRONT_OFFICE_CONTEXT front office context}
+     */
+    public static Agent getProxyAgent() {
+        CredentialBean credentialBean = currentContextThreadLocal.get();
+        if (credentialBean == null)
+            return null;
+
+        return credentialBean.getProxyAgent();
+    }
+    
+    /**
+     * Set the current agent who is doing a request on behalf of an ecitizen.
+     */
+    public static void setProxyAgent(Agent proxyAgent)
+        throws CvqException {
+
+        logger.debug("setProxyAgent() proxy agent = " + proxyAgent);
+
+        CredentialBean credentialBean = currentContextThreadLocal.get();
+        if (credentialBean == null)
+            throw new CvqException("security.error.siteMustBeSetBeforeAgent");
+
+        if (!credentialBean.isFoContext())
+            throw new CvqException("security.error.proxyAgentExistInFrontOfficeContextOnly");
+
+        credentialBean.setProxyAgent(proxyAgent);
+    }
+    
+    /**
+     * @see #setProxyAgent(Agent)
+     */
+    public static void setProxyAgent(String proxyAgentLogin)
+        throws CvqException, CvqObjectNotFoundException {
+
+        Agent proxyAgent = null;
+        try {
+            proxyAgent = agentService.getByLogin(proxyAgentLogin);
+        } catch (CvqObjectNotFoundException confe) {
+            throw confe;
+        } catch (Exception e) {
+            logger.error("setProxyAgent() error while retrieving proxy agent " + proxyAgentLogin);
+            e.printStackTrace();
+            throw new CvqException("Error while retrieving proxy agent " + proxyAgentLogin);
+        }
+
+        setProxyAgent(proxyAgent);
+    }
+    
+    /**
      * Return the user we are talking to (from the WWW session), or
      * null if we are not in a WWW or other user-driven context.
      *
@@ -266,7 +316,10 @@ public class SecurityContext {
             return null;
 
         if (credentialBean.isFoContext()) {
-            return credentialBean.getEcitizen() == null ? null : credentialBean.getEcitizen().getId();
+            if (credentialBean.getProxyAgent() != null)
+                return credentialBean.getProxyAgent().getId();
+            else
+                return credentialBean.getEcitizen() == null ? null : credentialBean.getEcitizen().getId();
         } else if (credentialBean.isBoContext()) {
             return credentialBean.getAgent() == null ? null : credentialBean.getAgent().getId();
         } else {

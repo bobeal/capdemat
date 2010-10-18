@@ -204,6 +204,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         if (pdfData != null)
             requestEvent.addComplementaryData(COMP_DATA.PDF_FILE, pdfData);
         applicationContext.publishEvent(requestEvent);
+
+        if (SecurityContext.getProxyAgent() != null)
+            updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
     }
 
     @Override
@@ -607,6 +610,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             if (pdfData != null)
                 requestEvent.addComplementaryData(COMP_DATA.PDF_FILE, pdfData);
             applicationContext.publishEvent(requestEvent);
+            
+            if (SecurityContext.getProxyAgent() != null)
+                updateRequestState(requestId, RequestState.COMPLETE, null);
 
         } else if (!requestActionService.hasAction(requestId, RequestActionType.CREATION)) {
             requestActionService.addDraftCreationAction(requestId, new Date());

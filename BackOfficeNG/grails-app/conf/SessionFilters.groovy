@@ -122,6 +122,15 @@ class SessionFilters {
             }
         }
 
+        enableAddressesReferential(controller: '*', action: '*') {
+            before = {
+                if (SecurityContext.currentSite.token != null
+                    && SecurityContext.currentSite.token != "") {
+                    flash.put("addressesReferentialEnabled", !!SecurityContext.currentSite.token)
+                }
+            }
+        }
+
         enableAccountCreation(uri: '/frontoffice/**') {
             before = {
                 if (requestTypeService.getRequestTypeByLabel(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST).active) {

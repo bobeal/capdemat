@@ -7,6 +7,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
   var zca = zenexity.capdemat.aspect;
   var zct = zenexity.capdemat.tools;
   var zcv = zenexity.capdemat.Validation;
+  var zcc = zenexity.capdemat.common;
   var yud = YAHOO.util.Dom;
   var yuel = YAHOO.util.Element;
   var yue = YAHOO.util.Event;
@@ -242,9 +243,15 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       }
       else if (isSubmit && yud.hasClass(ddEl, 'validate-address')) {
         var addressFields = yud.getChildren(propertyWrapperEl);
-        var newAddressFields = yus.query('fieldset input', formEl);
-        zct.each (newAddressFields, function(i) {
-            addressFields[i].innerHTML = this.value ;
+        var newAddressFieldElems = yus.query('fieldset input', formEl);
+        var newAddressFields = {};
+        zct.each (newAddressFieldElems, function(i) {
+          newAddressFields[this.name] = this.value;
+        });
+        zct.each (addressFields, function() {
+          if(newAddressFields[this.name]) {
+            this.innerHTML = newAddressFields[this.name];
+          }
         });
       }
       else if (isSubmit && yud.hasClass(ddEl, 'validate-frenchRIB')) {
@@ -291,7 +298,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
        // FIXME - poor solution to manage condition chaining
       zcb.Condition.reInit();
     };
-    
+
     return { 
       inlineEditEvent : undefined,
       
@@ -372,6 +379,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
               yud.addClass(targetEl, 'current-editField');
               yud.addClass(yud.getFirstChild(targetEl), 'invisible');
               targetEl.innerHTML += o.responseText;
+
+              if(jsonPropertyType.validate === 'address') {
+                if(zcc.AddressAutocomplete) {
+                  zcc.AddressAutocomplete.bind(targetEl.id.replace(".","_"));
+                }
+              }
 
               if (yud.hasClass(targetEl, 'validate-date')) {
                 zcb.Calendar(targetEl.id + "_Field");

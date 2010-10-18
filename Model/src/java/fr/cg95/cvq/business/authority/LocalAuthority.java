@@ -27,6 +27,8 @@ public class LocalAuthority implements Serializable {
     private String displayTitle;
     private String adminEmail;
 
+    private String token;
+
     /**
      * Whether document digitalization is enabled for this local authority, defaults to true.
      */
@@ -158,6 +160,18 @@ public class LocalAuthority implements Serializable {
 
     /**
      * @hibernate.property
+     *  column="token"
+     */
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    /**
+     * @hibernate.property
      *  column="admin_email"
      */
     public String getAdminEmail() {
@@ -167,6 +181,7 @@ public class LocalAuthority implements Serializable {
     public void setAdminEmail(String adminEmail) {
         this.adminEmail = adminEmail;
     }
+
 
     /**
      * @hibernate.property

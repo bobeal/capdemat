@@ -23,7 +23,7 @@
 
     <dt><g:message code="homeFolder.individual.property.address" /> : </dt>
     <dd id="_requester.adress" class="action-editField validate-address required-true">
-      <div>
+      <div class="address-fieldset">
         <p class="additionalDeliveryInformation">${requester?.adress?.additionalDeliveryInformation}</p>
         <p class="additionalGeographicalInformation">${requester?.adress?.additionalGeographicalInformation}</p>
         

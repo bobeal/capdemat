@@ -1,0 +1,46 @@
+/*--------------------------------------------------------------
+
+    default styles for autocomplete componant
+
+---------------------------------------------------------------*/
+
+.autocomplete {
+  position: absolute;
+  margin-top: 20px;
+  z-index: 150;
+}
+
+.autocomplete .results {
+  list-style: none;
+  background: white;
+  border: 1px solid silver;
+  padding: 1px;
+}
+
+.autocomplete .results li {
+  padding: 6px 1px;
+  cursor: pointer;
+  background: #FFF;
+  border-bottom: 1px dotted silver;
+  text-align: left;
+}
+
+.autocomplete .results li:hover {
+  background: #FFF;
+}
+
+.autocomplete .results li.selected {
+  background: #DDD;
+}
+
+.autocomplete .results li.selected:hover {
+  background: #CCC;
+}
+
+.inputAssistance {
+  float: right;
+  color: #080;
+  background: #DFD;
+  padding: 0 4px;
+  margin: 0 0 0 auto;
+}

@@ -27,6 +27,8 @@ agent.contributor_group=CVQ_CONTRIBUTORS
 fake_payment.url=/CapDemat/service/fakePayment
 fake_payment.callbackUrl=/CapDemat/frontoffice/payment/status
 
+addresses_referential_url = http://localhost:9000
+
 ###############################################################################
 ######################### Plugins configuration ###############################
 ###############################################################################

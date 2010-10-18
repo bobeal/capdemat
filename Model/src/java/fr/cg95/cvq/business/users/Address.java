@@ -39,6 +39,10 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
     @MaxLength(value = 32, message = "streetName")
     private String streetName;
 
+    private String streetMatriculation;
+
+    private String streetRivoliCode;
+
     @MaxLength(value = 38, message = "placeNameOrService")
     private String placeNameOrService;
 
@@ -50,17 +54,22 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
     @MaxLength(value = 32, message = "city")
     private String city;
 
+    private String cityInseeCode;
+
     @MaxLength(value = 38, message = "countryName")
     private String countryName;
 
     public Address() {
     }
 
-    public Address(String streetNumber,String streetName,String postalCode,String city) {
+    public Address(String streetNumber,String streetName,String streetMatriculation,String streetRivoliCode,String postalCode,String city,String cityInseeCode) {
         this.streetNumber = streetNumber;
         this.streetName = streetName;
+        this.streetMatriculation = streetMatriculation;
+        this.streetRivoliCode = streetRivoliCode;
         this.postalCode = postalCode;
         this.city = city;
+        this.cityInseeCode = cityInseeCode;
     }
 
     public static AddressType modelToXml(Address address) {
@@ -72,8 +81,11 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
         addressType.setAdditionalGeographicalInformation(address.getAdditionalGeographicalInformation());
         addressType.setStreetNumber(address.getStreetNumber());
         addressType.setStreetName(address.getStreetName());
+        addressType.setStreetMatriculation(address.getStreetMatriculation());
+        addressType.setStreetRivoliCode(address.getStreetRivoliCode());
         addressType.setPostalCode(address.getPostalCode());
         addressType.setCity(address.getCity());
+        addressType.setCityInseeCode(address.getCityInseeCode());
         addressType.setPlaceNameOrService(address.getPlaceNameOrService());
         addressType.setCountryName(address.getCountryName());
         return addressType;
@@ -83,8 +95,8 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
 
         if (addressType != null) {
             Address address = 
-                new Address(addressType.getStreetNumber(), addressType.getStreetName(),
-                    addressType.getPostalCode(), addressType.getCity());
+                new Address(addressType.getStreetNumber(), addressType.getStreetName(), addressType.getStreetMatriculation(),
+                    addressType.getStreetRivoliCode(), addressType.getPostalCode(), addressType.getCity(), addressType.getCityInseeCode());
             if (addressType.getId() != 0)
                 address.setId(new Long(addressType.getId()));
             address.setAdditionalDeliveryInformation(addressType.getAdditionalDeliveryInformation());
@@ -165,6 +177,34 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
 
     /**
      * @hibernate.property
+     *  column="street_matriculation"
+     *  length="8"
+     */
+    public String getStreetMatriculation() {
+        return streetMatriculation;
+    }
+
+    public void setStreetMatriculation(String streetMatriculation) {
+        if (streetMatriculation != null)
+            this.streetMatriculation = streetMatriculation.toUpperCase();
+    }
+
+    /**
+     * @hibernate.property
+     *  column="street_rivoli_code"
+     *  length="10"
+     */
+    public String getStreetRivoliCode() {
+        return streetRivoliCode;
+    }
+
+    public void setStreetRivoliCode(String streetRivoliCode) {
+        if (streetRivoliCode != null)
+            this.streetRivoliCode = streetRivoliCode.toUpperCase();
+    }
+
+    /**
+     * @hibernate.property
      *  column="place_name_or_service"
      *  length="38"
      */
@@ -187,6 +227,20 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="city_insee_code"
+     *  length="5"
+     */
+    public String getCityInseeCode() {
+        return this.cityInseeCode;
+    }
+
+    public void setCityInseeCode(String cityInseeCode) {
+        if (cityInseeCode != null)
+            this.cityInseeCode = cityInseeCode.toUpperCase();
     }
 
     /**
@@ -224,7 +278,7 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
 
     @Override
     public Address clone() {
-        Address clone = new Address(streetNumber, streetName, postalCode, city);
+        Address clone = new Address(streetNumber, streetName, streetMatriculation, streetRivoliCode, postalCode, city, cityInseeCode);
         clone.additionalDeliveryInformation = additionalDeliveryInformation;
         clone.additionalGeographicalInformation = additionalGeographicalInformation;
         clone.countryName = countryName;

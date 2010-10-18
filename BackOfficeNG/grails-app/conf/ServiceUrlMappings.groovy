@@ -3,5 +3,6 @@ class ServiceUrlMappings {
 
     "/service/fakePayment/$action?/$id?" (controller : "serviceFakePayment" )
     "/service/spplus/$action?/$id?" (controller : "serviceSpplus" )
+    "/autocomplete/$action?" (controller: "serviceAutocomplete")
   }
 }

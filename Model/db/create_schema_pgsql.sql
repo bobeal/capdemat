@@ -627,8 +627,10 @@
         additional_geographical_information varchar(38),
         street_number varchar(5),
         street_name varchar(32),
+        street_matriculation varchar(8),
         place_name_or_service varchar(38),
         postal_code varchar(5),
+        city_insee_code varchar(5),
         city varchar(32),
         country_name varchar(38),
         primary key (id)
@@ -1595,6 +1597,7 @@
         postal_code varchar(5) not null,
         server_names bytea,
         document_digitalization_enabled bool not null,
+        token varchar(255),
         admin_email varchar(255),
         payment_deactivation_start_date timestamp,
         payment_deactivation_end_date timestamp,

@@ -1,12 +1,23 @@
 package fr.cg95.cvq.external;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import org.apache.xmlbeans.XmlObject;
+import org.w3c.dom.DocumentFragment;
 
 import fr.capwebct.modules.payment.schema.fam.AccountType;
 import fr.capwebct.modules.payment.schema.fam.ContractType;
@@ -138,5 +149,28 @@ public class ExternalServiceUtils {
         }
         
         return requestType;
+    }
+    
+    public static String getRequestFromFragment(XmlObject xmlRequest) {
+        String requestAsString = null;
+        try {
+            DocumentFragment documentFragment = (DocumentFragment) xmlRequest.newDomNode();
+            Source source = new DOMSource(documentFragment);
+            StringWriter stringWriter = new StringWriter();
+            Result result = new StreamResult(stringWriter);
+            TransformerFactory factory = TransformerFactory.newInstance();
+            Transformer transformer = factory.newTransformer();
+            transformer.transform(source, result);
+            requestAsString = stringWriter.getBuffer().toString();
+            requestAsString = requestAsString.substring(requestAsString.indexOf('>') + 1);
+        } catch (TransformerConfigurationException e) {
+            e.printStackTrace();
+            return null;
+        } catch (TransformerException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return requestAsString;
     }
 }

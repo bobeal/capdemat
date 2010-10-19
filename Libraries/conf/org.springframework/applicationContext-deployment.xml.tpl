@@ -220,6 +220,32 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="label" value="Fake Point External Service" />
   </bean>
 
+  <bean id="restExternalService"
+    class="fr.cg95.cvq.external.impl.RestExternalService">
+    <property name="label" value="Generic Rest External Service" />
+    <property name="externalServiceTraceDAO" ref="externalServiceTraceDAO" />
+    <property name="urls">
+      <map>
+        <entry key="sendRequest"
+          value="${plugins.externalservices.rest.send_request_url}" />
+        <entry key="checkExternalReferential"
+          value="${plugins.externalservices.rest.check_external_referential_url}" />
+        <entry key="loadExternalInformation"
+          value="${plugins.externalservices.rest.load_external_information_url}" />
+        <entry key="getFamilyAccounts"
+          value="${plugins.externalservices.rest.get_family_accounts_url}" />
+        <entry key="loadInvoiceDetails"
+          value="${plugins.externalservices.rest.load_invoice_details_url}" />
+        <entry key="loadAccountDetails"
+          value="${plugins.externalservices.rest.load_account_details_url}" />
+        <entry key="creditAccount"
+          value="${plugins.externalservices.rest.credit_account_url}" />
+        <entry key="getConsumptions"
+          value="${plugins.externalservices.rest.get_consumptions_url}" />
+      </map>
+    </property>
+  </bean>
+
   <bean id="translationService" class="fr.cg95.cvq.util.translation.impl.TranslationService" />
 
 </beans>

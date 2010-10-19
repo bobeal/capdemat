@@ -259,6 +259,10 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <bean id="requestDocumentService" class="fr.cg95.cvq.service.request.impl.RequestDocumentService">
     <property name="documentService" ref="documentService" />
+    <property name="requestExternalService" ref="requestExternalService" />
+    <property name="requestSearchService" ref="requestSearchService" />
+    <property name="externalService" ref="externalService" />
+    <property name="translationService" ref="translationService" />
     <property name="requestDAO" ref="requestDAO" />
   </bean>
   

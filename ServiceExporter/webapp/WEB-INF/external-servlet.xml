@@ -35,19 +35,13 @@
   <bean id="documentListServiceEndpoint" 
     class="fr.cg95.cvq.exporter.service.endpoint.DocumentListServiceEndpoint">
     <constructor-arg ref="xmlBeanMarshaller" />
-    <property name="requestSearchService" ref="requestSearchService" />
-    <property name="documentService" ref="documentService" />
-    <property name="requestExternalService" ref="requestExternalService" />
+    <property name="requestDocumentService" ref="requestDocumentService" />
   </bean>
   
   <bean id="documentServiceEndpoint" 
     class="fr.cg95.cvq.exporter.service.endpoint.DocumentServiceEndpoint">
     <constructor-arg ref="xmlBeanMarshaller" />
-    <property name="documentService" ref="documentService" />
-    <property name="requestExternalService" ref="requestExternalService" />
-    <property name="requestSearchService" ref="requestSearchService" />
-    <property name="externalService" ref="externalService" />
-    <property name="translationService" ref="translationService" />
+    <property name="requestDocumentService" ref="requestDocumentService" />
   </bean>
   
   <bean class="org.springframework.ws.server.endpoint.mapping.PayloadRootQNameEndpointMapping">

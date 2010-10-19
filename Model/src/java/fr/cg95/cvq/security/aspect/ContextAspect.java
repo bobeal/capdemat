@@ -98,6 +98,10 @@ public class ContextAspect implements Ordered {
                         denials.put(contextType, "can only be called in Admin context");
                     }
                     break;
+                case EXTERNAL_SERVICE :
+                    if (SecurityContext.getCurrentExternalService() == null)
+                        denials.put(contextType, "can only be called by an external service");
+                    break;
             }
         }
         if (denials.size() == contextTypes.length) {

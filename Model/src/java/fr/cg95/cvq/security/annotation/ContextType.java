@@ -31,5 +31,10 @@ public enum ContextType {
     /** 
      * For super administrators (ie administrators of the whole platform, typically cron jobs :-) ).
      */
-    SUPER_ADMIN;
+    SUPER_ADMIN,
+    
+    /**
+     * For external services invoking our WS 
+     */
+    EXTERNAL_SERVICE;
 }

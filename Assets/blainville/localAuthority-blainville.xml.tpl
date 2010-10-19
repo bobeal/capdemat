@@ -54,6 +54,25 @@
             </property>
           </bean>
         </entry>
+        <entry>
+          <key>
+            <ref bean="restExternalService" />
+          </key>
+          <bean class="fr.cg95.cvq.external.ExternalServiceBean">
+            <property name="requestTypes">
+              <list>
+                <value>Mdph Adult</value>
+                <value>Mdph Youth</value>
+              </list>
+            </property>
+            <property name="supportAccountsByHomeFolder">
+              <value>true</value>
+            </property>
+            <property name="supportAccountsByRequest">
+              <value>false</value>
+            </property>
+          </bean>
+        </entry>
       </map>
     </property>
     <property name="ecitizenCreationNotifications">

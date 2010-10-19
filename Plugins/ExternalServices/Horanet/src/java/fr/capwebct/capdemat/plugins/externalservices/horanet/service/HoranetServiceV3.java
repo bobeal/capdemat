@@ -29,14 +29,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.rpc.ParameterMode;
 import javax.xml.rpc.ServiceException;
 import javax.xml.soap.SOAPException;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.apache.axis.Constants;
 import org.apache.axis.attachments.AttachmentPart;
@@ -51,7 +43,6 @@ import org.jaxen.XPath;
 import org.jaxen.dom.DOMXPath;
 import org.jdom.output.XMLOutputter;
 import org.w3c.dom.Document;
-import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -74,6 +65,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.exception.CvqRemoteException;
 import fr.cg95.cvq.external.ExternalServiceBean;
+import fr.cg95.cvq.external.ExternalServiceUtils;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.service.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
@@ -142,23 +134,7 @@ public class HoranetServiceV3 implements IExternalProviderService {
             XmlOptions xmlOptions = new XmlOptions();
             xmlOptions.setCharacterEncoding("ISO-8859-1");
 
-            String requestAsString = null;
-            try {
-                DocumentFragment documentFragment = (DocumentFragment) requestXml.newDomNode();
-                Source source = new DOMSource(documentFragment);
-                StringWriter stringWriter = new StringWriter();
-                Result result = new StreamResult(stringWriter);
-                TransformerFactory factory = TransformerFactory.newInstance();
-                Transformer transformer = factory.newTransformer();
-                transformer.transform(source, result);
-                requestAsString = stringWriter.getBuffer().toString();
-                requestAsString = requestAsString.substring(requestAsString.indexOf('>') + 1);
-            } catch (TransformerConfigurationException e) {
-                e.printStackTrace();
-            } catch (TransformerException e) {
-                e.printStackTrace();
-            }
-           
+            String requestAsString = ExternalServiceUtils.getRequestFromFragment(requestXml);
             if (requestAsString == null) {
                 logger.error("sendRequest() unable to parse request document as a string");
                 return "";

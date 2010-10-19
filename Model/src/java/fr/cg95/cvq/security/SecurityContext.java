@@ -260,13 +260,17 @@ public class SecurityContext {
         setCurrentEcitizen((Adult) individual);
     }
 
-    public static String getCurrentExternalService() throws CvqException {
+    public static String getCurrentExternalService() {
         CredentialBean credentialBean = currentContextThreadLocal.get();
-        if (credentialBean == null)
-            throw new CvqException("No user yet in security context");
+        if (credentialBean == null) {
+            logger.warn("getCurrentExternalService() No user yet in security context");
+            return null;
+        }
 
-        if (!credentialBean.isBoContext())
-            throw new CvqException("External service only exists in Back Office context");
+        if (!credentialBean.isBoContext()) {
+            logger.warn("getCurrentExternalService() external service only exists in Back Office context");
+            return null;
+        }
 
         return credentialBean.getExternalService();
     }

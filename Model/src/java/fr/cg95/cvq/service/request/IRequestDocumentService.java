@@ -3,11 +3,14 @@ package fr.cg95.cvq.service.request;
 import java.util.List;
 import java.util.Set;
 
+import fr.capwebct.capdemat.GetDocumentListResponseDocument;
+import fr.capwebct.capdemat.GetDocumentResponseDocument;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestDocument;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 
 /**
@@ -67,6 +70,12 @@ public interface IRequestDocumentService {
      */
     Set<RequestDocument> getAssociatedDocuments(@IsRequest final Long requestId) throws CvqException;
     
+    GetDocumentListResponseDocument getAssociatedFullDocuments(final Long requestId) 
+        throws CvqException, CvqObjectNotFoundException, PermissionException;
+    
+    GetDocumentResponseDocument getAssociatedDocument(final Long requestId, final Long documentId,
+            final boolean mergeDocument) throws CvqException, CvqObjectNotFoundException, PermissionException;
+
     /**
      * Get associated documents of the given type.
      */

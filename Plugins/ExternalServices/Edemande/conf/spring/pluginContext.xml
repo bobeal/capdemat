@@ -8,7 +8,7 @@
     <property name="label" value="Edemande" />
     <property name="edemandeClient" ref="edemandeClient" />
     <property name="externalService" ref="externalHomeFolderService" />
-    <property name="externalService" ref="externalService" />
+    <property name="requestExternalActionService" ref="requestExternalActionService" />
     <property name="requestService" ref="studyGrantRequestService" />
     <property name="documentService" ref="documentService" />
     <property name="requestDocumentService" ref="requestDocumentService" />

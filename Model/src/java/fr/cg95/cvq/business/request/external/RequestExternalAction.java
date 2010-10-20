@@ -1,15 +1,18 @@
-package fr.cg95.cvq.business.external;
+package fr.cg95.cvq.business.request.external;
 
 import java.io.Serializable;
 import java.util.Date;
 
+
 /**
  * @hibernate.class
- *  table="external_service_traces"
+ *  table="request_external_action"
  *
  * @author vba@zenexity.fr
+ * 
+ * Previously called 'ExternalServiceTrace'
  */
-public class ExternalServiceTrace implements Serializable {
+public class RequestExternalAction implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -56,14 +59,14 @@ public class ExternalServiceTrace implements Serializable {
 
     private Date date;
 
-    private TraceStatusEnum status;
+    private RequestExternalActionState status;
 
-    public ExternalServiceTrace() {
+    public RequestExternalAction() {
         // empty constructor for Hibernate
     }
 
-    public ExternalServiceTrace(Date date, String key, String subkey,
-        String keyOwner, String message, String name, TraceStatusEnum status) {
+    public RequestExternalAction(Date date, String key, String subkey,
+        String keyOwner, String message, String name, RequestExternalActionState status) {
         super();
         this.date = date;
         this.key = key;
@@ -127,7 +130,7 @@ public class ExternalServiceTrace implements Serializable {
      * @hibernate.property
      *  column="status"
      */
-    public TraceStatusEnum getStatus() {
+    public RequestExternalActionState getStatus() {
         return status;
     }
 
@@ -155,7 +158,7 @@ public class ExternalServiceTrace implements Serializable {
         this.name = name;
     }
 
-    public void setStatus(TraceStatusEnum status) {
+    public void setStatus(RequestExternalActionState status) {
         this.status = status;
     }
 

@@ -1,7 +1,7 @@
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.Individual
 import fr.cg95.cvq.service.request.IRequestSearchService
-import fr.cg95.cvq.service.request.IRequestExternalService
+import fr.cg95.cvq.service.request.external.IRequestExternalService
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.security.SecurityContext
 

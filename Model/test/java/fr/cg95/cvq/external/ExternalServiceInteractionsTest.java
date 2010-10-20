@@ -8,17 +8,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.xmlbeans.XmlObject;
 import org.hamcrest.core.AllOf;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
 
-import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.Payment;
 import fr.cg95.cvq.business.payment.PaymentState;
 import fr.cg95.cvq.business.payment.PurchaseItem;
+import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
@@ -29,7 +32,6 @@ import fr.cg95.cvq.service.payment.IPaymentService;
 import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.testtool.HasInnerProperty;
 import fr.cg95.cvq.util.Critere;
-import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.request.ecitizen.VoCardRequestDocument;
 
 public class ExternalServiceInteractionsTest extends ExternalServiceTestCase {
@@ -41,7 +43,7 @@ public class ExternalServiceInteractionsTest extends ExternalServiceTestCase {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         
-        CreationBean cb = gimmeAnHomeFolder();
+        CreationBean cb = gimmeAnHomeFolderWithRequest();
         
         continueWithNewTransaction();
         
@@ -53,7 +55,6 @@ public class ExternalServiceInteractionsTest extends ExternalServiceTestCase {
         List<String> requestTypes = new ArrayList<String>();
         requestTypes.add(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST);
         esb.setRequestTypes(requestTypes);
-        esb.setSupportAccountsByHomeFolder(true);
         Mockery context = new Mockery();
         final IExternalProviderService mockExternalService = 
             context.mock(IExternalProviderService.class);
@@ -73,6 +74,7 @@ public class ExternalServiceInteractionsTest extends ExternalServiceTestCase {
         // set up the mock expectations
         context.checking(new Expectations() {{
             oneOf(mockExternalService).checkConfiguration(with(any(ExternalServiceBean.class)));
+            oneOf(mockExternalService).checkExternalReferential(with(any(XmlObject.class)));
             allowing(mockExternalService).getLabel();will(returnValue(EXTERNAL_SERVICE_LABEL));
             oneOf(mockExternalService).handlesTraces();
             oneOf(mockExternalService)
@@ -93,18 +95,15 @@ public class ExternalServiceInteractionsTest extends ExternalServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        Set<IExternalProviderService> externalProviderServices = 
-            new HashSet<IExternalProviderService>();
-        externalProviderServices.add(mockExternalService);
-        VoCardRequestDocument vocrDocument = VoCardRequestDocument.Factory.newInstance();
-        RequestType requestType = vocrDocument.addNewVoCardRequest();
-        requestType.setHomeFolder(homeFolder.modelToXml());
-        externalService.sendRequest(vocrDocument, externalProviderServices);
+        Request vcr = requestSearchService.getById(voCardRequestId, true);
+        requestWorkflowService.updateRequestState(voCardRequestId, RequestState.COMPLETE, "");
+        // requestExternalService.sendRequest is called here
+        requestWorkflowService.updateRequestState(voCardRequestId, RequestState.VALIDATED, "");
 
         continueWithNewTransaction();
 
-        externalService.getExternalAccounts(homeFolder.getId(), IPaymentService.EXTERNAL_INVOICES);
-        externalService.loadInvoiceDetails(eii);
+        paymentExternalService.getExternalAccounts(homeFolder.getId(), IPaymentService.EXTERNAL_INVOICES);
+        paymentExternalService.loadInvoiceDetails(eii);
         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
         
         context.assertIsSatisfied();
@@ -115,8 +114,8 @@ public class ExternalServiceInteractionsTest extends ExternalServiceTestCase {
                 externalHomeFolderService.getHomeFolderMapping(EXTERNAL_SERVICE_LABEL,
                         cb.getHomeFolderId()));
 
-        for (ExternalServiceTrace trace :
-            externalService.getTraces(Collections.<Critere>emptySet(), null, null, 0, 0)) {
+        for (RequestExternalAction trace :
+            requestExternalActionService.getTraces(Collections.<Critere>emptySet(), null, null, 0, 0)) {
             HibernateUtil.getSession().delete(trace);
         }
         continueWithNewTransaction();

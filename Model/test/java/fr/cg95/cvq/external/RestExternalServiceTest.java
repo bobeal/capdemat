@@ -19,8 +19,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import fr.cg95.cvq.business.external.ExternalServiceTrace;
-import fr.cg95.cvq.business.external.TraceStatusEnum;
+import fr.cg95.cvq.business.request.external.RequestExternalAction;
+import fr.cg95.cvq.business.request.external.RequestExternalActionState;
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
@@ -35,7 +35,7 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.payment.IPaymentService;
 import fr.cg95.cvq.service.payment.PaymentResultStatus;
-import fr.cg95.cvq.service.request.IRequestExternalService;
+import fr.cg95.cvq.service.request.external.IRequestExternalService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.util.Critere;
 
@@ -64,7 +64,6 @@ public class RestExternalServiceTest extends ExternalServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
         ExternalServiceBean esb = new ExternalServiceBean();
         esb.setRequestTypes(Arrays.asList(new String[]{service.getLabel()}));
-        esb.setSupportAccountsByHomeFolder(true);
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         lacb.registerExternalService(restExternalService, esb);
         continueWithNewTransaction();
@@ -107,9 +106,8 @@ public class RestExternalServiceTest extends ExternalServiceTestCase {
         ExternalAccountItem eai = new ExternalDepositAccountItem("eai", Double.valueOf("30"),
             restExternalService.getLabel(), "Deposit Account Label", new Date(),
             Double.valueOf("70"), broker);
-        eai.addExternalServiceSpecificData(ExternalServiceUtils.EXTERNAL_FAMILY_ACCOUNT_ID_KEY,
-            "EFA-ID");
-        eai.addExternalServiceSpecificData(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY, "123");
+        eai.setExternalHomeFolderId("EFA-ID");
+        eai.setExternalApplicationId("123");
         paymentService.addPurchaseItemToPayment(payment, eai);
         return payment;
     }
@@ -155,11 +153,11 @@ public class RestExternalServiceTest extends ExternalServiceTestCase {
         requestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
         continueWithNewTransaction();
         Set<Critere> criterias = new HashSet<Critere>();
-        criterias.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+        criterias.add(new Critere(RequestExternalAction.SEARCH_BY_KEY,
             String.valueOf(request.getId()), Critere.EQUALS));
-        List<ExternalServiceTrace> traces = externalService.getTraces(criterias, null, null, 0, 0);
+        List<RequestExternalAction> traces = requestExternalActionService.getTraces(criterias, null, null, 0, 0);
         assertEquals(1, traces.size());
-        assertEquals(TraceStatusEnum.SENT, traces.get(0).getStatus());
+        assertEquals(RequestExternalActionState.SENT, traces.get(0).getStatus());
     }
 
     @Test
@@ -170,7 +168,7 @@ public class RestExternalServiceTest extends ExternalServiceTestCase {
         requestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
         requestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
         continueWithNewTransaction();
-        assertEquals(1, externalService.getExternalAccounts(cb.getHomeFolderId(),
+        assertEquals(1, paymentExternalService.getExternalAccounts(cb.getHomeFolderId(),
             IPaymentService.EXTERNAL_INVOICES).size());
     }
 
@@ -182,18 +180,18 @@ public class RestExternalServiceTest extends ExternalServiceTestCase {
         requestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
         requestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
         continueWithNewTransaction();
-        assertEquals(1, requestExternalService.getConsumptionsByRequest(
-            request.getId(), new Date(), new Date()).size());
+        assertEquals(1, requestExternalService.getConsumptions(
+                request.getId(), new Date(), new Date()).size());
     }
 
     @Test
     public void loadDepositAccountDetails()
         throws CvqException {
         ExternalDepositAccountItem edai = new ExternalDepositAccountItem("test", Double.valueOf(10), restExternalService.getLabel(), "ext", new Date(), Double.valueOf(5), "fake");
-        edai.getExternalServiceSpecificData().put(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY, "ext");
-        edai.getExternalServiceSpecificData().put(ExternalServiceUtils.EXTERNAL_FAMILY_ACCOUNT_ID_KEY, "extFID");
+        edai.setExternalHomeFolderId("ext");
+        edai.setExternalHomeFolderId("extFID");
         assertNull(edai.getAccountDetails());
-        externalService.loadDepositAccountDetails(edai);
+        paymentExternalService.loadDepositAccountDetails(edai);
         assertNotNull(edai.getAccountDetails());
         assertEquals(1, edai.getAccountDetails().size());
     }
@@ -212,10 +210,10 @@ public class RestExternalServiceTest extends ExternalServiceTestCase {
     public void loadInvoiceDetails()
         throws CvqException {
         ExternalInvoiceItem eii = new ExternalInvoiceItem("test", Double.valueOf(10), Double.valueOf(20), restExternalService.getLabel(), "ext", new Date(), new Date(), new Date(), true, "fake");
-        eii.getExternalServiceSpecificData().put(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY, "ext");
-        eii.getExternalServiceSpecificData().put(ExternalServiceUtils.EXTERNAL_FAMILY_ACCOUNT_ID_KEY, "extFID");
+        eii.setExternalApplicationId("ext");
+        eii.setExternalHomeFolderId("extFID");
         assertNull(eii.getInvoiceDetails());
-        externalService.loadInvoiceDetails(eii);
+        paymentExternalService.loadInvoiceDetails(eii);
         assertNotNull(eii.getInvoiceDetails());
         assertEquals(1, eii.getInvoiceDetails().size());
     }

@@ -1,8 +1,9 @@
 package fr.cg95.cvq.business.users.external;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -21,18 +22,16 @@ public class HomeFolderMapping implements Serializable {
     private Long homeFolderId;
     private String externalCapDematId;
     private String externalId;
-    
-    private Set<IndividualMapping> individualsMappings;
+    private List<IndividualMapping> individualsMappings;
 
     
     public HomeFolderMapping() {
     }
 
-    public HomeFolderMapping(String externalServiceLabel, Long homeFolderId,
-            String externalCapDematId, String externalId) {
+    public HomeFolderMapping(String externalServiceLabel, Long homeFolderId,  String externalId) {
         this.externalServiceLabel = externalServiceLabel;
         this.homeFolderId = homeFolderId;
-        this.externalCapDematId = externalCapDematId;
+        this.externalCapDematId = UUID.randomUUID().toString();
         this.externalId = externalId;
     }
 
@@ -98,31 +97,25 @@ public class HomeFolderMapping implements Serializable {
     }
 
     /**
-     * @hibernate.set
-     *  lazy="true"
+     * @hibernate.list
+     *  inverse="false"
      *  table="individual_mapping"
      *  cascade="all"
      * @hibernate.key
-     *  column="mapping_id"
-     * @hibernate.composite-element
+     *  column="home_folder_mapping_id"
+     * @hibernate.list-index
+     *  column="home_folder_mapping_index"
+     * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.users.external.IndividualMapping"
      */
-    public Set<IndividualMapping> getIndividualsMappings() {
+    public List<IndividualMapping> getIndividualsMappings() {
+        if (individualsMappings == null)
+            individualsMappings = new ArrayList<IndividualMapping>();
         return individualsMappings;
     }
 
-    public void setIndividualsMappings(Set<IndividualMapping> individualsMappings) {
+    public void setIndividualsMappings(List<IndividualMapping> individualsMappings) {
         this.individualsMappings = individualsMappings;
     }
-    
-    public void addIndividualMapping(final Long individualId, final String externalCapDematId, 
-            final String externalId) {
-        IndividualMapping esim = 
-            new IndividualMapping(individualId, externalCapDematId, externalId);
 
-        if (this.individualsMappings == null)
-            this.individualsMappings = new HashSet<IndividualMapping>();
-        
-        this.individualsMappings.add(esim);
-    }
 }

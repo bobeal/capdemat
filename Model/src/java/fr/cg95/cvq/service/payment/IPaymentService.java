@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.Payment;
 import fr.cg95.cvq.business.payment.PaymentMode;
 import fr.cg95.cvq.business.payment.PurchaseItem;
@@ -115,4 +116,21 @@ public interface IPaymentService {
      * Delete a payment.
      */
     void delete(final Long id) throws CvqObjectNotFoundException;
+
+    List<ExternalAccountItem> getInvoices(Set<Critere> criteriaSet, String sort, String dir,
+            int recordsReturned, int startIndex);
+
+    List<ExternalAccountItem> getDepositAccounts(Set<Critere> criteriaSet, String sort, String dir,
+            int recordsReturned, int startIndex);
+
+    List<ExternalAccountItem> getTicketingContracts(Set<Critere> criteriaSet, String sort, String dir,
+            int recordsReturned, int startIndex);
+
+    List<ExternalAccountItem> getAllExternalAccountItems();
+
+    Long getInvoicesCount(Set<Critere> criteriaSet);
+
+    Long getDepositAccountsCount(Set<Critere> criteriaSet);
+
+    Long getTicketingContractsCount(Set<Critere> criteriaSet);
 }

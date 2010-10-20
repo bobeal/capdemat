@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import fr.cg95.cvq.service.payment.PaymentUtils;
-import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.util.DateUtils;
 
 /**
@@ -20,11 +19,13 @@ public class ExternalDepositAccountItem extends ExternalAccountItem {
 
     private static final long serialVersionUID = 1L;
 
+    public static final String SEARCH_BY_EXTERNAL_DEPOSIT_ACCOUNT_ID = "externalDepositAccountId";
+
     private Double oldValue;
     private Date oldValueDate;
-    
+
     private Set<ExternalDepositAccountItemDetail> accountDetails;
-    
+
     public ExternalDepositAccountItem(final String label, final Double amount,
             final String externalServiceLabel, final String externalItemId,
             final Date oldValueDate, final Double oldValue,
@@ -63,18 +64,6 @@ public class ExternalDepositAccountItem extends ExternalAccountItem {
     }
 
     @Override
-    public String getFriendlyLabel() {
-
-        StringBuffer sb = 
-            new StringBuffer().append("Compte n°").append(getExternalItemId())
-                .append(" - Valeur au ").append(DateUtils.format(getOldValueDate())).append(" : ")
-                .append(PaymentUtils.formatPrice(getOldValue().intValue()))
-                .append(" &euro; (").append(getLabel()).append(")");
-            
-        return sb.toString();
-    }
-
-    @Override
     public String getInformativeFriendlyLabel() {
 
         StringBuffer sb = 
@@ -90,7 +79,19 @@ public class ExternalDepositAccountItem extends ExternalAccountItem {
      * {@link IHomeFolderService#loadExternalDepositAccountDetails(ExternalDepositAccountItem)}
      * to load them into this object.
      */
+    /**
+     * @hibernate.set
+     *  lazy="true"
+     *  table="external_deposit_account_item_detail"
+     *  cascade="all"
+     * @hibernate.key
+     *  column="external_deposit_account_item_id"
+     * @hibernate.composite-element
+     *  class="fr.cg95.cvq.business.payment.ExternalDepositAccountItemDetail"
+     */
     public final Set<ExternalDepositAccountItemDetail> getAccountDetails() {
+        if (accountDetails == null)
+            return new HashSet<ExternalDepositAccountItemDetail>();
         return accountDetails;
     }
 

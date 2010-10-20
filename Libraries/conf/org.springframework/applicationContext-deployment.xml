@@ -14,7 +14,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     </property>
   </bean>
   -->
-  
+
   <bean id="abstractSessionFactory" abstract="true">
 
     <property name="mappingResources">
@@ -98,11 +98,12 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/social/HccrProfessional.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/reservation/TbrTicket.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/MeansOfContact.hbm.xml</value>
-        <value>fr/cg95/cvq/business/external/ExternalServiceTrace.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/external/RequestExternalAction.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/external/HomeFolderMapping.hbm.xml</value>
-        <value>fr/cg95/cvq/business/users/external/ExternalHomeFolder.hbm.xml</value>
-        <value>fr/cg95/cvq/business/users/external/ExternalIndividual.hbm.xml</value>
-        <value>fr/cg95/cvq/business/users/external/ExternalApplication.hbm.xml</value>
+        <value>fr/cg95/cvq/business/users/external/IndividualMapping.hbm.xml</value>
+        <value>fr/cg95/cvq/business/payment/external/ExternalHomeFolder.hbm.xml</value>
+        <value>fr/cg95/cvq/business/payment/external/ExternalIndividual.hbm.xml</value>
+        <value>fr/cg95/cvq/business/payment/external/ExternalApplication.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/RequestDocument.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/IndividualRole.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/ticket/Entertainment.hbm.xml</value>
@@ -225,7 +226,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="restExternalService"
     class="fr.cg95.cvq.external.impl.RestExternalService">
     <property name="label" value="Generic Rest External Service" />
-    <property name="externalServiceTraceDAO" ref="externalServiceTraceDAO" />
+    <property name="requestExternalActionDAO" ref="requestExternalActionDAO" />
     <property name="urls">
       <map>
         <entry key="sendRequest"

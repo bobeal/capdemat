@@ -15,12 +15,12 @@ public class InternalInvoiceItem extends PurchaseItem {
 
     private Integer quantity;
     private Double unitPrice;
-    
+
     /**
      * Identifier used by the key owner to retrieve data.
      */
     private String key;
-    
+
     /**
      * Owner of the key, typically an application, eg CapDemat.
      */    
@@ -40,7 +40,7 @@ public class InternalInvoiceItem extends PurchaseItem {
         this.quantity = quantity;
         this.unitPrice = unitPrice;
     }
-    
+
     /**
      * @hibernate.property
      *  column="quantity"
@@ -52,7 +52,7 @@ public class InternalInvoiceItem extends PurchaseItem {
     public final void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
-    
+
     /**
      * @hibernate.property
      *  column="unit_price"
@@ -90,21 +90,7 @@ public class InternalInvoiceItem extends PurchaseItem {
     }
 
     @Override
-    public String getFriendlyLabel() {
-
-        StringBuffer sb = new StringBuffer().append(getLabel())
-            .append(" - ").append(getEuroAmount()).append(" (")
-            .append(getQuantity()).append(" * ").append(getUnitPrice())
-            .append(")");
-
-        return sb.toString();
-    }
-
-    @Override
     public String getInformativeFriendlyLabel() {
-
-        StringBuffer sb = new StringBuffer().append(getLabel());
-
-        return sb.toString();
+        return getLabel();
     }
 }

@@ -26,13 +26,13 @@ import fr.capwebct.capdemat.AckRequestsResponseDocument.AckRequestsResponse;
 import fr.capwebct.capdemat.GetRequestsRequestDocument.GetRequestsRequest;
 import fr.capwebct.capdemat.GetRequestsResponseDocument.GetRequestsResponse;
 import fr.capwebct.capdemat.HomeFolderMappingRequestDocument.HomeFolderMappingRequest;
-import fr.cg95.cvq.business.external.ExternalServiceTrace;
-import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.business.users.external.IndividualMapping;
 import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.business.request.external.RequestExternalAction;
+import fr.cg95.cvq.business.request.external.RequestExternalActionState;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
@@ -45,8 +45,8 @@ import fr.cg95.cvq.external.endpoint.RequestServiceEndpoint;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestExportService;
-import fr.cg95.cvq.service.request.IRequestExternalService;
 import fr.cg95.cvq.service.request.IRequestTypeService;
+import fr.cg95.cvq.service.request.external.IRequestExternalService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.xml.common.RequestStateType;
@@ -86,8 +86,8 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
         RequestServiceEndpoint endpoint2 = gimmeRequestServiceEndpoint();
 
         try {
-            for (ExternalServiceTrace trace :
-                externalService.getTraces(Collections.<Critere>emptySet(),
+            for (RequestExternalAction trace :
+                requestExternalActionService.getTraces(Collections.<Critere>emptySet(),
                     null, null, 0, 0)) {
                 HibernateUtil.getSession().delete(trace);
             }
@@ -119,9 +119,9 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
             Set<Critere> criteriaSet = new HashSet<Critere>();
-            criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_DATE,
+            criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_DATE,
                 DateUtils.parseDate("13/07/2007"), Critere.GT));
-            assertEquals(1, externalService.getTracesCount(criteriaSet).longValue());
+            assertEquals(1, requestExternalActionService.getTracesCount(criteriaSet).longValue());
             
             /* Create acknowledgement response */
             AckRequestType[] types = new AckRequestType[1];
@@ -144,7 +144,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             continueWithNewTransaction();
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
-            assertEquals(2, externalService.getTracesCount(criteriaSet).longValue());
+            assertEquals(2, requestExternalActionService.getTracesCount(criteriaSet).longValue());
             
             SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
 
@@ -156,8 +156,8 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             fail("Unwaited exception trown : " + e.getMessage());
         } finally {
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
-            for (ExternalServiceTrace trace :
-                externalService.getTraces(Collections.<Critere>emptySet(),
+            for (RequestExternalAction trace :
+                requestExternalActionService.getTraces(Collections.<Critere>emptySet(),
                     null, null, 0, 0)) {
                 HibernateUtil.getSession().delete(trace);
             }
@@ -174,8 +174,8 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
         RequestServiceEndpoint endpoint2 = gimmeRequestServiceEndpoint();
 
         try {
-            for (ExternalServiceTrace trace :
-                externalService.getTraces(Collections.<Critere>emptySet(),
+            for (RequestExternalAction trace :
+                requestExternalActionService.getTraces(Collections.<Critere>emptySet(),
                     null, null, 0, 0)) {
                 HibernateUtil.getSession().delete(trace);
             }
@@ -215,9 +215,9 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             
             Set<Critere> criteriaSet = new HashSet<Critere>();
-            criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_DATE,
+            criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_DATE,
                 DateUtils.parseDate("13/07/2007"), Critere.GT));
-            long tracesCount = externalService.getTracesCount(criteriaSet);
+            long tracesCount = requestExternalActionService.getTracesCount(criteriaSet);
             assertTrue("Should have found at least one trace", tracesCount > 0);
             
             /* Create acknowledged traces */
@@ -248,24 +248,24 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             continueWithNewTransaction();
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             
-            assertEquals(tracesCount+3, externalService.getTracesCount(criteriaSet).longValue());
+            assertEquals(tracesCount+3, requestExternalActionService.getTracesCount(criteriaSet).longValue());
             
             criteriaSet = new HashSet<Critere>();
-            criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_STATUS,
-                TraceStatusEnum.ERROR, Critere.EQUALS));
-            ExternalServiceTrace trace = externalService.getTraces(criteriaSet, null, null, 1, 0).get(0);
+            criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_STATUS,
+                RequestExternalActionState.ERROR, Critere.EQUALS));
+            RequestExternalAction trace = requestExternalActionService.getTraces(criteriaSet, null, null, 1, 0).get(0);
             
             assertEquals(trace.getKey(), "2347");
             assertEquals(trace.getKeyOwner(),"capdemat");
-            assertEquals(trace.getStatus(), TraceStatusEnum.ERROR);
+            assertEquals(trace.getStatus(), RequestExternalActionState.ERROR);
             
             
         } catch (Exception e) {
             e.printStackTrace();
             fail("Unwaited exception trown : " + e.getMessage());
         } finally {
-            for (ExternalServiceTrace trace :
-                externalService.getTraces(Collections.<Critere>emptySet(),
+            for (RequestExternalAction trace :
+                requestExternalActionService.getTraces(Collections.<Critere>emptySet(),
                     null, null, 0, 0)) {
                 HibernateUtil.getSession().delete(trace);
             }
@@ -419,8 +419,8 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
         } finally {
             SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
-            for (ExternalServiceTrace trace :
-                externalService.getTraces(Collections.<Critere>emptySet(),
+            for (RequestExternalAction trace :
+                requestExternalActionService.getTraces(Collections.<Critere>emptySet(),
                     null, null, 0, 0)) {
                 HibernateUtil.getSession().delete(trace);
             }
@@ -490,8 +490,8 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
         } finally {
             SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
-            for (ExternalServiceTrace trace :
-                externalService.getTraces(Collections.<Critere>emptySet(),
+            for (RequestExternalAction trace :
+                requestExternalActionService.getTraces(Collections.<Critere>emptySet(),
                     null, null, 0, 0)) {
                 HibernateUtil.getSession().delete(trace);
             }
@@ -501,7 +501,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
     private RequestServiceEndpoint gimmeRequestServiceEndpoint() {
         RequestServiceEndpoint endpoint = new RequestServiceEndpoint(new XmlBeansMarshaller());
         endpoint.setRequestSearchService(requestSearchService);
-        endpoint.setExternalService(externalService);
+        endpoint.setRequestExternalActionService(requestExternalActionService);
         endpoint.setLocalAuthorityRegistry(localAuthorityRegistry);
         endpoint.setRequestDAO((IRequestDAO)getApplicationBean("requestDAO"));
         endpoint.setRequestExternalService(requestExternalService);
@@ -512,7 +512,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
 
     private AckRequestServiceEndpoint gimmeAckRequestServiceEndpoint() {
         AckRequestServiceEndpoint endpoint = new AckRequestServiceEndpoint(new XmlBeansMarshaller());
-        endpoint.setExternalService(externalService);
+        endpoint.setRequestExternalActionService(requestExternalActionService);
         
         return endpoint;
     }

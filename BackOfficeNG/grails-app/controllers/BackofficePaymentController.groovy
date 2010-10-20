@@ -26,7 +26,7 @@ class BackofficePaymentController {
     }
 
     def afterInterceptor = { model ->
-        model['subMenuEntries'] = ['payment.search', 'payment.configure']
+        model['subMenuEntries'] = ['payment.search', 'payment.configure', 'externalApplication.applications']
     }
     
     def configure = {

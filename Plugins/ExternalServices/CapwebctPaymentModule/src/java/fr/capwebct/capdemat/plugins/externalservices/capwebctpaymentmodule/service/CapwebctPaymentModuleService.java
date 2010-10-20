@@ -91,8 +91,8 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
 
     public void loadDepositAccountDetails(ExternalDepositAccountItem edai) throws CvqException {
         if (edai.getExternalItemId() == null
-                || edai.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY) == null
-                || edai.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_FAMILY_ACCOUNT_ID_KEY) == null) {
+                || edai.getExternalApplicationId() == null
+                || edai.getExternalHomeFolderId() == null) {
             edai = null;
             logger.debug("loadDepositAccountDetails() Received un-handled deposit account, returning");
             return;
@@ -103,10 +103,8 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
         AccountDetailsRequest accountDetailsRequest = 
             accountDetailsRequestDocument.addNewAccountDetailsRequest();
         accountDetailsRequest.setAccountId(edai.getExternalItemId());
-        accountDetailsRequest.setExternalApplicationId(
-                Long.valueOf(edai.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY)));
-        accountDetailsRequest.setExternalFamilyAccountId(
-                edai.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_FAMILY_ACCOUNT_ID_KEY));
+        accountDetailsRequest.setExternalApplicationId(Long.valueOf(edai.getExternalApplicationId()));
+        accountDetailsRequest.setExternalFamilyAccountId(edai.getExternalHomeFolderId());
 
         // FIXME : hard-coded 3 months range
         Date dateTo = new Date();
@@ -140,8 +138,8 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
 
     public void loadInvoiceDetails(ExternalInvoiceItem eii) throws CvqException {
         if (eii.getExternalItemId() == null
-                || eii.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY) == null
-                || eii.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_FAMILY_ACCOUNT_ID_KEY) == null) {
+                || eii.getExternalApplicationId() == null
+                || eii.getExternalHomeFolderId() == null) {
             eii = null;
             return;
         }
@@ -151,10 +149,8 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
         InvoiceDetailsRequest invoiceDetailsRequest =
             invoiceDetailsRequestDocument.addNewInvoiceDetailsRequest();
         invoiceDetailsRequest.setInvoiceId(eii.getExternalItemId());
-        invoiceDetailsRequest.setExternalApplicationId(
-                Long.valueOf(eii.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY)));
-        invoiceDetailsRequest.setExternalFamilyAccountId(
-                eii.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_FAMILY_ACCOUNT_ID_KEY));
+        invoiceDetailsRequest.setExternalApplicationId(Long.valueOf(eii.getExternalApplicationId()));
+        invoiceDetailsRequest.setExternalFamilyAccountId(eii.getExternalHomeFolderId());
 
         // Calls webservice
         InvoiceDetailsResponseDocument invoiceDetailsResponseDocument = (InvoiceDetailsResponseDocument) 
@@ -213,15 +209,12 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
         List<ContractUpdateType> contractUpdateTypes = new ArrayList<ContractUpdateType>();
         List<InvoiceUpdateType> invoiceUpdateTypes = new ArrayList<InvoiceUpdateType>();
         for (PurchaseItem purchaseItem : purchaseItems) {
-
             if (purchaseItem instanceof ExternalDepositAccountItem) {
                 ExternalDepositAccountItem edai = (ExternalDepositAccountItem) purchaseItem;
                 AccountUpdateType updateType = AccountUpdateType.Factory.newInstance();
                 updateType.setAccountId(edai.getExternalItemId());
-                updateType.setExternalApplicationId(
-                        Long.valueOf(edai.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY)));
-                updateType.setExternalFamilyAccountId(
-                        edai.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_FAMILY_ACCOUNT_ID_KEY));
+                updateType.setExternalApplicationId(Long.valueOf(edai.getExternalApplicationId()));
+                updateType.setExternalFamilyAccountId(edai.getExternalHomeFolderId());
                 updateType.setAccountNewValue(edai.getOldValue().intValue() + edai.getAmount().intValue());
                 updateType.setAccountOldValue(edai.getOldValue().intValue());
                 calendar.setTime(edai.getOldValueDate());
@@ -233,10 +226,8 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
                 ExternalInvoiceItem eii = (ExternalInvoiceItem) purchaseItem;
                 InvoiceUpdateType updateType = InvoiceUpdateType.Factory.newInstance();
                 updateType.setInvoiceId(eii.getExternalItemId());
-                updateType.setExternalApplicationId(
-                        Long.valueOf(eii.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY)));
-                updateType.setExternalFamilyAccountId(
-                        eii.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_FAMILY_ACCOUNT_ID_KEY));
+                updateType.setExternalApplicationId(Long.valueOf(eii.getExternalApplicationId()));
+                updateType.setExternalFamilyAccountId(eii.getExternalHomeFolderId());
                 updateType.setAmount(eii.getAmount().intValue());
                 invoiceUpdateTypes.add(updateType);
             }
@@ -245,12 +236,9 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
                 ExternalTicketingContractItem etci = (ExternalTicketingContractItem) purchaseItem;
                 ContractUpdateType updateType = ContractUpdateType.Factory.newInstance();
                 updateType.setContractId(etci.getExternalItemId());
-                updateType.setExternalApplicationId(
-                        Long.valueOf(etci.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY)));
-                updateType.setExternalFamilyAccountId(
-                        etci.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_FAMILY_ACCOUNT_ID_KEY));
-                updateType.setExternalIndividualId(
-                        etci.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_INDIVIDUAL_ID_KEY));
+                updateType.setExternalApplicationId(Long.valueOf(etci.getExternalApplicationId()));
+                updateType.setExternalFamilyAccountId(etci.getExternalHomeFolderId());
+                updateType.setExternalIndividualId(etci.getExternalIndividualId());
                 updateType.setCapwebctIndividualId(etci.getSubjectId());
                 updateType.setPrice(etci.getUnitPrice().intValue());
                 updateType.setQuantity(etci.getQuantity());

@@ -12,7 +12,7 @@
   <bean id="requestServiceEndpoint" 
     class="fr.cg95.cvq.external.endpoint.RequestServiceEndpoint">
     <constructor-arg ref="xmlBeanMarshaller" />
-    <property name="externalService" ref="externalService" />
+    <property name="requestExternalActionService" ref="requestExternalActionService" />
     <property name="requestDAO" ref="requestDAO" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
     <property name="requestExternalService" ref="requestExternalService" />
@@ -23,7 +23,7 @@
   <bean id="ackRequestServiceEndpoint" 
     class="fr.cg95.cvq.external.endpoint.AckRequestServiceEndpoint">
     <constructor-arg ref="xmlBeanMarshaller" />
-    <property name="externalService" ref="externalService" />  
+    <property name="requestExternalActionService" ref="requestExternalActionService" />  
   </bean>    
   
   <bean id="homeFolderMappingServiceEndpoint"

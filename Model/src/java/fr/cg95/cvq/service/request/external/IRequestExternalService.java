@@ -1,4 +1,4 @@
-package fr.cg95.cvq.service.request;
+package fr.cg95.cvq.service.request.external;
 
 import java.util.Collection;
 import java.util.Date;
@@ -34,7 +34,7 @@ public interface IRequestExternalService {
      * Get the list of request types labels associated to the given external service.
      */
     Collection<String> getRequestTypesForExternalService(final String externalServiceLabel);
-    
+
     /**
      * Get all the requests that are sendable to this external service
      */
@@ -75,7 +75,7 @@ public interface IRequestExternalService {
      */
     Map<String, Object> loadExternalInformations(@IsRequest Request request)
         throws CvqException;
-    
+
     /**
      * Get consumptions for a specific request.
      *
@@ -83,7 +83,7 @@ public interface IRequestExternalService {
      * @param dateFrom date down limit for the returned consumptions for this request
      * @param dateTo date up limit for the returned consumptions for this request
      */
-    Map<Date, String> getConsumptionsByRequest(@IsRequest final Long requestId,
+    Map<Date, String> getConsumptions(@IsRequest final Long requestId,
         final Date dateFrom, final Date dateTo)
         throws CvqException;
 }

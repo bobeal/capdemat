@@ -33,7 +33,7 @@ public class Individual implements Historizable, Serializable {
     
     public static final String SEARCH_BY_FIRSTNAME = "firstName";
     public static final String SEARCH_BY_BIRTHDATE = "birthDate";
-    
+    public static final String SEARCH_BY_ADDRESS = "address";
     public static final String SEARCH_BY_LASTNAME = "lastName";
     public static final String SEARCH_BY_INDIVIDUAL_ID = "individualId";
     public static final String SEARCH_BY_HOME_FOLDER_ID = "homeFolderId";

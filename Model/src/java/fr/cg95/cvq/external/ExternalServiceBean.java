@@ -29,18 +29,6 @@ public class ExternalServiceBean {
     protected List<String> requestTypes;
 
     /**
-     * whether or not this service supports retrieving of accounts information
-     * according to an home folder id
-     */
-    protected boolean supportAccountsByHomeFolder;
-
-    /**
-     * whether or not this service supports retrieving of accounts information
-     * according to a request id
-     */
-    protected boolean supportAccountsByRequest;
-
-    /**
      * Retrieve a service specific property by name.
      */
     public Object getProperty(String propertyName) {
@@ -75,22 +63,6 @@ public class ExternalServiceBean {
         this.requestTypes = requestTypes;
     }
 
-    public boolean supportAccountsByHomeFolder() {
-        return this.supportAccountsByHomeFolder;
-    }
-
-    public boolean supportAccountsByRequest() {
-        return this.supportAccountsByRequest;
-    }
-
-    public void setSupportAccountsByHomeFolder(boolean supportAccountsByHomeFolder) {
-        this.supportAccountsByHomeFolder = supportAccountsByHomeFolder;
-    }
-
-    public void setSupportAccountsByRequest(boolean supportAccountsByRequest) {
-        this.supportAccountsByRequest = supportAccountsByRequest;
-    }
-    
     public boolean getGenerateTracedRequest() {
         return this.generateTracedRequest;
     }

@@ -56,6 +56,8 @@ payment : initialized, validated, refused, cancelled
 .tag-new,
 /* request admin actions */
 .tag-archivesdeleted, .tag-archivesdownloaded, .tag-passwordreset, .tag-requestsarchived, .tag-archivesmigrated,
+/* homefolder mapping */
+.tag-free, .tag-binded, .tag-ignored, 
 /*  misc */
 .tag-draft { 
   padding: 0 .2em;
@@ -70,6 +72,7 @@ payment : initialized, validated, refused, cancelled
 }
 
 /* yellow */
+.tag-free,
 .tag-archivesdownloaded,
 .tag-pending,
 .tag-initialized,
@@ -78,6 +81,7 @@ payment : initialized, validated, refused, cancelled
 .tag-uncomplete    { background: #ffcc20; border-color:#ffaa20; }
 
 /* green */
+.tag-binded,
 .tag-requestsarchived,
 .tag-clrtutor,
 .tag-tutor,
@@ -138,10 +142,10 @@ payment : initialized, validated, refused, cancelled
 .tag-cancelled,
 .tag-archived,
 .tag-notsent,
-.tag-free,
 .tag-no_right      { background: #aaaaaa; border-color:#cccccc; color:#ffffff; }
 
 /* gray black */
+.tag-ignored,
 .tag-pc,
 .tag-terminal,
 .tag-mailed_paper,

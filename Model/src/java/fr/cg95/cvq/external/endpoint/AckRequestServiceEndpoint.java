@@ -7,10 +7,10 @@ import fr.capwebct.capdemat.AckRequestsRequestDocument;
 import fr.capwebct.capdemat.AckRequestsResponseDocument;
 import fr.capwebct.capdemat.AckRequestsRequestDocument.AckRequestsRequest;
 import fr.capwebct.capdemat.AckRequestsResponseDocument.AckRequestsResponse;
-import fr.cg95.cvq.business.external.ExternalServiceTrace;
-import fr.cg95.cvq.business.external.TraceStatusEnum;
-import fr.cg95.cvq.external.IExternalService;
+import fr.cg95.cvq.business.request.external.RequestExternalAction;
+import fr.cg95.cvq.business.request.external.RequestExternalActionState;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.request.external.IRequestExternalActionService;
 
 /**
  * 
@@ -19,7 +19,7 @@ import fr.cg95.cvq.security.SecurityContext;
  */
 public class AckRequestServiceEndpoint extends SecuredServiceEndpoint {
     
-    private IExternalService externalService;
+    private IRequestExternalActionService requestExternalActionService;
     
     public AckRequestServiceEndpoint(Marshaller marshaller) {
         super(marshaller);
@@ -40,16 +40,16 @@ public class AckRequestServiceEndpoint extends SecuredServiceEndpoint {
             for (int i=0; i<request.getAckElementsArray().length; i++) {
                 AckRequestType type = request.getAckElementsArray()[i];
                 
-                ExternalServiceTrace trace = new ExternalServiceTrace();
+                RequestExternalAction trace = new RequestExternalAction();
                 trace.setKey(String.valueOf(type.getRequestId()));
                 trace.setKeyOwner("capdemat");
                 
                 if (type.getErroneous())
-                    trace.setStatus(TraceStatusEnum.ERROR);
+                    trace.setStatus(RequestExternalActionState.ERROR);
                 else
-                    trace.setStatus(TraceStatusEnum.ACKNOWLEDGED);
+                    trace.setStatus(RequestExternalActionState.ACKNOWLEDGED);
                 
-                externalService.addTrace(trace);
+                requestExternalActionService.addTrace(trace);
                 response.setAccomplished(true);
             }
         } catch (RuntimeException e) {
@@ -63,7 +63,9 @@ public class AckRequestServiceEndpoint extends SecuredServiceEndpoint {
         return response;
     }
 
-    public void setExternalService(IExternalService externalService) {
-        this.externalService = externalService;
+    public void setRequestExternalActionService(
+            IRequestExternalActionService requestExternalActionService) {
+        this.requestExternalActionService = requestExternalActionService;
     }
+
 }

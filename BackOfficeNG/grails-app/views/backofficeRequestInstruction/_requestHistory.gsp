@@ -1,7 +1,7 @@
 <ul>
   <g:each var="requestAction" in="${requestActionList}">
     <li>
-      <dl class="actionDetails">
+      <dl class="action">
         <dt class="title">
           <span class="tag ${requestAction.type.cssClass}">
             <g:message code="${requestAction.type.i18nKey}" />

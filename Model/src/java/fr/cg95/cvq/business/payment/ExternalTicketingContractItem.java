@@ -16,6 +16,8 @@ public class ExternalTicketingContractItem extends ExternalAccountItem {
 
     private static final long serialVersionUID = 1L;
 
+    public static final String SEARCH_BY_EXTERNAL_TICKETING_CONTRACT_ID = "externalTicketingContractId";
+
     private Long subjectId;
     private Double unitPrice;
     private Integer minBuy;
@@ -127,23 +129,6 @@ public class ExternalTicketingContractItem extends ExternalAccountItem {
 
     public final void setOldQuantity(Integer oldQuantity) {
         this.oldQuantity = oldQuantity;
-    }
-
-    @Override
-    public String getFriendlyLabel() {
-        
-        StringBuffer sb = new StringBuffer().append(getLabel())
-            .append(" (n° ").append(getExternalItemId()).append(") - Valeur au ")
-            .append(DateUtils.format(getCreationDate())).append(" : ");
-        
-        if (getOldQuantity() < 0) {
-            sb.append("<span style=\"color:red\">");
-        } else {
-            sb.append("<span>");
-        }
-        sb.append(getOldQuantity()).append(" tickets</span>");
-
-        return sb.toString();
     }
 
     @Override

@@ -195,7 +195,7 @@ ul.document-list a.removeDocument:hover,
 #requestInformation div div div form input { margin: 0; }
 
 /* definition list (for request actions) */
-#requestInformation dl.actionDetails {
+dl.action {
   padding : 5px;
   border : 1px solid #cccccc;
   border-right-color : #aaaaaa;
@@ -205,42 +205,36 @@ ul.document-list a.removeDocument:hover,
   background-color : #ffffff;
 }
 
-#requestInformation li:hover dl.actionDetails {
-  border-color : black;
-  border-width : 2px;
-}
-
-#requestInformation dl.actionDetails dt {
+dl.action dt {
   float : left;
   width : 25%;
   text-align : right;
   display : none;
 }
 
-#requestInformation dl.actionDetails dd {
+dl.action dd {
   border-left : 1px dashed #aaaaaa;
   margin : 0 0 0 26%;
   padding : 0 0 .5em .5em;
   display : none;
 }
 
-#requestInformation dl.actionDetails dd a {
-  background : none;
-}
+dl.action dd a { background : none; }
+dl.action .tag { font-size : 1.1em; }
 
-#requestInformation dl.actionDetails dt.title,
-#requestInformation dl.actionDetails dd.title,
-#requestInformation li:hover dl.actionDetails dt,
-#requestInformation li:hover dl.actionDetails dd {
+#requestInformation li:hover dl.action {
+  border-color : black;
+  border-width : 2px;
+}
+dl.action dt.title,
+dl.action dd.title,
+#requestInformation li:hover dl.action dt,
+#requestInformation li:hover dl.action dd {
   display : inherit;
 }
 
-#requestInformation dl.actionDetails .tag {
-  font-size : 1.1em;
-}
-
-/* definition list (for homeFolder.individual) */
-#requestInformation dl.account {
+/* ovverride definition list (for homeFolder.individual) */
+dl.account {
   margin : 10px 20px 10px 20px ;
   padding: 5px;
   border: 1px solid #cccccc;
@@ -251,22 +245,21 @@ ul.document-list a.removeDocument:hover,
   background-color: #ffffff; 
 }
 
-#requestInformation dl.account dt {
-  float: left;
-  width: 10em;
-  font-weight: bold;
-  text-align : right;
+dl.account dt {
+  float: left; width: 10em;
+  font-weight: bold; text-align : right;
 }
 
-#requestInformation dl.account dd {
-  border-left: 1px dashed #aaaaaa;
-  margin: 0 0 0 11em;
-  padding: 0 0 .5em .5em;
+dl.account dd {
+  margin: 0 0 0 11em; padding: 0 0 .5em .5em;
   border-left: 1px dashed #aaaaaa;
 }
+
+dl.account a { float: none !important; }
 #requestInformation dl.account dd .tag-state { display: inline; float: none; }
-#requestInformation div div div dl.account dd ul    { margin: 0; }
-#requestInformation div div div dl.account dd ul li { padding: .3em 0 0 0; border: 0; list-style: disc inside none; }
+#requestInformation dl.account dd ul    { margin: 0; }
+#requestInformation dl.account dd ul li { padding: .3em 0 0 0; border: 0; list-style: disc inside none; }
+
 
 #requestInformation dl.notes { margin : 0.5em; border-bottom: 1px dashed #C1CFE2; }
 #requestInformation dl.notes dt,

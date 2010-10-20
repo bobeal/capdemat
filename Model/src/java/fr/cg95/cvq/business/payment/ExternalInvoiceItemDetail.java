@@ -14,6 +14,20 @@ public class ExternalInvoiceItemDetail {
     public ExternalInvoiceItemDetail() {
     }
 
+    public ExternalInvoiceItemDetail(String subjectName, String subjectSurname, String label,
+            Integer unitPrice, BigDecimal quantity, Integer value) {
+        this.subjectName = subjectName;
+        this.subjectSurname = subjectSurname;
+        this.label = label;
+        this.unitPrice = unitPrice;
+        this.quantity = quantity;
+        this.value = value;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="subject_name"
+     */
     public final String getSubjectName() {
         return subjectName;
     }
@@ -22,6 +36,10 @@ public class ExternalInvoiceItemDetail {
         this.subjectName = subjectName;
     }
 
+    /**
+     * @hibernate.property
+     *  column="label"
+     */
     public final String getLabel() {
         return label;
     }
@@ -30,6 +48,10 @@ public class ExternalInvoiceItemDetail {
         this.label = label;
     }
 
+    /**
+     * @hibernate.property
+     *  column="quatity"
+     */
     public final BigDecimal getQuantity() {
         return quantity;
     }
@@ -38,6 +60,10 @@ public class ExternalInvoiceItemDetail {
         this.quantity = quantity;
     }
 
+    /**
+     * @hibernate.property
+     *  column="subject_surname"
+     */
     public final String getSubjectSurname() {
         return subjectSurname;
     }
@@ -46,6 +72,10 @@ public class ExternalInvoiceItemDetail {
         this.subjectSurname = subjectSurname;
     }
 
+    /**
+     * @hibernate.property
+     *  column="unit_price"
+     */
     public final Integer getUnitPrice() {
         return unitPrice;
     }
@@ -54,6 +84,10 @@ public class ExternalInvoiceItemDetail {
         this.unitPrice = unitPrice;
     }
 
+    /**
+     * @hibernate.property
+     *  column="value"
+     */
     public final Integer getValue() {
         return value;
     }

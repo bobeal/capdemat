@@ -2,6 +2,7 @@ package fr.cg95.cvq.service.users.external;
 
 import java.util.List;
 
+import fr.cg95.cvq.business.payment.external.ExternalHomeFolder;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.security.annotation.IsHomeFolder;
@@ -21,6 +22,8 @@ public interface IExternalHomeFolderService {
     HomeFolderMapping getHomeFolderMapping(final String externalServiceLabel, 
             final String externalCapdematId);
 
+    HomeFolderMapping getHomeFolderMapping(String externalServiceLabel, ExternalHomeFolder eh);
+
     /**
      * Add a new mapping for the given object.
      *
@@ -29,6 +32,8 @@ public interface IExternalHomeFolderService {
      */
     void addHomeFolderMapping(final String externalServiceLabel,
             @IsHomeFolder final Long homeFolderId, final String externalId);
+
+    void deleteHomeFolderMapping(final String externalServiceLabel, ExternalHomeFolder eh);
 
     /**
      * Delete mappings for the given external service and home folder (included individual mappings).
@@ -45,5 +50,6 @@ public interface IExternalHomeFolderService {
     void setExternalId(String externalServiceLabel,
         @IsHomeFolder Long homeFolderId, @IsIndividual Long individualId,
         String externalId);
+
 
 }

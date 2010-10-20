@@ -13,6 +13,8 @@ public class SecurityService {
                 "backofficeAgent" : /.*/,
                 "backofficeCategory" : /.*/,
                 "backofficeDisplayGroup" : /.*/,
+                "backofficeExternal" : /.*/,
+                "backofficeExternalApplication" : /.*/,
                 "backofficeLocalAuthority" : /.*/,
                 "backofficeLogin" : /.*/,
                 "backofficePayment" : /.*/,

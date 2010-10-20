@@ -10,11 +10,16 @@ import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.type.Type;
 
+import fr.cg95.cvq.business.payment.ExternalAccountItem;
+import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
+import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
+import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
 import fr.cg95.cvq.business.payment.Payment;
 import fr.cg95.cvq.business.payment.PaymentState;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.payment.IPaymentDAO;
+import fr.cg95.cvq.external.ExternalServiceUtils;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 
@@ -133,7 +138,129 @@ public class PaymentDAO extends GenericDAO implements IPaymentDAO {
         query.setFirstResult(startIndex);
         return query.list();
     }
-    
+
+    private void invoiceCritereToHQL(Set<Critere> criteria, StringBuffer sb, 
+            List<Object> values, List<Type> types ) {
+        for (Critere searchCrit : criteria) {
+            if (searchCrit.getAttribut().equals(ExternalInvoiceItem.SEARCH_BY_EXTERNAL_HOME_FOLDER)) {
+                sb.append(" and externalInvoiceItem.externalHomeFolderId in " + 
+                        searchCrit.getStringValue());
+            } else if (searchCrit.getAttribut().equals(ExternalInvoiceItem.SEARCH_BY_EXTERNAL_SERVICE_LABEL)) {
+                sb.append(" and externalInvoiceItem.externalServiceLabel " + searchCrit.getComparatif() + " ?");
+                values.add(searchCrit.getSqlStringValue());
+                types.add(Hibernate.STRING);
+            } else if (searchCrit.getAttribut().equals(ExternalInvoiceItem.SEARCH_BY_EXTERNAL_INVOICE_ID)) {
+                sb.append(" and externalInvoiceItem.externalItemId " + searchCrit.getComparatif() + " ?");
+                values.add(searchCrit.getSqlStringValue());
+                types.add(Hibernate.STRING);
+            } else if (searchCrit.getAttribut().equals(ExternalInvoiceItem.SEARCH_BY_EXPIRATION_DATE)) {
+                sb.append(" and externalInvoiceItem.expirationDate " + searchCrit.getComparatif() + " ? ");
+                values.add(searchCrit.getDateValue());
+                types.add(Hibernate.TIMESTAMP);
+            } else if (searchCrit.getAttribut().equals(ExternalInvoiceItem.SEARCH_BY_INVOICE_STATE)) {
+                sb.append(" and externalInvoiceItem.isPaid " + searchCrit.getComparatif() + " ? ");
+                values.add(searchCrit.getValue());
+                types.add(Hibernate.BOOLEAN);
+            }
+        }
+    }
+
+    private void depositAccountCritereToHQL(Set<Critere> criteria, StringBuffer sb, 
+            List<Object> values, List<Type> types ) {
+        for (Critere searchCrit : criteria) {
+            if (searchCrit.getAttribut().equals(ExternalDepositAccountItem.SEARCH_BY_EXTERNAL_HOME_FOLDER)) {
+                sb.append(" and externalDepositAccountItem.externalHomeFolderId in " + 
+                        searchCrit.getStringValue());
+            } else if (searchCrit.getAttribut().equals(ExternalDepositAccountItem.SEARCH_BY_EXTERNAL_SERVICE_LABEL)) {
+                sb.append(" and externalDepositAccountItem.externalServiceLabel " + searchCrit.getComparatif() + " ?");
+                values.add(searchCrit.getSqlStringValue());
+                types.add(Hibernate.STRING);
+            } else if (searchCrit.getAttribut().equals(ExternalDepositAccountItem.SEARCH_BY_EXTERNAL_DEPOSIT_ACCOUNT_ID)) {
+                sb.append(" and externalDepositAccountItem.externalItemId " + searchCrit.getComparatif() + " ?");
+                values.add(searchCrit.getSqlStringValue());
+                types.add(Hibernate.STRING);
+            }
+        }
+    }
+
+    private void ticketingContractCritereToHQL(Set<Critere> criteria, StringBuffer sb, 
+            List<Object> values, List<Type> types ) {
+        for (Critere searchCrit : criteria) {
+            if (searchCrit.getAttribut().equals(ExternalTicketingContractItem.SEARCH_BY_EXTERNAL_HOME_FOLDER)) {
+                sb.append(" and externalTicketingContractItem.externalHomeFolderId in " + 
+                        searchCrit.getStringValue());
+            } else if (searchCrit.getAttribut().equals(ExternalTicketingContractItem.SEARCH_BY_EXTERNAL_SERVICE_LABEL)) {
+                sb.append(" and externalTicketingContractItem.externalServiceLabel " + searchCrit.getComparatif() + " ?");
+                values.add(searchCrit.getSqlStringValue());
+                types.add(Hibernate.STRING);
+            } else if (searchCrit.getAttribut().equals(ExternalTicketingContractItem.SEARCH_BY_EXTERNAL_TICKETING_CONTRACT_ID)) {
+                sb.append(" and externalTicketingContractItem.externalItemId " + searchCrit.getComparatif() + " ?");
+                values.add(searchCrit.getSqlStringValue());
+                types.add(Hibernate.STRING);
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<ExternalAccountItem> searchInvoices(final Set<Critere> criteria, final String sort, String dir,
+            int recordsReturned, int startIndex) {
+        StringBuffer sb = new StringBuffer("from ExternalInvoiceItem as externalInvoiceItem where 1 = 1 ");
+        List<Object> values = new ArrayList<Object>();
+        List<Type> types = new ArrayList<Type>();
+        invoiceCritereToHQL(criteria,sb, values, types);
+
+        if (dir != null && dir.equals("desc"))
+            sb.append(" desc");
+
+        Query query = HibernateUtil.getSession().createQuery(sb.toString());
+        query.setParameters(values.toArray(new Object[0]), types.toArray(new Type[0]));
+
+        if (recordsReturned > 0)
+            query.setMaxResults(recordsReturned);
+        query.setFirstResult(startIndex);
+        return query.list();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<ExternalAccountItem> searchDepositAccounts(final Set<Critere> criteria, final String sort, String dir,
+            int recordsReturned, int startIndex) {
+        StringBuffer sb = new StringBuffer("from ExternalDepositAccountItem as externalDepositAccountItem where 1 = 1 ");
+        List<Object> values = new ArrayList<Object>();
+        List<Type> types = new ArrayList<Type>();
+        depositAccountCritereToHQL(criteria,sb, values, types);
+
+        if (dir != null && dir.equals("desc"))
+            sb.append(" desc");
+
+        Query query = HibernateUtil.getSession().createQuery(sb.toString());
+        query.setParameters(values.toArray(new Object[0]), types.toArray(new Type[0]));
+
+        if (recordsReturned > 0)
+            query.setMaxResults(recordsReturned);
+        query.setFirstResult(startIndex);
+        return query.list();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<ExternalAccountItem> searchTicketingContracts(final Set<Critere> criteria, final String sort, String dir,
+            int recordsReturned, int startIndex) {
+        StringBuffer sb = new StringBuffer("from ExternalTicketingContractItem as externalTicketingContractItem where 1 = 1 ");
+        List<Object> values = new ArrayList<Object>();
+        List<Type> types = new ArrayList<Type>();
+        ticketingContractCritereToHQL(criteria,sb, values, types);
+
+        if (dir != null && dir.equals("desc"))
+            sb.append(" desc");
+
+        Query query = HibernateUtil.getSession().createQuery(sb.toString());
+        query.setParameters(values.toArray(new Object[0]), types.toArray(new Type[0]));
+
+        if (recordsReturned > 0)
+            query.setMaxResults(recordsReturned);
+        query.setFirstResult(startIndex);
+        return query.list();
+    }
+
     @SuppressWarnings("unchecked")
     public List<Payment> searchNotCommited() {
 
@@ -232,10 +359,43 @@ public class PaymentDAO extends GenericDAO implements IPaymentDAO {
         return (Long) HibernateUtil.getSession()
             .createQuery(sbSelect.toString())
             .setParameters(objectTab, typeTab)
-            .iterate().next(); 
+            .iterate().next();
     }
-    
+
     public Long count(final Set<Critere> criteria) {
         return searchCount(criteria).longValue();
+    }
+
+    public Long invoicesCount(final Set<Critere> criteria) {
+        StringBuffer sb = new StringBuffer("select count(*) from ExternalInvoiceItem as externalInvoiceItem where 1 = 1 ");
+        List<Object> values = new ArrayList<Object>();
+        List<Type> types = new ArrayList<Type>();
+        invoiceCritereToHQL(criteria,sb, values, types);
+        return (Long) HibernateUtil.getSession()
+            .createQuery(sb.toString())
+            .setParameters(values.toArray(new Object[0]), types.toArray(new Type[0]))
+            .iterate().next();
+    }
+
+    public Long depositAccountsCount(final Set<Critere> criteria) {
+        StringBuffer sb = new StringBuffer("select count(*) from ExternalDepositAccountItem as externalDepositAccountItem where 1 = 1 ");
+        List<Object> values = new ArrayList<Object>();
+        List<Type> types = new ArrayList<Type>();
+        depositAccountCritereToHQL(criteria,sb, values, types);
+        return (Long) HibernateUtil.getSession()
+            .createQuery(sb.toString())
+            .setParameters(values.toArray(new Object[0]), types.toArray(new Type[0]))
+            .iterate().next();
+    }
+
+    public Long ticketingContractsCount(Set<Critere> criteria) {
+        StringBuffer sb = new StringBuffer("select count(*) from ExternalTicketingContractItem as externalTicketingContractItem where 1 = 1 ");
+        List<Object> values = new ArrayList<Object>();
+        List<Type> types = new ArrayList<Type>();
+        ticketingContractCritereToHQL(criteria,sb, values, types);
+        return (Long) HibernateUtil.getSession()
+            .createQuery(sb.toString())
+            .setParameters(values.toArray(new Object[0]), types.toArray(new Type[0]))
+            .iterate().next();
     }
 }

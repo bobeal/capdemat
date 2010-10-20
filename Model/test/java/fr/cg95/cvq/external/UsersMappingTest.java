@@ -1,20 +1,21 @@
 package fr.cg95.cvq.external;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import org.hamcrest.core.AllOf;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
@@ -28,14 +29,14 @@ import fr.cg95.cvq.testtool.HasInnerProperty;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.xml.request.ecitizen.VoCardRequestDocument;
 
-public class ExternalServiceIdentifierMappingTest extends ExternalServiceTestCase {
+public class UsersMappingTest extends ExternalServiceTestCase {
 
     private final String EXTERNAL_SERVICE_LABEL = "Dummy External Service";
 
     @Override
     public void onTearDown() throws Exception {
-        for (ExternalServiceTrace trace :
-            externalService.getTraces(Collections.<Critere>emptySet(),
+        for (RequestExternalAction trace :
+            requestExternalActionService.getTraces(Collections.<Critere>emptySet(),
                 null, null, 0, 0)) {
             HibernateUtil.getSession().delete(trace);
         }
@@ -43,7 +44,7 @@ public class ExternalServiceIdentifierMappingTest extends ExternalServiceTestCas
         HomeFolderMapping esimFromDb = 
             externalHomeFolderService.getHomeFolderMapping(EXTERNAL_SERVICE_LABEL, (Long) null);
         assertNull(esimFromDb);        
-        assertEquals(0, externalService.getTracesCount(Collections.<Critere>emptySet()).longValue());
+        assertEquals(0, requestExternalActionService.getTracesCount(Collections.<Critere>emptySet()).longValue());
         super.onTearDown();
     }
 
@@ -136,7 +137,7 @@ public class ExternalServiceIdentifierMappingTest extends ExternalServiceTestCas
             externalHomeFolderService.getHomeFolderMapping(fakeExternalService.getLabel(), cb.getHomeFolderId());
         assertNotNull(esimFromDb);
         assertNotNull(esimFromDb.getIndividualsMappings());
-        Set<IndividualMapping> esimIndividuals = esimFromDb.getIndividualsMappings();
+        List<IndividualMapping> esimIndividuals = esimFromDb.getIndividualsMappings();
         assertEquals(5, esimIndividuals.size());
         IndividualMapping esimIndividual = null;
         for (IndividualMapping m : esimIndividuals) {

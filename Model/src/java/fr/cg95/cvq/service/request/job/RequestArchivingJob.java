@@ -15,11 +15,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
-import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestAdminAction;
 import fr.cg95.cvq.business.request.RequestAdminEvent;
 import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.external.IExternalService;
@@ -29,6 +29,7 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IRequestPdfService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
+import fr.cg95.cvq.service.request.external.IRequestExternalActionService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.translation.ITranslationService;
 
@@ -50,7 +51,7 @@ public class RequestArchivingJob implements ApplicationContextAware {
     }
 
     private ApplicationContext applicationContext;
-    private IExternalService externalService;
+    private IRequestExternalActionService requestExternalActionService;
     private ILocalAuthorityRegistry localAuthorityRegistry;
     private IRequestDAO requestDAO;
     private IRequestPdfService requestPdfService;
@@ -84,10 +85,10 @@ public class RequestArchivingJob implements ApplicationContextAware {
                     byte archive[] = requestPdfService.generateArchive(request.getId());
                     requestDAO.empty(request);
                     Set<Critere> criteriaSet = new HashSet<Critere>(1);
-                    criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+                    criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_KEY,
                         request.getId().toString(), Critere.EQUALS));
-                    for (ExternalServiceTrace trace :
-                        externalService.getTraces(criteriaSet, null, null, 0, 0)) {
+                    for (RequestExternalAction trace :
+                        requestExternalActionService.getTraces(criteriaSet, null, null, 0, 0)) {
                         requestDAO.delete(trace);
                     }
                     String filename = translationService.translate("requestArchive.filename",
@@ -137,10 +138,10 @@ public class RequestArchivingJob implements ApplicationContextAware {
                 byte archive[] = requestPdfService.generateArchive(request.getId());
                 requestDAO.empty(request);
                 Set<Critere> criteriaSet = new HashSet<Critere>(1);
-                criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+                criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_KEY,
                     request.getId().toString(), Critere.EQUALS));
-                for (ExternalServiceTrace trace :
-                    externalService.getTraces(criteriaSet, null, null, 0, 0)) {
+                for (RequestExternalAction trace :
+                    requestExternalActionService.getTraces(criteriaSet, null, null, 0, 0)) {
                     requestDAO.delete(trace);
                 }
                 String filename = translationService.translate("requestArchive.filename",
@@ -181,8 +182,9 @@ public class RequestArchivingJob implements ApplicationContextAware {
         this.applicationContext = applicationContext;
     }
 
-    public void setExternalService(IExternalService externalService) {
-        this.externalService = externalService;
+    public void setRequestExternalActionService(
+            IRequestExternalActionService requestExternalActionService) {
+        this.requestExternalActionService = requestExternalActionService;
     }
 
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {

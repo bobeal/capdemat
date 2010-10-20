@@ -44,10 +44,6 @@ import fr.cg95.cvq.xml.common.RequestType;
 
 public class ExternalServiceUtils {
 
-    public static final String EXTERNAL_APPLICATION_ID_KEY = "externalApplicationId";
-    public static final String EXTERNAL_FAMILY_ACCOUNT_ID_KEY = "externalFamilyAccountId";
-    public static final String EXTERNAL_INDIVIDUAL_ID_KEY = "externalIndividualId";
-
     public static Map<String, List<ExternalAccountItem>> parseFamilyDocument(
             FamilyAccountsResponseDocument familyDocument, final String externalServiceLabel) {
         FamilyAccountsResponse family = familyDocument.getFamilyAccountsResponse();
@@ -68,10 +64,8 @@ public class ExternalServiceUtils {
                 Calendar oldValueDate = accountType.getAccountDate();
                 eai.setOldValueDate(oldValueDate.getTime());
                 eai.setAmount(new Double(accountType.getAccountValue()));
-                eai.addExternalServiceSpecificData(EXTERNAL_FAMILY_ACCOUNT_ID_KEY,
-                        accountType.getExternalFamilyAccountId());
-                eai.addExternalServiceSpecificData(EXTERNAL_APPLICATION_ID_KEY, 
-                        String.valueOf(accountType.getExternalApplicationId()));
+                eai.setExternalHomeFolderId(accountType.getExternalFamilyAccountId());
+                eai.setExternalApplicationId(String.valueOf(accountType.getExternalApplicationId()));
 
                 resultEaiList.add(eai);
             }
@@ -97,11 +91,8 @@ public class ExternalServiceUtils {
                     eii.setPaymentDate(calendar.getTime());
                 }
                 eii.setIsPaid(invoiceType.getInvoicePaid());
-
-                eii.addExternalServiceSpecificData(ExternalServiceUtils.EXTERNAL_FAMILY_ACCOUNT_ID_KEY,
-                        invoiceType.getExternalFamilyAccountId());
-                eii.addExternalServiceSpecificData(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY, 
-                        String.valueOf(invoiceType.getExternalApplicationId()));
+                eii.setExternalHomeFolderId(invoiceType.getExternalFamilyAccountId());
+                eii.setExternalApplicationId(String.valueOf(invoiceType.getExternalApplicationId()));
 
                 resultEaiList.add(eii);
             }
@@ -129,12 +120,9 @@ public class ExternalServiceUtils {
                         etci.setUnitPrice(new Double(contractType.getBuyPrice()));
                         etci.setSubjectId(individualContractType.getCapwebctIndividualId());
 
-                        etci.addExternalServiceSpecificData(ExternalServiceUtils.EXTERNAL_FAMILY_ACCOUNT_ID_KEY,
-                                contractType.getExternalFamilyAccountId());
-                        etci.addExternalServiceSpecificData(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY, 
-                                String.valueOf(contractType.getExternalApplicationId()));
-                        etci.addExternalServiceSpecificData(ExternalServiceUtils.EXTERNAL_INDIVIDUAL_ID_KEY, 
-                                contractType.getExternalIndividualId());
+                        etci.setExternalHomeFolderId(contractType.getExternalFamilyAccountId());
+                        etci.setExternalApplicationId(String.valueOf(contractType.getExternalApplicationId()));
+                        etci.setExternalIndividualId(contractType.getExternalIndividualId());
 
                         resultEaiList.add(etci);
                     }

@@ -1,3 +1,16 @@
+<div class="txt-right" id="requestSearchSwitcher">
+  <g:message code="action.goToPaymentSearch" /> |
+  <a href="${createLink(controller:'backofficeExternalApplication', action:'searchInvoice')}"
+     class="simple">
+    <g:message code="action.goToInvoiceSearch" /></a> |
+  <a href="${createLink(controller:'backofficeExternalApplication', action:'searchDepositAccount')}"
+     class="simple">
+    <g:message code="action.goToDepositAccountSearch" /></a> |
+  <a href="${createLink(controller:'backofficeExternalApplication', action:'searchTicketingContract')}"
+     class="simple">
+    <g:message code="action.goToTicketingContractSearch" /></a>
+</div>
+
 <div id="search-form">
   <h1><g:message code="payment.header.search" /></h1>
   <form method="post" id="paymentForm" class="advanced-search" action="<g:createLink action="search" />">

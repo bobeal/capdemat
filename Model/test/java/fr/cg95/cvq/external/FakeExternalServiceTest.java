@@ -64,7 +64,7 @@ public class FakeExternalServiceTest extends ExternalServiceTestCase {
             completeAccount.get(IPaymentService.EXTERNAL_TICKETING_ACCOUNTS);
         ExternalTicketingContractItem etciToPayOn = 
             (ExternalTicketingContractItem) externalAccounts.get(0);
-        assertNotNull(etciToPayOn.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY));
+        assertNotNull(etciToPayOn.getExternalApplicationId());
 
         // make a payment on choosen ticketing contract
         Collection<PurchaseItem> purchaseItems = new ArrayList<PurchaseItem>();
@@ -80,11 +80,10 @@ public class FakeExternalServiceTest extends ExternalServiceTestCase {
         for (ExternalAccountItem externalAccountItem : externalAccounts) {
             ExternalDepositAccountItem edai =
                 (ExternalDepositAccountItem) externalAccountItem;
-            logger.debug(edai.getFriendlyLabel());
-            logger.debug(edai.getInformativeFriendlyLabel());
+            logger.debug(edai.toString());
             logger.debug(edai.getExternalItemId());
             if (edai.getExternalItemId().equals("95999-3-1910782193")) {
-                externalService.loadDepositAccountDetails(edai);
+                paymentExternalService.loadDepositAccountDetails(edai);
                 assertEquals(2, edai.getAccountDetails().size());
                 boolean foundCheque = false;
                 for (ExternalDepositAccountItemDetail edaiDetail : edai.getAccountDetails()) {
@@ -108,8 +107,8 @@ public class FakeExternalServiceTest extends ExternalServiceTestCase {
             ExternalInvoiceItem eii =
                 (ExternalInvoiceItem) externalAccountItem;
             if (eii.getExternalItemId().equals("95999-3-1910782195")) {
-                assertEquals(Boolean.FALSE, eii.isPaid());
-                externalService.loadInvoiceDetails(eii);
+                assertEquals(Boolean.FALSE, eii.getIsPaid());
+                paymentExternalService.loadInvoiceDetails(eii);
                 assertEquals(2, eii.getInvoiceDetails().size());
                 boolean foundPedro = false;
                 for (ExternalInvoiceItemDetail eiiDetail : eii.getInvoiceDetails()) {

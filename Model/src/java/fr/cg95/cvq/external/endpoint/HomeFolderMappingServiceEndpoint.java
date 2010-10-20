@@ -8,8 +8,6 @@ import fr.capwebct.capdemat.IndividualMappingType;
 import fr.capwebct.capdemat.HomeFolderMappingRequestDocument.HomeFolderMappingRequest;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.business.users.external.IndividualMapping;
-import fr.cg95.cvq.dao.users.external.IExternalHomeFolderDAO;
-import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 

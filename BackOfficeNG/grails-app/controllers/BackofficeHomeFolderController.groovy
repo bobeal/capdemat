@@ -9,6 +9,7 @@ import fr.cg95.cvq.business.users.Child
 import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.payment.IPaymentService
+import fr.cg95.cvq.service.users.external.IExternalHomeFolderService
 import fr.cg95.cvq.business.users.HomeFolder
 import fr.cg95.cvq.business.payment.Payment
 import fr.cg95.cvq.business.users.Adult
@@ -16,6 +17,7 @@ import fr.cg95.cvq.business.users.Adult
 class BackofficeHomeFolderController {
 
     IHomeFolderService homeFolderService
+    IExternalHomeFolderService externalHomeFolderService
     IIndividualService individualService
     IRequestSearchService requestSearchService
     IPaymentService paymentService
@@ -23,7 +25,6 @@ class BackofficeHomeFolderController {
     def instructionService
     def translationService
     def requestAdaptorService
-    def externalService
 
     def defaultAction = 'search'
     def defaultMax = 15
@@ -68,7 +69,7 @@ class BackofficeHomeFolderController {
                 [RoleType.CLR_FATHER,RoleType.CLR_MOTHER,RoleType.CLR_TUTOR] as RoleType[]))
         
         result.identifierMappings =
-            externalService.getIdentifierMappings(homeFolder.id).collect { [
+            externalHomeFolderService.getHomeFolderMappings(homeFolder.id).collect { [
                 "externalServiceLabel" : it.externalServiceLabel,
                 "homeFolderId" : it.homeFolderId,
                 "externalId" : it.externalId,
@@ -82,7 +83,7 @@ class BackofficeHomeFolderController {
 
     def mapping = {
         def mapping =
-            externalService.getIdentifierMapping(params.externalServiceLabel,
+            externalHomeFolderService.getHomeFolderMapping(params.externalServiceLabel,
                 Long.valueOf(params.homeFolderId))
         def id = mapping.externalId
         if (params.individualId) {

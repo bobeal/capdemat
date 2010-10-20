@@ -21,8 +21,8 @@ import fr.cg95.cvq.external.ExternalServiceTestCase;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
-import fr.cg95.cvq.service.request.IRequestExternalService;
 import fr.cg95.cvq.service.request.IRequestTypeService;
+import fr.cg95.cvq.service.request.external.IRequestExternalService;
 
 public class CapwebctPaymentModuleServiceTest extends ExternalServiceTestCase {
 
@@ -43,7 +43,6 @@ public class CapwebctPaymentModuleServiceTest extends ExternalServiceTestCase {
         List<String> requestTypes = new ArrayList<String>();
         requestTypes.add(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST);
         esb.setRequestTypes(requestTypes);
-        esb.setSupportAccountsByHomeFolder(true);
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         lacb.registerExternalService(capwebctPaymentModuleService, esb);
         capwebctPaymentModuleClient.setFake(true);
@@ -69,7 +68,7 @@ public class CapwebctPaymentModuleServiceTest extends ExternalServiceTestCase {
         Assert.assertEquals(2, externalInformations.size());
 
         Map<Date, String> consumptions = 
-            requestExternalService.getConsumptionsByRequest(cb.getRequestId(), new Date(), new Date());
+            requestExternalService.getConsumptions(cb.getRequestId(), new Date(), new Date());
         Assert.assertEquals(2, consumptions.size());
 
         lacb.unregisterExternalService(capwebctPaymentModuleService);

@@ -8,7 +8,7 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.request.IRequestExternalService;
+import fr.cg95.cvq.service.request.external.IRequestExternalService;
 
 /*
  * Job dedicated to Edemande integration.

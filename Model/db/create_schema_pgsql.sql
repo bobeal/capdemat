@@ -89,6 +89,21 @@
     alter table electoral_roll_registration_request 
         drop constraint FK45625529F0159453;
 
+    alter table external_application_broker 
+        drop constraint FK839CD69CEC40A718;
+
+    alter table external_deposit_account_item_detail 
+        drop constraint FK4A90965670F56907;
+
+    alter table external_home_folder 
+        drop constraint FKA9D7255AEC40A718;
+
+    alter table external_individual 
+        drop constraint FKC1D4D78D42431EA3;
+
+    alter table external_invoice_item_detail 
+        drop constraint FKFB8FF2772062B3BC;
+
     alter table forms 
         drop constraint FK5D18C2FC5FD0068;
 
@@ -216,7 +231,7 @@
         drop constraint FKFD3DA2998BD77771;
 
     alter table individual_mapping 
-        drop constraint FK19DDB928D20F5682;
+        drop constraint FK19DDB92881C62393;
 
     alter table individual_role 
         drop constraint FK3C7D4E5CD4C3A2D8;
@@ -447,7 +462,17 @@
 
     drop table electoral_roll_registration_request;
 
-    drop table external_service_traces;
+    drop table external_application;
+
+    drop table external_application_broker;
+
+    drop table external_deposit_account_item_detail;
+
+    drop table external_home_folder;
+
+    drop table external_individual;
+
+    drop table external_invoice_item_detail;
 
     drop table forms;
 
@@ -562,6 +587,8 @@
     drop table request_admin_action_complementary_data;
 
     drop table request_document;
+
+    drop table request_external_action;
 
     drop table request_form;
 
@@ -956,16 +983,58 @@
         primary key (id)
     );
 
-    create table external_service_traces (
+    create table external_application (
         id int8 not null,
-        date timestamp,
-        key varchar(255),
-        key_owner varchar(255),
-        message varchar(255),
-        name varchar(255),
-        status varchar(255),
-        subkey varchar(255),
+        label varchar(255),
+        description varchar(255),
         primary key (id)
+    );
+
+    create table external_application_broker (
+        external_application_id int8 not null,
+        broker varchar(255)
+    );
+
+    create table external_deposit_account_item_detail (
+        external_deposit_account_item_id int8 not null,
+        date timestamp,
+        holder_name varchar(255),
+        holder_surname varchar(255),
+        payment_id varchar(255),
+        payment_type varchar(255),
+        value int4,
+        bank_reference varchar(255)
+    );
+
+    create table external_home_folder (
+        id int8 not null,
+        mapping_state varchar(255) not null,
+        external_id varchar(255),
+        external_application_id int8,
+        address varchar(255),
+        external_home_application_index int4,
+        primary key (id)
+    );
+
+    create table external_individual (
+        id int8 not null,
+        first_name varchar(255),
+        external_id varchar(255),
+        last_name varchar(255),
+        responsible bool,
+        external_home_folder_id int8,
+        external_home_folder_index int4,
+        primary key (id)
+    );
+
+    create table external_invoice_item_detail (
+        external_invoice_item_id int8 not null,
+        subject_name varchar(255),
+        label varchar(255),
+        quatity numeric(19, 2),
+        subject_surname varchar(255),
+        unit_price int4,
+        value int4
     );
 
     create table forms (
@@ -1559,10 +1628,13 @@
     );
 
     create table individual_mapping (
-        mapping_id int8 not null,
+        id int8 not null,
         individual_id int8,
         external_capdemat_id varchar(255),
-        external_id varchar(255)
+        external_id varchar(255),
+        home_folder_mapping_id int8,
+        home_folder_mapping_index int4,
+        primary key (id)
     );
 
     create table individual_role (
@@ -1773,12 +1845,18 @@
         item_type varchar(64) not null,
         label varchar(255),
         amount float8,
+        supported_broker varchar(255),
         external_item_id varchar(255),
         external_service_label varchar(255),
+        external_application_id varchar(255),
+        external_home_folder_id varchar(255),
+        external_individual_id varchar(255),
         old_value float8,
         old_value_date timestamp,
         issue_date timestamp,
+        is_paid bool,
         expiration_date timestamp,
+        payment_date timestamp,
         creation_date timestamp,
         max_buy int4,
         min_buy int4,
@@ -1940,6 +2018,18 @@
         id int8 not null,
         document_id int8,
         request_id int8,
+        primary key (id)
+    );
+
+    create table request_external_action (
+        id int8 not null,
+        date timestamp,
+        key varchar(255),
+        key_owner varchar(255),
+        message varchar(255),
+        name varchar(255),
+        status varchar(255),
+        subkey varchar(255),
         primary key (id)
     );
 
@@ -2394,6 +2484,31 @@
         foreign key (subject_address_outside_city_id) 
         references address;
 
+    alter table external_application_broker 
+        add constraint FK839CD69CEC40A718 
+        foreign key (external_application_id) 
+        references external_application;
+
+    alter table external_deposit_account_item_detail 
+        add constraint FK4A90965670F56907 
+        foreign key (external_deposit_account_item_id) 
+        references purchase_item;
+
+    alter table external_home_folder 
+        add constraint FKA9D7255AEC40A718 
+        foreign key (external_application_id) 
+        references external_application;
+
+    alter table external_individual 
+        add constraint FKC1D4D78D42431EA3 
+        foreign key (external_home_folder_id) 
+        references external_home_folder;
+
+    alter table external_invoice_item_detail 
+        add constraint FKFB8FF2772062B3BC 
+        foreign key (external_invoice_item_id) 
+        references purchase_item;
+
     alter table forms 
         add constraint FK5D18C2FC5FD0068 
         foreign key (request_type_id) 
@@ -2605,8 +2720,8 @@
         references home_folder;
 
     alter table individual_mapping 
-        add constraint FK19DDB928D20F5682 
-        foreign key (mapping_id) 
+        add constraint FK19DDB92881C62393 
+        foreign key (home_folder_mapping_id) 
         references home_folder_mapping;
 
     alter table individual_role 

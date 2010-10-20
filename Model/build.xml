@@ -343,9 +343,8 @@
 		    
 			<batchtest>
 				<fileset dir="${basedir}/${build.test.dir}">
-					<include name="**/*Test.class"/>
+					<include name="**/*ExternalServiceInteractionsTest.class"/>
 					<!-- not maintained, rewriting in progress -->
-					<exclude name="**/PlaceReservation*Test.class" />
                     <exclude name="**/HomeFolderModificationRequestServiceTest.class" />
 					<!-- requires mail sending infrastructure -->
 					<exclude name="**/MailServiceTest.class" />

@@ -9,6 +9,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.ISODateTimeFormat;
 
 public class DateUtils {
 
@@ -76,5 +77,15 @@ public class DateUtils {
         dateTime = dateTime.withHourOfDay("".equals(hours) ? 0 : new Integer(hours));
         dateTime = dateTime.withMinuteOfHour("".equals(minutes) ? 0 : new Integer(minutes));
         return dateTime.toDate();
+    }
+
+    /**
+     * Parses a date from the given text from the format : yyyy-MM-dd'T'HH:mm:ss.SSS
+     * Return null if the string is empty or null
+     */
+    public static Date parseIso(String date) {
+        if (date == null || date.isEmpty())
+            return null;
+        return ISODateTimeFormat.dateHourMinuteSecondFraction().parseDateTime(date).toDate();
     }
 }

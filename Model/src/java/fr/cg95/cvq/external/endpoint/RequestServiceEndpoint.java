@@ -16,17 +16,18 @@ import fr.capwebct.capdemat.GetRequestsRequestDocument;
 import fr.capwebct.capdemat.GetRequestsResponseDocument;
 import fr.capwebct.capdemat.GetRequestsRequestDocument.GetRequestsRequest;
 import fr.capwebct.capdemat.GetRequestsResponseDocument.GetRequestsResponse;
-import fr.cg95.cvq.business.external.ExternalServiceTrace;
-import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.business.request.external.RequestExternalAction;
+import fr.cg95.cvq.business.request.external.RequestExternalActionState;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IRequestExportService;
-import fr.cg95.cvq.service.request.IRequestExternalService;
 import fr.cg95.cvq.service.request.IRequestSearchService;
+import fr.cg95.cvq.service.request.external.IRequestExternalActionService;
+import fr.cg95.cvq.service.request.external.IRequestExternalService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.xml.common.RequestType;
@@ -40,7 +41,7 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
     private IRequestSearchService requestSearchService;
     private IRequestExternalService requestExternalService;
     private IRequestDAO requestDAO;
-    private IExternalService externalService;
+    private IRequestExternalActionService requestExternalActionService;
     
     private final String noPermissions = "Access denied! No permissions granted"; 
     
@@ -123,13 +124,13 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
                 // do not send again requests that have already been acknowledged ...
                 Set<Critere> criteriaSet = new HashSet<Critere>(2);
                 criteriaSet.add(new Critere(
-                        ExternalServiceTrace.SEARCH_BY_STATUS,
-                        TraceStatusEnum.ACKNOWLEDGED, Critere.EQUALS));
+                        RequestExternalAction.SEARCH_BY_STATUS,
+                        RequestExternalActionState.ACKNOWLEDGED, Critere.EQUALS));
 
                 criteriaSet.add(new Critere(
-                        ExternalServiceTrace.SEARCH_BY_KEY,
+                        RequestExternalAction.SEARCH_BY_KEY,
                         String.valueOf(eligibleRequest.getId()), Critere.EQUALS));
-                if (externalService.getTracesCount(criteriaSet) == 0)
+                if (requestExternalActionService.getTracesCount(criteriaSet) == 0)
                     selectedRequests.add(eligibleRequest);
             }
             
@@ -166,12 +167,12 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
             }
             resultArray.add(rt);
             
-            ExternalServiceTrace trace = new ExternalServiceTrace();
+            RequestExternalAction trace = new RequestExternalAction();
             trace.setKeyOwner("capdemat");
             trace.setKey(String.valueOf(r.getId()));
-            trace.setStatus(TraceStatusEnum.SENT);
+            trace.setStatus(RequestExternalActionState.SENT);
             
-            externalService.addTrace(trace);
+            requestExternalActionService.addTrace(trace);
         }
         
         logger.debug("prepareRequestsForResponse() number of returned requests " + requests.size());
@@ -202,7 +203,9 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
         this.requestDAO = requestDAO;
     }
 
-    public void setExternalService(IExternalService externalService) {
-        this.externalService = externalService;
+    public void setRequestExternalActionService(
+            IRequestExternalActionService requestExternalActionService) {
+        this.requestExternalActionService = requestExternalActionService;
     }
+
 }

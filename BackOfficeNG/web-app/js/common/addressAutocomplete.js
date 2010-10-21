@@ -24,9 +24,6 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
       addressEl.innerHTML = '';
       var divAutoComplete = document.createElement("div");
       yud.addClass(divAutoComplete, 'autocompleteZone');
-      var help = document.createElement("p");
-      help.innerHTML = 'Les champs surlignés en vert disposent d\'un système d\'aide à la saisie.'
-      addressEl.appendChild(help);
       addressEl.appendChild(divAutoComplete);
       for (var i=0; i<fieldNamesToOrder.length; i++) {
         for (var j=0; j<addressFields.length; j++) {

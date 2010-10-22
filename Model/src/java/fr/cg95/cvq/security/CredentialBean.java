@@ -30,6 +30,7 @@ public class CredentialBean {
     private static Logger logger = Logger.getLogger(CredentialBean.class);
 
     private Agent agent;
+    private Agent proxyAgent;
     private Adult adult;
     private String externalService;
     private LocalAuthority localAuthority;
@@ -117,6 +118,14 @@ public class CredentialBean {
         resetCaches();
 
         getSiteRoles();
+    }
+    
+    public Agent getProxyAgent() {
+        return proxyAgent;
+    }
+
+    public void setProxyAgent(Agent proxyAgent) {
+        this.proxyAgent = proxyAgent;
     }
 
     public Adult getEcitizen() {

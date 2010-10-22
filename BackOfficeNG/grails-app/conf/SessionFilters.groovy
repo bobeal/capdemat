@@ -149,7 +149,10 @@ class SessionFilters {
                         actionName)
                 try {
                     SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
-                    
+                    if (session.frontContext == ContextType.AGENT)
+                        SecurityContext.setProxyAgent(session.currentUser)
+                    else
+                        SecurityContext.setProxyAgent(null)
                     if ((point.controller == controllerName && point.action != actionName) || 
                         (point.controller != controllerName)) {
                         if(point.action) redirect(controller: point.controller, action: point.action)

@@ -8,7 +8,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
   var yue = YAHOO.util.Event;
   var yud = YAHOO.util.Dom;
 
-  zcfr.vOCardRequest = function() {
+  zcfr.VOCardRequest = function() {
 
     return {
       init: function() {
@@ -29,6 +29,6 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
     };
 
   }();
-  yue.onDOMReady(zcfr.vOCardRequest.init);
+
 }());
 

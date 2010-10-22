@@ -438,6 +438,4 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
     };
   }();
   
-  yue.onDOMReady(zcf.Condition.init);
-  
 }());

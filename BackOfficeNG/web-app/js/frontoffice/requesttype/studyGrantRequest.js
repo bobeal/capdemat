@@ -15,6 +15,5 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
     };
 
   }();
-  yue.onDOMReady(zcfr.StudyGrantRequest.init);
 }());
 

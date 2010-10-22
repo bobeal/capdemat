@@ -109,6 +109,9 @@
             yus.query(".day", this, true).name
           );
         });
+        
+        initCustomJS();
+        zcf.Condition.init();
       },
       
       getHandler : function(e) {

@@ -1,0 +1,100 @@
+<xs:schema targetNamespace="http://www.capwebct.fr/capdemat"
+  xmlns:capdemat="http://www.capwebct.fr/capdemat"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
+
+  <xs:element name="GetDocumentListRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="RequestId" type="xs:long">
+          <xs:annotation>
+            <xs:documentation>
+              The request id for wich we want the document list.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+   <xs:element name="GetDocumentListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice>
+          <xs:element name="Error" type="xs:string" />
+          <xs:element name="Document" type="capdemat:DocumentType" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:documentation>
+                The informations for all documents from the request.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:complexType name="DocumentType">
+      <xs:sequence>
+        <xs:element name="DocumentId" type="xs:long" />
+        <xs:element name="Type" type="xs:string" />
+        <xs:element name="State" type="xs:string" default="Validated" />
+        <xs:element name="EndValidityDate" type="xs:date" minOccurs="0" />
+        <xs:element name="ValidationDate" type="xs:date" minOccurs="0"/>
+      </xs:sequence>
+  </xs:complexType>
+  
+  <xs:element name="GetDocumentRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="RequestId" type="xs:long">
+          <xs:annotation>
+            <xs:documentation>
+              The request id for wich we want the document or the pdf.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="DocumentId" type="xs:long" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>
+              The document id for wich we want the binary.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="MergeDocument" type="xs:boolean" default="false">
+          <xs:annotation>
+            <xs:documentation>
+              True, if we want the document merged in one unique page, false if we want the original document
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="PdfSummary" type="xs:boolean" default="false">
+          <xs:annotation>
+            <xs:documentation>
+              True, if we want the request pdf
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="GetDocumentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice>
+            <xs:element name="Error" type="xs:string" />
+            <xs:element name="DocumentBinary" type="xs:base64Binary" maxOccurs="unbounded">
+            <xs:annotation>
+                <xs:documentation>
+                The binary of the document or pdf.
+                </xs:documentation>
+            </xs:annotation>
+            </xs:element>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+</xs:schema>

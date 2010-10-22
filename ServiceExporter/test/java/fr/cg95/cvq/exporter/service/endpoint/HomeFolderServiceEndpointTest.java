@@ -1,5 +1,6 @@
 package fr.cg95.cvq.exporter.service.endpoint;
 
+import org.junit.Test;
 import org.springframework.oxm.xmlbeans.XmlBeansMarshaller;
 
 import fr.cg95.cvq.exception.CvqException;
@@ -9,6 +10,7 @@ import fr.cg95.cvq.testtool.ServiceTestCase;
 
 public class HomeFolderServiceEndpointTest extends ServiceTestCase {
 
+    @Test
     public void testHomeFolderServiceEndpoint() throws CvqException {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);

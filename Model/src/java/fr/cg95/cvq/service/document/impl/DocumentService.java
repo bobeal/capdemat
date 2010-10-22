@@ -596,7 +596,9 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
                     byte[] imagePage = baos.toByteArray();
                     page.setPreview(imagePage);
                 } finally {
-                    pdDoc.close();
+                    if (pdDoc != null) {
+                        pdDoc.close();
+                    }
                 }
             } else {
                 ByteArrayInputStream baisPage = new ByteArrayInputStream(page.getData());
@@ -630,13 +632,13 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
      */
     @Context(types = {ContextType.ADMIN, ContextType.AGENT})
     public void mergeDocumentBinary(Document doc) throws CvqException {
-        if (doc.getDatas().get(0).getContentType().equals(ContentType.PDF)) {
-            if (doc.getDatas().size() > 1)
-                mergePdfDocumentBinary(doc);
-        } else {
-            mergeImageDocumentBinary(doc);
-        }
-        documentDAO.update(doc);
+       if (!doc.getDatas().isEmpty() && doc.getDatas().get(0).getContentType().equals(ContentType.PDF)) {
+           if(doc.getDatas().size() > 1)
+               mergePdfDocumentBinary(doc);
+       } else {
+           mergeImageDocumentBinary(doc);
+       }
+       documentDAO.update(doc);
     }
 
     private void mergePdfDocumentBinary(Document doc) throws CvqException {
@@ -702,6 +704,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         } catch (IOException ioe) {
             throw new CvqException(ioe.getMessage());
         }
+
         if (document.isOpen()) {
             document.close();
         }

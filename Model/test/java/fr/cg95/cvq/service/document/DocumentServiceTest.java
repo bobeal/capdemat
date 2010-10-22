@@ -506,7 +506,7 @@ public class DocumentServiceTest extends DocumentTestCase {
     }
     
     @Test
-    public void testMergePdf() throws CvqObjectNotFoundException, CvqException, IOException {
+    public void testMergeBinariesToPdf() throws CvqObjectNotFoundException, CvqException, IOException {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         
@@ -517,9 +517,9 @@ public class DocumentServiceTest extends DocumentTestCase {
         doc.setSessionUuid("testMergePdf");
         Long docId = documentService.create(doc);
         
-        //first : add binaries encrypted
+        //first : add pdf binaries encrypted
         DocumentBinary docBin = new DocumentBinary();
-        File filePdf = getResourceFile("bulletin.pdf");
+        File filePdf = getResourceFile("encrypted.pdf");
         byte[] dataPdf = new byte[(int) filePdf.length()];
         FileInputStream fis = new FileInputStream(filePdf);
         fis.read(dataPdf);
@@ -555,7 +555,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         //remove all binaries from document
         doc.getDatas().clear();
         
-        //second : add binaries not encrypted
+        //second : add pdf binaries not encrypted
         docBin = getPdfDocumentBinary();
         try {
             documentService.addPage(docId, docBin);
@@ -577,6 +577,44 @@ public class DocumentServiceTest extends DocumentTestCase {
 
         //change state of doc
         documentService.updateDocumentState(docId, DocumentState.VALIDATED, null, null);
+        
+        continueWithNewTransaction();
+
+        //tests
+        doc = documentService.getById(docId);
+        assertEquals("The merge didn't work",1,doc.getDatas().size());
+        assertEquals("Content type is not equal to PDF",ContentType.PDF, doc.getDatas().get(0).getContentType());
+        
+        //remove all binaries from document
+        doc.getDatas().clear();
+        
+        //third : add image binary
+        docBin = new DocumentBinary();
+        filePdf = getResourceFile("test.jpg");
+        dataPdf = new byte[(int) filePdf.length()];
+        fis = new FileInputStream(filePdf);
+        fis.read(dataPdf);
+        docBin.setData(dataPdf);
+        try {
+            documentService.addPage(docId, docBin);
+        } catch (CvqModelException cme) {
+            fail("thrown cvq model exception : " + cme.getI18nKey());
+        }
+        
+        docBin = new DocumentBinary();
+        docBin.setData(dataPdf);
+        try {
+            documentService.addPage(docId, docBin);
+        } catch (CvqModelException cme) {
+            fail("thrown cvq model exception : " + cme.getI18nKey());
+        }
+        
+        continueWithNewTransaction();
+
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
+
+        //change state of doc
+        documentService.mergeDocumentBinary(documentService.getById(docId));
         
         continueWithNewTransaction();
 

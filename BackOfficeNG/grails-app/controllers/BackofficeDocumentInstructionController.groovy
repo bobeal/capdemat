@@ -59,7 +59,7 @@ class BackofficeDocumentInstructionController {
             document.datas = []
         } else {
             document = documentService.getById(params.long('id'))
-            if (document.datas.get(0).getContentType() == ContentType.PDF)
+            if (!document.datas.isEmpty() && document.datas.get(0).getContentType() == ContentType.PDF)
                 messageLink = message(code: "document.message.downloadDocument")
         }
 

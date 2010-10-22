@@ -43,11 +43,13 @@ class BackofficeDocumentInstructionController {
             requestLockService.tryToLock(params.long('requestId'))
     }
 
+    //FIXME: refactor 'edit' action by using DocumentService API 
     def edit = {
         def document = [actions:[],documentType:[:]]
         Request request = requestSearchService.getById(params.long('requestId'), false)
         Agent agent = SecurityContext.currentAgent;
-        
+        def messageLink = message(code:"document.message.showImage")
+
         if (!params.id || Integer.valueOf(params.id) == 0) {
             def documentType = documentTypeService.getDocumentTypeById(params.long('dtid'))
             document.documentType.name = documentType.name
@@ -57,6 +59,8 @@ class BackofficeDocumentInstructionController {
             document.datas = []
         } else {
             document = documentService.getById(params.long('id'))
+            if (document.datas.get(0).getContentType() == ContentType.PDF)
+                messageLink = message(code: "document.message.downloadDocument")
         }
 
         def actions = []
@@ -65,11 +69,7 @@ class BackofficeDocumentInstructionController {
         }
         def agentCanWrite =
             categoryService.hasWriteProfileOnCategory(agent, request.requestType.category.id)
-            
-        def messageLink = message(code:"document.message.showImage")
-        if(document.datas.get(0).getContentType() == ContentType.PDF)
-            messageLink = message(code: "document.message.downloadDocument")
-        
+
         return ([
             "uuid" : UUID.randomUUID().toString(),
             "document": [

@@ -23,7 +23,8 @@
     <ul>
       <g:each var="state" status="i" in="${states}">
         <li>
-          <input type="radio" name="state" value="${state.enumString}" />
+          <input type="radio" name="state" value="${state.enumString}" class="validate-one-required" 
+              title="${message(code:'request.error.newStateRequired')}" />
           <span class="${state.cssClass}">
             <g:message code="${state.i18nKey}" />
           </span>

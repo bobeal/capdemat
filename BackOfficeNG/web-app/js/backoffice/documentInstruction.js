@@ -13,6 +13,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
   var zcb = zenexity.capdemat.bong;
   var zca = zenexity.capdemat.aspect;
   var zct = zenexity.capdemat.tools;
+  var zcv = zenexity.capdemat.Validation;
   var zcbd = zenexity.capdemat.bong.document;
   var zcbr = zenexity.capdemat.bong.request;
   
@@ -164,7 +165,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
       cancelDocumentState: function(){
         zcbd.Instruction.overlay.hide();
       },
-      changeDocumentState : function() {
+      changeDocumentState : function(e) {
+        if (!zcv.check(e, yud.get('documentStateFormErrors')))
+          return false;
         zct.doAjaxFormSubmitCall('documentStateForm',[],function(o){
           var json = ylj.parse(o.responseText);
           zcbd.Instruction.displayDocPanel(undefined,json);

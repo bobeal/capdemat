@@ -122,6 +122,7 @@ class FrontofficeHomeController {
     def logout = {
         session.frontContext = null
         session.currentEcitizen = null
+        session.currentEcitizenName = null
         redirect(controller:'frontofficeHome')
     }
     

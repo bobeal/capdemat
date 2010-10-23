@@ -24,3 +24,11 @@
 
   
 
+  
+    <label for="registrationNumber" class=""><g:message code="lrr.property.registrationNumber.label" />   <span><g:message code="lrr.property.registrationNumber.help" /></span></label>
+            <input type="text" id="registrationNumber" name="registrationNumber" value="${rqt.registrationNumber?.toString()}" 
+                    class="  validate-string ${stepStates != null && stepStates['registration']?.invalidFields?.contains('registrationNumber') ? 'validation-failed' : ''}" title="<g:message code="lrr.property.registrationNumber.validationError" />"   />
+            
+
+  
+

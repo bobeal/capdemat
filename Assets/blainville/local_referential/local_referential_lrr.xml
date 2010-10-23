@@ -4,21 +4,11 @@
     <data name="Subscription">
         <label lang="fr">Formule d'abonnement</label>
         <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
-            <entry key="Individual">
-                <label lang="fr">Abonnement individuel</label>
-                <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
-                    <entry key="Individual-Section-enfant">
-                        <label lang="fr">Section enfant</label>
-                        <message lang="fr"/>
-                    </entry>
-                    <entry key="Individual-Section-adulte">
-                        <label lang="fr">Section adulte</label>
-                        <message lang="fr"/>
-                    </entry>
-                </entries>
-            </entry>
             <entry key="Familial">
                 <label lang="fr">Abonnement familial</label>
+            </entry>
+            <entry key="Individual">
+                <label lang="fr">Abonnement individuel</label>
             </entry>
         </entries>
     </data>

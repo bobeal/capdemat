@@ -24,7 +24,7 @@
   <body>
     <g:set var="requestTypeInfo">
       {"label": "${requestTypeLabel}"
-        ,"steps": [  "registration-required",  "rules-required",  "validation-required"  ]
+        ,"steps": [  "registration-required",  "rules-required",  "document",  "validation-required"  ]
       }
     </g:set>
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
@@ -112,6 +112,23 @@
             
           </em></a>
         </li>    
+  
+
+  
+        <g:if test="${!documentTypes.isEmpty()}">
+  
+    
+        <li class="${currentStep == 'document' ? 'selected' : ''}">
+  
+          <a href="#document"><em>
+          <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
+    
+          <g:message code="request.step.document.label" />
+            
+          </em></a>
+        </li>    
+  
+        </g:if>
   
 
   
@@ -205,6 +222,43 @@
          </div>
          </g:if>
        </div>  
+  
+
+  
+        <g:if test="${!documentTypes.isEmpty()}">
+  
+       <div id="document">
+         <form method="post" enctype="multipart/form-data" id="stepForm-document" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
+           <h3>
+             <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
+  
+             <g:message code="request.step.document.label" />
+             <span><g:message code="request.step.document.desc" /></span>
+             <span class="error">${stepStates?.document?.errorMsg}</span>
+           </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
+           <div>
+  
+            <g:render template="/frontofficeRequestType/document" />         
+  
+           </div>
+           <div class="error" id="stepForm-document-error"> </div>
+           <!-- Input submit-->
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="uuidString" value="${uuidString}" />
+  
+         </form>
+         
+         <g:if test="${helps.document != null}">       
+         <div class="requestHelp">
+           <h3><g:message code="header.help"/></h3>
+           ${helps.document}
+         </div>
+         </g:if>
+       </div>  
+  
+        </g:if>
   
 
   

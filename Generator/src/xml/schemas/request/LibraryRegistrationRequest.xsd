@@ -34,7 +34,9 @@
               </widgets>
             </step>
             <step index="1" name="rules" />
-            <step index="2" ref="validation" />
+            <step index="2" ref="document" />
+            <step index="3" ref="validation" />
+            <step index="4" ref="administration" />
           </steps>
         </common>
       </xs:appinfo>
@@ -102,7 +104,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="RegistrationNumber" type="xs:string">
+            <xs:element name="RegistrationNumber" type="xs:string" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Numéro d'adhérent
@@ -114,6 +116,7 @@
                   <common>
                     <step name="registration" />
                   </common>
+                  <fo />
                   <bo column="2" />
                   <pdf />
                 </xs:appinfo>
@@ -123,9 +126,9 @@
               <xs:annotation>
                 <xs:appinfo>
                   <common>
-                    <step name="registration" />
+                    <step name="administration" />
                   </common>
-                  <bo column="2" />
+                  <bo column="1" />
                   <pdf />
                 </xs:appinfo>
               </xs:annotation>

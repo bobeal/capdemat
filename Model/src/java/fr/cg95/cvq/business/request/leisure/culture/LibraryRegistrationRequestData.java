@@ -57,20 +57,6 @@ public class LibraryRegistrationRequestData implements Serializable {
 
   
     
-      @NotNull(
-        
-        
-        profiles = {"registration"},
-        message = "registrationNumber"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"registration"},
-        message = "registrationNumber"
-      )
-    
     private String registrationNumber;
 
     public final void setRegistrationNumber(final String registrationNumber) {
@@ -117,7 +103,7 @@ public class LibraryRegistrationRequestData implements Serializable {
       @NotNull(
         
         
-        profiles = {"registration"},
+        profiles = {"administration"},
         message = "subscriptionPrice"
       )
     

@@ -12,6 +12,10 @@
       <a href="#page1"><em><g:message code="lrr.step.rules.label" /></em></a>
     </li>
   
+    <li class="administration ">
+      <a href="#page4"><em><g:message code="request.step.administration.label" /></em></a>
+    </li>
+  
   </ul>
    
   <div class="yui-content">
@@ -55,13 +59,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="lrr.property.registrationNumber.label" /> * : </dt><dd id="registrationNumber" class="action-editField validate-string required-true i18n-lrr.property.registrationNumber" ><span>${rqt?.registrationNumber}</span></dd>
-              </dl>
-              
-            
-              
-              <dl>
-                <dt class="required"><g:message code="lrr.property.subscriptionPrice.label" /> * : </dt><dd id="subscriptionPrice" class="action-editField validate-subscriptionPrice required-true i18n-lrr.property.subscriptionPrice" ><span>${rqt?.subscriptionPrice}</span></dd>
+                <dt class=""><g:message code="lrr.property.registrationNumber.label" />  : </dt><dd id="registrationNumber" class="action-editField validate-string i18n-lrr.property.registrationNumber" ><span>${rqt?.registrationNumber}</span></dd>
               </dl>
               
             
@@ -93,6 +91,41 @@
               
               <dl>
                 <dt class="required"><g:message code="lrr.property.parentalAuthorization.label" /> * : </dt><dd id="parentalAuthorization" class="action-editField validate-acceptance required-true i18n-lrr.property.parentalAuthorization" ><span class="value-${rqt?.parentalAuthorization}"><g:message code="message.${rqt?.parentalAuthorization ? 'yes' : 'no'}" /></span></dd>
+              </dl>
+              
+            
+          </div>
+          <!-- column end -->
+          
+          <!-- column start -->
+          <div class="yui-u">
+            
+          </div>
+          <!-- column end -->
+          
+        </div>
+        <!-- data step  end -->
+      </div>
+      <!-- step end -->
+      
+      <!-- step start -->
+      <div id="page4">
+        <h2><g:message code="property.form" />
+          <span><g:message code="request.step.administration.label" /></span>
+        </h2>
+        <div class="yui-g">
+          
+            <div class="administration information-message">
+              <g:message code="request.step.administration.desc" />
+            </div>
+          
+          
+          <!-- column start -->
+          <div class="yui-u first">
+            
+              
+              <dl>
+                <dt class="required"><g:message code="lrr.property.subscriptionPrice.label" /> * : </dt><dd id="subscriptionPrice" class="action-editField validate-subscriptionPrice required-true i18n-lrr.property.subscriptionPrice" ><span>${rqt?.subscriptionPrice}</span></dd>
               </dl>
               
             

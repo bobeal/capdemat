@@ -6,7 +6,6 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.SessionFactory;
 
@@ -39,8 +38,7 @@ import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
  */
 public class CvqOpenSessionInViewFilter extends GenericFilterBean {
 
-    private static Logger logger =
-        Logger.getLogger(CvqOpenSessionInViewFilter.class);
+    private static Logger logger = Logger.getLogger(CvqOpenSessionInViewFilter.class);
 
     private String context;
 
@@ -59,14 +57,12 @@ public class CvqOpenSessionInViewFilter extends GenericFilterBean {
         try {
             request.setCharacterEncoding("UTF-8");
             response.setContentType("text/html; charset=utf-8");
-            logger.debug("doFilterInternal() got server name : "
-                + request.getServerName());
-            WebApplicationContext wac = WebApplicationContextUtils
-                .getRequiredWebApplicationContext(getServletContext());
+            logger.debug("doFilterInternal() got server name : " + request.getServerName());
+            WebApplicationContext wac = 
+                WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
             ILocalAuthorityRegistry localAuthRegistry = 
                 (ILocalAuthorityRegistry) wac.getBean("localAuthorityRegistry");
-            LocalAuthority la = localAuthRegistry
-                .getLocalAuthorityByServerName(request.getServerName());
+            LocalAuthority la = localAuthRegistry.getLocalAuthorityByServerName(request.getServerName());
             if (la == null)
                 throw new ServletException("No local authority found !");
             LocalAuthorityConfigurationBean lacb =
@@ -80,31 +76,20 @@ public class CvqOpenSessionInViewFilter extends GenericFilterBean {
             try {
                 SecurityContext.setCurrentSite(lacb.getName(), context);
                 SecurityContext.setCurrentLocale(request.getLocale());
-                if (context.equals(SecurityContext.FRONT_OFFICE_CONTEXT)) {
-                    if (((HttpServletRequest) request)
-                        .getHeader("ecitizenName") != null) {
-                        SecurityContext.setCurrentEcitizen(
-                            ((HttpServletRequest)request)
-                            .getHeader("ecitizenName"));
-                    }
-                }
             } catch (CvqException ce) {
-                logger.error("Error while setting current site");
-                ce.printStackTrace();
+                logger.error("Error while setting current site : " + ce.getMessage());
                 throw new ServletException();
             }
-            // set in session to be used by GUIWizard and webapps
-            ((HttpServletRequest) request).getSession()
-                .setAttribute("currentSiteName", lacb.getName().toLowerCase());
+
             try {
                 chain.doFilter(request, response);
             } catch (PermissionException e) {
                 txRollback.set(Boolean.TRUE);
                 throw e;
             }
+
             Boolean doRollback = txRollback.get();
-            logger.debug("doFilter() Tx rollback status : "
-                + doRollback.booleanValue());
+            logger.debug("doFilter() Tx rollback status : " + doRollback.booleanValue());
             if (doRollback.booleanValue()) {
                 HibernateUtil.rollbackTransaction();
             } else {

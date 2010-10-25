@@ -1,0 +1,12 @@
+<plugin name='webxml' version='1.2'>
+  <author>Roger Cass</author>
+  <authorEmail>roger.cass@byu.net</authorEmail>
+  <title>Create useful additions to web.xml</title>
+  <description>Add additional Features to your web.xml, such as Filters, Config Listeners or Context
+Parameter definitions </description>
+  <documentation>http://grails.org/WebXML+Plugin</documentation>
+  <resources>
+    <resource>DefaultWebXmlConfig</resource>
+    <resource>UrlMappings</resource>
+  </resources>
+</plugin>

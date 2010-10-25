@@ -22,8 +22,8 @@ webxml {
     //filterChainProxyDelegator.urlPattern = "/*"
 
     // Set to true to add Listeners
-    listener.add = true
-    listener.classNames = ["SerializedSessionListener","TicketBookingSessionListener"]
+    //listener.add = true
+    //listener.classNames = ["org.springframework.web.context.request.RequestContextListener"]
 
     //-------------------------------------------------
     // These settings usually do not need to be changed
@@ -45,14 +45,4 @@ webxml {
     //    <param-name>port</param-name>
     //    <param-value>6001</param-value>
     //  </context-param>
-
-    servlet.add = true
-    servlet.names = ['soap-ws':'org.springframework.ws.transport.http.MessageDispatcherServlet']
-    servlet.initparams = ['soap-ws':['transformWsdlLocations':'true']]
-    servlet.mappings = ['soap-ws':'/service/soap/*']
-
-    filter.add = true
-    filter.names = ['SoapOpenSessionInViewFilter':'fr.cg95.cvq.util.web.filter.CvqOpenSessionInViewFilter']
-    filter.initparams = ['SoapOpenSessionInViewFilter':['context':'backOffice']]
-    filter.mappings = ['SoapOpenSessionInViewFilter':'/service/soap/*']
 }

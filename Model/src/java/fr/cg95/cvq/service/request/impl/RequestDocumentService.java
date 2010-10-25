@@ -218,6 +218,10 @@ public class RequestDocumentService implements IRequestDocumentService {
                 calendar.setTime(doc.getValidationDate());
                 documentType.setValidationDate(calendar);
             }
+            if (doc.getEndValidityDate() != null) {
+                calendar.setTime(doc.getEndValidityDate());
+                documentType.setEndValidityDate(calendar);
+            }
         }
 
         // Reset to original context

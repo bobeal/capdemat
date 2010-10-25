@@ -88,7 +88,6 @@
             <fileset dir="${mail.lib.dir}" />
             <fileset dir="${postgresql.jdbc.lib.dir}" />
             <fileset dir="${quartz.lib.dir}" />
-            <fileset dir="${saxon.lib.dir}" />
             <fileset dir="${mime-util.lib.dir}" />
             <fileset dir="${pdfbox.lib.dir}" />
             <fileset dir="${fontbox.lib.dir}" />
@@ -115,6 +114,10 @@
             <fileset dir="${sourceforge.lib.dir}">
                 <include name="oval*.jar" />
             </fileset>
+            <fileset dir="${sun.lib.dir}">
+              <include name="xws-security.jar" />
+            </fileset>
+            <fileset dir="${saxon.lib.dir}" />
         </copy>
     </target>
 

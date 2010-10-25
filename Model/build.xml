@@ -67,7 +67,6 @@
 			<fileset dir="${libraries.dir}/fr.cg95/plugins">
 				<include name="**/*.jar" />
 			</fileset>
-			<pathelement path="${basedir}/../ServiceExporter/build/test" />
 			<!-- need c3p0 configuration file on the classpath -->
 			<fileset dir="${libraries.dir}/org.hibernate" file="c3p0.properties" />
 			<!-- libraries required for load testing -->
@@ -180,6 +179,12 @@
 			<fileset dir="${basedir}/${src.java.dir}">
 				<include name="**/*.properties" />
 			</fileset>
+            <fileset dir="${conf.dir.security}">
+              <include name="securityPolicy.xml" />
+            </fileset>
+          <fileset dir="${src.xml.schemas.external.dir}">
+            <include name="**/*.xsd" />
+          </fileset>
 		</jar>
 	</target>
 
@@ -363,12 +368,6 @@
       		      <include name="**/*Test.class" />
       	        </fileset>
       	        -->
-				<!-- ServiceExporter unit tests -->
-				<!--
-				<fileset dir="${basedir}/../ServiceExporter/build/test">
-					<include name="**/HomeFolderServiceEndpointTest.class" />
-				</fileset>
-				-->
 			</batchtest>
 		</junit>
 	</target>
@@ -443,7 +442,6 @@
 			<link href="http://java.sun.com/j2se/1.5.0/docs/api/" />
 			<link href="http://www.springframework.org/docs/api/" />
 			<link href="http://xml.apache.org/xerces-j/apiDocs/" />
-			<link href="http://www.saxonica.com/documentation/javadoc/index.html" />
 
 			<packageset dir="${basedir}/${src.java.dir}" defaultexcludes="yes">
 				<include name="**" />

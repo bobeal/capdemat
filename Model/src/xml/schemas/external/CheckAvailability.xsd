@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.capwebct.fr/modules/payment/schema/ca"
+  xmlns:ca="http://www.capwebct.fr/modules/payment/schema/ca"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:element name="CheckAvailabilityRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="RequestTypeLabel" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              The label of the request type.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="CheckAvailabilityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Available" type="xs:boolean" default="true" />
+        <xs:element name="Message" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>
+              Complementary message to display if the request type is not available
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

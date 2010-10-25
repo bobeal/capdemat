@@ -1,0 +1,45 @@
+<xs:schema targetNamespace="http://www.capwebct.fr/capdemat/rin"
+  xmlns:rin="http://www.capwebct.fr/capdemat/rin"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:common="http://www.cg95.fr/cvq/schema/common" 
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
+
+  <xs:element name="RequestInstructionNotifiyRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="RequestId" type="xs:long" />
+        <xs:element name="ResultingState" type="common:RequestStateType" default="Validated" />
+        <xs:element name="BusinessData" type="rin:BusinessDataType" minOccurs="0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="RequestInstructionNotifiyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Accomplished" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:complexType name="BusinessDataType">
+    <xs:sequence>
+      <xs:element name="Data" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>
+            The business data to modify. This field must have exactly the same name as in the sent request.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Value" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>
+            The value to set to the business field
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>  
+
+</xs:schema>

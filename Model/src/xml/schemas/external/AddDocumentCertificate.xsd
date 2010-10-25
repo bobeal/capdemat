@@ -1,0 +1,27 @@
+<xs:schema targetNamespace="http://www.capwebct.fr/capdemat/adc"
+  xmlns:adc="http://www.capwebct.fr/capdemat/adc"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:common="http://www.cg95.fr/cvq/schema/common" 
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
+
+  <xs:element name="AddDocumentCertificateRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="RequestId" type="xs:long" />
+        <xs:element name="EndValidityDate" type="xs:date" />
+        <xs:element name="Label" type="xs:long" />
+        <xs:element name="Data" type="xs:base64Binary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="AddDocumentCertificateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Accomplished" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+</xs:schema>

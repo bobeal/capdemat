@@ -128,6 +128,8 @@
 			</fileset>
 			<fileset dir="${conf.dir.xmlbeans}" includes="schemas.xsdconfig" />
 		</xmlbean>
+      <copy todir="${deploy.model.dir}" 
+          file="${basedir}/${build.archives.dir}/${application.name}-ExternalServicesSchemas-${application.version}.jar" />
 	</target>
 
 	<target name="generate-hibernate" description="Generates Hibernate class descriptor files" 
@@ -222,8 +224,6 @@
 	<target name="deploy" depends="compile-external-schemas, dist, compile-tests">
 		<copy todir="${deploy.model.dir}" 
 			file="${basedir}/${build.archives.dir}/${application.name}-${module.name}-${application.version}.jar" />
-		<copy todir="${deploy.model.dir}" 
-			file="${basedir}/${build.archives.dir}/${application.name}-ExternalServicesSchemas-${application.version}.jar" />
 	</target>
 
 	<!-- =================================================================== -->

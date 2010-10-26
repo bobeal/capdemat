@@ -20,60 +20,17 @@
         <include name="CapDemat-Plugin-PaymentProviders-Spplus-*.jar" />
     </fileset>
 
-	<target name="clean" depends="init">
-	    <delete>
-	        <fileset refid="capdemat-core-libs"/>
-	    	<fileset refid="capdemat-plugins" />
-	    </delete>
-	</target>
-	
-    <!-- still used for ServiceExporter webapp -->
-    <target name="runtime-libs" depends="init">
-
-        <copy todir="${project.lib.dir}" flatten="true">
-            <fileset refid="capdemat-core-libs" />
+    <target name="clean" depends="init">
+        <delete>
+            <fileset refid="capdemat-core-libs"/>
             <fileset refid="capdemat-plugins" />
-            <fileset dir="${postgresql.jdbc.lib.dir}" />
-            <fileset dir="${mail.lib.dir}" />
-            <fileset dir="${jaf.lib.dir}" />
-            <fileset dir="${lowagie.lib.dir}" />
-            <fileset dir="${hibernate.lib.dir}" />
-            <fileset dir="${csvobjects.lib.dir}" />
-            <fileset dir="${common.lib.dir}">
-                <include name="*.jar" />
-                <exclude name="commons-dbcp-1.1.jar" />
-                <exclude name="commons-pool.jar" />
-            </fileset>
-            <fileset dir="${oro.lib.dir}" />
-            <fileset dir="${jaxen.lib.dir}" />
-            <fileset dir="${log4j.lib.dir}" />
-            <fileset dir="${axis.lib.dir}" />
-            <fileset dir="${xmlbean.lib.dir}" />
-            <fileset dir="${saxon.lib.dir}" />
-            <fileset dir="${mime-util.lib.dir}" />
-            <fileset dir="${spring.lib.dir}" />
-            <fileset dir="${sun.lib.dir}">
-                <include name="saaj-*.jar" />
-            </fileset>
-            <fileset dir="${aspectj.lib.dir}">
-                <include name="aspectjweaver-*.jar" />
-            </fileset>
-            <fileset dir="${joda.lib.dir}" />
-            <fileset dir="${jsch.lib.dir}" />
-            <fileset dir="${groovy.lib.dir}" />
-            <fileset dir="${jdom.lib.dir}">
-              <include name="jdom.jar" />
-            </fileset>
-        </copy>
+        </delete>
     </target>
 
     <target name="bong-runtime-libs" depends="init">
         <copy todir="${bong.dir}/lib" flatten="true" overwrite="true">
             <fileset refid="capdemat-core-libs" />
             <fileset refid="capdemat-plugins" />
-        	<!--
-            <fileset dir="${jaf.lib.dir}" />
-            -->
             <fileset dir="${aspectj.lib.dir}">
                 <include name="aspectjweaver-*.jar" />
             </fileset>

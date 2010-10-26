@@ -33,7 +33,6 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
 
     protected ILocalAuthorityRegistry localAuthorityRegistry;
     private IMeansOfContactDAO meansOfContactDAO;
-    private Boolean performDbUpdates;
 
     private IMailService mailService;
     private ISmsService smsService;
@@ -75,7 +74,7 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
     @Override
     @Context(types = {ContextType.SUPER_ADMIN})
     public void addLocalAuthority(String localAuthorityName) {
-        if (performDbUpdates) initAvalaibleMeansOfContact();
+        initAvalaibleMeansOfContact();
     }
 
     @Override
@@ -202,13 +201,6 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
 
     public void setMeansOfContactDAO(IMeansOfContactDAO meansOfContactDAO) {
         this.meansOfContactDAO = meansOfContactDAO;
-    }
-
-    public void setPerformDbUpdates(Boolean performDbUpdates) {
-        if (performDbUpdates != null)
-            this.performDbUpdates = performDbUpdates;
-        else
-            this.performDbUpdates = Boolean.FALSE;
     }
 
     public void setMailService(IMailService mailService) {

@@ -3,7 +3,7 @@ import org.apache.commons.lang.StringUtils
 
 class MenuTagLib {
     def static namespace = "menu"
-    def exclude = ['backoffice','frontoffice','serviceexporter','monitoring']
+    def exclude = ['backoffice','frontoffice','monitoring']
     
     def current = {attrs,body ->
         def elem = attrs['elem']

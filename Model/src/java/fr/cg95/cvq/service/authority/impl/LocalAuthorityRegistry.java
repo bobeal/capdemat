@@ -116,8 +116,6 @@ public class LocalAuthorityRegistry
 
     private ListableBeanFactory beanFactory;
 
-    private Boolean performDbUpdates;
-
     private String referentialBase;
     private String assetsBase;
     private String[] includedLocalAuthorities;
@@ -644,8 +642,7 @@ public class LocalAuthorityRegistry
                     if (includedLocalAuthorities[j].equals(localAuthorityName)) {
                         logger.debug("registerLocalAuthorities() loading " + localAuthorityName);
                         xmlBeanDefinitionReader.loadBeanDefinitions(localAuthoritiesFiles[i]);
-                        if (DEVELOPMENT_LOCAL_AUTHORITY.equals(localAuthorityName)
-                            && performDbUpdates) {
+                        if (DEVELOPMENT_LOCAL_AUTHORITY.equals(localAuthorityName)) {
                             HibernateUtil.setSessionFactory(templateSessionFactory);
                             BeanDefinition definition =
                                 gac.getBeanDefinition("pgDataSource_blainville");
@@ -687,9 +684,8 @@ public class LocalAuthorityRegistry
             logger.debug("registerLocalAuthorities() adding [" + lacb.getName()
                          + "] to the list of known local authorities (" + lacb + ")");
             configurationBeansMap.put(lacb.getName().toLowerCase(), lacb);
-            if (performDbUpdates.booleanValue())
-                callback(lacb.getName(), this, "instantiateLocalAuthority",
-                    new String[]{lacb.getName()});
+            callback(lacb.getName(), this, "instantiateLocalAuthority",
+                new String[]{lacb.getName()});
             callback(lacb.getName(), this, "registerLocalAuthority",
                 new String[]{lacb.getName()});
         }
@@ -933,13 +929,6 @@ public class LocalAuthorityRegistry
 
     public void setLocalAuthorityDAO(ILocalAuthorityDAO localAuthorityDAO) {
         this.localAuthorityDAO = localAuthorityDAO;
-    }
-
-    public void setPerformDbUpdates(Boolean performDbUpdates) {
-        if (performDbUpdates != null)
-            this.performDbUpdates = performDbUpdates;
-        else
-            this.performDbUpdates = Boolean.FALSE;
     }
 
     public void setIncludes(final String includes) {

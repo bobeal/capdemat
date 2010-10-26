@@ -195,7 +195,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <bean id="requestTypeService" class="fr.cg95.cvq.service.request.impl.RequestTypeService"
     init-method="init">
-    <property name="performDbUpdates" value="@perform_db_updates@"/>
     <property name="genericDAO" ref="genericDAO"/>
     <property name="requestDAO" ref="requestDAO"/>
     <property name="requestTypeDAO" ref="requestTypeDAO"/>
@@ -306,7 +305,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <bean id="documentTypeService" class="fr.cg95.cvq.service.document.impl.DocumentTypeService">
     <property name="documentTypeDAO" ref="documentTypeDAO"/>
-    <property name="performDbUpdates" value="@perform_db_updates@"/>
     <property name="documentBootstrapper">
       <bean class="fr.cg95.cvq.service.document.impl.DocumentBootstrapper">
         <property name="documentTypeDAO" ref="documentTypeDAO" />
@@ -349,7 +347,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   
   <bean id="meansOfContactService" class="fr.cg95.cvq.service.request.impl.MeansOfContactService">
     <property name="meansOfContactDAO" ref="meansOfContactDAO" />
-    <property name="performDbUpdates" value="@perform_db_updates@" />
     <property name="mailService" ref="mailService" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="smsService" ref="fakeSmsService" />

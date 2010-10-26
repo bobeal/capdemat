@@ -87,8 +87,6 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     private IGenericDAO genericDAO;
     private IRequestDAO requestDAO;
 
-    private Boolean performDbUpdates;
-    
     /** a list of all services interested in request types lifecycle */
     protected Collection<IRequestTypeLifecycleAware> allListenerServices;
 
@@ -121,10 +119,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
         requestServiceRegistry.registerService(service);
         
         // add this new request type to all known local authorities
-        if (performDbUpdates) {
-            Object[] args = new Object[] { label };
-            localAuthorityRegistry.browseAndCallback(this, "initRequestData", args);
-        }
+        localAuthorityRegistry.browseAndCallback(this, "initRequestData", new Object[] { label });
 
         // notify listener services of the new request type
         if (allListenerServices != null) {
@@ -162,28 +157,26 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     @Override
     @Context(types = {ContextType.SUPER_ADMIN})
     public void addLocalAuthority(String localAuthorityName) {
-        if (performDbUpdates) {
-            if (getGlobalRequestTypeConfiguration() == null) {
-                genericDAO.saveOrUpdate(new GlobalRequestTypeConfiguration());
-                HibernateUtil.getSession().flush();
+        if (getGlobalRequestTypeConfiguration() == null) {
+            genericDAO.saveOrUpdate(new GlobalRequestTypeConfiguration());
+            HibernateUtil.getSession().flush();
+        }
+        if (getGlobalRequestTypeConfiguration().getArchivesPassword() == null) {
+            try {
+                generateArchivesPassword();
+            } catch (CvqException e) {
+                throw new RuntimeException("error generating archives password", e);
             }
-            if (getGlobalRequestTypeConfiguration().getArchivesPassword() == null) {
-                try {
-                    generateArchivesPassword();
-                } catch (CvqException e) {
-                    throw new RuntimeException("error generating archives password", e);
-                }
-            }
-            for (IRequestService requestService : requestServiceRegistry.getAllRequestServices()) {
-                logger.debug("addLocalAuthority() registering service " + requestService.getLabel() 
-                        + " for local authority " + localAuthorityName);
-                initRequestData(requestService.getLabel());
-            }
-            if (LocalAuthorityRegistry.DEVELOPMENT_LOCAL_AUTHORITY.equals(localAuthorityName)) {
-                for (RequestType requestType : getAllRequestTypes()) {
-                    requestType.setActive(true);
-                    modifyRequestType(requestType);
-                }
+        }
+        for (IRequestService requestService : requestServiceRegistry.getAllRequestServices()) {
+            logger.debug("addLocalAuthority() registering service " + requestService.getLabel() 
+                    + " for local authority " + localAuthorityName);
+            initRequestData(requestService.getLabel());
+        }
+        if (LocalAuthorityRegistry.DEVELOPMENT_LOCAL_AUTHORITY.equals(localAuthorityName)) {
+            for (RequestType requestType : getAllRequestTypes()) {
+                requestType.setActive(true);
+                modifyRequestType(requestType);
             }
         }
     }
@@ -688,13 +681,6 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
 
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
         this.localAuthorityRegistry = localAuthorityRegistry;
-    }
-
-    public void setPerformDbUpdates(Boolean performDbUpdates) {
-        if (performDbUpdates != null)
-            this.performDbUpdates = performDbUpdates;
-        else
-            this.performDbUpdates = Boolean.FALSE;
     }
 
     @Override

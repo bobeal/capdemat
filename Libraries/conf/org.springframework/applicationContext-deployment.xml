@@ -168,7 +168,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="requestArchivingJob" ref="requestArchivingJob" />
     <property name="localAuthorityDAO" ref="localAuthorityDAO" />
     <property name="requestActionDAO" ref="requestActionDAO" />
-    <property name="performDbUpdates" value="@perform_db_updates@" />
     <property name="referentialBase" value="${referential.properties.path}" />
     <property name="assetsBase" value="${assets.properties.path}" />
     <property name="includes" value="${assets.included_authorities}" />

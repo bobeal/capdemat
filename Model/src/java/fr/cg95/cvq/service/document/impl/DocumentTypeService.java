@@ -20,7 +20,6 @@ public class DocumentTypeService
 
     protected IDocumentTypeDAO documentTypeDAO;
 
-    private Boolean performDbUpdates;
     private DocumentBootstrapper documentBootstrapper;
 
     @Context(types = {ContextType.SUPER_ADMIN})
@@ -33,7 +32,7 @@ public class DocumentTypeService
     @Override
     @Context(types = {ContextType.SUPER_ADMIN})
     public void addLocalAuthority(String localAuthorityName) {
-        if (performDbUpdates) initSampleDocumentTypes();
+        initSampleDocumentTypes();
     }
 
     @Override
@@ -61,13 +60,6 @@ public class DocumentTypeService
         this.documentTypeDAO = documentTypeDAO;
     }
     
-    public void setPerformDbUpdates(Boolean performDbUpdates) {
-        if (performDbUpdates != null)
-            this.performDbUpdates = performDbUpdates;
-        else
-            this.performDbUpdates = Boolean.FALSE;
-    }
-
     public void setDocumentBootstrapper(DocumentBootstrapper documentBootstrapper) {
         this.documentBootstrapper = documentBootstrapper;
     }

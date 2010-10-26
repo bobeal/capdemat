@@ -190,16 +190,8 @@
 
 	<target name="prepare-configfiles" depends="init">
 		<mkdir dir="${conf.dir.spring}" />
-		<copy file="${libraries.springconf.dir}/applicationContext.xml" todir="${conf.dir.spring}" overwrite="true">
-			<filterset>
-				<filter token="perform_db_updates" value="true" />
-			</filterset>
-		</copy>
-		<copy file="${libraries.springconf.dir}/applicationContext-deployment.xml" todir="${conf.dir.spring}" overwrite="true">
-			<filterset>
-				<filter token="perform_db_updates" value="true" />
-			</filterset>
-		</copy>
+		<copy file="${libraries.springconf.dir}/applicationContext.xml" todir="${conf.dir.spring}" overwrite="true" />
+		<copy file="${libraries.springconf.dir}/applicationContext-deployment.xml" todir="${conf.dir.spring}" overwrite="true" />
 		<copy file="${libraries.springconf.dir}/applicationContext-admin.xml" todir="${conf.dir.spring}" overwrite="true" />
 		<!-- not present if running unit tests so don't fail on error -->
 		<copy file="${libraries.deployments.dir}/${deploy.properties_file}" todir="${conf.dir.spring}" failonerror="false" />
@@ -207,11 +199,7 @@
 
 	<!-- a special zip file containing setup and referential data -->
 	<target name="admin-package" depends="prepare-configfiles, schemaexport">
-	  <copy file="${basedir}/test/conf/log4j/log4j.properties" todir="${conf.dir.log4j}" overwrite="true">
-			<filterset>
-				<filter token="perform_db_updates" value="true" />
-			</filterset>
-		</copy>
+	  <copy file="${basedir}/test/conf/log4j/log4j.properties" todir="${conf.dir.log4j}" overwrite="true" />
 		<zip destfile="${application.name}-admin-${application.version}-${application.revision}.zip">
 			<fileset dir="${basedir}">
 				<include name="db/**/*.sql" />

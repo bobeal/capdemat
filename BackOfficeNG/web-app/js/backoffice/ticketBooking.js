@@ -246,7 +246,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
         var target = (yue.getTarget(e)||e);
         var id = target.id.split('_')[1];
         //TODO: refactor fetching strategy (decouple to DOM)
-        var placeNumber = yud.getLastChild(yud.getAncestorByTagName(target, 'P')).value;
+        var placeNumber = yud.get('placeNumber_' + id).value;        
         zct.doAjaxCall(['/savePlaceCategory/?id=', id,'&placeNumber=',placeNumber].join(''),[],function(o){
           var json = ylj.parse(o.responseText);
           zct.Notifier.processMessage(json.status, json.message, null, target);

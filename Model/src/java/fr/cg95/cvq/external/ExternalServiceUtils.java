@@ -3,7 +3,9 @@ package fr.cg95.cvq.external;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -19,15 +21,23 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.xmlbeans.XmlObject;
 import org.w3c.dom.DocumentFragment;
 
+import fr.capwebct.modules.payment.schema.acc.AccountDetailType;
+import fr.capwebct.modules.payment.schema.acc.AccountDetailsResponseDocument;
+import fr.capwebct.modules.payment.schema.cns.ConsumptionType;
+import fr.capwebct.modules.payment.schema.cns.GetConsumptionsResponseDocument;
 import fr.capwebct.modules.payment.schema.fam.AccountType;
 import fr.capwebct.modules.payment.schema.fam.ContractType;
 import fr.capwebct.modules.payment.schema.fam.FamilyAccountsResponseDocument;
+import fr.capwebct.modules.payment.schema.fam.FamilyAccountsResponseDocument.FamilyAccountsResponse;
 import fr.capwebct.modules.payment.schema.fam.IndividualContractType;
 import fr.capwebct.modules.payment.schema.fam.InvoiceType;
-import fr.capwebct.modules.payment.schema.fam.FamilyAccountsResponseDocument.FamilyAccountsResponse;
+import fr.capwebct.modules.payment.schema.inv.InvoiceDetailType;
+import fr.capwebct.modules.payment.schema.inv.InvoiceDetailsResponseDocument;
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
+import fr.cg95.cvq.business.payment.ExternalDepositAccountItemDetail;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
+import fr.cg95.cvq.business.payment.ExternalInvoiceItemDetail;
 import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
 import fr.cg95.cvq.service.payment.IPaymentService;
 import fr.cg95.cvq.xml.common.RequestType;
@@ -172,5 +182,47 @@ public class ExternalServiceUtils {
         }
 
         return requestAsString;
+    }
+
+    public static Map<Date, String> parseConsumptions(GetConsumptionsResponseDocument doc) {
+        ConsumptionType[] consumptions = doc.getGetConsumptionsResponse().getConsumptionArray();
+        Map<Date, String> result = new HashMap<Date, String>();
+        for (int i = 0; i < consumptions.length; i++) {
+            result.put(consumptions[i].getDate().getTime(), consumptions[i].getLabel());
+        }
+        return result;
+    }
+
+    public static void fillDepositAccountItem(ExternalDepositAccountItem edai,
+        AccountDetailsResponseDocument doc) {
+        for (AccountDetailType accountDetailType :
+            doc.getAccountDetailsResponse().getAccountDetailArray()) {
+            ExternalDepositAccountItemDetail edaiDetail = new ExternalDepositAccountItemDetail();
+            edaiDetail.setDate(accountDetailType.getDate().getTime());
+            edaiDetail.setHolderName(accountDetailType.getHolderName());
+            edaiDetail.setHolderSurname(accountDetailType.getHolderSurname());
+            edaiDetail.setPaymentId(accountDetailType.getPaymentAck());
+            edaiDetail.setPaymentType(accountDetailType.getPaymentType());
+            edaiDetail.setValue(accountDetailType.getValue());
+            if (edai.getAccountDetails() == null)
+                edai.setAccountDetails(new HashSet<ExternalDepositAccountItemDetail>());
+            edai.addAccountDetail(edaiDetail);
+        }
+    }
+
+    public static void fillInvoiceItem(ExternalInvoiceItem eii, InvoiceDetailsResponseDocument doc) {
+        for (InvoiceDetailType invoiceDetailType :
+            doc.getInvoiceDetailsResponse().getInvoiceDetailArray()) {
+            ExternalInvoiceItemDetail eiiDetail = new ExternalInvoiceItemDetail();
+            eiiDetail.setSubjectName(invoiceDetailType.getChildName());
+            eiiDetail.setSubjectSurname(invoiceDetailType.getChildSurname());
+            eiiDetail.setLabel(invoiceDetailType.getLabel());
+            eiiDetail.setQuantity(invoiceDetailType.getQuantity());
+            eiiDetail.setUnitPrice(invoiceDetailType.getUnitPrice());
+            eiiDetail.setValue(invoiceDetailType.getValue());
+            if (eii.getInvoiceDetails() == null)
+                eii.setInvoiceDetails(new HashSet<ExternalInvoiceItemDetail>());
+            eii.getInvoiceDetails().add(eiiDetail);
+        }
     }
 }

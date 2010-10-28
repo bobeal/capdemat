@@ -69,7 +69,7 @@ plugins.externalservices.rest.get_family_accounts_url=http://localhost:9000/serv
 plugins.externalservices.rest.credit_account_url=http://localhost:9000/services/creditAccount
 plugins.externalservices.rest.send_request_url=http://localhost:9000/services/sendRequest
 plugins.externalservices.rest.check_external_referential_url=http://localhost:9000/services/checkExternalReferential
-plugins.externalservices.rest.load_external_information_url=http://localhost:9000/services/loadExternatInformations
+plugins.externalservices.rest.load_external_information_url=http://localhost:9000/services/loadExternalInformations
 plugins.externalservices.rest.get_consumptions_url=http://localhost:9000/services/getConsumptions
 
 # ExternalServices - eDemande

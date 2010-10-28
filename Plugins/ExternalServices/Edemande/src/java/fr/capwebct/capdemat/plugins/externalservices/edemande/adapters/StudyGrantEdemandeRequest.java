@@ -162,13 +162,13 @@ public class StudyGrantEdemandeRequest implements EdemandeRequest {
         result.put("hasEuropeHelp", request.getHasEuropeHelp());
         result.put("hasOtherHelp", request.getHasOtherHelp());
         result.put("AlevelsDate", request.getALevelsInformations().getAlevelsDate());
-        result.put("AlevelsType", service.translate("request.property.alevels."
+        result.put("AlevelsType", service.translate("sgr.property.alevels."
             + request.getALevelsInformations().getAlevels().toString().toLowerCase()));
         result.put("currentStudiesType", StringUtils.defaultIfEmpty(
             request.getCurrentStudiesInformations().getOtherStudiesLabel(),
-            service.translate("request.property.currentStudiesDiploma."
+            service.translate("sgr.property.currentStudiesDiploma."
             + request.getCurrentStudiesInformations().getCurrentStudiesDiploma().toString())));
-        result.put("currentStudiesLevel", service.translate("request.property.currentStudiesLevel."
+        result.put("currentStudiesLevel", service.translate("sgr.property.currentStudiesLevel."
             + request.getCurrentStudiesInformations().getCurrentStudiesLevel().toString()));
         result.put("sandwichCourses", request.getCurrentStudiesInformations().getSandwichCourses());
         result.put("abroadInternship", request.getCurrentStudiesInformations().getAbroadInternship());
@@ -186,17 +186,17 @@ public class StudyGrantEdemandeRequest implements EdemandeRequest {
             StringUtils.defaultString(request.getCurrentSchool().getCurrentSchoolCity()));
         result.put("currentSchoolCountry",
             request.getCurrentSchool().getCurrentSchoolCountry() != null ?
-                service.translate("request.property.currentSchoolCountry."
+                service.translate("sgr.property.currentSchoolCountry."
                     + request.getCurrentSchool().getCurrentSchoolCountry()) : "");
         result.put("abroadInternshipSchoolName",
             request.getCurrentStudiesInformations().getAbroadInternship() ?
                 request.getCurrentStudiesInformations().getAbroadInternshipSchoolName() : "");
         result.put("abroadInternshipSchoolCountry",
             request.getCurrentStudiesInformations().getAbroadInternship() ?
-                service.translate("request.property.abroadInternshipSchoolCountry."
+                service.translate("sgr.property.abroadInternshipSchoolCountry."
                     + request.getCurrentStudiesInformations().getAbroadInternshipSchoolCountry()) : "");
         result.put("distance", service.translate(
-            "request.property.distance." + request.getDistance().toString()));
+            "sgr.property.distance." + request.getDistance().toString()));
         return result;
     }
 

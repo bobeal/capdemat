@@ -1609,7 +1609,7 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="StreetMatriculation">
+      <xs:element name="StreetMatriculation" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Matricule de la voie
@@ -1630,7 +1630,7 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:element>
-      <xs:element name="StreetRivoliCode">
+      <xs:element name="StreetRivoliCode" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Code Rivoli de la voie
@@ -1671,7 +1671,7 @@
       <!-- Ligne 6 (normalized address) -->
       <xs:element name="PostalCode" type="cvq:PostalCodeType" />
       <xs:element name="City" type="cvq:AddressBloc32UpperType" />
-      <xs:element name="CityInseeCode">
+      <xs:element name="CityInseeCode" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Code INSEE de la ville

@@ -185,8 +185,7 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
     }
 
     public void setStreetMatriculation(String streetMatriculation) {
-        if (streetMatriculation != null)
-            this.streetMatriculation = streetMatriculation.toUpperCase();
+        this.streetMatriculation = streetMatriculation;
     }
 
     /**
@@ -199,8 +198,7 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
     }
 
     public void setStreetRivoliCode(String streetRivoliCode) {
-        if (streetRivoliCode != null)
-            this.streetRivoliCode = streetRivoliCode.toUpperCase();
+        this.streetRivoliCode = streetRivoliCode;
     }
 
     /**
@@ -239,8 +237,7 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
     }
 
     public void setCityInseeCode(String cityInseeCode) {
-        if (cityInseeCode != null)
-            this.cityInseeCode = cityInseeCode.toUpperCase();
+        this.cityInseeCode = cityInseeCode;
     }
 
     /**

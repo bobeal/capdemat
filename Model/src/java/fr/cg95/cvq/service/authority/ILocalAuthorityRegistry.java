@@ -130,8 +130,6 @@ public interface ILocalAuthorityRegistry {
 
     File getLocalAuthorityResourceFile(Type type, String filename, Version version, boolean fallbackToDefault) throws CvqException;
 
-    File getRequestXmlResource(Long id);
-    
     void registerLocalAuthorities(Resource[] localAuthoritiesFiles)
         throws CvqConfigurationException;
 

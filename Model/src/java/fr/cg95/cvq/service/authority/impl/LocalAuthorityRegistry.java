@@ -314,19 +314,6 @@ public class LocalAuthorityRegistry
         }
         return resourceFile;
     }
-    
-    @Override
-    public File getRequestXmlResource(Long id) {
-        return new File(getRequestXmlPath(id));
-    }
-
-    private String getRequestXmlPath(Long id) {
-        return String.format("%1$s/%2$s/%3$s/%4$s.xml", 
-                this.getAssetsBase(),
-                SecurityContext.getCurrentConfigurationBean().getName(),
-                Type.REQUEST_XML.getFolder(),
-                id);
-    }
 
     @Override
     public String getBufferedLocalAuthorityResource(final Type type,

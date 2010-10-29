@@ -205,34 +205,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="repeatInterval" value="600000"/>
   </bean>
   -->
-  
-  <!-- *******************************************************************  -->
-  <!-- ************************ Request Xml Generation *******************  -->
-  <!-- *******************************************************************  -->
-
-  <bean id="requestXmlGenerationJob" 
-    class="fr.cg95.cvq.service.request.job.RequestXmlGenerationJob">
-    <property name="externalService" ref="externalService" />
-    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
-    <property name="requestExternalService" ref="requestExternalService" />
-    <property name="requestSearchService" ref="requestSearchService" />
-    <property name="requestExportService" ref="requestExportService" />
-  </bean>
-  
-  <bean id="requestXmlGenerationJobInvoker"
-    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-    <property name="targetObject" ref="requestXmlGenerationJob" />
-    <property name="targetMethod" value="launchJob" />
-    <property name="concurrent" value="false" />
-  </bean>
-  
-  <bean id="requestXmlGenerationJobTrigger"
-    class="org.springframework.scheduling.quartz.CronTriggerBean">
-    <property name="jobDetail">
-      <ref bean="requestXmlGenerationJobInvoker" />
-    </property>
-    <property name="cronExpression" value="0 0 3 * * ?" />
-  </bean>
 
   <!-- *******************************************************************  -->
   <!-- ***** Documents Validity Dates Checking Job Configuration *********  -->

@@ -156,17 +156,13 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
                 continue;
             
             RequestType rt = null;
-            if (localAuthorityRegistry.getRequestXmlResource(r.getId()).exists()) {
-                rt = RequestType.Factory.parse(localAuthorityRegistry.getRequestXmlResource(r.getId()));
-            } else {
-                // TODO : port this properly in 4.2
-                XmlObject xmlObject = requestExportService.fillRequestXml(r); 
-                try {
-                    rt =  (fr.cg95.cvq.xml.common.RequestType) xmlObject.getClass().getMethod("get" + xmlObject.getClass().getSimpleName().replace("DocumentImpl", "")).invoke(xmlObject);
-                } catch (Exception e) {
-                    logger.error("prepareRequestsForResponse() Unexpected exception while converting to XML "
-                            + e.getMessage());
-                }
+            // TODO : port this properly in 4.2
+            XmlObject xmlObject = requestExportService.fillRequestXml(r);
+            try {
+                rt =  (fr.cg95.cvq.xml.common.RequestType) xmlObject.getClass().getMethod("get" + xmlObject.getClass().getSimpleName().replace("DocumentImpl", "")).invoke(xmlObject);
+            } catch (Exception e) {
+                logger.error("prepareRequestsForResponse() Unexpected exception while converting to XML "
+                        + e.getMessage());
             }
             resultArray.add(rt);
             

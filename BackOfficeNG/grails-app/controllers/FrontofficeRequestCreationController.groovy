@@ -1,10 +1,21 @@
+import java.util.Map;
+
+import fr.cg95.cvq.business.users.Child;
+
+import java.util.List;
+import java.util.Set;
+
 import fr.cg95.cvq.business.document.Document
 import fr.cg95.cvq.business.document.DocumentBinary
 import fr.cg95.cvq.business.request.MeansOfContactEnum
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestNoteType
+import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestState
+import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.users.Adult
+import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.business.payment.Payment
 import fr.cg95.cvq.business.payment.InternalInvoiceItem
@@ -73,9 +84,65 @@ class FrontofficeRequestCreationController {
     RequestAdaptorService requestAdaptorService
     SecurityService securityService
     def jcaptchaService
+    
+    def defaultAction = 'start'
+    
+    def start = {
+        if (params.label == null) {
+            redirect(uri: '/frontoffice/requestType')
+            return false
+        }
+        
+        def label = params.label
+        RequestType requestType = requestTypeService.getRequestTypeByLabel(label)
+        
+        if (['VO Card','Home Folder Modification'].contains(requestType.label)) {
+            redirect(action:'edit', params:['label':requestType.label])
+            return false
+        }
+        
+        def lastRequests = []
+        if (SecurityContext.currentEcitizen == null) {
+            flash.isOutOfAccountRequest = true
+        } else {
+            
+            Map<Long, Set<RequestSeason>> subjectsMap = 
+                requestWorkflowService.getAuthorizedSubjects(requestType, SecurityContext.currentEcitizen.getHomeFolder().getId())
+            Set<Long> subjects = subjectsMap.keySet();
+            
+            if (subjects != null && !subjects.isEmpty()) {
+                for (Long subjectId: subjects) {
+                    def lastRequestId = 
+                        requestWorkflowService.getLastRequestForSubjectAndLabel(subjectId, label)
+                    if (lastRequestId != null) {
+                        Individual subject = individualService.getById(subjectId)
+                        Request request = requestSearchService.getById(lastRequestId, false)
+                        def lastRequest = [
+                            'requestId': lastRequestId,
+                            'subjectId': subject.getId(),
+                            'subjectLastName': subject.getLastName(),
+                            'subjectFirstName': subject.getFirstName(),
+                            'creationDate': request.getCreationDate(),
+                            'state': request.getState(),
+                            'isRenewal': true
+                        ]
+                        lastRequests.add(lastRequest)
+                    }
+                }
+            }
+        }
 
-    def defaultAction = 'edit'
-
+        def viewPath = "/frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(label)}/start"
+        render(view: viewPath, model: [
+            'requestSeasonId' : params.requestSeasonId,
+            'requestLabel': label,
+            'intro': localAuthorityRegistry.getFileContent(localAuthorityRegistry.getLocalAuthorityResourceFile(
+                LocalAuthorityResource.Type.HTML, "request/" + CapdematUtils.requestTypeLabelAsDir(label) + "/introduction", false)),
+            'isOutOfAccountRequest': SecurityContext.getCurrentEcitizen() == null ? true : false,
+            'lastRequests': lastRequests
+        ])
+    }
+    
     def edit = {
         if (params.label == null && params.id == null) {
             redirect(uri: '/frontoffice/requestType')
@@ -86,7 +153,9 @@ class FrontofficeRequestCreationController {
             flash.isOutOfAccountRequest = true
         
         Request cRequest
-        if (params.id) {
+        if (params.isRenewal) {
+            cRequest = requestWorkflowService.getRequestClone(Long.valueOf(params.requestId))
+        } else if (params.id) {
             def id = Long.valueOf(params.id)
             requestLockService.lock(id)
             cRequest = requestSearchService.getById(id, true)

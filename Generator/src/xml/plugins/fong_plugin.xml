@@ -15,6 +15,7 @@
   <configuration>
     <properties
       outputdir="./BackOfficeNG/grails-app/views/frontofficeRequestType/" 
+      starttemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/fo/start.gsp.tpl"
       edittemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/fo/edit.gsp.tpl"
       steptemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/fo/step.gsp.tpl"
       validationtemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/fo/validation.gsp.tpl"

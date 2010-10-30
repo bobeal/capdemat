@@ -208,3 +208,36 @@ h2.request-creation { margin: 0; color: #DB4366; }
   color: red;
 }
 
+/* start view
+--------------------------------------------------------------*/
+.group-box h4 { 
+  margin: .1em .5em ;
+  font-size: 1.7em; font-weight: normal;
+  color: #e6648d;
+}
+.group-box hr      { border: none; margin: 5em 0 0 0; clear: both !important; }
+
+.start-screen-details .group-box ul.request-renew { margin-left: 1em; }
+
+.start-screen-details .group-box .yui-g { margin-bottom: 2em; }
+
+.start-screen-details .group-box span { font-weight: bold; }
+.start-screen-details .group-box p	   { margin: 1.5em 1em 1em 1em; font-size: 1.3em; clear: both !important;}
+
+.start-screen-details form { margin: .1em 1.5em ; }
+.start-screen-details form input[type="text"]{ 
+	display: block !important; 
+	width: 20%;
+  	margin: .1em 0 1em 0; 
+  	padding: .1em;
+  	border: 1px solid #cdcdcd;
+  	border-top-color: #DB4366;
+  	font-size: 1.1em; font-weight: normal;
+  	color: #095ba6;
+}
+
+.start-screen-details form input.submit-simulation {
+	width: 15%;
+	margin-left: 2.5%;	
+	font-size: 1.2em;
+}

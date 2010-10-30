@@ -39,6 +39,7 @@ h2   { color: #fff; }
 
 .group-box         { border-color: #ff812b; }
 .group-box h3      { color: #ff812b; border-color: #ff812b; }
+.group-box h4      { color: #ff812b !important; }
 .group-box a:hover { color: #fff; background: #ff812b; }
 
 .summary-box.created { border-color: #ff812b; }   

@@ -10,8 +10,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.codec.binary.Base64;
-
 import fr.capwebct.capdemat.DocumentType;
 import fr.capwebct.capdemat.GetDocumentListResponseDocument;
 import fr.capwebct.capdemat.GetDocumentResponseDocument;
@@ -292,20 +290,16 @@ public class RequestDocumentService implements IRequestDocumentService {
 
             if (mergeDocument) {
                 documentService.mergeDocumentBinary(document);
-                byte[] encodedDocumentData = Base64.encodeBase64(document.getDatas().get(0).getData());
-                getDocumentResponse.addDocumentBinary(encodedDocumentData);
+                getDocumentResponse.addDocumentBinary(document.getDatas().get(0).getData());
             } else {
                 for (int i = 0; i < document.getDatas().size(); i++) {
-                    byte[] documentData = document.getDatas().get(i).getData();
-                    byte[] encodedDocumentData = Base64.encodeBase64(documentData);
-                    getDocumentResponse.addDocumentBinary(encodedDocumentData);
+                    getDocumentResponse.addDocumentBinary(document.getDatas().get(i).getData());
                 }
             }
 
         } else {
             byte[] pdf = requestSearchService.getCertificate(request.getId());
-            byte[] encodedPdf = Base64.encodeBase64(pdf);
-            getDocumentResponse.addDocumentBinary(encodedPdf);
+            getDocumentResponse.addDocumentBinary(pdf);
 
             String message = translationService.translate("externalservice.trace.sent.summary");
             est.setMessage(message);

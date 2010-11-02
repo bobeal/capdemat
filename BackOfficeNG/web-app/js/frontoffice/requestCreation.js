@@ -41,7 +41,9 @@
       yue.preventDefault(e);
       var targetEl = yue.getTarget(e);
       if (!zcv.check(e, yud.get(targetEl.form.id + '-error'), scope)) {
-        zct.html(yud.get(targetEl.form.id + '-error'), 'Des champs obligatoires ne sont pas correctement remplis, merci de v&eacute;rifier les champs en rouge');
+        if (!zcf.RequestCreation.requestTypeModule
+            || !zcf.RequestCreation.requestTypeModule.displayErrorMsg)
+          zct.html(yud.get(targetEl.form.id + '-error'), 'Des champs obligatoires ne sont pas correctement remplis, merci de v&eacute;rifier les champs en rouge');
         return;
       }
       else {
@@ -80,6 +82,7 @@
     };
 
     return {
+      requestTypeModule: undefined,
       clickEvent : undefined,
       requestFormTabView : undefined,
       

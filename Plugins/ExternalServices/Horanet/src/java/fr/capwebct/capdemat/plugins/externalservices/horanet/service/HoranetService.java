@@ -333,6 +333,10 @@ public class HoranetService implements IExternalProviderService, BeanFactoryAwar
                             dateTo
                         });
 
+            if (call.getResponseMessage() == null) {
+                logger.warn("getConsumptionsByRequest() received an empty response");
+                return results;
+            }
             Iterator attachements = call.getResponseMessage().getAttachments();
             AttachmentPart attachmentPart = (AttachmentPart) attachements.next();
             byte[] data = new byte[attachmentPart.getSize()];

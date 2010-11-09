@@ -49,6 +49,7 @@
     <ant dir="${plugins.externalservices.clever.dir}" target="clean" />
     <ant dir="${plugins.externalservices.edemande.dir}" target="clean" />
     <ant dir="${plugins.externalservices.ciril.dir}" target="clean" />
+    <ant dir="${plugins.externalservices.technocarte.dir}" target="clean" />
   </target>
 
   <!-- ================================================================================= -->
@@ -109,6 +110,7 @@
     <ant dir="${plugins.externalservices.horanet.dir}" target="deploy" />
     <ant dir="${plugins.externalservices.clever.dir}" target="deploy" />
     <ant dir="${plugins.externalservices.edemande.dir}" target="deploy" />
+    <ant dir="${plugins.externalservices.technocarte.dir}" target="deploy" />
   </target>
 
   <target name="deploy-plugin-concerto" depends="compile-model">
@@ -145,6 +147,10 @@
 
   <target name="deploy-plugin-ciril" depends="compile-model">
     <ant dir="${plugins.externalservices.ciril.dir}" target="deploy" />
+  </target>
+
+  <target name="deploy-plugin-technocarte" depends="init, compile-model">
+    <ant dir="${plugins.externalservices.technocarte.dir}" target="deploy" />
   </target>
 
   <!-- ================================================================================= -->

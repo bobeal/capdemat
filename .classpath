@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="src" output="Plugins/ExternalServices/Technocarte/build/classes" path="Plugins/ExternalServices/Technocarte/src/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/CirilNetEnfance/build/classes" path="Plugins/ExternalServices/CirilNetEnfance/src/java"/>
 	<classpathentry kind="src" output="Plugins/PaymentProviders/PayBoxSystem/build/classes" path="Plugins/PaymentProviders/PayBoxSystem/src/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Edemande/build/test" path="Plugins/ExternalServices/Edemande/test/java"/>
@@ -106,5 +107,6 @@
 	<classpathentry kind="lib" path="Libraries/org.apache/pdfbox/pdfbox-1.3.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-lang-3.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.aop-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="Plugins/ExternalServices/Technocarte/lib/soap.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

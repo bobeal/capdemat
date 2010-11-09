@@ -52,7 +52,7 @@
       <p style="text-align:right;">
         <a id="savePlaceCategory_${placeCategory.id}"" class="modifyItem"></a>
         <span for="placeNumber" class="required">${message(code:'placeCategory.property.placeNumber')} : *</span>
-        <input type="text" name="placeNumber" value="${placeCategory.placeNumber}" size="4" class="required" />
+        <input id="placeNumber_${placeCategory.id}" type="text" name="placeNumber" value="${placeCategory.placeNumber}" size="4" class="required" />
       </p>
       <dl>
         <dt>${message(code:'fare.header')} <a id="addFare_${placeCategory.id}" class="createSubItem text">${message(code:'fare.action.add')}</a></dt>

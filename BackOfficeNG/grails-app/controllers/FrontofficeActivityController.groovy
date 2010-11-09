@@ -44,8 +44,12 @@ class FrontofficeActivityController {
         def result = [:]
         result.individual = params.name.decodeURL()
         result.label = params.label.decodeURL()
-        result.datas = getActivities(Integer.valueOf(params.month),
-            Integer.valueOf(params.year), result.individual, result.label)[result.individual][result.label]
+        def activities = getActivities(Integer.valueOf(params.month),
+            Integer.valueOf(params.year), result.individual, result.label)
+        if (activities[result.individual])
+            result.datas = activities[result.individual][result.label]
+        else
+            result.datas = [:]
 
         return result
     }

@@ -282,7 +282,7 @@ class SessionFilters {
                     try {
                         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT)
                         agentService.updateUserProfiles(user, groups, userInformations)
-
+                        HibernateUtil.commitTransaction()
                         SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT)
                         SecurityContext.setCurrentAgent(user)
                         session.setAttribute("currentUser", user)

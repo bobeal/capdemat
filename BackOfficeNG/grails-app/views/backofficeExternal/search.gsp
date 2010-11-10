@@ -68,6 +68,24 @@
                 </option>
               </g:each>
             </select>
+            <label for="requestTypeFilter"><g:message code="property.requestType" /> :</label>
+            <select id="requestTypeFilter">
+              <option value=""><g:message code="search.filter.defaultValue"/></option>
+              <g:each in="${requestTypes}" var="requestType">
+                <option value="${requestType.id}" ${filters['requestTypeFilter'] == requestType.id.toString() ? 'selected' : ''}>
+                  ${requestType.label}
+                </option>
+              </g:each>
+            </select>
+            <label for="requestStateFilter"><g:message code="property.state" /> :</label>
+            <select id="requestStateFilter">
+              <option value=""><g:message code="search.filter.defaultValue"/></option>
+              <g:each in="${requestStates}" var="state">
+                <option value="${state}" ${filters['requestStateFilter'] == state.toString() ? 'selected' : ''}>
+                  <g:message code="request.state.${state.toString().toLowerCase()}" />
+                </option>
+              </g:each>
+            </select>
           </form>
         </div>
       </div>

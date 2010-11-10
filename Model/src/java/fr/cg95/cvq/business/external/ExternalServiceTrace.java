@@ -21,6 +21,8 @@ public class ExternalServiceTrace implements Serializable {
     public static String SEARCH_BY_NAME = "name";
     public static String SEARCH_BY_STATUS = "status";
     public static String SEARCH_BY_SUBKEY = "subkey";
+    public static String SEARCH_BY_REQUEST_TYPE = "request_type_id";
+    public static String SEARCH_BY_REQUEST_STATE = "state";
 
     private Long id;
 

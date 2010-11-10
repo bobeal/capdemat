@@ -1,5 +1,6 @@
 import fr.cg95.cvq.business.external.ExternalServiceTrace
 import fr.cg95.cvq.business.external.TraceStatusEnum
+import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.util.Critere
 
@@ -39,6 +40,12 @@ class BackofficeExternalController {
                 criteria.add(new Critere(ExternalServiceTrace.SEARCH_BY_STATUS,
                     TraceStatusEnum.forString(parsedFilters.filters.statusFilter),
                     Critere.EQUALS))
+            if (parsedFilters.filters.requestTypeFilter)
+                criteria.add(new Critere(ExternalServiceTrace.SEARCH_BY_REQUEST_TYPE,
+                    parsedFilters.filters.requestTypeFilter, Critere.EQUALS))
+            if (parsedFilters.filters.requestStateFilter)
+                criteria.add(new Critere(ExternalServiceTrace.SEARCH_BY_REQUEST_STATE,
+                    parsedFilters.filters.requestStateFilter, Critere.EQUALS))
             def sortBy = params.sortBy ? params.sortBy : defaultSortBy
             def offset
             try {
@@ -76,7 +83,9 @@ class BackofficeExternalController {
         return [
             "externalServiceLabels" : SecurityContext.currentConfigurationBean
                 .externalProviderServices.collect { it.key.label },
-            "traceStatuses" : TraceStatusEnum.allTraceStatuses
+            "traceStatuses" : TraceStatusEnum.allTraceStatuses,
+            "requestStates" : RequestState.allRequestStates.findAll { it != RequestState.DRAFT },
+            "requestTypes" : requestAdaptorService.translateAndSortRequestTypes()
         ]
     }
 }

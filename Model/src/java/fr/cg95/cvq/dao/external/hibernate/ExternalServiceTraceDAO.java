@@ -52,6 +52,16 @@ public final class ExternalServiceTraceDAO extends GenericDAO implements IExtern
                 sb.append(
                     " and (select category_id from request_type rt where rt.id = (select request_type_id from request r where cast(r.id as varchar) = key)) in ( "
                     + searchCrit.getValue() + ")");
+            } else if (ExternalServiceTrace.SEARCH_BY_REQUEST_TYPE.equals(searchCrit.getAttribut())) {
+                sb.append(" and (select request_type_id from request where cast(id as varchar) = key) ")
+                    .append(searchCrit.getSqlComparatif()).append(" ?");
+                parametersValues.add(searchCrit.getLongValue());
+                parametersTypes.add(Hibernate.LONG);
+            } else if (ExternalServiceTrace.SEARCH_BY_REQUEST_STATE.equals(searchCrit.getAttribut())) {
+                sb.append(" and (select state from request where cast(id as varchar) = key) ")
+                    .append(searchCrit.getSqlComparatif()).append(" ?");
+                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersTypes.add(Hibernate.STRING);
             } else {
                 sb.append(" and ").append(searchCrit.getAttribut()).append(searchCrit.getSqlComparatif()).append(" ?");
                 if (ExternalServiceTrace.SEARCH_BY_DATE.equals(searchCrit.getAttribut())) {
@@ -125,6 +135,16 @@ public final class ExternalServiceTraceDAO extends GenericDAO implements IExtern
                 sb.append(
                     " and (select category_id from request_type rt where rt.id = (select request_type_id from request r where cast(r.id as varchar) = key)) in ( "
                     + searchCrit.getValue() + ")");
+            } else if (ExternalServiceTrace.SEARCH_BY_REQUEST_TYPE.equals(searchCrit.getAttribut())) {
+                sb.append(" and (select request_type_id from request where cast(id as varchar) = key) ")
+                    .append(searchCrit.getSqlComparatif()).append(" ?");
+                parametersValues.add(searchCrit.getLongValue());
+                parametersTypes.add(Hibernate.LONG);
+            } else if (ExternalServiceTrace.SEARCH_BY_REQUEST_STATE.equals(searchCrit.getAttribut())) {
+                sb.append(" and (select state from request where cast(id as varchar) = key) ")
+                    .append(searchCrit.getSqlComparatif()).append(" ?");
+                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersTypes.add(Hibernate.STRING);
             } else {
                 sb.append(" and ").append(searchCrit.getAttribut()).append(searchCrit.getSqlComparatif()).append(" ?");
                 if (ExternalServiceTrace.SEARCH_BY_DATE.equals(searchCrit.getAttribut())) {

@@ -802,6 +802,7 @@
         id int8 not null,
         note varchar(255),
         badge_number varchar(255),
+        child_born bool,
         primary key (id)
     );
 

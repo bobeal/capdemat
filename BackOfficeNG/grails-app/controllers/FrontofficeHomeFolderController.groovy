@@ -47,12 +47,14 @@ class FrontofficeHomeFolderController {
             result.children.add([
                 'id' : child.id,
                 'sex' : child.sex,
-                'fullName' : "${child.firstName} ${child.lastName}",
+                'fullName' : child.isChildBorn ? "${child.firstName} ${child.lastName}" :
+                    message('code':"request.subject.childNoBorn", args:[child.getFullName()]),
                 'birthDate' : child.birthDate,
                 'birthCountry' : child.birthCountry,
                 'birthPostalCode' : child.birthPostalCode,
                 'birthCity' : child.birthCity,
-                'childSubjectRoles' : homeFolderAdaptorService.prepareChildSubjectRoles(child)
+                'childSubjectRoles' : homeFolderAdaptorService.prepareChildSubjectRoles(child),
+                'isChildBorn' : child.isChildBorn
             ])
         }
         

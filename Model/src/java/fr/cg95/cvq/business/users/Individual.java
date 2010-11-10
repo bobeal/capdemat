@@ -68,8 +68,8 @@ public class Individual implements Historizable, Serializable {
     @NotEmpty(message = "lastName")
     private String lastName;
 
-    @NotNull(message = "firstName")
-    @NotEmpty(message = "firstName")
+    @NotNull(message = "firstName", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child && _this.isChildBorn == true")
+    @NotEmpty(message = "firstName", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child && _this.isChildBorn == true")
     private String firstName;
 
     @NotEmpty(message = "firstName2")
@@ -86,7 +86,7 @@ public class Individual implements Historizable, Serializable {
     private String birthCity;
     private String birthPostalCode;
 
-    @NotNull(message = "sex")
+    @NotNull(message = "sex", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child && _this.isChildBorn == true")
     private SexType sex;
 
     private Date creationDate;
@@ -534,7 +534,7 @@ public class Individual implements Historizable, Serializable {
     }
 
     public String getFullName() {
-        return getLastName() + " " + getFirstName();
+        return getLastName() + (getFirstName() != null ? " " + getFirstName() : "");
     }
     
     @Override

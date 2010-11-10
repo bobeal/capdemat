@@ -5,6 +5,8 @@ import fr.cg95.cvq.business.request.RequestAction
 import fr.cg95.cvq.business.request.RequestActionType
 import fr.cg95.cvq.business.request.RequestNoteType
 import fr.cg95.cvq.business.request.RequestState
+import fr.cg95.cvq.business.users.Child;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.security.SecurityContext
@@ -136,6 +138,8 @@ class BackofficeRequestInstructionController {
             }
         }
 
+        def subject = rqt.subjectId != null ? individualService.getById(rqt.subjectId) : null
+
         return ([
             "rqt": rqt,
             "requestTypeLabel": rqt.requestType.label,
@@ -155,7 +159,9 @@ class BackofficeRequestInstructionController {
             "requestTypeTemplate": CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label),
             "externalProviderServiceLabel" : externalProviderServiceLabel,
             "externalTemplateName" : externalTemplateName,
-            "lastTraceStatus" : lastTraceStatus
+            "lastTraceStatus" : lastTraceStatus,
+            "subject" : subject,
+            "subjectIsChild" : subject != null && subject instanceof Child ? true : false
         ])
     }
     

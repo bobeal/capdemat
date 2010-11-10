@@ -828,7 +828,11 @@ class FrontofficeRequestCreationController {
             def authorizedSubjects = requestWorkflowService.getAuthorizedSubjects(cRequest)
             authorizedSubjects.each {
                 def subject = individualService.getById(it)
-                result[it] = subject.lastName + ' ' + subject.firstName
+                def subjectFirstName = subject.firstName != null && !subject.firstName.isEmpty() ? subject.firstName : ''
+                if (subject instanceof Child && !subject.isChildBorn)
+                    result[it] = message(code:'request.subject.childNoBorn', args:[subject.getFullName()])
+                else
+                    result[it] = subject.lastName + ' ' + subject.firstName
             }
         }
         return result

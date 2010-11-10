@@ -7,7 +7,12 @@
   
   <body>
     <div class="main-box data-detail">
-      <h2>${individual.firstName} ${individual.lastName}</h2>
+      <g:if test="${isChild && !individual.isChildBorn}">
+        <h2><g:message code="request.subject.childNoBorn" args="${[individual.fullName]}" /></h2>
+      </g:if>
+      <g:else>
+        <h2>${individual.firstName} ${individual.lastName}</h2>
+      </g:else>
       <g:if test="${isChild}">
         <g:render template="childDetail" 
           model="[child:individual,roles:roles]"/>

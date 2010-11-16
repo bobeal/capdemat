@@ -234,6 +234,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="requestDAO" ref="requestDAO" />
     <property name="externalService" ref="externalService" />
     <property name="requestExportService" ref="requestExportService" />
+    <property name="requestTypeService" ref="requestTypeService" />
+    <property name="externalServiceTraceDAO" ref="externalServiceTraceDAO" />
+    <property name="translationService" ref="translationService" />
   </bean>
 
   <bean id="requestExportService" class="fr.cg95.cvq.service.request.impl.RequestExportService">

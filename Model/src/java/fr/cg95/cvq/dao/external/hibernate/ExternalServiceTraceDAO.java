@@ -12,6 +12,7 @@ import org.hibernate.Query;
 import org.hibernate.type.Type;
 
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.external.IExternalServiceTraceDAO;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
@@ -177,5 +178,14 @@ public final class ExternalServiceTraceDAO extends GenericDAO implements IExtern
         Query query = HibernateUtil.getSession().createSQLQuery(sb.toString());
         query.setParameters(parametersValues.toArray(), parametersTypes.toArray(new Type[0]));
         return ((BigInteger)query.uniqueResult()).longValue();
+    }
+
+    public List<Long> getRequestsWithoutTrace(Long requestTypeId, String externalServiceLabel) {
+        return HibernateUtil.getSession().createQuery(
+            "select id from RequestData r where r.requestType.id = :rt and state in (:validated, :notified) and (select count(*) from ExternalServiceTrace where name = :name and cast(r.id, string) = key) = 0")
+                .setLong("rt", requestTypeId)
+                .setString("validated", RequestState.VALIDATED.toString())
+                .setString("notified", RequestState.NOTIFIED.toString())
+                .setString("name", externalServiceLabel).list();
     }
 }

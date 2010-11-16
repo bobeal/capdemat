@@ -16,6 +16,8 @@ import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.business.request.RequestType;
+import fr.cg95.cvq.dao.external.IExternalServiceTraceDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;
@@ -25,19 +27,29 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
+import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.request.IRequestExportService;
 import fr.cg95.cvq.service.request.IRequestExternalService;
+import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.util.Critere;
+import fr.cg95.cvq.util.translation.ITranslationService;
 
-public class RequestExternalService implements IRequestExternalService {
+public class RequestExternalService implements IRequestExternalService,
+    ILocalAuthorityLifecycleAware {
 
     private static Logger logger = Logger.getLogger(RequestExternalService.class);
-    
+
+    private IExternalServiceTraceDAO externalServiceTraceDAO;
+
     private IRequestDAO requestDAO;
 
     private IRequestExportService requestExportService;
     private IExternalService externalService;
-    
+
+    private IRequestTypeService requestTypeService;
+
+    private ITranslationService translationService;
+
     private static final Set<TraceStatusEnum> finalExternalStatuses =
         new HashSet<TraceStatusEnum>(2);
     static {
@@ -189,6 +201,27 @@ public class RequestExternalService implements IRequestExternalService {
                 externalProviderServices);
     }
 
+    @Override
+    @Context(types = {ContextType.SUPER_ADMIN})
+    public void addLocalAuthority(String localAuthorityName) {
+        for (RequestType rt : requestTypeService.getAllRequestTypes()) {
+            for (IExternalProviderService service : getExternalServicesByRequestType(rt.getLabel())) {
+                for (Long id :
+                    externalServiceTraceDAO.getRequestsWithoutTrace(rt.getId(), service.getLabel())) {
+                    externalService.addTrace(new ExternalServiceTrace(new Date(), id.toString(),
+                        null, "capdemat",
+                        translationService.translate("externalServiceTrace.message.addTraceOnStartup"),
+                        service.getLabel(), TraceStatusEnum.NOT_SENT));
+                }
+            }
+        }
+    }
+
+    @Override
+    public void removeLocalAuthority(String localAuthorityName) {
+        // nothing to do yet
+    }
+
     public void setRequestDAO(IRequestDAO requestDAO) {
         this.requestDAO = requestDAO;
     }
@@ -199,5 +232,17 @@ public class RequestExternalService implements IRequestExternalService {
 
     public void setExternalService(IExternalService externalService) {
         this.externalService = externalService;
+    }
+
+    public void setExternalServiceTraceDAO(IExternalServiceTraceDAO externalServiceTraceDAO) {
+        this.externalServiceTraceDAO = externalServiceTraceDAO;
+    }
+
+    public void setRequestTypeService(IRequestTypeService requestTypeService) {
+        this.requestTypeService = requestTypeService;
+    }
+
+    public void setTranslationService(ITranslationService translationService) {
+        this.translationService = translationService;
     }
 }

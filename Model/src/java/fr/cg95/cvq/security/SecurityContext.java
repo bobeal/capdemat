@@ -43,7 +43,7 @@ public class SecurityContext {
     private static List<String> agentGroups;
 
     private static ThreadLocal<CredentialBean> currentContextThreadLocal = 
-        new ThreadLocal<CredentialBean>();
+        new InheritableThreadLocal<CredentialBean>();
   
     public void init() throws CvqConfigurationException {
         if (agentGroups == null || agentGroups.isEmpty() 

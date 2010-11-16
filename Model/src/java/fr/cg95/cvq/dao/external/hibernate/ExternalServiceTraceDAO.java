@@ -110,6 +110,63 @@ public final class ExternalServiceTraceDAO extends GenericDAO implements IExtern
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public List<String> getKeys(Set<Critere> criterias) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("select distinct key from external_service_traces");
+        sb.append(" where 1 = 1 ");
+        List<Object> parametersValues = new ArrayList<Object>();
+        List<Type> parametersTypes = new ArrayList<Type>();
+        for (Critere searchCrit : criterias) {
+            if (ExternalServiceTrace.SEARCH_BY_REQUEST_TYPE.equals(searchCrit.getAttribut())) {
+                sb.append(" and (select request_type_id from request where cast(id as varchar) = key) ")
+                    .append(searchCrit.getSqlComparatif()).append(" ?");
+                parametersValues.add(searchCrit.getLongValue());
+                parametersTypes.add(Hibernate.LONG);
+            } else if (ExternalServiceTrace.SEARCH_BY_REQUEST_STATE.equals(searchCrit.getAttribut())) {
+                sb.append(" and (select state from request where cast(id as varchar) = key) ")
+                    .append(searchCrit.getSqlComparatif()).append(" ?");
+                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersTypes.add(Hibernate.STRING);
+            } else if (searchCrit.getAttribut().equals("belongsToCategory")) {
+                sb.append(
+                    " and (select category_id from request_type rt where rt.id = (select request_type_id from request r where cast(r.id as varchar) = key)) in ( "
+                    + searchCrit.getValue() + ")");
+            } else {
+                sb.append(" and ").append(searchCrit.getAttribut()).append(searchCrit.getSqlComparatif()).append(" ?");
+                if (ExternalServiceTrace.SEARCH_BY_DATE.equals(searchCrit.getAttribut())) {
+                    parametersValues.add(searchCrit.getDateValue());
+                    parametersTypes.add(Hibernate.TIMESTAMP);
+                } else if (ExternalServiceTrace.SEARCH_BY_ID.equals(searchCrit.getAttribut())) {
+                    parametersValues.add(searchCrit.getLongValue());
+                    parametersTypes.add(Hibernate.LONG);
+                } else if (ExternalServiceTrace.SEARCH_BY_KEY.equals(searchCrit.getAttribut())) {
+                    parametersValues.add(searchCrit.getSqlStringValue());
+                    parametersTypes.add(Hibernate.STRING);
+                } else if (ExternalServiceTrace.SEARCH_BY_KEY_OWNER.equals(searchCrit.getAttribut())) {
+                    parametersValues.add(searchCrit.getSqlStringValue());
+                    parametersTypes.add(Hibernate.STRING);
+                } else if (ExternalServiceTrace.SEARCH_BY_MESSAGE.equals(searchCrit.getAttribut())) {
+                    parametersValues.add(searchCrit.getSqlStringValue());
+                    parametersTypes.add(Hibernate.STRING);
+                } else if (ExternalServiceTrace.SEARCH_BY_NAME.equals(searchCrit.getAttribut())) {
+                    parametersValues.add(searchCrit.getSqlStringValue());
+                    parametersTypes.add(Hibernate.STRING);
+                } else if (ExternalServiceTrace.SEARCH_BY_STATUS.equals(searchCrit.getAttribut())) {
+                    parametersValues.add(searchCrit.getValue().toString());
+                    parametersTypes.add(Hibernate.STRING);
+                } else if (ExternalServiceTrace.SEARCH_BY_SUBKEY.equals(searchCrit.getAttribut())) {
+                    parametersValues.add(searchCrit.getSqlStringValue());
+                    parametersTypes.add(Hibernate.STRING);
+                }
+            }
+        }
+        Query query = HibernateUtil.getSession().createSQLQuery(sb.toString());
+        query.setParameters(parametersValues.toArray(), parametersTypes.toArray(new Type[0]));
+        return query.list();
+    }
+
+    @Override
     public Long getCount(Set<Critere> criteriaSet, boolean lastOnly) {
         StringBuffer sb = new StringBuffer();
         sb.append("select count(*) from external_service_traces");
@@ -180,6 +237,7 @@ public final class ExternalServiceTraceDAO extends GenericDAO implements IExtern
         return ((BigInteger)query.uniqueResult()).longValue();
     }
 
+    @Override
     public List<Long> getRequestsWithoutTrace(Long requestTypeId, String externalServiceLabel) {
         return HibernateUtil.getSession().createQuery(
             "select id from RequestData r where r.requestType.id = :rt and state in (:validated, :notified) and (select count(*) from ExternalServiceTrace where name = :name and cast(r.id, string) = key) = 0")

@@ -2,11 +2,15 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xmlns:aop="http://www.springframework.org/schema/aop"
+     xmlns:task="http://www.springframework.org/schema/task"
      xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
   <aop:aspectj-autoproxy/>
+
+  <task:annotation-driven/>
 
   <bean id="loggingAspect" class="fr.cg95.cvq.util.development.LoggingAspect" />
   <bean id="contextAspect" class="fr.cg95.cvq.security.aspect.ContextAspect" />
@@ -237,6 +241,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="requestTypeService" ref="requestTypeService" />
     <property name="externalServiceTraceDAO" ref="externalServiceTraceDAO" />
     <property name="translationService" ref="translationService" />
+    <property name="mailService" ref="mailService" />
+    <property name="requestSearchService" ref="requestSearchService" />
   </bean>
 
   <bean id="requestExportService" class="fr.cg95.cvq.service.request.impl.RequestExportService">

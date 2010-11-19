@@ -354,6 +354,8 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="historyInterceptor">
       <ref local="historyInterceptor"/>
     </property>
+    <property name="authenticationService" ref="authenticationService"/>
+    <property name="translationService" ref="translationService"/>
   </bean>
   
   <bean id="meansOfContactService" class="fr.cg95.cvq.service.request.impl.MeansOfContactService">

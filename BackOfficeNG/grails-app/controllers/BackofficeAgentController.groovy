@@ -10,12 +10,17 @@ class BackofficeAgentController {
 
     def beforeInterceptor = { session["currentMenu"] = "user" }
 
+    def subMenuEntries = [
+      "agent.list",
+      "homeFolder.importHomeFolders"
+    ]
+
     def list = {
         def agents = agentService.getAll()
         // hack to load sitesRoles
         agents.each { it.sitesRoles.each {} }        
         
-        return ["agents":agents]
+        return ["agents" : agents, "subMenuEntries" : subMenuEntries]
     }
 
     def edit = {

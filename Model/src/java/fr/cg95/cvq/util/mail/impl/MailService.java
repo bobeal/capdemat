@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -19,6 +22,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.util.mail.IMailService;
+import groovy.text.SimpleTemplateEngine;
 
 public final class MailService implements IMailService {
 
@@ -28,7 +32,7 @@ public final class MailService implements IMailService {
     private JavaMailSender mailSender;
 
     public void send(final String from, final String to, final String[] cc, final String subject, 
-            final String body, final byte[] attachment, final String attachmentName) 
+            final String body, final Map<String, byte[]> attachments)
         throws CvqException {
 
         if (to == null)
@@ -63,9 +67,10 @@ public final class MailService implements IMailService {
                     message.setText(body);
                     if (cc != null && cc.length > 0)
                         message.setCc(cc);
-                    if (attachment != null) {
-                      ByteArrayResource byteArrayResource = new ByteArrayResource(attachment);
-                      message.addAttachment(attachmentName, byteArrayResource);
+                    for (Map.Entry<String, byte[]> attachment : attachments.entrySet()) {
+                        ByteArrayResource byteArrayResource =
+                            new ByteArrayResource(attachment.getValue());
+                        message.addAttachment(attachment.getKey(), byteArrayResource);
                     }
                 }
             });
@@ -73,6 +78,15 @@ public final class MailService implements IMailService {
             logger.error(ex.getMessage());
             throw new CvqException("Unable to send email message");
         }
+    }
+
+    @Override
+    public void send(final String from, final String to, final String[] cc, final String subject,
+        final String body, final byte[] attachment, final String attachmentName)
+        throws CvqException {
+        Map<String, byte[]> attachments = new HashMap<String, byte[]>(1);
+        attachments.put(attachmentName, attachment);
+        send(from, to, cc, subject, body, attachments);
     }
 
     public void send(final String from, final String to, final String[] cc, final String subject, 

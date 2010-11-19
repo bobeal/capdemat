@@ -1,5 +1,6 @@
 package fr.cg95.cvq.dao.users.hibernate;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -45,6 +46,31 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
         Criteria crit = HibernateUtil.getSession().createCriteria(Individual.class);
         crit.add(Critere.compose("federationKey", federationKey, Critere.EQUALS));
         return (Individual) crit.uniqueResult();
+    }
+
+    @Override
+    public boolean hasSimilarIndividuals(String firstName, String lastName, String email,
+        String phone, String streetNumber, String streetName, String postalCode, String city) {
+        Query query = HibernateUtil.getSession().createSQLQuery(
+            "select count(*) from adult a right outer join individual i using(id) left outer join child c using(id)" +
+            "where first_name = :firstName and last_name = :lastName and (" +
+            "  email = :email or home_phone = :phone or (" +
+            (streetNumber != null ?
+                "((select street_number from address where id = i.adress_id) is null or (select street_number from address where id = i.adress_id) = :streetNumber) and "
+                    : "") +
+            "    (select street_name from address where id = i.adress_id) = :streetName" +
+            "    and (select postal_code from address where id = i.adress_id) = :postalCode" +
+            "    and (select city from address where id = i.adress_id) = :city" +
+            "));");
+        query.setString("firstName", firstName);
+        query.setString("lastName", lastName);
+        query.setString("email", email);
+        query.setString("phone", phone);
+        if (streetNumber != null) query.setString("streetNumber", streetNumber);
+        query.setString("streetName", streetName);
+        query.setString("postalCode", postalCode);
+        query.setString("city", city);
+        return !BigInteger.ZERO.equals(query.uniqueResult());
     }
 
     public List<Individual> search(final Set<Critere> criteria, final String orderedBy, 

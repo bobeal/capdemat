@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.users;
 
+import java.io.IOException;
 import java.util.List;
 
 import fr.cg95.cvq.business.users.Address;
@@ -11,6 +12,7 @@ import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.schema.ximport.HomeFolderImportDocument;
 import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.security.annotation.IsIndividual;
 
@@ -202,4 +204,7 @@ public interface IHomeFolderService {
      */
     PasswordResetNotificationType notifyPasswordReset(Adult adult, String password, String categoryAddress)
         throws CvqException;
+
+    void importHomeFolders(HomeFolderImportDocument doc)
+        throws CvqException, IOException;
 }

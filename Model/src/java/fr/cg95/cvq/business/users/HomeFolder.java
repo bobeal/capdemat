@@ -11,6 +11,8 @@ import net.sf.oval.constraint.NotNull;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import fr.cg95.cvq.xml.common.AdultType;
+import fr.cg95.cvq.xml.common.ChildType;
 import fr.cg95.cvq.xml.common.HomeFolderType;
 import fr.cg95.cvq.xml.common.IndividualType;
 
@@ -95,13 +97,16 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
         homeFolder.setId(new Long(homeFolderType.getId()));
         homeFolder.setAdress(Address.xmlToModel(homeFolderType.getAddress()));
 
-        IndividualType[] individualsArray = homeFolderType.getIndividualsArray();
-        Arrays.asList(individualsArray);
-        List<Individual> individualsSet = new ArrayList<Individual>();
-        for (int i=0; i < individualsArray.length; i++) {
-            individualsSet.add(Individual.xmlToModel(individualsArray[i]));
+        List<Individual> individuals = new ArrayList<Individual>();
+        for (IndividualType individual : homeFolderType.getIndividualsArray()) {
+            if (individual instanceof AdultType) {
+                individuals.add(Adult.xmlToModel((AdultType)individual));
+            } else {
+                individuals.add(Child.xmlToModel((ChildType)individual));
+            }
         }
-        homeFolder.setIndividuals(individualsSet);
+        homeFolder.setIndividuals(individuals);
+
         if (homeFolderType.getState() != null)
             homeFolder.setState(ActorState.forString(homeFolderType.getState().toString()));
         if (homeFolderType.getFamilyQuotient() != null)

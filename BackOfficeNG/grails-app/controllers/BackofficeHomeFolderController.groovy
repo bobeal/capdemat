@@ -1,4 +1,7 @@
 import grails.converters.JSON
+import java.io.IOException
+
+import fr.cg95.cvq.schema.ximport.HomeFolderImportDocument
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.util.Critere
@@ -14,6 +17,10 @@ import fr.cg95.cvq.business.users.HomeFolder
 import fr.cg95.cvq.business.payment.Payment
 import fr.cg95.cvq.business.users.Adult
 
+import org.apache.xmlbeans.XmlError;
+import org.apache.xmlbeans.XmlException
+import org.apache.xmlbeans.XmlOptions;
+
 class BackofficeHomeFolderController {
 
     IHomeFolderService homeFolderService
@@ -28,7 +35,11 @@ class BackofficeHomeFolderController {
 
     def defaultAction = 'search'
     def defaultMax = 15
-    
+
+    def beforeInterceptor = {
+        session["currentMenu"] = session.currentCredentialBean.hasSiteAdminRole() ? "user" : "request"
+    }
+
     def help = {}
     
     def search = {
@@ -136,7 +147,56 @@ class BackofficeHomeFolderController {
         
         return result
     }
-    
+
+    def importHomeFolders = {
+        if (request.get) {
+            render(view : "import", model : [
+                "subMenuEntries" : ["agent.list", "homeFolder.importHomeFolders"],
+                "hasAdminEmail" : SecurityContext.currentSite.adminEmail
+            ])
+            return false
+        } else if (request.post) {
+            if (!SecurityContext.currentSite.adminEmail) {
+                render (new JSON([status : "error",
+                    error_msg : message(code : "homeFolder.import.error.noAdminEmail")]).toString())
+                return false
+            }
+            def file = request.getFile("document")
+            def doc
+            try {
+                doc = HomeFolderImportDocument.Factory.parse(file.inputStream)
+                // first validate the data
+                List<XmlError> errors = new ArrayList<XmlError>()
+                XmlOptions options = new XmlOptions()
+                options.setErrorListener(errors)
+                doc.validate(options)
+                if (!errors.isEmpty()) {
+                    log.error "Got validation errors for current file"
+                    for (XmlError error : errors) {
+                        log.error "Message: ${error.getMessage()}"
+                        log.error "Location of invalid XML: ${error.getCursorLocation().xmlText()}"
+                    }
+                    render (new JSON([status : "error",
+                    error_msg : message(code : "homeFolder.import.error.invalidFile")]).toString())
+                    return false
+                }
+            } catch (XmlException e) {
+                render (new JSON([status : "error",
+                    error_msg : message(code : "homeFolder.import.error.invalidFile")]).toString())
+                return false
+            } catch (IOException e) {
+                render (new JSON([status : "error",
+                    error_msg : message(code : "homeFolder.import.error.invalidFile")]).toString())
+                return false
+            }
+            homeFolderService.importHomeFolders(doc)
+            render (new JSON([status : "ok", success_msg :
+                message(code : "homeFolder.import.message.started",
+                    args : [SecurityContext.currentSite.adminEmail])]).toString())
+            return false
+        }
+    }
+
     protected List doSearch(state) {
         def result = []
         def individuals = individualService.get(this.prepareCriterias(state),

@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title><g:message code="agent.header.agentList" /></title>
+    <title><g:message code="agent.header.list" /></title>
     <meta name="layout" content="main" />
     <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'configuration.css')}" >
   </head>
@@ -9,7 +9,7 @@
     <div id="yui-main">
       <div class="yui-b">
         <div class="head">
-          <h1><g:message code="agent.header.agentList" /></h1>
+          <h1><g:message code="agent.header.list" /></h1>
         </div>
           
         <g:if test="${agents.size == 0}">
@@ -56,7 +56,7 @@
           </p>
        </div>
       </div>
-      
+      <menu:subMenu id="secondMenu" i18nPrefix="header" data="${subMenuEntries}" />
     </div>
 
   </body>

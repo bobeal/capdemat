@@ -26,3 +26,4 @@
 .mainbox-blue h2,
 .mainbox-blue h3   { border-color: #C1CFE2 !important; }
 
+.mainbox p.message { margin-left : 1em; }

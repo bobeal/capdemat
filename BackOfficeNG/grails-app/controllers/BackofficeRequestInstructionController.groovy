@@ -1,3 +1,5 @@
+import java.util.Collections;
+
 import fr.cg95.cvq.business.request.external.RequestExternalAction
 import fr.cg95.cvq.business.document.ContentType
 import fr.cg95.cvq.business.request.DataState
@@ -492,6 +494,7 @@ class BackofficeRequestInstructionController {
             ]
             requestActionList.add(requestAction)
         }
+        Collections.reverse(requestActionList)
         render(template : "requestHistory", model : [
             "requestId" : params.id,
             "requestActionList" : requestActionList

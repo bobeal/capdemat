@@ -181,7 +181,7 @@ public class RequestTestCase extends ServiceTestCase {
         childSet.add(child2);
 
         requestWorkflowService.createAccountCreationRequest(request, adultSet, childSet, null, 
-                address, null);
+                address, null, null);
 
         CreationBean cb = new CreationBean();
         cb.setRequestId(request.getId());

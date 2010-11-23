@@ -37,7 +37,7 @@ public interface IRequestActionService {
      *
      * Separated from other workflow actions because of authorizations concerns.
      */
-    void addCreationAction(final Long requestId, final Date date, final byte[] pdfData)
+    void addCreationAction(final Long requestId, final Date date, final byte[] pdfData, final String note)
         throws CvqException;
 
     /**

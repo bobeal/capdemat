@@ -252,7 +252,7 @@ public class MarriageDetailsRequestServiceTest extends RequestTestCase {
         request.setRequesterId(SecurityContext.getCurrentUserId());
         request.setHomeFolderId(homeFolderId);
         MarriageDetailsRequestFeeder.setSubject(request, requestService.getSubjectPolicy(), null, homeFolder);
-        Long requestId = requestWorkflowService.create(request);
+        Long requestId = requestWorkflowService.create(request, null);
         MarriageDetailsRequest requestFromDb = (MarriageDetailsRequest) requestSearchService.getById(requestId, true);
         assertEquals(requestId, requestFromDb.getId());
         assertNotNull(requestFromDb.getRequesterId());
@@ -280,7 +280,7 @@ public class MarriageDetailsRequestServiceTest extends RequestTestCase {
         homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         MarriageDetailsRequestFeeder
             .setSubject(request, requestService.getSubjectPolicy(), requester, null);
-        Long requestId = requestWorkflowService.create(request, requester);
+        Long requestId = requestWorkflowService.create(request, requester, null);
         // close current session and re-open a new one
         continueWithNewTransaction();
         // start testing request creation

@@ -294,7 +294,7 @@ public class RequestSeasonServiceTest extends RequestTestCase {
         request.setRequesterId(homeFolderService.getHomeFolderResponsible(homeFolderId).getId());
         request.setSubjectId(child1.getId());
 
-        Long requestId = requestWorkflowService.create(request);
+        Long requestId = requestWorkflowService.create(request, null, null, null);
 
         continueWithNewTransaction();
         

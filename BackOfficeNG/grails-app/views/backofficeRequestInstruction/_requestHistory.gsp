@@ -44,8 +44,13 @@
             </g:if>
         </g:if>
         <g:if test="${requestAction.note}">
-          <dt><g:message code="requestAction.property.note" /> :</dt>
-          <dd>${requestAction.note}</dd>
+            <g:if test="${requestAction.userNature == 'agent'}">
+                <dt><g:message code="requestAction.property.note" /> :</dt>
+            </g:if>
+            <g:else>
+                <dt><g:message code="requestAction.property.eCitizenNote" /> :</dt>
+            </g:else>
+                <dd>${requestAction.note}</dd>
         </g:if>
       </dl>
     </li>

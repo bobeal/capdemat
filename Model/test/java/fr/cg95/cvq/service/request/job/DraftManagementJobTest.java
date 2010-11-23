@@ -137,7 +137,7 @@ public class DraftManagementJobTest extends RequestTestCase {
             request.setRequesterId(SecurityContext.getCurrentEcitizen().getId());
             request.setHomeFolderId(SecurityContext.getCurrentEcitizen().getHomeFolder().getId());
             request.setState(RequestState.DRAFT);
-            Long id = requestWorkflowService.create(request);
+            Long id = requestWorkflowService.create(request, null, null, null);
             request = requestSearchService.getById(id, true);
             request.setCreationDate(DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR,i*(-1)));
             

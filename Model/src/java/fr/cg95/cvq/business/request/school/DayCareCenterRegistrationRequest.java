@@ -226,14 +226,14 @@ public class DayCareCenterRegistrationRequest extends Request implements Seriali
         if (getChoixTypeRendezVous() != null)
             dayCareCenterRegistrationRequest.setChoixTypeRendezVous(fr.cg95.cvq.xml.request.school.RendezVousType.Enum.forString(getChoixTypeRendezVous().toString()));
       
+        if (getSituationActuelleMere() != null)
+            dccrrMereTypeInformationMere.setSituationActuelleMere(fr.cg95.cvq.xml.request.school.ChoixSituationActuelle.Enum.forString(getSituationActuelleMere().toString()));
+      
         date = getDixHuitMoisEnfant();
         if (date != null) {
             calendar.setTime(date);
             dayCareCenterRegistrationRequest.setDixHuitMoisEnfant(calendar);
         }
-      
-        if (getSituationActuelleMere() != null)
-            dccrrMereTypeInformationMere.setSituationActuelleMere(fr.cg95.cvq.xml.request.school.ChoixSituationActuelle.Enum.forString(getSituationActuelleMere().toString()));
       
         localTime = getHorairePlacementMatinFinVendredi();
         if (localTime != null) {
@@ -498,15 +498,15 @@ public class DayCareCenterRegistrationRequest extends Request implements Seriali
         else
             dayCareCenterRegistrationRequest.setChoixTypeRendezVous(fr.cg95.cvq.business.request.school.RendezVousType.getDefaultRendezVousType());
       
-        calendar = dayCareCenterRegistrationRequestXml.getDixHuitMoisEnfant();
-        if (calendar != null) {
-            dayCareCenterRegistrationRequest.setDixHuitMoisEnfant(calendar.getTime());
-        }
-      
         if (dayCareCenterRegistrationRequestXml.getInformationMere().getSituationActuelleMere() != null)
             dayCareCenterRegistrationRequest.setSituationActuelleMere(fr.cg95.cvq.business.request.school.ChoixSituationActuelle.forString(dayCareCenterRegistrationRequestXml.getInformationMere().getSituationActuelleMere().toString()));
         else
             dayCareCenterRegistrationRequest.setSituationActuelleMere(fr.cg95.cvq.business.request.school.ChoixSituationActuelle.getDefaultChoixSituationActuelle());
+      
+        calendar = dayCareCenterRegistrationRequestXml.getDixHuitMoisEnfant();
+        if (calendar != null) {
+            dayCareCenterRegistrationRequest.setDixHuitMoisEnfant(calendar.getTime());
+        }
       
         calendar = dayCareCenterRegistrationRequestXml.getVendredi().getHorairePlacementMatinFinVendredi();
         if (calendar != null) {
@@ -914,15 +914,6 @@ public class DayCareCenterRegistrationRequest extends Request implements Seriali
         return dayCareCenterRegistrationRequestData.getChoixTypeRendezVous();
     }
   
-    public final void setDixHuitMoisEnfant(final java.util.Date dixHuitMoisEnfant) {
-        dayCareCenterRegistrationRequestData.setDixHuitMoisEnfant(dixHuitMoisEnfant);
-    }
-
-    
-    public final java.util.Date getDixHuitMoisEnfant() {
-        return dayCareCenterRegistrationRequestData.getDixHuitMoisEnfant();
-    }
-  
     public final void setSituationActuelleMere(final fr.cg95.cvq.business.request.school.ChoixSituationActuelle situationActuelleMere) {
         dayCareCenterRegistrationRequestData.setSituationActuelleMere(situationActuelleMere);
     }
@@ -930,6 +921,15 @@ public class DayCareCenterRegistrationRequest extends Request implements Seriali
     
     public final fr.cg95.cvq.business.request.school.ChoixSituationActuelle getSituationActuelleMere() {
         return dayCareCenterRegistrationRequestData.getSituationActuelleMere();
+    }
+  
+    public final void setDixHuitMoisEnfant(final java.util.Date dixHuitMoisEnfant) {
+        dayCareCenterRegistrationRequestData.setDixHuitMoisEnfant(dixHuitMoisEnfant);
+    }
+
+    
+    public final java.util.Date getDixHuitMoisEnfant() {
+        return dayCareCenterRegistrationRequestData.getDixHuitMoisEnfant();
     }
   
     public final void setHorairePlacementMatinFinVendredi(final org.joda.time.LocalTime horairePlacementMatinFinVendredi) {

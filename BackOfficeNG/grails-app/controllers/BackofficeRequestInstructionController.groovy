@@ -468,14 +468,15 @@ class BackofficeRequestInstructionController {
         requestSearchService.getById(Long.valueOf(params.id), false).actions.each {
             if (RequestState.DRAFT.equals(it.resultingState))
                 return
-            def user = instructionService.getActionPosterDetails(it.agentId)
+            def user = instructionService.getActionPosterDetails(it.agentId, true)
             def resultingState = null
             if (it.type.equals(RequestActionType.STATE_CHANGE)) {
                 resultingState = CapdematUtils.adaptCapdematEnum(it.resultingState, "request.state")
             }
             def requestAction = [
                 'id':it.id,
-                'agent_name':user,
+                'agent_name':user.displayName,
+                'userNature':user.nature,
                 "type" : CapdematUtils.adaptCapdematEnum(it.type, "requestAction.type"),
                 'note':it.note,
                 "message" : it.message,

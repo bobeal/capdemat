@@ -108,7 +108,7 @@ public class RequestSeasonsJobTest extends RequestTestCase {
                     meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.EMAIL);
                 request.setMeansOfContact(meansOfContact);
                 requestIds[i++] =
-                    requestWorkflowService.create(request);
+                    requestWorkflowService.create(request, null, null, null);
             }
         }
 

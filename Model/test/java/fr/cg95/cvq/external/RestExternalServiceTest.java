@@ -73,7 +73,7 @@ public class RestExternalServiceTest extends ExternalServiceTestCase {
         SecurityContext.setCurrentEcitizen(homeFolderResponsible);
         request = (TechnicalInterventionRequest)
             requestWorkflowService.getSkeletonRequest(service.getLabel());
-        requestWorkflowService.create(request);
+        requestWorkflowService.create(request, null, null, null);
         continueWithNewTransaction();
     }
 
@@ -116,7 +116,7 @@ public class RestExternalServiceTest extends ExternalServiceTestCase {
     public void checkExternalReferential()
         throws CvqException {
         request.setInterventionDescription("error");
-        requestWorkflowService.rewindWorkflow(request);
+        requestWorkflowService.rewindWorkflow(request, null, null);
         continueWithNewTransaction();
         SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);

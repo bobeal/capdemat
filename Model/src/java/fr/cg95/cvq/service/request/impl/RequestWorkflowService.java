@@ -96,8 +96,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     private ApplicationContext applicationContext;
 
     @Override
-    public void createAccountCreationRequest(VoCardRequest dcvo, List<Adult> adults, List<Child> children, 
-            List<Adult> foreignRoleOwners, final Address address, List<Document> documents) 
+    public void createAccountCreationRequest(VoCardRequest dcvo, List<Adult> adults, List<Child> children,
+            List<Adult> foreignRoleOwners, final Address address, List<Document> documents, String note)
             throws CvqException {
 
         HomeFolder homeFolder = homeFolderService.create(adults, children, address);
@@ -122,16 +122,16 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         dcvo.setRequesterId(homeFolderResponsible.getId());
         dcvo.setRequesterLastName(homeFolderResponsible.getLastName());
         dcvo.setRequesterFirstName(homeFolderResponsible.getFirstName());
-        
-        Long requestId = finalizeAndPersist(dcvo, homeFolder);
-        
+
+        Long requestId = finalizeAndPersist(dcvo, homeFolder, note);
+
         requestDocumentService.addDocuments(dcvo, documents);
-        
-        homeFolderService.saveForeignRoleOwners(homeFolder.getId(), adults, children, 
+
+        homeFolderService.saveForeignRoleOwners(homeFolder.getId(), adults, children,
                 foreignRoleOwners);
-        
+
         HibernateUtil.getSession().flush();
-        
+
         logger.debug("create() Created request object with id : " + requestId);
     }
     
@@ -153,7 +153,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     @Override
     public void createAccountModificationRequest(HomeFolderModificationRequest hfmr,
             List<Adult> adults, List<Child> children, List<Adult> foreignRoleOwners,
-            Address adress, List<Document> documents) throws CvqException {
+            Address adress, List<Document> documents, String note) throws CvqException {
 
         // load home folder first to check for the existence of another
         // similar request in progress
@@ -182,7 +182,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         HibernateUtil.getSession().flush();
         byte[] pdfData = requestPdfService.generateCertificate(hfmr);
 
-        requestActionService.addCreationAction(hfmr.getId(), new Date(), pdfData);
+        requestActionService.addCreationAction(hfmr.getId(), new Date(), pdfData, note);
 
         requestDocumentService.addDocuments(hfmr, documents);
         
@@ -209,34 +209,34 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public Long create(Request request) throws CvqException {
+    public Long create(Request request, String note) throws CvqException {
         performBusinessChecks(request, SecurityContext.getCurrentEcitizen());
         IRequestService requestService = requestServiceRegistry.getRequestService(request);
         requestService.onRequestCreated(request);
-        return finalizeAndPersist(request);
+        return finalizeAndPersist(request, note);
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public Long create(Request request, List<Document> documents) throws CvqException {
-        Long requestId = create(request);
+    public Long create(Request request, List<Document> documents, String note) throws CvqException {
+        Long requestId = create(request, note);
         requestDocumentService.addDocuments(request, documents);
         return requestId;
     }
     
     @Override
     @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
-    public Long create(Request request, Adult requester)
+    public Long create(Request request, Adult requester, String note)
         throws CvqException {
         HomeFolder homeFolder = performBusinessChecks(request, requester);
         IRequestService requestService = requestServiceRegistry.getRequestService(request);
         requestService.onRequestCreated(request);
-        return finalizeAndPersist(request, homeFolder);
+        return finalizeAndPersist(request, homeFolder, note);
     }
     
     @Override
     @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
-    public Long create(Request request, Adult requester, List<Document> documents) 
+    public Long create(Request request, Adult requester, List<Document> documents, String note) 
         throws CvqException {
         
         HomeFolder homeFolder = performBusinessChecks(request, requester);
@@ -248,7 +248,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         IRequestService requestService = requestServiceRegistry.getRequestService(request);
         requestService.onRequestCreated(request);
         requestDocumentService.addDocuments(request, documents);
-        return finalizeAndPersist(request, homeFolder);
+        return finalizeAndPersist(request, homeFolder, note);
     }
     
     private HomeFolder performBusinessChecks(Request request, Adult requester)
@@ -585,7 +585,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
     }
     
-    private Long finalizeAndPersist(Request request, HomeFolder homeFolder) 
+    private Long finalizeAndPersist(Request request, HomeFolder homeFolder, String note)
         throws CvqException {
 
         setAdministrativeInformation(request);
@@ -604,7 +604,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             HibernateUtil.getSession().flush();
             byte[] pdfData = requestPdfService.generateCertificate(request);
             
-            requestActionService.addCreationAction(requestId, new Date(), pdfData);
+            requestActionService.addCreationAction(requestId, new Date(), pdfData, note);
     
             RequestEvent requestEvent = 
                 new RequestEvent(this, EVENT_TYPE.REQUEST_CREATED, request);
@@ -624,10 +624,11 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     
     /**
      * Finalize the setting of request properties (creation date, state, ...) and persist it in BD.
+     * @param note TODO
      */
-    private Long finalizeAndPersist(final Request request)
+    private Long finalizeAndPersist(final Request request, String note)
         throws CvqException {
-        return finalizeAndPersist(request, null);
+        return finalizeAndPersist(request, null, note);
     }
 
     @Override
@@ -737,9 +738,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void rewindWorkflow(Request request, List<Document> documents)
+    public void rewindWorkflow(Request request, List<Document> documents, String note)
         throws CvqException {
-        rewindWorkflow(request);
+        rewindWorkflow(request, note);
         requestDocumentService.addDocuments(request, documents);
     }
 
@@ -1129,14 +1130,14 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void rewindWorkflow(Request request)
+    public void rewindWorkflow(Request request, String note)
         throws CvqException, CvqInvalidTransitionException {
         if (request.getState().equals(RequestState.PENDING)
             || request.getState().equals(RequestState.UNCOMPLETE)) {
             request.setState(RequestState.PENDING);
             Date date = new Date();
             updateLastModificationInformation(request, date);
-            requestActionService.addWorfklowAction(request.getId(), null, date,
+            requestActionService.addWorfklowAction(request.getId(), note, date,
                 RequestState.PENDING, requestPdfService.generateCertificate(request));
         } else {
             throw new CvqInvalidTransitionException();

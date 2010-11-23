@@ -102,7 +102,7 @@ public class HoranetServiceTest extends RequestTestCase {
         srrRequest.setSubjectLastName(child1.getLastName());
         MeansOfContact meansOfContact = meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.MAIL);
         srrRequest.setMeansOfContact(meansOfContact);
-        requestWorkflowService.create(srrRequest);
+        requestWorkflowService.create(srrRequest, null, null, null);
      
 		continueWithNewTransaction();
 		SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -136,7 +136,7 @@ public class HoranetServiceTest extends RequestTestCase {
         List<LocalReferentialData> foodDiets = new ArrayList<LocalReferentialData>();
         foodDiets.add(foodDietLrd);
         scrrRequest.setFoodDiet(foodDiets);
-        requestWorkflowService.create(scrrRequest);
+        requestWorkflowService.create(scrrRequest, null, null, null);
         
 		continueWithNewTransaction();
 		SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -167,7 +167,7 @@ public class HoranetServiceTest extends RequestTestCase {
         List<LocalReferentialData> activities = new ArrayList<LocalReferentialData>();
         activities.add(activityLrd);
         parrRequest.setPerischoolActivity(activities);
-        requestWorkflowService.create(parrRequest);
+        requestWorkflowService.create(parrRequest, null, null, null);
 
 		continueWithNewTransaction();
 		SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -287,7 +287,7 @@ public class HoranetServiceTest extends RequestTestCase {
         address.setStreetName("Ma nouvelle adresse");
         requestWorkflowService.createAccountModificationRequest(hfmr, 
                 homeFolderService.getAdults(homeFolder.getId()), 
-                homeFolderService.getChildren(homeFolder.getId()), null, address, null);
+                homeFolderService.getChildren(homeFolder.getId()), null, address, null, null);
         
         continueWithNewTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);

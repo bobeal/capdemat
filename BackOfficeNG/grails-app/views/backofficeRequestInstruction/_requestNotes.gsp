@@ -1,12 +1,3 @@
-<select name="requestNotesType" id="requestNotesType">
-  <option id="filterNotes_all" value=""><g:message code="request.note.type.all" /></option>
-  <g:each var="requestNoteType" in="${requestNoteTypes}">
-    <option id="filterNotes_${requestNoteType.enumString}" value="${requestNoteType.enumString}"
-      <g:if test="${currentType == requestNoteType.enumString}"> selected="selected"</g:if>>
-      <g:message code="${requestNoteType.i18nKey}" />
-    </option>
-  </g:each>
-</select>
 <g:if test="${requestNoteList.isEmpty()}">
  <g:message code="request.message.noNote" /> !
 </g:if>
@@ -34,13 +25,7 @@
   <label for="note"><g:message code="request.note.addLabel" /><span id="noteLimit"></span></label>
   <input type="text" id="note" name="note" size="60" maxlength="1024" />
   <div id="noteMsg" class="invisible"></div>
-  <select name="requestNoteType" id="requestNoteType">
-    <g:each var="requestNoteType" in="${requestNoteTypes}">
-      <option value="${requestNoteType.enumString}">
-        <g:message code="${requestNoteType.i18nKey}" />
-      </option>
-    </g:each>
-  </select>
+  <input type="hidden" name="requestNoteType" value="Internal" />
   <input type="button" id="submitNote" name="submitNote"
     value="${message(code:'action.save')}"  />
   <input type="hidden" id="requestId" name="requestId" value="${requestId}" />

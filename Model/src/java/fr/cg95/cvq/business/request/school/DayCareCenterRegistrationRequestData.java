@@ -770,24 +770,6 @@ public class DayCareCenterRegistrationRequestData implements Serializable {
     }
   
     
-    private java.util.Date dixHuitMoisEnfant;
-
-    public final void setDixHuitMoisEnfant(final java.util.Date dixHuitMoisEnfant) {
-        this.dixHuitMoisEnfant = dixHuitMoisEnfant;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="dix_huit_mois_enfant"
-        
-      
-    */
-    public final java.util.Date getDixHuitMoisEnfant() {
-        return this.dixHuitMoisEnfant;
-    }
-  
-    
     private fr.cg95.cvq.business.request.school.ChoixSituationActuelle situationActuelleMere;
 
     public final void setSituationActuelleMere(final fr.cg95.cvq.business.request.school.ChoixSituationActuelle situationActuelleMere) {
@@ -803,6 +785,24 @@ public class DayCareCenterRegistrationRequestData implements Serializable {
     */
     public final fr.cg95.cvq.business.request.school.ChoixSituationActuelle getSituationActuelleMere() {
         return this.situationActuelleMere;
+    }
+  
+    
+    private java.util.Date dixHuitMoisEnfant;
+
+    public final void setDixHuitMoisEnfant(final java.util.Date dixHuitMoisEnfant) {
+        this.dixHuitMoisEnfant = dixHuitMoisEnfant;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="dix_huit_mois_enfant"
+        
+      
+    */
+    public final java.util.Date getDixHuitMoisEnfant() {
+        return this.dixHuitMoisEnfant;
     }
   
     

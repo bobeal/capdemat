@@ -517,7 +517,7 @@ class FrontofficeRequestCreationController {
             else if (submitAction[1] == 'draft') {
                 cRequest.homeFolderId = SecurityContext.getCurrentEcitizen().getHomeFolder().getId()
                 cRequest.state = RequestState.DRAFT
-                requestWorkflowService.create(cRequest)
+                requestWorkflowService.create(cRequest, null)
                 flash.confirmationMessage = message(code:'request.message.savedAsDraft')
                 flash.confirmationMessageNotice = message(code:'request.message.savedAsDraftNotice')
             }
@@ -637,7 +637,8 @@ class FrontofficeRequestCreationController {
                     def docs = documentService.getBySessionUuid(uuidString)
                     def parameters = [:]
                     if (cRequest.id && !RequestState.DRAFT.equals(cRequest.state)) {
-                        requestWorkflowService.rewindWorkflow(cRequest, docs)
+                        requestWorkflowService.rewindWorkflow(cRequest, docs,
+                            params.requestNote && !params.requestNote.trim().isEmpty() ? params.requestNote.trim() : null)
                         parameters.isEdition = true
                     } else if (requestTypeInfo.label == 'Home Folder Modification') {
                         // Hack to reset SecrityContext.currentEcitizen set by login
@@ -646,27 +647,32 @@ class FrontofficeRequestCreationController {
                                 objectToBind.individuals.adults, 
                                 objectToBind.individuals.children, 
                                 objectToBind.individuals.foreignAdults, 
-                                objectToBind.homeFolderResponsible.adress, docs)
+                                objectToBind.homeFolderResponsible.adress, docs,
+                                params.requestNote && !params.requestNote.trim().isEmpty() ? params.requestNote.trim() : null)
                     } else if (requestTypeInfo.label == 'VO Card') {
                         requestWorkflowService.createAccountCreationRequest(cRequest, 
                                 objectToBind.individuals.adults, 
                                 objectToBind.individuals.children, 
                                 objectToBind.individuals.foreignAdults, 
-                                objectToBind.homeFolderResponsible.adress, docs)
-                                securityService.setEcitizenSessionInformation(objectToBind.homeFolderResponsible.login, 
+                                objectToBind.homeFolderResponsible.adress, docs,
+                                    params.requestNote && !params.requestNote.trim().isEmpty() ? params.requestNote.trim() : null)
+                                securityService.setEcitizenSessionInformation(objectToBind.homeFolderResponsible.login,
                                         session)
                     } else {
                         cRequest.state = RequestState.PENDING
                         if (SecurityContext.currentEcitizen == null)
-                            requestWorkflowService.create(cRequest, objectToBind.requester, docs)
+                            requestWorkflowService.create(cRequest, objectToBind.requester, docs,
+                                params.requestNote && !params.requestNote.trim().isEmpty() ? params.requestNote.trim() : null)
                         else
-                            requestWorkflowService.create(cRequest, docs)
+                            requestWorkflowService.create(cRequest, docs,
+                                params.requestNote && !params.requestNote.trim().isEmpty() ? params.requestNote.trim() : null)
                     }
 
-                    if (params.requestNote && !params.requestNote.trim().isEmpty()) {
-                        requestNoteService.addNote(cRequest.id, RequestNoteType.PUBLIC, 
-                                params.requestNote.trim())
-                    }
+                    // vsi : Don't use the public note, but the request action note
+//                    if (params.requestNote && !params.requestNote.trim().isEmpty()) {
+//                        requestNoteService.addNote(cRequest.id, RequestNoteType.PUBLIC,
+//                                params.requestNote.trim())
+//                    }
 
                     session.removeAttribute(uuidString)
                     parameters.id = cRequest.id

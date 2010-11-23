@@ -101,7 +101,7 @@
           });
           zct.limitArea("requestNote", 1024, "requestNoteLimit");
         }
-        zct.each(yus.query("#request div.date"), function() {
+        zct.each(yus.query("#requestTabView div.date"), function() {
           adaptDateDays(this);
           zcv.complexRules["dateWidget"].pushFields(
             yus.query(".year", this, true).name,

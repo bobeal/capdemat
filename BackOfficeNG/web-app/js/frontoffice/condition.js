@@ -289,9 +289,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
             var jsonTrigger = {};
             zct.each (triggerEls, function() {
               if (yud.hasClass(this, 'data-localReferentialData')) {
-                jsonTrigger[this.name.split('[')[0]] = getTriggerValue(this);
+                jsonTrigger[this.name.split('[')[0]] = (isMultipleTrigger(this) ? conditionName + '=' : '') + getTriggerValue(this);;
               } else {
-                jsonTrigger[this.name] = getTriggerValue(this);
+                jsonTrigger[this.name] = (isMultipleTrigger(this) ? conditionName + '=' : '') + getTriggerValue(this);;
               }
             });
             zcf.Condition.triggers.push(jsonTrigger);

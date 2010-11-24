@@ -186,6 +186,9 @@ h2.request-creation { margin: 0; color: #DB4366; }
 .requestExit .link li { margin: 0; padding: .2em .5em; list-style-type: none; }
 .requestExit .info    { font-size: 1.5em; }
 
+.requestExit .link hr { border: none;}
+a.link-agent          { color: #EA3D1A; }
+
 /* help
 --------------------------------------------------------------*/
 .requestHelp { margin: .2em 0 0; padding: .5em 1.5em 1em; background: #eee; }

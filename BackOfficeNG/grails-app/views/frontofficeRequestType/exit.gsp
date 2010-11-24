@@ -51,6 +51,14 @@
                 </a>
               </li>
             </g:if>
+            <g:if test="${isProxyAgent}">
+                <hr />
+                <li>
+                    <a href="${createLink(controller:'backofficeRequestInstruction', action:'edit', id:requestId)}" class="link-agent">
+                        <g:message code="request.action.continueRequest" />
+                    </a>
+                </li>
+            </g:if>
           </ul>
           <!-- Payment confirmation -->
           <g:if test="${paymentStatus}">

@@ -821,7 +821,8 @@ class FrontofficeRequestCreationController {
                      'isEdition' : params.isEdition,
                      'bankReference': params.bankReference,
                      'cvqReference': params.cvqReference,
-                     'paymentStatus': params.status
+                     'paymentStatus': params.status,
+                     'isProxyAgent': SecurityContext.getProxyAgent() != null ? true : false
                     ])
     }
 

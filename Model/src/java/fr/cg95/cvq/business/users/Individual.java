@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.sf.oval.constraint.AssertValid;
+import net.sf.oval.constraint.Future;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.constraint.Past;
@@ -79,7 +80,8 @@ public class Individual implements Historizable, Serializable {
     private String firstName3;
 
     @NotNull(message = "birthDate", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child")
-    @Past(message = "birthDate")
+    @Past(message = "birthDate", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child && _this.isChildBorn == true")
+    @Future(message = "birthDate", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child && _this.isChildBorn == false")
     private Date birthDate;
 
     private String birthCountry;

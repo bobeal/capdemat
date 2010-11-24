@@ -61,7 +61,7 @@ class FrontofficeHomeFolderController {
         result.homeFolder = [
             'state' : currentEcitizen.homeFolder.state,
             'isActive' : currentEcitizen.homeFolder.enabled,
-            'addressDetails' :   "${currentEcitizen.homeFolder.adress.streetNumber} "+
+            'addressDetails' :   "${currentEcitizen.homeFolder.adress.streetNumber ?: ''} "+
                                  "${currentEcitizen.homeFolder.adress.streetName} " +
                                  "${currentEcitizen.homeFolder.adress.postalCode} " +
                                  "${currentEcitizen.homeFolder.adress.city}"

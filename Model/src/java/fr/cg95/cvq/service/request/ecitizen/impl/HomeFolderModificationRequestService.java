@@ -173,14 +173,6 @@ public class HomeFolderModificationRequestService extends RequestService {
                     individuals.add(individual);
             }
             homeFolder.setIndividuals(individuals);
-
-            // only for children because new adults are written when calling
-            // modify method (because we need their login and pwd)
-            // FIXME REFACTORING : validate this
-            if (object instanceof Child) {
-                Child child = (Child) object;
-                individualService.assignLogin(child);
-            }
         }
     }
 

@@ -228,6 +228,8 @@ dl.action .tag { font-size : 1.1em; }
 }
 dl.action dt.title,
 dl.action dd.title,
+dl.action dt.action-note,
+dl.action dd.action-note,
 #requestInformation li:hover dl.action dt,
 #requestInformation li:hover dl.action dd {
   display : inherit;

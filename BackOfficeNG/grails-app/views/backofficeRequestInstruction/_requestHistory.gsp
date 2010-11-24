@@ -45,12 +45,12 @@
         </g:if>
         <g:if test="${requestAction.note}">
             <g:if test="${requestAction.userNature == 'agent'}">
-                <dt><g:message code="requestAction.property.note" /> :</dt>
+                <dt class="action-note"><g:message code="requestAction.property.note" /> :</dt>
             </g:if>
             <g:else>
-                <dt><g:message code="requestAction.property.eCitizenNote" /> :</dt>
+                <dt class="action-note"><g:message code="requestAction.property.eCitizenNote" /> :</dt>
             </g:else>
-                <dd>${requestAction.note}</dd>
+                <dd class="action-note">${requestAction.note}</dd>
         </g:if>
       </dl>
     </li>

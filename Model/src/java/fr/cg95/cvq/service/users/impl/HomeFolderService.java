@@ -201,6 +201,12 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
             }
         }
 
+        // Child have the same address than the homeFolder responsible
+        for (Child child : getChildren(homeFolderId)) {
+            child.setAdress(adress.clone());
+            individualService.modify(child);
+        }
+
         // then, deal with modifications related to home folder adults
         boolean loggedInUserChange = false;
         for (Adult adult : oldAdults) {

@@ -73,10 +73,10 @@ public class RequestNotificationService implements ApplicationListener<CapDematE
                 .append(ecitizenCreationNotifications.get("mailSubject"));
 
                 if (attachPdf) {
-                    mailService.send(null, requester.getEmail(), null,
+                    mailService.send(request.getRequestType().getCategory().getPrimaryEmail(), requester.getEmail(), null,
                             mailSubject.toString(), mailDataBody, pdfData, "Recu_Demande.pdf");
                 } else {
-                    mailService.send(null, requester.getEmail(), null,
+                    mailService.send(request.getRequestType().getCategory().getPrimaryEmail(), requester.getEmail(), null,
                             mailSubject.toString(), mailDataBody);
                 }
             }

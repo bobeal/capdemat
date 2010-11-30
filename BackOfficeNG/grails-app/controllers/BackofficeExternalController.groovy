@@ -1,11 +1,18 @@
 import fr.cg95.cvq.business.external.ExternalServiceTrace
 import fr.cg95.cvq.business.external.TraceStatusEnum
+import fr.cg95.cvq.business.request.Request
+import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.security.SecurityContext
+import fr.cg95.cvq.service.request.IRequestExternalService
 import fr.cg95.cvq.util.Critere
+
+import grails.converters.JSON
+import net.sf.oval.constraint.EmailCheck
 
 class BackofficeExternalController {
 
     def externalService
+    IRequestExternalService requestExternalService
     def requestAdaptorService
 
     def defaultSortBy = ExternalServiceTrace.SEARCH_BY_DATE
@@ -39,6 +46,12 @@ class BackofficeExternalController {
                 criteria.add(new Critere(ExternalServiceTrace.SEARCH_BY_STATUS,
                     TraceStatusEnum.forString(parsedFilters.filters.statusFilter),
                     Critere.EQUALS))
+            if (parsedFilters.filters.requestTypeFilter)
+                criteria.add(new Critere(ExternalServiceTrace.SEARCH_BY_REQUEST_TYPE,
+                    parsedFilters.filters.requestTypeFilter, Critere.EQUALS))
+            if (parsedFilters.filters.requestStateFilter)
+                criteria.add(new Critere(ExternalServiceTrace.SEARCH_BY_REQUEST_STATE,
+                    parsedFilters.filters.requestStateFilter, Critere.EQUALS))
             def sortBy = params.sortBy ? params.sortBy : defaultSortBy
             def offset
             try {
@@ -62,6 +75,7 @@ class BackofficeExternalController {
                 "dateTo" : params.dateTo,
                 "traces" : traces,
                 "totalRecords" : totalRecords,
+                "keys" : requestExternalService.getKeys(criteria),
                 "lastOnly" : params.lastOnly,
                 "filters":parsedFilters.filters,
                 "filterBy":parsedFilters.filterBy,
@@ -72,11 +86,44 @@ class BackofficeExternalController {
         }
     }
 
+    def sendRequests = {
+        def email = SecurityContext.currentAgent.email
+        if (!email) {
+            if (params.email) {
+                if (new EmailCheck().isSatisfied(null, params.email, null, null)) {
+                    email = params.email
+                } else {
+                    render ([status : "error",
+                        error_msg : message(code : "externalService.batchRequestResend.error.email.invalid")]
+                            as JSON)
+                    return false
+                }
+            } else {
+                render ([status : "error",
+                    error_msg : message(code : "externalService.batchRequestResend.error.email.required")]
+                        as JSON)
+                return false
+            }
+        }
+        def ids = []
+        if (params.ids instanceof String) ids.add(Long.valueOf(params.ids))
+        else params.ids.each { ids.add(Long.valueOf(it)) }
+        def criteria = new Critere(Request.SEARCH_BY_REQUEST_ID, ids, Critere.IN)
+        def criterias = new HashSet<Critere>()
+        criterias.add(criteria)
+        requestExternalService.sendRequests(criterias, email)
+        render ([status : "ok",
+            success_msg : message(code : "externalService.batchRequestResend.message.success", args : [email])]
+                as JSON)
+    }
+
     private initSearchReferential() {
         return [
             "externalServiceLabels" : SecurityContext.currentConfigurationBean
                 .externalProviderServices.collect { it.key.label },
-            "traceStatuses" : TraceStatusEnum.allTraceStatuses
+            "traceStatuses" : TraceStatusEnum.allTraceStatuses,
+            "requestStates" : RequestState.allRequestStates.findAll { it != RequestState.DRAFT },
+            "requestTypes" : requestAdaptorService.translateAndSortRequestTypes()
         ]
     }
 }

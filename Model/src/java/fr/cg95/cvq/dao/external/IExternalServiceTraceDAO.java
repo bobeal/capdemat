@@ -16,4 +16,8 @@ public interface IExternalServiceTraceDAO extends IGenericDAO {
         String dir, int count, int offset, boolean lastOnly);
 
     Long getCount(Set<Critere> criteriaSet, boolean lastOnly);
+
+    List<String> getKeys(Set<Critere> criterias);
+
+    List<Long> getRequestsWithoutTrace(Long requestTypeId, String externalServiceLabel);
 }

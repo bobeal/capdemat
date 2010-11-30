@@ -39,6 +39,7 @@ import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
+import fr.cg95.cvq.service.request.annotation.RequestFilter;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.xml.common.HomeFolderType;
 import fr.cg95.cvq.xml.common.IndividualType;
@@ -340,6 +341,7 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    @RequestFilter(privilege = ContextPrivilege.READ)
     public List<ExternalServiceTrace> getTraces(Set<Critere> criteriaSet,
         String sort, String dir, int count, int offset) {
         return externalServiceTraceDAO.get(criteriaSet, sort, dir, count, offset, false);
@@ -347,12 +349,14 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    @RequestFilter(privilege = ContextPrivilege.READ)
     public Long getTracesCount(Set<Critere> criteriaSet) {
         return externalServiceTraceDAO.getCount(criteriaSet, false);
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    @RequestFilter(privilege = ContextPrivilege.READ)
     public List<ExternalServiceTrace> getLastTraces(Set<Critere> criteriaSet,
         String sort, String dir, int count, int offset) {
         return externalServiceTraceDAO.get(criteriaSet, sort, dir, count, offset, true);
@@ -360,6 +364,7 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    @RequestFilter(privilege = ContextPrivilege.READ)
     public Long getLastTracesCount(Set<Critere> criteriaSet) {
         return externalServiceTraceDAO.getCount(criteriaSet, true);
     }

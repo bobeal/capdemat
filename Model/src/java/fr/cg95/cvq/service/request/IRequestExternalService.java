@@ -10,6 +10,7 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
+import fr.cg95.cvq.util.Critere;
 
 public interface IRequestExternalService {
 
@@ -57,6 +58,14 @@ public interface IRequestExternalService {
      */
     void sendRequest(@IsRequest final Request request)
         throws CvqException;
+
+    /**
+     * Send a batch of requests asynchronously, and notify provided email on completion
+     */
+    void sendRequests(Set<Critere> ids, String email)
+        throws CvqException;
+
+    List<String> getKeys(Set<Critere> criterias);
 
     /**
      * Asks the external services for informations they know about the request

@@ -120,6 +120,8 @@ public final class AgentService implements IAgentService {
             agent.setFirstName(informations.get("firstName"));
         if (informations.get("lastName") != null)
             agent.setLastName(informations.get("lastName"));
+        if (informations.get("email") != null)
+            agent.setEmail(informations.get("email"));
         modify(agent);
 
         modifyProfiles(agent, groups, SecurityContext.getAdministratorGroups(),

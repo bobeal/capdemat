@@ -661,6 +661,7 @@
         first_name varchar(255),
         active bool,
         preferences bytea,
+        email varchar(255),
         primary key (id)
     );
 

@@ -25,6 +25,7 @@ public class Agent implements Serializable {
     private String lastName;
     private String firstName;
     private Boolean active = true;
+    private String email;
 
     private Set<SiteRoles> sitesRoles;
     private Hashtable<String, Hashtable<String, String>> preferences; 
@@ -119,6 +120,17 @@ public class Agent implements Serializable {
 
     public void setPreferences(Hashtable<String, Hashtable<String, String>> preferences) {
         this.preferences = preferences;
+    }
+
+    /**
+     * @hibernate.property
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

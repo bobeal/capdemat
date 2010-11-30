@@ -22,7 +22,7 @@ public class HibernateUtil {
 
     private static Logger logger = Logger.getLogger(HibernateUtil.class);
 
-    private static final ThreadLocal<SessionFactory> threadSessionFactory = new ThreadLocal<SessionFactory>();
+    private static final ThreadLocal<SessionFactory> threadSessionFactory = new InheritableThreadLocal<SessionFactory>();
     private static final ThreadLocal<Session> threadSession = new ThreadLocal<Session>();
     private static final ThreadLocal<Transaction> threadTransaction = new ThreadLocal<Transaction>();
 

@@ -678,3 +678,5 @@ UPDATE address SET city = NULL where city NOTNULL AND char_length(trim(from city
 alter table holiday_security_request add column other_contact bool;
 update holiday_security_request set other_contact = false;
 update holiday_security_request set other_contact = true where other_contact_last_name is not null;
+
+alter table agent add column email varchar(255);

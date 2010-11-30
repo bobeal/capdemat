@@ -54,6 +54,7 @@ form .error { margin: 0 0 0 36.5%; text-align: left;}
 /* yui-calendar */
 form .yui-cal { display: none;  position: absolute;}
 
+form span.help { font-weight: normal; font-size: 0.85em; font-style: italic; color: #333; }
 
 /* Overrides for simple search forms
 -------------------------------------------------------------- */

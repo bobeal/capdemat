@@ -27,7 +27,7 @@ public class RequestFilterAspect implements Ordered {
     private ICategoryService categoryService;
 
     @SuppressWarnings("unchecked")
-    @Before("fr.cg95.cvq.SystemArchitecture.businessService() && @annotation(requestFilter) && within(fr.cg95.cvq.service.request..*)")
+    @Before("fr.cg95.cvq.SystemArchitecture.businessService() && @annotation(requestFilter) && (within(fr.cg95.cvq.service.request..*) || within(fr.cg95.cvq.external..*))")
     public void contextAnnotatedMethod(JoinPoint joinPoint, RequestFilter requestFilter) {
 
         Object[] arguments = joinPoint.getArgs();

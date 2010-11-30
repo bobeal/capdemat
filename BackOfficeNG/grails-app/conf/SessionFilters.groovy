@@ -286,7 +286,8 @@ class SessionFilters {
                         userInformations.put("firstName", id.get("firstName").get(0))
                     if (id.get("lastName") != null)
                         userInformations.put("lastName", id.get("lastName").get(0))
-
+                    if (id.get("email") != null)
+                        userInformations.put("email", id.get("email").get(0))
                     try {
                         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT)
                         agentService.updateUserProfiles(user, groups, userInformations)

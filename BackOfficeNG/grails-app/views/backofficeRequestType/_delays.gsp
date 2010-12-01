@@ -1,4 +1,4 @@
-<div id="requestTypeDelaysConfiguration">
+<div id="requestTypeDelaysConfiguration" class="mainbox mainbox-yellow">
   <h2><g:message code="requestType.configuration.delays" /></h2>
   <div id="requestTypeDelaysMessages"></div>
   <form class="edit" method="post" id="requestTypeDelaysForm" action="${createLink(action:'delays')}">
@@ -32,7 +32,7 @@
     <div class="form-button">
       <input type="button" id="saveRequestTypeDelays"
         name="saveRequestTypeDelays" value="${message(code:'action.save')}" />
-      <input type="hidden" name="requestTypeId" value="${requestType?.id}" />
+      <input type="hidden" name="id" value="${requestType?.id}" />
     </div>
   </form>
 </div>

@@ -36,6 +36,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       init : function() {
         zcbrt.Seasons.clickEv = new zct.Event(zcbrt.Seasons,zcbrt.Seasons.processClick);
         yue.on(yud.get('requestTypeSeasons'),'click',zcbrt.Seasons.clickEv.dispatch,zcbrt.Seasons.clickEv,true);
+        zcbrt.Seasons.loadSeasons();
       },
       /**
       * @description The name of the method to call is the first part of the clicked item's ID, except for new season creation

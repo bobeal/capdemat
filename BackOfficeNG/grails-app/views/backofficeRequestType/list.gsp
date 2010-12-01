@@ -23,7 +23,7 @@
               <span class="tag-disable"><g:message code="property.inactive" /></span>
             </g:else>
             <h3>
-              <a href="${createLink(action:'configure',id:requestType.id)}">
+              <a href="${createLink(action : 'forms', id : requestType.id)}">
               ${requestType.label}
               </a>
               <span>

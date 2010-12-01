@@ -8,28 +8,122 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
 
 (function(){
 
+  var zca = zenexity.capdemat.aspect;
   var zct = zenexity.capdemat.tools;
   var zcc = zenexity.capdemat.common;
   var zcv = zenexity.capdemat.Validation;
-  var zcbrt = zenexity.capdemat.bong.request.templates;
-  var zcbrp = zenexity.capdemat.bong.requesttype;
-  
+  var zcb = zenexity.capdemat.bong;
+  var zcbrt = zcb.requesttype;
+
   var yl = YAHOO.lang;
   var yu = YAHOO.util;
   var yue = YAHOO.util.Event;
   var yus = YAHOO.util.Selector;
   var ylj = YAHOO.lang.JSON;
-  
-  
-  zcbrp.Forms = function() {
+
+  zcb.Editor.options.toolbar.buttons.push({
+    group: 'textstyle', label: 'Variables',
+    buttons: [
+      { type: 'select', label: '...', value: 'insertvars', disabled: false,
+        menu: [
+          { text: '...', value:'0', checked: true },
+          { text: '(TS) Identifiant', value:'#{RQ_ID}' },
+          { text: '(TS) Label', value:'#{RQ_TP_LABEL}' },
+          { text: '(TS) Date de création', value:'#{RQ_CDATE}' },
+          { text: '(TS) Date de validation', value:'#{RQ_DVAL}' },
+          { text: '(TS) Observations', value:'#{RQ_OBSERV}' },
+          { text: '(TS) Catégorie', value: '#{RQ_CAT}' },
+          { text: '(TS) Email  de la catégorie', value: '#{RQ_CAT_EMAIL}' },
+          { text: '(CP) Identifiant', value:'#{HF_ID}' },
+          { text: '(DM) Prénom', value:'#{RR_FNAME}' },
+          { text: '(DM) Nom', value:'#{RR_LNAME}' },
+          { text: '(DM) Civilité', value:'#{RR_TITLE}' },
+          { text: '(DM) Login', value:'#{RR_LOGIN}' },
+          { text: '(DM) Question', value:'#{RR_QUESTION}' },
+          { text: '(DM) Réponse', value:'#{RR_ANSWER}' },
+          { text: '(SU) Prénom', value:'#{SU_FNAME}' },
+          { text: '(SU) Nom', value:'#{SU_LNAME}' },
+          { text: '(SU) Civilité', value:'#{SU_TITLE}' },
+          { text: '(AR) Nom de l\'agent', value: '#{LAST_AGENT_NAME}' }        ]
+      }]
+  });
+
+  zcbrt.Manager = function() {
+    var initPanel = function() {
+      zcbrt.Manager.panel = new YAHOO.widget.Panel("templatePanel", {
+        width:"620px",
+        fixedcenter : "contained",
+        modal: true,
+        underlay: 'none',
+        visible:false
+      });
+      zcbrt.Manager.panel.beforeShowEvent.subscribe(function(ev){
+        zct.style("templateBody",{display:'block'});
+        zcbrt.Manager.panel.center();
+      });
+      zcbrt.Manager.panel.beforeHideEvent.subscribe(function(ev){
+        zct.style("templateBody",{display:'none'});
+      });
+      zcbrt.Manager.panel.render();
+    };
+    return {
+      editor : undefined,
+      panel : undefined,
+      editEl: undefined,
+      tabView: undefined,
+      init : function() {
+        //initTabs();
+        initPanel();
+        zca.advise("save", new zca.Advice("before", zcbrt.Manager.validate), zcb.Editor);
+        zca.advise("notify", new zca.Advice("before", zcbrt.Manager.update), zcb.Editor);
+        zcbrt.Manager.editor = zcb.Editor.init("template", null, "workArea_Tab1Notifier");
+        zcbrt.Manager.editor.on('afterRender',function(ev){
+          if(zcb.Editor.options.toolbar.buttons.length > 0) {
+            var button = zcb.Editor.options.toolbar.buttons[zcb.Editor.options.toolbar.buttons.length - 1].buttons[0];
+            var select = yus.query('select',button.container)[0];
+            yue.on(select,'change',function(ev){
+              if(zct.val(select) != '0') {
+                zcbrt.Manager.editor.execCommand('inserthtml', zct.val(select));
+                zct.val(select,'0');
+              }
+            })
+          }
+        });
+      },
+      edit : function() {
+        if(zcbrt.Manager.panel.cfg.getProperty('visible') != true) {
+          zcbrt.Manager.editEl = this;
+          zcbrt.Manager.editor.cleanHTML();
+          zcbrt.Manager.editor.setEditorHTML(this.innerHTML);
+          zcbrt.Manager.panel.show();
+        }
+      },
+      validate : function(e) {
+        zcbrt.Manager.editor.saveHTML();
+        if (yl.trim(zct.stripTags(zcbrt.Manager.editor.getEditorHTML())).length == 0) {
+          zct.Notifier.processMessage("unexpectedError","Editor value can't be empty !");
+          yue.stopEvent(e);
+        }
+      },
+      update : function(e) {
+        zcbrt.Manager.editEl.innerHTML = zcbrt.Manager.editor.getEditorHTML();
+        zcbrt.Manager.panel.hide();
+      },
+      emptyHref : function() {
+        return 'javascript:;';
+      }
+    }
+  }();
+
+  zcbrt.Forms = function() {
     var initPanels = function() {
       //Are you sure that you want to perform this action ?
       var content = {
         head:'Attention !',
         body: 'Confirmez-vous la suppression du courrier type ?'
       }
-      zcbrp.Forms.confirmationDialog = new zct.ConfirmationDialog(
-        content,zcbrp.Forms.deleteForm);
+      zcbrt.Forms.confirmationDialog = new zct.ConfirmationDialog(
+        content,zcbrt.Forms.deleteForm);
     };
     var initButtons = function() {
     };
@@ -45,24 +139,25 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
     var initLinks = function() {
       var showLink = new yu.Element('linkShowDatasheet');
       showLink.on('click',function(){
-        zcbrp.Forms.loadEditForm(document.getElementById('insertInList'));
+        zcbrt.Forms.loadEditForm(document.getElementById('insertInList'));
       });
     };
     return {
       confirmationDialog : undefined,
       containers : [],
       init : function() {
+        zcbrt.Manager.init();
         initButtons();
         initPanels();
         initLinks();
         initTabs();
-        zcbrp.Forms.reloadList();
+        zcbrt.Forms.reloadList();
         
       },
       loadEditForm : function(container) {
-        if(!!zcbrp.Forms.containers[container.id]) return;
+        if(!!zcbrt.Forms.containers[container.id]) return;
         var url = ['/form/',container.id.split('_')[1]].join('');
-        zcbrp.Forms.containers[container.id] = container;
+        zcbrt.Forms.containers[container.id] = container;
         zct.doAjaxCall(url,[],function(o){
           container.innerHTML = [container.innerHTML,o.responseText].join('');
         });
@@ -71,7 +166,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         var eform = yu.Dom.get("templateForm");
         var tform = yu.Dom.getAncestorByTagName(target,'form');
         var params = {
-          typeId : zcbrp.currentId,
+          typeId : zcbrt.currentId,
           formId : tform.requestFormId.value,
           file : yu.Dom.getAncestorByTagName(target,'form').templateName.value //currentTemplateName.value
         };
@@ -109,9 +204,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           zct.each(editables,function(i){
             yue.addListener(this,'click',zcbrt.Manager.edit);
           });
-          yue.on(newTab.getElementsByClassName('close')[0], 'click', zcbrp.Forms.closeWorkTab,newTab);
-          yue.on(yu.Dom.get('closeWorkTab'),'click',zcbrp.Forms.closeWorkTab,newTab);
-          eform.requestTypeId.value = zcbrp.currentId;
+          yue.on(newTab.getElementsByClassName('close')[0], 'click', zcbrt.Forms.closeWorkTab,newTab);
+          yue.on(yu.Dom.get('closeWorkTab'),'click',zcbrt.Forms.closeWorkTab,newTab);
+          eform.requestTypeId.value = zcbrt.currentId;
           eform.requestFormId.value = tform.requestFormId.value;
         });
       },
@@ -124,16 +219,16 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       modifyForm : function(target) {
         var form = yu.Dom.getAncestorByTagName(target,'form');
         var hidden = yus.query('input[name=requestTypeId]',form)[0];
-        hidden.value = zcbrp.currentId;
-        if(zcbrp.Forms.validateForm(target,form)) {
+        hidden.value = zcbrt.currentId;
+        if(zcbrt.Forms.validateForm(target,form)) {
           zct.doAjaxFormSubmitCall(form.getAttribute("id"),[],function(o){
             var li = new yu.Element(form.parentNode.parentNode);
             var json = YAHOO.lang.JSON.parse(o.responseText);
             
             zct.Notifier.processMessage('success',json.success_msg);
-            zcbrp.Forms.detachContainer(target);
+            zcbrt.Forms.detachContainer(target);
             li.removeChild(form.parentNode);
-            zcbrp.Forms.reloadList(json.id);
+            zcbrt.Forms.reloadList(json.id);
           });
         }
       },
@@ -142,7 +237,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         return zcv.check(target,container);
       },
       deleteForm : function(e) {
-        var li = yu.Dom.getAncestorByTagName(zcbrp.Forms.confirmationDialog.showTarget ,'li');
+        var li = yu.Dom.getAncestorByTagName(zcbrt.Forms.confirmationDialog.showTarget ,'li');
         var id = li.id.split('_')[1];
         if(yl.isNumber(parseInt(id))) {
           zct.doAjaxDeleteCall('/form/',zct.param({id:id}),function(o){
@@ -154,51 +249,51 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         }
       },
       reloadList : function(id) {
-        var url = ["/formList/",(zcbrp.currentId||0)].join('');
+        var url = ["/formList/",(zcbrt.currentId||0)].join('');
         var formsEl = yus.query('div#requestFormList')[0];
         zct.doAjaxCall(url,[],function(o){
           formsEl.innerHTML = o.responseText;
           var container = yu.Dom.get('formsConfiguration');
           yue.purgeElement(container,false);
-          yue.on(container,'click',zcbrp.Forms.dispatchEvent);
+          yue.on(container,'click',zcbrt.Forms.dispatchEvent);
           
           var el = yu.Dom.get(['formItem_',(id||0)].join(''));
-          if(!!el)  zcbrp.Forms.loadEditForm(el);
+          if(!!el)  zcbrt.Forms.loadEditForm(el);
           
         });
       },
       dispatchEvent : function(e) {
         var target = yue.getTarget(e);
         var elId = target.id.split('_')[0];
-        var h = zcbrp.Forms.getEventHandler(elId);
-        if(!!zcbrp.Forms.handlers[elId]) h.call(target,e);
+        var h = zcbrt.Forms.getEventHandler(elId);
+        if(!!zcbrt.Forms.handlers[elId]) h.call(target,e);
       },
       getEventHandler : function(key) {
-        var handler = zcbrp.Forms.handlers[key];
+        var handler = zcbrt.Forms.handlers[key];
         if(!!handler && zct.isFunction(handler)) return handler;
-        else return zcbrp.Forms.handlers['default'];
+        else return zcbrt.Forms.handlers['default'];
       },
       hideEditForm : function(target) {
         var div = yu.Dom.getAncestorByTagName(target,'form').parentNode;
         var button = yus.query('span#button-cancel',div)[0];
         var el = new yu.Element(div.parentNode);
-        zcbrp.Forms.detachContainer(target);
+        zcbrt.Forms.detachContainer(target);
         el.removeChild(div);
       },
       detachContainer : function(actor) {
         var o = yu.Dom.getAncestorByTagName(actor,'form').parentNode.parentNode;
-        delete zcbrp.Forms.containers[o.getAttribute('id')];
+        delete zcbrt.Forms.containers[o.getAttribute('id')];
       },
       handlers : {
-        'save': function(e){zcbrp.Forms.modifyForm(yue.getTarget(e));},
-        'cancel': function(e){zcbrp.Forms.hideEditForm(yue.getTarget(e));},
-        'personalize' :function(e){zcbrp.Forms.spiritUpWorkTab(yue.getTarget(e));},
-        'editItem' : function(e){zcbrp.Forms.loadEditForm(yu.Dom.getAncestorByTagName(this,'li'));},
-        'deleteItem' : function(e){zcbrp.Forms.confirmationDialog.show(e);},
+        'save': function(e){zcbrt.Forms.modifyForm(yue.getTarget(e));},
+        'cancel': function(e){zcbrt.Forms.hideEditForm(yue.getTarget(e));},
+        'personalize' :function(e){zcbrt.Forms.spiritUpWorkTab(yue.getTarget(e));},
+        'editItem' : function(e){zcbrt.Forms.loadEditForm(yu.Dom.getAncestorByTagName(this,'li'));},
+        'deleteItem' : function(e){zcbrt.Forms.confirmationDialog.show(e);},
         'default': function(){return false;}
       }
     };
   }();
   
-  yue.onDOMReady(zcbrp.Forms.init);
+  yue.onDOMReady(zcbrt.Forms.init);
 }());

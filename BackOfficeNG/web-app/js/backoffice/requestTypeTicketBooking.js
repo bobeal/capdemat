@@ -74,6 +74,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
       },
 
       init : function() {
+        zca.advise(/.*/, new zca.Advice('before', function() {
+          zenexity.capdemat.baseUrl = zenexity.capdemat.baseUrl.replace('requestType','ticketBooking')
+        }), zcb.TicketBooking);
+        zca.advise(/.*/, new zca.Advice('afterReturn', function() {
+          zenexity.capdemat.baseUrl = zenexity.capdemat.baseUrl.replace('ticketBooking','requestType')
+        }), zcb.TicketBooking);
+        zenexity.capdemat.baseUrl = zenexity.capdemat.baseUrl.replace('requestType','ticketBooking');
         zct.doAjaxCall('/',[],function(o){
           zct.html(yud.get('requestTypeTicketBooking'),o.responseText);
           zcb.TicketBooking.clickEvent = new zct.Event(zcb.TicketBooking, zcb.TicketBooking.prepareEvent);
@@ -85,7 +92,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
           yue.on('defaultLogoForm','submit', zcb.TicketBooking.saveDefaultLogo);
           zcb.TicketBooking.initSubscribers('lastName', '0', '');
         });
-
+        zenexity.capdemat.baseUrl = zenexity.capdemat.baseUrl.replace('ticketBooking','requestType')
         zcb.TicketBooking.confirmRemoveEntertainmentDialog = new zct.ConfirmationDialog(
           { head : 'Attention', body : 'Voulez-vous supprimer<br/>ce spectacle ?' },
           zcb.TicketBooking.removeEntertainment);
@@ -418,5 +425,5 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
     };
 
   }();
-
+  YAHOO.util.Event.onDOMReady(zcb.TicketBooking.init);
 }());

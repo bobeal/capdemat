@@ -12,7 +12,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
   var zct = zenexity.capdemat.tools;
   var zcc = zenexity.capdemat.common;
   var zcv = zenexity.capdemat.Validation;
-  var zcbrp = zenexity.capdemat.bong.requesttype;
+  var zcbrt = zenexity.capdemat.bong.requesttype;
   var zca = zenexity.capdemat.aspect; 
     
   var yl = YAHOO.lang;
@@ -22,13 +22,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
   var yus = YAHOO.util.Selector;
   var ylj = YAHOO.lang.JSON;
   
-  zcbrp.accessRule = {
+  zcbrt.accessRule = {
     notCurrent: function(e) {
       return !yud.hasClass(yud.get(yue.getTarget(e)), 'current');
     }
   };
   
-  zcbrp.LocalReferential = function() {
+  zcbrt.LocalReferential = function() {
     
     var toggleEntries = function(dataName, displayPolicy) {
       zct.each(yus.query('ul', yud.get('lrtEntries_' + dataName)), function(){
@@ -43,28 +43,28 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       changeEvent: undefined,
       
       init: function() {
-        zcbrp.LocalReferential.initLocalreferential();
-        if (zcbrp.LocalReferential.clickEvent != undefined) return;
+        zcbrt.LocalReferential.initLocalreferential();
+        if (zcbrt.LocalReferential.clickEvent != undefined) return;
         
-        zcbrp.LocalReferential.confirmRemoveEntryDialog = new zct.ConfirmationDialog(
+        zcbrt.LocalReferential.confirmRemoveEntryDialog = new zct.ConfirmationDialog(
           { head : 'Attention',
             body : 'Voulez-vous supprimer cette entrée et tous ces descendants ?' },
-          zcbrp.LocalReferential.removeEntry);
+          zcbrt.LocalReferential.removeEntry);
         
-        zcbrp.LocalReferential.confirmSaveWidgetDialog = new zct.ConfirmationDialog(
+        zcbrt.LocalReferential.confirmSaveWidgetDialog = new zct.ConfirmationDialog(
           { head : 'Attention',
             body : 'La modification du widget entraine la suppression de vos données !' },
-          zcbrp.LocalReferential.saveWidget);
+          zcbrt.LocalReferential.saveWidget);
         
         // click event
-        zcbrp.LocalReferential.clickEvent = new zct.Event(zcbrp.LocalReferential, zcbrp.LocalReferential.prepareEvent);
-        yue.on(yud.get('requestTypeLocalReferential'),'click',zcbrp.LocalReferential.clickEvent.dispatch,zcbrp.LocalReferential.clickEvent,true);
+        zcbrt.LocalReferential.clickEvent = new zct.Event(zcbrt.LocalReferential, zcbrt.LocalReferential.prepareEvent);
+        yue.on(yud.get('requestTypeLocalReferential'),'click',zcbrt.LocalReferential.clickEvent.dispatch,zcbrt.LocalReferential.clickEvent,true);
         // change event
-        zcbrp.LocalReferential.changeEvent = new zct.Event(zcbrp.LocalReferential, zcbrp.LocalReferential.prepareEvent);
-        yue.on(yud.get('requestTypeLocalReferential'),'change',zcbrp.LocalReferential.changeEvent.dispatch,zcbrp.LocalReferential.changeEvent,true);
+        zcbrt.LocalReferential.changeEvent = new zct.Event(zcbrt.LocalReferential, zcbrt.LocalReferential.prepareEvent);
+        yue.on(yud.get('requestTypeLocalReferential'),'change',zcbrt.LocalReferential.changeEvent.dispatch,zcbrt.LocalReferential.changeEvent,true);
         
-        zcbrp.LocalReferential.collapseEntries = zca.condition(zcbrp.LocalReferential.collapseEntries, zcbrp.accessRule.notCurrent);
-        zcbrp.LocalReferential.expandEntries = zca.condition(zcbrp.LocalReferential.expandEntries, zcbrp.accessRule.notCurrent);
+        zcbrt.LocalReferential.collapseEntries = zca.condition(zcbrt.LocalReferential.collapseEntries, zcbrt.accessRule.notCurrent);
+        zcbrt.LocalReferential.expandEntries = zca.condition(zcbrt.LocalReferential.expandEntries, zcbrt.accessRule.notCurrent);
       },
       
       prepareEvent : function(e) {
@@ -73,7 +73,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       },
       
       initLocalreferential : function() {
-        zct.doAjaxCall(['/localReferential/',(zcbrp.currentId||0)].join(''),[],function(o){
+        zct.doAjaxCall("/localReferentialList/" + (zcbrt.currentId||0), [], function(o){
           zct.html(yud.get('requestTypeLocalReferential'),o.responseText);
         });
       },
@@ -92,14 +92,14 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       },
       
       confirmSaveWidget : function(e) {
-        if (e.type === 'change') zcbrp.LocalReferential.confirmSaveWidgetDialog.show(e); 
+        if (e.type === 'change') zcbrt.LocalReferential.confirmSaveWidgetDialog.show(e); 
       },
       saveWidget : function(e, se) {
         var target = (yue.getTarget(se)||se);
         zct.doAjaxFormSubmitCall(target.form.id, null, function(o) {
           var response = ylj.parse(o.responseText);
           if (response.status === 'success') {
-            zcbrp.LocalReferential.initLocalreferential();
+            zcbrt.LocalReferential.initLocalreferential();
           }
         });
       },
@@ -115,7 +115,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
             zct.html(yud.getFirstChild(yud.getAncestorByTagName(target, 'li')), response.entryLabel);
             zct.style(yud.getAncestorByTagName(entryFormEl, 'div'), {display:'none'});
           } else {
-            zcbrp.LocalReferential.refreshEntries(entryFormEl.dataName.value);
+            zcbrt.LocalReferential.refreshEntries(entryFormEl.dataName.value);
             zct.style(yud.getAncestorByTagName(entryFormEl, 'div'), {display:'none'});
           }
         });
@@ -144,7 +144,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         });
       },
       
-      confirmRemoveEntry : function(e) { zcbrp.LocalReferential.confirmRemoveEntryDialog.show(e); },
+      confirmRemoveEntry : function(e) { zcbrt.LocalReferential.confirmRemoveEntryDialog.show(e); },
       removeEntry : function(e, se) {
         var target = (yue.getTarget(se)||se);
         var entryKey = target.id.split('_')[1];
@@ -154,7 +154,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
                         '&parentEntryKey=',parentEntryKey].join(''),[],function(o){
           var response = ylj.parse(o.responseText);
           if (response.status === 'success')
-            zcbrp.LocalReferential.refreshEntries(dataName);
+            zcbrt.LocalReferential.refreshEntries(dataName);
         });
       },
       
@@ -184,6 +184,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       }
     }
   }();
-  
+  YAHOO.util.Event.onDOMReady(zcbrt.LocalReferential.init);
 }());
 

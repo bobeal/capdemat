@@ -83,50 +83,65 @@ class BackofficeRequestTypeController {
             "filters":parsedFilters.filters,"filterBy":parsedFilters.filterBy]
     }
 
-    // the configuration items all request types will have
-    // the boolean indicates if it's a mandatory step
-    def baseConfigurationItems = [
-        "forms":["requestType.configuration.forms", false],
-        "delays":["requestType.configuration.delays", false],
-        "documents":["requestType.configuration.documentType", false]
-    ]
-    
-    def configure = {
-    	def requestType = 
-        	requestTypeService.getRequestTypeById(Long.valueOf(params.id))
-        def requestTypeLabel =
-            translationService.translateRequestTypeLabel(requestType.label).encodeAsHTML()
+    private getCommonModel(requestType) {
+        def result = [
+            "requestType" : requestType,
+            "requestTypeLabel" :
+                translationService.translateRequestTypeLabel(requestType.label).encodeAsHTML(),
+            "requestTypes" : requestAdaptorService.translateAndSortRequestTypes()
+        ]
         def requestService = requestServiceRegistry.getRequestService(requestType.label)
-        if (requestTypeService.getRulesAcceptanceFieldNames(requestType.id).size() > 0)
-            baseConfigurationItems["rules"] = ["requestType.configuration.rules", false]
-        if (requestService.getLocalReferentialFilename() != null)
-            baseConfigurationItems["localReferential"] =
-                ["requestType.configuration.localReferential", true]
-        if (requestService.isOfRegistrationKind()) {
-            baseConfigurationItems["seasons"] = ["requestType.configuration.seasons", false]
+        result["configurationItems"] = [
+            "forms" : ["requestType.configuration.forms", false],
+            "delays" : ["requestType.configuration.delays", false],
+            "documents" : ["requestType.configuration.documentType", false]
+        ]
+        if (requestTypeService.getRulesAcceptanceFieldNames(requestType.id).size() > 0) {
+            result["configurationItems"]["rules"] = ["requestType.configuration.rules", false]
         }
-        if (requestType.label == 'Ticket Booking')
-          baseConfigurationItems["ticketBooking"] = ["requestType.configuration.ticketBooking", false]
-        return ["requestType":requestType, "requestTypeLabel":requestTypeLabel,
-                "baseConfigurationItems":baseConfigurationItems,
-                "requestTypes":requestAdaptorService.translateAndSortRequestTypes()]
+        if (requestService.getLocalReferentialFilename() != null) {
+            result["configurationItems"]["localReferential"] =
+                ["requestType.configuration.localReferential", true]
+        }
+        if (requestService.isOfRegistrationKind()) {
+            result["configurationItems"]["seasons"] = ["requestType.configuration.seasons", false]
+        }
+        if (requestType.label == 'Ticket Booking') {
+            result["configurationItems"]["ticketBooking"] =
+                ["requestType.configuration.ticketBooking", false]
+        }
+        return result
+    }
+
+    def forms = {
+        def id = Long.valueOf(params.id)
+        render(
+            view : "configure",
+            model : [
+                "requestForms" :
+                    requestTypeService.getRequestTypeForms(id, RequestFormType.REQUEST_MAIL_TEMPLATE)
+            ].plus(getCommonModel(requestTypeService.getRequestTypeById(id))))
     }
 
     def delays = {
+        def requestType = requestTypeService.getRequestTypeById(Long.valueOf(params.id))
         if (request.get) {
             render(
-                template : "delays",
+                view : "configure",
                 model : [
-                    "requestType" : requestTypeService.getRequestTypeById(Long.valueOf(params.id)),
                     "defaultConfig" : requestTypeService.globalRequestTypeConfiguration
-                ]
+                ].plus(getCommonModel(requestType))
             )
         } else if (request.post) {
-            def requestType = requestTypeService.getRequestTypeById(Long.valueOf(params.requestTypeId))
             bind(requestType)
             requestTypeService.modifyRequestType(requestType)
             render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         }
+    }
+
+    def seasons = {
+        render(view : "configure",
+            model : getCommonModel(requestTypeService.getRequestTypeById(Long.valueOf(params.id))))
     }
 
     def loadSeasonsArea = {
@@ -162,6 +177,13 @@ class BackofficeRequestTypeController {
             render([status:"ok", success_msg:message(code:"message.deleteDone")] as JSON)
             return false
         }
+    }
+
+    def documents = {
+        render(
+            view : "configure",
+            model: getCommonModel(requestTypeService.getRequestTypeById(Long.valueOf(params.id)))
+        )
     }
 
     def documentList = {
@@ -318,9 +340,20 @@ class BackofficeRequestTypeController {
     /* Local referential related action
      * ------------------------------------------------------------------------------------------ */
     def localReferential = {
-        def rt = requestTypeService.getRequestTypeById(Long.valueOf(params.id))
-        def lrTypes = localReferentialService.getLocalReferentialDataByRequestType(rt.label)
-        render(template:"localReferential", model:['lrTypes':lrTypes])
+        render(
+            view : "configure",
+            model : getCommonModel(requestTypeService.getRequestTypeById(Long.valueOf(params.id)))
+        )
+    }
+
+    def localReferentialList = {
+        render(
+            template : "localReferentialList",
+            model : [
+                "lrTypes" : localReferentialService.getLocalReferentialDataByRequestType(
+                    requestTypeService.getRequestTypeById(Long.valueOf(params.id)).label)
+            ]
+        )
     }
     
     def localReferentialType = {
@@ -391,6 +424,13 @@ class BackofficeRequestTypeController {
     /* Rules related action
      * ------------------------------------------------------------------------------------------ */
 
+    def rules = {
+        render(
+            view : "configure",
+            model : getCommonModel(requestTypeService.getRequestTypeById(Long.valueOf(params.id)))
+        )
+    }
+
     def loadRules = {
         def requestType = requestTypeService.getRequestTypeById(Long.valueOf(params.id))
         def requestTypeLabelAsDir = CapdematUtils.requestTypeLabelAsDir(requestType.label)
@@ -402,7 +442,7 @@ class BackofficeRequestTypeController {
             rulesFieldNames[it] = ruleFile.exists()
         }
 
-        render(template:"rules", 
+        render(template:"ruleList",
                 model:['id': params.id,
                     'requestTypeAcronym': RequestTypeAdaptorService.generateAcronym(requestType.label),
                     'requestTypeLabelAsDir': requestTypeLabelAsDir,
@@ -428,5 +468,12 @@ class BackofficeRequestTypeController {
                            'status':'success', 
                            'message':message(code:'message.updateDone')]).toString())
 
+    }
+
+    def ticketBooking = {
+        render(
+            view : "configure",
+            model : getCommonModel(requestTypeService.getRequestTypeById(Long.valueOf(params.id)))
+        )
     }
 }

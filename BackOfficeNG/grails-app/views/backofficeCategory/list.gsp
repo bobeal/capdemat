@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title><g:message code="category.header.categoryList" /></title>
+    <title><g:message code="category.header.list" /></title>
     <meta name="layout" content="main" />
     <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'configuration.css')}" >
     <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'categoryList.js')}"></script>
@@ -10,7 +10,7 @@
     <div id="yui-main">
       <div class="yui-b">
         <div class="head">
-          <h1><g:message code="category.header.categoryList" /></h1>
+          <h1><g:message code="category.header.list" /></h1>
         </div>
       
         <div class="createConfigurationItem">
@@ -56,6 +56,7 @@
     </div>
 
     <div id="narrow" class="yui-b">   
+      <menu:subMenu id="secondMenu" i18nPrefix="header" data="${subMenuEntries}" />
       <div class="nobox">
         <h3><g:message code="category.header.overview" /></h3>
         <div class="body">

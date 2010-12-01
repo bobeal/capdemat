@@ -14,8 +14,10 @@ class BackofficeCategoryController {
     
     def translationService
     def defaultAction = "list"
-    
-    def beforeInterceptor = { session["currentMenu"] = "category" }
+
+    def static subMenuEntries = BackofficeRequestAdminController.subMenuEntries
+
+    def beforeInterceptor = { session["currentMenu"] = "requestAdmin" }
 
     def list = {
         def categories = categoryService.getAll()
@@ -35,8 +37,12 @@ class BackofficeCategoryController {
                 orphanRequestTypes.add(CapdematUtils.adaptRequestType(translationService,it))
         }
 
-        return ['categories':categories, 'requestTypesByCategory':requestTypesByCategory,
-                'orphanRequestTypes':orphanRequestTypes]
+        return [
+            "subMenuEntries" : subMenuEntries,
+            "categories" : categories,
+            "requestTypesByCategory" : requestTypesByCategory,
+            "orphanRequestTypes" : orphanRequestTypes
+        ]
     }
     
     def edit = {
@@ -45,8 +51,14 @@ class BackofficeCategoryController {
            
         def category = categoryService.getById(Long.valueOf(params.id))
         def categories = categoryService.getAll()
-        return [editMode:"edit", categories:categories, category:category, orderRequestTypeBy:"label",
-                scope:"Category"]
+        return [
+            "subMenuEntries" : subMenuEntries,
+            editMode : "edit",
+            categories : categories,
+            category : category,
+            orderRequestTypeBy : "label",
+            scope : "Category"
+        ]
     }
     
     def create = {

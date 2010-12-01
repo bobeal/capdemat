@@ -31,9 +31,6 @@
      <a id="requestAdminMenuItem" href="${createLink(controller:'backofficeRequestAdmin')}">
       <g:message code="menu.requestsAdmin" />
     </a>
-    <a id="categoryMenuItem" href="${createLink(controller:'backofficeCategory')}">
-      <g:message code="menu.categories" />
-    </a>
     <a id="userMenuItem" href="${createLink(controller:'backofficeAgent')}">
       <g:message code="menu.agents" />
     </a>

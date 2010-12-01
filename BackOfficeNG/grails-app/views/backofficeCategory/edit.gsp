@@ -86,6 +86,7 @@
     </div>
     
     <div id="narrow" class="yui-b">
+      <menu:subMenu id="secondMenu" i18nPrefix="header" data="${subMenuEntries}" />
       <div class="nobox">
         <h3><g:message code="category.header.switchCategory" /></h3>
         <div class="body">

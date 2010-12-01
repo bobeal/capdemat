@@ -14,6 +14,7 @@ class BackofficeRequestAdminController {
         
     def static subMenuEntries = [
         'requestAdmin.requests',
+        "category.list",
         'displayGroup.list',
         'requestArchives.index'
     ]

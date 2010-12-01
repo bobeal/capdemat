@@ -1,18 +1,14 @@
 package fr.cg95.cvq.service.request.impl;
 
 import java.lang.reflect.InvocationTargetException;
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.log4j.Logger;
-
 import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.IAutofillService;
 import fr.cg95.cvq.service.request.IAutofillTriggerService;
 import fr.cg95.cvq.service.users.IIndividualService;
@@ -22,8 +18,6 @@ import fr.cg95.cvq.service.users.IIndividualService;
  *
  */
 public class AutofillService implements IAutofillService {
-
-    private static Logger logger = Logger.getLogger(AutofillService.class);
 
     private static IIndividualService individualService;
 
@@ -69,15 +63,12 @@ public class AutofillService implements IAutofillService {
             }
             if (currentObject instanceof PersistentStringEnum) {
                 values.put(listener.getKey(), currentObject.getClass().getName() + "_" + currentObject);
-            } else if (currentObject instanceof Date) { 
-                try {
-                    SimpleDateFormat dateFormat = 
-                        new SimpleDateFormat("dd/MM/yyyy", SecurityContext.getCurrentLocale());
-                    values.put(listener.getKey(),
-                            dateFormat.format(currentObject));
-                } catch (CvqException e) {
-                    logger.error("getValues() unable to get a localized date (no locale in security context)");
-                }
+            } else if (currentObject instanceof Date) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime((Date)currentObject);
+                values.put(listener.getKey() + ".day", String.valueOf(cal.get(Calendar.DAY_OF_MONTH)));
+                values.put(listener.getKey() + ".month", String.valueOf(cal.get(Calendar.MONTH) + 1));
+                values.put(listener.getKey() + ".year", String.valueOf(cal.get(Calendar.YEAR)));
             } else {
                 values.put(listener.getKey(), currentObject != null ? currentObject.toString() : null);
             }

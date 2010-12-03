@@ -20,5 +20,7 @@ public interface IRequestExternalActionService {
 
     Long getLastTracesCount(Set<Critere> criteriaSet);
 
+    List<Long> getRequestsWithoutExternalAction(Long requestTypeId, String externalServiceLabel);
+
     List<String> getKeys(Set<Critere> criterias);
 }

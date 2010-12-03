@@ -51,6 +51,13 @@ public class RequestExternalActionService implements IRequestExternalActionServi
     }
 
     @Override
+    @Context(types = {ContextType.SUPER_ADMIN})
+    public List<Long> getRequestsWithoutExternalAction(Long requestTypeId,
+        String externalServiceLabel) {
+        return requestExternalActionDAO.getRequestsWithoutExternalAction(requestTypeId, externalServiceLabel);
+    }
+
+    @Override
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
     public List<String> getKeys(Set<Critere> criterias) {
         return requestExternalActionDAO.getKeys(criterias);

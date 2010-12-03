@@ -27,7 +27,7 @@ public final class RequestExternalActionState extends PersistentStringEnum {
 
     public RequestExternalActionState() {}
 
-    public static final RequestExternalActionState[] allTraceStatuses = {
+    public static final RequestExternalActionState[] allStates = {
         IN_PROGRESS,
         NOT_SENT,
         SENT,
@@ -38,7 +38,7 @@ public final class RequestExternalActionState extends PersistentStringEnum {
     };
 
     public static RequestExternalActionState forString(final String enumAsString) {
-        for (RequestExternalActionState t : allTraceStatuses)
+        for (RequestExternalActionState t : allStates)
             if (t.name.equals(enumAsString)) return t;
         return null;
     }

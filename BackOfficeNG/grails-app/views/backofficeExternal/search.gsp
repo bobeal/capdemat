@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title><g:message code="externalServiceTrace.header.search" /></title>
+    <title><g:message code="requestExternalAction.header.search" /></title>
     <meta name="layout" content="main" />
     <link rel="stylesheet" href="${resource(dir : 'css/backoffice', file : 'externalSearch.css')}" />
     <script type="text/javascript" src="${resource(dir:'js/common',file:'calendar.js')}"></script>
@@ -25,19 +25,19 @@
           <form action="#" id="searchSorters">
             <ul>
               <li>
-                <label for="dateSort"><g:message code="externalServiceTrace.property.date" /></label>
+                <label for="dateSort"><g:message code="requestExternalAction.property.date" /></label>
                 <input type="radio" name="date" id="dateSort" ${sortBy == 'date' ? 'checked="checked"' : ''} />
               </li>
               <li>
-                <label for="keySort"><g:message code="externalServiceTrace.property.key" /></label>
+                <label for="keySort"><g:message code="requestExternalAction.property.key" /></label>
                 <input type="radio" name="key" id="keySort" ${sortBy == 'key' ? 'checked="checked"' : ''} />
               </li>
               <li>
-                <label for="nameSort"><g:message code="externalServiceTrace.property.name" /></label>
+                <label for="nameSort"><g:message code="requestExternalAction.property.name" /></label>
                 <input type="radio" name="name" id="nameSort" ${sortBy == 'name' ? 'checked="checked"' : ''} />
               </li>
               <li>
-                <label for="statusSort"><g:message code="externalServiceTrace.property.status" /></label>
+                <label for="statusSort"><g:message code="requestExternalAction.property.status" /></label>
                 <input type="radio" name="status" id="statusSort" ${sortBy == 'status' ? 'checked="checked"' : ''} />
               </li>
             </ul>
@@ -48,7 +48,7 @@
         <h3><g:message code="header.filterBy" /></h3>
         <div class="body">
           <form action="#" id="searchFilters">
-            <label for="externalServiceLabelFilter"><g:message code="externalServiceTrace.property.name" /> :</label>
+            <label for="externalServiceLabelFilter"><g:message code="requestExternalAction.property.name" /> :</label>
             <select id="externalServiceLabelFilter" name="externalServiceLabelFilter">
               <option value=""><g:message code="search.filter.defaultValue" /></option>
               <g:each in="${externalServiceLabels}">
@@ -58,10 +58,10 @@
                 </option>
               </g:each>
             </select>
-            <label for="statusFilter"><g:message code="externalServiceTrace.property.status" /> :</label>
+            <label for="statusFilter"><g:message code="requestExternalAction.property.status" /> :</label>
             <select id="statusFilter" name="statusFilter">
               <option value=""><g:message code="search.filter.defaultValue" /></option>
-              <g:each in="${traceStatuses}">
+              <g:each in="${requestExternalActionStates}">
                 <option value="${it}"
                   <g:if test="${filters['statusFilter'].equals(it.toString())}">selected="selected"</g:if>>
                   <g:capdematEnumToText var="${it}" i18nKeyPrefix="externalservice.trace.status" />
@@ -91,7 +91,7 @@
       </div>
       <g:if test="${inSearch && totalRecords > 0 && session.isACategoryManager}">
         <div class="nobox yellow">
-          <h3><g:message code="externalServiceTrace.header.externalServices" /></h3>
+          <h3><g:message code="requestExternalAction.header.externalServices" /></h3>
           <div id="resendContainer" class="body">
             <div id="sendRequestsFormErrors"></div>
             <form action="sendRequests" method="post" id="sendRequestsForm">
@@ -105,7 +105,7 @@
                 <span class="help"><g:message code="externalService.batchRequestResend.notifiedEmail.help" /></span>
               </g:if>
               <input type="submit" id="resendButton"
-                value="<g:message code="externalServiceTrace.action.resend" />"/>
+                value="<g:message code="requestExternalAction.action.resend" />"/>
             </form>
           </div>
         </div>

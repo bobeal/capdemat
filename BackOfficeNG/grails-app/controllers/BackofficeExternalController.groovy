@@ -100,7 +100,7 @@ class BackofficeExternalController {
         return [
             "externalServiceLabels" : SecurityContext.currentConfigurationBean
                 .externalProviderServices.collect { it.key.label },
-            "traceStatuses" : TraceStatusEnum.allTraceStatuses,
+            "requestExternalActionStates" : RequestExternalActionState.allStates,
             "requestStates" : RequestState.allRequestStates.findAll { it != RequestState.DRAFT },
             "requestTypes" : requestAdaptorService.translateAndSortRequestTypes()
         ]

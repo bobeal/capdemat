@@ -19,5 +19,5 @@ public interface IRequestExternalActionDAO extends IGenericDAO {
 
     List<String> getKeys(Set<Critere> criterias);
 
-    List<Long> getRequestsWithoutTrace(Long requestTypeId, String externalServiceLabel);
+    List<Long> getRequestsWithoutExternalAction(Long requestTypeId, String externalServiceLabel);
 }

@@ -113,7 +113,7 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
     @SuppressWarnings("unchecked")
     public List<String> getKeys(Set<Critere> criterias) {
         StringBuffer sb = new StringBuffer();
-        sb.append("select distinct key from external_service_traces");
+        sb.append("select distinct key from request_external_action");
         sb.append(" where 1 = 1 ");
         List<Object> parametersValues = new ArrayList<Object>();
         List<Type> parametersTypes = new ArrayList<Type>();
@@ -238,9 +238,9 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
     }
 
     @Override
-    public List<Long> getRequestsWithoutTrace(Long requestTypeId, String externalServiceLabel) {
+    public List<Long> getRequestsWithoutExternalAction(Long requestTypeId, String externalServiceLabel) {
         return HibernateUtil.getSession().createQuery(
-            "select id from RequestData r where r.requestType.id = :rt and state in (:validated, :notified) and (select count(*) from ExternalServiceTrace where name = :name and cast(r.id, string) = key) = 0")
+            "select id from RequestData r where r.requestType.id = :rt and state in (:validated, :notified) and (select count(*) from RequestExternalAction where name = :name and cast(r.id, string) = key) = 0")
                 .setLong("rt", requestTypeId)
                 .setString("validated", RequestState.VALIDATED.toString())
                 .setString("notified", RequestState.NOTIFIED.toString())

@@ -9,8 +9,6 @@ import java.util.Date;
  *  table="request_external_action"
  *
  * @author vba@zenexity.fr
- * 
- * Previously called 'ExternalServiceTrace'
  */
 public class RequestExternalAction implements Serializable {
 

@@ -33,8 +33,10 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
+import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.request.IRequestExportService;
 import fr.cg95.cvq.service.request.IRequestSearchService;
+import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.annotation.RequestFilter;
 import fr.cg95.cvq.service.request.external.IRequestExternalActionService;
 import fr.cg95.cvq.service.request.external.IRequestExternalService;
@@ -46,7 +48,8 @@ import fr.cg95.cvq.xml.common.HomeFolderType;
 import fr.cg95.cvq.xml.common.IndividualType;
 import fr.cg95.cvq.xml.common.RequestType;
 
-public class RequestExternalService extends ExternalService implements IRequestExternalService {
+public class RequestExternalService extends ExternalService implements IRequestExternalService,
+    ILocalAuthorityLifecycleAware {
 
     private static Logger logger = Logger.getLogger(RequestExternalService.class);
 
@@ -62,6 +65,8 @@ public class RequestExternalService extends ExternalService implements IRequestE
     private IMailService mailService;
 
     private IRequestSearchService requestSearchService;
+
+    private IRequestTypeService requestTypeService;
 
     private static final Set<RequestExternalActionState> finalExternalStatuses =
         new HashSet<RequestExternalActionState>(2);
@@ -389,6 +394,28 @@ public class RequestExternalService extends ExternalService implements IRequestE
         return resultMap;
     }
 
+    @Override
+    @Context(types = {ContextType.SUPER_ADMIN})
+    public void addLocalAuthority(String localAuthorityName) {
+        for (fr.cg95.cvq.business.request.RequestType rt : requestTypeService.getAllRequestTypes()) {
+            for (IExternalProviderService service : getExternalServicesByRequestType(rt.getLabel())) {
+                for (Long id : requestExternalActionService.getRequestsWithoutExternalAction(
+                        rt.getId(), service.getLabel())) {
+                    requestExternalActionService.addTrace(new RequestExternalAction(
+                        new Date(), id.toString(), null, "capdemat",
+                        translationService.translate("requestExternalAction.message.addTraceOnStartup"),
+                        service.getLabel(), RequestExternalActionState.NOT_SENT));
+                }
+            }
+        }
+    }
+
+    @Override
+    @Context(types = {ContextType.SUPER_ADMIN})
+    public void removeLocalAuthority(String localAuthorityName) {
+        // nothing to do yet
+    }
+
     public void setRequestDAO(IRequestDAO requestDAO) {
         this.requestDAO = requestDAO;
     }
@@ -418,4 +445,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
         this.requestSearchService = requestSearchService;
     }
 
+    public void setRequestTypeService(IRequestTypeService requestTypeService) {
+        this.requestTypeService = requestTypeService;
+    }
 }

@@ -25,6 +25,7 @@ import fr.cg95.cvq.business.users.external.IndividualMapping;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.ExternalServiceUtils;
 import fr.cg95.cvq.external.IExternalProviderService;
@@ -280,11 +281,24 @@ public class RequestExternalService extends ExternalService implements IRequestE
         return requestExternalActionService.getKeys(criterias);
     }
 
-    private void fillRequestWithMapping(RequestType xmlRequest, HomeFolderMapping mapping) {
+    private void fillRequestWithMapping(RequestType xmlRequest, HomeFolderMapping mapping) throws CvqModelException {
 
         HomeFolderType xmlHomeFolder = xmlRequest.getHomeFolder();
         xmlHomeFolder.setExternalId(mapping.getExternalId());
         xmlHomeFolder.setExternalCapdematId(mapping.getExternalCapDematId());
+
+        for (IndividualType individual : xmlHomeFolder.getIndividualsArray()) {
+            boolean hasMapping = false;
+            for (IndividualMapping iMapping : mapping.getIndividualsMappings()) {
+                if (iMapping.getIndividualId().equals(individual.getId()))
+                    hasMapping = true;
+            }
+            if (!hasMapping) {
+                mapping.getIndividualsMappings()
+                    .add(new IndividualMapping(individual.getId(), null, mapping));
+                externalHomeFolderService.modifyHomeFolderMapping(mapping);
+            }
+        }
 
         for (IndividualMapping iMapping : mapping.getIndividualsMappings()) {
             if (iMapping.getIndividualId() == null) {

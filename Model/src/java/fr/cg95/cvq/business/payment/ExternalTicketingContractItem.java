@@ -29,6 +29,21 @@ public class ExternalTicketingContractItem extends ExternalAccountItem {
     public ExternalTicketingContractItem(final String label, final Double amount,
             final String externalServiceLabel, final String externalItemId,
             final Long subjectId, final Double unitPrice, final Integer minBuy,
+            final Integer maxBuy, final Date creationDate,
+            final String broker) {
+        super(label, amount, externalServiceLabel, externalItemId, broker);
+        this.subjectId = subjectId;
+        this.unitPrice = unitPrice;
+        this.minBuy = minBuy;
+        this.maxBuy = maxBuy;
+        this.creationDate = creationDate;
+        this.oldQuantity = (new Double(amount / unitPrice)).intValue();
+    }
+
+    @Deprecated
+    public ExternalTicketingContractItem(final String label, final Double amount,
+            final String externalServiceLabel, final String externalItemId,
+            final Long subjectId, final Double unitPrice, final Integer minBuy,
             final Integer maxBuy, final Integer quantity, final Date creationDate,
             final Integer oldQuantity, final String broker) {
         super(label, amount, externalServiceLabel, externalItemId, broker);
@@ -36,8 +51,8 @@ public class ExternalTicketingContractItem extends ExternalAccountItem {
         this.unitPrice = unitPrice;
         this.minBuy = minBuy;
         this.maxBuy = maxBuy;
-        this.quantity = quantity;
         this.creationDate = creationDate;
+        this.quantity = quantity;
         this.oldQuantity = oldQuantity;
     }
 

@@ -34,6 +34,7 @@ import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
+import fr.cg95.cvq.service.payment.external.ExternalApplicationProviderService;
 import fr.cg95.cvq.service.request.IRequestExportService;
 import fr.cg95.cvq.service.request.IRequestSearchService;
 import fr.cg95.cvq.service.request.IRequestTypeService;
@@ -195,6 +196,8 @@ public class RequestExternalService extends ExternalService implements IRequestE
         HomeFolderType xmlHomeFolder = xmlRequest.getHomeFolder();
         for (IExternalProviderService externalProviderService :
                 getExternalServicesByRequestType(request.getRequestType().getLabel())) {
+            if (externalProviderService instanceof ExternalApplicationProviderService)
+                continue;
             // before sending the request to the external service, eventually set 
             // the external identifiers if they are known ...
             String externalServiceLabel = externalProviderService.getLabel();

@@ -11,7 +11,7 @@
 
       <dt><g:message code="payment.item.property.amount"/> :</dt>
       <dd>
-         ${item.amount}
+         ${item.amount / 100} &euro;
       </dd>
       <!-- InternalInvoiceItem -->
       <g:if test="${item.type() == 'InternalInvoiceItem'}">

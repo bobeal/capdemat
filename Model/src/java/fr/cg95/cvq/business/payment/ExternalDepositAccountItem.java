@@ -82,11 +82,11 @@ public class ExternalDepositAccountItem extends ExternalAccountItem {
     /**
      * @hibernate.set
      *  lazy="true"
-     *  table="external_deposit_account_item_detail"
      *  cascade="all"
+     *  inverse="true"
      * @hibernate.key
      *  column="external_deposit_account_item_id"
-     * @hibernate.composite-element
+     * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.payment.ExternalDepositAccountItemDetail"
      */
     public final Set<ExternalDepositAccountItemDetail> getAccountDetails() {

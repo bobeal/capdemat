@@ -12,7 +12,7 @@
           <g:if test="${record.amount < 0}">
             <span style="color:red;">${record.amount / 100 + ' €'}</span>
           </g:if>
-          <g:else>${record.amount / 100 + ' €'}</g:else>
+          <g:else>${record.oldValue / 100 + ' €'}</g:else>
         </p>
         <g:if test="${record.hasDetails}">
           <p>

@@ -90,16 +90,16 @@
         drop constraint FK45625529F0159453;
 
     alter table external_application_broker 
-        drop constraint FK839CD69CEC40A718;
+        drop constraint FK839CD69C2C94FF5A;
 
     alter table external_deposit_account_item_detail 
         drop constraint FK4A90965670F56907;
 
     alter table external_home_folder 
-        drop constraint FKA9D7255AEC40A718;
+        drop constraint FKA9D7255A2C94FF5A;
 
     alter table external_individual 
-        drop constraint FKC1D4D78D42431EA3;
+        drop constraint FKC1D4D78DF1C1B621;
 
     alter table external_invoice_item_detail 
         drop constraint FKFB8FF2772062B3BC;
@@ -655,6 +655,7 @@
         street_number varchar(5),
         street_name varchar(32),
         street_matriculation varchar(8),
+        street_rivoli_code varchar(10),
         place_name_or_service varchar(38),
         postal_code varchar(5),
         city_insee_code varchar(5),
@@ -996,14 +997,16 @@
     );
 
     create table external_deposit_account_item_detail (
-        external_deposit_account_item_id int8 not null,
+        id int8 not null,
         date timestamp,
         holder_name varchar(255),
         holder_surname varchar(255),
         payment_id varchar(255),
         payment_type varchar(255),
         value int4,
-        bank_reference varchar(255)
+        bank_reference varchar(255),
+        external_deposit_account_item_id int8 not null,
+        primary key (id)
     );
 
     create table external_home_folder (
@@ -1028,13 +1031,15 @@
     );
 
     create table external_invoice_item_detail (
-        external_invoice_item_id int8 not null,
+        id int8 not null,
         subject_name varchar(255),
         label varchar(255),
         quatity numeric(19, 2),
         subject_surname varchar(255),
         unit_price int4,
-        value int4
+        value int4,
+        external_invoice_item_id int8 not null,
+        primary key (id)
     );
 
     create table forms (
@@ -1566,17 +1571,17 @@
 
     create table holiday_security_request (
         id int8 not null,
-        other_contact_address_id int8,
-        rules_and_regulations_acceptance bool,
-        other_contact bool,
-        absence_start_date timestamp,
-        other_contact_first_name varchar(38),
-        other_contact_phone varchar(10),
-        light bool,
-        alert_phone varchar(10),
         other_contact_last_name varchar(38),
-        alarm bool,
         absence_end_date timestamp,
+        alarm bool,
+        other_contact_address_id int8,
+        other_contact bool,
+        other_contact_first_name varchar(38),
+        light bool,
+        other_contact_phone varchar(10),
+        rules_and_regulations_acceptance bool,
+        alert_phone varchar(10),
+        absence_start_date timestamp,
         primary key (id)
     );
 
@@ -2485,7 +2490,7 @@
         references address;
 
     alter table external_application_broker 
-        add constraint FK839CD69CEC40A718 
+        add constraint FK839CD69C2C94FF5A 
         foreign key (external_application_id) 
         references external_application;
 
@@ -2495,12 +2500,12 @@
         references purchase_item;
 
     alter table external_home_folder 
-        add constraint FKA9D7255AEC40A718 
+        add constraint FKA9D7255A2C94FF5A 
         foreign key (external_application_id) 
         references external_application;
 
     alter table external_individual 
-        add constraint FKC1D4D78D42431EA3 
+        add constraint FKC1D4D78DF1C1B621 
         foreign key (external_home_folder_id) 
         references external_home_folder;
 

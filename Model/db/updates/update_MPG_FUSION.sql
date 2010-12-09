@@ -74,28 +74,33 @@ create table external_individual (
     primary key (id)
 );
 
-alter table external_application_broker add constraint FK839CD69CEC40A718 foreign key (external_application_id) references external_application;
-alter table external_home_folder add constraint FKA9D7255AEC40A718 foreign key (external_application_id) references external_application;
-alter table external_individual add constraint FKC1D4D78D42431EA3 foreign key (external_home_folder_id) references external_home_folder;
+alter table external_application_broker add constraint FK839CD69C2C94FF5A foreign key (external_application_id) references external_application;
+alter table external_home_folder add constraint FKA9D7255A2C94FF5A foreign key (external_application_id) references external_application;
+alter table external_individual add constraint FKC1D4D78DF1C1B621 foreign key (external_home_folder_id) references external_home_folder;
 
 create table external_deposit_account_item_detail (
+    id int8 not null,
+    date timestamp,
+    holder_name varchar(255),
+    holder_surname varchar(255),
+    payment_id varchar(255),
+    payment_type varchar(255),
+    value int4,
+    bank_reference varchar(255),
     external_deposit_account_item_id int8 not null,
-    subject_name varchar(255),
-    label varchar(255),
-    quatity numeric(19, 2),
-    subject_surname varchar(255),
-    unit_price int4,
-    value int4
+    primary key (id)
 );
 
 create table external_invoice_item_detail (
-    external_invoice_item_id int8 not null,
+    id int8 not null,
     subject_name varchar(255),
     label varchar(255),
     quatity numeric(19, 2),
     subject_surname varchar(255),
     unit_price int4,
-    value int4
+    value int4,
+    external_invoice_item_id int8 not null,
+    primary key (id)
 );
 
 alter table external_deposit_account_item_detail add constraint FK4A90965670F56907 foreign key (external_deposit_account_item_id) references purchase_item;

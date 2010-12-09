@@ -16,6 +16,7 @@ import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItemDetail;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItemDetail;
+import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
 import fr.cg95.cvq.business.payment.Payment;
 import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.exception.CvqConfigurationException;
@@ -23,7 +24,6 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.service.payment.IPaymentService;
-import fr.cg95.cvq.service.payment.external.IExternalApplicationService;
 import fr.cg95.cvq.util.Critere;
 
 public class ExternalApplicationProviderService implements IExternalProviderService {
@@ -84,6 +84,21 @@ public class ExternalApplicationProviderService implements IExternalProviderServ
             String cvqReference, String bankReference, Long homeFolderId,
             String externalHomeFolderId, String externalId, Date validationDate)
             throws CvqException {
+        for (PurchaseItem purchaseItem : purchaseItems) {
+            if (purchaseItem instanceof ExternalInvoiceItem) {
+                ExternalInvoiceItem eii = (ExternalInvoiceItem)purchaseItem;
+                eii.setIsPaid(true);
+                eii.setPaymentDate(new Date());
+            } else if (purchaseItem instanceof ExternalDepositAccountItem) {
+                ExternalDepositAccountItem edai = (ExternalDepositAccountItem) purchaseItem;
+                edai.setOldValue(edai.getOldValue() + edai.getAmount());
+                edai.setOldValueDate(new Date());
+            } else if (purchaseItem instanceof ExternalTicketingContractItem) {
+                ExternalTicketingContractItem etci = (ExternalTicketingContractItem)purchaseItem;
+                etci.setAmount(etci.getAmount() + (etci.getUnitPrice() * etci.getQuantity()));
+                etci.setOldQuantity(etci.getOldQuantity() + etci.getQuantity());
+            }
+        }
     }
 
     @Override

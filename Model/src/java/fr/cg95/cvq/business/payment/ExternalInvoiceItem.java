@@ -93,11 +93,11 @@ public class ExternalInvoiceItem extends ExternalAccountItem {
     /**
      * @hibernate.set
      *  lazy="true"
-     *  table="external_invoice_item_detail"
      *  cascade="all"
+     *  inverse="true"
      * @hibernate.key
      *  column="external_invoice_item_id"
-     * @hibernate.composite-element
+     * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.payment.ExternalInvoiceItemDetail"
      */
     public final Set<ExternalInvoiceItemDetail> getInvoiceDetails() {
@@ -109,7 +109,7 @@ public class ExternalInvoiceItem extends ExternalAccountItem {
     public final void setInvoiceDetails(Set<ExternalInvoiceItemDetail> invoiceDetails) {
         this.invoiceDetails = invoiceDetails;
     }
-    
+
     public final void addInvoiceDetail(ExternalInvoiceItemDetail invoiceDetail) {
         if (this.invoiceDetails == null)
             this.invoiceDetails = new HashSet<ExternalInvoiceItemDetail>();

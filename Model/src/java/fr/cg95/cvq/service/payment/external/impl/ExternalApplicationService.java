@@ -188,7 +188,7 @@ public class ExternalApplicationService implements IExternalApplicationService {
                 }
                 eii = new ExternalInvoiceItem(
                         line[3],
-                        null,
+                        Double.valueOf(line[1]),
                         Double.valueOf(line[1]),
                         EXTERNAL_APPLICATION_LABEL,
                         line[0],
@@ -254,6 +254,7 @@ public class ExternalApplicationService implements IExternalApplicationService {
                         BigDecimal.valueOf(Long.valueOf(line[5])),
                         Integer.valueOf(line[6]));
                 eii.addInvoiceDetail(eiid);
+                eiid.setExternalInvoiceItem(eii);
                 genericDAO.update(eii);
                 report.put("created",report.get("created") + 1);
             }
@@ -308,8 +309,8 @@ public class ExternalApplicationService implements IExternalApplicationService {
                         Double.valueOf(line[1]),
                         EXTERNAL_APPLICATION_LABEL,
                         line[0],
-                        null,
-                        null,
+                        DateUtils.parseIso(line[2]),
+                        Double.valueOf(line[1]),
                         broker);
                 edai.setExternalApplicationId(ea.getId().toString());
                 edai.setExternalHomeFolderId(ehf.getExternalId());
@@ -370,6 +371,7 @@ public class ExternalApplicationService implements IExternalApplicationService {
                         line[0],
                         null);
                 edai.addAccountDetail(edaid);
+                edaid.setExternalDepositAccountItem(edai);
                 genericDAO.update(edai);
                 report.put("created",report.get("created") + 1);
             }
@@ -436,13 +438,11 @@ public class ExternalApplicationService implements IExternalApplicationService {
                         Double.valueOf(line[1]),
                         EXTERNAL_APPLICATION_LABEL,
                         line[0],
-                        ei.getId(),
+                        null,
                         Double.valueOf(line[4]),
                         Integer.valueOf(line[5]),
                         Integer.valueOf(line[6]),
-                        null,
                         DateUtils.parseIso(line[2]),
-                        null,
                         broker);
                 etci.setExternalApplicationId(ea.getId().toString());
                 etci.setExternalHomeFolderId(ehf.getExternalId());

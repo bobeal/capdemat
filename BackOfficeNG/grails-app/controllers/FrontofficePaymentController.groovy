@@ -317,16 +317,14 @@ class FrontofficePaymentController {
         entry.type = 'depositAccounts'
         return entry
     }
-    
+
     protected Map buildTicketMap(ExternalTicketingContractItem item) {
-        Individual individual = individualService.getById(item.subjectId)
         def entry = [
             id : item.id,
             label: item.label,
             amount: item.amount, 
             externalItemId: item.externalItemId,
             subjectId : item.subjectId,
-            subjectName : "${individual.firstName} ${individual.lastName}",
             unitPrice : item.unitPrice,
             minBuy : item.minBuy,
             maxBuy : item.maxBuy,

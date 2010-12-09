@@ -1,9 +1,18 @@
 package fr.cg95.cvq.business.payment;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ExternalDepositAccountItemDetail {
+/**
+ * @hibernate.class
+ *  table="external_deposit_account_item_detail"
+ *  lazy="false"
+ */
+public class ExternalDepositAccountItemDetail implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
+    private Long id;
     private Date date;
     private String holderName;
     private String holderSurname;
@@ -11,10 +20,11 @@ public class ExternalDepositAccountItemDetail {
     private String paymentType;
     private String paymentId;
     private String bankReference;
+    private ExternalDepositAccountItem externalDepositAccountItem;
 
     public ExternalDepositAccountItemDetail() {
     }
-    
+
     public ExternalDepositAccountItemDetail(final Date date, final String holderName, final String holderSurname,
             final Integer value, final String paymentType, final String paymentId, final String bankReference) {
         this.date = date;
@@ -24,6 +34,19 @@ public class ExternalDepositAccountItemDetail {
         this.paymentType = paymentType;
         this.paymentId = paymentId;
         this.bankReference = bankReference;
+    }
+
+    /**
+     * @hibernate.id
+     *  generator-class="sequence"
+     *  column="id"
+     */
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
@@ -109,4 +132,19 @@ public class ExternalDepositAccountItemDetail {
     public final void setBankReference(String bankReference) {
         this.bankReference = bankReference;
     }
+
+    /**
+     * @hibernate.many-to-one
+     *  column="external_deposit_account_item_id"
+     *  not-null="true"
+     *  class="fr.cg95.cvq.business.payment.ExternalDepositAccountItem"
+     */
+    public ExternalDepositAccountItem getExternalDepositAccountItem() {
+        return externalDepositAccountItem;
+    }
+
+    public void setExternalDepositAccountItem(ExternalDepositAccountItem externalDepositAccountItem) {
+        this.externalDepositAccountItem = externalDepositAccountItem;
+    }
+
 }

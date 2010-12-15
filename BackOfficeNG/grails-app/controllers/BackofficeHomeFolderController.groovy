@@ -37,7 +37,7 @@ class BackofficeHomeFolderController {
     def defaultMax = 15
 
     def beforeInterceptor = {
-        session["currentMenu"] = session.currentCredentialBean.hasSiteAdminRole() ? "user" : "request"
+        session["currentMenu"] = session.currentCredentialBean.hasSiteAdminRole() ? "citizen" : "request"
     }
 
     def help = {}

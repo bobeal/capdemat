@@ -8,7 +8,7 @@ class BackofficeAgentController {
 
     def defaultAction = "list"
 
-    def beforeInterceptor = { session["currentMenu"] = "user" }
+    def beforeInterceptor = { session["currentMenu"] = "requestAdmin" }
 
     def subMenuEntries = [
       "agent.list",

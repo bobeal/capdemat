@@ -25,7 +25,7 @@ class BackofficeExternalApplicationController {
     def resultsPerPage = 25
 
     def beforeInterceptor = {
-        session['currentMenu'] = 'external'
+        session['currentMenu'] = 'payment'
     }
 
     def afterInterceptor = { model ->

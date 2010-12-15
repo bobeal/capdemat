@@ -33,7 +33,7 @@
       </div>
     </div>
     <div id="narrow" class="yui-b">
-      <menu:subMenu i18nPrefix="header" data="${subMenuEntries}" />
+%{--      <menu:subMenu i18nPrefix="header" data="${subMenuEntries}" />--}%
     </div>
   </body>
 </html>

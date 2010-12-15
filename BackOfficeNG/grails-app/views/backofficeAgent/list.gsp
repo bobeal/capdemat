@@ -9,6 +9,10 @@
     <div id="yui-main">
       <div class="yui-b">
         <div class="head">
+          <div class="txt-right">
+            <a href="${createLink(controller:'backofficeCategory', action:'list')}">${message(code:'category.header.list')}</a>
+            | ${message(code:'agent.header.list')}
+          </div>
           <h1><g:message code="agent.header.list" /></h1>
         </div>
           
@@ -56,7 +60,7 @@
           </p>
        </div>
       </div>
-      <menu:subMenu id="secondMenu" i18nPrefix="header" data="${subMenuEntries}" />
+%{--      <menu:subMenu id="secondMenu" i18nPrefix="header" data="${subMenuEntries}" />--}%
     </div>
 
   </body>

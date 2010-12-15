@@ -136,7 +136,7 @@ class BackofficeDocumentInstructionController {
             def mimeType = documentService.checkNewBinaryData(params.long('documentId'),file.bytes)
             def documentBinary = document.datas[Integer.valueOf(params.pageNumber)]
             documentBinary.data = file.bytes
-            documentBinary.contentType = ContentType.forString(mimeType)
+            documentBinary.contentType = mimeType
             documentService.modifyPage(params.long('documentId'), documentBinary)
             result.message = message(code:"message.updateDone")
             result.status = 'success'

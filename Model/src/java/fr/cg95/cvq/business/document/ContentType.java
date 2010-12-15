@@ -1,6 +1,5 @@
 package fr.cg95.cvq.business.document;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
 import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;

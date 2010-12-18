@@ -27,7 +27,6 @@ import fr.cg95.cvq.service.request.external.IRequestExternalActionService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.util.Critere
-import fr.cg95.cvq.util.mail.IMailService
 
 import grails.converters.JSON
 
@@ -48,7 +47,6 @@ class BackofficeRequestInstructionController {
     IIndividualService individualService
     IMeansOfContactService meansOfContactService
     IAgentService agentService
-    IMailService mailService
     ICategoryService categoryService
     ILocalReferentialService localReferentialService 
     IRecreationCenterService recreationCenterService

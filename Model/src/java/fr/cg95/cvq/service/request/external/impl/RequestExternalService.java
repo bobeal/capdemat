@@ -153,18 +153,6 @@ public class RequestExternalService extends ExternalService implements IRequestE
     }
 
     @Override
-    @Context(types = {ContextType.SUPER_ADMIN}, privilege = ContextPrivilege.NONE)
-    public Set<String> getGenerableRequestTypes() {
-        Set<String> result = new HashSet<String>();
-        for (ExternalServiceBean esb :
-            SecurityContext.getCurrentConfigurationBean().getExternalServices().values()) {
-            if (esb.getGenerateTracedRequest())
-                result.addAll(esb.getRequestTypes());
-        }
-        return result;
-    }
-
-    @Override
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<String> checkExternalReferential(Request request) throws CvqException {
 

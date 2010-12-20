@@ -12,12 +12,6 @@ import java.util.Map;
 public class ExternalServiceBean {
     
     /**
-     * Flag that specify if generation job must be launched for an autority
-     */
-    protected boolean generateTracedRequest = false;
-    
-
-    /**
      *  Authentication paraphrase
      */
     protected String password = "";
@@ -63,14 +57,6 @@ public class ExternalServiceBean {
         this.requestTypes = requestTypes;
     }
 
-    public boolean getGenerateTracedRequest() {
-        return this.generateTracedRequest;
-    }
-
-    public void setGenerateTracedRequest(boolean generateTracedRequest) {
-        this.generateTracedRequest = generateTracedRequest;
-    }
-    
     public String getPassword() {
         return this.password;
     }

@@ -41,11 +41,6 @@ public interface IRequestExternalService {
     List<Request> getSendableRequests(String externalServiceLabel);
 
     /**
-     * Get the list of request types for which a pre-generation is asked.
-     */
-    Set<String> getGenerableRequestTypes();
-
-    /**
      * Check the coherence of CapDemat's local referentials and external service's referentials
      * for each external service interested in this request (usually none or one).
      * 

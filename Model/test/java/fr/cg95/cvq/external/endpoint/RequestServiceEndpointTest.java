@@ -66,7 +66,6 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
 
         ExternalServiceBean esb = new ExternalServiceBean();
-        esb.setGenerateTracedRequest(true);
         List<String> requestTypes = new ArrayList<String>();
         requestTypes.add(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST);
         esb.setRequestTypes(requestTypes);

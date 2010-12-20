@@ -327,10 +327,9 @@ public final class PaymentService implements IPaymentService,
                 for (HomeFolderMapping mapping : mappings) {
                     if (mapping.getExternalId() == null || mapping.getExternalId().indexOf(':') < 0)
                         continue;
-                    externalIds += "'" + mapping.getExternalId().split(":")[1] + "'";
-                    if (mappings.indexOf(mapping) < mappings.size() - 1)
-                        externalIds += ",";
+                    externalIds += "'" + mapping.getExternalId().split(":")[1] + "',";
                 }
+                externalIds = externalIds.substring(0, externalIds.length() - 1);
             } else {
                 externalIds += "'#'"; // hack
             }

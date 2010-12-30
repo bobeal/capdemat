@@ -501,7 +501,6 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
         RequestServiceEndpoint endpoint = new RequestServiceEndpoint(new XmlBeansMarshaller());
         endpoint.setRequestSearchService(requestSearchService);
         endpoint.setRequestExternalActionService(requestExternalActionService);
-        endpoint.setLocalAuthorityRegistry(localAuthorityRegistry);
         endpoint.setRequestDAO((IRequestDAO)getApplicationBean("requestDAO"));
         endpoint.setRequestExternalService(requestExternalService);
         endpoint.setRequestExportService(requestExportService);

@@ -21,9 +21,7 @@ import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.business.request.external.RequestExternalActionState;
 import fr.cg95.cvq.dao.request.IRequestDAO;
-import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IRequestExportService;
 import fr.cg95.cvq.service.request.IRequestSearchService;
 import fr.cg95.cvq.service.request.external.IRequestExternalActionService;
@@ -36,7 +34,6 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
     
     private static Logger logger = Logger.getLogger(RequestServiceEndpoint.class);
     
-    private ILocalAuthorityRegistry localAuthorityRegistry;
     private IRequestExportService requestExportService;
     private IRequestSearchService requestSearchService;
     private IRequestExternalService requestExternalService;
@@ -183,10 +180,6 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
         super(marshaller);
     }
 
-    public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
-        this.localAuthorityRegistry = localAuthorityRegistry;
-    }
-    
     public void setRequestExternalService(IRequestExternalService requestExternalService) {
         this.requestExternalService = requestExternalService;
     }

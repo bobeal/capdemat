@@ -1,6 +1,6 @@
 package fr.cg95.cvq.util.mail;
 
-import java.io.File;
+import java.util.Map;
 
 import fr.cg95.cvq.exception.CvqException;
 
@@ -16,11 +16,11 @@ public interface IMailService {
         throws CvqException;
 
     void send(final String from, final String to, final String[] cc,
-              final String subject, final String body, final File attachment)
-        throws CvqException;
-
-    void send(final String from, final String to, final String[] cc,
             final String subject, final String body,
             final byte[] attachment, final String attachmentName)
       throws CvqException;
+
+    void send(final String from, final String to, final String[] cc,
+        final String subject, final String body, Map<String, byte[]> attachments)
+        throws CvqException;
 }

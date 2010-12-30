@@ -16,6 +16,8 @@ public class ExternalTicketingContractItem extends ExternalAccountItem {
 
     private static final long serialVersionUID = 1L;
 
+    public static final String SEARCH_BY_EXTERNAL_TICKETING_CONTRACT_ID = "externalTicketingContractId";
+
     private Long subjectId;
     private Double unitPrice;
     private Integer minBuy;
@@ -27,6 +29,21 @@ public class ExternalTicketingContractItem extends ExternalAccountItem {
     public ExternalTicketingContractItem(final String label, final Double amount,
             final String externalServiceLabel, final String externalItemId,
             final Long subjectId, final Double unitPrice, final Integer minBuy,
+            final Integer maxBuy, final Date creationDate,
+            final String broker) {
+        super(label, amount, externalServiceLabel, externalItemId, broker);
+        this.subjectId = subjectId;
+        this.unitPrice = unitPrice;
+        this.minBuy = minBuy;
+        this.maxBuy = maxBuy;
+        this.creationDate = creationDate;
+        this.oldQuantity = (new Double(amount / unitPrice)).intValue();
+    }
+
+    @Deprecated
+    public ExternalTicketingContractItem(final String label, final Double amount,
+            final String externalServiceLabel, final String externalItemId,
+            final Long subjectId, final Double unitPrice, final Integer minBuy,
             final Integer maxBuy, final Integer quantity, final Date creationDate,
             final Integer oldQuantity, final String broker) {
         super(label, amount, externalServiceLabel, externalItemId, broker);
@@ -34,8 +51,8 @@ public class ExternalTicketingContractItem extends ExternalAccountItem {
         this.unitPrice = unitPrice;
         this.minBuy = minBuy;
         this.maxBuy = maxBuy;
-        this.quantity = quantity;
         this.creationDate = creationDate;
+        this.quantity = quantity;
         this.oldQuantity = oldQuantity;
     }
 
@@ -127,23 +144,6 @@ public class ExternalTicketingContractItem extends ExternalAccountItem {
 
     public final void setOldQuantity(Integer oldQuantity) {
         this.oldQuantity = oldQuantity;
-    }
-
-    @Override
-    public String getFriendlyLabel() {
-        
-        StringBuffer sb = new StringBuffer().append(getLabel())
-            .append(" (n° ").append(getExternalItemId()).append(") - Valeur au ")
-            .append(DateUtils.format(getCreationDate())).append(" : ");
-        
-        if (getOldQuantity() < 0) {
-            sb.append("<span style=\"color:red\">");
-        } else {
-            sb.append("<span>");
-        }
-        sb.append(getOldQuantity()).append(" tickets</span>");
-
-        return sb.toString();
     }
 
     @Override

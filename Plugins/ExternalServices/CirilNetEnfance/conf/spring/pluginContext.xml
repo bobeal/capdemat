@@ -7,8 +7,8 @@
     class="fr.capwebct.capdemat.plugins.externalservices.cirilnetenfance.service.CirilNetEnfanceService">
     <property name="label" value="CirilNetEnfance" />
     <!-- Insert services you need here -->
-    <property name="externalService">
-      <ref bean="externalService" />
+    <property name="externalHomeFolderService">
+      <ref bean="externalHomeFolderService" />
     </property>
     <property name="requestWorkflowService">
       <ref bean="requestWorkflowService" />

@@ -104,7 +104,7 @@ public interface IExternalProviderService {
     boolean supportsConsumptions();
 
     /**
-     * Whether this external services handles its ExternalServiceTraces itself.
+     * Whether this external services handles its RequestExternalAction itself.
      * Answer false to let CapDemat handle the traces (it was the old behavior).
      */
     boolean handlesTraces();

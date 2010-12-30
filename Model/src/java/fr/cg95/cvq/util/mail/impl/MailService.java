@@ -1,9 +1,7 @@
 package fr.cg95.cvq.util.mail.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -27,8 +25,9 @@ public final class MailService implements IMailService {
     private String systemEmail;
     private JavaMailSender mailSender;
 
+    @Override
     public void send(final String from, final String to, final String[] cc, final String subject, 
-            final String body, final byte[] attachment, final String attachmentName) 
+            final String body, final Map<String, byte[]> attachments)
         throws CvqException {
 
         if (to == null)
@@ -63,9 +62,12 @@ public final class MailService implements IMailService {
                     message.setText(body);
                     if (cc != null && cc.length > 0)
                         message.setCc(cc);
-                    if (attachment != null) {
-                      ByteArrayResource byteArrayResource = new ByteArrayResource(attachment);
-                      message.addAttachment(attachmentName, byteArrayResource);
+                    if (attachments != null) {
+                        for (Map.Entry<String, byte[]> attachment : attachments.entrySet()) {
+                            ByteArrayResource byteArrayResource =
+                                new ByteArrayResource(attachment.getValue());
+                            message.addAttachment(attachment.getKey(), byteArrayResource);
+                        }
                     }
                 }
             });
@@ -75,30 +77,20 @@ public final class MailService implements IMailService {
         }
     }
 
+    @Override
+    public void send(final String from, final String to, final String[] cc, final String subject,
+        final String body, final byte[] attachment, final String attachmentName)
+        throws CvqException {
+        Map<String, byte[]> attachments = new HashMap<String, byte[]>(1);
+        attachments.put(attachmentName, attachment);
+        send(from, to, cc, subject, body, attachments);
+    }
+
+    @Override
     public void send(final String from, final String to, final String[] cc, final String subject, 
             final String body) throws CvqException {
 
-        send(from, to, cc, subject, body, null, null);
-    }
-
-    public void send(final String from, final String to, final String[] cc,
-                     final String subject, final String body,
-                     final File attachment)
-        throws CvqException {
-
-        if (!attachment.exists())
-            throw new CvqException("attachement " + attachment.getName() + " not found");
-        byte[] attachmentData = new byte[(int) attachment.length()];
-        try {
-            FileInputStream fis = new FileInputStream(attachment);
-            fis.read(attachmentData);
-        } catch (FileNotFoundException e) {
-            // unlikely to happen since we already checked that
-        } catch (IOException ioe) {
-            throw new CvqException("error reading data from file " + attachment.getName());
-        }
-
-        send(from, to, cc, subject, body, attachmentData, attachment.getName());
+        send(from, to, cc, subject, body, null);
     }
 
     public void setMailSender(JavaMailSender mailSender) {

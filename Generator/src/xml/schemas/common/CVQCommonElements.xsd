@@ -1851,7 +1851,7 @@
     <xs:complexContent>
       <xs:extension base="cvq:IndividualType">
         <xs:sequence>
-          <xs:element name="Title" type="cvq:TitleType" minOccurs="0" />
+          <xs:element name="Title" type="cvq:TitleType" />
           <xs:element name="MaidenName" type="cvq:LastNameType" minOccurs="0">
             <xs:annotation>
               <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
@@ -1950,6 +1950,21 @@
       </xs:annotation>
       <xs:sequence>
         <xs:element name="IndividualId" type="xs:long" minOccurs="0" />
+        <xs:element name="IndividualName" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+              Full name of the target individual (last name and first name, separated by a space)
+            </xs:documentation>
+            <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+              Le nom complet de l'individu cible (nom et prénom, séparés par un espace)
+            </xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="77" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
         <xs:element name="HomeFolderId" type="xs:long" minOccurs="0" />
         <xs:element name="RoleName" type="cvq:RoleType" />
       </xs:sequence>

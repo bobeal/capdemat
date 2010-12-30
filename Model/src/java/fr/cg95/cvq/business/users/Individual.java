@@ -33,7 +33,7 @@ public class Individual implements Historizable, Serializable {
     
     public static final String SEARCH_BY_FIRSTNAME = "firstName";
     public static final String SEARCH_BY_BIRTHDATE = "birthDate";
-    
+    public static final String SEARCH_BY_ADDRESS = "address";
     public static final String SEARCH_BY_LASTNAME = "lastName";
     public static final String SEARCH_BY_INDIVIDUAL_ID = "individualId";
     public static final String SEARCH_BY_HOME_FOLDER_ID = "homeFolderId";
@@ -181,6 +181,18 @@ public class Individual implements Historizable, Serializable {
         if (individualType.getState() != null)
             setState(ActorState.forString(individualType.getState().toString()));
         setAdress(Address.xmlToModel(individualType.getAddress()));
+        Set<IndividualRole> roles = new HashSet<IndividualRole>();
+        for (IndividualRoleType roleType : individualType.getRoleArray()) {
+            IndividualRole role = new IndividualRole();
+            if (roleType.getHomeFolderId() != 0)
+                role.setHomeFolderId(roleType.getHomeFolderId());
+            if (roleType.getIndividualId() != 0)
+                role.setIndividualId(roleType.getIndividualId());
+            role.setRole(RoleType.forString(roleType.getRoleName().toString()));
+            role.setIndividualName(roleType.getIndividualName());
+            roles.add(role);
+        }
+        setIndividualRoles(roles);
     }
 
     public static Individual xmlToModel(fr.cg95.cvq.xml.common.IndividualType individualType) {

@@ -12,12 +12,6 @@ import java.util.Map;
 public class ExternalServiceBean {
     
     /**
-     * Flag that specify if generation job must be launched for an autority
-     */
-    protected boolean generateTracedRequest = false;
-    
-
-    /**
      *  Authentication paraphrase
      */
     protected String password = "";
@@ -27,18 +21,6 @@ public class ExternalServiceBean {
 
     /** a list of request types this service is interested in */
     protected List<String> requestTypes;
-
-    /**
-     * whether or not this service supports retrieving of accounts information
-     * according to an home folder id
-     */
-    protected boolean supportAccountsByHomeFolder;
-
-    /**
-     * whether or not this service supports retrieving of accounts information
-     * according to a request id
-     */
-    protected boolean supportAccountsByRequest;
 
     /**
      * Retrieve a service specific property by name.
@@ -75,30 +57,6 @@ public class ExternalServiceBean {
         this.requestTypes = requestTypes;
     }
 
-    public boolean supportAccountsByHomeFolder() {
-        return this.supportAccountsByHomeFolder;
-    }
-
-    public boolean supportAccountsByRequest() {
-        return this.supportAccountsByRequest;
-    }
-
-    public void setSupportAccountsByHomeFolder(boolean supportAccountsByHomeFolder) {
-        this.supportAccountsByHomeFolder = supportAccountsByHomeFolder;
-    }
-
-    public void setSupportAccountsByRequest(boolean supportAccountsByRequest) {
-        this.supportAccountsByRequest = supportAccountsByRequest;
-    }
-    
-    public boolean getGenerateTracedRequest() {
-        return this.generateTracedRequest;
-    }
-
-    public void setGenerateTracedRequest(boolean generateTracedRequest) {
-        this.generateTracedRequest = generateTracedRequest;
-    }
-    
     public String getPassword() {
         return this.password;
     }

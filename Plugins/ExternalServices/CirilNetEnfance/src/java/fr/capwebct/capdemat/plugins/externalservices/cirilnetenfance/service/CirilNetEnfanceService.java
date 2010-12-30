@@ -26,6 +26,7 @@ import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
+import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.request.ecitizen.HomeFolderModificationRequestDocument.HomeFolderModificationRequest;
 import fr.cg95.cvq.xml.request.school.SchoolRegistrationRequestDocument;
@@ -41,8 +42,8 @@ public class CirilNetEnfanceService implements IExternalProviderService {
     private static final String END_POINT = "EndPoint";
     private String endPoint;
     private String label;
-    
-    private IExternalService externalService;
+
+    private IExternalHomeFolderService externalHomeFolderService;
     private ISchoolDAO schoolDAO;
     private IRequestWorkflowService requestWorkflowService;
 
@@ -145,12 +146,12 @@ public class CirilNetEnfanceService implements IExternalProviderService {
         } else if (repDoc.containsKey("homeFolderMapping")) {
             logger.debug("sendRegistration() adding mapping External id : " 
                     + (String) repDoc.get("homeFolderMapping"));
-            externalService.addHomeFolderMapping(getLabel(), homeFolderId, 
+            externalHomeFolderService.addHomeFolderMapping(getLabel(), homeFolderId, 
                     (String) repDoc.get("homeFolderMapping"));
             if(repDoc.containsKey("indMapp")) {
                 HashMap<String, String> indmapping = (HashMap<String, String>) repDoc.get("indMapp");
                 for(String individu : indmapping.keySet()) {
-                    externalService.setExternalId(getLabel(), homeFolderId, Long.valueOf(individu), 
+                    externalHomeFolderService.setExternalId(getLabel(), homeFolderId, Long.valueOf(individu), 
                             indmapping.get(individu));
                 }
             }
@@ -185,8 +186,8 @@ public class CirilNetEnfanceService implements IExternalProviderService {
         this.endPoint = endPoint;
     }
 
-    public void setExternalService(IExternalService externalService) {
-        this.externalService = externalService;
+    public void setExternalHomeFolderService(IExternalHomeFolderService externalHomeFolderService) {
+        this.externalHomeFolderService = externalHomeFolderService;
     }
 
     public void setSchoolDAO(ISchoolDAO schoolDAO) {

@@ -1,7 +1,11 @@
 package fr.cg95.cvq.dao.users.hibernate;
 
 import java.util.List;
+import java.util.Map;
 
+import org.hibernate.Query;
+
+import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.users.IAdultDAO;
 
@@ -26,5 +30,15 @@ public class AdultDAO extends IndividualDAO implements IAdultDAO {
             .createQuery(sb.toString())
             .setLong(0, homeFolderId.longValue())
             .list();
+    }
+
+    @Override
+    public List<Adult> matchAdults (Map<String,String> parameters) {
+        Query q = HibernateUtil.getSession().createQuery(
+                "from Adult a where" +
+                    " (lower(a.firstName) = lower(:firstName) and lower(a.lastName) = lower(:lastName))" +
+                    " or lower(:address) like '%'|| lower(a.adress.streetName) || '%'"
+        );
+        return q.setProperties(parameters).list();
     }
 }

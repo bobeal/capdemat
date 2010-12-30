@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.payment.impl;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,11 +11,13 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
 
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
+import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
 import fr.cg95.cvq.business.payment.Payment;
@@ -24,6 +27,7 @@ import fr.cg95.cvq.business.payment.PaymentState;
 import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.UsersEvent;
+import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.dao.payment.IPaymentDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
@@ -42,6 +46,7 @@ import fr.cg95.cvq.service.payment.PaymentResultStatus;
 import fr.cg95.cvq.service.payment.PaymentServiceBean;
 import fr.cg95.cvq.service.payment.annotation.PaymentFilter;
 import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.mail.IMailService;
 
@@ -54,6 +59,8 @@ public final class PaymentService implements IPaymentService,
     private ILocalAuthorityRegistry localAuthorityRegistry;
     private IMailService mailService;
     private IIndividualService individualService;
+    @Autowired
+    private IExternalHomeFolderService externalHomeFolderService;
 
     private ApplicationContext applicationContext;
 
@@ -157,7 +164,7 @@ public final class PaymentService implements IPaymentService,
         
         if (purchaseItem instanceof ExternalInvoiceItem) {
             ExternalInvoiceItem eii = (ExternalInvoiceItem) purchaseItem;
-            if (eii.isPaid()) 
+            if (eii.getIsPaid()) 
                 throw new CvqModelException("payment.item_not_buyable");
         }
     }
@@ -283,13 +290,13 @@ public final class PaymentService implements IPaymentService,
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT,  ContextType.ADMIN}, privilege = ContextPrivilege.READ)
     public final List<Payment> getByHomeFolder(final Long homeFolderId) {
         return paymentDAO.findByHomeFolder(homeFolderId);
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.READ)
     public final Payment getById(final Long id)
         throws CvqObjectNotFoundException {
         return (Payment) paymentDAO.findById(Payment.class, id);
@@ -306,6 +313,63 @@ public final class PaymentService implements IPaymentService,
         return paymentDAO.search(criteriaSet, sort, dir, recordsReturned, startIndex);
     }    
 
+    // TODO : Improve externalHomeFolder mapping strategy
+    // introducing compositId in externalHomeFolderIs is a very bad idea
+    private Set<Critere> homeFolderIdToExternalHomeFolderIds(Set<Critere> criteres) {
+        if (criteres == null)
+            return new HashSet<Critere>();
+        for (Critere critere : criteres) {
+            if (!critere.getAttribut().equals(Payment.SEARCH_BY_HOME_FOLDER_ID))
+                continue;
+            String externalIds = "(";
+            List<HomeFolderMapping> mappings = externalHomeFolderService.getHomeFolderMappings(critere.getLongValue());
+            if (mappings != null && mappings.size() > 0) {
+                for (HomeFolderMapping mapping : mappings) {
+                    if (mapping.getExternalId() == null || mapping.getExternalId().indexOf(':') < 0)
+                        continue;
+                    externalIds += "'" + mapping.getExternalId().split(":")[1] + "',";
+                }
+                externalIds = externalIds.substring(0, externalIds.length() - 1);
+            } else {
+                externalIds += "'#'"; // hack
+            }
+            critere.setAttribut(ExternalAccountItem.SEARCH_BY_EXTERNAL_HOME_FOLDER);
+            critere.setValue(externalIds + ")");
+        }
+        return criteres;
+    }
+
+    @Override
+    public List<ExternalAccountItem> getInvoices(Set<Critere> criteres, 
+            final String sort, final String dir, final int recordsReturned, final int startIndex) {
+        return paymentDAO.searchInvoices(
+                homeFolderIdToExternalHomeFolderIds(criteres), sort, dir, recordsReturned, startIndex);
+    }
+
+    @Override
+    public List<ExternalAccountItem> getDepositAccounts(Set<Critere> criteres,
+            final String sort, final String dir, final int recordsReturned, final int startIndex) {
+        return paymentDAO.searchDepositAccounts(
+                homeFolderIdToExternalHomeFolderIds(criteres), sort, dir, recordsReturned, startIndex);
+    }
+
+    @Override
+    public List<ExternalAccountItem> getTicketingContracts(Set<Critere> criteres,
+            final String sort, final String dir, final int recordsReturned, final int startIndex) {
+        return paymentDAO.searchTicketingContracts(
+                homeFolderIdToExternalHomeFolderIds(criteres), sort, dir, recordsReturned, startIndex);
+    }
+
+    @Override
+    public List<ExternalAccountItem> getAllExternalAccountItems() {
+
+        List<ExternalAccountItem> all = new ArrayList<ExternalAccountItem>();
+        all.addAll(getInvoices(new HashSet<Critere>(), null, null, -1, 0));
+        all.addAll(getDepositAccounts(new HashSet<Critere>(), null, null, -1, 0));
+        all.addAll(getTicketingContracts(new HashSet<Critere>(), null, null, -1, 0));
+        return all;
+    }
+
     @Override
     @PaymentFilter
     public Long getCount(Set<Critere> criteriaSet) {
@@ -314,6 +378,21 @@ public final class PaymentService implements IPaymentService,
             criteriaSet = new HashSet<Critere>();
 
         return paymentDAO.count(criteriaSet);
+    }
+
+    @Override
+    public Long getInvoicesCount(Set<Critere> criteres) {
+        return paymentDAO.invoicesCount(homeFolderIdToExternalHomeFolderIds(criteres));
+    }
+
+    @Override
+    public Long getDepositAccountsCount(Set<Critere> criteres) {
+        return paymentDAO.depositAccountsCount(homeFolderIdToExternalHomeFolderIds(criteres));
+    }
+
+    @Override
+    public Long getTicketingContractsCount(Set<Critere> criteres) {
+        return paymentDAO.ticketingContractsCount(homeFolderIdToExternalHomeFolderIds(criteres));
     }
 
     @Override

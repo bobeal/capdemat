@@ -1,8 +1,10 @@
 package fr.cg95.cvq.dao.hibernate;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Query;
@@ -49,6 +51,61 @@ public class GenericDAO implements IGenericDAO {
             Object propertyValue) {
         return (List<T>) HibernateUtil.getSession().createCriteria(clazz)
             .add(Expression.eq(propertyName, propertyValue)).list();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> List<T> findByProperties(final Class<T> clazz, final Map<String,Object> properties) {
+        Criteria criteria = HibernateUtil.getSession().createCriteria(clazz);
+        for (Iterator i = properties.keySet().iterator() ; i.hasNext() ;) {
+            String propertyName = (String) i.next();
+            criteria.add(Expression.eq(propertyName, properties.get(propertyName)));
+        }
+        return (List<T>) criteria.list();
+    }
+
+    @Override
+     public SimpleQuery simpleSelect(final Class<?> clazz) {
+         return new SimpleQuery(clazz);
+     }
+
+     public class SimpleQuery {
+
+        private Criteria criteria;
+        public SimpleQuery(final Class<?> clazz) {
+            criteria = HibernateUtil.getSession().createCriteria(clazz);
+        }
+
+        public SimpleQuery and(String name, Object value) {
+            criteria.add(Expression.eq(name, value));
+            return this;
+        }
+
+        public <T> List<T> list() {
+            return (List<T>) criteria.list();
+        }
+
+        public <T> T unique() {
+            return (T) criteria.uniqueResult();
+        }
+
+        public SimpleQuery max(Integer max) {
+            if (max != null)
+                criteria.setMaxResults(max);
+            return this;
+        }
+
+        public SimpleQuery offset(Integer offset) {
+            if (offset != null)
+                criteria.setFirstResult(offset);
+            return this;
+        }
+     }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> List<T> all(Class<T> clazz) {
+        return (List<T>) HibernateUtil.getSession().createCriteria(clazz).list();
     }
 
     @Override

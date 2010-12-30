@@ -1,7 +1,0 @@
-"Account Id","Holder Name","Holder Surname","Value","Payment Date","Payment Type","Payment Ack","Cvq Ack","External Family Account Id"
-"ACC-LEG-123","LEGRAND","Martin","2760","2007-10-21T11:14:10.060","Chèque","12345-ZER","","EFA-2"
-"ACC-DUP-123","DUPONT","Jean","5400","2007-10-20T11:14:10.060","CB","12346-ZBR","","EFA-1"
-"ACC-DUP-123","DUPONT","Jean","-840","2007-10-21T11:14:10.060","","","","EFA-1"
-"ACC-DUP-123","DUPONT","Jean","5440","2007-10-23T11:14:10.060","Espèces","12347-ZFR","","EFA-1"
-"ACC-DUP-124","DUPONT","Jean","50000","2007-10-23T11:14:10.060","Espèces","12347-ZFR","","EFA-1"
-

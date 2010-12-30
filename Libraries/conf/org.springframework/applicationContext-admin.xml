@@ -297,7 +297,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <bean id="requestArchivingJob" class="fr.cg95.cvq.service.request.job.RequestArchivingJob">
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
-    <property name="externalService" ref="externalService" />
+    <property name="requestExternalActionService" ref="requestExternalActionService" />
     <property name="requestDAO" ref="requestDAO" />
     <property name="requestPdfService" ref="requestPdfService" />
     <property name="translationService" ref="translationService" />

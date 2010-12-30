@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import fr.cg95.cvq.service.payment.PaymentUtils;
-import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.util.DateUtils;
 
 /**
@@ -21,6 +20,10 @@ import fr.cg95.cvq.util.DateUtils;
 public class ExternalInvoiceItem extends ExternalAccountItem {
 
     private static final long serialVersionUID = 1L;
+
+    public static final String SEARCH_BY_EXTERNAL_INVOICE_ID = "externalInvoiceId";
+    public static final String SEARCH_BY_EXPIRATION_DATE = "expirationDate";
+    public static final String SEARCH_BY_INVOICE_STATE = "isPaid";
 
     private Date issueDate;
     private Date expirationDate;
@@ -59,24 +62,16 @@ public class ExternalInvoiceItem extends ExternalAccountItem {
         this.issueDate = issueDate;
     }
 
-    public final Boolean isPaid() {
+    /**
+     * @hibernate.property
+     *  column="is_paid"
+     */
+    public final Boolean getIsPaid() {
         return isPaid;
     }
 
     public final void setIsPaid(boolean isPaid) {
         this.isPaid = isPaid;
-    }
-    
-    @Override
-    public String getFriendlyLabel() {
-
-        StringBuffer sb = 
-            new StringBuffer().append("Facture n°").append(getExternalItemId())
-                .append(" du ").append(DateUtils.format(this.issueDate))
-                .append(" - ").append(PaymentUtils.formatPrice(getAmount().intValue()))
-                .append(" &euro; (").append(getLabel()).append(")");
-
-        return sb.toString();
     }
 
     @Override
@@ -88,21 +83,33 @@ public class ExternalInvoiceItem extends ExternalAccountItem {
 
         return sb.toString();
     }
-    
+
     /**
      * If this invoice is paid, get the details of items covered by this invoice. 
      * Details are not automatically loaded from external services, you have to call 
      * {@link IHomeFolderService#loadExternalInvoiceDetails(ExternalInvoiceItem)}
      * to load them into this object.
      */
+    /**
+     * @hibernate.set
+     *  lazy="true"
+     *  cascade="all"
+     *  inverse="true"
+     * @hibernate.key
+     *  column="external_invoice_item_id"
+     * @hibernate.one-to-many
+     *  class="fr.cg95.cvq.business.payment.ExternalInvoiceItemDetail"
+     */
     public final Set<ExternalInvoiceItemDetail> getInvoiceDetails() {
+        if (this.invoiceDetails == null)
+            return new HashSet<ExternalInvoiceItemDetail>();
         return invoiceDetails;
     }
 
     public final void setInvoiceDetails(Set<ExternalInvoiceItemDetail> invoiceDetails) {
         this.invoiceDetails = invoiceDetails;
     }
-    
+
     public final void addInvoiceDetail(ExternalInvoiceItemDetail invoiceDetail) {
         if (this.invoiceDetails == null)
             this.invoiceDetails = new HashSet<ExternalInvoiceItemDetail>();
@@ -121,6 +128,10 @@ public class ExternalInvoiceItem extends ExternalAccountItem {
         this.expirationDate = expirationDate;
     }
 
+    /**
+     * @hibernate.property
+     *  column="payment_date"
+     */
     public final Date getPaymentDate() {
         return paymentDate;
     }

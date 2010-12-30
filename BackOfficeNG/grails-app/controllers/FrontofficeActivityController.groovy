@@ -1,7 +1,7 @@
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.Individual
 import fr.cg95.cvq.service.request.IRequestSearchService
-import fr.cg95.cvq.service.request.IRequestExternalService
+import fr.cg95.cvq.service.request.external.IRequestExternalService
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.security.SecurityContext
 
@@ -75,7 +75,7 @@ class FrontofficeActivityController {
                 || (requestTypeLabel && label != requestTypeLabel)
             ) continue
             if(!result[name]) result[name] = [:]
-            def map = requestExternalService.getConsumptionsByRequest(r.id,from,to)
+            def map = requestExternalService.getConsumptions(r.id,from,to)
             if(map && !map.keySet().isEmpty()) {
                 for(Date date : map.keySet()) { 
                     if(!result[name][label]) result[name][label] = [:]

@@ -17,14 +17,13 @@ import fr.capwebct.capdemat.GetDocumentListResponseDocument.GetDocumentListRespo
 import fr.capwebct.capdemat.GetDocumentResponseDocument.GetDocumentResponse;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentAction;
-import fr.cg95.cvq.business.external.ExternalServiceTrace;
-import fr.cg95.cvq.business.external.TraceStatusEnum;
+import fr.cg95.cvq.business.request.external.RequestExternalAction;
+import fr.cg95.cvq.business.request.external.RequestExternalActionState;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestDocument;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
@@ -32,20 +31,21 @@ import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.request.IRequestDocumentService;
-import fr.cg95.cvq.service.request.IRequestExternalService;
+import fr.cg95.cvq.service.request.external.IRequestExternalService;
+import fr.cg95.cvq.service.request.external.IRequestExternalActionService;
 import fr.cg95.cvq.service.request.IRequestSearchService;
 import fr.cg95.cvq.util.translation.ITranslationService;
 
 public class RequestDocumentService implements IRequestDocumentService {
 
     private IRequestDAO requestDAO;
-    
+
     private IRequestExternalService requestExternalService;
     private IRequestSearchService requestSearchService;
+    private IRequestExternalActionService requestExternalActionService;
     private IDocumentService documentService;
-    private IExternalService externalService;
     private ITranslationService translationService;
-    
+
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void addDocuments(final Long requestId, final Set<Long> documentsId)
@@ -252,8 +252,8 @@ public class RequestDocumentService implements IRequestDocumentService {
         GetDocumentResponse getDocumentResponse = 
             getDocumentResponseDocument.addNewGetDocumentResponse();
 
-        ExternalServiceTrace est = new ExternalServiceTrace(new Date(), String.valueOf(requestId), null, "capdemat", 
-                null, SecurityContext.getCurrentExternalService(), TraceStatusEnum.SENT);
+        RequestExternalAction est = new RequestExternalAction(new Date(), String.valueOf(requestId), null, "capdemat", 
+                null, SecurityContext.getCurrentExternalService(), RequestExternalActionState.SENT);
 
         // Switch to admin context to be able to call services without permission exceptions
         String currentExternalService = SecurityContext.getCurrentExternalService();
@@ -284,7 +284,7 @@ public class RequestDocumentService implements IRequestDocumentService {
 
             // Check if the document contains pages
             if (document.getDatas().isEmpty()) {
-                externalService.addTrace(est);
+                requestExternalActionService.addTrace(est);
                 return getDocumentResponseDocument;
             }
 
@@ -306,7 +306,7 @@ public class RequestDocumentService implements IRequestDocumentService {
             est.setSubkey("summary");
         }
 
-        externalService.addTrace(est);
+        requestExternalActionService.addTrace(est);
 
         // Reset to original context
         SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
@@ -344,11 +344,13 @@ public class RequestDocumentService implements IRequestDocumentService {
         this.requestSearchService = requestSearchService;
     }
 
-    public void setExternalService(IExternalService externalService) {
-        this.externalService = externalService;
-    }
-
     public void setTranslationService(ITranslationService translationService) {
         this.translationService = translationService;
     }
+
+    public void setRequestExternalActionService(
+            IRequestExternalActionService requestExternalActionService) {
+        this.requestExternalActionService = requestExternalActionService;
+    }
+
 }

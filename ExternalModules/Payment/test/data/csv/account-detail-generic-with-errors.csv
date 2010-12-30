@@ -1,5 +1,0 @@
-"Account Id","Holder Name","Holder Surname","Date","Value","Payment Type","Payment Id","Payment Ack","External Family Account Id"
-"95999-1-123457","Jardin","Jeannot","2007-09-21T11:14:10.060","2760","Chèque","12345-ZER","P_ACK_222","EFA-2"
-"95999-1-123457","Jardin","Jeannot","2007-09-22T11:14:10.060","5400","CB","12346-ZBR","P_ACK_111","EFA-2"
-"95999-1-123457","Jardin","Jeannot","2007-09-23T11:14:10.060","5440","Espèces","12347-ZFR","P_ACK_333","EFA-2"
-

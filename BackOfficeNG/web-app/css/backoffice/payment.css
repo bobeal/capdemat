@@ -1,0 +1,50 @@
+/* --------------------------------------------------------------
+
+    payment special styles :
+
+-------------------------------------------------------------- */
+
+/* Data
+-------------------------------------------------------------- */
+
+/* header hn*/
+#paymentData h3      { margin-bottom: 0;  border: 0; font-size: 1.3em; font-style: italic; overflow: auto; }
+
+/* definition list */
+#paymentData dl {
+  margin : 10px 10px 20px 10px;
+  border-bottom: 1px dashed #FFD053;
+  color: #333;
+  background: #ffffbb;
+  overflow: auto;
+}
+ 
+#paymentData dl dt,
+#paymentData dl dd {
+  float: left;
+  margin: 0;
+  padding: .5em;
+  border-top: 1px dashed #FFD053;
+}
+
+#paymentData dl dt { width: 9em; min-height: 1.5em; text-align: right; clear: both; }
+#paymentData dl dd { width: 14em; font-size: 1.15em; }
+
+#paymentData dl dd ul li { padding: .3em 0; }
+
+span.tagged { float:right; font-size:1.1em; }
+
+
+/* Information
+-------------------------------------------------------------- */
+#paymentInformation { margin-top: 10px; }
+
+/* list */
+#paymentInformation div div div ul { margin: 10px;}
+#paymentInformation div div div li { padding: .7em 0; border-bottom: 1px dashed #C1CFE2; }
+#paymentInformation div div div ul ul { margin: 0px;}
+#paymentInformation div div div ul ul li { padding: 0; border-bottom: none; }
+
+#paymentInformation .tag-state { float: right; }
+#paymentInformation .comment   { font-size: 1.4em; font-weight: normal; }
+

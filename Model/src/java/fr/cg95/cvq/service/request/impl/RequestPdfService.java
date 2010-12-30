@@ -31,13 +31,13 @@ import com.lowagie.text.pdf.PdfStamper;
 
 import fr.cg95.cvq.business.authority.LocalAuthorityResource;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
-import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.request.LocalReferentialType;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.RequestActionType;
 import fr.cg95.cvq.business.request.RequestDocument;
 import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
@@ -49,6 +49,7 @@ import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.request.ILocalReferentialService;
 import fr.cg95.cvq.service.request.IRequestPdfService;
 import fr.cg95.cvq.service.request.IRequestSearchService;
+import fr.cg95.cvq.service.request.external.IRequestExternalActionService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere;
@@ -70,7 +71,7 @@ public class RequestPdfService implements IRequestPdfService {
     protected ILocalReferentialService localReferentialService;
     private IRequestSearchService requestSearchService;
     private IAgentService agentService;
-    private IExternalService externalService;
+    private IRequestExternalActionService requestExternalActionService;
     private IDocumentService documentService;
 
     public byte[] generateCertificate(Request request) throws CvqException {
@@ -150,15 +151,15 @@ public class RequestPdfService implements IRequestPdfService {
         File tagCSSFile = localAuthorityRegistry.getLocalAuthorityResourceFile(
             LocalAuthorityResource.Type.CSS, "tag", true);
         Set<Critere> criteriaSet = new HashSet<Critere>(1);
-        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+        criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_KEY,
             String.valueOf(requestId), Critere.EQUALS));
-        Map<String, List<ExternalServiceTrace>> traces =
-            new HashMap<String, List<ExternalServiceTrace>>();
-        for (ExternalServiceTrace trace :
-            externalService.getTraces(criteriaSet, ExternalServiceTrace.SEARCH_BY_DATE, "asc", 0, 0)) {
-            List<ExternalServiceTrace> current = traces.get(trace.getName());
+        Map<String, List<RequestExternalAction>> traces =
+            new HashMap<String, List<RequestExternalAction>>();
+        for (RequestExternalAction trace :
+            requestExternalActionService.getTraces(criteriaSet, RequestExternalAction.SEARCH_BY_DATE, "asc", 0, 0)) {
+            List<RequestExternalAction> current = traces.get(trace.getName());
             if (current == null) {
-                current = new ArrayList<ExternalServiceTrace>();
+                current = new ArrayList<RequestExternalAction>();
                 traces.put(trace.getName(), current);
             }
             current.add(trace);
@@ -391,8 +392,9 @@ public class RequestPdfService implements IRequestPdfService {
         this.agentService = agentService;
     }
 
-    public void setExternalService(IExternalService externalService) {
-        this.externalService = externalService;
+    public void setRequestExternalActionService(
+            IRequestExternalActionService requestExternalActionService) {
+        this.requestExternalActionService = requestExternalActionService;
     }
 
     public void setDocumentService(IDocumentService documentService) {

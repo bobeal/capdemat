@@ -8,7 +8,7 @@ import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
-import fr.cg95.cvq.service.request.IRequestExternalService;
+import fr.cg95.cvq.service.request.external.IRequestExternalService;
 import fr.cg95.cvq.service.request.school.StudyGrantRequestFeeder;
 import fr.cg95.cvq.service.request.school.StudyGrantRequestServiceTest;
 

@@ -1,19 +1,57 @@
 package fr.cg95.cvq.business.payment;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class ExternalInvoiceItemDetail {
+/**
+ * @hibernate.class
+ *  table="external_invoice_item_detail"
+ *  lazy="false"
+ */
+public class ExternalInvoiceItemDetail implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
+    private Long id;
     private String subjectName;
     private String subjectSurname;
     private String label;
     private Integer unitPrice;
     private BigDecimal quantity;
     private Integer value;
-    
+
+    private ExternalInvoiceItem externalInvoiceItem;
+
     public ExternalInvoiceItemDetail() {
     }
 
+    public ExternalInvoiceItemDetail(String subjectName, String subjectSurname, String label,
+            Integer unitPrice, BigDecimal quantity, Integer value) {
+        this.subjectName = subjectName;
+        this.subjectSurname = subjectSurname;
+        this.label = label;
+        this.unitPrice = unitPrice;
+        this.quantity = quantity;
+        this.value = value;
+    }
+
+    /**
+     * @hibernate.id
+     *  generator-class="sequence"
+     *  column="id"
+     */
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="subject_name"
+     */
     public final String getSubjectName() {
         return subjectName;
     }
@@ -22,6 +60,10 @@ public class ExternalInvoiceItemDetail {
         this.subjectName = subjectName;
     }
 
+    /**
+     * @hibernate.property
+     *  column="label"
+     */
     public final String getLabel() {
         return label;
     }
@@ -30,6 +72,10 @@ public class ExternalInvoiceItemDetail {
         this.label = label;
     }
 
+    /**
+     * @hibernate.property
+     *  column="quatity"
+     */
     public final BigDecimal getQuantity() {
         return quantity;
     }
@@ -38,6 +84,10 @@ public class ExternalInvoiceItemDetail {
         this.quantity = quantity;
     }
 
+    /**
+     * @hibernate.property
+     *  column="subject_surname"
+     */
     public final String getSubjectSurname() {
         return subjectSurname;
     }
@@ -46,6 +96,10 @@ public class ExternalInvoiceItemDetail {
         this.subjectSurname = subjectSurname;
     }
 
+    /**
+     * @hibernate.property
+     *  column="unit_price"
+     */
     public final Integer getUnitPrice() {
         return unitPrice;
     }
@@ -54,6 +108,10 @@ public class ExternalInvoiceItemDetail {
         this.unitPrice = unitPrice;
     }
 
+    /**
+     * @hibernate.property
+     *  column="value"
+     */
     public final Integer getValue() {
         return value;
     }
@@ -61,4 +119,19 @@ public class ExternalInvoiceItemDetail {
     public final void setValue(Integer value) {
         this.value = value;
     }
+
+    /**
+     * @hibernate.many-to-one
+     *  column="external_invoice_item_id"
+     *  not-null="true"
+     *  class="fr.cg95.cvq.business.payment.ExternalInvoiceItem"
+     */
+    public ExternalInvoiceItem getExternalInvoiceItem() {
+        return externalInvoiceItem;
+    }
+
+    public void setExternalInvoiceItem(ExternalInvoiceItem externalInvoiceItem) {
+        this.externalInvoiceItem = externalInvoiceItem;
+    }
+
 }

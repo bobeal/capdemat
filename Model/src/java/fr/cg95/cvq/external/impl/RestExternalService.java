@@ -31,14 +31,15 @@ import fr.capwebct.modules.payment.schema.fam.FamilyAccountsResponseDocument;
 import fr.capwebct.modules.payment.schema.inv.InvoiceDetailsResponseDocument;
 import fr.capwebct.modules.payment.schema.rei.ExternalInformationType;
 import fr.capwebct.modules.payment.schema.rei.GetExternalInformationResponseDocument;
-import fr.cg95.cvq.business.external.ExternalServiceTrace;
-import fr.cg95.cvq.business.external.TraceStatusEnum;
+
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
 import fr.cg95.cvq.business.payment.PurchaseItem;
-import fr.cg95.cvq.dao.external.IExternalServiceTraceDAO;
+import fr.cg95.cvq.business.request.external.RequestExternalAction;
+import fr.cg95.cvq.business.request.external.RequestExternalActionState;
+import fr.cg95.cvq.dao.request.external.IRequestExternalActionDAO;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqRemoteException;
@@ -54,7 +55,7 @@ public class RestExternalService implements IExternalProviderService {
 
     private static Logger logger = Logger.getLogger(RestExternalService.class);
     
-    private IExternalServiceTraceDAO externalServiceTraceDAO;
+    private IRequestExternalActionDAO requestExternalActionDAO;
     
     private String label;
     private Map<String, String> urls;
@@ -116,10 +117,8 @@ public class RestExternalService implements IExternalProviderService {
                 ExternalDepositAccountItem edai = (ExternalDepositAccountItem) purchaseItem;
                 AccountUpdateType updateType = AccountUpdateType.Factory.newInstance();
                 updateType.setAccountId(edai.getExternalItemId());
-                updateType.setExternalApplicationId(
-                        Long.valueOf(edai.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY)));
-                updateType.setExternalFamilyAccountId(
-                        edai.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_FAMILY_ACCOUNT_ID_KEY));
+                updateType.setExternalApplicationId(Long.valueOf(edai.getExternalApplicationId()));
+                updateType.setExternalFamilyAccountId(edai.getExternalHomeFolderId());
                 updateType.setAccountNewValue(edai.getOldValue().intValue() + edai.getAmount().intValue());
                 updateType.setAccountOldValue(edai.getOldValue().intValue());
                 calendar.setTime(edai.getOldValueDate());
@@ -129,22 +128,17 @@ public class RestExternalService implements IExternalProviderService {
                 ExternalInvoiceItem eii = (ExternalInvoiceItem) purchaseItem;
                 InvoiceUpdateType updateType = InvoiceUpdateType.Factory.newInstance();
                 updateType.setInvoiceId(eii.getExternalItemId());
-                updateType.setExternalApplicationId(
-                        Long.valueOf(eii.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY)));
-                updateType.setExternalFamilyAccountId(
-                        eii.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_FAMILY_ACCOUNT_ID_KEY));
+                updateType.setExternalApplicationId(Long.valueOf(eii.getExternalApplicationId()));
+                updateType.setExternalFamilyAccountId(eii.getExternalHomeFolderId());
                 updateType.setAmount(eii.getAmount().intValue());
                 invoiceUpdateTypes.add(updateType);
             } else if (purchaseItem instanceof ExternalTicketingContractItem) {
                 ExternalTicketingContractItem etci = (ExternalTicketingContractItem) purchaseItem;
                 ContractUpdateType updateType = ContractUpdateType.Factory.newInstance();
                 updateType.setContractId(etci.getExternalItemId());
-                updateType.setExternalApplicationId(
-                        Long.valueOf(etci.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY)));
-                updateType.setExternalFamilyAccountId(
-                        etci.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_FAMILY_ACCOUNT_ID_KEY));
-                updateType.setExternalIndividualId(
-                        etci.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_INDIVIDUAL_ID_KEY));
+                updateType.setExternalApplicationId(Long.valueOf(etci.getExternalApplicationId()));
+                updateType.setExternalFamilyAccountId(etci.getExternalHomeFolderId());
+                updateType.setExternalIndividualId(etci.getExternalIndividualId());
                 updateType.setCapwebctIndividualId(etci.getSubjectId());
                 updateType.setPrice(etci.getUnitPrice().intValue());
                 updateType.setQuantity(etci.getQuantity());
@@ -231,18 +225,16 @@ public class RestExternalService implements IExternalProviderService {
     public void loadDepositAccountDetails(ExternalDepositAccountItem edai)
         throws CvqException {
         if (edai.getExternalItemId() == null
-            || edai.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY) == null
-            || edai.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_FAMILY_ACCOUNT_ID_KEY) == null) {
+            || edai.getExternalApplicationId() == null
+            || edai.getExternalHomeFolderId() == null) {
             logger.debug("loadDepositAccountDetails() Received un-handled deposit account, returning");
             return;
         }
         Map<String, Object> params = new HashMap<String, Object>(6);
         params.put("localAuthority", SecurityContext.getCurrentSite().getName());
         params.put("accountId", edai.getExternalItemId());
-        params.put("externalApplicationId",
-            edai.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY));
-        params.put("externalFamilyAccountId",
-            edai.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_FAMILY_ACCOUNT_ID_KEY));
+        params.put("externalApplicationId", edai.getExternalApplicationId());
+        params.put("externalFamilyAccountId",edai.getExternalHomeFolderId());
         // FIXME : hard-coded 3 months range
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -3);
@@ -290,15 +282,15 @@ public class RestExternalService implements IExternalProviderService {
     @Override
     public void loadInvoiceDetails(ExternalInvoiceItem eii) throws CvqException {
         if (eii.getExternalItemId() == null
-                || eii.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY) == null
-                || eii.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_FAMILY_ACCOUNT_ID_KEY) == null) {
+                || eii.getExternalApplicationId() == null
+                || eii.getExternalHomeFolderId() == null) {
             return;
         }
         Map<String, Object> params = new HashMap<String, Object>(4);
         params.put("localAuthority", SecurityContext.getCurrentSite().getName());
         params.put("invoiceId", eii.getExternalItemId());
-        params.put("externalApplicationId", eii.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY));
-        params.put("externalFamilyAccountId", eii.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_FAMILY_ACCOUNT_ID_KEY));
+        params.put("externalApplicationId", eii.getExternalHomeFolderId());
+        params.put("externalFamilyAccountId", eii.getExternalHomeFolderId());
         HttpResponse response = WS.url(urls.get("loadInvoiceDetails")).params(params).get();
         try {
             ExternalServiceUtils.fillInvoiceItem(eii,
@@ -313,7 +305,7 @@ public class RestExternalService implements IExternalProviderService {
     @Override
     public String sendRequest(XmlObject requestXml) throws CvqException {
         RequestType requestType = (RequestType) requestXml;
-        ExternalServiceTrace est = new ExternalServiceTrace(new Date(),
+        RequestExternalAction est = new RequestExternalAction(new Date(),
             String.valueOf(requestType.getId()), null, "capdemat", null, getLabel(), null);
         String body = ExternalServiceUtils.getRequestFromFragment(requestXml);
         logger.debug("sendRequest() sending : " + body);
@@ -323,24 +315,24 @@ public class RestExternalService implements IExternalProviderService {
         String id = null;
         String message = null;
         if (status == 200 || status == 201) {
-            est.setStatus(TraceStatusEnum.SENT);
+            est.setStatus(RequestExternalActionState.SENT);
             id = response.getString();
         } else {
             message = response.getString();
             if (status == 500) {
-                est.setStatus(TraceStatusEnum.ERROR);
+                est.setStatus(RequestExternalActionState.ERROR);
             } else if (status == 404 || status == 403 || status == 401) {
-                est.setStatus(TraceStatusEnum.NOT_SENT);
+                est.setStatus(RequestExternalActionState.NOT_SENT);
                 est.setMessage("Le service distant a répondu avec le code : " + status);
             } else {
-                est.setStatus(TraceStatusEnum.ERROR);
+                est.setStatus(RequestExternalActionState.ERROR);
             }
         }
         if (message != null) {
             est.setMessage(StringEscapeUtils.escapeHtml(message.substring(0, Math.min(message.length(), 254))));
         }
 
-        externalServiceTraceDAO.create(est);
+        requestExternalActionDAO.create(est);
 
         return id;
     }
@@ -354,7 +346,8 @@ public class RestExternalService implements IExternalProviderService {
         this.urls = urls;
     }
 
-    public void setExternalServiceTraceDAO(IExternalServiceTraceDAO externalServiceTraceDAO) {
-        this.externalServiceTraceDAO = externalServiceTraceDAO;
+    public void setRequestExternalActionDAO(IRequestExternalActionDAO requestExternalActionDAO) {
+        this.requestExternalActionDAO = requestExternalActionDAO;
     }
+
 }

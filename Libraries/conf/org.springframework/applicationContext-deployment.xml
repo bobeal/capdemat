@@ -14,7 +14,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     </property>
   </bean>
   -->
-  
+
   <bean id="abstractSessionFactory" abstract="true">
 
     <property name="mappingResources">
@@ -46,6 +46,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/LocalReferentialData.hbm.xml</value>
         <value>fr/cg95/cvq/business/payment/Payment.hbm.xml</value>
         <value>fr/cg95/cvq/business/payment/PurchaseItem.hbm.xml</value>
+        <value>fr/cg95/cvq/business/payment/ExternalDepositAccountItemDetail.hbm.xml</value>
+        <value>fr/cg95/cvq/business/payment/ExternalInvoiceItemDetail.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/school/PerischoolActivityRegistrationRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/school/StudyGrantRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/school/SchoolCanteenRegistrationRequestData.hbm.xml</value>
@@ -98,8 +100,12 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/social/HccrProfessional.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/reservation/TbrTicket.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/MeansOfContact.hbm.xml</value>
-        <value>fr/cg95/cvq/business/external/ExternalServiceTrace.hbm.xml</value>
-        <value>fr/cg95/cvq/business/external/ExternalServiceIdentifierMapping.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/external/RequestExternalAction.hbm.xml</value>
+        <value>fr/cg95/cvq/business/users/external/HomeFolderMapping.hbm.xml</value>
+        <value>fr/cg95/cvq/business/users/external/IndividualMapping.hbm.xml</value>
+        <value>fr/cg95/cvq/business/payment/external/ExternalHomeFolder.hbm.xml</value>
+        <value>fr/cg95/cvq/business/payment/external/ExternalIndividual.hbm.xml</value>
+        <value>fr/cg95/cvq/business/payment/external/ExternalApplication.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/RequestDocument.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/IndividualRole.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/ticket/Entertainment.hbm.xml</value>
@@ -222,7 +228,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="restExternalService"
     class="fr.cg95.cvq.external.impl.RestExternalService">
     <property name="label" value="Generic Rest External Service" />
-    <property name="externalServiceTraceDAO" ref="externalServiceTraceDAO" />
+    <property name="requestExternalActionDAO" ref="requestExternalActionDAO" />
     <property name="urls">
       <map>
         <entry key="sendRequest"
@@ -241,6 +247,46 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
           value="${plugins.externalservices.rest.credit_account_url}" />
         <entry key="getConsumptions"
           value="${plugins.externalservices.rest.get_consumptions_url}" />
+      </map>
+    </property>
+  </bean>
+
+  <bean id="soapExternalService"
+    class="fr.cg95.cvq.external.impl.SoapExternalService">
+    <property name="label" value="Generic Soap External Service" />
+    <property name="soapExternalServiceClient" ref="soapExternalServiceClient" />
+  </bean>
+
+  <bean id="xmlBeanMarshaller" 
+    class="org.springframework.oxm.xmlbeans.XmlBeansMarshaller" />
+  
+  <bean name="soapExternalServiceTemplate" 
+    class="org.springframework.ws.client.core.WebServiceTemplate">
+    <property name="marshaller" ref="xmlBeanMarshaller" />
+    <property name="unmarshaller" ref="xmlBeanMarshaller" />
+  </bean>
+
+  <bean id="soapExternalServiceClient"
+    class="fr.cg95.cvq.external.impl.SoapExternalServiceClient">
+    <property name="webServiceTemplate" ref="soapExternalServiceTemplate" />
+    <property name="urls">
+      <map>
+        <entry key="sendRequest"
+          value="${plugins.externalservices.soap.send_request_uri}" />
+        <entry key="checkExternalReferential"
+          value="${plugins.externalservices.soap.check_external_referential_uri}" />
+        <entry key="loadExternalInformation"
+          value="${plugins.externalservices.soap.load_external_information_uri}" />
+        <entry key="getFamilyAccounts"
+          value="${plugins.externalservices.soap.get_family_accounts_uri}" />
+        <entry key="loadInvoiceDetails"
+          value="${plugins.externalservices.soap.load_invoice_details_uri}" />
+        <entry key="loadAccountDetails"
+          value="${plugins.externalservices.soap.load_account_details_uri}" />
+        <entry key="creditAccount"
+          value="${plugins.externalservices.soap.credit_account_uri}" />
+        <entry key="getConsumptions"
+          value="${plugins.externalservices.soap.get_consumptions_uri}" />
       </map>
     </property>
   </bean>

@@ -3,6 +3,7 @@ package fr.cg95.cvq.dao.payment;
 import java.util.List;
 import java.util.Set;
 
+import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.Payment;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.util.Critere;
@@ -44,9 +45,24 @@ public interface IPaymentDAO extends IGenericDAO {
      * Return the number of payments that match a set of search criteria.
      */
     Long count(final Set<Critere> criteria);
-    
+
+    Long invoicesCount(final Set<Critere> criteria);
+
+    Long depositAccountsCount(final Set<Critere> criteria);
+
+    Long ticketingContractsCount(final Set<Critere> criteria);
+
     /**
      * Search payments older than 3 hours that are still in initialized state.
      */
-    List<Payment> searchNotCommited();   
+    List<Payment> searchNotCommited();
+
+    List<ExternalAccountItem> searchTicketingContracts(final Set<Critere> criteria, final String sort, String dir,
+            int recordsReturned, int startIndex);
+
+    List<ExternalAccountItem> searchDepositAccounts(final Set<Critere> criteria, final String sort, String dir,
+            int recordsReturned, int startIndex);
+
+    List<ExternalAccountItem> searchInvoices(final Set<Critere> criteria, final String sort, String dir,
+            int recordsReturned, int startIndex);
 }

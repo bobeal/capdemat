@@ -312,8 +312,38 @@ dl.localResources dd a               { display : block; }
 form.localResourceUpload       { padding : 0; margin-left : 10px; }
 form.localResourceUpload label { width : auto; }
 
+/* external homeFolder mapping
+-------------------------------------------------------------- */
+dl.card {
+  margin: .5em .5em .5em;  ; padding: .5em;
+  border: 1px solid #cccccc;
+  border-right-color: #aaaaaa;
+  border-bottom-color: #aaaaaa;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em;
+  background-color: #ffffff; 
+}
+dl.card.bind { border: 2px solid #ec7000; }
 
+dl.card dt { font-weight: bold; }
 
+dl.card span.match { background: #fdd; }
+dl.card a { float: none; width: auto; height: auto; margin: 0; }
+dl.card a:hover { text-decoration : underline; color: #00f; cursor: pointer; }
+
+#homeFolders form.listItem { overflow: hidden; }
+
+.stars {
+  height: 16px; display: block; margin-bottom: .5em;
+  background: transparent url(../../images/stars.png) top left no-repeat;
+}
+.stars.s5 { width: 80px; }
+.stars.s4 { width: 64px; }
+.stars.s3 { width: 48px; }
+.stars.s2 { width: 32px; }
+.stars.s1 { width: 16px; }
+
+ 
 /* Ticket Booking specific
 TODO : externalize this rules in a ticketBooking.css file
 -------------------------------------------------------------- */
@@ -355,4 +385,11 @@ form.listItem.fares dl dd em .tag.subscriber {
   color: #fff; background: #ff00aa; border-color:#ff0088; /* violet */
 }
 
+/* tree
+-------------------------------------------------------------- */
+form#applicationForm ul.dataTree        { margin-left: 35%; width: 78%; padding: 1%; }
+form#applicationForm .dataTree li       { width: 100%; display: block; overflow: auto;}
 
+/* select
+-------------------------------------------------------------- */
+select { display: block; }

@@ -97,4 +97,7 @@ public interface IIndividualDAO extends IGenericDAO {
      * @return Individuals count
      */
     Integer searchCount(Set<Critere> criterias);
+
+    boolean hasSimilarIndividuals(String firstName, String lastName, String email,
+        String phone, String streetNumber, String streetName, String postalCode, String city);
 }

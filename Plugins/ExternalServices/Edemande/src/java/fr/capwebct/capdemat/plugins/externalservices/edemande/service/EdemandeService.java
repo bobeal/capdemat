@@ -39,14 +39,14 @@ import com.unilog.gda.glob.service.GestionCompteResponseDocument;
 import fr.capwebct.capdemat.plugins.externalservices.edemande.webservice.client.IEdemandeClient;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentBinary;
-import fr.cg95.cvq.business.external.ExternalServiceTrace;
-import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.request.RequestDocument;
 import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.business.request.external.RequestExternalAction;
+import fr.cg95.cvq.business.request.external.RequestExternalActionState;
 import fr.cg95.cvq.business.users.FrenchRIB;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.exception.CvqConfigurationException;
@@ -60,8 +60,10 @@ import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestDocumentService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
+import fr.cg95.cvq.service.request.external.IRequestExternalActionService;
 import fr.cg95.cvq.service.request.school.IStudyGrantRequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
+import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.translation.ITranslationService;
 import fr.cg95.cvq.xml.common.AddressType;
@@ -73,7 +75,8 @@ public class EdemandeService implements IExternalProviderService {
 
     private String label;
     private IEdemandeClient edemandeClient;
-    private IExternalService externalService;
+    private IRequestExternalActionService requestExternalActionService;
+    private IExternalHomeFolderService externalHomeFolderService;
     private IStudyGrantRequestService requestService;
     private IRequestDocumentService requestDocumentService;
     private IDocumentService documentService;
@@ -100,7 +103,7 @@ public class EdemandeService implements IExternalProviderService {
                     if (mustCreateAccountHolder(sgr)) {
                         createAccountHolder(sgr);
                     } else if (psCodeTiersAH != null) {
-                        addTrace(sgr.getId(), ACCOUNT_HOLDER_TRACE_SUBKEY, TraceStatusEnum.IN_PROGRESS, 
+                        addTrace(sgr.getId(), ACCOUNT_HOLDER_TRACE_SUBKEY, RequestExternalActionState.IN_PROGRESS, 
                             "Le tiers viré n'est pas encore créé");
                     }
                     return null;
@@ -135,14 +138,14 @@ public class EdemandeService implements IExternalProviderService {
                     // caught an exception while contacting eDemande, and
                     // has already added a NOT_SENT trace.
                     // FIXME BOR : is this trace really needed ?
-                    addTrace(sgr.getId(), SUBJECT_TRACE_SUBKEY, TraceStatusEnum.IN_PROGRESS, 
+                    addTrace(sgr.getId(), SUBJECT_TRACE_SUBKEY, RequestExternalActionState.IN_PROGRESS, 
                             "Le tiers sujet n'est pas encore créé");
                 }
                 return null;
             } else {
                 // tiers has been created in eDemande, store its code locally
                 sgr.getSubject().getAdult().setExternalId(psCodeTiersS);
-                externalService.setExternalId(label, sgr.getHomeFolder().getId(), 
+                externalHomeFolderService.setExternalId(label, sgr.getHomeFolder().getId(), 
                         sgr.getSubject().getAdult().getId(), psCodeTiersS);
             }
         }
@@ -176,7 +179,7 @@ public class EdemandeService implements IExternalProviderService {
             return null;
         }
         if (msStatut.trim().isEmpty()) {
-            addTrace(sgr.getId(), null, TraceStatusEnum.NOT_SENT, 
+            addTrace(sgr.getId(), null, RequestExternalActionState.NOT_SENT, 
                 "La demande n'a pas encore été reçue");
             return null;
         }
@@ -185,24 +188,24 @@ public class EdemandeService implements IExternalProviderService {
         } else if ("A compléter ou corriger".equals(msStatut) ||
             "A compléter".equals(msStatut) ||
             "En erreur".equals(msStatut)) {
-            addTrace(sgr.getId(), null, TraceStatusEnum.ERROR, msStatut);
+            addTrace(sgr.getId(), null, RequestExternalActionState.ERROR, msStatut);
         } else if ("En cours d'analyse".equals(msStatut) ||
             "En attente d'avis externe".equals(msStatut) ||
             "En cours d'instruction".equals(msStatut)) {
-            addTrace(sgr.getId(), null, TraceStatusEnum.ACKNOWLEDGED, msStatut);
+            addTrace(sgr.getId(), null, RequestExternalActionState.ACKNOWLEDGED, msStatut);
         } else if ("Accepté".equals(msStatut) ||
             "En cours de paiement".equals(msStatut) ||
             "Payé partiellement".equals(msStatut) ||
             "Terminé".equals(msStatut)) {
-            addTrace(sgr.getId(), null, TraceStatusEnum.ACCEPTED, msStatut);
+            addTrace(sgr.getId(), null, RequestExternalActionState.ACCEPTED, msStatut);
         } else if ("Refusé".equals(msStatut)) {
-            addTrace(sgr.getId(), null, TraceStatusEnum.REJECTED, msStatut);
+            addTrace(sgr.getId(), null, RequestExternalActionState.REJECTED, msStatut);
         }
         return null;
     }
 
-    private void addTrace(Long requestId, String subkey, TraceStatusEnum status, String message) {
-        ExternalServiceTrace est = new ExternalServiceTrace();
+    private void addTrace(Long requestId, String subkey, RequestExternalActionState status, String message) {
+        RequestExternalAction est = new RequestExternalAction();
         est.setDate(new Date());
         est.setKey(String.valueOf(requestId));
         est.setSubkey(subkey);
@@ -210,8 +213,8 @@ public class EdemandeService implements IExternalProviderService {
         est.setMessage(message);
         est.setName(label);
         est.setStatus(status);
-        externalService.addTrace(est);
-        if (TraceStatusEnum.ERROR.equals(status)) {
+        requestExternalActionService.addTrace(est);
+        if (RequestExternalActionState.ERROR.equals(status)) {
             try {
                 requestWorkflowService.updateRequestState(requestId, RequestState.UNCOMPLETE, message);
             } catch (CvqObjectNotFoundException e) {
@@ -244,7 +247,7 @@ public class EdemandeService implements IExternalProviderService {
             resultsNumber = parseDatas(searchResults,
                 "//resultatRechTiers/listeTiers/tiers/codeTiers").size();
         } catch (CvqException e) {
-            addTrace(sgr.getId(), subkey, TraceStatusEnum.NOT_SENT, e.getMessage());
+            addTrace(sgr.getId(), subkey, RequestExternalActionState.NOT_SENT, e.getMessage());
             return null;
         }
         if (resultsNumber == 0) {
@@ -255,7 +258,7 @@ public class EdemandeService implements IExternalProviderService {
                 return parseData(searchResults,
                     "//resultatRechTiers/listeTiers/tiers/codeTiers");
             } catch (CvqException e) {
-                addTrace(sgr.getId(), subkey, TraceStatusEnum.NOT_SENT, e.getMessage());
+                addTrace(sgr.getId(), subkey, RequestExternalActionState.NOT_SENT, e.getMessage());
                 return null;
             }
         }
@@ -339,13 +342,13 @@ public class EdemandeService implements IExternalProviderService {
             GestionCompteResponseDocument response =
                 edemandeClient.creerTiers(escapeStrings(model));
             if (!"0".equals(parseData(response.getGestionCompteResponse().getReturn(), "//Retour/codeRetour"))) {
-                addTrace(sgr.getId(), SUBJECT_TRACE_SUBKEY, TraceStatusEnum.ERROR, parseData(response.getGestionCompteResponse().getReturn(), "//Retour/messageRetour"));
+                addTrace(sgr.getId(), SUBJECT_TRACE_SUBKEY, RequestExternalActionState.ERROR, parseData(response.getGestionCompteResponse().getReturn(), "//Retour/messageRetour"));
             } else {
-                addTrace(sgr.getId(), SUBJECT_TRACE_SUBKEY, TraceStatusEnum.IN_PROGRESS, "Demande de création du tiers sujet");
+                addTrace(sgr.getId(), SUBJECT_TRACE_SUBKEY, RequestExternalActionState.IN_PROGRESS, "Demande de création du tiers sujet");
             }
         } catch (CvqException e) {
             e.printStackTrace();
-            addTrace(sgr.getId(), SUBJECT_TRACE_SUBKEY, TraceStatusEnum.NOT_SENT, e.getMessage());
+            addTrace(sgr.getId(), SUBJECT_TRACE_SUBKEY, RequestExternalActionState.NOT_SENT, e.getMessage());
         }
     }
 
@@ -371,13 +374,13 @@ public class EdemandeService implements IExternalProviderService {
             GestionCompteResponseDocument response =
                 edemandeClient.creerTiers(escapeStrings(model));
             if (!"0".equals(parseData(response.getGestionCompteResponse().getReturn(), "//Retour/codeRetour"))) {
-                addTrace(sgr.getId(), ACCOUNT_HOLDER_TRACE_SUBKEY, TraceStatusEnum.ERROR, parseData(response.getGestionCompteResponse().getReturn(), "//Retour/messageRetour"));
+                addTrace(sgr.getId(), ACCOUNT_HOLDER_TRACE_SUBKEY, RequestExternalActionState.ERROR, parseData(response.getGestionCompteResponse().getReturn(), "//Retour/messageRetour"));
             } else {
-                addTrace(sgr.getId(), ACCOUNT_HOLDER_TRACE_SUBKEY, TraceStatusEnum.IN_PROGRESS, "Demande de création du tiers viré");
+                addTrace(sgr.getId(), ACCOUNT_HOLDER_TRACE_SUBKEY, RequestExternalActionState.IN_PROGRESS, "Demande de création du tiers viré");
             }
         } catch (CvqException e) {
             e.printStackTrace();
-            addTrace(sgr.getId(), ACCOUNT_HOLDER_TRACE_SUBKEY, TraceStatusEnum.NOT_SENT, e.getMessage());
+            addTrace(sgr.getId(), ACCOUNT_HOLDER_TRACE_SUBKEY, RequestExternalActionState.NOT_SENT, e.getMessage());
         }
     }
 
@@ -389,7 +392,7 @@ public class EdemandeService implements IExternalProviderService {
                 requestData = edemandeClient.chargerDemande(psCodeTiers, sgr.getEdemandeId()).getChargerDemandeResponse().getReturn();
             } catch (CvqException e) {
                 e.printStackTrace();
-                addTrace(sgr.getId(), null, TraceStatusEnum.NOT_SENT, e.getMessage());
+                addTrace(sgr.getId(), null, RequestExternalActionState.NOT_SENT, e.getMessage());
             }
         }
         model.put("externalRequestId", buildExternalRequestId(sgr));
@@ -489,9 +492,9 @@ public class EdemandeService implements IExternalProviderService {
                             try {
                                 doc.put("remotePath", uploader.upload(filename, documentBinary.getData()));
                             } catch (JSchException e) {
-                                addTrace(sgr.getId(), null, TraceStatusEnum.ERROR, "Erreur à l'envoi d'une pièce jointe");
+                                addTrace(sgr.getId(), null, RequestExternalActionState.ERROR, "Erreur à l'envoi d'une pièce jointe");
                             } catch (SftpException e) {
-                                addTrace(sgr.getId(), null, TraceStatusEnum.ERROR, "Erreur à l'envoi d'une pièce jointe");
+                                addTrace(sgr.getId(), null, RequestExternalActionState.ERROR, "Erreur à l'envoi d'une pièce jointe");
                             }
                         }
                         break;
@@ -515,13 +518,13 @@ public class EdemandeService implements IExternalProviderService {
                 enregistrerValiderFormulaireResponseDocument =
                     edemandeClient.enregistrerValiderFormulaire(escapeStrings(model));
             if (!"0".equals(parseData(enregistrerValiderFormulaireResponseDocument.getEnregistrerValiderFormulaireResponse().getReturn(), "//Retour/codeRetour"))) {
-                addTrace(sgr.getId(), null, TraceStatusEnum.ERROR, parseData(enregistrerValiderFormulaireResponseDocument.getEnregistrerValiderFormulaireResponse().getReturn(), "//Retour/messageRetour"));
+                addTrace(sgr.getId(), null, RequestExternalActionState.ERROR, parseData(enregistrerValiderFormulaireResponseDocument.getEnregistrerValiderFormulaireResponse().getReturn(), "//Retour/messageRetour"));
             } else {
-                addTrace(sgr.getId(), null, TraceStatusEnum.SENT, "Demande transmise");
+                addTrace(sgr.getId(), null, RequestExternalActionState.SENT, "Demande transmise");
             }
         } catch (CvqException e) {
             e.printStackTrace();
-            addTrace(sgr.getId(), null, TraceStatusEnum.NOT_SENT, e.getMessage());
+            addTrace(sgr.getId(), null, RequestExternalActionState.NOT_SENT, e.getMessage());
         }
     }
 
@@ -532,7 +535,7 @@ public class EdemandeService implements IExternalProviderService {
                 "//resultatRechDemandes/listeDemandes/Demande/moOrigineApsect[msIdentifiant ='"
                 + buildExternalRequestId(sgr) + "']/../miCode");
         } catch (CvqException e) {
-            addTrace(sgr.getId(), null, TraceStatusEnum.NOT_SENT, e.getMessage());
+            addTrace(sgr.getId(), null, RequestExternalActionState.NOT_SENT, e.getMessage());
             return null;
         }
     }
@@ -550,7 +553,7 @@ public class EdemandeService implements IExternalProviderService {
                         "//donneesDemande/Demande/msStatut");
             }
         } catch (CvqException e) {
-            addTrace(sgr.getId(), null, TraceStatusEnum.NOT_SENT, e.getMessage());
+            addTrace(sgr.getId(), null, RequestExternalActionState.NOT_SENT, e.getMessage());
             return null;
         }
     }
@@ -688,24 +691,24 @@ public class EdemandeService implements IExternalProviderService {
      */
     private boolean mustSendNewRequest(StudyGrantRequest sgr) {
         Set<Critere> criteriaSet = new HashSet<Critere>(3);
-        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+        criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_KEY,
             String.valueOf(sgr.getId()), Critere.EQUALS));
-        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME,
+        criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_NAME,
             label, Critere.EQUALS));
         criteriaSet.add(new Critere(
-            ExternalServiceTrace.SEARCH_BY_STATUS, TraceStatusEnum.SENT,
+            RequestExternalAction.SEARCH_BY_STATUS, RequestExternalActionState.SENT,
             Critere.EQUALS));
-        if (externalService.getTracesCount(criteriaSet) == 0)
+        if (requestExternalActionService.getTracesCount(criteriaSet) == 0)
             return true;
         criteriaSet.clear();
-        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+        criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_KEY,
             String.valueOf(sgr.getId()), Critere.EQUALS));
-        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME,
+        criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_NAME,
             label, Critere.EQUALS));
         criteriaSet.add(new Critere(
-            ExternalServiceTrace.SEARCH_BY_STATUS, TraceStatusEnum.ERROR,
+            RequestExternalAction.SEARCH_BY_STATUS, RequestExternalActionState.ERROR,
             Critere.EQUALS));
-        return (externalService.getTracesCount(criteriaSet) != 0
+        return (requestExternalActionService.getTracesCount(criteriaSet) != 0
             && (sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty()));
     }
 
@@ -717,27 +720,27 @@ public class EdemandeService implements IExternalProviderService {
      */
     private boolean mustResendRequest(StudyGrantRequest sgr) {
         Set<Critere> criteriaSet = new HashSet<Critere>(3);
-        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+        criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_KEY,
             String.valueOf(sgr.getId()), Critere.EQUALS));
-        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME,
+        criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_NAME,
             label, Critere.EQUALS));
         criteriaSet.add(new Critere(
-            ExternalServiceTrace.SEARCH_BY_STATUS, TraceStatusEnum.ERROR,
+            RequestExternalAction.SEARCH_BY_STATUS, RequestExternalActionState.ERROR,
             Critere.EQUALS));
-        if (externalService.getTracesCount(criteriaSet) == 0
+        if (requestExternalActionService.getTracesCount(criteriaSet) == 0
             || sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty()) {
             return false;
         }
         Set<Critere> criteres = new HashSet<Critere>();
-        criteres.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+        criteres.add(new Critere(RequestExternalAction.SEARCH_BY_KEY,
             String.valueOf(sgr.getId()), Critere.EQUALS));
-        criteres.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME, label,
+        criteres.add(new Critere(RequestExternalAction.SEARCH_BY_NAME, label,
             Critere.EQUALS));
-        for (ExternalServiceTrace est : externalService.getTraces(criteres,
-            ExternalServiceTrace.SEARCH_BY_DATE, "desc", 0, 0)) {
-            if (TraceStatusEnum.SENT.equals(est.getStatus())) {
+        for (RequestExternalAction est : requestExternalActionService.getTraces(criteres,
+            RequestExternalAction.SEARCH_BY_DATE, "desc", 0, 0)) {
+            if (RequestExternalActionState.SENT.equals(est.getStatus())) {
                 return false;
-            } else if (TraceStatusEnum.ERROR.equals(est.getStatus())) {
+            } else if (RequestExternalActionState.ERROR.equals(est.getStatus())) {
                 return true;
             }
         }
@@ -756,30 +759,30 @@ public class EdemandeService implements IExternalProviderService {
      */
     private boolean mustCreateIndividual(StudyGrantRequest sgr, String subkey) {
         Set<Critere> criteriaSet = new HashSet<Critere>(4);
-        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+        criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_KEY,
             String.valueOf(sgr.getId()), Critere.EQUALS));
-        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_SUBKEY,
+        criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_SUBKEY,
             subkey, Critere.EQUALS));
-        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME,
+        criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_NAME,
             label, Critere.EQUALS));
         criteriaSet.add(new Critere(
-            ExternalServiceTrace.SEARCH_BY_STATUS, TraceStatusEnum.IN_PROGRESS,
+            RequestExternalAction.SEARCH_BY_STATUS, RequestExternalActionState.IN_PROGRESS,
             Critere.EQUALS));
-        if (externalService.getTracesCount(criteriaSet) == 0) {
+        if (requestExternalActionService.getTracesCount(criteriaSet) == 0) {
             return true;
         }
         Set<Critere> criteres = new HashSet<Critere>();
-        criteres.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+        criteres.add(new Critere(RequestExternalAction.SEARCH_BY_KEY,
             String.valueOf(sgr.getId()), Critere.EQUALS));
-        criteres.add(new Critere(ExternalServiceTrace.SEARCH_BY_SUBKEY, subkey,
+        criteres.add(new Critere(RequestExternalAction.SEARCH_BY_SUBKEY, subkey,
             Critere.EQUALS));
-        criteres.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME, label,
+        criteres.add(new Critere(RequestExternalAction.SEARCH_BY_NAME, label,
             Critere.EQUALS));
-        for (ExternalServiceTrace est : externalService.getTraces(criteres,
-            ExternalServiceTrace.SEARCH_BY_DATE, "desc", 0, 0)) {
-            if (TraceStatusEnum.IN_PROGRESS.equals(est.getStatus())) {
+        for (RequestExternalAction est : requestExternalActionService.getTraces(criteres,
+            RequestExternalAction.SEARCH_BY_DATE, "desc", 0, 0)) {
+            if (RequestExternalActionState.IN_PROGRESS.equals(est.getStatus())) {
                 return false;
-            } else if (TraceStatusEnum.ERROR.equals(est.getStatus())) {
+            } else if (RequestExternalActionState.ERROR.equals(est.getStatus())) {
                 return true;
             }
         }
@@ -896,8 +899,12 @@ public class EdemandeService implements IExternalProviderService {
         this.homeFolderService = homeFolderService;
     }
 
-    public void setExternalService(IExternalService externalService) {
-        this.externalService = externalService;
+    public void setRequestExternalActionService(IRequestExternalActionService requestExternalActionService) {
+        this.requestExternalActionService = requestExternalActionService;
+    }
+
+    public void setExternalHomeFolderService(IExternalHomeFolderService externalHomeFolderService) {
+        this.externalHomeFolderService = externalHomeFolderService;
     }
 
     public void setRequestWorkflowService(IRequestWorkflowService requestWorkflowService) {

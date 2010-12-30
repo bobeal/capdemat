@@ -1,7 +1,17 @@
+import org.apache.commons.lang.StringUtils;
+
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
+import fr.cg95.cvq.business.payment.ExternalAccountItem;
+import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
+import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
+import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
+import fr.cg95.cvq.business.payment.InternalInvoiceItem;
+import fr.cg95.cvq.business.payment.Payment
 import fr.cg95.cvq.business.payment.PaymentState
 import fr.cg95.cvq.business.payment.PaymentMode
+import fr.cg95.cvq.business.payment.PurchaseItem
 import fr.cg95.cvq.service.payment.IPaymentService
+import fr.cg95.cvq.service.payment.PaymentUtils;
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.util.Critere
@@ -26,7 +36,7 @@ class BackofficePaymentController {
     }
 
     def afterInterceptor = { model ->
-        model['subMenuEntries'] = ['payment.search', 'payment.configure']
+        model['subMenuEntries'] = ['payment.search', 'payment.configure', 'externalApplication.applications']
     }
     
     def configure = {
@@ -91,6 +101,47 @@ class BackofficePaymentController {
         } else {
             render(template:'displayedMessage',model:[editorContent:file.getText()])
         }
+    }
+
+    def details = {
+        fr.cg95.cvq.business.payment.PurchaseItem.metaClass.type = {
+            return StringUtils.removeStartIgnoreCase(delegate.getClass().toString(), "class fr.cg95.cvq.business.payment.")
+        }
+        Payment payment = this.paymentService.getById(Long.parseLong(params.id))
+        // hack to lazy load
+        payment.getPurchaseItems().each{ it.id}
+        def result = [
+            'payment' : payment,
+            'requesterId' : payment.getRequesterId(),
+            'state': payment.getState().toString().toLowerCase(),
+            'items': payment.getPurchaseItems()
+        ]
+        return result
+    }
+
+    def homeFolder = {
+        def result = [payments:[]]
+        Payment payment = this.paymentService.getById(Long.valueOf(params.id))
+        def homeFolderPayments = 
+            this.paymentService.getByHomeFolder(payment.getHomeFolderId())
+
+        homeFolderPayments.each {
+            def record = [
+                'id':it.id,
+                'broker':it.broker,
+                'cvqReference':it.cvqReference,
+                'bankReference':it.bankReference,
+                'requesterLastName':it.requesterLastName + " " + it.requesterFirstName,
+                'homeFolderId':it.homeFolderId,
+                'initializationDate':it.initializationDate,
+                'commitDate':it.commitDate,
+                'paymentState':it.state.toString(),
+                'amount':it.amount,
+                'paymentMode':it.paymentMode.toString()
+            ]
+            result.payments.add(record)
+        }
+        return result
     }
 
     def search = {
@@ -179,5 +230,5 @@ class BackofficePaymentController {
     	return ['allStates':PaymentState.allPaymentStates,
     	        'allBrokers':paymentService.getAllBrokers(),
     	        'allModes': PaymentMode.allPaymentModes]
-    }    
+    }
 }

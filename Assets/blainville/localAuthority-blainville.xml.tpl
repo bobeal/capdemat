@@ -46,12 +46,6 @@
                 <value>Recreation Activity Registration</value>
               </list>
             </property>
-            <property name="supportAccountsByHomeFolder">
-              <value>true</value>
-            </property>
-            <property name="supportAccountsByRequest">
-              <value>false</value>
-            </property>
           </bean>
         </entry>
         <entry>
@@ -65,11 +59,20 @@
                 <value>Mdph Youth</value>
               </list>
             </property>
-            <property name="supportAccountsByHomeFolder">
-              <value>true</value>
-            </property>
-            <property name="supportAccountsByRequest">
-              <value>false</value>
+          </bean>
+        </entry>
+        <entry>
+          <key>
+            <ref bean="externalApplicationProviderService" />
+          </key>
+          <bean class="fr.cg95.cvq.external.ExternalServiceBean">
+            <property name="requestTypes">
+              <list>
+                <value>VO Card</value>
+                <value>School Canteen Registration</value>
+                <value>Perischool Activity Registration</value>
+                <value>Recreation Activity Registration</value>
+              </list>
             </property>
           </bean>
         </entry>

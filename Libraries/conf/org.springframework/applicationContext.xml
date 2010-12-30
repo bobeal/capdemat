@@ -54,7 +54,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="localReferentialService" ref="localReferentialService"/>
     <property name="requestSearchService" ref="requestSearchService"/>
     <property name="agentService" ref="agentService"/>
-    <property name="externalService" ref="externalService"/>
+    <property name="requestExternalActionService" ref="requestExternalActionService"/>
     <property name="documentService" ref="documentService"/>
   </bean>
 
@@ -78,10 +78,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     </property>
   </bean>
   
-  <bean id="externalService" class="fr.cg95.cvq.external.impl.ExternalService">
-    <property name="externalServiceTraceDAO" ref="externalServiceTraceDAO" />
-    <property name="externalServiceMappingDAO" ref="externalServiceMappingDAO" />
-  </bean>
+  <bean id="externalService" class="fr.cg95.cvq.external.impl.ExternalService" />
 
   <!-- *******************************************************************  -->
   <!-- ******************** AUTHORITY SERVICES ***************************  -->
@@ -233,15 +230,20 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="requestTypeService" ref="requestTypeService" />
   </bean>
 
-  <bean id="requestExternalService" class="fr.cg95.cvq.service.request.impl.RequestExternalService">
+  <bean id="requestExternalService" class="fr.cg95.cvq.service.request.external.impl.RequestExternalService"
+    parent="externalService">
     <property name="requestDAO" ref="requestDAO" />
-    <property name="externalService" ref="externalService" />
+    <property name="externalHomeFolderService" ref="externalHomeFolderService" />
     <property name="requestExportService" ref="requestExportService" />
-    <property name="requestTypeService" ref="requestTypeService" />
-    <property name="externalServiceTraceDAO" ref="externalServiceTraceDAO" />
     <property name="translationService" ref="translationService" />
     <property name="mailService" ref="mailService" />
     <property name="requestSearchService" ref="requestSearchService" />
+    <property name="requestExternalActionService" ref="requestExternalActionService" />
+    <property name="requestTypeService" ref="requestTypeService" />
+  </bean>
+
+  <bean id="requestExternalActionService" class="fr.cg95.cvq.service.request.external.impl.RequestExternalActionService">
+    <property name="requestExternalActionDAO" ref="requestExternalActionDAO" />
   </bean>
 
   <bean id="requestExportService" class="fr.cg95.cvq.service.request.impl.RequestExportService">
@@ -268,8 +270,8 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   <bean id="requestDocumentService" class="fr.cg95.cvq.service.request.impl.RequestDocumentService">
     <property name="documentService" ref="documentService" />
     <property name="requestExternalService" ref="requestExternalService" />
+    <property name="requestExternalActionService" ref="requestExternalActionService" />
     <property name="requestSearchService" ref="requestSearchService" />
-    <property name="externalService" ref="externalService" />
     <property name="translationService" ref="translationService" />
     <property name="requestDAO" ref="requestDAO" />
   </bean>
@@ -352,6 +354,8 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="historyInterceptor">
       <ref local="historyInterceptor"/>
     </property>
+    <property name="authenticationService" ref="authenticationService"/>
+    <property name="translationService" ref="translationService"/>
   </bean>
   
   <bean id="meansOfContactService" class="fr.cg95.cvq.service.request.impl.MeansOfContactService">
@@ -360,6 +364,12 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="smsService" ref="fakeSmsService" />
   </bean>
+  
+  <bean id="externalHomeFolderService" class="fr.cg95.cvq.service.users.external.impl.ExternalHomeFolderService">
+    <property name="genericDAO" ref="genericDAO" />
+  </bean>
+
+  <!-- ********************** INSTANCE REQUESTS SERVICES ***********************  -->
 
   <bean id="voCardRequestService" class="fr.cg95.cvq.service.request.ecitizen.impl.VoCardRequestService" 
     parent="requestService">
@@ -608,6 +618,16 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="defaultDisplayGroup" value="technical" />
   </bean>
 
+  <bean id="displayGroupService" class="fr.cg95.cvq.service.request.impl.DisplayGroupService">
+    <property name="genericDAO" ref="genericDAO" />
+    <property name="requestTypeDAO" ref="requestTypeDAO" />
+    <property name="requestServiceRegistry" ref="requestServiceRegistry" />
+  </bean>
+
+  <!-- *******************************************************************  -->
+  <!-- *******************    PAYMENT SERVICES    ************************  -->
+  <!-- *******************************************************************  -->
+
   <bean id="paymentFilterAspect"
     class="fr.cg95.cvq.service.payment.aspect.PaymentFilterAspect" />
 
@@ -618,10 +638,19 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="individualService" ref="individualService" />
   </bean>
 
-  <bean id="displayGroupService" class="fr.cg95.cvq.service.request.impl.DisplayGroupService">
+  <bean id="externalApplicationProviderService"
+    class="fr.cg95.cvq.service.payment.external.ExternalApplicationProviderService">
+    <property name="paymentService" ref="paymentService" />
+  </bean>
+
+  <bean id="paymentExternalService" class="fr.cg95.cvq.service.payment.external.impl.PaymentExternalService"
+      parent="externalService">
+    <property name="externalHomeFolderService" ref="externalHomeFolderService" />
+  </bean>
+
+  <bean id="externalApplicationService" class="fr.cg95.cvq.service.payment.external.impl.ExternalApplicationService">
+    <property name="adultDAO" ref="adultDAO" />
     <property name="genericDAO" ref="genericDAO" />
-    <property name="requestTypeDAO" ref="requestTypeDAO" />
-    <property name="requestServiceRegistry" ref="requestServiceRegistry" />
   </bean>
 
   <!-- ======================================================= -->
@@ -684,9 +713,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 
   <bean id="meansOfContactDAO" class="fr.cg95.cvq.dao.request.hibernate.MeansOfContactDAO" parent="genericDAO"/>
 
-  <bean id="externalServiceTraceDAO" class="fr.cg95.cvq.dao.external.hibernate.ExternalServiceTraceDAO" parent="genericDAO" />
-
-  <bean id="externalServiceMappingDAO" class="fr.cg95.cvq.dao.external.hibernate.ExternalServiceMappingDAO" parent="genericDAO" />
+  <bean id="requestExternalActionDAO" class="fr.cg95.cvq.dao.request.external.hibernate.RequestExternalActionDAO" parent="genericDAO" />
   
   <bean id="ticketBookingDAO" class="fr.cg95.cvq.dao.request.hibernate.TicketBookingDAO" parent="genericDAO" />
 

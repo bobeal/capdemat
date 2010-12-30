@@ -6,14 +6,14 @@ import fr.capwebct.capdemat.HomeFolderMappingRequestDocument;
 import fr.capwebct.capdemat.HomeFolderMappingType;
 import fr.capwebct.capdemat.IndividualMappingType;
 import fr.capwebct.capdemat.HomeFolderMappingRequestDocument.HomeFolderMappingRequest;
-import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
-import fr.cg95.cvq.business.external.ExternalServiceIndividualMapping;
-import fr.cg95.cvq.external.IExternalService;
+import fr.cg95.cvq.business.users.external.HomeFolderMapping;
+import fr.cg95.cvq.business.users.external.IndividualMapping;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 
 public class HomeFolderMappingServiceEndpoint extends SecuredServiceEndpoint {
 
-    private IExternalService externalService;
+    private IExternalHomeFolderService externalHomeFolderService;
 
     public HomeFolderMappingServiceEndpoint(Marshaller marshaller) {
         super(marshaller);
@@ -30,15 +30,15 @@ public class HomeFolderMappingServiceEndpoint extends SecuredServiceEndpoint {
         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
 
         HomeFolderMappingType homeFolderMappingType = homeFolderMappingRequest.getHomeFolderMapping();
-        ExternalServiceIdentifierMapping esim = 
-            externalService.getIdentifierMapping(currentExternalService, homeFolderMappingType.getExternalCapDematId());
-        externalService.addHomeFolderMapping(currentExternalService, esim.getHomeFolderId(), 
+        HomeFolderMapping esim = 
+            externalHomeFolderService.getHomeFolderMapping(currentExternalService, homeFolderMappingType.getExternalCapDematId());
+        externalHomeFolderService.addHomeFolderMapping(currentExternalService, esim.getHomeFolderId(), 
                 homeFolderMappingType.getExternalId());
         IndividualMappingType[] individualMappingTypes = homeFolderMappingRequest.getIndividualMappingArray();
         for (int i = 0; i < individualMappingTypes.length; i++) {
-            for (ExternalServiceIndividualMapping indMapping : esim.getIndividualsMappings()) {
+            for (IndividualMapping indMapping : esim.getIndividualsMappings()) {
                 if (indMapping.getExternalCapDematId().equals(individualMappingTypes[i].getExternalCapDematId()))
-                    externalService.setExternalId(currentExternalService, esim.getHomeFolderId(), 
+                    externalHomeFolderService.setExternalId(currentExternalService, esim.getHomeFolderId(), 
                             indMapping.getIndividualId(), 
                             individualMappingTypes[i].getExternalId());
             }
@@ -51,7 +51,7 @@ public class HomeFolderMappingServiceEndpoint extends SecuredServiceEndpoint {
         return null;
     }
 
-    public void setExternalService(IExternalService externalService) {
-        this.externalService = externalService;
+    public void setExternalHomeFolderService(IExternalHomeFolderService externalHomeFolderService) {
+        this.externalHomeFolderService = externalHomeFolderService;
     }
 }

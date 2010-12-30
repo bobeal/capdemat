@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="Plugins/ExternalServices/CapwebctPaymentModule/build/classes" path="Plugins/ExternalServices/CapwebctPaymentModule/src/java"/>
-	<classpathentry kind="src" path="Plugins/ExternalServices/CapwebctPaymentModule/test/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/CirilNetEnfance/build/classes" path="Plugins/ExternalServices/CirilNetEnfance/src/java"/>
 	<classpathentry kind="src" output="Plugins/PaymentProviders/PayBoxSystem/build/classes" path="Plugins/PaymentProviders/PayBoxSystem/src/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Edemande/build/test" path="Plugins/ExternalServices/Edemande/test/java"/>
@@ -76,7 +74,7 @@
 	<classpathentry kind="lib" path="Libraries/org.aspectj/aspectjrt-1.6.jar"/>
 	<classpathentry kind="lib" path="Libraries/javax.servlet/servlet-api.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.joda/joda-time-1.6.jar"/>
-	<classpathentry kind="lib" path="Libraries/opencsv/opencsv-1.8.jar"/>
+	<classpathentry kind="lib" path="Libraries/opencsv/opencsv-2.2.jar"/>
 	<classpathentry kind="lib" path="Libraries/jsch/jsch-0.1.41.jar"/>
 	<classpathentry exported="true" kind="con" path="GROOVY_SUPPORT"/>
 	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-Model-4.2.jar" sourcepath="Model/src/java"/>

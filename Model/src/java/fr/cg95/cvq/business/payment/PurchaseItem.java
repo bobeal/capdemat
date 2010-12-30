@@ -63,7 +63,6 @@ public abstract class PurchaseItem implements Serializable {
         this.label = label;
     }
 
-    public abstract String getFriendlyLabel();
     public abstract String getInformativeFriendlyLabel();
     
     /**
@@ -82,6 +81,10 @@ public abstract class PurchaseItem implements Serializable {
         return amount.floatValue() / 100;
     }
 
+    /**
+     * @hibernate.property
+     *  column="supported_broker"
+     */
     public final String getSupportedBroker() {
         return supportedBroker;
     }
@@ -92,6 +95,6 @@ public abstract class PurchaseItem implements Serializable {
 
     @Override
     public String toString() {
-        return getFriendlyLabel() + " / label : " + label + " / amount : " + amount;
+        return getInformativeFriendlyLabel();
     }
 }

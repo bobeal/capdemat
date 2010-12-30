@@ -1,12 +1,12 @@
 <li>
   <p class="first-line">
     <g:capdematEnumToFlag var="${trace.status}" i18nKeyPrefix="externalservice.trace.status" />
-    <g:message code="externalServiceTrace.property.date" />
+    <g:message code="requestExternalAction.property.date" />
     <span class="${sortBy == 'date' ? 'current-sort' : ''}">
       <g:formatDate formatName="format.date" date="${trace.date}" /></span> - 
-    <g:message code="externalServiceTrace.property.key" />
+    <g:message code="requestExternalAction.property.key" />
     <span class="${sortBy == 'key' ? 'current-sort' : ''}">${trace.key}</span> - 
-    <g:message code="externalServiceTrace.property.name" />
+    <g:message code="requestExternalAction.property.name" />
     <span class="${sortBy == 'name' ? 'current-sort' : ''}">${trace.externalServiceLabel}</span>
   </p>
 

@@ -177,8 +177,13 @@ public class Critere {
     public Long getLongValue() {
         if (value instanceof Long)
             return (Long) value;
-        else if (value instanceof String)
-            return new Long((String) value);
+        else if (value instanceof String) {
+            try {
+                return new Long((String) value);
+            } catch (Exception e) {
+                return null;
+            }
+        }
         else
             return null;
     }

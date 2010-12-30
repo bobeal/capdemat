@@ -11,8 +11,8 @@ import fr.cg95.cvq.business.payment.PurchaseItem
 import fr.cg95.cvq.business.payment.PaymentMode
 import fr.cg95.cvq.business.payment.Payment
 import fr.cg95.cvq.business.payment.PaymentState
-import fr.cg95.cvq.external.IExternalService
 import fr.cg95.cvq.service.payment.IPaymentService
+import fr.cg95.cvq.service.payment.external.IPaymentExternalService
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.users.IIndividualService
@@ -24,7 +24,7 @@ import grails.converters.JSON
 
 class FrontofficePaymentController {
 
-    IExternalService externalService
+    IPaymentExternalService paymentExternalService
     IIndividualService individualService
     IPaymentService paymentService
     ILocalAuthorityRegistry localAuthorityRegistry
@@ -241,7 +241,7 @@ class FrontofficePaymentController {
     protected List getTicketingContracts() {
         session.ticketingContracts = []
         def result = []
-        def contracts = externalService.getExternalAccounts(ecitizen.homeFolder.id, IPaymentService.EXTERNAL_TICKETING_ACCOUNTS)
+        def contracts = paymentExternalService.getExternalAccounts(ecitizen.homeFolder.id, IPaymentService.EXTERNAL_TICKETING_ACCOUNTS)
         
         for(ExternalTicketingContractItem item : contracts) {
             session.ticketingContracts.add(item)
@@ -253,10 +253,10 @@ class FrontofficePaymentController {
     protected List getDepositAccounts() {
         session.depositAccounts = []
         def result = []
-        def accounts = externalService.getExternalAccounts(ecitizen.homeFolder.id, IPaymentService.EXTERNAL_DEPOSIT_ACCOUNTS)
+        def accounts = paymentExternalService.getExternalAccounts(ecitizen.homeFolder.id, IPaymentService.EXTERNAL_DEPOSIT_ACCOUNTS)
         
         for(ExternalDepositAccountItem item : accounts) {
-            externalService.loadDepositAccountDetails(item) 
+            paymentExternalService.loadDepositAccountDetails(item) 
             session.depositAccounts.add(item)
             result.add(this.buildDepositMap(item))
         }
@@ -267,11 +267,11 @@ class FrontofficePaymentController {
     protected List getInvoices() {
         session.invoices = []
         def result = []
-        def invoices = externalService.getExternalAccounts(ecitizen.homeFolder.id, IPaymentService.EXTERNAL_INVOICES)
+        def invoices = paymentExternalService.getExternalAccounts(ecitizen.homeFolder.id, IPaymentService.EXTERNAL_INVOICES)
         
         for(ExternalInvoiceItem item : invoices) {
-            if(!item.isPaid()) {
-                externalService.loadInvoiceDetails(item)
+            if(!item.getIsPaid()) {
+                paymentExternalService.loadInvoiceDetails(item)
                 session.invoices.add(item)
                 result.add(this.buildInvoiceMap(item))
             }
@@ -317,16 +317,14 @@ class FrontofficePaymentController {
         entry.type = 'depositAccounts'
         return entry
     }
-    
+
     protected Map buildTicketMap(ExternalTicketingContractItem item) {
-        Individual individual = individualService.getById(item.subjectId)
         def entry = [
             id : item.id,
             label: item.label,
             amount: item.amount, 
             externalItemId: item.externalItemId,
             subjectId : item.subjectId,
-            subjectName : "${individual.firstName} ${individual.lastName}",
             unitPrice : item.unitPrice,
             minBuy : item.minBuy,
             maxBuy : item.maxBuy,

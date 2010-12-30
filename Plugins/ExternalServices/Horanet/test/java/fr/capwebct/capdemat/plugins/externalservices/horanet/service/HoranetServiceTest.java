@@ -195,7 +195,6 @@ public class HoranetServiceTest extends RequestTestCase {
         	List<ExternalAccountItem> accountsByType = externalAccounts.get(accountType);
         	for (ExternalAccountItem eai : accountsByType) {
         		logger.debug("got account " + eai.toString());
-                logger.debug("got account " + eai.getFriendlyLabel());
         		if (accountType.equals(IPaymentService.EXTERNAL_DEPOSIT_ACCOUNTS)) {
         			logger.debug("found a test deposit account");
         			edai = (ExternalDepositAccountItem) eai;

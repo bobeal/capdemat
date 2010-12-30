@@ -1,17 +1,26 @@
 package fr.cg95.cvq.service.users.impl;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.scheduling.annotation.Async;
 
+import au.com.bytecode.opencsv.CSVWriter;
+
+import fr.cg95.cvq.authentication.IAuthenticationService;
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
@@ -22,6 +31,8 @@ import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.IndividualRole;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.UsersEvent.EVENT_TYPE;
+import fr.cg95.cvq.business.users.external.HomeFolderMapping;
+import fr.cg95.cvq.business.users.external.IndividualMapping;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.hibernate.HistoryInterceptor;
@@ -32,6 +43,7 @@ import fr.cg95.cvq.dao.users.IIndividualDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.schema.ximport.HomeFolderImportDocument;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
@@ -40,6 +52,12 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.mail.IMailService;
+import fr.cg95.cvq.util.translation.ITranslationService;
+import fr.cg95.cvq.xml.common.AddressType;
+import fr.cg95.cvq.xml.common.AdultType;
+import fr.cg95.cvq.xml.common.ChildType;
+import fr.cg95.cvq.xml.common.HomeFolderType;
+import fr.cg95.cvq.xml.common.IndividualType;
 
 /**
  * Implementation of the home folder service.
@@ -64,7 +82,11 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     private ApplicationContext applicationContext;
 
     private HistoryInterceptor historyInterceptor;
-    
+
+    private IAuthenticationService authenticationService;
+
+    private ITranslationService translationService;
+
     @Override
     @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public HomeFolder create(final Adult adult) throws CvqException {
@@ -883,6 +905,150 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         return notificationType;
     }
 
+    @Override
+    @Async
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
+    public void importHomeFolders(HomeFolderImportDocument doc)
+        throws CvqException, IOException {
+        ByteArrayOutputStream creationsOutput = new ByteArrayOutputStream();
+        CSVWriter creations = new CSVWriter(new OutputStreamWriter(creationsOutput));
+        creations.writeNext(new String[] {
+            translationService.translate("homeFolder.property.id"),
+            translationService.translate("homeFolder.property.externalId"),
+            translationService.translate("homeFolder.individual.property.firstName"),
+            translationService.translate("homeFolder.individual.property.lastName"),
+            translationService.translate("homeFolder.adult.property.login"),
+            translationService.translate("homeFolder.adult.property.password")
+        });
+        boolean hasCreations = false;
+        ByteArrayOutputStream duplicatesOutput = new ByteArrayOutputStream();
+        CSVWriter duplicates = new CSVWriter(new OutputStreamWriter(duplicatesOutput));
+        duplicates.writeNext(new String[] {
+            translationService.translate("homeFolder.property.externalId"),
+            translationService.translate("homeFolder.individual.property.firstName"),
+            translationService.translate("homeFolder.individual.property.lastName"),
+            translationService.translate("homeFolder.adult.property.email"),
+            translationService.translate("homeFolder.adult.property.homePhone"),
+            translationService.translate("homeFolder.individual.property.address")
+        });
+        boolean hasDuplicates = false;
+        ByteArrayOutputStream failuresOutput = new ByteArrayOutputStream();
+        CSVWriter failures = new CSVWriter(new OutputStreamWriter(failuresOutput));
+        failures.writeNext(new String[] {
+            translationService.translate("homeFolder.property.externalId"),
+            translationService.translate("Error")
+        });
+        boolean hasFailures = false;
+        String label = doc.getHomeFolderImport().getExternalServiceLabel();
+        homeFolders : for (HomeFolderType homeFolder : doc.getHomeFolderImport().getHomeFolderArray()) {
+            HibernateUtil.beginTransaction();
+            try {
+                List<Adult> adults = new ArrayList<Adult>();
+                List<Child> children = new ArrayList<Child>();
+                List<Individual> individuals = new ArrayList<Individual>();
+                HomeFolderMapping homeFolderMapping = null;
+                if (label != null && homeFolder.getExternalId() != null) {
+                    homeFolderMapping = new HomeFolderMapping(label, null, homeFolder.getExternalId());
+                }
+                Address homeFolderAddress = Address.xmlToModel(homeFolder.getAddress());
+                for (IndividualType individual : homeFolder.getIndividualsArray()) {
+                    String email = null;
+                    String phone = null;
+                    if (individual instanceof AdultType) {
+                        AdultType adult = (AdultType)individual;
+                        email = adult.getEmail();
+                        phone = adult.getHomePhone();
+                        Adult a = Adult.xmlToModel(adult);
+                        adults.add(a);
+                        individuals.add(a);
+                    } else {
+                        Child c = Child.xmlToModel((ChildType)individual);
+                        children.add(c);
+                        individuals.add(c);
+                    }
+                    AddressType address = individual.getAddress();
+                    if (individualDAO.hasSimilarIndividuals(individual.getFirstName(),
+                        individual.getLastName(), email, phone, address.getStreetNumber(),
+                        address.getStreetName(), address.getPostalCode(), address.getCity())) {
+                        duplicates.writeNext(new String[] {
+                            homeFolder.getExternalId(),
+                            individual.getFirstName(),
+                            individual.getLastName(),
+                            email,
+                            phone,
+                            address.getStreetNumber() == null ?
+                                String.format("%s %s %s", address.getStreetName(),
+                                    address.getPostalCode(), address.getCity()) :
+                                String.format("%s %s %s %s", address.getStreetNumber(),
+                                    address.getStreetName(), address.getPostalCode(), address.getCity())
+                        });
+                        hasDuplicates = true;
+                        continue homeFolders;
+                    }
+                    if (homeFolderMapping != null) {
+                        homeFolderMapping.getIndividualsMappings().add(
+                            new IndividualMapping(null, individual.getExternalId(), homeFolderMapping));
+                    }
+                }
+                HomeFolder result = create(adults, children, homeFolderAddress);
+                updateHomeFolderState(result, ActorState.VALID);
+                HibernateUtil.getSession().flush();
+                Adult responsible = getHomeFolderResponsible(result.getId());
+                String password = authenticationService.generatePassword();
+                authenticationService.resetAdultPassword(responsible, password);
+                creations.writeNext(new String[] {
+                    String.valueOf(result.getId()),
+                    homeFolder.getExternalId(),
+                    responsible.getFirstName(),
+                    responsible.getLastName(),
+                    responsible.getLogin(),
+                    password
+                });
+                if (homeFolderMapping != null) {
+                    homeFolderMapping.setHomeFolderId(result.getId());
+                    for (int i = 0; i < individuals.size(); i++) {
+                        homeFolderMapping.getIndividualsMappings().get(i).setIndividualId(
+                            individuals.get(i).getId());
+                    }
+                    genericDAO.create(homeFolderMapping);
+                }
+                HibernateUtil.commitTransaction();
+                hasCreations = true;
+            } catch (Throwable t) {
+                failures.writeNext(new String[]{homeFolder.getExternalId(), t.getMessage()});
+                HibernateUtil.rollbackTransaction();
+                hasFailures = true;
+            }
+        }
+        creations.close();
+        duplicates.close();
+        failures.close();
+        Map<String, byte[]> attachments = new LinkedHashMap<String, byte[]>();
+        if (hasCreations) {
+            attachments.put(translationService
+                .translate("homeFolder.import.notification.attachmentName.creations") + ".csv",
+                creationsOutput.toByteArray());
+        }
+        if (hasDuplicates) {
+            attachments.put(translationService
+                .translate("homeFolder.import.notification.attachmentName.duplicates") + ".csv",
+                duplicatesOutput.toByteArray());
+        }
+        if (hasFailures) {
+            attachments.put(translationService
+                .translate("homeFolder.import.notification.attachmentName.errors") + ".csv",
+                failuresOutput.toByteArray());
+        }
+        try {
+            mailService.send(null, SecurityContext.getCurrentSite().getAdminEmail(), null,
+                translationService.translate("homeFolder.import.notification.subject",
+                    new Object[]{ SecurityContext.getCurrentSite().getDisplayTitle() }),
+                translationService.translate("homeFolder.import.notification.body"), attachments);
+        } catch (CvqException e) {
+            logger.error("importHomeFolders : could not notify result", e);
+        }
+    }
+
 	public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
         this.localAuthorityRegistry = localAuthorityRegistry;
     }
@@ -921,5 +1087,13 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+    }
+
+    public void setAuthenticationService(IAuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
+    }
+
+    public void setTranslationService(ITranslationService translationService) {
+        this.translationService = translationService;
     }
 }

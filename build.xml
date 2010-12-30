@@ -47,7 +47,6 @@
     <ant dir="${plugins.paymentproviders.payboxsystem.dir}" target="clean" />
     <ant dir="${plugins.externalservices.horanet.dir}" target="clean" />
     <ant dir="${plugins.externalservices.clever.dir}" target="clean" />
-    <ant dir="${plugins.externalservices.cpm.dir}" target="clean" />
     <ant dir="${plugins.externalservices.edemande.dir}" target="clean" />
     <ant dir="${plugins.externalservices.ciril.dir}" target="clean" />
   </target>
@@ -108,7 +107,6 @@
     <ant dir="${plugins.paymentproviders.wynid.dir}" target="deploy" />
     <ant dir="${plugins.paymentproviders.payboxsystem.dir}" target="deploy" />
     <ant dir="${plugins.externalservices.horanet.dir}" target="deploy" />
-    <ant dir="${plugins.externalservices.cpm.dir}" target="deploy" />
     <ant dir="${plugins.externalservices.clever.dir}" target="deploy" />
     <ant dir="${plugins.externalservices.edemande.dir}" target="deploy" />
   </target>
@@ -135,10 +133,6 @@
 
   <target name="deploy-plugin-horanet" depends="compile-model">
     <ant dir="${plugins.externalservices.horanet.dir}" target="deploy" />
-  </target>
-
-  <target name="deploy-plugin-cpm" depends="compile-model">
-    <ant dir="${plugins.externalservices.cpm.dir}" target="deploy" />
   </target>
 
   <target name="deploy-plugin-clever" depends="compile-model">

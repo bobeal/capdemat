@@ -1,4 +1,4 @@
-package fr.capwebct.capdemat.plugins.externalservices.service;
+package fr.cg95.cvq.external;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,27 +11,26 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import fr.capwebct.capdemat.plugins.externalservices.capwebctpaymentmodule.webservice.client.ICapwebctPaymentModuleClient;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;
-import fr.cg95.cvq.external.ExternalServiceTestCase;
 import fr.cg95.cvq.external.IExternalProviderService;
+import fr.cg95.cvq.external.impl.SoapExternalServiceClient;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.external.IRequestExternalService;
 
-public class CapwebctPaymentModuleServiceTest extends ExternalServiceTestCase {
+public class SoapExternalServiceTest extends ExternalServiceTestCase {
 
-    @Resource(name="capwebctPaymentModuleExternalService")
-    private IExternalProviderService capwebctPaymentModuleService;
+    @Resource(name="soapExternalService")
+    private IExternalProviderService soapExternalService;
     @Autowired
     private IRequestExternalService requestExternalService;
     @Autowired
-    private ICapwebctPaymentModuleClient capwebctPaymentModuleClient;
+    private SoapExternalServiceClient soapExternalServiceClient;
     
     @Test
     public void testInteractions() throws CvqException {
@@ -44,8 +43,8 @@ public class CapwebctPaymentModuleServiceTest extends ExternalServiceTestCase {
         requestTypes.add(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST);
         esb.setRequestTypes(requestTypes);
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        lacb.registerExternalService(capwebctPaymentModuleService, esb);
-        capwebctPaymentModuleClient.setFake(true);
+        lacb.registerExternalService(soapExternalService, esb);
+        soapExternalServiceClient.setFake(true);
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         
@@ -71,6 +70,6 @@ public class CapwebctPaymentModuleServiceTest extends ExternalServiceTestCase {
             requestExternalService.getConsumptions(cb.getRequestId(), new Date(), new Date());
         Assert.assertEquals(2, consumptions.size());
 
-        lacb.unregisterExternalService(capwebctPaymentModuleService);
+        lacb.unregisterExternalService(soapExternalService);
     }
 }

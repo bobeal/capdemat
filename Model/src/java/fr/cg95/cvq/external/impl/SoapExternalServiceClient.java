@@ -1,4 +1,4 @@
-package fr.capwebct.capdemat.plugins.externalservices.capwebctpaymentmodule.webservice.client;
+package fr.cg95.cvq.external.impl;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -19,51 +19,43 @@ import fr.capwebct.modules.payment.schema.rei.GetExternalInformationResponseDocu
 import fr.capwebct.modules.payment.schema.rei.GetExternalInformationResponseDocument.GetExternalInformationResponse;
 import fr.cg95.cvq.xml.common.RequestType;
 
-public class CapwebctPaymentModuleClient implements ICapwebctPaymentModuleClient {
+public class SoapExternalServiceClient {
 
-    private static Logger logger = Logger.getLogger(CapwebctPaymentModuleClient.class);
+    private static Logger logger = Logger.getLogger(SoapExternalServiceClient.class);
     
     private WebServiceTemplate webServiceTemplate;
     private boolean isFake = false;
 
     private Map<String, String> urls;
 
-    @Override
     public Object loadInvoiceDetails(Object requestPayload) {
         return makeCall("loadInvoiceDetails", requestPayload);
     }
 
-    @Override
     public Object loadAccountDetails(Object requestPayload) {
         return makeCall("loadAccountDetails", requestPayload);
     }
 
-    @Override
     public Object getFamilyAccounts(Object requestPayload) {
         return makeCall("getFamilyAccounts", requestPayload);
     }
 
-    @Override
     public Object creditAccount(Object requestPayload) {
         return makeCall("creditAccount", requestPayload);
     }
 
-    @Override
     public Object sendRequest(Object requestPayload) {
         return makeCall("sendRequest", requestPayload);
     }
 
-    @Override
     public Object checkExternalReferential(Object requestPayload) {
         return makeCall("checkExternalReferential", requestPayload);
     }
 
-    @Override
     public Object getConsumptions(Object requestPayload) {
         return makeCall("getConsumptions", requestPayload);
     }
 
-    @Override
     public Object loadExternalInformation(Object requestPayload) {
         return makeCall("loadExternalInformation", requestPayload);
     }

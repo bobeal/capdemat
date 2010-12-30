@@ -1,4 +1,4 @@
-package fr.capwebct.capdemat.plugins.externalservices.capwebctpaymentmodule.service;
+package fr.cg95.cvq.external.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,7 +13,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
 
-import fr.capwebct.capdemat.plugins.externalservices.capwebctpaymentmodule.webservice.client.ICapwebctPaymentModuleClient;
 import fr.capwebct.modules.payment.schema.acc.AccountDetailType;
 import fr.capwebct.modules.payment.schema.acc.AccountDetailsRequestDocument;
 import fr.capwebct.modules.payment.schema.acc.AccountDetailsResponseDocument;
@@ -65,13 +64,13 @@ import fr.cg95.cvq.xml.request.school.RecreationActivityRegistrationRequestDocum
 import fr.cg95.cvq.xml.request.school.SchoolCanteenRegistrationRequestDocument.SchoolCanteenRegistrationRequest;
 import fr.cg95.cvq.xml.request.school.SchoolRegistrationRequestDocument.SchoolRegistrationRequest;
 
-public class CapwebctPaymentModuleService implements IExternalProviderService {
+public class SoapExternalService implements IExternalProviderService {
 
-    private static Logger logger = Logger.getLogger(CapwebctPaymentModuleService.class);
+    private static Logger logger = Logger.getLogger(SoapExternalService.class);
     
     private String label;
 
-    private ICapwebctPaymentModuleClient capwebctPaymentModuleClient;
+    private SoapExternalServiceClient soapExternalServiceClient;
     
     public Map<String, List<ExternalAccountItem>> getAccountsByHomeFolder(Long homeFolderId, 
             String externalHomeFolderId, String externalId)
@@ -84,7 +83,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
         far.setHomeFolderId(homeFolderId);
 
         FamilyAccountsResponseDocument familyAccountsResponseDocument = 
-            (FamilyAccountsResponseDocument) capwebctPaymentModuleClient.getFamilyAccounts(farDocument);
+            (FamilyAccountsResponseDocument) soapExternalServiceClient.getFamilyAccounts(farDocument);
 
         return ExternalServiceUtils.parseFamilyDocument(familyAccountsResponseDocument, getLabel());
     }
@@ -116,7 +115,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
         
         // Calls webservice
         AccountDetailsResponseDocument accountDetailsDocument = (AccountDetailsResponseDocument) 
-            capwebctPaymentModuleClient.loadAccountDetails(accountDetailsRequestDocument);
+            soapExternalServiceClient.loadAccountDetails(accountDetailsRequestDocument);
 
         AccountDetailType[] accountDetailTypes = 
             accountDetailsDocument.getAccountDetailsResponse().getAccountDetailArray();
@@ -154,7 +153,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
 
         // Calls webservice
         InvoiceDetailsResponseDocument invoiceDetailsResponseDocument = (InvoiceDetailsResponseDocument) 
-            capwebctPaymentModuleClient.loadInvoiceDetails(invoiceDetailsRequestDocument);
+            soapExternalServiceClient.loadInvoiceDetails(invoiceDetailsRequestDocument);
 
         InvoiceDetailType[] invoiceDetailTypes = 
             invoiceDetailsResponseDocument.getInvoiceDetailsResponse().getInvoiceDetailArray();
@@ -256,7 +255,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
             creditAccountRequest.addNewInvoices().setInvoiceArray(
                     invoiceUpdateTypes.toArray(new InvoiceUpdateType[]{}));
         
-        capwebctPaymentModuleClient.creditAccount(creditAccountRequestDocument);
+        soapExternalServiceClient.creditAccount(creditAccountRequestDocument);
     }
 
     public String sendRequest(XmlObject requestXml) throws CvqException {
@@ -281,7 +280,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
         else
             sendRequestRequest.setRequest(request);
         sendRequestRequest.setRequestTypeLabel(request.getRequestTypeLabel());
-        capwebctPaymentModuleClient.sendRequest(sendRequestRequestDocument);
+        soapExternalServiceClient.sendRequest(sendRequestRequestDocument);
         return "";
     }
 
@@ -301,7 +300,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
         checkExternalReferentialRequest.setRequest(ExternalServiceUtils.getRequestTypeFromXmlObject(requestXml));
         
         CheckExternalReferentialResponseDocument checkExternalReferentialResponseDocument =
-            (CheckExternalReferentialResponseDocument) capwebctPaymentModuleClient.checkExternalReferential(checkExternalReferentialRequestDocument);
+            (CheckExternalReferentialResponseDocument) soapExternalServiceClient.checkExternalReferential(checkExternalReferentialRequestDocument);
         String[] messages = 
             checkExternalReferentialResponseDocument.getCheckExternalReferentialResponse().getMessageArray();
         List<String> result = new ArrayList<String>();
@@ -323,7 +322,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
         getExternalInformationRequest.setRequestId(requestType.getId());
 
         GetExternalInformationResponseDocument getExternalInformationResponseDocument =
-            (GetExternalInformationResponseDocument) capwebctPaymentModuleClient.loadExternalInformation(getExternalInformationRequestDocument);
+            (GetExternalInformationResponseDocument) soapExternalServiceClient.loadExternalInformation(getExternalInformationRequestDocument);
         ExternalInformationType[] externalInformations = 
             getExternalInformationResponseDocument.getGetExternalInformationResponse().getExternalInformationArray();
         Map<String, Object> result = new HashMap<String, Object>();
@@ -350,7 +349,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
         getConsumptionsRequest.setDateTo(calendar);
 
         GetConsumptionsResponseDocument getConsumptionsResponseDocument = 
-            (GetConsumptionsResponseDocument) capwebctPaymentModuleClient.getConsumptions(getConsumptionsRequestDocument);
+            (GetConsumptionsResponseDocument) soapExternalServiceClient.getConsumptions(getConsumptionsRequestDocument);
         ConsumptionType[] consumptions = 
             getConsumptionsResponseDocument.getGetConsumptionsResponse().getConsumptionArray();
         Map<Date, String> result = new HashMap<Date, String>();
@@ -382,7 +381,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
         this.label = label;
     }
 
-    public void setCapwebctPaymentModuleClient(ICapwebctPaymentModuleClient capwebctPaymentModuleClient) {
-        this.capwebctPaymentModuleClient = capwebctPaymentModuleClient;
+    public void setSoapExternalServiceClient(SoapExternalServiceClient soapExternalServiceClient) {
+        this.soapExternalServiceClient = soapExternalServiceClient;
     }
 }

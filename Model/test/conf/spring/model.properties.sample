@@ -47,16 +47,17 @@ plugins.externalservices.horanet.end_point3=http://80.118.178.14/WS-WebCT/CVQ3.a
 plugins.externalservices.horanet.login=cg95
 plugins.externalservices.horanet.password=webservicecg95
 
-# ExternalServices - CapWebCT Payment Module
-plugins.externalservices.capwebctpaymentmodule.load_invoice_details_uri=http://localhost:8090/PaymentModule/webservice
-plugins.externalservices.capwebctpaymentmodule.load_account_details_uri=http://localhost:8090/PaymentModule/webservice
-plugins.externalservices.capwebctpaymentmodule.get_family_accounts_uri=http://localhost:8090/PaymentModule/webservice
-plugins.externalservices.capwebctpaymentmodule.credit_account_uri=http://localhost:8090/PaymentModule/webservice
-plugins.externalservices.capwebctpaymentmodule.send_request_uri=http://localhost:8090/PaymentModule/webservice
-plugins.externalservices.capwebctpaymentmodule.check_external_referential_uri=http://localhost:8090/PaymentModule/webservice
-plugins.externalservices.capwebctpaymentmodule.load_external_information_uri=http://localhost:8090/PaymentModule/webservice
-plugins.externalservices.capwebctpaymentmodule.get_consumptions_uri=http://localhost:8090/PaymentModule/webservice
+# ExternalServices - Generic SOAP version
+plugins.externalservices.soap.load_invoice_details_uri=http://localhost:8090/PaymentModule/webservice
+plugins.externalservices.soap.load_account_details_uri=http://localhost:8090/PaymentModule/webservice
+plugins.externalservices.soap.get_family_accounts_uri=http://localhost:8090/PaymentModule/webservice
+plugins.externalservices.soap.credit_account_uri=http://localhost:8090/PaymentModule/webservice
+plugins.externalservices.soap.send_request_uri=http://localhost:8090/PaymentModule/webservice
+plugins.externalservices.soap.check_external_referential_uri=http://localhost:8090/PaymentModule/webservice
+plugins.externalservices.soap.load_external_information_uri=http://localhost:8090/PaymentModule/webservice
+plugins.externalservices.soap.get_consumptions_uri=http://localhost:8090/PaymentModule/webservice
 
+# ExternalServices - Generic REST version
 plugins.externalservices.rest.load_invoice_details_url=http://localhost:9000/services/loadInvoiceDetails
 plugins.externalservices.rest.load_account_details_url=http://localhost:9000/services/loadAccountDetails
 plugins.externalservices.rest.get_family_accounts_url=http://localhost:9000/services/getFamilyAccounts

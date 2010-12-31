@@ -47,6 +47,11 @@
   <xb:namespace uri="http://www.cg95.fr/cvq/schema/ladrr">
     <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
   </xb:namespace>
+  
+  <!-- Home Emergency Registration Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/herr">
+    <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
+  </xb:namespace>
 
   <!-- Birth Details Request -->
   <xb:namespace uri="http://www.cg95.fr/cvq/schema/bdr">

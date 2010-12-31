@@ -526,6 +526,8 @@
 
     drop table holiday_security_request;
 
+    drop table home_emergency_registration_request;
+
     drop table home_folder;
 
     drop table home_folder_mapping;
@@ -1592,6 +1594,14 @@
         rules_and_regulations_acceptance bool,
         alert_phone varchar(10),
         absence_start_date timestamp,
+        primary key (id)
+    );
+
+    create table home_emergency_registration_request (
+        id int8 not null,
+        telephone varchar(10),
+        date_depart timestamp,
+        duree varchar(2),
         primary key (id)
     );
 

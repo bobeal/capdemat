@@ -456,6 +456,16 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="defaultDisplayGroup" value="school" />
     <property name="filingDelay" value="12"/>
   </bean>
+  
+  <bean id="homeEmergencyRegistrationRequestService" 
+    class="fr.cg95.cvq.service.request.school.impl.HomeEmergencyRegistrationRequestService"
+    parent="requestService">
+    <property name="label" value="Home Emergency Registration"/>
+    <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
+    <property name="defaultDisplayGroup" value="school" />
+    <property name="filingDelay" value="12"/>
+    <property name="supportMultiple" value="true" />
+  </bean>
 
  <bean id="birthDetailsRequestService" 
     class="fr.cg95.cvq.service.request.civil.impl.BirthDetailsRequestService" 

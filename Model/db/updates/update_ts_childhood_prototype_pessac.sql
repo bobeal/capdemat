@@ -20,3 +20,11 @@ alter table learning_activities_discovery_registration_request_atelier_eveil
     foreign key (atelier_eveil_id) 
     references local_referential_data;
 
+create table home_emergency_registration_request (
+    id int8 not null,
+    telephone varchar(10),
+    date_depart timestamp,
+    duree varchar(2),
+    primary key (id)
+);
+

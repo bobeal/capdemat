@@ -224,4 +224,6 @@ public interface IRequestWorkflowService {
 
     void checkSubjectPolicy(@IsSubject final Long subjectId, final String policy,
             @IsRequest final Request request) throws CvqException, CvqModelException;
+
+    boolean isSupportMultiple(String requestLabel) throws CvqException;
 }

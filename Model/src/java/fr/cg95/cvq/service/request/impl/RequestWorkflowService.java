@@ -524,20 +524,23 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             Map<Long, Set<RequestSeason>> result = new HashMap<Long, Set<RequestSeason>>();
             for (Long subjectId : eligibleSubjects)
                 result.put(subjectId, null);
-            RequestState[] excludedStates = getStatesExcludedForRunningRequests();
-            List<Long> homeFolderSubjectIds = requestDAO.listHomeFolderSubjectIds(homeFolderId,
-                    requestService.getLabel(), excludedStates);
-            if (requestService.getSubjectPolicy().equals(IRequestWorkflowService.SUBJECT_POLICY_NONE)) {
-                if (!homeFolderSubjectIds.isEmpty()) {
-                    return Collections.emptyMap();
+            if (!requestService.getSupportMultiple()) {
+                RequestState[] excludedStates = getStatesExcludedForRunningRequests();
+                List<Long> homeFolderSubjectIds = requestDAO.listHomeFolderSubjectIds(homeFolderId,
+                        requestService.getLabel(), excludedStates);
+                if (requestService.getSubjectPolicy().equals(IRequestWorkflowService.SUBJECT_POLICY_NONE)) {
+                    if (!homeFolderSubjectIds.isEmpty()) {
+                        return Collections.emptyMap();
+                    } else {
+                        return result;
+                    }
                 } else {
+                    for (Long subjectId : homeFolderSubjectIds)
+                        result.remove(subjectId);
                     return result;
                 }
-            } else {
-                for (Long subjectId : homeFolderSubjectIds)
-                    result.remove(subjectId);
-                return result;
             }
+            return result;
         }
     }
 
@@ -1294,6 +1297,13 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             return true;
         
         return false;
+    }
+    
+    @Override
+    public boolean isSupportMultiple(final String requestLabel) 
+        throws CvqException {
+        IRequestService requestService = requestServiceRegistry.getRequestService(requestLabel);
+        return requestService.getSupportMultiple();
     }
     
     public List<RequestState> getInstructionDoneStates() {

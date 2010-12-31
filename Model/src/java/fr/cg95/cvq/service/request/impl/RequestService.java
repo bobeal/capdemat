@@ -24,6 +24,7 @@ public abstract class RequestService implements IRequestService {
     protected String defaultDisplayGroup;
     protected int filingDelay;
     protected boolean archiveDocuments;
+    protected boolean supportMultiple = Boolean.FALSE;
 
     protected IGenericDAO genericDAO;
 
@@ -169,5 +170,14 @@ public abstract class RequestService implements IRequestService {
 
     public void setArchiveDocuments(boolean archiveDocuments) {
         this.archiveDocuments = archiveDocuments;
+    }
+    
+    @Override
+    public boolean getSupportMultiple() {
+        return supportMultiple;
+    }
+
+    public void setSupportMultiple(boolean supportMultiple) {
+        this.supportMultiple = supportMultiple;
     }
 }

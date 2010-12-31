@@ -59,6 +59,14 @@
           """
           <dd><g:formatDate formatName="format.date" date="\${${wrapper}.${element.javaFieldName}}"/></dd>
           """
+      ,'time' :
+          """
+          <dd>
+            \${${wrapper}.${element.javaFieldName}?.getHourOfDay()} : 
+            <g:if test="\${${wrapper}.${element.javaFieldName} && ${wrapper}.${element.javaFieldName}.getMinuteOfHour() < 10}">
+            0</g:if>\${${wrapper}.${element.javaFieldName}?.getMinuteOfHour()}
+          </dd>
+          """
       ,'text' :
           """<dd>\${${wrapper}.${element.javaFieldName}?.toString()}</dd>"""
       ,'subject' :

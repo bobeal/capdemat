@@ -193,7 +193,7 @@ class BackofficeRequestInstructionController {
     * --------------------------------------------------------------------- */
 
     def widget = {
-        def widgets = ['date','address','frenchRIB','capdematEnum','boolean','textarea','localReferentialData','school','recreationCenter']
+        def widgets = ['date','time','address','frenchRIB','capdematEnum','boolean','textarea','localReferentialData','school','recreationCenter']
         
         def propertyTypes = JSON.parse(params.propertyType)
         def propertyType = propertyTypes.validate
@@ -252,6 +252,10 @@ class BackofficeRequestInstructionController {
             if (params.propertyValue != "null") {
                 propertyValue = Long.valueOf(params.propertyValue)
             }
+        } else if (propertyType == "time") {
+            propertyValue = [:]
+            propertyValue.hour = params.propertyValue.split(':')[0].trim()
+            propertyValue.minute = params.propertyValue.split(':')[1].trim()
         }
         else {
             propertyValue = params.propertyValue

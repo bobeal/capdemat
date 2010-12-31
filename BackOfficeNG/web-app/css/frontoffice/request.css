@@ -112,6 +112,10 @@ h2.request-creation { margin: 0; color: #DB4366; }
 #requestTabView .date select.day,
 #requestTabView .date select.month { display : inline; width : auto !important;}
 
+#requestTabView form div.time label { display:inline !important; }
+#requestTabView .time select.hour,
+#requestTabView .time select.minute { display : inline; width : auto !important; margin: .5em 0 .5em;}
+
 #requestTabView p.document-button { margin: 3em 0 0; text-align: center; font-size: 1.2em; }
 #requestTabView .document-add-new { text-align: right; }
 #requestTabView .document-fieldset                          { margin: 0 0 1em; }

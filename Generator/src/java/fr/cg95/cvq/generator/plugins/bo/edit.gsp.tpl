@@ -10,8 +10,13 @@
 <%
   def displayWidget(element, wrapper) {
     def widgets = [
-      'date' : 
+      'date' :
           "<span><g:formatDate formatName=\"format.date\" date=\"\${${wrapper}?.${element.javaFieldName}}\"/></span>"
+      ,'time' : 
+          ["<span>\${${wrapper}.${element.javaFieldName}?.getHourOfDay()} : "
+          ,"\${${wrapper}.${element.javaFieldName} && ${wrapper}.${element.javaFieldName}.getMinuteOfHour() < 10 ? '0' : ''}"
+          ,"\${${wrapper}.${element.javaFieldName}?.getMinuteOfHour()}</span>"
+          ].join()
       ,'capdematEnum' :
           "<g:capdematEnumToField var=\"\${${wrapper}?.${element.javaFieldName}}\" i18nKeyPrefix=\"${element.i18nPrefixCode}\" />"
       ,'address' :

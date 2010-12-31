@@ -121,6 +121,53 @@
                 title="<g:message code="${element.i18nPrefixCode}.validationError" />" />
             </div>
             """
+            
+         ,'time' :
+            """
+            <div class="time ${element.htmlClass} ${element.listenerConditionsClass} ${element.autofillClass}">
+              <label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> ${element.mandatory ? '*' : ''}  
+                <span><g:message code="${element.i18nPrefixCode}.help" /></span>
+              </label>
+              <select class="hour \${stepStates != null && stepStates['${step.name}']?.invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}"
+                id="${IdRefNamePrefix}${element.javaFieldName}_hour"
+                name="${namePrefix}${element.javaFieldName}_hour">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="\${0..23}">
+                  <option value="\${it}"
+                    <g:if test="\${${valuePrefix}.${element.javaFieldName}?.hourOfDay == it
+                      || (${valuePrefix}.${element.javaFieldName} == null && params['${namePrefix}${element.javaFieldName}_hour'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    \${it}
+                  </option>
+                </g:each>
+              </select>
+              <g:message code="time.hour" />
+              <select class="minute \${stepStates != null && stepStates['${step.name}']?.invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}"
+                id="${IdRefNamePrefix}${element.javaFieldName}_minute"
+                name="${namePrefix}${element.javaFieldName}_minute">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="\${0..59}">
+                 <g:if test="\${(it % 5) == 0}">
+                  <option value="\${it}"
+                    <g:if test="\${${valuePrefix}.${element.javaFieldName}?.minuteOfHour == it
+                      || (${valuePrefix}.${element.javaFieldName} == null && params['${namePrefix}${element.javaFieldName}_minute'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                        <g:if test="\${it < 10}">
+                           0\${it}
+                        </g:if>
+                        <g:else>
+                            \${it}
+                        </g:else>
+                  </option>
+                 </g:if>
+                </g:each>
+              </select>
+              <g:message code="time.minute" />
+            </div>
+            """
+            
          ,'text' :
             """
             <input type="text" id="${IdRefNamePrefix}${element.javaFieldName}" name="${namePrefix}${element.javaFieldName}" value="\${${valuePrefix}.${element.javaFieldName}?.toString()}" 
@@ -165,7 +212,7 @@
       ]
       
       def output
-      if (['requester','subject', 'acceptance'].contains(element.widget))
+      if (['requester','subject', 'acceptance', 'time'].contains(element.widget))
         output = ''
       else if (['radio', 'boolean', 'localReferentialData', 'address', 'date'].contains(element.widget))
         output = widgets['label']
@@ -217,6 +264,8 @@
             """
           ,'date' :
               """<dd><g:formatDate formatName="format.date" date="\${${valuePrefix}.${element.javaFieldName}}"/></dd>"""
+          ,'time' :
+              """<dd><g:formatDate formatName="format.time" date="\${${valuePrefix}.${element.javaFieldName}}" type="time"/></dd>"""
           ,'text' : 
               """<dd>\${${valuePrefix}.${element.javaFieldName}?.toString()}</dd>"""
       ]

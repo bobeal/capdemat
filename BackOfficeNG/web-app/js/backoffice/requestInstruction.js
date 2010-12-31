@@ -283,6 +283,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         propertyWrapperEl.innerHTML = selectedEl.innerHTML;
         propertyWrapperEl.className = 'value-' + selectedEl.value;
       }
+      else if (isSubmit && yud.hasClass(ddEl, 'validate-time')) {
+        var h = formEl[formEl.id.replace('_Form', '_hour')].value;
+        var m = formEl[formEl.id.replace('_Form', '_minute')].value;
+        propertyWrapperEl.innerHTML = h + ' : ' + m;
+      }
       else if (isSubmit) {
         var elName = formEl.id.replace('_Form', '') + '_Field';
         propertyValue = yud.get(elName).value;

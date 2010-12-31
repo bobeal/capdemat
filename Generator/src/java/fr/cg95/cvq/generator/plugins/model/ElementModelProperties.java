@@ -67,6 +67,8 @@ public class ElementModelProperties extends ElementProperties {
                 }
             } else if (xmlBeanType.indexOf("XmlDate") != -1) {
                 widget = "date";
+            } else if (xmlBeanType.indexOf("XmlTime") != -1) {
+                widget = "time";
             } else if (xmlBeanType.indexOf("XmlBoolean") != -1) {
                 widget = "boolean";
             } else if (xmlBeanType.indexOf("XmlPositiveInteger") != -1) {

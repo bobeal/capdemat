@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.AssertValid;
 import org.apache.xmlbeans.XmlOptions;
@@ -72,15 +73,13 @@ public class DomesticHelpRequest extends Request implements Serializable {
     public final DomesticHelpRequestDocument modelToXml() {
         
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         Date date = null;
         DomesticHelpRequestDocument domesticHelpRequestDoc = DomesticHelpRequestDocument.Factory.newInstance();
         DomesticHelpRequestDocument.DomesticHelpRequest domesticHelpRequest = domesticHelpRequestDoc.addNewDomesticHelpRequest();
         super.fillCommonXmlInfo(domesticHelpRequest);
         int i = 0;
-          DhrSpouseStatusType dhrSpouseStatusTypeDhrSpouseStatus = domesticHelpRequest.addNewDhrSpouseStatus();
-        if (getDhrSpousePrincipalPensionPlan() != null)
-            dhrSpouseStatusTypeDhrSpouseStatus.setDhrSpousePrincipalPensionPlan(fr.cg95.cvq.xml.request.social.DhrPrincipalPensionPlanType.Enum.forString(getDhrSpousePrincipalPensionPlan().toString()));
-      
+        
         i = 0;
         if (getDhrRealAsset() != null) {
             fr.cg95.cvq.xml.request.social.DhrRealAssetType[] dhrRealAssetTypeTab = new fr.cg95.cvq.xml.request.social.DhrRealAssetType[getDhrRealAsset().size()];
@@ -89,6 +88,9 @@ public class DomesticHelpRequest extends Request implements Serializable {
             }
             domesticHelpRequest.setDhrRealAssetArray(dhrRealAssetTypeTab);
         }
+        DhrSpouseStatusType dhrSpouseStatusTypeDhrSpouseStatus = domesticHelpRequest.addNewDhrSpouseStatus();
+        if (getDhrSpousePrincipalPensionPlan() != null)
+            dhrSpouseStatusTypeDhrSpouseStatus.setDhrSpousePrincipalPensionPlan(fr.cg95.cvq.xml.request.social.DhrPrincipalPensionPlanType.Enum.forString(getDhrSpousePrincipalPensionPlan().toString()));
       
         dhrSpouseStatusTypeDhrSpouseStatus.setDhrSpouseProfession(getDhrSpouseProfession());
         DhrIncomesType dhrIncomesTypeDhrRequesterIncomes = domesticHelpRequest.addNewDhrRequesterIncomes();
@@ -142,17 +144,20 @@ public class DomesticHelpRequest extends Request implements Serializable {
             calendar.setTime(date);
             dhrCurrentDwellingTypeDhrCurrentDwelling.setDhrCurrentDwellingArrivalDate(calendar);
         }
-        DhrFamilyReferentType dhrFamilyReferentTypeDhrFamilyReferent = domesticHelpRequest.addNewDhrFamilyReferent();
-        dhrFamilyReferentTypeDhrFamilyReferent.setDhrReferentFirstName(getDhrReferentFirstName());
       
         if (getDhrIncomesAnnualTotal() != null)
             dhrIncomesTypeDhrRequesterIncomes.setDhrIncomesAnnualTotal(new BigInteger(getDhrIncomesAnnualTotal().toString()));
+        DhrFamilyReferentType dhrFamilyReferentTypeDhrFamilyReferent = domesticHelpRequest.addNewDhrFamilyReferent();
+        dhrFamilyReferentTypeDhrFamilyReferent.setDhrReferentFirstName(getDhrReferentFirstName());
         DhrRequesterGuardianType dhrRequesterGuardianTypeDhrRequesterGuardian = domesticHelpRequest.addNewDhrRequesterGuardian();
         if (getDhrRequesterHaveGuardian() != null)
             dhrRequesterGuardianTypeDhrRequesterGuardian.setDhrRequesterHaveGuardian(getDhrRequesterHaveGuardian().booleanValue());
       
         if (getDhrIncomeTax() != null)
             dhrTaxesAmountTypeDhrTaxesAmount.setDhrIncomeTax(new BigInteger(getDhrIncomeTax().toString()));
+      
+        if (getDhrCurrentDwellingNetArea() != null)
+            dhrCurrentDwellingTypeDhrCurrentDwelling.setDhrCurrentDwellingNetArea(getDhrCurrentDwellingNetArea());
       
         dhrSpouseTypeDhrSpouse.setDhrSpouseBirthPlace(getDhrSpouseBirthPlace());
       
@@ -161,9 +166,6 @@ public class DomesticHelpRequest extends Request implements Serializable {
             calendar.setTime(date);
             dhrSpouseTypeDhrSpouse.setDhrSpouseBirthDate(calendar);
         }
-      
-        if (getDhrCurrentDwellingNetArea() != null)
-            dhrCurrentDwellingTypeDhrCurrentDwelling.setDhrCurrentDwellingNetArea(getDhrCurrentDwellingNetArea());
       
         date = getDhrRequesterFranceArrivalDate();
         if (date != null) {
@@ -217,10 +219,10 @@ public class DomesticHelpRequest extends Request implements Serializable {
         if (getDhrCurrentDwellingNumberOfRoom() != null)
             dhrCurrentDwellingTypeDhrCurrentDwelling.setDhrCurrentDwellingNumberOfRoom(getDhrCurrentDwellingNumberOfRoom());
       
+        dhrCurrentDwellingTypeDhrCurrentDwelling.setDhrCurrentDwellingPhone(getDhrCurrentDwellingPhone());
+      
         if (getDhrGuardianMeasure() != null)
             dhrRequesterGuardianTypeDhrRequesterGuardian.setDhrGuardianMeasure(fr.cg95.cvq.xml.request.social.DhrGuardianMeasureType.Enum.forString(getDhrGuardianMeasure().toString()));
-      
-        dhrCurrentDwellingTypeDhrCurrentDwelling.setDhrCurrentDwellingPhone(getDhrCurrentDwellingPhone());
       
         if (getDhrSpouseIsFrenchResident() != null)
             dhrSpouseTypeDhrSpouse.setDhrSpouseIsFrenchResident(getDhrSpouseIsFrenchResident().booleanValue());
@@ -231,8 +233,6 @@ public class DomesticHelpRequest extends Request implements Serializable {
         if (getDhrSpouseNationality() != null)
             dhrSpouseTypeDhrSpouse.setDhrSpouseNationality(fr.cg95.cvq.xml.common.NationalityType.Enum.forString(getDhrSpouseNationality().toString()));
       
-        dhrSpouseTypeDhrSpouse.setDhrSpouseMaidenName(getDhrSpouseMaidenName());
-      
         i = 0;
         if (getDhrPreviousDwelling() != null) {
             fr.cg95.cvq.xml.request.social.DhrPreviousDwellingType[] dhrPreviousDwellingTypeTab = new fr.cg95.cvq.xml.request.social.DhrPreviousDwellingType[getDhrPreviousDwelling().size()];
@@ -242,9 +242,11 @@ public class DomesticHelpRequest extends Request implements Serializable {
             domesticHelpRequest.setDhrPreviousDwellingArray(dhrPreviousDwellingTypeTab);
         }
       
-        dhrSpouseTypeDhrSpouse.setDhrSpouseName(getDhrSpouseName());
+        dhrSpouseTypeDhrSpouse.setDhrSpouseMaidenName(getDhrSpouseMaidenName());
       
         dhrSpouseStatusTypeDhrSpouseStatus.setDhrSpousePensionPlanDetail(getDhrSpousePensionPlanDetail());
+      
+        dhrSpouseTypeDhrSpouse.setDhrSpouseName(getDhrSpouseName());
       
         dhrRequesterTypeDhrRequester.setDhrRequesterBirthPlace(getDhrRequesterBirthPlace());
       
@@ -254,9 +256,9 @@ public class DomesticHelpRequest extends Request implements Serializable {
         if (getDhrHaveFamilyReferent() != null)
             dhrFamilyReferentTypeDhrFamilyReferent.setDhrHaveFamilyReferent(getDhrHaveFamilyReferent().booleanValue());
       
-        dhrRequesterPensionPlanTypeDhrRequesterPensionPlan.setDhrPensionPlanDetail(getDhrPensionPlanDetail());
-      
         dhrSpouseStatusTypeDhrSpouseStatus.setDhrSpouseComplementaryPensionPlan(getDhrSpouseComplementaryPensionPlan());
+      
+        dhrRequesterPensionPlanTypeDhrRequesterPensionPlan.setDhrPensionPlanDetail(getDhrPensionPlanDetail());
       
         return domesticHelpRequestDoc;
     }
@@ -269,20 +271,21 @@ public class DomesticHelpRequest extends Request implements Serializable {
     public static DomesticHelpRequest xmlToModel(DomesticHelpRequestDocument domesticHelpRequestDoc) {
         DomesticHelpRequestDocument.DomesticHelpRequest domesticHelpRequestXml = domesticHelpRequestDoc.getDomesticHelpRequest();
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         DomesticHelpRequest domesticHelpRequest = new DomesticHelpRequest();
         domesticHelpRequest.fillCommonModelInfo(domesticHelpRequest, domesticHelpRequestXml);
         
-        if (domesticHelpRequestXml.getDhrSpouseStatus().getDhrSpousePrincipalPensionPlan() != null)
-            domesticHelpRequest.setDhrSpousePrincipalPensionPlan(fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType.forString(domesticHelpRequestXml.getDhrSpouseStatus().getDhrSpousePrincipalPensionPlan().toString()));
-        else
-            domesticHelpRequest.setDhrSpousePrincipalPensionPlan(fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType.getDefaultDhrPrincipalPensionPlanType());
-      
         List<fr.cg95.cvq.business.request.social.DhrRealAsset> dhrRealAssetList = new ArrayList<fr.cg95.cvq.business.request.social.DhrRealAsset>(domesticHelpRequestXml.sizeOfDhrRealAssetArray());
         for (DhrRealAssetType object : domesticHelpRequestXml.getDhrRealAssetArray()) {
             dhrRealAssetList.add(fr.cg95.cvq.business.request.social.DhrRealAsset.xmlToModel(object));
         }
         domesticHelpRequest.setDhrRealAsset(dhrRealAssetList);
+      
+        if (domesticHelpRequestXml.getDhrSpouseStatus().getDhrSpousePrincipalPensionPlan() != null)
+            domesticHelpRequest.setDhrSpousePrincipalPensionPlan(fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType.forString(domesticHelpRequestXml.getDhrSpouseStatus().getDhrSpousePrincipalPensionPlan().toString()));
+        else
+            domesticHelpRequest.setDhrSpousePrincipalPensionPlan(fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType.getDefaultDhrPrincipalPensionPlanType());
       
         domesticHelpRequest.setDhrSpouseProfession(domesticHelpRequestXml.getDhrSpouseStatus().getDhrSpouseProfession());
       
@@ -330,13 +333,16 @@ public class DomesticHelpRequest extends Request implements Serializable {
             domesticHelpRequest.setDhrCurrentDwellingArrivalDate(calendar.getTime());
         }
       
-        domesticHelpRequest.setDhrReferentFirstName(domesticHelpRequestXml.getDhrFamilyReferent().getDhrReferentFirstName());
-      
         domesticHelpRequest.setDhrIncomesAnnualTotal(domesticHelpRequestXml.getDhrRequesterIncomes().getDhrIncomesAnnualTotal());
+      
+        domesticHelpRequest.setDhrReferentFirstName(domesticHelpRequestXml.getDhrFamilyReferent().getDhrReferentFirstName());
       
         domesticHelpRequest.setDhrRequesterHaveGuardian(Boolean.valueOf(domesticHelpRequestXml.getDhrRequesterGuardian().getDhrRequesterHaveGuardian()));
       
         domesticHelpRequest.setDhrIncomeTax(domesticHelpRequestXml.getDhrTaxesAmount().getDhrIncomeTax());
+      
+        if (domesticHelpRequestXml.getDhrCurrentDwelling().getDhrCurrentDwellingNetArea() != null)
+            domesticHelpRequest.setDhrCurrentDwellingNetArea(domesticHelpRequestXml.getDhrCurrentDwelling().getDhrCurrentDwellingNetArea());
       
         domesticHelpRequest.setDhrSpouseBirthPlace(domesticHelpRequestXml.getDhrSpouse().getDhrSpouseBirthPlace());
       
@@ -344,9 +350,6 @@ public class DomesticHelpRequest extends Request implements Serializable {
         if (calendar != null) {
             domesticHelpRequest.setDhrSpouseBirthDate(calendar.getTime());
         }
-      
-        if (domesticHelpRequestXml.getDhrCurrentDwelling().getDhrCurrentDwellingNetArea() != null)
-            domesticHelpRequest.setDhrCurrentDwellingNetArea(domesticHelpRequestXml.getDhrCurrentDwelling().getDhrCurrentDwellingNetArea());
       
         calendar = domesticHelpRequestXml.getDhrRequester().getDhrRequesterFranceArrivalDate();
         if (calendar != null) {
@@ -405,12 +408,12 @@ public class DomesticHelpRequest extends Request implements Serializable {
         if (domesticHelpRequestXml.getDhrCurrentDwelling().getDhrCurrentDwellingNumberOfRoom() != null)
             domesticHelpRequest.setDhrCurrentDwellingNumberOfRoom(domesticHelpRequestXml.getDhrCurrentDwelling().getDhrCurrentDwellingNumberOfRoom());
       
+        domesticHelpRequest.setDhrCurrentDwellingPhone(domesticHelpRequestXml.getDhrCurrentDwelling().getDhrCurrentDwellingPhone());
+      
         if (domesticHelpRequestXml.getDhrRequesterGuardian().getDhrGuardianMeasure() != null)
             domesticHelpRequest.setDhrGuardianMeasure(fr.cg95.cvq.business.request.social.DhrGuardianMeasureType.forString(domesticHelpRequestXml.getDhrRequesterGuardian().getDhrGuardianMeasure().toString()));
         else
             domesticHelpRequest.setDhrGuardianMeasure(fr.cg95.cvq.business.request.social.DhrGuardianMeasureType.getDefaultDhrGuardianMeasureType());
-      
-        domesticHelpRequest.setDhrCurrentDwellingPhone(domesticHelpRequestXml.getDhrCurrentDwelling().getDhrCurrentDwellingPhone());
       
         domesticHelpRequest.setDhrSpouseIsFrenchResident(Boolean.valueOf(domesticHelpRequestXml.getDhrSpouse().getDhrSpouseIsFrenchResident()));
       
@@ -421,17 +424,17 @@ public class DomesticHelpRequest extends Request implements Serializable {
         else
             domesticHelpRequest.setDhrSpouseNationality(fr.cg95.cvq.business.users.NationalityType.getDefaultNationalityType());
       
-        domesticHelpRequest.setDhrSpouseMaidenName(domesticHelpRequestXml.getDhrSpouse().getDhrSpouseMaidenName());
-      
         List<fr.cg95.cvq.business.request.social.DhrPreviousDwelling> dhrPreviousDwellingList = new ArrayList<fr.cg95.cvq.business.request.social.DhrPreviousDwelling>(domesticHelpRequestXml.sizeOfDhrPreviousDwellingArray());
         for (DhrPreviousDwellingType object : domesticHelpRequestXml.getDhrPreviousDwellingArray()) {
             dhrPreviousDwellingList.add(fr.cg95.cvq.business.request.social.DhrPreviousDwelling.xmlToModel(object));
         }
         domesticHelpRequest.setDhrPreviousDwelling(dhrPreviousDwellingList);
       
-        domesticHelpRequest.setDhrSpouseName(domesticHelpRequestXml.getDhrSpouse().getDhrSpouseName());
+        domesticHelpRequest.setDhrSpouseMaidenName(domesticHelpRequestXml.getDhrSpouse().getDhrSpouseMaidenName());
       
         domesticHelpRequest.setDhrSpousePensionPlanDetail(domesticHelpRequestXml.getDhrSpouseStatus().getDhrSpousePensionPlanDetail());
+      
+        domesticHelpRequest.setDhrSpouseName(domesticHelpRequestXml.getDhrSpouse().getDhrSpouseName());
       
         domesticHelpRequest.setDhrRequesterBirthPlace(domesticHelpRequestXml.getDhrRequester().getDhrRequesterBirthPlace());
       
@@ -440,22 +443,13 @@ public class DomesticHelpRequest extends Request implements Serializable {
       
         domesticHelpRequest.setDhrHaveFamilyReferent(Boolean.valueOf(domesticHelpRequestXml.getDhrFamilyReferent().getDhrHaveFamilyReferent()));
       
-        domesticHelpRequest.setDhrPensionPlanDetail(domesticHelpRequestXml.getDhrRequesterPensionPlan().getDhrPensionPlanDetail());
-      
         domesticHelpRequest.setDhrSpouseComplementaryPensionPlan(domesticHelpRequestXml.getDhrSpouseStatus().getDhrSpouseComplementaryPensionPlan());
+      
+        domesticHelpRequest.setDhrPensionPlanDetail(domesticHelpRequestXml.getDhrRequesterPensionPlan().getDhrPensionPlanDetail());
       
         return domesticHelpRequest;
     }
 
-  
-    public final void setDhrSpousePrincipalPensionPlan(final fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType dhrSpousePrincipalPensionPlan) {
-        domesticHelpRequestData.setDhrSpousePrincipalPensionPlan(dhrSpousePrincipalPensionPlan);
-    }
-
-    
-    public final fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType getDhrSpousePrincipalPensionPlan() {
-        return domesticHelpRequestData.getDhrSpousePrincipalPensionPlan();
-    }
   
     public final void setDhrRealAsset(final List<fr.cg95.cvq.business.request.social.DhrRealAsset> dhrRealAsset) {
         domesticHelpRequestData.setDhrRealAsset(dhrRealAsset);
@@ -464,6 +458,15 @@ public class DomesticHelpRequest extends Request implements Serializable {
     
     public final List<fr.cg95.cvq.business.request.social.DhrRealAsset> getDhrRealAsset() {
         return domesticHelpRequestData.getDhrRealAsset();
+    }
+  
+    public final void setDhrSpousePrincipalPensionPlan(final fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType dhrSpousePrincipalPensionPlan) {
+        domesticHelpRequestData.setDhrSpousePrincipalPensionPlan(dhrSpousePrincipalPensionPlan);
+    }
+
+    
+    public final fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType getDhrSpousePrincipalPensionPlan() {
+        return domesticHelpRequestData.getDhrSpousePrincipalPensionPlan();
     }
   
     public final void setDhrSpouseProfession(final String dhrSpouseProfession) {
@@ -583,15 +586,6 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return domesticHelpRequestData.getDhrCurrentDwellingArrivalDate();
     }
   
-    public final void setDhrReferentFirstName(final String dhrReferentFirstName) {
-        domesticHelpRequestData.setDhrReferentFirstName(dhrReferentFirstName);
-    }
-
-    
-    public final String getDhrReferentFirstName() {
-        return domesticHelpRequestData.getDhrReferentFirstName();
-    }
-  
     public final void setDhrIncomesAnnualTotal(final java.math.BigInteger dhrIncomesAnnualTotal) {
         domesticHelpRequestData.setDhrIncomesAnnualTotal(dhrIncomesAnnualTotal);
     }
@@ -599,6 +593,15 @@ public class DomesticHelpRequest extends Request implements Serializable {
     
     public final java.math.BigInteger getDhrIncomesAnnualTotal() {
         return domesticHelpRequestData.getDhrIncomesAnnualTotal();
+    }
+  
+    public final void setDhrReferentFirstName(final String dhrReferentFirstName) {
+        domesticHelpRequestData.setDhrReferentFirstName(dhrReferentFirstName);
+    }
+
+    
+    public final String getDhrReferentFirstName() {
+        return domesticHelpRequestData.getDhrReferentFirstName();
     }
   
     public final void setDhrRequesterHaveGuardian(final Boolean dhrRequesterHaveGuardian) {
@@ -619,6 +622,15 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return domesticHelpRequestData.getDhrIncomeTax();
     }
   
+    public final void setDhrCurrentDwellingNetArea(final java.math.BigDecimal dhrCurrentDwellingNetArea) {
+        domesticHelpRequestData.setDhrCurrentDwellingNetArea(dhrCurrentDwellingNetArea);
+    }
+
+    
+    public final java.math.BigDecimal getDhrCurrentDwellingNetArea() {
+        return domesticHelpRequestData.getDhrCurrentDwellingNetArea();
+    }
+  
     public final void setDhrSpouseBirthPlace(final String dhrSpouseBirthPlace) {
         domesticHelpRequestData.setDhrSpouseBirthPlace(dhrSpouseBirthPlace);
     }
@@ -635,15 +647,6 @@ public class DomesticHelpRequest extends Request implements Serializable {
     
     public final java.util.Date getDhrSpouseBirthDate() {
         return domesticHelpRequestData.getDhrSpouseBirthDate();
-    }
-  
-    public final void setDhrCurrentDwellingNetArea(final java.math.BigDecimal dhrCurrentDwellingNetArea) {
-        domesticHelpRequestData.setDhrCurrentDwellingNetArea(dhrCurrentDwellingNetArea);
-    }
-
-    
-    public final java.math.BigDecimal getDhrCurrentDwellingNetArea() {
-        return domesticHelpRequestData.getDhrCurrentDwellingNetArea();
     }
   
     public final void setDhrRequesterFranceArrivalDate(final java.util.Date dhrRequesterFranceArrivalDate) {
@@ -808,15 +811,6 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return domesticHelpRequestData.getDhrCurrentDwellingNumberOfRoom();
     }
   
-    public final void setDhrGuardianMeasure(final fr.cg95.cvq.business.request.social.DhrGuardianMeasureType dhrGuardianMeasure) {
-        domesticHelpRequestData.setDhrGuardianMeasure(dhrGuardianMeasure);
-    }
-
-    
-    public final fr.cg95.cvq.business.request.social.DhrGuardianMeasureType getDhrGuardianMeasure() {
-        return domesticHelpRequestData.getDhrGuardianMeasure();
-    }
-  
     public final void setDhrCurrentDwellingPhone(final String dhrCurrentDwellingPhone) {
         domesticHelpRequestData.setDhrCurrentDwellingPhone(dhrCurrentDwellingPhone);
     }
@@ -824,6 +818,15 @@ public class DomesticHelpRequest extends Request implements Serializable {
     
     public final String getDhrCurrentDwellingPhone() {
         return domesticHelpRequestData.getDhrCurrentDwellingPhone();
+    }
+  
+    public final void setDhrGuardianMeasure(final fr.cg95.cvq.business.request.social.DhrGuardianMeasureType dhrGuardianMeasure) {
+        domesticHelpRequestData.setDhrGuardianMeasure(dhrGuardianMeasure);
+    }
+
+    
+    public final fr.cg95.cvq.business.request.social.DhrGuardianMeasureType getDhrGuardianMeasure() {
+        return domesticHelpRequestData.getDhrGuardianMeasure();
     }
   
     public final void setDhrSpouseIsFrenchResident(final Boolean dhrSpouseIsFrenchResident) {
@@ -853,15 +856,6 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return domesticHelpRequestData.getDhrSpouseNationality();
     }
   
-    public final void setDhrSpouseMaidenName(final String dhrSpouseMaidenName) {
-        domesticHelpRequestData.setDhrSpouseMaidenName(dhrSpouseMaidenName);
-    }
-
-    
-    public final String getDhrSpouseMaidenName() {
-        return domesticHelpRequestData.getDhrSpouseMaidenName();
-    }
-  
     public final void setDhrPreviousDwelling(final List<fr.cg95.cvq.business.request.social.DhrPreviousDwelling> dhrPreviousDwelling) {
         domesticHelpRequestData.setDhrPreviousDwelling(dhrPreviousDwelling);
     }
@@ -871,13 +865,13 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return domesticHelpRequestData.getDhrPreviousDwelling();
     }
   
-    public final void setDhrSpouseName(final String dhrSpouseName) {
-        domesticHelpRequestData.setDhrSpouseName(dhrSpouseName);
+    public final void setDhrSpouseMaidenName(final String dhrSpouseMaidenName) {
+        domesticHelpRequestData.setDhrSpouseMaidenName(dhrSpouseMaidenName);
     }
 
     
-    public final String getDhrSpouseName() {
-        return domesticHelpRequestData.getDhrSpouseName();
+    public final String getDhrSpouseMaidenName() {
+        return domesticHelpRequestData.getDhrSpouseMaidenName();
     }
   
     public final void setDhrSpousePensionPlanDetail(final String dhrSpousePensionPlanDetail) {
@@ -887,6 +881,15 @@ public class DomesticHelpRequest extends Request implements Serializable {
     
     public final String getDhrSpousePensionPlanDetail() {
         return domesticHelpRequestData.getDhrSpousePensionPlanDetail();
+    }
+  
+    public final void setDhrSpouseName(final String dhrSpouseName) {
+        domesticHelpRequestData.setDhrSpouseName(dhrSpouseName);
+    }
+
+    
+    public final String getDhrSpouseName() {
+        return domesticHelpRequestData.getDhrSpouseName();
     }
   
     public final void setDhrRequesterBirthPlace(final String dhrRequesterBirthPlace) {
@@ -916,15 +919,6 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return domesticHelpRequestData.getDhrHaveFamilyReferent();
     }
   
-    public final void setDhrPensionPlanDetail(final String dhrPensionPlanDetail) {
-        domesticHelpRequestData.setDhrPensionPlanDetail(dhrPensionPlanDetail);
-    }
-
-    
-    public final String getDhrPensionPlanDetail() {
-        return domesticHelpRequestData.getDhrPensionPlanDetail();
-    }
-  
     public final void setDhrSpouseComplementaryPensionPlan(final String dhrSpouseComplementaryPensionPlan) {
         domesticHelpRequestData.setDhrSpouseComplementaryPensionPlan(dhrSpouseComplementaryPensionPlan);
     }
@@ -932,6 +926,15 @@ public class DomesticHelpRequest extends Request implements Serializable {
     
     public final String getDhrSpouseComplementaryPensionPlan() {
         return domesticHelpRequestData.getDhrSpouseComplementaryPensionPlan();
+    }
+  
+    public final void setDhrPensionPlanDetail(final String dhrPensionPlanDetail) {
+        domesticHelpRequestData.setDhrPensionPlanDetail(dhrPensionPlanDetail);
+    }
+
+    
+    public final String getDhrPensionPlanDetail() {
+        return domesticHelpRequestData.getDhrPensionPlanDetail();
     }
   
 }

@@ -46,6 +46,14 @@
             ${wrapper}.set${StringUtils.capitalize(element.nameAsParam)}(calendar);
         }
       """,
+      "time" : """
+        localTime = this.${element.nameAsParam};
+        if (localTime != null) {
+            calendar.set(Calendar.HOUR_OF_DAY,localTime.getHourOfDay());
+            calendar.set(Calendar.MINUTE,localTime.getMinuteOfHour());
+            ${wrapper}.set${StringUtils.capitalize(element.nameAsParam)}(calendar);
+        }
+      """,
       "boolean" : """
         if (this.${element.nameAsParam} != null)
             ${wrapper}.set${StringUtils.capitalize(element.nameAsParam)}(this.${element.nameAsParam}.booleanValue());
@@ -111,6 +119,13 @@
             ${returnInstance}.set${StringUtils.capitalize(element.nameAsParam)}(calendar.getTime());
         }
       """,
+      "time" : """
+        calendar = ${wrapper}.get${StringUtils.capitalize(element.nameAsParam)}();
+        if (calendar != null) {
+            localTime = new LocalTime(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+            ${returnInstance}.set${StringUtils.capitalize(element.nameAsParam)}(localTime);
+        }
+      """,
       "boolean" : """
         ${returnInstance}.set${StringUtils.capitalize(element.nameAsParam)}(Boolean.valueOf(${wrapper}.get${StringUtils.capitalize(element.nameAsParam)}()));
       """,
@@ -143,6 +158,12 @@
         ${element.maxLength > 0 ? '*  length="' + element.maxLength + '"' : element.length > 0 ? '*  length="' + element.length + '"' : ""}
       """,
       "positiveInteger" : """
+        * @hibernate.property
+        *  column="${sqlName}"
+        *  type="serializable"
+        ${element.maxLength > 0 ? '*  length="' + element.maxLength + '"' : element.length > 0 ? '*  length="' + element.length + '"' : ""}
+      """,
+      "localTime" : """
         * @hibernate.property
         *  column="${sqlName}"
         *  type="serializable"
@@ -187,6 +208,7 @@
     widgets["string"] = widgets["simple"]
     widgets["enum"] = widgets["simple"]
     widgets["date"] = widgets["simple"]
+    widgets["time"] = widgets["localTime"]
     widgets["boolean"] = widgets["simple"]
     widgets["referential"] = widgets["many-to-one"]
     widgets["referentialList"] = widgets["many-to-many"]
@@ -205,6 +227,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
@@ -249,6 +272,7 @@ public class ${className} implements Serializable {
         <% def localComplexTypesSet = new HashSet<String>() %>
         Calendar calendar = Calendar.getInstance();
         Date date = null;
+        LocalTime localTime = new LocalTime();
         ${className}Type ${returnInstance} = ${className}Type.Factory.newInstance();
         int i = 0;
     <%
@@ -273,6 +297,7 @@ public class ${className} implements Serializable {
 
     public static ${className} xmlToModel(${className}Type ${returnInstance}Doc) {
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         ${className} ${returnInstance} = new ${className}();
     <%

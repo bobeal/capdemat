@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.AssertValid;
 import org.apache.xmlbeans.XmlOptions;
@@ -72,6 +73,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
     public final AlignmentNumberingConnectionRequestDocument modelToXml() {
         
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         Date date = null;
         AlignmentNumberingConnectionRequestDocument alignmentNumberingConnectionRequestDoc = AlignmentNumberingConnectionRequestDocument.Factory.newInstance();
         AlignmentNumberingConnectionRequestDocument.AlignmentNumberingConnectionRequest alignmentNumberingConnectionRequest = alignmentNumberingConnectionRequestDoc.addNewAlignmentNumberingConnectionRequest();
@@ -129,6 +131,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
     public static AlignmentNumberingConnectionRequest xmlToModel(AlignmentNumberingConnectionRequestDocument alignmentNumberingConnectionRequestDoc) {
         AlignmentNumberingConnectionRequestDocument.AlignmentNumberingConnectionRequest alignmentNumberingConnectionRequestXml = alignmentNumberingConnectionRequestDoc.getAlignmentNumberingConnectionRequest();
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         AlignmentNumberingConnectionRequest alignmentNumberingConnectionRequest = new AlignmentNumberingConnectionRequest();
         alignmentNumberingConnectionRequest.fillCommonModelInfo(alignmentNumberingConnectionRequest, alignmentNumberingConnectionRequestXml);

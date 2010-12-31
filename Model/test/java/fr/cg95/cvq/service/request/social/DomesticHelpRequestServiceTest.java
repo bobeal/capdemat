@@ -44,13 +44,13 @@ public class DomesticHelpRequestServiceTest extends RequestTestCase {
           
           
             
-              request.setDhrSpousePrincipalPensionPlan(DhrPrincipalPensionPlanType.C_N_A_V);
             
           
         
           
           
             
+              request.setDhrSpousePrincipalPensionPlan(DhrPrincipalPensionPlanType.C_N_A_V);
             
           
         
@@ -133,17 +133,17 @@ public class DomesticHelpRequestServiceTest extends RequestTestCase {
         
           
           
+               request.setDhrIncomesAnnualTotal(BigInteger.valueOf(1));
+          
+        
+          
+          
             
               if ("DhrReferentFirstName".length() > 38)
                   request.setDhrReferentFirstName("DhrReferentFirstName".substring(0, 38));
               else
                   request.setDhrReferentFirstName("DhrReferentFirstName");
             
-          
-        
-          
-          
-               request.setDhrIncomesAnnualTotal(BigInteger.valueOf(1));
           
         
           
@@ -158,6 +158,9 @@ public class DomesticHelpRequestServiceTest extends RequestTestCase {
         
           
           
+        
+          
+          
             
                request.setDhrSpouseBirthPlace("DhrSpouseBirthPlace");
             
@@ -166,9 +169,6 @@ public class DomesticHelpRequestServiceTest extends RequestTestCase {
           
           
                request.setDhrSpouseBirthDate(new Date());
-          
-        
-          
           
         
           
@@ -301,17 +301,17 @@ public class DomesticHelpRequestServiceTest extends RequestTestCase {
           
           
             
-              request.setDhrGuardianMeasure(DhrGuardianMeasureType.SAFEGUARDING_JUSTICE);
+              if ("DhrCurrentDwellingPhone".length() > 10)
+                  request.setDhrCurrentDwellingPhone("DhrCurrentDwellingPhone".substring(0, 10));
+              else
+                  request.setDhrCurrentDwellingPhone("DhrCurrentDwellingPhone");
             
           
         
           
           
             
-              if ("DhrCurrentDwellingPhone".length() > 10)
-                  request.setDhrCurrentDwellingPhone("DhrCurrentDwellingPhone".substring(0, 10));
-              else
-                  request.setDhrCurrentDwellingPhone("DhrCurrentDwellingPhone");
+              request.setDhrGuardianMeasure(DhrGuardianMeasureType.SAFEGUARDING_JUSTICE);
             
           
         
@@ -335,6 +335,12 @@ public class DomesticHelpRequestServiceTest extends RequestTestCase {
           
           
             
+            
+          
+        
+          
+          
+            
               if ("DhrSpouseMaidenName".length() > 38)
                   request.setDhrSpouseMaidenName("DhrSpouseMaidenName".substring(0, 38));
               else
@@ -345,6 +351,7 @@ public class DomesticHelpRequestServiceTest extends RequestTestCase {
           
           
             
+               request.setDhrSpousePensionPlanDetail("DhrSpousePensionPlanDetail");
             
           
         
@@ -355,13 +362,6 @@ public class DomesticHelpRequestServiceTest extends RequestTestCase {
                   request.setDhrSpouseName("DhrSpouseName".substring(0, 38));
               else
                   request.setDhrSpouseName("DhrSpouseName");
-            
-          
-        
-          
-          
-            
-               request.setDhrSpousePensionPlanDetail("DhrSpousePensionPlanDetail");
             
           
         
@@ -390,14 +390,14 @@ public class DomesticHelpRequestServiceTest extends RequestTestCase {
           
           
             
-               request.setDhrPensionPlanDetail("DhrPensionPlanDetail");
+               request.setDhrSpouseComplementaryPensionPlan("DhrSpouseComplementaryPensionPlan");
             
           
         
           
           
             
-               request.setDhrSpouseComplementaryPensionPlan("DhrSpouseComplementaryPensionPlan");
+               request.setDhrPensionPlanDetail("DhrPensionPlanDetail");
             
           
         

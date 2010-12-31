@@ -8,8 +8,6 @@ import java.util.Set;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.w3c.dom.Node;
-
 import fr.cg95.cvq.business.request.Category;
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.request.Request;
@@ -123,12 +121,12 @@ public class RequestServiceTest extends RequestTestCase {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-
-        Request request = requestSearchService.getById(requestId, false);
-        Node requestCloneNode =
-            requestWorkflowService.getRequestClone(null, request.getHomeFolderId(),
-            		request.getRequestType().getLabel());
-        assertNotNull(requestCloneNode);
+        
+        Request requestClone =
+            requestWorkflowService.getRequestClone(requestId);
+        assertEquals(0, requestClone.getId().intValue());
+        assertNotNull(requestClone);
+        assertEquals("VO Card", requestClone.getRequestType().getLabel());
         
         SecurityContext.resetCurrentSite();
     }

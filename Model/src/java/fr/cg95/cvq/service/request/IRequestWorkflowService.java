@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.w3c.dom.Node;
-
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.business.request.Request;
@@ -177,20 +175,18 @@ public interface IRequestWorkflowService {
         throws CvqException, CvqObjectNotFoundException;
 
     /**
-     * Get a clone of a request with the given label whose subject is either the given subject 
-     * either the given home folder (depending on the subject policy supported by the associated
-     * request type).
-     * 
-     * @param subjectId optional subject id
-     * @param homeFolderId optional home folder id
-     * @param requestLabel mandatory label of the request type
+     * Get a clone of a request with the given request id
      * 
      * @return a new request without administrative and persistence information.
-     * 
-     * TODO REFACTORING : maybe return type will have to be migrated to a Request object
      */
-    Node getRequestClone(@IsSubject Long subjectId, @IsHomeFolder Long homeFolderId, String requestLabel)
-            throws CvqException;
+    Request getRequestClone(@IsRequest Long requestId)
+        throws CvqException;
+    
+    /**
+     * Get the id of the last request made for a given id subject and a given request label 
+     */
+    Long getLastRequestForSubjectAndLabel(final Long subjectId, final String requestLabel)
+        throws CvqException;
 
     Request getSkeletonRequest(final String requestTypeLabel) throws CvqException;
     

@@ -18,7 +18,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
-import org.w3c.dom.Node;
 
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.DataState;
@@ -65,7 +64,6 @@ import fr.cg95.cvq.service.request.external.IRequestExternalService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere;
-import fr.cg95.cvq.xml.common.SubjectType;
 
 /**
  * This services handles workflow tasks for requests. It is responsible for :
@@ -633,69 +631,65 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public Node getRequestClone(final Long subjectId, Long homeFolderId, final String requestLabel)
+    public Long getLastRequestForSubjectAndLabel(final Long subjectId, final String requestLabel) 
         throws CvqException {
-
-        if (requestLabel == null)
-            throw new CvqModelException("request.error.labelRequired");
-        if (subjectId == null && homeFolderId == null)
-            throw new CvqModelException("request.error.subjectOrHomeFolderRequired");
-
+        
         RequestState[] excludedStates = getStatesExcludedForRequestsCloning();
         List<Request> requests = null;
+        
         if (subjectId != null)
-            requests =
-                requestDAO.listBySubjectAndLabel(subjectId, requestLabel, excludedStates, true);
-        else if (homeFolderId != null)
-            requests = requestDAO.listByHomeFolderAndLabel(homeFolderId, requestLabel,
-                excludedStates, true);
-        Request request = null;
-        if (requests == null || requests.isEmpty()) {
-            IRequestService tempRequestService =
-                requestServiceRegistry.getRequestService(requestLabel);
-            request = tempRequestService.getSkeletonRequest();
-            if (subjectId != null
-                    && !tempRequestService.getSubjectPolicy().equals(IRequestWorkflowService.SUBJECT_POLICY_NONE)) {
-                checkSubjectPolicy(subjectId, homeFolderId, tempRequestService.getSubjectPolicy(),
-                        request.getRequestType());
-                request.setSubjectId(subjectId);
+            requests = 
+                requestDAO.listBySubjectAndLabel(subjectId, requestLabel, excludedStates, false);
+        
+        if (requests == null || requests.isEmpty())
+            return null;
+        
+        // choose the most recent version of this request 
+        Request request = requests.get(0);
+        if (requests.size() > 1) {
+            for (Request requestCloned : requests) {
+                if (request.getCreationDate().compareTo(requestCloned.getCreationDate()) < 0)
+                    request = requestCloned;
             }
-        } else {
-            // choose the most recent version of this request 
-            request = requests.get(0);
-            if (requests.size() > 1)
-                for (Request requestCloned : requests)
-                    if (request.getCreationDate().compareTo(requestCloned.getCreationDate()) < 0)
-                        request = requestCloned;
         }
+        return request.getId();
+    }
 
-        Class[] parameterTypes = null;
-        Object[] arguments = null;
+    @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public Request getRequestClone(final Long requestId) 
+        throws CvqException {
+        
+        if (requestId == null) {
+            throw new CvqException("request.error.requestIdRequired");
+        }
+        
+        Request request = requestDAO.findById(requestId, true);
+        if (request == null)
+            throw new CvqException("request.error.notFound");
+        
         try {
-            Method modelToXmlMethod = request.getClass().getMethod("modelToXml", parameterTypes);
-            XmlObject xmlRequest = (XmlObject) modelToXmlMethod.invoke(request, arguments);
+            XmlObject xmlRequestCopy = request.modelToXml().copy();
 
-            Method copyMethod = xmlRequest.getClass().getMethod("copy", parameterTypes);
-            XmlObject xmlRequestCopy = (XmlObject) copyMethod.invoke(xmlRequest, arguments);
+            // we want a Document parameter type and not a DocumentImpl one
+            Class<?>[] parameterTypes = new Class[] {
+                    xmlRequestCopy.getClass().getInterfaces()[0]
+            };
+            Object[] arguments = new Object[] {
+                    xmlRequestCopy
+            };
+            Method xmlToModel = 
+                request.getClass().getMethod("xmlToModel", parameterTypes);
+            Request requestClone = (Request) xmlToModel.invoke(xmlRequestCopy, arguments);
 
-            String xmlRequestCopyClass = xmlRequestCopy.getClass().getSimpleName();
-            String getBodyMethod = "get" + xmlRequestCopyClass.replace("DocumentImpl", "");
+            purgeClonedRequest(requestClone);
+            RequestType requestType = 
+                requestTypeService.getRequestTypeById(request.getRequestType().getId());
+            requestClone.setRequestType(requestType);
+            requestClone.setHomeFolderId(request.getHomeFolderId());
+            requestClone.setSubjectId(request.getSubjectId());
+            return requestClone;
 
-            Method xmlRequestGetBody =
-                xmlRequestCopy.getClass().getMethod(getBodyMethod, parameterTypes);
-            fr.cg95.cvq.xml.common.RequestType xmlRequestType =
-                (fr.cg95.cvq.xml.common.RequestType) xmlRequestGetBody.invoke(xmlRequestCopy, arguments);
-            
-            if (request.getSubjectId() != null) {
-                SubjectType subject = xmlRequestType.addNewSubject();
-                Individual requestSubject = individualService.getById(request.getSubjectId());
-                subject.setIndividual(Individual.modelToXml(requestSubject));
-            }
-
-            purgeClonedRequest(xmlRequestType);
-
-            return xmlRequestCopy.getDomNode();
         } catch (SecurityException e) {
             logger.error("getRequestClone() Security exception while cloning request");
             throw new CvqException("Security exception while cloning request");
@@ -707,12 +701,11 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             logger.error("getRequestClone() Invocation target exception while cloning request");
             throw new CvqException("Invocation target exception while cloning request");
         } catch (NoSuchMethodException e) {
-            // hey, you know what ? I know how my methods are named :-)
+            logger.error("getRequestClone() No such method");
+            throw new CvqException("No such method : " + e.getMessage());
         }
-
-        return null;
     }
-
+    
     @Override
     public Request getSkeletonRequest(final String requestTypeLabel) throws CvqException {
         IRequestService service = requestServiceRegistry.getRequestService(requestTypeLabel);
@@ -726,21 +719,20 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         return request;
     }
     
-    private void purgeClonedRequest(fr.cg95.cvq.xml.common.RequestType requestType) {
+    private void purgeClonedRequest(Request request) {
 
         // administrative data
-        requestType.setId(0);
-        requestType.setCreationDate(null);
-        requestType.setDataState(null);
-        requestType.setLastInterveningUserId(0);
-        requestType.setLastModificationDate(null);
-        requestType.setObservations(null);
-        requestType.setState(null);
-        requestType.setStep(null);
-        requestType.setValidationDate(null);
+        request.setId(null);
+        request.setCreationDate(null);
+        request.setDataState(null);
+        request.setLastInterveningUserId(Long.valueOf(0));
+        request.setLastModificationDate(null);
+        request.setState(null);
+        request.setStep(null);
+        request.setValidationDate(null);
 
         // business data
-        requestType.setRequester(null);
+        request.setRequesterId(null);
     }
 
     @Override
@@ -1270,9 +1262,14 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         return excludedStates;
     }
     
+    /**
+     * Actually the opposite of the {@link #getStatesExcludedForRunningRequests()}, except for the
+     * {@link RequestState#ARCHIVED} state which is excluded from everything
+     */
     public RequestState[] getStatesExcludedForRequestsCloning() {
         RequestState[] excludedStates = 
-            new RequestState[] { RequestState.REJECTED, RequestState.CANCELLED };
+            new RequestState[] { RequestState.PENDING, RequestState.COMPLETE, 
+                RequestState.UNCOMPLETE, RequestState.VALIDATED, RequestState.ARCHIVED };
         return excludedStates;
     }
 

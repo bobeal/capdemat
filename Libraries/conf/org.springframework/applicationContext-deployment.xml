@@ -55,6 +55,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/school/SchoolRegistrationRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/school/LearningActivitiesDiscoveryRegistrationRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/school/HomeEmergencyRegistrationRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/school/DayCareCenterRegistrationRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/technical/TechnicalInterventionRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/RemoteSupportRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/HandicapCompensationChildRequestData.hbm.xml</value>

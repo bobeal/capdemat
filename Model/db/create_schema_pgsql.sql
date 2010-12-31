@@ -446,6 +446,8 @@
 
     drop table compostable_waste_collection_request_compostable_waste_type;
 
+    drop table day_care_center_registration_request;
+
     drop table death_details_request;
 
     drop table dhr_not_real_asset;
@@ -815,6 +817,70 @@
         compostable_waste_type_id int8 not null,
         compostable_waste_type_index int4 not null,
         primary key (compostable_waste_collection_request_id, compostable_waste_type_index)
+    );
+
+    create table day_care_center_registration_request (
+        id int8 not null,
+        est_horaires_reguliers_mere bool,
+        est_horaires_reguliers_pere bool,
+        profession_pere varchar(255),
+        horaire_placement_matin_debut_jeudi bytea,
+        horaires_travail_vendredi_pere varchar(255),
+        horaires_reguliers_pere varchar(255),
+        horaires_travail_mercredi_mere varchar(255),
+        situation_actuelle_pere varchar(255),
+        plage_horaire_contact varchar(255),
+        horaires_travail_lundi_mere varchar(255),
+        horaire_placement_matin_fin bytea,
+        horaire_placement_apres_midi_debut_mercredi bytea,
+        horaires_travail_vendredi_mere varchar(255),
+        precision_autre_situation_actuelle_mere varchar(255),
+        horaire_placement_apres_midi_debut_vendredi bytea,
+        horaire_placement_matin_debut_mercredi bytea,
+        horaire_placement_matin_fin_jeudi bytea,
+        precision_autre_situation_actuelle_pere varchar(255),
+        date_placement_fin timestamp,
+        horaire_placement_apres_midi_fin_jeudi bytea,
+        horaire_placement_apres_midi_fin_vendredi bytea,
+        mode_accueil_choix_deux varchar(255),
+        horaires_travail_mardi_pere varchar(255),
+        choix_horaires_accueil varchar(255),
+        horaire_placement_matin_debut bytea,
+        commune_lieu_travail_pere varchar(255),
+        horaire_placement_matin_debut_lundi bytea,
+        choix_type_date_placement_accueil_regulier varchar(255),
+        mode_accueil bool,
+        horaires_reguliers_mere varchar(255),
+        horaire_placement_apres_midi_fin_mardi bytea,
+        horaire_placement_apres_midi_fin_lundi bytea,
+        horaire_placement_matin_fin_lundi bytea,
+        choix_type_rendez_vous varchar(255),
+        dix_huit_mois_enfant timestamp,
+        situation_actuelle_mere varchar(255),
+        horaire_placement_matin_fin_vendredi bytea,
+        date_placement_debut timestamp,
+        horaire_placement_matin_debut_vendredi bytea,
+        horaire_placement_apres_midi_debut_lundi bytea,
+        horaires_travail_mercredi_pere varchar(255),
+        horaire_placement_apres_midi_debut_mardi bytea,
+        horaires_travail_lundi_pere varchar(255),
+        horaire_placement_apres_midi_fin bytea,
+        commune_lieu_travail_mere varchar(255),
+        horaires_travail_jeudi_pere varchar(255),
+        horaires_travail_jeudi_mere varchar(255),
+        telephone_contact varchar(10),
+        horaires_travail_mardi_mere varchar(255),
+        accueil_anterieur varchar(255),
+        horaire_placement_apres_midi_fin_mercredi bytea,
+        horaire_placement_matin_debut_mardi bytea,
+        horaire_placement_matin_fin_mercredi bytea,
+        horaire_placement_matin_fin_mardi bytea,
+        horaire_placement_apres_midi_debut_jeudi bytea,
+        profession_mere varchar(255),
+        mode_accueil_choix_un varchar(255),
+        commentaire_citoyen varchar(600),
+        horaire_placement_apres_midi_debut bytea,
+        primary key (id)
     );
 
     create table death_details_request (

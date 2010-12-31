@@ -1,0 +1,1628 @@
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/dccrr" xmlns:dccrr="http://www.cg95.fr/cvq/schema/dccrr"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common" schemaLocation="../common/CVQCommonElements.xsd" />
+
+  <xs:element name="DayCareCenterRegistrationRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Demande de pré-inscription en
+        multi-accueil régulier ou occasionnel
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Pré-inscription en multi-accueil
+        régulier ou occasionnel
+      </xs:documentation>
+      <xs:appinfo>
+        <model namespace="school" />
+        <common>
+          <namespace name="school" />
+          <steps>
+            <step index="0" name="subject">
+              <widgets>
+                <subject />
+              </widgets>
+              <conditions>
+                <condition name="estAutreSituationActuelleMere" />
+                <condition name="estAutreSituationActuellePere" />
+                <condition name="estHorairesReguliersMere" />
+                <condition name="estHorairesReguliersPere" />
+              </conditions>
+            </step>
+            <step index="1" name="accueil">
+              <conditions>
+                <condition name="dateConnue" />
+                <condition name="estIndifferent" />
+                <condition name="estHorairesAccueilRegulier" />
+                <condition name="estHorairesAccueilIrregulier" />
+              </conditions>
+            </step>
+            <step index="2" name="rendezVous" />
+            <step index="3" ref="document" />
+            <step index="4" ref="validation" />
+          </steps>
+        </common>
+      </xs:appinfo>
+    </xs:annotation>
+
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="cvq:RequestType">
+          <xs:sequence>
+
+            <!--        STEP 0 : SUBJECT       -->
+            
+            <xs:element name="DixHuitMoisEnfant" type="xs:date" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  18 mois de l'enfant
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  18 mois de l'enfant
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="subject" />
+                  </common>
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="InformationMere" type="dccrr:DccrrMereType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations complémentaires
+                  sur la mère
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Informations complémentaires sur la mère
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="subject" />
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="InformationPere" type="dccrr:DccrrPereType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations complémentaires
+                  sur le père
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Informations complémentaires sur le père
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="subject" />
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <!--        STEP 1 : ACCUEIL         -->
+            
+            <xs:element name="ModeAccueil" type="xs:boolean" default="true">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Le mode d'accueil souhaité vous est-il indifférent ? (collectif ou familial)
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Le mode d'accueil souhaité vous est-il indifférent ? (collectif ou familial)
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="accueil" />
+                    <conditions>
+                        <condition name="estIndifferent" type="trigger" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="ModeAccueilChoixUn" type="dccrr:ModeAccueilType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Mode d'accueil souhaité : choix 1
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Mode d'accueil souhaité : choix 1
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="accueil" />
+                    <conditions>
+                        <condition name="estIndifferent" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="ModeAccueilChoixDeux" type="dccrr:ModeAccueilType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Mode d'accueil souhaité : premier choix
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Mode d'accueil souhaité : second choix
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="accueil" />
+                    <conditions>
+                        <condition name="estIndifferent" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="AccueilAnterieur" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Mode d'accueil antérieur
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Mode d'accueil antérieur
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="accueil" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="DatePlacementAccueilRegulier" type="dccrr:DccrrDatesPlacementType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Date du placement
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Date du placement
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="accueil" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="ChoixHorairesAccueil" type="dccrr:ChoixHorairesAccueilType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Vous souhaitez préciser des horaires d'accueil
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Vous souhaitez préciser des horaires d'accueil
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="accueil" />
+                    <conditions>
+                        <condition name="estHorairesAccueilRegulier" type="trigger"/>
+                        <condition name="estHorairesAccueilIrregulier" type="trigger"/>
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="PlageHoraireAccueilReguliere" type="dccrr:DccrrPlageHoraireType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Horaire d'accueil pour tous les jours de la semaine
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Horaire d'accueil pour tous les jours de la semaine
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="accueil" />
+                    <conditions>
+                        <condition name="estHorairesAccueilRegulier" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Lundi" type="dccrr:DccrrPlageHoraireLundiType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Lundi
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Lundi
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="accueil" />
+                    <conditions>
+                        <condition name="estHorairesAccueilIrregulier" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Mardi" type="dccrr:DccrrPlageHoraireMardiType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Mardi
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Mardi
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="accueil" />
+                    <conditions>
+                        <condition name="estHorairesAccueilIrregulier" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Mercredi" type="dccrr:DccrrPlageHoraireMercrediType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Mercredi
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Mercredi
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="accueil" />
+                    <conditions>
+                        <condition name="estHorairesAccueilIrregulier" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Jeudi" type="dccrr:DccrrPlageHoraireJeudiType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Jeudi
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Jeudi
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="accueil" />
+                    <conditions>
+                        <condition name="estHorairesAccueilIrregulier" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Vendredi" type="dccrr:DccrrPlageHoraireVendrediType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Vendredi
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Vendredi
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="accueil" />
+                    <conditions>
+                        <condition name="estHorairesAccueilIrregulier" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <!--        STEP 2 : Prise de rendez-vous         -->
+            <xs:element name="ChoixTypeRendezVous" type="dccrr:RendezVousType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Vous préférez un rendez-vous :
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Vous préférez un rendez-vous :
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="rendezVous" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="TelephoneContact" type="cvq:PhoneType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  N° de téléphone sur lequel
+                  nous vous contacterons
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  N° de téléphone sur lequel nous vous contacterons
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="rendezVous" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="PlageHoraireContact" type="dccrr:PlageHoraireContactType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Moment de la journée où vous préférez que nous vous contactions
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Moment de la journée où vous préférez que nous vous contactions
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="rendezVous" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="CommentaireCitoyen" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Renseignements
+                  supplémentaires
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Renseignements supplémentaires
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="rendezVous" />
+                  </common>
+                  <fo>
+                    <textarea rows="10" />
+                  </fo>
+                  <bo column="2">
+                    <textarea rows="10" />
+                  </bo>
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:maxLength value="600" />
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <!--  types complexes -->
+  <xs:complexType name="DccrrMereType">
+    <xs:sequence>
+      <xs:element name="SituationActuelleMere" type="dccrr:ChoixSituationActuelle" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Situation actuelle
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Situation actuelle
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="estAutreSituationActuelleMere" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PrecisionAutreSituationActuelleMere" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Précisez
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Précisez
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="estAutreSituationActuelleMere" type="filled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ProfessionMere" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Profession
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Profession
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="EstHorairesReguliersMere" type="xs:boolean" minOccurs="0" default="true">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Avez-vous des horaires réguliers ?
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Avez-vous des horaires réguliers ?
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="estHorairesReguliersMere" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="2" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairesReguliersMere" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Horaires de travail
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Horaires de travail
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="estHorairesReguliersMere" type="filled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="2" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairesTravailLundiMere" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Horaires de travail du Lundi
+          </xs:documentation>
+          <xs:documentation xml:lang="fr"
+            source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Horaires de travail du Lundi
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="estHorairesReguliersMere" type="unfilled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="2" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairesTravailMardiMere" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Horaires de travail du Mardi
+          </xs:documentation>
+          <xs:documentation xml:lang="fr"
+            source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Horaires de travail du Mardi
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="estHorairesReguliersMere" type="unfilled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="2" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairesTravailMercrediMere" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Horaires de travail du Mercredi
+          </xs:documentation>
+          <xs:documentation xml:lang="fr"
+            source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Horaires de travail du Mercredi
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="estHorairesReguliersMere" type="unfilled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="2" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairesTravailJeudiMere" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Horaires de travail du Jeudi
+          </xs:documentation>
+          <xs:documentation xml:lang="fr"
+            source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Horaires de travail du Jeudi
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="estHorairesReguliersMere" type="unfilled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="2" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairesTravailVendrediMere" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Horaires de travail du Vendredi
+          </xs:documentation>
+          <xs:documentation xml:lang="fr"
+            source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Horaires de travail du Vendredi
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="estHorairesReguliersMere" type="unfilled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="2" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CommuneLieuTravailMere" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Commune du lieu de travail
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Commune du lieu de travail
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+            </common>
+            <fo />
+            <bo column="2" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DccrrPereType">
+    <xs:sequence>
+      <xs:element name="SituationActuellePere" type="dccrr:ChoixSituationActuelle" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Situation actuelle
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Situation actuelle
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="estAutreSituationActuellePere" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="1"/>
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PrecisionAutreSituationActuellePere" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Précisez
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Précisez
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="estAutreSituationActuellePere" type="filled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ProfessionPere" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Profession
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Profession
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+            </common>
+            <fo />
+            <bo column="1"/>
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="EstHorairesReguliersPere" type="xs:boolean" minOccurs="0" default="true">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Avez-vous des horaires réguliers ?
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Avez-vous des horaires réguliers ?
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="estHorairesReguliersPere" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="2" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairesReguliersPere" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Horaires de travail
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Horaires de travail
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="estHorairesReguliersPere" type="filled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="2" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairesTravailLundiPere" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Horaires de travail du Lundi
+          </xs:documentation>
+          <xs:documentation xml:lang="fr"
+            source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Horaires de travail du Lundi
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="estHorairesReguliersPere" type="unfilled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="2" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairesTravailMardiPere" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Horaires de travail du Mardi
+          </xs:documentation>
+          <xs:documentation xml:lang="fr"
+            source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Horaires de travail du Mardi
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="estHorairesReguliersPere" type="unfilled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="2" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairesTravailMercrediPere" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Horaires de travail du Mercredi
+          </xs:documentation>
+          <xs:documentation xml:lang="fr"
+            source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Horaires de travail du Mercredi
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="estHorairesReguliersPere" type="unfilled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="2" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairesTravailJeudiPere" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Horaires de travail du Jeudi
+          </xs:documentation>
+          <xs:documentation xml:lang="fr"
+            source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Horaires de travail du Jeudi
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="estHorairesReguliersPere" type="unfilled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="2" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairesTravailVendrediPere" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Horaires de travail du Vendredi
+          </xs:documentation>
+          <xs:documentation xml:lang="fr"
+            source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Horaires de travail du Vendredi
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="estHorairesReguliersPere" type="unfilled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="2" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CommuneLieuTravailPere" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Commune du lieu de travail
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Commune du lieu de travail
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+            </common>
+            <fo />
+            <bo column="1"/>
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:simpleType name="ChoixDatePlacement">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Choix de la date de placement
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Choix de la date de placement
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Connue" value="Je souhaite placer mon enfant à une date précise" />
+        <enum key="Possible" value="Je souhaite placer mon enfant dès que possible" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Connue" />
+      <xs:enumeration value="Possible" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="ChoixSituationActuelle">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Choix de la situation actuelle
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Choix de la situation actuelle
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Plein" value="Travail à temps plein" />
+        <enum key="Partiel" value="Travail à temps partiel" />
+        <enum key="Interim" value="Travail intérim/intermittence" />
+        <enum key="Etudiant" value="Etudiant" />
+        <enum key="Stage" value="Formation/Stage" />
+        <enum key="Recherche" value="Recherche d'emploi" />
+        <enum key="Parent" value="Parent au foyer" />
+        <enum key="Libre" value="Congé de libre choix d'activité" />
+        <enum key="Conge" value="Congé maternité" />
+        <enum key="Retraite" value="Retraité" />
+        <enum key="Autre" value="Autre" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Plein" />
+      <xs:enumeration value="Partiel" />
+      <xs:enumeration value="Interim" />
+      <xs:enumeration value="Etudiant" />
+      <xs:enumeration value="Stage" />
+      <xs:enumeration value="Recherche" />
+      <xs:enumeration value="Parent" />
+      <xs:enumeration value="Libre" />
+      <xs:enumeration value="Conge" />
+      <xs:enumeration value="Retraite" />
+      <xs:enumeration value="Autre" />
+    </xs:restriction>
+  </xs:simpleType>
+
+
+  <xs:simpleType name="ModeAccueilType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Mode d'accueil
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Mode d'accueil
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Collectif" value="Collectif" />
+        <enum key="Familial" value="Familial" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Collectif" />
+      <xs:enumeration value="Familial" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="RendezVousType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Type de rendez-vous
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Type de rendez-vous
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Physique" value="Physique" />
+        <enum key="Telephonique" value="Téléphonique" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Physique" />
+      <xs:enumeration value="Telephonique" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="PlageHoraireContactType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Plage horaire
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Plage horaire
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Matin" value="En matinée (entre 9h et 12h)" />
+        <enum key="Aprem" value="L'après-midi (entre 14h et 16h)" />
+        <enum key="Soir" value="En fin d'après-midi (entre 16h et 18h)" />
+        <enum key="Indifferent" value="Indifférent" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Matin" />
+      <xs:enumeration value="Aprem" />
+      <xs:enumeration value="Soir" />
+      <xs:enumeration value="Indifferent" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ChoixHorairesAccueilType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Choix des horaires d'accueil
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Choix des horaires d'accueil
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Indifferent" value="Je n'ai pas de préférence concernant les horaires d'accueil." />
+        <enum key="Regulier" value="Je souhaite déclarer des horaires d'accueil réguliers." />
+        <enum key="Irregulier" value="Je souhaite déclarer des horaires d'accueil irréguliers." />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Indifferent" />
+      <xs:enumeration value="Regulier" />
+      <xs:enumeration value="Irregulier" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="DccrrDatesPlacementType">
+    <xs:sequence>
+      <xs:element name="ChoixTypeDatePlacementAccueilRegulier" type="dccrr:ChoixDatePlacement">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Début du placement
+          </xs:documentation>
+          <xs:documentation xml:lang="fr"
+            source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Début du placement
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+              <conditions>
+                <condition name="dateConnue" type="trigger" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="DatePlacementDebut" type="xs:date">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            à partir du
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            à partir du
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+              <conditions>
+                <condition name="dateConnue" type="filled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="DatePlacementFin" type="xs:date" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            au
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            au
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+              <conditions>
+                <condition name="dateConnue" type="filled" />
+              </conditions>
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DccrrPlageHoraireLundiType">
+    <xs:sequence>
+      <xs:element name="HorairePlacementMatinDebutLundi" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            de
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            de
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairePlacementMatinFinLundi" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            à
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            à
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairePlacementApresMidiDebutLundi" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            et de
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            et de
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairePlacementApresMidiFinLundi" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            à
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            à
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DccrrPlageHoraireMardiType">
+    <xs:sequence>
+      <xs:element name="HorairePlacementMatinDebutMardi" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            de
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            de
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairePlacementMatinFinMardi" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            à
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            à
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairePlacementApresMidiDebutMardi" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            et de
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            et de
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairePlacementApresMidiFinMardi" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            à
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            à
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DccrrPlageHoraireMercrediType">
+    <xs:sequence>
+      <xs:element name="HorairePlacementMatinDebutMercredi" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            de
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            de
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairePlacementMatinFinMercredi" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            à
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            à
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairePlacementApresMidiDebutMercredi" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            et de
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            et de
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairePlacementApresMidiFinMercredi" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            à
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            à
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DccrrPlageHoraireJeudiType">
+    <xs:sequence>
+      <xs:element name="HorairePlacementMatinDebutJeudi" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            de
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            de
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairePlacementMatinFinJeudi" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            à
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            à
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairePlacementApresMidiDebutJeudi" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            et de
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            et de
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairePlacementApresMidiFinJeudi" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            à
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            à
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DccrrPlageHoraireVendrediType">
+    <xs:sequence>
+      <xs:element name="HorairePlacementMatinDebutVendredi" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            de
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            de
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairePlacementMatinFinVendredi" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            à
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            à
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairePlacementApresMidiDebutVendredi" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            et de
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            et de
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairePlacementApresMidiFinVendredi" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            à
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            à
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="DccrrPlageHoraireType">
+    <xs:sequence>
+      <xs:element name="HorairePlacementMatinDebut" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            de
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            de
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairePlacementMatinFin" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            à
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            à
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairePlacementApresMidiDebut" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            et de
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            et de
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HorairePlacementApresMidiFin" type="xs:time" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            à
+                </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            à
+                </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="accueil" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

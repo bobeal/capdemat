@@ -445,6 +445,17 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="requestDAO" ref="requestDAO"/>
     <property name="filingDelay" value="12"/>
   </bean>
+  
+  <bean id="learningActivitiesDiscoveryRegistrationRequestService" 
+    class="fr.cg95.cvq.service.request.school.impl.LearningActivitiesDiscoveryRegistrationRequestService"
+    parent="requestService">
+    <property name="label" value="Learning Activities Discovery Registration"/>
+    <property name="localReferentialFilename" value="local_referential_ladrr"/>
+    <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
+    <property name="isOfRegistrationKind" value="true"/>
+    <property name="defaultDisplayGroup" value="school" />
+    <property name="filingDelay" value="12"/>
+  </bean>
 
  <bean id="birthDetailsRequestService" 
     class="fr.cg95.cvq.service.request.civil.impl.BirthDetailsRequestService" 

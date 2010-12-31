@@ -42,6 +42,11 @@
   <xb:namespace uri="http://www.cg95.fr/cvq/schema/rarr">
     <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
   </xb:namespace>
+  
+  <!-- Learning Activities Discovery Registration Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/ladrr">
+    <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
+  </xb:namespace>
 
   <!-- Birth Details Request -->
   <xb:namespace uri="http://www.cg95.fr/cvq/schema/bdr">

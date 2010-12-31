@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <request>LearningActivitiesDiscoveryRegistrationRequest</request>
+    <data name="AtelierEveil">
+        <label lang="fr">Choisissez le ou les ateliers d'éveil auquels vous souhaitez participer</label>
+    </data>
+</LocalReferential>

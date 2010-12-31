@@ -236,6 +236,12 @@
     alter table individual_role 
         drop constraint FK3C7D4E5CD4C3A2D8;
 
+    alter table learning_activities_discovery_registration_request_atelier_eveil 
+        drop constraint FK6631159E51ABD2B5;
+
+    alter table learning_activities_discovery_registration_request_atelier_eveil 
+        drop constraint FK6631159E9AA8EC9F;
+
     alter table library_registration_request_subscription 
         drop constraint FK56C4BE0FD7ED8C0C;
 
@@ -531,6 +537,10 @@
     drop table individual_mapping;
 
     drop table individual_role;
+
+    drop table learning_activities_discovery_registration_request;
+
+    drop table learning_activities_discovery_registration_request_atelier_eveil;
 
     drop table library_registration_request;
 
@@ -1652,6 +1662,18 @@
         primary key (id)
     );
 
+    create table learning_activities_discovery_registration_request (
+        id int8 not null,
+        primary key (id)
+    );
+
+    create table learning_activities_discovery_registration_request_atelier_eveil (
+        learning_activities_discovery_registration_request_id int8 not null,
+        atelier_eveil_id int8 not null,
+        atelier_eveil_index int4 not null,
+        primary key (learning_activities_discovery_registration_request_id, atelier_eveil_index)
+    );
+
     create table library_registration_request (
         id int8 not null,
         registration_number varchar(255),
@@ -2733,6 +2755,16 @@
         add constraint FK3C7D4E5CD4C3A2D8 
         foreign key (owner_id) 
         references individual;
+
+    alter table learning_activities_discovery_registration_request_atelier_eveil 
+        add constraint FK6631159E51ABD2B5 
+        foreign key (learning_activities_discovery_registration_request_id) 
+        references learning_activities_discovery_registration_request;
+
+    alter table learning_activities_discovery_registration_request_atelier_eveil 
+        add constraint FK6631159E9AA8EC9F 
+        foreign key (atelier_eveil_id) 
+        references local_referential_data;
 
     alter table library_registration_request_subscription 
         add constraint FK56C4BE0FD7ED8C0C 

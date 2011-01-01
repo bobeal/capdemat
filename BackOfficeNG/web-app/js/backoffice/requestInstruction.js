@@ -262,7 +262,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         });
       }
       else if (isSubmit && (yud.hasClass(ddEl, 'validate-boolean') || yud.hasClass(ddEl, 'validate-acceptance'))) {
-        var checkedEl = yus.query("input:checked", formEl, true);
+        var checkedEl;
+        // TODO RDJ : bypass yus.query limit (bug with "." in id attribute)
+        zct.each(formEl[ddEl.id], function() {
+            if (this.checked) checkedEl = this;
+        });
         propertyWrapperEl.innerHTML = yl.trim(yud.getNextSibling(checkedEl).innerHTML);
         propertyWrapperEl.className = 'value-' + checkedEl.value; 
       }
@@ -282,6 +286,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         var selectedEl = formEl.recreationCenterId.options[formEl.recreationCenterId.selectedIndex];
         propertyWrapperEl.innerHTML = selectedEl.innerHTML;
         propertyWrapperEl.className = 'value-' + selectedEl.value;
+      }
+      else if (isSubmit && yud.hasClass(ddEl, 'validate-time')) {
+        var h = formEl[formEl.id.replace('_Form', '_hour')].value;
+        var m = formEl[formEl.id.replace('_Form', '_minute')].value;
+        propertyWrapperEl.innerHTML = h + ' : ' + m;
       }
       else if (isSubmit) {
         var elName = formEl.id.replace('_Form', '') + '_Field';

@@ -34,6 +34,7 @@ public class FoPlugin implements IPluginGenerator {
     private int depth;
     
     private String outputDir;
+    private String startTemplate;
     private String editTemplate;
     private String stepTemplate;
     private String validationTemplate;
@@ -47,6 +48,7 @@ public class FoPlugin implements IPluginGenerator {
         try {
             NamedNodeMap childAttributesMap = configurationNode.getFirstChild().getAttributes();
             outputDir = childAttributesMap.getNamedItem("outputdir").getNodeValue();
+            startTemplate = childAttributesMap.getNamedItem("starttemplate").getNodeValue();
             editTemplate = childAttributesMap.getNamedItem("edittemplate").getNodeValue();
             stepTemplate = childAttributesMap.getNamedItem("steptemplate").getNodeValue();
             validationTemplate = childAttributesMap.getNamedItem("validationtemplate").getNodeValue();
@@ -72,9 +74,16 @@ public class FoPlugin implements IPluginGenerator {
             
             SimpleTemplateEngine templateEngine = new SimpleTemplateEngine();
             
-            // main edit.gsp view
-            Template template = templateEngine.createTemplate(new File(editTemplate));
+            // start.gsp view
+            Template template = templateEngine.createTemplate(new File(startTemplate));
             Map<String, Object> bindingMap = new HashMap<String, Object>();
+            bindingMap.put("requestFo", requestFo);
+            template.make(bindingMap).writeTo(new FileWriter(output + "start.gsp" ));
+            logger.warn("endRequest() - start.gsp.tpl OK");
+            
+            // main edit.gsp view
+            template = templateEngine.createTemplate(new File(editTemplate));
+            bindingMap = new HashMap<String, Object>();
             bindingMap.put("requestFo", requestFo);
             template.make(bindingMap).writeTo(new FileWriter(output + "edit.gsp" ));
             logger.warn("endRequest() - edit.gsp.tpl OK");

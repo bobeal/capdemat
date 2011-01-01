@@ -7,7 +7,8 @@
         <g:capdematEnumToText var="${record.sex}" i18nKeyPrefix="homeFolder.child.property.sex"/>
       </dd>
       <dd>
-        <g:message code="homeFolder.header.born" />
+        <g:if test="${record.isChildBorn}"><g:message code="homeFolder.header.born" /></g:if>
+        <g:else><g:message code="homeFolder.header.noBorn" /></g:else>
         <g:if test="${record.birthDate}">
           <g:message code="homeFolder.header.on" />
           ${formatDate(date:record.birthDate,formatName:'format.date')}

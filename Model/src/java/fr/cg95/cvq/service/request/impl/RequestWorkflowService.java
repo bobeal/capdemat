@@ -18,7 +18,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
-import org.w3c.dom.Node;
 
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.DataState;
@@ -65,7 +64,6 @@ import fr.cg95.cvq.service.request.external.IRequestExternalService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere;
-import fr.cg95.cvq.xml.common.SubjectType;
 
 /**
  * This services handles workflow tasks for requests. It is responsible for :
@@ -98,8 +96,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     private ApplicationContext applicationContext;
 
     @Override
-    public void createAccountCreationRequest(VoCardRequest dcvo, List<Adult> adults, List<Child> children, 
-            List<Adult> foreignRoleOwners, final Address address, List<Document> documents) 
+    public void createAccountCreationRequest(VoCardRequest dcvo, List<Adult> adults, List<Child> children,
+            List<Adult> foreignRoleOwners, final Address address, List<Document> documents, String note)
             throws CvqException {
 
         HomeFolder homeFolder = homeFolderService.create(adults, children, address);
@@ -124,16 +122,16 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         dcvo.setRequesterId(homeFolderResponsible.getId());
         dcvo.setRequesterLastName(homeFolderResponsible.getLastName());
         dcvo.setRequesterFirstName(homeFolderResponsible.getFirstName());
-        
-        Long requestId = finalizeAndPersist(dcvo, homeFolder);
-        
+
+        Long requestId = finalizeAndPersist(dcvo, homeFolder, note);
+
         requestDocumentService.addDocuments(dcvo, documents);
-        
-        homeFolderService.saveForeignRoleOwners(homeFolder.getId(), adults, children, 
+
+        homeFolderService.saveForeignRoleOwners(homeFolder.getId(), adults, children,
                 foreignRoleOwners);
-        
+
         HibernateUtil.getSession().flush();
-        
+
         logger.debug("create() Created request object with id : " + requestId);
     }
     
@@ -155,7 +153,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     @Override
     public void createAccountModificationRequest(HomeFolderModificationRequest hfmr,
             List<Adult> adults, List<Child> children, List<Adult> foreignRoleOwners,
-            Address adress, List<Document> documents) throws CvqException {
+            Address adress, List<Document> documents, String note) throws CvqException {
 
         // load home folder first to check for the existence of another
         // similar request in progress
@@ -184,7 +182,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         HibernateUtil.getSession().flush();
         byte[] pdfData = requestPdfService.generateCertificate(hfmr);
 
-        requestActionService.addCreationAction(hfmr.getId(), new Date(), pdfData);
+        requestActionService.addCreationAction(hfmr.getId(), new Date(), pdfData, note);
 
         requestDocumentService.addDocuments(hfmr, documents);
         
@@ -204,41 +202,38 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         if (pdfData != null)
             requestEvent.addComplementaryData(COMP_DATA.PDF_FILE, pdfData);
         applicationContext.publishEvent(requestEvent);
-
-        if (SecurityContext.getProxyAgent() != null)
-            updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public Long create(Request request) throws CvqException {
+    public Long create(Request request, String note) throws CvqException {
         performBusinessChecks(request, SecurityContext.getCurrentEcitizen());
         IRequestService requestService = requestServiceRegistry.getRequestService(request);
         requestService.onRequestCreated(request);
-        return finalizeAndPersist(request);
+        return finalizeAndPersist(request, note);
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public Long create(Request request, List<Document> documents) throws CvqException {
-        Long requestId = create(request);
+    public Long create(Request request, List<Document> documents, String note) throws CvqException {
+        Long requestId = create(request, note);
         requestDocumentService.addDocuments(request, documents);
         return requestId;
     }
     
     @Override
     @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
-    public Long create(Request request, Adult requester)
+    public Long create(Request request, Adult requester, String note)
         throws CvqException {
         HomeFolder homeFolder = performBusinessChecks(request, requester);
         IRequestService requestService = requestServiceRegistry.getRequestService(request);
         requestService.onRequestCreated(request);
-        return finalizeAndPersist(request, homeFolder);
+        return finalizeAndPersist(request, homeFolder, note);
     }
     
     @Override
     @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
-    public Long create(Request request, Adult requester, List<Document> documents) 
+    public Long create(Request request, Adult requester, List<Document> documents, String note) 
         throws CvqException {
         
         HomeFolder homeFolder = performBusinessChecks(request, requester);
@@ -250,7 +245,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         IRequestService requestService = requestServiceRegistry.getRequestService(request);
         requestService.onRequestCreated(request);
         requestDocumentService.addDocuments(request, documents);
-        return finalizeAndPersist(request, homeFolder);
+        return finalizeAndPersist(request, homeFolder, note);
     }
     
     private HomeFolder performBusinessChecks(Request request, Adult requester)
@@ -524,20 +519,23 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             Map<Long, Set<RequestSeason>> result = new HashMap<Long, Set<RequestSeason>>();
             for (Long subjectId : eligibleSubjects)
                 result.put(subjectId, null);
-            RequestState[] excludedStates = getStatesExcludedForRunningRequests();
-            List<Long> homeFolderSubjectIds = requestDAO.listHomeFolderSubjectIds(homeFolderId,
-                    requestService.getLabel(), excludedStates);
-            if (requestService.getSubjectPolicy().equals(IRequestWorkflowService.SUBJECT_POLICY_NONE)) {
-                if (!homeFolderSubjectIds.isEmpty()) {
-                    return Collections.emptyMap();
+            if (!requestService.getSupportMultiple()) {
+                RequestState[] excludedStates = getStatesExcludedForRunningRequests();
+                List<Long> homeFolderSubjectIds = requestDAO.listHomeFolderSubjectIds(homeFolderId,
+                        requestService.getLabel(), excludedStates);
+                if (requestService.getSubjectPolicy().equals(IRequestWorkflowService.SUBJECT_POLICY_NONE)) {
+                    if (!homeFolderSubjectIds.isEmpty()) {
+                        return Collections.emptyMap();
+                    } else {
+                        return result;
+                    }
                 } else {
+                    for (Long subjectId : homeFolderSubjectIds)
+                        result.remove(subjectId);
                     return result;
                 }
-            } else {
-                for (Long subjectId : homeFolderSubjectIds)
-                    result.remove(subjectId);
-                return result;
             }
+            return result;
         }
     }
 
@@ -584,7 +582,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
     }
     
-    private Long finalizeAndPersist(Request request, HomeFolder homeFolder) 
+    private Long finalizeAndPersist(Request request, HomeFolder homeFolder, String note)
         throws CvqException {
 
         setAdministrativeInformation(request);
@@ -603,16 +601,13 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             HibernateUtil.getSession().flush();
             byte[] pdfData = requestPdfService.generateCertificate(request);
             
-            requestActionService.addCreationAction(requestId, new Date(), pdfData);
+            requestActionService.addCreationAction(requestId, new Date(), pdfData, note);
     
             RequestEvent requestEvent = 
                 new RequestEvent(this, EVENT_TYPE.REQUEST_CREATED, request);
             if (pdfData != null)
                 requestEvent.addComplementaryData(COMP_DATA.PDF_FILE, pdfData);
             applicationContext.publishEvent(requestEvent);
-            
-            if (SecurityContext.getProxyAgent() != null)
-                updateRequestState(requestId, RequestState.COMPLETE, null);
 
         } else if (!requestActionService.hasAction(requestId, RequestActionType.CREATION)) {
             requestActionService.addDraftCreationAction(requestId, new Date());
@@ -623,76 +618,73 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     
     /**
      * Finalize the setting of request properties (creation date, state, ...) and persist it in BD.
+     * @param note TODO
      */
-    private Long finalizeAndPersist(final Request request)
+    private Long finalizeAndPersist(final Request request, String note)
         throws CvqException {
-        return finalizeAndPersist(request, null);
+        return finalizeAndPersist(request, null, note);
+    }
+
+    @Override
+    public Long getLastRequestForSubjectAndLabel(final Long subjectId, final String requestLabel) 
+        throws CvqException {
+        
+        RequestState[] excludedStates = getStatesExcludedForRequestsCloning();
+        List<Request> requests = null;
+        
+        if (subjectId != null)
+            requests = 
+                requestDAO.listBySubjectAndLabel(subjectId, requestLabel, excludedStates, false);
+        
+        if (requests == null || requests.isEmpty())
+            return null;
+        
+        // choose the most recent version of this request 
+        Request request = requests.get(0);
+        if (requests.size() > 1) {
+            for (Request requestCloned : requests) {
+                if (request.getCreationDate().compareTo(requestCloned.getCreationDate()) < 0)
+                    request = requestCloned;
+            }
+        }
+        return request.getId();
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public Node getRequestClone(final Long subjectId, Long homeFolderId, final String requestLabel)
+    public Request getRequestClone(final Long requestId) 
         throws CvqException {
-
-        if (requestLabel == null)
-            throw new CvqModelException("request.error.labelRequired");
-        if (subjectId == null && homeFolderId == null)
-            throw new CvqModelException("request.error.subjectOrHomeFolderRequired");
-
-        RequestState[] excludedStates = getStatesExcludedForRequestsCloning();
-        List<Request> requests = null;
-        if (subjectId != null)
-            requests =
-                requestDAO.listBySubjectAndLabel(subjectId, requestLabel, excludedStates, true);
-        else if (homeFolderId != null)
-            requests = requestDAO.listByHomeFolderAndLabel(homeFolderId, requestLabel,
-                excludedStates, true);
-        Request request = null;
-        if (requests == null || requests.isEmpty()) {
-            IRequestService tempRequestService =
-                requestServiceRegistry.getRequestService(requestLabel);
-            request = tempRequestService.getSkeletonRequest();
-            if (subjectId != null
-                    && !tempRequestService.getSubjectPolicy().equals(IRequestWorkflowService.SUBJECT_POLICY_NONE)) {
-                checkSubjectPolicy(subjectId, homeFolderId, tempRequestService.getSubjectPolicy(),
-                        request.getRequestType());
-                request.setSubjectId(subjectId);
-            }
-        } else {
-            // choose the most recent version of this request 
-            request = requests.get(0);
-            if (requests.size() > 1)
-                for (Request requestCloned : requests)
-                    if (request.getCreationDate().compareTo(requestCloned.getCreationDate()) < 0)
-                        request = requestCloned;
+        
+        if (requestId == null) {
+            throw new CvqException("request.error.requestIdRequired");
         }
-
-        Class[] parameterTypes = null;
-        Object[] arguments = null;
+        
+        Request request = requestDAO.findById(requestId, true);
+        if (request == null)
+            throw new CvqException("request.error.notFound");
+        
         try {
-            Method modelToXmlMethod = request.getClass().getMethod("modelToXml", parameterTypes);
-            XmlObject xmlRequest = (XmlObject) modelToXmlMethod.invoke(request, arguments);
+            XmlObject xmlRequestCopy = request.modelToXml().copy();
 
-            Method copyMethod = xmlRequest.getClass().getMethod("copy", parameterTypes);
-            XmlObject xmlRequestCopy = (XmlObject) copyMethod.invoke(xmlRequest, arguments);
+            // we want a Document parameter type and not a DocumentImpl one
+            Class<?>[] parameterTypes = new Class[] {
+                    xmlRequestCopy.getClass().getInterfaces()[0]
+            };
+            Object[] arguments = new Object[] {
+                    xmlRequestCopy
+            };
+            Method xmlToModel = 
+                request.getClass().getMethod("xmlToModel", parameterTypes);
+            Request requestClone = (Request) xmlToModel.invoke(xmlRequestCopy, arguments);
 
-            String xmlRequestCopyClass = xmlRequestCopy.getClass().getSimpleName();
-            String getBodyMethod = "get" + xmlRequestCopyClass.replace("DocumentImpl", "");
+            purgeClonedRequest(requestClone);
+            RequestType requestType = 
+                requestTypeService.getRequestTypeById(request.getRequestType().getId());
+            requestClone.setRequestType(requestType);
+            requestClone.setHomeFolderId(request.getHomeFolderId());
+            requestClone.setSubjectId(request.getSubjectId());
+            return requestClone;
 
-            Method xmlRequestGetBody =
-                xmlRequestCopy.getClass().getMethod(getBodyMethod, parameterTypes);
-            fr.cg95.cvq.xml.common.RequestType xmlRequestType =
-                (fr.cg95.cvq.xml.common.RequestType) xmlRequestGetBody.invoke(xmlRequestCopy, arguments);
-            
-            if (request.getSubjectId() != null) {
-                SubjectType subject = xmlRequestType.addNewSubject();
-                Individual requestSubject = individualService.getById(request.getSubjectId());
-                subject.setIndividual(Individual.modelToXml(requestSubject));
-            }
-
-            purgeClonedRequest(xmlRequestType);
-
-            return xmlRequestCopy.getDomNode();
         } catch (SecurityException e) {
             logger.error("getRequestClone() Security exception while cloning request");
             throw new CvqException("Security exception while cloning request");
@@ -704,12 +696,11 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             logger.error("getRequestClone() Invocation target exception while cloning request");
             throw new CvqException("Invocation target exception while cloning request");
         } catch (NoSuchMethodException e) {
-            // hey, you know what ? I know how my methods are named :-)
+            logger.error("getRequestClone() No such method");
+            throw new CvqException("No such method : " + e.getMessage());
         }
-
-        return null;
     }
-
+    
     @Override
     public Request getSkeletonRequest(final String requestTypeLabel) throws CvqException {
         IRequestService service = requestServiceRegistry.getRequestService(requestTypeLabel);
@@ -723,28 +714,27 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         return request;
     }
     
-    private void purgeClonedRequest(fr.cg95.cvq.xml.common.RequestType requestType) {
+    private void purgeClonedRequest(Request request) {
 
         // administrative data
-        requestType.setId(0);
-        requestType.setCreationDate(null);
-        requestType.setDataState(null);
-        requestType.setLastInterveningUserId(0);
-        requestType.setLastModificationDate(null);
-        requestType.setObservations(null);
-        requestType.setState(null);
-        requestType.setStep(null);
-        requestType.setValidationDate(null);
+        request.setId(null);
+        request.setCreationDate(null);
+        request.setDataState(null);
+        request.setLastInterveningUserId(Long.valueOf(0));
+        request.setLastModificationDate(null);
+        request.setState(null);
+        request.setStep(null);
+        request.setValidationDate(null);
 
         // business data
-        requestType.setRequester(null);
+        request.setRequesterId(null);
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void rewindWorkflow(Request request, List<Document> documents)
+    public void rewindWorkflow(Request request, List<Document> documents, String note)
         throws CvqException {
-        rewindWorkflow(request);
+        rewindWorkflow(request, note);
         requestDocumentService.addDocuments(request, documents);
     }
 
@@ -1134,14 +1124,14 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void rewindWorkflow(Request request)
+    public void rewindWorkflow(Request request, String note)
         throws CvqException, CvqInvalidTransitionException {
         if (request.getState().equals(RequestState.PENDING)
             || request.getState().equals(RequestState.UNCOMPLETE)) {
             request.setState(RequestState.PENDING);
             Date date = new Date();
             updateLastModificationInformation(request, date);
-            requestActionService.addWorfklowAction(request.getId(), null, date,
+            requestActionService.addWorfklowAction(request.getId(), note, date,
                 RequestState.PENDING, requestPdfService.generateCertificate(request));
         } else {
             throw new CvqInvalidTransitionException();
@@ -1267,9 +1257,14 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         return excludedStates;
     }
     
+    /**
+     * Actually the opposite of the {@link #getStatesExcludedForRunningRequests()}, except for the
+     * {@link RequestState#ARCHIVED} state which is excluded from everything
+     */
     public RequestState[] getStatesExcludedForRequestsCloning() {
         RequestState[] excludedStates = 
-            new RequestState[] { RequestState.REJECTED, RequestState.CANCELLED };
+            new RequestState[] { RequestState.PENDING, RequestState.COMPLETE, 
+                RequestState.UNCOMPLETE, RequestState.VALIDATED, RequestState.ARCHIVED };
         return excludedStates;
     }
 
@@ -1294,6 +1289,13 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             return true;
         
         return false;
+    }
+    
+    @Override
+    public boolean isSupportMultiple(final String requestLabel) 
+        throws CvqException {
+        IRequestService requestService = requestServiceRegistry.getRequestService(requestLabel);
+        return requestService.getSupportMultiple();
     }
     
     public List<RequestState> getInstructionDoneStates() {

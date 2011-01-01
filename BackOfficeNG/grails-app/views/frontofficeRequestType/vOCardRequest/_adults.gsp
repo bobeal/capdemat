@@ -90,8 +90,8 @@
     <input type="hidden" name="objectToBind" value="individuals" />
     <div class="error" id="stepForm-adults-error"> </div>
     <g:if test="${editList?.name == 'adults'}">
-      <input type="submit" id="submit-collectionModify-adults-adults" name="submit-collectionModify-adults-adults[${listIndex}]" value="${message(code:'action.save')}" />
-      <input type="submit" id="submit-collectionCancel-adults-adults" name="submit-collectionCancel-adults-adults[${listIndex}]" value="${message(code:'action.cancel')}" />
+      <input type="submit" id="submit-collectionModify-adults-adults" name="submit-collectionModify-adults-adults[${listIndex}]" value="${message(code:'action.save')}" class="modify" />
+      <input type="submit" id="submit-collectionCancel-adults-adults" name="submit-collectionCancel-adults-adults[${listIndex}]" value="${message(code:'action.cancel')}" class="cancel" />
     </g:if>
     <g:else>
       <input type="submit" id="submit-collectionAdd-adults-adults" name="submit-collectionAdd-adults-adults[${listIndex}]" value="${message(code:'vcr.action.addAdult')}" />

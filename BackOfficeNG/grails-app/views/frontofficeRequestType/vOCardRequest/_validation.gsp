@@ -41,12 +41,21 @@
 <h3><g:message code="vcr.step.children.label" /></h3>
 <g:each var="it" in="${individuals?.children}" status="index">
   <div class="account-fieldset-edit">
-  <h4>${it.firstName} ${it.lastName}</h4>
+  <g:if test="${!it.isChildBorn}">
+    <h4><g:message code="request.subject.childNoBorn"
+          args="${[it.fullName]}" /></h4>
+  </g:if>
+  <g:else>
+    <h4>${it.firstName} ${it.lastName}</h4>
+  </g:else>
   <dl>
     <dt><g:message code="homeFolder.child.property.sex" /> : </dt>
     <dd><g:capdematEnumToField var="${it.sex}" i18nKeyPrefix="homeFolder.child.property.sex" /></dd>
 
-    <dt><g:message code="homeFolder.individual.property.birthDate" /> : </dt>
+    <dt>
+        <g:if test="${!it.isChildBorn}"><g:message code="homeFolder.individual.property.expectedBirthDate" /></g:if>
+        <g:else><g:message code="homeFolder.individual.property.birthDate" /></g:else>
+    : </dt>
     <dd><span><g:formatDate formatName="format.date" date="${it.birthDate}"/></span></dd>
   </dl>
   </div>

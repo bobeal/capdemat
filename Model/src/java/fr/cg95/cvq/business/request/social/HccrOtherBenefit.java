@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
@@ -50,6 +51,7 @@ public class HccrOtherBenefit implements Serializable {
         
         Calendar calendar = Calendar.getInstance();
         Date date = null;
+        LocalTime localTime = new LocalTime();
         HccrOtherBenefitType hccrOtherBenefit = HccrOtherBenefitType.Factory.newInstance();
         int i = 0;
     
@@ -60,6 +62,7 @@ public class HccrOtherBenefit implements Serializable {
 
     public static HccrOtherBenefit xmlToModel(HccrOtherBenefitType hccrOtherBenefitDoc) {
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         HccrOtherBenefit hccrOtherBenefit = new HccrOtherBenefit();
     

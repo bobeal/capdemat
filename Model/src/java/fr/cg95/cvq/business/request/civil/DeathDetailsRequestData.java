@@ -87,47 +87,6 @@ public class DeathDetailsRequestData implements Serializable {
     }
   
     
-      @MaxLength(
-        
-          value = 32,
-        
-        
-        profiles = {"nature"},
-        message = "deathCity"
-      )
-    
-      @NotNull(
-        
-        
-        profiles = {"nature"},
-        message = "deathCity"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"nature"},
-        message = "deathCity"
-      )
-    
-    private String deathCity;
-
-    public final void setDeathCity(final String deathCity) {
-        this.deathCity = deathCity;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="death_city"
-        *  length="32"
-      
-    */
-    public final String getDeathCity() {
-        return this.deathCity;
-    }
-  
-    
       @NotNull(
         
         
@@ -179,6 +138,31 @@ public class DeathDetailsRequestData implements Serializable {
     }
   
     
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "deathDate"
+      )
+    
+    private java.util.Date deathDate;
+
+    public final void setDeathDate(final java.util.Date deathDate) {
+        this.deathDate = deathDate;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="death_date"
+        
+      
+    */
+    public final java.util.Date getDeathDate() {
+        return this.deathDate;
+    }
+  
+    
       @MatchPattern(
         
           pattern = "^.{0,255}$",
@@ -203,24 +187,6 @@ public class DeathDetailsRequestData implements Serializable {
     */
     public final String getComment() {
         return this.comment;
-    }
-  
-    
-    private fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType motive;
-
-    public final void setMotive(final fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType motive) {
-        this.motive = motive;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="motive"
-        
-      
-    */
-    public final fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType getMotive() {
-        return this.motive;
     }
   
     
@@ -267,6 +233,65 @@ public class DeathDetailsRequestData implements Serializable {
     
       @MaxLength(
         
+          value = 32,
+        
+        
+        profiles = {"nature"},
+        message = "deathCity"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "deathCity"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"nature"},
+        message = "deathCity"
+      )
+    
+    private String deathCity;
+
+    public final void setDeathCity(final String deathCity) {
+        this.deathCity = deathCity;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="death_city"
+        *  length="32"
+      
+    */
+    public final String getDeathCity() {
+        return this.deathCity;
+    }
+  
+    
+    private fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType motive;
+
+    public final void setMotive(final fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType motive) {
+        this.motive = motive;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="motive"
+        
+      
+    */
+    public final fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType getMotive() {
+        return this.motive;
+    }
+  
+    
+      @MaxLength(
+        
           value = 38,
         
         
@@ -303,31 +328,6 @@ public class DeathDetailsRequestData implements Serializable {
     */
     public final String getDeathLastName() {
         return this.deathLastName;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"nature"},
-        message = "deathDate"
-      )
-    
-    private java.util.Date deathDate;
-
-    public final void setDeathDate(final java.util.Date deathDate) {
-        this.deathDate = deathDate;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="death_date"
-        
-      
-    */
-    public final java.util.Date getDeathDate() {
-        return this.deathDate;
     }
   
 }

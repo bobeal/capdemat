@@ -1,3 +1,5 @@
+import fr.cg95.cvq.business.users.Child;
+
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.users.Adult
@@ -84,8 +86,9 @@ class FrontofficeRequestController {
         def requestTypeLabel =
             translationService.translateRequestTypeLabel(rqt.requestType.label).encodeAsHTML()
         def requester = rqt.requesterId != null ? individualService.getById(rqt.requesterId) : null
+        def subject = rqt.subjectId != null ? individualService.getById(rqt.subjectId) : null
         def subjects = [:]
-        subjects[rqt.subjectId] = "${rqt.subjectLastName} ${rqt.subjectFirstName}"
+        subjects[rqt.subjectId] = subject instanceof Child && !subject.isChildBorn ? message(code:'request.subject.childNoBorn', args:[subject.getFullName()]) : "${rqt.subjectLastName} ${rqt.subjectFirstName}"
         return ['rqt': rqt,
                 'requestTypeLabel':requestTypeLabel,
                 'requester':requester,

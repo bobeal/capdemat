@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
@@ -50,6 +51,7 @@ public class HcarOtherFolder implements Serializable {
         
         Calendar calendar = Calendar.getInstance();
         Date date = null;
+        LocalTime localTime = new LocalTime();
         HcarOtherFolderType hcarOtherFolder = HcarOtherFolderType.Factory.newInstance();
         int i = 0;
     
@@ -64,6 +66,7 @@ public class HcarOtherFolder implements Serializable {
 
     public static HcarOtherFolder xmlToModel(HcarOtherFolderType hcarOtherFolderDoc) {
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         HcarOtherFolder hcarOtherFolder = new HcarOtherFolder();
     

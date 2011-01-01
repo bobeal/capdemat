@@ -99,7 +99,7 @@ public class RequestDraftTest extends RequestTestCase {
             request.setRequesterId(SecurityContext.getCurrentEcitizen().getId());
             request.setSubjectId(child1.getId());
             request.setState(RequestState.DRAFT);
-            Long id = requestWorkflowService.create(request);
+            Long id = requestWorkflowService.create(request, null, null, null);
             continueWithNewTransaction();
             
             request = requestSearchService.getById(id, true);

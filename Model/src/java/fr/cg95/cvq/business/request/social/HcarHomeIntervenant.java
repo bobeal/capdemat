@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
@@ -50,6 +51,7 @@ public class HcarHomeIntervenant implements Serializable {
         
         Calendar calendar = Calendar.getInstance();
         Date date = null;
+        LocalTime localTime = new LocalTime();
         HcarHomeIntervenantType hcarHomeIntervenant = HcarHomeIntervenantType.Factory.newInstance();
         int i = 0;
     
@@ -63,6 +65,7 @@ public class HcarHomeIntervenant implements Serializable {
 
     public static HcarHomeIntervenant xmlToModel(HcarHomeIntervenantType hcarHomeIntervenantDoc) {
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         HcarHomeIntervenant hcarHomeIntervenant = new HcarHomeIntervenant();
     

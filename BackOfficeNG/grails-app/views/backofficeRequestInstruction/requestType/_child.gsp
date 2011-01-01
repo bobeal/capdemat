@@ -1,9 +1,15 @@
 <h3>
-  ${child.firstName} ${child.lastName}
+  <g:if test="${child.isChildBorn}">${child.firstName} ${child.lastName}</g:if>
+  <g:else><g:message code="request.subject.childNoBorn" args="${[child.fullName]}" /></g:else>
 </h3>
 <div class="yui-g">
   <div class="yui-u first">
     <dl>
+      <dt><g:message code="homeFolder.individual.property.isChildBorn" /> : </dt>
+      <dd id="individuals[${index}].isChildBorn" class="action-editField validate-boolean required-true i18n-homeFolder.individual.property.isChildBorn">
+        <span class="value-${child.isChildBorn}"><g:message code="message.${child.isChildBorn ? 'yes' : 'no'}" /></span>
+      </dd>
+
       <dt><g:message code="homeFolder.individual.property.lastName" /> : </dt> 
       <dd id="individuals[${index}].lastName" class="action-editField validate-lastname required-true i18n-homeFolder.individual.property.lastName">
         <span>${child.lastName}</span>

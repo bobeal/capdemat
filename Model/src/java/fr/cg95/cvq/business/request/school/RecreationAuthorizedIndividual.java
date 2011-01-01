@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
@@ -50,6 +51,7 @@ public class RecreationAuthorizedIndividual implements Serializable {
         
         Calendar calendar = Calendar.getInstance();
         Date date = null;
+        LocalTime localTime = new LocalTime();
         RecreationAuthorizedIndividualType recreationAuthorizedIndividual = RecreationAuthorizedIndividualType.Factory.newInstance();
         int i = 0;
     
@@ -69,6 +71,7 @@ public class RecreationAuthorizedIndividual implements Serializable {
 
     public static RecreationAuthorizedIndividual xmlToModel(RecreationAuthorizedIndividualType recreationAuthorizedIndividualDoc) {
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         RecreationAuthorizedIndividual recreationAuthorizedIndividual = new RecreationAuthorizedIndividual();
     

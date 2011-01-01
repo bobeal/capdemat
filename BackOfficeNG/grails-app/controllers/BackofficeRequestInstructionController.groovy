@@ -1,3 +1,5 @@
+import java.util.Collections;
+
 import fr.cg95.cvq.business.request.external.RequestExternalAction
 import fr.cg95.cvq.business.document.ContentType
 import fr.cg95.cvq.business.request.DataState
@@ -5,6 +7,8 @@ import fr.cg95.cvq.business.request.RequestAction
 import fr.cg95.cvq.business.request.RequestActionType
 import fr.cg95.cvq.business.request.RequestNoteType
 import fr.cg95.cvq.business.request.RequestState
+import fr.cg95.cvq.business.users.Child;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.security.SecurityContext
@@ -136,6 +140,8 @@ class BackofficeRequestInstructionController {
             }
         }
 
+        def subject = rqt.subjectId != null ? individualService.getById(rqt.subjectId) : null
+
         return ([
             "rqt": rqt,
             "requestTypeLabel": rqt.requestType.label,
@@ -155,7 +161,9 @@ class BackofficeRequestInstructionController {
             "requestTypeTemplate": CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label),
             "externalProviderServiceLabel" : externalProviderServiceLabel,
             "externalTemplateName" : externalTemplateName,
-            "lastTraceStatus" : lastTraceStatus
+            "lastTraceStatus" : lastTraceStatus,
+            "subject" : subject,
+            "subjectIsChild" : subject != null && subject instanceof Child ? true : false
         ])
     }
     
@@ -193,7 +201,7 @@ class BackofficeRequestInstructionController {
     * --------------------------------------------------------------------- */
 
     def widget = {
-        def widgets = ['date','address','frenchRIB','capdematEnum','boolean','textarea','localReferentialData','school','recreationCenter']
+        def widgets = ['date','time','address','frenchRIB','capdematEnum','boolean','textarea','localReferentialData','school','recreationCenter']
         
         def propertyTypes = JSON.parse(params.propertyType)
         def propertyType = propertyTypes.validate
@@ -252,6 +260,10 @@ class BackofficeRequestInstructionController {
             if (params.propertyValue != "null") {
                 propertyValue = Long.valueOf(params.propertyValue)
             }
+        } else if (propertyType == "time") {
+            propertyValue = [:]
+            propertyValue.hour = params.propertyValue.split(':')[0].trim()
+            propertyValue.minute = params.propertyValue.split(':')[1].trim()
         }
         else {
             propertyValue = params.propertyValue
@@ -458,14 +470,15 @@ class BackofficeRequestInstructionController {
         requestSearchService.getById(Long.valueOf(params.id), false).actions.each {
             if (RequestState.DRAFT.equals(it.resultingState))
                 return
-            def user = instructionService.getActionPosterDetails(it.agentId)
+            def user = instructionService.getActionPosterDetails(it.agentId, true)
             def resultingState = null
             if (it.type.equals(RequestActionType.STATE_CHANGE)) {
                 resultingState = CapdematUtils.adaptCapdematEnum(it.resultingState, "request.state")
             }
             def requestAction = [
                 'id':it.id,
-                'agent_name':user,
+                'agent_name':user.displayName,
+                'userNature':user.nature,
                 "type" : CapdematUtils.adaptCapdematEnum(it.type, "requestAction.type"),
                 'note':it.note,
                 "message" : it.message,
@@ -481,6 +494,7 @@ class BackofficeRequestInstructionController {
             ]
             requestActionList.add(requestAction)
         }
+        Collections.reverse(requestActionList)
         render(template : "requestHistory", model : [
             "requestId" : params.id,
             "requestActionList" : requestActionList

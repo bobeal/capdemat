@@ -10,8 +10,13 @@
 <%
   def displayWidget(element, wrapper) {
     def widgets = [
-      'date' : 
+      'date' :
           "<span><g:formatDate formatName=\"format.date\" date=\"\${${wrapper}?.${element.javaFieldName}}\"/></span>"
+      ,'time' : 
+          ["<span>\${${wrapper}.${element.javaFieldName}?.getHourOfDay()} : "
+          ,"\${${wrapper}.${element.javaFieldName} && ${wrapper}.${element.javaFieldName}.getMinuteOfHour() < 10 ? '0' : ''}"
+          ,"\${${wrapper}.${element.javaFieldName}?.getMinuteOfHour()}</span>"
+          ].join()
       ,'capdematEnum' :
           "<g:capdematEnumToField var=\"\${${wrapper}?.${element.javaFieldName}}\" i18nKeyPrefix=\"${element.i18nPrefixCode}\" />"
       ,'address' :
@@ -56,7 +61,7 @@
           "<span>\${${wrapper}?.${element.javaFieldName}}</span>"
       ,'subject' :
           """<dt class="required"><g:message code="request.property.subject.label" /> : </dt>
-              <dd><span>\${rqt?.subjectFirstName} \${rqt?.subjectLastName}</span></dd>
+              <dd><span>\${subjectIsChild && !subject?.isChildBorn ? message(code:'request.subject.childNoBorn', args:[subject?.getFullName()]) : subject?.fullName}</span></dd>
           """
       ,'requester' :
           """<g:render template="/backofficeRequestInstruction/requestType/requester" model="['requester':requester]" />"""

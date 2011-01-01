@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
@@ -50,6 +51,7 @@ public class DhrNotRealAsset implements Serializable {
         
         Calendar calendar = Calendar.getInstance();
         Date date = null;
+        LocalTime localTime = new LocalTime();
         DhrNotRealAssetType dhrNotRealAsset = DhrNotRealAssetType.Factory.newInstance();
         int i = 0;
     
@@ -88,6 +90,7 @@ public class DhrNotRealAsset implements Serializable {
 
     public static DhrNotRealAsset xmlToModel(DhrNotRealAssetType dhrNotRealAssetDoc) {
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         DhrNotRealAsset dhrNotRealAsset = new DhrNotRealAsset();
     

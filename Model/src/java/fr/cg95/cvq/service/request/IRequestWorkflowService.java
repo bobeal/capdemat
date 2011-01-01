@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.w3c.dom.Node;
-
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.business.request.Request;
@@ -67,7 +65,7 @@ public interface IRequestWorkflowService {
     /**
      * Set a request in pending state after edition by an ecitizen
      */
-    void rewindWorkflow(@IsRequest Request request)
+    void rewindWorkflow(@IsRequest Request request, String note)
         throws CvqException, CvqInvalidTransitionException;
 
     /**
@@ -112,7 +110,7 @@ public interface IRequestWorkflowService {
     RequestState[] getStatesExcludedForRunningRequests();
 
     void createAccountCreationRequest(VoCardRequest dcvo, List<Adult> adults, List<Child> children, 
-            List<Adult> foreignRoleOwners, final Address address, List<Document> documents) 
+            List<Adult> foreignRoleOwners, final Address address, List<Document> documents, String note) 
             throws CvqException;
 
     /**
@@ -125,7 +123,7 @@ public interface IRequestWorkflowService {
     
     void createAccountModificationRequest(final HomeFolderModificationRequest hfmr,
             final List<Adult> adults, List<Child> children, List<Adult> foreignRoleOwners, 
-            final Address adress, List<Document> documents)
+            final Address adress, List<Document> documents, String note)
         throws CvqException;
     
     /**
@@ -139,12 +137,12 @@ public interface IRequestWorkflowService {
      * to perform upon creation is provided. For others, the default implementation will have to
      * be overrided.
      */
-    Long create(@IsRequest Request request) throws CvqException;
+    Long create(@IsRequest Request request, String note) throws CvqException;
 
     /**
-     * The same as {@link #create(Request)} but with a provided documents list.
+     * The same as {@link #create(Request, String)} but with a provided documents list.
      */
-    Long create(@IsRequest Request request, List<Document> documents) throws CvqException;
+    Long create(@IsRequest Request request, List<Document> documents, String note) throws CvqException;
 
     /**
      * Create a new request from given data.
@@ -152,14 +150,14 @@ public interface IRequestWorkflowService {
      * It is meant to be used by requests issued outside an home folder. An home folder
      * containing at least the requester will be created. The subject is optional.
      */
-    Long create(@IsRequest Request request, @IsRequester Adult requester)
+    Long create(@IsRequest Request request, @IsRequester Adult requester, String note)
         throws CvqException;
 
     /**
-     * The same as {@link #create(Request, Adult, Individual)} but with a provided
+     * The same as {@link #create(Request, Adult, Individual, String)} but with a provided
      * documents list.
      */
-    Long create(@IsRequest Request request, @IsRequester Adult requester, List<Document> documents)
+    Long create(@IsRequest Request request, @IsRequester Adult requester, List<Document> documents, String note)
         throws CvqException;
 
     /**
@@ -177,27 +175,25 @@ public interface IRequestWorkflowService {
         throws CvqException, CvqObjectNotFoundException;
 
     /**
-     * Get a clone of a request with the given label whose subject is either the given subject 
-     * either the given home folder (depending on the subject policy supported by the associated
-     * request type).
-     * 
-     * @param subjectId optional subject id
-     * @param homeFolderId optional home folder id
-     * @param requestLabel mandatory label of the request type
+     * Get a clone of a request with the given request id
      * 
      * @return a new request without administrative and persistence information.
-     * 
-     * TODO REFACTORING : maybe return type will have to be migrated to a Request object
      */
-    Node getRequestClone(@IsSubject Long subjectId, @IsHomeFolder Long homeFolderId, String requestLabel)
-            throws CvqException;
+    Request getRequestClone(@IsRequest Long requestId)
+        throws CvqException;
+    
+    /**
+     * Get the id of the last request made for a given id subject and a given request label 
+     */
+    Long getLastRequestForSubjectAndLabel(final Long subjectId, final String requestLabel)
+        throws CvqException;
 
     Request getSkeletonRequest(final String requestTypeLabel) throws CvqException;
     
     /**
      * Edit a request.
      */
-    void rewindWorkflow(@IsRequest Request request, List<Document> documents) throws CvqException;
+    void rewindWorkflow(@IsRequest Request request, List<Document> documents, String note) throws CvqException;
 
     /**
      * Modify a request.
@@ -224,4 +220,6 @@ public interface IRequestWorkflowService {
 
     void checkSubjectPolicy(@IsSubject final Long subjectId, final String policy,
             @IsRequest final Request request) throws CvqException, CvqModelException;
+
+    boolean isSupportMultiple(String requestLabel) throws CvqException;
 }

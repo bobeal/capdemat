@@ -214,7 +214,7 @@ public class AlignmentNumberingConnectionRequestServiceTest extends RequestTestC
         request.setRequesterId(SecurityContext.getCurrentUserId());
         request.setHomeFolderId(homeFolderId);
         AlignmentNumberingConnectionRequestFeeder.setSubject(request, requestService.getSubjectPolicy(), null, homeFolder);
-        Long requestId = requestWorkflowService.create(request);
+        Long requestId = requestWorkflowService.create(request, null);
         AlignmentNumberingConnectionRequest requestFromDb = (AlignmentNumberingConnectionRequest) requestSearchService.getById(requestId, true);
         assertEquals(requestId, requestFromDb.getId());
         assertNotNull(requestFromDb.getRequesterId());
@@ -242,7 +242,7 @@ public class AlignmentNumberingConnectionRequestServiceTest extends RequestTestC
         homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         AlignmentNumberingConnectionRequestFeeder
             .setSubject(request, requestService.getSubjectPolicy(), requester, null);
-        Long requestId = requestWorkflowService.create(request, requester);
+        Long requestId = requestWorkflowService.create(request, requester, null);
         // close current session and re-open a new one
         continueWithNewTransaction();
         // start testing request creation

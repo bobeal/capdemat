@@ -1187,7 +1187,7 @@ public class HandicapCompensationAdultRequestServiceTest extends RequestTestCase
         request.setRequesterId(SecurityContext.getCurrentUserId());
         request.setHomeFolderId(homeFolderId);
         HandicapCompensationAdultRequestFeeder.setSubject(request, requestService.getSubjectPolicy(), null, homeFolder);
-        Long requestId = requestWorkflowService.create(request);
+        Long requestId = requestWorkflowService.create(request, null);
         HandicapCompensationAdultRequest requestFromDb = (HandicapCompensationAdultRequest) requestSearchService.getById(requestId, true);
         assertEquals(requestId, requestFromDb.getId());
         assertNotNull(requestFromDb.getRequesterId());
@@ -1215,7 +1215,7 @@ public class HandicapCompensationAdultRequestServiceTest extends RequestTestCase
         homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         HandicapCompensationAdultRequestFeeder
             .setSubject(request, requestService.getSubjectPolicy(), requester, null);
-        Long requestId = requestWorkflowService.create(request, requester);
+        Long requestId = requestWorkflowService.create(request, requester, null);
         // close current session and re-open a new one
         continueWithNewTransaction();
         // start testing request creation

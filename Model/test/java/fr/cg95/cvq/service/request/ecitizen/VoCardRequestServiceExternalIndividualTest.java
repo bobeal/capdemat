@@ -100,7 +100,7 @@ public class VoCardRequestServiceExternalIndividualTest extends RequestTestCase 
         List<Child> childSet = new ArrayList<Child>();
         childSet.add(child1);
 
-        requestWorkflowService.createAccountCreationRequest(dcvo, adultSet, childSet, foreignAdultSet, address, null);
+        requestWorkflowService.createAccountCreationRequest(dcvo, adultSet, childSet, foreignAdultSet, address, null, null);
 
         homeFolderVoCardRequestIds.put(dcvo.getHomeFolderId(), dcvo.getId()); 
 

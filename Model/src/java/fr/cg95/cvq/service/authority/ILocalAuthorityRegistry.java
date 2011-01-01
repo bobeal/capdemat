@@ -225,4 +225,6 @@ public interface ILocalAuthorityRegistry {
      * Indicates if payments are enabled or disabled for current local authority
      */
     boolean isPaymentEnabled();
+
+    String getFileContent(File resourceFile);
 }

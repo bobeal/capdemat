@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.AssertValid;
 import org.apache.xmlbeans.XmlOptions;
@@ -72,6 +73,7 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
     public final CompostableWasteCollectionRequestDocument modelToXml() {
         
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         Date date = null;
         CompostableWasteCollectionRequestDocument compostableWasteCollectionRequestDoc = CompostableWasteCollectionRequestDocument.Factory.newInstance();
         CompostableWasteCollectionRequestDocument.CompostableWasteCollectionRequest compostableWasteCollectionRequest = compostableWasteCollectionRequestDoc.addNewCompostableWasteCollectionRequest();
@@ -103,6 +105,7 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
     public static CompostableWasteCollectionRequest xmlToModel(CompostableWasteCollectionRequestDocument compostableWasteCollectionRequestDoc) {
         CompostableWasteCollectionRequestDocument.CompostableWasteCollectionRequest compostableWasteCollectionRequestXml = compostableWasteCollectionRequestDoc.getCompostableWasteCollectionRequest();
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         CompostableWasteCollectionRequest compostableWasteCollectionRequest = new CompostableWasteCollectionRequest();
         compostableWasteCollectionRequest.fillCommonModelInfo(compostableWasteCollectionRequest, compostableWasteCollectionRequestXml);

@@ -250,7 +250,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                 // create an home folder through account creation request
                 VoCardRequest voCardRequest = new VoCardRequest();
                 requestWorkflowService.createAccountCreationRequest(voCardRequest, cdto.getAdults(), 
-                        cdto.getChildren(), null, cdto.getAddress(), null);
+                        cdto.getChildren(), null, cdto.getAddress(), null, null);
                 HomeFolder homeFolder = homeFolderService.getById(voCardRequest.getHomeFolderId());
 
                 // if known, add family quotient information to home folder
@@ -264,7 +264,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                 
                 // create school registrations
                 for (SchoolRegistrationRequest srr : cdto.getChildrenSchoolRegistrations()) {
-                    requestWorkflowService.create(srr);
+                    requestWorkflowService.create(srr, null, null, null);
                     requestWorkflowService.updateRequestState(srr.getId(),
                         RequestState.COMPLETE, null);
                     requestWorkflowService.updateRequestState(srr.getId(),
@@ -274,14 +274,14 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                 
                 // create school canteen registrations
                 for (SchoolCanteenRegistrationRequest scrr : cdto.getChildrenSchoolCanteenRegistrations()) {
-                    requestWorkflowService.create(scrr);
+                    requestWorkflowService.create(scrr, null, null, null);
                     logger.debug("importData() created school canteen registration request : " 
                             + scrr.getId());
                 }
                 
                 // create perischool activity registrations
                 for (PerischoolActivityRegistrationRequest parr : cdto.getChildrenPerischoolActivityRegistrations()) {
-                    requestWorkflowService.create(parr);
+                    requestWorkflowService.create(parr, null, null, null);
                     logger.debug("importData() created perischool activity registration request : " 
                             + parr.getId());
                 }

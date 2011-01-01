@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.AssertValid;
 import org.apache.xmlbeans.XmlOptions;
@@ -72,6 +73,7 @@ public class HandicapCompensationAdultRequest extends Request implements Seriali
     public final HandicapCompensationAdultRequestDocument modelToXml() {
         
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         Date date = null;
         HandicapCompensationAdultRequestDocument handicapCompensationAdultRequestDoc = HandicapCompensationAdultRequestDocument.Factory.newInstance();
         HandicapCompensationAdultRequestDocument.HandicapCompensationAdultRequest handicapCompensationAdultRequest = handicapCompensationAdultRequestDoc.addNewHandicapCompensationAdultRequest();
@@ -555,6 +557,7 @@ public class HandicapCompensationAdultRequest extends Request implements Seriali
     public static HandicapCompensationAdultRequest xmlToModel(HandicapCompensationAdultRequestDocument handicapCompensationAdultRequestDoc) {
         HandicapCompensationAdultRequestDocument.HandicapCompensationAdultRequest handicapCompensationAdultRequestXml = handicapCompensationAdultRequestDoc.getHandicapCompensationAdultRequest();
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         HandicapCompensationAdultRequest handicapCompensationAdultRequest = new HandicapCompensationAdultRequest();
         handicapCompensationAdultRequest.fillCommonModelInfo(handicapCompensationAdultRequest, handicapCompensationAdultRequestXml);

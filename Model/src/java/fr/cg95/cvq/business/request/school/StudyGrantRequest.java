@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.AssertValid;
 import org.apache.xmlbeans.XmlOptions;
@@ -72,6 +73,7 @@ public class StudyGrantRequest extends Request implements Serializable {
     public final StudyGrantRequestDocument modelToXml() {
         
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         Date date = null;
         StudyGrantRequestDocument studyGrantRequestDoc = StudyGrantRequestDocument.Factory.newInstance();
         StudyGrantRequestDocument.StudyGrantRequest studyGrantRequest = studyGrantRequestDoc.addNewStudyGrantRequest();
@@ -217,6 +219,7 @@ public class StudyGrantRequest extends Request implements Serializable {
     public static StudyGrantRequest xmlToModel(StudyGrantRequestDocument studyGrantRequestDoc) {
         StudyGrantRequestDocument.StudyGrantRequest studyGrantRequestXml = studyGrantRequestDoc.getStudyGrantRequest();
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         StudyGrantRequest studyGrantRequest = new StudyGrantRequest();
         studyGrantRequest.fillCommonModelInfo(studyGrantRequest, studyGrantRequestXml);

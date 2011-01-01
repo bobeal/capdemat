@@ -76,9 +76,9 @@ public class RequestActionService implements IRequestActionService {
     }
 
     @Override
-    public void addCreationAction(Long requestId, Date date, byte[] pdfData)
+    public void addCreationAction(Long requestId, Date date, byte[] pdfData, String note)
         throws CvqException {
-        addActionTrace(RequestActionType.CREATION, null, null, date,
+        addActionTrace(RequestActionType.CREATION, null, note, date,
             RequestState.PENDING, requestId, pdfData, null);
     }
 

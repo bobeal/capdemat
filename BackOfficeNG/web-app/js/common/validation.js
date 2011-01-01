@@ -159,8 +159,11 @@
             cValid = cRule.check(this);
             valid = valid && cValid;
             if (!cValid){
-              for (i=0; i<this.length; i++)
+              for (i=0; i<this.length; i++) {
+                if (i == 0) me.fields[this[i]].errorMsg = cRule.errorMsg;
                 yud.addClass(me.fields[this[i]].enhanceErrorEl, 'validation-failed');
+                me.fields[this[i]].valid = false;
+              }
               if (cRule.errorMsg.length > 0) errorMsgs.push(cRule.errorMsg);
             }
           });

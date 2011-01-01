@@ -57,7 +57,7 @@ public class EdemandeServiceTest extends StudyGrantRequestServiceTest {
         //iDocumentService.addPage(documentId, documentBinary);
         //document.setDatas(null);
         Long requestId =
-            requestWorkflowService.create(request);
+            requestWorkflowService.create(request, null, null, null);
         requestDocumentService.addDocument(requestId, documentId);
 
         try {

@@ -9,9 +9,9 @@
 #requestTabView .account { margin: 0 0 1em 0; }
 
 #requestTabView .account input[type="submit"] { display: block; margin: 1em auto; font-size: 1.2em;}
-#requestTabView .account input[type="submit"]#submit-collectionModify-adults-adults, 
-#requestTabView .account input[type="submit"]#submit-collectionCancel-adults-adults { display: inline; }
-#requestTabView .account input[type="submit"]#submit-collectionModify-adults-adults { margin-left: 40%; }
+#requestTabView .account input[type="submit"].modify, 
+#requestTabView .account input[type="submit"].cancel { display: inline; }
+#requestTabView .account input[type="submit"].modify { margin-left: 40%; }
 #requestTabView .account input[type="text"],
 #requestTabView .account input[type="password"],
 #requestTabView .account select,

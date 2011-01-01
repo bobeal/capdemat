@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
@@ -50,6 +51,7 @@ public class HcarFamilyAssistanceMember implements Serializable {
         
         Calendar calendar = Calendar.getInstance();
         Date date = null;
+        LocalTime localTime = new LocalTime();
         HcarFamilyAssistanceMemberType hcarFamilyAssistanceMember = HcarFamilyAssistanceMemberType.Factory.newInstance();
         int i = 0;
     
@@ -64,6 +66,7 @@ public class HcarFamilyAssistanceMember implements Serializable {
 
     public static HcarFamilyAssistanceMember xmlToModel(HcarFamilyAssistanceMemberType hcarFamilyAssistanceMemberDoc) {
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         HcarFamilyAssistanceMember hcarFamilyAssistanceMember = new HcarFamilyAssistanceMember();
     

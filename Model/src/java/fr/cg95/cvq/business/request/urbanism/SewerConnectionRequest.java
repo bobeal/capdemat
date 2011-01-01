@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.AssertValid;
 import org.apache.xmlbeans.XmlOptions;
@@ -72,6 +73,7 @@ public class SewerConnectionRequest extends Request implements Serializable {
     public final SewerConnectionRequestDocument modelToXml() {
         
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         Date date = null;
         SewerConnectionRequestDocument sewerConnectionRequestDoc = SewerConnectionRequestDocument.Factory.newInstance();
         SewerConnectionRequestDocument.SewerConnectionRequest sewerConnectionRequest = sewerConnectionRequestDoc.addNewSewerConnectionRequest();
@@ -111,6 +113,7 @@ public class SewerConnectionRequest extends Request implements Serializable {
     public static SewerConnectionRequest xmlToModel(SewerConnectionRequestDocument sewerConnectionRequestDoc) {
         SewerConnectionRequestDocument.SewerConnectionRequest sewerConnectionRequestXml = sewerConnectionRequestDoc.getSewerConnectionRequest();
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         SewerConnectionRequest sewerConnectionRequest = new SewerConnectionRequest();
         sewerConnectionRequest.fillCommonModelInfo(sewerConnectionRequest, sewerConnectionRequestXml);

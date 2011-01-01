@@ -366,7 +366,8 @@ public class LocalAuthorityRegistry
         return result;
     }
 
-    private String getFileContent(File resourceFile) {
+    @Override
+    public String getFileContent(File resourceFile) {
         
         if (resourceFile == null || !resourceFile.exists())
             return null;

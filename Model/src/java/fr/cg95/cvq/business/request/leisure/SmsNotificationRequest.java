@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.AssertValid;
 import org.apache.xmlbeans.XmlOptions;
@@ -72,6 +73,7 @@ public class SmsNotificationRequest extends Request implements Serializable {
     public final SmsNotificationRequestDocument modelToXml() {
         
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         Date date = null;
         SmsNotificationRequestDocument smsNotificationRequestDoc = SmsNotificationRequestDocument.Factory.newInstance();
         SmsNotificationRequestDocument.SmsNotificationRequest smsNotificationRequest = smsNotificationRequestDoc.addNewSmsNotificationRequest();
@@ -105,6 +107,7 @@ public class SmsNotificationRequest extends Request implements Serializable {
     public static SmsNotificationRequest xmlToModel(SmsNotificationRequestDocument smsNotificationRequestDoc) {
         SmsNotificationRequestDocument.SmsNotificationRequest smsNotificationRequestXml = smsNotificationRequestDoc.getSmsNotificationRequest();
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         SmsNotificationRequest smsNotificationRequest = new SmsNotificationRequest();
         smsNotificationRequest.fillCommonModelInfo(smsNotificationRequest, smsNotificationRequestXml);

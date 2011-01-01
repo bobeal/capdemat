@@ -1,0 +1,97 @@
+
+
+<%
+
+  import org.apache.commons.lang.StringUtils
+  
+  def localReferentialWidget(rqt, javaName, lrEntries, depth) {
+    def lrHtml = ''
+    def currentLrDatas = rqt[javaName].collect{it.name}
+    if (lrTypes[javaName].entriesSupportMultiple) { 
+      lrHtml += "<ul ${depth==0 ? 'class="dataTree"' : ''}>"
+      lrEntries.eachWithIndex { entry, i -> 
+      if (entry.entries) { 
+        lrHtml += "<li>"
+        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
+        lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
+        lrHtml += "</li>"
+      } else {
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
+      } 
+    } 
+    lrHtml += "</ul>"
+    } else { 
+      lrEntries.each { entry -> 
+        lrHtml += "${currentLrDatas?.contains(entry.key) ? entry.labelsMap.fr: ''}"
+      } 
+    }
+    println lrHtml
+  }
+
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>${i18n.translate('herr.label')}</title>
+  <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
+</head>
+<body>
+  <div id="hd">
+    <p>${localAuthority.displayTitle}</p>
+    <img src="file://${logoPath}" alt="mairie2424" />
+  </div>
+  <h1>${i18n.translate('herr.label')}</h1>
+  <div class="localAuthority">
+    <h2>${i18n.translate('pdf.localAutorityReservedSection')}</h2>
+    <ul>
+      <li>${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
+      <li>${i18n.translate('property.requester')} : <strong>${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong></li>
+      <li>${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong></li>
+      <li>${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
+    </ul>
+  </div>
+
+  
+  <h2>${i18n.translate('herr.step.subject.label')}</h2>
+  
+    
+      <p class="label">${i18n.translate('request.property.subject.label')}</p>
+          <div class="response">${subjectIsChild && !subject?.isChildBorn ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName}</div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('herr.property.dateDepart.label')}</p>
+          <div class="response">${rqt.dateDepart ? String.format('%td/%<tm/%<tY',rqt.dateDepart) : ''}</div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('herr.property.duree.label')}</p><div class="response">${StringUtils.defaultString(rqt.duree?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('herr.property.telephone.label')}</p><div class="response">${StringUtils.defaultString(rqt.telephone?.toString())}</div>
+
+    
+  
+
+  <h2>${i18n.translate('contact.property.meansOfContact')}</h2>
+  <div class="response choice">
+    <% if (rqt.meansOfContact) { %>
+      <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
+        <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
+          ${i18n.translate('request.meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+        </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
+      <% } %>
+    <% } else { %>
+      <span class="checked">${i18n.translate('request.meansOfContact.none')}</span>
+    <% } %>
+  </div>
+</body>
+</html>
+

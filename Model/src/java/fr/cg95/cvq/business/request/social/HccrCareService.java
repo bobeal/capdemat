@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
@@ -52,6 +53,7 @@ public class HccrCareService implements Serializable {
         
         Calendar calendar = Calendar.getInstance();
         Date date = null;
+        LocalTime localTime = new LocalTime();
         HccrCareServiceType hccrCareService = HccrCareServiceType.Factory.newInstance();
         int i = 0;
     
@@ -70,6 +72,7 @@ public class HccrCareService implements Serializable {
 
     public static HccrCareService xmlToModel(HccrCareServiceType hccrCareServiceDoc) {
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         HccrCareService hccrCareService = new HccrCareService();
     

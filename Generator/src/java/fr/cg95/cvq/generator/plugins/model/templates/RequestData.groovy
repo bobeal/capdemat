@@ -72,6 +72,7 @@
     widgets["string"] = widgets["simple"]
     widgets["enum"] = widgets["simple"]
     widgets["date"] = widgets["simple"]
+    widgets["time"] = widgets["simple"]
     widgets["boolean"] = widgets["simple"]
     widgets["referential"] = widgets["many-to-one"]
     widgets["referentialList"] = widgets["many-to-many"]

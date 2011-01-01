@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/herr" 
+  xmlns:herr="http://www.cg95.fr/cvq/schema/herr"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
+  
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common" 
+    schemaLocation="../common/CVQCommonElements.xsd" />
+    
+  <xs:element name="HomeEmergencyRegistrationRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+    	Demande de pré-inscription à Innov-Accueil (accueil d'urgence)
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+    	Pré-inscription à Innov-Accueil (accueil d'urgence)
+      </xs:documentation>
+      <xs:appinfo>
+        <model namespace="school" />
+        <common>
+          <namespace name="school" />
+          <steps>
+            <step index="0" name="subject">
+                <widgets>
+                    <subject />
+                </widgets>
+            </step>
+            <step index="1" ref="document" />
+            <step index="2" ref="validation" />
+          </steps>
+        </common>
+      </xs:appinfo>
+    </xs:annotation>
+
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="cvq:RequestType">
+          <xs:sequence>
+          
+            <xs:element name="DateDepart" type="xs:date">
+            <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Date de début d'accueil souhaitée
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Date de début d'accueil souhaitée
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="subject" />
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="Duree">
+            <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Durée d'accueil souhaitée
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Durée d'accueil souhaitée
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="subject" />
+                    <validation jsregexp="[0-9]{1,2}$" />
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+               <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:maxLength value="2" />
+                  <xs:pattern value="[0-9]{2}" />
+                </xs:restriction>
+              </xs:simpleType>              
+            </xs:element>
+            
+            <xs:element name="Telephone" type="cvq:PhoneType">
+            <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Numéro de téléphone sur lequel vous souhaitez être contacté
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Numéro de téléphone sur lequel vous souhaitez être contacté
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="subject" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>    
+  </xs:element>
+ 
+</xs:schema>
+

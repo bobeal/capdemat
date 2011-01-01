@@ -112,6 +112,10 @@ h2.request-creation { margin: 0; color: #DB4366; }
 #requestTabView .date select.day,
 #requestTabView .date select.month { display : inline; width : auto !important;}
 
+#requestTabView form div.time label { display:inline !important; }
+#requestTabView .time select.hour,
+#requestTabView .time select.minute { display : inline; width : auto !important; margin: .5em 0 .5em;}
+
 #requestTabView p.document-button { margin: 3em 0 0; text-align: center; font-size: 1.2em; }
 #requestTabView .document-add-new { text-align: right; }
 #requestTabView .document-fieldset                          { margin: 0 0 1em; }
@@ -182,6 +186,9 @@ h2.request-creation { margin: 0; color: #DB4366; }
 .requestExit .link li { margin: 0; padding: .2em .5em; list-style-type: none; }
 .requestExit .info    { font-size: 1.5em; }
 
+.requestExit .link hr { border: none;}
+a.link-agent          { color: #EA3D1A; }
+
 /* help
 --------------------------------------------------------------*/
 .requestHelp { margin: .2em 0 0; padding: .5em 1.5em 1em; background: #eee; }
@@ -204,3 +211,36 @@ h2.request-creation { margin: 0; color: #DB4366; }
   color: red;
 }
 
+/* start view
+--------------------------------------------------------------*/
+.group-box h4 { 
+  margin: .1em .5em ;
+  font-size: 1.7em; font-weight: normal;
+  color: #e6648d;
+}
+.group-box hr      { border: none; margin: 5em 0 0 0; clear: both !important; }
+
+.start-screen-details .group-box ul.request-renew { margin-left: 1em; }
+
+.start-screen-details .group-box .yui-g { margin-bottom: 2em; }
+
+.start-screen-details .group-box span { font-weight: bold; }
+.start-screen-details .group-box p	   { margin: 1.5em 1em 1em 1em; font-size: 1.3em; clear: both !important;}
+
+.start-screen-details form { margin: .1em 1.5em ; }
+.start-screen-details form input[type="text"]{ 
+	display: block !important; 
+	width: 20%;
+  	margin: .1em 0 1em 0; 
+  	padding: .1em;
+  	border: 1px solid #cdcdcd;
+  	border-top-color: #DB4366;
+  	font-size: 1.1em; font-weight: normal;
+  	color: #095ba6;
+}
+
+.start-screen-details form input.submit-simulation {
+	width: 15%;
+	margin-left: 2.5%;	
+	font-size: 1.2em;
+}

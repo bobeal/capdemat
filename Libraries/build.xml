@@ -17,6 +17,9 @@
         <include name="CapDemat-Plugin-ExternalServices-Horanet-*.jar" />
         <include name="CapDemat-Plugin-PaymentProviders-PaylineV4-*.jar" />
         <include name="CapDemat-Plugin-PaymentProviders-Spplus-*.jar" />
+        <!-- Technocarte deliverable and dependency -->
+        <include name="CapDemat-Plugin-ExternalServices-Technocarte-*.jar" />
+        <include name="soap.jar" />
     </fileset>
 
     <target name="clean" depends="init">

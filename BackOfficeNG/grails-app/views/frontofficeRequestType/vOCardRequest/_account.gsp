@@ -100,7 +100,10 @@
   </g:if>
   <g:each var="it" in="${individuals?.children}" status="index">
     <fieldset class="individual edit  summary-box validation-scope">
-      <h4>${it.fullName}</h4>
+      <h4>
+      <g:if test="${it.isChildBorn}">${it.fullName}</g:if>
+      <g:else><g:message code="request.subject.childNoBorn" args="${[it.fullName]}" /></g:else>
+      </h4>
       <g:if test="${individuals.getRoleOwnersOnIndividual(it, individuals?.adults).size()  + individuals.getRoleOwnersOnIndividual(it, individuals?.foreignAdults).size() > 0}">
         <dl>
         <g:each var="roleOwner" in="${individuals.getRoleOwnersOnIndividual(it, individuals?.adults)}">

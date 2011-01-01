@@ -162,7 +162,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         continueWithNewTransaction();
 
         requestWorkflowService.createAccountModificationRequest(hfmr, copyAdults, copyChildren, 
-                foreignOwners, adress, null);
+                foreignOwners, adress, null, null);
         assertEquals(copyAdults.size() + copyChildren.size(), 
                 homeFolder.getIndividuals().size());
 
@@ -210,7 +210,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         adress.setCity("Paris Ville Lumière");
         
         requestWorkflowService.createAccountModificationRequest(hfmr, newAdults, children, 
-                null, adress, null);
+                null, adress, null, null);
     }
 
     @Test
@@ -309,7 +309,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         children.add(newChild);
 
         requestWorkflowService.createAccountModificationRequest(hfmr, adults, children, 
-                null, adress, null);
+                null, adress, null, null);
     }
 
     @Test
@@ -401,7 +401,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         children.add(newChild);
 
         requestWorkflowService.createAccountModificationRequest(hfmr, adults, children, 
-                null, adress, null);
+                null, adress, null, null);
     }
 
     @Test
@@ -523,7 +523,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         adults.add(newAdult);
 
         requestWorkflowService.createAccountModificationRequest(hfmr, adults, children, 
-                null, adress, null);
+                null, adress, null, null);
     }
 
     @Test
@@ -614,7 +614,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
                 homeFolder.getId(), RoleType.HOME_FOLDER_RESPONSIBLE);
 
         requestWorkflowService.createAccountModificationRequest(hfmr, adults, children, 
-                null, adress, null);
+                null, adress, null, null);
     }
 
     @Test
@@ -728,7 +728,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         srr.setSubjectId(child1.getId());
         srr.setRequesterId(SecurityContext.getCurrentUserId());
 
-        Long srrId = requestWorkflowService.create(srr);
+        Long srrId = requestWorkflowService.create(srr, null, null, null);
 
         continueWithNewTransaction();
 
@@ -766,7 +766,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
             BusinessObjectsFactory.gimmeAdress("1","Rue du centre", "Drancy", "93700");
 
         requestWorkflowService.createAccountModificationRequest(hfmr, adultSet, childSet, 
-                null, newAdress, null);
+                null, newAdress, null, null);
 
         continueWithNewTransaction();
 

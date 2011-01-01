@@ -53,7 +53,10 @@
   
   <div class="yui-u">
     <dl>
-      <dt><g:message code="homeFolder.individual.property.birthDate" /> : </dt>
+      <dt>
+      <g:if test="${child.isChildBorn}"><g:message code="homeFolder.individual.property.birthDate" /></g:if>
+      <g:else><g:message code="homeFolder.individual.property.expectedBirthDate" /></g:else>
+      : </dt>
       <dd><g:formatDate formatName="format.date" date="${child.birthDate}"/></dd>
       
       <dt><g:message code="homeFolder.individual.property.birthCity" /> : </dt>

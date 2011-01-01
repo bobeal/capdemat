@@ -69,6 +69,12 @@ public interface IRequestService {
      * kind.
      */
     boolean isOfRegistrationKind();
+    
+    /**
+     *  Return true if the request is restartable for the same subject, 
+     *  without waiting the next season.
+     */
+    boolean getSupportMultiple();
 
     String getDefaultDisplayGroup();
 

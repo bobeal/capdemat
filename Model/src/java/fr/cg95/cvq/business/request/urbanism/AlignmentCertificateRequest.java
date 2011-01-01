@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.AssertValid;
 import org.apache.xmlbeans.XmlOptions;
@@ -72,6 +73,7 @@ public class AlignmentCertificateRequest extends Request implements Serializable
     public final AlignmentCertificateRequestDocument modelToXml() {
         
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         Date date = null;
         AlignmentCertificateRequestDocument alignmentCertificateRequestDoc = AlignmentCertificateRequestDocument.Factory.newInstance();
         AlignmentCertificateRequestDocument.AlignmentCertificateRequest alignmentCertificateRequest = alignmentCertificateRequestDoc.addNewAlignmentCertificateRequest();
@@ -108,6 +110,7 @@ public class AlignmentCertificateRequest extends Request implements Serializable
     public static AlignmentCertificateRequest xmlToModel(AlignmentCertificateRequestDocument alignmentCertificateRequestDoc) {
         AlignmentCertificateRequestDocument.AlignmentCertificateRequest alignmentCertificateRequestXml = alignmentCertificateRequestDoc.getAlignmentCertificateRequest();
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         AlignmentCertificateRequest alignmentCertificateRequest = new AlignmentCertificateRequest();
         alignmentCertificateRequest.fillCommonModelInfo(alignmentCertificateRequest, alignmentCertificateRequestXml);

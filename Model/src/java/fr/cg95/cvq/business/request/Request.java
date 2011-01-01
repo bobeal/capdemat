@@ -107,6 +107,8 @@ public class Request implements Serializable {
         fr.cg95.cvq.xml.common.RequestType requestType) {
         Calendar calendar = Calendar.getInstance();
         request.setId(new Long(requestType.getId()));
+        if (requestType.getHomeFolder() != null)
+            request.setHomeFolderId(requestType.getHomeFolder().getId());
         // creation date can be null, this is certified by the model :-)
         calendar = requestType.getCreationDate();
         if (calendar != null)

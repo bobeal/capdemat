@@ -79,11 +79,18 @@
           """
           <div class="response">\${${wrapper}.${element.javaFieldName} ? String.format('%td/%<tm/%<tY',${wrapper}.${element.javaFieldName}) : ''}</div>
           """
+      ,'time' :
+          """
+          <div class="response">
+            \${${wrapper}.${element.javaFieldName} ? ${wrapper}.${element.javaFieldName}.getHourOfDay() : ''} :
+            \${${wrapper}.${element.javaFieldName} && ${wrapper}.${element.javaFieldName}.getMinuteOfHour() < 10 ? '0' : ''}\${${wrapper}.${element.javaFieldName} ? ${wrapper}.${element.javaFieldName}.getMinuteOfHour() : ''}
+          </div>
+          """
       ,'text' :
           """<div class="response">\${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.toString())}</div>"""
       ,'subject' :
           """
-           <div class="response">\${subject?.fullName}</div>
+          <div class="response">\${subjectIsChild && !subject?.isChildBorn ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName}</div>
           """
       ,'school' :
           """

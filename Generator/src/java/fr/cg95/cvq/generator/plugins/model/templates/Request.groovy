@@ -44,6 +44,14 @@
             ${wrapper}.set${StringUtils.capitalize(element.nameAsParam)}(calendar);
         }
       """,
+        "time" : """
+        localTime = get${element.elementName}();
+        if (localTime != null) {
+            calendar.set(Calendar.HOUR_OF_DAY,localTime.getHourOfDay());
+            calendar.set(Calendar.MINUTE, localTime.getMinuteOfHour());
+            ${wrapper}.set${StringUtils.capitalize(element.nameAsParam)}(calendar);
+        }
+      """,
         "boolean" : """
         if (get${element.elementName}() != null)
             ${wrapper}.set${StringUtils.capitalize(element.nameAsParam)}(get${element.elementName}().booleanValue());
@@ -109,6 +117,13 @@
             ${returnInstance}.set${StringUtils.capitalize(element.nameAsParam)}(calendar.getTime());
         }
       """,
+        "time" : """
+        calendar = ${wrapper}.get${StringUtils.capitalize(element.nameAsParam)}();
+        if (calendar != null) {
+            localTime = new LocalTime(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+            ${returnInstance}.set${StringUtils.capitalize(element.nameAsParam)}(localTime);
+        }
+      """,
         "boolean" : """
         ${returnInstance}.set${StringUtils.capitalize(element.nameAsParam)}(Boolean.valueOf(${wrapper}.get${StringUtils.capitalize(element.nameAsParam)}()));
       """,
@@ -143,6 +158,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.AssertValid;
 import org.apache.xmlbeans.XmlOptions;
@@ -206,6 +222,7 @@ public class ${requestName} extends Request implements Serializable {
     public final ${requestName}Document modelToXml() {
         <% def localComplexTypesSet = new HashSet<String>() %>
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         Date date = null;
         ${requestName}Document ${returnInstance}Doc = ${requestName}Document.Factory.newInstance();
         ${requestName}Document.${requestName} ${returnInstance} = ${returnInstance}Doc.addNew${requestName}();
@@ -239,6 +256,7 @@ public class ${requestName} extends Request implements Serializable {
     public static ${requestName} xmlToModel(${requestName}Document ${returnInstance}Doc) {
         ${requestName}Document.${requestName} ${returnInstance}Xml = ${returnInstance}Doc.get${requestName}();
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         ${requestName} ${returnInstance} = new ${requestName}();
         ${returnInstance}.fillCommonModelInfo(${returnInstance}, ${returnInstance}Xml);

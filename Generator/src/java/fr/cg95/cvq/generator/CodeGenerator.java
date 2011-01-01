@@ -68,6 +68,7 @@ public final class CodeGenerator {
         javaTypesMap.put("org.apache.xmlbeans.XmlString", "String");
         javaTypesMap.put("org.apache.xmlbeans.XmlLong", "Long");
         javaTypesMap.put("org.apache.xmlbeans.XmlDate", "java.util.Date");
+        javaTypesMap.put("org.apache.xmlbeans.XmlTime", "org.joda.time.LocalTime");
         javaTypesMap.put("org.apache.xmlbeans.XmlPositiveInteger", "java.math.BigInteger");
         javaTypesMap.put("org.apache.xmlbeans.XmlToken", "String");
         javaTypesMap.put("org.apache.xmlbeans.XmlBoolean", "Boolean");

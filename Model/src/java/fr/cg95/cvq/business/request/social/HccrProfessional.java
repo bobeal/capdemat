@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
@@ -50,6 +51,7 @@ public class HccrProfessional implements Serializable {
         
         Calendar calendar = Calendar.getInstance();
         Date date = null;
+        LocalTime localTime = new LocalTime();
         HccrProfessionalType hccrProfessional = HccrProfessionalType.Factory.newInstance();
         int i = 0;
     
@@ -65,6 +67,7 @@ public class HccrProfessional implements Serializable {
 
     public static HccrProfessional xmlToModel(HccrProfessionalType hccrProfessionalDoc) {
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         HccrProfessional hccrProfessional = new HccrProfessional();
     

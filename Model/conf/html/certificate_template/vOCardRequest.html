@@ -92,8 +92,12 @@
     <div class="complex">
     <% children.each { collectionIt -> %>
       <h3>
+      <% if(collectionIt?.isChildBorn) { %>
         ${collectionIt?.firstName}
         ${collectionIt?.lastName}
+      <% } else { %>
+        ${i18n.translate('request.subject.childNoBorn', collectionIt?.fullName)}
+      <% } %>
       </h3>
       <p class="label">${i18n.translate('homeFolder.individual.property.address')}</p>
       <div class="response">
@@ -114,7 +118,13 @@
         <% } %>
       </div>
     
-      <p class="label">${i18n.translate('homeFolder.individual.property.birthDate')}</p>
+      <p class="label">
+      <% if(collectionIt?.isChildBorn) { %>
+        ${i18n.translate('homeFolder.individual.property.birthDate')}
+      <% } else { %>
+        ${i18n.translate('homeFolder.individual.property.expectedBirthDate')}
+      <% } %>
+      </p>
       <div class="response">${collectionIt.birthDate ? String.format('%td/%<tm/%<tY',collectionIt.birthDate) : ''}</div>
   <% } %>
   </div>

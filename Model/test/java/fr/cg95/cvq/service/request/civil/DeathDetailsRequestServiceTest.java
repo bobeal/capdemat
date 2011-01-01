@@ -51,16 +51,6 @@ public class DeathDetailsRequestServiceTest extends RequestTestCase {
           
           
             
-              if ("DeathCity".length() > 32)
-                  request.setDeathCity("DeathCity".substring(0, 32));
-              else
-                  request.setDeathCity("DeathCity");
-            
-          
-        
-          
-          
-            
               request.setFormat(DeathCertificateFormatType.FULL_COPY);
             
           
@@ -72,14 +62,12 @@ public class DeathDetailsRequestServiceTest extends RequestTestCase {
         
           
           
-               request.setComment("Comment");
+               request.setDeathDate(new Date());
           
         
           
           
-            
-              request.setMotive(DeathCertificateMotiveType.NOTARY_ACT);
-            
+               request.setComment("Comment");
           
         
           
@@ -95,16 +83,28 @@ public class DeathDetailsRequestServiceTest extends RequestTestCase {
           
           
             
-              if ("DeathLastName".length() > 38)
-                  request.setDeathLastName("DeathLastName".substring(0, 38));
+              if ("DeathCity".length() > 32)
+                  request.setDeathCity("DeathCity".substring(0, 32));
               else
-                  request.setDeathLastName("DeathLastName");
+                  request.setDeathCity("DeathCity");
             
           
         
           
           
-               request.setDeathDate(new Date());
+            
+              request.setMotive(DeathCertificateMotiveType.NOTARY_ACT);
+            
+          
+        
+          
+          
+            
+              if ("DeathLastName".length() > 38)
+                  request.setDeathLastName("DeathLastName".substring(0, 38));
+              else
+                  request.setDeathLastName("DeathLastName");
+            
           
         
         // Means Of Contact
@@ -180,7 +180,7 @@ public class DeathDetailsRequestServiceTest extends RequestTestCase {
         request.setRequesterId(SecurityContext.getCurrentUserId());
         request.setHomeFolderId(homeFolderId);
         DeathDetailsRequestFeeder.setSubject(request, requestService.getSubjectPolicy(), null, homeFolder);
-        Long requestId = requestWorkflowService.create(request);
+        Long requestId = requestWorkflowService.create(request, null);
         DeathDetailsRequest requestFromDb = (DeathDetailsRequest) requestSearchService.getById(requestId, true);
         assertEquals(requestId, requestFromDb.getId());
         assertNotNull(requestFromDb.getRequesterId());
@@ -208,7 +208,7 @@ public class DeathDetailsRequestServiceTest extends RequestTestCase {
         homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         DeathDetailsRequestFeeder
             .setSubject(request, requestService.getSubjectPolicy(), requester, null);
-        Long requestId = requestWorkflowService.create(request, requester);
+        Long requestId = requestWorkflowService.create(request, requester, null);
         // close current session and re-open a new one
         continueWithNewTransaction();
         // start testing request creation

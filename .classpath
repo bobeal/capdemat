@@ -78,9 +78,6 @@
 	<classpathentry kind="lib" path="Libraries/opencsv/opencsv-2.2.jar"/>
 	<classpathentry kind="lib" path="Libraries/jsch/jsch-0.1.41.jar"/>
 	<classpathentry exported="true" kind="con" path="GROOVY_SUPPORT"/>
-	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-Model-4.2.jar" sourcepath="Model/src/java"/>
-	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.2.jar"/>
-	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.2.jar"/>
 	<classpathentry kind="lib" path="Libraries/com.lowagie/core-renderer.jar"/>
 	<classpathentry kind="lib" path="Libraries/com.lowagie/iText-2.0.8.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-ws-core-1.5.8.jar"/>
@@ -108,5 +105,8 @@
 	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-lang-3.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.aop-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="Plugins/ExternalServices/Technocarte/lib/soap.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.3.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-Model-4.3.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.3.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

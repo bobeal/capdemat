@@ -1287,7 +1287,7 @@
     </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:maxLength value="38" />
-      <xs:pattern value="[A-Z.]*" />
+      <xs:pattern value="[A-Z .\-]*" />
     </xs:restriction>
   </xs:simpleType>
 

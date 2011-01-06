@@ -13,11 +13,9 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.springsource.sts.grails.core.CLASSPATH_CONTAINER"/>
 	<classpathentry kind="con" path="GROOVY_SUPPORT"/>
-	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-Model-4.2.jar" sourcepath="/CapDemat/Model/src/java"/>
 	<classpathentry kind="lib" path="/CapDemat/Libraries/edu.yale/cas/casclient-2.1.1-1.jar"/>
 	<classpathentry kind="lib" path="/CapDemat/Libraries/javax.servlet/servlet-api.jar"/>
 	<classpathentry kind="lib" path="/CapDemat/Libraries/org.hibernate/hibernate3.jar"/>
-	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.2.jar"/>
 	<classpathentry kind="lib" path="/CapDemat/Libraries/org.apache/log4j/log4j-1.2.8.jar"/>
 	<classpathentry kind="lib" path="/CapDemat/Libraries/org.apache/common/commons-logging-1.0.4.jar"/>
 	<classpathentry kind="lib" path="/CapDemat/Libraries/org.apache/xmlbean/xbean.jar">
@@ -90,11 +88,6 @@
 			<attribute name="com.springsource.sts.grails.core.SOURCE_FOLDER" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="tomcat-1.2.0-src-groovy">
-		<attributes>
-			<attribute name="com.springsource.sts.grails.core.SOURCE_FOLDER" value="true"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="src" path="webxml-1.2-grails-app-i18n">
 		<attributes>
 			<attribute name="com.springsource.sts.grails.core.SOURCE_FOLDER" value="true"/>
@@ -105,5 +98,7 @@
 			<attribute name="com.springsource.sts.grails.core.SOURCE_FOLDER" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-Model-4.3.jar"/>
+	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.3.jar"/>
 	<classpathentry kind="output" path="web-app/WEB-INF/classes"/>
 </classpath>

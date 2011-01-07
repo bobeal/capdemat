@@ -12,6 +12,7 @@ import fr.cg95.cvq.business.users.Child
 import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.payment.IPaymentService
+import fr.cg95.cvq.service.users.IMeansOfContactService
 import fr.cg95.cvq.service.users.external.IExternalHomeFolderService
 import fr.cg95.cvq.business.users.HomeFolder
 import fr.cg95.cvq.business.payment.Payment
@@ -28,6 +29,7 @@ class BackofficeHomeFolderController {
     IIndividualService individualService
     IRequestSearchService requestSearchService
     IPaymentService paymentService
+    IMeansOfContactService meansOfContactService
     
     def instructionService
     def translationService
@@ -148,10 +150,28 @@ class BackofficeHomeFolderController {
         return result
     }
 
+    def meansOfContact = {
+        return ["subMenuEntries" : ["homeFolder.meansOfContact", "homeFolder.importHomeFolders"]]
+    }
+
+    def moCs = {
+        render(template : "moCs",
+               model : ["moCs" : meansOfContactService.availableMeansOfContact])
+    }
+
+    def moC = {
+        if (request.post) {
+            def moc = meansOfContactService.getById(Long.valueOf(params.id))
+            if (params.enabled == 'true') meansOfContactService.disableMeansOfContact(moc)
+            else if (params.enabled == 'false') meansOfContactService.enableMeansOfContact(moc)
+            render ([status : "success", success_msg : message(code : "message.updateDone")] as JSON)
+        }
+    }
+
     def importHomeFolders = {
         if (request.get) {
             render(view : "import", model : [
-                "subMenuEntries" : ["agent.list", "homeFolder.importHomeFolders"],
+                "subMenuEntries" : ["homeFolder.meansOfContact", "homeFolder.importHomeFolders"],
                 "hasAdminEmail" : SecurityContext.currentSite.adminEmail
             ])
             return false

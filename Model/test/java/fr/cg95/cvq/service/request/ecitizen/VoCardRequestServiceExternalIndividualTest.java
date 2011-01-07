@@ -12,14 +12,14 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import fr.cg95.cvq.business.request.MeansOfContact;
-import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.FamilyStatusType;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.MeansOfContact;
+import fr.cg95.cvq.business.users.MeansOfContactEnum;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;

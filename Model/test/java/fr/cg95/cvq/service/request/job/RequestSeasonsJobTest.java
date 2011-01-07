@@ -5,8 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import fr.cg95.cvq.business.request.MeansOfContact;
-import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestState;
@@ -16,6 +14,8 @@ import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.MeansOfContact;
+import fr.cg95.cvq.business.users.MeansOfContactEnum;
 import fr.cg95.cvq.business.users.SectionType;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.exception.CvqException;

@@ -1,19 +1,15 @@
-package fr.cg95.cvq.service.request;
+package fr.cg95.cvq.service.users;
 
 import java.util.List;
 
-import fr.cg95.cvq.business.request.MeansOfContact;
-import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.MeansOfContact;
+import fr.cg95.cvq.business.users.MeansOfContactEnum;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 
 /**
- * IMeansOfContactService provides methods that :
- * <br /> - fetch and configure Means of Contact
- * <br /> - manage Requester's notifications strategy
- *
  * @author rdj@zenexity.fr
  */
 public interface IMeansOfContactService {
@@ -58,7 +54,7 @@ public interface IMeansOfContactService {
      * 
      * Expected business error code is :
      * <dl>
-     *   <dt>request.meansOfContact.message.mustHaveOneEnabled</dt>
+     *   <dt>meansOfContact.message.mustHaveOneEnabled</dt>
      *   <dd>MeansOfContact can't be disabled. It is the unique enabled</dd>
      * <dl>
      */
@@ -70,11 +66,6 @@ public interface IMeansOfContactService {
      */
     void disableMeansOfContact(Long mocId)
         throws CvqModelException, CvqObjectNotFoundException;
-    
-    /**
-     * Test if the given MeansOfContact supports attachment
-     */
-    boolean supportAttachment(MeansOfContact moc);
 
     /**
      * Notify by email.

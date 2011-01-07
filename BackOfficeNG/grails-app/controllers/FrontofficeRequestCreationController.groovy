@@ -7,7 +7,7 @@ import java.util.Set;
 
 import fr.cg95.cvq.business.document.Document
 import fr.cg95.cvq.business.document.DocumentBinary
-import fr.cg95.cvq.business.request.MeansOfContactEnum
+import fr.cg95.cvq.business.users.MeansOfContactEnum
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestNoteType
 import fr.cg95.cvq.business.request.RequestSeason;
@@ -38,7 +38,7 @@ import fr.cg95.cvq.service.request.IRequestNoteService
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestWorkflowService
-import fr.cg95.cvq.service.request.IMeansOfContactService
+import fr.cg95.cvq.service.users.IMeansOfContactService
 import fr.cg95.cvq.service.request.reservation.ITicketBookingRequestService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.service.users.IHomeFolderService
@@ -849,7 +849,7 @@ class FrontofficeRequestCreationController {
         def result = []
         meansOfContactService.getAdultEnabledMeansOfContact(requester).each {
             result.add([key:it.type,
-                        label: message(code:'request.meansOfContact.' + StringUtils.pascalToCamelCase(it.type.toString()))])
+                        label: message(code:'meansOfContact.' + StringUtils.pascalToCamelCase(it.type.toString()))])
         }
         return result.sort {it.label}
     }

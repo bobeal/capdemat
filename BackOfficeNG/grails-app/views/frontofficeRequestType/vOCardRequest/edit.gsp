@@ -317,7 +317,7 @@
 
            <g:if test="${meansOfContact.size() > 0}">
             <label for="meansOfContact" class="required">
-             <g:message code="request.meansOfContact.chooseMessage"/> *
+             <g:message code="meansOfContact.chooseMessage"/> *
             </label>
             <select id="meansOfContact" name="meansOfContact" class="required">
              <g:each in="${meansOfContact}" var="moc">
@@ -326,7 +326,7 @@
             </select>
            </g:if>
            <g:else>
-             <p>${message(code:'request.meansOfContact.message.notAvailable')}</p>
+             <p>${message(code:'meansOfContact.message.notAvailable')}</p>
            </g:else>
   
            <div class="summary-box">

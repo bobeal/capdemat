@@ -39,10 +39,6 @@
             </div>
           </form>
         </div>
-        <div id="meansOfContactBox" class="mainbox mainbox-yellow">
-          <h2><g:message code="localAuthority.header.meansOfContactConfiguration" /></h2>
-          <div id="meansOfContactContainer"></div>
-        </div>
         <div id="platformConfigurationBox" class="mainbox mainbox-yellow">
           <h2><g:message code="localAuthority.header.setup.platformConfiguration" /></h2>
           <form method="post" id="platformConfigurationForm" action="${createLink(action : 'requests')}">

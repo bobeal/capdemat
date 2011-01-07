@@ -12,6 +12,7 @@ import net.sf.oval.constraint.NotNull;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import fr.cg95.cvq.business.users.MeansOfContact;
 import fr.cg95.cvq.service.request.SubjectId;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
@@ -196,7 +197,7 @@ public class RequestData implements Serializable {
 
     /** 
      * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.request.MeansOfContact"
+     *  class="fr.cg95.cvq.business.users.MeansOfContact"
      *  column="means_of_contact_id"
      */
     public MeansOfContact getMeansOfContact() {

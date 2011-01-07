@@ -45,8 +45,6 @@ public class RequestTestCase extends ServiceTestCase {
     @Autowired
     protected IRequestDocumentService requestDocumentService;
     @Autowired
-    protected IMeansOfContactService meansOfContactService;
-    @Autowired
     protected IRequestTypeService requestTypeService;
     @Autowired
     protected ICategoryService categoryService;

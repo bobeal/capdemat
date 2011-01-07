@@ -103,7 +103,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/social/HccrOtherBenefit.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/HccrProfessional.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/reservation/TbrTicket.hbm.xml</value>
-        <value>fr/cg95/cvq/business/request/MeansOfContact.hbm.xml</value>
+        <value>fr/cg95/cvq/business/users/MeansOfContact.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/external/RequestExternalAction.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/external/HomeFolderMapping.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/external/IndividualMapping.hbm.xml</value>

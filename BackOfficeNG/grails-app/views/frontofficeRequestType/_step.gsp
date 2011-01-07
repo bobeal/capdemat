@@ -10,7 +10,7 @@
      <div>
        <g:if test="${meansOfContact.size() > 0}">
         <label for="meansOfContact" class="required">
-         ${message(code:'request.meansOfContact.chooseMessage')} *
+         ${message(code:'meansOfContact.chooseMessage')} *
         </label>
         <select id="meansOfContact" name="meansOfContact" class="required">
          <g:each in="${meansOfContact}" var="moc">
@@ -19,7 +19,7 @@
         </select>
        </g:if>
        <g:else>
-         <p>${message(code:'request.meansOfContact.message.notAvailable')}</p>
+         <p>${message(code:'meansOfContact.message.notAvailable')}</p>
        </g:else>
        <div class="summary-box">
       <g:render template="/frontofficeRequestType/${requestTypeLabelAsDir}/summary" />

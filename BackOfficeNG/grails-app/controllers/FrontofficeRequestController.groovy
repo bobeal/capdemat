@@ -1,5 +1,5 @@
 import fr.cg95.cvq.business.users.Child;
-import fr.cg95.cvq.business.request.MeansOfContactEnum
+import fr.cg95.cvq.business.users.MeansOfContactEnum
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestNoteType
 import fr.cg95.cvq.business.request.RequestState
@@ -11,7 +11,7 @@ import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.IAutofillService
 import fr.cg95.cvq.service.request.IConditionService
-import fr.cg95.cvq.service.request.IMeansOfContactService
+import fr.cg95.cvq.service.users.IMeansOfContactService
 import fr.cg95.cvq.service.request.IRequestActionService
 import fr.cg95.cvq.service.request.external.IRequestExternalService
 import fr.cg95.cvq.service.request.IRequestLockService

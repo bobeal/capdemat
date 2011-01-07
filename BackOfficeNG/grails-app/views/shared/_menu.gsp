@@ -31,7 +31,7 @@
      <a id="requestAdminMenuItem" href="${createLink(controller:'backofficeRequestAdmin')}">
       <g:message code="menu.requestsAdmin" />
     </a>
-    <a id="citizenMenuItem" href="${createLink(controller:'backofficeHomeFolder', action:'importHomeFolders')}">
+    <a id="citizenMenuItem" href="${createLink(controller:'backofficeHomeFolder', action:'meansOfContact')}">
       <g:message code="menu.citizens" />
     </a>
     <a id="paymentMenuItem" href="${createLink(controller:'backofficePayment')}">

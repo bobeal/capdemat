@@ -1,4 +1,4 @@
-package fr.cg95.cvq.service.request.impl;
+package fr.cg95.cvq.service.users.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,10 +6,10 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import fr.cg95.cvq.business.request.MeansOfContact;
-import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.dao.request.IMeansOfContactDAO;
+import fr.cg95.cvq.business.users.MeansOfContact;
+import fr.cg95.cvq.business.users.MeansOfContactEnum;
+import fr.cg95.cvq.dao.users.IMeansOfContactDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -17,8 +17,7 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
-import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.request.IMeansOfContactService;
+import fr.cg95.cvq.service.users.IMeansOfContactService;
 import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.util.sms.ISmsService;
 
@@ -29,45 +28,38 @@ import fr.cg95.cvq.util.sms.ISmsService;
  */
 public class MeansOfContactService implements IMeansOfContactService, ILocalAuthorityLifecycleAware {
 
-    static Logger logger = Logger.getLogger(MeansOfContactService.class);
-
-    protected ILocalAuthorityRegistry localAuthorityRegistry;
-    private IMeansOfContactDAO meansOfContactDAO;
+    private static Logger logger = Logger.getLogger(MeansOfContactService.class);
 
     private IMailService mailService;
+
     private ISmsService smsService;
 
+    private IMeansOfContactDAO meansOfContactDAO;
+
+    @Override
     public MeansOfContact getById(Long id) throws CvqObjectNotFoundException {
         return (MeansOfContact) meansOfContactDAO.findById(MeansOfContact.class, id);
     }
-    
+
     /* BE CAREFUL :
      *  - MeansOfContact removing not yet implement ...
      *  - EMAIL MeansOfContact is enabled by default
      */
     @Context(types = {ContextType.SUPER_ADMIN})
     private void initAvalaibleMeansOfContact() {
-        logger.debug("initAvalaibleMeansOfContact() init for " 
+        logger.debug("initAvalaibleMeansOfContact() init for "
             + SecurityContext.getCurrentSite().getName());
-
-        MeansOfContactEnum[] mocArray = MeansOfContactEnum.allMeansOfContactEnums;
         List<MeansOfContact> mocList = meansOfContactDAO.listAll();
-
-        boolean isMocPersist;
-        for (int i = 0; i < mocArray.length; i++) {
-            isMocPersist = false;
+        initLoop : for (MeansOfContactEnum mocEnum : MeansOfContactEnum.allMeansOfContactEnums) {
             for (MeansOfContact moc : mocList) {
-                if (moc.getType().equals(mocArray[i])) {
-                    isMocPersist = true;
-                    break;
+                if (moc.getType().equals(mocEnum)) {
+                    continue initLoop;
                 }
             }
-            if (!isMocPersist) {
-                MeansOfContact meansOfContact = new MeansOfContact(mocArray[i]);
-                if(meansOfContact.getType().equals(MeansOfContactEnum.EMAIL))
-                    meansOfContact.setEnabled(true);
-                meansOfContactDAO.create(meansOfContact);
-            }
+            MeansOfContact meansOfContact = new MeansOfContact(mocEnum);
+            if (meansOfContact.getType().equals(MeansOfContactEnum.EMAIL))
+                meansOfContact.setEnabled(true);
+            meansOfContactDAO.create(meansOfContact);
         }
     }
 
@@ -82,44 +74,45 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
     public void removeLocalAuthority(String localAuthorityName) {
     }
 
+    @Override
     public MeansOfContact getMeansOfContactByType(MeansOfContactEnum type) {
         return meansOfContactDAO.findByType(type);
     }
 
     private boolean canDisableMeansOfContact(MeansOfContact meansOfContact) {
         List<MeansOfContact> enableMocList = meansOfContactDAO.listAllEnabled();
-        if (enableMocList.size() == 1)
-            if (enableMocList.get(0).equals(meansOfContact))
-                return false;
-
-        return true;
+        return enableMocList.size() > 1 || !enableMocList.get(0).equals(meansOfContact);
     }
 
+    @Override
     public void disableMeansOfContact(Long mocId)
         throws CvqModelException, CvqObjectNotFoundException {
-        MeansOfContact moc = getById(mocId);
-        disableMeansOfContact(moc);
+        disableMeansOfContact(getById(mocId));
     }
-    
+
+    @Override
     public void disableMeansOfContact(MeansOfContact meansOfContact)
         throws CvqModelException {
         if (!canDisableMeansOfContact(meansOfContact))
-            throw new CvqModelException("request.meansOfContact.message.mustHaveOneEnabled");
+            throw new CvqModelException("meansOfContact.message.mustHaveOneEnabled");
         meansOfContact.setEnabled(false);
         meansOfContactDAO.update(meansOfContact);
     }
 
+    @Override
     public void enableMeansOfContact(MeansOfContact meansOfContact) {
         meansOfContact.setEnabled(true);
         meansOfContactDAO.update(meansOfContact);
     }
 
+    @Override
     public List<MeansOfContact> getAvailableMeansOfContact() {
         List<MeansOfContact> results = meansOfContactDAO.listAll();
         Collections.sort(results);
         return results;
     }
 
+    @Override
     public List<MeansOfContact> getEnabledMeansOfContact() {
         return meansOfContactDAO.listAllEnabled();
     }
@@ -132,10 +125,12 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
         return null;
     }
 
+    @Override
     public List<MeansOfContact> getCurrentEcitizenEnabledMeansOfContact() {
         return getAdultEnabledMeansOfContact(SecurityContext.getCurrentEcitizen());
     }
 
+    @Override
     public List<MeansOfContact> getAdultEnabledMeansOfContact(Adult adult) {
         List<MeansOfContact> enableMocList = meansOfContactDAO.listAllEnabled();
         List<MeansOfContact> individualEnableMocList = new ArrayList<MeansOfContact>();
@@ -175,12 +170,7 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
             return null;
     }
 
-    public boolean supportAttachment(MeansOfContact moc) {
-        if (moc.getType() == MeansOfContactEnum.MAIL || moc.getType() == MeansOfContactEnum.EMAIL)
-            return true;
-        return false;
-    }
-
+    @Override
     public void notifyByEmail(String from, String to, String subject,
         String body, byte[] data, String attachmentName)
         throws CvqException {
@@ -190,6 +180,7 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
         mailService.send(from, to, null, fullSubject, body, data, attachmentName);
     }
 
+    @Override
     public void notifyBySms(String to, String body)
         throws CvqException {
         if (smsService.isEnabled()) {
@@ -209,9 +200,5 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
 
     public void setSmsService(ISmsService smsService) {
         this.smsService = smsService;
-    }
-
-    public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
-        this.localAuthorityRegistry = localAuthorityRegistry;
     }
 }

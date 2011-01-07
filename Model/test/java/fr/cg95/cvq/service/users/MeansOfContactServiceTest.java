@@ -6,15 +6,15 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import fr.cg95.cvq.business.request.MeansOfContact;
-import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.business.users.CreationBean;
+import fr.cg95.cvq.business.users.MeansOfContact;
+import fr.cg95.cvq.business.users.MeansOfContactEnum;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.request.RequestTestCase;
+import fr.cg95.cvq.testtool.ServiceTestCase;
 
-public class MeansOfContactServiceTest extends RequestTestCase {
+public class MeansOfContactServiceTest extends ServiceTestCase {
     
     @Test
     public void testAll() throws CvqException {
@@ -99,7 +99,7 @@ public class MeansOfContactServiceTest extends RequestTestCase {
             meansOfContactService.disableMeansOfContact(moc);
             fail("should have thrown an exception");
         } catch (CvqModelException cme) {
-            assertEquals("request.meansOfContact.message.mustHaveOneEnabled", cme.getMessage());
+            assertEquals("meansOfContact.message.mustHaveOneEnabled", cme.getMessage());
         }        
     }
 }

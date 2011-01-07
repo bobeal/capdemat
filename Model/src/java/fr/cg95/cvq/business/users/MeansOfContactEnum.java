@@ -1,4 +1,4 @@
-package fr.cg95.cvq.business.request;
+package fr.cg95.cvq.business.users;
 
 import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
 
@@ -12,10 +12,8 @@ public class MeansOfContactEnum extends PersistentStringEnum {
     public static final MeansOfContactEnum OFFICE_PHONE = new MeansOfContactEnum("OfficePhone");
     public static final MeansOfContactEnum MOBILE_PHONE = new MeansOfContactEnum("MobilePhone");
     public static final MeansOfContactEnum SMS = new MeansOfContactEnum("Sms");
-//    public static final MeansOfContactEnum FAX = new MeansOfContactEnum("Fax");
-//    public static final MeansOfContactEnum CAPDEMAT_MESSAGE = new MeansOfContactEnum("CapdematMessage");
     public static final MeansOfContactEnum LOCAL_AUTHORITY_OFFICE = new MeansOfContactEnum("LocalAuthorityOffice");
-    
+
     /**
      * Prevent instantiation and subclassing with a private constructor.
      */
@@ -32,11 +30,9 @@ public class MeansOfContactEnum extends PersistentStringEnum {
         OFFICE_PHONE,
         MOBILE_PHONE,
         SMS,
-//        FAX,
-//        CAPDEMAT_MESSAGE,
         LOCAL_AUTHORITY_OFFICE
     };
-    
+
     public static MeansOfContactEnum forString(String enumAsString) {
         for (MeansOfContactEnum moce : allMeansOfContactEnums) {
             if (moce.toString().equals(enumAsString))

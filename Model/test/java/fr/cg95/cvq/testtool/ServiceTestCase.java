@@ -41,6 +41,7 @@ import fr.cg95.cvq.service.authority.IRecreationCenterService;
 import fr.cg95.cvq.service.authority.ISchoolService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.service.users.IMeansOfContactService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.development.BusinessObjectsFactory;
 
@@ -72,6 +73,8 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
     protected IHomeFolderService homeFolderService;
     @Autowired
     protected IAuthenticationService authenticationService;
+    @Autowired
+    protected IMeansOfContactService meansOfContactService;
 
     // authority related services
     @Autowired

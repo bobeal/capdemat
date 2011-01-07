@@ -1,6 +1,6 @@
 import fr.cg95.cvq.business.authority.LocalAuthorityResource
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
-import fr.cg95.cvq.business.request.MeansOfContactEnum
+import fr.cg95.cvq.business.users.MeansOfContactEnum
 import fr.cg95.cvq.business.request.RequestActionType
 import fr.cg95.cvq.business.request.RequestFormType
 import fr.cg95.cvq.service.request.IRequestLockService
@@ -53,7 +53,7 @@ class BackofficeContactController {
         def requesterMeansOfContacts = []
         meansOfContactService.getAdultEnabledMeansOfContact(requester).each {
             requesterMeansOfContacts.add(
-                CapdematUtils.adaptCapdematEnum(it.type, "request.meansOfContact"))
+                CapdematUtils.adaptCapdematEnum(it.type, "meansOfContact"))
         }
 
         def requestForms = []
@@ -65,8 +65,7 @@ class BackofficeContactController {
             requestForms.add([
                 "id": it.id,
                 "shortLabel": it.shortLabel,
-                "type": CapdematUtils.adaptCapdematEnum(it.type,
-                    "request.meansOfContact")
+                "type": CapdematUtils.adaptCapdematEnum(it.type, "meansOfContact")
             ])
         }
 
@@ -92,9 +91,8 @@ class BackofficeContactController {
                     "request.state"),
                 "requesterMobilePhone": requester.mobilePhone,
                 "requesterEmail": requester.email,
-                "meansOfContact": CapdematUtils
-                    .adaptCapdematEnum(rqt.meansOfContact?.type,
-                        "request.meansOfContact")
+                "meansOfContact": CapdematUtils.adaptCapdematEnum(rqt.meansOfContact?.type,
+                    "meansOfContact")
             ]
         ]
     }
@@ -302,7 +300,7 @@ class BackofficeContactController {
             def model = [
                 "DATE" : DateUtils.dateToFullString(new Date()),
                 "LAST_AGENT_NAME" : instructionService.getActionPosterDetails(rqt.lastInterveningUserId),
-                "MOC" : message(code : "request.meansOfContact." + StringUtils.pascalToCamelCase(meansOfContact)),
+                "MOC" : message(code : "meansOfContact." + StringUtils.pascalToCamelCase(meansOfContact)),
                 "RQ_ID" : rqt.id,
                 "RQ_CAT" : rqt.requestType.category.name,
                 "RQ_CAT_EMAIL" : rqt.requestType.category.primaryEmail,

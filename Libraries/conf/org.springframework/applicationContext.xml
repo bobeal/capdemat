@@ -366,10 +366,9 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="translationService" ref="translationService"/>
   </bean>
   
-  <bean id="meansOfContactService" class="fr.cg95.cvq.service.request.impl.MeansOfContactService">
+  <bean id="meansOfContactService" class="fr.cg95.cvq.service.users.impl.MeansOfContactService">
     <property name="meansOfContactDAO" ref="meansOfContactDAO" />
     <property name="mailService" ref="mailService" />
-    <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="smsService" ref="fakeSmsService" />
   </bean>
   
@@ -761,7 +760,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 
   <bean id="paymentDAO" class="fr.cg95.cvq.dao.payment.hibernate.PaymentDAO" parent="genericDAO"/>
 
-  <bean id="meansOfContactDAO" class="fr.cg95.cvq.dao.request.hibernate.MeansOfContactDAO" parent="genericDAO"/>
+  <bean id="meansOfContactDAO" class="fr.cg95.cvq.dao.users.hibernate.MeansOfContactDAO" parent="genericDAO"/>
 
   <bean id="requestExternalActionDAO" class="fr.cg95.cvq.dao.request.external.hibernate.RequestExternalActionDAO" parent="genericDAO" />
   

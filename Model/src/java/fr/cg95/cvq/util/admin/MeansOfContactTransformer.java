@@ -13,9 +13,9 @@ import org.hibernate.HibernateException;
 import org.hibernate.transform.Transformers;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import fr.cg95.cvq.business.request.MeansOfContact;
-import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.users.MeansOfContact;
+import fr.cg95.cvq.business.users.MeansOfContactEnum;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
@@ -25,8 +25,8 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry;
-import fr.cg95.cvq.service.request.IMeansOfContactService;
-import fr.cg95.cvq.service.request.impl.MeansOfContactService;
+import fr.cg95.cvq.service.users.IMeansOfContactService;
+import fr.cg95.cvq.service.users.impl.MeansOfContactService;
 
 public class MeansOfContactTransformer {
     private static Logger logger = Logger.getLogger(MeansOfContactTransformer.class);

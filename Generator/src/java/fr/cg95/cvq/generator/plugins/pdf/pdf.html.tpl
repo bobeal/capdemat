@@ -231,11 +231,11 @@ ${endGT()}
     ${toGT('if (rqt.meansOfContact) {')}
       ${toGT('rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i ->')}
         <span \${it == rqt.meansOfContact.type ? 'class=\"checked\"': ''}>
-          \${i18n.translate('request.meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+          \${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
         </span>\${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
       ${toGT('}')}
     ${toGT('} else {')}
-      <span class="checked">\${i18n.translate('request.meansOfContact.none')}</span>
+      <span class="checked">\${i18n.translate('meansOfContact.none')}</span>
     ${toGT('}')}
   </div>
 </body>

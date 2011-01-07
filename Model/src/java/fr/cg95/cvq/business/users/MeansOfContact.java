@@ -1,4 +1,4 @@
-package fr.cg95.cvq.business.request;
+package fr.cg95.cvq.business.users;
 
 import java.io.Serializable;
 
@@ -16,27 +16,24 @@ import fr.cg95.cvq.xml.common.MeansOfContactType;
  * @author rdj@zenexity.fr
  *
  */
-public class MeansOfContact implements Historizable,Serializable, Comparable<MeansOfContact> {
+public class MeansOfContact implements Historizable, Serializable, Comparable<MeansOfContact> {
 
     private static final long serialVersionUID = 1L;
-    
-    /** identifier field */
+
     private Long id;
-    
+
     private MeansOfContactEnum type;
+
     private boolean enabled;
-    
-    /** default constructor */
-    public MeansOfContact() {
-    }
-    
+
+    public MeansOfContact() {}
+
     public MeansOfContact(MeansOfContactEnum type) {
         this.type = type;
     }
-    
+
     public static MeansOfContact xmlToModel(MeansOfContactType meansOfContactType) {
         MeansOfContact meansOfContact = new MeansOfContact();
-        
         if(meansOfContactType.getId() != 0)
             meansOfContact.setId(meansOfContactType.getId());
         if (meansOfContactType.getType() != null)
@@ -51,7 +48,6 @@ public class MeansOfContact implements Historizable,Serializable, Comparable<Mea
 
     public static MeansOfContactType modelToXml(MeansOfContact meansOfContact) {
         MeansOfContactType meansOfContactType = MeansOfContactType.Factory.newInstance();
-        
         if(meansOfContact.getId() != null)
             meansOfContactType.setId(meansOfContact.getId().longValue());
         if (meansOfContact.getType() != null)
@@ -61,19 +57,19 @@ public class MeansOfContact implements Historizable,Serializable, Comparable<Mea
             meansOfContactType.setEnabled(true);
         else
             meansOfContactType.setEnabled(false);
-        
         return meansOfContactType;
     }
-    
+
     /**
      * @hibernate.id
      *  generator-class="sequence"
      *  column="id"
      */
+    @Override
     public Long getId() {
         return id;
     }
-   
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -85,7 +81,7 @@ public class MeansOfContact implements Historizable,Serializable, Comparable<Mea
     public MeansOfContactEnum getType() {
         return type;
     }
-  
+
     public void setType(MeansOfContactEnum type) {
         this.type = type;
     }
@@ -109,6 +105,7 @@ public class MeansOfContact implements Historizable,Serializable, Comparable<Mea
             .toString();
     }
 
+    @Override
     public int compareTo(MeansOfContact o) {
         if (o == null || o.getType() == null) {
             return 1;

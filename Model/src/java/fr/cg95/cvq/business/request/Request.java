@@ -11,6 +11,7 @@ import net.sf.oval.constraint.AssertValid;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.xmlbeans.XmlObject;
 
+import fr.cg95.cvq.business.users.MeansOfContact;
 import fr.cg95.cvq.exception.CvqException;
 
 /**

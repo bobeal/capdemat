@@ -19,7 +19,7 @@ import fr.cg95.cvq.service.authority.ISchoolService
 import fr.cg95.cvq.service.request.ICategoryService
 import fr.cg95.cvq.service.request.IConditionService
 import fr.cg95.cvq.service.request.ILocalReferentialService
-import fr.cg95.cvq.service.request.IMeansOfContactService
+import fr.cg95.cvq.service.users.IMeansOfContactService
 import fr.cg95.cvq.service.request.IRequestLockService
 import fr.cg95.cvq.service.request.IRequestNoteService
 import fr.cg95.cvq.service.request.IRequestSearchService

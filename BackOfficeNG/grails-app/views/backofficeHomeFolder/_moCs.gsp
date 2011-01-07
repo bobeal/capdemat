@@ -11,11 +11,11 @@
           <span><g:message code="category.action.associate" /></span>
         </a>
       </g:else>
-      <form id="${moC.id}Form" action="${createLink(action : 'moCs')}" method="post">
+      <form id="${moC.id}Form" action="${createLink(action : 'moC')}" method="post">
         <input type="hidden" name="id" value="${moC.id}" />
         <input type="hidden" name="enabled" value="${moC.enabled}" />
       </form>
-      <span><g:message code="request.meansOfContact.${StringUtils.pascalToCamelCase(moC.type.toString())}"/></span>
+      <span><g:message code="meansOfContact.${StringUtils.pascalToCamelCase(moC.type.toString())}"/></span>
     </li>
   </g:each>
 </ul>

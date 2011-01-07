@@ -64,9 +64,10 @@ public final class MailService implements IMailService {
                         message.setCc(cc);
                     if (attachments != null) {
                         for (Map.Entry<String, byte[]> attachment : attachments.entrySet()) {
-                            ByteArrayResource byteArrayResource =
-                                new ByteArrayResource(attachment.getValue());
-                            message.addAttachment(attachment.getKey(), byteArrayResource);
+                            if (attachment.getValue() != null) {
+                                message.addAttachment(attachment.getKey(),
+                                    new ByteArrayResource(attachment.getValue()));
+                            }
                         }
                     }
                 }

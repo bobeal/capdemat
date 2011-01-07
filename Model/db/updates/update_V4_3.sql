@@ -1,3 +1,8 @@
+alter table document_binary add column content_type varchar(255);
+alter table document_binary add column preview bytea;
+
+alter table agent add column email varchar(255);
+
 alter table address add column street_matriculation varchar(8);
 alter table address add column street_rivoli_code varchar(10);
 alter table address add column city_insee_code varchar(5);

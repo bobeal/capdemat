@@ -15,9 +15,8 @@
         <script type="text/javascript" src="${resource(dir:'js/common',file:'autocomplete.js')}"></script>
     </g:if>
     <script type="text/javascript">
-        zenexity.capdemat.contextPath = "\${request.contextPath}";
+        zenexity.capdemat.contextPath = "${request.contextPath}";
     </script>
-  </head>
   </head>
   <body>
     <g:set var="requestTypeInfo">

@@ -7,8 +7,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.AssertValid;
 import org.apache.xmlbeans.XmlOptions;
@@ -40,6 +42,29 @@ public class LearningActivitiesDiscoveryRegistrationRequest extends Request impl
     public LearningActivitiesDiscoveryRegistrationRequest() {
         super();
         this.learningActivitiesDiscoveryRegistrationRequestData = new LearningActivitiesDiscoveryRegistrationRequestData();
+        Map<String, Object> stepState;
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "uncomplete");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          getStepStates().put("subject", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", false);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          getStepStates().put("document", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          getStepStates().put("validation", stepState);
+        
     }
 
     /**
@@ -72,6 +97,7 @@ public class LearningActivitiesDiscoveryRegistrationRequest extends Request impl
     public final LearningActivitiesDiscoveryRegistrationRequestDocument modelToXml() {
         
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         Date date = null;
         LearningActivitiesDiscoveryRegistrationRequestDocument learningActivitiesDiscoveryRegistrationRequestDoc = LearningActivitiesDiscoveryRegistrationRequestDocument.Factory.newInstance();
         LearningActivitiesDiscoveryRegistrationRequestDocument.LearningActivitiesDiscoveryRegistrationRequest learningActivitiesDiscoveryRegistrationRequest = learningActivitiesDiscoveryRegistrationRequestDoc.addNewLearningActivitiesDiscoveryRegistrationRequest();
@@ -98,6 +124,7 @@ public class LearningActivitiesDiscoveryRegistrationRequest extends Request impl
     public static LearningActivitiesDiscoveryRegistrationRequest xmlToModel(LearningActivitiesDiscoveryRegistrationRequestDocument learningActivitiesDiscoveryRegistrationRequestDoc) {
         LearningActivitiesDiscoveryRegistrationRequestDocument.LearningActivitiesDiscoveryRegistrationRequest learningActivitiesDiscoveryRegistrationRequestXml = learningActivitiesDiscoveryRegistrationRequestDoc.getLearningActivitiesDiscoveryRegistrationRequest();
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         LearningActivitiesDiscoveryRegistrationRequest learningActivitiesDiscoveryRegistrationRequest = new LearningActivitiesDiscoveryRegistrationRequest();
         learningActivitiesDiscoveryRegistrationRequest.fillCommonModelInfo(learningActivitiesDiscoveryRegistrationRequest, learningActivitiesDiscoveryRegistrationRequestXml);

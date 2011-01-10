@@ -94,31 +94,6 @@ public class HomeEmergencyRegistrationRequestData implements Serializable {
     }
   
     
-      @NotNull(
-        
-        
-        profiles = {"subject"},
-        message = "dateDepart"
-      )
-    
-    private java.util.Date dateDepart;
-
-    public final void setDateDepart(final java.util.Date dateDepart) {
-        this.dateDepart = dateDepart;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="date_depart"
-        
-      
-    */
-    public final java.util.Date getDateDepart() {
-        return this.dateDepart;
-    }
-  
-    
       @MaxLength(
         
           value = 2,
@@ -166,6 +141,31 @@ public class HomeEmergencyRegistrationRequestData implements Serializable {
     */
     public final String getDuree() {
         return this.duree;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "dateDepart"
+      )
+    
+    private java.util.Date dateDepart;
+
+    public final void setDateDepart(final java.util.Date dateDepart) {
+        this.dateDepart = dateDepart;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="date_depart"
+        
+      
+    */
+    public final java.util.Date getDateDepart() {
+        return this.dateDepart;
     }
   
 }

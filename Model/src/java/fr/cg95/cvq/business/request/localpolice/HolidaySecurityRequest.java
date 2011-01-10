@@ -67,7 +67,7 @@ public class HolidaySecurityRequest extends Request implements Serializable {
         
           stepState = new HashMap<String, Object>(4);
           stepState.put("state", "unavailable");
-          stepState.put("required", false);
+          stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
           getStepStates().put("contact", stepState);

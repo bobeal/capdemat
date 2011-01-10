@@ -224,31 +224,6 @@ public class BafaGrantRequestData implements Serializable {
         
         
         profiles = {"internship"},
-        message = "internshipStartDate"
-      )
-    
-    private java.util.Date internshipStartDate;
-
-    public final void setInternshipStartDate(final java.util.Date internshipStartDate) {
-        this.internshipStartDate = internshipStartDate;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="internship_start_date"
-        
-      
-    */
-    public final java.util.Date getInternshipStartDate() {
-        return this.internshipStartDate;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"internship"},
         message = "internshipEndDate"
       )
     
@@ -267,6 +242,31 @@ public class BafaGrantRequestData implements Serializable {
     */
     public final java.util.Date getInternshipEndDate() {
         return this.internshipEndDate;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"internship"},
+        message = "internshipStartDate"
+      )
+    
+    private java.util.Date internshipStartDate;
+
+    public final void setInternshipStartDate(final java.util.Date internshipStartDate) {
+        this.internshipStartDate = internshipStartDate;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="internship_start_date"
+        
+      
+    */
+    public final java.util.Date getInternshipStartDate() {
+        return this.internshipStartDate;
     }
   
     
@@ -460,39 +460,6 @@ public class BafaGrantRequestData implements Serializable {
     }
   
     
-      @NotNull(
-        
-        
-        profiles = {"subject"},
-        message = "subjectAddress"
-      )
-    
-      @AssertValid(
-        
-        
-        profiles = {"subject"},
-        message = "subjectAddress"
-      )
-    
-    private fr.cg95.cvq.business.users.Address subjectAddress;
-
-    public final void setSubjectAddress(final fr.cg95.cvq.business.users.Address subjectAddress) {
-        this.subjectAddress = subjectAddress;
-    }
-
-    /**
- 
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="subject_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
-      
-    */
-    public final fr.cg95.cvq.business.users.Address getSubjectAddress() {
-        return this.subjectAddress;
-    }
-  
-    
       @MaxLength(
         
           value = 38,
@@ -558,6 +525,39 @@ public class BafaGrantRequestData implements Serializable {
     */
     public final String getAccountHolderLastName() {
         return this.accountHolderLastName;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "subjectAddress"
+      )
+    
+      @AssertValid(
+        
+        
+        profiles = {"subject"},
+        message = "subjectAddress"
+      )
+    
+    private fr.cg95.cvq.business.users.Address subjectAddress;
+
+    public final void setSubjectAddress(final fr.cg95.cvq.business.users.Address subjectAddress) {
+        this.subjectAddress = subjectAddress;
+    }
+
+    /**
+ 
+        * @hibernate.many-to-one
+        *  cascade="all"
+        *  column="subject_address_id"
+        *  class="fr.cg95.cvq.business.users.Address"
+      
+    */
+    public final fr.cg95.cvq.business.users.Address getSubjectAddress() {
+        return this.subjectAddress;
     }
   
     

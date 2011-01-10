@@ -7,8 +7,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.AssertValid;
 import org.apache.xmlbeans.XmlOptions;
@@ -40,6 +42,29 @@ public class HomeEmergencyRegistrationRequest extends Request implements Seriali
     public HomeEmergencyRegistrationRequest() {
         super();
         this.homeEmergencyRegistrationRequestData = new HomeEmergencyRegistrationRequestData();
+        Map<String, Object> stepState;
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "uncomplete");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          getStepStates().put("subject", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", false);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          getStepStates().put("document", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          getStepStates().put("validation", stepState);
+        
     }
 
     /**
@@ -72,6 +97,7 @@ public class HomeEmergencyRegistrationRequest extends Request implements Seriali
     public final HomeEmergencyRegistrationRequestDocument modelToXml() {
         
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         Date date = null;
         HomeEmergencyRegistrationRequestDocument homeEmergencyRegistrationRequestDoc = HomeEmergencyRegistrationRequestDocument.Factory.newInstance();
         HomeEmergencyRegistrationRequestDocument.HomeEmergencyRegistrationRequest homeEmergencyRegistrationRequest = homeEmergencyRegistrationRequestDoc.addNewHomeEmergencyRegistrationRequest();
@@ -80,13 +106,13 @@ public class HomeEmergencyRegistrationRequest extends Request implements Seriali
         
         homeEmergencyRegistrationRequest.setTelephone(getTelephone());
       
+        homeEmergencyRegistrationRequest.setDuree(getDuree());
+      
         date = getDateDepart();
         if (date != null) {
             calendar.setTime(date);
             homeEmergencyRegistrationRequest.setDateDepart(calendar);
         }
-      
-        homeEmergencyRegistrationRequest.setDuree(getDuree());
       
         return homeEmergencyRegistrationRequestDoc;
     }
@@ -99,18 +125,19 @@ public class HomeEmergencyRegistrationRequest extends Request implements Seriali
     public static HomeEmergencyRegistrationRequest xmlToModel(HomeEmergencyRegistrationRequestDocument homeEmergencyRegistrationRequestDoc) {
         HomeEmergencyRegistrationRequestDocument.HomeEmergencyRegistrationRequest homeEmergencyRegistrationRequestXml = homeEmergencyRegistrationRequestDoc.getHomeEmergencyRegistrationRequest();
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         HomeEmergencyRegistrationRequest homeEmergencyRegistrationRequest = new HomeEmergencyRegistrationRequest();
         homeEmergencyRegistrationRequest.fillCommonModelInfo(homeEmergencyRegistrationRequest, homeEmergencyRegistrationRequestXml);
         
         homeEmergencyRegistrationRequest.setTelephone(homeEmergencyRegistrationRequestXml.getTelephone());
       
+        homeEmergencyRegistrationRequest.setDuree(homeEmergencyRegistrationRequestXml.getDuree());
+      
         calendar = homeEmergencyRegistrationRequestXml.getDateDepart();
         if (calendar != null) {
             homeEmergencyRegistrationRequest.setDateDepart(calendar.getTime());
         }
-      
-        homeEmergencyRegistrationRequest.setDuree(homeEmergencyRegistrationRequestXml.getDuree());
       
         return homeEmergencyRegistrationRequest;
     }
@@ -125,15 +152,6 @@ public class HomeEmergencyRegistrationRequest extends Request implements Seriali
         return homeEmergencyRegistrationRequestData.getTelephone();
     }
   
-    public final void setDateDepart(final java.util.Date dateDepart) {
-        homeEmergencyRegistrationRequestData.setDateDepart(dateDepart);
-    }
-
-    
-    public final java.util.Date getDateDepart() {
-        return homeEmergencyRegistrationRequestData.getDateDepart();
-    }
-  
     public final void setDuree(final String duree) {
         homeEmergencyRegistrationRequestData.setDuree(duree);
     }
@@ -141,6 +159,15 @@ public class HomeEmergencyRegistrationRequest extends Request implements Seriali
     
     public final String getDuree() {
         return homeEmergencyRegistrationRequestData.getDuree();
+    }
+  
+    public final void setDateDepart(final java.util.Date dateDepart) {
+        homeEmergencyRegistrationRequestData.setDateDepart(dateDepart);
+    }
+
+    
+    public final java.util.Date getDateDepart() {
+        return homeEmergencyRegistrationRequestData.getDateDepart();
     }
   
 }

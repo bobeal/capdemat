@@ -512,7 +512,7 @@
         </dt>
         <dd>
           <g:capdematEnumToFlag var="${document.state}" i18nKeyPrefix="document.state" />
-          <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}?isRequestCreation=true" target="blank" title="${message(code:'document.message.preview.longdesc')}">${message(code:'document.message.preview')}</a>
+          <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank" title="${message(code:'document.message.preview.longdesc')}">${message(code:'document.message.preview')}</a>
         </dd>
         </g:each>
       </dl>

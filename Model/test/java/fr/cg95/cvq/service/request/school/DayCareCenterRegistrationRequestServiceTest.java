@@ -425,7 +425,7 @@ public class DayCareCenterRegistrationRequestServiceTest extends RequestTestCase
         request.setRequesterId(SecurityContext.getCurrentUserId());
         request.setHomeFolderId(homeFolderId);
         DayCareCenterRegistrationRequestFeeder.setSubject(request, requestService.getSubjectPolicy(), null, homeFolder);
-        Long requestId = requestWorkflowService.create(request, null, null, null);
+        Long requestId = requestWorkflowService.create(request, null);
         DayCareCenterRegistrationRequest requestFromDb = (DayCareCenterRegistrationRequest) requestSearchService.getById(requestId, true);
         assertEquals(requestId, requestFromDb.getId());
         assertNotNull(requestFromDb.getRequesterId());

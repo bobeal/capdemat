@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.AssertValid;
 import org.apache.xmlbeans.XmlOptions;
@@ -117,6 +118,7 @@ public class BafaGrantRequest extends Request implements Serializable {
     public final BafaGrantRequestDocument modelToXml() {
         
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         Date date = null;
         BafaGrantRequestDocument bafaGrantRequestDoc = BafaGrantRequestDocument.Factory.newInstance();
         BafaGrantRequestDocument.BafaGrantRequest bafaGrantRequest = bafaGrantRequestDoc.addNewBafaGrantRequest();
@@ -132,16 +134,16 @@ public class BafaGrantRequest extends Request implements Serializable {
       
         bafaGrantRequest.setEdemandeId(getEdemandeId());
       
-        date = getInternshipStartDate();
-        if (date != null) {
-            calendar.setTime(date);
-            bafaGrantRequest.setInternshipStartDate(calendar);
-        }
-      
         date = getInternshipEndDate();
         if (date != null) {
             calendar.setTime(date);
             bafaGrantRequest.setInternshipEndDate(calendar);
+        }
+      
+        date = getInternshipStartDate();
+        if (date != null) {
+            calendar.setTime(date);
+            bafaGrantRequest.setInternshipStartDate(calendar);
         }
       
         if (getIsSubjectAccountHolder() != null)
@@ -166,10 +168,10 @@ public class BafaGrantRequest extends Request implements Serializable {
       
         bafaGrantRequest.setInternshipInstituteName(getInternshipInstituteName());
       
+        bafaGrantRequest.setAccountHolderLastName(getAccountHolderLastName());
+      
         if (getSubjectAddress() != null)
             bafaGrantRequest.setSubjectAddress(Address.modelToXml(getSubjectAddress()));
-      
-        bafaGrantRequest.setAccountHolderLastName(getAccountHolderLastName());
       
         bafaGrantRequest.setSubjectPhone(getSubjectPhone());
       
@@ -189,6 +191,7 @@ public class BafaGrantRequest extends Request implements Serializable {
     public static BafaGrantRequest xmlToModel(BafaGrantRequestDocument bafaGrantRequestDoc) {
         BafaGrantRequestDocument.BafaGrantRequest bafaGrantRequestXml = bafaGrantRequestDoc.getBafaGrantRequest();
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         BafaGrantRequest bafaGrantRequest = new BafaGrantRequest();
         bafaGrantRequest.fillCommonModelInfo(bafaGrantRequest, bafaGrantRequestXml);
@@ -202,14 +205,14 @@ public class BafaGrantRequest extends Request implements Serializable {
       
         bafaGrantRequest.setEdemandeId(bafaGrantRequestXml.getEdemandeId());
       
-        calendar = bafaGrantRequestXml.getInternshipStartDate();
-        if (calendar != null) {
-            bafaGrantRequest.setInternshipStartDate(calendar.getTime());
-        }
-      
         calendar = bafaGrantRequestXml.getInternshipEndDate();
         if (calendar != null) {
             bafaGrantRequest.setInternshipEndDate(calendar.getTime());
+        }
+      
+        calendar = bafaGrantRequestXml.getInternshipStartDate();
+        if (calendar != null) {
+            bafaGrantRequest.setInternshipStartDate(calendar.getTime());
         }
       
         bafaGrantRequest.setIsSubjectAccountHolder(Boolean.valueOf(bafaGrantRequestXml.getIsSubjectAccountHolder()));
@@ -231,10 +234,10 @@ public class BafaGrantRequest extends Request implements Serializable {
       
         bafaGrantRequest.setInternshipInstituteName(bafaGrantRequestXml.getInternshipInstituteName());
       
+        bafaGrantRequest.setAccountHolderLastName(bafaGrantRequestXml.getAccountHolderLastName());
+      
         if (bafaGrantRequestXml.getSubjectAddress() != null)
             bafaGrantRequest.setSubjectAddress(Address.xmlToModel(bafaGrantRequestXml.getSubjectAddress()));
-      
-        bafaGrantRequest.setAccountHolderLastName(bafaGrantRequestXml.getAccountHolderLastName());
       
         bafaGrantRequest.setSubjectPhone(bafaGrantRequestXml.getSubjectPhone());
       
@@ -285,15 +288,6 @@ public class BafaGrantRequest extends Request implements Serializable {
         return bafaGrantRequestData.getEdemandeId();
     }
   
-    public final void setInternshipStartDate(final java.util.Date internshipStartDate) {
-        bafaGrantRequestData.setInternshipStartDate(internshipStartDate);
-    }
-
-    
-    public final java.util.Date getInternshipStartDate() {
-        return bafaGrantRequestData.getInternshipStartDate();
-    }
-  
     public final void setInternshipEndDate(final java.util.Date internshipEndDate) {
         bafaGrantRequestData.setInternshipEndDate(internshipEndDate);
     }
@@ -301,6 +295,15 @@ public class BafaGrantRequest extends Request implements Serializable {
     
     public final java.util.Date getInternshipEndDate() {
         return bafaGrantRequestData.getInternshipEndDate();
+    }
+  
+    public final void setInternshipStartDate(final java.util.Date internshipStartDate) {
+        bafaGrantRequestData.setInternshipStartDate(internshipStartDate);
+    }
+
+    
+    public final java.util.Date getInternshipStartDate() {
+        return bafaGrantRequestData.getInternshipStartDate();
     }
   
     public final void setIsSubjectAccountHolder(final Boolean isSubjectAccountHolder) {
@@ -357,15 +360,6 @@ public class BafaGrantRequest extends Request implements Serializable {
         return bafaGrantRequestData.getInternshipInstituteName();
     }
   
-    public final void setSubjectAddress(final fr.cg95.cvq.business.users.Address subjectAddress) {
-        bafaGrantRequestData.setSubjectAddress(subjectAddress);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.Address getSubjectAddress() {
-        return bafaGrantRequestData.getSubjectAddress();
-    }
-  
     public final void setAccountHolderLastName(final String accountHolderLastName) {
         bafaGrantRequestData.setAccountHolderLastName(accountHolderLastName);
     }
@@ -373,6 +367,15 @@ public class BafaGrantRequest extends Request implements Serializable {
     
     public final String getAccountHolderLastName() {
         return bafaGrantRequestData.getAccountHolderLastName();
+    }
+  
+    public final void setSubjectAddress(final fr.cg95.cvq.business.users.Address subjectAddress) {
+        bafaGrantRequestData.setSubjectAddress(subjectAddress);
+    }
+
+    
+    public final fr.cg95.cvq.business.users.Address getSubjectAddress() {
+        return bafaGrantRequestData.getSubjectAddress();
     }
   
     public final void setSubjectPhone(final String subjectPhone) {

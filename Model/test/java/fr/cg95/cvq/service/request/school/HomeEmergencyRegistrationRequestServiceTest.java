@@ -53,17 +53,17 @@ public class HomeEmergencyRegistrationRequestServiceTest extends RequestTestCase
         
           
           
-               request.setDateDepart(new Date());
-          
-        
-          
-          
             
               if ("Duree".length() > 2)
                   request.setDuree("Duree".substring(0, 2));
               else
                   request.setDuree("Duree");
             
+          
+        
+          
+          
+               request.setDateDepart(new Date());
           
         
         // Means Of Contact

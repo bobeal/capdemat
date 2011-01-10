@@ -77,12 +77,12 @@ public class BafaGrantRequestServiceTest extends RequestTestCase {
         
           
           
-               request.setInternshipStartDate(new Date());
+               request.setInternshipEndDate(new Date());
           
         
           
           
-               request.setInternshipEndDate(new Date());
+               request.setInternshipStartDate(new Date());
           
         
           
@@ -126,20 +126,20 @@ public class BafaGrantRequestServiceTest extends RequestTestCase {
           
           
             
-            
-              
-                request.setSubjectAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
-              
+              if ("AccountHolderLastName".length() > 38)
+                  request.setAccountHolderLastName("AccountHolderLastName".substring(0, 38));
+              else
+                  request.setAccountHolderLastName("AccountHolderLastName");
             
           
         
           
           
             
-              if ("AccountHolderLastName".length() > 38)
-                  request.setAccountHolderLastName("AccountHolderLastName".substring(0, 38));
-              else
-                  request.setAccountHolderLastName("AccountHolderLastName");
+            
+              
+                request.setSubjectAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+              
             
           
         

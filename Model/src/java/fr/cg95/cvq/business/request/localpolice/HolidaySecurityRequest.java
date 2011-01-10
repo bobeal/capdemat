@@ -215,6 +215,63 @@ public class HolidaySecurityRequest extends Request implements Serializable {
         return holidaySecurityRequest;
     }
 
+    @Override
+    public HolidaySecurityRequest clone() {
+        HolidaySecurityRequest clone = new HolidaySecurityRequest(getRequestData().clone(), holidaySecurityRequestData.clone());
+        Map<String, Object> stepState;
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "uncomplete");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("registration", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("rules", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("contactphone", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("contact", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", false);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("additional", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", false);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("document", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("validation", stepState);
+        
+        return clone;
+    }
+
   
     public final void setOtherContactLastName(final String otherContactLastName) {
         holidaySecurityRequestData.setOtherContactLastName(otherContactLastName);

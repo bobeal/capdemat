@@ -16,7 +16,7 @@
           <g:each var="season" in="${seasons}">
             <div class="yui-g">
               <h3>
-                <a href="${createLink(controller:'frontofficeRequest', action : 'edit',
+                <a href="${createLink(controller:'frontofficeRequest', action : 'start',
                   params:['label':label, 'requestSeasonId' : season.id])}">
                   ${season.label}
                 </a>

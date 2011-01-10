@@ -46,6 +46,77 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
       
     }
 
+    @Override
+    public RecreationActivityRegistrationRequestData clone() {
+        RecreationActivityRegistrationRequestData result = new RecreationActivityRegistrationRequestData();
+        
+          
+            result.setRecreationCenter(recreationCenter);
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.school.RecreationAuthorizedIndividual> authorizedIndividualsList = new ArrayList<fr.cg95.cvq.business.request.school.RecreationAuthorizedIndividual>();
+        for (RecreationAuthorizedIndividual object : authorizedIndividuals) {
+            authorizedIndividualsList.add(object.clone());
+        }
+        result.setAuthorizedIndividuals(authorizedIndividualsList);
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.school.RecreationContactIndividual> contactIndividualsList = new ArrayList<fr.cg95.cvq.business.request.school.RecreationContactIndividual>();
+        for (RecreationContactIndividual object : contactIndividuals) {
+            contactIndividualsList.add(object.clone());
+        }
+        result.setContactIndividuals(contactIndividualsList);
+      
+          
+        
+          
+            
+        result.setClassTripPermission(classTripPermission);
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.LocalReferentialData> recreationActivityList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>();
+        for (LocalReferentialData object : recreationActivity) {
+            recreationActivityList.add(object.clone());
+        }
+        result.setRecreationActivity(recreationActivityList);
+      
+          
+        
+          
+            
+        result.setChildPhotoExploitationPermission(childPhotoExploitationPermission);
+      
+          
+        
+          
+            
+        result.setHospitalizationPermission(hospitalizationPermission);
+      
+          
+        
+          
+            
+        result.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
+      
+          
+        
+          
+            
+        result.setUrgencyPhone(urgencyPhone);
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

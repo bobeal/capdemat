@@ -79,6 +79,28 @@ public class HccrHomeIntervenant implements Serializable {
         return hccrHomeIntervenant;
     }
 
+    @Override
+    public HccrHomeIntervenant clone() {
+        HccrHomeIntervenant result = new HccrHomeIntervenant();
+        
+          
+            
+        if (homeIntervenantKind != null)
+            result.setHomeIntervenantKind(homeIntervenantKind);
+        else
+            result.setHomeIntervenantKind(fr.cg95.cvq.business.request.social.HccrHomeIntervenantKindType.getDefaultHccrHomeIntervenantKindType());
+      
+          
+        
+          
+            
+        result.setHomeIntervenantDetails(homeIntervenantDetails);
+      
+          
+        
+        return result;
+    }
+
     private Long id;
 
     public final void setId(final Long id) {

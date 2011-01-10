@@ -176,6 +176,49 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
         return schoolRegistrationRequest;
     }
 
+    @Override
+    public SchoolRegistrationRequest clone() {
+        SchoolRegistrationRequest clone = new SchoolRegistrationRequest(getRequestData().clone(), schoolRegistrationRequestData.clone());
+        Map<String, Object> stepState;
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "uncomplete");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("registration", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("rules", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", false);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("document", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("validation", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", false);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("administration", stepState);
+        
+        return clone;
+    }
+
   
     public final void setCurrentSchoolAddress(final String currentSchoolAddress) {
         schoolRegistrationRequestData.setCurrentSchoolAddress(currentSchoolAddress);

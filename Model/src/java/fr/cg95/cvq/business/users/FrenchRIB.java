@@ -46,6 +46,16 @@ public class FrenchRIB implements Historizable, Serializable, Cloneable {
         return frenchRIBType;
     }
 
+    @Override
+    public FrenchRIB clone() {
+        FrenchRIB result = new FrenchRIB();
+        result.setAccountKey(getAccountKey());
+        result.setAccountNumber(getAccountNumber());
+        result.setBankCode(getBankCode());
+        result.setCounterCode(getCounterCode());
+        return result;
+    }
+
     private Long id;
 
     @NotNull(message = "bankCode")

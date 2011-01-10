@@ -148,6 +148,35 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
         return compostableWasteCollectionRequest;
     }
 
+    @Override
+    public CompostableWasteCollectionRequest clone() {
+        CompostableWasteCollectionRequest clone = new CompostableWasteCollectionRequest(getRequestData().clone(), compostableWasteCollectionRequestData.clone());
+        Map<String, Object> stepState;
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "uncomplete");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("waste", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", false);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("document", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("validation", stepState);
+        
+        return clone;
+    }
+
   
     public final void setCompostableWasteType(final List<fr.cg95.cvq.business.request.LocalReferentialData> compostableWasteType) {
         compostableWasteCollectionRequestData.setCompostableWasteType(compostableWasteType);

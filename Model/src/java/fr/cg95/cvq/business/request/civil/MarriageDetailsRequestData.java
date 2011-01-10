@@ -40,6 +40,133 @@ public class MarriageDetailsRequestData implements Serializable {
       
     }
 
+    @Override
+    public MarriageDetailsRequestData clone() {
+        MarriageDetailsRequestData result = new MarriageDetailsRequestData();
+        
+          
+            
+        if (format != null)
+            result.setFormat(format);
+        else
+            result.setFormat(fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType.getDefaultMarriageCertificateFormatType());
+      
+          
+        
+          
+            
+        result.setCopies(copies);
+      
+          
+        
+          
+            
+        result.setMarriageHusbandLastName(marriageHusbandLastName);
+      
+          
+        
+          
+            
+        result.setMarriageWifeFirstNames(marriageWifeFirstNames);
+      
+          
+        
+          
+            
+        result.setComment(comment);
+      
+          
+        
+          
+            
+        result.setRequesterQualityPrecision(requesterQualityPrecision);
+      
+          
+        
+          
+            
+        result.setFatherFirstNames(fatherFirstNames);
+      
+          
+        
+          
+            
+        result.setMarriagePostalCode(marriagePostalCode);
+      
+          
+        
+          
+            
+        result.setMotherMaidenName(motherMaidenName);
+      
+          
+        
+          
+            
+        result.setMarriageHusbandFirstNames(marriageHusbandFirstNames);
+      
+          
+        
+          
+            
+        if (requesterQuality != null)
+            result.setRequesterQuality(requesterQuality);
+        else
+            result.setRequesterQuality(fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType.getDefaultMarriageRequesterQualityType());
+      
+          
+        
+          
+            
+        result.setMarriageCity(marriageCity);
+      
+          
+        
+          
+            
+        result.setMarriageWifeLastName(marriageWifeLastName);
+      
+          
+        
+          
+            
+        result.setMarriageDate(marriageDate);
+      
+          
+        
+          
+            
+        result.setFatherLastName(fatherLastName);
+      
+          
+        
+          
+            
+        if (relationship != null)
+            result.setRelationship(relationship);
+        else
+            result.setRelationship(fr.cg95.cvq.business.request.civil.MarriageRelationshipType.getDefaultMarriageRelationshipType());
+      
+          
+        
+          
+            
+        result.setMotherFirstNames(motherFirstNames);
+      
+          
+        
+          
+            
+        if (motive != null)
+            result.setMotive(motive);
+        else
+            result.setMotive(fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType.getDefaultMarriageCertificateMotiveType());
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

@@ -476,4 +476,14 @@ public class RequestData implements Serializable {
     public void setDocumentsArchive(byte[] documentsArchive) {
         this.documentsArchive = documentsArchive;
     }
+
+    @Override
+    public RequestData clone() {
+        RequestData result = new RequestData();
+        result.setHomeFolderId(getHomeFolderId());
+        result.setMeansOfContact(getMeansOfContact());
+        result.setRequestType(getRequestType());
+        result.setSubjectId(getSubjectId());
+        return result;
+    }
 }

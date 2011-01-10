@@ -233,6 +233,49 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         return marriageDetailsRequest;
     }
 
+    @Override
+    public MarriageDetailsRequest clone() {
+        MarriageDetailsRequest clone = new MarriageDetailsRequest(getRequestData().clone(), marriageDetailsRequestData.clone());
+        Map<String, Object> stepState;
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "uncomplete");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("requester", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("nature", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("type", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", false);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("document", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("validation", stepState);
+        
+        return clone;
+    }
+
   
     public final void setFormat(final fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType format) {
         marriageDetailsRequestData.setFormat(format);

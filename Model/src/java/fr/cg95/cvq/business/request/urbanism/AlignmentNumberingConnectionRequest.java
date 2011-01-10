@@ -198,6 +198,35 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
         return alignmentNumberingConnectionRequest;
     }
 
+    @Override
+    public AlignmentNumberingConnectionRequest clone() {
+        AlignmentNumberingConnectionRequest clone = new AlignmentNumberingConnectionRequest(getRequestData().clone(), alignmentNumberingConnectionRequestData.clone());
+        Map<String, Object> stepState;
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "uncomplete");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("requester", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("cadastre", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("validation", stepState);
+        
+        return clone;
+    }
+
   
     public final void setIsNumbering(final Boolean isNumbering) {
         alignmentNumberingConnectionRequestData.setIsNumbering(isNumbering);

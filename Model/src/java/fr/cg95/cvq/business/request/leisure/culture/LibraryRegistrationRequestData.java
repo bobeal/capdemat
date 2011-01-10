@@ -42,6 +42,47 @@ public class LibraryRegistrationRequestData implements Serializable {
       
     }
 
+    @Override
+    public LibraryRegistrationRequestData clone() {
+        LibraryRegistrationRequestData result = new LibraryRegistrationRequestData();
+        
+          
+            
+        result.setRegistrationNumber(registrationNumber);
+      
+          
+        
+          
+            
+        result.setParentalAuthorization(parentalAuthorization);
+      
+          
+        
+          
+            
+        result.setSubscriptionPrice(subscriptionPrice);
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.LocalReferentialData> subscriptionList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>();
+        for (LocalReferentialData object : subscription) {
+            subscriptionList.add(object.clone());
+        }
+        result.setSubscription(subscriptionList);
+      
+          
+        
+          
+            
+        result.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

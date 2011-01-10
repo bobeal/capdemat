@@ -184,6 +184,994 @@ public class HandicapCompensationAdultRequestData implements Serializable {
       
     }
 
+    @Override
+    public HandicapCompensationAdultRequestData clone() {
+        HandicapCompensationAdultRequestData result = new HandicapCompensationAdultRequestData();
+        
+          
+            
+        result.setHealthFollowedByProfessional(healthFollowedByProfessional);
+      
+          
+        
+          
+            
+        result.setProfessionalSupportProfessionals(professionalSupportProfessionals);
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.social.HcarFamilyDependent> familyDependentsList = new ArrayList<fr.cg95.cvq.business.request.social.HcarFamilyDependent>();
+        for (HcarFamilyDependent object : familyDependents) {
+            familyDependentsList.add(object.clone());
+        }
+        result.setFamilyDependents(familyDependentsList);
+      
+          
+        
+          
+            
+        result.setIsFamilyAssistance(isFamilyAssistance);
+      
+          
+        
+          
+            
+        result.setProjectComments(projectComments);
+      
+          
+        
+          
+            
+        result.setFoldersMdphDepartment(foldersMdphDepartment);
+      
+          
+        
+          
+            
+        result.setFoldersCdes(foldersCdes);
+      
+          
+        
+          
+            
+        result.setProjectNeeds(projectNeeds);
+      
+          
+        
+          
+            
+        result.setBenefitsEducationAllocationOfDisabledChildren(benefitsEducationAllocationOfDisabledChildren);
+      
+          
+        
+          
+            
+        result.setHomeInterventionHomeIntervenant(homeInterventionHomeIntervenant);
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.social.HcarOtherFolder> otherFoldersList = new ArrayList<fr.cg95.cvq.business.request.social.HcarOtherFolder>();
+        for (HcarOtherFolder object : otherFolders) {
+            otherFoldersList.add(object.clone());
+        }
+        result.setOtherFolders(otherFoldersList);
+      
+          
+        
+          
+            
+        result.setFoldersMdphNumber(foldersMdphNumber);
+      
+          
+        
+          
+            
+        result.setProjectRequestsHousingFacilities(projectRequestsHousingFacilities);
+      
+          
+        
+          
+            
+        result.setSubjectBirthDate(subjectBirthDate);
+      
+          
+        
+          
+            
+        result.setBenefitsDisabilityPension(benefitsDisabilityPension);
+      
+          
+        
+          
+            
+        result.setLegalAccessPresence(legalAccessPresence);
+      
+          
+        
+          
+            
+        result.setSubjectMaidenName(subjectMaidenName);
+      
+          
+        
+          
+            
+        result.setProjectRequestsDisabledWorkerRecognition(projectRequestsDisabledWorkerRecognition);
+      
+          
+        
+          
+            
+        result.setBenefitsUnemploymentBenefits(benefitsUnemploymentBenefits);
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.social.HcarHomeIntervenant> homeIntervenantsList = new ArrayList<fr.cg95.cvq.business.request.social.HcarHomeIntervenant>();
+        for (HcarHomeIntervenant object : homeIntervenants) {
+            homeIntervenantsList.add(object.clone());
+        }
+        result.setHomeIntervenants(homeIntervenantsList);
+      
+          
+        
+          
+            
+        if (professionalStatusKind != null)
+            result.setProfessionalStatusKind(professionalStatusKind);
+        else
+            result.setProfessionalStatusKind(fr.cg95.cvq.business.request.social.HcarProfessionalStatusKindType.getDefaultHcarProfessionalStatusKindType());
+      
+          
+        
+          
+            
+        result.setFamilyFamilyDependents(familyFamilyDependents);
+      
+          
+        
+          
+            
+        result.setFormationPreviousFormation(formationPreviousFormation);
+      
+          
+        
+          
+            
+        result.setBenefitsEducationOfDisabledChildrenDetails(benefitsEducationOfDisabledChildrenDetails);
+      
+          
+        
+          
+            
+        result.setProjectRequestsVocationalTraining(projectRequestsVocationalTraining);
+      
+          
+        
+          
+            
+        result.setFacilitiesCustomCar(facilitiesCustomCar);
+      
+          
+        
+          
+            
+        result.setLegalAccessRepresentativeKindDetail(legalAccessRepresentativeKindDetail);
+      
+          
+        
+          
+            
+        result.setProfessionalStatusIndemnified(professionalStatusIndemnified);
+      
+          
+        
+          
+            
+        result.setBenefitsDisabledAdultAllocation(benefitsDisabledAdultAllocation);
+      
+          
+        
+          
+            
+        result.setBenefitsThirdPartyCompensatoryAllowance(benefitsThirdPartyCompensatoryAllowance);
+      
+          
+        
+          
+            
+        result.setProfessionalStatusDate(professionalStatusDate);
+      
+          
+        
+          
+            
+        result.setProjectRequestsTransportCostAllocation(projectRequestsTransportCostAllocation);
+      
+          
+        
+          
+            
+        result.setBenefitsProfessionalOrientation(benefitsProfessionalOrientation);
+      
+          
+        
+          
+            
+        result.setBenefitsDisabilityRecognition(benefitsDisabilityRecognition);
+      
+          
+        
+          
+            
+        result.setProfessionalStatusRegisterAsUnemployed(professionalStatusRegisterAsUnemployed);
+      
+          
+        
+          
+            
+        result.setDwellingSocialReceptionNaming(dwellingSocialReceptionNaming);
+      
+          
+        
+          
+            
+        result.setProfessionalStatusIndemnifiedDate(professionalStatusIndemnifiedDate);
+      
+          
+        
+          
+            
+        if (familyStatus != null)
+            result.setFamilyStatus(familyStatus);
+        else
+            result.setFamilyStatus(fr.cg95.cvq.business.users.FamilyStatusType.getDefaultFamilyStatusType());
+      
+          
+        
+          
+            
+        result.setBenefitsPainfulStandingCard(benefitsPainfulStandingCard);
+      
+          
+        
+          
+            
+        result.setBenefitsProfessionalOrientationDetails(benefitsProfessionalOrientationDetails);
+      
+          
+        
+          
+            
+        result.setFoldersCdesDepartment(foldersCdesDepartment);
+      
+          
+        
+          
+            
+        result.setFacilitiesSpecializedTransport(facilitiesSpecializedTransport);
+      
+          
+        
+          
+            
+        result.setBenefitsParkingCard(benefitsParkingCard);
+      
+          
+        
+          
+            
+        result.setFacilitiesSpecializedTransportDetails(facilitiesSpecializedTransportDetails);
+      
+          
+        
+          
+            
+        result.setProfessionalSupportSocialServiceSupport(professionalSupportSocialServiceSupport);
+      
+          
+        
+          
+            
+        result.setSocialSecurityNumber(socialSecurityNumber);
+      
+          
+        
+          
+            
+        result.setBenefitsWorkAccidentAnnuityRatio(benefitsWorkAccidentAnnuityRatio);
+      
+          
+        
+          
+            
+        result.setBenefitsWorkAccidentAnnuity(benefitsWorkAccidentAnnuity);
+      
+          
+        
+          
+            
+        result.setCareCareServices(careCareServices);
+      
+          
+        
+          
+            
+        result.setBenefitsDisabilityRatio(benefitsDisabilityRatio);
+      
+          
+        
+          
+            
+        result.setBenefitsDailyAllowances(benefitsDailyAllowances);
+      
+          
+        
+          
+            
+        result.setProjectRequestsCustomCar(projectRequestsCustomCar);
+      
+          
+        
+          
+            
+        result.setPaymentAgencyBeneficiaryNumber(paymentAgencyBeneficiaryNumber);
+      
+          
+        
+          
+            
+        result.setFoldersCotorepNumber(foldersCotorepNumber);
+      
+          
+        
+          
+            
+        result.setProjectRequestsACTPRenewal(projectRequestsACTPRenewal);
+      
+          
+        
+          
+            
+        if (dwellingSocialReceptionAddress != null)
+            result.setDwellingSocialReceptionAddress(dwellingSocialReceptionAddress.clone());
+      
+          
+        
+          
+            
+        result.setFoldersMdph(foldersMdph);
+      
+          
+        
+          
+            
+        result.setBenefitsSupportedByAnInstitutionDetails(benefitsSupportedByAnInstitutionDetails);
+      
+          
+        
+          
+            
+        result.setProfessionalSupportDealsWithSameProfessional(professionalSupportDealsWithSameProfessional);
+      
+          
+        
+          
+            
+        result.setDwellingEstablishmentReception(dwellingEstablishmentReception);
+      
+          
+        
+          
+            
+        result.setFoldersCotorepDepartment(foldersCotorepDepartment);
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.social.HcarAdditionalFee> additionalFeeList = new ArrayList<fr.cg95.cvq.business.request.social.HcarAdditionalFee>();
+        for (HcarAdditionalFee object : additionalFee) {
+            additionalFeeList.add(object.clone());
+        }
+        result.setAdditionalFee(additionalFeeList);
+      
+          
+        
+          
+            
+        result.setProjectRequestsOrdinaryWorking(projectRequestsOrdinaryWorking);
+      
+          
+        
+          
+            
+        result.setLegalAccessRepresentativeFirstName(legalAccessRepresentativeFirstName);
+      
+          
+        
+          
+            
+        result.setDwellingSocialReception(dwellingSocialReception);
+      
+          
+        
+          
+            
+        result.setBenefitsDisabledWorkerRecognition(benefitsDisabledWorkerRecognition);
+      
+          
+        
+          
+            
+        result.setProjectRequestsEuropeanParkingCard(projectRequestsEuropeanParkingCard);
+      
+          
+        
+          
+            
+        result.setHealthFollowedByDoctor(healthFollowedByDoctor);
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.social.HcarFamilyAssistanceMember> familyAssistanceMembersList = new ArrayList<fr.cg95.cvq.business.request.social.HcarFamilyAssistanceMember>();
+        for (HcarFamilyAssistanceMember object : familyAssistanceMembers) {
+            familyAssistanceMembersList.add(object.clone());
+        }
+        result.setFamilyAssistanceMembers(familyAssistanceMembersList);
+      
+          
+        
+          
+            
+        result.setProjectRequestsFreePensionMembership(projectRequestsFreePensionMembership);
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.social.HcarProfessional> professionalsList = new ArrayList<fr.cg95.cvq.business.request.social.HcarProfessional>();
+        for (HcarProfessional object : professionals) {
+            professionalsList.add(object.clone());
+        }
+        result.setProfessionals(professionalsList);
+      
+          
+        
+          
+            
+        result.setHealthFollowedByHospital(healthFollowedByHospital);
+      
+          
+        
+          
+            
+        result.setProfessionalStatusEmployerName(professionalStatusEmployerName);
+      
+          
+        
+          
+            
+        result.setProjectRequestsInstitutionSupport(projectRequestsInstitutionSupport);
+      
+          
+        
+          
+            
+        result.setBenefitsSocialWelfare(benefitsSocialWelfare);
+      
+          
+        
+          
+            
+        result.setProjectRequestsHandicapRecognition(projectRequestsHandicapRecognition);
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.social.HcarCareService> careServicesList = new ArrayList<fr.cg95.cvq.business.request.social.HcarCareService>();
+        for (HcarCareService object : careServices) {
+            careServicesList.add(object.clone());
+        }
+        result.setCareServices(careServicesList);
+      
+          
+        
+          
+            
+        result.setProjectWish(projectWish);
+      
+          
+        
+          
+            
+        if (dwellingKind != null)
+            result.setDwellingKind(dwellingKind);
+        else
+            result.setDwellingKind(fr.cg95.cvq.business.request.social.HcarDwellingKindType.getDefaultHcarDwellingKindType());
+      
+          
+        
+          
+            
+        result.setHealthProfessionalLastName(healthProfessionalLastName);
+      
+          
+        
+          
+            
+        result.setFormationStudiesLevel(formationStudiesLevel);
+      
+          
+        
+          
+            
+        result.setProjectRequestsProfessionalOrientation(projectRequestsProfessionalOrientation);
+      
+          
+        
+          
+            
+        result.setHealthDoctorLastName(healthDoctorLastName);
+      
+          
+        
+          
+            
+        if (legalAccessKind != null)
+            result.setLegalAccessKind(legalAccessKind);
+        else
+            result.setLegalAccessKind(fr.cg95.cvq.business.request.social.HcarLegalAccessKindType.getDefaultHcarLegalAccessKindType());
+      
+          
+        
+          
+            
+        result.setFacilitiesHousingDetails(facilitiesHousingDetails);
+      
+          
+        
+          
+            
+        result.setBenefitsSupplementForSingleParents(benefitsSupplementForSingleParents);
+      
+          
+        
+          
+            
+        result.setProjectRequestsIncreaseForIndependentLiving(projectRequestsIncreaseForIndependentLiving);
+      
+          
+        
+          
+            
+        result.setBenefitsDisabilityPensionCategory(benefitsDisabilityPensionCategory);
+      
+          
+        
+          
+            
+        result.setBenefitsThirdPartySupplement(benefitsThirdPartySupplement);
+      
+          
+        
+          
+            
+        result.setStudiesHighSchoolGrade(studiesHighSchoolGrade);
+      
+          
+        
+          
+            
+        result.setSubjectBirthCity(subjectBirthCity);
+      
+          
+        
+          
+            
+        result.setLegalAccessRepresentativeName(legalAccessRepresentativeName);
+      
+          
+        
+          
+            
+        result.setProjectRequestsAssistance(projectRequestsAssistance);
+      
+          
+        
+          
+            
+        if (professionalStatusEnvironment != null)
+            result.setProfessionalStatusEnvironment(professionalStatusEnvironment);
+        else
+            result.setProfessionalStatusEnvironment(fr.cg95.cvq.business.request.social.HcarProfessionalStatusEnvironmentType.getDefaultHcarProfessionalStatusEnvironmentType());
+      
+          
+        
+          
+            
+        result.setBenefitsSupportedByAnInstitution(benefitsSupportedByAnInstitution);
+      
+          
+        
+          
+            
+        result.setProjectRequestsThirdPartyHelp(projectRequestsThirdPartyHelp);
+      
+          
+        
+          
+            
+        result.setProjectRequestsDisabledAdultAllowance(projectRequestsDisabledAdultAllowance);
+      
+          
+        
+          
+            
+        if (paymentAgencyBeneficiary != null)
+            result.setPaymentAgencyBeneficiary(paymentAgencyBeneficiary);
+        else
+            result.setPaymentAgencyBeneficiary(fr.cg95.cvq.business.request.social.HcarPaymentAgencyBeneficiaryType.getDefaultHcarPaymentAgencyBeneficiaryType());
+      
+          
+        
+          
+            
+        result.setFoldersOtherFolders(foldersOtherFolders);
+      
+          
+        
+          
+            
+        result.setFacilitiesAnimalAidDetails(facilitiesAnimalAidDetails);
+      
+          
+        
+          
+            
+        result.setStudiesAssistanceUnderDisabilityDetails(studiesAssistanceUnderDisabilityDetails);
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.social.HcarOtherBenefit> otherBenefitsList = new ArrayList<fr.cg95.cvq.business.request.social.HcarOtherBenefit>();
+        for (HcarOtherBenefit object : otherBenefits) {
+            otherBenefitsList.add(object.clone());
+        }
+        result.setOtherBenefits(otherBenefitsList);
+      
+          
+        
+          
+            
+        if (paymentAgencyAddress != null)
+            result.setPaymentAgencyAddress(paymentAgencyAddress.clone());
+      
+          
+        
+          
+            
+        result.setProjectRequestsOther(projectRequestsOther);
+      
+          
+        
+          
+            
+        result.setBenefitsThirdPersonCompensatoryAllowance(benefitsThirdPersonCompensatoryAllowance);
+      
+          
+        
+          
+            
+        result.setProjectRequestsDisabilityCostAllocation(projectRequestsDisabilityCostAllocation);
+      
+          
+        
+          
+            
+        if (socialSecurityAgencyAddress != null)
+            result.setSocialSecurityAgencyAddress(socialSecurityAgencyAddress.clone());
+      
+          
+        
+          
+            
+        if (dwellingReceptionAddress != null)
+            result.setDwellingReceptionAddress(dwellingReceptionAddress.clone());
+      
+          
+        
+          
+            
+        result.setProfessionalStatusProfession(professionalStatusProfession);
+      
+          
+        
+          
+            
+        if (professionalStatusAddress != null)
+            result.setProfessionalStatusAddress(professionalStatusAddress.clone());
+      
+          
+        
+          
+            
+        result.setFormationDiploma(formationDiploma);
+      
+          
+        
+          
+            
+        if (subjectTitle != null)
+            result.setSubjectTitle(subjectTitle);
+        else
+            result.setSubjectTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
+      
+          
+        
+          
+            
+        result.setProfessionalStatusElectiveFunction(professionalStatusElectiveFunction);
+      
+          
+        
+          
+            
+        result.setFoldersCotorep(foldersCotorep);
+      
+          
+        
+          
+            
+        result.setBenefitsIncreaseForIndependentLiving(benefitsIncreaseForIndependentLiving);
+      
+          
+        
+          
+            
+        result.setSubjectBirthCountry(subjectBirthCountry);
+      
+          
+        
+          
+            
+        result.setProjectRequestsDisabilityCard(projectRequestsDisabilityCard);
+      
+          
+        
+          
+            
+        result.setStudiesHighSchoolName(studiesHighSchoolName);
+      
+          
+        
+          
+            
+        if (dwellingReceptionType != null)
+            result.setDwellingReceptionType(dwellingReceptionType);
+        else
+            result.setDwellingReceptionType(fr.cg95.cvq.business.request.social.HcarDwellingReceptionKindType.getDefaultHcarDwellingReceptionKindType());
+      
+          
+        
+          
+            
+        result.setProfessionalStatusRegisterAsUnemployedDate(professionalStatusRegisterAsUnemployedDate);
+      
+          
+        
+          
+            
+        result.setPaymentAgencyName(paymentAgencyName);
+      
+          
+        
+          
+            
+        result.setDwellingReceptionNaming(dwellingReceptionNaming);
+      
+          
+        
+          
+            
+        result.setSocialSecurityAgencyName(socialSecurityAgencyName);
+      
+          
+        
+          
+            
+        result.setBenefitsEducationOfDisabledChildren(benefitsEducationOfDisabledChildren);
+      
+          
+        
+          
+            
+        result.setFacilitiesTechnicalAssistanceDetails(facilitiesTechnicalAssistanceDetails);
+      
+          
+        
+          
+            
+        result.setBenefitsOtherBenefits(benefitsOtherBenefits);
+      
+          
+        
+          
+            
+        result.setFoldersCdesNumber(foldersCdesNumber);
+      
+          
+        
+          
+            
+        result.setBenefitsDisabilityCompensation(benefitsDisabilityCompensation);
+      
+          
+        
+          
+            
+        result.setHealthDoctorFirstName(healthDoctorFirstName);
+      
+          
+        
+          
+            
+        result.setProjectRequestsTechnicalHelp(projectRequestsTechnicalHelp);
+      
+          
+        
+          
+            
+        result.setFacilitiesTechnicalAssistance(facilitiesTechnicalAssistance);
+      
+          
+        
+          
+            
+        result.setBenefitsCompensatoryAllowanceForExpenses(benefitsCompensatoryAllowanceForExpenses);
+      
+          
+        
+          
+            
+        result.setFacilitiesHousing(facilitiesHousing);
+      
+          
+        
+          
+            
+        result.setHealthHospitalName(healthHospitalName);
+      
+          
+        
+          
+            
+        result.setProjectRequestsDisabledPriorityCard(projectRequestsDisabledPriorityCard);
+      
+          
+        
+          
+            
+        result.setProjectRequestsEducationAllocationOfDisabledChildren(projectRequestsEducationAllocationOfDisabledChildren);
+      
+          
+        
+          
+            
+        result.setProjectRequestsOtherDetails(projectRequestsOtherDetails);
+      
+          
+        
+          
+            
+        if (legalAccessRepresentativeKind != null)
+            result.setLegalAccessRepresentativeKind(legalAccessRepresentativeKind);
+        else
+            result.setLegalAccessRepresentativeKind(fr.cg95.cvq.business.request.social.HcarLegalAccessRepresentativeKindType.getDefaultHcarLegalAccessRepresentativeKindType());
+      
+          
+        
+          
+            
+        result.setProjectRequestsShelteredWork(projectRequestsShelteredWork);
+      
+          
+        
+          
+            
+        result.setFormationCurrentFormation(formationCurrentFormation);
+      
+          
+        
+          
+            
+        result.setStudiesAssistanceUnderDisability(studiesAssistanceUnderDisability);
+      
+          
+        
+          
+            
+        if (professionalSupportSocialServiceAddress != null)
+            result.setProfessionalSupportSocialServiceAddress(professionalSupportSocialServiceAddress.clone());
+      
+          
+        
+          
+            
+        result.setStudiesHighSchool(studiesHighSchool);
+      
+          
+        
+          
+            
+        result.setHealthProfessionalFirstName(healthProfessionalFirstName);
+      
+          
+        
+          
+            
+        result.setProfessionalSupportSocialServiceName(professionalSupportSocialServiceName);
+      
+          
+        
+          
+            
+        result.setFacilitiesCustomCarDetails(facilitiesCustomCarDetails);
+      
+          
+        
+          
+            
+        result.setDwellingPrecision(dwellingPrecision);
+      
+          
+        
+          
+            
+        result.setBenefitsDisabilityCard(benefitsDisabilityCard);
+      
+          
+        
+          
+            
+        if (socialSecurityMemberShipKind != null)
+            result.setSocialSecurityMemberShipKind(socialSecurityMemberShipKind);
+        else
+            result.setSocialSecurityMemberShipKind(fr.cg95.cvq.business.request.social.HcarSocialSecurityMemberShipKindType.getDefaultHcarSocialSecurityMemberShipKindType());
+      
+          
+        
+          
+            
+        result.setProfessionalStatusElectiveFunctionDetails(professionalStatusElectiveFunctionDetails);
+      
+          
+        
+          
+            
+        result.setFacilitiesAnimalAid(facilitiesAnimalAid);
+      
+          
+        
+          
+            
+        if (studiesHighSchoolAddress != null)
+            result.setStudiesHighSchoolAddress(studiesHighSchoolAddress.clone());
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

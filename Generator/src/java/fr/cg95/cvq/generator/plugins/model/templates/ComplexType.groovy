@@ -217,6 +217,42 @@
     def output = widgets[element.widget]
     if (output != null) print output
   }
+  def displayCloneWidget = { element ->
+    def widgets = [
+      "simple" : """
+        result.set${StringUtils.capitalize(element.nameAsParam)}(${element.nameAsParam});
+      """,
+      "enum" : """
+        if (${element.nameAsParam} != null)
+            result.set${StringUtils.capitalize(element.nameAsParam)}(${element.nameAsParam});
+        else
+            result.set${StringUtils.capitalize(element.nameAsParam)}(${element.javaPackageName}${element.xmlSchemaType}.getDefault${element.xmlSchemaType}());
+      """,
+      "complex" : """
+        if (${element.nameAsParam} != null)
+            result.set${StringUtils.capitalize(element.nameAsParam)}(${element.nameAsParam}.clone());
+      """,
+      "complexList" : """
+        List<${element.javaPackageName}${element.modelClassName}> ${element.nameAsParam}List = new ArrayList<${element.javaPackageName}${element.modelClassName}>();
+        for (${element.modelClassName} object : ${element.nameAsParam}) {
+            ${element.nameAsParam}List.add(object.clone());
+        }
+        result.set${StringUtils.capitalize(element.nameAsParam)}(${element.nameAsParam}List);
+      """
+    ]
+    widgets["long"] = widgets["simple"]
+    widgets["double"] = widgets["simple"]
+    widgets["short"] = widgets["simple"]
+    widgets["string"] = widgets["simple"]
+    widgets["date"] = widgets["simple"]
+    widgets["time"] = widgets["simple"]
+    widgets["boolean"] = widgets["simple"]
+    widgets["positiveInteger"] = widgets["simple"]
+    widgets["referential"] = widgets["complex"]
+    widgets["referentialList"] = widgets["complexList"]
+    def output = widgets[element.widget]
+    if (output != null) print output
+  }
 %>
 package ${baseNS}.request.${lastParticle};
 
@@ -310,6 +346,19 @@ public class ${className} implements Serializable {
       }
     %>
         return ${returnInstance};
+    }
+
+    @Override
+    public ${className} clone() {
+        ${className} result = new ${className}();
+        <% elements.each { element -> %>
+          <% if (["RecreationCenterType", "SchoolType"].contains(element.xmlSchemaType)) { %>
+            result.set${element.elementName}(${element.nameAsParam});
+          <% } else { %>
+            <% displayCloneWidget(element) %>
+          <% } %>
+        <% } %>
+        return result;
     }
 
     private Long id;

@@ -79,6 +79,31 @@ public class HcarAdditionalFee implements Serializable {
         return hcarAdditionalFee;
     }
 
+    @Override
+    public HcarAdditionalFee clone() {
+        HcarAdditionalFee result = new HcarAdditionalFee();
+        
+          
+            
+        result.setAdditionalFeeKind(additionalFeeKind);
+      
+          
+        
+          
+            
+        result.setAdditionalFeePeriodicity(additionalFeePeriodicity);
+      
+          
+        
+          
+            
+        result.setAdditionalFeeCost(additionalFeeCost);
+      
+          
+        
+        return result;
+    }
+
     private Long id;
 
     public final void setId(final Long id) {

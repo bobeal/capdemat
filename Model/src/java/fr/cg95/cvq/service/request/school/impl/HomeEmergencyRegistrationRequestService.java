@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request.school.impl;
 
+import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.HomeEmergencyRegistrationRequest;
 import fr.cg95.cvq.security.SecurityContext;
@@ -29,4 +30,7 @@ public final class HomeEmergencyRegistrationRequestService extends RequestServic
         }
         return herr;
     }
+
+    @Override
+    public void onApplicationEvent(CapDematEvent e) {}
 }

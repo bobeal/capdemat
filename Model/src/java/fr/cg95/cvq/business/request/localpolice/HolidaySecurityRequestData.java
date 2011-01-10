@@ -46,6 +46,80 @@ public class HolidaySecurityRequestData implements Serializable {
       
     }
 
+    @Override
+    public HolidaySecurityRequestData clone() {
+        HolidaySecurityRequestData result = new HolidaySecurityRequestData();
+        
+          
+            
+        result.setOtherContactLastName(otherContactLastName);
+      
+          
+        
+          
+            
+        result.setAbsenceEndDate(absenceEndDate);
+      
+          
+        
+          
+            
+        result.setAlarm(alarm);
+      
+          
+        
+          
+            
+        if (otherContactAddress != null)
+            result.setOtherContactAddress(otherContactAddress.clone());
+      
+          
+        
+          
+            
+        result.setOtherContact(otherContact);
+      
+          
+        
+          
+            
+        result.setOtherContactFirstName(otherContactFirstName);
+      
+          
+        
+          
+            
+        result.setLight(light);
+      
+          
+        
+          
+            
+        result.setOtherContactPhone(otherContactPhone);
+      
+          
+        
+          
+            
+        result.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
+      
+          
+        
+          
+            
+        result.setAlertPhone(alertPhone);
+      
+          
+        
+          
+            
+        result.setAbsenceStartDate(absenceStartDate);
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

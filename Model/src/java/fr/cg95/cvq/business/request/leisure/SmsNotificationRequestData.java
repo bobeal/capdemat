@@ -40,6 +40,41 @@ public class SmsNotificationRequestData implements Serializable {
       
     }
 
+    @Override
+    public SmsNotificationRequestData clone() {
+        SmsNotificationRequestData result = new SmsNotificationRequestData();
+        
+          
+            
+        result.setCleverSmsContactId(cleverSmsContactId);
+      
+          
+        
+          
+            
+        result.setMobilePhone(mobilePhone);
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.LocalReferentialData> interestsList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>();
+        for (LocalReferentialData object : interests) {
+            interestsList.add(object.clone());
+        }
+        result.setInterests(interestsList);
+      
+          
+        
+          
+            
+        result.setSubscription(subscription);
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

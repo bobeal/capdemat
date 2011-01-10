@@ -50,6 +50,383 @@ public class DomesticHelpRequestData implements Serializable {
       
     }
 
+    @Override
+    public DomesticHelpRequestData clone() {
+        DomesticHelpRequestData result = new DomesticHelpRequestData();
+        
+          
+            
+        List<fr.cg95.cvq.business.request.social.DhrRealAsset> dhrRealAssetList = new ArrayList<fr.cg95.cvq.business.request.social.DhrRealAsset>();
+        for (DhrRealAsset object : dhrRealAsset) {
+            dhrRealAssetList.add(object.clone());
+        }
+        result.setDhrRealAsset(dhrRealAssetList);
+      
+          
+        
+          
+            
+        if (dhrSpousePrincipalPensionPlan != null)
+            result.setDhrSpousePrincipalPensionPlan(dhrSpousePrincipalPensionPlan);
+        else
+            result.setDhrSpousePrincipalPensionPlan(fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType.getDefaultDhrPrincipalPensionPlanType());
+      
+          
+        
+          
+            
+        result.setDhrSpouseProfession(dhrSpouseProfession);
+      
+          
+        
+          
+            
+        result.setDhrNetIncome(dhrNetIncome);
+      
+          
+        
+          
+            
+        result.setProfessionalTaxes(professionalTaxes);
+      
+          
+        
+          
+            
+        result.setDhrIsSpouseRetired(dhrIsSpouseRetired);
+      
+          
+        
+          
+            
+        if (dhrSpouseTitle != null)
+            result.setDhrSpouseTitle(dhrSpouseTitle);
+        else
+            result.setDhrSpouseTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
+      
+          
+        
+          
+            
+        result.setDhrRequesterBirthDate(dhrRequesterBirthDate);
+      
+          
+        
+          
+            
+        result.setDhrRealEstateInvestmentIncome(dhrRealEstateInvestmentIncome);
+      
+          
+        
+          
+            
+        result.setDhrRequesterIsFrenchResident(dhrRequesterIsFrenchResident);
+      
+          
+        
+          
+            
+        if (dhrCurrentDwellingAddress != null)
+            result.setDhrCurrentDwellingAddress(dhrCurrentDwellingAddress.clone());
+      
+          
+        
+          
+            
+        result.setDhrSpouseFranceArrivalDate(dhrSpouseFranceArrivalDate);
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.social.DhrNotRealAsset> dhrNotRealAssetList = new ArrayList<fr.cg95.cvq.business.request.social.DhrNotRealAsset>();
+        for (DhrNotRealAsset object : dhrNotRealAsset) {
+            dhrNotRealAssetList.add(object.clone());
+        }
+        result.setDhrNotRealAsset(dhrNotRealAssetList);
+      
+          
+        
+          
+            
+        if (dhrRequesterNationality != null)
+            result.setDhrRequesterNationality(dhrRequesterNationality);
+        else
+            result.setDhrRequesterNationality(fr.cg95.cvq.business.users.NationalityType.getDefaultNationalityType());
+      
+          
+        
+          
+            
+        result.setDhrCurrentDwellingArrivalDate(dhrCurrentDwellingArrivalDate);
+      
+          
+        
+          
+            
+        result.setDhrIncomesAnnualTotal(dhrIncomesAnnualTotal);
+      
+          
+        
+          
+            
+        result.setDhrReferentFirstName(dhrReferentFirstName);
+      
+          
+        
+          
+            
+        result.setDhrRequesterHaveGuardian(dhrRequesterHaveGuardian);
+      
+          
+        
+          
+            
+        result.setDhrIncomeTax(dhrIncomeTax);
+      
+          
+        
+          
+            
+        result.setDhrCurrentDwellingNetArea(dhrCurrentDwellingNetArea);
+      
+          
+        
+          
+            
+        result.setDhrSpouseBirthPlace(dhrSpouseBirthPlace);
+      
+          
+        
+          
+            
+        result.setDhrSpouseBirthDate(dhrSpouseBirthDate);
+      
+          
+        
+          
+            
+        result.setDhrRequesterFranceArrivalDate(dhrRequesterFranceArrivalDate);
+      
+          
+        
+          
+            
+        if (dhrCurrentDwellingStatus != null)
+            result.setDhrCurrentDwellingStatus(dhrCurrentDwellingStatus);
+        else
+            result.setDhrCurrentDwellingStatus(fr.cg95.cvq.business.request.social.DhrDwellingStatusType.getDefaultDhrDwellingStatusType());
+      
+          
+        
+          
+            
+        result.setDhrSpouseFirstName(dhrSpouseFirstName);
+      
+          
+        
+          
+            
+        if (dhrSpouseFamilyStatus != null)
+            result.setDhrSpouseFamilyStatus(dhrSpouseFamilyStatus);
+        else
+            result.setDhrSpouseFamilyStatus(fr.cg95.cvq.business.users.FamilyStatusType.getDefaultFamilyStatusType());
+      
+          
+        
+          
+            
+        result.setDhrFurnitureInvestmentIncome(dhrFurnitureInvestmentIncome);
+      
+          
+        
+          
+            
+        if (dhrGuardianAddress != null)
+            result.setDhrGuardianAddress(dhrGuardianAddress.clone());
+      
+          
+        
+          
+            
+        result.setDhrReferentName(dhrReferentName);
+      
+          
+        
+          
+            
+        result.setLocalRate(localRate);
+      
+          
+        
+          
+            
+        result.setDhrSpouseEmployer(dhrSpouseEmployer);
+      
+          
+        
+          
+            
+        if (dhrRequestKind != null)
+            result.setDhrRequestKind(dhrRequestKind);
+        else
+            result.setDhrRequestKind(fr.cg95.cvq.business.request.social.DhrRequestKindType.getDefaultDhrRequestKindType());
+      
+          
+        
+          
+            
+        if (dhrPrincipalPensionPlan != null)
+            result.setDhrPrincipalPensionPlan(dhrPrincipalPensionPlan);
+        else
+            result.setDhrPrincipalPensionPlan(fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType.getDefaultDhrPrincipalPensionPlanType());
+      
+          
+        
+          
+            
+        result.setDhrComplementaryPensionPlan(dhrComplementaryPensionPlan);
+      
+          
+        
+          
+            
+        if (dhrReferentAddress != null)
+            result.setDhrReferentAddress(dhrReferentAddress.clone());
+      
+          
+        
+          
+            
+        result.setPropertyTaxes(propertyTaxes);
+      
+          
+        
+          
+            
+        result.setDhrGuardianName(dhrGuardianName);
+      
+          
+        
+          
+            
+        result.setPensions(pensions);
+      
+          
+        
+          
+            
+        if (dhrCurrentDwellingKind != null)
+            result.setDhrCurrentDwellingKind(dhrCurrentDwellingKind);
+        else
+            result.setDhrCurrentDwellingKind(fr.cg95.cvq.business.request.social.DhrDwellingKindType.getDefaultDhrDwellingKindType());
+      
+          
+        
+          
+            
+        result.setDhrCurrentDwellingNumberOfRoom(dhrCurrentDwellingNumberOfRoom);
+      
+          
+        
+          
+            
+        result.setDhrCurrentDwellingPhone(dhrCurrentDwellingPhone);
+      
+          
+        
+          
+            
+        if (dhrGuardianMeasure != null)
+            result.setDhrGuardianMeasure(dhrGuardianMeasure);
+        else
+            result.setDhrGuardianMeasure(fr.cg95.cvq.business.request.social.DhrGuardianMeasureType.getDefaultDhrGuardianMeasureType());
+      
+          
+        
+          
+            
+        result.setDhrSpouseIsFrenchResident(dhrSpouseIsFrenchResident);
+      
+          
+        
+          
+            
+        result.setDhrAllowances(dhrAllowances);
+      
+          
+        
+          
+            
+        if (dhrSpouseNationality != null)
+            result.setDhrSpouseNationality(dhrSpouseNationality);
+        else
+            result.setDhrSpouseNationality(fr.cg95.cvq.business.users.NationalityType.getDefaultNationalityType());
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.social.DhrPreviousDwelling> dhrPreviousDwellingList = new ArrayList<fr.cg95.cvq.business.request.social.DhrPreviousDwelling>();
+        for (DhrPreviousDwelling object : dhrPreviousDwelling) {
+            dhrPreviousDwellingList.add(object.clone());
+        }
+        result.setDhrPreviousDwelling(dhrPreviousDwellingList);
+      
+          
+        
+          
+            
+        result.setDhrSpouseMaidenName(dhrSpouseMaidenName);
+      
+          
+        
+          
+            
+        result.setDhrSpousePensionPlanDetail(dhrSpousePensionPlanDetail);
+      
+          
+        
+          
+            
+        result.setDhrSpouseName(dhrSpouseName);
+      
+          
+        
+          
+            
+        result.setDhrRequesterBirthPlace(dhrRequesterBirthPlace);
+      
+          
+        
+          
+            
+        if (dhrSpouseAddress != null)
+            result.setDhrSpouseAddress(dhrSpouseAddress.clone());
+      
+          
+        
+          
+            
+        result.setDhrHaveFamilyReferent(dhrHaveFamilyReferent);
+      
+          
+        
+          
+            
+        result.setDhrSpouseComplementaryPensionPlan(dhrSpouseComplementaryPensionPlan);
+      
+          
+        
+          
+            
+        result.setDhrPensionPlanDetail(dhrPensionPlanDetail);
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

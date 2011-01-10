@@ -79,6 +79,28 @@ public class HcarHomeIntervenant implements Serializable {
         return hcarHomeIntervenant;
     }
 
+    @Override
+    public HcarHomeIntervenant clone() {
+        HcarHomeIntervenant result = new HcarHomeIntervenant();
+        
+          
+            
+        if (homeIntervenantKind != null)
+            result.setHomeIntervenantKind(homeIntervenantKind);
+        else
+            result.setHomeIntervenantKind(fr.cg95.cvq.business.request.social.HcarHomeIntervenantKindType.getDefaultHcarHomeIntervenantKindType());
+      
+          
+        
+          
+            
+        result.setHomeIntervenantDetails(homeIntervenantDetails);
+      
+          
+        
+        return result;
+    }
+
     private Long id;
 
     public final void setId(final Long id) {

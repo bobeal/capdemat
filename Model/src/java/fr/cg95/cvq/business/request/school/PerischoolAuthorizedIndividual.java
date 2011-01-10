@@ -89,6 +89,44 @@ public class PerischoolAuthorizedIndividual implements Serializable {
         return perischoolAuthorizedIndividual;
     }
 
+    @Override
+    public PerischoolAuthorizedIndividual clone() {
+        PerischoolAuthorizedIndividual result = new PerischoolAuthorizedIndividual();
+        
+          
+            
+        result.setOfficePhone(officePhone);
+      
+          
+        
+          
+            
+        if (address != null)
+            result.setAddress(address.clone());
+      
+          
+        
+          
+            
+        result.setFirstName(firstName);
+      
+          
+        
+          
+            
+        result.setLastName(lastName);
+      
+          
+        
+          
+            
+        result.setHomePhone(homePhone);
+      
+          
+        
+        return result;
+    }
+
     private Long id;
 
     public final void setId(final Long id) {

@@ -1,5 +1,8 @@
 package fr.cg95.cvq.service.request.impl;
 
+import org.springframework.context.ApplicationListener;
+
+import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.exception.CvqException;
@@ -12,7 +15,7 @@ import fr.cg95.cvq.service.request.IRequestWorkflowService;
  *
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public abstract class RequestService implements IRequestService {
+public abstract class RequestService implements IRequestService, ApplicationListener<CapDematEvent> {
 
     protected String localReferentialFilename;
     protected String placeReservationFilename;

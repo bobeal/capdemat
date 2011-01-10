@@ -282,6 +282,21 @@ public class ${requestName} extends Request implements Serializable {
         return ${returnInstance};
     }
 
+    @Override
+    public ${requestName} clone() {
+        ${requestName} clone = new ${requestName}(getRequestData().clone(), ${returnInstance}Data.clone());
+        Map<String, Object> stepState;
+        <% request.steps.eachWithIndex { it, i -> %>
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "${i == 0 ? "uncomplete" : "unavailable"}");
+          stepState.put("required", ${it.required});
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("${it.name}", stepState);
+        <% } %>
+        return clone;
+    }
+
   <% elements.each { %>
     public final void set${it.elementName}(final ${it.type()} ${it.nameAsParam}) {
         ${returnInstance}Data.set${it.elementName}(${it.nameAsParam});

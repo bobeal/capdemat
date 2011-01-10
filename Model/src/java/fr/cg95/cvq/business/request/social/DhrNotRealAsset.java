@@ -129,6 +129,82 @@ public class DhrNotRealAsset implements Serializable {
         return dhrNotRealAsset;
     }
 
+    @Override
+    public DhrNotRealAsset clone() {
+        DhrNotRealAsset result = new DhrNotRealAsset();
+        
+          
+            
+        result.setDhrNotRealAssetValue(dhrNotRealAssetValue);
+      
+          
+        
+          
+            
+        if (dhrNotRealAssetAddress != null)
+            result.setDhrNotRealAssetAddress(dhrNotRealAssetAddress.clone());
+      
+          
+        
+          
+            
+        result.setDhrNotRealAssetDate(dhrNotRealAssetDate);
+      
+          
+        
+          
+            
+        result.setDhrNotRealAssetNotaryName(dhrNotRealAssetNotaryName);
+      
+          
+        
+          
+            
+        result.setDhrNotRealAssetBeneficiaryName(dhrNotRealAssetBeneficiaryName);
+      
+          
+        
+          
+            
+        result.setDhrNotRealAssetBeneficiaryFirstName(dhrNotRealAssetBeneficiaryFirstName);
+      
+          
+        
+          
+            
+        if (dhrNotRealAssetType != null)
+            result.setDhrNotRealAssetType(dhrNotRealAssetType);
+        else
+            result.setDhrNotRealAssetType(fr.cg95.cvq.business.request.social.DhrAssetTypeType.getDefaultDhrAssetTypeType());
+      
+          
+        
+          
+            
+        if (dhrNotRealAssetBeneficiaryAddress != null)
+            result.setDhrNotRealAssetBeneficiaryAddress(dhrNotRealAssetBeneficiaryAddress.clone());
+      
+          
+        
+          
+            
+        if (dhrNotRealAssetNotaryAddress != null)
+            result.setDhrNotRealAssetNotaryAddress(dhrNotRealAssetNotaryAddress.clone());
+      
+          
+        
+          
+            
+        if (dhrNotRealAssetKind != null)
+            result.setDhrNotRealAssetKind(dhrNotRealAssetKind);
+        else
+            result.setDhrNotRealAssetKind(fr.cg95.cvq.business.request.social.DhrAssetKindType.getDefaultDhrAssetKindType());
+      
+          
+        
+        return result;
+    }
+
     private Long id;
 
     public final void setId(final Long id) {

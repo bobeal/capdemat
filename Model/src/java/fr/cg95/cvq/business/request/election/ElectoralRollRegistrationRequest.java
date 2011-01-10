@@ -172,6 +172,42 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
         return electoralRollRegistrationRequest;
     }
 
+    @Override
+    public ElectoralRollRegistrationRequest clone() {
+        ElectoralRollRegistrationRequest clone = new ElectoralRollRegistrationRequest(getRequestData().clone(), electoralRollRegistrationRequestData.clone());
+        Map<String, Object> stepState;
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "uncomplete");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("registration", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", false);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("document", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("validation", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", false);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("administration", stepState);
+        
+        return clone;
+    }
+
   
     public final void setSubjectNationality(final fr.cg95.cvq.business.users.NationalityType subjectNationality) {
         electoralRollRegistrationRequestData.setSubjectNationality(subjectNationality);

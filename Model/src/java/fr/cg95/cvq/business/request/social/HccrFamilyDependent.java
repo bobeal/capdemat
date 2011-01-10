@@ -94,6 +94,40 @@ public class HccrFamilyDependent implements Serializable {
         return hccrFamilyDependent;
     }
 
+    @Override
+    public HccrFamilyDependent clone() {
+        HccrFamilyDependent result = new HccrFamilyDependent();
+        
+          
+            
+        result.setReferentFamilyDependentFirstName(referentFamilyDependentFirstName);
+      
+          
+        
+          
+            
+        result.setReferentFamilyDependentBirthDate(referentFamilyDependentBirthDate);
+      
+          
+        
+          
+            
+        if (referentFamilyDependentActualSituation != null)
+            result.setReferentFamilyDependentActualSituation(referentFamilyDependentActualSituation);
+        else
+            result.setReferentFamilyDependentActualSituation(fr.cg95.cvq.business.request.social.HccrReferentFamilyDependentActualSituationType.getDefaultHccrReferentFamilyDependentActualSituationType());
+      
+          
+        
+          
+            
+        result.setReferentFamilyDependentLastName(referentFamilyDependentLastName);
+      
+          
+        
+        return result;
+    }
+
     private Long id;
 
     public final void setId(final Long id) {

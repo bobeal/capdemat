@@ -79,6 +79,31 @@ public class HcarOtherFolder implements Serializable {
         return hcarOtherFolder;
     }
 
+    @Override
+    public HcarOtherFolder clone() {
+        HcarOtherFolder result = new HcarOtherFolder();
+        
+          
+            
+        result.setOtherFolderDepartment(otherFolderDepartment);
+      
+          
+        
+          
+            
+        result.setOtherFolderName(otherFolderName);
+      
+          
+        
+          
+            
+        result.setOtherFolderNumber(otherFolderNumber);
+      
+          
+        
+        return result;
+    }
+
     private Long id;
 
     public final void setId(final Long id) {

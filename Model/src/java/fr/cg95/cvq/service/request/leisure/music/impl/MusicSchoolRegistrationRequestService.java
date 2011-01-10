@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request.leisure.music.impl;
 
+import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.leisure.music.MusicSchoolRegistrationRequest;
 import fr.cg95.cvq.service.request.impl.RequestService;
@@ -20,4 +21,7 @@ public final class MusicSchoolRegistrationRequestService extends RequestService 
     public Request getSkeletonRequest() {
         return new MusicSchoolRegistrationRequest();
     }
+
+    @Override
+    public void onApplicationEvent(CapDematEvent e) {}
 }

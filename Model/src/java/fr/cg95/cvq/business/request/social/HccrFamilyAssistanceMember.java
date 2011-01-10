@@ -79,6 +79,31 @@ public class HccrFamilyAssistanceMember implements Serializable {
         return hccrFamilyAssistanceMember;
     }
 
+    @Override
+    public HccrFamilyAssistanceMember clone() {
+        HccrFamilyAssistanceMember result = new HccrFamilyAssistanceMember();
+        
+          
+            
+        result.setFamilyAssistanceMemberLastName(familyAssistanceMemberLastName);
+      
+          
+        
+          
+            
+        result.setFamilyAssistanceMemberRelationship(familyAssistanceMemberRelationship);
+      
+          
+        
+          
+            
+        result.setFamilyAssistanceMemberFirstName(familyAssistanceMemberFirstName);
+      
+          
+        
+        return result;
+    }
+
     private Long id;
 
     public final void setId(final Long id) {

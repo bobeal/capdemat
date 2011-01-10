@@ -46,6 +46,82 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
       
     }
 
+    @Override
+    public SchoolCanteenRegistrationRequestData clone() {
+        SchoolCanteenRegistrationRequestData result = new SchoolCanteenRegistrationRequestData();
+        
+          
+            
+        List<fr.cg95.cvq.business.request.LocalReferentialData> foodDietList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>();
+        for (LocalReferentialData object : foodDiet) {
+            foodDietList.add(object.clone());
+        }
+        result.setFoodDiet(foodDietList);
+      
+          
+        
+          
+            
+        result.setFoodAllergy(foodAllergy);
+      
+          
+        
+          
+            
+        result.setDoctorPhone(doctorPhone);
+      
+          
+        
+          
+            
+        result.setDoctorName(doctorName);
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.LocalReferentialData> canteenAttendingDaysList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>();
+        for (LocalReferentialData object : canteenAttendingDays) {
+            canteenAttendingDaysList.add(object.clone());
+        }
+        result.setCanteenAttendingDays(canteenAttendingDaysList);
+      
+          
+        
+          
+            result.setSchool(school);
+          
+        
+          
+            
+        result.setHospitalizationPermission(hospitalizationPermission);
+      
+          
+        
+          
+            
+        result.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
+      
+          
+        
+          
+            
+        result.setUrgencyPhone(urgencyPhone);
+      
+          
+        
+          
+            
+        if (section != null)
+            result.setSection(section);
+        else
+            result.setSection(fr.cg95.cvq.business.users.SectionType.getDefaultSectionType());
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

@@ -2,7 +2,9 @@ package fr.cg95.cvq.service.request.school.impl;
 
 import org.apache.log4j.Logger;
 
+import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestEvent;
 import fr.cg95.cvq.business.request.school.PerischoolActivityRegistrationRequest;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -43,5 +45,16 @@ public final class PerischoolActivityRegistrationRequestService extends RequestS
         if (SecurityContext.getCurrentEcitizen() != null)
             request.setUrgencyPhone(SecurityContext.getCurrentEcitizen().getOfficePhone());
         return request;
+    }
+
+    @Override
+    public void onApplicationEvent(CapDematEvent e) {
+        if (e instanceof RequestEvent) {
+            RequestEvent event = (RequestEvent)e;
+            if (RequestEvent.EVENT_TYPE.REQUEST_CLONED.equals(event.getEvent())
+                && accept(event.getRequest())) {
+                ((PerischoolActivityRegistrationRequest)event.getRequest()).setSection(null);
+            }
+        }
     }
 }

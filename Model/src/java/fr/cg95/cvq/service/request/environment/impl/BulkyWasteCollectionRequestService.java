@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request.environment.impl;
 
+import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.environment.BulkyWasteCollectionRequest;
 import fr.cg95.cvq.security.SecurityContext;
@@ -22,4 +23,6 @@ public class BulkyWasteCollectionRequestService extends RequestService {
         return request;
     }
 
+    @Override
+    public void onApplicationEvent(CapDematEvent e) {}
 }

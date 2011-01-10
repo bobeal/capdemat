@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request.election.impl;
 
+import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.election.ElectoralRollRegistrationRequest;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
@@ -27,4 +28,7 @@ public final class ElectoralRollRegistrationRequestService extends RequestServic
     public Request getSkeletonRequest() {
         return new ElectoralRollRegistrationRequest();
     }
+
+    @Override
+    public void onApplicationEvent(CapDematEvent e) {}
 }

@@ -40,6 +40,118 @@ public class BirthDetailsRequestData implements Serializable {
       
     }
 
+    @Override
+    public BirthDetailsRequestData clone() {
+        BirthDetailsRequestData result = new BirthDetailsRequestData();
+        
+          
+            
+        if (format != null)
+            result.setFormat(format);
+        else
+            result.setFormat(fr.cg95.cvq.business.request.civil.BirthCertificateFormatType.getDefaultBirthCertificateFormatType());
+      
+          
+        
+          
+            
+        result.setCopies(copies);
+      
+          
+        
+          
+            
+        result.setBirthPostalCode(birthPostalCode);
+      
+          
+        
+          
+            
+        result.setComment(comment);
+      
+          
+        
+          
+            
+        result.setBirthFirstNames(birthFirstNames);
+      
+          
+        
+          
+            
+        if (motive != null)
+            result.setMotive(motive);
+        else
+            result.setMotive(fr.cg95.cvq.business.request.civil.BirthCertificateMotiveType.getDefaultBirthCertificateMotiveType());
+      
+          
+        
+          
+            
+        result.setBirthDate(birthDate);
+      
+          
+        
+          
+            
+        result.setRequesterQualityPrecision(requesterQualityPrecision);
+      
+          
+        
+          
+            
+        result.setBirthCity(birthCity);
+      
+          
+        
+          
+            
+        if (requesterQuality != null)
+            result.setRequesterQuality(requesterQuality);
+        else
+            result.setRequesterQuality(fr.cg95.cvq.business.request.civil.BirthRequesterQualityType.getDefaultBirthRequesterQualityType());
+      
+          
+        
+          
+            
+        result.setFatherLastName(fatherLastName);
+      
+          
+        
+          
+            
+        result.setBirthMarriageName(birthMarriageName);
+      
+          
+        
+          
+            
+        result.setMotherFirstNames(motherFirstNames);
+      
+          
+        
+          
+            
+        result.setFatherFirstNames(fatherFirstNames);
+      
+          
+        
+          
+            
+        result.setMotherMaidenName(motherMaidenName);
+      
+          
+        
+          
+            
+        result.setBirthLastName(birthLastName);
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

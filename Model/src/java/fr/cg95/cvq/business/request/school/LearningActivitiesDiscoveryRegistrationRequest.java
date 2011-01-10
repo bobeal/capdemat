@@ -138,6 +138,35 @@ public class LearningActivitiesDiscoveryRegistrationRequest extends Request impl
         return learningActivitiesDiscoveryRegistrationRequest;
     }
 
+    @Override
+    public LearningActivitiesDiscoveryRegistrationRequest clone() {
+        LearningActivitiesDiscoveryRegistrationRequest clone = new LearningActivitiesDiscoveryRegistrationRequest(getRequestData().clone(), learningActivitiesDiscoveryRegistrationRequestData.clone());
+        Map<String, Object> stepState;
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "uncomplete");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("subject", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", false);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("document", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("validation", stepState);
+        
+        return clone;
+    }
+
   
     public final void setAtelierEveil(final List<fr.cg95.cvq.business.request.LocalReferentialData> atelierEveil) {
         learningActivitiesDiscoveryRegistrationRequestData.setAtelierEveil(atelierEveil);

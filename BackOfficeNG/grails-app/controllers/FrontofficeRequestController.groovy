@@ -1,3 +1,4 @@
+import fr.cg95.cvq.business.authority.LocalAuthorityResource
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.MeansOfContactEnum
 import fr.cg95.cvq.business.request.Request
@@ -98,6 +99,38 @@ class FrontofficeRequestController {
 
     def login = {
         return true
+    }
+
+    def start = {
+        def label = params.label
+        if (label == null) {
+            redirect(uri: '/frontoffice/requestType')
+            return false
+        }
+        def lastRequests = [:]
+        if (SecurityContext.currentEcitizen == null) {
+            flash.isOutOfAccountRequest = true
+        } else {
+            lastRequests = requestWorkflowService.getRenewableRequests(label)
+        }
+        def viewPath = "/frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(label)}/start"
+        render(view : viewPath, model : [
+            "requestSeasonId" : params.requestSeasonId,
+            "requestTypeLabel" : label,
+            "intro" : localAuthorityRegistry.getFileContent(
+                localAuthorityRegistry.getLocalAuthorityResourceFile(
+                    LocalAuthorityResource.Type.HTML,
+                    "request/" + CapdematUtils.requestTypeLabelAsDir(label) + "/introduction",
+                    false)),
+            "isOutOfAccountRequest" : SecurityContext.getCurrentEcitizen() == null,
+            "lastRequests" : lastRequests
+        ])
+    }
+
+    def renew = {
+        redirect(action : "edit", params : [
+            "id" : requestWorkflowService.getRequestClone(Long.valueOf(params.id), params.long("requestSeasonId")).id
+        ])
     }
 
     def edit = {

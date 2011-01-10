@@ -48,6 +48,259 @@ public class StudyGrantRequestData implements Serializable {
       
     }
 
+    @Override
+    public StudyGrantRequestData clone() {
+        StudyGrantRequestData result = new StudyGrantRequestData();
+        
+          
+            
+        result.setEdemandeId(edemandeId);
+      
+          
+        
+          
+            
+        result.setSubjectBirthDate(subjectBirthDate);
+      
+          
+        
+          
+            
+        result.setCurrentSchoolCity(currentSchoolCity);
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.LocalReferentialData> taxHouseholdCityList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>();
+        for (LocalReferentialData object : taxHouseholdCity) {
+            taxHouseholdCityList.add(object.clone());
+        }
+        result.setTaxHouseholdCity(taxHouseholdCityList);
+      
+          
+        
+          
+            
+        result.setSubjectFirstRequest(subjectFirstRequest);
+      
+          
+        
+          
+            
+        result.setHasOtherHelp(hasOtherHelp);
+      
+          
+        
+          
+            
+        result.setAlevelsDate(alevelsDate);
+      
+          
+        
+          
+            
+        result.setAccountHolderBirthDate(accountHolderBirthDate);
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.LocalReferentialData> currentSchoolNameList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>();
+        for (LocalReferentialData object : currentSchoolName) {
+            currentSchoolNameList.add(object.clone());
+        }
+        result.setCurrentSchoolName(currentSchoolNameList);
+      
+          
+        
+          
+            
+        if (accountHolderTitle != null)
+            result.setAccountHolderTitle(accountHolderTitle);
+        else
+            result.setAccountHolderTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
+      
+          
+        
+          
+            
+        if (abroadInternshipSchoolCountry != null)
+            result.setAbroadInternshipSchoolCountry(abroadInternshipSchoolCountry);
+        else
+            result.setAbroadInternshipSchoolCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
+      
+          
+        
+          
+            
+        result.setTaxHouseholdLastName(taxHouseholdLastName);
+      
+          
+        
+          
+            
+        result.setAbroadInternshipSchoolName(abroadInternshipSchoolName);
+      
+          
+        
+          
+            
+        result.setHasRegionalCouncilHelp(hasRegionalCouncilHelp);
+      
+          
+        
+          
+            
+        result.setTaxHouseholdCityPrecision(taxHouseholdCityPrecision);
+      
+          
+        
+          
+            
+        if (currentStudiesLevel != null)
+            result.setCurrentStudiesLevel(currentStudiesLevel);
+        else
+            result.setCurrentStudiesLevel(fr.cg95.cvq.business.request.school.CurrentStudiesLevelType.getDefaultCurrentStudiesLevelType());
+      
+          
+        
+          
+            
+        result.setCurrentSchoolPostalCode(currentSchoolPostalCode);
+      
+          
+        
+          
+            
+        result.setAbroadInternshipStartDate(abroadInternshipStartDate);
+      
+          
+        
+          
+            
+        result.setAccountHolderLastName(accountHolderLastName);
+      
+          
+        
+          
+            
+        result.setHasCROUSHelp(hasCROUSHelp);
+      
+          
+        
+          
+            
+        result.setAccountHolderFirstName(accountHolderFirstName);
+      
+          
+        
+          
+            
+        if (distance != null)
+            result.setDistance(distance);
+        else
+            result.setDistance(fr.cg95.cvq.business.request.school.DistanceType.getDefaultDistanceType());
+      
+          
+        
+          
+            
+        if (alevels != null)
+            result.setAlevels(alevels);
+        else
+            result.setAlevels(fr.cg95.cvq.business.request.school.ALevelsType.getDefaultALevelsType());
+      
+          
+        
+          
+            
+        result.setIsSubjectAccountHolder(isSubjectAccountHolder);
+      
+          
+        
+          
+            
+        result.setOtherStudiesLabel(otherStudiesLabel);
+      
+          
+        
+          
+            
+        result.setTaxHouseholdIncome(taxHouseholdIncome);
+      
+          
+        
+          
+            
+        result.setCurrentSchoolNamePrecision(currentSchoolNamePrecision);
+      
+          
+        
+          
+            
+        if (currentSchoolCountry != null)
+            result.setCurrentSchoolCountry(currentSchoolCountry);
+        else
+            result.setCurrentSchoolCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
+      
+          
+        
+          
+            
+        result.setAbroadInternshipEndDate(abroadInternshipEndDate);
+      
+          
+        
+          
+            
+        result.setHasEuropeHelp(hasEuropeHelp);
+      
+          
+        
+          
+            
+        result.setAccountHolderEdemandeId(accountHolderEdemandeId);
+      
+          
+        
+          
+            
+        result.setTaxHouseholdFirstName(taxHouseholdFirstName);
+      
+          
+        
+          
+            
+        result.setSandwichCourses(sandwichCourses);
+      
+          
+        
+          
+            
+        result.setAbroadInternship(abroadInternship);
+      
+          
+        
+          
+            
+        if (frenchRIB != null)
+            result.setFrenchRIB(frenchRIB.clone());
+      
+          
+        
+          
+            
+        if (currentStudiesDiploma != null)
+            result.setCurrentStudiesDiploma(currentStudiesDiploma);
+        else
+            result.setCurrentStudiesDiploma(fr.cg95.cvq.business.request.school.CurrentStudiesType.getDefaultCurrentStudiesType());
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

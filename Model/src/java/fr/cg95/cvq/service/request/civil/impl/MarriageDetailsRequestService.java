@@ -2,6 +2,7 @@ package fr.cg95.cvq.service.request.civil.impl;
 
 import java.util.Arrays;
 
+import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.civil.MarriageDetailsRequest;
 import fr.cg95.cvq.security.SecurityContext;
@@ -38,4 +39,7 @@ public final class MarriageDetailsRequestService extends RequestService {
         }
         return request;
     }
+
+    @Override
+    public void onApplicationEvent(CapDematEvent e) {}
 }

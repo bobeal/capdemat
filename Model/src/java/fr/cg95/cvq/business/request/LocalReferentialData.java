@@ -83,6 +83,22 @@ public class LocalReferentialData implements Serializable {
         return localReferentialData;
     }
 
+    @Override
+    public LocalReferentialData clone() {
+        LocalReferentialData result = new LocalReferentialData();
+        result.setAdditionalInformationLabel(getAdditionalInformationLabel());
+        result.setAdditionalInformationValue(getAdditionalInformationValue());
+        Set<LocalReferentialData> children = new HashSet<LocalReferentialData>();
+        for (LocalReferentialData child : getChildren()) {
+            children.add(child.clone());
+        }
+        result.setChildren(children);
+        result.setName(getName());
+        if (getParent() != null) result.setParent(getParent().clone());
+        result.setPriority(getPriority());
+        return result;
+    }
+
     /**
      * @hibernate.id
      *  generator-class="sequence"

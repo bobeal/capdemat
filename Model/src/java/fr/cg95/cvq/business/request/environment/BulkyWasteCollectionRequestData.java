@@ -38,6 +38,36 @@ public class BulkyWasteCollectionRequestData implements Serializable {
       
     }
 
+    @Override
+    public BulkyWasteCollectionRequestData clone() {
+        BulkyWasteCollectionRequestData result = new BulkyWasteCollectionRequestData();
+        
+          
+            
+        if (collectionAddress != null)
+            result.setCollectionAddress(collectionAddress.clone());
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.LocalReferentialData> bulkyWasteTypeList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>();
+        for (LocalReferentialData object : bulkyWasteType) {
+            bulkyWasteTypeList.add(object.clone());
+        }
+        result.setBulkyWasteType(bulkyWasteTypeList);
+      
+          
+        
+          
+            
+        result.setOtherWaste(otherWaste);
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

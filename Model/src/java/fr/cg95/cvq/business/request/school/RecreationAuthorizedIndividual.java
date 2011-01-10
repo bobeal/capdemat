@@ -89,6 +89,44 @@ public class RecreationAuthorizedIndividual implements Serializable {
         return recreationAuthorizedIndividual;
     }
 
+    @Override
+    public RecreationAuthorizedIndividual clone() {
+        RecreationAuthorizedIndividual result = new RecreationAuthorizedIndividual();
+        
+          
+            
+        result.setOfficePhone(officePhone);
+      
+          
+        
+          
+            
+        if (address != null)
+            result.setAddress(address.clone());
+      
+          
+        
+          
+            
+        result.setFirstName(firstName);
+      
+          
+        
+          
+            
+        result.setLastName(lastName);
+      
+          
+        
+          
+            
+        result.setHomePhone(homePhone);
+      
+          
+        
+        return result;
+    }
+
     private Long id;
 
     public final void setId(final Long id) {

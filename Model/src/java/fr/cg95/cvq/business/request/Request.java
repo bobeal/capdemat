@@ -131,6 +131,11 @@ public class Request implements Serializable {
             request.setRequestSeason(RequestSeason.xmlToModel(requestType.getRequestSeason()));
     }
 
+    @Override
+    public Request clone() {
+        return new Request(requestData.clone());
+    }
+
     public Long getId() {
         return requestData.getId();
     }

@@ -115,6 +115,56 @@ public class DhrPreviousDwelling implements Serializable {
         return dhrPreviousDwelling;
     }
 
+    @Override
+    public DhrPreviousDwelling clone() {
+        DhrPreviousDwelling result = new DhrPreviousDwelling();
+        
+          
+            
+        if (dhrPreviousDwellingStatus != null)
+            result.setDhrPreviousDwellingStatus(dhrPreviousDwellingStatus);
+        else
+            result.setDhrPreviousDwellingStatus(fr.cg95.cvq.business.request.social.DhrDwellingStatusType.getDefaultDhrDwellingStatusType());
+      
+          
+        
+          
+            
+        if (dhrPreviousDwellingKind != null)
+            result.setDhrPreviousDwellingKind(dhrPreviousDwellingKind);
+        else
+            result.setDhrPreviousDwellingKind(fr.cg95.cvq.business.request.social.DhrDwellingKindType.getDefaultDhrDwellingKindType());
+      
+          
+        
+          
+            
+        result.setDhrPreviousDwellingComment(dhrPreviousDwellingComment);
+      
+          
+        
+          
+            
+        result.setDhrPreviousDwellingDepartureDate(dhrPreviousDwellingDepartureDate);
+      
+          
+        
+          
+            
+        if (dhrPreviousDwellingAddress != null)
+            result.setDhrPreviousDwellingAddress(dhrPreviousDwellingAddress.clone());
+      
+          
+        
+          
+            
+        result.setDhrPreviousDwellingArrivalDate(dhrPreviousDwellingArrivalDate);
+      
+          
+        
+        return result;
+    }
+
     private Long id;
 
     public final void setId(final Long id) {

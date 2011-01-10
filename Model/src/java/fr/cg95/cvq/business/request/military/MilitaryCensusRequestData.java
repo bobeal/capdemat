@@ -58,6 +58,280 @@ public class MilitaryCensusRequestData implements Serializable {
       
     }
 
+    @Override
+    public MilitaryCensusRequestData clone() {
+        MilitaryCensusRequestData result = new MilitaryCensusRequestData();
+        
+          
+            
+        if (fatherBirthDepartment != null)
+            result.setFatherBirthDepartment(fatherBirthDepartment);
+        else
+            result.setFatherBirthDepartment(fr.cg95.cvq.business.users.InseeDepartementCodeType.getDefaultInseeDepartementCodeType());
+      
+          
+        
+          
+            
+        result.setChildProfession(childProfession);
+      
+          
+        
+          
+            
+        if (childStatus != null)
+            result.setChildStatus(childStatus);
+        else
+            result.setChildStatus(fr.cg95.cvq.business.users.FamilyStatusType.getDefaultFamilyStatusType());
+      
+          
+        
+          
+            
+        result.setAliveChildren(aliveChildren);
+      
+          
+        
+          
+            
+        result.setAffectionOrDisease(affectionOrDisease);
+      
+          
+        
+          
+            
+        result.setStatePupil(statePupil);
+      
+          
+        
+          
+            
+        if (childTitle != null)
+            result.setChildTitle(childTitle);
+        else
+            result.setChildTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
+      
+          
+        
+          
+            
+        result.setChildMail(childMail);
+      
+          
+        
+          
+            
+        if (childDiploma != null)
+            result.setChildDiploma(childDiploma);
+        else
+            result.setChildDiploma(fr.cg95.cvq.business.request.military.ChildDiplomaType.getDefaultChildDiplomaType());
+      
+          
+        
+          
+            
+        if (motherBirthCountry != null)
+            result.setMotherBirthCountry(motherBirthCountry);
+        else
+            result.setMotherBirthCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
+      
+          
+        
+          
+            
+        result.setFatherBirthCity(fatherBirthCity);
+      
+          
+        
+          
+            
+        result.setFatherBirthDate(fatherBirthDate);
+      
+          
+        
+          
+            
+        result.setFatherFirstName(fatherFirstName);
+      
+          
+        
+          
+            
+        result.setMotherBirthCity(motherBirthCity);
+      
+          
+        
+          
+            
+        if (fatherNationality != null)
+            result.setFatherNationality(fatherNationality);
+        else
+            result.setFatherNationality(fr.cg95.cvq.business.users.FullNationalityType.getDefaultFullNationalityType());
+      
+          
+        
+          
+            
+        result.setMotherBirthDate(motherBirthDate);
+      
+          
+        
+          
+            
+        result.setMotherFirstName(motherFirstName);
+      
+          
+        
+          
+            
+        if (childBirthCountry != null)
+            result.setChildBirthCountry(childBirthCountry);
+        else
+            result.setChildBirthCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
+      
+          
+        
+          
+            
+        if (motherNationality != null)
+            result.setMotherNationality(motherNationality);
+        else
+            result.setMotherNationality(fr.cg95.cvq.business.users.FullNationalityType.getDefaultFullNationalityType());
+      
+          
+        
+          
+            
+        result.setHighlyInfirm(highlyInfirm);
+      
+          
+        
+          
+            
+        result.setChildSpeciality(childSpeciality);
+      
+          
+        
+          
+            
+        if (childOtherCountry != null)
+            result.setChildOtherCountry(childOtherCountry);
+        else
+            result.setChildOtherCountry(fr.cg95.cvq.business.users.FullNationalityType.getDefaultFullNationalityType());
+      
+          
+        
+          
+            
+        result.setChildrenInCharge(childrenInCharge);
+      
+          
+        
+          
+            
+        result.setJapdExemption(japdExemption);
+      
+          
+        
+          
+            
+        if (childSituation != null)
+            result.setChildSituation(childSituation);
+        else
+            result.setChildSituation(fr.cg95.cvq.business.request.military.ChildSituationType.getDefaultChildSituationType());
+      
+          
+        
+          
+            
+        result.setMaidenName(maidenName);
+      
+          
+        
+          
+            
+        result.setChildPhone(childPhone);
+      
+          
+        
+          
+            
+        result.setMotherLastName(motherLastName);
+      
+          
+        
+          
+            
+        result.setFatherLastName(fatherLastName);
+      
+          
+        
+          
+            
+        if (prefectPupilDepartment != null)
+            result.setPrefectPupilDepartment(prefectPupilDepartment);
+        else
+            result.setPrefectPupilDepartment(fr.cg95.cvq.business.users.InseeDepartementCodeType.getDefaultInseeDepartementCodeType());
+      
+          
+        
+          
+            
+        if (motherBirthDepartment != null)
+            result.setMotherBirthDepartment(motherBirthDepartment);
+        else
+            result.setMotherBirthDepartment(fr.cg95.cvq.business.users.InseeDepartementCodeType.getDefaultInseeDepartementCodeType());
+      
+          
+        
+          
+            
+        if (childResidenceCountry != null)
+            result.setChildResidenceCountry(childResidenceCountry);
+        else
+            result.setChildResidenceCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
+      
+          
+        
+          
+            
+        result.setOtherSituation(otherSituation);
+      
+          
+        
+          
+            
+        result.setPrefectPupil(prefectPupil);
+      
+          
+        
+          
+            
+        if (childCountry != null)
+            result.setChildCountry(childCountry);
+        else
+            result.setChildCountry(fr.cg95.cvq.business.users.FullNationalityType.getDefaultFullNationalityType());
+      
+          
+        
+          
+            
+        result.setChildConvention(childConvention);
+      
+          
+        
+          
+            
+        if (fatherBirthCountry != null)
+            result.setFatherBirthCountry(fatherBirthCountry);
+        else
+            result.setFatherBirthCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

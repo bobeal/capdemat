@@ -38,6 +38,31 @@ public class HomeEmergencyRegistrationRequestData implements Serializable {
       
     }
 
+    @Override
+    public HomeEmergencyRegistrationRequestData clone() {
+        HomeEmergencyRegistrationRequestData result = new HomeEmergencyRegistrationRequestData();
+        
+          
+            
+        result.setTelephone(telephone);
+      
+          
+        
+          
+            
+        result.setDuree(duree);
+      
+          
+        
+          
+            
+        result.setDateDepart(dateDepart);
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

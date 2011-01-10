@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request.urbanism.impl;
 
+import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.urbanism.AlignmentCertificateRequest;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
@@ -26,4 +27,7 @@ public final class AlignmentCertificateRequestService extends RequestService {
     public Request getSkeletonRequest() {
         return new AlignmentCertificateRequest();
     }
+
+    @Override
+    public void onApplicationEvent(CapDematEvent e) {}
 }

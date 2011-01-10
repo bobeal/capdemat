@@ -158,6 +158,42 @@ public class SmsNotificationRequest extends Request implements Serializable {
         return smsNotificationRequest;
     }
 
+    @Override
+    public SmsNotificationRequest clone() {
+        SmsNotificationRequest clone = new SmsNotificationRequest(getRequestData().clone(), smsNotificationRequestData.clone());
+        Map<String, Object> stepState;
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "uncomplete");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("subscription", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", false);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("document", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("validation", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", false);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("administration", stepState);
+        
+        return clone;
+    }
+
   
     public final void setCleverSmsContactId(final String cleverSmsContactId) {
         smsNotificationRequestData.setCleverSmsContactId(cleverSmsContactId);

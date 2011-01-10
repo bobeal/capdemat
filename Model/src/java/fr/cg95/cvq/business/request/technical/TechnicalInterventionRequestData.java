@@ -38,6 +38,42 @@ public class TechnicalInterventionRequestData implements Serializable {
       
     }
 
+    @Override
+    public TechnicalInterventionRequestData clone() {
+        TechnicalInterventionRequestData result = new TechnicalInterventionRequestData();
+        
+          
+            
+        result.setOtherInterventionLabel(otherInterventionLabel);
+      
+          
+        
+          
+            
+        result.setInterventionDescription(interventionDescription);
+      
+          
+        
+          
+            
+        if (interventionPlace != null)
+            result.setInterventionPlace(interventionPlace.clone());
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.LocalReferentialData> interventionTypeList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>();
+        for (LocalReferentialData object : interventionType) {
+            interventionTypeList.add(object.clone());
+        }
+        result.setInterventionType(interventionTypeList);
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

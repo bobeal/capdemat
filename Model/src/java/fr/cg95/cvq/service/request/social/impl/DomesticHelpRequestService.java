@@ -2,6 +2,7 @@ package fr.cg95.cvq.service.request.social.impl;
 
 import org.apache.log4j.Logger;
 
+import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.social.DomesticHelpRequest;
 import fr.cg95.cvq.exception.CvqException;
@@ -109,4 +110,7 @@ public class DomesticHelpRequestService extends RequestService {
     public Request getSkeletonRequest() {
         return new DomesticHelpRequest();
     }
+
+    @Override
+    public void onApplicationEvent(CapDematEvent e) {}
 }

@@ -182,11 +182,11 @@ public interface IRequestWorkflowService {
      */
     Request getRequestClone(@IsRequest Long requestId)
         throws CvqException;
-    
-    /**
-     * Get the id of the last request made for a given id subject and a given request label 
-     */
-    Long getLastRequestForSubjectAndLabel(final Long subjectId, final String requestLabel)
+
+    Request getRequestClone(@IsRequest final Long requestId, final Long requestSeasonId)
+        throws CvqException;
+
+    Map<Individual, Request> getRenewableRequests(@IsRequestType final String label)
         throws CvqException;
 
     Request getSkeletonRequest(final String requestTypeLabel) throws CvqException;

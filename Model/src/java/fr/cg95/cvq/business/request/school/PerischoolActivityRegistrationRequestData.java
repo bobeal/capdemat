@@ -48,6 +48,86 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
       
     }
 
+    @Override
+    public PerischoolActivityRegistrationRequestData clone() {
+        PerischoolActivityRegistrationRequestData result = new PerischoolActivityRegistrationRequestData();
+        
+          
+            
+        List<fr.cg95.cvq.business.request.school.PerischoolAuthorizedIndividual> authorizedIndividualsList = new ArrayList<fr.cg95.cvq.business.request.school.PerischoolAuthorizedIndividual>();
+        for (PerischoolAuthorizedIndividual object : authorizedIndividuals) {
+            authorizedIndividualsList.add(object.clone());
+        }
+        result.setAuthorizedIndividuals(authorizedIndividualsList);
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> contactIndividualsList = new ArrayList<fr.cg95.cvq.business.request.school.PerischoolContactIndividual>();
+        for (PerischoolContactIndividual object : contactIndividuals) {
+            contactIndividualsList.add(object.clone());
+        }
+        result.setContactIndividuals(contactIndividualsList);
+      
+          
+        
+          
+            
+        result.setClassTripPermission(classTripPermission);
+      
+          
+        
+          
+            
+        result.setChildPhotoExploitationPermission(childPhotoExploitationPermission);
+      
+          
+        
+          
+            result.setSchool(school);
+          
+        
+          
+            
+        result.setHospitalizationPermission(hospitalizationPermission);
+      
+          
+        
+          
+            
+        result.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
+      
+          
+        
+          
+            
+        result.setUrgencyPhone(urgencyPhone);
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.LocalReferentialData> perischoolActivityList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>();
+        for (LocalReferentialData object : perischoolActivity) {
+            perischoolActivityList.add(object.clone());
+        }
+        result.setPerischoolActivity(perischoolActivityList);
+      
+          
+        
+          
+            
+        if (section != null)
+            result.setSection(section);
+        else
+            result.setSection(fr.cg95.cvq.business.users.SectionType.getDefaultSectionType());
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

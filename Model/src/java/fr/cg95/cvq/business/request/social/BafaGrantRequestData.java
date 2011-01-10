@@ -40,6 +40,121 @@ public class BafaGrantRequestData implements Serializable {
       
     }
 
+    @Override
+    public BafaGrantRequestData clone() {
+        BafaGrantRequestData result = new BafaGrantRequestData();
+        
+          
+            
+        result.setAccountHolderFirstName(accountHolderFirstName);
+      
+          
+        
+          
+            
+        result.setAccountHolderEdemandeId(accountHolderEdemandeId);
+      
+          
+        
+          
+            
+        if (internshipInstituteAddress != null)
+            result.setInternshipInstituteAddress(internshipInstituteAddress.clone());
+      
+          
+        
+          
+            
+        result.setEdemandeId(edemandeId);
+      
+          
+        
+          
+            
+        result.setInternshipEndDate(internshipEndDate);
+      
+          
+        
+          
+            
+        result.setInternshipStartDate(internshipStartDate);
+      
+          
+        
+          
+            
+        result.setIsSubjectAccountHolder(isSubjectAccountHolder);
+      
+          
+        
+          
+            
+        if (frenchRIB != null)
+            result.setFrenchRIB(frenchRIB.clone());
+      
+          
+        
+          
+            
+        result.setSubjectBirthCity(subjectBirthCity);
+      
+          
+        
+          
+            
+        result.setAccountHolderBirthDate(accountHolderBirthDate);
+      
+          
+        
+          
+            
+        result.setSubjectBirthDate(subjectBirthDate);
+      
+          
+        
+          
+            
+        result.setInternshipInstituteName(internshipInstituteName);
+      
+          
+        
+          
+            
+        result.setAccountHolderLastName(accountHolderLastName);
+      
+          
+        
+          
+            
+        if (subjectAddress != null)
+            result.setSubjectAddress(subjectAddress.clone());
+      
+          
+        
+          
+            
+        result.setSubjectPhone(subjectPhone);
+      
+          
+        
+          
+            
+        result.setSubjectEmail(subjectEmail);
+      
+          
+        
+          
+            
+        if (accountHolderTitle != null)
+            result.setAccountHolderTitle(accountHolderTitle);
+        else
+            result.setAccountHolderTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

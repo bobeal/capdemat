@@ -81,6 +81,32 @@ public class HccrProfessional implements Serializable {
         return hccrProfessional;
     }
 
+    @Override
+    public HccrProfessional clone() {
+        HccrProfessional result = new HccrProfessional();
+        
+          
+            
+        result.setProfessionalLastName(professionalLastName);
+      
+          
+        
+          
+            
+        result.setProfessionalFirstName(professionalFirstName);
+      
+          
+        
+          
+            
+        if (professionalAddress != null)
+            result.setProfessionalAddress(professionalAddress.clone());
+      
+          
+        
+        return result;
+    }
+
     private Long id;
 
     public final void setId(final Long id) {

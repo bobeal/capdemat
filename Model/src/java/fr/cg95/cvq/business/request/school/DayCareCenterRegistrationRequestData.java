@@ -44,6 +44,391 @@ public class DayCareCenterRegistrationRequestData implements Serializable {
       
     }
 
+    @Override
+    public DayCareCenterRegistrationRequestData clone() {
+        DayCareCenterRegistrationRequestData result = new DayCareCenterRegistrationRequestData();
+        
+          
+            
+        result.setEstHorairesReguliersMere(estHorairesReguliersMere);
+      
+          
+        
+          
+            
+        result.setEstHorairesReguliersPere(estHorairesReguliersPere);
+      
+          
+        
+          
+            
+        result.setProfessionPere(professionPere);
+      
+          
+        
+          
+            
+        result.setHorairePlacementMatinDebutJeudi(horairePlacementMatinDebutJeudi);
+      
+          
+        
+          
+            
+        result.setHorairesTravailVendrediPere(horairesTravailVendrediPere);
+      
+          
+        
+          
+            
+        result.setHorairesReguliersPere(horairesReguliersPere);
+      
+          
+        
+          
+            
+        result.setHorairesTravailMercrediMere(horairesTravailMercrediMere);
+      
+          
+        
+          
+            
+        if (situationActuellePere != null)
+            result.setSituationActuellePere(situationActuellePere);
+        else
+            result.setSituationActuellePere(fr.cg95.cvq.business.request.school.ChoixSituationActuelle.getDefaultChoixSituationActuelle());
+      
+          
+        
+          
+            
+        if (plageHoraireContact != null)
+            result.setPlageHoraireContact(plageHoraireContact);
+        else
+            result.setPlageHoraireContact(fr.cg95.cvq.business.request.school.PlageHoraireContactType.getDefaultPlageHoraireContactType());
+      
+          
+        
+          
+            
+        result.setHorairesTravailLundiMere(horairesTravailLundiMere);
+      
+          
+        
+          
+            
+        result.setHorairePlacementMatinFin(horairePlacementMatinFin);
+      
+          
+        
+          
+            
+        result.setHorairePlacementApresMidiDebutMercredi(horairePlacementApresMidiDebutMercredi);
+      
+          
+        
+          
+            
+        result.setHorairesTravailVendrediMere(horairesTravailVendrediMere);
+      
+          
+        
+          
+            
+        result.setPrecisionAutreSituationActuelleMere(precisionAutreSituationActuelleMere);
+      
+          
+        
+          
+            
+        result.setHorairePlacementApresMidiDebutVendredi(horairePlacementApresMidiDebutVendredi);
+      
+          
+        
+          
+            
+        result.setHorairePlacementMatinDebutMercredi(horairePlacementMatinDebutMercredi);
+      
+          
+        
+          
+            
+        result.setHorairePlacementMatinFinJeudi(horairePlacementMatinFinJeudi);
+      
+          
+        
+          
+            
+        result.setPrecisionAutreSituationActuellePere(precisionAutreSituationActuellePere);
+      
+          
+        
+          
+            
+        result.setDatePlacementFin(datePlacementFin);
+      
+          
+        
+          
+            
+        result.setHorairePlacementApresMidiFinJeudi(horairePlacementApresMidiFinJeudi);
+      
+          
+        
+          
+            
+        result.setHorairePlacementApresMidiFinVendredi(horairePlacementApresMidiFinVendredi);
+      
+          
+        
+          
+            
+        if (modeAccueilChoixDeux != null)
+            result.setModeAccueilChoixDeux(modeAccueilChoixDeux);
+        else
+            result.setModeAccueilChoixDeux(fr.cg95.cvq.business.request.school.ModeAccueilType.getDefaultModeAccueilType());
+      
+          
+        
+          
+            
+        result.setHorairesTravailMardiPere(horairesTravailMardiPere);
+      
+          
+        
+          
+            
+        if (choixHorairesAccueil != null)
+            result.setChoixHorairesAccueil(choixHorairesAccueil);
+        else
+            result.setChoixHorairesAccueil(fr.cg95.cvq.business.request.school.ChoixHorairesAccueilType.getDefaultChoixHorairesAccueilType());
+      
+          
+        
+          
+            
+        result.setHorairePlacementMatinDebut(horairePlacementMatinDebut);
+      
+          
+        
+          
+            
+        result.setCommuneLieuTravailPere(communeLieuTravailPere);
+      
+          
+        
+          
+            
+        result.setHorairePlacementMatinDebutLundi(horairePlacementMatinDebutLundi);
+      
+          
+        
+          
+            
+        if (choixTypeDatePlacementAccueilRegulier != null)
+            result.setChoixTypeDatePlacementAccueilRegulier(choixTypeDatePlacementAccueilRegulier);
+        else
+            result.setChoixTypeDatePlacementAccueilRegulier(fr.cg95.cvq.business.request.school.ChoixDatePlacement.getDefaultChoixDatePlacement());
+      
+          
+        
+          
+            
+        result.setModeAccueil(modeAccueil);
+      
+          
+        
+          
+            
+        result.setHorairesReguliersMere(horairesReguliersMere);
+      
+          
+        
+          
+            
+        result.setHorairePlacementApresMidiFinMardi(horairePlacementApresMidiFinMardi);
+      
+          
+        
+          
+            
+        result.setHorairePlacementApresMidiFinLundi(horairePlacementApresMidiFinLundi);
+      
+          
+        
+          
+            
+        result.setHorairePlacementMatinFinLundi(horairePlacementMatinFinLundi);
+      
+          
+        
+          
+            
+        if (choixTypeRendezVous != null)
+            result.setChoixTypeRendezVous(choixTypeRendezVous);
+        else
+            result.setChoixTypeRendezVous(fr.cg95.cvq.business.request.school.RendezVousType.getDefaultRendezVousType());
+      
+          
+        
+          
+            
+        if (situationActuelleMere != null)
+            result.setSituationActuelleMere(situationActuelleMere);
+        else
+            result.setSituationActuelleMere(fr.cg95.cvq.business.request.school.ChoixSituationActuelle.getDefaultChoixSituationActuelle());
+      
+          
+        
+          
+            
+        result.setDixHuitMoisEnfant(dixHuitMoisEnfant);
+      
+          
+        
+          
+            
+        result.setHorairePlacementMatinFinVendredi(horairePlacementMatinFinVendredi);
+      
+          
+        
+          
+            
+        result.setDatePlacementDebut(datePlacementDebut);
+      
+          
+        
+          
+            
+        result.setHorairePlacementMatinDebutVendredi(horairePlacementMatinDebutVendredi);
+      
+          
+        
+          
+            
+        result.setHorairePlacementApresMidiDebutLundi(horairePlacementApresMidiDebutLundi);
+      
+          
+        
+          
+            
+        result.setHorairesTravailMercrediPere(horairesTravailMercrediPere);
+      
+          
+        
+          
+            
+        result.setHorairePlacementApresMidiDebutMardi(horairePlacementApresMidiDebutMardi);
+      
+          
+        
+          
+            
+        result.setHorairesTravailLundiPere(horairesTravailLundiPere);
+      
+          
+        
+          
+            
+        result.setHorairePlacementApresMidiFin(horairePlacementApresMidiFin);
+      
+          
+        
+          
+            
+        result.setCommuneLieuTravailMere(communeLieuTravailMere);
+      
+          
+        
+          
+            
+        result.setHorairesTravailJeudiPere(horairesTravailJeudiPere);
+      
+          
+        
+          
+            
+        result.setHorairesTravailJeudiMere(horairesTravailJeudiMere);
+      
+          
+        
+          
+            
+        result.setTelephoneContact(telephoneContact);
+      
+          
+        
+          
+            
+        result.setHorairesTravailMardiMere(horairesTravailMardiMere);
+      
+          
+        
+          
+            
+        result.setAccueilAnterieur(accueilAnterieur);
+      
+          
+        
+          
+            
+        result.setHorairePlacementApresMidiFinMercredi(horairePlacementApresMidiFinMercredi);
+      
+          
+        
+          
+            
+        result.setHorairePlacementMatinDebutMardi(horairePlacementMatinDebutMardi);
+      
+          
+        
+          
+            
+        result.setHorairePlacementMatinFinMercredi(horairePlacementMatinFinMercredi);
+      
+          
+        
+          
+            
+        result.setHorairePlacementMatinFinMardi(horairePlacementMatinFinMardi);
+      
+          
+        
+          
+            
+        result.setHorairePlacementApresMidiDebutJeudi(horairePlacementApresMidiDebutJeudi);
+      
+          
+        
+          
+            
+        result.setProfessionMere(professionMere);
+      
+          
+        
+          
+            
+        if (modeAccueilChoixUn != null)
+            result.setModeAccueilChoixUn(modeAccueilChoixUn);
+        else
+            result.setModeAccueilChoixUn(fr.cg95.cvq.business.request.school.ModeAccueilType.getDefaultModeAccueilType());
+      
+          
+        
+          
+            
+        result.setCommentaireCitoyen(commentaireCitoyen);
+      
+          
+        
+          
+            
+        result.setHorairePlacementApresMidiDebut(horairePlacementApresMidiDebut);
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

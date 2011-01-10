@@ -40,6 +40,62 @@ public class ElectoralRollRegistrationRequestData implements Serializable {
       
     }
 
+    @Override
+    public ElectoralRollRegistrationRequestData clone() {
+        ElectoralRollRegistrationRequestData result = new ElectoralRollRegistrationRequestData();
+        
+          
+            
+        if (subjectNationality != null)
+            result.setSubjectNationality(subjectNationality);
+        else
+            result.setSubjectNationality(fr.cg95.cvq.business.users.NationalityType.getDefaultNationalityType());
+      
+          
+        
+          
+            
+        result.setSubjectOldCity(subjectOldCity);
+      
+          
+        
+          
+            
+        if (subjectAddressOutsideCity != null)
+            result.setSubjectAddressOutsideCity(subjectAddressOutsideCity.clone());
+      
+          
+        
+          
+            
+        result.setPollingStation(pollingStation);
+      
+          
+        
+          
+            
+        result.setPollingSchoolName(pollingSchoolName);
+      
+          
+        
+          
+            
+        if (motive != null)
+            result.setMotive(motive);
+        else
+            result.setMotive(fr.cg95.cvq.business.request.election.ElectoralMotiveType.getDefaultElectoralMotiveType());
+      
+          
+        
+          
+            
+        result.setElectoralNumber(electoralNumber);
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

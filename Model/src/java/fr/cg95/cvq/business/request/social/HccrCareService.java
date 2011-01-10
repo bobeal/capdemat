@@ -88,6 +88,38 @@ public class HccrCareService implements Serializable {
         return hccrCareService;
     }
 
+    @Override
+    public HccrCareService clone() {
+        HccrCareService result = new HccrCareService();
+        
+          
+            
+        result.setCareServiceCareServiceEmployer(careServiceCareServiceEmployer);
+      
+          
+        
+          
+            
+        result.setCareServiceKind(careServiceKind);
+      
+          
+        
+          
+            
+        result.setCareServiceProviderName(careServiceProviderName);
+      
+          
+        
+          
+            
+        if (careServiceProviderAddress != null)
+            result.setCareServiceProviderAddress(careServiceProviderAddress.clone());
+      
+          
+        
+        return result;
+    }
+
     private Long id;
 
     public final void setId(final Long id) {

@@ -94,6 +94,40 @@ public class HcarFamilyDependent implements Serializable {
         return hcarFamilyDependent;
     }
 
+    @Override
+    public HcarFamilyDependent clone() {
+        HcarFamilyDependent result = new HcarFamilyDependent();
+        
+          
+            
+        if (familyDependentActualSituation != null)
+            result.setFamilyDependentActualSituation(familyDependentActualSituation);
+        else
+            result.setFamilyDependentActualSituation(fr.cg95.cvq.business.request.social.HcarFamilyDependentActualSituationType.getDefaultHcarFamilyDependentActualSituationType());
+      
+          
+        
+          
+            
+        result.setFamilyDependentLastName(familyDependentLastName);
+      
+          
+        
+          
+            
+        result.setFamilyDependentFirstName(familyDependentFirstName);
+      
+          
+        
+          
+            
+        result.setFamilyDependentBirthDate(familyDependentBirthDate);
+      
+          
+        
+        return result;
+    }
+
     private Long id;
 
     public final void setId(final Long id) {

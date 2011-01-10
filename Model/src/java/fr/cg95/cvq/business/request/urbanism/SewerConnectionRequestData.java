@@ -42,6 +42,71 @@ public class SewerConnectionRequestData implements Serializable {
       
     }
 
+    @Override
+    public SewerConnectionRequestData clone() {
+        SewerConnectionRequestData result = new SewerConnectionRequestData();
+        
+          
+            
+        result.setOwnerLastName(ownerLastName);
+      
+          
+        
+          
+            
+        result.setOwnerFirstNames(ownerFirstNames);
+      
+          
+        
+          
+            
+        if (ownerAddress != null)
+            result.setOwnerAddress(ownerAddress.clone());
+      
+          
+        
+          
+            
+        if (requesterQuality != null)
+            result.setRequesterQuality(requesterQuality);
+        else
+            result.setRequesterQuality(fr.cg95.cvq.business.request.urbanism.ScrRequesterQualityType.getDefaultScrRequesterQualityType());
+      
+          
+        
+          
+            
+        result.setMoreThanTwoYears(moreThanTwoYears);
+      
+          
+        
+          
+            
+        result.setTransportationRoute(transportationRoute);
+      
+          
+        
+          
+            
+        result.setLocality(locality);
+      
+          
+        
+          
+            
+        result.setNumber(number);
+      
+          
+        
+          
+            
+        result.setSection(section);
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

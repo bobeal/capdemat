@@ -40,6 +40,65 @@ public class AlignmentCertificateRequestData implements Serializable {
       
     }
 
+    @Override
+    public AlignmentCertificateRequestData clone() {
+        AlignmentCertificateRequestData result = new AlignmentCertificateRequestData();
+        
+          
+            
+        if (requesterQuality != null)
+            result.setRequesterQuality(requesterQuality);
+        else
+            result.setRequesterQuality(fr.cg95.cvq.business.request.urbanism.AcrRequesterQualityType.getDefaultAcrRequesterQualityType());
+      
+          
+        
+          
+            
+        result.setSection(section);
+      
+          
+        
+          
+            
+        result.setTransportationRoute(transportationRoute);
+      
+          
+        
+          
+            
+        result.setOwnerFirstNames(ownerFirstNames);
+      
+          
+        
+          
+            
+        result.setLocality(locality);
+      
+          
+        
+          
+            
+        result.setNumber(number);
+      
+          
+        
+          
+            
+        result.setOwnerLastName(ownerLastName);
+      
+          
+        
+          
+            
+        if (ownerAddress != null)
+            result.setOwnerAddress(ownerAddress.clone());
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

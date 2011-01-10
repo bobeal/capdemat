@@ -42,6 +42,108 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
       
     }
 
+    @Override
+    public AlignmentNumberingConnectionRequestData clone() {
+        AlignmentNumberingConnectionRequestData result = new AlignmentNumberingConnectionRequestData();
+        
+          
+            
+        result.setIsNumbering(isNumbering);
+      
+          
+        
+          
+            
+        if (otherAddress != null)
+            result.setOtherAddress(otherAddress.clone());
+      
+          
+        
+          
+            
+        result.setOwnerFirstNames(ownerFirstNames);
+      
+          
+        
+          
+            
+        result.setNumber(number);
+      
+          
+        
+          
+            
+        result.setArea(area);
+      
+          
+        
+          
+            
+        result.setMoreThanTwoYears(moreThanTwoYears);
+      
+          
+        
+          
+            
+        if (ownerAddress != null)
+            result.setOwnerAddress(ownerAddress.clone());
+      
+          
+        
+          
+            
+        if (requesterQuality != null)
+            result.setRequesterQuality(requesterQuality);
+        else
+            result.setRequesterQuality(fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType.getDefaultAncrRequesterQualityType());
+      
+          
+        
+          
+            
+        result.setSection(section);
+      
+          
+        
+          
+            
+        result.setTransportationRoute(transportationRoute);
+      
+          
+        
+          
+            
+        result.setLocality(locality);
+      
+          
+        
+          
+            
+        result.setIsConnection(isConnection);
+      
+          
+        
+          
+            
+        result.setIsAccountAddress(isAccountAddress);
+      
+          
+        
+          
+            
+        result.setIsAlignment(isAlignment);
+      
+          
+        
+          
+            
+        result.setOwnerLastName(ownerLastName);
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

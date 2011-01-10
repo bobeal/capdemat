@@ -44,6 +44,59 @@ public class SchoolRegistrationRequestData implements Serializable {
       
     }
 
+    @Override
+    public SchoolRegistrationRequestData clone() {
+        SchoolRegistrationRequestData result = new SchoolRegistrationRequestData();
+        
+          
+            
+        result.setCurrentSchoolAddress(currentSchoolAddress);
+      
+          
+        
+          
+            
+        result.setCurrentSchoolName(currentSchoolName);
+      
+          
+        
+          
+            
+        if (currentSection != null)
+            result.setCurrentSection(currentSection);
+        else
+            result.setCurrentSection(fr.cg95.cvq.business.users.SectionType.getDefaultSectionType());
+      
+          
+        
+          
+            result.setSchool(school);
+          
+        
+          
+            
+        result.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
+      
+          
+        
+          
+            
+        result.setUrgencyPhone(urgencyPhone);
+      
+          
+        
+          
+            
+        if (section != null)
+            result.setSection(section);
+        else
+            result.setSection(fr.cg95.cvq.business.users.SectionType.getDefaultSectionType());
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

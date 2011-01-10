@@ -38,6 +38,23 @@ public class LearningActivitiesDiscoveryRegistrationRequestData implements Seria
       
     }
 
+    @Override
+    public LearningActivitiesDiscoveryRegistrationRequestData clone() {
+        LearningActivitiesDiscoveryRegistrationRequestData result = new LearningActivitiesDiscoveryRegistrationRequestData();
+        
+          
+            
+        List<fr.cg95.cvq.business.request.LocalReferentialData> atelierEveilList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>();
+        for (LocalReferentialData object : atelierEveil) {
+            atelierEveilList.add(object.clone());
+        }
+        result.setAtelierEveil(atelierEveilList);
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

@@ -38,6 +38,36 @@ public class CompostableWasteCollectionRequestData implements Serializable {
       
     }
 
+    @Override
+    public CompostableWasteCollectionRequestData clone() {
+        CompostableWasteCollectionRequestData result = new CompostableWasteCollectionRequestData();
+        
+          
+            
+        List<fr.cg95.cvq.business.request.LocalReferentialData> compostableWasteTypeList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>();
+        for (LocalReferentialData object : compostableWasteType) {
+            compostableWasteTypeList.add(object.clone());
+        }
+        result.setCompostableWasteType(compostableWasteTypeList);
+      
+          
+        
+          
+            
+        if (collectionAddress != null)
+            result.setCollectionAddress(collectionAddress.clone());
+      
+          
+        
+          
+            
+        result.setOtherWaste(otherWaste);
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

@@ -71,6 +71,19 @@ public class HccrOtherBenefit implements Serializable {
         return hccrOtherBenefit;
     }
 
+    @Override
+    public HccrOtherBenefit clone() {
+        HccrOtherBenefit result = new HccrOtherBenefit();
+        
+          
+            
+        result.setOtherBenefitName(otherBenefitName);
+      
+          
+        
+        return result;
+    }
+
     private Long id;
 
     public final void setId(final Long id) {

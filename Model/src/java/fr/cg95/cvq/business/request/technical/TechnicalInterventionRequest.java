@@ -152,6 +152,35 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
         return technicalInterventionRequest;
     }
 
+    @Override
+    public TechnicalInterventionRequest clone() {
+        TechnicalInterventionRequest clone = new TechnicalInterventionRequest(getRequestData().clone(), technicalInterventionRequestData.clone());
+        Map<String, Object> stepState;
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "uncomplete");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("intervention", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", false);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("document", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("validation", stepState);
+        
+        return clone;
+    }
+
   
     public final void setOtherInterventionLabel(final String otherInterventionLabel) {
         technicalInterventionRequestData.setOtherInterventionLabel(otherInterventionLabel);

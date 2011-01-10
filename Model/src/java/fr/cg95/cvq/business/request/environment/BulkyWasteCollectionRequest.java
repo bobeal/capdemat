@@ -148,6 +148,35 @@ public class BulkyWasteCollectionRequest extends Request implements Serializable
         return bulkyWasteCollectionRequest;
     }
 
+    @Override
+    public BulkyWasteCollectionRequest clone() {
+        BulkyWasteCollectionRequest clone = new BulkyWasteCollectionRequest(getRequestData().clone(), bulkyWasteCollectionRequestData.clone());
+        Map<String, Object> stepState;
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "uncomplete");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("waste", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", false);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("document", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("validation", stepState);
+        
+        return clone;
+    }
+
   
     public final void setCollectionAddress(final fr.cg95.cvq.business.users.Address collectionAddress) {
         bulkyWasteCollectionRequestData.setCollectionAddress(collectionAddress);

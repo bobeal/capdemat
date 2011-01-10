@@ -1,7 +1,6 @@
 package fr.cg95.cvq.service.request.impl;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -18,7 +17,6 @@ import net.sf.oval.Validator;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.xmlbeans.XmlObject;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -798,81 +796,52 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
-    public Long getLastRequestForSubjectAndLabel(final Long subjectId, final String requestLabel) 
+    @Context(types = {ContextType.ECITIZEN}, privilege = ContextPrivilege.READ)
+    public Map<Individual, Request> getRenewableRequests(final String label)
         throws CvqException {
-        
+        Map<Individual, Request> result = new HashMap<Individual, Request>();
         RequestState[] excludedStates = getStatesExcludedForRequestsCloning();
-        List<Request> requests = null;
-        
-        if (subjectId != null)
-            requests = 
-                requestDAO.listBySubjectAndLabel(subjectId, requestLabel, excludedStates, false);
-        
-        if (requests == null || requests.isEmpty())
-            return null;
-        
-        // choose the most recent version of this request 
-        Request request = requests.get(0);
-        if (requests.size() > 1) {
-            for (Request requestCloned : requests) {
-                if (request.getCreationDate().compareTo(requestCloned.getCreationDate()) < 0)
-                    request = requestCloned;
+        Map<Long, Set<RequestSeason>> subjectsMap = getAuthorizedSubjects(
+            requestTypeService.getRequestTypeByLabel(label),
+            SecurityContext.getCurrentEcitizen().getHomeFolder().getId());
+        Set<Long> subjects = subjectsMap.keySet();
+        if (subjects != null && !subjects.isEmpty()) {
+            for (Long subjectId : subjects) {
+                List<Request> requests =
+                    requestDAO.listBySubjectAndLabel(subjectId, label, excludedStates, false);
+                if (requests.isEmpty()) continue;
+                Request request = requests.get(0);
+                if (requests.size() > 1) {
+                    for (Request requestCloned : requests) {
+                        if (request.getCreationDate().compareTo(requestCloned.getCreationDate()) < 0)
+                            request = requestCloned;
+                    }
+                }
+                result.put(individualService.getById(subjectId), request);
             }
         }
-        return request.getId();
+        return result;
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public Request getRequestClone(final Long requestId) 
+    public Request getRequestClone(final Long requestId)
         throws CvqException {
-        
-        if (requestId == null) {
-            throw new CvqException("request.error.requestIdRequired");
-        }
-        
+        if (requestId == null) throw new CvqException("request.error.requestIdRequired");
         Request request = requestDAO.findById(requestId, true);
-        if (request == null)
-            throw new CvqException("request.error.notFound");
-        
-        try {
-            XmlObject xmlRequestCopy = request.modelToXml().copy();
-
-            // we want a Document parameter type and not a DocumentImpl one
-            Class<?>[] parameterTypes = new Class[] {
-                    xmlRequestCopy.getClass().getInterfaces()[0]
-            };
-            Object[] arguments = new Object[] {
-                    xmlRequestCopy
-            };
-            Method xmlToModel = 
-                request.getClass().getMethod("xmlToModel", parameterTypes);
-            Request requestClone = (Request) xmlToModel.invoke(xmlRequestCopy, arguments);
-
-            purgeClonedRequest(requestClone);
-            RequestType requestType = 
-                requestTypeService.getRequestTypeById(request.getRequestType().getId());
-            requestClone.setRequestType(requestType);
-            requestClone.setHomeFolderId(request.getHomeFolderId());
-            requestClone.setSubjectId(request.getSubjectId());
-            return requestClone;
-
-        } catch (SecurityException e) {
-            logger.error("getRequestClone() Security exception while cloning request");
-            throw new CvqException("Security exception while cloning request");
-        } catch (IllegalAccessException e) {
-            logger.error("getRequestClone() Illegal access exception while cloning request");
-            throw new CvqException("Illegal access exception while cloning request");
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            logger.error("getRequestClone() Invocation target exception while cloning request");
-            throw new CvqException("Invocation target exception while cloning request");
-        } catch (NoSuchMethodException e) {
-            logger.error("getRequestClone() No such method");
-            throw new CvqException("No such method : " + e.getMessage());
-        }
+        if (request == null) throw new CvqException("request.error.notFound");
+        Request clone = request.clone();
+        applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.REQUEST_CLONED, clone));
+        return clone;
     }
-    
+
+    @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public Request getRequestClone(final Long requestId, final Long requestSeasonId)
+        throws CvqException {
+        return bootstrapDraft(getRequestClone(requestId), requestSeasonId);
+    }
+
     @Override
     public Request getSkeletonRequest(final String requestTypeLabel) throws CvqException {
         IRequestService service = requestServiceRegistry.getRequestService(requestTypeLabel);
@@ -889,7 +858,11 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     @Override
     public Request getSkeletonRequest(final String requestTypeLabel, final Long requestSeasonId)
         throws CvqException {
-        Request request = getSkeletonRequest(requestTypeLabel);
+        return bootstrapDraft(getSkeletonRequest(requestTypeLabel), requestSeasonId);
+    }
+
+    private Request bootstrapDraft(Request request, Long requestSeasonId)
+        throws CvqException {
         RequestType requestType = request.getRequestType();
         RequestSeason requestSeason = null;
         if (requestSeasonId != null) {
@@ -902,22 +875,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         request.setRequestSeason(requestSeason);
         create(request, null);
         return request;
-    }
-
-    private void purgeClonedRequest(Request request) {
-
-        // administrative data
-        request.setId(null);
-        request.setCreationDate(null);
-        request.setDataState(null);
-        request.setLastInterveningUserId(Long.valueOf(0));
-        request.setLastModificationDate(null);
-        request.setState(null);
-        request.setStep(null);
-        request.setValidationDate(null);
-
-        // business data
-        request.setRequesterId(null);
     }
 
     @Override

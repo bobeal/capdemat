@@ -1,6 +1,8 @@
 package fr.cg95.cvq.service.request.school.impl;
 
+import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestEvent;
 import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
 import fr.cg95.cvq.business.users.SectionType;
 import fr.cg95.cvq.exception.CvqModelException;
@@ -38,5 +40,16 @@ public final class SchoolRegistrationRequestService extends RequestService {
         if (SecurityContext.getCurrentEcitizen() != null)
             request.setUrgencyPhone(SecurityContext.getCurrentEcitizen().getOfficePhone());
         return request;
+    }
+
+    @Override
+    public void onApplicationEvent(CapDematEvent e) {
+        if (e instanceof RequestEvent) {
+            RequestEvent event = (RequestEvent)e;
+            if (RequestEvent.EVENT_TYPE.REQUEST_CLONED.equals(event.getEvent())
+                && accept(event.getRequest())) {
+                ((SchoolRegistrationRequest)event.getRequest()).setSection(null);
+            }
+        }
     }
 }

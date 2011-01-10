@@ -40,6 +40,73 @@ public class DeathDetailsRequestData implements Serializable {
       
     }
 
+    @Override
+    public DeathDetailsRequestData clone() {
+        DeathDetailsRequestData result = new DeathDetailsRequestData();
+        
+          
+            
+        result.setDeathFirstNames(deathFirstNames);
+      
+          
+        
+          
+            
+        if (format != null)
+            result.setFormat(format);
+        else
+            result.setFormat(fr.cg95.cvq.business.request.civil.DeathCertificateFormatType.getDefaultDeathCertificateFormatType());
+      
+          
+        
+          
+            
+        result.setCopies(copies);
+      
+          
+        
+          
+            
+        result.setDeathDate(deathDate);
+      
+          
+        
+          
+            
+        result.setComment(comment);
+      
+          
+        
+          
+            
+        result.setDeathPostalCode(deathPostalCode);
+      
+          
+        
+          
+            
+        result.setDeathCity(deathCity);
+      
+          
+        
+          
+            
+        if (motive != null)
+            result.setMotive(motive);
+        else
+            result.setMotive(fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType.getDefaultDeathCertificateMotiveType());
+      
+          
+        
+          
+            
+        result.setDeathLastName(deathLastName);
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

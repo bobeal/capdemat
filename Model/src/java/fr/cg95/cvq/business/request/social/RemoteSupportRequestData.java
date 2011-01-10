@@ -54,6 +54,172 @@ public class RemoteSupportRequestData implements Serializable {
       
     }
 
+    @Override
+    public RemoteSupportRequestData clone() {
+        RemoteSupportRequestData result = new RemoteSupportRequestData();
+        
+          
+            
+        result.setTrusteePhone(trusteePhone);
+      
+          
+        
+          
+            
+        result.setSpouseIsDisabledPerson(spouseIsDisabledPerson);
+      
+          
+        
+          
+            
+        result.setSubjectBirthDate(subjectBirthDate);
+      
+          
+        
+          
+            
+        result.setSubjectIsAPABeneficiary(subjectIsAPABeneficiary);
+      
+          
+        
+          
+            
+        if (subjectResideWith != null)
+            result.setSubjectResideWith(subjectResideWith);
+        else
+            result.setSubjectResideWith(fr.cg95.cvq.business.request.social.RsrSubjectResideWithType.getDefaultRsrSubjectResideWithType());
+      
+          
+        
+          
+            
+        result.setSpouseBirthDate(spouseBirthDate);
+      
+          
+        
+          
+            
+        result.setContactPhone(contactPhone);
+      
+          
+        
+          
+            
+        result.setSpouseLastName(spouseLastName);
+      
+          
+        
+          
+            
+        result.setRequestInformationEmergency(requestInformationEmergency);
+      
+          
+        
+          
+            
+        if (requestInformationRequestKind != null)
+            result.setRequestInformationRequestKind(requestInformationRequestKind);
+        else
+            result.setRequestInformationRequestKind(fr.cg95.cvq.business.request.social.RsrRequestInformationRequestKindType.getDefaultRsrRequestInformationRequestKindType());
+      
+          
+        
+          
+            
+        result.setSubjectIsDisabledPerson(subjectIsDisabledPerson);
+      
+          
+        
+          
+            
+        result.setSecondContactLastName(secondContactLastName);
+      
+          
+        
+          
+            
+        result.setRequestInformationEmergencyMotive(requestInformationEmergencyMotive);
+      
+          
+        
+          
+            
+        result.setContactLastName(contactLastName);
+      
+          
+        
+          
+            
+        if (spouseTitle != null)
+            result.setSpouseTitle(spouseTitle);
+        else
+            result.setSpouseTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
+      
+          
+        
+          
+            
+        if (subjectTitle != null)
+            result.setSubjectTitle(subjectTitle);
+        else
+            result.setSubjectTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
+      
+          
+        
+          
+            
+        result.setSpouseFirstName(spouseFirstName);
+      
+          
+        
+          
+            
+        result.setContactFirstName(contactFirstName);
+      
+          
+        
+          
+            
+        result.setTrusteeFirstName(trusteeFirstName);
+      
+          
+        
+          
+            
+        if (contactKind != null)
+            result.setContactKind(contactKind);
+        else
+            result.setContactKind(fr.cg95.cvq.business.request.social.RsrContactKindType.getDefaultRsrContactKindType());
+      
+          
+        
+          
+            
+        result.setSecondContactFirstName(secondContactFirstName);
+      
+          
+        
+          
+            
+        result.setSubjectIsTaxable(subjectIsTaxable);
+      
+          
+        
+          
+            
+        result.setTrusteeLastName(trusteeLastName);
+      
+          
+        
+          
+            
+        result.setSecondContactPhone(secondContactPhone);
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

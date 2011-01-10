@@ -38,6 +38,29 @@ public class MusicSchoolRegistrationRequestData implements Serializable {
       
     }
 
+    @Override
+    public MusicSchoolRegistrationRequestData clone() {
+        MusicSchoolRegistrationRequestData result = new MusicSchoolRegistrationRequestData();
+        
+          
+            
+        List<fr.cg95.cvq.business.request.LocalReferentialData> activityList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>();
+        for (LocalReferentialData object : activity) {
+            activityList.add(object.clone());
+        }
+        result.setActivity(activityList);
+      
+          
+        
+          
+            
+        result.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

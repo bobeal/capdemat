@@ -83,6 +83,32 @@ public class DhrRealAsset implements Serializable {
         return dhrRealAsset;
     }
 
+    @Override
+    public DhrRealAsset clone() {
+        DhrRealAsset result = new DhrRealAsset();
+        
+          
+            
+        result.setRealAssetNetFloorArea(realAssetNetFloorArea);
+      
+          
+        
+          
+            
+        if (dhrRealAssetAddress != null)
+            result.setDhrRealAssetAddress(dhrRealAssetAddress.clone());
+      
+          
+        
+          
+            
+        result.setDhrRealAssetValue(dhrRealAssetValue);
+      
+          
+        
+        return result;
+    }
+
     private Long id;
 
     public final void setId(final Long id) {

@@ -11,7 +11,7 @@
   <div class="yui-g">
     <div class="group-box">
       
-    <h3><g:translateRequestTypeLabel label="\${requestLabel}"/></h3>
+    <h3><g:translateRequestTypeLabel label="\${requestTypeLabel}"/></h3>
     <p>
         \${intro}
     </p>
@@ -21,8 +21,8 @@
     <div class="yui-g first">
         <h4><g:message code="requestType.label.newRequest" /></h4>
         <p><a href="\${createLink(controller:'frontofficeRequest', action:'edit',
-                params:['label':requestLabel,'requestSeasonId':requestSeasonId])}">
-                <g:message code="requestType.action.newRequest" /> <g:translateRequestTypeLabel label="\${requestLabel}"/>
+                params:['label':requestTypeLabel,'requestSeasonId':requestSeasonId])}">
+                <g:message code="requestType.action.newRequest" /> <g:translateRequestTypeLabel label="\${requestTypeLabel}"/>
         </a></p>
     </div>
     
@@ -33,12 +33,12 @@
             <ul class="request-renew">
               <g:each in="\${lastRequests}" var="lastRequest">
                 <li>
-                  <g:capdematEnumToFlag var="\${lastRequest.state}" i18nKeyPrefix="request.state" />
-                  <a href="\${createLink(controller:'frontofficeRequest',action:'edit',params:['label':requestLabel, 'isRenewal':lastRequest.isRenewal, 
-                            'requestId':lastRequest.requestId, 'subjectId':lastRequest.subjectId,'requestSeasonId':requestSeasonId])}">
-                   <g:message code="requestType.property.renew.requestFor" /> \${lastRequest.subjectLastName} \${lastRequest.subjectFirstName} 
-                   <g:message code="requestType.property.renew.dateTo" /> <g:formatDate formatName="format.date" date="\${lastRequest.creationDate}"/></a>
-                  - <a href="\${createLink(controller:'frontofficeRequest',action:'summary',id:lastRequest.requestId)}">
+                  <g:capdematEnumToFlag var="\${lastRequest.value.state}" i18nKeyPrefix="request.state" />
+                  <a href="\${createLink(controller : 'frontofficeRequest', action : 'renew',
+                    params : ['id' : lastRequest.value.id, 'requestSeasonId' : requestSeasonId])}">
+                   <g:message code="requestType.property.renew.requestFor" /> \${lastRequest.key.lastName} \${lastRequest.key.firstName} 
+                   <g:message code="requestType.property.renew.dateTo" /> <g:formatDate formatName="format.date" date="\${lastRequest.value.creationDate}"/></a>
+                  - <a href="\${createLink(controller:'frontofficeRequest',action:'summary',id:lastRequest.value.id)}">
                   <g:message code="requestType.action.display" /></a>
                 </li>
               </g:each>

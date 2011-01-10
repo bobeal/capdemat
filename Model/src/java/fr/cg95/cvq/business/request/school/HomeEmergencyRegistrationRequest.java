@@ -142,6 +142,35 @@ public class HomeEmergencyRegistrationRequest extends Request implements Seriali
         return homeEmergencyRegistrationRequest;
     }
 
+    @Override
+    public HomeEmergencyRegistrationRequest clone() {
+        HomeEmergencyRegistrationRequest clone = new HomeEmergencyRegistrationRequest(getRequestData().clone(), homeEmergencyRegistrationRequestData.clone());
+        Map<String, Object> stepState;
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "uncomplete");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("subject", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", false);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("document", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("validation", stepState);
+        
+        return clone;
+    }
+
   
     public final void setTelephone(final String telephone) {
         homeEmergencyRegistrationRequestData.setTelephone(telephone);

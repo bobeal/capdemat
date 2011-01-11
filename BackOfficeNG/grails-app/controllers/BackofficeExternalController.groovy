@@ -97,8 +97,7 @@ class BackofficeExternalController {
 
     private initSearchReferential() {
         return [
-            "externalServiceLabels" : SecurityContext.currentConfigurationBean
-                .externalProviderServices.collect { it.key.label },
+            "externalServiceLabels" : SecurityContext.currentConfigurationBean.getExternalServices().collect { it.key.label },
             "requestExternalActionStatuses" : RequestExternalAction.Status.all,
             "requestStates" : RequestState.allRequestStates.findAll { it != RequestState.DRAFT },
             "requestTypes" : requestAdaptorService.translateAndSortRequestTypes()

@@ -137,7 +137,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
     @Override
     public Collection<String> getRequestTypesForExternalService(String externalServiceLabel) {
         ExternalServiceBean esb =
-           getBeanForExternalService(getExternalServiceByLabel(externalServiceLabel));
+            SecurityContext.getCurrentConfigurationBean().getBeanForExternalService(externalServiceLabel);
         return esb == null ? Collections.<String>emptyList() : esb.getRequestTypes();
     }
 

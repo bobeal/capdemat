@@ -23,7 +23,7 @@
       </p>
       <p class="second-line">
         ${record.label}, 
-        <g:message code="external.searchResult.property.amount" /> : ${record.amount}
+        <g:message code="external.searchResult.property.amount" /> : ${record.euroAmount + ' €'}
       </p>
     </li>
 </g:if>

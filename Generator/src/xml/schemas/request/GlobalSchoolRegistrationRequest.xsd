@@ -1,0 +1,331 @@
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/gsrr"
+  xmlns:gsrr="http://www.cg95.fr/cvq/schema/gsrr" 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common" 
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
+    schemaLocation="../common/CVQCommonElements.xsd" />
+
+  <xs:element name="GlobalSchoolRegistrationRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Inscription scolaire, à la restauration scolaire et à l'accueil périscolaire
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Inscription scolaire, à la restauration scolaire et à l'accueil périscolaire
+      </xs:documentation>
+      <xs:appinfo>
+        <model namespace="school" />
+        <common>
+          <namespace name="school" />
+          <steps>
+            <step index="0" name="enfant" >
+              <widgets>
+                <subject />
+              </widgets>
+              <conditions>
+                <condition name="estDerogation" />
+              </conditions>
+            </step>
+            <step index="1" name="restauration">
+                <conditions>
+                    <condition name="estRestauration" />
+                </conditions>
+            </step>
+            <step index="2" name="periscolaire" />
+            <step index="3" name="reglements" />
+            <step index="4" ref="document" />
+            <step index="5" ref="validation" />
+          </steps>
+        </common>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="cvq:RequestType">
+          <xs:sequence>
+          
+             <xs:element name="EstDerogation" type="xs:boolean" default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Souhaitez-vous faire une demande de dérogation ?
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Souhaitez-vous faire une demande de dérogation ?
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step ref="enfant" />
+                    <conditions>
+                        <condition name="estDerogation" type="trigger" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="EcoleDerogation" type="gsrr:EcoleDerogType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Ecole
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Ecole
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="enfant" />
+                    <conditions>
+                        <condition name="estDerogation" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="MotifsDerogationEcole" type="cvq:LocalReferentialDataType" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Le ou les motif(s) de votre demande de dérogation
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Le ou les motif(s) de votre demande de dérogation
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="request" isTiedToRequest="true" />
+                  <common>
+                    <step name="enfant" />
+                    <conditions>
+                        <condition name="estDerogation" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="InformationsComplementairesDerogation" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations complémentaires
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Informations complémentaires
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="enfant" />
+                    <validation jsregexp="^.{0,1024}$"/>
+                    <conditions>
+                        <condition name="estDerogation" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo>
+                    <textarea rows="10"/>
+                  </fo>
+                  <bo column="1">
+                    <textarea rows="10"/>
+                  </bo>
+                 <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:maxLength value="1024"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+            <xs:element name="EcoleSecteur" type="gsrr:EcoleSecteurType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Ecole de secteur
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Ecole de secteur
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="enfant" />
+                    <conditions>
+                        <condition name="estDerogation" type="unfilled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                 <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="EstRestauration" type="xs:boolean" default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Souhaitez-vous inscrire votre enfant à la restauration scolaire de l'école ?
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Souhaitez-vous inscrire votre enfant à la restauration scolaire de l'école ?
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="restauration" />
+                    <conditions>
+                        <condition name="estRestauration" type="trigger" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                 <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="RegimeAlimentaire" type="cvq:LocalReferentialDataType" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Régime alimentaire de votre enfant
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Régime alimentaire de votre enfant
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="request" isTiedToRequest="true" />
+                  <common>
+                    <step name="restauration" />
+                    <conditions>
+                        <condition name="estRestauration" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                 <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="EstPeriscolaire" type="xs:boolean" default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Souhaitez-vous inscrire votre enfant à l'accueil périscolaire de l'école ?
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Souhaitez-vous inscrire votre enfant à l'accueil périscolaire de l'école ?
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="periscolaire" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                 <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AcceptationReglementInterieur" type="cvq:AcceptanceType" default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  J'accepte et je m'engage à respecter le règlement
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  J'accepte et je m'engage à respecter le règlement
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="reglements" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                 <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:complexType name="EcoleSecteurType">
+    <xs:sequence>
+      <xs:element name="IdEcoleSecteur" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Identifiant de l'école
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Identifiant de l'école
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="enfant" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="LabelEcoleSecteur" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Label de l'école
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Label de l'école
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="enfant" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="EcoleDerogType">
+    <xs:sequence>
+      <xs:element name="IdEcoleDerog" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Identifiant de l'école
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Identifiant de l'école
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="enfant" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="LabelEcoleDerog" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Label de l'école
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Label de l'école
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="enfant" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

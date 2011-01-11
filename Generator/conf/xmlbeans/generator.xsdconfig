@@ -33,6 +33,16 @@
     <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
   </xb:namespace>
 
+  <!-- School Transport Registration Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/strr">
+    <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
+  </xb:namespace>
+
+  <!-- Global School Registration Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/gsrr">
+    <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
+  </xb:namespace>
+
   <!-- Perischool Activity Registration Request -->
   <xb:namespace uri="http://www.cg95.fr/cvq/schema/parr">
     <xb:package>fr.cg95.cvq.xml.request.school</xb:package>

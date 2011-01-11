@@ -1,0 +1,67 @@
+gsrr.duration.value =
+
+gsrr.step.enfant.label =
+gsrr.step.enfant.desc =
+
+gsrr.step.restauration.label =
+gsrr.step.restauration.desc =
+
+gsrr.step.periscolaire.label =
+gsrr.step.periscolaire.desc =
+
+gsrr.step.reglements.label =
+gsrr.step.reglements.desc =
+
+
+gsrr.property.estDerogation.help =
+gsrr.property.estDerogation.validationError =
+
+
+gsrr.property.ecoleDerogation.help =
+gsrr.property.ecoleDerogation.validationError =
+
+
+gsrr.property.idEcoleDerog.help =
+gsrr.property.idEcoleDerog.validationError =
+
+
+gsrr.property.labelEcoleDerog.help =
+gsrr.property.labelEcoleDerog.validationError =
+
+
+gsrr.property.motifsDerogationEcole.help =
+gsrr.property.motifsDerogationEcole.validationError =
+
+
+gsrr.property.informationsComplementairesDerogation.help =
+gsrr.property.informationsComplementairesDerogation.validationError =
+
+
+gsrr.property.ecoleSecteur.help =
+gsrr.property.ecoleSecteur.validationError =
+
+
+gsrr.property.idEcoleSecteur.help =
+gsrr.property.idEcoleSecteur.validationError =
+
+
+gsrr.property.labelEcoleSecteur.help =
+gsrr.property.labelEcoleSecteur.validationError =
+
+
+gsrr.property.estRestauration.help =
+gsrr.property.estRestauration.validationError =
+
+
+gsrr.property.regimeAlimentaire.help =
+gsrr.property.regimeAlimentaire.validationError =
+
+
+gsrr.property.estPeriscolaire.help =
+gsrr.property.estPeriscolaire.validationError =
+
+
+gsrr.property.acceptationReglementInterieur.help =
+gsrr.property.acceptationReglementInterieur.validationError =
+
+

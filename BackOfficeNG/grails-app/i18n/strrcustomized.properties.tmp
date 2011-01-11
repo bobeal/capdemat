@@ -1,0 +1,86 @@
+strr.duration.value =
+
+strr.step.enfant.label =
+strr.step.enfant.desc =
+
+strr.step.autorisations.label =
+strr.step.autorisations.desc =
+
+strr.step.reglements.label =
+strr.step.reglements.desc =
+
+
+strr.property.ligne.help =
+strr.property.ligne.validationError =
+
+
+strr.property.idLigne.help =
+strr.property.idLigne.validationError =
+
+
+strr.property.labelLigne.help =
+strr.property.labelLigne.validationError =
+
+
+strr.property.arret.help =
+strr.property.arret.validationError =
+
+
+strr.property.idArret.help =
+strr.property.idArret.validationError =
+
+
+strr.property.labelArret.help =
+strr.property.labelArret.validationError =
+
+
+strr.property.estMaternelleElementaireAutorisations.help =
+strr.property.estMaternelleElementaireAutorisations.validationError =
+
+
+strr.property.autorisation.help =
+strr.property.autorisation.validationError =
+
+
+strr.property.tiersAutorises.help =
+strr.property.tiersAutorises.validationError =
+
+strr.property.tiersAutorises.elementAdditionSuccess =
+
+
+strr.property.tiersNom.help =
+strr.property.tiersNom.validationError =
+
+
+strr.property.tiersPrenom.help =
+strr.property.tiersPrenom.validationError =
+
+
+strr.property.tiersTelephone.help =
+strr.property.tiersTelephone.validationError =
+
+
+strr.property.frereOuSoeurAutorise.help =
+strr.property.frereOuSoeurAutorise.validationError =
+
+
+strr.property.frereOuSoeurNom.help =
+strr.property.frereOuSoeurNom.validationError =
+
+
+strr.property.frereOuSoeurPrenom.help =
+strr.property.frereOuSoeurPrenom.validationError =
+
+
+strr.property.frereOuSoeurEcole.help =
+strr.property.frereOuSoeurEcole.validationError =
+
+
+strr.property.frereOuSoeurClasse.help =
+strr.property.frereOuSoeurClasse.validationError =
+
+
+strr.property.acceptationReglementInterieur.help =
+strr.property.acceptationReglementInterieur.validationError =
+
+

@@ -52,6 +52,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/school/SchoolCanteenRegistrationRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/school/RecreationActivityRegistrationRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/school/SchoolRegistrationRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/school/SchoolTransportRegistrationRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/school/GlobalSchoolRegistrationRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/school/LearningActivitiesDiscoveryRegistrationRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/school/HomeEmergencyRegistrationRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/school/DayCareCenterRegistrationRequestData.hbm.xml</value>
@@ -81,6 +83,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/school/PerischoolContactIndividual.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/school/RecreationAuthorizedIndividual.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/school/RecreationContactIndividual.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/school/TiersInformations.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/BafaGrantRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/DhrRealAsset.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/DhrNotRealAsset.hbm.xml</value>

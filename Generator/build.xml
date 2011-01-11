@@ -43,6 +43,7 @@
       <include name="DeathDetailsRequest.xsd" />
       <include name="DomesticHelpRequest.xsd" />
       <include name="ElectoralRollRegistrationRequest.xsd" />
+      <include name="GlobalSchoolRegistrationRequest.xsd" />
       <include name="HandicapCompensationAdultRequest.xsd" />
       <include name="HandicapCompensationChildRequest.xsd" />   
       <include name="HolidaySecurityRequest.xsd" />
@@ -57,6 +58,7 @@
       <include name="RemoteSupportRequest.xsd" />
       <include name="SchoolCanteenRegistrationRequest.xsd" />
       <include name="SchoolRegistrationRequest.xsd" />
+      <include name="SchoolTransportRegistrationRequest.xsd" />
       <include name="SmsNotificationRequest.xsd" />
       <include name="SewerConnectionRequest.xsd" />
       <include name="StudyGrantRequest.xsd" />

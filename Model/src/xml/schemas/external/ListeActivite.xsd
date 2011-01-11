@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.capwebct.fr/capdemat"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cap="http://www.capwebct.fr/capdemat"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:element name="ListeActivite">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Activite" type="cap:Activite" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="Activite">
+    <xs:sequence>
+      <xs:element name="IdActivite" type="xs:string"/>
+      <xs:element name="NomActivite" type="xs:string"/>
+      <xs:element name="TypeActivite" type="xs:string"/>
+      <xs:element name="ListeCentre" type="cap:ListeCentre"/>
+      <xs:element name="ListeCircuitAller" type="cap:ListeCircuitAller"/>
+      <xs:element name="ListeCircuitRetour" type="cap:CircuitRetour"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListeCentre">
+    <xs:sequence>
+      <xs:element name="Centre" type="cap:Centre" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListeCircuitAller">
+    <xs:sequence>
+      <xs:element name="CircuitAller" type="cap:CircuitAller" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListeCircuitRetour">
+    <xs:sequence>
+      <xs:element name="CircuitRetour" type="cap:CircuitRetour" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Centre">
+    <xs:sequence>
+      <xs:element name="IdCentre" type="xs:string"/>
+      <xs:element name="NomCentre" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CircuitAller">
+    <xs:sequence>
+      <xs:element name="IdCircuitAller" type="xs:string"/>
+      <xs:element name="NomCircuitAller" type="xs:string"/>
+      <xs:element name="ListeArretAller" type="cap:ListeArretAller"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CircuitRetour">
+    <xs:sequence>
+      <xs:element name="IdCircuitRetour" type="xs:string"/>
+      <xs:element name="NomCircuitRetour" type="xs:string"/>
+      <xs:element name="ListeArretRetour" type="cap:ListeArretRetour"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListeArretAller">
+    <xs:sequence>
+      <xs:element name="ArretAller" type="cap:ArretAller" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListeArretRetour">
+    <xs:sequence>
+      <xs:element name="ArretRetour" type="cap:ArretRetour" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ArretAller">
+    <xs:sequence>
+      <xs:element name="IdArretAller" type="xs:string"/>
+      <xs:element name="NomArretAller" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ArretRetour">
+    <xs:sequence>
+      <xs:element name="IdArretRetour" type="xs:string"/>
+      <xs:element name="NomArretRetour" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

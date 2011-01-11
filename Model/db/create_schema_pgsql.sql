@@ -119,6 +119,18 @@
     alter table forms 
         drop constraint FK5D18C2FD06E9C28;
 
+    alter table global_school_registration_request_motifs_derogation_ecole 
+        drop constraint FKCC5E50B85DE12C2;
+
+    alter table global_school_registration_request_motifs_derogation_ecole 
+        drop constraint FKCC5E50B315EEA61;
+
+    alter table global_school_registration_request_regime_alimentaire 
+        drop constraint FK261E5D0CA7322BAE;
+
+    alter table global_school_registration_request_regime_alimentaire 
+        drop constraint FK261E5D0C85DE12C2;
+
     alter table handicap_compensation_adult_request 
         drop constraint FK73D0EACC2BC49188;
 
@@ -425,6 +437,9 @@
     alter table ticket_subscriber_limits 
         drop constraint FK2A415CAF42EA14;
 
+    alter table tiers_informations 
+        drop constraint FK58C18B7589395924;
+
     alter table user_action 
         drop constraint FKD768C52A8BD77771;
 
@@ -501,6 +516,12 @@
     drop table french_r_i_b;
 
     drop table global_request_type_configuration;
+
+    drop table global_school_registration_request;
+
+    drop table global_school_registration_request_motifs_derogation_ecole;
+
+    drop table global_school_registration_request_regime_alimentaire;
 
     drop table handicap_compensation_adult_request;
 
@@ -640,6 +661,8 @@
 
     drop table school_registration_request;
 
+    drop table school_transport_registration_request;
+
     drop table sewer_connection_request;
 
     drop table sms_notification_request;
@@ -671,6 +694,8 @@
     drop table ticket_subscriber;
 
     drop table ticket_subscriber_limits;
+
+    drop table tiers_informations;
 
     drop table user_action;
 
@@ -1191,6 +1216,34 @@
         request_lock_max_delay int4 not null,
         archives_password varchar(255),
         primary key (id)
+    );
+
+    create table global_school_registration_request (
+        id int8 not null,
+        acceptation_reglement_interieur bool,
+        est_derogation bool,
+        est_periscolaire bool,
+        est_restauration bool,
+        id_ecole_derog varchar(255),
+        id_ecole_secteur varchar(255),
+        informations_complementaires_derogation varchar(1024),
+        label_ecole_derog varchar(255),
+        label_ecole_secteur varchar(255),
+        primary key (id)
+    );
+
+    create table global_school_registration_request_motifs_derogation_ecole (
+        global_school_registration_request_id int8 not null,
+        motifs_derogation_ecole_id int8 not null,
+        motifs_derogation_ecole_index int4 not null,
+        primary key (global_school_registration_request_id, motifs_derogation_ecole_index)
+    );
+
+    create table global_school_registration_request_regime_alimentaire (
+        global_school_registration_request_id int8 not null,
+        regime_alimentaire_id int8 not null,
+        regime_alimentaire_index int4 not null,
+        primary key (global_school_registration_request_id, regime_alimentaire_index)
     );
 
     create table handicap_compensation_adult_request (
@@ -2279,6 +2332,22 @@
         primary key (id)
     );
 
+    create table school_transport_registration_request (
+        id int8 not null,
+        acceptation_reglement_interieur bool,
+        autorisation varchar(255),
+        est_maternelle_elementaire_autorisations bool,
+        frere_ou_soeur_classe varchar(255),
+        frere_ou_soeur_ecole varchar(255),
+        frere_ou_soeur_nom varchar(38),
+        frere_ou_soeur_prenom varchar(38),
+        id_arret varchar(255),
+        id_ligne varchar(255),
+        label_arret varchar(255),
+        label_ligne varchar(255),
+        primary key (id)
+    );
+
     create table sewer_connection_request (
         id int8 not null,
         locality varchar(255),
@@ -2462,6 +2531,16 @@
         value int4,
         key varchar(255) not null,
         primary key (id, key)
+    );
+
+    create table tiers_informations (
+        id int8 not null,
+        tiers_nom varchar(38),
+        tiers_prenom varchar(38),
+        tiers_telephone varchar(10),
+        school_transport_registration_request_id int8,
+        tiers_autorises_index int4,
+        primary key (id)
     );
 
     create table user_action (
@@ -2699,6 +2778,26 @@
         add constraint FK5D18C2FD06E9C28 
         foreign key (request_form_id) 
         references request_form;
+
+    alter table global_school_registration_request_motifs_derogation_ecole 
+        add constraint FKCC5E50B85DE12C2 
+        foreign key (global_school_registration_request_id) 
+        references global_school_registration_request;
+
+    alter table global_school_registration_request_motifs_derogation_ecole 
+        add constraint FKCC5E50B315EEA61 
+        foreign key (motifs_derogation_ecole_id) 
+        references local_referential_data;
+
+    alter table global_school_registration_request_regime_alimentaire 
+        add constraint FK261E5D0CA7322BAE 
+        foreign key (regime_alimentaire_id) 
+        references local_referential_data;
+
+    alter table global_school_registration_request_regime_alimentaire 
+        add constraint FK261E5D0C85DE12C2 
+        foreign key (global_school_registration_request_id) 
+        references global_school_registration_request;
 
     alter table handicap_compensation_adult_request 
         add constraint FK73D0EACC2BC49188 
@@ -3209,6 +3308,11 @@
         add constraint FK2A415CAF42EA14 
         foreign key (id) 
         references ticket_subscriber;
+
+    alter table tiers_informations 
+        add constraint FK58C18B7589395924 
+        foreign key (school_transport_registration_request_id) 
+        references school_transport_registration_request;
 
     alter table user_action 
         add constraint FKD768C52A8BD77771 

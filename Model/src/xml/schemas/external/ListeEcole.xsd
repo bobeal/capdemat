@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.capwebct.fr/capdemat"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cap="http://www.capwebct.fr/capdemat"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+  
+  <xs:element name="ListeEcole">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="ListeEcoleSecteur" type="cap:ListeEcoleSecteurType" />
+        <xs:element name="ListeEcoleDerog" type="cap:ListeEcoleDerogType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:complexType name="ListeEcoleSecteurType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="EcoleSecteur" type="cap:EcoleSecteurType" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="EcoleSecteurType">
+    <xs:sequence>
+      <xs:element name="IdEcoleSecteur" type="xs:string" />
+      <xs:element name="NomEcoleSecteur" type="xs:string" />
+      <xs:element name="TypeEcoleSecteur" type="xs:string" />
+      <xs:element name="LibelTypeEcoleSecteur" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="ListeEcoleDerogType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="EcoleDerog" type="cap:EcoleDerogType" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="EcoleDerogType">
+    <xs:sequence>
+      <xs:element name="IdEcoleDerog" type="xs:string" />
+      <xs:element name="NomEcoleDerog" type="xs:string" />
+      <xs:element name="TypeEcoleDerog" type="xs:string" />
+      <xs:element name="LibelTypeEcoleDerog" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

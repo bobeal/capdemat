@@ -1,6 +1,20 @@
 <input type="hidden" name="id" value="${child?.id}" />
 <input type="hidden" name="mode" value="edit" />
   <fieldset>
+    <label class="required">
+   <g:message code="homeFolder.individual.property.isChildBorn" /> *
+    </label>
+    <ul class="yes-no required ${stepStates != null && stepStates['children']?.invalidFields?.contains('isChildBorn') ? 'validation-failed' : ''}">
+      <g:each in="${[true,false]}">
+        <li>
+          <input type="radio" id="isChildBorn_${it ? 'yes' : 'no'}"
+            class="required validate-one-required boolean isChildBorn" title=""
+            value="${it}" name="isChildBorn" ${it == child?.isChildBorn ? 'checked="checked"': ''} />
+          <label for="isChildBorn_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
+        </li>
+      </g:each>
+    </ul>
+
     <legend><g:message code="homeFolder.individual.header.civilInformations" /></legend>
     <label for="lastName" class="required">
       <g:message code="homeFolder.individual.property.lastName" />
@@ -25,8 +39,13 @@
         </option>
       </g:each>
     </select>
-
     <label class="required"><g:message code="homeFolder.individual.property.birthDate" /></label>
+    <script type="text/javascript">
+      var zcf = zenexity.capdemat.fong;
+      zcf.i18n = {};
+      zcf.i18n['child.expectedBirthDate'] = '<g:message code="homeFolder.individual.property.expectedBirthDate" />';
+      zcf.i18n['child.birthDate'] = '<g:message code="homeFolder.individual.property.birthDate" />';
+    </script>
     <div class="date required validate-date">
       <select id="birthDate_day" name="birthDate_day"
         class="day ${invalidFields?.contains('birthDate') ? 'validation-failed' : ''}">

@@ -34,7 +34,7 @@ class IndividualAdaptorService {
         def result = [:]
         subjects.each {
             def subject = individualService.getById(it)
-            result[it] = "${subject.lastName} ${subject.firstName}"
+            result[it] = !subject.isChildBorn ? translationService.translate("request.subject.childNoBorn", subject.fullName) : subject.fullName
         }
         return result
     }

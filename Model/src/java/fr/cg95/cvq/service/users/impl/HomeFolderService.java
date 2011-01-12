@@ -691,7 +691,8 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
                 for (Adult adult : adults) {
                     if (adult.getIndividualRoles() != null) {
                         for (IndividualRole individualRole : adult.getIndividualRoles()) {
-                            if (child.getId().equals(individualRole.getIndividualId())
+                            if ((child.getId().equals(individualRole.getIndividualId())
+                                    || child.getFullName().equals(individualRole.getIndividualName()))
                                     && (individualRole.getRole().equals(RoleType.CLR_FATHER)
                                             || individualRole.getRole().equals(RoleType.CLR_MOTHER)
                                             || individualRole.getRole().equals(RoleType.CLR_TUTOR)))

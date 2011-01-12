@@ -1,3 +1,4 @@
+import fr.cg95.cvq.business.users.Child
 import fr.cg95.cvq.business.users.SexType
 import fr.cg95.cvq.business.users.TitleType
 import fr.cg95.cvq.service.users.IIndividualService
@@ -34,7 +35,7 @@ class IndividualAdaptorService {
         def result = [:]
         subjects.each {
             def subject = individualService.getById(it)
-            result[it] = !subject.isChildBorn ? translationService.translate("request.subject.childNoBorn", subject.fullName) : subject.fullName
+            result[it] = subject instanceof Child && !subject.isChildBorn ? translationService.translate("request.subject.childNoBorn", subject.fullName) : subject.fullName
         }
         return result
     }

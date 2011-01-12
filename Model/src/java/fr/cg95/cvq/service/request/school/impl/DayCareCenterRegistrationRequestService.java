@@ -55,7 +55,7 @@ public final class DayCareCenterRegistrationRequestService extends RequestServic
     }
     
     @Override
-    public void onRequestCreated(final Request request)
+    public void onRequestIssued(final Request request)
         throws CvqException {
         
         DayCareCenterRegistrationRequest dccrr = (DayCareCenterRegistrationRequest) request;

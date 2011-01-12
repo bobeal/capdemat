@@ -41,7 +41,7 @@ public class DomesticHelpRequestService extends RequestService {
     }
 
     @Override
-    public void onRequestCreated(final Request request) throws CvqException,
+    public void onRequestIssued(final Request request) throws CvqException,
             CvqObjectNotFoundException {
 
         DomesticHelpRequest dhr = (DomesticHelpRequest) request;

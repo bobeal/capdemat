@@ -101,11 +101,12 @@ public interface IRequestService extends ApplicationListener<CapDematEvent> {
     ///////////////////////////////////////////////////////////
 
     /**
-     * Hook called after common business checks and before persisting the request.
+     * Hook called after common business checks and before persisting the request,
+     * when the ecitizen submits it.
      * 
      * Can be used to perform specific business checks or logic.
      */
-    void onRequestCreated(Request request) throws CvqException;
+    void onRequestIssued(Request request) throws CvqException;
 
     void onRequestModified(Request request) throws CvqException;
     

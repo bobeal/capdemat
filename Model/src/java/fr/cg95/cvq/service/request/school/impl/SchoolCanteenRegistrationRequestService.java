@@ -23,7 +23,7 @@ public final class SchoolCanteenRegistrationRequestService extends RequestServic
     private static Logger logger = Logger.getLogger(SchoolCanteenRegistrationRequestService.class);
 
     @Override
-    public void onRequestCreated(final Request request)
+    public void onRequestIssued(final Request request)
         throws CvqException, CvqObjectNotFoundException {
 
         SchoolCanteenRegistrationRequest scrr = (SchoolCanteenRegistrationRequest) request;

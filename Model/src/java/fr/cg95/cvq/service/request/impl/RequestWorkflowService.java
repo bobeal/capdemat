@@ -255,7 +255,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     public Long create(Request request, String note) throws CvqException {
         performBusinessChecks(request, SecurityContext.getCurrentEcitizen());
         IRequestService requestService = requestServiceRegistry.getRequestService(request);
-        requestService.onRequestCreated(request);
+        requestService.onRequestIssued(request);
         return finalizeAndPersist(request, note);
     }
 
@@ -265,7 +265,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         throws CvqException {
         HomeFolder homeFolder = performBusinessChecks(request, requester);
         IRequestService requestService = requestServiceRegistry.getRequestService(request);
-        requestService.onRequestCreated(request);
+        requestService.onRequestIssued(request);
         return finalizeAndPersist(request, homeFolder, note);
     }
     
@@ -281,7 +281,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                 homeFolderService.getHomeFolderResponsible(homeFolder.getId()));
 
         IRequestService requestService = requestServiceRegistry.getRequestService(request);
-        requestService.onRequestCreated(request);
+        requestService.onRequestIssued(request);
         requestDocumentService.addDocuments(request, documents);
         return finalizeAndPersist(request, homeFolder, note);
     }

@@ -1,6 +1,5 @@
 package fr.cg95.cvq.service.request.military.impl;
 
-import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.military.MilitaryCensusRequest;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
@@ -22,7 +21,4 @@ public class MilitaryCensusRequestService extends RequestService {
     public Request getSkeletonRequest() {
         return new MilitaryCensusRequest();
     }
-
-    @Override
-    public void onApplicationEvent(CapDematEvent e) {}
 }

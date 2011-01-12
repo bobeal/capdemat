@@ -1,6 +1,5 @@
 package fr.cg95.cvq.service.request.ecitizen.impl;
 
-import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
@@ -27,7 +26,4 @@ public final class VoCardRequestService extends RequestService {
     public Request getSkeletonRequest() {
         return new VoCardRequest();
     }
-
-    @Override
-    public void onApplicationEvent(CapDematEvent e) {}
 }

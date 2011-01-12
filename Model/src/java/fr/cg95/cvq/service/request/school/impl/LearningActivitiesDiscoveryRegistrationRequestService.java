@@ -1,6 +1,5 @@
 package fr.cg95.cvq.service.request.school.impl;
 
-import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.LearningActivitiesDiscoveryRegistrationRequest;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
@@ -26,7 +25,4 @@ public final class LearningActivitiesDiscoveryRegistrationRequestService extends
     public Request getSkeletonRequest() {
         return new LearningActivitiesDiscoveryRegistrationRequest();
     }
-
-    @Override
-    public void onApplicationEvent(CapDematEvent e) {}
 }

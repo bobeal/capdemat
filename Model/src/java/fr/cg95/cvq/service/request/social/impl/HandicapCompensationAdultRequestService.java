@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import org.apache.log4j.Logger;
 
-import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.social.HandicapCompensationAdultRequest;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
@@ -119,7 +118,4 @@ public class HandicapCompensationAdultRequestService extends RequestService {
     public Request getSkeletonRequest() {
         return new HandicapCompensationAdultRequest();
     }
-
-    @Override
-    public void onApplicationEvent(CapDematEvent e) {}
 }

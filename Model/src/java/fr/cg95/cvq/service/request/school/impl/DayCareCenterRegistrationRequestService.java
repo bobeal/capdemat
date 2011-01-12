@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.DayCareCenterRegistrationRequest;
 import fr.cg95.cvq.business.users.Individual;
@@ -71,7 +70,4 @@ public final class DayCareCenterRegistrationRequestService extends RequestServic
     public void setIndividualService(IIndividualService individualService) {
         this.individualService = individualService;
     }
-
-    @Override
-    public void onApplicationEvent(CapDematEvent e) {}
 }

@@ -1,6 +1,5 @@
 package fr.cg95.cvq.service.request.environment.impl;
 
-import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.environment.CompostableWasteCollectionRequest;
 import fr.cg95.cvq.security.SecurityContext;
@@ -21,7 +20,4 @@ public class CompostableWasteCollectionRequestService extends RequestService {
         }
         return request;
     }
-
-    @Override
-    public void onApplicationEvent(CapDematEvent e) {}
 }

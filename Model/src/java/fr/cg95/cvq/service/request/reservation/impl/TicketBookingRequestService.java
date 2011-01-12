@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
-import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.reservation.TbrTicket;
 import fr.cg95.cvq.business.request.reservation.TicketBookingRequest;
@@ -236,9 +235,6 @@ public class TicketBookingRequestService extends RequestService implements ITick
         }
         return true;
     }
-
-    @Override
-    public void onApplicationEvent(CapDematEvent e) {}
 
     public void setTicketBookingService(ITicketBookingService ticketBookingService) {
         this.ticketBookingService = ticketBookingService;

@@ -1,6 +1,5 @@
 package fr.cg95.cvq.service.request.school.impl;
 
-import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.RecreationActivityRegistrationRequest;
 import fr.cg95.cvq.exception.CvqModelException;
@@ -37,7 +36,4 @@ public final class RecreationActivityRegistrationRequestService extends RequestS
             request.setUrgencyPhone(SecurityContext.getCurrentEcitizen().getOfficePhone());
         return request;
     }
-
-    @Override
-    public void onApplicationEvent(CapDematEvent e) {}
 }

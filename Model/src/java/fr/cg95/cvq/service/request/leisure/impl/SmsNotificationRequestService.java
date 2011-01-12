@@ -1,6 +1,5 @@
 package fr.cg95.cvq.service.request.leisure.impl;
 
-import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.leisure.SmsNotificationRequest;
 import fr.cg95.cvq.exception.CvqException;
@@ -36,7 +35,4 @@ public class SmsNotificationRequestService extends RequestService {
     public Request getSkeletonRequest() {
         return new SmsNotificationRequest();
     }
-
-    @Override
-    public void onApplicationEvent(CapDematEvent e) {}
 }

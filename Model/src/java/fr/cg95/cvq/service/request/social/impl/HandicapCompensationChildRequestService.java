@@ -5,7 +5,6 @@ import java.util.Calendar;
 
 import org.apache.log4j.Logger;
 
-import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.social.HandicapCompensationChildRequest;
 import fr.cg95.cvq.service.request.condition.DateChecker;
@@ -124,7 +123,4 @@ public class HandicapCompensationChildRequestService extends RequestService {
     public Request getSkeletonRequest() {
         return new HandicapCompensationChildRequest();
     }
-
-    @Override
-    public void onApplicationEvent(CapDematEvent e) {}
 }

@@ -1,6 +1,5 @@
 package fr.cg95.cvq.service.request.social.impl;
 
-import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.social.RemoteSupportRequest;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
@@ -31,7 +30,4 @@ public class RemoteSupportRequestService extends RequestService {
     public Request getSkeletonRequest() {
         return new RemoteSupportRequest();
     }
-
-    @Override
-    public void onApplicationEvent(CapDematEvent e) {}
 }

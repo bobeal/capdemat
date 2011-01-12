@@ -1,6 +1,5 @@
 package fr.cg95.cvq.service.request.urbanism.impl;
 
-import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.urbanism.AlignmentNumberingConnectionRequest;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
@@ -28,7 +27,4 @@ public class AlignmentNumberingConnectionRequestService extends RequestService {
     public Request getSkeletonRequest() {
         return new AlignmentNumberingConnectionRequest();
     }
-
-    @Override
-    public void onApplicationEvent(CapDematEvent e) {}
 }

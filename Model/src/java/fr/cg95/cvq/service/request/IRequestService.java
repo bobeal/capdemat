@@ -1,5 +1,8 @@
 package fr.cg95.cvq.service.request;
 
+import org.springframework.context.ApplicationListener;
+
+import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.exception.CvqException;
 
@@ -8,7 +11,7 @@ import fr.cg95.cvq.exception.CvqException;
  *
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public interface IRequestService {
+public interface IRequestService extends ApplicationListener<CapDematEvent> {
 
     /////////////////////////////////////
     // Methods handled by the base class

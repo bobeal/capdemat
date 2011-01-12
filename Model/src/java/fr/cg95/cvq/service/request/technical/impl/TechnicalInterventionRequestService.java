@@ -2,7 +2,6 @@ package fr.cg95.cvq.service.request.technical.impl;
 
 import java.util.Arrays;
 
-import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.technical.TechnicalInterventionRequest;
 import fr.cg95.cvq.security.SecurityContext;
@@ -30,7 +29,4 @@ public class TechnicalInterventionRequestService extends RequestService {
         }
         return request;
     }
-
-    @Override
-    public void onApplicationEvent(CapDematEvent e) {}
 }

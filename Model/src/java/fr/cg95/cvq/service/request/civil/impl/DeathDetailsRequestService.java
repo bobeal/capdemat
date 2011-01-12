@@ -1,6 +1,5 @@
 package fr.cg95.cvq.service.request.civil.impl;
 
-import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.civil.DeathDetailsRequest;
 import fr.cg95.cvq.security.SecurityContext;
@@ -28,7 +27,4 @@ public final class DeathDetailsRequestService extends RequestService {
         }
         return request;
     }
-
-    @Override
-    public void onApplicationEvent(CapDematEvent e) {}
 }

@@ -2,7 +2,6 @@ package fr.cg95.cvq.service.request.civil.impl;
 
 import java.util.Arrays;
 
-import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.civil.BirthDetailsRequest;
@@ -43,7 +42,4 @@ public final class BirthDetailsRequestService extends RequestService {
         }
         return request;
     }
-
-    @Override
-    public void onApplicationEvent(CapDematEvent e) {}
 }

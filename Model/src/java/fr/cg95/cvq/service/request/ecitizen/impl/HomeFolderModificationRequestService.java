@@ -8,7 +8,6 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.users.Address;
@@ -416,8 +415,6 @@ public class HomeFolderModificationRequestService extends RequestService {
 
         return new HomeFolderModificationRequest();
     }
-    @Override
-    public void onApplicationEvent(CapDematEvent e) {}
 
     public void setHistoryEntryDAO(IHistoryEntryDAO iDAO) {
         this.historyEntryDAO = iDAO;

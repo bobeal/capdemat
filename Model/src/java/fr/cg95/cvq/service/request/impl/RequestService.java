@@ -1,7 +1,5 @@
 package fr.cg95.cvq.service.request.impl;
 
-import org.springframework.context.ApplicationListener;
-
 import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.dao.IGenericDAO;
@@ -15,7 +13,7 @@ import fr.cg95.cvq.service.request.IRequestWorkflowService;
  *
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public abstract class RequestService implements IRequestService, ApplicationListener<CapDematEvent> {
+public abstract class RequestService implements IRequestService {
 
     protected String localReferentialFilename;
     protected String placeReservationFilename;
@@ -77,6 +75,9 @@ public abstract class RequestService implements IRequestService, ApplicationList
     @Override
     public void onExternalServiceSendRequest(Request request, String sendRequestResult) throws CvqException {
     }
+
+    @Override
+    public void onApplicationEvent(CapDematEvent e) {}
 
     @Override
     public String getLocalReferentialFilename() {

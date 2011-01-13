@@ -1,6 +1,6 @@
 <g:set var="currentLrDatas" value="${rqt[javaName].collect{it.name}}" />
 <g:if test="${lrTypes[javaName].entriesSupportMultiple}">
-  <ul class="${depth==0 ? 'dataTree ' : ''}${rqt.stepStates[currentStep].invalidFields.contains(javaName) ? 'validation-failed' : ''}">
+  <ul class="${depth==0 ? 'dataTree ' : ''}${rqt.stepStates[currentStep].invalidFields.contains(javaName) ? 'validation-failed' : ''} ${htmlClass}">
   <g:each var="entry" in="${lrEntries}">
     <g:if test="${entry.entries}">
       <li>

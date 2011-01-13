@@ -21,7 +21,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
     if(el.constructor == 'String') {
     	el = yus.query('#request [name=' + el + ']')[0];
     }
-    if(/radio|checkbox/i.test(el.type)) { return el.type; }
+    if(/radio|checkbox/i.test(el.type)) { return 'radio'; }
     else if(zct.nodeName(el,'select')) { return 'select'; }
     else if(/text/i.test(el.type) || zct.nodeName(el,'textarea')) { return 'text'; }
     else { return undefined; }
@@ -45,9 +45,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
     empty : function(nm) {
       zct.each(zcfi.getByName(nm,'input'), function(){this.checked = undefined;});
     },
-    isModified : function() {
-      //Not implemented yet
-      return false;
+    isModified : function(nm) {
+      var el = zcfi.getByName(nm,'input')[0];
+      return el.checked;
     }
   }; 
   
@@ -425,7 +425,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
        */
       resetInput : function(el,val) {
         var states = zcf.Condition.initStates;
-        if(/radio|checkbox/i.test(el.type)) {if(states[el.name]) el.checked = states[el.name];}
+        if(/radio|checkbox/i.test(el.type)) {
+//          if(states[el.name]) el.checked = states[el.name];
+          el.checked = false;
+        }
         else if(el.type != 'hidden')  zct.val(el,val);
       },
       /**

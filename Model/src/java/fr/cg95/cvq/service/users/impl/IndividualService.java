@@ -186,7 +186,8 @@ public class IndividualService implements IIndividualService {
 
             String baseLogin =  Normalizer.normalize(
                 (individual.getFirstName().trim() + '.' + individual.getLastName().trim())
-                    .replaceAll("\\s", "-"),
+                    .replaceAll("\\s", "-")
+                    .replaceAll("'", ""),
                 Normalizer.Form.NFD)
                     .replaceAll("[^\\p{ASCII}]","").toLowerCase();
             logger.debug("assignLogin() searching from " + baseLogin);

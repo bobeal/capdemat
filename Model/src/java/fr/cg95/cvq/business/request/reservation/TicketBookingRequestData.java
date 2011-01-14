@@ -42,6 +42,65 @@ public class TicketBookingRequestData implements Serializable {
       
     }
 
+    @Override
+    public TicketBookingRequestData clone() {
+        TicketBookingRequestData result = new TicketBookingRequestData();
+        
+          
+            
+        result.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
+      
+          
+        
+          
+            
+        result.setSubscriberLastName(subscriberLastName);
+      
+          
+        
+          
+            
+        List<fr.cg95.cvq.business.request.reservation.TbrTicket> tbrTicketList = new ArrayList<fr.cg95.cvq.business.request.reservation.TbrTicket>();
+        for (TbrTicket object : tbrTicket) {
+            tbrTicketList.add(object.clone());
+        }
+        result.setTbrTicket(tbrTicketList);
+      
+          
+        
+          
+            
+        result.setTotalPrice(totalPrice);
+      
+          
+        
+          
+            
+        result.setSubscriberNumber(subscriberNumber);
+      
+          
+        
+          
+            
+        result.setSubscriberFirstName(subscriberFirstName);
+      
+          
+        
+          
+            
+        result.setIsSubscriber(isSubscriber);
+      
+          
+        
+          
+            
+        result.setPaymentReference(paymentReference);
+      
+          
+        
+        return result;
+    }
+
     public final void setId(final Long id) {
         this.id = id;
     }

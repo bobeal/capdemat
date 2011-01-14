@@ -7,8 +7,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.AssertValid;
 import org.apache.xmlbeans.XmlOptions;
@@ -40,6 +42,36 @@ public class TicketBookingRequest extends Request implements Serializable {
     public TicketBookingRequest() {
         super();
         this.ticketBookingRequestData = new TicketBookingRequestData();
+        Map<String, Object> stepState;
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "uncomplete");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          getStepStates().put("requester", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", false);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          getStepStates().put("entertainments", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          getStepStates().put("rules", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          getStepStates().put("validation", stepState);
+        
     }
 
     /**
@@ -72,6 +104,7 @@ public class TicketBookingRequest extends Request implements Serializable {
     public final TicketBookingRequestDocument modelToXml() {
         
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         Date date = null;
         TicketBookingRequestDocument ticketBookingRequestDoc = TicketBookingRequestDocument.Factory.newInstance();
         TicketBookingRequestDocument.TicketBookingRequest ticketBookingRequest = ticketBookingRequestDoc.addNewTicketBookingRequest();
@@ -115,6 +148,7 @@ public class TicketBookingRequest extends Request implements Serializable {
     public static TicketBookingRequest xmlToModel(TicketBookingRequestDocument ticketBookingRequestDoc) {
         TicketBookingRequestDocument.TicketBookingRequest ticketBookingRequestXml = ticketBookingRequestDoc.getTicketBookingRequest();
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         TicketBookingRequest ticketBookingRequest = new TicketBookingRequest();
         ticketBookingRequest.fillCommonModelInfo(ticketBookingRequest, ticketBookingRequestXml);
@@ -141,6 +175,42 @@ public class TicketBookingRequest extends Request implements Serializable {
         ticketBookingRequest.setPaymentReference(ticketBookingRequestXml.getPaymentReference());
       
         return ticketBookingRequest;
+    }
+
+    @Override
+    public TicketBookingRequest clone() {
+        TicketBookingRequest clone = new TicketBookingRequest(getRequestData().clone(), ticketBookingRequestData.clone());
+        Map<String, Object> stepState;
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "uncomplete");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("requester", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", false);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("entertainments", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("rules", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("validation", stepState);
+        
+        return clone;
     }
 
   

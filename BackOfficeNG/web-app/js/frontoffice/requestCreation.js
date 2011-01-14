@@ -28,7 +28,7 @@
         if (!zcf.RequestCreation.requestTypeModule
             || !zcf.RequestCreation.requestTypeModule.displayErrorMsg)
           zct.html(yud.get(formErrorId), 'Des champs obligatoires ne sont pas correctement remplis, merci de v&eacute;rifier les champs en rouge');
-        yud.addClass(yus.query("#request form")[0], 'invalid');
+        yud.addClass(yus.query("#request div.form")[0], 'invalid');
         yud.addClass(yus.query("#request div.steps li.current")[0], 'invalid');
         return;
       }
@@ -184,9 +184,9 @@
       },
       resizeDatasBloc : function () {
         var steps = yus.query("#request div.steps")[0];
-        var datasForm = yus.query("#request form")[0];
-        if (datasForm.offsetHeight < steps.offsetHeight + 20)
-          yud.setStyle(datasForm, 'min-height', steps.offsetHeight + 20 + 'px');
+        var datas = yus.query("#request div.form")[0];
+        if (datas.offsetHeight < steps.offsetHeight + 20)
+          yud.setStyle(datas, 'min-height', steps.offsetHeight + 20 + 'px');
       },
       addSubject : function(e) {
         window.location.href = yud.get("add" + yue.getTarget(e).name + "Link").href;

@@ -23,7 +23,7 @@
             <property name="friendlyLabel" value="Services autres que restauration scolaire"></property>
             <property name="requestTypes">
               <list>
-                <value>Place Reservation</value>
+                <value>Ticket Booking</value>
                 <value>VO Card</value>
                 <value>Perischool Activity Registration</value>
               </list>

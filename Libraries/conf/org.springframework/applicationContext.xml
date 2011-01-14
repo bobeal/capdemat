@@ -594,6 +594,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="supportUnregisteredCreation" value="true"/>
     <property name="defaultDisplayGroup" value="culture" />
     <property name="ticketBookingService" ref="ticketBookingService" />
+    <property name="paymentService" ref="paymentService" />
   </bean>
   
   <bean id="remoteSupportRequestService" 

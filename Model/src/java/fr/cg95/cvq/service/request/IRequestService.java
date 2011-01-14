@@ -1,5 +1,7 @@
 package fr.cg95.cvq.service.request;
 
+import java.util.Map;
+
 import org.springframework.context.ApplicationListener;
 
 import fr.cg95.cvq.business.CapDematEvent;
@@ -27,12 +29,6 @@ public interface IRequestService extends ApplicationListener<CapDematEvent> {
      * none defined).
      */
     String getLocalReferentialFilename();
-
-    /**
-     * Return the file name of place reservation referential data specific to this request type 
-     * (or null if none defined).
-     */
-    String getPlaceReservationFilename();
 
     /**
      * Return the file name of external referential data specific to this request type (or null
@@ -149,4 +145,11 @@ public interface IRequestService extends ApplicationListener<CapDematEvent> {
      */
     void onExternalServiceSendRequest(Request request, String sendRequestResult) 
         throws CvqException;
+
+    /**
+     * Fetch an external business referential.
+     * Must be used only for simple use case.
+     */
+    Map<String,Object> getBusinessReferential() throws CvqException;
+
 }

@@ -4,11 +4,16 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
+import fr.cg95.cvq.business.payment.InternalInvoiceItem;
+import fr.cg95.cvq.business.payment.Payment;
+import fr.cg95.cvq.business.payment.PaymentMode;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.reservation.TbrTicket;
 import fr.cg95.cvq.business.request.reservation.TicketBookingRequest;
@@ -19,10 +24,13 @@ import fr.cg95.cvq.business.request.ticket.PlaceCategory;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.exception.CvqTicketBookingException;
+import fr.cg95.cvq.service.payment.IPaymentService;
 import fr.cg95.cvq.service.request.ITicketBookingService;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.reservation.ITicketBookingRequestService;
+import fr.cg95.cvq.util.Critere;
+import fr.cg95.cvq.util.DateUtils;
 
 
 public class TicketBookingRequestService extends RequestService implements ITicketBookingRequestService {
@@ -30,6 +38,9 @@ public class TicketBookingRequestService extends RequestService implements ITick
     private static Logger logger = Logger.getLogger(TicketBookingRequestService.class);
 
     private ITicketBookingService ticketBookingService;
+    private IPaymentService paymentService;
+
+    public static final int eventsListSize = 5;
 
     @Override
     public boolean accept(Request request) {
@@ -51,7 +62,8 @@ public class TicketBookingRequestService extends RequestService implements ITick
     public void reserve(TicketBookingRequest request, String placeNumber, Long fareId,
             Long placeCategoryId, Long eventId) throws CvqTicketBookingException {
         try {
-            int placeNumberAsInt = Integer.valueOf(placeNumber);
+
+            Integer placeNumberAsInt = Integer.valueOf(placeNumber);
 
             // Test maximum cart size
             if (getCartSize(request) + placeNumberAsInt > ticketBookingService.getMaxCartSize())
@@ -236,8 +248,49 @@ public class TicketBookingRequestService extends RequestService implements ITick
         return true;
     }
 
+    @Override
+    public Map<String,Object> getBusinessReferential() throws CvqException {
+        Map<String,Object> map = new HashMap<String, Object>();
+        map.put("businessStep", "entertainments");
+        map.put("ticketEvents", ticketBookingService.getEvents(new HashSet<Critere>(), null, null, eventsListSize, 0));
+        map.put("maxCartSize", ticketBookingService.getMaxCartSize());
+        map.put("sortBy", "date");
+        map.put("recordsReturns" , eventsListSize);
+        map.put("startsIndex", 0);
+        map.put("ticketEventsSize", ticketBookingService.getEvents(new HashSet<Critere>(), null, null, -1, 0).size());
+        return map;
+    }
+
+    @Override
+    public Payment buildPayment(Request request) throws CvqException {
+        List<InternalInvoiceItem> iiis = new ArrayList<InternalInvoiceItem>();
+        for (TbrTicket ticket : ((TicketBookingRequest)request).getTbrTicket()) {
+            iiis.add(new InternalInvoiceItem(
+                ticket.getEventName() + " ("+ DateUtils.format(ticket.getEventDate())+ ") " + ticket.getEventPlace(),
+                ticket.getPrice().doubleValue() * 100,
+                request.getId().toString(),
+                "capdemat",
+                null,
+                ticket.getPlaceNumber().intValue(),
+                ticket.getPrice().doubleValue() * 100
+                )
+            );
+        }
+        Payment payment = paymentService.createPaymentContainer(iiis.remove(0), PaymentMode.INTERNET);
+        for (InternalInvoiceItem iii : iiis) {
+            paymentService.addPurchaseItemToPayment(payment, iii);
+        }
+        return payment;
+    }
+
+
     public void setTicketBookingService(ITicketBookingService ticketBookingService) {
         this.ticketBookingService = ticketBookingService;
     }
+
+    public void setPaymentService(IPaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+
 
 }

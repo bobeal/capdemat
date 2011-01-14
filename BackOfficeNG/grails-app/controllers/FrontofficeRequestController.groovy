@@ -21,10 +21,13 @@ import fr.cg95.cvq.service.request.IRequestNoteService
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestWorkflowService
+import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.util.Critere
-import fr.cg95.cvq.util.translation.ITranslationService;
+import fr.cg95.cvq.util.translation.ITranslationService
+import fr.cg95.cvq.service.payment.IRequestPaymentService
+import fr.cg95.cvq.service.payment.IPaymentService
 
 import grails.converters.JSON
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
@@ -49,8 +52,10 @@ class FrontofficeRequestController {
     IRequestTypeService requestTypeService
     IRequestWorkflowService requestWorkflowService
     IRequestSearchService requestSearchService
+    IRequestServiceRegistry requestServiceRegistry
     IHomeFolderService homeFolderService
-    
+    IPaymentService paymentService
+
     def defaultAction = 'index'
     Adult currentEcitizen
 
@@ -191,7 +196,18 @@ class FrontofficeRequestController {
                     }
                     parameters.canFollowRequest = params.'_homeFolderResponsible.activeHomeFolder'
                     parameters.requesterLogin = homeFolderService.getHomeFolderResponsible(rqt.homeFolderId).login
-                    redirect(action:'exit', params:parameters)
+
+                    if (requestServiceRegistry.getRequestService(rqt) instanceof IRequestPaymentService) {
+                        def payment = requestServiceRegistry.getRequestService(rqt).buildPayment(rqt)
+                        payment.addPaymentSpecificData('scheme',request.scheme)
+                        payment.addPaymentSpecificData('domainName',request.serverName)
+                        payment.addPaymentSpecificData('port',request.serverPort.toString())
+                        payment.addPaymentSpecificData('callbackUrl',createLink(action:'exit', params:parameters).toString())
+                        redirect(url:paymentService.initPayment(payment).toString())
+                        return
+                    } else {
+                        redirect(action:'exit', params:parameters)
+                    }
                     return
                 } else {
                     requestWorkflowService.validate(rqt, [params.currentStep], false)
@@ -229,6 +245,7 @@ class FrontofficeRequestController {
         def requestTypeLabelAsDir = CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label)
         def viewPath = "/frontofficeRequestType/${requestTypeLabelAsDir}/edit"
         def nextWebflowStep = webflowNextStep(rqt, params.currentStep)
+
         render(view: viewPath, model: [
             'rqt': rqt,
             'requester': SecurityContext.currentEcitizen,
@@ -249,7 +266,8 @@ class FrontofficeRequestController {
             'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(requestTypeLabelAsDir),
             'availableRules' : localAuthorityRegistry.getLocalAuthorityRules(requestTypeLabelAsDir),
             'customJS' : requestTypeAdaptorService.getCustomJS(rqt.requestType.label),
-            "subjectPolicy" : requestTypeService.getSubjectPolicy(rqt.requestType.id)
+            "subjectPolicy" : requestTypeService.getSubjectPolicy(rqt.requestType.id),
+            'customReferential' : requestServiceRegistry.getRequestService(rqt).getBusinessReferential()
         ])
     }
 

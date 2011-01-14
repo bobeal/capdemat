@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
@@ -50,6 +51,7 @@ public class TbrTicket implements Serializable {
         
         Calendar calendar = Calendar.getInstance();
         Date date = null;
+        LocalTime localTime = new LocalTime();
         TbrTicketType tbrTicket = TbrTicketType.Factory.newInstance();
         int i = 0;
     
@@ -81,6 +83,7 @@ public class TbrTicket implements Serializable {
 
     public static TbrTicket xmlToModel(TbrTicketType tbrTicketDoc) {
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         TbrTicket tbrTicket = new TbrTicket();
     
@@ -106,6 +109,61 @@ public class TbrTicket implements Serializable {
         }
       
         return tbrTicket;
+    }
+
+    @Override
+    public TbrTicket clone() {
+        TbrTicket result = new TbrTicket();
+        
+          
+            
+        result.setEventName(eventName);
+      
+          
+        
+          
+            
+        result.setEventPlace(eventPlace);
+      
+          
+        
+          
+            
+        result.setPlaceCategoryId(placeCategoryId);
+      
+          
+        
+          
+            
+        result.setPlaceNumber(placeNumber);
+      
+          
+        
+          
+            
+        result.setPrice(price);
+      
+          
+        
+          
+            
+        result.setFareType(fareType);
+      
+          
+        
+          
+            
+        result.setPlaceCategory(placeCategory);
+      
+          
+        
+          
+            
+        result.setEventDate(eventDate);
+      
+          
+        
+        return result;
     }
 
     private Long id;

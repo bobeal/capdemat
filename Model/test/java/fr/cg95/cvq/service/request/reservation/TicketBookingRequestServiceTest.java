@@ -159,7 +159,7 @@ public class TicketBookingRequestServiceTest extends RequestTestCase {
         request.setRequesterId(SecurityContext.getCurrentUserId());
         request.setHomeFolderId(homeFolderId);
         TicketBookingRequestFeeder.setSubject(request, requestService.getSubjectPolicy(), null, homeFolder);
-        Long requestId = requestWorkflowService.create(request, null, null, null);
+        Long requestId = requestWorkflowService.create(request, null);
         TicketBookingRequest requestFromDb = (TicketBookingRequest) requestSearchService.getById(requestId, true);
         assertEquals(requestId, requestFromDb.getId());
         assertNotNull(requestFromDb.getRequesterId());

@@ -7,6 +7,7 @@
     <g:if test="${flash.addressesReferentialEnabled}">
         <link rel="stylesheet" type="text/css" href="${resource(dir:'css/common', file:'autocomplete.css')}" />
     </g:if>
+    <script type="text/javascript" src="${resource(dir:'js/frontoffice',file:'homeFolder.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/frontoffice',file:'requestCreation.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/frontoffice',file:'condition.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/frontoffice',file:'autofill.js')}"></script>
@@ -95,7 +96,7 @@
             </g:if>
           >
             
-              <g:message code="${individual ? 'homeFolder.action.add' + org.apache.commons.lang.StringUtils.capitalize(params.type) : 'prr.step.requester.label'}" />
+              <g:message code="${individual ? 'homeFolder.action.add' + org.apache.commons.lang.StringUtils.capitalize(params.type) : 'tbr.step.requester.label'}" />
               ${individual ? '' : '*'}
               <span class="help">
                 <g:message code="request.step.message.${rqt.stepStates['requester' + (individual ? '-' + params.type : '')].state}" />
@@ -106,22 +107,22 @@
   
 
   
-        <li class="${currentStep == 'subscriber' ? 'current ' : ''}
+        <li class="${currentStep == 'entertainments' ? 'current ' : ''}
           
-            ${rqt.stepStates['subscriber'].state}
+            ${rqt.stepStates['entertainments'].state}
           
           ">
           <span class="number">2</span>
           <a
-            <g:if test="${currentStep != 'subscriber' && rqt.stepStates['subscriber'].state != 'unavailable'}">
-              href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'subscriber'])}"
+            <g:if test="${currentStep != 'entertainments' && rqt.stepStates['entertainments'].state != 'unavailable'}">
+              href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'entertainments'])}"
             </g:if>
           >
             
-              <g:message code="prr.step.subscriber.label" />
+              <g:message code="tbr.step.entertainments.label" />
               <span class="help">
                 
-                  <g:message code="request.step.message.${rqt.stepStates['subscriber'].state}" />
+                  <g:message code="request.step.message.${rqt.stepStates['entertainments'].state}" />
                 
               </span>
             
@@ -130,55 +131,27 @@
   
 
   
-        <li class="${currentStep == 'places' ? 'current ' : ''}
+        <li class="${currentStep == 'rules' ? 'current ' : ''}
           
-            ${rqt.stepStates['places'].state}
+            ${rqt.stepStates['rules'].state}
           
           ">
           <span class="number">3</span>
           <a
-            <g:if test="${currentStep != 'places' && rqt.stepStates['places'].state != 'unavailable'}">
-              href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'places'])}"
+            <g:if test="${currentStep != 'rules' && rqt.stepStates['rules'].state != 'unavailable'}">
+              href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'rules'])}"
             </g:if>
           >
             
-              <g:message code="prr.step.places.label" /> *
+              <g:message code="tbr.step.rules.label" /> *
               <span class="help">
                 
-                  <g:message code="request.step.message.${rqt.stepStates['places'].state}" />
+                  <g:message code="request.step.message.${rqt.stepStates['rules'].state}" />
                 
               </span>
             
           </a>
         </li>    
-  
-
-  
-        <g:if test="${!documentTypes.isEmpty()}">
-  
-        <li class="${currentStep == 'document' ? 'current ' : ''}
-          
-            ${rqt.stepStates['document'].state}
-          
-          ">
-          <span class="number">4</span>
-          <a
-            <g:if test="${currentStep != 'document' && rqt.stepStates['document'].state != 'unavailable'}">
-              href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'document'])}"
-            </g:if>
-          >
-            
-              <g:message code="request.step.document.label" />
-              <span class="help">
-                
-                  <g:message code="request.step.message.${rqt.stepStates['document'].state}" />
-                
-              </span>
-            
-          </a>
-        </li>    
-  
-        </g:if>
   
 
   

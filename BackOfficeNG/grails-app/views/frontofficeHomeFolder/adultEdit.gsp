@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/common', file:'form.css')}" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'request.css')}" />
     <style type="text/css">
-      #request .datas form {padding-top: 1em;}
+      #request .datas form {padding: 1em 0;}
       #request .steps p.help { margin-bottom: .5em; font-style: italic;}
       #request form div p.error { text-align: left; }
     </style>
@@ -24,7 +24,8 @@
         </g:else>
       </h2>
       <div class="datas">
-        <form action="${createLink(controller : 'frontofficeHomeFolder', action:'adult')}" method="post" class="${invalidFields && !invalidFields.isEmpty() ? 'invalid' : 'uncomplete'}">
+        <div class="${invalidFields && !invalidFields.isEmpty() ? 'invalid' : 'uncomplete'} form">
+        <form action="${createLink(controller : 'frontofficeHomeFolder', action:'adult')}" method="post">
           <input type="hidden" name="requestId" value="${params.requestId}" />
           <g:render template="adultCommonFields" />
           <p style="text-align: center; font-size: 1.3em;">
@@ -36,6 +37,7 @@
             </g:else>
           </p>
         </form>
+        </div>
       </div>
      <div  class="steps">
         <ul>

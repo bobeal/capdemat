@@ -1,5 +1,8 @@
 package fr.cg95.cvq.service.request.impl;
 
+import java.util.Collections;
+import java.util.Map;
+
 import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.dao.IGenericDAO;
@@ -16,7 +19,6 @@ import fr.cg95.cvq.service.request.IRequestWorkflowService;
 public abstract class RequestService implements IRequestService {
 
     protected String localReferentialFilename;
-    protected String placeReservationFilename;
     protected String externalReferentialFilename;
     protected Boolean supportUnregisteredCreation = Boolean.FALSE;
     protected String subjectPolicy = IRequestWorkflowService.SUBJECT_POLICY_NONE;
@@ -77,6 +79,11 @@ public abstract class RequestService implements IRequestService {
     }
 
     @Override
+    public Map<String,Object> getBusinessReferential() throws CvqException {
+        return Collections.emptyMap();
+    }
+
+    @Override
     public void onApplicationEvent(CapDematEvent e) {}
 
     @Override
@@ -104,15 +111,6 @@ public abstract class RequestService implements IRequestService {
     @Override
     public boolean supportUnregisteredCreation() {
         return supportUnregisteredCreation == null ? false : supportUnregisteredCreation;
-    }
-
-    public void setPlaceReservationFilename(String placeReservationFilename) {
-        this.placeReservationFilename = placeReservationFilename;
-    }
-
-    @Override
-    public String getPlaceReservationFilename() {
-        return placeReservationFilename;
     }
 
     public void setExternalReferentialFilename(String externalReferentialFilename) {

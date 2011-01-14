@@ -2,6 +2,7 @@ package fr.cg95.cvq.business.users;
 
 import java.io.Serializable;
 
+import fr.cg95.cvq.service.users.HasLegalResponsibles;
 import fr.cg95.cvq.xml.common.ChildType;
 
 
@@ -14,6 +15,7 @@ import fr.cg95.cvq.xml.common.ChildType;
  *
  * @author bor@zenexity.fr
  */
+@HasLegalResponsibles
 public class Child extends Individual
     implements fr.cg95.cvq.business.Historizable,Serializable {
 

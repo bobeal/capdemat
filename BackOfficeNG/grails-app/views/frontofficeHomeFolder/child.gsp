@@ -24,14 +24,14 @@
         </div>
         <div class="yui-u">
           <dl>
-            <g:if test="${!roles.isEmpty()}">
+            <g:if test="${!roleOwners.isEmpty()}">
               <dt><g:message code="homeFolder.child.property.legalResponsibles" /> :</dt>
               <dd>
-                <g:each var="subjectRole" in="${roles}">
+                <g:each var="roleOwner" in="${roleOwners}">
                   <p>
-                    ${subjectRole.fullName}
-                    <g:each var="role" in="${subjectRole.roles}">
-                      <g:capdematEnumToFlag var="${role}" i18nKeyPrefix="homeFolder.role" />
+                    ${roleOwner.fullName}
+                    <g:each in="${roleOwner.getIndividualRoles(child.id)}">
+                      <g:capdematEnumToFlag var="${it.role}" i18nKeyPrefix="homeFolder.role" />
                     </g:each>
                   </p>
                 </g:each>

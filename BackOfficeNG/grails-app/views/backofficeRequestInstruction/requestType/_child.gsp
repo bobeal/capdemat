@@ -83,8 +83,8 @@
         <ul>
         <g:each var="individual" in="${childLegalResponsibles}">
           <li>
-            <g:each var="roleType" in="${individual.getIndividualRoles(child.id)}">
-              <g:capdematEnumToFlag var="${roleType}" i18nKeyPrefix="homeFolder.role" />
+            <g:each in="${individual.getIndividualRoles(child.id)}">
+              <g:capdematEnumToFlag var="${it.role}" i18nKeyPrefix="homeFolder.role" />
             </g:each> 
             ${individual.firstName} ${individual.lastName}
           </li>

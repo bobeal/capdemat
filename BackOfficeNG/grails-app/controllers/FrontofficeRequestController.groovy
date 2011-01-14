@@ -1,6 +1,7 @@
 import fr.cg95.cvq.business.authority.LocalAuthorityResource
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.MeansOfContactEnum
+import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestNoteType
 import fr.cg95.cvq.business.request.RequestState
@@ -26,6 +27,7 @@ import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.util.translation.ITranslationService;
 
 import grails.converters.JSON
+import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
 
 class FrontofficeRequestController {
 
@@ -362,11 +364,21 @@ class FrontofficeRequestController {
             "availableRules" : localAuthorityRegistry.getLocalAuthorityRules(requestTypeLabelAsDir),
             "customJS" : requestTypeAdaptorService.getCustomJS(rqt.requestType.label),
             "subjectPolicy" : requestTypeService.getSubjectPolicy(rqt.requestType.id),
-            "individual" : individual
+            "individual" : individual,
+            "adults" : homeFolderService.getAdults(SecurityContext.currentEcitizen.homeFolder.id),
+            "currentUser" : SecurityContext.currentEcitizen
         ]
         if (request.post) {
-            DataBindingUtils.initBind(individual, params)
             bind(individual)
+            // hack : set homeFolder to allow roles on child validation by OVal
+            individual.homeFolder = SecurityContext.currentEcitizen.homeFolder
+            params.roles.each {
+                if (it.value instanceof GrailsParameterMap && it.value.owner != '' && it.value.type != '') {
+                    homeFolderService.addRole(individualService.getById(Long.valueOf(it.value.owner)),
+                        individual, SecurityContext.currentEcitizen.homeFolder.id,
+                        RoleType.forString(it.value.type))
+                }
+            }
             def invalidFields
             if (params.type == "adult") {
                 invalidFields = individualService.validate(individual, false)

@@ -75,8 +75,7 @@ public interface IHomeFolderService {
     List<Child> getChildren(@IsHomeFolder final Long homeFolderId)
         throws CvqException;
 
-    List<Adult> getAdults(@IsHomeFolder final Long homeFolderId)
-        throws CvqException;
+    List<Adult> getAdults(@IsHomeFolder final Long homeFolderId);
     
     List<Individual> getIndividuals(@IsHomeFolder final Long homeFolderId)
         throws CvqException;

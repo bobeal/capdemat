@@ -436,7 +436,8 @@ class BackofficeRequestInstructionController {
                 'birthCountry' : child.birthCountry,
                 'birthPostalCode' : child.birthPostalCode,
                 'birthCity' : child.birthCity,
-                'childSubjectRoles' : homeFolderAdaptorService.prepareChildSubjectRoles(child)
+                'roleOwners' : homeFolderService.getBySubjectRoles(child.id,
+                    [RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR] as RoleType[])
             ])
         }
         

@@ -7,16 +7,6 @@ class HomeFolderAdaptorService {
     IHomeFolderService homeFolderService
     IIndividualService individualService
 
-    public prepareChildSubjectRoles(child) {
-        def childSubjectRoles = []
-        homeFolderService.getBySubjectRoles(child.id,
-                [RoleType.CLR_FATHER,RoleType.CLR_MOTHER,RoleType.CLR_TUTOR] as RoleType[]).each { individual ->
-            childSubjectRoles.add(['fullName': "${individual.firstName} ${individual.lastName}",
-                    'roles': individual.getIndividualRoles(child.id)])
-        }
-        return childSubjectRoles
-    }
-    
     public prepareAdultSubjectRoles(adult ) {
         def adultSubjectRoles = []
         homeFolderService.getBySubjectRole(adult.id, RoleType.TUTOR).each { individual ->

@@ -12,6 +12,7 @@ import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
 
 import com.octo.captcha.service.CaptchaServiceException
+import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
 
 class FrontofficeHomeFolderController {
 
@@ -60,7 +61,8 @@ class FrontofficeHomeFolderController {
                 'birthCountry' : child.birthCountry,
                 'birthPostalCode' : child.birthPostalCode,
                 'birthCity' : child.birthCity,
-                'childSubjectRoles' : homeFolderAdaptorService.prepareChildSubjectRoles(child),
+                'roleOwners' : homeFolderService.getBySubjectRoles(child.id,
+                    [RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR] as RoleType[]),
                 'isChildBorn' : child.isChildBorn
             ])
         }
@@ -176,8 +178,17 @@ class FrontofficeHomeFolderController {
             individual.sex = null
         }
         if (request.post) {
-            DataBindingUtils.initBind(individual, params)
             bind(individual)
+            if (individual.id)
+                homeFolderService.removeRolesOnSubject(
+                    SecurityContext.currentEcitizen.homeFolder.id, individual.id)
+            params.roles.each {
+                if (it.value instanceof GrailsParameterMap && it.value.owner != '' && it.value.type != '') {
+                    homeFolderService.addRole(individualService.getById(Long.valueOf(it.value.owner)),
+                        individual, SecurityContext.currentEcitizen.homeFolder.id,
+                        RoleType.forString(it.value.type))
+                }
+            }
             model["invalidFields"] = individualService.validate(individual)
             if (model["invalidFields"].isEmpty()) {
                 requestWorkflowService.createAccountModificationRequest(individual)
@@ -188,10 +199,18 @@ class FrontofficeHomeFolderController {
             }
         }
         model["child"] = individual
+        model["roleOwners"] = homeFolderService.getBySubjectRoles(individual.id,
+            [RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR] as RoleType[])
+            .sort { a, b ->
+              if (a.id == b.id) return a.fullName.compareTo(b.fullName)
+              if (a.id == SecurityContext.currentEcitizen.id) return -1
+              if (b.id == SecurityContext.currentEcitizen.id) return 1
+              return a.fullName.compareTo(b.fullName)
+            }
         if (params.mode == "edit") {
             template += "Edit"
-        } else {
-            model["roles"] = homeFolderAdaptorService.prepareChildSubjectRoles(individual)
+            model["adults"] = homeFolderService.getAdults(SecurityContext.currentEcitizen.homeFolder.id)
+            model["currentUser"] = SecurityContext.currentEcitizen
         }
         render(view : template, model : model)
     }

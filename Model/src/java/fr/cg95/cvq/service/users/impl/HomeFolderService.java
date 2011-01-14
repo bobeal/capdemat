@@ -408,9 +408,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public final List<Adult> getAdults(final Long homeFolderId)
-        throws CvqException {
-
+    public final List<Adult> getAdults(final Long homeFolderId) {
         return adultDAO.listAdultsByHomeFolder(homeFolderId);
     }
 

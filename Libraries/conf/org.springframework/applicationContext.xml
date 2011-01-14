@@ -365,7 +365,18 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="authenticationService" ref="authenticationService"/>
     <property name="translationService" ref="translationService"/>
   </bean>
-  
+
+  <bean id="homeFolderServiceToHasLegalResponsiblesCheckInjector"
+    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="staticMethod"
+      value="fr.cg95.cvq.service.users.HasLegalResponsiblesCheck.setHomeFolderService" />
+    <property name="arguments">
+      <list>
+        <ref local="homeFolderService" />
+      </list>
+    </property>
+  </bean>
+
   <bean id="meansOfContactService" class="fr.cg95.cvq.service.users.impl.MeansOfContactService">
     <property name="meansOfContactDAO" ref="meansOfContactDAO" />
     <property name="mailService" ref="mailService" />

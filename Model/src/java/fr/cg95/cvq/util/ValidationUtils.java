@@ -23,11 +23,18 @@ public class ValidationUtils {
             Class.forName(violation.getErrorCode()).asSubclass(Annotation.class);
         if (violation.getCauses() == null) {
             String field;
-            if (violation.getContext() instanceof ClassContext)
+            if (StringUtils.isBlank(violation.getMessage()))
                 field = prefix;
             else {
-                String[] profiles = (String[])annotationClass.getMethod("profiles").invoke(
-                    ((FieldContext)violation.getContext()).getField().getAnnotation(annotationClass));
+                Annotation annotation;
+                OValContext context = violation.getContext();
+                if (context instanceof ClassContext) {
+                    annotation = ((ClassContext)context).getClazz().getAnnotation(annotationClass);
+                } else {
+                    annotation = ((FieldContext)context).getField().getAnnotation(annotationClass);
+                }
+                String[] profiles =
+                    (String[])annotationClass.getMethod("profiles").invoke(annotation);
                 if (profiles != null && profiles.length > 0)
                     profile = profiles[0];
                 field = (StringUtils.isNotBlank(prefix) ? prefix + '.' : "") + violation.getMessage();

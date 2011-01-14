@@ -77,15 +77,15 @@
               <g:if test="${record.birthCountry}"> - ${record.birthCountry}</g:if>
             </g:if>
           </dd>
-          <g:if test="${record.childSubjectRoles}">
+          <g:if test="${record.roleOwners}">
             <dd>
               <strong>${message(code:'homeFolder.child.property.legalResponsibles')}</strong> :
               <ul>
-                <g:each var="childSubjectRole" in="${record.childSubjectRoles}"> 
+                <g:each var="roleOwner" in="${record.roleOwners}">
                   <li>
-                    ${childSubjectRole.fullName}
-                    <g:each in="${childSubjectRole.roles}" var="role">
-                      <g:capdematEnumToFlag var="${role}" i18nKeyPrefix="homeFolder.role" />
+                    ${roleOwner.fullName}
+                    <g:each in="${roleOwner.getIndividualRoles(record.id)}">
+                      <g:capdematEnumToFlag var="${it.role}" i18nKeyPrefix="homeFolder.role" />
                     </g:each>
                   </li>
                 </g:each>

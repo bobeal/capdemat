@@ -520,12 +520,12 @@ public class Individual implements Historizable, Serializable {
         return individualRoles;
     }
 
-    public Set<RoleType> getIndividualRoles(final Long individualId) {
-        Set<RoleType> result = new HashSet<RoleType>();
+    public Set<IndividualRole> getIndividualRoles(final Long individualId) {
+        Set<IndividualRole> result = new HashSet<IndividualRole>();
         for (IndividualRole individualRole : individualRoles) {
             if (individualRole.getIndividualId() != null
                     && individualRole.getIndividualId().equals(individualId))
-                result.add(individualRole.getRole());
+                result.add(individualRole);
         }
         
         return result;

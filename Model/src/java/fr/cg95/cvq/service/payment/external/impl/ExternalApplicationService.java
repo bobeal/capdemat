@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -134,6 +135,15 @@ public class ExternalApplicationService implements IExternalApplicationService {
                     genericDAO.update(ehf);
                     if (!created)
                         report.put("updated",report.get("updated") + 1);
+                } else if (!ei.getLastName().equals(line[1]) || !ei.getFirstName().equals(line[2]) 
+                            || (!ehf.getAddress().equals(StringUtils.upperCase(line[4])) && ei.isResponsible())) {
+                    ei.setLastName(line[1]);
+                    ei.setFirstName(line[2]);
+                    if (ei.isResponsible())
+                        ehf.setAddress(line[4]);
+                    genericDAO.update(ei);
+                    genericDAO.update(ehf);
+                    report.put("updated",report.get("updated") + 1);
                 }
                 HibernateUtil.getSession().flush();
             }

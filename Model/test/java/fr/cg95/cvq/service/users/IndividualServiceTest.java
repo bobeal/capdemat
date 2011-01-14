@@ -18,6 +18,7 @@ public class IndividualServiceTest extends ServiceTestCase {
     public void testAssignLogin() throws CvqException {
         Individual emilie = new Individual();
         Individual jean = new Individual();
+        Individual albert = new Individual();
 
         // Test with apostrophe
         String lnA = "L'ALBATROS";
@@ -36,8 +37,18 @@ public class IndividualServiceTest extends ServiceTestCase {
         jean.setLastName(lnB);
         jean.setFirstName(fnB);
         individualService.assignLogin(jean);
+        
+        // Test with space
+        String lnC = "DE LA PORTE";
+        String fnC = "Albert";
+        String loginC = "albert.de-la-porte";
+
+        albert.setLastName(lnC);
+        albert.setFirstName(fnC);
+        individualService.assignLogin(albert);
 
         assertEquals(loginA, emilie.getLogin());
         assertEquals(loginB, jean.getLogin());
+        assertEquals(loginC, albert.getLogin());
     }
 }

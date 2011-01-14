@@ -1287,6 +1287,7 @@
     </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:maxLength value="38" />
+      <xs:pattern value="[\p{Lu} .\-']*" />
     </xs:restriction>
   </xs:simpleType>
 

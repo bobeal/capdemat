@@ -114,7 +114,7 @@ class FrontofficeHomeFolderController {
                 homeFolderService.addHomeFolderRole(adult, RoleType.HOME_FOLDER_RESPONSIBLE)
                 requestWorkflowService.createAccountCreationRequest(
                         requestWorkflowService.getSkeletonRequest('VO Card'),
-                                [adult], [], [], adult.adress, [])
+                                [adult], [], [], adult.adress, [], null)
                 SecurityContext.setCurrentEcitizen(adult)
                 HibernateUtil.getSession().flush()
                 securityService.setEcitizenSessionInformation(adult.login, session)

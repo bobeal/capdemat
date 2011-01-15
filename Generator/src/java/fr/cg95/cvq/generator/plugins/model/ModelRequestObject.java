@@ -254,10 +254,14 @@ public class ModelRequestObject {
     private void generateSampleServiceTestClass() {
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("request", this);
-        String basePath = outputTestDir + "/"
-            + transformNamespaceLastParticle(requestNamespaceLastParticle) + "/" + requestName;
-        GroovyManager.generate(basePath + "ServiceTest.java", "ServiceTest.groovy", model);
-        File javaFile = new File(basePath + "Feeder.java");
+        String basePath = outputTestDir + File.separator
+            + transformNamespaceLastParticle(requestNamespaceLastParticle);
+        File basePathFile = new File(basePath);
+        if (! basePathFile.exists()) {
+            basePathFile.mkdirs();
+        }
+        GroovyManager.generate(basePath + File.separator + requestName + "ServiceTest.java", "ServiceTest.groovy", model);
+        File javaFile = new File(basePath + File.separator + requestName + "Feeder.java");
         if (javaFile.exists()) {
             logger.debug("generateSampleServiceTestClass() Request feeder class already exists, ignoring");
         } else {

@@ -132,7 +132,7 @@ alter table request_external_action add constraint request_external_action_pkey 
 
 -- End MPG Fusion
 
--- Start PESSAC contributions
+-- Start PESSAC contributions by Zenexity
 
 create table learning_activities_discovery_registration_request (
     id int8 not null,
@@ -228,4 +228,7 @@ create table day_care_center_registration_request (
     primary key (id)
 );
 
--- End PESSAC contributions
+ALTER TABLE child ADD column child_born bool;
+UPDATE child set child_born = true;
+
+-- End PESSAC contributions by Zenexity

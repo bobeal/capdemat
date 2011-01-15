@@ -41,7 +41,6 @@
 	<classpathentry kind="lib" path="/CapDemat/Libraries/org.springframework/org.springframework.web-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="/CapDemat/Libraries/org.springframework/org.springframework.web.servlet-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="/CapDemat/Libraries/net.sf/oval-1.50.jar"/>
-	<classpathentry kind="lib" path="/CapDemat/Libraries/org.apache/pdfbox/pdfbox-1.3.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="/CapDemat/Libraries/opencsv/opencsv-2.2.jar"/>
 	<classpathentry kind="src" path="extended-data-binding-0.2-grails-app-taglib">
 		<attributes>
@@ -100,6 +99,5 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-Model-4.3.jar"/>
 	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.3.jar"/>
-	<classpathentry kind="lib" path="/CapDemat/Libraries/org.apache/pdfbox/pdfbox-1.3.0-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="web-app/WEB-INF/classes"/>
 </classpath>

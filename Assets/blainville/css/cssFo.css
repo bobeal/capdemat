@@ -31,8 +31,9 @@ html { background: #fff; }
 /* boxes
  * ----------------------------------------------------- */
 
-.list-box    { border-color: #ff812b; }
-.list-box h2 { color: #ff812b; border-color: #ff812b; }
+.list-box               { border-color: #ff812b; }
+.list-box h2            { color: #ff812b; border-color: #ff812b; }
+.list-box h3            { color: #ff812b; }
 .list-box p.paginator a, 
 .list-box p.see-all a { color: #ff812b; }
 .list-box p.see-all a:hover,

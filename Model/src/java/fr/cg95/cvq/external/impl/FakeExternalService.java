@@ -250,6 +250,7 @@ public class FakeExternalService implements IExternalProviderService {
                 Node accountDetailNode = (Node) accountDetailNodes.get(i);
                 ExternalDepositAccountItemDetail edaiDetail =
                     new ExternalDepositAccountItemDetail();
+                edaiDetail.setExternalDepositAccountItem(edai);
                 NodeList accountDetailChildren = accountDetailNode.getChildNodes();
                 for (int j = 0; j < accountDetailChildren.getLength(); j++) {
                     Node childNode = accountDetailChildren.item(j);

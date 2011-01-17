@@ -321,20 +321,21 @@ public final class PaymentService implements IPaymentService,
         for (Critere critere : criteres) {
             if (!critere.getAttribut().equals(Payment.SEARCH_BY_HOME_FOLDER_ID))
                 continue;
-            String externalIds = "(";
+            String externalIds = "";
             List<HomeFolderMapping> mappings = externalHomeFolderService.getHomeFolderMappings(critere.getLongValue());
             if (mappings != null && mappings.size() > 0) {
                 for (HomeFolderMapping mapping : mappings) {
-                    if (mapping.getExternalId() == null || mapping.getExternalId().indexOf(':') < 0)
+                    if (mapping.getExternalId() == null || mapping.getExternalId().isEmpty() || mapping.getExternalId().indexOf(':') < 0)
                         continue;
                     externalIds += "'" + mapping.getExternalId().split(":")[1] + "',";
                 }
-                externalIds = externalIds.substring(0, externalIds.length() - 1);
-            } else {
-                externalIds += "'#'"; // hack
+                if (!externalIds.isEmpty())
+                    externalIds = externalIds.substring(0, externalIds.length() - 1);
             }
             critere.setAttribut(ExternalAccountItem.SEARCH_BY_EXTERNAL_HOME_FOLDER);
-            critere.setValue(externalIds + ")");
+            if (externalIds.isEmpty())
+                externalIds += "'#'"; //hack
+            critere.setValue("(" + externalIds + ")");
         }
         return criteres;
     }

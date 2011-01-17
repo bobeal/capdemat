@@ -9,6 +9,7 @@
     <ul>
       <g:each var="record" in="${payments.all}">
         <li>
+          <a href="${createLink(action:'paymentDetails',id:record.id)}">
             <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="payment.state" />
             <h3>
               <g:message code="payment.property.payment" /> 
@@ -23,7 +24,7 @@
               <g:formatDate date="${record.initializationDate}" formatName="format.fullDate"/>
               - <span><g:message code="payment.searchResult.paidBy" /> ${record.paymentMode}</span>
             </p>
-            
+          </a>
         </li>
       </g:each>
     </ul>

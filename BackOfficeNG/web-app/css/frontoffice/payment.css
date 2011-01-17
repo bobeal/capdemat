@@ -1,7 +1,11 @@
 
 .validation-failed {border:1px dashed #FF3333; background-color:#FFCCCC; }
 
-.list-box ul li h3     { font-size: 1.2em; }
+.list-box h3   { margin: .1em .5em ;
+  				 font-size: 1.7em; 
+  				 font-weight: normal; }
+
+.list-box ul li h3     { font-size: 1.2em; color: #333; }
 .list-box ul li p      { font-style: italic; color: #666; }
 .list-box ul li form   { margin-top: .25em; text-align: right; }
 .list-box ul li form input[type=text] { border: 1px solid #cdcdcd; }

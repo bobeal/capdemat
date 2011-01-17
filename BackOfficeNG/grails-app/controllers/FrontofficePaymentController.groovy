@@ -155,6 +155,20 @@ class FrontofficePaymentController {
         return result
     }
     
+    def paymentDetails = {
+        def payment = paymentService.getById(Long.valueOf(params.id))
+        def result = [invoices:[], deposits:[], contracts:[]]
+        for (PurchaseItem item : payment.purchaseItems) {
+            if (item instanceof ExternalInvoiceItem)
+                result.invoices.add(item)
+            else if (item instanceof ExternalDepositAccountItem)
+                result.deposits.add(item)
+            else if (item instanceof ExternalTicketingContractItem)
+                result.contracts.add(item)
+        }
+        return result
+    }
+    
     def details = {
         def result = [items:[],cart:[]]
         def list = params.type == 'invoice' ? session.invoices : session.depositAccounts

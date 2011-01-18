@@ -11,7 +11,7 @@
   <h1><g:message code="requestExternalAction.header.search" /></h1>
   <form method="post" id="searchForm" class="advanced-search" action="${createLink(action:'search')}">
     <input type="hidden" id="totalRecords" name="totalRecords" value="${totalRecords}" />
-    <input type="hidden" id="offset" name="offset" value="${offset}" />
+    <input type="hidden" id="recordOffset" name="recordOffset" value="${recordOffset}" />
     <input type="hidden" id="sortBy" name="sortBy" value="${sortBy}" />
     <input type="hidden" id="filterBy" name="filterBy" value="${filterBy}" />
     <div class="yui-g">

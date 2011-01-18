@@ -38,7 +38,6 @@ class BackofficeExternalApplicationController {
 
     def editApplication = {
         return ['applications': externalApplicationService.allExternalApplications(),
-                'searchType': 'ticketingContract',
                 'brokers': paymentService.getAllBrokers().keySet(),
                 'editMode': 'edit',
                 'app': externalApplicationService.getExternalApplicationById(Long.valueOf(params.id))

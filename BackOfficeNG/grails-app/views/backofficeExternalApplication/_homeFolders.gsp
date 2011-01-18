@@ -21,7 +21,7 @@
   <g:each var="homeFolder" in="${homeFolders}">
     <li>
       <a id="matchHomeFolders_${homeFolder.id}" class="editItem"><span>${message(code:'action.edit')}</span></a>
-      <span>${message(code:'external.label.account')}</span>
+      <span>${message(code:'external.label.account')} ${homeFolder.responsible?.lastName}</span>
       <strong>(${homeFolder.externalId})</strong>
       <span class="tag-wrapper">
         <g:capdematEnumToFlag var="${homeFolder.mappingState}" i18nKeyPrefix="external.mappingState" />

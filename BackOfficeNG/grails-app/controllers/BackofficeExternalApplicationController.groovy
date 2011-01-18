@@ -275,7 +275,10 @@ class BackofficeExternalApplicationController {
         if (params.paginatorChange.equals("true"))
             recordOffset = Integer.valueOf(params.recordOffset)
         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT)
-        def invoices = paymentService.getInvoices(criteria, sortBy, null, results, recordOffset)
+        def invoices = []
+        paymentService.getInvoices(criteria, sortBy, null, results, recordOffset).each {
+            invoices.add(prepareResult(it))
+        }
         render(view:'searchItem', model:[
                              'searchType': 'invoice',
                              'filters':parsedFilters.filters,
@@ -306,7 +309,10 @@ class BackofficeExternalApplicationController {
             recordOffset = Integer.valueOf(params.recordOffset)
 
         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT)
-        def depositAccounts = paymentService.getDepositAccounts(criteria, sortBy, null, results, recordOffset)
+        def depositAccounts = []
+        paymentService.getDepositAccounts(criteria, sortBy, null, results, recordOffset).each {
+            depositAccounts.add(prepareResult(it))
+        }
         render(view:'searchItem', model:[
                              'searchType': 'depositAccount',
                              'filters':parsedFilters.filters,
@@ -337,7 +343,10 @@ class BackofficeExternalApplicationController {
             recordOffset = Integer.valueOf(params.recordOffset)
 
         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT)
-        def ticketingContracts = paymentService.getTicketingContracts(criteria, sortBy, null, results, recordOffset)
+        def ticketingContracts = []
+        paymentService.getTicketingContracts(criteria, sortBy, null, results, recordOffset).each {
+            ticketingContracts.add(prepareResult(it))
+        }
         render(view:'searchItem', model:[
                              'searchType': 'ticketingContract',
                              'filters':parsedFilters.filters,
@@ -390,6 +399,20 @@ class BackofficeExternalApplicationController {
             criteria.add(critere)
         }
         return parsedFilters
+    }
+
+    private prepareResult(accountItem) {
+        def externalApplication = externalApplicationService.getExternalApplicationById(Long.valueOf(accountItem.externalApplicationId))
+        def hfm
+        if (externalApplication != null)
+            hfm = externalHomeFolderService
+                .getHomeFolderMapping(accountItem.externalServiceLabel, externalApplication, accountItem.externalHomeFolderId)
+        def extendedAccounItem = [
+            'item' : accountItem,
+            'externalLabel' : externalApplication != null ? externalApplication.label : accountItem.externalServiceLabel,
+            'homeFolderId' : externalApplication != null ? hfm?.homeFolderId : null
+        ]
+        return extendedAccounItem
     }
 
 }

@@ -3,6 +3,7 @@ package fr.cg95.cvq.service.users.external.impl;
 import java.util.List;
 import java.util.UUID;
 
+import fr.cg95.cvq.business.payment.external.ExternalApplication;
 import fr.cg95.cvq.business.payment.external.ExternalHomeFolder;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.business.users.external.IndividualMapping;
@@ -53,6 +54,14 @@ public class ExternalHomeFolderService implements IExternalHomeFolderService {
         return genericDAO.simpleSelect(HomeFolderMapping.class)
                 .and("externalServiceLabel", externalServiceLabel)
                 .and("externalId", eh.getCompositeIdForMapping()).unique();
+    }
+
+    @Override
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
+    public HomeFolderMapping getHomeFolderMapping(
+            String externalServiceLabel, ExternalApplication externalApplication, String externalHomeFolderId) {
+        ExternalHomeFolder eh = new ExternalHomeFolder(externalHomeFolderId, externalApplication, null);
+        return getHomeFolderMapping(externalServiceLabel, eh);
     }
 
     @Override

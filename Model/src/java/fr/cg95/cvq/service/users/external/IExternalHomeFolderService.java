@@ -2,6 +2,7 @@ package fr.cg95.cvq.service.users.external;
 
 import java.util.List;
 
+import fr.cg95.cvq.business.payment.external.ExternalApplication;
 import fr.cg95.cvq.business.payment.external.ExternalHomeFolder;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.exception.CvqModelException;
@@ -23,6 +24,9 @@ public interface IExternalHomeFolderService {
             final String externalCapdematId);
 
     HomeFolderMapping getHomeFolderMapping(String externalServiceLabel, ExternalHomeFolder eh);
+
+    HomeFolderMapping getHomeFolderMapping(String externalServiceLabel,
+            ExternalApplication externalApplication, String externalHomeFolderId);
 
     /**
      * Add a new mapping for the given object.
@@ -50,6 +54,4 @@ public interface IExternalHomeFolderService {
     void setExternalId(String externalServiceLabel,
         @IsHomeFolder Long homeFolderId, @IsIndividual Long individualId,
         String externalId);
-
-
 }

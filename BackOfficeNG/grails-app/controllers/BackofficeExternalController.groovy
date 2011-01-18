@@ -89,7 +89,7 @@ class BackofficeExternalController {
                 "lastOnly" : params.lastOnly,
                 "filters":parsedFilters.filters,
                 "filterBy":parsedFilters.filterBy,
-                "offset" : offset,
+                "recordOffset" : offset,
                 "sortBy" : sortBy,
                 "inSearch" : true
             ].plus(initSearchReferential())

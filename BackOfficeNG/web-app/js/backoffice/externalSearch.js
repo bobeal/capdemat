@@ -23,7 +23,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong.external");
           containers : ["pagination-top", "pagination-bottom"],
           rowsPerPage : 15,
           totalRecords : parseInt(yud.get("totalRecords").value),
-          recordOffset : parseInt(yud.get("offset").value),
+          recordOffset : parseInt(yud.get("recordOffset").value),
           template : "{FirstPageLink} {PreviousPageLink} <span>{CurrentPageReport}</span> {NextPageLink} {LastPageLink}",
           previousPageLinkLabel : "&lt;",
           firstPageLinkLabel : "&lt;&lt;",

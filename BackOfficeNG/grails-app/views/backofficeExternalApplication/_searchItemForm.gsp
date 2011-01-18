@@ -18,9 +18,11 @@
   <h1><g:message code="external.header.searchInvoice" /></h1>
   <form method="post" id="searchForm" class="advanced-search" action="${createLink(action:"searchInvoice")}">
     <input type="hidden" id="pageState" name="pageState" value="${pageState}" />
-    <input type="hidden" name="currentCount" id="currentCount" value="${count}" />
-    <input type="hidden" name="currentOffset" id="currentOffset" value="${offset}" />
-    <input type="hidden" name="currentMax" id="currentMax" value="${max}" />
+    <input type="hidden" name="totalRecords" id="totalRecords" value="${totalRecords}" />
+    <input type="hidden" name="recordOffset" id="recordOffset" value="${recordOffset}" />
+    <input type="hidden" name="recordsReturned" id="recordsReturned" value="${recordsReturned}" />
+    <input type="hidden" id="sortBy" name="sortBy" value="${sortBy}" />
+    <input type="hidden" id="filterBy" name="filterBy" value="${filterBy}" />
     <div id="errorContainer" class="error"><!-- error container --></div>
     <div class="yui-g">
       <div class="yui-u first">
@@ -51,9 +53,11 @@
   <h1><g:message code="external.header.searchDepositAccount" /></h1>
   <form method="post" id="searchForm" class="advanced-search" action="${createLink(action:"searchDepositAccount")}">
     <input type="hidden" id="pageState" name="pageState" value="${pageState}" />
-    <input type="hidden" name="currentCount" id="currentCount" value="${count}" />
-    <input type="hidden" name="currentOffset" id="currentOffset" value="${offset}" />
-    <input type="hidden" name="currentMax" id="currentMax" value="${max}" />
+    <input type="hidden" name="totalRecords" id="totalRecords" value="${totalRecords}" />
+    <input type="hidden" name="recordOffset" id="recordOffset" value="${recordOffset}" />
+    <input type="hidden" name="recordsReturned" id="recordsReturned" value="${recordsReturned}" />
+    <input type="hidden" id="sortBy" name="sortBy" value="${sortBy}" />
+    <input type="hidden" id="filterBy" name="filterBy" value="${filterBy}" />
     <div id="errorContainer" class="error"><!-- error container --></div>
     <div class="yui-g">
       <div class="yui-u first">
@@ -73,9 +77,11 @@
   <h1><g:message code="external.header.searchTicketingContract" /></h1>
   <form method="post" id="searchForm" class="advanced-search" action="${createLink(action:"searchTicketingContract")}">
     <input type="hidden" id="pageState" name="pageState" value="${pageState}" />
-    <input type="hidden" name="currentCount" id="currentCount" value="${count}" />
-    <input type="hidden" name="currentOffset" id="currentOffset" value="${offset}" />
-    <input type="hidden" name="currentMax" id="currentMax" value="${max}" />
+    <input type="hidden" name="totalRecords" id="totalRecords" value="${totalRecords}" />
+    <input type="hidden" name="recordOffset" id="recordOffset" value="${recordOffset}" />
+    <input type="hidden" name="recordsReturned" id="recordsReturned" value="${recordsReturned}" />
+    <input type="hidden" id="sortBy" name="sortBy" value="${sortBy}" />
+    <input type="hidden" id="filterBy" name="filterBy" value="${filterBy}" />
     <div id="errorContainer" class="error"><!-- error container --></div>
     <div class="yui-g">
       <div class="yui-u first">

@@ -12,9 +12,13 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong.external");
   var zcv = zenexity.capdemat.Validation;
   zcbe.Search = function() {
     return {
+      before: function() {}, // extension point
       init: function() {
-        zcb.Calendar("dateFrom");
-        zcb.Calendar("dateTo");
+        zcbe.Search.before();
+        if (yud.get("dateFrom")) {
+          zcb.Calendar("dateFrom")
+          zcb.Calendar("dateTo")
+        }
         var myPaginator = new yw.Paginator({
           containers : ["pagination-top", "pagination-bottom"],
           rowsPerPage : 15,

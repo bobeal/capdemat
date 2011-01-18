@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
+import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.Payment;
 import fr.cg95.cvq.business.payment.PaymentMode;
 import fr.cg95.cvq.business.payment.PurchaseItem;
@@ -127,6 +128,8 @@ public interface IPaymentService {
             int recordsReturned, int startIndex);
 
     List<ExternalAccountItem> getAllExternalAccountItems();
+
+    List<ExternalInvoiceItem> getInvoicesPaid(final Long homeFolderId) throws CvqException;
 
     Long getInvoicesCount(Set<Critere> criteriaSet);
 

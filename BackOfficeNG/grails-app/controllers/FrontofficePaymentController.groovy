@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.payment.ExternalAccountItem
@@ -74,6 +77,7 @@ class FrontofficePaymentController {
     def history = {
         def result = [:]
         
+        result.invoicesPaid = this.invoicesPaid
         result.paymentStates = PaymentState.allPaymentStates.collect{it.toString().toLowerCase()}
         result.paymentsHistory = this.paymentsHistory
         if (SecurityContext.currentSite.displayInProgressPayments)
@@ -292,7 +296,14 @@ class FrontofficePaymentController {
         }
         return result.sort{it.externalItemId}
     }
-    
+
+    protected Map getInvoicesPaid() {
+        def result = [:]
+        result.all = paymentService.getInvoicesPaid(ecitizen.homeFolder.id)
+        result.count = paymentService.getInvoicesPaid(ecitizen.homeFolder.id).size
+        return result
+    }
+
     protected Map buildPurchaseItemMap(PurchaseItem item) {
         if(item instanceof ExternalDepositAccountItem) 
             return (this.buildDepositMap((ExternalDepositAccountItem)item))

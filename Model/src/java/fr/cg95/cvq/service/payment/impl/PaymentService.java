@@ -45,6 +45,7 @@ import fr.cg95.cvq.service.payment.PaymentResultBean;
 import fr.cg95.cvq.service.payment.PaymentResultStatus;
 import fr.cg95.cvq.service.payment.PaymentServiceBean;
 import fr.cg95.cvq.service.payment.annotation.PaymentFilter;
+import fr.cg95.cvq.service.payment.external.IPaymentExternalService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 import fr.cg95.cvq.util.Critere;
@@ -61,6 +62,8 @@ public final class PaymentService implements IPaymentService,
     private IIndividualService individualService;
     @Autowired
     private IExternalHomeFolderService externalHomeFolderService;
+    @Autowired
+    private IPaymentExternalService paymentExternalService;
 
     private ApplicationContext applicationContext;
 
@@ -379,6 +382,20 @@ public final class PaymentService implements IPaymentService,
             criteriaSet = new HashSet<Critere>();
 
         return paymentDAO.count(criteriaSet);
+    }
+
+    @Override
+    public List<ExternalInvoiceItem> getInvoicesPaid(final Long homeFolderId) 
+        throws CvqException {
+        List<ExternalInvoiceItem> invoicesPaid = new ArrayList<ExternalInvoiceItem>();
+        Set<ExternalAccountItem> invoices = paymentExternalService.getExternalAccounts(homeFolderId, IPaymentService.EXTERNAL_INVOICES);
+
+        for (ExternalAccountItem item : invoices) {
+            if (((ExternalInvoiceItem) item).getIsPaid()) {
+                invoicesPaid.add((ExternalInvoiceItem) item);
+            }
+        }
+        return invoicesPaid;
     }
 
     @Override

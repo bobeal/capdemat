@@ -20,9 +20,13 @@
             model="${[payments : paymentsHistory, paginate : true, 
                 title : 'payment.header.paymentsHistory',
                 noPaymentsMsg : 'payment.message.noFinishedPayments']}"/>
-        </div> 
+          <g:render template="invoiceList" 
+            model="${[invoices : invoicesPaid, paginate : true, 
+                title : 'payment.header.invoicesPaid',
+                noInvoicesMsg : 'payment.message.noInvoicesPaid']}"/>
+        </div>
       </div> <!-- end of yui-main -->
-      
+
       %{--
         <div id="narrow" class="yui-b">
          

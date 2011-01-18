@@ -161,6 +161,14 @@ public class PaymentDAO extends GenericDAO implements IPaymentDAO {
                 sb.append(" and externalInvoiceItem.isPaid " + searchCrit.getComparatif() + " ? ");
                 values.add(searchCrit.getValue());
                 types.add(Hibernate.BOOLEAN);
+            } else if (searchCrit.getAttribut().equals(ExternalInvoiceItem.SEARCH_BY_BROKER)) {
+                sb.append(" and externalInvoiceItem.supportedBroker" + searchCrit.getComparatif() + " ?");
+                values.add(searchCrit.getSqlStringValue());
+                types.add(Hibernate.STRING);
+            } else if (searchCrit.getAttribut().equals(ExternalInvoiceItem.SEARCH_BY_EXTERNAL_APPLICATION)) {
+                sb.append(" and externalInvoiceItem.externalApplicationId" + searchCrit.getComparatif() + " ?");
+                values.add(searchCrit.getSqlStringValue());
+                types.add(Hibernate.STRING);
             }
         }
     }
@@ -179,6 +187,14 @@ public class PaymentDAO extends GenericDAO implements IPaymentDAO {
                 sb.append(" and externalDepositAccountItem.externalItemId " + searchCrit.getComparatif() + " ?");
                 values.add(searchCrit.getSqlStringValue());
                 types.add(Hibernate.STRING);
+            } else if (searchCrit.getAttribut().equals(ExternalDepositAccountItem.SEARCH_BY_BROKER)) {
+                sb.append(" and externalDepositAccountItem.supportedBroker" + searchCrit.getComparatif() + " ?");
+                values.add(searchCrit.getSqlStringValue());
+                types.add(Hibernate.STRING);
+            } else if (searchCrit.getAttribut().equals(ExternalDepositAccountItem.SEARCH_BY_EXTERNAL_APPLICATION)) {
+                sb.append(" and externalDepositAccountItem.externalApplicationId" + searchCrit.getComparatif() + " ?");
+                values.add(searchCrit.getSqlStringValue());
+                types.add(Hibernate.STRING);
             }
         }
     }
@@ -195,6 +211,14 @@ public class PaymentDAO extends GenericDAO implements IPaymentDAO {
                 types.add(Hibernate.STRING);
             } else if (searchCrit.getAttribut().equals(ExternalTicketingContractItem.SEARCH_BY_EXTERNAL_TICKETING_CONTRACT_ID)) {
                 sb.append(" and externalTicketingContractItem.externalItemId " + searchCrit.getComparatif() + " ?");
+                values.add(searchCrit.getSqlStringValue());
+                types.add(Hibernate.STRING);
+            } else if (searchCrit.getAttribut().equals(ExternalTicketingContractItem.SEARCH_BY_BROKER)) {
+                sb.append(" and externalTicketingContractItem.supportedBroker" + searchCrit.getComparatif() + " ?");
+                values.add(searchCrit.getSqlStringValue());
+                types.add(Hibernate.STRING);
+            } else if (searchCrit.getAttribut().equals(ExternalTicketingContractItem.SEARCH_BY_EXTERNAL_APPLICATION)) {
+                sb.append(" and externalTicketingContractItem.externalApplicationId" + searchCrit.getComparatif() + " ?");
                 values.add(searchCrit.getSqlStringValue());
                 types.add(Hibernate.STRING);
             }

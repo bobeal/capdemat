@@ -238,6 +238,9 @@ class BackofficeExternalApplicationController {
             }
         }
 
+        // deal with dynamic filters
+        def parsedFilters = prepareFilters(criteria, params.filterBy)
+
         // deal with dynamic sorts
         def sortBy = params.sortBy ? params.sortBy : itemsDefaultSortBy
 
@@ -250,6 +253,8 @@ class BackofficeExternalApplicationController {
         def invoices = paymentService.getInvoices(criteria, sortBy, null, results, recordOffset)
         render(view:'searchItem', model:[
                              'searchType': 'invoice',
+                             'filters':parsedFilters.filters,
+                             'filterBy':parsedFilters.filterBy,
                              'recordsReturned': invoices.size(),
                              'totalRecords': paymentService.getInvoicesCount(criteria),
                              'recordOffset': recordOffset,
@@ -262,6 +267,9 @@ class BackofficeExternalApplicationController {
 
         // deal with search criteria
         Set<Critere> criteria = prepareCriteria(supportedKeys)
+
+        // deal with dynamic filters
+        def parsedFilters = prepareFilters(criteria, params.filterBy)
 
         // deal with dynamic sorts
         def sortBy = params.sortBy ? params.sortBy : itemsDefaultSortBy
@@ -276,6 +284,8 @@ class BackofficeExternalApplicationController {
         def depositAccounts = paymentService.getDepositAccounts(criteria, sortBy, null, results, recordOffset)
         render(view:'searchItem', model:[
                              'searchType': 'depositAccount',
+                             'filters':parsedFilters.filters,
+                             'filterBy':parsedFilters.filterBy,
                              'recordsReturned': depositAccounts.size(),
                              'totalRecords': paymentService.getDepositAccountsCount(criteria),
                              'recordOffset': recordOffset,
@@ -288,6 +298,9 @@ class BackofficeExternalApplicationController {
 
         // deal with search criteria
         Set<Critere> criteria = prepareCriteria(supportedKeys)
+
+        // deal with dynamic filters
+        def parsedFilters = prepareFilters(criteria, params.filterBy)
 
         // deal with dynamic sorts
         def sortBy = params.sortBy ? params.sortBy : itemsDefaultSortBy
@@ -302,6 +315,8 @@ class BackofficeExternalApplicationController {
         def ticketingContracts = paymentService.getTicketingContracts(criteria, sortBy, null, results, recordOffset)
         render(view:'searchItem', model:[
                              'searchType': 'ticketingContract',
+                             'filters':parsedFilters.filters,
+                             'filterBy':parsedFilters.filterBy,
                              'recordsReturned': ticketingContracts.size(),
                              'totalRecords': paymentService.getTicketingContractsCount(criteria),
                              'recordOffset': recordOffset,
@@ -316,6 +331,13 @@ class BackofficeExternalApplicationController {
             'sortBy': params.sortBy,
             'dir': params.dir,
             'inSearch': true
+        ].plus(initSearchReferential())
+    }
+    
+    private initSearchReferential() {
+        return [
+            'allBrokers':paymentService.getAllBrokers(),
+            'allExternalApplications':externalApplicationService.allExternalApplications()
         ]
     }
 
@@ -331,6 +353,18 @@ class BackofficeExternalApplicationController {
             }
         }
         return criteria
+    }
+
+    private prepareFilters(criteria, filters) {
+        def parsedFilters = SearchUtils.parseFilters(filters)
+        parsedFilters.filters.each { key, value ->
+            Critere critere = new Critere()
+            critere.attribut = key.replaceAll("Filter","")
+            critere.comparatif = Critere.EQUALS
+            critere.value = value
+            criteria.add(critere)
+        }
+        return parsedFilters
     }
 
 }

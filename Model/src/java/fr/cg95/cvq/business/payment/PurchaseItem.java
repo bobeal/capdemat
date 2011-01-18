@@ -19,6 +19,8 @@ public abstract class PurchaseItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public static final String SEARCH_BY_BROKER = "broker";
+
     private Long id;
     private String label;
     private Double amount;

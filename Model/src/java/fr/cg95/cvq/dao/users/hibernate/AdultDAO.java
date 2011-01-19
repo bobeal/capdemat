@@ -37,6 +37,7 @@ public class AdultDAO extends IndividualDAO implements IAdultDAO {
         Query q = HibernateUtil.getSession().createQuery(
                 "from Adult a where" +
                     " (lower(a.firstName) = lower(:firstName) and lower(a.lastName) = lower(:lastName))" +
+                    " or lower(a.email) = lower(:email) or lower(a.homePhone) = lower(:homePhone)" +
                     " or lower(:address) like '%'|| lower(a.address.streetName) || '%'"
         );
         return q.setProperties(parameters).list();

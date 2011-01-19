@@ -96,6 +96,8 @@ public class ExternalApplicationService implements IExternalApplicationService {
         External Family Account Id
         Address
         Is Responsible
+        Email
+        Phone
     */
     @Override
     public Map<String, Integer> importHomeFolders(Long externalApplicationId,
@@ -126,7 +128,7 @@ public class ExternalApplicationService implements IExternalApplicationService {
                         .and("externalId", line[0])
                         .and("externalHomeFolder", ehf).unique();
                 if (ei == null) {
-                    ei = new ExternalIndividual(line[0], line[1], line[2], "1".equals(line[5]) ? true : false);
+                    ei = new ExternalIndividual(line[0], line[1], line[2], line[6], line[7] ,"1".equals(line[5]) ? true : false);
                     ei.setExternalHomeFolder(ehf);
                     ehf.getIndividuals().add(ei);
                     if (ei.isResponsible())
@@ -504,6 +506,8 @@ public class ExternalApplicationService implements IExternalApplicationService {
         Map<String,String> parameters = new HashMap<String, String>();
         parameters.put("firstName", ehfr.getFirstName());
         parameters.put("lastName", ehfr.getLastName());
+        parameters.put("email", ehfr.getEmail());
+        parameters.put("homePhone", ehfr.getHomePhone());
         parameters.put("address", ehf.getAddress());
         List<Adult> adults = adultDAO.matchAdults(parameters);
         List<Adult> responsibles = new ArrayList<Adult>();

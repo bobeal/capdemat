@@ -8,6 +8,13 @@
           ${homeFolder.responsible?.lastName}
         </dt>
         <dd>${homeFolder?.address}</dd>
+        <g:if test="${homeFolder.responsible?.email != null}">
+            <dd>${homeFolder.responsible?.email}</dd>
+        </g:if>
+        <g:if test="${homeFolder.responsible?.homePhone != null}">
+            <dd>${homeFolder.responsible?.homePhone}</dd>
+        </g:if>
+        <dd></dd>
         <dd>
           <g:if test="${mapping}">
             <a id="freeHomeFolder_${homeFolder.id}">${message(code:'action.free')}</a>
@@ -39,6 +46,8 @@
               ${adult.address.streetNumber} <span ${homeFolder.address.indexOf(adult.address.streetName) > 0 ? 'class="match"' : ''}>${adult.address.streetName}</span>
               ${adult.address.postalCode} ${adult.address.city}
             </dd>
+            <dd><span ${adult.email == homeFolder.responsible.email ? 'class="match"' : ''}>${adult.email}</span></dd>
+            <dd><span ${adult.homePhone == homeFolder.responsible.homePhone ? 'class="match"' : ''}>${adult.homePhone}</span></dd>
             <dd>
               <g:if test="${!mapping}">
                 <a id="bindHomeFolder_${homeFolder.id}_${adult.homeFolder.id}" >${message(code:'action.bind')}</a>

@@ -114,6 +114,8 @@ class BackofficeExternalApplicationController {
             rank += delegate.firstName == homeFolder.responsible.firstName ? 1 : 0
             rank += delegate.lastName == homeFolder.responsible.lastName ? 1 : 0
             rank += homeFolder.address.indexOf(delegate.address.streetName) ? 1 : 0
+            rank += delegate.email == homeFolder.responsible.email ? 1 : 0
+            rank += delegate.homePhone == homeFolder.responsible.homePhone ? 1 : 0
             return rank
         }
         def eh = externalApplicationService.getHomeFolder(Long.valueOf(params.id))

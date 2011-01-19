@@ -14,18 +14,22 @@ public class ExternalIndividual {
     private String externalId;
     private String lastName;
     private String firstName;
+    private String email;
+    private String homePhone;
     private boolean responsible;
     private ExternalHomeFolder externalHomeFolder;
 
     public ExternalIndividual() {
     }
 
-    public ExternalIndividual(String externalId, String lastName, String firstName,
+    public ExternalIndividual(String externalId, String lastName, String firstName, String email, String homePhone,
             boolean responsible) {
         super();
         this.externalId = externalId;
         this.lastName = lastName;
         this.firstName = firstName;
+        this.email = email;
+        this.homePhone = homePhone;
         this.responsible = responsible;
     }
 
@@ -76,6 +80,30 @@ public class ExternalIndividual {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="email"
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="home_phone"
+     */
+    public String getHomePhone() {
+        return homePhone;
+    }
+
+    public void setHomePhone(String homePhone) {
+        this.homePhone = homePhone;
     }
 
     /**

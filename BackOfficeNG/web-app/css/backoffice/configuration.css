@@ -393,3 +393,26 @@ form#applicationForm .dataTree li       { width: 100%; display: block; overflow:
 /* select
 -------------------------------------------------------------- */
 select { display: block; }
+
+/* external application details
+-------------------------------------------------------------- */
+.overviewConfigurationList .yui-g,
+.overviewConfigurationList .yui-u { margin: 2px 5px 2px !important; }
+
+.overviewConfigurationList .yui-u { width: 48% !important; }
+
+.overviewConfigurationList .data {
+  border: 1px solid #C1CFE2;
+  color: #333;
+  overflow: auto;
+}
+
+.overviewConfigurationList .data h4 {
+  padding: .5em;
+  font-size: 12px;
+  font-weight: bold;
+  border-bottom: 1px solid #C1CFE2;
+  background-color: #F3F8FF;
+}
+
+.overviewConfigurationList p { padding: .3em .5em; }

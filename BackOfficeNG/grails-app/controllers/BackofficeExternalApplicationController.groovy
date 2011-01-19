@@ -33,7 +33,30 @@ class BackofficeExternalApplicationController {
     }
 
     def applications = {
-        return ['applications': externalApplicationService.allExternalApplications()]
+        def result = [applications:[]]
+        externalApplicationService.allExternalApplications().each {
+            def freeAccount = 0, bindedAccount = 0, ignoredAccount = 0
+            it.externalHomeFolders.each {
+                if (it.mappingState.equals(MappingState.FREE))
+                    freeAccount ++
+                if (it.mappingState.equals(MappingState.BINDED))
+                    bindedAccount ++
+                if (it.mappingState.equals(MappingState.IGNORED))
+                    ignoredAccount ++
+            }
+            
+            def application = [
+                'application': it,
+                'freeAccount': freeAccount,
+                'bindedAccount': bindedAccount,
+                'ignoredAccount': ignoredAccount,
+                'invoices': externalApplicationService.getExternalInvoiceItems(String.valueOf(it.id)).size(),
+                'deposits': externalApplicationService.getExternalDepositAccountItems(String.valueOf(it.id)).size(),
+                'contracts': externalApplicationService.getExternalTicketingContractItems(String.valueOf(it.id)).size()
+            ]
+            result.applications.add(application)
+        }
+        return result
     }
 
     def editApplication = {

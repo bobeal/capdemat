@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import au.com.bytecode.opencsv.CSVReader;
+import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItemDetail;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
@@ -489,6 +490,27 @@ public class ExternalApplicationService implements IExternalApplicationService {
         return genericDAO.simpleSelect(ExternalHomeFolder.class)
                 .and("externalApplication", getExternalApplicationById(externalApplicationId))
                 .max(max).offset(offset).list();
+    }
+
+    @Override
+    public List<ExternalInvoiceItem> getExternalInvoiceItems(String externalApplicationId) {
+        return genericDAO.simpleSelect(ExternalInvoiceItem.class)
+                .and("externalApplicationId", externalApplicationId)
+                .list();
+    }
+
+    @Override
+    public List<ExternalDepositAccountItem> getExternalDepositAccountItems(String externalApplicationId) {
+        return genericDAO.simpleSelect(ExternalDepositAccountItem.class)
+                .and("externalApplicationId", externalApplicationId)
+                .list();
+    }
+
+    @Override
+    public List<ExternalTicketingContractItem> getExternalTicketingContractItems(String externalApplicationId) {
+        return genericDAO.simpleSelect(ExternalTicketingContractItem.class)
+                .and("externalApplicationId", externalApplicationId)
+                .list();
     }
 
     @Override

@@ -3,6 +3,10 @@ package fr.cg95.cvq.service.payment.external;
 import java.util.List;
 import java.util.Map;
 
+import fr.cg95.cvq.business.payment.ExternalAccountItem;
+import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
+import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
+import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
 import fr.cg95.cvq.business.payment.external.ExternalApplication;
 import fr.cg95.cvq.business.payment.external.ExternalHomeFolder;
 import fr.cg95.cvq.business.users.Adult;
@@ -51,4 +55,11 @@ public interface IExternalApplicationService {
     void modifyHomeFolder(ExternalHomeFolder eh) throws CvqException;
 
     List<Adult> matchAdults (Long externalHomeFolderId) throws CvqException;
+
+    List<ExternalInvoiceItem> getExternalInvoiceItems(String externalApplicationId);
+
+    List<ExternalDepositAccountItem> getExternalDepositAccountItems(String externalApplicationId);
+
+    List<ExternalTicketingContractItem> getExternalTicketingContractItems(
+            String externalApplicationId);
 }

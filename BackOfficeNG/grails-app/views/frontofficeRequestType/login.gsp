@@ -18,8 +18,10 @@
       <div class="yui-u first main-box">
         <h2>${message(code:'account.message.useAccountToFillRequest')}</h2>
         <form action="${createLink(controller : 'frontofficeHome', action : 'login')}" method="post">
-          <input type="hidden" name="requestTypeLabel" value="${params.requestTypeLabel}" />
-          <input type="hidden" name="requestSeasonId" value="${params.requestSeasonId}" />
+          <input type="hidden" name="targetURL"
+            value="${createLink(controller : 'frontofficeRequestType', action : 'start', id : params.requestTypeLabel)}" />
+          <input type="hidden" name="errorURL"
+            value="${createLink(controller : 'frontofficeRequestType', action : 'login', params : ['requestTypeLabel' : params.requestTypeLabel])}" />
           <label for="login" class="required">
             ${message(code:'homeFolder.adult.property.login')}
           </label>
@@ -43,7 +45,7 @@
           </ul>
           <p>
             <a style="font-size: 1.5em;" href="${createLink(controller : 'frontofficeHomeFolder', action : 'create',
-              params : ['requestTypeLabel' : params.requestTypeLabel, 'requestSeasonId' : params.requestSeasonId])}">
+              params : ['requestTypeLabel' : params.requestTypeLabel])}">
               ${message(code:'homeFolder.action.wishCreateAccount')}
             </a>
           </p>

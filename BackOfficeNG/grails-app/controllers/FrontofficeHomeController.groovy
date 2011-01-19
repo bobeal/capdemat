@@ -95,14 +95,8 @@ class FrontofficeHomeController {
             try {
                 authenticationService.authenticate(params.login,params.password)
                 securityService.setEcitizenSessionInformation(params.login, session)
-                if (params.requestTypeLabel == null && params.id == null) {
-                    redirect(controller:'frontofficeHome')
-                    return false
-                } else {
-                    redirect(controller : "frontofficeRequest", action : "edit",
-                        params : ["id" : params.id, "label" : params.requestTypeLabel, "requestSeasonId" : params.requestSeasonId])
-                    return false
-                }
+                params.targetURL ? redirect(url : params.targetURL) : redirect(controller : "frontofficeHome")
+                return false
             } catch (CvqUnknownUserException e) {
                 error = "account.error.authenticationFailed"
             } catch (CvqAuthenticationFailedException e) {
@@ -111,15 +105,16 @@ class FrontofficeHomeController {
                 error = "account.error.disabledAccount"
             }
         }
-        if (params.requestTypeLabel == null && params.id == null) {
-            return ['isLogin': true, 'error': message(code:error),
-                    'groups': requestTypeAdaptorService.getDisplayGroups(null)]
-        } else {
+        if (params.errorURL) {
             flash.errorMessage = message(code : error)
-            redirect(controller : "frontofficeRequest", action : "login",
-                params : ["id" : params.id, "requestTypeLabel" : params.requestTypeLabel, "requestSeasonId" : params.requestSeasonId])
+            redirect(url : params.errorURL)
             return false
         }
+        return [
+            "isLogin" : true,
+            "error" : message(code : error),
+            "groups" : requestTypeAdaptorService.getDisplayGroups(null)
+        ]
     }
     
     def logout = {

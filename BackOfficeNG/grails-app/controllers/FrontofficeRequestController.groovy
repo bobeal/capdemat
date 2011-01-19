@@ -104,67 +104,36 @@ class FrontofficeRequestController {
         ]);
     }
 
-    def login = {
-        return true
-    }
-
-    def start = {
-        def label = params.label
-        if (label == null) {
-            redirect(uri: '/frontoffice/requestType')
+    def create = {
+        if (params.label == null) {
+            redirect(controller : "frontofficeRequestType")
             return false
         }
-        def lastRequests = [:]
-        if (SecurityContext.currentEcitizen == null) {
-            flash.isOutOfAccountRequest = true
-        } else {
-            lastRequests = requestWorkflowService.getRenewableRequests(label)
-        }
-        def viewPath = "/frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(label)}/start"
-        render(view : viewPath, model : [
-            "requestSeasonId" : params.requestSeasonId,
-            "requestTypeLabel" : label,
-            "intro" : localAuthorityRegistry.getFileContent(
-                localAuthorityRegistry.getLocalAuthorityResourceFile(
-                    LocalAuthorityResource.Type.HTML,
-                    "request/" + CapdematUtils.requestTypeLabelAsDir(label) + "/introduction",
-                    false)),
-            "isOutOfAccountRequest" : SecurityContext.getCurrentEcitizen() == null,
-            "lastRequests" : lastRequests
-        ])
-    }
-
-    def renew = {
-        redirect(action : "edit", params : [
-            "id" : requestWorkflowService.getRequestClone(Long.valueOf(params.id), params.long("requestSeasonId")).id
-        ])
-    }
-
-    def edit = {
-        if (params.label == null && params.id == null) {
-            redirect(uri: '/frontoffice/requestType')
-            return false
-        }
-        if (SecurityContext.currentEcitizen == null) {
-            redirect(action : "login", params :
-                ["requestTypeLabel" : params.label, "requestSeasonId" : params.requestSeasonId])
+        def requestType = requestTypeService.getRequestTypeByLabel(params.label)
+        def requestSeasonId = params.long("requestSeasonId")
+        if (!requestWorkflowService.validateSeason(requestType,
+            requestTypeService.getRequestSeason(requestType.id, requestSeasonId))) {
+            redirect(controller : "frontofficeRequestType", action : "start", id : params.label)
             return false
         }
         Request rqt
-        if (params.id) {
-            def id = Long.valueOf(params.id)
-            requestLockService.lock(id)
-            rqt = requestSearchService.getById(id, true)
+        if (params.renewedId) {
+            rqt = requestWorkflowService.getRequestClone(Long.valueOf(params.renewedId),
+                params.long("requestSeasonId"))
         } else {
-            rqt = requestWorkflowService.getSkeletonRequest(params.label, params.long("requestSeasonId"))
+            rqt = requestWorkflowService.getSkeletonRequest(params.label,
+                params.long("requestSeasonId"))
             //FIXME: CG77 hack to manage vcr and hfmr in request edition context 
             rqt.stepStates.values().iterator().next()['precedeByAccountCreation'] =
                 flash.precedeByAccountCreation ? true : false
         }
-        if (rqt == null) {
-            redirect(uri: '/frontoffice/requestType')
-            return false
-        }
+        redirect(action : "edit", id : rqt.id)
+    }
+
+    def edit = {
+        def id = Long.valueOf(params.id)
+        requestLockService.lock(id)
+        Request rqt = requestSearchService.getById(id, true)
         def isEdition = !RequestState.DRAFT.equals(rqt.state)
         if (request.post) {
             try {

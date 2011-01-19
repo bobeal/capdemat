@@ -25,7 +25,11 @@ public class DocumentAdaptorService {
     IDocumentTypeService documentTypeService
 
     def getDocumentTypes(Request rqt) {
-        def documentTypes = requestTypeService.getAllowedDocuments(rqt.requestType.id)
+        return getDocumentTypes(rqt.requestType.id)
+    }
+
+    def getDocumentTypes(Long requestTypeId) {
+        def documentTypes = requestTypeService.getAllowedDocuments(requestTypeId)
         def result = []
         documentTypes.each {
             def docType = [

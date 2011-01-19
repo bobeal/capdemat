@@ -225,9 +225,8 @@ public interface IRequestWorkflowService {
     void checkSubjectPolicy(@IsSubject final Long subjectId, final String policy,
             @IsRequest final Request request) throws CvqException, CvqModelException;
 
-    void checkRequestTypePolicy(@IsRequestType RequestType requestType, RequestSeason requestSeason,
-            HomeFolder homeFolder)
-            throws CvqException;
+    boolean validateSeason(@IsRequestType RequestType requestType, RequestSeason requestSeason)
+        throws CvqException;
 
     void checkRequestTypePolicy(@IsRequestType RequestType requestType, HomeFolder homeFolder)
         throws CvqException;

@@ -122,8 +122,7 @@ class FrontofficeHomeFolderController {
                 securityService.setEcitizenSessionInformation(adult.login, session)
                 if (params.requestTypeLabel) {
                     flash.precedeByAccountCreation = true
-                    redirect(controller : "frontofficeRequest", action : "edit",
-                        params : ["label" : params.requestTypeLabel, "requestSeasonId" : params.requestSeasonId])
+                    redirect(controller : "frontofficeRequestType", action : "start", id : params.requestTypeLabel)
                     return false
                 }
             } else {

@@ -461,7 +461,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="isOfRegistrationKind" value="true"/>
     <property name="defaultDisplayGroup" value="school" />
     <property name="filingDelay" value="12"/>
-    <property name="supportUnregisteredCreation" value="true" />
+    <property name="supportUnregisteredCreation" value="false" />
   </bean>
   
   <bean id="learningActivitiesDiscoveryRegistrationRequestService" 
@@ -503,7 +503,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="subjectPolicy" value="SUBJECT_POLICY_INDIVIDUAL" />
     <property name="defaultDisplayGroup" value="social" />
     <property name="filingDelay" value="12"/>
-    <property name="supportUnregisteredCreation" value="true" />
+    <property name="supportUnregisteredCreation" value="false" />
   </bean>
 
  <bean id="birthDetailsRequestService" 

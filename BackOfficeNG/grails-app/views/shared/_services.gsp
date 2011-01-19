@@ -15,28 +15,14 @@
           <g:each var="requestType" in="${group.value.get('requests')}">
             <li>
               <g:if test="${requestType.enabled}">
-                <g:if test="${requestType.seasons && !requestType.seasons.isEmpty()}">
-                  <g:if test="${requestType.seasons.size() == 1}">
-                    <a href="${createLink(controller:'frontofficeRequest', action : 'start',
-                      params:['label':requestType.label, 'requestSeasonId' : requestType.seasons.iterator().next().id])}">
-                      <g:translateRequestTypeLabel label="${requestType.label}"/>
-                    </a>
-                    <span class="notice">
-                      ${requestType.seasons.iterator().next().label}
-                    </span>
-                  </g:if>
-                  <g:else>
-                    <a href="${createLink(controller : 'frontofficeRequestType', action : 'seasons', params:['label':requestType.label])}">
-                      <g:translateRequestTypeLabel label="${requestType.label}"/>
-                    </a>
-                  </g:else>
+                <a href="${createLink(controller:'frontofficeRequestType', action : 'start', id : requestType.label)}">
+                  <g:translateRequestTypeLabel label="${requestType.label}"/>
+                </a>
+                <g:if test="${requestType.seasons?.size() == 1}">
+                  <span class="notice">
+                    ${requestType.seasons.iterator().next().label}
+                  </span>
                 </g:if>
-                <g:else>
-                  <a href="${createLink(controller:'frontofficeRequest', action : 'start',
-                    params:['label':requestType.label])}">
-                    <g:translateRequestTypeLabel label="${requestType.label}"/>
-                  </a>
-                </g:else>
                 <g:if test="${requestType.countDraft > 0}">
                   &nbsp;
                   <a href="${createLink(controller:'frontofficeRequest', params:[stateFilter:'draft',typeFilter:requestType.id])}" class="tag-draft">${message(code:'requestType.message.draftNumber', args:[requestType.countDraft])}</a>

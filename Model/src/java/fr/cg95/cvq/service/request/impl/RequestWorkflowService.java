@@ -458,9 +458,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         if (!requestType.getActive()) {
             throw new CvqModelException("requestType.message.inactive");
         }
-        if (!service.supportUnregisteredCreation() && homeFolder == null) {
-            throw new CvqModelException("requestType.message.onlyRegisteredUsers");
-        }
         if (!requestTypeService.isRegistrationOpen(requestType.getId())) {
             throw new CvqModelException("requestType.message.registrationClosed");
         }
@@ -476,23 +473,15 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
-    @Context(types = {ContextType.UNAUTH_ECITIZEN, ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void checkRequestTypePolicy(RequestType requestType, RequestSeason requestSeason,
-        HomeFolder homeFolder)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    public boolean validateSeason(RequestType requestType, RequestSeason requestSeason)
         throws CvqException {
-        checkRequestTypePolicy(requestType, homeFolder);
         if (requestTypeService.isOfRegistrationKind(requestType.getId())) {
             Set<RequestSeason> seasons = requestTypeService.getOpenSeasons(requestType);
-            if (seasons.isEmpty() && requestSeason == null) {
-                return;
-            } else if (!seasons.contains(requestSeason)) {
-                throw new CvqException("TODO");
-            }
-        } else {
-            if (requestSeason != null) {
-                throw new CvqException("TODO");
-            }
+            return (requestSeason == null && seasons.isEmpty())
+                || (requestSeason != null && seasons.contains(requestSeason));
         }
+        return requestSeason == null;
     }
 
     @Override
@@ -860,15 +849,12 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     private Request bootstrapDraft(Request request, Long requestSeasonId)
         throws CvqException {
         RequestType requestType = request.getRequestType();
-        RequestSeason requestSeason = null;
+        checkRequestTypePolicy(requestType, homeFolderService.getById(request.getHomeFolderId()));
         if (requestSeasonId != null) {
-            requestSeason =
-                requestTypeService.getRequestSeason(requestType.getId(), requestSeasonId);
+            request.setRequestSeason(
+                requestTypeService.getRequestSeason(requestType.getId(), requestSeasonId));
         }
-        checkRequestTypePolicy(requestType, requestSeason,
-            homeFolderService.getById(request.getHomeFolderId()));
         request.setState(RequestState.DRAFT);
-        request.setRequestSeason(requestSeason);
         create(request, null);
         return request;
     }

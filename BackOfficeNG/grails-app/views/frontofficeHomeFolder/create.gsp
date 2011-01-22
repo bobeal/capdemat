@@ -18,7 +18,8 @@
         <span>${message(code:'homeFolder.action.createAccount')}</span>
       </h2>
       <div class="datas">
-        <form action="${createLink(controller : 'frontofficeHomeFolder', action:'create')}" method="post" class="${invalidFields && !invalidFields.isEmpty() ? 'invalid' : 'uncomplete'}">
+        <div class="${invalidFields && !invalidFields.isEmpty() ? 'invalid' : 'uncomplete'} form">
+        <form action="${createLink(controller : 'frontofficeHomeFolder', action:'create')}" method="post">
           <input type="hidden" name="requestTypeLabel" value="${params.requestTypeLabel}" />
           <input type="hidden" name="requestSeasonId" value="${params.requestSeasonId}" />
           <div>
@@ -74,6 +75,7 @@
             </p>
           </div>
         </form>
+        </div>
       </div>
       <div  class="steps">
         <ul>

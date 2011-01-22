@@ -59,12 +59,16 @@ public final class DayCareCenterRegistrationRequestService extends RequestServic
         throws CvqException {
         
         DayCareCenterRegistrationRequest dccrr = (DayCareCenterRegistrationRequest) request;
-        // get the 18 months date of the subject
-        Individual subject = userSearchService.getById(dccrr.getSubjectId());
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(subject.getBirthDate());
-        cal.add(Calendar.MONTH, 18);
-        dccrr.setDixHuitMoisEnfant(cal.getTime());
+        // this hook is also called at the request's creation, when starting the form filling process
+        // in this case, we do not have yet a subject
+        if (dccrr.getSubjectId() != null) {
+            // get the 18 months date of the subject
+            Individual subject = userSearchService.getById(dccrr.getSubjectId());
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(subject.getBirthDate());
+            cal.add(Calendar.MONTH, 18);
+            dccrr.setDixHuitMoisEnfant(cal.getTime());
+        }
     }
 
     public void setUserSearchService(IUserSearchService userSearchService) {

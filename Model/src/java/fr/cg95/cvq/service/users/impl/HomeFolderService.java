@@ -918,7 +918,9 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
             translationService.translate("homeFolder.individual.property.firstName"),
             translationService.translate("homeFolder.individual.property.lastName"),
             translationService.translate("homeFolder.adult.property.login"),
-            translationService.translate("homeFolder.adult.property.password")
+            translationService.translate("homeFolder.adult.property.password"),
+            translationService.translate("homeFolder.adult.property.email"),
+            translationService.translate("homeFolder.individual.property.address")
         });
         boolean hasCreations = false;
         ByteArrayOutputStream duplicatesOutput = new ByteArrayOutputStream();
@@ -1002,7 +1004,13 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
                     responsible.getFirstName(),
                     responsible.getLastName(),
                     responsible.getLogin(),
-                    password
+                    password,
+                    responsible.getEmail(),
+                    homeFolderAddress.getStreetNumber() == null ?
+                            String.format("%s %s %s", homeFolderAddress.getStreetName(),
+                                    homeFolderAddress.getPostalCode(), homeFolderAddress.getCity()) :
+                            String.format("%s %s %s %s", homeFolderAddress.getStreetNumber(),
+                                    homeFolderAddress.getStreetName(), homeFolderAddress.getPostalCode(), homeFolderAddress.getCity())
                 });
                 if (homeFolderMapping != null) {
                     homeFolderMapping.setHomeFolderId(result.getId());

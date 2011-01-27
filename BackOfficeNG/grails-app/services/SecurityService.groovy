@@ -39,6 +39,7 @@ public class SecurityService {
                 "system" : /error/
             ],
             (SecurityContext.FRONT_OFFICE_CONTEXT) : [
+                "frontofficeRequest" : /.*/,
                 "frontofficeRequestCreation" : /.*/,
                 "frontofficeRequestType" : /.*/,
                 "frontofficeDocument" : [/details/,/binary/],

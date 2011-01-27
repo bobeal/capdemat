@@ -333,14 +333,6 @@ public class Request implements Serializable {
         requestData.setStepStates(stepStates);
     }
 
-    public boolean getHasTiedHomeFolder() {
-        return requestData.getHasTiedHomeFolder();
-    }
-
-    public void setHasTiedHomeFolder(boolean hasTiedHomeFolder) {
-        requestData.setHasTiedHomeFolder(hasTiedHomeFolder);
-    }
-
     public byte[] getDocumentsArchive() {
         return requestData.getDocumentsArchive();
     }

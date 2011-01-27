@@ -17,7 +17,7 @@
      <!-- header -->
      <div id="hd">
        <div class="top">
-        <g:if test="${session.currentEcitizen}">
+        <g:if test="${session.currentCredentialBean?.ecitizen && !(session.currentCredentialBean.ecitizen.homeFolder.temporary)}">
           <strong>${session.currentEcitizenName} &nbsp;</strong>
           <a href="${createLink(controller:'frontofficeHome',action:'logout')}" class="menu" accesskey="9"><g:message code="action.logout" /></a>
         </g:if>
@@ -44,7 +44,17 @@
               alt="Logo Collectivité" />
        </h1>
      </div>
-     <g:render template="/shared/menus/menu_${session.frontContext ? session.frontContext.toString().toLowerCase() : 'unauth_ecitizen' }"/>
+     <g:if test="${session.frontContext}">
+       <g:if test="${session.currentCredentialBean.ecitizen.homeFolder.temporary}">
+         <g:render template="/shared/menus/menu_temporary" />
+       </g:if>
+       <g:else>
+         <g:render template="/shared/menus/menu_${session.frontContext.toString().toLowerCase()}"/>
+       </g:else>
+     </g:if>
+     <g:else>
+       <g:render template="/shared/menus/menu_unauth_ecitizen" />
+     </g:else>
      
      <!-- header -->
      <div id="bd">

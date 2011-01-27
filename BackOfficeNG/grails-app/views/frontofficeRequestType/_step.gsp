@@ -29,9 +29,6 @@
       <textarea id="requestNote" name="requestNote" rows="" cols="">${params.requestNote}</textarea>
       <label><span id="requestNoteLimit"></span></label>
       <h3>${message(code:'request.step.validation.label')}</h3>
-      <g:if test="${!hasHomeFolder}">
-        <g:render template="/frontofficeRequestType/outOfAccountValidation" />
-      </g:if>
       <div id="useAcceptance" class="${rqt.stepStates['validation'].invalidFields.contains('useAcceptance') ? 'validation-failed' : ''}">
         <input type="checkbox" name="useAcceptance" class="required validate-one-required"
               title="${message(code:'request.error.useAcceptanceRequired')}" />

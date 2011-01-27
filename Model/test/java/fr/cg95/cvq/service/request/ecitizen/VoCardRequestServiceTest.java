@@ -178,7 +178,7 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         assertEquals(homeFolderResponsible.getLastName(), dcvoFromDb.getRequesterLastName());
         assertNull(dcvoFromDb.getSubjectId());
         assertNull(dcvoFromDb.getSubjectLastName());
-        assertEquals(dcvoFromDb.getHasTiedHomeFolder(), false);
+        assertEquals(homeFolder.isTemporary(), false);
         
         assertNotNull(requestSearchService.getCertificate(dcvoFromDb.getId(), RequestState.PENDING));
         assertEquals(1, dcvoFromDb.getActions().size());

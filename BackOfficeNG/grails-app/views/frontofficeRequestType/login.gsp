@@ -36,7 +36,23 @@
         </form>
       </div>
       <div class="yui-u main-box">
-        <h2>${message(code:'homeFolder.action.createAccount')}</h2>
+        <g:if test="${temporary}">
+          <h2>${message(code : "account.message.noAccount")}</h2>
+          <p>${message(code : "homeFolder.message.outOfAccount0")}&nbsp;:</p>
+          <ul>
+            <li>${message(code : "homeFolder.message.outOfAccount1")}</li>
+            <li>${message(code : "homeFolder.message.outOfAccount2")}</li>
+          </ul>
+          <p>
+            <a style="font-size: 1.5em;"
+              href="${createLink(controller : 'frontofficeHomeFolder', action : 'create',
+                params : ['requestTypeLabel' : params.requestTypeLabel])}">
+              ${message(code:'action.begin')}
+            </a>
+          </p>
+        </g:if>
+        <g:else>
+          <h2>${message(code:'homeFolder.action.createAccount')}</h2>
           <p>${message(code:'homeFolder.message.accountAdvantage0')}:</p>
           <ul>
             <li>${message(code:'homeFolder.message.accountAdvantage1')}</li>
@@ -49,6 +65,7 @@
               ${message(code:'homeFolder.action.wishCreateAccount')}
             </a>
           </p>
+        </g:else>
       </div>
     </div>
   </body>

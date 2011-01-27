@@ -2111,7 +2111,6 @@
         subject_last_name varchar(255),
         subject_first_name varchar(255),
         step_states bytea,
-        has_tied_home_folder bool,
         specific_data_class varchar(255),
         specific_data_id int8,
         documents_archive bytea,

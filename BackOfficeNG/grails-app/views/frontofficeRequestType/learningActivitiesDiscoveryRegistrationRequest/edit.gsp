@@ -53,14 +53,21 @@
     
     <div id="request" class="main-box">
       <h2>
-        <a href="${createLink(controller:'frontofficeHome')}" class="button">
-          <g:message code="request.action.continueLater"/>
-        </a>
-        <g:if test="${!isEdition}">
-          <a href="${createLink(action:'deleteDraft', controller:'frontofficeRequest', params : ['id' : rqt.id, 'from' : 'edition'])}" class="button">
-            <g:message code="request.action.discardDarft"/>
+        <g:if test="${temporary}">
+          <a href="${createLink(controller : 'frontofficeHome', action : 'logout')}" class="button">
+            <g:message code="request.action.discard"/>
           </a>
         </g:if>
+        <g:else>
+          <a href="${createLink(controller:'frontofficeHome')}" class="button">
+            <g:message code="request.action.continueLater"/>
+          </a>
+          <g:if test="${!isEdition}">
+            <a href="${createLink(action:'deleteDraft', controller:'frontofficeRequest', params : ['id' : rqt.id, 'from' : 'edition'])}" class="button">
+              <g:message code="request.action.discardDarft"/>
+            </a>
+          </g:if>
+        </g:else>
         <g:message code="ladrr.label" /> <g:message code="message.number" args="[rqt.id]" />
       </h2>
       <p><g:message code="request.duration.label" /><strong> : <g:message code="ladrr.duration.value" /></strong></p>

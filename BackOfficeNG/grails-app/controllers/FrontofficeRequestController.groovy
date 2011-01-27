@@ -39,6 +39,7 @@ class FrontofficeRequestController {
     DocumentAdaptorService documentAdaptorService
     RequestTypeAdaptorService requestTypeAdaptorService
     IndividualAdaptorService individualAdaptorService
+    SecurityService securityService
 
     IAutofillService autofillService
     IConditionService conditionService
@@ -135,6 +136,7 @@ class FrontofficeRequestController {
         requestLockService.lock(id)
         Request rqt = requestSearchService.getById(id, true)
         def isEdition = !RequestState.DRAFT.equals(rqt.state)
+        def temporary = SecurityContext.currentCredentialBean.ecitizen?.homeFolder.temporary
         if (request.post) {
             try {
                 DataBindingUtils.initBind(rqt, params)
@@ -163,7 +165,7 @@ class FrontofficeRequestController {
                     if (params.returnUrl != "") {
                         parameters.returnUrl = params.returnUrl
                     }
-                    parameters.canFollowRequest = params.'_homeFolderResponsible.activeHomeFolder'
+                    parameters.temporary = temporary
                     parameters.requesterLogin = homeFolderService.getHomeFolderResponsible(rqt.homeFolderId).login
 
                     if (requestServiceRegistry.getRequestService(rqt) instanceof IRequestPaymentService) {
@@ -221,6 +223,7 @@ class FrontofficeRequestController {
             'homeFolderResponsible' : SecurityContext.currentEcitizen,
             //'individuals' : individuals,
             'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
+            'temporary' : temporary,
             'subjects': individualAdaptorService.adaptSubjects(requestWorkflowService.getAuthorizedSubjects(rqt)),
             'meansOfContact': individualAdaptorService.adaptMeansOfContact(meansOfContactService.getAdultEnabledMeansOfContact(SecurityContext.currentEcitizen)),
             'currentStep': nextWebflowStep,
@@ -417,8 +420,11 @@ class FrontofficeRequestController {
 
     def exit = {
         def requestId = Long.parseLong(params.id)
-        if (SecurityContext.currentEcitizen)
-            requestLockService.release(requestId)
+        requestLockService.release(requestId)
+        def temporary = params.boolean("temporary")
+        if (temporary) {
+            securityService.logout(session)
+        }
         render(
             view : "/frontofficeRequestType/exit",
             model : [
@@ -426,7 +432,7 @@ class FrontofficeRequestController {
                 'requestTypeLabel': params.label,
                 'requestId': requestId,
                 'requesterLogin': params.requesterLogin,
-                'hasHomeFolder': (SecurityContext.currentEcitizen ? true : false) || (new Boolean(params.canFollowRequest) || params.label == 'VO Card'),
+                'temporary': temporary,
                 'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
                 'isEdition' : params.isEdition,
                 'isProxyAgent': SecurityContext.getProxyAgent() != null ? true : false

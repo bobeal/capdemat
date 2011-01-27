@@ -9,13 +9,18 @@
       #request .datas form div p.error { text-align: left; }
       #request .datas form p { padding-left: 0; font-style: italic;}
     </style>
+    <script type="text/javascript" src="${resource(dir : 'js/frontoffice', file : 'homeFolderCreation.js')}"></script>
   </head>
   <body>
     <div id="request" class="main-box">
       <h2>
-        <a href="${createLink(controller:'frontofficeHome')}" class="button">${message(code:'action.quit')}</a>
+        <g:if test="${!temporary}">
+          <a href="${createLink(controller:'frontofficeHome')}" class="button">${message(code:'action.quit')}</a>
+        </g:if>
         <g:translateRequestTypeLabel label="${params.requestTypeLabel}" />
-        <span>${message(code:'homeFolder.action.createAccount')}</span>
+        <g:if test="${!temporary}">
+          <span>${message(code:'homeFolder.action.createAccount')}</span>
+        </g:if>
       </h2>
       <div class="datas">
         <div class="${invalidFields && !invalidFields.isEmpty() ? 'invalid' : 'uncomplete'} form">
@@ -29,6 +34,31 @@
             <g:render template="/frontofficeHomeFolder/adultCommonFields" />
             <fieldset>
               <legend>${message(code:'homeFolder.individual.header.connexionInformations')}</legend>
+              <g:if test="${temporary}">
+                <p>${message(code:'request.step.validation.help.followRequest')}</p>
+                <label class="required">
+                  ${message(code:'request.step.validation.label.followRequest')}
+                </label>
+                <ul class="yes-no required">
+                  <li>
+                    <input type="radio" class="required" value="false"
+                      name="temporary" id="temporary_off"
+                      ${params.boolean != null && params.boolean('temporary') ? '' : 'checked="checked"'} />
+                    <label for="temporary_off">
+                      <g:message code="message.yes" />
+                    </label>
+                  </li>
+                  <li>
+                    <input type="radio" class="required" value="true"
+                      name="temporary" id="temporary_on"
+                      ${params.boolean == null || params.boolean('temporary') ? 'checked="checked"' : ''} />
+                    <label for="temporary_on">
+                      <g:message code="message.no" />
+                    </label>
+                  </li>
+                </ul>
+                <div id="loginInformations" class="${params.boolean == null || params.boolean('temporary') ? 'hidden' : ''}">
+              </g:if>
               <label for="password" class="required">
                 ${message(code:'request.step.validation.label.choosePassword')}
                 <span>(${message(code:'request.step.validation.help.choosePassword')})</span>
@@ -61,7 +91,9 @@
               <input type="text" id="answer" name="answer" value="${adult?.answer}"
                 class="required ${invalidFields.contains('answer') ? 'validation-failed' : ''}"
                 title="${message(code:'homeFolder.adult.property.answer.validationError')}" />
-
+              <g:if test="${temporary}">
+                </div>
+              </g:if>
               <label for="captchaText" class="required">
                 ${message(code:'request.step.validation.label.typeTextInImage')}
               </label>
@@ -71,28 +103,31 @@
                 title="${message(code:'request.step.validation.error.captcha')}" />
             </fieldset>
             <p style="text-align: center;">
-              <input type="submit" value="${message(code:'homeFolder.action.createAccountAndContinue')}" style="font-size:1.2em;" />
+              <input type="submit" style="font-size:1.2em;"
+                value="${temporary ? message(code : 'homeFolder.action.createTemporaryAccountAndContinue') : message(code : 'homeFolder.action.createAccountAndContinue')}" />
             </p>
           </div>
         </form>
         </div>
       </div>
-      <div  class="steps">
-        <ul>
-          <li class="">
-            ${message(code:'homeFolder.message.whyCreateAccount')}
-            <p class="help">
-              ${message(code:'homeFolder.message.createAccount')}
-            </p>
-          </li>
-          <li>
-          ${message(code:'homeFolder.message.accountAdvantage')}
-          <p class="help">${message(code:'homeFolder.message.accountAdvantage1')}</p>
-          <p class="help">${message(code:'homeFolder.message.accountAdvantage2')}</p>
-          <p class="help">${message(code:'homeFolder.message.accountAdvantage3')}</p>
-          </li>
-        <ul>
-      </div>  
+      <g:if test="${!temporary}">
+        <div class="steps">
+          <ul>
+            <li class="">
+              ${message(code:'homeFolder.message.whyCreateAccount')}
+              <p class="help">
+                ${message(code:'homeFolder.message.createAccount')}
+              </p>
+            </li>
+            <li>
+              ${message(code:'homeFolder.message.accountAdvantage')}
+              <p class="help">${message(code:'homeFolder.message.accountAdvantage1')}</p>
+              <p class="help">${message(code:'homeFolder.message.accountAdvantage2')}</p>
+              <p class="help">${message(code:'homeFolder.message.accountAdvantage3')}</p>
+            </li>
+          </ul>
+        </div>
+      </g:if>
     </div>
   </body>
 </html>

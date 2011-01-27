@@ -167,6 +167,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="mailService" ref="mailService"/>
     <property name="individualService" ref="individualService"/>
     <property name="requestTypeService" ref="requestTypeService" />
+    <property name="requestWorkflowService" ref="requestWorkflowService" />
   </bean>
   
   <bean id="draftManagementRemoverJobInvoker"

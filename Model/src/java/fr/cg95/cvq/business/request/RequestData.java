@@ -14,7 +14,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 import fr.cg95.cvq.business.users.MeansOfContact;
 import fr.cg95.cvq.service.request.SubjectId;
-import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
@@ -32,10 +31,7 @@ public class RequestData implements Serializable {
 
 
     public static final Map<String, IConditionChecker> conditions =
-        new HashMap<String, IConditionChecker>(1);
-    static {
-        conditions.put("_homeFolderResponsible.activeHomeFolder", new EqualityChecker("true"));
-    }
+        new HashMap<String, IConditionChecker>();
 
     private Long id;
 
@@ -80,9 +76,6 @@ public class RequestData implements Serializable {
     private String subjectLastName;
 
     private String subjectFirstName;
-
-    /** whether it has an home folder with lifecycle tied to request */
-    private boolean hasTiedHomeFolder = false;
 
     private Set<RequestDocument> documents;
 
@@ -427,18 +420,6 @@ public class RequestData implements Serializable {
 
     public void setStepStates(Map<String, Map<String, Object>> stepStates) {
         this.stepStates = stepStates;
-    }
-
-    /**
-     * @hibernate.property
-     *  column="has_tied_home_folder"
-     */
-    public boolean getHasTiedHomeFolder() {
-        return hasTiedHomeFolder;
-    }
-
-    public void setHasTiedHomeFolder(boolean hasTiedHomeFolder) {
-        this.hasTiedHomeFolder = hasTiedHomeFolder;
     }
 
     /**

@@ -739,7 +739,7 @@ public class LocalAuthorityRegistry
                     children.add(BusinessObjectsFactory.gimmeChild("Moreau", "Émilie"));
                     homeFolderService.addIndividualRole(
                         homeFolderResponsible, children.get(0), RoleType.CLR_FATHER);
-                    Long id = homeFolderService.create(adults, children, address).getId();
+                    Long id = homeFolderService.create(adults, children, address, false).getId();
                     SecurityContext.setCurrentSite(DEVELOPMENT_LOCAL_AUTHORITY,
                         SecurityContext.ADMIN_CONTEXT);
                     homeFolderService.validate(id);

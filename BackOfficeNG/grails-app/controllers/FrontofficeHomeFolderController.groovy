@@ -6,6 +6,7 @@ import fr.cg95.cvq.exception.CvqBadPasswordException
 import fr.cg95.cvq.exception.CvqModelException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.request.IRequestSearchService
+import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.users.IHomeFolderService
@@ -20,6 +21,7 @@ class FrontofficeHomeFolderController {
     IIndividualService individualService
     IAuthenticationService authenticationService
     IRequestSearchService requestSearchService
+    IRequestServiceRegistry requestServiceRegistry
     IRequestTypeService requestTypeService
     IRequestWorkflowService requestWorkflowService
 
@@ -93,8 +95,11 @@ class FrontofficeHomeFolderController {
     }
 
     def create = {
-        def model = [:]
-        model["invalidFields"] = []
+        def model = [
+            "invalidFields" : [],
+            "temporary" : params.requestTypeLabel && requestServiceRegistry.getRequestService(
+                params.requestTypeLabel).supportUnregisteredCreation()
+        ]
         if (request.get) {
             return model
         } else if (request.post) {
@@ -102,7 +107,7 @@ class FrontofficeHomeFolderController {
             DataBindingUtils.initBind(adult, params)
             bind(adult)
             model["adult"] = adult
-            model["invalidFields"] = individualService.validate(adult, true)
+            model["invalidFields"] = individualService.validate(adult, !model["temporary"] || !params.boolean("temporary"))
             boolean captchaIsValid = false
             try {
                 captchaIsValid = jcaptchaService.validateResponse("captchaImage", session.id, params.captchaText)
@@ -114,11 +119,7 @@ class FrontofficeHomeFolderController {
             }
             if (model["invalidFields"].isEmpty()) {
                 homeFolderService.addHomeFolderRole(adult, RoleType.HOME_FOLDER_RESPONSIBLE)
-                requestWorkflowService.createAccountCreationRequest(
-                        requestWorkflowService.getSkeletonRequest('VO Card'),
-                                [adult], [], [], adult.adress, [], null)
-                SecurityContext.setCurrentEcitizen(adult)
-                HibernateUtil.getSession().flush()
+                requestWorkflowService.createAccountCreationRequest(adult, model["temporary"] && params.boolean("temporary"))
                 securityService.setEcitizenSessionInformation(adult.login, session)
                 if (params.requestTypeLabel) {
                     flash.precedeByAccountCreation = true

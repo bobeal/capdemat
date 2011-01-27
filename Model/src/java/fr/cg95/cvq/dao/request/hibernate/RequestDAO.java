@@ -531,8 +531,8 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             .setParameters(objectTab, typeTab).list();
     }
     
-    public List<Request>
-        listDraftedByNotificationAndDate(RequestActionType type, Date date, final boolean full) {
+    @Override
+    public List<Request> listDraftsToNotify(Date date) {
         
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
@@ -541,6 +541,8 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         sb.append("from RequestData as request ").append("where request.id not in (");
         sb.append("select request.id from RequestData request join request.actions action ")
             .append(" where action.type = ?").append(")");
+        sb.append(" and request.homeFolderId not in");
+        sb.append(" (select hf.id from HomeFolder hf where hf.temporary is true)");
         sb.append(" and request.state = ?");
         sb.append(" and request.creationDate <= ?");
 
@@ -548,14 +550,14 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         typeList.add(Hibernate.STRING);
         typeList.add(Hibernate.TIMESTAMP);
         
-        objectList.add(type.toString());
+        objectList.add(RequestActionType.DRAFT_DELETE_NOTIFICATION.toString());
         objectList.add(RequestState.DRAFT.toString());
         objectList.add(date);
         Query query = HibernateUtil.getSession().createQuery(sb.toString());
         Type[] typeTab = typeList.toArray(new Type[1]);
         Object[] objectTab = objectList.toArray(new Object[1]);
         query.setParameters(objectTab, typeTab);
-        return transform(query.list(), full);
+        return transform(query.list(), false);
     }
 
     @Override

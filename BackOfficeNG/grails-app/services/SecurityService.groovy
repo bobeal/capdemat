@@ -134,4 +134,11 @@ public class SecurityService {
         def adult = SecurityContext.currentEcitizen
         session.currentEcitizenName = adult.firstName + " " + adult.lastName
     }
+
+    public void logout(session) {
+        session.frontContext = null
+        session.currentEcitizen = null
+        session.currentEcitizenName = null
+        session.currentCredentialBean = null
+    }
 }

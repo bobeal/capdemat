@@ -118,9 +118,10 @@ class FrontofficeHomeController {
     }
     
     def logout = {
-        session.frontContext = null
-        session.currentEcitizen = null
-        session.currentEcitizenName = null
+        if (SecurityContext.currentCredentialBean?.ecitizen?.homeFolder.temporary) {
+            homeFolderService.delete(SecurityContext.currentCredentialBean.ecitizen.homeFolder.id)
+        }
+        securityService.logout(session)
         redirect(controller:'frontofficeHome')
     }
     

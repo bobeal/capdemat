@@ -92,11 +92,10 @@ public interface IRequestDAO extends IGenericDAO {
             final List<String> requestTypesLabel);
     
     /**
-     * Retrieve drafted requests created before given date that don't have the 
-     * given action trace label yet.
+     * Retrieve request drafts which are older than specified date,
+     * to warn users that they will be deleted
      */
-    List<Request> listDraftedByNotificationAndDate(RequestActionType type, Date date,
-        final boolean full);
+    List<Request> listDraftsToNotify(Date date);
 
     List<Long> listHomeFolderSubjectIds(Long homeFolderId, String label, 
             RequestState[] excludedStates);

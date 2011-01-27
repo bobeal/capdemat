@@ -15,35 +15,32 @@
         <g:else>
           <p><g:message code="request.message.successfulCreation" /></p>
         </g:else>
-        <g:if test="${hasHomeFolder}">
-          <p><g:message code="request.message.requestIdNotice" args="${[requestId]}"/></p>
+        <p><g:message code="request.message.requestIdNotice" args="${[requestId]}"/></p>
+        <g:if test="${!temporary}">
           <p><g:message code="account.message.loginReminder" /> : <strong>${requesterLogin}</strong></p>
         </g:if>
       </div>
-      <g:if test="${hasHomeFolder}">
+      <g:if test="${!temporary || returnUrl != ''}">
         <div class="link">
           <g:message code="request.message.actionAfterCreation" /> :
           <ul>
-            <li>
-              <a href="${createLink(controller:'frontofficeRequest',action:'summary',id:requestId)}">
-                <g:message code="request.action.seeSummary" />
-              </a>
-            </li>
-            <li>
-              <a href="${createLink(controller:'frontofficeRequestType')}">
-              	<g:if test="${requestTypeLabel == 'VO Card'}">
-                  <g:message code="request.action.issueRequest" />
-                </g:if>
-                <g:else>
+            <g:if test="${!temporary}">
+              <li>
+                <a href="${createLink(controller:'frontofficeRequest',action:'summary',id:requestId)}">
+                  <g:message code="request.action.seeSummary" />
+                </a>
+              </li>
+              <li>
+                <a href="${createLink(controller:'frontofficeRequestType')}">
                   <g:message code="request.action.issueNewRequest" />
-                </g:else>
-              </a>
-            </li>
-            <li>
-              <a href="${createLink(controller:'frontofficeHome')}">
-                <g:message code="action.goHome" />
-              </a>
-            </li>
+                </a>
+              </li>
+              <li>
+                <a href="${createLink(controller:'frontofficeHome')}">
+                  <g:message code="action.goHome" />
+                </a>
+              </li>
+            </g:if>
             <g:if test="${returnUrl != ''}">
               <li>
                 <a href="${returnUrl}">

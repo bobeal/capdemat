@@ -73,6 +73,7 @@ class FrontofficeRequestTypeController {
     }
 
     def login = {
-        return true
+        return ["temporary" : requestServiceRegistry.getRequestService(params.requestTypeLabel)
+            .supportUnregisteredCreation()]
     }
 }

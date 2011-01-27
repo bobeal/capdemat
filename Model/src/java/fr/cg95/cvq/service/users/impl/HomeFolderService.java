@@ -89,22 +89,23 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
 
     @Override
     @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
-    public HomeFolder create(final Adult adult) throws CvqException {
+    public HomeFolder create(final Adult adult, boolean temporary) throws CvqException {
 
         List<Adult> adults = new ArrayList<Adult>();
         adults.add(adult);
         
-        HomeFolder homeFolder = create(adults, null, adult.getAdress());
+        HomeFolder homeFolder = create(adults, null, adult.getAdress(), temporary);
         // FIXME hack for CG77
-        applicationContext.publishEvent(new UsersEvent(this, UsersEvent.EVENT_TYPE.LOGIN_ASSIGNED,
-            homeFolder.getId(), adult.getId()));
-        homeFolder.setTemporary(true);
+        if (adult.getPassword() != null) {
+            applicationContext.publishEvent(new UsersEvent(
+                this, UsersEvent.EVENT_TYPE.LOGIN_ASSIGNED, homeFolder.getId(), adult.getId()));
+        }
         return homeFolder;
     }
 
     @Override
     @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
-    public HomeFolder create(List<Adult> adults, List<Child> children, Address address)
+    public HomeFolder create(List<Adult> adults, List<Child> children, Address address, boolean temporary)
         throws  CvqException, CvqModelException {
 
         if (adults == null)
@@ -113,6 +114,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         // create the home folder
         HomeFolder homeFolder = new HomeFolder();
         initializeCommonAttributes(homeFolder);
+        homeFolder.setTemporary(temporary);
         homeFolder.setAdress(address);
         homeFolderDAO.create(homeFolder);
         if (address != null) {
@@ -346,7 +348,9 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         applicationContext.publishEvent(individualEvent);
     }
 
-    private final void delete(final HomeFolder homeFolder)
+    @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    public void delete(HomeFolder homeFolder)
         throws CvqException {
 
         UsersEvent homeFolderEvent = 
@@ -465,6 +469,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
 
     @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void addIndividualRole(Individual owner, Individual individual, RoleType role)
             throws CvqException {
 
@@ -560,6 +565,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
      */
     
     @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void addRole(Individual owner, final Individual individual, final Long homeFolderId, 
             final RoleType role) throws CvqException {
         if (individual == null)
@@ -569,6 +575,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
     
     @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void addRole(Individual owner, final Individual individual, final RoleType role)
             throws CvqException {
         if (individual == null)
@@ -578,6 +585,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
     
     @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public boolean removeRole(Individual owner, final Individual individual, final Long homeFolderId, 
             final RoleType role) throws CvqException {
         if (individual == null)
@@ -587,7 +595,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
     
     @Override
-    @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public boolean removeRole(Individual owner, final Individual individual,  final RoleType role)
             throws CvqException {
         if (owner.getIndividualRoles() == null)
@@ -994,7 +1002,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
                             new IndividualMapping(null, individual.getExternalId(), homeFolderMapping));
                     }
                 }
-                HomeFolder result = create(adults, children, homeFolderAddress);
+                HomeFolder result = create(adults, children, homeFolderAddress, false);
                 updateHomeFolderState(result, ActorState.VALID);
                 HibernateUtil.getSession().flush();
                 Adult responsible = getHomeFolderResponsible(result.getId());

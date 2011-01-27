@@ -101,11 +101,27 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     private ApplicationContext applicationContext;
 
     @Override
+    public void createAccountCreationRequest(Adult adult, boolean temporary)
+        throws CvqException {
+        HomeFolder homeFolder = homeFolderService.create(adult, temporary);
+        VoCardRequest request = (VoCardRequest)getSkeletonRequest("VO Card");
+        request.setHomeFolderId(homeFolder.getId());
+        SecurityContext.setCurrentEcitizen(adult);
+        request.setRequesterId(adult.getId());
+        request.setRequesterLastName(adult.getLastName());
+        request.setRequesterFirstName(adult.getFirstName());
+        Long requestId = finalizeAndPersist(request, homeFolder, null);
+        HibernateUtil.getSession().flush();
+        logger.debug("create() Created request object with id : " + requestId);
+    }
+
+    @Override
+    @Deprecated
     public void createAccountCreationRequest(VoCardRequest dcvo, List<Adult> adults, List<Child> children,
             List<Adult> foreignRoleOwners, final Address address, List<Document> documents, String note)
             throws CvqException {
 
-        HomeFolder homeFolder = homeFolderService.create(adults, children, address);
+        HomeFolder homeFolder = homeFolderService.create(adults, children, address, false);
         
         dcvo.setHomeFolderId(homeFolder.getId());
 
@@ -155,6 +171,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             throw new CvqModelException("homeFolder.error.accountModifcationPossibleForValidatedAccount");
     }
 
+    @Deprecated
     @Override
     public void createAccountModificationRequest(HomeFolderModificationRequest hfmr,
             List<Adult> adults, List<Child> children, List<Adult> foreignRoleOwners,
@@ -255,6 +272,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         return finalizeAndPersist(request, note);
     }
 
+    @Deprecated
     @Override
     @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public Long create(Request request, Adult requester, String note)
@@ -265,6 +283,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         return finalizeAndPersist(request, homeFolder, note);
     }
     
+    @Deprecated
     @Override
     @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public Long create(Request request, Adult requester, List<Document> documents, String note) 
@@ -317,6 +336,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
      * 
      * @return the newly created home folder or null if home folder already existed 
      */
+    @Deprecated
     private HomeFolder createOrSynchronizeHomeFolder(Request request, Adult requester)
         throws CvqException, CvqModelException {
 
@@ -328,7 +348,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             IRequestService requestService = requestServiceRegistry.getRequestService(request);
             if (requestService.supportUnregisteredCreation()) {
                 logger.debug("create() Gonna create implicit home folder");
-                HomeFolder homeFolder = homeFolderService.create(requester);
+                HomeFolder homeFolder = homeFolderService.create(requester, true);
                 request.setHomeFolderId(homeFolder.getId());
                 request.setRequesterId(requester.getId());
                 request.setRequesterLastName(requester.getLastName());
@@ -408,50 +428,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
     @Override
     @Context(types = {ContextType.UNAUTH_ECITIZEN, ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void checkSubjectPolicy(final Long subjectId, final String policy, final Request request)
-        throws CvqException, CvqModelException {
-
-        // first, check general subject policy
-        if (!policy.equals(IRequestWorkflowService.SUBJECT_POLICY_NONE)) {
-            if (subjectId == null)
-                throw new CvqModelException("model.request.subject_is_required");
-            Individual subject = individualService.getById(subjectId);
-            if (policy.equals(IRequestWorkflowService.SUBJECT_POLICY_INDIVIDUAL)) {
-                if (!(subject instanceof Individual)) {
-                    throw new CvqModelException("model.request.wrong_subject_type");
-                }
-            } else if (policy.equals(IRequestWorkflowService.SUBJECT_POLICY_ADULT)) {
-                if (!(subject instanceof Adult)) {
-                    throw new CvqModelException("model.request.wrong_subject_type");
-                }
-            } else if (policy.equals(IRequestWorkflowService.SUBJECT_POLICY_CHILD)) {
-                if (!(subject instanceof Child)) {
-                    throw new CvqModelException("model.request.wrong_subject_type");
-                }
-            }
-        } else {
-            if (subjectId != null)
-                throw new CvqModelException("model.request.subject_not_supported");
-        }
-        
-        // then check that request's subject is allowed to issue this request
-        // ie that it is authorized to issue it (no current one, an open season, ...)
-        if (!policy.equals(IRequestWorkflowService.SUBJECT_POLICY_NONE)) {
-            Individual individual = individualService.getById(subjectId);
-            boolean isAuthorized = false;
-            for (Long authorizedSubjectId : getAuthorizedSubjects(request)) {
-                if (authorizedSubjectId.equals(individual.getId())) {
-                    isAuthorized = true;
-                    break;
-                }
-            }
-            if (!isAuthorized)
-                throw new CvqModelException("request.error.subjectNotAuthorized");
-        }
-    }
-
-    @Override
-    @Context(types = {ContextType.UNAUTH_ECITIZEN, ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void checkRequestTypePolicy(RequestType requestType, HomeFolder homeFolder)
         throws CvqException {
         IRequestService service = requestServiceRegistry.getRequestService(requestType.getLabel());
@@ -485,7 +461,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
-    @Context(types = {ContextType.UNAUTH_ECITIZEN, ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void validate(Request request, List<String> steps, boolean useAcceptance)
         throws CvqValidationException, ClassNotFoundException, IllegalAccessException,
             InvocationTargetException, NoSuchMethodException {
@@ -708,7 +684,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     // FIXME : when first entering the request creation process, stepStates is empty
     // so return null and add a generic message in view
     @Override
-    @Context(types = {ContextType.UNAUTH_ECITIZEN, ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<String> getMissingSteps(Request request) {
         List<String> result = new ArrayList<String>();
         for (Map.Entry<String, Map<String, Object>> stepState : request.getStepStates().entrySet()) {
@@ -742,11 +718,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         setAdministrativeInformation(request);
 
-        // requests other than acount creation that triggered an home folder creation are tied to it
-        if (homeFolder != null 
-                && !request.getRequestType().getLabel().equals(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST)) {
-            request.setHasTiedHomeFolder(true);
-        }
         
         Long requestId = requestDAO.saveOrUpdate(request).getId();
 
@@ -878,22 +849,24 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         updateLastModificationInformation(request, null);
     }
 
-    private void delete(final Request request)
+    @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    public void delete(Request request)
         throws CvqException, CvqObjectNotFoundException {
-
         requestDAO.delete(request);
-        
-        if (request.getHasTiedHomeFolder())
-            homeFolderService.delete(request.getHomeFolderId());
+        applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.REQUEST_DELETED, request));
+        HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
+        if (homeFolder.isTemporary()) {
+            HibernateUtil.getSession().flush();
+            homeFolderService.delete(homeFolder);
+        }
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void delete(final Long id)
         throws CvqException, CvqObjectNotFoundException {
-        Request request = (Request) requestDAO.findById(Request.class, id);
-        applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.REQUEST_DELETED, request));
-        delete(request);
+        delete(requestDAO.findById(id, true));
     }
 
     @Override
@@ -1071,9 +1044,10 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         validateAssociatedDocuments(request.getDocuments());
 
+        HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
         // those two request types are special ones
         if (request instanceof VoCardRequest || request instanceof HomeFolderModificationRequest
-                || request.getHasTiedHomeFolder())
+                || homeFolder.isTemporary())
             homeFolderService.validate(request.getHomeFolderId());
 
 		// send request data to interested external services
@@ -1134,13 +1108,14 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             throw new CvqInvalidTransitionException();
         }
 
+        HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
         if (request instanceof VoCardRequest)
             // invalidate home folder is creation request is cancelled
             homeFolderService.invalidate(request.getHomeFolderId());
         else if (request instanceof HomeFolderModificationRequest)
             // home folder was supposed to be valid before modification request
             homeFolderService.validate(request.getHomeFolderId());
-        else if (request.getHasTiedHomeFolder())
+        else if (homeFolder.isTemporary())
             homeFolderService.invalidate(request.getHomeFolderId());
     }
 
@@ -1173,13 +1148,14 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             throw new CvqInvalidTransitionException();
         }
 
+        HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
         if (request instanceof VoCardRequest)
             // invalidate home folder is creation request is cancelled
             homeFolderService.invalidate(request.getHomeFolderId());
         else if (request instanceof HomeFolderModificationRequest)
             // home folder was supposed to be valid before modification request
             homeFolderService.validate(request.getHomeFolderId());
-        else if (request.getHasTiedHomeFolder())
+        else if (homeFolder.isTemporary())
             homeFolderService.invalidate(request.getHomeFolderId());
     }
     
@@ -1226,8 +1202,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         } else {
             throw new CvqInvalidTransitionException();
         }
-
-        if (request.getHasTiedHomeFolder())
+        HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
+        if (homeFolder.isTemporary())
             homeFolderService.archive(request.getHomeFolderId());
     }
 
@@ -1460,6 +1436,14 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                 // FIXME : something better to do ?
                 e.printStackTrace();
                 throw new RuntimeException();
+            }
+        } else if (UsersEvent.EVENT_TYPE.HOME_FOLDER_DELETE.equals(usersEvent.getEvent())) {
+            for (Request request : requestDAO.listByHomeFolder(usersEvent.getHomeFolderId(), false)) {
+                try {
+                    delete(request);
+                } catch (CvqException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

@@ -262,7 +262,7 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
         homeFolderResponsible.setAdress(address);
         homeFolderService.addHomeFolderRole(homeFolderResponsible, RoleType.HOME_FOLDER_RESPONSIBLE);
         
-        HomeFolder homeFolder = homeFolderService.create(homeFolderResponsible);
+        HomeFolder homeFolder = homeFolderService.create(homeFolderResponsible, false);
 
         CreationBean cb = new CreationBean();
         cb.setHomeFolderId(homeFolder.getId());
@@ -299,7 +299,7 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
         List<Adult> adults = new ArrayList<Adult>();
         adults.add(homeFolderResponsible);
         adults.add(homeFolderWoman);
-        HomeFolder homeFolder = homeFolderService.create(adults, null, new Address());
+        HomeFolder homeFolder = homeFolderService.create(adults, null, new Address(), false);
 
         CreationBean cb = new CreationBean();
         cb.setHomeFolderId(homeFolder.getId());

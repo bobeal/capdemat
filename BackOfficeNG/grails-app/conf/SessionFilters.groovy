@@ -168,6 +168,7 @@ class SessionFilters {
                         return false
                     } else if (session.currentEcitizen) { 
                         SecurityContext.setCurrentEcitizen(session.currentEcitizen)
+                        session.setAttribute("currentCredentialBean", SecurityContext.currentCredentialBean)
                     }
                 } catch (CvqObjectNotFoundException ce) {
                     session.currentEcitizen = null

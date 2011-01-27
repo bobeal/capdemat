@@ -33,21 +33,10 @@ public interface IHomeFolderService {
         INLINE;
     }
 
-    /**
-     * Create a fresh new home folder containing only the given adult.
-     * 
-     * It is called upon the issuing of an out-of-account request 
-     * (and a temporary account will thus be created).
-     */
-    HomeFolder create(Adult adult)
+    HomeFolder create(Adult adult, boolean temporary)
         throws CvqException;
 
-    /**
-     * Create a fresh new home folder from a set of adults and children.
-     * 
-     * It is called upon the issuing of an home folder creation request.
-     */
-    HomeFolder create(List<Adult> adults, List<Child> children, Address address)
+    HomeFolder create(List<Adult> adults, List<Child> children, Address address, boolean temporary)
         throws CvqException, CvqModelException;
 
     void modify(@IsHomeFolder final HomeFolder homeFolder)
@@ -56,7 +45,10 @@ public interface IHomeFolderService {
     void modify(@IsHomeFolder final Long homeFolderId, final Long keyId,
             final List<Adult> newAdults, List<Child> newChildren, Address adress)
         throws CvqException;
-    
+
+    void delete(@IsHomeFolder HomeFolder homeFolder)
+        throws CvqException, CvqObjectNotFoundException;
+
     void delete(@IsHomeFolder final Long id)
     	throws CvqException, CvqObjectNotFoundException;
 

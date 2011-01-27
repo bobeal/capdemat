@@ -111,6 +111,10 @@ public interface IRequestWorkflowService {
 
     RequestState[] getStatesExcludedForRunningRequests();
 
+    void createAccountCreationRequest(Adult adult, boolean temporary)
+        throws CvqException;
+
+    @Deprecated
     void createAccountCreationRequest(VoCardRequest dcvo, List<Adult> adults, List<Child> children, 
             List<Adult> foreignRoleOwners, final Address address, List<Document> documents, String note) 
             throws CvqException;
@@ -123,6 +127,7 @@ public interface IRequestWorkflowService {
     void isAccountModificationRequestAuthorized(final HomeFolder homeFolder) 
         throws CvqModelException;
     
+    @Deprecated
     void createAccountModificationRequest(final HomeFolderModificationRequest hfmr,
             final List<Adult> adults, List<Child> children, List<Adult> foreignRoleOwners, 
             final Address adress, List<Document> documents, String note)
@@ -149,6 +154,7 @@ public interface IRequestWorkflowService {
      * It is meant to be used by requests issued outside an home folder. An home folder
      * containing at least the requester will be created. The subject is optional.
      */
+    @Deprecated
     Long create(@IsRequest Request request, @IsRequester Adult requester, String note)
         throws CvqException;
 
@@ -156,6 +162,7 @@ public interface IRequestWorkflowService {
      * The same as {@link #create(Request, Adult, Individual, String)} but with a provided
      * documents list.
      */
+    @Deprecated
     Long create(@IsRequest Request request, @IsRequester Adult requester, List<Document> documents, String note)
         throws CvqException;
 
@@ -204,6 +211,9 @@ public interface IRequestWorkflowService {
      */
     void modify(@IsRequest Request request) throws CvqException;
 
+    void delete(@IsRequest Request request)
+        throws CvqException, CvqObjectNotFoundException;
+
     /**
      * Remove permanently a request.
      */
@@ -221,9 +231,6 @@ public interface IRequestWorkflowService {
     void checkSubjectPolicy(@IsSubject final Long subjectId, @IsHomeFolder Long homeFolderId,
         final String policy, @IsRequestType final RequestType requestType)
         throws CvqException, CvqModelException;
-
-    void checkSubjectPolicy(@IsSubject final Long subjectId, final String policy,
-            @IsRequest final Request request) throws CvqException, CvqModelException;
 
     boolean validateSeason(@IsRequestType RequestType requestType, RequestSeason requestSeason)
         throws CvqException;

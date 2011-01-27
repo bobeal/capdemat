@@ -20,6 +20,7 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.service.request.IRequestTypeService;
+import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
@@ -48,6 +49,7 @@ public class DraftManagementJob {
     private IIndividualService individualService;
     private ITranslationService translationService;
     private IRequestTypeService requestTypeService;
+    private IRequestWorkflowService requestWorkflowService;
 
     private static String DRAFT_NOTIFICATION_SUBJECT = 
         "[CapDémat] Expiration d'une demande sauvée en tant que brouillon";
@@ -64,8 +66,13 @@ public class DraftManagementJob {
         Set<Critere> criterias = prepareQueryParams(
             requestTypeService.getGlobalRequestTypeConfiguration().getDraftLiveDuration());
         List<Request> requests = requestDAO.search(criterias,null,null,0,0, true);
-        for (Request r : requests) 
-            requestDAO.delete(r);
+        for (Request r : requests) {
+            try {
+                requestWorkflowService.delete(r);
+            } catch (CvqException e) {
+                logger.error("could not delete expired draft with id " + r.getId(), e);
+            }
+        }
     }
     
     /**
@@ -78,9 +85,8 @@ public class DraftManagementJob {
         GlobalRequestTypeConfiguration config = requestTypeService.getGlobalRequestTypeConfiguration();
         Integer limit = config.getDraftLiveDuration() - config.getDraftNotificationBeforeDelete();
         
-        List<Request> requests = requestDAO.listDraftedByNotificationAndDate(
-            RequestActionType.DRAFT_DELETE_NOTIFICATION,
-            DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR, -limit), false);
+        List<Request> requests = requestDAO.listDraftsToNotify(
+            DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR, -limit));
         
         for (Request r : requests) {
             Adult adult = this.individualService.getAdultById(r.getRequesterId());
@@ -182,5 +188,9 @@ public class DraftManagementJob {
 
     public void setRequestTypeService(IRequestTypeService requestTypeService) {
         this.requestTypeService = requestTypeService;
+    }
+
+    public void setRequestWorkflowService(IRequestWorkflowService requestWorkflowService) {
+        this.requestWorkflowService = requestWorkflowService;
     }
 }

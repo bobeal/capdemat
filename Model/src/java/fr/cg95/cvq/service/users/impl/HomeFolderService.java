@@ -662,6 +662,8 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
                                 + individualRole.getIndividualId() + ")");
                         if (individualRole.getIndividualId() == null) {
                             String childName = individualRole.getIndividualName();
+                            if (childName == null)
+                                throw new CvqException("homeFolder.error.legalResponsibleMustReferenceAChild");
                             for (Child child : children) {
                                 if (childName.equals(child.getLastName() + " " + child.getFirstName())) {
                                     individualRole.setIndividualId(child.getId());

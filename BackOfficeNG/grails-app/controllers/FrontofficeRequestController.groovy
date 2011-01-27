@@ -459,7 +459,8 @@ class FrontofficeRequestController {
                 'requesterLogin': params.requesterLogin,
                 'hasHomeFolder': (SecurityContext.currentEcitizen ? true : false) || (new Boolean(params.canFollowRequest) || params.label == 'VO Card'),
                 'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
-                'isEdition' : params.isEdition
+                'isEdition' : params.isEdition,
+                'isProxyAgent': SecurityContext.getProxyAgent() != null ? true : false
             ]
         )
     }

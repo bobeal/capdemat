@@ -239,12 +239,16 @@
       return values.length > 0;
     }),
     'dateWidget': new me.complexRule(function(){
-      for (i = 0; i < 3; i++) {
-        if (arguments[i].value === null || arguments[i].value === "") return false;
+      var required = yud.hasClass(yud.getAncestorByTagName(arguments[0].enhanceErrorEl, 'div'), 'required');
+      var count = '';
+      for (i = 0; i < 3; i++) { count += arguments[i].value + ''; }
+      if (required || count.length > 0) {
+        return me.rules["date"].func({
+          "value" : arguments[1].value + '/' + arguments[0].value + '/' + arguments[2].value
+        });
+      } else {
+        return true;
       }
-      return me.rules["date"].func({
-        "value" : new Date(arguments[0].value, arguments[1].value - 1, arguments[2].value).getTime()
-      });
     })
   });
 

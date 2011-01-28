@@ -142,7 +142,7 @@ public class CleverService implements IExternalProviderService {
         }
     }
 
-    public void checkConfiguration(ExternalServiceBean externalServiceBean)
+    public void checkConfiguration(ExternalServiceBean externalServiceBean, String localAuthorityName)
             throws CvqConfigurationException {
     }
 

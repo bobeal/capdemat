@@ -47,7 +47,7 @@ public class CirilNetEnfanceService implements IExternalProviderService {
     private ISchoolDAO schoolDAO;
     private IRequestWorkflowService requestWorkflowService;
 
-    public void checkConfiguration(ExternalServiceBean externalServiceBean)
+    public void checkConfiguration(ExternalServiceBean externalServiceBean, String localAuthorityName)
         throws CvqConfigurationException {
         setEndPoint((String) externalServiceBean.getProperty(END_POINT));
         if (endPoint == null)

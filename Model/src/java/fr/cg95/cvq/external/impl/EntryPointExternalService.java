@@ -28,7 +28,7 @@ import fr.cg95.cvq.external.IExternalProviderService;
 public class EntryPointExternalService implements IExternalProviderService {
     private String label;
     
-    public void checkConfiguration(ExternalServiceBean externalServiceBean)
+    public void checkConfiguration(ExternalServiceBean externalServiceBean, String localAuthorityName)
             throws CvqConfigurationException {
     }
     

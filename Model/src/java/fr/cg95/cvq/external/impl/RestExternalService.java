@@ -62,7 +62,7 @@ public class RestExternalService implements IExternalProviderService {
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     @Override
-    public void checkConfiguration(ExternalServiceBean externalServiceBean)
+    public void checkConfiguration(ExternalServiceBean externalServiceBean, String localAuthorityName)
             throws CvqConfigurationException {
     }
 

@@ -343,7 +343,7 @@ public class FakeExternalService implements IExternalProviderService {
         }
     }
 
-    public final void checkConfiguration(final ExternalServiceBean externalServiceBean)
+    public final void checkConfiguration(final ExternalServiceBean externalServiceBean, String localAuthorityName)
             throws CvqConfigurationException {
     }
 

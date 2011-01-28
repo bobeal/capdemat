@@ -779,7 +779,7 @@ public class HoranetServiceV3 implements IExternalProviderService {
         }
     }
 
-    public final void checkConfiguration(final ExternalServiceBean externalServiceBean)
+    public final void checkConfiguration(final ExternalServiceBean externalServiceBean, String localAuthorityName)
         throws CvqConfigurationException {
 
         String badgeNumberManagedByHN =

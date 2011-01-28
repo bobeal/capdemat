@@ -6,7 +6,6 @@ import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -91,22 +90,16 @@ public class HoranetService implements IExternalProviderService, BeanFactoryAwar
 
     private static Logger logger = Logger.getLogger(HoranetService.class);
 
-    private static final String BADGE_NUMBER_MANAGED_BY_HN = "badgeNumberManagedByHN";
-
-    // TODO : factorize if confirmed that same namespace for all
     private static final String HORANET_CVQ_NS = "http://www.horanet.com/CVQ/";
     private static final String HORANET_CVQ2_NS = "http://www.horanet.com/CVQ2/";
     private static final String HORANET_CVQ3_NS = "http://www.horanet.com/CVQ3/";
 
     private String label;
     
-    // service general configuration
-    private URL endPoint;
-    private URL endPoint2;
-    private URL endPoint3;
+    private Map<String, ExternalServiceBean> localAuthoritySpecificConfiguration =
+        new HashMap<String, ExternalServiceBean>();
+    private Map<String, String> globalConfiguration = new HashMap<String, String>();
     
-    private String login;
-    private String password;
     private String encoding = "ISO-8859-1";
 
     private Service service;
@@ -174,15 +167,15 @@ public class HoranetService implements IExternalProviderService, BeanFactoryAwar
                 new ByteArrayDataSource(requestAsString, "text/xml; charset=iso-8859-1");
             DataHandler dhSource = new DataHandler(bds);
 
-            call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, login);
-            call.setProperty(javax.xml.rpc.Stub.PASSWORD_PROPERTY, password);
+            call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, getConfigurationProperty("login"));
+            call.setProperty(javax.xml.rpc.Stub.PASSWORD_PROPERTY, getConfigurationProperty("password"));
             call.setProperty(Call.ATTACHMENT_ENCAPSULATION_FORMAT, Call.ATTACHMENT_ENCAPSULATION_FORMAT_DIME);
             call.setProperty(Call.CHARACTER_SET_ENCODING, "ISO-8859-1");
 
-            call.setTargetEndpointAddress(endPoint.toString());
+            call.setTargetEndpointAddress(getConfigurationProperty("endPoint"));
             call.setSOAPActionURI(SOAP_ACTION_URI);
 
-            logger.debug("sendRequest() sending to endpoint " + endPoint.toString());
+            logger.debug("sendRequest() sending to endpoint " + getConfigurationProperty("endPoint"));
             logger.debug("sendRequest() sending on action " + SOAP_ACTION_URI);
             
             call.addParameter(new QName(HORANET_CVQ_NS, "ZipCode"), Constants.XSD_STRING, ParameterMode.IN);
@@ -251,10 +244,10 @@ public class HoranetService implements IExternalProviderService, BeanFactoryAwar
             call = (Call) service.createCall();
             call.setReturnType(org.apache.axis.Constants.XSD_ANY);
             call.setOperationName(new QName(HORANET_CVQ_NS, "CreditAccount2"));
-            call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, login);
-            call.setProperty(javax.xml.rpc.Stub.PASSWORD_PROPERTY, password);
+            call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, getConfigurationProperty("login"));
+            call.setProperty(javax.xml.rpc.Stub.PASSWORD_PROPERTY, getConfigurationProperty("password"));
             call.setProperty(Call.ATTACHMENT_ENCAPSULATION_FORMAT, Call.ATTACHMENT_ENCAPSULATION_FORMAT_DIME);
-            call.setTargetEndpointAddress(endPoint.toString());
+            call.setTargetEndpointAddress(getConfigurationProperty("endPoint"));
             call.setSOAPActionURI(SOAP_ACTION_URI);
 
             int total = 0;
@@ -314,9 +307,9 @@ public class HoranetService implements IExternalProviderService, BeanFactoryAwar
             call = (Call) service.createCall();
             call.setReturnType(org.apache.axis.Constants.XSD_ANY);
             call.setOperationName(new QName(HORANET_CVQ2_NS, "GetChildTransactions2"));
-            call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, login);
-            call.setProperty(javax.xml.rpc.Stub.PASSWORD_PROPERTY, password);
-            call.setTargetEndpointAddress(endPoint2.toString());
+            call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, getConfigurationProperty("login"));
+            call.setProperty(javax.xml.rpc.Stub.PASSWORD_PROPERTY, getConfigurationProperty("password"));
+            call.setTargetEndpointAddress(getConfigurationProperty("endPoint2"));
             call.setSOAPActionURI(SOAP_ACTION_URI);
 
             call.addParameter(new QName(HORANET_CVQ2_NS, "ZipCode"), Constants.XSD_STRING, ParameterMode.IN);
@@ -400,9 +393,9 @@ public class HoranetService implements IExternalProviderService, BeanFactoryAwar
             call = (Call) service.createCall();
             call.setReturnType(org.apache.axis.Constants.XSD_ANY);
             call.setOperationName(new QName(HORANET_CVQ_NS, "GetFamilyAccounts"));
-            call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, login);
-            call.setProperty(javax.xml.rpc.Stub.PASSWORD_PROPERTY, password);
-            call.setTargetEndpointAddress(endPoint.toString());
+            call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, getConfigurationProperty("login"));
+            call.setProperty(javax.xml.rpc.Stub.PASSWORD_PROPERTY, getConfigurationProperty("password"));
+            call.setTargetEndpointAddress(getConfigurationProperty("endPoint"));
             call.setSOAPActionURI(SOAP_ACTION_URI);
 
             call.addParameter(new QName(HORANET_CVQ_NS, "ZipCode"), 
@@ -597,9 +590,9 @@ public class HoranetService implements IExternalProviderService, BeanFactoryAwar
             call = (Call) service.createCall();
             call.setReturnType(org.apache.axis.Constants.XSD_ANY);
             call.setOperationName(new QName(HORANET_CVQ3_NS, "GetAccountDetails"));
-            call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, login);
-            call.setProperty(javax.xml.rpc.Stub.PASSWORD_PROPERTY, password);
-            call.setTargetEndpointAddress(endPoint3.toString());
+            call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, getConfigurationProperty("login"));
+            call.setProperty(javax.xml.rpc.Stub.PASSWORD_PROPERTY, getConfigurationProperty("password"));
+            call.setTargetEndpointAddress(getConfigurationProperty("endPoint3"));
             call.setSOAPActionURI(SOAP_ACTION_URI);
 
             call.addParameter(new QName(HORANET_CVQ3_NS, "AccountID"), 
@@ -702,9 +695,9 @@ public class HoranetService implements IExternalProviderService, BeanFactoryAwar
             call = (Call) service.createCall();
             call.setReturnType(org.apache.axis.Constants.XSD_ANY);
             call.setOperationName(new QName(HORANET_CVQ3_NS, "GetInvoiceDetails"));
-            call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, login);
-            call.setProperty(javax.xml.rpc.Stub.PASSWORD_PROPERTY, password);
-            call.setTargetEndpointAddress(endPoint3.toString());
+            call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, getConfigurationProperty("login"));
+            call.setProperty(javax.xml.rpc.Stub.PASSWORD_PROPERTY, getConfigurationProperty("password"));
+            call.setTargetEndpointAddress(getConfigurationProperty("endPoint3"));
             call.setSOAPActionURI(SOAP_ACTION_URI);
 
             call.addParameter(new QName(HORANET_CVQ3_NS, "InvoiceId"), 
@@ -778,14 +771,19 @@ public class HoranetService implements IExternalProviderService, BeanFactoryAwar
         }
     }
 
-    public final void checkConfiguration(final ExternalServiceBean externalServiceBean)
+    public final void checkConfiguration(final ExternalServiceBean externalServiceBean, String localAuthorityName)
         throws CvqConfigurationException {
 
-        String badgeNumberManagedByHN =
-            (String) externalServiceBean.getProperty(BADGE_NUMBER_MANAGED_BY_HN);
-        if (badgeNumberManagedByHN == null)
-            throw new CvqConfigurationException("Missing " + BADGE_NUMBER_MANAGED_BY_HN
-                                                + " configuration parameter");
+        // for now, let's authorize a default global configuration (transition period)
+//        if (externalServiceBean.getProperty("endPoint") == null 
+//                || externalServiceBean.getProperty("endPoint2") == null
+//                || externalServiceBean.getProperty("endPoint3") == null
+//                || externalServiceBean.getProperty("login") == null
+//                || externalServiceBean.getProperty("password") == null)
+//            throw new CvqConfigurationException("Missing one of the required configuration parameters : " 
+//                    + " endPoint, endPoint2, endPoint3, login or password");
+
+        localAuthoritySpecificConfiguration.put(localAuthorityName, externalServiceBean);
     }
 
     /**
@@ -800,9 +798,9 @@ public class HoranetService implements IExternalProviderService, BeanFactoryAwar
 
             call.setReturnType(org.apache.axis.Constants.XSD_STRING);
             call.setOperationName(new QName(HORANET_CVQ_NS, "HelloWorld"));
-            call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, login);
-            call.setProperty(javax.xml.rpc.Stub.PASSWORD_PROPERTY, password);
-            call.setTargetEndpointAddress(endPoint.toString());
+            call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, getConfigurationProperty("login"));
+            call.setProperty(javax.xml.rpc.Stub.PASSWORD_PROPERTY, getConfigurationProperty("password"));
+            call.setTargetEndpointAddress(getConfigurationProperty("endPoint"));
             call.setSOAPActionURI(SOAP_ACTION_URI);
 
             return call.invoke(new Object[] {}).toString();
@@ -893,24 +891,30 @@ public class HoranetService implements IExternalProviderService, BeanFactoryAwar
         return stringWriter.toString();
     }
 
-    public final void setEndPoint(final String url) throws MalformedURLException {
-        this.endPoint = new URL(url);
+    public String getConfigurationProperty(String propertyName) {
+        String propertySpecificValue = (String)
+            localAuthoritySpecificConfiguration.get(SecurityContext.getCurrentSite().getName()).getProperty(propertyName); 
+        return propertySpecificValue != null ? propertySpecificValue : globalConfiguration.get(propertyName);
     }
 
-    public final void setEndPoint2(final String url) throws MalformedURLException {
-        this.endPoint2 = new URL(url);
+    public final void setEndPoint(final String endPoint) throws MalformedURLException {
+        this.globalConfiguration.put("endPoint", endPoint);
     }
 
-    public final void setEndPoint3(final String url) throws MalformedURLException {
-        this.endPoint3 = new URL(url);
+    public final void setEndPoint2(final String endPoint2) throws MalformedURLException {
+        this.globalConfiguration.put("endPoint2", endPoint2);
+    }
+
+    public final void setEndPoint3(final String endPoint3) throws MalformedURLException {
+        this.globalConfiguration.put("endPoint3", endPoint3);
     }
 
     public final void setLogin(final String login) {
-        this.login = login;
+        this.globalConfiguration.put("login", login);
     }
 
     public final void setPassword(final String password) {
-        this.password = password;
+        this.globalConfiguration.put("password", password);
     }
 
     public final void setHomeFolderService(final IHomeFolderService homeFolderService) {

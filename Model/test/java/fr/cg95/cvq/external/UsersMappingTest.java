@@ -64,7 +64,7 @@ public class UsersMappingTest extends ExternalServiceTestCase {
         
         // set up the mock expectations
         context.checking(new Expectations() {{
-            oneOf(mockExternalService).checkConfiguration(with(any(ExternalServiceBean.class)));
+            oneOf(mockExternalService).checkConfiguration(with(any(ExternalServiceBean.class)), with(localAuthorityName));
             oneOf(mockExternalService).checkExternalReferential(with(any(VoCardRequestDocument.class)));
             allowing(mockExternalService).getLabel();will(returnValue(EXTERNAL_SERVICE_LABEL));
             oneOf(mockExternalService).handlesTraces();

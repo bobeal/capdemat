@@ -80,7 +80,7 @@ public interface IExternalProviderService {
      * It's then up to the external service to check that it has all the configuration
      * parameters required to function properly
      */
-    void checkConfiguration(final ExternalServiceBean externalServiceBean)
+    void checkConfiguration(final ExternalServiceBean externalServiceBean, final String localAuthorityName)
         throws CvqConfigurationException;
 
     /**

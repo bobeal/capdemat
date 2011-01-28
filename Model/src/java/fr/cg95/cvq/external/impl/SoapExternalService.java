@@ -360,7 +360,7 @@ public class SoapExternalService implements IExternalProviderService {
         return result;
     }
 
-    public void checkConfiguration(ExternalServiceBean externalServiceBean)
+    public void checkConfiguration(ExternalServiceBean externalServiceBean, String localAuthorityName)
         throws CvqConfigurationException {
     }
 

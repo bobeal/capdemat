@@ -171,7 +171,7 @@ public final class LocalAuthorityConfigurationBean {
         if (externalProviderServices != null && externalProviderServices.size() > 0) {
             for (IExternalProviderService service : externalProviderServices.keySet()) {
                 logger.debug("init() Looking at " + service.getClass());
-                service.checkConfiguration(externalProviderServices.get(service));
+                service.checkConfiguration(externalProviderServices.get(service), name);
             }
         }
     }
@@ -278,7 +278,7 @@ public final class LocalAuthorityConfigurationBean {
     public void registerExternalService(IExternalProviderService service, ExternalServiceBean esb) 
         throws CvqConfigurationException {
         
-        service.checkConfiguration(esb);
+        service.checkConfiguration(esb, name);
         externalProviderServices.put(service, esb);
     }
     

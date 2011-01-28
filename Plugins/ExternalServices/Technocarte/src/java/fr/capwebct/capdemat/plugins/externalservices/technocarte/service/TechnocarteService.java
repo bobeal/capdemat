@@ -155,7 +155,7 @@ public class TechnocarteService implements IExternalProviderService {
     	return null;
     }
 
-    public void checkConfiguration(ExternalServiceBean externalServiceBean)
+    public void checkConfiguration(ExternalServiceBean externalServiceBean, String localAuthorityName)
             throws CvqConfigurationException {
     	  logger.debug("url kiosque = " + externalServiceBean.getProperty("urlkiosque"));
     	  setUrlKiosque((String) externalServiceBean.getProperty("urlkiosque"));

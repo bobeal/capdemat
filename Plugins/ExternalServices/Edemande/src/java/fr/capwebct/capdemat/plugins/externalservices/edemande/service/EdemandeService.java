@@ -835,7 +835,7 @@ public class EdemandeService implements IExternalProviderService {
     }
 
     @Override
-    public void checkConfiguration(ExternalServiceBean externalServiceBean)
+    public void checkConfiguration(ExternalServiceBean externalServiceBean, String localAuthorityName)
         throws CvqConfigurationException {
         List<String> documentTypesToSend =
             (List<String>)externalServiceBean.getProperty("documentTypesToSend");

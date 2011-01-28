@@ -124,8 +124,8 @@ public class SecurityService {
 
     public void setEcitizenSessionInformation(ecitizenLogin,session) {
         session.currentEcitizen = ecitizenLogin
-        session.frontContext = ContextType.ECITIZEN
-        
+        if (session.frontContext != ContextType.AGENT)
+            session.frontContext = ContextType.ECITIZEN
         SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
         SecurityContext.setCurrentEcitizen(ecitizenLogin)
         

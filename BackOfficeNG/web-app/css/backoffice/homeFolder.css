@@ -1,39 +1,124 @@
 /* --------------------------------------------------------------
 
     homeFolder special styles :
-    TODO & FIXME : duplicate from homeFolderinstructioncss => to be merge !
 
 -------------------------------------------------------------- */
 
-/* Data
+
+/* home folder
+-------------------------------------------------------------- */
+.account {
+  margin : 10px 15px; padding: 5px;
+  border: 2px solid #ec7000;
+  border-radius: .5em; -moz-border-radius: .5em; -webkit-border-radius: .5em;
+  background-color: #ffffff;
+}
+
+.account a { font-size:.85em; cursor:pointer }
+.account.collapse {
+  border: 1px solid #cccccc;
+  border-right-color: #aaaaaa; border-bottom-color: #aaaaaa;
+}
+
+.account.collapse h3 { display : none; }
+
+.account.collapse dt,
+.account.collapse dd { display : none; }
+
+.account.collapse dl.reponsible dt,
+.account.collapse dl.reponsible dd { display : block; }
+
+.account.collapse .required { display : block; }
+.account.collapse dl.edit:hover { background: transparent; cursor: default; }
+
+.account dl { overflow : auto; }
+.account dl.edit:hover { background: #ffb; cursor: pointer; }
+
+.account dt,
+.account dd { float: left; margin: 0; padding: .4em; }
+
+.account dt {
+  clear: both; width: 33%; padding-top: .6em;
+  font-size: .95em; min-height: 1.5em;
+  text-align: right; color: #444;
+}
+.account dt:after { content: " : " ;}
+.account dd { width: 60%; font-size: 1.15em; }
+
+.account h3 a { float: right; font-size: .8em; }
+.account dd .tag-state { display: inline; float: none; font-size: .7em; }
+.account dd ul    { margin: 0; }
+.account dd ul li { padding: .3em 0 0 0; border: 0; list-style-type: none; }
+
+#homeFolder form { padding: 0; }
+#homeFolder input,
+#homeFolder select { margin: 0; }
+
+/* FIXME: hack for address */
+#homeFolder form label {
+  float: none; display: block; width: auto;
+  margin: 5px 0 0; padding: 0;
+  text-align: left; font-size: .9em;
+}
+#homeFolder form input.line1 { width: 22%; }
+#homeFolder form input.line2 { width: 58%; }
+
+
+/* actions
 -------------------------------------------------------------- */
 
-/* header hn*/
-#homeFolderData h3      { margin-bottom: 0;  border: 0; font-size: 1.3em; font-style: italic; overflow: auto; }
-
-/* definition list */
-#homeFolderData dl {
-  margin : 10px 10px 20px 10px;
-  border-bottom: 1px dashed #FFD053;
-  color: #333;
-  background: #ffffbb;
+dl.action {
+  padding : 5px;
+  border : 1px solid #cccccc;
+  border-right-color : #aaaaaa;
+  border-bottom-color : #aaaaaa;
+  -moz-border-radius : .5em;
+  -webkit-border-radius : .5em;
+  background-color : #ffffff;
   overflow: auto;
 }
- 
-#homeFolderData dl dt,
-#homeFolderData dl dd {
-  float: left;
-  margin: 0;
-  padding: .5em;
-  border-top: 1px dashed #FFD053;
+
+dl.action dt {
+  float : left;
+  width : 25%;
+  padding : .3em .5em;
+  text-align : right;
+  display : none;
 }
 
-#homeFolderData dl dt { width: 9em; min-height: 1.5em; text-align: right; clear: both; }
-#homeFolderData dl dd { width: 14em; font-size: 1.15em; }
+dl.action dd {
+  border-left : 1px dashed #aaaaaa;
+  margin : 0 0 0 27%;
+  padding : .3em .5em;
+  display : none;
+}
+dl.action dd a { background : none; }
+dl.action .tag { font-size : 1.1em; }
 
-#homeFolderData dl dd ul li { padding: .3em 0; }
+dl.action dt.title,
+dl.action dd.title,
+dl.action dt.action-note,
+dl.action dd.action-note,
+#userActions li:hover dl.action dt,
+#userActions li:hover dl.action dd {
+  display : inherit;
+}
 
-span.tagged { float:right; font-size:1.1em; }
+#userActions li:hover dl.action {
+  border-color : #EC7000;
+  border-width : 2px;
+}
+
+dl.previous {
+  margin: .5em 1em;
+  -moz-border-radius : .5em; -webkit-border-radius : .5em; border-radius : .5em;
+  font-size: .85em;
+  background: #FFD8DF; color: #444;
+}
+
+dl.previous dt { width: 35%; color: #666; }
+dl.previous dt:after { content: " : " ;}
+dl.previous dd { margin : 0 0 0 36%; border: 0; }
 
 
 /* Information

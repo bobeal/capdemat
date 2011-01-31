@@ -1,95 +1,106 @@
 <html>
   <head>
-    <title><g:message code="homeFolder.header.details" args="${[params.id]}"/></title>
+    <title>${message(code:'homeFolder.header.details', args:[params.id])}</title>
     <meta name="layout" content="main" />
     <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'homeFolderDetails.js')}"></script>
     <link rel="stylesheet" href="${resource(dir:'css/backoffice/common/yui-skin/',file:'container.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'homeFolder.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'document.css')}" />
     <script type="text/javascript">
-      zenexity.capdemat.backoffice.homeFolder.id = parseInt('${params.id}');
+      zenexity.capdemat.backoffice.homeFolder.Details.homeFolderId = ${params.id};
     </script>
   </head>
   <body>
     <div id="yui-main">
       <div class="yui-b">
         <div class="head">
-          <h1>
-            <g:message code="homeFolder.header.details" args="${[params.id]}"/>
-          </h1>
+          <h1>${message(code:'homeFolder.header.details', args:[params.id])}</h1>
         </div>
-          <div id="homeFolderData" class="yellow-yui-tabview">
-            <ul class="yui-nav">
-              <li class="selected"><a href="#page1"><em><g:message code="homeFolder.property.adults" /></em></a></li>
-              <g:if test="${children && children.size() > 0}">
-                <li><a href="#page2"><em><g:message code="homeFolder.property.children" /></em></a></li>
-              </g:if>
-              <g:if test="${identifierMappings && identifierMappings.size() > 0}">
-                <li><a href="#page3"><em><g:message code="homeFolder.property.externalServiceMappings" /></em></a></li>
-              </g:if>
-            </ul>
-            <div class="yui-content">
-              <!-- Page 1 -->
-              <div id="page1">
-                <h2><g:message code="property.form" /><span> - <g:message code="homeFolder.property.adults" /></span></h2>
-                <g:each in="${adults}" var="adult">
-                  <g:render template="adult" model="['adult':adult]" />
-                </g:each>
+
+        <div id="homeFolder" class="mainbox mainbox-yellow">
+          <h2>${message(code:'homeFolder.search.isHomeFolderResponsible')}</h2>
+
+          <div id="adult_${homeFolderResponsible.id}" class="account collapse">
+            <a class="toggle">${message(code:'action.expand')} / ${message(code:'action.collapse')}</a>
+            <div class="yui-g">
+              <div class="yui-u first">
+                <dl class="edit state collapse">
+                  <g:render template="static/adultState" model="['adult':homeFolderResponsible]" />
+                </dl>
+                <h3>${message(code:'homeFolder.individual.header.identity')}</h3>
+                <dl class="edit identity collapse">
+                  <g:render template="static/adultIdentity" model="['adult':homeFolderResponsible]" />
+                </dl>
+                <h3>${message(code:'homeFolder.individual.header.connexion')}</h3>
+                <dl class="collapse">
+                  <g:render template="static/adultConnexion" model="['adult':homeFolderResponsible]" />
+                </dl>
               </div>
-               <!-- Page 2 -->
-              <g:if test="${children && children.size() > 0}">
-                <div id="page2">
-                  <h2><g:message code="property.form" /><span> - <g:message code="homeFolder.property.children" /></span></h2>
-                  <g:each in="${children}" var="child">
-                    <g:render template="child" model="['child':child, 'responsibles':responsibles]" />
-                  </g:each>
-                </div>
-              </g:if>
-              <g:if test="${identifierMappings && identifierMappings.size() > 0}">
-                <div id="page3">
-                  <h2><span><g:message code="homeFolder.property.externalServiceMappings" /></span></h2>
-                  <g:render template="detailsMappings" />
-                </div>
-              </g:if>
+              <div class="yui-u">
+                <h3>${message(code:'homeFolder.individual.header.address')}</h3>
+                <dl class="edit address reponsible collapse">
+                  <g:render template="static/adultAddress" model="['adult':homeFolderResponsible, 'isResponsible':true]" />
+                </dl>
+                <h3>${message(code:'homeFolder.individual.header.contact')}</h3>
+                <dl class="edit contact reponsible collapse">
+                  <g:render template="static/adultContact" model="['adult':homeFolderResponsible, 'isResponsible':true]" />
+                </dl>
+              </div>
             </div>
           </div>
-        
-        <div id="homeFolderInformation" ><!-- Request TabView --></div>
+
+          <div class="yui-g">
+            <div class="yui-u first">
+              <h2>
+                ${message(code:'homeFolder.property.adults')}
+                <a class="add adult" style="font-size:.7em;">${message(code:'action.add')}</a>
+              </h2>
+              <g:each var="adult" in="${adults}">
+                <g:render template="static/adult" model="['adult':adult]" />
+              </g:each>
+            </div>
+            <div class="yui-u">
+              <h2>
+                ${message(code:'homeFolder.property.children')}
+                <a class="add child" style="font-size:.7em;">${message(code:'action.add')}</a>
+              </h2>
+              <g:each var="child" in="${children}">
+                <g:render template="static/child" model="['child':child, 'roleOwners': responsibles[child.id]]" />
+              </g:each>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Request TabView -->
+        <div id="homeFolderInformation"></div>
+
       </div>
     </div>
     <div id="narrow" class="yui-b">
 
       <!-- home folder state -->
       <div class="nobox taskstate">
-        <h3><g:message code="property.homeFolderState" /></h3>
+        <h3>${message(code:'property.homeFolderState')}</h3>
         <div class="body">
-          <span id="homeFolderState" class="tagged tag-${homeFolderState}">
-            <g:message code="actor.state.${homeFolderState}" />
+          <span id="homeFolderState" class="tag-${homeFolderState}" style="float: right; font-size:1.1em">
+            ${message(code:'actor.state.' + homeFolderState)}
           </span>
         </div>
       </div>
-      <!-- home folder status -->
+
       <div class="nobox taskstate">
-        <h3><g:message code="property.homeFolderStatus" /></h3>
-        <div class="body">
-          <span id="homeFolderStatus" class="tagged tag-${homeFolderStatus}">
-            ${message(code:"property."+(homeFolderStatus == 'enable' ? 'active' : 'inactive')).toLowerCase()}
-          </span>
-        </div>
-      </div>
-      
-      <div class="nobox taskstate">
-        <h3><g:message code="header.subMenus" /></h3>
+        <h3>${message(code:'header.subMenus')}</h3>
         <div class="body">
           <p>
             <a href="${createLink(controller: 'frontofficeHome',action:'loginAgent')}/?login=${responsableLogin}" target="_blank">
-              <g:message code="homeFolder.header.goToAccount"/>
+              ${message(code:'homeFolder.header.goToAccount')}
             </a>
           </p>
         </div>
       </div>
-      
+
     </div>
-  
+
   </body>
 </html>

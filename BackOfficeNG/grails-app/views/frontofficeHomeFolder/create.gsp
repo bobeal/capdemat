@@ -6,8 +6,10 @@
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'request.css')}" />
     <style type="text/css">
       #request .steps p.help { margin-bottom: .5em; font-style: italic;}
+      #request .datas form { padding: 1em 0; }
       #request .datas form div p.error { text-align: left; }
-      #request .datas form p { padding-left: 0; font-style: italic;}
+      #request .datas form p { padding-left: 0; font-style: italic; }
+      #request div.form div fieldset { padding: 0; }
     </style>
     <script type="text/javascript" src="${resource(dir : 'js/frontoffice', file : 'homeFolderCreation.js')}"></script>
   </head>

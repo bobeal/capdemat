@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/common', file:'form.css')}" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'request.css')}" />
     <style type="text/css">
-      #request .datas form {padding: 1em 0;}
+      #request .datas form { padding: 1em 0; }
       #request .steps p.help { margin-bottom: .5em; font-style: italic;}
       #request form div p.error { text-align: left; }
     </style>

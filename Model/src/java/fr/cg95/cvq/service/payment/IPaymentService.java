@@ -14,6 +14,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.annotation.IsHomeFolder;
+import fr.cg95.cvq.service.payment.annotation.IsPayment;
 import fr.cg95.cvq.util.Critere;
 
 
@@ -50,19 +51,19 @@ public interface IPaymentService {
      * @throws CvqInvalidBrokerException if the item to be added has a broker different
      *         than already added items.
      */
-    void addPurchaseItemToPayment(Payment payment, PurchaseItem purchaseItem)
+    void addPurchaseItemToPayment(@IsPayment Payment payment, PurchaseItem purchaseItem)
         throws CvqInvalidBrokerException, CvqModelException, CvqException, 
             CvqObjectNotFoundException;
     
     /**
      * Remove a purchase item from the user's cart and update payment information accordingly.
      */
-    void removePurchaseItemFromPayment(Payment payment, PurchaseItem purchaseItem);
+    void removePurchaseItemFromPayment(@IsPayment Payment payment, PurchaseItem purchaseItem);
     
     /**
      * Initialize a payment transaction with the payment provider associated to chosen items.
      */
-    URL initPayment(Payment payment)
+    URL initPayment(@IsPayment Payment payment)
         throws CvqException;
 
     /**
@@ -111,12 +112,12 @@ public interface IPaymentService {
     /**
      * Get a payment by id.
      */
-    Payment getById(final Long id) throws CvqObjectNotFoundException;
+    Payment getById(@IsPayment final Long id) throws CvqObjectNotFoundException;
     
     /**
      * Delete a payment.
      */
-    void delete(final Long id) throws CvqObjectNotFoundException;
+    void delete(@IsPayment final Long id) throws CvqObjectNotFoundException;
 
     List<ExternalAccountItem> getInvoices(Set<Critere> criteriaSet, String sort, String dir,
             int recordsReturned, int startIndex);
@@ -129,7 +130,7 @@ public interface IPaymentService {
 
     List<ExternalAccountItem> getAllExternalAccountItems();
 
-    List<ExternalInvoiceItem> getInvoicesPaid(final Long homeFolderId) throws CvqException;
+    List<ExternalInvoiceItem> getInvoicesPaid(@IsHomeFolder final Long homeFolderId) throws CvqException;
 
     Long getInvoicesCount(Set<Critere> criteriaSet);
 

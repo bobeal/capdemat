@@ -83,7 +83,6 @@ public final class PaymentService implements IPaymentService,
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public final Payment createPaymentContainer(PurchaseItem purchaseItem, PaymentMode paymentMode) 
         throws CvqModelException, CvqInvalidBrokerException, CvqException {
 
@@ -293,13 +292,13 @@ public final class PaymentService implements IPaymentService,
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT,  ContextType.ADMIN}, privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT,  ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public final List<Payment> getByHomeFolder(final Long homeFolderId) {
         return paymentDAO.findByHomeFolder(homeFolderId);
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public final Payment getById(final Long id)
         throws CvqObjectNotFoundException {
         return (Payment) paymentDAO.findById(Payment.class, id);
@@ -385,6 +384,7 @@ public final class PaymentService implements IPaymentService,
     }
 
     @Override
+    @Context(types = {ContextType.ECITIZEN}, privilege = ContextPrivilege.READ)
     public List<ExternalInvoiceItem> getInvoicesPaid(final Long homeFolderId) 
         throws CvqException {
         List<ExternalInvoiceItem> invoicesPaid = new ArrayList<ExternalInvoiceItem>();

@@ -692,6 +692,9 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   <bean id="paymentFilterAspect"
     class="fr.cg95.cvq.service.payment.aspect.PaymentFilterAspect" />
 
+  <bean id="paymentContextCheckAspect" 
+    class="fr.cg95.cvq.service.payment.aspect.PaymentContextAspect" />
+
   <bean id="paymentService" class="fr.cg95.cvq.service.payment.impl.PaymentService">
     <property name="paymentDAO" ref="paymentDAO" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />

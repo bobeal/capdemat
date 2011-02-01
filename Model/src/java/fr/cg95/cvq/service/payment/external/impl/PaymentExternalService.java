@@ -66,7 +66,6 @@ public class PaymentExternalService extends ExternalService implements IPaymentE
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public void loadDepositAccountDetails(ExternalDepositAccountItem edai) throws CvqException {
         IExternalProviderService externalProviderService =
             getExternalServiceByLabel(edai.getExternalServiceLabel());
@@ -74,7 +73,6 @@ public class PaymentExternalService extends ExternalService implements IPaymentE
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public void loadInvoiceDetails(ExternalInvoiceItem eii) throws CvqException {
         IExternalProviderService externalProviderService =
             getExternalServiceByLabel(eii.getExternalServiceLabel());

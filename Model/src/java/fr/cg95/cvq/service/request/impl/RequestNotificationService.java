@@ -16,6 +16,8 @@ import fr.cg95.cvq.business.request.RequestNote;
 import fr.cg95.cvq.business.request.RequestNoteType;
 import fr.cg95.cvq.business.request.RequestAdminAction.Data;
 import fr.cg95.cvq.business.request.RequestEvent.COMP_DATA;
+import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
+import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
@@ -47,7 +49,10 @@ public class RequestNotificationService implements ApplicationListener<CapDematE
 
     private void notifyRequestCreation(Request request, byte[] pdfData)
         throws CvqException {
-
+        // temporary hack until users management is decoupled from request
+        if (request instanceof VoCardRequest || request instanceof HomeFolderModificationRequest) {
+            return;
+        }
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         Adult requester = (Adult) individualService.getById(request.getRequesterId());
         if (requester.getEmail() != null && !requester.getEmail().equals("")) {
@@ -89,6 +94,10 @@ public class RequestNotificationService implements ApplicationListener<CapDematE
 		LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
 
         Request request = (Request) requestDAO.findById(Request.class, requestId);
+        // temporary hack until users management is decoupled from request
+        if (request instanceof VoCardRequest || request instanceof HomeFolderModificationRequest) {
+            return;
+        }
         String requestTypeLabel = request.getRequestType().getLabel();
 
         // send notification to ecitizen if enabled
@@ -132,6 +141,10 @@ public class RequestNotificationService implements ApplicationListener<CapDematE
         throws CvqException {
         if (note.getType().equals(RequestNoteType.PUBLIC)) {
             Request request = (Request) requestDAO.findById(Request.class, requestId);
+            // temporary hack until users management is decoupled from request
+            if (request instanceof VoCardRequest || request instanceof HomeFolderModificationRequest) {
+                return;
+            }
             Agent agent = agentService.getById(note.getUserId());
             Adult requester = individualService.getAdultById(request.getRequesterId());
             if (requester.getEmail() != null) {

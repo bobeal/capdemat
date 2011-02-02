@@ -199,14 +199,15 @@ class FrontofficeHomeFolderController {
             }
         }
         model["child"] = individual
-        model["roleOwners"] = homeFolderService.getBySubjectRoles(individual.id,
-            [RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR] as RoleType[])
-            .sort { a, b ->
-              if (a.id == b.id) return a.fullName.compareTo(b.fullName)
-              if (a.id == SecurityContext.currentEcitizen.id) return -1
-              if (b.id == SecurityContext.currentEcitizen.id) return 1
-              return a.fullName.compareTo(b.fullName)
-            }
+        model["roleOwners"] = individual.id ?
+            homeFolderService.getBySubjectRoles(individual.id,
+                [RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR] as RoleType[])
+                .sort { a, b ->
+                  if (a.id == b.id) return a.fullName.compareTo(b.fullName)
+                  if (a.id == SecurityContext.currentEcitizen.id) return -1
+                  if (b.id == SecurityContext.currentEcitizen.id) return 1
+                  return a.fullName.compareTo(b.fullName)
+                } : []
         if (params.mode == "edit") {
             template += "Edit"
             model["adults"] = homeFolderService.getAdults(SecurityContext.currentEcitizen.homeFolder.id)

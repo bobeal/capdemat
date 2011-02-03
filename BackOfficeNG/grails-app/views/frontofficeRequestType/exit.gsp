@@ -54,7 +54,7 @@
             <g:if test="${isProxyAgent}">
                 <hr />
                 <li>
-                    <a href="${createLink(controller:'backofficeRequestInstruction', action:'edit', id:requestId)}" class="link-agent">
+                    <a href="${createLink(controller:'frontofficeHome', action:'logoutAgent', id:requestId)}" class="link-agent">
                         <g:message code="request.action.continueRequest" />
                     </a>
                 </li>

@@ -147,6 +147,13 @@ class FrontofficeHomeController {
         }
     }
 
+    def logoutAgent = {
+        session.frontContext = null
+        session.currentEcitizen = null
+        session.currentEcitizenName = null
+        redirect(controller:'backofficeRequestInstruction', action:'edit', params:[id:params.id])
+    }
+
     def accessibilityPolicy = {
         File file = localAuthorityRegistry.getLocalAuthorityResourceFile(
             LocalAuthorityResource.ACCESSIBILITY_POLICY_FO.id)

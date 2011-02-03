@@ -42,7 +42,7 @@ public class SecurityService {
                 "frontofficeRequestCreation" : /.*/,
                 "frontofficeRequestType" : /.*/,
                 "frontofficeDocument" : [/details/,/binary/],
-                "frontofficeHome" : [/loginAgent/,/logout/],
+                "frontofficeHome" : [/loginAgent/,/logout/,/logoutAgent/],
                 "serviceAutocomplete" : /.*/,
                 "system" : /error/
             ]

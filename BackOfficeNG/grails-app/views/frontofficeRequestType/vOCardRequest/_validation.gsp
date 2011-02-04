@@ -41,7 +41,7 @@
 <h3><g:message code="vcr.step.children.label" /></h3>
 <g:each var="it" in="${individuals?.children}" status="index">
   <div class="account-fieldset-edit">
-  <g:if test="${!it.isChildBorn}">
+  <g:if test="${!it.born}">
     <h4><g:message code="request.subject.childNoBorn"
           args="${[it.fullName]}" /></h4>
   </g:if>
@@ -53,7 +53,7 @@
     <dd><g:capdematEnumToField var="${it.sex}" i18nKeyPrefix="homeFolder.child.property.sex" /></dd>
 
     <dt>
-        <g:if test="${!it.isChildBorn}"><g:message code="homeFolder.individual.property.expectedBirthDate" /></g:if>
+        <g:if test="${!it.born}"><g:message code="homeFolder.individual.property.expectedBirthDate" /></g:if>
         <g:else><g:message code="homeFolder.individual.property.birthDate" /></g:else>
     : </dt>
     <dd><span><g:formatDate formatName="format.date" date="${it.birthDate}"/></span></dd>

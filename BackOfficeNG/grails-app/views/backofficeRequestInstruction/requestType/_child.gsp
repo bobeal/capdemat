@@ -1,13 +1,13 @@
 <h3>
-  <g:if test="${child.isChildBorn}">${child.firstName} ${child.lastName}</g:if>
+  <g:if test="${child.born}">${child.firstName} ${child.lastName}</g:if>
   <g:else><g:message code="request.subject.childNoBorn" args="${[child.fullName]}" /></g:else>
 </h3>
 <div class="yui-g">
   <div class="yui-u first">
     <dl>
-      <dt><g:message code="homeFolder.individual.property.isChildBorn" /> : </dt>
-      <dd id="individuals[${index}].isChildBorn" class="action-editField validate-boolean required-true i18n-homeFolder.individual.property.isChildBorn">
-        <span class="value-${child.isChildBorn}"><g:message code="message.${child.isChildBorn ? 'yes' : 'no'}" /></span>
+      <dt><g:message code="homeFolder.individual.property.born" /> : </dt>
+      <dd id="individuals[${index}].born" class="action-editField validate-boolean required-true i18n-homeFolder.individual.property.born">
+        <span class="value-${child.born}"><g:message code="message.${child.born ? 'yes' : 'no'}" /></span>
       </dd>
 
       <dt><g:message code="homeFolder.individual.property.lastName" /> : </dt> 

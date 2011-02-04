@@ -53,7 +53,7 @@
               <dl class="required">
                 
                   <dt class="required"><g:message code="request.property.subject.label" /> : </dt>
-              <dd><span>${subjectIsChild && !subject?.isChildBorn ? message(code:'request.subject.childNoBorn', args:[subject?.getFullName()]) : subject?.fullName}</span></dd>
+              <dd><span>${subjectIsChild && !subject?.born ? message(code:'request.subject.childNoBorn', args:[subject?.getFullName()]) : subject?.fullName}</span></dd>
           
                 
                   <dt class="required"><g:message code="sgr.property.subjectBirthDate.label" /> * : </dt><dd id="subjectBirthDate" class="action-editField validate-date required-true i18n-sgr.property.subjectBirthDate" ><span><g:formatDate formatName="format.date" date="${rqt?.subjectBirthDate}"/></span></dd>

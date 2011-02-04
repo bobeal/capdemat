@@ -23,7 +23,7 @@ public class Child extends Individual
 
 	private String note;
     private String badgeNumber;
-    private boolean isChildBorn = true;
+    private boolean born = true;
 
     /** default constructor */
     public Child() {
@@ -75,13 +75,13 @@ public class Child extends Individual
 
     /**
      * @hibernate.property
-     *  column="child_born"
+     *  column="born"
      */
-    public boolean getIsChildBorn() {
-        return isChildBorn;
+    public boolean isBorn() {
+        return born;
     }
 
-    public void setIsChildBorn(boolean isChildBorn) {
-        this.isChildBorn = isChildBorn;
+    public void setBorn(boolean born) {
+        this.born = born;
     }
 }

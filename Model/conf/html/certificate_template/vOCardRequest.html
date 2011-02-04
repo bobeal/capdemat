@@ -92,7 +92,7 @@
     <div class="complex">
     <% children.each { collectionIt -> %>
       <h3>
-      <% if(collectionIt?.isChildBorn) { %>
+      <% if(collectionIt?.born) { %>
         ${collectionIt?.firstName}
         ${collectionIt?.lastName}
       <% } else { %>
@@ -119,7 +119,7 @@
       </div>
     
       <p class="label">
-      <% if(collectionIt?.isChildBorn) { %>
+      <% if(collectionIt?.born) { %>
         ${i18n.translate('homeFolder.individual.property.birthDate')}
       <% } else { %>
         ${i18n.translate('homeFolder.individual.property.expectedBirthDate')}

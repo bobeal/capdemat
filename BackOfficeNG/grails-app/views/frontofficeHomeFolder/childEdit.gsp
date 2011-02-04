@@ -17,7 +17,7 @@
       <h2>
         <a href="${createLink(action : 'index')}" class="button">${message(code:'action.cancel')}</a>
         <g:if test="${child.id}">
-          <g:if test="${!child.isChildBorn}">
+          <g:if test="${!child.born}">
             <g:message code="request.subject.childNoBorn" args="${[child.fullName]}" />
           </g:if>
           <g:else>

@@ -6,7 +6,7 @@
   </head>
   <body>
     <div class="main-box data-detail">
-      <g:if test="${!child.isChildBorn}">
+      <g:if test="${!child.born}">
         <h2><g:message code="request.subject.childNoBorn" args="${[child.fullName]}" /></h2>
       </g:if>
       <g:else>

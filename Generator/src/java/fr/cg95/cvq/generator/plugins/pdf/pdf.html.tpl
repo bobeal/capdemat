@@ -90,7 +90,7 @@
           """<div class="response">\${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.toString())}</div>"""
       ,'subject' :
           """
-          <div class="response">\${subjectIsChild && !subject?.isChildBorn ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName}</div>
+          <div class="response">\${subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName}</div>
           """
       ,'school' :
           """

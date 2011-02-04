@@ -61,7 +61,7 @@
           "<span>\${${wrapper}?.${element.javaFieldName}}</span>"
       ,'subject' :
           """<dt class="required"><g:message code="request.property.subject.label" /> : </dt>
-              <dd><span>\${subjectIsChild && !subject?.isChildBorn ? message(code:'request.subject.childNoBorn', args:[subject?.getFullName()]) : subject?.fullName}</span></dd>
+              <dd><span>\${subjectIsChild && !subject?.born ? message(code:'request.subject.childNoBorn', args:[subject?.getFullName()]) : subject?.fullName}</span></dd>
           """
       ,'requester' :
           """<g:render template="/backofficeRequestInstruction/requestType/requester" model="['requester':requester]" />"""

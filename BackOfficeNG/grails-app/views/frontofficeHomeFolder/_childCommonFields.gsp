@@ -2,15 +2,15 @@
 <input type="hidden" name="mode" value="edit" />
   <fieldset>
     <label class="required">
-   <g:message code="homeFolder.individual.property.isChildBorn" /> *
+   <g:message code="homeFolder.individual.property.born" /> *
     </label>
-    <ul class="yes-no required ${stepStates != null && stepStates['children']?.invalidFields?.contains('isChildBorn') ? 'validation-failed' : ''}">
+    <ul class="yes-no required ${stepStates != null && stepStates['children']?.invalidFields?.contains('born') ? 'validation-failed' : ''}">
       <g:each in="${[true,false]}">
         <li>
-          <input type="radio" id="isChildBorn_${it ? 'yes' : 'no'}"
-            class="required validate-one-required boolean isChildBorn" title=""
-            value="${it}" name="isChildBorn" ${it == child?.isChildBorn ? 'checked="checked"': ''} />
-          <label for="isChildBorn_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
+          <input type="radio" id="born_${it ? 'yes' : 'no'}"
+            class="required validate-one-required boolean born" title=""
+            value="${it}" name="born" ${it == child?.born ? 'checked="checked"': ''} />
+          <label for="born_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
         </li>
       </g:each>
     </ul>

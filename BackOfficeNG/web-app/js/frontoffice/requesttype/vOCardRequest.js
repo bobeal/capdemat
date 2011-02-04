@@ -23,7 +23,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
           zcv.complexRules['atLeastOne'].pushFields(phonesEl[0].name, phonesEl[1].name, phonesEl[2].name);
         }
 
-        yue.on(yus.query("#children .isChildBorn"), "change", zcfr.VOCardRequest.isChildBornChange);
+        yue.on(yus.query("#children .born"), "change", zcfr.VOCardRequest.isChildBornChange);
         zcfr.VOCardRequest.initChildBorn();
 
         zcf.RequestCreation.computeScope = function(form) {
@@ -33,7 +33,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
 
       initChildBorn : function() {
         var checkedEl;
-        zct.each(yus.query("#children .isChildBorn"), function() {
+        zct.each(yus.query("#children .born"), function() {
             if (this.checked) checkedEl = this;
         });
         zcfr.VOCardRequest.toogleChildFields(checkedEl);

@@ -3,15 +3,15 @@
   <fieldset class="individual add">
 
     <label class="required">
-       <g:message code="homeFolder.individual.property.isChildBorn" /> *
+       <g:message code="homeFolder.individual.property.born" /> *
     </label>
-    <ul class="yes-no required ${stepStates != null && stepStates['children']?.invalidFields?.contains('isChildBorn') ? 'validation-failed' : ''}">
+    <ul class="yes-no required ${stepStates != null && stepStates['children']?.invalidFields?.contains('born') ? 'validation-failed' : ''}">
       <g:each in="${[true,false]}">
         <li>
-          <input type="radio" id="_individuals.children.${listIndex}.isChildBorn_${it ? 'yes' : 'no'}" 
-            class="required validate-one-required boolean isChildBorn" title="" 
-            value="${it}" name="_individuals.children[${listIndex}].isChildBorn" ${it == editList?.children?.isChildBorn || (editList == null && it) ? 'checked="checked"': ''} />
-          <label for="_individuals.children.${listIndex}.isChildBorn_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
+          <input type="radio" id="_individuals.children.${listIndex}.born_${it ? 'yes' : 'no'}" 
+            class="required validate-one-required boolean born" title="" 
+            value="${it}" name="_individuals.children[${listIndex}].born" ${it == editList?.children?.born || (editList == null && it) ? 'checked="checked"': ''} />
+          <label for="_individuals.children.${listIndex}.born_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
         </li>
       </g:each>
     </ul>
@@ -101,7 +101,7 @@
   <g:each var="it" in="${individuals?.children}" status="index">
   <fieldset class="individual edit summary-box ${stepStates != null && stepStates['children']?.invalidFields.contains('children[' + index + ']') ? 'validation-failed' : ''}">
     <h4>
-      <g:if test="${it.isChildBorn}">
+      <g:if test="${it.born}">
         ${it.firstName} ${it.lastName}
       </g:if>
       <g:else>
@@ -115,7 +115,7 @@
       <dt><g:message code="homeFolder.child.property.sex" /> : </dt>
       <dd><g:capdematEnumToField var="${it.sex}" i18nKeyPrefix="homeFolder.child.property.sex" /></dd>
       <dt>
-      <g:if test="${it.isChildBorn}"><g:message code="homeFolder.individual.property.birthDate" /></g:if>
+      <g:if test="${it.born}"><g:message code="homeFolder.individual.property.birthDate" /></g:if>
       <g:else><g:message code="homeFolder.individual.property.expectedBirthDate" /></g:else>
       : </dt>
       <dd><span><g:formatDate formatName="format.date" date="${it.birthDate}"/></span></dd>

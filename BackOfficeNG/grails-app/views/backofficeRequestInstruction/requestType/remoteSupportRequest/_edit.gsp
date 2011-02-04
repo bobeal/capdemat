@@ -33,7 +33,7 @@
               <dl class="required">
                 
                   <dt class="required"><g:message code="request.property.subject.label" /> : </dt>
-              <dd><span>${subjectIsChild && !subject?.isChildBorn ? message(code:'request.subject.childNoBorn', args:[subject?.getFullName()]) : subject?.fullName}</span></dd>
+              <dd><span>${subjectIsChild && !subject?.born ? message(code:'request.subject.childNoBorn', args:[subject?.getFullName()]) : subject?.fullName}</span></dd>
           
                 
                   <dt class="required"><g:message code="rsr.property.subjectTitle.label" /> * : </dt><dd id="subjectTitle" class="action-editField validate-capdematEnum required-true i18n-rsr.property.subjectTitle javatype-fr.cg95.cvq.business.users.TitleType" ><g:capdematEnumToField var="${rqt?.subjectTitle}" i18nKeyPrefix="rsr.property.subjectTitle" /></dd>

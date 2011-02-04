@@ -69,8 +69,8 @@ public class Individual implements Historizable, Serializable {
     @NotEmpty(message = "lastName")
     private String lastName;
 
-    @NotNull(message = "firstName", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child && _this.isChildBorn == true")
-    @NotEmpty(message = "firstName", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child && _this.isChildBorn == true")
+    @NotNull(message = "firstName", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child && _this.born")
+    @NotEmpty(message = "firstName", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child && _this.born")
     private String firstName;
 
     @NotEmpty(message = "firstName2")
@@ -80,15 +80,15 @@ public class Individual implements Historizable, Serializable {
     private String firstName3;
 
     @NotNull(message = "birthDate", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child")
-    @Past(message = "birthDate", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child && _this.isChildBorn == true")
-    @Future(message = "birthDate", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child && _this.isChildBorn == false")
+    @Past(message = "birthDate", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child && _this.born")
+    @Future(message = "birthDate", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child && !_this.born")
     private Date birthDate;
 
     private String birthCountry;
     private String birthCity;
     private String birthPostalCode;
 
-    @NotNull(message = "sex", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child && _this.isChildBorn == true")
+    @NotNull(message = "sex", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child && _this.born")
     private SexType sex;
 
     private Date creationDate;

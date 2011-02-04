@@ -13,13 +13,13 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.");
 
     return {
       init: function() {
-        yue.on(yus.query(".isChildBorn"), "change", zcf.HomeFolder.isChildBornChange);
+        yue.on(yus.query(".born"), "change", zcf.HomeFolder.isChildBornChange);
         zcf.HomeFolder.initChildBorn();
       },
 
       initChildBorn : function() {
         var checkedEl;
-        zct.each(yus.query(".isChildBorn"), function() {
+        zct.each(yus.query(".born"), function() {
             if (this.checked) checkedEl = this;
         });
         zcf.HomeFolder.toogleChildFields(checkedEl);

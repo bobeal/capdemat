@@ -57,7 +57,7 @@ class FrontofficeHomeFolderController {
             result.children.add([
                 'id' : child.id,
                 'sex' : child.sex,
-                'fullName' : child.isChildBorn ? "${child.firstName} ${child.lastName}" :
+                'fullName' : child.born ? "${child.firstName} ${child.lastName}" :
                     message('code':"request.subject.childNoBorn", args:[child.getFullName()]),
                 'birthDate' : child.birthDate,
                 'birthCountry' : child.birthCountry,
@@ -65,7 +65,7 @@ class FrontofficeHomeFolderController {
                 'birthCity' : child.birthCity,
                 'roleOwners' : homeFolderService.getBySubjectRoles(child.id,
                     [RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR] as RoleType[]),
-                'isChildBorn' : child.isChildBorn
+                'born' : child.born
             ])
         }
         

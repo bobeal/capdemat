@@ -466,7 +466,7 @@ class FrontofficeRequestController {
         def requester = rqt.requesterId != null ? individualService.getById(rqt.requesterId) : null
         def subject = rqt.subjectId != null ? individualService.getById(rqt.subjectId) : null
         def subjects = [:]
-        subjects[rqt.subjectId] = subject instanceof Child && !subject.isChildBorn ? message(code:'request.subject.childNoBorn', args:[subject.getFullName()]) : "${rqt.subjectLastName} ${rqt.subjectFirstName}"
+        subjects[rqt.subjectId] = subject instanceof Child && !subject.born ? message(code:'request.subject.childNoBorn', args:[subject.getFullName()]) : "${rqt.subjectLastName} ${rqt.subjectFirstName}"
         return ['rqt': rqt,
                 'requestTypeLabel':requestTypeLabel,
                 'requester':requester,

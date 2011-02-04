@@ -35,7 +35,7 @@ class IndividualAdaptorService {
         def result = [:]
         subjects.each {
             def subject = individualService.getById(it)
-            result[it] = subject instanceof Child && !subject.isChildBorn ? translationService.translate("request.subject.childNoBorn", subject.fullName) : subject.fullName
+            result[it] = subject instanceof Child && !subject.born ? translationService.translate("request.subject.childNoBorn", subject.fullName) : subject.fullName
         }
         return result
     }

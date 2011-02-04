@@ -92,7 +92,7 @@ public class RequestCreationNotificationJob {
                 }
             } else {
                 logger.warn("notifyLocalAuthRequestsCreation() category "
-                        + category.getName() + " has no email adress configured");
+                        + category.getName() + " has no email address configured");
             }
         }
     }

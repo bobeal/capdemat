@@ -44,9 +44,9 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
     
     private ActorState state;
 
-    @NotNull(message = "adress")
-    @AssertValid(message = "adress")
-    private Address adress;
+    @NotNull(message = "address")
+    @AssertValid(message = "address")
+    private Address address;
 
     private Boolean enabled;
     /** home folders created along a request are considered to be temporary */
@@ -66,8 +66,8 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
         HomeFolderType homeFolderType = HomeFolderType.Factory.newInstance();
         if (this.id != null)
             homeFolderType.setId(this.id.longValue());
-        if (this.adress != null)
-            homeFolderType.setAddress(Address.modelToXml(this.adress));
+        if (this.address != null)
+            homeFolderType.setAddress(Address.modelToXml(this.address));
 
         IndividualType[] individualsArray = new IndividualType[individuals.size()];
         int i = 0;
@@ -95,7 +95,7 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
 
         HomeFolder homeFolder = new HomeFolder();
         homeFolder.setId(new Long(homeFolderType.getId()));
-        homeFolder.setAdress(Address.xmlToModel(homeFolderType.getAddress()));
+        homeFolder.setAddress(Address.xmlToModel(homeFolderType.getAddress()));
 
         List<Individual> individuals = new ArrayList<Individual>();
         for (IndividualType individual : homeFolderType.getIndividualsArray()) {
@@ -165,14 +165,14 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
     /**
      * @hibernate.many-to-one
      *  class="fr.cg95.cvq.business.users.Address"
-     *  column="adress_id"
+     *  column="address_id"
      */
-    public Address getAdress() {
-        return this.adress;
+    public Address getAddress() {
+        return this.address;
     }
 
-    public void setAdress(Address adress) {
-        this.adress = adress;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     /**

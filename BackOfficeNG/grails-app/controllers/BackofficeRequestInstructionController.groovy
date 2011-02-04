@@ -446,10 +446,10 @@ class BackofficeRequestInstructionController {
             'temporary': homeFolder.temporary,
             'state' : homeFolder.state,
             'enabled' : homeFolder.enabled,
-            'addressDetails' :   "${homeFolder.adress.streetNumber ?: ''} "+
-                                 "${homeFolder.adress.streetName} " +
-                                 "${homeFolder.adress.postalCode} " +
-                                 "${homeFolder.adress.city}"
+            'addressDetails' :   "${homeFolder.address.streetNumber ?: ''} "+
+                                 "${homeFolder.address.streetName} " +
+                                 "${homeFolder.address.postalCode} " +
+                                 "${homeFolder.address.city}"
         ]
     		render(template:'homeFolderData', model:['homeFolder':result])
     }

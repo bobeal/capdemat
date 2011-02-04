@@ -72,10 +72,10 @@ class FrontofficeHomeFolderController {
         result.homeFolder = [
             'state' : currentEcitizen.homeFolder.state,
             'isActive' : currentEcitizen.homeFolder.enabled,
-            'addressDetails' :   "${currentEcitizen.homeFolder.adress.streetNumber ?: ''} "+
-                                 "${currentEcitizen.homeFolder.adress.streetName} " +
-                                 "${currentEcitizen.homeFolder.adress.postalCode} " +
-                                 "${currentEcitizen.homeFolder.adress.city}"
+            'addressDetails' :   "${currentEcitizen.homeFolder.address.streetNumber ?: ''} "+
+                                 "${currentEcitizen.homeFolder.address.streetName} " +
+                                 "${currentEcitizen.homeFolder.address.postalCode} " +
+                                 "${currentEcitizen.homeFolder.address.city}"
         ]
         
         def enabled = true, message = null
@@ -142,7 +142,7 @@ class FrontofficeHomeFolderController {
             individual = new Adult()
             // hack : WTF is an unknown title ?
             individual.title = null
-            individual.adress = SecurityContext.currentEcitizen.adress.clone()
+            individual.address = SecurityContext.currentEcitizen.address.clone()
         }
         if (request.post) {
             DataBindingUtils.initBind(individual, params)

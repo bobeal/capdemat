@@ -85,9 +85,9 @@ public class HomeFolderModificationRequestService extends RequestService {
 
                     Individual individual = individualService.getById(he.getObjectId());
 
-                    // unlink from (eventually) common home folder adress
-                    // FIXME : what if alone with this adress ?
-                    individual.setAdress(null);
+                    // unlink from (eventually) common home folder address
+                    // FIXME : what if alone with this address ?
+                    individual.setAddress(null);
 
                     // FIXME : can newValue be anything else ??
                     if (he.getNewValue() == null) {
@@ -269,7 +269,7 @@ public class HomeFolderModificationRequestService extends RequestService {
                 // simple field value change
                 if (!he.getProperty().startsWith("password")
                     && !he.getProperty().equals("homeFolder")
-                    && !he.getProperty().equals("adress")
+                    && !he.getProperty().equals("address")
                     && !he.getProperty().equals("individualRoles")
                     && !he.getProperty().equals("individuals")) {
                     logger.debug("restoreOriginalHomeFolder() simple field value change ("
@@ -291,17 +291,17 @@ public class HomeFolderModificationRequestService extends RequestService {
                     }
                 }
 
-                // an adress change was planned, go back to the original one
-                else if (he.getProperty().equals("adress")) {
-                    logger.debug("restoreOriginalHomeFolder() an adress change was planned, "
+                // an address change was planned, go back to the original one
+                else if (he.getProperty().equals("address")) {
+                    logger.debug("restoreOriginalHomeFolder() an address change was planned, "
                             + "go back");
                     String oldValue = he.getOldValue();
-                    String oldAdressId =
+                    String oldAddressId =
                         oldValue.substring(oldValue.indexOf("id=") + 3,
                                 oldValue.lastIndexOf(']'));
-                    Address oldAdress =
-                        (Address) genericDAO.findById(Address.class, Long.valueOf(oldAdressId));
-                    Object object = restoreOldProperty(he, Address.class, oldAdress);
+                    Address oldAddress =
+                        (Address) genericDAO.findById(Address.class, Long.valueOf(oldAddressId));
+                    Object object = restoreOldProperty(he, Address.class, oldAddress);
 
                     if (!objectsToRemove.contains(object))
                         objectsToUpdate.add(object);

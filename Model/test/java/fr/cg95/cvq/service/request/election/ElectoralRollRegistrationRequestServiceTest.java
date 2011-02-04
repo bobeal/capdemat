@@ -63,7 +63,7 @@ public class ElectoralRollRegistrationRequestServiceTest extends RequestTestCase
             
             
               
-                request.setSubjectAddressOutsideCity(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+                request.setSubjectAddressOutsideCity(BusinessObjectsFactory.gimmeAddress("1", "Unit test address", "Paris", "75012"));
               
             
           
@@ -186,10 +186,10 @@ public class ElectoralRollRegistrationRequestServiceTest extends RequestTestCase
         startTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         ElectoralRollRegistrationRequest request = fillMeARequest();
-        Address address = BusinessObjectsFactory.gimmeAdress("12", "Rue d'Aligre", "Paris", "75012");
+        Address address = BusinessObjectsFactory.gimmeAddress("12", "Rue d'Aligre", "Paris", "75012");
         Adult requester = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "requester", address, FamilyStatusType.MARRIED);
         requester.setPassword("requester");
-        requester.setAdress(address);
+        requester.setAddress(address);
         homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         ElectoralRollRegistrationRequestFeeder
             .setSubject(request, requestService.getSubjectPolicy(), requester, null);

@@ -1569,7 +1569,7 @@
               <elementProp name="propertyName" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">true</boolProp>
                 <stringProp name="Argument.name">propertyName</stringProp>
-                <stringProp name="Argument.value">homeFolder.individual[1836].adress</stringProp>
+                <stringProp name="Argument.value">homeFolder.individual[1836].address</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
@@ -1609,58 +1609,58 @@
         <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="35. Modify request data step 3" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments">
-              <elementProp name="adress.additionalDeliveryInformation" elementType="HTTPArgument">
+              <elementProp name="address.additionalDeliveryInformation" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.name">adress.additionalDeliveryInformation</stringProp>
+                <stringProp name="Argument.name">address.additionalDeliveryInformation</stringProp>
                 <stringProp name="Argument.value"></stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
-              <elementProp name="adress.additionalGeographicalInformation" elementType="HTTPArgument">
+              <elementProp name="address.additionalGeographicalInformation" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.name">adress.additionalGeographicalInformation</stringProp>
+                <stringProp name="Argument.name">address.additionalGeographicalInformation</stringProp>
                 <stringProp name="Argument.value"></stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
-              <elementProp name="adress.streetNumber" elementType="HTTPArgument">
+              <elementProp name="address.streetNumber" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.name">adress.streetNumber</stringProp>
+                <stringProp name="Argument.name">address.streetNumber</stringProp>
                 <stringProp name="Argument.value">1</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
-              <elementProp name="adress.streetName" elementType="HTTPArgument">
+              <elementProp name="address.streetName" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                <stringProp name="Argument.name">adress.streetName</stringProp>
+                <stringProp name="Argument.name">address.streetName</stringProp>
                 <stringProp name="Argument.value">RUE PREMIER</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
-              <elementProp name="adress.placeNameOrService" elementType="HTTPArgument">
+              <elementProp name="address.placeNameOrService" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.name">adress.placeNameOrService</stringProp>
+                <stringProp name="Argument.name">address.placeNameOrService</stringProp>
                 <stringProp name="Argument.value"></stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
-              <elementProp name="adress.postalCode" elementType="HTTPArgument">
+              <elementProp name="address.postalCode" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.name">adress.postalCode</stringProp>
+                <stringProp name="Argument.name">address.postalCode</stringProp>
                 <stringProp name="Argument.value">95000</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
-              <elementProp name="adress.city" elementType="HTTPArgument">
+              <elementProp name="address.city" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.name">adress.city</stringProp>
+                <stringProp name="Argument.name">address.city</stringProp>
                 <stringProp name="Argument.value">CERGY</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
-              <elementProp name="adress.countryName" elementType="HTTPArgument">
+              <elementProp name="address.countryName" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.name">adress.countryName</stringProp>
+                <stringProp name="Argument.name">address.countryName</stringProp>
                 <stringProp name="Argument.value"></stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>

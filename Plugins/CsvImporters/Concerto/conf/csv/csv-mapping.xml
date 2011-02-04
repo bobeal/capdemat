@@ -242,7 +242,7 @@
     <field-mapping name="Adresse responsable 1"
       type="java.lang.String"
       position="12"
-      attribute="adress"
+      attribute="address"
       reformat="address"
       bean-ref="none" />
 

@@ -16,7 +16,7 @@ public class CompostableWasteCollectionRequestService extends RequestService {
             new CompostableWasteCollectionRequest();
         if (SecurityContext.getCurrentEcitizen() != null) {
             request.setCollectionAddress(SecurityContext.getCurrentEcitizen()
-                .getHomeFolder().getAdress().clone());
+                .getHomeFolder().getAddress().clone());
         }
         return request;
     }

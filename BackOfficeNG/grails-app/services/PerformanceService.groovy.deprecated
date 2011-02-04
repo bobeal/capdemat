@@ -259,7 +259,7 @@ public class PerformanceService {
         adult.setCfbn("${this.getRandomNum(7)}E");
         adult.setProfession(this.getRandomAlpha(10));
         adult.setSex(this.getRandomElement("sex"));
-        if (address) adult.setAdress(address);
+        if (address) adult.setAddress(address);
         
         return adult;
     }

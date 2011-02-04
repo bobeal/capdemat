@@ -17,7 +17,7 @@ public class BulkyWasteCollectionRequestService extends RequestService {
         BulkyWasteCollectionRequest request = new BulkyWasteCollectionRequest();
         if (SecurityContext.getCurrentEcitizen() != null) {
             request.setCollectionAddress(SecurityContext.getCurrentEcitizen()
-                .getHomeFolder().getAdress().clone());
+                .getHomeFolder().getAddress().clone());
         }
         return request;
     }

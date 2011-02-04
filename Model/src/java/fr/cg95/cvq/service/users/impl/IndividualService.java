@@ -224,9 +224,9 @@ public class IndividualService implements IIndividualService {
         individual.setCreationDate(new Date());
         
         if (address != null)
-            individual.setAdress(address);
+            individual.setAddress(address);
         else if (homeFolder != null)
-            individual.setAdress(homeFolder.getAdress());
+            individual.setAddress(homeFolder.getAddress());
         
         if (homeFolder != null) {
             individual.setHomeFolder(homeFolder);
@@ -273,7 +273,7 @@ public class IndividualService implements IIndividualService {
     public void delete(final Individual individual) 
         throws CvqException {
 
-        individual.setAdress(null);
+        individual.setAddress(null);
 		individualDAO.delete(individual);
 	}
 

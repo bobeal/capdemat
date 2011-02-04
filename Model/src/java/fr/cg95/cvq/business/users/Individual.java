@@ -94,9 +94,9 @@ public class Individual implements Historizable, Serializable {
     private Date creationDate;
     private ActorState state;
 
-    @NotNull(message = "adress", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Adult")
-    @AssertValid(message = "adress", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Adult")
-    private Address adress;
+    @NotNull(message = "address", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Adult")
+    @AssertValid(message = "address", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Adult")
+    private Address address;
 
     @AssertValid(message = "homeFolder")
     private HomeFolder homeFolder;
@@ -141,8 +141,8 @@ public class Individual implements Historizable, Serializable {
             calendar.setTime(this.creationDate);
             individualType.setCreationDate(calendar);
         }
-        if (this.adress != null)
-            individualType.setAddress(Address.modelToXml(this.adress));
+        if (this.address != null)
+            individualType.setAddress(Address.modelToXml(this.address));
         if (this.state != null)
             individualType.setState(fr.cg95.cvq.xml.common.ActorStateType.Enum.forString(this.state.toString()));
         if (this.individualRoles != null && !this.individualRoles.isEmpty()) {
@@ -182,7 +182,7 @@ public class Individual implements Historizable, Serializable {
         }
         if (individualType.getState() != null)
             setState(ActorState.forString(individualType.getState().toString()));
-        setAdress(Address.xmlToModel(individualType.getAddress()));
+        setAddress(Address.xmlToModel(individualType.getAddress()));
         Set<IndividualRole> roles = new HashSet<IndividualRole>();
         for (IndividualRoleType roleType : individualType.getRoleArray()) {
             IndividualRole role = new IndividualRole();
@@ -482,15 +482,15 @@ public class Individual implements Historizable, Serializable {
     /**
      * @hibernate.many-to-one
      *  class="fr.cg95.cvq.business.users.Address"
-     *  column="adress_id"
+     *  column="address_id"
      *  cascade="all"
      */
-    public Address getAdress() {
-        return this.adress;
+    public Address getAddress() {
+        return this.address;
     }
 
-    public void setAdress(Address adress) {
-        this.adress = adress;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     /**

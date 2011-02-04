@@ -21,14 +21,14 @@ public class School implements Serializable {
     private Long id;
 
     private String name;
-    private String adress;
+    private String address;
     private Boolean active;
 
 
     /** full constructor */
-    public School(String name, String adress) {
+    public School(String name, String address) {
         this.name = name;
-        this.adress = adress;
+        this.address = address;
     }
 
     /** default constructor */
@@ -79,14 +79,14 @@ public class School implements Serializable {
 
     /**
      * @hibernate.property
-     *  column="adress"
+     *  column="address"
      */
-    public String getAdress() {
-        return this.adress;
+    public String getAddress() {
+        return this.address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     /**

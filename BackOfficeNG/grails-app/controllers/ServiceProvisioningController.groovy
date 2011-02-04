@@ -172,7 +172,7 @@ class ServiceProvisioningController {
             render(text : "A school with this name already exists", status : 409)
             return false
         }
-        school.adress = params.address
+        school.address = params.address
         school.active = true
         if (school.id) schoolService.modify(school)
         else schoolService.create(school)
@@ -187,7 +187,7 @@ class ServiceProvisioningController {
             return false
         }
         school.name = params.name
-        school.adress = params.address
+        school.address = params.address
         schoolService.modify(school)
         render(status : 200)
         return false

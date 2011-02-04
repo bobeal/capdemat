@@ -413,7 +413,7 @@ public class HandicapCompensationAdultRequestServiceTest extends RequestTestCase
             
             
               
-                request.setDwellingSocialReceptionAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+                request.setDwellingSocialReceptionAddress(BusinessObjectsFactory.gimmeAddress("1", "Unit test address", "Paris", "75012"));
               
             
           
@@ -741,7 +741,7 @@ public class HandicapCompensationAdultRequestServiceTest extends RequestTestCase
             
             
               
-                request.setPaymentAgencyAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+                request.setPaymentAgencyAddress(BusinessObjectsFactory.gimmeAddress("1", "Unit test address", "Paris", "75012"));
               
             
           
@@ -766,7 +766,7 @@ public class HandicapCompensationAdultRequestServiceTest extends RequestTestCase
             
             
               
-                request.setSocialSecurityAgencyAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+                request.setSocialSecurityAgencyAddress(BusinessObjectsFactory.gimmeAddress("1", "Unit test address", "Paris", "75012"));
               
             
           
@@ -776,7 +776,7 @@ public class HandicapCompensationAdultRequestServiceTest extends RequestTestCase
             
             
               
-                request.setDwellingReceptionAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+                request.setDwellingReceptionAddress(BusinessObjectsFactory.gimmeAddress("1", "Unit test address", "Paris", "75012"));
               
             
           
@@ -796,7 +796,7 @@ public class HandicapCompensationAdultRequestServiceTest extends RequestTestCase
             
             
               
-                request.setProfessionalStatusAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+                request.setProfessionalStatusAddress(BusinessObjectsFactory.gimmeAddress("1", "Unit test address", "Paris", "75012"));
               
             
           
@@ -1027,7 +1027,7 @@ public class HandicapCompensationAdultRequestServiceTest extends RequestTestCase
             
             
               
-                request.setProfessionalSupportSocialServiceAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+                request.setProfessionalSupportSocialServiceAddress(BusinessObjectsFactory.gimmeAddress("1", "Unit test address", "Paris", "75012"));
               
             
           
@@ -1109,7 +1109,7 @@ public class HandicapCompensationAdultRequestServiceTest extends RequestTestCase
             
             
               
-                request.setStudiesHighSchoolAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+                request.setStudiesHighSchoolAddress(BusinessObjectsFactory.gimmeAddress("1", "Unit test address", "Paris", "75012"));
               
             
           
@@ -1208,10 +1208,10 @@ public class HandicapCompensationAdultRequestServiceTest extends RequestTestCase
         startTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         HandicapCompensationAdultRequest request = fillMeARequest();
-        Address address = BusinessObjectsFactory.gimmeAdress("12", "Rue d'Aligre", "Paris", "75012");
+        Address address = BusinessObjectsFactory.gimmeAddress("12", "Rue d'Aligre", "Paris", "75012");
         Adult requester = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "requester", address, FamilyStatusType.MARRIED);
         requester.setPassword("requester");
-        requester.setAdress(address);
+        requester.setAddress(address);
         homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         HandicapCompensationAdultRequestFeeder
             .setSubject(request, requestService.getSubjectPolicy(), requester, null);

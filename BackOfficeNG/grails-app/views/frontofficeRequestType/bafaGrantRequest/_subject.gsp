@@ -84,7 +84,7 @@
 
   
     <label class="required"><g:message code="bgr.property.subjectAddress.label" /> *  <span><g:message code="bgr.property.subjectAddress.help" /></span></label>
-            <div id="subjectAddress" class="address required autofill-subjectFilling-listener-Adress ${rqt.stepStates['subject'].invalidFields.contains('subjectAddress') ? 'validation-failed' : ''}">
+            <div id="subjectAddress" class="address required autofill-subjectFilling-listener-Address ${rqt.stepStates['subject'].invalidFields.contains('subjectAddress') ? 'validation-failed' : ''}">
             <label for="subjectAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['subject'].invalidFields.contains('subjectAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.subjectAddress?.additionalDeliveryInformation}" maxlength="38" id="subjectAddress.additionalDeliveryInformation" name="subjectAddress.additionalDeliveryInformation" />  
             <label for="subjectAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

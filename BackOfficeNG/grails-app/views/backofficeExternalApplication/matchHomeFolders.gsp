@@ -36,8 +36,8 @@
             <dd>
             <dd>
               ${message(code:'homeFolder.individual.property.address')}: 
-              ${adult.adress.streetNumber} <span ${homeFolder.address.indexOf(adult.adress.streetName) > 0 ? 'class="match"' : ''}>${adult.adress.streetName}</span>
-              ${adult.adress.postalCode} ${adult.adress.city}
+              ${adult.address.streetNumber} <span ${homeFolder.address.indexOf(adult.address.streetName) > 0 ? 'class="match"' : ''}>${adult.address.streetName}</span>
+              ${adult.address.postalCode} ${adult.address.city}
             </dd>
             <dd>
               <g:if test="${!mapping}">

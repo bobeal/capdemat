@@ -22,20 +22,20 @@
     </dd>
 
     <dt><g:message code="homeFolder.individual.property.address" /> : </dt>
-    <dd id="_requester.adress" class="action-editField validate-address required-true">
+    <dd id="_requester.address" class="action-editField validate-address required-true">
       <div class="address-fieldset">
-        <p class="additionalDeliveryInformation">${requester?.adress?.additionalDeliveryInformation}</p>
-        <p class="additionalGeographicalInformation">${requester?.adress?.additionalGeographicalInformation}</p>
+        <p class="additionalDeliveryInformation">${requester?.address?.additionalDeliveryInformation}</p>
+        <p class="additionalGeographicalInformation">${requester?.address?.additionalGeographicalInformation}</p>
         
-        <span class="streetNumber">${requester?.adress?.streetNumber}</span>
-        <span class="streetName">${requester?.adress?.streetName}</span>
+        <span class="streetNumber">${requester?.address?.streetNumber}</span>
+        <span class="streetName">${requester?.address?.streetName}</span>
         
-        <p class="placeNameOrService">${requester?.adress?.placeNameOrService}</p>
+        <p class="placeNameOrService">${requester?.address?.placeNameOrService}</p>
         
-        <span class="postalCode">${requester?.adress?.postalCode}</span>
-        <span class="city">${requester?.adress?.city}</span>
+        <span class="postalCode">${requester?.address?.postalCode}</span>
+        <span class="city">${requester?.address?.city}</span>
         
-        <p class="countryName">${requester?.adress?.countryName}</p>
+        <p class="countryName">${requester?.address?.countryName}</p>
       </div>
     </dd>
     

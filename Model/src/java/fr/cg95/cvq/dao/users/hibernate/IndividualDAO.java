@@ -56,11 +56,11 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
             "where first_name = :firstName and last_name = :lastName and (" +
             "  email = :email or home_phone = :phone or (" +
             (streetNumber != null ?
-                "((select street_number from address where id = i.adress_id) is null or (select street_number from address where id = i.adress_id) = :streetNumber) and "
+                "((select street_number from address where id = i.address_id) is null or (select street_number from address where id = i.address_id) = :streetNumber) and "
                     : "") +
-            "    (select street_name from address where id = i.adress_id) = :streetName" +
-            "    and (select postal_code from address where id = i.adress_id) = :postalCode" +
-            "    and (select city from address where id = i.adress_id) = :city" +
+            "    (select street_name from address where id = i.address_id) = :streetName" +
+            "    and (select postal_code from address where id = i.address_id) = :postalCode" +
+            "    and (select city from address where id = i.address_id) = :city" +
             "));");
         query.setString("firstName", firstName);
         query.setString("lastName", lastName);

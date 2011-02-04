@@ -160,10 +160,10 @@ public class HomeEmergencyRegistrationRequestServiceTest extends RequestTestCase
         startTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         HomeEmergencyRegistrationRequest request = fillMeARequest();
-        Address address = BusinessObjectsFactory.gimmeAdress("12", "Rue d'Aligre", "Paris", "75012");
+        Address address = BusinessObjectsFactory.gimmeAddress("12", "Rue d'Aligre", "Paris", "75012");
         Adult requester = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "requester", address, FamilyStatusType.MARRIED);
         requester.setPassword("requester");
-        requester.setAdress(address);
+        requester.setAddress(address);
         homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         HomeEmergencyRegistrationRequestFeeder
             .setSubject(request, requestService.getSubjectPolicy(), requester, null);

@@ -62,14 +62,14 @@ public class VoCardRequestServiceTest extends RequestTestCase {
                 MeansOfContactEnum.EMAIL);
         dcvo.setMeansOfContact(meansOfContact);
 
-        Address address = BusinessObjectsFactory.gimmeAdress("12","Rue d'Aligre", "Paris", "75012");
+        Address address = BusinessObjectsFactory.gimmeAddress("12","Rue d'Aligre", "Paris", "75012");
 
         Adult homeFolderResponsible = new Adult();
         homeFolderResponsible.setTitle(TitleType.MISTER);
         homeFolderResponsible.setLastName("LASTNAME");
         homeFolderResponsible.setFirstName("Vedad");
         homeFolderResponsible.setFamilyStatus(FamilyStatusType.MARRIED);
-        homeFolderResponsible.setAdress(address);
+        homeFolderResponsible.setAddress(address);
         homeFolderResponsible.setQuestion("Qui est magique ?");
         homeFolderResponsible.setAnswer("Paris !");
         homeFolderResponsible.setPassword("totopwd");
@@ -92,7 +92,7 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         mother.setLastName("LASTNAME");
         mother.setFirstName("Tania");
         mother.setFamilyStatus(FamilyStatusType.MARRIED);
-        mother.setAdress(address);
+        mother.setAddress(address);
         mother.setQuestion("Qui est magique ?");
         mother.setAnswer("Paris !");
         mother.setPassword("totopwd");
@@ -135,8 +135,8 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         Adult tutorNotInHomeFolder = 
             BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "TUTOR", "outside", null, 
                     FamilyStatusType.MARRIED);
-        Address tutorAddress = BusinessObjectsFactory.gimmeAdress("1","Rue de Cotte", "Paris", "75012");
-        tutorNotInHomeFolder.setAdress(tutorAddress);
+        Address tutorAddress = BusinessObjectsFactory.gimmeAddress("1","Rue de Cotte", "Paris", "75012");
+        tutorNotInHomeFolder.setAddress(tutorAddress);
         
         Child child2 = BusinessObjectsFactory.gimmeChild("LASTNAME", "Child2");
         List<Child> childSet = new ArrayList<Child>();
@@ -190,14 +190,14 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         assertEquals(homeFolderResponsibleFromDb.getId(), dcvoFromDb.getRequesterId());
         assertEquals(homeFolderResponsibleFromDb.getState(), ActorState.PENDING);
         
-        Address adresseFromDb = homeFolderResponsibleFromDb.getAdress();
-        assertNotNull("Associated object of class Adress not saved !", adresseFromDb);
+        Address adresseFromDb = homeFolderResponsibleFromDb.getAddress();
+        assertNotNull("Associated object of class Address not saved !", adresseFromDb);
         assertEquals(adresseFromDb.getCity(),"PARIS");
 
         homeFolder = homeFolderService.getById(dcvoFromDb.getHomeFolderId());
         assertNotNull(homeFolder.getId());
         assertEquals(homeFolder.getState(), ActorState.PENDING);
-        assertNotNull(homeFolder.getAdress());
+        assertNotNull(homeFolder.getAddress());
         assertEquals(homeFolder.getIndividuals().size(), 5);
         
         HomeFolder homeFolderOtherWay = homeFolderService.getById(dcvo.getHomeFolderId());

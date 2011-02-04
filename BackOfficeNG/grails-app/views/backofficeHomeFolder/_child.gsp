@@ -51,14 +51,14 @@
     <dl>
       <dt><g:message code="homeFolder.individual.property.address" /> : </dt>
       <dd>
-        <p>${child?.adress?.additionalDeliveryInformation}</p>
-        <p>${child?.adress?.additionalGeographicalInformation}</p>
-        <span>${child?.adress?.streetNumber}</span>
-        <span>${child?.adress?.streetName}</span>
-        <p>${child?.adress?.placeNameOrService}</p>
-        <span>${child?.adress?.postalCode}</span>
-        <span>${child?.adress?.city}</span>
-        <p>${child?.adress?.countryName}</p>
+        <p>${child?.address?.additionalDeliveryInformation}</p>
+        <p>${child?.address?.additionalGeographicalInformation}</p>
+        <span>${child?.address?.streetNumber}</span>
+        <span>${child?.address?.streetName}</span>
+        <p>${child?.address?.placeNameOrService}</p>
+        <span>${child?.address?.postalCode}</span>
+        <span>${child?.address?.city}</span>
+        <p>${child?.address?.countryName}</p>
       </dd>
     
       <dt><g:message code="homeFolder.child.property.legalResponsibles" /> : </dt>

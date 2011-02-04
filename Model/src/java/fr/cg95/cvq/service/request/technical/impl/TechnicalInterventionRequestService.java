@@ -25,7 +25,7 @@ public class TechnicalInterventionRequestService extends RequestService {
     public Request getSkeletonRequest() {
         TechnicalInterventionRequest request = new TechnicalInterventionRequest();
         if (SecurityContext.getCurrentEcitizen() != null) {
-            request.setInterventionPlace(SecurityContext.getCurrentEcitizen().getHomeFolder().getAdress().clone());
+            request.setInterventionPlace(SecurityContext.getCurrentEcitizen().getHomeFolder().getAddress().clone());
         }
         return request;
     }

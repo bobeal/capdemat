@@ -52,14 +52,14 @@
     <dl>
       <dt><g:message code="homeFolder.individual.property.address"/> :</dt>
       <dd>
-        <p>${adult?.adress?.additionalDeliveryInformation}</p>
-        <p>${adult?.adress?.additionalGeographicalInformation}</p>
-        <span>${adult?.adress?.streetNumber}</span>
-        <span>${adult?.adress?.streetName}</span>
-        <p>${adult?.adress?.placeNameOrService}</p>
-        <span>${adult?.adress?.postalCode}</span>
-        <span>${adult?.adress?.city}</span>
-        <p>${adult?.adress?.countryName}</p>
+        <p>${adult?.address?.additionalDeliveryInformation}</p>
+        <p>${adult?.address?.additionalGeographicalInformation}</p>
+        <span>${adult?.address?.streetNumber}</span>
+        <span>${adult?.address?.streetName}</span>
+        <p>${adult?.address?.placeNameOrService}</p>
+        <span>${adult?.address?.postalCode}</span>
+        <span>${adult?.address?.city}</span>
+        <p>${adult?.address?.countryName}</p>
       </dd>
 
       <dt><g:message code="homeFolder.adult.property.email"/> :</dt>

@@ -175,7 +175,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     @Override
     public void createAccountModificationRequest(HomeFolderModificationRequest hfmr,
             List<Adult> adults, List<Child> children, List<Adult> foreignRoleOwners,
-            Address adress, List<Document> documents, String note) throws CvqException {
+            Address address, List<Document> documents, String note) throws CvqException {
 
         // load home folder first to check for the existence of another
         // similar request in progress
@@ -189,7 +189,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         setAdministrativeInformation(hfmr);
         requestDAO.create(hfmr);
 
-        homeFolderService.modify(homeFolder.getId(), hfmr.getId(), adults, children, adress);
+        homeFolderService.modify(homeFolder.getId(), hfmr.getId(), adults, children, address);
         
         // in case of an home folder responsible change, the new one has normally been set
         // in the security context. Yes, this seems like a hack. And so it is.
@@ -253,9 +253,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             adults.add((Adult) individual);
         }
 
-        Address address = SecurityContext.getCurrentEcitizen().getAdress();
+        Address address = SecurityContext.getCurrentEcitizen().getAddress();
         if (SecurityContext.getCurrentEcitizen().getId().equals(individual.getId()))
-            address = individual.getAdress();
+            address = individual.getAddress();
 
         createAccountModificationRequest(
             (HomeFolderModificationRequest) getSkeletonRequest("Home Folder Modification"),

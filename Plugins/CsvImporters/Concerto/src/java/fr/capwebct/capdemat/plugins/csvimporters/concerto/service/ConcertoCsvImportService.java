@@ -147,7 +147,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                 }
 
                 // set home folder's address if not yet done
-                Address currentAddress = concertoLine.getHomeFolderResponsible().getAdress();
+                Address currentAddress = concertoLine.getHomeFolderResponsible().getAddress();
                 ConcertoDataTransfertObject cdto = 
                     getStackedHomeFolderByAddress(stackedHomeFolders, currentAddress);
                 if (cdto == null) {

@@ -137,7 +137,7 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
 
         if (adult != null) {
             MeansOfContact moc = getFromListByType(enableMocList, MeansOfContactEnum.MAIL);
-            if(adult.getAdress() != null &&  moc != null)
+            if(adult.getAddress() != null &&  moc != null)
                 individualEnableMocList.add(moc);
 
             moc = getFromListByType(enableMocList, MeansOfContactEnum.EMAIL);

@@ -48,7 +48,7 @@ public class BusinessObjectsFactory {
     public static School gimmeSchool(String name) {
         School school = new School();
         school.setName(name);
-        school.setAdress("Rue du centre");
+        school.setAddress("Rue du centre");
         school.setActive(true);
         return school;
     }
@@ -62,7 +62,7 @@ public class BusinessObjectsFactory {
     }
 
     public static Adult gimmeAdult(TitleType title, String lastName, String firstName,
-        Address adress, FamilyStatusType fs) {
+        Address address, FamilyStatusType fs) {
         Adult adult = new Adult();
         adult.setTitle(title);
         adult.setLastName(lastName);
@@ -78,8 +78,8 @@ public class BusinessObjectsFactory {
         adult.setCfbn("5050505E");
         adult.setProfession("Profession");
         adult.setSex(SexType.MALE);
-        if (adress != null)
-            adult.setAdress(adress);
+        if (address != null)
+            adult.setAddress(address);
         adult.setBirthCity("PARIS");
         adult.setBirthCountry("FRANCE");
         return adult;
@@ -100,7 +100,7 @@ public class BusinessObjectsFactory {
         return child;
     }
 
-    public static Address gimmeAdress(String streetNumber, String streetName, String city,
+    public static Address gimmeAddress(String streetNumber, String streetName, String city,
         String postalCode) {
         Address address = new Address();
         address.setAdditionalDeliveryInformation("Chez Zenxity");

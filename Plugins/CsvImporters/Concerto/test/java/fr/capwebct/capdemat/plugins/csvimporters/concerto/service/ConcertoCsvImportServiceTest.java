@@ -101,7 +101,7 @@ public class ConcertoCsvImportServiceTest extends RequestTestCase {
         assertEquals(homeFolderResponsible.getHomePhone(), "0606060606");
         assertEquals(homeFolderResponsible.getTitle().toString(), "Madam");
         
-        Address address = homeFolder.getAdress();
+        Address address = homeFolder.getAddress();
         assertEquals(address.getPostalCode(), "75012");
         assertEquals(address.getCity(), "PARIS");
         // TODO Better refactor this, to respect Address Normalisation

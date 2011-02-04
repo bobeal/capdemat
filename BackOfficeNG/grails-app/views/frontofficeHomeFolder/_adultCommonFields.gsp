@@ -37,31 +37,31 @@
     <fieldset>
     <legend><g:message code="homeFolder.individual.header.contactInformations" /></legend>
     <label class="required"><g:message code="homeFolder.individual.property.address" /></label>
-    <div class="address required ${invalidFields?.contains('adress') ? 'validation-failed' : ''}">
-      <label for="adress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
-      <input type="text" class="validate-addressLine38 ${invalidFields?.contains('adress.additionalDeliveryInformation') ? 'validation-failed' : ''}" maxlength="38" id="adress.additionalDeliveryInformation" name="adress.additionalDeliveryInformation"
-        value="${adult?.adress?.additionalDeliveryInformation}" />
-      <label for="adress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
-      <input type="text" class="validate-addressLine38 ${invalidFields?.contains('adress.additionalGeographicalInformation') ? 'validation-failed' : ''}" maxlength="38" id="adress.additionalGeographicalInformation" name="adress.additionalGeographicalInformation"
-        value="${adult?.adress?.additionalGeographicalInformation}" />
-      <label for="adress.streetNumber"><g:message code="address.property.streetNumber" /></label> -
-      <label for="adress.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
-      <input type="text" class="line1 validate-streetNumber ${invalidFields?.contains('adress.streetNumber') ? 'validation-failed' : ''}" size="5" maxlength="5" id="adress.streetNumber" name="adress.streetNumber"
-        value="${adult?.adress?.streetNumber}" />
-      <input type="text" class="line2 required validate-streetName ${invalidFields?.contains('adress.streetName') ? 'validation-failed' : ''}" maxlength="32" id="adress.streetName" name="adress.streetName" title="<g:message code="address.property.streetName.validationError" />"
-        value="${adult?.adress?.streetName}" />
-      <label for="adress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
-      <input type="text" class="validate-addressLine38 ${invalidFields?.contains('adress.placeNameOrService') ? 'validation-failed' : ''}" maxlength="38" id="adress.placeNameOrService" name="adress.placeNameOrService"
-        value="${adult?.adress?.placeNameOrService}" />
-      <label for="adress.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> -
-      <label for="adress.city" class="required"><g:message code="address.property.city" /> *</label><br />
-      <input type="text" class="line1 required validate-postalCode ${invalidFields?.contains('adress.postalCode') ? 'validation-failed' : ''}" size="5" maxlength="5" id="adress.postalCode" name="adress.postalCode" title="<g:message code="address.property.postalCode.validationError" />"
-        value="${adult?.adress?.postalCode}" />
-      <input type="text" class="line2 required validate-city ${invalidFields?.contains('adress.city') ? 'validation-failed' : ''}" maxlength="32" id="adress.city" name="adress.city" title="<g:message code="address.property.city.validationError" />"
-        value="${adult?.adress?.city}" />
-      <label for="adress.countryName"><g:message code="address.property.countryName" /></label>
-      <input type="text" class="validate-addressLine38 ${invalidFields?.contains('adress.countryName') ? 'validation-failed' : ''}" maxlength="38" id="adress.countryName" name="adress.countryName"
-        value="${adult?.adress?.countryName}" />
+    <div class="address required ${invalidFields?.contains('address') ? 'validation-failed' : ''}">
+      <label for="address.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
+      <input type="text" class="validate-addressLine38 ${invalidFields?.contains('address.additionalDeliveryInformation') ? 'validation-failed' : ''}" maxlength="38" id="address.additionalDeliveryInformation" name="address.additionalDeliveryInformation"
+        value="${adult?.address?.additionalDeliveryInformation}" />
+      <label for="address.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
+      <input type="text" class="validate-addressLine38 ${invalidFields?.contains('address.additionalGeographicalInformation') ? 'validation-failed' : ''}" maxlength="38" id="address.additionalGeographicalInformation" name="address.additionalGeographicalInformation"
+        value="${adult?.address?.additionalGeographicalInformation}" />
+      <label for="address.streetNumber"><g:message code="address.property.streetNumber" /></label> -
+      <label for="address.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
+      <input type="text" class="line1 validate-streetNumber ${invalidFields?.contains('address.streetNumber') ? 'validation-failed' : ''}" size="5" maxlength="5" id="address.streetNumber" name="address.streetNumber"
+        value="${adult?.address?.streetNumber}" />
+      <input type="text" class="line2 required validate-streetName ${invalidFields?.contains('address.streetName') ? 'validation-failed' : ''}" maxlength="32" id="address.streetName" name="address.streetName" title="<g:message code="address.property.streetName.validationError" />"
+        value="${adult?.address?.streetName}" />
+      <label for="address.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
+      <input type="text" class="validate-addressLine38 ${invalidFields?.contains('address.placeNameOrService') ? 'validation-failed' : ''}" maxlength="38" id="address.placeNameOrService" name="address.placeNameOrService"
+        value="${adult?.address?.placeNameOrService}" />
+      <label for="address.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> -
+      <label for="address.city" class="required"><g:message code="address.property.city" /> *</label><br />
+      <input type="text" class="line1 required validate-postalCode ${invalidFields?.contains('address.postalCode') ? 'validation-failed' : ''}" size="5" maxlength="5" id="address.postalCode" name="address.postalCode" title="<g:message code="address.property.postalCode.validationError" />"
+        value="${adult?.address?.postalCode}" />
+      <input type="text" class="line2 required validate-city ${invalidFields?.contains('address.city') ? 'validation-failed' : ''}" maxlength="32" id="address.city" name="address.city" title="<g:message code="address.property.city.validationError" />"
+        value="${adult?.address?.city}" />
+      <label for="address.countryName"><g:message code="address.property.countryName" /></label>
+      <input type="text" class="validate-addressLine38 ${invalidFields?.contains('address.countryName') ? 'validation-failed' : ''}" maxlength="38" id="address.countryName" name="address.countryName"
+        value="${adult?.address?.countryName}" />
     </div>
     <label for="email" class="required">
       <g:message code="homeFolder.adult.property.email" /> <span><g:message code="homeFolder.adult.property.email.help" /></span>

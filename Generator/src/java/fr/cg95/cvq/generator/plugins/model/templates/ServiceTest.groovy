@@ -75,7 +75,7 @@ public class ${request.requestName}ServiceTest extends RequestTestCase {
             <% def xmlSchemaType = fieldProperties.xmlSchemaType %>
             <% if (xmlSchemaType == "AddressType") { %>
               <% if (fieldProperties.isTiedToRequest()) { %>
-                request.set${field}(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+                request.set${field}(BusinessObjectsFactory.gimmeAddress("1", "Unit test address", "Paris", "75012"));
               <% } else { %>
                 request.set${field}(address);
               <% } %>
@@ -186,10 +186,10 @@ public class ${request.requestName}ServiceTest extends RequestTestCase {
         startTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         ${request.requestName} request = fillMeARequest();
-        Address address = BusinessObjectsFactory.gimmeAdress("12", "Rue d'Aligre", "Paris", "75012");
+        Address address = BusinessObjectsFactory.gimmeAddress("12", "Rue d'Aligre", "Paris", "75012");
         Adult requester = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "requester", address, FamilyStatusType.MARRIED);
         requester.setPassword("requester");
-        requester.setAdress(address);
+        requester.setAddress(address);
         homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         ${request.requestName}Feeder
             .setSubject(request, requestService.getSubjectPolicy(), requester, null);

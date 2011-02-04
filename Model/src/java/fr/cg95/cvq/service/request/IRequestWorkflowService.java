@@ -130,7 +130,7 @@ public interface IRequestWorkflowService {
     @Deprecated
     void createAccountModificationRequest(final HomeFolderModificationRequest hfmr,
             final List<Adult> adults, List<Child> children, List<Adult> foreignRoleOwners, 
-            final Address adress, List<Document> documents, String note)
+            final Address address, List<Document> documents, String note)
         throws CvqException;
 
     void createAccountModificationRequest(Individual individual) throws CvqException;

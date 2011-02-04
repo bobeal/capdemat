@@ -11,14 +11,14 @@
     <dt><g:message code="homeFolder.individual.property.address" /> : </dt>
     <dd>
       <div>
-        <p class="additionalDeliveryInformation">${it.adress?.additionalDeliveryInformation}</p>
-        <p class="additionalGeographicalInformation">${it.adress?.additionalGeographicalInformation}</p>
-        <span class="streetNumber">${it.adress?.streetNumber}</span>
-        <span class="streetName">${it.adress?.streetName}</span>
-        <p class="placeNameOrService">${it.adress?.placeNameOrService}</p>
-        <span class="postalCode">${it.adress?.postalCode}</span>
-        <span class="city">${it.adress?.city}</span>
-        <p class="countryName">${it.adress?.countryName}</p>
+        <p class="additionalDeliveryInformation">${it.address?.additionalDeliveryInformation}</p>
+        <p class="additionalGeographicalInformation">${it.address?.additionalGeographicalInformation}</p>
+        <span class="streetNumber">${it.address?.streetNumber}</span>
+        <span class="streetName">${it.address?.streetName}</span>
+        <p class="placeNameOrService">${it.address?.placeNameOrService}</p>
+        <span class="postalCode">${it.address?.postalCode}</span>
+        <span class="city">${it.address?.city}</span>
+        <p class="countryName">${it.address?.countryName}</p>
       </div>
     </dd>
 

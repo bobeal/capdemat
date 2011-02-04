@@ -94,7 +94,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         List<Adult> adults = new ArrayList<Adult>();
         adults.add(adult);
         
-        HomeFolder homeFolder = create(adults, null, adult.getAdress(), temporary);
+        HomeFolder homeFolder = create(adults, null, adult.getAddress(), temporary);
         // FIXME hack for CG77
         if (adult.getPassword() != null) {
             applicationContext.publishEvent(new UsersEvent(
@@ -115,7 +115,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         HomeFolder homeFolder = new HomeFolder();
         initializeCommonAttributes(homeFolder);
         homeFolder.setTemporary(temporary);
-        homeFolder.setAdress(address);
+        homeFolder.setAddress(address);
         homeFolderDAO.create(homeFolder);
         if (address != null) {
             genericDAO.create(address);
@@ -159,7 +159,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void modify(final Long homeFolderId, final Long keyId,
-            final List<Adult> newAdults, List<Child> newChildren, Address adress)
+            final List<Adult> newAdults, List<Child> newChildren, Address address)
         throws CvqException {
 
         // Merge new homeFolder object if reuired
@@ -178,8 +178,8 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
                 newChildren.set(i, mergeChild);
             }
         }
-        if (adress.getId() != null)
-            adress = (Address)HibernateUtil.getSession().merge(adress);
+        if (address.getId() != null)
+            address = (Address)HibernateUtil.getSession().merge(address);
         
         historyInterceptor.setCurrentRequest(keyId);
         historyInterceptor.setCurrentUser(SecurityContext.getCurrentUserLogin());
@@ -225,14 +225,14 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
             if (!containsIndividual(oldChildren, newChild)) {
                 logger.debug("modify() child added to home folder : " + newChild);
 
-                individualService.create(newChild, oldHomeFolder, adress, false);
+                individualService.create(newChild, oldHomeFolder, address, false);
                 oldChildren.add(newChild);
             }
         }
 
         // Child have the same address than the homeFolder responsible
         for (Child child : getChildren(homeFolderId)) {
-            child.setAdress(adress.clone());
+            child.setAddress(address.clone());
             individualService.modify(child);
         }
 
@@ -281,7 +281,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
 
             if (!containsIndividual(oldAdults, adult)) {
                 logger.debug("modify() adult added to home folder : " + adult);
-                individualService.create(adult, oldHomeFolder, adult.getAdress(), true);
+                individualService.create(adult, oldHomeFolder, adult.getAddress(), true);
             }
 
             // currently logged in user has been removed from the home folder

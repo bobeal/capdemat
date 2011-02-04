@@ -723,7 +723,7 @@ public class LocalAuthorityRegistry
                         .gimmeRecreationCenter("Centre de loisirs Louise Michel"));
                     SecurityContext.setCurrentSite(DEVELOPMENT_LOCAL_AUTHORITY,
                         SecurityContext.FRONT_OFFICE_CONTEXT);
-                    Address address = BusinessObjectsFactory.gimmeAdress(
+                    Address address = BusinessObjectsFactory.gimmeAddress(
                         "12", "Rue d'Aligre", "Paris", "75012");
                     Adult homeFolderResponsible =
                         BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "Dupont", "Jean",

@@ -331,7 +331,7 @@ class FrontofficeRequestController {
             individual = new Adult()
             // hack : WTF is an unknown title ?
             individual.title = null
-            individual.adress = SecurityContext.currentEcitizen.adress.clone()
+            individual.address = SecurityContext.currentEcitizen.address.clone()
         } else {
             individual = new Child()
             // hack : WTF is an unknown sex ?
@@ -377,7 +377,7 @@ class FrontofficeRequestController {
             }
             if (invalidFields.isEmpty()) {
                 if (rqt.stepStates.values().iterator().next().precedeByAccountCreation) {
-                    individualService.create(individual, SecurityContext.currentEcitizen.homeFolder, individual.adress, true)
+                    individualService.create(individual, SecurityContext.currentEcitizen.homeFolder, individual.address, true)
                 } else {
                     requestWorkflowService.createAccountModificationRequest(individual)
                 }

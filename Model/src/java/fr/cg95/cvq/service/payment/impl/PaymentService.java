@@ -453,7 +453,7 @@ public final class PaymentService implements IPaymentService,
         Adult requester = individualService.getAdultById(payment.getRequesterId());
         String mailSendTo = requester.getEmail();
         if (mailSendTo == null || mailSendTo.equals("")) {
-            logger.warn("notifyPaymentByMail() e-citizen has no email adress, returning");
+            logger.warn("notifyPaymentByMail() e-citizen has no email address, returning");
             return;
         }
         

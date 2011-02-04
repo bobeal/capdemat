@@ -55,7 +55,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
     protected IHistoryEntryDAO historyEntryDAO;
     
     // define some objects that will be reused throughout the different tests
-    private Address adress;
+    private Address address;
     private List<Adult> adults;
     private List<Child> children;
     private HomeFolder homeFolder;
@@ -124,7 +124,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         hfmr = new HomeFolderModificationRequest();
 
         // prepare objects for modifications
-        adress = homeFolder.getAdress();
+        address = homeFolder.getAddress();
         List<Individual> individuals = homeFolder.getIndividuals();
         adults = new ArrayList<Adult>();
         children = new ArrayList<Child>();
@@ -162,7 +162,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         continueWithNewTransaction();
 
         requestWorkflowService.createAccountModificationRequest(hfmr, copyAdults, copyChildren, 
-                foreignOwners, adress, null, null);
+                foreignOwners, address, null, null);
         assertEquals(copyAdults.size() + copyChildren.size(), 
                 homeFolder.getIndividuals().size());
 
@@ -193,10 +193,10 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         homeFolderUncle.setProfession("Entraineur du PSG");
         homeFolderUncle.setSex(SexType.FEMALE);
         homeFolderUncle.setBirthDate(new Date());
-        Address newAdress =
-            BusinessObjectsFactory.gimmeAdress("1","Rue du centre",
+        Address newAddress =
+            BusinessObjectsFactory.gimmeAddress("1","Rue du centre",
                     "Drancy", "93700");
-        homeFolderUncle.setAdress(newAdress);
+        homeFolderUncle.setAddress(newAddress);
 
         Adult testReloadedWoman = individualService.getAdultById(homeFolderWoman.getId());
         testReloadedWoman.setFirstName2("Angélique");
@@ -205,12 +205,12 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         newAdults.add(homeFolderResponsible);
         newAdults.add(testReloadedWoman);
 
-        // ... and on the adress
-        adress.setPostalCode("75013");
-        adress.setCity("Paris Ville Lumière");
+        // ... and on the address
+        address.setPostalCode("75013");
+        address.setCity("Paris Ville Lumière");
         
         requestWorkflowService.createAccountModificationRequest(hfmr, newAdults, children, 
-                null, adress, null, null);
+                null, address, null, null);
     }
 
     @Test
@@ -225,9 +225,9 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         HomeFolderModificationRequest hfmrFromDb =
             (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId(), false);
         homeFolder = homeFolderService.getById(hfmrFromDb.getHomeFolderId());
-        adress = homeFolder.getAdress();
-        assertEquals(adress.getPostalCode(), "75013");
-        assertEquals(adress.getCity(), "Paris Ville Lumière".toUpperCase());
+        address = homeFolder.getAddress();
+        assertEquals(address.getPostalCode(), "75013");
+        assertEquals(address.getCity(), "Paris Ville Lumière".toUpperCase());
         List<Individual> individuals = homeFolder.getIndividuals();
         for (Individual individual : individuals) {
             if (individual.getId().equals(homeFolderUncle.getId())) {
@@ -252,9 +252,9 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         hfmrFromDb =
             (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId(), false);
         homeFolder = homeFolderService.getById(hfmrFromDb.getHomeFolderId());
-        adress = homeFolder.getAdress();
-        assertEquals(adress.getPostalCode(), "75013");
-        assertEquals(adress.getCity(), "Paris Ville Lumière".toUpperCase());
+        address = homeFolder.getAddress();
+        assertEquals(address.getPostalCode(), "75013");
+        assertEquals(address.getCity(), "Paris Ville Lumière".toUpperCase());
     }
 
     @Test
@@ -277,9 +277,9 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         HomeFolderModificationRequest hfmrFromDb =
             (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId(), false);
         homeFolder = homeFolderService.getById(hfmrFromDb.getHomeFolderId());
-        adress = homeFolder.getAdress();
-        assertEquals(adress.getPostalCode(), "75012");
-        assertEquals(adress.getCity(), "Paris".toUpperCase());
+        address = homeFolder.getAddress();
+        assertEquals(address.getPostalCode(), "75012");
+        assertEquals(address.getCity(), "Paris".toUpperCase());
         List<Individual> individuals = homeFolder.getIndividuals();
         for (Individual individual : individuals) {
             if (individual.getId().equals(homeFolderUncle.getId())) {
@@ -309,7 +309,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         children.add(newChild);
 
         requestWorkflowService.createAccountModificationRequest(hfmr, adults, children, 
-                null, adress, null, null);
+                null, address, null, null);
     }
 
     @Test
@@ -401,7 +401,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         children.add(newChild);
 
         requestWorkflowService.createAccountModificationRequest(hfmr, adults, children, 
-                null, adress, null, null);
+                null, address, null, null);
     }
 
     @Test
@@ -495,7 +495,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         RoleType[] roles = {RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR };
         for (Child child : children) {
             assertNotSame(child.getFirstName(), "XXXX");
-            assertNotNull(child.getAdress());
+            assertNotNull(child.getAddress());
             assertEquals(child.getLastName(), "LASTNAME");
             if (child.getFirstName().equals("childone")) {
                 assertEquals(3, homeFolderService.getBySubjectRoles(child.getId(), roles).size());
@@ -514,16 +514,16 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
 
         adults.remove(homeFolderUncle);
 
-        Address newAdress = 
-            BusinessObjectsFactory.gimmeAdress("1","Rue des Ecoles", "Paris", "75005");
+        Address newAddress = 
+            BusinessObjectsFactory.gimmeAddress("1","Rue des Ecoles", "Paris", "75005");
         Adult newAdult = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER,"adult",
-                "new", newAdress, FamilyStatusType.SINGLE);
+                "new", newAddress, FamilyStatusType.SINGLE);
         newAdult.setPassword("toto");
 
         adults.add(newAdult);
 
         requestWorkflowService.createAccountModificationRequest(hfmr, adults, children, 
-                null, adress, null, null);
+                null, address, null, null);
     }
 
     @Test
@@ -558,15 +558,15 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
             // that's what we expected
         }
 
-        // check new adult and its specific adress are well stored
+        // check new adult and its specific address are well stored
         allAdults = homeFolderService.getAdults(homeFolder.getId());
         assertEquals(3, allAdults.size());
         boolean foundNewAdult = false;
         for (Adult tempAdult : allAdults) {
             if (tempAdult.getLastName().equals("adult")) {
                 foundNewAdult = true;
-                assertNotNull(tempAdult.getAdress());
-                assertEquals("75005", tempAdult.getAdress().getPostalCode());
+                assertNotNull(tempAdult.getAddress());
+                assertEquals("75005", tempAdult.getAddress().getPostalCode());
             }
         }
         if (!foundNewAdult)
@@ -614,7 +614,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
                 homeFolder.getId(), RoleType.HOME_FOLDER_RESPONSIBLE);
 
         requestWorkflowService.createAccountModificationRequest(hfmr, adults, children, 
-                null, adress, null, null);
+                null, address, null, null);
     }
 
     @Test
@@ -762,11 +762,11 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         List<Child> childSet = new ArrayList<Child>();
         childSet.add(child1);
         childSet.add(child2);
-        Address newAdress =
-            BusinessObjectsFactory.gimmeAdress("1","Rue du centre", "Drancy", "93700");
+        Address newAddress =
+            BusinessObjectsFactory.gimmeAddress("1","Rue du centre", "Drancy", "93700");
 
         requestWorkflowService.createAccountModificationRequest(hfmr, adultSet, childSet, 
-                null, newAdress, null, null);
+                null, newAddress, null, null);
 
         continueWithNewTransaction();
 

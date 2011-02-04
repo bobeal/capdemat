@@ -231,10 +231,10 @@ class BackofficeHomeFolderController {
                 'lastName' : indv.lastName,
                 'firstName' : indv.firstName,
                 'homeFolderId' : indv.homeFolder?.id,
-                'streetName' : indv.adress.streetName,
-                'streetNumber' : indv.adress.streetNumber,
-                'postalCode': indv.adress.postalCode,
-                'city' : indv.adress.city,
+                'streetName' : indv.address.streetName,
+                'streetNumber' : indv.address.streetNumber,
+                'postalCode': indv.address.postalCode,
+                'city' : indv.address.city,
                 'birthDate': indv instanceof Child ? indv.birthDate : null,
                 'birthCity': indv instanceof Child ? indv.birthCity : null
             ]

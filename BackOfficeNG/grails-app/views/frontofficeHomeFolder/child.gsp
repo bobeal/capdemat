@@ -76,19 +76,19 @@
             <dt><g:message code="homeFolder.individual.property.address" /> : </dt>
             <dd>
               <div>
-                <g:if test="${child.adress.additionalDeliveryInformation}">
-                  <p>${child.adress.additionalDeliveryInformation}</p>
+                <g:if test="${child.address.additionalDeliveryInformation}">
+                  <p>${child.address.additionalDeliveryInformation}</p>
                 </g:if>
-                <g:if test="${child.adress.additionalGeographicalInformation}">
-                  <p>${child.adress.additionalGeographicalInformation}</p>
+                <g:if test="${child.address.additionalGeographicalInformation}">
+                  <p>${child.address.additionalGeographicalInformation}</p>
                 </g:if>
-                <p>${child.adress.streetNumber} ${child.adress.streetName}</p>
-                <g:if test="${child.adress.placeNameOrService}">
-                  <p>${child.adress.placeNameOrService}</p>
+                <p>${child.address.streetNumber} ${child.address.streetName}</p>
+                <g:if test="${child.address.placeNameOrService}">
+                  <p>${child.address.placeNameOrService}</p>
                 </g:if>
-                <p>${child.adress.postalCode} ${child.adress.city}</p>
-                <g:if test="${child.adress.countryName}">
-                  <p>${child.adress.countryName}</p>
+                <p>${child.address.postalCode} ${child.address.city}</p>
+                <g:if test="${child.address.countryName}">
+                  <p>${child.address.countryName}</p>
                 </g:if>
               </div>
             </dd>

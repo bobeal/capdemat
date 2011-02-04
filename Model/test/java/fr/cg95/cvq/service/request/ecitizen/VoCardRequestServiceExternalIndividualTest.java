@@ -51,14 +51,14 @@ public class VoCardRequestServiceExternalIndividualTest extends RequestTestCase 
                 MeansOfContactEnum.EMAIL);
         dcvo.setMeansOfContact(meansOfContact);
 
-        Address address = BusinessObjectsFactory.gimmeAdress("12","Rue d'Aligre", "Paris", "75012");
+        Address address = BusinessObjectsFactory.gimmeAddress("12","Rue d'Aligre", "Paris", "75012");
 
         Adult homeFolderResponsible = new Adult();
         homeFolderResponsible.setTitle(TitleType.MISTER);
         homeFolderResponsible.setLastName("LASTNAME");
         homeFolderResponsible.setFirstName("Vedad");
         homeFolderResponsible.setFamilyStatus(FamilyStatusType.MARRIED);
-        homeFolderResponsible.setAdress(address);
+        homeFolderResponsible.setAddress(address);
         homeFolderResponsible.setQuestion("Qui est magique ?");
         homeFolderResponsible.setAnswer("Paris !");
         homeFolderResponsible.setPassword("totopwd");

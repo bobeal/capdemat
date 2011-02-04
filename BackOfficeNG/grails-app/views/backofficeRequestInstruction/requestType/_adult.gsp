@@ -73,20 +73,20 @@
   <div class="yui-u">
     <dl>
       <dt><g:message code="homeFolder.individual.property.address" /> : </dt>
-      <dd id="individuals[${index}].adress" class="${action}-editField validate-address required-true">
+      <dd id="individuals[${index}].address" class="${action}-editField validate-address required-true">
         <div>
-          <p class="additionalDeliveryInformation">${adult.adress.additionalDeliveryInformation}</p>
-          <p class="additionalGeographicalInformation">${adult.adress.additionalGeographicalInformation}</p>
+          <p class="additionalDeliveryInformation">${adult.address.additionalDeliveryInformation}</p>
+          <p class="additionalGeographicalInformation">${adult.address.additionalGeographicalInformation}</p>
           
-          <span class="streetNumber">${adult.adress.streetNumber}</span>
-          <span class="streetName">${adult.adress.streetName}</span>
+          <span class="streetNumber">${adult.address.streetNumber}</span>
+          <span class="streetName">${adult.address.streetName}</span>
           
-          <p class="placeNameOrService">${adult.adress.placeNameOrService}</p>
+          <p class="placeNameOrService">${adult.address.placeNameOrService}</p>
           
-          <span class="postalCode">${adult.adress.postalCode}</span>
-          <span class="city">${adult.adress.city}</span>
+          <span class="postalCode">${adult.address.postalCode}</span>
+          <span class="city">${adult.address.city}</span>
           
-          <p class="countryName">${adult.adress.countryName}</p>
+          <p class="countryName">${adult.address.countryName}</p>
         </div>
       </dd>
       

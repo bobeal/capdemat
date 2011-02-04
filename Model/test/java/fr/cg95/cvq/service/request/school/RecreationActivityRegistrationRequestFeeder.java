@@ -26,7 +26,7 @@ public class RecreationActivityRegistrationRequestFeeder {
         contactIndividual.setLastName("Doe");
         contactIndividual.setHomePhone("0404040404");
         contactIndividual.setOfficePhone("0404040404");
-        contactIndividual.setAddress(BusinessObjectsFactory.gimmeAdress("12", "Rue d'Aligre", "Paris", "75012"));
+        contactIndividual.setAddress(BusinessObjectsFactory.gimmeAddress("12", "Rue d'Aligre", "Paris", "75012"));
         List<RecreationContactIndividual> contactIndividuals = new ArrayList<RecreationContactIndividual>();
         contactIndividuals.add(contactIndividual);
         request.setContactIndividuals(contactIndividuals);
@@ -36,7 +36,7 @@ public class RecreationActivityRegistrationRequestFeeder {
         authorizedIndividual.setLastName("Doe");
         authorizedIndividual.setHomePhone("0404040404");
         authorizedIndividual.setOfficePhone("0404040404");
-        authorizedIndividual.setAddress(BusinessObjectsFactory.gimmeAdress("12", "Rue d'Aligre", "Paris", "75012"));
+        authorizedIndividual.setAddress(BusinessObjectsFactory.gimmeAddress("12", "Rue d'Aligre", "Paris", "75012"));
         List<RecreationAuthorizedIndividual> authorizedIndividuals = new ArrayList<RecreationAuthorizedIndividual>();
         authorizedIndividuals.add(authorizedIndividual);
         request.setAuthorizedIndividuals(authorizedIndividuals);

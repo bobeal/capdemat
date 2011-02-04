@@ -145,7 +145,7 @@ public class RequestTestCase extends ServiceTestCase {
 
         VoCardRequest request = new VoCardRequest();
 
-        address = BusinessObjectsFactory.gimmeAdress("12","Rue d'Aligre", "Paris", "75012");
+        address = BusinessObjectsFactory.gimmeAddress("12","Rue d'Aligre", "Paris", "75012");
 
         homeFolderResponsible =
             BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "responsible", address,

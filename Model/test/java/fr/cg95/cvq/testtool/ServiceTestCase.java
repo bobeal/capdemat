@@ -256,10 +256,10 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
-        address = BusinessObjectsFactory.gimmeAdress("12","Rue d'Aligre", "Paris", "75012");
+        address = BusinessObjectsFactory.gimmeAddress("12","Rue d'Aligre", "Paris", "75012");
         homeFolderResponsible = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "lastName", 
                 "firstName", address, FamilyStatusType.SINGLE);
-        homeFolderResponsible.setAdress(address);
+        homeFolderResponsible.setAddress(address);
         homeFolderService.addHomeFolderRole(homeFolderResponsible, RoleType.HOME_FOLDER_RESPONSIBLE);
         
         HomeFolder homeFolder = homeFolderService.create(homeFolderResponsible, false);
@@ -288,7 +288,7 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
-        address = BusinessObjectsFactory.gimmeAdress("12","Rue d'Aligre", "Paris", "75012");
+        address = BusinessObjectsFactory.gimmeAddress("12","Rue d'Aligre", "Paris", "75012");
         
         homeFolderResponsible = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "lastName", 
                 "firstName", address, FamilyStatusType.SINGLE);

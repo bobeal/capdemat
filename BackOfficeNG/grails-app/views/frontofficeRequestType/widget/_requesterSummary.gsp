@@ -13,12 +13,12 @@
 
   <dt><g:message code="homeFolder.individual.property.address" /></dt>
   <dd>
-    <p>${requester?.adress?.additionalDeliveryInformation}</p>
-    <p>${requester?.adress?.additionalGeographicalInformation}</p>
-    <p>${requester?.adress?.streetNumber} ${requester?.adress?.streetName}</p>
-    <p>${requester?.adress?.placeNameOrService}</p>
-    <p>${requester?.adress?.postalCode} ${requester?.adress?.city}</p>
-    <p>${requester?.adress?.countryName}</p>
+    <p>${requester?.address?.additionalDeliveryInformation}</p>
+    <p>${requester?.address?.additionalGeographicalInformation}</p>
+    <p>${requester?.address?.streetNumber} ${requester?.address?.streetName}</p>
+    <p>${requester?.address?.placeNameOrService}</p>
+    <p>${requester?.address?.postalCode} ${requester?.address?.city}</p>
+    <p>${requester?.address?.countryName}</p>
   </dd>
 
   <dt><g:message code="homeFolder.adult.property.email" /></dt>

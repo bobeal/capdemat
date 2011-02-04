@@ -36,7 +36,7 @@ Document, DocumentBinary et DocumentAction : DocumentPolicy
 	  * en écriture : profil WRITE sur un service du site ou individu du
 	  même foyer que la pièce jointe
 
-Adress, HomeFolder, Individual, Child, Adult, Card (TODO) :
+Address, HomeFolder, Individual, Child, Adult, Card (TODO) :
 	  * à définir : demande particulière donc service particulier ? ou idem
 	  que pour les documents ?
 

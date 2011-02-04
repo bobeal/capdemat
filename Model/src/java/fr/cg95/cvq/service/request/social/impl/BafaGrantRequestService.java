@@ -35,7 +35,7 @@ public class BafaGrantRequestService extends RequestService {
     public void onRequestValidated(Request request) throws CvqException {
         BafaGrantRequest bgr = (BafaGrantRequest) request;
         Individual subject = (Individual) genericDAO.findById(Individual.class, bgr.getSubjectId());
-        subject.setAdress(bgr.getSubjectAddress());
+        subject.setAddress(bgr.getSubjectAddress());
         subject.setBirthCity(bgr.getSubjectBirthCity());
         subject.setBirthDate(bgr.getSubjectBirthDate());
         if (subject instanceof Adult) {

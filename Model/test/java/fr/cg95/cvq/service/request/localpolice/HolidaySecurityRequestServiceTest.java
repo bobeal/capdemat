@@ -66,7 +66,7 @@ public class HolidaySecurityRequestServiceTest extends RequestTestCase {
             
             
               
-                request.setOtherContactAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+                request.setOtherContactAddress(BusinessObjectsFactory.gimmeAddress("1", "Unit test address", "Paris", "75012"));
               
             
           
@@ -215,10 +215,10 @@ public class HolidaySecurityRequestServiceTest extends RequestTestCase {
         startTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         HolidaySecurityRequest request = fillMeARequest();
-        Address address = BusinessObjectsFactory.gimmeAdress("12", "Rue d'Aligre", "Paris", "75012");
+        Address address = BusinessObjectsFactory.gimmeAddress("12", "Rue d'Aligre", "Paris", "75012");
         Adult requester = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "requester", address, FamilyStatusType.MARRIED);
         requester.setPassword("requester");
-        requester.setAdress(address);
+        requester.setAddress(address);
         homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         HolidaySecurityRequestFeeder
             .setSubject(request, requestService.getSubjectPolicy(), requester, null);

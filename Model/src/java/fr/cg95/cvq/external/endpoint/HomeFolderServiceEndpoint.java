@@ -52,7 +52,7 @@ public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoin
             }
             HomeFolderType homeFolderType = response.addNewHomeFolder();
             homeFolderType.setId(homeFolder.getId());
-            Address address = homeFolder.getAdress();
+            Address address = homeFolder.getAddress();
             homeFolderType.setAddress(address.getStreetNumber() + " " + address.getStreetName());
             for (Object object : homeFolder.getIndividuals()) {
                 Individual individual = (Individual) object;

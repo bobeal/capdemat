@@ -43,7 +43,7 @@ public interface IHomeFolderService {
         throws CvqException;
     
     void modify(@IsHomeFolder final Long homeFolderId, final Long keyId,
-            final List<Adult> newAdults, List<Child> newChildren, Address adress)
+            final List<Adult> newAdults, List<Child> newChildren, Address address)
         throws CvqException;
 
     void delete(@IsHomeFolder HomeFolder homeFolder)

@@ -247,7 +247,7 @@ class BackofficeContactController {
             requester =
                 homeFolderService.getHomeFolderResponsible(rqt.homeFolderId)
 
-        def address = requester.getHomeFolder().getAdress()
+        def address = requester.getHomeFolder().getAddress()
         def subjectObject = null
         if (rqt.subjectId) {
             subjectObject = individualService.getById(rqt.subjectId)

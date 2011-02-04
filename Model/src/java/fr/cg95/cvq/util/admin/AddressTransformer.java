@@ -28,7 +28,7 @@ public class AddressTransformer {
     public AddressTransformer() {
     }
     
-    /* Split StreetName (ax Adress) field into StreetNumber 
+    /* Split StreetName (ax Address) field into StreetNumber 
      * and StreetName.
      */
     private String[] splitAddressStreetName(String streetInfo){

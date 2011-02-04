@@ -231,10 +231,10 @@
         drop constraint FKED34C597E2AF3D30;
 
     alter table home_folder 
-        drop constraint FKDB87BBCE6AB1E860;
+        drop constraint FKDB87BBCEB7531222;
 
     alter table individual 
-        drop constraint FKFD3DA2996AB1E860;
+        drop constraint FKFD3DA299B7531222;
 
     alter table individual 
         drop constraint FKFD3DA2998BD77771;
@@ -1704,7 +1704,7 @@
     create table home_folder (
         id int8 not null,
         state varchar(16) not null,
-        adress_id int8,
+        address_id int8,
         enabled bool,
         is_temporary bool,
         family_quotient varchar(255),
@@ -1742,7 +1742,7 @@
         sex varchar(8),
         creation_date timestamp,
         state varchar(16) not null,
-        adress_id int8,
+        address_id int8,
         home_folder_id int8,
         home_folder_index int4,
         primary key (id)
@@ -2228,7 +2228,7 @@
     create table school (
         id int8 not null,
         name varchar(255),
-        adress varchar(255),
+        address varchar(255),
         active bool,
         primary key (id)
     );
@@ -2848,13 +2848,13 @@
         references address;
 
     alter table home_folder 
-        add constraint FKDB87BBCE6AB1E860 
-        foreign key (adress_id) 
+        add constraint FKDB87BBCEB7531222 
+        foreign key (address_id) 
         references address;
 
     alter table individual 
-        add constraint FKFD3DA2996AB1E860 
-        foreign key (adress_id) 
+        add constraint FKFD3DA299B7531222 
+        foreign key (address_id) 
         references address;
 
     alter table individual 

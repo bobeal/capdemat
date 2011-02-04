@@ -283,7 +283,7 @@ public class HoranetServiceTest extends RequestTestCase {
         /////////////////////////////////////////////
 
         HomeFolderModificationRequest hfmr = new HomeFolderModificationRequest();
-        Address address = homeFolder.getAdress();
+        Address address = homeFolder.getAddress();
         address.setStreetName("Ma nouvelle adresse");
         requestWorkflowService.createAccountModificationRequest(hfmr, 
                 homeFolderService.getAdults(homeFolder.getId()), 

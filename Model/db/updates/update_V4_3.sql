@@ -14,7 +14,7 @@ alter table external_service_individual_mapping drop constraint FK5BC5D7E648C976
 alter table external_service_identifier_mapping rename to home_folder_mapping;
 alter table external_service_individual_mapping rename to individual_mapping;
 
-alter table individual_mapping add constraint FK19DDB92881C62393 foreign key (home_folder_mapping_id);
+alter table individual_mapping add constraint FK19DDB92881C62393 foreign key (home_folder_mapping_id) references home_folder_mapping;
 alter table individual_mapping rename column mapping_id to home_folder_mapping_id;
 alter table individual_mapping add column home_folder_mapping_index int8;
 alter table individual_mapping add column id int8 not null;

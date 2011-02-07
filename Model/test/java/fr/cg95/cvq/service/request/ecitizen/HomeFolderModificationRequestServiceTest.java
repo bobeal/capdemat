@@ -191,7 +191,6 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         homeFolderUncle.setFirstName("Yarglaa");
         homeFolderUncle.setFirstName3("Groumph");
         homeFolderUncle.setProfession("Entraineur du PSG");
-        homeFolderUncle.setSex(SexType.FEMALE);
         homeFolderUncle.setBirthDate(new Date());
         Address newAddress =
             BusinessObjectsFactory.gimmeAddress("1","Rue du centre",
@@ -714,11 +713,9 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         School school = schools.get(0);
 
         // fill the child with the most we can
-        child1.setNote("Coucou, je suis l'enfant child1");
         child1.setBirthPostalCode("93240");
         child1.setBirthCity("Livry-Gargan");
         child1.setSex(SexType.MALE);
-        child1.setBadgeNumber("XXX111GGG");
 
         SchoolRegistrationRequest srr = new SchoolRegistrationRequest();
         srr.setCurrentSchoolName("Ecolde des Yarglas");

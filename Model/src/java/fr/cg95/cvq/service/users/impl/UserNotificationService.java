@@ -35,14 +35,15 @@ public class UserNotificationService implements ApplicationListener<UsersEvent> 
     private void notifyLogin(Individual individual)
         throws CvqException {
         if (individual instanceof Adult) {
+            Adult adult = (Adult)individual;
             mailService.send(
                 SecurityContext.getCurrentSite().getAdminEmail(),
-                ((Adult)individual).getEmail(),
+                adult.getEmail(),
                 null,
                 translationService.translate("homeFolder.adult.notification.loginAssigned.subject",
                     new Object[]{SecurityContext.getCurrentSite().getDisplayTitle()}),
                 translationService.translate("homeFolder.adult.notification.loginAssigned.body",
-                    new Object[]{SecurityContext.getCurrentSite().getDisplayTitle(), individual.getLogin()})
+                    new Object[]{SecurityContext.getCurrentSite().getDisplayTitle(), adult.getLogin()})
             );
         }
     }

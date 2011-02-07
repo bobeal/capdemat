@@ -73,11 +73,9 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
         int i = 0;
         for (Individual individual : individuals) {
             if (individual instanceof Adult) {
-                Adult adult = (Adult) individual;
-                individualsArray[i] = Adult.modelToXml(adult);
+                individualsArray[i] = ((Adult)individual).modelToXml();
             } else if (individual instanceof Child) {
-                Child child = (Child) individual;
-                individualsArray[i] = Child.modelToXml(child);
+                individualsArray[i] = ((Child)individual).modelToXml();
             }
             i++;
         }

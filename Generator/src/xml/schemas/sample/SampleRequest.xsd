@@ -120,19 +120,6 @@
             </xs:appinfo>
           </xs:annotation>
         </xs:element>
-        <!-- FIXME : this currently is at child level ... move in scr ? -->
-        <xs:element name="BadgeNumber" type="xs:string" minOccurs="0" maxOccurs="1">
-          <xs:annotation>
-            <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Numéro de badge</xs:documentation>
-            <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Badge number</xs:documentation>
-            <xs:appinfo>
-              <model>
-                <search key="badgeNumber" uniqueResult="false"/>
-                <search multi="badgeNumber"/>
-              </model>
-            </xs:appinfo>
-          </xs:annotation>
-        </xs:element>
         <xs:element name="EnumTest">
           <xs:simpleType>
             <xs:restriction base="xs:string">

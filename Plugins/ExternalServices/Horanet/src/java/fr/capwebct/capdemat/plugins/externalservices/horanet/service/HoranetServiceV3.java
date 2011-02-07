@@ -193,8 +193,6 @@ public class HoranetServiceV3 implements IExternalProviderService {
             Child subject = individualService.getChildById(subjectId);
             if (subject != null) {
                 childId = subjectId.toString();
-                childBadgeNumber = 
-                    (subject.getBadgeNumber() == null ? "" : subject.getBadgeNumber());
             }
             call.invoke(new Object[] {
                     SecurityContext.getCurrentSite().getPostalCode(),
@@ -516,12 +514,7 @@ public class HoranetServiceV3 implements IExternalProviderService {
                     child = individualService.getChildById(new Long(childId));
                 } catch (CvqObjectNotFoundException confe) {
                     logger.error("getHomeFolderAccounts() could not find child with id : " + childId);
-                    // does it worth trying with the child card ?
-                    child = individualService.getChildByBadgeNumber(card);
-                    if (child == null) {
-                        logger.error("getHomeFolderAccounts() could not find child with card : " + card);
-                        continue;
-                    }
+                    continue;
                 }
 
                 NodeList contractsNodes = node.getChildNodes();
@@ -597,13 +590,7 @@ public class HoranetServiceV3 implements IExternalProviderService {
                 } catch (CvqObjectNotFoundException confe) {
                     logger.error("getIndividualAccountsInformation() could not find child : " 
                             + childId);
-                    // does it worth trying with the child card ?
-                    child = individualService.getChildByBadgeNumber(card);
-                    if (child == null) {
-                        logger.error("getIndividualAccountsInformation() could not find child with card : " 
-                                + card);
-                        continue;
-                    }
+                    continue;
                 }
 
                 Map<String, String> individualData = new HashMap<String, String>();

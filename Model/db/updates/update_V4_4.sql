@@ -74,3 +74,27 @@ select * from migrate_request_external_action_subkeys();
 drop function migrate_request_external_action_subkeys();
 
 alter table request_external_action drop column subkey;
+
+alter table child drop column note;
+alter table child drop column badge_number;
+alter table individual drop column version;
+alter table individual drop column public_key;
+alter table adult add column login varchar(255) unique;
+alter table child add column sex varchar(8);
+
+create or replace function migrate_individual_model() returns void as $$
+  declare
+    r record;
+  begin
+    for r in select * from individual loop
+      update adult a set login = r.login where a.id = r.id;
+      update child c set sex = r.sex where c.id = r.id;
+    end loop;
+  end;
+$$ LANGUAGE plpgsql;
+
+select * from migrate_individual_model();
+drop function migrate_individual_model();
+
+alter table individual drop column login;
+alter table individual drop column sex;

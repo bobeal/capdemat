@@ -705,6 +705,7 @@
         profession varchar(255),
         question varchar(255),
         answer varchar(255),
+        login varchar(255) unique,
         password varchar(255),
         primary key (id)
     );
@@ -835,9 +836,8 @@
 
     create table child (
         id int8 not null,
-        note varchar(255),
-        badge_number varchar(255),
         born bool,
+        sex varchar(8),
         primary key (id)
     );
 
@@ -1732,9 +1732,6 @@
 
     create table individual (
         id int8 not null,
-        version int4 not null,
-        login varchar(255) unique,
-        public_key varchar(50) unique,
         federation_key varchar(64) unique,
         last_name varchar(38),
         first_name varchar(38),
@@ -1744,7 +1741,6 @@
         birth_country varchar(255),
         birth_city varchar(32),
         birth_postal_code varchar(5),
-        sex varchar(8),
         creation_date timestamp,
         state varchar(16) not null,
         address_id int8,

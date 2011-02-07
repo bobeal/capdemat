@@ -524,12 +524,7 @@ public class HoranetService implements IExternalProviderService, BeanFactoryAwar
                     child = individualService.getChildById(new Long(childId));
                 } catch (CvqObjectNotFoundException confe) {
                     logger.error("getHomeFolderAccounts() could not find child with id : " + childId);
-                    // does it worth trying with the child card ?
-                    child = individualService.getChildByBadgeNumber(card);
-                    if (child == null) {
-                        logger.error("getHomeFolderAccounts() could not find child with card : " + card);
-                        continue;
-                    }
+                    continue;
                 }
 
                 NodeList contractsNodes = node.getChildNodes();

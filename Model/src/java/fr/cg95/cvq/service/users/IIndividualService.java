@@ -49,16 +49,7 @@ public interface IIndividualService extends IAutofillTriggerService {
     
     Child getChildById(final Long id)
         throws CvqObjectNotFoundException;
-    
-    /**
-     * Get a child by its badge number.
-     *
-     * @deprecated badge number is not an information managed by CapDemat
-     *                         (kept for compatibility with Horanet)
-     */
-    Child getChildByBadgeNumber(final String badgeNumber)
-        throws CvqException;
-    
+
     Individual getByLogin(final String login)
         throws CvqException;
 
@@ -78,14 +69,14 @@ public interface IIndividualService extends IAutofillTriggerService {
         throws CvqException;
 
     /**
-     * Generate and assign a login to the given individual.
+     * Generate and assign a login to the given adult.
      * 
      * The generated login is of the form "firstName.lastNameXX" where XX is a generated number
      * if the login "firstName.lastName" is already used.
      * 
      * @return the generated login.
      */
-    String assignLogin(Individual individual)
+    String assignLogin(Adult adult)
         throws CvqException;
 
     void updateIndividualState(Individual individual, ActorState newState) throws CvqException;

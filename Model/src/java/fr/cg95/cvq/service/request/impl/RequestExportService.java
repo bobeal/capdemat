@@ -48,9 +48,9 @@ public class RequestExportService implements IRequestExportService {
             Individual individual = individualService.getById(request.getSubjectId());
             SubjectType subject = xmlRequestType.addNewSubject();
             if (individual instanceof Adult) {
-                subject.setAdult(Adult.modelToXml((Adult)individual));
+                subject.setAdult(((Adult)individual).modelToXml());
             } else if (individual instanceof Child) {
-                subject.setChild(Child.modelToXml((Child)individual));
+                subject.setChild(((Child)individual).modelToXml());
             }
         }
         if (request.getHomeFolderId() != null) {
@@ -64,10 +64,10 @@ public class RequestExportService implements IRequestExportService {
                 for (Individual externalIndividual : externalIndividuals) {
                     if (externalIndividual instanceof Adult) {
                         Adult adult = (Adult) externalIndividual;
-                        individualsArray[i] = Adult.modelToXml(adult);
+                        individualsArray[i] = adult.modelToXml();
                     } else if (externalIndividual instanceof Child) {
                         Child child = (Child) externalIndividual;
-                        individualsArray[i] = Child.modelToXml(child);
+                        individualsArray[i] = child.modelToXml();
                     }
                     i++;
                 }
@@ -75,7 +75,7 @@ public class RequestExportService implements IRequestExportService {
             }
         }
         if (request.getRequesterId() != null) {
-            xmlRequestType.addNewRequester().set(Adult.modelToXml(individualService.getAdultById(request.getRequesterId())));
+            xmlRequestType.addNewRequester().set(individualService.getAdultById(request.getRequesterId()).modelToXml());
         }
         return result;
     }

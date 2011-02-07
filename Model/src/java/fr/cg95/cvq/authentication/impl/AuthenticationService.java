@@ -102,8 +102,7 @@ public class AuthenticationService implements IAuthenticationService {
             throw new CvqUnknownUserException();
         HomeFolder homeFolder = individual.getHomeFolder();
         if (homeFolder == null)
-            throw new CvqModelException("No home folder bound to individual " 
-                    + individual.getLogin());
+            throw new CvqModelException("No home folder bound to individual " + individual.getId());
         
         if (!(individual instanceof Adult))
             throw new CvqModelException("Children can't authenticate");

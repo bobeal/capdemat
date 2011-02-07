@@ -1801,7 +1801,7 @@
       </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="IndividualType">
+  <xs:complexType name="IndividualType" abstract="true">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
         Information caractérisant un individu
@@ -1814,8 +1814,6 @@
       <xs:element name="Id" type="xs:long" />
       <xs:element name="ExternalCapdematId" type="xs:string" minOccurs="0" />
       <xs:element name="ExternalId" type="xs:string" minOccurs="0" />
-      <xs:element name="Login" type="xs:string" minOccurs="0" />
-      <xs:element name="PublicKey" type="xs:string" minOccurs="0" />
       <xs:element name="LastName" type="cvq:LastNameType" />
       <xs:element name="FirstName" type="cvq:FirstNameType" />
       <xs:element name="FirstName2" type="cvq:FirstNameType" minOccurs="0" />
@@ -1831,7 +1829,6 @@
         </xs:annotation>
       </xs:element>
       <xs:element name="BirthPlace" type="cvq:BirthPlaceType" minOccurs="0" />
-      <xs:element name="Sex" type="cvq:SexType" minOccurs="0" />
       <xs:element name="Address" type="cvq:AddressType" />
       <xs:element name="CreationDate" type="xs:date" minOccurs="0" />
       <xs:element name="State" type="cvq:ActorStateType" />
@@ -1906,6 +1903,7 @@
           <xs:element name="Email" type="cvq:EmailType" />
           <xs:element name="Cfbn" type="cvq:CfbnType" minOccurs="0" />
           <xs:element name="Profession" type="xs:string" minOccurs="0" />
+          <xs:element name="Login" type="xs:string" minOccurs="0" />
           <!-- FIXME : do the three following elements have to appear in schema ? -->
           <xs:element name="Question" type="xs:string" minOccurs="0" />
           <xs:element name="Answer" type="xs:string" minOccurs="0" />
@@ -1927,7 +1925,8 @@
     <xs:complexContent>
       <xs:extension base="cvq:IndividualType">
         <xs:sequence>
-          <xs:element name="Note" type="xs:string" minOccurs="0" />
+          <xs:element name="Born" type="xs:boolean" />
+          <xs:element name="Sex" type="cvq:SexType" minOccurs="0" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

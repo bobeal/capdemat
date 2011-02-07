@@ -10,11 +10,6 @@ import fr.cg95.cvq.business.users.Child;
 public interface IChildDAO extends IIndividualDAO {
 
     /**
-     * Look up a child by badge number.
-     */
-    Child findByBadgeNumber(String badgeNumber);	
-
-    /**
      * Return the list of {@link Child children} belonging to a given home folder.
      */
     List<Child> listChildrenByHomeFolder(final Long homeFolderId);

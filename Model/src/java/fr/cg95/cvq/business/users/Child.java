@@ -1,10 +1,8 @@
 package fr.cg95.cvq.business.users;
 
-import java.io.Serializable;
-
+import net.sf.oval.constraint.NotNull;
 import fr.cg95.cvq.service.users.HasLegalResponsibles;
 import fr.cg95.cvq.xml.common.ChildType;
-
 
 /**
  * @hibernate.joined-subclass
@@ -16,61 +14,32 @@ import fr.cg95.cvq.xml.common.ChildType;
  * @author bor@zenexity.fr
  */
 @HasLegalResponsibles
-public class Child extends Individual
-    implements fr.cg95.cvq.business.Historizable,Serializable {
+public class Child extends Individual {
 
-	private static final long serialVersionUID = 1L;
-
-	private String note;
-    private String badgeNumber;
-    private boolean born = true;
-
-    /** default constructor */
-    public Child() {
-    }
-
-    public static ChildType modelToXml(Child child) {
-
-        ChildType childType = ChildType.Factory.newInstance();
-        child.fillCommonXmlInfo(childType);
-
-        childType.setNote(child.getNote());
-
-        return childType;
-    }
+    private static final long serialVersionUID = 1L;
 
     public static Child xmlToModel(ChildType childType) {
-
+        if (childType == null) return null;
         Child child = new Child();
         child.fillCommonModelInfo(childType);
-
-        child.setNote(childType.getNote());
-
+        child.setBorn(childType.getBorn());
+        if (childType.getSex() != null)
+            child.setSex(SexType.forString(childType.getSex().toString()));
         return child;
     }
 
-    /**
-     * @hibernate.property
-     *  column="note"
-     */
-    public String getNote() {
-        return this.note;
-    }
+    private boolean born = true;
 
-    public void setNote(String note) {
-        this.note = note;
-    }
+    @NotNull(message = "sex", when = "groovy:_this.born")
+    private SexType sex;
 
-    /**
-     * @hibernate.property
-     *  column="badge_number"
-     */
-    public String getBadgeNumber() {
-        return this.badgeNumber;
-    }
-
-    public void setBadgeNumber(String badgeNumber) {
-        this.badgeNumber = badgeNumber;
+    public ChildType modelToXml() {
+        ChildType childType = ChildType.Factory.newInstance();
+        fillCommonXmlInfo(childType);
+        childType.setBorn(born);
+        if (sex != null)
+            childType.setSex(fr.cg95.cvq.xml.common.SexType.Enum.forString(sex.toString()));
+        return childType;
     }
 
     /**
@@ -83,5 +52,18 @@ public class Child extends Individual
 
     public void setBorn(boolean born) {
         this.born = born;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="sex"
+     *  length="8"
+     */
+    public SexType getSex() {
+        return this.sex;
+    }
+
+    public void setSex(SexType sex) {
+        this.sex = sex;
     }
 }

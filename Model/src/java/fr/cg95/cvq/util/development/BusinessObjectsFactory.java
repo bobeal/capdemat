@@ -77,7 +77,6 @@ public class BusinessObjectsFactory {
         adult.setEmail("capdemat-dev@zenexity.fr");
         adult.setCfbn("5050505E");
         adult.setProfession("Profession");
-        adult.setSex(SexType.MALE);
         if (address != null)
             adult.setAddress(address);
         adult.setBirthCity("PARIS");
@@ -90,7 +89,6 @@ public class BusinessObjectsFactory {
         child.setLastName(lastName);
         child.setFirstName(firstName);
         child.setSex(SexType.FEMALE);
-        child.setNote("Et un enfant, un !");
         child.setBirthCity("Paris");
         child.setBirthPostalCode("75012");
         Calendar calendar = new GregorianCalendar();

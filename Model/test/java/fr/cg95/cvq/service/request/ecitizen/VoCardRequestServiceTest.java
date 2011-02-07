@@ -105,7 +105,6 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         mother.setBirthPostalCode("75012");
         mother.setFirstName2("Irina");
         mother.setFirstName3("Natacha");
-        mother.setSex(SexType.FEMALE);
         mother.setCfbn("5050505E");
         mother.setEmail("bor@zenexity.fr");
         mother.setNameOfUse("NAMEOFUSE");

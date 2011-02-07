@@ -20,7 +20,6 @@ import fr.cg95.cvq.xml.common.BirthPlaceType;
 import fr.cg95.cvq.xml.common.IndividualRoleType;
 import fr.cg95.cvq.xml.common.IndividualType;
 
-
 /**
  * @hibernate.class
  *  table="individual"
@@ -28,10 +27,10 @@ import fr.cg95.cvq.xml.common.IndividualType;
  *
  * @author bor@zenexity.fr
  */
-public class Individual implements Historizable, Serializable {
+public abstract class Individual implements Historizable, Serializable {
 
     // Search fields used in DAO and Service Layer
-    
+
     public static final String SEARCH_BY_FIRSTNAME = "firstName";
     public static final String SEARCH_BY_BIRTHDATE = "birthDate";
     public static final String SEARCH_BY_ADDRESS = "address";
@@ -59,9 +58,6 @@ public class Individual implements Historizable, Serializable {
      */
     private String externalCapDematId;
 
-    private Integer version;
-    private String login;
-    private String publicKey;
     /** Liberty Alliance federation key */
     private String federationKey;
 
@@ -88,8 +84,6 @@ public class Individual implements Historizable, Serializable {
     private String birthCity;
     private String birthPostalCode;
 
-    @NotNull(message = "sex", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child && _this.born")
-    private SexType sex;
 
     private Date creationDate;
     private ActorState state;
@@ -103,21 +97,12 @@ public class Individual implements Historizable, Serializable {
 
     private Set<IndividualRole> individualRoles;
 
-    /** default constructor */
-    public Individual() {
-        this.sex = SexType.getDefaultSexType();
-    }
-
-    public void fillCommonXmlInfo(IndividualType individualType) {
+    protected void fillCommonXmlInfo(IndividualType individualType) {
 
         Calendar calendar = Calendar.getInstance();
 
         if (this.id != null)
             individualType.setId(this.id.longValue());
-        if (this.login != null)
-            individualType.setLogin(this.login);
-        if (this.publicKey != null)
-            individualType.setPublicKey(this.publicKey);
         individualType.setLastName(this.lastName);
         individualType.setFirstName(this.firstName);
         if (this.firstName2 != null)
@@ -134,9 +119,6 @@ public class Individual implements Historizable, Serializable {
             birthPlaceType.setCity(this.birthCity);
             birthPlaceType.setPostalCode(this.birthPostalCode);
         }
-        
-        if (this.sex != null)
-            individualType.setSex(fr.cg95.cvq.xml.common.SexType.Enum.forString(this.sex.toString()));
         if (this.creationDate != null) {
             calendar.setTime(this.creationDate);
             individualType.setCreationDate(calendar);
@@ -156,15 +138,12 @@ public class Individual implements Historizable, Serializable {
         }
     }
 
-    public void fillCommonModelInfo(IndividualType individualType) {
+    protected void fillCommonModelInfo(IndividualType individualType) {
 
         if (individualType.getId() == 0)
             setId(null);
         else
             setId(new Long(individualType.getId()));
-        setLogin(individualType.getLogin());
-        if (individualType.getPublicKey() != null)
-            setPublicKey(individualType.getPublicKey());
         setLastName(individualType.getLastName());
         setFirstName(individualType.getFirstName());
         setFirstName2(individualType.getFirstName2());
@@ -175,8 +154,6 @@ public class Individual implements Historizable, Serializable {
             setBirthCountry(individualType.getBirthPlace().getCity());
             setBirthPostalCode(individualType.getBirthPlace().getPostalCode());
         }
-        if (individualType.getSex() != null)
-            setSex(SexType.forString(individualType.getSex().toString()));
         if (individualType.getCreationDate() != null) {
             setCreationDate(individualType.getCreationDate().getTime());
         }
@@ -197,32 +174,12 @@ public class Individual implements Historizable, Serializable {
         setIndividualRoles(roles);
     }
 
-    public static Individual xmlToModel(fr.cg95.cvq.xml.common.IndividualType individualType) {
-        Individual individual = new Individual();
-        individual.fillCommonModelInfo(individualType);
-
-        return individual;
-    }
-
-    public static IndividualType modelToXml(Individual individual) {
-        if (individual instanceof Adult) {
-            Adult adult = (Adult) individual;
-            return Adult.modelToXml(adult);
-        } else if (individual instanceof Child) {
-            Child child = (Child) individual;
-            return Child.modelToXml(child);
-        } else {
-            IndividualType individualType = IndividualType.Factory.newInstance();
-            individual.fillCommonXmlInfo(individualType);
-            return individualType;
-        }
-    }
-
     /**
      * @hibernate.id
      *  generator-class="sequence"
      *  column="id"
      */
+    @Override
     public Long getId() {
         return this.id;
     }
@@ -245,49 +202,6 @@ public class Individual implements Historizable, Serializable {
 
     public void setExternalCapDematId(String externalCapDematId) {
         this.externalCapDematId = externalCapDematId;
-    }
-
-    /**
-     * @hibernate.version
-     *  column="version"
-     */
-    public Integer getVersion() {
-        return this.version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
-    public void setVersion(String version) {
-        this.version = new Integer(version);
-    }
-
-    /**
-     * @hibernate.property
-     *  column="login"
-     *  unique="true"
-     */
-    public String getLogin() {
-        return this.login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    /**
-     * @hibernate.property
-     *  column="public_key"
-     *  unique="true"
-     *  length="50"
-     */
-    public String getPublicKey() {
-        return this.publicKey;
-    }
-
-    public void setPublicKey(String publicKey) {
-        this.publicKey = publicKey;
     }
 
     /**
@@ -417,23 +331,6 @@ public class Individual implements Historizable, Serializable {
 
     public void setBirthPostalCode(String birthPostalCode) {
         this.birthPostalCode = birthPostalCode;
-    }
-
-    /**
-     * @hibernate.property
-     *  column="sex"
-     *  length="8"
-     */
-    public SexType getSex() {
-        return this.sex;
-    }
-
-    public void setSex(SexType sex) {
-        this.sex = sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = SexType.forString(sex);
     }
 
     /**

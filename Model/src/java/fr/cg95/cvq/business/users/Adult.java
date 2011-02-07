@@ -1,7 +1,5 @@
 package fr.cg95.cvq.business.users;
 
-import java.io.Serializable;
-
 import net.sf.oval.constraint.Email;
 import net.sf.oval.constraint.EqualToField;
 import net.sf.oval.constraint.MinLength;
@@ -19,9 +17,9 @@ import fr.cg95.cvq.xml.common.AdultType;
  *
  * @author bor@zenexity.fr
  */
-public class Adult extends Individual implements fr.cg95.cvq.business.Historizable,Serializable {
+public class Adult extends Individual {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @NotNull(message = "title")
     private TitleType title;
@@ -32,7 +30,6 @@ public class Adult extends Individual implements fr.cg95.cvq.business.Historizab
     @NotEmpty(message = "nameOfUse")
     private String nameOfUse;
 
-    //@NotNull(message = "familyStatus")
     private FamilyStatusType familyStatus;
 
     @NotNull(message = "adultPhones", when = "groovy:_this.mobilePhone == null && _this.officePhone == null")
@@ -62,6 +59,8 @@ public class Adult extends Individual implements fr.cg95.cvq.business.Historizab
     @NotEmpty(message = "answer")
     private String answer;
 
+    private String login;
+
     @NotNull(message = "password", profiles = {"login"})
     @MinLength(message = "password", value = IAuthenticationService.passwordMinLength)
     private String password;
@@ -71,56 +70,45 @@ public class Adult extends Individual implements fr.cg95.cvq.business.Historizab
     @EqualToField(message = "confirmPassword", value = "password", profiles = {"login"})
     private String confirmPassword;
 
-    /** default constructor */
-    public Adult() {
-        super();
-        
-        this.familyStatus = FamilyStatusType.getDefaultFamilyStatusType();
-        this.title = TitleType.getDefaultTitleType();
-    }
-
-    public static AdultType modelToXml(Adult adult) {
-
+    public AdultType modelToXml() {
         AdultType adultType = AdultType.Factory.newInstance();
-        adult.fillCommonXmlInfo(adultType);
-
-        if (adult.getTitle() != null)
-            adultType.setTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(adult.getTitle().toString()));
-        if (adult.getMaidenName() != null)
-            adultType.setMaidenName(adult.getMaidenName());
-        adultType.setNameOfUse(adult.getNameOfUse());
-        if (adult.getFamilyStatus() != null)
-            adultType.setFamilyStatus(fr.cg95.cvq.xml.common.FamilyStatusType.Enum.forString(adult.getFamilyStatus().toString()));
-        if (adult.getHomePhone() != null)
-            adultType.setHomePhone(adult.getHomePhone());
-        if (adult.getMobilePhone() != null)
-            adultType.setMobilePhone(adult.getMobilePhone());
-        if (adult.getOfficePhone() != null)
-            adultType.setOfficePhone(adult.getOfficePhone());
-        if (adult.getEmail() != null)
-            adultType.setEmail(adult.getEmail());
-        if (adult.getCfbn() != null)
-            adultType.setCfbn(adult.getCfbn());
-        if (adult.getProfession() != null)
-            adultType.setProfession(adult.getProfession());
-
+        fillCommonXmlInfo(adultType);
+        if (getTitle() != null)
+            adultType.setTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getTitle().toString()));
+        if (getMaidenName() != null)
+            adultType.setMaidenName(getMaidenName());
+        adultType.setNameOfUse(getNameOfUse());
+        if (getFamilyStatus() != null)
+            adultType.setFamilyStatus(fr.cg95.cvq.xml.common.FamilyStatusType.Enum.forString(getFamilyStatus().toString()));
+        if (getHomePhone() != null)
+            adultType.setHomePhone(getHomePhone());
+        if (getMobilePhone() != null)
+            adultType.setMobilePhone(getMobilePhone());
+        if (getOfficePhone() != null)
+            adultType.setOfficePhone(getOfficePhone());
+        if (getEmail() != null)
+            adultType.setEmail(getEmail());
+        if (getCfbn() != null)
+            adultType.setCfbn(getCfbn());
+        if (getProfession() != null)
+            adultType.setProfession(getProfession());
+        if (getLogin() != null)
+            adultType.setLogin(getLogin());
         // FIXME : do we include such information when we export user information ??
-        if (adult.getPassword() != null)
-            adultType.setPassword(adult.getPassword());
-        if (adult.getQuestion() != null)
-            adultType.setQuestion(adult.getQuestion());
-        if (adult.getAnswer() != null)
-            adultType.setAnswer(adult.getAnswer());
-            
+        if (getPassword() != null)
+            adultType.setPassword(getPassword());
+        if (getQuestion() != null)
+            adultType.setQuestion(getQuestion());
+        if (getAnswer() != null)
+            adultType.setAnswer(getAnswer());
         return adultType;
     }
 
-    public static Adult xmlToModel(fr.cg95.cvq.xml.common.AdultType adultType) {
-
+    public static Adult xmlToModel(AdultType adultType) {
         if (adultType != null) {
             Adult adult = new Adult();
             adult.fillCommonModelInfo(adultType);
-
+            adult.setLogin(adultType.getLogin());
             adult.setPassword(adultType.getPassword());
             if (adultType.getTitle() != null)
                 adult.setTitle(TitleType.forString(adultType.getTitle().toString()));
@@ -313,6 +301,19 @@ public class Adult extends Individual implements fr.cg95.cvq.business.Historizab
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="login"
+     *  unique="true"
+     */
+    public String getLogin() {
+        return this.login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     /**

@@ -22,13 +22,6 @@ public class ChildDAO extends IndividualDAO implements IChildDAO {
 
     static Logger logger = Logger.getLogger(ChildDAO.class);
 
-    public Child findByBadgeNumber(String number) {
-        return (Child) HibernateUtil.getSession()
-            .createQuery("from Child child where child.badgeNumber = :number")
-            .setString("number", number)
-            .uniqueResult();
-    }
-
     public List<Child> listChildrenByHomeFolder(final Long homeFolderId) {
         Criteria crit = HibernateUtil.getSession().createCriteria(Child.class);
         crit.createCriteria("homeFolder")

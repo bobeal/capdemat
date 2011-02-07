@@ -92,10 +92,6 @@ public class IndividualService implements IIndividualService {
         return (Child) childDAO.findById(Child.class, id);
     }
 
-    public Child getChildByBadgeNumber(String badgeNumber) throws CvqException {
-        return childDAO.findByBadgeNumber(badgeNumber);
-    }
-
     public Individual getByLogin(final String login)
         throws CvqException {
 
@@ -182,16 +178,17 @@ public class IndividualService implements IIndividualService {
         }
     }
 
-    public String assignLogin(Individual individual)
+    @Override
+    public String assignLogin(Adult adult)
         throws CvqException {
 
         synchronized (bookedLogin) {
 
-            if (individual.getFirstName() == null || individual.getLastName() == null)
+            if (adult.getFirstName() == null || adult.getLastName() == null)
                 throw new CvqModelException("Individual must have not-null first and last names");
 
             String baseLogin =  Normalizer.normalize(
-                (individual.getFirstName().trim() + '.' + individual.getLastName().trim())
+                (adult.getFirstName().trim() + '.' + adult.getLastName().trim())
                     .replaceAll("\\s", "-")
                     .replaceAll("'", ""),
                 Normalizer.Form.NFD)
@@ -201,7 +198,7 @@ public class IndividualService implements IIndividualService {
             String finalLogin = computeNewLogin(similarLogins, baseLogin);
             logger.debug("assignLogin() setting login : " + finalLogin);
 
-            individual.setLogin(finalLogin);
+            adult.setLogin(finalLogin);
 
             return finalLogin;
         }
@@ -243,8 +240,6 @@ public class IndividualService implements IIndividualService {
         
         if (adult.getFamilyStatus() == null)
             adult.setFamilyStatus(FamilyStatusType.OTHER);
-        if (adult.getSex() == null)
-            adult.setSex(SexType.UNKNOWN);
         if (adult.getTitle() == null)
             adult.setTitle(TitleType.UNKNOWN);
         // generate a login even if user has not asked for a personal space

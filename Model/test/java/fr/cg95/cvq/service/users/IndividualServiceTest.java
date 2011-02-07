@@ -2,7 +2,7 @@ package fr.cg95.cvq.service.users;
 
 import org.junit.Test;
 
-import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import static org.junit.Assert.*;
@@ -16,9 +16,9 @@ public class IndividualServiceTest extends ServiceTestCase {
 
     @Test
     public void testAssignLogin() throws CvqException {
-        Individual emilie = new Individual();
-        Individual jean = new Individual();
-        Individual albert = new Individual();
+        Adult emilie = new Adult();
+        Adult jean = new Adult();
+        Adult albert = new Adult();
 
         // Test with apostrophe
         String lnA = "L'ALBATROS";

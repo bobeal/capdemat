@@ -5,6 +5,8 @@ import java.util.Date;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
+import fr.cg95.cvq.security.SecurityContext;
 
 /** 
  * @hibernate.class
@@ -15,19 +17,40 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 public class DocumentAction implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/** identifier field */
+    public static class Type extends PersistentStringEnum {
+        private static final long serialVersionUID = 1L;
+        public static final Type CREATION = new Type("Creation");
+        public static final Type STATE_CHANGE = new Type("StateChange");
+        public static final Type PAGE_ADDITION = new Type("PageAddition");
+        public static final Type PAGE_EDITION = new Type("PageEdition");
+        public static final Type PAGE_DELETION = new Type("PageDeletion");
+        public static final Type MERGE = new Type("Merge");
+        public Type() { /* public constructor for Hibernate */ }
+        private Type(String type) { super(type); }
+    }
+
     private Long id;
-    private Long agentId;
-    private String label;
+    private Long userId;
+    private Type type;
     private String note;
     private Date date;
-    /** the document's state resulting of this action */
     private DocumentState resultingState;
 
-    /** default constructor */
-    public DocumentAction() {
+    @SuppressWarnings("unused")
+    private DocumentAction() { /* empty constructor for Hibernate */ }
+
+    public DocumentAction(Type type, DocumentState resultingState) {
+        this(type, resultingState, null);
+    }
+
+    public DocumentAction(Type type, DocumentState resultingState, String note) {
+        this.userId = SecurityContext.getCurrentUserId();
+        this.date = new Date();
+        this.type = type;
+        this.resultingState = resultingState;
+        this.note = note;
     }
 
     /**
@@ -45,26 +68,27 @@ public class DocumentAction implements Serializable {
 
     /**
      * @hibernate.property
-     *  column="agent_id"
+     *  column="user_id"
      */
-    public Long getAgentId() {
-        return this.agentId;
+    public Long getUserId() {
+        return this.userId;
     }
 
-    public void setAgentId(Long agentId) {
-        this.agentId = agentId;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     /**
      * @hibernate.property
-     *  column="label"
+     *  column="type"
+     *  not-null="true"
      */
-    public String getLabel() {
-        return this.label;
+    public Type getType() {
+        return this.type;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setType(Type type) {
+        this.type = type;
     }
 
     /**

@@ -53,7 +53,7 @@ payment : initialized, validated, refused, cancelled
 .tag-orangealertnotification, .tag-redalertnotification, .tag-creation,
 .tag-statechange, .tag-contactcitizen,
 /* document (request creation) */
-.tag-new,
+.tag-new, .tag-pageaddition, .tag-pageedition, .tag-pagedeletion, .tag-merge,
 /* request admin actions */
 .tag-archivesdeleted, .tag-archivesdownloaded, .tag-passwordreset, .tag-requestsarchived, .tag-archivesmigrated,
 /* homefolder mapping */
@@ -78,6 +78,7 @@ payment : initialized, validated, refused, cancelled
 .tag-initialized,
 .tag-sent,
 .tag-statechange,
+.tag-merge,
 .tag-uncomplete    { background: #ffcc20; border-color:#ffaa20; }
 
 /* green */
@@ -109,11 +110,13 @@ payment : initialized, validated, refused, cancelled
 
 /* negative red */
 .tag-draftdeletenotification,
+.tag-pagedeletion,
 .tag-not_provided  { background: #dedede; color: #cc2020; border-color: #aa2020; }
 
 /* blue */
 .tag-archivesmigrated,
 .tag-new,
+.tag-pageaddition,
 .tag-clrfather,
 .tag-checked,
 .tag-contactcitizen,
@@ -122,6 +125,7 @@ payment : initialized, validated, refused, cancelled
 /* orange*/
 .tag-homefolderresponsible,
 .tag-read_write,
+.tag-pageedition,
 .tag-inprogress,
 .tag-orangealertnotification,
 .tag-agent         { background: #ec7000; border-color:#da7000; }

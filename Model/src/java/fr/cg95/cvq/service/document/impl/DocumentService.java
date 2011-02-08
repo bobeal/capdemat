@@ -207,7 +207,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
         logger.debug("Created document object with id : " + documentId);
 
-        addActionTrace(CREATION_ACTION, document.getState(), document);
+        addActionTrace(DocumentAction.Type.CREATION, document.getState(), document);
 
         // when creating a new document in FO, we need it to be persisted before rendering the view
         HibernateUtil.getSession().flush();
@@ -256,7 +256,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             } else
                 document.getDatas().add(documentBinary);
             documentDAO.update(document);
-            addActionTrace(PAGE_ADD_ACTION, null, document);
+            addActionTrace(DocumentAction.Type.PAGE_ADDITION, null, document);
         } catch (CvqModelException cme) {
             throw new CvqModelException(cme.getI18nKey());
         }
@@ -280,11 +280,11 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             if (document.getState().equals(DocumentState.OUTDATED)) {
                 document.setState(DocumentState.PENDING);
                 document.setValidationDate(null);
-                addActionTrace(STATE_CHANGE_ACTION, DocumentState.PENDING, document);
+                addActionTrace(DocumentAction.Type.STATE_CHANGE, DocumentState.PENDING, document);
             }
         }
         createPreview(documentBinary);
-        addActionTrace(PAGE_EDIT_ACTION, null, document);
+        addActionTrace(DocumentAction.Type.PAGE_EDITION, null, document);
     }
 
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
@@ -299,7 +299,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         documentDAO.delete(documentBinary);
         documentDAO.update(document);
 
-        addActionTrace(PAGE_DELETE_ACTION, null, document);
+        addActionTrace(DocumentAction.Type.PAGE_DELETION, null, document);
     }
 
     private ContentType mimeTypeFromBytes(final byte[] data) {
@@ -460,7 +460,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         }
         document.setState(DocumentState.PENDING);
         documentDAO.update(document);
-        addActionTrace(STATE_CHANGE_ACTION, DocumentState.PENDING, document);
+        addActionTrace(DocumentAction.Type.STATE_CHANGE, DocumentState.PENDING, document);
     }
 
     @Context(types = {ContextType.AGENT})
@@ -489,7 +489,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
                                     + DocumentState.VALIDATED.toString().toLowerCase()));
         }
 
-        addActionTrace(STATE_CHANGE_ACTION, DocumentState.VALIDATED, document);
+        addActionTrace(DocumentAction.Type.STATE_CHANGE, DocumentState.VALIDATED, document);
     }
 
     @Context(types = {ContextType.AGENT})
@@ -505,7 +505,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
         document.setState(DocumentState.CHECKED);
         documentDAO.update(document);
-        addActionTrace(STATE_CHANGE_ACTION, DocumentState.CHECKED, document);
+        addActionTrace(DocumentAction.Type.STATE_CHANGE, DocumentState.CHECKED, document);
     }
 
     @Context(types = {ContextType.AGENT})
@@ -523,7 +523,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         document.setState(DocumentState.REFUSED);
         documentDAO.update(document);
 
-        addActionTrace(STATE_CHANGE_ACTION, DocumentState.REFUSED, document);
+        addActionTrace(DocumentAction.Type.STATE_CHANGE, DocumentState.REFUSED, document);
     }
 
     private void outDated(final Long id)
@@ -539,7 +539,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         document.setState(DocumentState.OUTDATED);
         documentDAO.update(document);
 
-        addActionTrace(STATE_CHANGE_ACTION, DocumentState.OUTDATED, document);
+        addActionTrace(DocumentAction.Type.STATE_CHANGE, DocumentState.OUTDATED, document);
     }
 
     @Context(types = {ContextType.AGENT})
@@ -568,14 +568,10 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         return documentStateList.toArray(new DocumentState[documentStateList.size()]);
     }
 
-    private void addActionTrace(final String label, final DocumentState resultingState,
+    private void addActionTrace(final DocumentAction.Type type, final DocumentState resultingState,
         final Document document) {
 
-        DocumentAction documentAction = new DocumentAction();
-        documentAction.setAgentId(SecurityContext.getCurrentUserId());
-        documentAction.setLabel(label);
-        documentAction.setDate(new Date());
-        documentAction.setResultingState(resultingState);
+        DocumentAction documentAction = new DocumentAction(type, resultingState);
 
         if (document.getActions() == null) {
             Set<DocumentAction> actionsSet = new HashSet<DocumentAction>();
@@ -692,7 +688,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
                 }
                 doc.getDatas().clear();
                 doc.getDatas().add(docBin);
-                addActionTrace(MERGE_ACTION, null, doc);
+                addActionTrace(DocumentAction.Type.MERGE, null, doc);
             }
         } catch (IOException ioe) {
             throw new CvqException(ioe.getMessage());
@@ -746,7 +742,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         }
         doc.getDatas().clear();
         doc.getDatas().add(mergeImgToPdfDocBin);
-        addActionTrace(MERGE_ACTION, null, doc);
+        addActionTrace(DocumentAction.Type.MERGE, null, doc);
     }
 
     @Context(types = {ContextType.ADMIN, ContextType.AGENT})

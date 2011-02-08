@@ -995,8 +995,8 @@
 
     create table document_action (
         id int8 not null,
-        agent_id int8,
-        label varchar(255),
+        user_id int8,
+        type varchar(255) not null,
         note varchar(255),
         date timestamp,
         resulting_state varchar(16),

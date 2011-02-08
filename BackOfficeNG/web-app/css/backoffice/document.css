@@ -50,8 +50,6 @@
 /* list */
 #requestDocumentPanel #documentMetaData .yui-content ul         { margin: 10px; color: #333;}
 #requestDocumentPanel #documentMetaData .yui-content ul li      { padding: .5em 0 .5em 0; border-bottom:1px dashed #C1CFE2; }
-/* for tag floating TODO : to be refactor */
-#requestDocumentPanel #documentMetaData .yui-content ul li span { float: right; }
 
 #requestDocumentPanel #documentMetaData .yui-content form { margin-bottom: 10px; }
 

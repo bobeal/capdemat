@@ -30,13 +30,6 @@ class CapdematUtils {
         return "documentType."+ StringUtils.firstCase(name.replaceAll(' ',''),"Lower")
     }
 
-    // TODO : migrate document actions to PersistentStringEnum
-    public static adaptDocumentActionLabel(label) {
-        return "document.actionLabel." + label.toLowerCase().replaceAll('_.', {
-            it.toUpperCase().substring(1)
-        })
-    }
-
     public static requestTypeLabelAsDir(label) {
         def dirName = StringUtils.firstCase(label.replace(' ', ''), 'Lower')
         if (dirName.endsWith('Request'))

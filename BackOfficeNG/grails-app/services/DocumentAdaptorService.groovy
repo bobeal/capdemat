@@ -87,15 +87,14 @@ public class DocumentAdaptorService {
 
     def adaptDocumentAction(DocumentAction action) {
         def resultingState = null
-        if (action.label.equals(IDocumentService.STATE_CHANGE_ACTION))
-            resultingState = "document.state.${StringUtils.pascalToCamelCase(action.resultingState.toString())}"
-
+        if (DocumentAction.Type.STATE_CHANGE.equals(action.type))
+            resultingState = CapdematUtils.adaptCapdematEnum(action.resultingState, "document.state")
         return [
             'id': action.id,
             'note': action.note,
             'date': action.date,
-            'label':messageSource.getMessage(CapdematUtils.adaptDocumentActionLabel(action.label),null,SecurityContext.currentLocale),
-            'agentName': instructionService.getActionPosterDetails(action.agentId),
+            'type' : CapdematUtils.adaptCapdematEnum(action.type, "documentAction.type"),
+            'username' : instructionService.getActionPosterDetails(action.agentId),
             'resultingState': resultingState
         ]
     }

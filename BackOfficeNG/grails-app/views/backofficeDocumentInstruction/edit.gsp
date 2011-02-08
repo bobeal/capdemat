@@ -75,16 +75,34 @@
       
       <!-- Page 1 -->
       <div id="page1">
-        <h2><g:message code="document.header.actionHistory"/></h2>
         <ul>
           <g:each var="action" in="${document.actions}">
             <li>
-              <strong>${action.label}</strong>
-              <g:if test="${action.resultingState}">
-                (<g:message code="property.newState" /> : <strong><g:message code="${action.resultingState}"/></strong>)
-              </g:if>
-        	  - <g:message code="searchResult.actionDate" /> <strong><g:formatDate formatName="format.fullDate" date="${action.date}"/></strong>
-              <g:message code="layout.by" /> <strong>${action.agentName}</strong>
+              <dl class="action">
+                <dt class="title">
+                  <span class="tag ${action.type.cssClass}">
+                    <g:message code="${action.type.i18nKey}" />
+                  </span>
+                </dt>
+                <g:if test="${action.resultingState}">
+                  <dd class="title">
+                    <span class="tag ${action.resultingState.cssClass}">
+                      <g:message code="${action.resultingState.i18nKey}" /></span>
+                  </dd>
+                </g:if>
+                <dd class="title">
+                  <g:message code="searchResult.actionDate" /> :
+                  <strong><g:formatDate formatName="format.fullDate" date="${action.date}"/></strong>
+                  <g:if test="${action.username}">
+                    <g:message code="layout.by" />
+                    <strong>${action.username}</strong>
+                  </g:if>
+                </dd>
+                <g:if test="${action.note}">
+                    <dt class="action-note"><g:message code="documentAction.property.note" /> :</dt>
+                    <dd class="action-note">${action.note}</dd>
+                </g:if>
+              </dl>
             </li>
           </g:each>
         </ul>

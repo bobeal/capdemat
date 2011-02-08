@@ -5,12 +5,12 @@
       <ul>
         <g:each var="action" in="${actions}">
           <li>
-            ${action.label}
+            <g:message code="${action.type.i18nKey}" />
             <g:if test="${action.resultingState}">
-              (<g:message code="property.newState" /> : <g:message code="${action.resultingState}"/>)
+              (<g:message code="property.newState" /> : <g:message code="${action.resultingState.i18nKey}"/>)
             </g:if>
             - <g:message code="searchResult.actionDate" /> <g:formatDate formatName="format.fullDate" date="${action.date}"/>
-            <g:message code="layout.by" /> ${action.agentName}
+            <g:message code="layout.by" /> ${action.username}
           </li>
         </g:each>
       </ul>

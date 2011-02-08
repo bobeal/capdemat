@@ -96,7 +96,7 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
             document.setHomeFolderId(request.getHomeFolderId());
             document.setDepositId(request.getRequesterId());
             for (DocumentAction documentAction : document.getActions()) {
-                documentAction.setAgentId(request.getRequesterId());
+                documentAction.setUserId(request.getRequesterId());
             }
             addDocument(request, document.getId());
         }

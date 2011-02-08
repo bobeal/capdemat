@@ -23,13 +23,6 @@ import fr.cg95.cvq.service.document.annotation.IsDocument;
  */
 public interface IDocumentService {
 
-    String CREATION_ACTION = "CREATION_ACTION";
-    String STATE_CHANGE_ACTION = "STATE_CHANGE_ACTION";
-    String PAGE_ADD_ACTION = "PAGE_ADD_ACTION";
-    String PAGE_EDIT_ACTION = "PAGE_EDIT_ACTION";
-    String PAGE_DELETE_ACTION = "PAGE_DELETE_ACTION";
-    String MERGE_ACTION = "MERGE_ACTION";
-
     /**
      * Add a document to the system.
      *

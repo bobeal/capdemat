@@ -18,3 +18,7 @@ update document_action set type = 'PageAddition' where type = 'PAGE_ADD_ACTION';
 update document_action set type = 'PageEdition' where type = 'PAGE_EDIT_ACTION';
 update document_action set type = 'PageDeletion' where type = 'PAGE_DELETE_ACTION';
 update document_action set type = 'Merge' where type = 'MERGE_ACTION';
+
+-- New data in external home folder's CSV export files
+alter table external_individual add column email varchar(255);
+alter table external_individual add column home_phone varchar(255);

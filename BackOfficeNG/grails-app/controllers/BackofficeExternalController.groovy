@@ -1,6 +1,5 @@
 import fr.cg95.cvq.service.request.external.IRequestExternalActionService
 import fr.cg95.cvq.business.request.external.RequestExternalAction
-import fr.cg95.cvq.business.request.external.RequestExternalActionState
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.security.SecurityContext
@@ -54,7 +53,7 @@ class BackofficeExternalController {
                     Critere.EQUALS))
             if (parsedFilters.filters.statusFilter)
                 criteria.add(new Critere(RequestExternalAction.SEARCH_BY_STATUS,
-                    RequestExternalActionState.forString(parsedFilters.filters.statusFilter),
+                    RequestExternalAction.Status.forString(parsedFilters.filters.statusFilter),
                     Critere.EQUALS))
             if (parsedFilters.filters.requestTypeFilter)
                 criteria.add(new Critere(RequestExternalAction.SEARCH_BY_REQUEST_TYPE,
@@ -100,7 +99,7 @@ class BackofficeExternalController {
         return [
             "externalServiceLabels" : SecurityContext.currentConfigurationBean
                 .externalProviderServices.collect { it.key.label },
-            "requestExternalActionStates" : RequestExternalActionState.allStates,
+            "requestExternalActionStatuses" : RequestExternalAction.Status.all,
             "requestStates" : RequestState.allRequestStates.findAll { it != RequestState.DRAFT },
             "requestTypes" : requestAdaptorService.translateAndSortRequestTypes()
         ]

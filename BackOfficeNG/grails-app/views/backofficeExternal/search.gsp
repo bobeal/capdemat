@@ -61,7 +61,7 @@
             <label for="statusFilter"><g:message code="requestExternalAction.property.status" /> :</label>
             <select id="statusFilter" name="statusFilter">
               <option value=""><g:message code="search.filter.defaultValue" /></option>
-              <g:each in="${requestExternalActionStates}">
+              <g:each in="${requestExternalActionStatuses}">
                 <option value="${it}"
                   <g:if test="${filters['statusFilter'].equals(it.toString())}">selected="selected"</g:if>>
                   <g:capdematEnumToText var="${it}" i18nKeyPrefix="externalservice.trace.status" />

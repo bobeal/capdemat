@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
-import fr.cg95.cvq.business.request.external.RequestExternalActionState;
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
@@ -157,7 +156,7 @@ public class RestExternalServiceTest extends ExternalServiceTestCase {
             String.valueOf(request.getId()), Critere.EQUALS));
         List<RequestExternalAction> traces = requestExternalActionService.getTraces(criterias, null, null, 0, 0);
         assertEquals(1, traces.size());
-        assertEquals(RequestExternalActionState.SENT, traces.get(0).getStatus());
+        assertEquals(RequestExternalAction.Status.SENT, traces.get(0).getStatus());
     }
 
     @Test

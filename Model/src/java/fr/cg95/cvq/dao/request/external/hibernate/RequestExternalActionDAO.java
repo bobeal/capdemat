@@ -1,9 +1,11 @@
 package fr.cg95.cvq.dao.request.external.hibernate;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -63,6 +65,14 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
                     .append(searchCrit.getSqlComparatif()).append(" ?");
                 parametersValues.add(searchCrit.getSqlStringValue());
                 parametersTypes.add(Hibernate.STRING);
+            } else if (RequestExternalAction.SEARCH_BY_COMPLEMENTARY_DATA.equals(searchCrit.getAttribut())) {
+                sb.append(" and id in (select id from request_external_action_complementary_data where key = ? and value ")
+                    .append(searchCrit.getSqlComparatif()).append(" ?)");
+                Map.Entry<String, Serializable> entry = (Map.Entry<String, Serializable>)searchCrit.getValue();
+                parametersValues.add(entry.getKey());
+                parametersTypes.add(Hibernate.STRING);
+                parametersValues.add(entry.getValue());
+                parametersTypes.add(Hibernate.SERIALIZABLE);
             } else {
                 sb.append(" and ").append(searchCrit.getAttribut()).append(searchCrit.getSqlComparatif()).append(" ?");
                 if (RequestExternalAction.SEARCH_BY_DATE.equals(searchCrit.getAttribut())) {
@@ -85,9 +95,6 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
                     parametersTypes.add(Hibernate.STRING);
                 } else if (RequestExternalAction.SEARCH_BY_STATUS.equals(searchCrit.getAttribut())) {
                     parametersValues.add(searchCrit.getValue().toString());
-                    parametersTypes.add(Hibernate.STRING);
-                } else if (RequestExternalAction.SEARCH_BY_SUBKEY.equals(searchCrit.getAttribut())) {
-                    parametersValues.add(searchCrit.getSqlStringValue());
                     parametersTypes.add(Hibernate.STRING);
                 }
             }
@@ -132,6 +139,14 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
                 sb.append(
                     " and (select category_id from request_type rt where rt.id = (select request_type_id from request r where cast(r.id as varchar) = key)) in ( "
                     + searchCrit.getValue() + ")");
+            } else if (RequestExternalAction.SEARCH_BY_COMPLEMENTARY_DATA.equals(searchCrit.getAttribut())) {
+                sb.append(" and id in (select id from request_external_action_complementary_data where key = ? and value ")
+                    .append(searchCrit.getSqlComparatif()).append(" ?)");
+                Map.Entry<String, Serializable> entry = (Map.Entry<String, Serializable>)searchCrit.getValue();
+                parametersValues.add(entry.getKey());
+                parametersTypes.add(Hibernate.STRING);
+                parametersValues.add(entry.getValue());
+                parametersTypes.add(Hibernate.SERIALIZABLE);
             } else {
                 sb.append(" and ").append(searchCrit.getAttribut()).append(searchCrit.getSqlComparatif()).append(" ?");
                 if (RequestExternalAction.SEARCH_BY_DATE.equals(searchCrit.getAttribut())) {
@@ -154,9 +169,6 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
                     parametersTypes.add(Hibernate.STRING);
                 } else if (RequestExternalAction.SEARCH_BY_STATUS.equals(searchCrit.getAttribut())) {
                     parametersValues.add(searchCrit.getValue().toString());
-                    parametersTypes.add(Hibernate.STRING);
-                } else if (RequestExternalAction.SEARCH_BY_SUBKEY.equals(searchCrit.getAttribut())) {
-                    parametersValues.add(searchCrit.getSqlStringValue());
                     parametersTypes.add(Hibernate.STRING);
                 }
             }
@@ -203,6 +215,15 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
                     .append(searchCrit.getSqlComparatif()).append(" ?");
                 parametersValues.add(searchCrit.getSqlStringValue());
                 parametersTypes.add(Hibernate.STRING);
+            } else if (RequestExternalAction.SEARCH_BY_COMPLEMENTARY_DATA.equals(searchCrit.getAttribut())) {
+                sb.append(" and id in (select id from request_external_action_complementary_data where key = ? and value ")
+                    .append(searchCrit.getSqlComparatif()).append(" ?)");
+                @SuppressWarnings("unchecked") Map.Entry<String, Serializable> entry =
+                    (Map.Entry<String, Serializable>)searchCrit.getValue();
+                parametersValues.add(entry.getKey());
+                parametersTypes.add(Hibernate.STRING);
+                parametersValues.add(entry.getValue());
+                parametersTypes.add(Hibernate.SERIALIZABLE);
             } else {
                 sb.append(" and ").append(searchCrit.getAttribut()).append(searchCrit.getSqlComparatif()).append(" ?");
                 if (RequestExternalAction.SEARCH_BY_DATE.equals(searchCrit.getAttribut())) {
@@ -225,9 +246,6 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
                     parametersTypes.add(Hibernate.STRING);
                 } else if (RequestExternalAction.SEARCH_BY_STATUS.equals(searchCrit.getAttribut())) {
                     parametersValues.add(searchCrit.getValue().toString());
-                    parametersTypes.add(Hibernate.STRING);
-                } else if (RequestExternalAction.SEARCH_BY_SUBKEY.equals(searchCrit.getAttribut())) {
-                    parametersValues.add(searchCrit.getSqlStringValue());
                     parametersTypes.add(Hibernate.STRING);
                 }
             }

@@ -22,6 +22,7 @@ import java.util.TreeMap;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.collections.keyvalue.UnmodifiableMapEntry;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -50,7 +51,6 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestDocument;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
-import fr.cg95.cvq.business.request.external.RequestExternalActionState;
 import fr.cg95.cvq.business.request.school.StudyGrantRequest;
 import fr.cg95.cvq.business.request.social.BafaGrantRequest;
 import fr.cg95.cvq.business.users.FrenchRIB;
@@ -108,7 +108,7 @@ public class EdemandeService implements IExternalProviderService {
                         createAccountHolder(request);
                     } else if (psCodeTiersAH != null) {
                         addTrace(request.getId(), ACCOUNT_HOLDER_TRACE_SUBKEY,
-                            RequestExternalActionState.IN_PROGRESS,
+                            RequestExternalAction.Status.IN_PROGRESS,
                             "Le tiers viré n'est pas encore créé");
                     }
                     return null;
@@ -144,7 +144,7 @@ public class EdemandeService implements IExternalProviderService {
                     // has already added a NOT_SENT trace.
                     // FIXME BOR : is this trace really needed ?
                     addTrace(request.getId(), SUBJECT_TRACE_SUBKEY,
-                        RequestExternalActionState.IN_PROGRESS,
+                        RequestExternalAction.Status.IN_PROGRESS,
                         "Le tiers sujet n'est pas encore créé");
                 }
                 return null;
@@ -185,7 +185,7 @@ public class EdemandeService implements IExternalProviderService {
             return null;
         }
         if (msStatut.trim().isEmpty()) {
-            addTrace(request.getId(), null, RequestExternalActionState.NOT_SENT, 
+            addTrace(request.getId(), null, RequestExternalAction.Status.NOT_SENT, 
                 "La demande n'a pas encore été reçue");
             return null;
         }
@@ -194,34 +194,35 @@ public class EdemandeService implements IExternalProviderService {
         } else if ("A compléter ou corriger".equals(msStatut) ||
             "A compléter".equals(msStatut) ||
             "En erreur".equals(msStatut)) {
-            addTrace(request.getId(), null, RequestExternalActionState.ERROR, msStatut);
+            addTrace(request.getId(), null, RequestExternalAction.Status.ERROR, msStatut);
         } else if ("En cours d'analyse".equals(msStatut) ||
             "En attente d'avis externe".equals(msStatut) ||
             "En cours d'instruction".equals(msStatut)) {
-            addTrace(request.getId(), null, RequestExternalActionState.ACKNOWLEDGED, msStatut);
+            addTrace(request.getId(), null, RequestExternalAction.Status.ACKNOWLEDGED, msStatut);
         } else if ("Accepté".equals(msStatut) ||
             "En cours de paiement".equals(msStatut) ||
             "Payé partiellement".equals(msStatut) ||
             "Terminé".equals(msStatut)) {
-            addTrace(request.getId(), null, RequestExternalActionState.ACCEPTED, msStatut);
+            addTrace(request.getId(), null, RequestExternalAction.Status.ACCEPTED, msStatut);
         } else if ("Refusé".equals(msStatut)) {
-            addTrace(request.getId(), null, RequestExternalActionState.REJECTED, msStatut);
+            addTrace(request.getId(), null, RequestExternalAction.Status.REJECTED, msStatut);
         }
         return null;
     }
 
-    private void addTrace(Long requestId, String subkey, RequestExternalActionState status,
+    private void addTrace(Long requestId, String subkey, RequestExternalAction.Status status,
         String message) {
         RequestExternalAction est = new RequestExternalAction();
         est.setDate(new Date());
         est.setKey(String.valueOf(requestId));
-        est.setSubkey(subkey);
+        
         est.setKeyOwner("capdemat");
         est.setMessage(message);
         est.setName(label);
         est.setStatus(status);
+        est.getComplementaryData().put("individual", subkey);
         requestExternalActionService.addTrace(est);
-        if (RequestExternalActionState.ERROR.equals(status)) {
+        if (RequestExternalAction.Status.ERROR.equals(status)) {
             try {
                 requestWorkflowService.updateRequestState(requestId, RequestState.UNCOMPLETE,
                     message);
@@ -255,7 +256,7 @@ public class EdemandeService implements IExternalProviderService {
             resultsNumber = parseDatas(searchResults,
                 "//resultatRechTiers/listeTiers/tiers/codeTiers").size();
         } catch (CvqException e) {
-            addTrace(request.getId(), subkey, RequestExternalActionState.NOT_SENT, e.getMessage());
+            addTrace(request.getId(), subkey, RequestExternalAction.Status.NOT_SENT, e.getMessage());
             return null;
         }
         if (resultsNumber == 0) {
@@ -266,7 +267,7 @@ public class EdemandeService implements IExternalProviderService {
                 return parseData(searchResults,
                     "//resultatRechTiers/listeTiers/tiers/codeTiers");
             } catch (CvqException e) {
-                addTrace(request.getId(), subkey, RequestExternalActionState.NOT_SENT,
+                addTrace(request.getId(), subkey, RequestExternalAction.Status.NOT_SENT,
                     e.getMessage());
                 return null;
             }
@@ -329,16 +330,16 @@ public class EdemandeService implements IExternalProviderService {
             GestionCompteResponseDocument response =
                 edemandeClient.creerTiers(escapeStrings(model));
             if (!"0".equals(parseData(response.getGestionCompteResponse().getReturn(), "//Retour/codeRetour"))) {
-                addTrace(request.getId(), SUBJECT_TRACE_SUBKEY, RequestExternalActionState.ERROR,
+                addTrace(request.getId(), SUBJECT_TRACE_SUBKEY, RequestExternalAction.Status.ERROR,
                     parseData(response.getGestionCompteResponse().getReturn(),
                         "//Retour/messageRetour"));
             } else {
                 addTrace(request.getId(), SUBJECT_TRACE_SUBKEY,
-                    RequestExternalActionState.IN_PROGRESS, "Demande de création du tiers sujet");
+                    RequestExternalAction.Status.IN_PROGRESS, "Demande de création du tiers sujet");
             }
         } catch (CvqException e) {
             e.printStackTrace();
-            addTrace(request.getId(), SUBJECT_TRACE_SUBKEY, RequestExternalActionState.NOT_SENT,
+            addTrace(request.getId(), SUBJECT_TRACE_SUBKEY, RequestExternalAction.Status.NOT_SENT,
                 e.getMessage());
         }
     }
@@ -365,17 +366,17 @@ public class EdemandeService implements IExternalProviderService {
                 edemandeClient.creerTiers(escapeStrings(model));
             if (!"0".equals(parseData(response.getGestionCompteResponse().getReturn(), "//Retour/codeRetour"))) {
                 addTrace(request.getId(), ACCOUNT_HOLDER_TRACE_SUBKEY,
-                    RequestExternalActionState.ERROR,
+                    RequestExternalAction.Status.ERROR,
                     parseData(response.getGestionCompteResponse().getReturn(),
                         "//Retour/messageRetour"));
             } else {
                 addTrace(request.getId(), ACCOUNT_HOLDER_TRACE_SUBKEY,
-                    RequestExternalActionState.IN_PROGRESS, "Demande de création du tiers viré");
+                    RequestExternalAction.Status.IN_PROGRESS, "Demande de création du tiers viré");
             }
         } catch (CvqException e) {
             e.printStackTrace();
             addTrace(request.getId(), ACCOUNT_HOLDER_TRACE_SUBKEY,
-                RequestExternalActionState.NOT_SENT, e.getMessage());
+                RequestExternalAction.Status.NOT_SENT, e.getMessage());
         }
     }
 
@@ -387,7 +388,7 @@ public class EdemandeService implements IExternalProviderService {
                 requestData = edemandeClient.chargerDemande(psCodeTiers, request.getEdemandeId()).getChargerDemandeResponse().getReturn();
             } catch (CvqException e) {
                 e.printStackTrace();
-                addTrace(request.getId(), null, RequestExternalActionState.NOT_SENT,
+                addTrace(request.getId(), null, RequestExternalAction.Status.NOT_SENT,
                     e.getMessage());
             }
         }
@@ -431,10 +432,10 @@ public class EdemandeService implements IExternalProviderService {
                             try {
                                 doc.put("remotePath", uploader.upload(filename, documentBinary.getData()));
                             } catch (JSchException e) {
-                                addTrace(request.getId(), null, RequestExternalActionState.ERROR,
+                                addTrace(request.getId(), null, RequestExternalAction.Status.ERROR,
                                     "Erreur à l'envoi d'une pièce jointe");
                             } catch (SftpException e) {
-                                addTrace(request.getId(), null, RequestExternalActionState.ERROR,
+                                addTrace(request.getId(), null, RequestExternalAction.Status.ERROR,
                                     "Erreur à l'envoi d'une pièce jointe");
                             }
                         }
@@ -458,17 +459,17 @@ public class EdemandeService implements IExternalProviderService {
                 enregistrerValiderFormulaireResponseDocument =
                     edemandeClient.enregistrerValiderFormulaire(escapeStrings(model));
             if (!"0".equals(parseData(enregistrerValiderFormulaireResponseDocument.getEnregistrerValiderFormulaireResponse().getReturn(), "//Retour/codeRetour"))) {
-                addTrace(request.getId(), null, RequestExternalActionState.ERROR, parseData(
+                addTrace(request.getId(), null, RequestExternalAction.Status.ERROR, parseData(
                     enregistrerValiderFormulaireResponseDocument
                         .getEnregistrerValiderFormulaireResponse().getReturn(),
                     "//Retour/messageRetour"));
             } else {
-                addTrace(request.getId(), null, RequestExternalActionState.SENT,
+                addTrace(request.getId(), null, RequestExternalAction.Status.SENT,
                     "Demande transmise");
             }
         } catch (CvqException e) {
             e.printStackTrace();
-            addTrace(request.getId(), null, RequestExternalActionState.NOT_SENT, e.getMessage());
+            addTrace(request.getId(), null, RequestExternalAction.Status.NOT_SENT, e.getMessage());
         }
     }
 
@@ -479,7 +480,7 @@ public class EdemandeService implements IExternalProviderService {
                 "//resultatRechDemandes/listeDemandes/Demande/moOrigineApsect[msIdentifiant ='"
                 + buildExternalRequestId(request) + "']/../miCode");
         } catch (CvqException e) {
-            addTrace(request.getId(), null, RequestExternalActionState.NOT_SENT, e.getMessage());
+            addTrace(request.getId(), null, RequestExternalAction.Status.NOT_SENT, e.getMessage());
             return null;
         }
     }
@@ -497,7 +498,7 @@ public class EdemandeService implements IExternalProviderService {
                         "//donneesDemande/Demande/msStatut");
             }
         } catch (CvqException e) {
-            addTrace(request.getId(), null, RequestExternalActionState.NOT_SENT, e.getMessage());
+            addTrace(request.getId(), null, RequestExternalAction.Status.NOT_SENT, e.getMessage());
             return null;
         }
     }
@@ -643,7 +644,7 @@ public class EdemandeService implements IExternalProviderService {
         criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_NAME,
             label, Critere.EQUALS));
         criteriaSet.add(new Critere(
-            RequestExternalAction.SEARCH_BY_STATUS, RequestExternalActionState.SENT,
+            RequestExternalAction.SEARCH_BY_STATUS, RequestExternalAction.Status.SENT,
             Critere.EQUALS));
         if (requestExternalActionService.getTracesCount(criteriaSet) == 0)
             return true;
@@ -653,7 +654,7 @@ public class EdemandeService implements IExternalProviderService {
         criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_NAME,
             label, Critere.EQUALS));
         criteriaSet.add(new Critere(
-            RequestExternalAction.SEARCH_BY_STATUS, RequestExternalActionState.ERROR,
+            RequestExternalAction.SEARCH_BY_STATUS, RequestExternalAction.Status.ERROR,
             Critere.EQUALS));
         return (requestExternalActionService.getTracesCount(criteriaSet) != 0
             && (request.getEdemandeId() == null || request.getEdemandeId().trim().isEmpty()));
@@ -672,7 +673,7 @@ public class EdemandeService implements IExternalProviderService {
         criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_NAME,
             label, Critere.EQUALS));
         criteriaSet.add(new Critere(
-            RequestExternalAction.SEARCH_BY_STATUS, RequestExternalActionState.ERROR,
+            RequestExternalAction.SEARCH_BY_STATUS, RequestExternalAction.Status.ERROR,
             Critere.EQUALS));
         if (requestExternalActionService.getTracesCount(criteriaSet) == 0
             || request.getEdemandeId() == null || request.getEdemandeId().trim().isEmpty()) {
@@ -685,9 +686,9 @@ public class EdemandeService implements IExternalProviderService {
             Critere.EQUALS));
         for (RequestExternalAction est : requestExternalActionService.getTraces(criteres,
             RequestExternalAction.SEARCH_BY_DATE, "desc", 0, 0)) {
-            if (RequestExternalActionState.SENT.equals(est.getStatus())) {
+            if (RequestExternalAction.Status.SENT.equals(est.getStatus())) {
                 return false;
-            } else if (RequestExternalActionState.ERROR.equals(est.getStatus())) {
+            } else if (RequestExternalAction.Status.ERROR.equals(est.getStatus())) {
                 return true;
             }
         }
@@ -708,12 +709,12 @@ public class EdemandeService implements IExternalProviderService {
         Set<Critere> criteriaSet = new HashSet<Critere>(4);
         criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_KEY,
             String.valueOf(request.getId()), Critere.EQUALS));
-        criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_SUBKEY,
-            subkey, Critere.EQUALS));
+        criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_COMPLEMENTARY_DATA,
+            new UnmodifiableMapEntry("individual", subkey), Critere.EQUALS));
         criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_NAME,
             label, Critere.EQUALS));
         criteriaSet.add(new Critere(
-            RequestExternalAction.SEARCH_BY_STATUS, RequestExternalActionState.IN_PROGRESS,
+            RequestExternalAction.SEARCH_BY_STATUS, RequestExternalAction.Status.IN_PROGRESS,
             Critere.EQUALS));
         if (requestExternalActionService.getTracesCount(criteriaSet) == 0) {
             return true;
@@ -721,15 +722,15 @@ public class EdemandeService implements IExternalProviderService {
         Set<Critere> criteres = new HashSet<Critere>();
         criteres.add(new Critere(RequestExternalAction.SEARCH_BY_KEY,
             String.valueOf(request.getId()), Critere.EQUALS));
-        criteres.add(new Critere(RequestExternalAction.SEARCH_BY_SUBKEY, subkey,
-            Critere.EQUALS));
+        criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_COMPLEMENTARY_DATA,
+            new UnmodifiableMapEntry("individual", subkey), Critere.EQUALS));
         criteres.add(new Critere(RequestExternalAction.SEARCH_BY_NAME, label,
             Critere.EQUALS));
         for (RequestExternalAction est : requestExternalActionService.getTraces(criteres,
             RequestExternalAction.SEARCH_BY_DATE, "desc", 0, 0)) {
-            if (RequestExternalActionState.IN_PROGRESS.equals(est.getStatus())) {
+            if (RequestExternalAction.Status.IN_PROGRESS.equals(est.getStatus())) {
                 return false;
-            } else if (RequestExternalActionState.ERROR.equals(est.getStatus())) {
+            } else if (RequestExternalAction.Status.ERROR.equals(est.getStatus())) {
                 return true;
             }
         }

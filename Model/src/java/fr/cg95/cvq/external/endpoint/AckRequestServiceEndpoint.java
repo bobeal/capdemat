@@ -8,7 +8,6 @@ import fr.capwebct.capdemat.AckRequestsResponseDocument;
 import fr.capwebct.capdemat.AckRequestsRequestDocument.AckRequestsRequest;
 import fr.capwebct.capdemat.AckRequestsResponseDocument.AckRequestsResponse;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
-import fr.cg95.cvq.business.request.external.RequestExternalActionState;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.external.IRequestExternalActionService;
 
@@ -45,9 +44,9 @@ public class AckRequestServiceEndpoint extends SecuredServiceEndpoint {
                 trace.setKeyOwner("capdemat");
                 
                 if (type.getErroneous())
-                    trace.setStatus(RequestExternalActionState.ERROR);
+                    trace.setStatus(RequestExternalAction.Status.ERROR);
                 else
-                    trace.setStatus(RequestExternalActionState.ACKNOWLEDGED);
+                    trace.setStatus(RequestExternalAction.Status.ACKNOWLEDGED);
                 
                 requestExternalActionService.addTrace(trace);
                 response.setAccomplished(true);

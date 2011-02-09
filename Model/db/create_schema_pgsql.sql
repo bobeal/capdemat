@@ -338,6 +338,9 @@
     alter table request_document 
         drop constraint FK712980CBD7FE2713;
 
+    alter table request_external_action_complementary_data 
+        drop constraint FKB088082C294C4979;
+
     alter table request_note 
         drop constraint FK4DABB7A2D7FE2713;
 
@@ -611,6 +614,8 @@
     drop table request_document;
 
     drop table request_external_action;
+
+    drop table request_external_action_complementary_data;
 
     drop table request_form;
 
@@ -2161,8 +2166,14 @@
         message varchar(255),
         name varchar(255),
         status varchar(255),
-        subkey varchar(255),
         primary key (id)
+    );
+
+    create table request_external_action_complementary_data (
+        id int8 not null,
+        value bytea,
+        key varchar(255) not null,
+        primary key (id, key)
     );
 
     create table request_form (
@@ -3026,6 +3037,11 @@
         add constraint FK712980CBD7FE2713 
         foreign key (request_id) 
         references request;
+
+    alter table request_external_action_complementary_data 
+        add constraint FKB088082C294C4979 
+        foreign key (id) 
+        references request_external_action;
 
     alter table request_note 
         add constraint FK4DABB7A2D7FE2713 

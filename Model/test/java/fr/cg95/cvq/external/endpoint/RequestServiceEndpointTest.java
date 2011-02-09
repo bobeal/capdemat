@@ -32,7 +32,6 @@ import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.business.users.external.IndividualMapping;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
-import fr.cg95.cvq.business.request.external.RequestExternalActionState;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
@@ -251,12 +250,12 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             
             criteriaSet = new HashSet<Critere>();
             criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_STATUS,
-                RequestExternalActionState.ERROR, Critere.EQUALS));
+                RequestExternalAction.Status.ERROR, Critere.EQUALS));
             RequestExternalAction trace = requestExternalActionService.getTraces(criteriaSet, null, null, 1, 0).get(0);
             
             assertEquals(trace.getKey(), "2347");
             assertEquals(trace.getKeyOwner(),"capdemat");
-            assertEquals(trace.getStatus(), RequestExternalActionState.ERROR);
+            assertEquals(trace.getStatus(), RequestExternalAction.Status.ERROR);
             
             
         } catch (Exception e) {

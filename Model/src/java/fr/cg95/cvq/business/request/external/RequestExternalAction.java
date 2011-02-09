@@ -1,7 +1,12 @@
 package fr.cg95.cvq.business.request.external;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
 
 
 /**
@@ -12,6 +17,33 @@ import java.util.Date;
  */
 public class RequestExternalAction implements Serializable {
 
+    public final static class Status extends PersistentStringEnum {
+        private static final long serialVersionUID = 1L;
+        public static final Status SENT = new Status("Sent");
+        public static final Status IN_PROGRESS = new Status("InProgress");
+        public static final Status NOT_SENT = new Status("NotSent");
+        public static final Status ACKNOWLEDGED = new Status("Acknowledged");
+        public static final Status ERROR = new Status("Error");
+        public static final Status ACCEPTED = new Status("Accepted");
+        public static final Status REJECTED = new Status("Rejected");
+        private Status(final String state) { super(state); }
+        public Status() { /* empty constructor for Hibernate */ }
+        public static final Status[] all = {
+            IN_PROGRESS,
+            NOT_SENT,
+            SENT,
+            ACKNOWLEDGED,
+            ACCEPTED,
+            REJECTED,
+            ERROR
+        };
+        public static Status forString(final String enumAsString) {
+            for (Status t : all)
+                if (t.name.equals(enumAsString)) return t;
+            return null;
+        }
+    }
+
     private static final long serialVersionUID = 1L;
 
     public static String SEARCH_BY_DATE = "date";
@@ -21,9 +53,9 @@ public class RequestExternalAction implements Serializable {
     public static String SEARCH_BY_MESSAGE = "message";
     public static String SEARCH_BY_NAME = "name";
     public static String SEARCH_BY_STATUS = "status";
-    public static String SEARCH_BY_SUBKEY = "subkey";
     public static String SEARCH_BY_REQUEST_TYPE = "request_type_id";
     public static String SEARCH_BY_REQUEST_STATE = "state";
+    public static String SEARCH_BY_COMPLEMENTARY_DATA = "SEARCH_BY_COMPLEMENTARY_DATA";
 
     private Long id;
 
@@ -31,12 +63,6 @@ public class RequestExternalAction implements Serializable {
      * Identifier used by the key owner to retrieve data.
      */
     private String key;
-
-    /**
-     * Additional information to distinguish between traces related to
-     * different parts of the communication with the external service.
-     */
-    private String subkey;
 
     /**
      * Owner of the key, typically an application, eg CapDemat.
@@ -57,22 +83,31 @@ public class RequestExternalAction implements Serializable {
 
     private Date date;
 
-    private RequestExternalActionState status;
+    private Status status;
+
+    private Map<String, Serializable> complementaryData;
 
     public RequestExternalAction() {
-        // empty constructor for Hibernate
+        this(null, null, null, null, null, null);
     }
 
-    public RequestExternalAction(Date date, String key, String subkey,
-        String keyOwner, String message, String name, RequestExternalActionState status) {
+    public RequestExternalAction(Date date, String key, String keyOwner, String message,
+        String name, Status status,
+        Map<String, Serializable> complementaryData) {
         super();
         this.date = date;
         this.key = key;
-        this.subkey = subkey;
         this.keyOwner = keyOwner;
         this.message = message;
         this.name = name;
         this.status = status;
+        this.complementaryData = new HashMap<String, Serializable>(complementaryData);
+    }
+
+    public RequestExternalAction(Date date, String key, String keyOwner, String message,
+        String name, Status status) {
+        this(date, key, keyOwner, message, name, status,
+            Collections.<String, Serializable>emptyMap());
     }
 
     /**
@@ -128,7 +163,7 @@ public class RequestExternalAction implements Serializable {
      * @hibernate.property
      *  column="status"
      */
-    public RequestExternalActionState getStatus() {
+    public Status getStatus() {
         return status;
     }
 
@@ -156,19 +191,29 @@ public class RequestExternalAction implements Serializable {
         this.name = name;
     }
 
-    public void setStatus(RequestExternalActionState status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
     /**
-     * @hibernate.property
-     *  column="subkey"
+     * @hibernate.map
+     *  lazy="false"
+     *  cascade="all"
+     *  table="request_external_action_complementary_data"
+     * @hibernate.key
+     *  column="id"
+     * @hibernate.index
+     *  column="key"
+     *  type="string"
+     * @hibernate.element
+     *  column="value"
+     *  type="serializable"
      */
-    public String getSubkey() {
-        return subkey;
+    public Map<String, Serializable> getComplementaryData() {
+        return complementaryData;
     }
 
-    public void setSubkey(String subkey) {
-        this.subkey = subkey;
+    public void setComplementaryData(Map<String, Serializable> complementaryData) {
+        this.complementaryData = complementaryData;
     }
 }

@@ -21,7 +21,6 @@ import fr.capwebct.capdemat.GetDocumentResponseDocument.GetDocumentResponse;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentAction;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
-import fr.cg95.cvq.business.request.external.RequestExternalActionState;
 import fr.cg95.cvq.business.document.DocumentState;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestDocument;
@@ -218,8 +217,8 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
         GetDocumentResponse getDocumentResponse = 
             getDocumentResponseDocument.addNewGetDocumentResponse();
 
-        RequestExternalAction est = new RequestExternalAction(new Date(), String.valueOf(requestId), null, "capdemat", 
-                null, SecurityContext.getCurrentExternalService(), RequestExternalActionState.SENT);
+        RequestExternalAction est = new RequestExternalAction(new Date(), String.valueOf(requestId), "capdemat", 
+                null, SecurityContext.getCurrentExternalService(), RequestExternalAction.Status.SENT);
 
         // Switch to admin context to be able to call services without permission exceptions
         String currentExternalService = SecurityContext.getCurrentExternalService();
@@ -246,7 +245,7 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
                         new Object[] { document.getId()}
                 );
             est.setMessage(message);
-            est.setSubkey("document");
+            est.getComplementaryData().put("nature", "document");
 
             // Check if the document contains pages
             if (document.getDatas().isEmpty()) {
@@ -269,7 +268,7 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
 
             String message = translationService.translate("externalservice.trace.sent.summary");
             est.setMessage(message);
-            est.setSubkey("summary");
+            est.getComplementaryData().put("nature", "summary");
         }
 
         requestExternalActionService.addTrace(est);

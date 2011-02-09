@@ -19,7 +19,6 @@ import fr.capwebct.capdemat.GetRequestsResponseDocument.GetRequestsResponse;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
-import fr.cg95.cvq.business.request.external.RequestExternalActionState;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.IRequestExportService;
@@ -122,7 +121,7 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
                 Set<Critere> criteriaSet = new HashSet<Critere>(2);
                 criteriaSet.add(new Critere(
                         RequestExternalAction.SEARCH_BY_STATUS,
-                        RequestExternalActionState.ACKNOWLEDGED, Critere.EQUALS));
+                        RequestExternalAction.Status.ACKNOWLEDGED, Critere.EQUALS));
 
                 criteriaSet.add(new Critere(
                         RequestExternalAction.SEARCH_BY_KEY,
@@ -167,7 +166,7 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
             RequestExternalAction trace = new RequestExternalAction();
             trace.setKeyOwner("capdemat");
             trace.setKey(String.valueOf(r.getId()));
-            trace.setStatus(RequestExternalActionState.SENT);
+            trace.setStatus(RequestExternalAction.Status.SENT);
             
             requestExternalActionService.addTrace(trace);
         }

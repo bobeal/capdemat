@@ -10,7 +10,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
-import fr.cg95.cvq.business.request.external.RequestExternalActionState;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
@@ -32,7 +31,7 @@ public class RequestExternalActionTest extends ExternalServiceTestCase {
         trace.setKeyOwner("MyOwner");
         trace.setMessage("No message");
         trace.setName("MyName");
-        trace.setStatus(RequestExternalActionState.SENT);
+        trace.setStatus(RequestExternalAction.Status.SENT);
 
         newId = requestExternalActionService.addTrace(trace);
 
@@ -60,7 +59,7 @@ public class RequestExternalActionTest extends ExternalServiceTestCase {
         criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_NAME,
             "MyName", Critere.EQUALS));
         criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_STATUS,
-                RequestExternalActionState.SENT, Critere.EQUALS));
+                RequestExternalAction.Status.SENT, Critere.EQUALS));
         criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_DATE,
                 DateUtils.parseDate("13/09/2007"), Critere.GT));
         criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_DATE,

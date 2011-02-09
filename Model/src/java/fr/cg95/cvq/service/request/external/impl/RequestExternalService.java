@@ -19,7 +19,6 @@ import org.springframework.scheduling.annotation.Async;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
-import fr.cg95.cvq.business.request.external.RequestExternalActionState;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.business.users.external.IndividualMapping;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
@@ -70,12 +69,12 @@ public class RequestExternalService extends ExternalService implements IRequestE
 
     private IRequestTypeService requestTypeService;
 
-    private static final Set<RequestExternalActionState> finalExternalStatuses =
-        new HashSet<RequestExternalActionState>(2);
+    private static final Set<RequestExternalAction.Status> finalExternalStatuses =
+        new HashSet<RequestExternalAction.Status>(2);
 
     static {
-        finalExternalStatuses.add(RequestExternalActionState.ACCEPTED);
-        finalExternalStatuses.add(RequestExternalActionState.REJECTED);
+        finalExternalStatuses.add(RequestExternalAction.Status.ACCEPTED);
+        finalExternalStatuses.add(RequestExternalAction.Status.REJECTED);
     }
 
     @Override
@@ -216,7 +215,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
             RequestExternalAction trace = null;
             if (!externalProviderService.handlesTraces()) {
                 trace = new RequestExternalAction(new Date(), String.valueOf(xmlRequest.getId()),
-                        null, "capdemat", null, externalServiceLabel, null);
+                    "capdemat", null, externalServiceLabel, null);
             }
             try {
                 logger.debug("sendRequest() routing request to external service " 
@@ -227,13 +226,13 @@ public class RequestExternalService extends ExternalService implements IRequestE
                     externalHomeFolderService.modifyHomeFolderMapping(mapping);
                 }
                 if (!externalProviderService.handlesTraces()) {
-                    trace.setStatus(RequestExternalActionState.SENT);
+                    trace.setStatus(RequestExternalAction.Status.SENT);
                 }
             } catch (CvqException ce) {
                 logger.error("sendRequest() error while sending request to " 
                         + externalServiceLabel);
                 if (!externalProviderService.handlesTraces()) {
-                    trace.setStatus(RequestExternalActionState.NOT_SENT);
+                    trace.setStatus(RequestExternalAction.Status.NOT_SENT);
                 }
             }
             if (!externalProviderService.handlesTraces()) {
@@ -413,9 +412,9 @@ public class RequestExternalService extends ExternalService implements IRequestE
                 for (Long id : requestExternalActionService.getRequestsWithoutExternalAction(
                         rt.getId(), service.getLabel())) {
                     requestExternalActionService.addTrace(new RequestExternalAction(
-                        new Date(), id.toString(), null, "capdemat",
+                        new Date(), id.toString(), "capdemat",
                         translationService.translate("requestExternalAction.message.addTraceOnStartup"),
-                        service.getLabel(), RequestExternalActionState.NOT_SENT));
+                        service.getLabel(), RequestExternalAction.Status.NOT_SENT));
                 }
             }
         }

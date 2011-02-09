@@ -38,7 +38,6 @@ import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
 import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
-import fr.cg95.cvq.business.request.external.RequestExternalActionState;
 import fr.cg95.cvq.dao.request.external.IRequestExternalActionDAO;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
@@ -306,7 +305,7 @@ public class RestExternalService implements IExternalProviderService {
     public String sendRequest(XmlObject requestXml) throws CvqException {
         RequestType requestType = (RequestType) requestXml;
         RequestExternalAction est = new RequestExternalAction(new Date(),
-            String.valueOf(requestType.getId()), null, "capdemat", null, getLabel(), null);
+            String.valueOf(requestType.getId()), "capdemat", null, getLabel(), null);
         String body = ExternalServiceUtils.getRequestFromFragment(requestXml);
         logger.debug("sendRequest() sending : " + body);
         HttpResponse response = WS.url(urls.get("sendRequest")).body(body).post();
@@ -315,17 +314,17 @@ public class RestExternalService implements IExternalProviderService {
         String id = null;
         String message = null;
         if (status == 200 || status == 201) {
-            est.setStatus(RequestExternalActionState.SENT);
+            est.setStatus(RequestExternalAction.Status.SENT);
             id = response.getString();
         } else {
             message = response.getString();
             if (status == 500) {
-                est.setStatus(RequestExternalActionState.ERROR);
+                est.setStatus(RequestExternalAction.Status.ERROR);
             } else if (status == 404 || status == 403 || status == 401) {
-                est.setStatus(RequestExternalActionState.NOT_SENT);
+                est.setStatus(RequestExternalAction.Status.NOT_SENT);
                 est.setMessage("Le service distant a répondu avec le code : " + status);
             } else {
-                est.setStatus(RequestExternalActionState.ERROR);
+                est.setStatus(RequestExternalAction.Status.ERROR);
             }
         }
         if (message != null) {

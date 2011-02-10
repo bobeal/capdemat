@@ -2,9 +2,10 @@ package fr.cg95.cvq.dao.users.hibernate;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -12,9 +13,10 @@ import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.type.Type;
 
-import fr.cg95.cvq.business.users.UserState;
+import fr.cg95.cvq.business.QoS;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType;
+import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.users.IIndividualDAO;
@@ -301,4 +303,32 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
         return sb;
     }
 
+    @Override
+    public List<Individual> listTasks(QoS qoS, int max) {
+        Query query = HibernateUtil.getSession()
+            .createQuery("from Individual i where i.qoS = :qoS order by i.lastModificationDate")
+            .setString("qoS", qoS.toString());
+        if (max > 0)
+            query.setMaxResults(max);
+        return query.list();
+    }
+
+    @Override
+    public Long countTasks(QoS qoS) {
+        return (Long)HibernateUtil.getSession()
+            .createQuery("select count(*) from Individual i where i.qoS = :qoS")
+            .setString("qoS", qoS.toString())
+            .iterate().next();
+    }
+
+    @Override
+    public List<Individual> searchTasks(Date date) {
+        return HibernateUtil.getSession()
+            .createQuery("from Individual i where i.state in (:new, :modified, :invalid) and (i.lastModificationDate is null or i.lastModificationDate <= :limitDate) order by i.lastModificationDate")
+            .setString("new", UserState.NEW.toString())
+            .setString("modified", UserState.MODIFIED.toString())
+            .setString("invalid", UserState.INVALID.toString())
+            .setTimestamp("limitDate", date)
+            .list();
+    }
 }

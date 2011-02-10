@@ -123,15 +123,26 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 }
 
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_STATE)) {
-                sb.append(" and request.state " + searchCrit.getComparatif() + " ?");
-                // To ensure we put the good type in the object list
-                // FIXME : all states criteria should be sent as RequestState objects
-                if (searchCrit.getValue() instanceof RequestState)
-                    parametersValues.add(searchCrit.getValue().toString());
-                else
-                    parametersValues.add(searchCrit.getValue());
-                parametersTypes.add(Hibernate.STRING);
-
+                if (Critere.IN.equals(searchCrit.getComparatif())) {
+                    Collection<RequestState> states =
+                        (Collection<RequestState>) searchCrit.getValue();
+                    String[] values = new String[states.size()];
+                    int i = 0;
+                    for (RequestState state : states) {
+                        values[i++] = "'" + state.toString() + "'";
+                    }
+                    sb.append(" and request.state in (")
+                        .append(StringUtils.join(values, ", ")).append(')');
+                } else {
+                    sb.append(" and request.state " + searchCrit.getComparatif() + " ?");
+                    // To ensure we put the good type in the object list
+                    // FIXME : all states criteria should be sent as RequestState objects
+                    if (searchCrit.getValue() instanceof RequestState)
+                        parametersValues.add(searchCrit.getValue().toString());
+                    else
+                        parametersValues.add(searchCrit.getValue());
+                    parametersTypes.add(Hibernate.STRING);
+                }
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_CREATION_DATE)) {
                 sb.append(" and request.creationDate " + searchCrit.getComparatif() + " ?");
                 parametersValues.add(searchCrit.getDateValue());
@@ -162,7 +173,10 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 .append(" and request.redAlert = false");
                 } else if (searchCrit.getValue().equals(Request.QUALITY_TYPE_RED)) {
                     sb.append(" and request.orangeAlert = false")
-                    .append(" and request.redAlert = true");
+                        .append(" and request.redAlert = true");
+                } else if (searchCrit.getValue().equals(Request.QUALITY_TYPE_OK)) {
+                    sb.append(" and request.orangeAlert = false")
+                        .append(" and request.redAlert = false");
                 }
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_SEASON_ID)) {
                 sb.append(" and request.requestSeason.id "
@@ -268,16 +282,27 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 typeList.add(Hibernate.LONG);
                 
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_STATE)) {
-                sb.append(" and state " + searchCrit.getComparatif() + " ?");
-                // To ensure we put the good type in the object list
-                // FIXME : all states criteria should be sent as
-                // RequestState objects
-                if (searchCrit.getValue() instanceof RequestState)
-                    objectList.add(searchCrit.getValue().toString());
-                else
-                    objectList.add(searchCrit.getValue());
-                typeList.add(Hibernate.STRING);
-                
+                if (Critere.IN.equals(searchCrit.getComparatif())) {
+                    Collection<RequestState> states =
+                        (Collection<RequestState>) searchCrit.getValue();
+                    String[] values = new String[states.size()];
+                    int i = 0;
+                    for (RequestState state : states) {
+                        values[i++] = "'" + state.toString() + "'";
+                    }
+                    sb.append(" and request.state in (")
+                        .append(StringUtils.join(values, ", ")).append(')');
+                } else {
+                    sb.append(" and state " + searchCrit.getComparatif() + " ?");
+                    // To ensure we put the good type in the object list
+                    // FIXME : all states criteria should be sent as
+                    // RequestState objects
+                    if (searchCrit.getValue() instanceof RequestState)
+                        objectList.add(searchCrit.getValue().toString());
+                    else
+                        objectList.add(searchCrit.getValue());
+                    typeList.add(Hibernate.STRING);
+                }
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_CATEGORY_ID)) {
                 sb.append(" and request.requestType.category.id "
                         + searchCrit.getComparatif() + " ?");
@@ -349,7 +374,10 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 .append(" and request.redAlert = false");
                 } else if (searchCrit.getValue().equals(Request.QUALITY_TYPE_RED)) {
                     sb.append(" and request.orangeAlert = false")
-                    .append(" and request.redAlert = true");
+                        .append(" and request.redAlert = true");
+                } else if (searchCrit.getValue().equals(Request.QUALITY_TYPE_OK)) {
+                    sb.append(" and request.orangeAlert = false")
+                        .append(" and request.redAlert = false");
                 }
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_SEASON_ID)) {
                 sb.append(" and request.requestSeason.id "

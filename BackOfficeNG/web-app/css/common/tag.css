@@ -53,6 +53,7 @@ invoice : paid, no_paid
 .tag-free, .tag-lockacquired, .tag-locked,
 /* request action types */
 .tag-draftdeletenotification, .tag-creationnotification,
+.tag-qos, .tag-urgent, .tag-late,
 .tag-orangealertnotification, .tag-redalertnotification, .tag-creation, .tag-modification, .tag-modified,
 .tag-statechange, .tag-contactcitizen,
 /* document (request creation) */
@@ -110,7 +111,7 @@ invoice : paid, no_paid
 .tag-error,
 .tag-rejected,
 .tag-locked,
-.tag-redalertnotification,
+.tag-redalertnotification, .tag-late,
 .tag-disable       { background: #cc2020; border-color:#aa2020; }
 
 /* negative red */
@@ -133,10 +134,11 @@ invoice : paid, no_paid
 .tag-modification, .tag-modified,
 .tag-pageedition,
 .tag-inprogress,
-.tag-orangealertnotification,
+.tag-orangealertnotification, .tag-urgent,
 .tag-agent         { background: #ec7000; border-color:#da7000; }
 
 /* violet */
+.tag-qos,
 .tag-passwordreset,
 .tag-required,
 .tag-eCitizen, .tag-ecitizen,

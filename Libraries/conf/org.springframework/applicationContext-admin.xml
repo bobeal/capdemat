@@ -44,7 +44,32 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="jobDetail" ref="requestInstructionDurationCheckerJobInvoker" />
     <property name="cronExpression" value="0 0 6 * * ?" />
   </bean>
-  
+
+  <!-- *******************************************************************  -->
+  <!-- ***** Users Instruction Duration Checker Job Configuration *****  -->
+  <!-- *******************************************************************  -->
+
+  <bean id="userInstructionDurationCheckerJob"
+    class="fr.cg95.cvq.service.users.job.UserInstructionDurationCheckerJob">
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
+    <property name="mailService" ref="mailService" />
+    <property name="individualDAO" ref="individualDAO" />
+    <property name="requestTypeService" ref="requestTypeService" />
+  </bean>
+
+  <bean id="userInstructionDurationCheckerJobInvoker"
+    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="userInstructionDurationCheckerJob" />
+    <property name="targetMethod" value="launchJob" />
+    <property name="concurrent" value="false" />
+  </bean>
+
+  <bean id="userInstructionDurationCheckerTrigger"
+    class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="userInstructionDurationCheckerJobInvoker" />
+    <property name="cronExpression" value="0 30 6 * * ?" />
+  </bean>
+
   <!-- *******************************************************************  -->
   <!-- ********* Requests Creation Notification Job Configuration ********  -->
   <!-- *******************************************************************  -->

@@ -10,6 +10,7 @@ import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.service.users.IUserWorkflowService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.business.users.*
+import fr.cg95.cvq.business.QoS
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.payment.IPaymentService
@@ -417,30 +418,8 @@ class BackofficeHomeFolderController {
     }
 
     protected List doSearch(state) {
-        def result = []
-        def individuals = individualService.get(this.prepareCriterias(state),
-            this.prepareSort(state),this.defaultMax,
+        return individualService.get(prepareCriterias(state), prepareSort(state), defaultMax,
             params.currentOffset ? Integer.parseInt(params.currentOffset) : 0)
-        
-        for(Individual indv : individuals) {
-            def entry = [
-                'id' : indv.id,
-                "state" : indv.state,
-                'lastName' : indv.lastName,
-                'firstName' : indv.firstName,
-                'homeFolderId' : indv.homeFolder?.id,
-                "homeFolderState" : indv.homeFolder?.state,
-                'streetName' : indv.address.streetName,
-                'streetNumber' : indv.address.streetNumber,
-                'postalCode': indv.address.postalCode,
-                'city' : indv.address.city,
-                'birthDate': indv instanceof Child ? indv.birthDate : null,
-                'birthCity': indv instanceof Child ? indv.birthCity : null
-            ]
-            if(!result.contains(entry)) result.add(entry)
-        }
-        
-        return result
     }
     
     protected Set<Critere> prepareCriterias(state) {
@@ -492,5 +471,22 @@ class BackofficeHomeFolderController {
             ])
         }
         return result;
+    }
+
+    def listTasks = {
+        def state = [:]
+
+        // TODO deal with pagination
+        render(view : 'search', model: [
+            'state': state,
+            'records' : individualService.listTasks(QoS.forString(params.qoS), 0),
+            'count' : individualService.countTasks(QoS.forString(params.qoS)),
+            'max': 100,
+            'homeFolderStates': buildHomeFolderStateFilter(),
+            'currentSiteName': SecurityContext.currentSite.name,
+            'homeFolderStatus' : buildHomeFolderStatusFilter(),
+            'pageState' : (new JSON(state)).toString().encodeAsHTML(),
+            'offset' : 0
+        ]);
     }
 }

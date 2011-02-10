@@ -68,6 +68,9 @@ class HomeFolderAdaptorService {
                     case "state" :
                         result.state = CapdematUtils.adaptCapdematEnum(it.value, "user.state")
                         break
+                    case "quality" :
+                        result.state = CapdematUtils.adaptCapdematEnum(it.value, "qoS.quality")
+                        break
                     default :
                         result.(it.key) = it.value
                         break

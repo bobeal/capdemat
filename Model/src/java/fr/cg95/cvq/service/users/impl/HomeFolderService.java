@@ -7,6 +7,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,6 +33,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 
 import fr.cg95.cvq.authentication.IAuthenticationService;
+import fr.cg95.cvq.business.QoS;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
@@ -349,8 +351,11 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
             owner.getIndividualRoles().add(newRole);
         }
         if (SecurityContext.isFrontOfficeContext()) {
-            if (!UserState.NEW.equals(target.getState()))
+            if (!UserState.NEW.equals(target.getState())) {
                 target.setState(UserState.MODIFIED);
+                target.setLastModificationDate(new Date());
+                target.setQoS(QoS.GOOD);
+            }
             if (!UserState.NEW.equals(target.getHomeFolder().getState()))
                 target.getHomeFolder().setState(UserState.MODIFIED);
         }
@@ -378,8 +383,11 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
             deleted.add(role.getRole());
         }
         if (SecurityContext.isFrontOfficeContext()) {
-            if (!UserState.NEW.equals(target.getState()))
+            if (!UserState.NEW.equals(target.getState())) {
                 target.setState(UserState.MODIFIED);
+                target.setLastModificationDate(new Date());
+                target.setQoS(QoS.GOOD);
+            }
             if (!UserState.NEW.equals(target.getHomeFolder().getState()))
                 target.getHomeFolder().setState(UserState.MODIFIED);
         }

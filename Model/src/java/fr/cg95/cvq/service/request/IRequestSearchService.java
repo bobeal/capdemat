@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
+import fr.cg95.cvq.business.QoS;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.annotation.IsHomeFolder;
@@ -80,4 +82,18 @@ public interface IRequestSearchService {
      * @return the names of the archives which could not be deleted
      */
     List<String> deleteArchives(List<String> names);
+
+    /**
+     * Return {@link Request requests} in state {@link RequestState#PENDING Pending},
+     * {@link RequestState#COMPLETE Complete} or {@link RequestState#UNCOMPLETE Uncomplete}.
+     *
+     * @param qoS Quality of service to filter by. Value is one of the {@link Request Request}.QUALITY_TYPE_*
+     * @param sortBy one of the {@link Request Request}.SEARCH_BY_*
+     * @param max Number of tasks to retrieve
+     *
+     * @throws CvqException
+     */
+    List<Request> listTasks(String qoS, String sortBy, int max) throws CvqException;
+
+    Long countTasks(String qoS) throws CvqException;
 }

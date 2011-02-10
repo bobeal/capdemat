@@ -25,6 +25,7 @@ class BackofficeUrlMappings {
     "/backoffice/statistic/$action?/$id?" (controller : "backofficeStatistic" )
     "/backoffice/externalApplication/$action?/$id?" (controller : "backofficeExternalApplication" )
     "/backoffice/external/$action?/$id?" (controller : "backofficeExternal" )
+    "/backoffice/tasks/$action?/$id?" (controller : "backofficeTasks" )
     "/backoffice/ticketBooking/$action?/$id?" (controller : "backofficeTicketBooking" )
   }
 }

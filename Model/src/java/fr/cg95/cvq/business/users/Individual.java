@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
 import fr.cg95.cvq.business.Historizable;
+import fr.cg95.cvq.business.QoS;
 import fr.cg95.cvq.xml.common.BirthPlaceType;
 import fr.cg95.cvq.xml.common.IndividualRoleType;
 import fr.cg95.cvq.xml.common.IndividualType;
@@ -89,7 +90,11 @@ public abstract class Individual implements Historizable, Serializable {
 
 
     private Date creationDate;
+
     private UserState state;
+    private Date lastModificationDate;
+
+    private QoS qoS;
 
     @NotNull(message = "address", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Adult")
     @AssertValid(message = "address", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Adult")
@@ -346,6 +351,7 @@ public abstract class Individual implements Historizable, Serializable {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+        this.lastModificationDate = creationDate;
     }
 
     public void setCreationDate(String creationDate) {
@@ -355,6 +361,32 @@ public abstract class Individual implements Historizable, Serializable {
             DateFormat df = DateFormat.getDateInstance();
             try {
                 this.creationDate = df.parse(creationDate);
+                this.lastModificationDate = this.creationDate;
+            } catch (java.text.ParseException pe) {
+                // hmm, worrying isn't it ?
+            }
+        }
+    }
+
+    /**
+     * @hibernate.property
+     *  column="last_modification_date"
+     */
+    public Date getLastModificationDate() {
+        return this.lastModificationDate;
+    }
+
+    public void setLastModificationDate(Date lastModificationDate) {
+        this.lastModificationDate = lastModificationDate;
+    }
+
+    public void setLastModificationDate(String lastModificationDate) {
+        if (lastModificationDate == null || lastModificationDate.equals("")) {
+            this.lastModificationDate = null;
+        } else {
+            DateFormat df = DateFormat.getDateInstance();
+            try {
+                this.lastModificationDate = df.parse(lastModificationDate);
             } catch (java.text.ParseException pe) {
                 // hmm, worrying isn't it ?
             }
@@ -443,6 +475,19 @@ public abstract class Individual implements Historizable, Serializable {
 
     public void setIndividualRoles(Set<IndividualRole> individualRoles) {
         this.individualRoles = individualRoles;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="q_o_s"
+     *  length="16"
+     */
+    public QoS getQoS() {
+        return qoS;
+    }
+
+    public void setQoS(QoS qoS) {
+        this.qoS = qoS;
     }
 
     public String getFullName() {

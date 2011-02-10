@@ -146,3 +146,5 @@ insert into user_external_action
 delete from request_external_action where key in
     (select cast(id as varchar) from request where request_type_id in
         (select id from request_type where label = 'VO Card' or label = 'Home Folder Modification'));
+
+alter table individual add column q_o_s varchar(16);

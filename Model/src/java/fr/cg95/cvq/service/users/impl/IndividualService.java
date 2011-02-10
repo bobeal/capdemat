@@ -28,6 +28,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import fr.cg95.cvq.authentication.IAuthenticationService;
+import fr.cg95.cvq.business.QoS;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.Individual;
@@ -43,6 +44,9 @@ import fr.cg95.cvq.exception.CvqDisabledAccountException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.security.annotation.Context;
+import fr.cg95.cvq.security.annotation.ContextPrivilege;
+import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.ValidationUtils;
@@ -205,6 +209,8 @@ public class IndividualService implements IIndividualService {
     private Long create(Individual individual) {
         individual.setState(SecurityContext.isFrontOfficeContext() ? UserState.NEW : UserState.VALID);
         individual.setCreationDate(new Date());
+        individual.setQoS(SecurityContext.isFrontOfficeContext() ? QoS.GOOD : null);
+        individual.setLastModificationDate(new Date());
         Long id = individualDAO.create(individual);
         individual.getHomeFolder().getActions().add(new UserAction(UserAction.Type.CREATION, id));
         if (SecurityContext.isFrontOfficeContext()
@@ -224,8 +230,11 @@ public class IndividualService implements IIndividualService {
         else if (individual.getId() == null)
             throw new CvqException("Cannot modify a transient individual");
         if (SecurityContext.isFrontOfficeContext()) {
-            if (!UserState.NEW.equals(individual.getState()))
+            if (!UserState.NEW.equals(individual.getState())) {
                 individual.setState(UserState.MODIFIED);
+                individual.setLastModificationDate(new Date());
+                individual.setQoS(QoS.GOOD);
+            }
             if (!UserState.NEW.equals(individual.getHomeFolder().getState()))
                 individual.getHomeFolder().setState(UserState.MODIFIED);
         }
@@ -337,6 +346,19 @@ public class IndividualService implements IIndividualService {
             ValidationUtils.collectInvalidFields(violation, invalidFields, "", "");
         }
         return invalidFields.get("") != null ? invalidFields.get("") : Collections.<String>emptyList();
+    }
+
+
+    @Override
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public List<Individual> listTasks(QoS qoS, int max) {
+        return individualDAO.listTasks(qoS, max);
+    }
+
+    @Override
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public Long countTasks(QoS qoS) {
+        return individualDAO.countTasks(qoS);
     }
 }
 

@@ -1,0 +1,38 @@
+/* --------------------------------------------------------------
+
+    Tasks styles
+
+-------------------------------------------------------------- */
+
+/* sub-titles
+-------------------------------------------------------------- */
+.tasks h2 { font-size: 1.15em !important; padding: 0 0 0.2em !important; border-bottom: 1px dotted #000 !important; }
+.tasks.red h2 { color: #cc2020; border-color: #cc2020 !important; }
+.tasks.blue h2 { color: #2020cc; border-color: #2020cc !important; }
+.tasks.green h2 { color: #20aa20; border-color: #20aa20 !important; }
+.tasks.orange h2 { color: #ec7000; border-color: #ec7000 !important; }
+
+.tasks h2 strong {cursor: pointer; }
+.tasks h2 a { float: right; font-size:.75em; color: #333; text-decoration:none; }
+.tasks h2 a:hover { background: transparent; color: #333; text-decoration: underline; text-indent: 0; }
+
+/* list
+-------------------------------------------------------------- */
+.tasks ul { padding: 0 2em .5em; font-size: .95em; color: #666; }
+.tasks ul.collapse { display: none; }
+.tasks li { padding: .4em 0 ; border-bottom:1px dotted #ccc; }
+
+.tasks li a { text-decoration: none; }
+.tasks li a:hover { color:#fff !important; }
+
+.tasks.red li a { color: #cc2020; }
+.tasks.red li a:hover { background: #cc2020; }
+
+.tasks.orange li a { color: #ec7000; }
+.tasks.orange li a:hover { background: #ec7000; }
+
+.tasks.green li a { color: #20aa20; }
+.tasks.green li a:hover { background: #20aa20; }
+
+.tasks.blue li a { color: #2020cc; }
+.tasks.blue li a:hover { background: #2020cc; }

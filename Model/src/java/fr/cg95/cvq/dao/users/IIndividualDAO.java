@@ -1,9 +1,11 @@
 package fr.cg95.cvq.dao.users;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.Map;
 
+import fr.cg95.cvq.business.QoS;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.UserState;
@@ -86,4 +88,14 @@ public interface IIndividualDAO extends IGenericDAO {
 
     boolean hasSimilarIndividuals(String firstName, String lastName, String email,
         String phone, String streetNumber, String streetName, String postalCode, String city);
+
+    List<Individual> listTasks(QoS qoS, int max);
+
+    Long countTasks(QoS qoS);
+
+    /**
+     * Returns {@link Individual individuals} in state {@link UserState New}, {@link UserState Modified} or
+     * {@link UserState Invalid} whose the last modification date is past the maximum delay.
+     */
+    List<Individual> searchTasks(Date date);
 }

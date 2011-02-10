@@ -5,12 +5,16 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream.UnicodeExtraFieldPolicy;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
 
 import fr.cg95.cvq.business.authority.LocalAuthorityResource;
 import fr.cg95.cvq.business.request.Request;
@@ -28,8 +32,9 @@ import fr.cg95.cvq.service.request.IRequestSearchService;
 import fr.cg95.cvq.service.request.annotation.RequestFilter;
 import fr.cg95.cvq.util.Critere;
 
-public class RequestSearchService implements IRequestSearchService {
+public class RequestSearchService implements IRequestSearchService, BeanFactoryAware {
 
+    private BeanFactory beanFactory;
     private ILocalAuthorityRegistry localAuthorityRegistry;
     private IRequestDAO requestDAO;
 
@@ -159,5 +164,63 @@ public class RequestSearchService implements IRequestSearchService {
 
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
         this.localAuthorityRegistry = localAuthorityRegistry;
+    }
+
+    @Override
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public List<Request> listTasks(String qoS, String sortBy, int max) throws CvqException {
+        Set<Critere> criteria = new HashSet<Critere>(2);
+
+        Critere criterion = new Critere();
+        criterion.setComparatif(Critere.IN);
+        criterion.setAttribut(Request.SEARCH_BY_STATE);
+
+        Set<RequestState> states = new HashSet<RequestState>(3);
+        states.add(RequestState.PENDING);
+        states.add(RequestState.COMPLETE);
+        states.add(RequestState.UNCOMPLETE);
+        criterion.setValue(states);
+
+        criteria.add(criterion);
+
+        criterion = new Critere();
+        criterion.setComparatif(Critere.EQUALS);
+        criterion.setAttribut(Request.SEARCH_BY_QUALITY_TYPE);
+        criterion.setValue(qoS);
+        criteria.add(criterion);
+        // FIXME JSB : hack to avoid bypassing aspect security
+        return ((IRequestSearchService)beanFactory.getBean("requestSearchService")).get(criteria, sortBy, null, max, 0, false);
+    }
+
+    @Override
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public Long countTasks(final String qoS) throws CvqException {
+        Set<Critere> criteria = new HashSet<Critere>(2);
+
+        Critere criterion = new Critere();
+        criterion.setComparatif(Critere.IN);
+        criterion.setAttribut(Request.SEARCH_BY_STATE);
+
+        Set<RequestState> states = new HashSet<RequestState>(3);
+        states.add(RequestState.PENDING);
+        states.add(RequestState.COMPLETE);
+        states.add(RequestState.UNCOMPLETE);
+        criterion.setValue(states);
+
+        criteria.add(criterion);
+
+        criterion = new Critere();
+        criterion.setComparatif(Critere.EQUALS);
+        criterion.setAttribut(Request.SEARCH_BY_QUALITY_TYPE);
+        criterion.setValue(qoS);
+        criteria.add(criterion);
+        // FIXME JSB : hack to avoid bypassing aspect security
+        return ((IRequestSearchService)beanFactory.getBean("requestSearchService")).getCount(criteria);
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory)
+        throws BeansException {
+        this.beanFactory = beanFactory;
     }
 }

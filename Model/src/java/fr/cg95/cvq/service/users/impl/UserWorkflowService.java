@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.users.impl;
 
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.springframework.context.ApplicationEventPublisherAware;
 
 import com.google.gson.JsonObject;
 
+import fr.cg95.cvq.business.QoS;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
@@ -127,6 +129,12 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
                 translationService.translate(
                     "user.state." + state.toString().toLowerCase()));
         individual.setState(state);
+        individual.setLastModificationDate(new Date());
+        if (UserState.VALID.equals(state) || UserState.ARCHIVED.equals(state)) {
+            individual.setQoS(null);
+        } else {
+            individual.setQoS(QoS.GOOD);
+        }
         JsonObject payload = new JsonObject();
         payload.addProperty("state", state.toString());
         individual.getHomeFolder().getActions().add(

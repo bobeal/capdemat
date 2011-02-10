@@ -1749,9 +1749,11 @@
         birth_city varchar(32),
         birth_postal_code varchar(5),
         creation_date timestamp,
+        last_modification_date timestamp,
         state varchar(16) not null,
         address_id int8,
         home_folder_id int8,
+        q_o_s varchar(16),
         home_folder_index int4,
         primary key (id)
     );

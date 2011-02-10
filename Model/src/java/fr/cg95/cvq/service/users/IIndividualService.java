@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.google.gson.JsonObject;
 
+import fr.cg95.cvq.business.QoS;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.Individual;
@@ -78,4 +79,8 @@ public interface IIndividualService extends IAutofillTriggerService {
     List<String> validate(Child child)
         throws ClassNotFoundException, IllegalAccessException, InvocationTargetException,
             NoSuchMethodException;
+
+    List<Individual> listTasks(QoS qoS, int max);
+
+    Long countTasks(QoS qoS);
 }

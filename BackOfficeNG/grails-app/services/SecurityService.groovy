@@ -35,6 +35,7 @@ public class SecurityService {
                 "backofficeRequestInstruction" : /.*/,
                 "backofficeRequestType" : /.*/,
                 "backofficeStatistic" : /.*/,
+                "backofficeTasks" : /.*/,
                 "backofficeTicketBooking" : /.*/,
                 "system" : /error/
             ],
@@ -72,7 +73,7 @@ public class SecurityService {
             [controller : "backofficeLocalAuthority"],
         (ContextType.AGENT) : [
             (SecurityContext.BACK_OFFICE_CONTEXT) :
-                [controller : "backofficeRequest", action : "taskBoard"],
+                [controller : "backofficeTasks"],
             (SecurityContext.FRONT_OFFICE_CONTEXT) :
                 [controller : "frontofficeRequestType", action : "index"]
         ],

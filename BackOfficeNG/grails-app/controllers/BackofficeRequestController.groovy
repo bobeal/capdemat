@@ -11,8 +11,6 @@ import fr.cg95.cvq.service.request.IRequestStatisticsService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.security.SecurityContext
 
-import grails.converters.JSON
-
 class BackofficeRequestController {
 
     IAgentService agentService
@@ -37,8 +35,6 @@ class BackofficeRequestController {
     def dateKeys = ['creationDateFrom', 'creationDateTo']
     def defaultSortBy = 'creationDate'
     def resultsPerPage = 15
-    // default number of tasks to show per type
-    def tasksShowNb = 5 
     def beforeInterceptor = {
         session["currentMenu"] = "requests"
     }
@@ -117,7 +113,6 @@ class BackofficeRequestController {
             criteria.add(critere)
         }
         
-        
         // deal with dynamic sorts
         def sortBy = defaultSortBy
         if(params.sortBy)
@@ -156,71 +151,6 @@ class BackofficeRequestController {
                    'inSearch':true].plus(initSearchReferential()))
     }
 
-    /**
-     * Called when asking for the agent's task board
-     */
-    def taskBoard = {
-        def state = [:]
-        def pageState = ""
-        def method = request.getMethod().toLowerCase()
-        
-        state['displayForm'] = agentService.getPreferenceByKey('display')?.displayForm?.split(",")
-        if(state['displayForm'] == null)
-            state['displayForm'] = ['Late','Alert','New','Last','Validated']
-        else 
-            state['displayForm'] = state['displayForm'] as List
-
-        if(method == 'get') {
-            state['defaultDisplay'] = state['displayForm']
-            def categoryIdFilter = ''
-            def requestTypeIdFilter = ''
-            if(session['filterBy']) {
-                def allFilters = SearchUtils.parseFilters(session['filterBy']).filters
-                categoryIdFilter = allFilters['categoryIdFilter']
-                requestTypeIdFilter = allFilters['requestTypeIdFilter']
-            }
-            state['filters'] = ['categoryIdFilter':categoryIdFilter,'requestTypeIdFilter':requestTypeIdFilter]
-        } else { 
-            state = JSON.parse(params.pageState);
-            session['filterBy'] = SearchUtils.formatFilters(state.filters)
-        }
-        
-        if(state.modifyDisplay == true) {
-            Hashtable<String, String> hash = new Hashtable<String, String>()
-            hash.put('displayForm', state.displayForm?.join(",").replace('\"',''))
-            agentService.modifyPreference('display',hash)
-            state.modifyDisplay = null
-            state['defaultDisplay'] = state['displayForm']
-            state['message'] = message(code:'message.updateDone')
-        }
-        
-        pageState = (new JSON(state)).toString()
-        session['currentMenu'] = 'taskBoard'
-        
-        def requestMap = [:]
-        
-        if(state?.displayForm?.contains('Late'))
-            requestMap.redRequests = filterRequests('SEARCH_BY_QUALITY_TYPE',Request.QUALITY_TYPE_RED,state)
-        if(state?.displayForm?.contains('Alert'))
-            requestMap.orangeRequests = filterRequests('SEARCH_BY_QUALITY_TYPE',Request.QUALITY_TYPE_ORANGE,state)
-        if(state?.displayForm?.contains('New'))
-            requestMap.pendingRequests = filterRequests('SEARCH_BY_STATE',RequestState.PENDING,state)
-        if(state?.displayForm?.contains('Validated'))
-            requestMap.validatedRequests = filterRequests('SEARCH_BY_STATE',RequestState.VALIDATED,state)
-        if(state?.displayForm?.contains('Last'))
-            requestMap.lastRequests = filterRequests('SEARCH_BY_LAST_INTERVENING_USER_ID',
-                    SecurityContext.currentUserId,state)
-
-        
-        
-        render (view:'taskBoard', model:['requestMap':requestMap,
-                                         'state' : state,
-                                         'currentUserId' : SecurityContext.currentUserId,
-                                         'pageState' : pageState.encodeAsHTML(),
-                                         'allCategories':categoryService.getAll(),
-                                         'allRequestTypes':requestAdaptorService.translateAndSortRequestTypes()])
-    }
-    
     def initSearchReferential() {
         return ['allStates':RequestState.allRequestStates.findAll { it != RequestState.DRAFT },
                 'allAgents':agentService.getAll(),
@@ -228,40 +158,26 @@ class BackofficeRequestController {
                 'allRequestTypes':requestAdaptorService.translateAndSortRequestTypes(),
                 'subMenuEntries' : subMenuEntries]
     }
-    
-    protected filterRequests = {attr,val,state ->
-        Set criteriaSet = new HashSet<Critere>()
-        Critere critere = new Critere()
-        
-        critere.comparatif = Critere.EQUALS
-        critere.attribut = Request."${attr}"
-        critere.value = val
-        criteriaSet.add(critere)
-        
-        if(state?.filters?.categoryIdFilter) {
-            critere = new Critere()
-            critere.attribut = Request.SEARCH_BY_CATEGORY_ID
-            critere.comparatif = critere.EQUALS
-            critere.value = state.filters.categoryIdFilter
-            criteriaSet.add(critere)
+
+    def listTasks = {
+        def recordsList = []
+        requestSearchService.listTasks(params.qoS, defaultSortBy, 0).each {
+            def record = requestAdaptorService.prepareRecordForSummaryView(it)
+            recordsList.add(record)
         }
-        if(state?.filters?.requestTypeIdFilter) {
-            critere = new Critere()
-            critere.attribut = Request.SEARCH_BY_REQUEST_TYPE_ID
-            critere.comparatif = critere.EQUALS
-            critere.value = state.filters.requestTypeIdFilter
-            criteriaSet.add(critere)
-        }
-        if (attr != RequestState.ARCHIVED) {
-            critere = new Critere()
-            critere.attribut = Request.SEARCH_BY_STATE
-            critere.comparatif = Critere.NEQUALS
-            critere.value = RequestState.ARCHIVED
-            criteriaSet.add(critere)
-        }
-        return [
-            'all' : requestSearchService.get(criteriaSet, null, null, tasksShowNb, 0, false),
-            'count' : requestSearchService.getCount(criteriaSet)
-        ]
+
+        session['filterBy'] = [:]
+        session['sortBy'] = defaultSortBy
+
+        // TODO deal with pagination
+        render(view : 'search', model:['records' : recordsList,
+                   'recordsReturned' : recordsList.size(),
+                   'totalRecords' : recordsList.size(),
+                   'filters' : [:],
+                   'filterBy' : [:],
+                   'recordOffset' : 0,
+                   'sortBy' : defaultSortBy,
+                   'inSearch' : true
+                   ].plus(initSearchReferential()))
     }
 }

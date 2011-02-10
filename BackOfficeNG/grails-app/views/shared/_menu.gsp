@@ -9,8 +9,8 @@
 </div>
 <div id="menu">
   <g:if test="${session.currentCredentialBean.hasSiteAgentRole()}">
-    <a id="taskBoardMenuItem" href="${createLink(controller:'backofficeRequest',action:'taskBoard')}">
-      <g:message code="menu.taskBoard" />
+    <a id="tasksMenuItem" href="${createLink(controller:'backofficeTasks')}">
+      <g:message code="menu.tasks" />
     </a>
     <a id="requestsMenuItem" href="${createLink(controller:'backofficeRequest')}">
       <g:message code="menu.requests" />

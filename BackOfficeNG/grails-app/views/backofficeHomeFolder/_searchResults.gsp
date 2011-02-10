@@ -5,20 +5,20 @@
       <li>
         <p class="first-line">
           <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="user.state" />
-          <g:if test="${record.homeFolderId}">
-            <a href="${createLink(action:'details',id:record.homeFolderId)}">
+          <g:if test="${record.homeFolder}">
+            <a href="${createLink(action:'details',id:record.homeFolder.id)}">
           </g:if>
           ${record.firstName} 
           <span class="${state?.orderBy == 'lastName' ? 'current-sort' : ''}">${record.lastName}</span>
           <span class="${state?.orderBy == 'id' ? 'current-sort' : ''}">(${record.id})</span>
-          <g:if test="${record.homeFolderId}">
+          <g:if test="${record.homeFolder}">
             </a>
           </g:if>
         </p>
         <p class="second-line">
-          ${record.streetNumber} ${record.streetName}
-          <g:if test="${currentSiteName != record.city}">
-            ${record.postalCode} ${record.city}
+          ${record.address.streetNumber} ${record.address.streetName}
+          <g:if test="${currentSiteName != record.address.city}">
+            ${record.address.postalCode} ${record.address.city}
           </g:if>
           <g:if test="${record.birthDate}">
             - <g:message code="homeFolder.header.born"/>
@@ -30,13 +30,13 @@
             </g:if>
           </g:if>
         </p>
-        <g:if test="${record.homeFolderId}">
+        <g:if test="${record.homeFolder}">
           <p class="third-line">
             ${message(code:'property.homeFolderId')} :
             <span class="${state?.orderBy == 'homeFolder.id' ? 'current-sort' : ''}">
-              ${record.homeFolderId}
+              ${record.homeFolder.id}
             </span>
-            <g:capdematEnumToFlag var="${record.homeFolderState}" i18nKeyPrefix="user.state" />
+            <g:capdematEnumToFlag var="${record.homeFolder.state}" i18nKeyPrefix="user.state" />
           </p>
         </g:if>
       </li>

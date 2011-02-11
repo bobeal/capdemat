@@ -117,6 +117,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/ticket/PlaceCategory.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/ticket/Fare.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/ticket/Subscriber.hbm.xml</value>
+        <value>fr/cg95/cvq/business/users/UserAction.hbm.xml</value>
       </list>
     </property>
 

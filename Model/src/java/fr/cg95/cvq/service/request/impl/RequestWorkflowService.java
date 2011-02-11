@@ -34,16 +34,11 @@ import fr.cg95.cvq.business.request.RequestStep;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.RequestEvent.COMP_DATA;
 import fr.cg95.cvq.business.request.RequestEvent.EVENT_TYPE;
-import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
-import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.business.users.ActorState;
-import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.IndividualRole;
-import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.UsersEvent;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
@@ -101,62 +96,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     private ApplicationContext applicationContext;
 
     @Override
-    public void createAccountCreationRequest(Adult adult, boolean temporary)
-        throws CvqException {
-        HomeFolder homeFolder = homeFolderService.create(adult, temporary);
-        VoCardRequest request = (VoCardRequest)getSkeletonRequest("VO Card");
-        request.setHomeFolderId(homeFolder.getId());
-        SecurityContext.setCurrentEcitizen(adult);
-        request.setRequesterId(adult.getId());
-        request.setRequesterLastName(adult.getLastName());
-        request.setRequesterFirstName(adult.getFirstName());
-        Long requestId = finalizeAndPersist(request, homeFolder, null);
-        HibernateUtil.getSession().flush();
-        logger.debug("create() Created request object with id : " + requestId);
-    }
-
-    @Override
-    @Deprecated
-    public void createAccountCreationRequest(VoCardRequest dcvo, List<Adult> adults, List<Child> children,
-            List<Adult> foreignRoleOwners, final Address address, List<Document> documents, String note)
-            throws CvqException {
-
-        HomeFolder homeFolder = homeFolderService.create(adults, children, address, false);
-        
-        dcvo.setHomeFolderId(homeFolder.getId());
-
-        // by default, set the home folder responsible as requester
-        // we need to search for it manually because there is no citizen yet in security context
-        Adult homeFolderResponsible = null;
-        for (Adult adult : adults) {
-            if (adult.getIndividualRoles() != null) {
-                for (IndividualRole individualRole : adult.getIndividualRoles()) {
-                    if (individualRole.getRole().equals(RoleType.HOME_FOLDER_RESPONSIBLE)) {
-                        homeFolderResponsible = adult;
-                        break;
-                    }
-                }
-            }
-        }
-        SecurityContext.setCurrentEcitizen(homeFolderResponsible);
-        
-        dcvo.setRequesterId(homeFolderResponsible.getId());
-        dcvo.setRequesterLastName(homeFolderResponsible.getLastName());
-        dcvo.setRequesterFirstName(homeFolderResponsible.getFirstName());
-
-        Long requestId = finalizeAndPersist(dcvo, homeFolder, note);
-
-        requestDocumentService.addDocuments(dcvo, documents);
-
-        homeFolderService.saveForeignRoleOwners(homeFolder.getId(), adults, children,
-                foreignRoleOwners);
-
-        HibernateUtil.getSession().flush();
-
-        logger.debug("create() Created request object with id : " + requestId);
-    }
-    
-    @Override
     public void isAccountModificationRequestAuthorized(final HomeFolder homeFolder) 
         throws CvqModelException {
         
@@ -169,98 +108,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         if (!homeFolder.getState().equals(ActorState.VALID))
             throw new CvqModelException("homeFolder.error.accountModifcationPossibleForValidatedAccount");
-    }
-
-    @Deprecated
-    @Override
-    public void createAccountModificationRequest(HomeFolderModificationRequest hfmr,
-            List<Adult> adults, List<Child> children, List<Adult> foreignRoleOwners,
-            Address address, List<Document> documents, String note) throws CvqException {
-
-        // load home folder first to check for the existence of another
-        // similar request in progress
-        HomeFolder homeFolder = 
-            homeFolderService.getById(SecurityContext.getCurrentEcitizen().getHomeFolder().getId());
-        isAccountModificationRequestAuthorized(homeFolder);
-        
-        hfmr.setHomeFolderId(homeFolder.getId());
-        performBusinessChecks(hfmr, null);
-
-        setAdministrativeInformation(hfmr);
-        requestDAO.create(hfmr);
-
-        homeFolderService.modify(homeFolder.getId(), hfmr.getId(), adults, children, address);
-        
-        // in case of an home folder responsible change, the new one has normally been set
-        // in the security context. Yes, this seems like a hack. And so it is.
-        hfmr.setRequesterId(SecurityContext.getCurrentEcitizen().getId());
-        hfmr.setRequesterFirstName(SecurityContext.getCurrentEcitizen().getFirstName());
-        hfmr.setRequesterLastName(SecurityContext.getCurrentEcitizen().getLastName());
-        
-        requestDAO.update(hfmr);
-
-        // TODO REFACTORING : branch into common treatments
-        // To flush new individuals and retrieve them with Query.list
-        HibernateUtil.getSession().flush();
-        byte[] pdfData = requestPdfService.generateCertificate(hfmr);
-
-        requestActionService.addCreationAction(hfmr.getId(), new Date(), pdfData, note);
-
-        requestDocumentService.addDocuments(hfmr, documents);
-        
-        if (foreignRoleOwners != null) {
-            for (int i = 0; i < foreignRoleOwners.size(); i++) {
-                if (foreignRoleOwners.get(i).getId() != null) {
-                    Adult mergeRoleOwner = (Adult)HibernateUtil.getSession().merge(foreignRoleOwners.get(i));
-                    foreignRoleOwners.set(i, mergeRoleOwner);
-                }
-            }
-        }
-        homeFolderService.saveForeignRoleOwners(hfmr.getHomeFolderId(), adults, children, 
-                foreignRoleOwners);        
-
-        RequestEvent requestEvent = 
-            new RequestEvent(this, EVENT_TYPE.REQUEST_CREATED, hfmr);
-        if (pdfData != null)
-            requestEvent.addComplementaryData(COMP_DATA.PDF_FILE, pdfData);
-        applicationContext.publishEvent(requestEvent);
-    }
-
-    @Override
-    public void createAccountModificationRequest(Individual individual) throws CvqException {
-        Long homeFolderId = SecurityContext.getCurrentEcitizen().getHomeFolder().getId();
-        List<Adult> adults = homeFolderService.getAdults(homeFolderId);
-        List<Child> children = homeFolderService.getChildren(homeFolderId);
-        if (individual instanceof Child) {
-            if (individual.getId() != null) {
-                Iterator<Child> it = children.iterator();
-                while (it.hasNext()) {
-                    Child child = it.next();
-                    if (child.getId().equals(individual.getId()))
-                        it.remove();
-                }
-            }
-            children.add((Child) individual);
-        } else if (individual instanceof Adult) {
-            if (individual.getId() != null) {
-                Iterator<Adult> it = adults.iterator();
-                while (it.hasNext()) {
-                    Adult adult = it.next();
-                    if (adult.getId().equals(individual.getId()))
-                        it.remove();
-                }
-            }
-            adults.add((Adult) individual);
-        }
-
-        Address address = SecurityContext.getCurrentEcitizen().getAddress();
-        if (SecurityContext.getCurrentEcitizen().getId().equals(individual.getId()))
-            address = individual.getAddress();
-
-        createAccountModificationRequest(
-            (HomeFolderModificationRequest) getSkeletonRequest("Home Folder Modification"),
-            adults, children, Collections.<Adult> emptyList(), address,
-            Collections.<Document> emptyList(), null);
     }
 
     @Override
@@ -1046,8 +893,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
         // those two request types are special ones
-        if (request instanceof VoCardRequest || request instanceof HomeFolderModificationRequest
-                || homeFolder.isTemporary())
+        if (homeFolder.isTemporary())
             homeFolderService.validate(request.getHomeFolderId());
 
 		// send request data to interested external services
@@ -1109,13 +955,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         }
 
         HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
-        if (request instanceof VoCardRequest)
-            // invalidate home folder is creation request is cancelled
-            homeFolderService.invalidate(request.getHomeFolderId());
-        else if (request instanceof HomeFolderModificationRequest)
-            // home folder was supposed to be valid before modification request
-            homeFolderService.validate(request.getHomeFolderId());
-        else if (homeFolder.isTemporary())
+        if (homeFolder.isTemporary())
             homeFolderService.invalidate(request.getHomeFolderId());
     }
 
@@ -1149,13 +989,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         }
 
         HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
-        if (request instanceof VoCardRequest)
-            // invalidate home folder is creation request is cancelled
-            homeFolderService.invalidate(request.getHomeFolderId());
-        else if (request instanceof HomeFolderModificationRequest)
-            // home folder was supposed to be valid before modification request
-            homeFolderService.validate(request.getHomeFolderId());
-        else if (homeFolder.isTemporary())
+        if (homeFolder.isTemporary())
             homeFolderService.invalidate(request.getHomeFolderId());
     }
     

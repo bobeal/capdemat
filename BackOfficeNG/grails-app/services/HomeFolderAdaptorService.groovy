@@ -1,11 +1,17 @@
 import fr.cg95.cvq.business.users.RoleType
+import fr.cg95.cvq.business.users.UserAction
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.util.translation.ITranslationService
+
+import grails.converters.JSON
 
 class HomeFolderAdaptorService {
 
     IHomeFolderService homeFolderService
     IIndividualService individualService
+    ITranslationService translationService
+    def instructionService
 
     public prepareAdultSubjectRoles(adult ) {
         def adultSubjectRoles = []
@@ -28,5 +34,46 @@ class HomeFolderAdaptorService {
             }
         }
         return ownerRoles
+    }
+
+    public prepareActions(actions) {
+        if (!actions) actions = []
+        return actions.collect { prepareAction(it) }
+    }
+
+    public prepareAction(action) {
+        if (!action) return null
+        def result = [
+            "type" : CapdematUtils.adaptCapdematEnum(action.type, "userAction.type"),
+            "date" : action.date,
+            "username" : instructionService.getActionPosterDetails(action.userId),
+            "data" : [:]
+        ]
+        def target
+        try {
+            homeFolderService.getById(action.targetId)
+            result.target = translationService.translate("homeFolder.header")
+        } catch (CvqObjectNotFoundException) {
+            result.target = instructionService.getActionPosterDetails(action.targetId)
+        }
+        if (action.data) {
+            JSON.parse(action.data).each {
+                switch (it.key) {
+                    case "state" :
+                        result["state"] = CapdematUtils.adaptCapdematEnum(it.value, "actor.state")
+                        break;
+                    case "role" :
+                        result["role"] = [:]
+                        result["role"]["type"] = it.value.type
+                        result["role"]["owner"] = instructionService.getActionPosterDetails(it.value.owner)
+                        result["role"]["deleted"] = it.value.deleted
+                        break;
+                    default :
+                        result.data.(it.key) = it.value
+                        break;
+                }
+            }
+        }
+        return result
     }
 }

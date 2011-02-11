@@ -118,8 +118,7 @@ class FrontofficeHomeFolderController {
                 model["invalidFields"].add("captchaText")
             }
             if (model["invalidFields"].isEmpty()) {
-                homeFolderService.addHomeFolderRole(adult, RoleType.HOME_FOLDER_RESPONSIBLE)
-                requestWorkflowService.createAccountCreationRequest(adult, model["temporary"] && params.boolean("temporary"))
+                homeFolderService.create(adult, model["temporary"] && params.boolean("temporary"))
                 securityService.setEcitizenSessionInformation(adult.login, session)
                 if (params.requestTypeLabel) {
                     flash.precedeByAccountCreation = true
@@ -149,7 +148,8 @@ class FrontofficeHomeFolderController {
             bind(individual)
             model["invalidFields"] = individualService.validate(individual, false)
             if (model["invalidFields"].isEmpty()) {
-                requestWorkflowService.createAccountModificationRequest(individual)
+                if (individual.id) individualService.modify(individual)
+                else homeFolderService.addAdult(this.currentEcitizen.homeFolder, individual, false)
                 redirect(action : "adult", params : ["id" : individual.id])
                 return false
             } else {
@@ -174,6 +174,7 @@ class FrontofficeHomeFolderController {
             individual = individualService.getChildById(Long.valueOf(params.id))
         } else {
             individual = new Child()
+            individual.homeFolder = currentEcitizen.homeFolder
             // hack : WTF is an unknown sex ?
             individual.sex = null
         }
@@ -184,14 +185,14 @@ class FrontofficeHomeFolderController {
                     SecurityContext.currentEcitizen.homeFolder.id, individual.id)
             params.roles.each {
                 if (it.value instanceof GrailsParameterMap && it.value.owner != '' && it.value.type != '') {
-                    homeFolderService.addRole(individualService.getById(Long.valueOf(it.value.owner)),
-                        individual, SecurityContext.currentEcitizen.homeFolder.id,
-                        RoleType.forString(it.value.type))
+                    homeFolderService.addIndividualRole(individualService.getById(Long.valueOf(it.value.owner)),
+                        individual, RoleType.forString(it.value.type))
                 }
             }
             model["invalidFields"] = individualService.validate(individual)
             if (model["invalidFields"].isEmpty()) {
-                requestWorkflowService.createAccountModificationRequest(individual)
+                if (individual.id) individualService.modify(individual)
+                else homeFolderService.addChild(this.currentEcitizen.homeFolder, individual)
                 redirect(action : "child", params : ["id" : individual.id])
                 return false
             } else {

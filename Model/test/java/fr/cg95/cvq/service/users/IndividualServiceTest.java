@@ -3,6 +3,7 @@ package fr.cg95.cvq.service.users;
 import org.junit.Test;
 
 import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import static org.junit.Assert.*;
@@ -16,6 +17,7 @@ public class IndividualServiceTest extends ServiceTestCase {
 
     @Test
     public void testAssignLogin() throws CvqException {
+        HomeFolder homeFolder = homeFolderService.getById(gimmeAnHomeFolder().getHomeFolderId());
         Adult emilie = new Adult();
         Adult jean = new Adult();
         Adult albert = new Adult();
@@ -27,7 +29,7 @@ public class IndividualServiceTest extends ServiceTestCase {
 
         emilie.setLastName(lnA);
         emilie.setFirstName(fnA);
-        individualService.assignLogin(emilie);
+        homeFolderService.addAdult(homeFolder, emilie);
 
         // Test with accent
         String lnB = "DUPÖÑT";
@@ -36,7 +38,7 @@ public class IndividualServiceTest extends ServiceTestCase {
 
         jean.setLastName(lnB);
         jean.setFirstName(fnB);
-        individualService.assignLogin(jean);
+        homeFolderService.addAdult(homeFolder, jean);
         
         // Test with space
         String lnC = "DE LA PORTE";
@@ -45,7 +47,7 @@ public class IndividualServiceTest extends ServiceTestCase {
 
         albert.setLastName(lnC);
         albert.setFirstName(fnC);
-        individualService.assignLogin(albert);
+        homeFolderService.addAdult(homeFolder, albert);
 
         assertEquals(loginA, emilie.getLogin());
         assertEquals(loginB, jean.getLogin());

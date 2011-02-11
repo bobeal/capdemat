@@ -3,7 +3,6 @@ package fr.cg95.cvq.service.users;
 import java.io.IOException;
 import java.util.List;
 
-import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
@@ -36,14 +35,7 @@ public interface IHomeFolderService {
     HomeFolder create(Adult adult, boolean temporary)
         throws CvqException;
 
-    HomeFolder create(List<Adult> adults, List<Child> children, Address address, boolean temporary)
-        throws CvqException, CvqModelException;
-
     void modify(@IsHomeFolder final HomeFolder homeFolder)
-        throws CvqException;
-    
-    void modify(@IsHomeFolder final Long homeFolderId, final Long keyId,
-            final List<Adult> newAdults, List<Child> newChildren, Address address)
         throws CvqException;
 
     void delete(@IsHomeFolder HomeFolder homeFolder)
@@ -52,9 +44,11 @@ public interface IHomeFolderService {
     void delete(@IsHomeFolder final Long id)
     	throws CvqException, CvqObjectNotFoundException;
 
-    /**
-     * Remove individual from the given home folder.
-     */
+    void addAdult(@IsHomeFolder HomeFolder homeFolder, @IsIndividual Adult adult, boolean assignLogin)
+        throws CvqException;
+
+    void addChild(@IsHomeFolder HomeFolder homeFolder, @IsIndividual Child child);
+
     void deleteIndividual(@IsHomeFolder final Long homeFolderId, final Long individualId)
         throws CvqException, CvqObjectNotFoundException;
     
@@ -78,51 +72,26 @@ public interface IHomeFolderService {
     List<Individual> getExternalIndividuals(@IsHomeFolder final Long homeFolderId)
         throws CvqException;
 
-    // Role-related methods
-    /////////////////////////////////////
-    
-    void addHomeFolderRole(@IsIndividual Individual owner, 
-            @IsHomeFolder final Long homeFolderId, final RoleType role)
-        throws CvqException;
-    
-    void addHomeFolderRole(@IsIndividual final Individual owner, final RoleType role)
+    void addHomeFolderRole(@IsIndividual Individual owner, @IsHomeFolder final Long homeFolderId,
+        final RoleType role)
         throws CvqException;
 
-    void addIndividualRole(@IsIndividual Individual owner, 
-            final Individual individual, final RoleType role)
+    void addIndividualRole(@IsIndividual Individual owner,
+        @IsIndividual final Individual individual, final RoleType role)
         throws CvqException;
 
-    void removeRolesOnSubject(@IsHomeFolder final Long homeFolderId, final Long individualId)
-        throws CvqException;    
+    void removeRolesOnSubject(@IsHomeFolder final Long homeFolderId,
+        @IsIndividual final Long individualId)
+        throws CvqException;
 
-    boolean removeHomeFolderRole(@IsIndividual Individual owner, 
-            @IsHomeFolder final Long homeFolderId, final RoleType role)
+    void removeHomeFolderRole(@IsIndividual Individual owner,
+        @IsHomeFolder final Long homeFolderId, final RoleType role)
         throws CvqException;
-    
-    boolean removeIndividualRole(@IsIndividual Individual owner, final Individual individual, 
-            final RoleType role)
+
+    void removeIndividualRole(@IsIndividual Individual owner,
+        @IsIndividual final Individual individual, final RoleType role)
         throws CvqException;
-    
-    /*
-     * TODO : refactor role management 
-     *  - unauthentified use case
-     *  - authentified and transient object management (ex : new individual in a HomeFolderModification request)
-     *  - verify security policy
-     */
-    void addRole(Individual owner, final Individual individual, final RoleType role)
-        throws CvqException;
-    
-    void addRole(Individual owner, final Individual individual, final Long homeFolderId, 
-            final RoleType role)
-        throws CvqException;
-    
-    boolean removeRole(Individual owner, final Individual individual,  final RoleType role)
-        throws CvqException;
-    
-    boolean removeRole(Individual owner, final Individual individual, final Long homeFolderId, 
-            final RoleType role)
-        throws CvqException;
-    
+
     /**
      * Save or update all foreign (from homefolder) role owner.
      * Prepare individualRole for each foreign owner before persisting it.

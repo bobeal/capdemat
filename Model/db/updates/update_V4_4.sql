@@ -98,3 +98,21 @@ drop function migrate_individual_model();
 
 alter table individual drop column login;
 alter table individual drop column sex;
+
+create table user_action (
+    id int8 not null,
+    date timestamp not null,
+    type varchar(255) not null,
+    note varchar(255),
+    data text,
+    user_id int8 not null,
+    target_id int8 not null,
+    home_folder_id int8,
+    home_folder_index int4,
+    primary key (id)
+);
+
+alter table user_action
+    add constraint FKD768C52A8BD77771
+    foreign key (home_folder_id)
+    references home_folder;

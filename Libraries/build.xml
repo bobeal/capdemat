@@ -77,6 +77,7 @@
               <include name="xws-security.jar" />
             </fileset>
             <fileset dir="${saxon.lib.dir}" />
+            <fileset dir="${gson.lib.dir}" />
         </copy>
     </target>
 

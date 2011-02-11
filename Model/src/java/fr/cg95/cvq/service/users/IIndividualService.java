@@ -22,9 +22,10 @@ import fr.cg95.cvq.util.Critere;
  */
 public interface IIndividualService extends IAutofillTriggerService {
 
-    Long create(Individual individual, final HomeFolder homeFolder, Address address, 
-            boolean assignLogin)
+    Long create(Adult adult, boolean assignLogin)
         throws CvqException;
+
+    Long create(Child child);
 
     void modify(Individual individual)
         throws CvqException;
@@ -61,23 +62,6 @@ public interface IIndividualService extends IAutofillTriggerService {
 
     void modifyPassword(final Adult adult, final String oldPassword, final String newPassword)
         throws CvqException, CvqBadPasswordException;
-
-    /**
-     * delegated to {@link fr.cg95.cvq.authentication.IAuthenticationService}.
-     */
-    String encryptPassword(final String clearPassword)
-        throws CvqException;
-
-    /**
-     * Generate and assign a login to the given adult.
-     * 
-     * The generated login is of the form "firstName.lastNameXX" where XX is a generated number
-     * if the login "firstName.lastName" is already used.
-     * 
-     * @return the generated login.
-     */
-    String assignLogin(Adult adult)
-        throws CvqException;
 
     void updateIndividualState(Individual individual, ActorState newState) throws CvqException;
 

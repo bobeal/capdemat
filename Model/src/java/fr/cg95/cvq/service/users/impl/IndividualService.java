@@ -17,6 +17,9 @@ import net.sf.oval.Validator;
 
 import org.apache.log4j.Logger;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import fr.cg95.cvq.authentication.IAuthenticationService;
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
@@ -27,6 +30,7 @@ import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;
+import fr.cg95.cvq.business.users.UserAction;
 import fr.cg95.cvq.dao.users.IAdultDAO;
 import fr.cg95.cvq.dao.users.IChildDAO;
 import fr.cg95.cvq.dao.users.IIndividualDAO;
@@ -179,81 +183,43 @@ public class IndividualService implements IIndividualService {
     }
 
     @Override
-    public String assignLogin(Adult adult)
+    public Long create(Adult adult, boolean assignLogin)
         throws CvqException {
-
-        synchronized (bookedLogin) {
-
-            if (adult.getFirstName() == null || adult.getLastName() == null)
-                throw new CvqModelException("Individual must have not-null first and last names");
-
-            String baseLogin =  Normalizer.normalize(
-                (adult.getFirstName().trim() + '.' + adult.getLastName().trim())
-                    .replaceAll("\\s", "-")
-                    .replaceAll("'", ""),
-                Normalizer.Form.NFD)
-                    .replaceAll("[^\\p{ASCII}]","").toLowerCase();
-            logger.debug("assignLogin() searching from " + baseLogin);
-            List<String> similarLogins = individualDAO.getSimilarLogins(baseLogin);
-            String finalLogin = computeNewLogin(similarLogins, baseLogin);
-            logger.debug("assignLogin() setting login : " + finalLogin);
-
-            adult.setLogin(finalLogin);
-
-            return finalLogin;
+        if (assignLogin) {
+            synchronized (bookedLogin) {
+                String baseLogin =  Normalizer.normalize(
+                    (adult.getFirstName().trim() + '.' + adult.getLastName().trim())
+                        .replaceAll("\\s", "-")
+                        .replaceAll("'", ""),
+                    Normalizer.Form.NFD)
+                        .replaceAll("[^\\p{ASCII}]","").toLowerCase();
+                logger.debug("assignLogin() searching from " + baseLogin);
+                List<String> similarLogins = individualDAO.getSimilarLogins(baseLogin);
+                String finalLogin = computeNewLogin(similarLogins, baseLogin);
+                logger.debug("assignLogin() setting login : " + finalLogin);
+                adult.setLogin(finalLogin);
+            }
         }
+        if (adult.getPassword() != null)
+            adult.setPassword(authenticationService.encryptPassword(adult.getPassword()));
+        return create(adult);
     }
 
-    public Long create(Individual individual, final HomeFolder homeFolder, Address address,
-            boolean assignLogin)
-        throws CvqException {
 
-        if (individual == null)
-            return null;
-        
-        if (individual instanceof Adult) {
-            initializeAdult((Adult) individual, assignLogin);
-        } else if (individual instanceof Child) {
-            initializeChild((Child) individual);            
-        }
-        
+    @Override
+    public Long create(Child child) {
+        return create((Individual)child);
+    }
+
+    private Long create(Individual individual) {
         individual.setState(ActorState.PENDING);
         individual.setCreationDate(new Date());
-        
-        if (address != null)
-            individual.setAddress(address);
-        else if (homeFolder != null)
-            individual.setAddress(homeFolder.getAddress());
-        
-        if (homeFolder != null) {
-            individual.setHomeFolder(homeFolder);
-            if (homeFolder.getIndividuals() == null)
-                homeFolder.setIndividuals(new ArrayList<Individual>());
-            homeFolder.getIndividuals().add(individual);
-        }
-        
-        return individualDAO.create(individual);
+        Long id = individualDAO.create(individual);
+        individual.getHomeFolder().getActions().add(new UserAction(UserAction.Type.CREATION, id));
+        individualDAO.update(individual.getHomeFolder());
+        return id;
     }
 
-    private void initializeAdult(Adult adult, boolean assignLogin) 
-        throws CvqException {
-        
-        if (adult.getFamilyStatus() == null)
-            adult.setFamilyStatus(FamilyStatusType.OTHER);
-        if (adult.getTitle() == null)
-            adult.setTitle(TitleType.UNKNOWN);
-        // generate a login even if user has not asked for a personal space
-        if (assignLogin)
-            assignLogin(adult);
-        if (adult.getPassword() != null)
-            adult.setPassword(encryptPassword(adult.getPassword()));        
-    }
-    
-    private void initializeChild(Child child) {
-        if (child.getSex() == null)
-            child.setSex(SexType.UNKNOWN);
-    }
-    
     public void modify(final Individual individual)
         throws CvqException {
 
@@ -261,8 +227,10 @@ public class IndividualService implements IIndividualService {
             throw new CvqException("No adult object provided");
         else if (individual.getId() == null)
             throw new CvqException("Cannot modify a transient individual");
-
         individualDAO.update(individual);
+        individual.getHomeFolder().getActions().add(
+            new UserAction(UserAction.Type.MODIFICATION, individual.getId()));
+        individualDAO.update(individual.getHomeFolder());
     }
 
     public void delete(final Individual individual) 
@@ -277,6 +245,12 @@ public class IndividualService implements IIndividualService {
         
         individual.setState(newState);
         individualDAO.update(individual);
+        UserAction action = new UserAction(UserAction.Type.STATE_CHANGE, individual.getId());
+        JsonObject payload = new JsonObject();
+        payload.addProperty("state", newState.toString());
+        action.setData(new Gson().toJson(payload));
+        individual.getHomeFolder().getActions().add(action);
+        individualDAO.update(individual.getHomeFolder());
     }
 
     public void setIndividualDAO(IIndividualDAO individualDAO) {

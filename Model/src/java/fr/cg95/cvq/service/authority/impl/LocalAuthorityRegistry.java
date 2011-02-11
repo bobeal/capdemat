@@ -56,6 +56,7 @@ import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.FamilyStatusType;
+import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.dao.authority.ILocalAuthorityDAO;
@@ -728,21 +729,19 @@ public class LocalAuthorityRegistry
                     Adult homeFolderResponsible =
                         BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "Dupont", "Jean",
                             address, FamilyStatusType.SINGLE);
-                    homeFolderService.addHomeFolderRole(homeFolderResponsible,
-                        RoleType.HOME_FOLDER_RESPONSIBLE);
-                    List<Adult> adults = new ArrayList<Adult>(2);
-                    adults.add(homeFolderResponsible);
-                    adults.add(BusinessObjectsFactory.gimmeAdult(TitleType.MISTER,
-                        "Durand", "Jacques", address, FamilyStatusType.SINGLE));
                     homeFolderResponsible.setPassword("aaaaaaaa");
-                    List<Child> children = new ArrayList<Child>(1);
-                    children.add(BusinessObjectsFactory.gimmeChild("Moreau", "Émilie"));
+                    HomeFolder homeFolder = homeFolderService.create(homeFolderResponsible, false);
+                    SecurityContext.setCurrentEcitizen(homeFolderResponsible);
+                    homeFolderService.addAdult(homeFolder,
+                        BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "Durand", "Jacques",
+                            address, FamilyStatusType.SINGLE), false);
+                    Child child = BusinessObjectsFactory.gimmeChild("Moreau", "Émilie");
+                    homeFolderService.addChild(homeFolder, child);
                     homeFolderService.addIndividualRole(
-                        homeFolderResponsible, children.get(0), RoleType.CLR_FATHER);
-                    Long id = homeFolderService.create(adults, children, address, false).getId();
+                        homeFolderResponsible, child, RoleType.CLR_FATHER);
                     SecurityContext.setCurrentSite(DEVELOPMENT_LOCAL_AUTHORITY,
                         SecurityContext.ADMIN_CONTEXT);
-                    homeFolderService.validate(id);
+                    homeFolderService.validate(homeFolder.getId());
                 }
                 // set current site to be able to generateJPEGFiles (which uses getCurrentSite) ...
                 SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);

@@ -57,8 +57,12 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
     @MinSize(value = 1, message = "individuals")
     private List<Individual> individuals;
 
+    private List<UserAction> actions;
+
     /** default constructor */
     public HomeFolder() {
+        individuals = new ArrayList<Individual>();
+        actions = new ArrayList<UserAction>();
     }
 
     public HomeFolderType modelToXml() {
@@ -234,5 +238,25 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
         return new ToStringBuilder(this)
             .append("id", getId())
             .toString();
+    }
+
+    /**
+     * @hibernate.list
+     *  inverse="false"
+     *  cascade="all"
+     *  table="user_action"
+     * @hibernate.key
+     *  column="home_folder_id"
+     * @hibernate.list-index
+     *  column="home_folder_index"
+     * @hibernate.one-to-many
+     *  class="fr.cg95.cvq.business.users.UserAction"
+     */
+    public List<UserAction> getActions() {
+        return actions;
+    }
+
+    public void setActions(List<UserAction> actions) {
+        this.actions = actions;
     }
 }

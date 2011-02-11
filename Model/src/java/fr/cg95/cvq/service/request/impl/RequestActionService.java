@@ -10,7 +10,6 @@ import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.RequestActionType;
 import fr.cg95.cvq.business.request.RequestAdminAction;
 import fr.cg95.cvq.business.request.RequestState;
-import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.dao.request.IRequestActionDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
@@ -101,12 +100,6 @@ public class RequestActionService implements IRequestActionService {
 
         // retrieve user or agent id according to context
         Long userId = SecurityContext.getCurrentUserId();
-        if (userId == null && request instanceof VoCardRequest) {
-            VoCardRequest vocr = (VoCardRequest) request;
-            // there can't be a logged in user at VO card request creation time
-            userId = vocr.getRequesterId();
-        }
-
         RequestAction requestAction = new RequestAction();
         requestAction.setAgentId(userId);
         requestAction.setType(type);

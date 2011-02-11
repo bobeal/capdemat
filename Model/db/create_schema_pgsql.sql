@@ -425,6 +425,9 @@
     alter table ticket_subscriber_limits 
         drop constraint FK2A415CAF42EA14;
 
+    alter table user_action 
+        drop constraint FKD768C52A8BD77771;
+
     drop table address;
 
     drop table adult;
@@ -670,6 +673,8 @@
     drop table ticket_subscriber;
 
     drop table ticket_subscriber_limits;
+
+    drop table user_action;
 
     drop table vo_card_request;
 
@@ -2464,6 +2469,19 @@
         primary key (id, key)
     );
 
+    create table user_action (
+        id int8 not null,
+        date timestamp not null,
+        user_id int8 not null,
+        target_id int8 not null,
+        type varchar(255) not null,
+        note varchar(255),
+        data text,
+        home_folder_id int8,
+        home_folder_index int4,
+        primary key (id)
+    );
+
     create table vo_card_request (
         id int8 not null,
         primary key (id)
@@ -3178,5 +3196,10 @@
         add constraint FK2A415CAF42EA14 
         foreign key (id) 
         references ticket_subscriber;
+
+    alter table user_action 
+        add constraint FKD768C52A8BD77771 
+        foreign key (home_folder_id) 
+        references home_folder;
 
     create sequence hibernate_sequence;

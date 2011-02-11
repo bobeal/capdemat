@@ -97,6 +97,10 @@ public abstract class Individual implements Historizable, Serializable {
 
     private Set<IndividualRole> individualRoles;
 
+    public Individual() {
+        individualRoles = new HashSet<IndividualRole>();
+    }
+
     protected void fillCommonXmlInfo(IndividualType individualType) {
 
         Calendar calendar = Calendar.getInstance();
@@ -127,15 +131,12 @@ public abstract class Individual implements Historizable, Serializable {
             individualType.setAddress(Address.modelToXml(this.address));
         if (this.state != null)
             individualType.setState(fr.cg95.cvq.xml.common.ActorStateType.Enum.forString(this.state.toString()));
-        if (this.individualRoles != null && !this.individualRoles.isEmpty()) {
-            IndividualRoleType roles[] =
-                new IndividualRoleType[this.individualRoles.size()];
-            int i = 0;
-            for (IndividualRole individualRole : this.individualRoles) {
-                roles[i++] = IndividualRole.modelToXml(individualRole);
-            }
-            individualType.setRoleArray(roles);
+        IndividualRoleType roles[] = new IndividualRoleType[individualRoles.size()];
+        int i = 0;
+        for (IndividualRole individualRole : individualRoles) {
+            roles[i++] = IndividualRole.modelToXml(individualRole);
         }
+        individualType.setRoleArray(roles);
     }
 
     protected void fillCommonModelInfo(IndividualType individualType) {

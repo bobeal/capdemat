@@ -11,11 +11,7 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestType;
-import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
-import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
-import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
@@ -111,14 +107,6 @@ public interface IRequestWorkflowService {
 
     RequestState[] getStatesExcludedForRunningRequests();
 
-    void createAccountCreationRequest(Adult adult, boolean temporary)
-        throws CvqException;
-
-    @Deprecated
-    void createAccountCreationRequest(VoCardRequest dcvo, List<Adult> adults, List<Child> children, 
-            List<Adult> foreignRoleOwners, final Address address, List<Document> documents, String note) 
-            throws CvqException;
-
     /**
      * Check if account modification is possible for the given home folder.
      * 
@@ -126,14 +114,6 @@ public interface IRequestWorkflowService {
      */
     void isAccountModificationRequestAuthorized(final HomeFolder homeFolder) 
         throws CvqModelException;
-    
-    @Deprecated
-    void createAccountModificationRequest(final HomeFolderModificationRequest hfmr,
-            final List<Adult> adults, List<Child> children, List<Adult> foreignRoleOwners, 
-            final Address address, List<Document> documents, String note)
-        throws CvqException;
-
-    void createAccountModificationRequest(Individual individual) throws CvqException;
 
     /**
      * Create a new request from given data.

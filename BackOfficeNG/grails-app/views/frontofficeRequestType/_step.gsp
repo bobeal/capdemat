@@ -87,11 +87,11 @@
       <div>
       <g:if test="${params.type == 'adult'}">
         <h3>${message(code:'homeFolder.header.createAdult')}</h3>
-        <g:render template="/frontofficeHomeFolder/adultCommonFields" model="['adult' : individual, 'invalidFields' : rqt.stepStates[currentStep + '-adult']?.invalidFields]" />
+        <g:render template="/frontofficeHomeFolder/edit/adultCommonFields" model="['adult' : individual, 'invalidFields' : rqt.stepStates[currentStep + '-adult']?.invalidFields]" />
       </g:if>
       <g:else>
         <h3>${message(code:'homeFolder.header.createChild')}</h3>
-        <g:render template="/frontofficeHomeFolder/childCommonFields" model="['child' : individual, 'invalidFields' : rqt.stepStates[currentStep + '-child']?.invalidFields]" />
+        <g:render template="/frontofficeHomeFolder/edit/childCommonFields" model="['child' : individual, 'invalidFields' : rqt.stepStates[currentStep + '-child']?.invalidFields]" />
       </g:else>
       <input type="submit" value="${message(code:'action.create')}" />
       <a href="${createLink(action : 'individual', params : ['requestId' : rqt.id, "cancel" : true])}">

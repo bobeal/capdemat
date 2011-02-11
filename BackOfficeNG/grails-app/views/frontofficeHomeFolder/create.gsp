@@ -33,9 +33,9 @@
             <g:if test="${invalidFields && !invalidFields.isEmpty()}">
               <p class="error">${message(code:'form.error.invalidFields')}</p>
             </g:if>
-            <g:render template="/frontofficeHomeFolder/adultCommonFields" />
+            <g:render template="/frontofficeHomeFolder/edit/adultCommonFields" />
             <fieldset>
-              <legend>${message(code:'homeFolder.individual.header.connexionInformations')}</legend>
+              <legend>${message(code:'homeFolder.individual.header.connexion')}</legend>
               <g:if test="${temporary}">
                 <p>${message(code:'request.step.validation.help.followRequest')}</p>
                 <label class="required">

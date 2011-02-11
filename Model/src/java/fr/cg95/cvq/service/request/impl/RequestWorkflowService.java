@@ -311,7 +311,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void validate(Request request, List<String> steps, boolean useAcceptance)
-        throws CvqValidationException, ClassNotFoundException, IllegalAccessException,
+        throws ClassNotFoundException, IllegalAccessException,
             InvocationTargetException, NoSuchMethodException {
         Validator validator = new Validator();
         validator.disableAllProfiles();

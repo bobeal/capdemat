@@ -5,6 +5,7 @@ import fr.cg95.cvq.business.users.SexType
 import fr.cg95.cvq.business.users.TitleType
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.util.translation.ITranslationService
+import fr.cg95.cvq.exception.CvqValidationException
 
 class IndividualAdaptorService {
 
@@ -53,7 +54,7 @@ class IndividualAdaptorService {
         return result.sort {it.label}
     }
 
-    public historize(individual, bean, dto, name, fields) {
+    public historize(individual, bean, dto, name, fields) throws CvqValidationException {
         def atom = new JsonObject()
         atom.addProperty("name", name)
         def diff = new JsonObject()
@@ -67,6 +68,8 @@ class IndividualAdaptorService {
                 bean[it] = dto[it]
             }
         }
+        def invalidFields = individualService.validate(individual)
+        if (!invalidFields.isEmpty()) throw new CvqValidationException(invalidFields)
         if (diff.entrySet().size() > 0) individualService.modify(individual, atom)
     }
 }

@@ -71,11 +71,6 @@ form textarea { border-top-color: #ff812b !important; }
 /* home folder screen specific styles
  * ----------------------------------------------------- */
 
-.individual .yui-u     { border-color: #ff812b !important; }
-.individual .yui-u h2  { color: #ff812b !important; border-color: #ff812b !important; }
-.individual dl         { border-color:#ff812b !important ; }
-.individual dl a:hover { color: #ffffff !important; background: #ff812b !important; }
-
 .data-detail h3     { color: #ff812b !important; }
 .data-detail .yui-gb,
 .data-detail .yui-g { border-color: #ff812b !important; }

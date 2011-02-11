@@ -13,7 +13,15 @@ class CapdematEnumTagLib {
           
 	      out << body() << sb
 	}
-	  
+
+    def tag = { attrs, body ->
+        def sb = new StringBuffer()
+        sb << "<span class=\"tag ${attrs.var}\">"
+        sb << g.message(code: attrs.i18n + '.' + attrs.var.toString().toLowerCase())
+        sb << "</span>"
+        out << body() << sb
+    }
+
     def capdematEnumToText = { attrs, body ->
         def capdematEnum = CapdematUtils.adaptCapdematEnum(attrs.var, attrs.i18nKeyPrefix)  
 	      out << body() << g.message(code: capdematEnum.i18nKey)

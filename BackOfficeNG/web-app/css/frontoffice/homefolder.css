@@ -4,31 +4,125 @@
 
 ---------------------------------------------------------------*/
 
-/* individual
+
+/* TODO : define in common style
 ---------------------------------------------------------------*/
-.individual .yui-u     { border-top: 2px solid #e6648d; background: #fff; }
-.individual .yui-u h2  { margin: .1em .5em .5em; color: #e6648d; background: #fff; border-bottom: 1px dashed #e6648d; }
-.individual .yui-u h2 .action  { float: right; font-size: .5em; color: #095ba6;}
 
+.box { padding: 1.5em; overflow: auto; border: 0; background: #fff; }
+.box .main { width: 70%; float: left; }
+.box .side { width: 28%; float: right; }
 
-.individual dl {
-  margin: 1em; padding: 1em;
-  border: 1px solid #e6648d;
-  -moz-border-radius: .5em; -webkit-border-radius: .5em;
+.box .side div { 
+  margin: 0 0 .5em; padding: .5em; font-size: 1.15em; background: #ddd;
+  border-radius: .5em; -moz-border-radius: .5em; -webkit-border-radius .5em;
 }
-.individual dl a       { color: #095ba6; }
-.individual dl a:hover { color: #ffffff; background: #e6648d; }
+.box .side div.action a { display: block; line-height: 1.5em; }
+.box .side div.back a   { display: block; line-height: 1.5em; color: #e6648d; }
+.box .side div.note h4  { font-size: 1.1em; }
+.box .side div.note p   { font-size: .9em; font-style: italic; }
 
-.individual dl dt { float: left; width: 9em; font-weight: bold; text-align : right; }
-.individual dl dd { margin-left: 10em; padding-left: .5em; border-left: 1px dashed #aaaaaa; }
+.box h2  { font-size: 2.5em; color: #e6648d; }
+.box h2 .tag-state { display: inline; float: right; font-size: .5em; }
+.box h3  { margin: .5em 0; font-size: 2em;  color: #e6648d; }
 
-.individual dl dd ul li       { margin-left: 1em; padding: 0.1em; }
-.individual dl dd.see-details { margin-top: 1em; text-align: right;border: none; }
+.box p  { margin: .5em 0; }
 
+/* FIXME: custom tag */
+.box .individuals .tag          { display: block; font-family: monospace; font-style: italic; }
+.box .individuals .tag.New      { color: #2020cc; }
+.box .individuals .tag.Modified { color: #fc0; }
+.box .individuals .tag.Invalid  { color: #CC2020; }
+.box .individuals .tag.Valid    { display: none; }
 
-/* misc
+/* index
 ---------------------------------------------------------------*/
-.homeFolder-action        { padding: .75em; text-align: right; }
-.homeFolder-action .first { text-align: left; }
-.homeFolder-action p      { padding: .2em 0; }
-.homeFolder-action span span { display: block; font: italic .9em sans-serif; }
+
+.box .individuals { overflow: auto; }
+.box .individuals .adults { width: 49%; float: left; }
+.box .individuals .children { width: 49%; float: right; }
+
+.box .individuals h3 a { font-size: .5em; }
+
+.box .individuals dl {
+  margin: 1em 0; padding: 1em;
+  border: 2px solid #bbb;
+  border-radius: .5em; -moz-border-radius: .5em; -webkit-border-radius: .5em;
+}
+
+.box .individuals dl dt { float: left; width: 6em; font-weight: bold; text-align : right; }
+.box .individuals dl dd { margin-left: 7em; padding-left: .5em; line-height: 1.5em; }
+
+.box .individuals dl dd ul li  { padding: 0.1em; }
+.box .individuals dl dd.action { margin-top: 1em; text-align: right;border: none; }
+
+.box .individuals dl.Invalid { border-color: #CC2020; }
+
+.box .individuals dl.delete   { border: 4px solid #CC2020; }
+.box .individuals dl dd.delete {
+	width: 100%;
+	position: relative; left: -8em;
+	margin-top: 1em; padding: .5em 1em;
+	text-align: center;
+	color:#fff; background: #CC2020;
+	border: none;
+}
+.box .individuals dl dd.delete a { font-size: 1.2em; font-weight: bold; color: #fff; }
+
+/* Individual
+---------------------------------------------------------------*/
+
+.box.individual .main { 
+  width: 65%; padding: 1.5em; border: 3px solid #ccc;
+  border-radius: .5em; -moz-border-radius: .5em; -webkit-border-radius .5em;
+}
+.box.individual .main.New      { border-color: #2020cc; }
+.box.individual .main.Modified { border-color: #fc0; }
+.box.individual .main.Valid    { border-color: #20CC20; }
+.box.individual .main.Invalid  { border-color:  #CC2020; }
+
+.box.individual a.modify { float: right; margin: -1.5em 1.5em 0 0; }
+
+.individual h2 { margin: 0 0 .5em; }
+.individual h3 { margin: 0 0 .5em; font-size: 1.6em; }
+
+.individual dl { margin: 0 0 1em; overflow : auto;}
+.individual dt,
+.individual dd { float: left; margin: 0; padding: .4em; border-top: 1px dotted #ccc; }
+.individual dt {
+  clear: both; width: 33%; padding-top: .6em;
+  font-size: 1em; min-height: 1.5em;
+  text-align: right; color: #444;
+}
+.individual dd { width: 60%; font-size: 1.2em; }
+
+
+
+/* TODO : refactor duplicated form style !!
+---------------------------------------------------------------*/
+.validation-failed { border: 1px dashed #f33; background-color:#fcc; }
+
+.individual form { padding: 0; }
+.individual legend { margin: 0 0 .5em; font-size: 1.6em;  color: #e6648d; }
+.individual form .error { text-align: center; color: #f33; }
+
+.individual form ul       { width: 80%; margin: .2em 0 .5em 0; }
+.individual form ul.yes-no li { display: inline; margin: 0 .5em; }
+.individual form li label { display: inline; font-size: .95em; }
+
+.individual form input[type="submit"] { margin: 0 0 2em; }
+
+.individual form .address {
+  width: 88%; margin: 0 0 1em; padding: .5em;
+  font-size: .9em;
+  border: 1px dashed #DB4366;
+}
+.individual form .address input[type="text"] { width: 99%; margin: 0 0 .5em; padding: .1em; }
+.individual form .address label { display: inline; padding-top: .5em; color: #333; }
+.individual form .address input[type="text"].line1 { display: inline; width: 15%; }
+.individual form .address input[type="text"].line2 { display: inline; width: 82%; }
+
+.individual form .date input.year,
+.individual form .date select.day,
+.individual form .date select.month { display : inline; width : auto; }
+
+

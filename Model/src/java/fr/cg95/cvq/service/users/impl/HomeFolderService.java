@@ -341,6 +341,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
             if (types.contains(role.getRole())) missing.remove(role.getRole());
             else owner.getIndividualRoles().remove(role);
         }
+        if (missing.isEmpty()) return;
         for (RoleType type : missing) {
             IndividualRole newRole = new IndividualRole();
             newRole.setRole(type);

@@ -1,5 +1,6 @@
 import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.business.users.UserAction
+import fr.cg95.cvq.business.users.UserState
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.util.translation.ITranslationService
@@ -13,7 +14,7 @@ class HomeFolderAdaptorService {
     ITranslationService translationService
     def instructionService
 
-    public prepareAdultSubjectRoles(adult ) {
+    public prepareAdultSubjectRoles(adult) {
         def adultSubjectRoles = []
         homeFolderService.listBySubjectRole(adult.id, RoleType.TUTOR).each { individual ->
             adultSubjectRoles.add(['fullName': "${individual.firstName} ${individual.lastName}",
@@ -34,6 +35,20 @@ class HomeFolderAdaptorService {
             }
         }
         return ownerRoles
+    }
+
+    public roleOwners(subjectId) {
+        def roleOwners = []
+        (homeFolderService.getAdults(individualService.getById(subjectId).homeFolder.id).findAll{ it.state != UserState.ARCHIVED }).each { adult ->
+            def roleOwner = ['adult':adult, 'roles':[]]
+            if (!adult.getIndividualRoles(subjectId).isEmpty()) {
+                adult.getIndividualRoles(subjectId).each { individualRole ->
+                    roleOwner['roles'].add(individualRole.role)
+                }
+            }
+            roleOwners.add(roleOwner)
+        }
+        return roleOwners
     }
 
     public prepareActions(actions) {

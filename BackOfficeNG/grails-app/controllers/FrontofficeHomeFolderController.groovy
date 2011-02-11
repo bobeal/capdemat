@@ -4,6 +4,7 @@ import fr.cg95.cvq.dao.hibernate.HibernateUtil
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException
 import fr.cg95.cvq.exception.CvqBadPasswordException
 import fr.cg95.cvq.exception.CvqModelException
+import fr.cg95.cvq.exception.CvqValidationException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
@@ -11,6 +12,7 @@ import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.service.users.IUserWorkflowService
 
 import com.octo.captcha.service.CaptchaServiceException
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
@@ -24,74 +26,43 @@ class FrontofficeHomeFolderController {
     IRequestServiceRegistry requestServiceRegistry
     IRequestTypeService requestTypeService
     IRequestWorkflowService requestWorkflowService
+    IUserWorkflowService userWorkflowService
 
     def homeFolderAdaptorService
+    def individualAdaptorService
     def jcaptchaService
     def securityService
 
     Adult currentEcitizen
 
     def beforeInterceptor = {
-        this.currentEcitizen = SecurityContext.getCurrentEcitizen();
+        currentEcitizen = SecurityContext.getCurrentEcitizen();
     }
 
     def index = {
-        def result = ['adults':[], 'children': [], homeFolder: []]
-        def homeFolderId = SecurityContext.currentEcitizen.homeFolder.id
-        homeFolderService.getAdults(homeFolderId).each { adult ->
-            result.adults.add([
-                'id' : adult.id,
-                'title' : message('code':"homeFolder.adult.title.${adult.title.toString().toLowerCase()}"),
-                'fullName' : "${adult.firstName} ${adult.lastName}",
-                'email' : adult.email,
-                'homePhone' : adult.homePhone,
-                'mobilePhone' : adult.mobilePhone,
-                'birthDate' : adult.birthDate,
-                'birthCountry' : adult.birthCountry,
-                'birthPostalCode' : adult.birthPostalCode,
-                'birthCity' : adult.birthCity,
-                'ownerRoles' : homeFolderAdaptorService.prepareOwnerRoles(adult)
-            ])
+        def homeFolderId = currentEcitizen.homeFolder.id
+        def children = homeFolderService.getChildren(homeFolderId)
+        // FIXME : Poor implementation : db request on Role are crappy
+        def childResponsibles = [:]
+        children.each {
+            childResponsibles.put(it.id, homeFolderService.listBySubjectRoles(it.id, RoleType.childRoleTypes))
         }
-        homeFolderService.getChildren(homeFolderId).each{ child ->
-            result.children.add([
-                'id' : child.id,
-                'sex' : child.sex,
-                'fullName' : child.born ? "${child.firstName} ${child.lastName}" :
-                    message('code':"request.subject.childNoBorn", args:[child.getFullName()]),
-                'birthDate' : child.birthDate,
-                'birthCountry' : child.birthCountry,
-                'birthPostalCode' : child.birthPostalCode,
-                'birthCity' : child.birthCity,
-                'roleOwners' : homeFolderService.listBySubjectRoles(child.id,
-                    [RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR] as RoleType[]),
-                'born' : child.born
-            ])
+        Individual.metaClass.homeFolderResponsible = {
+            def role = null
+            delegate.individualRoles.each {
+                if (it.homeFolderId) role = it.role
+            }
+            return role
         }
-        
-        result.homeFolder = [
-            'state' : currentEcitizen.homeFolder.state,
-            'isActive' : currentEcitizen.homeFolder.enabled,
-            'addressDetails' :   "${currentEcitizen.homeFolder.address.streetNumber ?: ''} "+
-                                 "${currentEcitizen.homeFolder.address.streetName} " +
-                                 "${currentEcitizen.homeFolder.address.postalCode} " +
-                                 "${currentEcitizen.homeFolder.address.city}"
-        ]
-        
-        def enabled = true, message = null
-        try {
-            requestWorkflowService.isAccountModificationRequestAuthorized(currentEcitizen.homeFolder)
-        } catch (CvqModelException cvqme) {
-            enabled = false
-            message = cvqme.i18nKey
-        }
-        result.hfmr = [
-            'label': IRequestTypeService.HOME_FOLDER_MODIFICATION_REQUEST,
-            'enabled': enabled,
-            'message': message
-        ]
-        
-        return result
+
+        if (params.idToDelete)
+            flash.idToDelete = Long.valueOf(params.idToDelete)
+
+        // TODO: filter individual by state ine Service Layer
+        return ['homeFolder': currentEcitizen.homeFolder,
+                'adults':  homeFolderService.getAdults(homeFolderId).findAll{ it.state != UserState.ARCHIVED },
+                'children': children.findAll{ it.state != UserState.ARCHIVED },
+                'childResponsibles' : childResponsibles]
     }
 
     def create = {
@@ -121,7 +92,6 @@ class FrontofficeHomeFolderController {
                 homeFolderService.create(adult, model["temporary"] && params.boolean("temporary"))
                 securityService.setEcitizenSessionInformation(adult.login, session)
                 if (params.requestTypeLabel) {
-                    flash.precedeByAccountCreation = true
                     redirect(controller : "frontofficeRequestType", action : "start", id : params.requestTypeLabel)
                     return false
                 }
@@ -131,90 +101,158 @@ class FrontofficeHomeFolderController {
         }
     }
 
+    def deleteIndividual = {
+        userWorkflowService.changeState(individualService.getById(Long.valueOf(params.id)), UserState.ARCHIVED)
+        redirect(action : 'index')
+    }
+
     def adult = {
         def model = [:]
         def individual
-        def template = "adult"
         if (params.id) {
             individual = individualService.getAdultById(Long.valueOf(params.id))
         } else {
             individual = new Adult()
             // hack : WTF is an unknown title ?
             individual.title = null
-            individual.address = SecurityContext.currentEcitizen.address.clone()
+            individual.address = currentEcitizen.address.clone()
         }
         if (request.post) {
-            DataBindingUtils.initBind(individual, params)
-            bind(individual)
-            model["invalidFields"] = individualService.validate(individual, false)
-            if (model["invalidFields"].isEmpty()) {
-                if (individual.id) individualService.modify(individual)
-                else homeFolderService.addAdult(this.currentEcitizen.homeFolder, individual, false)
+            try {
+                if (individual.id) {
+                    historize(params.fragment, individual)
+                    if (individual.id == currentEcitizen.id && params.fragment == 'identity') {
+                        securityService.setEcitizenSessionInformation(individual.login, session)
+                    }
+                } else {
+                    addAdult(individual)
+                }
                 redirect(action : "adult", params : ["id" : individual.id])
                 return false
-            } else {
+            } catch (CvqValidationException e) {
+                model["invalidFields"] = e.invalidFields
                 session.doRollback = true
             }
         }
-        model["adult"] = individual
-        if (params.mode == "edit") {
-            template += "Edit"
-        } else {
-            model["ownerRoles"] = homeFolderAdaptorService.prepareOwnerRoles(individual)
-            model["subjectRoles"] = homeFolderAdaptorService.prepareAdultSubjectRoles(individual)
+        Adult.metaClass.fragmentMode = { name ->
+            def template = '/adult' + StringUtils.firstCase(name,'Upper')
+            return (name == params.fragment  ? 'edit' : 'static') + template
         }
-        render(view : template, model : model)
+        model['adult'] = individual
+        if (individual.id) {
+            model['ownerRoles'] = homeFolderAdaptorService.prepareOwnerRoles(individual)
+        }
+        return model
     }
 
     def child = {
         def model = [:]
         def individual
-        def template = "child"
         if (params.id) {
             individual = individualService.getChildById(Long.valueOf(params.id))
         } else {
             individual = new Child()
-            individual.homeFolder = currentEcitizen.homeFolder
             // hack : WTF is an unknown sex ?
             individual.sex = null
         }
         if (request.post) {
-            bind(individual)
-            if (individual.id)
-                homeFolderService.removeRolesOnSubject(
-                    SecurityContext.currentEcitizen.homeFolder.id, individual.id)
-            params.roles.each {
-                if (it.value instanceof GrailsParameterMap && it.value.owner != '' && it.value.type != '') {
-                    homeFolderService.addIndividualRole(individualService.getById(Long.valueOf(it.value.owner)),
-                        individual, RoleType.forString(it.value.type))
+            try {
+                if (individual.id && params.roleOwnerId) {
+                    if (!params.roleType)
+                        throw new CvqValidationException(['legalResponsibles'])
+                    def owner = individualService.getById(Long.valueOf(params.roleOwnerId))
+                    homeFolderService.link(owner, individual, [RoleType.forString(params.roleType)])
+                    redirect(url:createLink(action:'child', params:['id':individual.id, 'fragment':params.fragment]) + '#' + params.fragment)
+                    return false
+                } else if (individual.id) {
+                    historize(params.fragment, individual)
+                } else {
+                    addChild(individual)
                 }
-            }
-            model["invalidFields"] = individualService.validate(individual)
-            if (model["invalidFields"].isEmpty()) {
-                if (individual.id) individualService.modify(individual)
-                else homeFolderService.addChild(this.currentEcitizen.homeFolder, individual)
-                redirect(action : "child", params : ["id" : individual.id])
+                redirect(action : 'child', params : ['id' : individual.id])
                 return false
-            } else {
+            } catch (CvqValidationException e) {
+                // hack hibernate
+                if (!params.id) individual.id = null
+                flash['invalidFields'] = e.invalidFields
                 session.doRollback = true
             }
         }
-        model["child"] = individual
-        model["roleOwners"] = individual.id ?
-            homeFolderService.listBySubjectRoles(individual.id,
-                [RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR] as RoleType[])
-                .sort { a, b ->
-                  if (a.id == b.id) return a.fullName.compareTo(b.fullName)
-                  if (a.id == SecurityContext.currentEcitizen.id) return -1
-                  if (b.id == SecurityContext.currentEcitizen.id) return 1
-                  return a.fullName.compareTo(b.fullName)
-                } : []
-        if (params.mode == "edit") {
-            template += "Edit"
-            model["adults"] = homeFolderService.getAdults(SecurityContext.currentEcitizen.homeFolder.id)
-            model["currentUser"] = SecurityContext.currentEcitizen
+        Child.metaClass.fragmentMode = { name ->
+            def template = '/child' + StringUtils.firstCase(name,'Upper')
+            return (name == params.fragment  ? 'edit' : 'static') + template
         }
-        render(view : template, model : model)
+        model["child"] = individual
+        if (individual.id) {
+            model['roleOwners'] = ('responsibles' != params.fragment) ? homeFolderService.listBySubjectRoles(individual.id, RoleType.childRoleTypes) : homeFolderAdaptorService.roleOwners(individual.id)
+            model['currentEcitizen'] = currentEcitizen
+            model['currentRoleOwnerId'] = params.roleOwnerId ? Long.valueOf(params.roleOwnerId) : 0
+        } else {
+            model['adults'] = homeFolderService.getAdults(currentEcitizen.homeFolder.id)
+        }
+        return model
+    }
+
+    def unlink = {
+        def child = individualService.getById(Long.valueOf(params.id))
+        def owner = individualService.getById(Long.valueOf(params.roleOwnerId))
+        homeFolderService.unlink(owner, child)
+        def invalidFields = individualService.validate(child)
+        if (!invalidFields.isEmpty()) {
+            flash['invalidFields'] = invalidFields
+            session.doRollback = true
+        }
+        redirect(url:createLink(action:'child', params:['id':params.id, 'fragment':params.fragment]) + '#' + params.fragment)
+    }
+
+    private addAdult(individual) throws CvqValidationException {
+        DataBindingUtils.initBind(individual, params)
+        bind(individual)
+        def invalidFields = individualService.validate(individual)
+        if (!invalidFields.isEmpty())
+            throw new CvqValidationException(invalidFields)
+        homeFolderService.addAdult(currentEcitizen.homeFolder, individual, false)
+    }
+
+    private addChild(individual) throws CvqValidationException {
+        bind(individual)
+        homeFolderService.addChild(currentEcitizen.homeFolder, individual)
+        params.roles.each {
+            if (it.value instanceof GrailsParameterMap && it.value.owner != '' && it.value.type != '') {
+                homeFolderService.link(
+                    individualService.getById(Long.valueOf(it.value.owner)),
+                    individual, [RoleType.forString(it.value.type)])
+            }
+        }
+        def invalidFields = individualService.validate(individual)
+        if (!invalidFields.isEmpty())
+            throw new CvqValidationException(invalidFields)
+    }
+
+    // FIXME :
+    private historize(fragment, individual) throws CvqValidationException {
+        def fields, dto
+        if (fragment == 'identity') {
+            dto = individual instanceof Adult ? new Adult() : new Child()
+            fields = individual instanceof Adult ?
+                ["title", "familyStatus", "lastName", "maidenName", "nameOfUse", "firstName", "firstName2", "firstName3", "profession"] :
+                ["born", "lastName", "firstName", "firstName2", "firstName3", "sex", "birthDate", "birthPostalCode", "birthCity", "birthCountry"]
+        }
+        if (fragment == 'contact') {
+            dto = new Adult()
+            fields = ["email", "homePhone", "mobilePhone", "officePhone"]
+        }
+        if (fragment == "connexion") {
+            dto = new Adult()
+            fields = ["question", "answer"]
+        }
+        if (fragment == 'address') {
+            dto = new Address()
+            fields = ["additionalDeliveryInformation", "additionalGeographicalInformation", "city", "cityInseeCode", "countryName", "placeNameOrService", "postalCode", "streetMatriculation", "streetName", "streetNumber", "streetRivoliCode"]
+        }
+        bind(dto)
+        individualAdaptorService.historize(individual,
+            (fragment == 'address' ? individual.address : individual), dto, fragment, fields)
     }
 
     def editPassword = {
@@ -309,9 +347,7 @@ class FrontofficeHomeFolderController {
                     flash.errorMessage = message("code":"homeFolder.adult.property.answer.validationError")
                     return model
                 }
-                currentEcitizen.question = params.question
-                currentEcitizen.answer = params.answer
-                individualService.modify(currentEcitizen)
+                historize("connexion", currentEcitizen)
                 flash.successMessage = message("code":"homeFolder.adult.property.question.changeSuccess")
             }
             redirect(controller : "frontofficeHomeFolder")

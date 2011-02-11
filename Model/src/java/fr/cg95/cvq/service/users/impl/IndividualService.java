@@ -296,6 +296,13 @@ public class IndividualService implements IIndividualService {
     }
 
     @Override
+    public List<String> validate(Adult adult)
+        throws ClassNotFoundException, IllegalAccessException, InvocationTargetException,
+        NoSuchMethodException {
+        return validate(adult, false);
+    }
+
+    @Override
     public List<String> validate(Adult adult, boolean login)
         throws ClassNotFoundException, IllegalAccessException, InvocationTargetException,
             NoSuchMethodException {

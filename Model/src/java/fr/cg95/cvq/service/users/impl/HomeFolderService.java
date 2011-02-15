@@ -661,11 +661,11 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
                                 + individualRole.getIndividualName() + "("
                                 + individualRole.getIndividualId() + ")");
                         if (individualRole.getIndividualId() == null) {
-                            String childName = individualRole.getIndividualName();
-                            if (childName == null)
+                            // FIXME : CLR role can only be used on Child. Useful to test corrupted xml import
+                            if (individualRole.getHomeFolderId() != null && individualRole.getIndividualName() == null)
                                 throw new CvqException("homeFolder.error.legalResponsibleMustReferenceAChild");
                             for (Child child : children) {
-                                if (childName.equals(child.getLastName() + " " + child.getFirstName())) {
+                                if (individualRole.getIndividualName().equals(child.getFullName())) {
                                     individualRole.setIndividualId(child.getId());
                                     break;
                                 }
@@ -688,7 +688,9 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
                 for (Adult adult : adults) {
                     if (adult.getIndividualRoles() != null) {
                         for (IndividualRole individualRole : adult.getIndividualRoles()) {
-                            if (child.getId().equals(individualRole.getIndividualId())
+                            if ((child.getId().equals(individualRole.getIndividualId())
+                                    || child.getFullName().equals(individualRole.getIndividualName()))
+
                                     && (individualRole.getRole().equals(RoleType.CLR_FATHER)
                                             || individualRole.getRole().equals(RoleType.CLR_MOTHER)
                                             || individualRole.getRole().equals(RoleType.CLR_TUTOR)))

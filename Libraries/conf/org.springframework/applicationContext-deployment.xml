@@ -130,11 +130,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <prop key="hibernate.cache.use_query_cache">false</prop>
       </props>
     </property>
-
-    <property name="entityInterceptor">
-      <ref bean="historyInterceptor" />
-    </property>
-
   </bean>
 
   <bean id="templateSessionFactory"

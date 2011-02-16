@@ -81,25 +81,6 @@ public interface IHomeFolderService {
 
     void unlink(@IsIndividual Individual owner, @IsIndividual Individual target);
 
-    /**
-     * Save or update all foreign (from homefolder) role owner.
-     * Prepare individualRole for each foreign owner before persisting it.
-     * TODO : refactor foreign owner managment
-     */
-    public void saveForeignRoleOwners(Long homeFolderId, List<Adult> adults, List<Child> children,
-            List<Adult> foreignRoleOwners) throws CvqException, CvqModelException;
-    
-    /**
-     * Perform the checking and finalization on the roles each of the given individual 
-     * has on this home folder.
-     * 
-     * For roles on transient objects (home folder or individual), it will set the correct
-     * identifier values.
-     */
-    void checkAndFinalizeRoles(@IsHomeFolder Long homeFolderId, 
-            List<Adult> adults, List<Child> children)
-        throws CvqException, CvqModelException;
-
     boolean hasHomeFolderRole(@IsIndividual final Long ownerId, 
             @IsHomeFolder final Long homeFolderId, final RoleType role)
         throws CvqException;

@@ -58,10 +58,6 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="documentService" ref="documentService"/>
   </bean>
 
-  <!-- history interceptor that logs all changes made on home folders -->
-  <bean id="historyInterceptor" class="fr.cg95.cvq.dao.hibernate.HistoryInterceptor">
-  </bean>
-
   <bean id="securityContext" class="fr.cg95.cvq.security.SecurityContext">
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
     <property name="agentService" ref="agentService" />
@@ -359,9 +355,6 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="childDAO" ref="childDAO"/>
     <property name="adultDAO" ref="adultDAO"/>
     <property name="individualDAO" ref="individualDAO" />
-    <property name="historyInterceptor">
-      <ref local="historyInterceptor"/>
-    </property>
     <property name="authenticationService" ref="authenticationService"/>
     <property name="translationService" ref="translationService"/>
   </bean>

@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.users;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 import fr.cg95.cvq.business.users.Adult;
@@ -72,25 +73,13 @@ public interface IHomeFolderService {
     List<Individual> getExternalIndividuals(@IsHomeFolder final Long homeFolderId)
         throws CvqException;
 
-    void addHomeFolderRole(@IsIndividual Individual owner, @IsHomeFolder final Long homeFolderId,
-        final RoleType role)
-        throws CvqException;
+    void link(@IsIndividual Individual owner, @IsHomeFolder HomeFolder target, Collection<RoleType> types);
 
-    void addIndividualRole(@IsIndividual Individual owner,
-        @IsIndividual final Individual individual, final RoleType role)
-        throws CvqException;
+    void unlink(@IsIndividual Individual owner, @IsHomeFolder HomeFolder target);
 
-    void removeRolesOnSubject(@IsHomeFolder final Long homeFolderId,
-        @IsIndividual final Long individualId)
-        throws CvqException;
+    void link(@IsIndividual Individual owner, @IsIndividual Individual target, Collection<RoleType> roleTypes);
 
-    void removeHomeFolderRole(@IsIndividual Individual owner,
-        @IsHomeFolder final Long homeFolderId, final RoleType role)
-        throws CvqException;
-
-    void removeIndividualRole(@IsIndividual Individual owner,
-        @IsIndividual final Individual individual, final RoleType role)
-        throws CvqException;
+    void unlink(@IsIndividual Individual owner, @IsIndividual Individual target);
 
     /**
      * Save or update all foreign (from homefolder) role owner.
@@ -114,11 +103,7 @@ public interface IHomeFolderService {
     boolean hasHomeFolderRole(@IsIndividual final Long ownerId, 
             @IsHomeFolder final Long homeFolderId, final RoleType role)
         throws CvqException;
-    
-    boolean hasIndividualRole(@IsIndividual final Long ownerId, 
-            final Individual individual, final RoleType role)
-        throws CvqException;
-    
+
     /**
      * Get the adult that has the 
      * {@link RoleType#HOME_FOLDER_RESPONSIBLE home folder responsible role} on the

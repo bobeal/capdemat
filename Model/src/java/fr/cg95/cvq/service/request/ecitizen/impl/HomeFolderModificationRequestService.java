@@ -113,8 +113,8 @@ public class HomeFolderModificationRequestService extends RequestService {
                         String oldHomeFolderId =
                             oldValue.substring(oldValue.indexOf("id=") + 3,
                             oldValue.lastIndexOf(']'));
-                        homeFolderService.removeRolesOnSubject(Long.valueOf(oldHomeFolderId),
-                            individual.getId());
+                        //homeFolderService.removeRolesOnSubject(Long.valueOf(oldHomeFolderId),
+                        //    individual.getId());
 
                         // update requests whose individual is the subject
                         List<Request> requestsAsSubject =

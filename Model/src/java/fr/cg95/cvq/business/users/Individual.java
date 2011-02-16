@@ -3,6 +3,7 @@ package fr.cg95.cvq.business.users;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -428,7 +429,17 @@ public abstract class Individual implements Historizable, Serializable {
         
         return result;
     }
-    
+
+    public Set<IndividualRole> getHomeFolderRoles(Long homeFolderId) {
+        if (homeFolderId == null) return Collections.emptySet();
+        Set<IndividualRole> result = new HashSet<IndividualRole>();
+        for (IndividualRole individualRole : individualRoles) {
+            if (homeFolderId.equals(individualRole.getHomeFolderId()))
+                result.add(individualRole);
+        }
+        return result;
+    }
+
     public void setIndividualRoles(Set<IndividualRole> individualRoles) {
         this.individualRoles = individualRoles;
     }

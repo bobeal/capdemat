@@ -737,8 +737,7 @@ public class LocalAuthorityRegistry
                             address, FamilyStatusType.SINGLE), false);
                     Child child = BusinessObjectsFactory.gimmeChild("Moreau", "Émilie");
                     homeFolderService.addChild(homeFolder, child);
-                    homeFolderService.addIndividualRole(
-                        homeFolderResponsible, child, RoleType.CLR_FATHER);
+                    homeFolderService.link(homeFolderResponsible, child, Collections.singleton(RoleType.CLR_FATHER));
                     SecurityContext.setCurrentSite(DEVELOPMENT_LOCAL_AUTHORITY,
                         SecurityContext.ADMIN_CONTEXT);
                     homeFolderService.validate(homeFolder.getId());

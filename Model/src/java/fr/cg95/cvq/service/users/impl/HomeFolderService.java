@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -19,7 +20,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.annotation.Async;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import au.com.bytecode.opencsv.CSVWriter;
 
@@ -106,7 +109,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         homeFolderDAO.create(homeFolder);
         homeFolder.getActions().add(new UserAction(UserAction.Type.CREATION, homeFolder.getId()));
         addAdult(homeFolder, adult, !temporary);
-        addHomeFolderRole(adult, homeFolder.getId(), RoleType.HOME_FOLDER_RESPONSIBLE);
+        link(adult, homeFolder, Collections.singleton(RoleType.HOME_FOLDER_RESPONSIBLE));
         logger.debug("create() successfully created home folder " + homeFolder.getId());
         // FIXME hack for CG77
         if (adult.getPassword() != null) {
@@ -340,7 +343,9 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
 
         Individual individual = individualService.getById(individualId);
         HomeFolder homeFolder = getById(homeFolderId);
-        removeRolesOnSubject(homeFolderId, individual.getId());
+        for (Individual responsible : homeFolder.getIndividuals()) {
+            unlink(responsible, individual);
+        }
         individual.setHomeFolder(null);
 
         homeFolder.getIndividuals().remove(individual);
@@ -441,19 +446,26 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void addHomeFolderRole(Individual owner, Long homeFolderId, RoleType role)
-            throws CvqException {
- 
-        IndividualRole individualRole = new IndividualRole();
-        individualRole.setRole(role);
-        individualRole.setHomeFolderId(homeFolderId);
-        owner.getIndividualRoles().add(individualRole);
-        UserAction action = new UserAction(UserAction.Type.MODIFICATION, homeFolderId);
+    public void link(Individual owner, HomeFolder target, Collection<RoleType> types) {
+        Set<RoleType> missing = new HashSet<RoleType>(types);
+        for (IndividualRole role : owner.getHomeFolderRoles(target.getId())) {
+            if (types.contains(role.getRole())) missing.remove(role.getRole());
+            else owner.getIndividualRoles().remove(role);
+        }
+        for (RoleType type : missing) {
+            IndividualRole newRole = new IndividualRole();
+            newRole.setRole(type);
+            newRole.setHomeFolderId(target.getId());
+            owner.getIndividualRoles().add(newRole);
+        }
+        UserAction action = new UserAction(UserAction.Type.MODIFICATION, target.getId());
         JsonObject payload = new JsonObject();
-        JsonObject roleInfo = new JsonObject();
-        roleInfo.addProperty("type", role.toString());
-        roleInfo.addProperty("owner", owner.getId());
-        payload.add("role", roleInfo);
+        JsonObject jsonResponsible = new JsonObject();
+        JsonArray jsonTypes = new JsonArray();
+        for (RoleType type : types) jsonTypes.add(new JsonPrimitive(type.toString()));
+        jsonResponsible.add("types", jsonTypes);
+        jsonResponsible.addProperty("id", owner.getId());
+        payload.add("responsible", jsonResponsible);
         action.setData(new Gson().toJson(payload));
         owner.getHomeFolder().getActions().add(action);
         homeFolderDAO.update(owner.getHomeFolder());
@@ -461,22 +473,20 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void addIndividualRole(Individual owner, Individual individual, RoleType role)
-            throws CvqException {
-
-        IndividualRole individualRole = new IndividualRole();
-        individualRole.setRole(role);
-        if (individual.getId() != null)
-            individualRole.setIndividualId(individual.getId());
-        else
-            individualRole.setIndividualName(individual.getFullName());
-        owner.getIndividualRoles().add(individualRole);
-        UserAction action = new UserAction(UserAction.Type.MODIFICATION, individual.getId());
+    public void unlink(Individual owner, HomeFolder target) {
+        Set<RoleType> deleted = new HashSet<RoleType>();
+        for (IndividualRole role : owner.getHomeFolderRoles(target.getId())) {
+            owner.getIndividualRoles().remove(role);
+            deleted.add(role.getRole());
+        }
+        UserAction action = new UserAction(UserAction.Type.MODIFICATION, target.getId());
         JsonObject payload = new JsonObject();
-        JsonObject roleInfo = new JsonObject();
-        roleInfo.addProperty("type", role.toString());
-        roleInfo.addProperty("owner", owner.getId());
-        payload.add("role", roleInfo);
+        JsonObject jsonResponsible = new JsonObject();
+        JsonArray jsonTypes = new JsonArray();
+        for (RoleType type : deleted) jsonTypes.add(new JsonPrimitive(type.toString()));
+        jsonResponsible.add("deleted", jsonTypes);
+        jsonResponsible.addProperty("id", owner.getId());
+        payload.add("responsible", jsonResponsible);
         action.setData(new Gson().toJson(payload));
         owner.getHomeFolder().getActions().add(action);
         homeFolderDAO.update(owner.getHomeFolder());
@@ -484,87 +494,50 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void removeRolesOnSubject(final Long homeFolderId, final Long individualId)
-        throws CvqException {
-        Individual target = individualService.getById(individualId);
-        for (Individual homeFolderIndividual : getById(homeFolderId).getIndividuals()) {
-            if (homeFolderIndividual.getIndividualRoles() == null)
-                continue;
-            Set<IndividualRole> rolesToRemove = new HashSet<IndividualRole>();
-            for (IndividualRole individualRole : homeFolderIndividual.getIndividualRoles()) {
-                if (individualRole.getIndividualId() != null
-                        && individualRole.getIndividualId().equals(individualId))
-                    rolesToRemove.add(individualRole);
-            }
-            if (rolesToRemove.isEmpty())
-                continue;
-            logger.debug("removeRolesOnSubject() removing " + rolesToRemove.size()
-                    + " roles from " + homeFolderIndividual.getId());
-            for (IndividualRole roleToRemove : rolesToRemove)
-                removeIndividualRole(homeFolderIndividual, target, roleToRemove.getRole());
-            individualDAO.update(homeFolderIndividual);
+    public void link(Individual owner, Individual target, Collection<RoleType> types) {
+        Set<RoleType> missing = new HashSet<RoleType>(types);
+        for (IndividualRole role : owner.getIndividualRoles(target.getId())) {
+            if (types.contains(role.getRole())) missing.remove(role.getRole());
+            else owner.getIndividualRoles().remove(role);
         }
+        for (RoleType type : missing) {
+            IndividualRole newRole = new IndividualRole();
+            newRole.setRole(type);
+            newRole.setIndividualId(target.getId());
+            owner.getIndividualRoles().add(newRole);
+        }
+        UserAction action = new UserAction(UserAction.Type.MODIFICATION, target.getId());
+        JsonObject payload = new JsonObject();
+        JsonObject jsonResponsible = new JsonObject();
+        JsonArray jsonTypes = new JsonArray();
+        for (RoleType type : types) jsonTypes.add(new JsonPrimitive(type.toString()));
+        jsonResponsible.add("types", jsonTypes);
+        jsonResponsible.addProperty("id", owner.getId());
+        payload.add("responsible", jsonResponsible);
+        action.setData(new Gson().toJson(payload));
+        owner.getHomeFolder().getActions().add(action);
+        homeFolderDAO.update(owner.getHomeFolder());
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void removeHomeFolderRole(Individual owner, Long homeFolderId, RoleType role)
-            throws CvqException {
-        IndividualRole roleToRemove = null;
-        for (IndividualRole individualRole : owner.getIndividualRoles()) {
-            if (individualRole.getRole().equals(role) 
-                    && homeFolderId.equals(individualRole.getHomeFolderId())) {
-                roleToRemove = individualRole;
-                break;
-            } 
+    public void unlink( Individual owner, Individual target) {
+        Set<RoleType> deleted = new HashSet<RoleType>();
+        for (IndividualRole role : owner.getIndividualRoles(target.getId())) {
+            owner.getIndividualRoles().remove(role);
+            deleted.add(role.getRole());
         }
-        if (roleToRemove != null) {
-            owner.getIndividualRoles().remove(roleToRemove);
-            UserAction action = new UserAction(UserAction.Type.MODIFICATION, homeFolderId);
-            JsonObject payload = new JsonObject();
-            JsonObject roleInfo = new JsonObject();
-            roleInfo.addProperty("type", role.toString());
-            roleInfo.addProperty("owner", owner.getId());
-            roleInfo.addProperty("deleted", true);
-            payload.add("role", roleInfo);
-            action.setData(new Gson().toJson(payload));
-            owner.getHomeFolder().getActions().add(action);
-            homeFolderDAO.update(owner.getHomeFolder());
-        }
-    }
-
-    @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void removeIndividualRole(Individual owner, Individual individual, RoleType role)
-            throws CvqException {
-        IndividualRole roleToRemove = null;
-        String individualName = individual.getLastName() + " " + individual.getFirstName();
-        for (IndividualRole individualRole : owner.getIndividualRoles()) {
-            if (individualRole.getRole().equals(role)) {
-                if (individualRole.getIndividualId() != null
-                        && individualRole.getIndividualId().equals(individual.getId())) {
-                        roleToRemove = individualRole;
-                        break;
-                } else if (individualRole.getIndividualName() != null
-                        && individualRole.getIndividualName().equals(individualName)) {
-                        roleToRemove = individualRole;
-                        break;
-                }
-            }
-        }
-        if (roleToRemove != null) {
-            owner.getIndividualRoles().remove(roleToRemove);
-            UserAction action = new UserAction(UserAction.Type.MODIFICATION, individual.getId());
-            JsonObject payload = new JsonObject();
-            JsonObject roleInfo = new JsonObject();
-            roleInfo.addProperty("type", role.toString());
-            roleInfo.addProperty("owner", owner.getId());
-            roleInfo.addProperty("deleted", true);
-            payload.add("role", roleInfo);
-            action.setData(new Gson().toJson(payload));
-            owner.getHomeFolder().getActions().add(action);
-            homeFolderDAO.update(owner.getHomeFolder());
-        }
+        UserAction action = new UserAction(UserAction.Type.MODIFICATION, target.getId());
+        JsonObject payload = new JsonObject();
+        JsonObject jsonResponsible = new JsonObject();
+        JsonArray jsonTypes = new JsonArray();
+        for (RoleType type : deleted) jsonTypes.add(new JsonPrimitive(type.toString()));
+        jsonResponsible.add("deleted", jsonTypes);
+        jsonResponsible.addProperty("id", owner.getId());
+        payload.add("responsible", jsonResponsible);
+        action.setData(new Gson().toJson(payload));
+        owner.getHomeFolder().getActions().add(action);
+        homeFolderDAO.update(owner.getHomeFolder());
     }
 
     @Override
@@ -723,31 +696,6 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
                 return true;
         }
         
-        return false;
-    }
-
-    @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public boolean hasIndividualRole(Long ownerId, Individual individual, RoleType role)
-            throws CvqException {
-
-        Individual owner = individualService.getById(ownerId);
-        if (owner.getIndividualRoles() == null)
-            return false;
-        
-        Long individualId = individual.getId();
-        String individualName = individual.getLastName() + " " + individual.getFirstName();
-        for (IndividualRole individualRole : owner.getIndividualRoles()) {
-            if (individualRole.getRole().equals(role)) {
-                if (individualRole.getIndividualId() != null 
-                        && individualRole.getIndividualId().equals(individualId))
-                    return true;
-                if (individualRole.getIndividualName() != null
-                        && individualRole.getIndividualName().equals(individualName))
-                    return true;
-            }
-        }
-
         return false;
     }
 

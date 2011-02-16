@@ -62,11 +62,11 @@ class HomeFolderAdaptorService {
                     case "state" :
                         result["state"] = CapdematUtils.adaptCapdematEnum(it.value, "actor.state")
                         break;
-                    case "role" :
-                        result["role"] = [:]
-                        result["role"]["type"] = it.value.type
-                        result["role"]["owner"] = instructionService.getActionPosterDetails(it.value.owner)
-                        result["role"]["deleted"] = it.value.deleted
+                    case "responsible" :
+                        result["responsible"] = [:]
+                        result["responsible"]["types"] = it.value.types
+                        result["responsible"]["deleted"] = it.value.deleted
+                        result["responsible"]["owner"] = instructionService.getActionPosterDetails(it.value.id)
                         break;
                     default :
                         result.data.(it.key) = it.value

@@ -15,7 +15,7 @@ class HomeFolderAdaptorService {
 
     public prepareAdultSubjectRoles(adult ) {
         def adultSubjectRoles = []
-        homeFolderService.getBySubjectRole(adult.id, RoleType.TUTOR).each { individual ->
+        homeFolderService.listBySubjectRole(adult.id, RoleType.TUTOR).each { individual ->
             adultSubjectRoles.add(['fullName': "${individual.firstName} ${individual.lastName}",
                 'roles': individual.getIndividualRoles(adult.id)])
         }

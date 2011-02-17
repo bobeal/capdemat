@@ -10,7 +10,6 @@ import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.schema.ximport.HomeFolderImportDocument;
 import fr.cg95.cvq.security.annotation.IsHomeFolder;
@@ -36,14 +35,12 @@ public interface IHomeFolderService {
     HomeFolder create(Adult adult, boolean temporary)
         throws CvqException;
 
-    void modify(@IsHomeFolder final HomeFolder homeFolder)
-        throws CvqException;
+    void modify(@IsHomeFolder final HomeFolder homeFolder);
 
-    void delete(@IsHomeFolder HomeFolder homeFolder)
-        throws CvqException, CvqObjectNotFoundException;
+    void delete(@IsHomeFolder HomeFolder homeFolder);
 
     void delete(@IsHomeFolder final Long id)
-    	throws CvqException, CvqObjectNotFoundException;
+        throws CvqObjectNotFoundException;
 
     void addAdult(@IsHomeFolder HomeFolder homeFolder, @IsIndividual Adult adult, boolean assignLogin)
         throws CvqException;
@@ -51,27 +48,23 @@ public interface IHomeFolderService {
     void addChild(@IsHomeFolder HomeFolder homeFolder, @IsIndividual Child child);
 
     void deleteIndividual(@IsHomeFolder final Long homeFolderId, final Long individualId)
-        throws CvqException, CvqObjectNotFoundException;
-    
-    List<HomeFolder> getAll(boolean filterArchived, boolean filterTemporary)
-        throws CvqException;
+        throws CvqObjectNotFoundException;
+
+    List<HomeFolder> getAll(boolean filterArchived, boolean filterTemporary);
 
     HomeFolder getById(@IsHomeFolder final Long id)
-        throws CvqException, CvqObjectNotFoundException;
+        throws CvqObjectNotFoundException;
 
-    List<Child> getChildren(@IsHomeFolder final Long homeFolderId)
-        throws CvqException;
+    List<Child> getChildren(@IsHomeFolder final Long homeFolderId);
 
     List<Adult> getAdults(@IsHomeFolder final Long homeFolderId);
-    
-    List<Individual> getIndividuals(@IsHomeFolder final Long homeFolderId)
-        throws CvqException;
-    
+
+    List<Individual> getIndividuals(@IsHomeFolder final Long homeFolderId);
+
     /**
      * Get a list of individuals who have a role in the home folder but are not part of it.
      */
-    List<Individual> getExternalIndividuals(@IsHomeFolder final Long homeFolderId)
-        throws CvqException;
+    List<Individual> getExternalIndividuals(@IsHomeFolder final Long homeFolderId);
 
     void link(@IsIndividual Individual owner, @IsHomeFolder HomeFolder target, Collection<RoleType> types);
 
@@ -81,45 +74,42 @@ public interface IHomeFolderService {
 
     void unlink(@IsIndividual Individual owner, @IsIndividual Individual target);
 
-    boolean hasHomeFolderRole(@IsIndividual final Long ownerId, 
-            @IsHomeFolder final Long homeFolderId, final RoleType role)
-        throws CvqException;
+    boolean hasHomeFolderRole(@IsIndividual final Long ownerId,
+        @IsHomeFolder final Long homeFolderId, final RoleType role)
+        throws CvqObjectNotFoundException;
 
     /**
-     * Get the adult that has the 
-     * {@link RoleType#HOME_FOLDER_RESPONSIBLE home folder responsible role} on the
-     * given home folder.
+     * Get the adult that has the
+     * {@link RoleType#HOME_FOLDER_RESPONSIBLE home folder responsible role}
+     * on the given home folder.
      */
-    Adult getHomeFolderResponsible(@IsHomeFolder final Long homeFolderId)
-        throws CvqException;
-    
-    List<Individual> getByHomeFolderRole(@IsHomeFolder final Long homeFolderId, 
-            RoleType role);
-    
-    List<Individual> listByHomeFolderRoles(@IsHomeFolder final Long homeFolderId, 
-            RoleType[] roles);
+    Adult getHomeFolderResponsible(@IsHomeFolder final Long homeFolderId);
 
-    List<Individual> getBySubjectRole(@IsIndividual Long subjectId, RoleType role);
+    List<Individual> listByHomeFolderRole(@IsHomeFolder final Long homeFolderId, RoleType role);
 
-    List<Individual> getBySubjectRoles(@IsIndividual Long subjectId, RoleType[] roles);
+    List<Individual> listByHomeFolderRoles(@IsHomeFolder final Long homeFolderId, RoleType[] roles);
+
+    List<Individual> listBySubjectRole(@IsIndividual Long subjectId, RoleType role);
+
+    List<Individual> listBySubjectRoles(@IsIndividual Long subjectId, RoleType[] roles);
 
     /**
      * Validate an home folder and its associated individuals.
      */
     void validate(@IsHomeFolder final Long id)
-        throws CvqException, CvqObjectNotFoundException;
+        throws CvqObjectNotFoundException;
 
     /**
      * Invalidate an home folder and its associated individuals.
      */
     void invalidate(@IsHomeFolder final Long id)
-        throws CvqException, CvqObjectNotFoundException;
+        throws CvqObjectNotFoundException;
 
     /**
      * Disable an home folder and its associated individuals and requests.
      */
     void archive(@IsHomeFolder final Long id)
-        throws CvqException, CvqObjectNotFoundException;
+        throws CvqObjectNotFoundException;
 
     /**
      * Send the new password by email to the home folder's responsible,

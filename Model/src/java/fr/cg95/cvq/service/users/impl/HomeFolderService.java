@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -19,27 +18,24 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.annotation.Async;
 
+import au.com.bytecode.opencsv.CSVWriter;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-
-import au.com.bytecode.opencsv.CSVWriter;
 
 import fr.cg95.cvq.authentication.IAuthenticationService;
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
-import fr.cg95.cvq.business.users.FamilyStatusType;
 import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.SexType;
-import fr.cg95.cvq.business.users.TitleType;
-import fr.cg95.cvq.business.users.UserAction;
-import fr.cg95.cvq.business.users.UsersEvent;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.IndividualRole;
 import fr.cg95.cvq.business.users.RoleType;
+import fr.cg95.cvq.business.users.UserAction;
+import fr.cg95.cvq.business.users.UsersEvent;
 import fr.cg95.cvq.business.users.UsersEvent.EVENT_TYPE;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.business.users.external.IndividualMapping;
@@ -50,7 +46,6 @@ import fr.cg95.cvq.dao.users.IChildDAO;
 import fr.cg95.cvq.dao.users.IHomeFolderDAO;
 import fr.cg95.cvq.dao.users.IIndividualDAO;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.schema.ximport.HomeFolderImportDocument;
 import fr.cg95.cvq.security.SecurityContext;
@@ -98,6 +93,8 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public HomeFolder create(final Adult adult, boolean temporary)
         throws CvqException {
+        // FIXME bypass all access checks while we're setting everything up
+        SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
         HomeFolder homeFolder = new HomeFolder();
         homeFolder.setAddress(adult.getAddress());
         homeFolder.setEnabled(Boolean.TRUE);
@@ -114,20 +111,19 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
                 this, UsersEvent.EVENT_TYPE.LOGIN_ASSIGNED, homeFolder.getId(), adult.getId()));
         }
         HibernateUtil.getSession().flush();
-        // FIXME SecurityContext wasn't set yet by the web layer,
-        // so attribute all actions to the newly created responsible instead of system
+        // FIXME attribute all actions to the newly created responsible instead of system
         for (UserAction action : homeFolder.getActions()) {
             action.setUserId(adult.getId());
         }
         homeFolderDAO.update(homeFolder);
+        // FIXME restore correct context
+        SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT);
         return homeFolder;
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public final void modify(final HomeFolder homeFolder)
-        throws CvqException {
-
+    public final void modify(final HomeFolder homeFolder) {
         if (homeFolder != null)
             homeFolderDAO.update(homeFolder);
     }
@@ -135,8 +131,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public final void delete(final Long id)
-        throws CvqException {
-
+        throws CvqObjectNotFoundException {
         HomeFolder homeFolder = getById(id);
         delete(homeFolder);
     }
@@ -165,7 +160,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void deleteIndividual(final Long homeFolderId, final Long individualId) 
-        throws CvqException, CvqObjectNotFoundException {
+        throws CvqObjectNotFoundException {
 
         Individual individual = individualService.getById(individualId);
         HomeFolder homeFolder = getById(homeFolderId);
@@ -184,8 +179,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void delete(HomeFolder homeFolder)
-        throws CvqException {
+    public void delete(HomeFolder homeFolder) {
 
         UsersEvent homeFolderEvent = 
             new UsersEvent(this, EVENT_TYPE.HOME_FOLDER_DELETE, homeFolder.getId(), null);
@@ -222,25 +216,20 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
 
     @Override
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public final List<HomeFolder> getAll(boolean filterArchived, boolean filterTemporary)
-        throws CvqException {
-
+    public final List<HomeFolder> getAll(boolean filterArchived, boolean filterTemporary) {
         return homeFolderDAO.listAll(filterArchived, filterTemporary);
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public final HomeFolder getById(final Long id)
-        throws CvqException, CvqObjectNotFoundException {
-
+        throws CvqObjectNotFoundException {
         return (HomeFolder) homeFolderDAO.findById(HomeFolder.class, id);
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public final List<Child> getChildren(final Long homeFolderId)
-        throws CvqException {
-
+    public final List<Child> getChildren(final Long homeFolderId) {
         return childDAO.listChildrenByHomeFolder(homeFolderId);
     }
 
@@ -252,21 +241,17 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public List<Individual> getIndividuals(Long homeFolderId) throws CvqException {
-        
+    public List<Individual> getIndividuals(Long homeFolderId) {
         return individualDAO.listByHomeFolder(homeFolderId);
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public List<Individual> getExternalIndividuals(final Long homeFolderId)
-        throws CvqException {
-        
+    public List<Individual> getExternalIndividuals(final Long homeFolderId) {
         Set<Individual> externalIndividuals = new HashSet<Individual>();
         externalIndividuals.addAll(individualDAO.listByHomeFolderRoles(homeFolderId, RoleType.allRoleTypes, true));
         for (Individual individual : getIndividuals(homeFolderId))
             externalIndividuals.addAll(individualDAO.listBySubjectRoles(individual.getId(), RoleType.allRoleTypes, true));
-        
         return new ArrayList<Individual>(externalIndividuals);
     }
 
@@ -369,7 +354,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public boolean hasHomeFolderRole(Long ownerId, Long homeFolderId, RoleType role)
-            throws CvqException {
+            throws CvqObjectNotFoundException {
         
         Individual owner = individualService.getById(ownerId);
         if (owner.getIndividualRoles() == null)
@@ -386,18 +371,16 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public Adult getHomeFolderResponsible(Long homeFolderId) throws CvqException {
-        
+    public Adult getHomeFolderResponsible(Long homeFolderId) {
         List<Individual> individuals = 
             individualDAO.listByHomeFolderRole(homeFolderId, RoleType.HOME_FOLDER_RESPONSIBLE);
-        
         // here we can make the assumption that we properly enforced the role
         return (Adult) individuals.get(0);
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public List<Individual> getByHomeFolderRole(Long homeFolderId, RoleType role) {
+    public List<Individual> listByHomeFolderRole(Long homeFolderId, RoleType role) {
         return individualDAO.listByHomeFolderRole(homeFolderId, role);
     }
 
@@ -409,22 +392,20 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public List<Individual> getBySubjectRole(Long subjectId, RoleType role) {
+    public List<Individual> listBySubjectRole(Long subjectId, RoleType role) {
         return individualDAO.listBySubjectRole(subjectId, role);
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public List<Individual> getBySubjectRoles(Long subjectId, RoleType[] roles) {
+    public List<Individual> listBySubjectRoles(Long subjectId, RoleType[] roles) {
         return individualDAO.listBySubjectRoles(subjectId, roles, false);
     }
 
-    private void updateHomeFolderState(HomeFolder homeFolder, ActorState newState) 
-		throws CvqException {
-
-		logger.debug("updateHomeFolderState() Gonna update state of home folder : " 
-		        + homeFolder.getId());
-		homeFolder.setState(newState);
+    private void updateHomeFolderState(HomeFolder homeFolder, ActorState newState) {
+        logger.debug("updateHomeFolderState() Gonna update state of home folder : "
+            + homeFolder.getId());
+        homeFolder.setState(newState);
         UserAction action = new UserAction(UserAction.Type.STATE_CHANGE, homeFolder.getId());
         JsonObject payload = new JsonObject();
         payload.addProperty("state", newState.toString());
@@ -437,53 +418,33 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
 			individualService.updateIndividualState(individual, newState);
 		}
     }
-    
+
+    @Override
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public final void validate(final Long id)
-        throws CvqException, CvqObjectNotFoundException {
-
-        HomeFolder homeFolder = getById(id);
-        validate(homeFolder);
+        throws CvqObjectNotFoundException {
+        updateHomeFolderState(getById(id), ActorState.VALID);
     }
 
-    private void validate(HomeFolder homeFolder)
-        throws CvqException, CvqObjectNotFoundException {
-
-        updateHomeFolderState(homeFolder, ActorState.VALID);
-    }
-    
+    @Override
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public final void invalidate(final Long id)
-        throws CvqException, CvqObjectNotFoundException {
-
-        HomeFolder homeFolder = getById(id);
-        invalidate(homeFolder);
+        throws CvqObjectNotFoundException {
+        updateHomeFolderState(getById(id), ActorState.INVALID);
     }
 
-    private void invalidate(HomeFolder homeFolder) 
-        throws CvqException, CvqObjectNotFoundException {
-
-		updateHomeFolderState(homeFolder, ActorState.INVALID);
-	}
-
+    @Override
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public final void archive(final Long id) 
-        throws CvqException, CvqObjectNotFoundException {
-        
+        throws CvqObjectNotFoundException {
         HomeFolder homeFolder = getById(id);
-        archive(homeFolder);
-    }
-
-    private void archive(HomeFolder homeFolder) 
-        throws CvqException, CvqObjectNotFoundException {
-        
         updateHomeFolderState(homeFolder, ActorState.ARCHIVED);
-        
-        UsersEvent homeFolderEvent = 
+        UsersEvent homeFolderEvent =
             new UsersEvent(this, EVENT_TYPE.HOME_FOLDER_ARCHIVE, homeFolder.getId(), null);
         applicationContext.publishEvent(homeFolderEvent);
     }
 
+    @Override
     public PasswordResetNotificationType notifyPasswordReset(Adult adult, String password, String categoryAddress)
         throws CvqException {
         String to = null;

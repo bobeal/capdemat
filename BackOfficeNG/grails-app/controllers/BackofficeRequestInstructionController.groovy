@@ -92,7 +92,7 @@ class BackofficeRequestInstructionController {
             }
             children.each {
                 def child = it.data
-                clr.put(child.id, homeFolderService.getBySubjectRoles(child.id,
+                clr.put(child.id, homeFolderService.listBySubjectRoles(child.id,
                         [RoleType.CLR_FATHER,RoleType.CLR_MOTHER,RoleType.CLR_TUTOR] as RoleType[]))
             }
         }
@@ -436,7 +436,7 @@ class BackofficeRequestInstructionController {
                 'birthCountry' : child.birthCountry,
                 'birthPostalCode' : child.birthPostalCode,
                 'birthCity' : child.birthCity,
-                'roleOwners' : homeFolderService.getBySubjectRoles(child.id,
+                'roleOwners' : homeFolderService.listBySubjectRoles(child.id,
                     [RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR] as RoleType[])
             ])
         }

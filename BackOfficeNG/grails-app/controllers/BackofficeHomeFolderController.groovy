@@ -80,7 +80,7 @@ class BackofficeHomeFolderController {
         result.responsableLogin = adult.login
         
         for(Child child : result.children)
-            result.responsibles.put(child.id, homeFolderService.getBySubjectRoles(child.id, RoleType.childRoleTypes))
+            result.responsibles.put(child.id, homeFolderService.listBySubjectRoles(child.id, RoleType.childRoleTypes))
 
         result.identifierMappings =
             externalHomeFolderService.getHomeFolderMappings(homeFolder.id).collect { [
@@ -133,7 +133,7 @@ class BackofficeHomeFolderController {
         def models = ['child': child]
         if (child.id) {
             models['adults'] = homeFolderService.getAdults(child.homeFolder.id)
-            models['roleOwners'] = homeFolderService.getBySubjectRoles(child.id, RoleType.childRoleTypes)
+            models['roleOwners'] = homeFolderService.listBySubjectRoles(child.id, RoleType.childRoleTypes)
         }
         render(template: mode + '/' + template, model: models)
     }

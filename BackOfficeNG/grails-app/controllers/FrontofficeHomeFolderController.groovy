@@ -63,7 +63,7 @@ class FrontofficeHomeFolderController {
                 'birthCountry' : child.birthCountry,
                 'birthPostalCode' : child.birthPostalCode,
                 'birthCity' : child.birthCity,
-                'roleOwners' : homeFolderService.getBySubjectRoles(child.id,
+                'roleOwners' : homeFolderService.listBySubjectRoles(child.id,
                     [RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR] as RoleType[]),
                 'born' : child.born
             ])
@@ -201,7 +201,7 @@ class FrontofficeHomeFolderController {
         }
         model["child"] = individual
         model["roleOwners"] = individual.id ?
-            homeFolderService.getBySubjectRoles(individual.id,
+            homeFolderService.listBySubjectRoles(individual.id,
                 [RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR] as RoleType[])
                 .sort { a, b ->
                   if (a.id == b.id) return a.fullName.compareTo(b.fullName)

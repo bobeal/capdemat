@@ -25,7 +25,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 
   <bean id="authenticationService" 
     class="fr.cg95.cvq.authentication.impl.AuthenticationService">
-    <property name="individualDAO" ref="individualDAO"/>
+    <property name="adultDAO" ref="adultDAO"/>
   </bean>
 
   <bean id="mailService" class="fr.cg95.cvq.util.mail.impl.MailService">

@@ -16,20 +16,6 @@ import fr.cg95.cvq.util.Critere;
 public interface IIndividualDAO extends IGenericDAO {
 
     /**
-     * Look up an Individual by its login.
-     *
-     * @return the sole individual if found or none else
-     */
-    Individual findByLogin(final String login);
-
-    /**
-     * Look up an Individual by its public key.
-     *
-     * @return the sole individual if found or none else
-     */
-    Individual findByPublicKey(final String publicKey);
-
-    /**
      * Look up an Individual by its Liberty Alliance federation key.
      *
      * @return the sole individual if found or none else

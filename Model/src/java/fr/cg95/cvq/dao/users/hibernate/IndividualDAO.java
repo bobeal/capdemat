@@ -30,18 +30,6 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
 
     private static Logger logger = Logger.getLogger(IndividualDAO.class);
 
-    public Individual findByLogin(final String login) {
-        Criteria crit = HibernateUtil.getSession().createCriteria(Individual.class);
-        crit.add(Critere.compose("login", login, Critere.EQUALS));
-        return (Individual) crit.uniqueResult();
-    }
-
-    public Individual findByPublicKey(final String publicKey) {
-        Criteria crit = HibernateUtil.getSession().createCriteria(Individual.class);
-        crit.add(Critere.compose("publicKey", publicKey, Critere.EQUALS));
-        return (Individual) crit.uniqueResult();
-    }
-
     public Individual findByFederationKey(final String federationKey) {
         Criteria crit = HibernateUtil.getSession().createCriteria(Individual.class);
         crit.add(Critere.compose("federationKey", federationKey, Critere.EQUALS));

@@ -12,7 +12,7 @@ import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.dao.users.IIndividualDAO;
+import fr.cg95.cvq.dao.users.IAdultDAO;
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException;
 import fr.cg95.cvq.exception.CvqDisabledAccountException;
 import fr.cg95.cvq.exception.CvqException;
@@ -28,7 +28,7 @@ public class AuthenticationService implements IAuthenticationService {
 
     static Logger logger = Logger.getLogger(AuthenticationService.class);
 
-    private IIndividualDAO individualDAO;
+    private IAdultDAO adultDAO;
 
     private static String[] alph = {
         "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O",
@@ -73,26 +73,16 @@ public class AuthenticationService implements IAuthenticationService {
         throws CvqException, CvqUnknownUserException,
                CvqAuthenticationFailedException, CvqDisabledAccountException {
 
-        Individual individual = individualDAO.findByLogin(login);
-        checkHomeFolderState(individual);
+        Adult adult = adultDAO.findByLogin(login);
+        checkHomeFolderState(adult);
 
-        Adult tempAdult = (Adult) individual;
         String encryptedPassword = encryptPassword(passwd);
-        if (!encryptedPassword.equals(tempAdult.getPassword())) {
+        if (!encryptedPassword.equals(adult.getPassword())) {
             logger.error("authenticate() bad password for login " + login);
             throw new CvqAuthenticationFailedException("individual.error.badPassword");
         }
 
-        return individual.getHomeFolder();
-    }
-
-    public HomeFolder authenticate(final String publicKey)
-        throws CvqException, CvqUnknownUserException, CvqDisabledAccountException {
-
-        Individual individual = individualDAO.findByPublicKey(publicKey);
-        checkHomeFolderState(individual);
-
-        return individual.getHomeFolder();
+        return adult.getHomeFolder();
     }
 
     private void checkHomeFolderState(Individual individual)
@@ -122,7 +112,7 @@ public class AuthenticationService implements IAuthenticationService {
 
         String encryptedPassword = encryptPassword(newPassword);
         adult.setPassword(encryptedPassword);
-        individualDAO.update(adult);
+        adultDAO.update(adult);
     }
 
     /**
@@ -183,7 +173,7 @@ public class AuthenticationService implements IAuthenticationService {
         return password;
     }
 
-    public void setIndividualDAO(IIndividualDAO individualDAO) {
-        this.individualDAO = individualDAO;
+    public void setAdultDAO(IAdultDAO adultDAO) {
+        this.adultDAO = adultDAO;
     }
 }

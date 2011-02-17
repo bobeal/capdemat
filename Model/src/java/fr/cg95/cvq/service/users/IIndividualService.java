@@ -50,7 +50,7 @@ public interface IIndividualService extends IAutofillTriggerService {
     Child getChildById(final Long id)
         throws CvqObjectNotFoundException;
 
-    Individual getByLogin(final String login)
+    Adult getByLogin(final String login)
         throws CvqException;
 
     /**

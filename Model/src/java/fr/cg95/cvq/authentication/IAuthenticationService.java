@@ -26,14 +26,6 @@ public interface IAuthenticationService {
         throws CvqException, CvqUnknownUserException,
                CvqAuthenticationFailedException, CvqDisabledAccountException;
 
-    /**
-     * Authenticate an user by public key.
-     *
-     * @return the user's home folder
-     */
-    HomeFolder authenticate(final String publicKey)
-        throws CvqException, CvqUnknownUserException, CvqDisabledAccountException;
-
     String encryptPassword(final String clearPassword)
         throws CvqException;
 

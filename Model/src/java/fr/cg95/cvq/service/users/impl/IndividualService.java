@@ -92,10 +92,10 @@ public class IndividualService implements IIndividualService {
         return (Child) childDAO.findById(Child.class, id);
     }
 
-    public Individual getByLogin(final String login)
+    public Adult getByLogin(final String login)
         throws CvqException {
 
-        return individualDAO.findByLogin(login);
+        return adultDAO.findByLogin(login);
     }
 
     public Individual getByFederationKey(final String federationKey)

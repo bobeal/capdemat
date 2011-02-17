@@ -10,6 +10,8 @@ import fr.cg95.cvq.business.users.Adult;
  */
 public interface IAdultDAO extends IIndividualDAO {
 
+    Adult findByLogin(String login);
+
     /**
      * Return the list of {@link Adult} objects belonging to a given home folder.
      */

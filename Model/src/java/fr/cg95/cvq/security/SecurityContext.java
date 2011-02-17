@@ -254,10 +254,10 @@ public class SecurityContext {
         throws CvqException, CvqObjectNotFoundException {
 
         logger.debug("setCurrentEcitizen() ecitizen = " + ecitizenLogin);
-        Individual individual = individualService.getByLogin(ecitizenLogin);
-        if (individual == null || individual instanceof Child)
+        Adult adult = individualService.getByLogin(ecitizenLogin);
+        if (adult == null)
             throw new CvqObjectNotFoundException("Adult not found !");
-        setCurrentEcitizen((Adult) individual);
+        setCurrentEcitizen(adult);
     }
 
     public static String getCurrentExternalService() {

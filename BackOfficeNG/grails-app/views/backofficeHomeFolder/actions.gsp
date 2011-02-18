@@ -11,14 +11,14 @@
           <g:if test="${action.state}">
             <span class="tag ${action.state.cssClass}"><g:message code="${action.state.i18nKey}" /></span>
           </g:if>
-          ${action.target}
+          ${action.target.name}
         </dd>
         <dd class="title">
           <g:message code="searchResult.actionDate" /> :
           <strong><g:formatDate formatName="format.fullDate" date="${action.date}"/></strong>
-          <g:if test="${action.username}">
+          <g:if test="${action.user.name}">
             <g:message code="layout.by" />
-            <strong>${action.username}</strong>
+            <strong>${action.user.name}</strong>
           </g:if>
         </dd>
         <g:if test="${action.responsible}">
@@ -29,7 +29,7 @@
               </g:each>
             </dt>
             <dd style="text-decoration : line-through">
-              ${action.responsible.owner}
+              ${action.responsible.name}
             </dd>
           </g:if>
           <g:else>
@@ -39,14 +39,10 @@
               </g:each>
             </dt>
             <dd>
-              ${action.responsible.owner}
+              ${action.responsible.name}
             </dd>
           </g:else>
         </g:if>
-        <g:each var="data" in="${action.data}">
-          <dt>${data.key}</dt>
-          <dd>${data.value}</dd>
-        </g:each>
       </dl>
     </li>
   </g:each>

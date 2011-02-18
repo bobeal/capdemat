@@ -3,6 +3,7 @@ package fr.cg95.cvq.service.users.impl;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -21,8 +22,13 @@ import org.springframework.scheduling.annotation.Async;
 import au.com.bytecode.opencsv.CSVWriter;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 
 import fr.cg95.cvq.authentication.IAuthenticationService;
@@ -55,6 +61,7 @@ import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.util.UserUtils;
 import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.util.translation.ITranslationService;
 import fr.cg95.cvq.xml.common.AddressType;
@@ -112,8 +119,23 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         }
         HibernateUtil.getSession().flush();
         // FIXME attribute all actions to the newly created responsible instead of system
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(JsonObject.class, new JsonDeserializer<JsonObject>() {
+            @Override
+            public JsonObject deserialize(JsonElement arg0, @SuppressWarnings("unused") Type arg1,
+                @SuppressWarnings("unused") JsonDeserializationContext arg2)
+                throws JsonParseException {
+                return arg0.getAsJsonObject();
+            }
+        });
+        Gson gson = gsonBuilder.create();
         for (UserAction action : homeFolder.getActions()) {
             action.setUserId(adult.getId());
+            JsonObject payload = gson.fromJson(action.getData(), JsonObject.class);
+            JsonObject user = payload.getAsJsonObject("user");
+            user.addProperty("id", adult.getId());
+            user.addProperty("name", UserUtils.getDisplayName(adult.getId()));
+            action.setData(gson.toJson(payload));
         }
         homeFolderDAO.update(homeFolder);
         // FIXME restore correct context
@@ -159,19 +181,17 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void deleteIndividual(final Long homeFolderId, final Long individualId) 
-        throws CvqObjectNotFoundException {
-
-        Individual individual = individualService.getById(individualId);
-        HomeFolder homeFolder = getById(homeFolderId);
+    public void delete(Individual individual) {
+        HomeFolder homeFolder = individual.getHomeFolder();
         for (Individual responsible : homeFolder.getIndividuals()) {
             unlink(responsible, individual);
         }
-        individual.setHomeFolder(null);
-
+        homeFolder.getActions().add(new UserAction(UserAction.Type.DELETION, individual.getId()));
         homeFolder.getIndividuals().remove(individual);
-        individualService.delete(individual);
-
+        individual.setAddress(null);
+        individual.setHomeFolder(null);
+        individualDAO.delete(individual);
+        homeFolderDAO.update(homeFolder);
         UsersEvent individualEvent = 
             new UsersEvent(this, EVENT_TYPE.INDIVIDUAL_DELETE, null, individual.getId());
         applicationContext.publishEvent(individualEvent);
@@ -204,11 +224,11 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         }
 
         for (Adult adult : adults) {
-            individualService.delete(adult);
+            delete(adult);
         }
 
         for (Child child : children) {
-            individualService.delete(child);
+            delete(child);
         }
 
         homeFolderDAO.delete(homeFolder);
@@ -269,37 +289,39 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
             newRole.setHomeFolderId(target.getId());
             owner.getIndividualRoles().add(newRole);
         }
-        UserAction action = new UserAction(UserAction.Type.MODIFICATION, target.getId());
         JsonObject payload = new JsonObject();
         JsonObject jsonResponsible = new JsonObject();
         JsonArray jsonTypes = new JsonArray();
         for (RoleType type : types) jsonTypes.add(new JsonPrimitive(type.toString()));
         jsonResponsible.add("types", jsonTypes);
         jsonResponsible.addProperty("id", owner.getId());
+        jsonResponsible.addProperty("name", UserUtils.getDisplayName(owner.getId()));
         payload.add("responsible", jsonResponsible);
-        action.setData(new Gson().toJson(payload));
-        owner.getHomeFolder().getActions().add(action);
+        owner.getHomeFolder().getActions().add(
+            new UserAction(UserAction.Type.MODIFICATION, target.getId(), payload));
         homeFolderDAO.update(owner.getHomeFolder());
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void unlink(Individual owner, HomeFolder target) {
+        Set<IndividualRole> roles = owner.getHomeFolderRoles(target.getId());
+        if (roles.isEmpty()) return;
         Set<RoleType> deleted = new HashSet<RoleType>();
-        for (IndividualRole role : owner.getHomeFolderRoles(target.getId())) {
+        for (IndividualRole role : roles) {
             owner.getIndividualRoles().remove(role);
             deleted.add(role.getRole());
         }
-        UserAction action = new UserAction(UserAction.Type.MODIFICATION, target.getId());
         JsonObject payload = new JsonObject();
         JsonObject jsonResponsible = new JsonObject();
         JsonArray jsonTypes = new JsonArray();
         for (RoleType type : deleted) jsonTypes.add(new JsonPrimitive(type.toString()));
         jsonResponsible.add("deleted", jsonTypes);
         jsonResponsible.addProperty("id", owner.getId());
+        jsonResponsible.addProperty("name", UserUtils.getDisplayName(owner.getId()));
         payload.add("responsible", jsonResponsible);
-        action.setData(new Gson().toJson(payload));
-        owner.getHomeFolder().getActions().add(action);
+        owner.getHomeFolder().getActions().add(
+            new UserAction(UserAction.Type.MODIFICATION, target.getId(), payload));
         homeFolderDAO.update(owner.getHomeFolder());
     }
 
@@ -317,37 +339,39 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
             newRole.setIndividualId(target.getId());
             owner.getIndividualRoles().add(newRole);
         }
-        UserAction action = new UserAction(UserAction.Type.MODIFICATION, target.getId());
         JsonObject payload = new JsonObject();
         JsonObject jsonResponsible = new JsonObject();
         JsonArray jsonTypes = new JsonArray();
         for (RoleType type : types) jsonTypes.add(new JsonPrimitive(type.toString()));
         jsonResponsible.add("types", jsonTypes);
         jsonResponsible.addProperty("id", owner.getId());
+        jsonResponsible.addProperty("name", UserUtils.getDisplayName(owner.getId()));
         payload.add("responsible", jsonResponsible);
-        action.setData(new Gson().toJson(payload));
-        owner.getHomeFolder().getActions().add(action);
+        owner.getHomeFolder().getActions().add(
+            new UserAction(UserAction.Type.MODIFICATION, target.getId(), payload));
         homeFolderDAO.update(owner.getHomeFolder());
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void unlink( Individual owner, Individual target) {
+        Set<IndividualRole> roles = owner.getIndividualRoles(target.getId());
+        if (roles.isEmpty()) return;
         Set<RoleType> deleted = new HashSet<RoleType>();
-        for (IndividualRole role : owner.getIndividualRoles(target.getId())) {
+        for (IndividualRole role : roles) {
             owner.getIndividualRoles().remove(role);
             deleted.add(role.getRole());
         }
-        UserAction action = new UserAction(UserAction.Type.MODIFICATION, target.getId());
         JsonObject payload = new JsonObject();
         JsonObject jsonResponsible = new JsonObject();
         JsonArray jsonTypes = new JsonArray();
         for (RoleType type : deleted) jsonTypes.add(new JsonPrimitive(type.toString()));
         jsonResponsible.add("deleted", jsonTypes);
         jsonResponsible.addProperty("id", owner.getId());
+        jsonResponsible.addProperty("name", UserUtils.getDisplayName(owner.getId()));
         payload.add("responsible", jsonResponsible);
-        action.setData(new Gson().toJson(payload));
-        owner.getHomeFolder().getActions().add(action);
+        owner.getHomeFolder().getActions().add(
+            new UserAction(UserAction.Type.MODIFICATION, target.getId(), payload));
         homeFolderDAO.update(owner.getHomeFolder());
     }
 
@@ -406,11 +430,10 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         logger.debug("updateHomeFolderState() Gonna update state of home folder : "
             + homeFolder.getId());
         homeFolder.setState(newState);
-        UserAction action = new UserAction(UserAction.Type.STATE_CHANGE, homeFolder.getId());
         JsonObject payload = new JsonObject();
         payload.addProperty("state", newState.toString());
-        action.setData(new Gson().toJson(payload));
-        homeFolder.getActions().add(action);
+        homeFolder.getActions().add(
+            new UserAction(UserAction.Type.STATE_CHANGE, homeFolder.getId(), payload));
         homeFolderDAO.update(homeFolder);
 		// retrieve individuals and validate them
 		List<Individual> homeFolderIndividuals = homeFolder.getIndividuals();

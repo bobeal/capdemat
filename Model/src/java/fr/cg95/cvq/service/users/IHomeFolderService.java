@@ -47,8 +47,7 @@ public interface IHomeFolderService {
 
     void addChild(@IsHomeFolder HomeFolder homeFolder, @IsIndividual Child child);
 
-    void deleteIndividual(@IsHomeFolder final Long homeFolderId, final Long individualId)
-        throws CvqObjectNotFoundException;
+    void delete(@IsIndividual Individual individual);
 
     List<HomeFolder> getAll(boolean filterArchived, boolean filterTemporary);
 

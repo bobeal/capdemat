@@ -2,8 +2,12 @@ package fr.cg95.cvq.business.users;
 
 import java.util.Date;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.util.UserUtils;
 
 /**
  * @hibernate.class
@@ -17,6 +21,7 @@ public class UserAction {
         public static final Type CREATION = new Type("Creation");
         public static final Type MODIFICATION = new Type("Modification");
         public static final Type STATE_CHANGE = new Type("StateChange");
+        public static final Type DELETION = new Type("Deletion");
         public Type() { /* empty constructor for Hibernate */ }
         private Type(String type) { super(type); }
     }
@@ -32,16 +37,23 @@ public class UserAction {
     protected UserAction() { /* empty constructor for Hibernate */ }
 
     public UserAction(Type type, Long targetId) {
-        date = new Date();
-        userId= SecurityContext.getCurrentUserId();
-        if (userId == null) userId = -1L;
-        this.type = type;
-        this.targetId = targetId;
+        this(type, targetId, new JsonObject());
     }
 
-    public UserAction(Type type, Long targetId, String note) {
-        this(type, targetId);
-        this.note = note;
+    public UserAction(Type type, Long targetId, JsonObject payload) {
+        date = new Date();
+        this.type = type;
+        userId = SecurityContext.getCurrentUserId();
+        JsonObject user = new JsonObject();
+        user.addProperty("id", userId);
+        user.addProperty("name", UserUtils.getDisplayName(userId));
+        payload.add("user", user);
+        this.targetId = targetId;
+        user = new JsonObject();
+        user.addProperty("id", targetId);
+        user.addProperty("name", UserUtils.getDisplayName(targetId));
+        payload.add("target", user);
+        data = new Gson().toJson(payload);
     }
 
     /**

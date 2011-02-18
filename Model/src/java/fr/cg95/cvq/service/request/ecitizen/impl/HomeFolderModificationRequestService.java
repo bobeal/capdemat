@@ -364,8 +364,7 @@ public class HomeFolderModificationRequestService extends RequestService {
                 if (object instanceof Individual) {
                     if (!objectsToRemove.contains(object)) {
                         Individual individual = (Individual) object;
-                        homeFolderService.deleteIndividual(request.getHomeFolderId(),
-                                individual.getId());
+                        homeFolderService.delete(individual);
                     }
                 } else if (object instanceof IndividualRole) {
                     IndividualRole individualRole = (IndividualRole) object;

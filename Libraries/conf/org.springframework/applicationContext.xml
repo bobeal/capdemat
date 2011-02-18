@@ -90,6 +90,17 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="agentDAO" ref="agentDAO"/>
   </bean>
 
+  <bean id="agentServiceToUserUtilsInjector"
+    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="staticMethod"
+      value="fr.cg95.cvq.util.UserUtils.setAgentService" />
+    <property name="arguments">
+      <list>
+        <ref local="agentService" />
+      </list>
+    </property>
+  </bean>
+
   <bean id="schoolService" class="fr.cg95.cvq.service.authority.impl.SchoolService">
     <property name="DAO" ref="schoolDAO"/>
   </bean>
@@ -342,6 +353,17 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="authenticationService" ref="authenticationService"/>
   </bean>
 
+  <bean id="individualServiceToUserUtilsInjector"
+    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="staticMethod"
+      value="fr.cg95.cvq.util.UserUtils.setIndividualService" />
+    <property name="arguments">
+      <list>
+        <ref local="individualService" />
+      </list>
+    </property>
+  </bean>
+
   <bean id="homeFolderService" class="fr.cg95.cvq.service.users.impl.HomeFolderService">
     <property name="localAuthorityRegistry"> 
   	 	<ref bean="localAuthorityRegistry"/>
@@ -363,6 +385,17 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
     <property name="staticMethod"
       value="fr.cg95.cvq.service.users.HasLegalResponsiblesCheck.setHomeFolderService" />
+    <property name="arguments">
+      <list>
+        <ref local="homeFolderService" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="homeFolderServiceToUserUtilsInjector"
+    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="staticMethod"
+      value="fr.cg95.cvq.util.UserUtils.setHomeFolderService" />
     <property name="arguments">
       <list>
         <ref local="homeFolderService" />

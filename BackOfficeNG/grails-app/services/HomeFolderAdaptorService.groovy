@@ -45,32 +45,17 @@ class HomeFolderAdaptorService {
         if (!action) return null
         def result = [
             "type" : CapdematUtils.adaptCapdematEnum(action.type, "userAction.type"),
-            "date" : action.date,
-            "username" : instructionService.getActionPosterDetails(action.userId),
-            "data" : [:]
+            "date" : action.date
         ]
-        def target
-        try {
-            homeFolderService.getById(action.targetId)
-            result.target = translationService.translate("homeFolder.header")
-        } catch (CvqObjectNotFoundException) {
-            result.target = instructionService.getActionPosterDetails(action.targetId)
-        }
         if (action.data) {
             JSON.parse(action.data).each {
                 switch (it.key) {
                     case "state" :
-                        result["state"] = CapdematUtils.adaptCapdematEnum(it.value, "actor.state")
-                        break;
-                    case "responsible" :
-                        result["responsible"] = [:]
-                        result["responsible"]["types"] = it.value.types
-                        result["responsible"]["deleted"] = it.value.deleted
-                        result["responsible"]["owner"] = instructionService.getActionPosterDetails(it.value.id)
-                        break;
+                        result.state = CapdematUtils.adaptCapdematEnum(it.value, "actor.state")
+                        break
                     default :
-                        result.data.(it.key) = it.value
-                        break;
+                        result.(it.key) = it.value
+                        break
                 }
             }
         }

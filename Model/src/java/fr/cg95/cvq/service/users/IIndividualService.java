@@ -29,8 +29,6 @@ public interface IIndividualService extends IAutofillTriggerService {
     void modify(@IsIndividual Individual individual)
         throws CvqException;
 
-    void delete(@IsIndividual Individual individual);
-
     List<Individual> get(final Set<Critere> criteriaSet, final String orderedBy,
         final boolean searchAmongArchived);
 

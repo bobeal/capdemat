@@ -293,4 +293,15 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <bean id="translationService" class="fr.cg95.cvq.util.translation.impl.TranslationService" />
 
+  <bean id="translationServiceToUserUtilsInjector"
+    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="staticMethod"
+      value="fr.cg95.cvq.util.UserUtils.setTranslationService" />
+    <property name="arguments">
+      <list>
+        <ref local="translationService" />
+      </list>
+    </property>
+  </bean>
+
 </beans>

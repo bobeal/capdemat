@@ -54,6 +54,11 @@
     <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
   </xb:namespace>
 
+  <!-- Holiday Camp Registration Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/hcrr">
+    <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
+  </xb:namespace>
+
   <!-- Perischool Activity Registration Request -->
   <xb:namespace uri="http://www.cg95.fr/cvq/schema/parr">
     <xb:package>fr.cg95.cvq.xml.request.school</xb:package>

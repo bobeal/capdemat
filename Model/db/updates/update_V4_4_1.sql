@@ -142,3 +142,11 @@ alter table leisure_center_registration_request_motifs_derogation_centre_loisirs
     add constraint FK6899CCB75852F322
     foreign key (motifs_derogation_centre_loisirs_id)
     references local_referential_data;
+
+create table holiday_camp_registration_request (
+    id int8 not null,
+    acceptation_reglement_interieur bool,
+    id_centre_sejours varchar(255),
+    label_centre_sejours varchar(255),
+    primary key (id)
+);

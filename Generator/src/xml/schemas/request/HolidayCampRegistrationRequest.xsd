@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/hcrr"
+  xmlns:hcrr="http://www.cg95.fr/cvq/schema/hcrr"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common" 
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
+    schemaLocation="../common/CVQCommonElements.xsd" />
+
+  <xs:element name="HolidayCampRegistrationRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Demande de pré-inscription aux séjours
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Pré-inscription aux séjours
+      </xs:documentation>
+      <xs:appinfo>
+        <model namespace="school" />
+        <common>
+          <namespace name="school" />
+          <steps>
+            <step index="0" name="enfant" >
+              <widgets>
+                <subject />
+              </widgets>
+            </step>
+            <step index="1" name="reglements" />
+            <step index="2" ref="document" />
+            <step index="3" ref="validation" />
+          </steps>
+        </common>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="cvq:RequestType">
+          <xs:sequence>
+            <xs:element name="CentreSejours" type="hcrr:CentreSejoursType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Centre de séjours
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Centre de séjours
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="enfant" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AcceptationReglementInterieur" type="cvq:AcceptanceType" default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  J'accepte et je m'engage à respecter le règlement
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  J'accepte et je m'engage à respecter le règlement
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="reglements" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="CentreSejoursType">
+    <xs:sequence>
+      <xs:element name="IdCentreSejours" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Identifiant du centre de séjours
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Identifiant du centre de séjours
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="enfant" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="LabelCentreSejours" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Label du centre de séjours
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Label du centre de séjours
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="enfant" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

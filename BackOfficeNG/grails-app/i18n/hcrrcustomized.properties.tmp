@@ -1,0 +1,25 @@
+hcrr.duration.value =
+
+hcrr.step.enfant.label =
+hcrr.step.enfant.desc =
+
+hcrr.step.reglements.label =
+hcrr.step.reglements.desc =
+
+
+hcrr.property.centreSejours.help =
+hcrr.property.centreSejours.validationError =
+
+
+hcrr.property.idCentreSejours.help =
+hcrr.property.idCentreSejours.validationError =
+
+
+hcrr.property.labelCentreSejours.help =
+hcrr.property.labelCentreSejours.validationError =
+
+
+hcrr.property.acceptationReglementInterieur.help =
+hcrr.property.acceptationReglementInterieur.validationError =
+
+

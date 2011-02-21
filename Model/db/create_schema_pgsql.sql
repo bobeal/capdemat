@@ -571,6 +571,8 @@
 
     drop table hccr_professional;
 
+    drop table holiday_camp_registration_request;
+
     drop table holiday_security_request;
 
     drop table home_emergency_registration_request;
@@ -1748,6 +1750,14 @@
         professional_address_id int8,
         handicap_compensation_child_request_id int8,
         professionals_index int4,
+        primary key (id)
+    );
+
+    create table holiday_camp_registration_request (
+        id int8 not null,
+        acceptation_reglement_interieur bool,
+        id_centre_sejours varchar(255),
+        label_centre_sejours varchar(255),
         primary key (id)
     );
 

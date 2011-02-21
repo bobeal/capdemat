@@ -455,6 +455,17 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="filingDelay" value="12"/>
   </bean>
 
+  <bean id="leisureCenterRegistrationRequestService"
+    class="fr.cg95.cvq.service.request.school.impl.LeisureCenterRegistrationRequestService"
+    parent="requestService">
+    <property name="localReferentialFilename" value="local_referential_lcrr"/>
+    <property name="label" value="Leisure Center Registration"/>
+    <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
+    <property name="isOfRegistrationKind" value="true"/>
+    <property name="defaultDisplayGroup" value="school" />
+    <property name="filingDelay" value="12"/>
+  </bean>
+
   <bean id="perischoolActivityRegistrationRequestService" 
     class="fr.cg95.cvq.service.request.school.impl.PerischoolActivityRegistrationRequestService" 
     parent="requestService">

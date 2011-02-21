@@ -43,8 +43,14 @@
     <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
   </xb:namespace>
 
+
   <!-- Renewal Perischool Activities Request -->
   <xb:namespace uri="http://www.cg95.fr/cvq/schema/rpar">
+    <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
+  </xb:namespace>
+
+  <!-- Leisure Center Registration Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/lcrr">
     <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
   </xb:namespace>
 

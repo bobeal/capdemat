@@ -263,6 +263,12 @@
     alter table learning_activities_discovery_registration_request_atelier_eveil 
         drop constraint FK6631159E9AA8EC9F;
 
+    alter table leisure_center_registration_request_motifs_derogation_centre_loisirs 
+        drop constraint FK6899CCB79D930190;
+
+    alter table leisure_center_registration_request_motifs_derogation_centre_loisirs 
+        drop constraint FK6899CCB75852F322;
+
     alter table library_registration_request_subscription 
         drop constraint FK56C4BE0FD7ED8C0C;
 
@@ -584,6 +590,10 @@
     drop table learning_activities_discovery_registration_request;
 
     drop table learning_activities_discovery_registration_request_atelier_eveil;
+
+    drop table leisure_center_registration_request;
+
+    drop table leisure_center_registration_request_motifs_derogation_centre_loisirs;
 
     drop table library_registration_request;
 
@@ -1842,6 +1852,27 @@
         primary key (learning_activities_discovery_registration_request_id, atelier_eveil_index)
     );
 
+    create table leisure_center_registration_request (
+        id int8 not null,
+        acceptation_reglement_interieur bool,
+        est_derogation bool,
+        est_transport bool,
+        id_arret varchar(255),
+        id_centre_loisirs varchar(255),
+        id_ligne varchar(255),
+        label_arret varchar(255),
+        label_centre_loisirs varchar(255),
+        label_ligne varchar(255),
+        primary key (id)
+    );
+
+    create table leisure_center_registration_request_motifs_derogation_centre_loisirs (
+        leisure_center_registration_request_id int8 not null,
+        motifs_derogation_centre_loisirs_id int8 not null,
+        motifs_derogation_centre_loisirs_index int4 not null,
+        primary key (leisure_center_registration_request_id, motifs_derogation_centre_loisirs_index)
+    );
+
     create table library_registration_request (
         id int8 not null,
         adult_content_authorization bool,
@@ -3042,6 +3073,16 @@
     alter table learning_activities_discovery_registration_request_atelier_eveil 
         add constraint FK6631159E9AA8EC9F 
         foreign key (atelier_eveil_id) 
+        references local_referential_data;
+
+    alter table leisure_center_registration_request_motifs_derogation_centre_loisirs 
+        add constraint FK6899CCB79D930190 
+        foreign key (leisure_center_registration_request_id) 
+        references leisure_center_registration_request;
+
+    alter table leisure_center_registration_request_motifs_derogation_centre_loisirs 
+        add constraint FK6899CCB75852F322 
+        foreign key (motifs_derogation_centre_loisirs_id) 
         references local_referential_data;
 
     alter table library_registration_request_subscription 

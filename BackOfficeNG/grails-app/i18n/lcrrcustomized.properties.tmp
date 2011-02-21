@@ -1,0 +1,57 @@
+lcrr.duration.value =
+
+lcrr.step.enfant.label =
+lcrr.step.enfant.desc =
+
+lcrr.step.reglements.label =
+lcrr.step.reglements.desc =
+
+
+lcrr.property.estDerogation.help =
+lcrr.property.estDerogation.validationError =
+
+
+lcrr.property.motifsDerogationCentreLoisirs.help =
+lcrr.property.motifsDerogationCentreLoisirs.validationError =
+
+
+lcrr.property.centresLoisirs.help =
+lcrr.property.centresLoisirs.validationError =
+
+
+lcrr.property.idCentreLoisirs.help =
+lcrr.property.idCentreLoisirs.validationError =
+
+
+lcrr.property.labelCentreLoisirs.help =
+lcrr.property.labelCentreLoisirs.validationError =
+
+
+lcrr.property.estTransport.help =
+lcrr.property.estTransport.validationError =
+
+
+lcrr.property.transports.help =
+lcrr.property.transports.validationError =
+
+
+lcrr.property.idLigne.help =
+lcrr.property.idLigne.validationError =
+
+
+lcrr.property.labelLigne.help =
+lcrr.property.labelLigne.validationError =
+
+
+lcrr.property.idArret.help =
+lcrr.property.idArret.validationError =
+
+
+lcrr.property.labelArret.help =
+lcrr.property.labelArret.validationError =
+
+
+lcrr.property.acceptationReglementInterieur.help =
+lcrr.property.acceptationReglementInterieur.validationError =
+
+

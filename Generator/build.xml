@@ -49,6 +49,7 @@
       <include name="HolidaySecurityRequest.xsd" />
       <include name="LearningActivitiesDiscoveryRegistrationRequest.xsd" />
       <include name="HomeEmergencyRegistrationRequest.xsd" />
+      <include name="LeisureCenterRegistrationRequest.xsd" />
       <include name="LibraryRegistrationRequest.xsd" />
       <include name="MarriageDetailsRequest.xsd" />
       <include name="MilitaryCensusRequest.xsd" />

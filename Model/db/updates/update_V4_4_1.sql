@@ -111,3 +111,34 @@ insert into document_type (id, name, type,  validity_duration_type,  validity_du
 
 insert into document_type (id, name, type,  validity_duration_type,  validity_duration, usage_type)
     values (nextval('hibernate_sequence'), 'Medical Form', 41, 'Year', 1, 'Reusable');
+
+create table leisure_center_registration_request (
+    id int8 not null,
+    acceptation_reglement_interieur bool,
+    est_derogation bool,
+    est_transport bool,
+    id_arret varchar(255),
+    id_centre_loisirs varchar(255),
+    id_ligne varchar(255),
+    label_arret varchar(255),
+    label_centre_loisirs varchar(255),
+    label_ligne varchar(255),
+    primary key (id)
+);
+
+create table leisure_center_registration_request_motifs_derogation_centre_loisirs (
+    leisure_center_registration_request_id int8 not null,
+    motifs_derogation_centre_loisirs_id int8 not null,
+    motifs_derogation_centre_loisirs_index int4 not null,
+    primary key (leisure_center_registration_request_id, motifs_derogation_centre_loisirs_index)
+);
+
+alter table leisure_center_registration_request_motifs_derogation_centre_loisirs
+    add constraint FK6899CCB79D930190
+    foreign key (leisure_center_registration_request_id)
+    references leisure_center_registration_request;
+
+alter table leisure_center_registration_request_motifs_derogation_centre_loisirs
+    add constraint FK6899CCB75852F322
+    foreign key (motifs_derogation_centre_loisirs_id)
+    references local_referential_data;

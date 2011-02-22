@@ -3,7 +3,7 @@
 <%
 
   import org.apache.commons.lang.StringUtils
-  
+  def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def lrHtml = ''
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -12,11 +12,11 @@
       lrEntries.eachWithIndex { entry, i -> 
       if (entry.entries) { 
         lrHtml += "<li>"
-        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
+        lrHtml += "<em>${esc(entry.labelsMap.fr)} :</em>"
         lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
         lrHtml += "</li>"
       } else {
-         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${esc(entry.labelsMap.fr)}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
       } 
     } 
     lrHtml += "</ul>"
@@ -33,20 +33,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <title>${i18n.translate('ddr.label')}</title>
+  <title>${esc(i18n.translate('ddr.label'))}</title>
   <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
 </head>
 <body>
   <div id="hd">
-    <p>${localAuthority.displayTitle}</p>
+    <p>${esc(localAuthority.displayTitle)}</p>
     <img src="file://${logoPath}" alt="mairie2424" />
   </div>
-  <h1>${i18n.translate('ddr.label')}</h1>
+  <h1>${esc(i18n.translate('ddr.label'))}</h1>
   <div class="localAuthority">
     <h2>${i18n.translate('pdf.localAutorityReservedSection')}</h2>
     <ul>
       <li>${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
-      <li>${i18n.translate('property.requester')} : <strong>${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong></li>
+      <li>${i18n.translate('property.requester')} : <strong>${esc(rqt.requesterFirstName +' '+ rqt.requesterLastName)}</strong></li>
       <li>${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong></li>
       <li>${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
     </ul>
@@ -66,24 +66,24 @@
             <% if(requester?.title) { %>
               ${i18n.translate('homeFolder.adult.title.' + StringUtils.uncapitalize(requester?.title.toString()))}
             <% } %>
-            ${requester?.firstName}
-            ${requester?.lastName}
+            ${esc(requester?.firstName)}
+            ${esc(requester?.lastName)}
           </div>
           <p class="label">${i18n.translate('homeFolder.individual.property.address')}</p>
           <div class="response">
             <% if (requester?.address) { %>
-              <p>${StringUtils.defaultString(requester?.address?.additionalDeliveryInformation)}</p>
-              <p>${StringUtils.defaultString(requester?.address?.additionalGeographicalInformation)}</p>
-              <p>${StringUtils.defaultString(requester?.address?.streetNumber)} ${StringUtils.defaultString(requester?.address?.streetName)}</p>
-              <p>${StringUtils.defaultString(requester?.address?.placeNameOrService)}</p>
-              <p>${StringUtils.defaultString(requester?.address?.postalCode)} ${StringUtils.defaultString(requester?.address?.city)}</p>
-              <p>${StringUtils.defaultString(requester?.address?.countryName)}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.additionalDeliveryInformation))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.additionalGeographicalInformation))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.streetNumber))} ${esc(StringUtils.defaultString(requester?.address?.streetName))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.placeNameOrService))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.postalCode))} ${esc(StringUtils.defaultString(requester?.address?.city))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.countryName))}</p>
             <% } %>
           </div>
           <p class="label">${i18n.translate('homeFolder.adult.property.email')}</p>
-          <div class="response">${requester?.email}</div>
+          <div class="response">${esc(requester?.email)}</div>
           <p class="label">${i18n.translate('homeFolder.adult.property.homePhone')}</p>
-          <div class="response">${requester?.homePhone}</div>
+          <div class="response">${esc(requester?.homePhone)}</div>
           
 
     
@@ -93,29 +93,29 @@
   <h2>${i18n.translate('ddr.step.nature.label')}</h2>
   
     
-      <p class="label">${i18n.translate('ddr.property.deathLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.deathLastName?.toString())}</div>
+      <p class="label">${esc(i18n.translate('ddr.property.deathLastName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.deathLastName?.toString()))}</div>
 
     
   
     
-      <p class="label">${i18n.translate('ddr.property.deathFirstNames.label')}</p><div class="response">${StringUtils.defaultString(rqt.deathFirstNames?.toString())}</div>
+      <p class="label">${esc(i18n.translate('ddr.property.deathFirstNames.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.deathFirstNames?.toString()))}</div>
 
     
   
     
-      <p class="label">${i18n.translate('ddr.property.deathDate.label')}</p>
+      <p class="label">${esc(i18n.translate('ddr.property.deathDate.label'))}</p>
           <div class="response">${rqt.deathDate ? String.format('%td/%<tm/%<tY',rqt.deathDate) : ''}</div>
           
 
     
   
     
-      <p class="label">${i18n.translate('ddr.property.deathCity.label')}</p><div class="response">${StringUtils.defaultString(rqt.deathCity?.toString())}</div>
+      <p class="label">${esc(i18n.translate('ddr.property.deathCity.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.deathCity?.toString()))}</div>
 
     
   
     
-      <p class="label">${i18n.translate('ddr.property.deathPostalCode.label')}</p><div class="response">${StringUtils.defaultString(rqt.deathPostalCode?.toString())}</div>
+      <p class="label">${esc(i18n.translate('ddr.property.deathPostalCode.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.deathPostalCode?.toString()))}</div>
 
     
   
@@ -124,10 +124,10 @@
   <h2>${i18n.translate('ddr.step.type.label')}</h2>
   
     
-      <p class="label">${i18n.translate('ddr.property.format.label')}</p>
+      <p class="label">${esc(i18n.translate('ddr.property.format.label'))}</p>
           <div class="response">
             <% if(rqt.format) { %>
-              ${i18n.translate('ddr.property.format.' + StringUtils.uncapitalize(rqt.format.toString()))}
+              ${esc(i18n.translate('ddr.property.format.' + StringUtils.uncapitalize(rqt.format.toString())))}
             <% } %>
           </div>
           
@@ -135,15 +135,15 @@
     
   
     
-      <p class="label">${i18n.translate('ddr.property.copies.label')}</p><div class="response">${StringUtils.defaultString(rqt.copies?.toString())}</div>
+      <p class="label">${esc(i18n.translate('ddr.property.copies.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.copies?.toString()))}</div>
 
     
   
     
-      <p class="label">${i18n.translate('ddr.property.motive.label')}</p>
+      <p class="label">${esc(i18n.translate('ddr.property.motive.label'))}</p>
           <div class="response">
             <% if(rqt.motive) { %>
-              ${i18n.translate('ddr.property.motive.' + StringUtils.uncapitalize(rqt.motive.toString()))}
+              ${esc(i18n.translate('ddr.property.motive.' + StringUtils.uncapitalize(rqt.motive.toString())))}
             <% } %>
           </div>
           
@@ -151,7 +151,7 @@
     
   
     
-      <p class="label">${i18n.translate('ddr.property.comment.label')}</p><div class="response">${StringUtils.defaultString(rqt.comment?.toString())}</div>
+      <p class="label">${esc(i18n.translate('ddr.property.comment.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.comment?.toString()))}</div>
 
     
   

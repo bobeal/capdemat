@@ -3,7 +3,7 @@
 <%
 
   import org.apache.commons.lang.StringUtils
-  
+  def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def lrHtml = ''
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -12,11 +12,11 @@
       lrEntries.eachWithIndex { entry, i -> 
       if (entry.entries) { 
         lrHtml += "<li>"
-        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
+        lrHtml += "<em>${esc(entry.labelsMap.fr)} :</em>"
         lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
         lrHtml += "</li>"
       } else {
-         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${esc(entry.labelsMap.fr)}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
       } 
     } 
     lrHtml += "</ul>"
@@ -33,20 +33,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <title>${i18n.translate('rsr.label')}</title>
+  <title>${esc(i18n.translate('rsr.label'))}</title>
   <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
 </head>
 <body>
   <div id="hd">
-    <p>${localAuthority.displayTitle}</p>
+    <p>${esc(localAuthority.displayTitle)}</p>
     <img src="file://${logoPath}" alt="mairie2424" />
   </div>
-  <h1>${i18n.translate('rsr.label')}</h1>
+  <h1>${esc(i18n.translate('rsr.label'))}</h1>
   <div class="localAuthority">
     <h2>${i18n.translate('pdf.localAutorityReservedSection')}</h2>
     <ul>
       <li>${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
-      <li>${i18n.translate('property.requester')} : <strong>${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong></li>
+      <li>${i18n.translate('property.requester')} : <strong>${esc(rqt.requesterFirstName +' '+ rqt.requesterLastName)}</strong></li>
       <li>${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong></li>
       <li>${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
     </ul>
@@ -59,39 +59,39 @@
       <h3>${i18n.translate('rsr.property.rsrSubject.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('request.property.subject.label')}</p>
-          <div class="response">${subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName}</div>
+          <p class="label">${esc(i18n.translate('request.property.subject.label'))}</p>
+          <div class="response">${esc(subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName)}</div>
           
 
         
-          <p class="label">${i18n.translate('rsr.property.subjectTitle.label')}</p>
+          <p class="label">${esc(i18n.translate('rsr.property.subjectTitle.label'))}</p>
           <div class="response">
             <% if(rqt.subjectTitle) { %>
-              ${i18n.translate('rsr.property.subjectTitle.' + StringUtils.uncapitalize(rqt.subjectTitle.toString()))}
+              ${esc(i18n.translate('rsr.property.subjectTitle.' + StringUtils.uncapitalize(rqt.subjectTitle.toString())))}
             <% } %>
           </div>
           
 
         
-          <p class="label">${i18n.translate('rsr.property.subjectBirthDate.label')}</p>
+          <p class="label">${esc(i18n.translate('rsr.property.subjectBirthDate.label'))}</p>
           <div class="response">${rqt.subjectBirthDate ? String.format('%td/%<tm/%<tY',rqt.subjectBirthDate) : ''}</div>
           
 
         
-          <p class="label">${i18n.translate('rsr.property.subjectResideWith.label')}</p>
+          <p class="label">${esc(i18n.translate('rsr.property.subjectResideWith.label'))}</p>
           <div class="response">
             <% if(rqt.subjectResideWith) { %>
-              ${i18n.translate('rsr.property.subjectResideWith.' + StringUtils.uncapitalize(rqt.subjectResideWith.toString()))}
+              ${esc(i18n.translate('rsr.property.subjectResideWith.' + StringUtils.uncapitalize(rqt.subjectResideWith.toString())))}
             <% } %>
           </div>
           
 
         
-          <p class="label">${i18n.translate('rsr.property.subjectIsTaxable.label')}</p>
+          <p class="label">${esc(i18n.translate('rsr.property.subjectIsTaxable.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.subjectIsTaxable ? 'class="checked"': ''}>
-                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
               ${it ? ' / ' : ''}
             <% } %>
@@ -99,11 +99,11 @@
           
 
         
-          <p class="label">${i18n.translate('rsr.property.subjectIsAPABeneficiary.label')}</p>
+          <p class="label">${esc(i18n.translate('rsr.property.subjectIsAPABeneficiary.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.subjectIsAPABeneficiary ? 'class="checked"': ''}>
-                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
               ${it ? ' / ' : ''}
             <% } %>
@@ -111,11 +111,11 @@
           
 
         
-          <p class="label">${i18n.translate('rsr.property.subjectIsDisabledPerson.label')}</p>
+          <p class="label">${esc(i18n.translate('rsr.property.subjectIsDisabledPerson.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.subjectIsDisabledPerson ? 'class="checked"': ''}>
-                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
               ${it ? ' / ' : ''}
             <% } %>
@@ -130,20 +130,20 @@
       <h3>${i18n.translate('rsr.property.requestInformation.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('rsr.property.requestInformationRequestKind.label')}</p>
+          <p class="label">${esc(i18n.translate('rsr.property.requestInformationRequestKind.label'))}</p>
           <div class="response">
             <% if(rqt.requestInformationRequestKind) { %>
-              ${i18n.translate('rsr.property.requestInformationRequestKind.' + StringUtils.uncapitalize(rqt.requestInformationRequestKind.toString()))}
+              ${esc(i18n.translate('rsr.property.requestInformationRequestKind.' + StringUtils.uncapitalize(rqt.requestInformationRequestKind.toString())))}
             <% } %>
           </div>
           
 
         
-          <p class="label">${i18n.translate('rsr.property.requestInformationEmergency.label')}</p>
+          <p class="label">${esc(i18n.translate('rsr.property.requestInformationEmergency.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.requestInformationEmergency ? 'class="checked"': ''}>
-                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
               ${it ? ' / ' : ''}
             <% } %>
@@ -151,7 +151,7 @@
           
 
         
-          <p class="label">${i18n.translate('rsr.property.requestInformationEmergencyMotive.label')}</p><div class="response">${StringUtils.defaultString(rqt.requestInformationEmergencyMotive?.toString())}</div>
+          <p class="label">${esc(i18n.translate('rsr.property.requestInformationEmergencyMotive.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.requestInformationEmergencyMotive?.toString()))}</div>
 
         
       </div>
@@ -161,31 +161,31 @@
       <h3>${i18n.translate('rsr.property.spouse.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('rsr.property.spouseLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.spouseLastName?.toString())}</div>
+          <p class="label">${esc(i18n.translate('rsr.property.spouseLastName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.spouseLastName?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('rsr.property.spouseFirstName.label')}</p><div class="response">${StringUtils.defaultString(rqt.spouseFirstName?.toString())}</div>
+          <p class="label">${esc(i18n.translate('rsr.property.spouseFirstName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.spouseFirstName?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('rsr.property.spouseTitle.label')}</p>
+          <p class="label">${esc(i18n.translate('rsr.property.spouseTitle.label'))}</p>
           <div class="response">
             <% if(rqt.spouseTitle) { %>
-              ${i18n.translate('rsr.property.spouseTitle.' + StringUtils.uncapitalize(rqt.spouseTitle.toString()))}
+              ${esc(i18n.translate('rsr.property.spouseTitle.' + StringUtils.uncapitalize(rqt.spouseTitle.toString())))}
             <% } %>
           </div>
           
 
         
-          <p class="label">${i18n.translate('rsr.property.spouseBirthDate.label')}</p>
+          <p class="label">${esc(i18n.translate('rsr.property.spouseBirthDate.label'))}</p>
           <div class="response">${rqt.spouseBirthDate ? String.format('%td/%<tm/%<tY',rqt.spouseBirthDate) : ''}</div>
           
 
         
-          <p class="label">${i18n.translate('rsr.property.spouseIsDisabledPerson.label')}</p>
+          <p class="label">${esc(i18n.translate('rsr.property.spouseIsDisabledPerson.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.spouseIsDisabledPerson ? 'class="checked"': ''}>
-                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
               ${it ? ' / ' : ''}
             <% } %>
@@ -201,10 +201,10 @@
   <h2>${i18n.translate('rsr.step.contact.label')}</h2>
   
     
-      <p class="label">${i18n.translate('rsr.property.contactKind.label')}</p>
+      <p class="label">${esc(i18n.translate('rsr.property.contactKind.label'))}</p>
           <div class="response">
             <% if(rqt.contactKind) { %>
-              ${i18n.translate('rsr.property.contactKind.' + StringUtils.uncapitalize(rqt.contactKind.toString()))}
+              ${esc(i18n.translate('rsr.property.contactKind.' + StringUtils.uncapitalize(rqt.contactKind.toString())))}
             <% } %>
           </div>
           
@@ -215,13 +215,13 @@
       <h3>${i18n.translate('rsr.property.firstContact.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('rsr.property.contactLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.contactLastName?.toString())}</div>
+          <p class="label">${esc(i18n.translate('rsr.property.contactLastName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.contactLastName?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('rsr.property.contactFirstName.label')}</p><div class="response">${StringUtils.defaultString(rqt.contactFirstName?.toString())}</div>
+          <p class="label">${esc(i18n.translate('rsr.property.contactFirstName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.contactFirstName?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('rsr.property.contactPhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.contactPhone?.toString())}</div>
+          <p class="label">${esc(i18n.translate('rsr.property.contactPhone.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.contactPhone?.toString()))}</div>
 
         
       </div>
@@ -231,13 +231,13 @@
       <h3>${i18n.translate('rsr.property.secondContact.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('rsr.property.secondContactLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.secondContactLastName?.toString())}</div>
+          <p class="label">${esc(i18n.translate('rsr.property.secondContactLastName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.secondContactLastName?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('rsr.property.secondContactFirstName.label')}</p><div class="response">${StringUtils.defaultString(rqt.secondContactFirstName?.toString())}</div>
+          <p class="label">${esc(i18n.translate('rsr.property.secondContactFirstName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.secondContactFirstName?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('rsr.property.secondContactPhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.secondContactPhone?.toString())}</div>
+          <p class="label">${esc(i18n.translate('rsr.property.secondContactPhone.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.secondContactPhone?.toString()))}</div>
 
         
       </div>
@@ -247,13 +247,13 @@
       <h3>${i18n.translate('rsr.property.trustee.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('rsr.property.trusteeLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.trusteeLastName?.toString())}</div>
+          <p class="label">${esc(i18n.translate('rsr.property.trusteeLastName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.trusteeLastName?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('rsr.property.trusteeFirstName.label')}</p><div class="response">${StringUtils.defaultString(rqt.trusteeFirstName?.toString())}</div>
+          <p class="label">${esc(i18n.translate('rsr.property.trusteeFirstName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.trusteeFirstName?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('rsr.property.trusteePhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.trusteePhone?.toString())}</div>
+          <p class="label">${esc(i18n.translate('rsr.property.trusteePhone.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.trusteePhone?.toString()))}</div>
 
         
       </div>

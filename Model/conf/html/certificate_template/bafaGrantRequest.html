@@ -3,7 +3,7 @@
 <%
 
   import org.apache.commons.lang.StringUtils
-  
+  def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def lrHtml = ''
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -12,11 +12,11 @@
       lrEntries.eachWithIndex { entry, i -> 
       if (entry.entries) { 
         lrHtml += "<li>"
-        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
+        lrHtml += "<em>${esc(entry.labelsMap.fr)} :</em>"
         lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
         lrHtml += "</li>"
       } else {
-         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${esc(entry.labelsMap.fr)}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
       } 
     } 
     lrHtml += "</ul>"
@@ -33,20 +33,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <title>${i18n.translate('bgr.label')}</title>
+  <title>${esc(i18n.translate('bgr.label'))}</title>
   <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
 </head>
 <body>
   <div id="hd">
-    <p>${localAuthority.displayTitle}</p>
+    <p>${esc(localAuthority.displayTitle)}</p>
     <img src="file://${logoPath}" alt="mairie2424" />
   </div>
-  <h1>${i18n.translate('bgr.label')}</h1>
+  <h1>${esc(i18n.translate('bgr.label'))}</h1>
   <div class="localAuthority">
     <h2>${i18n.translate('pdf.localAutorityReservedSection')}</h2>
     <ul>
       <li>${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
-      <li>${i18n.translate('property.requester')} : <strong>${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong></li>
+      <li>${i18n.translate('property.requester')} : <strong>${esc(rqt.requesterFirstName +' '+ rqt.requesterLastName)}</strong></li>
       <li>${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong></li>
       <li>${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
     </ul>
@@ -56,34 +56,34 @@
   <h2>${i18n.translate('bgr.step.subject.label')}</h2>
   
     
-      <p class="label">${i18n.translate('request.property.subject.label')}</p>
-          <div class="response">${subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName}</div>
+      <p class="label">${esc(i18n.translate('request.property.subject.label'))}</p>
+          <div class="response">${esc(subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName)}</div>
           
 
     
   
     
-      <p class="label">${i18n.translate('bgr.property.subjectBirthDate.label')}</p>
+      <p class="label">${esc(i18n.translate('bgr.property.subjectBirthDate.label'))}</p>
           <div class="response">${rqt.subjectBirthDate ? String.format('%td/%<tm/%<tY',rqt.subjectBirthDate) : ''}</div>
           
 
     
   
     
-      <p class="label">${i18n.translate('bgr.property.subjectBirthCity.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectBirthCity?.toString())}</div>
+      <p class="label">${esc(i18n.translate('bgr.property.subjectBirthCity.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.subjectBirthCity?.toString()))}</div>
 
     
   
     
-      <p class="label">${i18n.translate('bgr.property.subjectAddress.label')}</p>
+      <p class="label">${esc(i18n.translate('bgr.property.subjectAddress.label'))}</p>
           <div class="response">
             <% if(rqt.subjectAddress) { %>
-              <p>${StringUtils.defaultString(rqt.subjectAddress?.additionalDeliveryInformation)}</p>
-              <p>${StringUtils.defaultString(rqt.subjectAddress?.additionalGeographicalInformation)}</p>
-              <p>${StringUtils.defaultString(rqt.subjectAddress?.streetNumber)} ${StringUtils.defaultString(rqt.subjectAddress?.streetName)}</p>
-              <p>${StringUtils.defaultString(rqt.subjectAddress?.placeNameOrService)}</p>
-              <p>${StringUtils.defaultString(rqt.subjectAddress?.postalCode)} ${StringUtils.defaultString(rqt.subjectAddress?.city)}</p>
-              <p>${StringUtils.defaultString(rqt.subjectAddress?.countryName)}</p>
+              <p>${esc(StringUtils.defaultString(rqt.subjectAddress?.additionalDeliveryInformation))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.subjectAddress?.additionalGeographicalInformation))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.subjectAddress?.streetNumber))} ${esc(StringUtils.defaultString(rqt.subjectAddress?.streetName))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.subjectAddress?.placeNameOrService))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.subjectAddress?.postalCode))} ${esc(StringUtils.defaultString(rqt.subjectAddress?.city))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.subjectAddress?.countryName))}</p>
             <% } %>
           </div>
           
@@ -91,12 +91,12 @@
     
   
     
-      <p class="label">${i18n.translate('bgr.property.subjectPhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectPhone?.toString())}</div>
+      <p class="label">${esc(i18n.translate('bgr.property.subjectPhone.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.subjectPhone?.toString()))}</div>
 
     
   
     
-      <p class="label">${i18n.translate('bgr.property.subjectEmail.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectEmail?.toString())}</div>
+      <p class="label">${esc(i18n.translate('bgr.property.subjectEmail.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.subjectEmail?.toString()))}</div>
 
     
   
@@ -105,34 +105,34 @@
   <h2>${i18n.translate('bgr.step.internship.label')}</h2>
   
     
-      <p class="label">${i18n.translate('bgr.property.internshipStartDate.label')}</p>
+      <p class="label">${esc(i18n.translate('bgr.property.internshipStartDate.label'))}</p>
           <div class="response">${rqt.internshipStartDate ? String.format('%td/%<tm/%<tY',rqt.internshipStartDate) : ''}</div>
           
 
     
   
     
-      <p class="label">${i18n.translate('bgr.property.internshipEndDate.label')}</p>
+      <p class="label">${esc(i18n.translate('bgr.property.internshipEndDate.label'))}</p>
           <div class="response">${rqt.internshipEndDate ? String.format('%td/%<tm/%<tY',rqt.internshipEndDate) : ''}</div>
           
 
     
   
     
-      <p class="label">${i18n.translate('bgr.property.internshipInstituteName.label')}</p><div class="response">${StringUtils.defaultString(rqt.internshipInstituteName?.toString())}</div>
+      <p class="label">${esc(i18n.translate('bgr.property.internshipInstituteName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.internshipInstituteName?.toString()))}</div>
 
     
   
     
-      <p class="label">${i18n.translate('bgr.property.internshipInstituteAddress.label')}</p>
+      <p class="label">${esc(i18n.translate('bgr.property.internshipInstituteAddress.label'))}</p>
           <div class="response">
             <% if(rqt.internshipInstituteAddress) { %>
-              <p>${StringUtils.defaultString(rqt.internshipInstituteAddress?.additionalDeliveryInformation)}</p>
-              <p>${StringUtils.defaultString(rqt.internshipInstituteAddress?.additionalGeographicalInformation)}</p>
-              <p>${StringUtils.defaultString(rqt.internshipInstituteAddress?.streetNumber)} ${StringUtils.defaultString(rqt.internshipInstituteAddress?.streetName)}</p>
-              <p>${StringUtils.defaultString(rqt.internshipInstituteAddress?.placeNameOrService)}</p>
-              <p>${StringUtils.defaultString(rqt.internshipInstituteAddress?.postalCode)} ${StringUtils.defaultString(rqt.internshipInstituteAddress?.city)}</p>
-              <p>${StringUtils.defaultString(rqt.internshipInstituteAddress?.countryName)}</p>
+              <p>${esc(StringUtils.defaultString(rqt.internshipInstituteAddress?.additionalDeliveryInformation))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.internshipInstituteAddress?.additionalGeographicalInformation))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.internshipInstituteAddress?.streetNumber))} ${esc(StringUtils.defaultString(rqt.internshipInstituteAddress?.streetName))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.internshipInstituteAddress?.placeNameOrService))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.internshipInstituteAddress?.postalCode))} ${esc(StringUtils.defaultString(rqt.internshipInstituteAddress?.city))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.internshipInstituteAddress?.countryName))}</p>
             <% } %>
           </div>
           
@@ -144,11 +144,11 @@
   <h2>${i18n.translate('bgr.step.bankReference.label')}</h2>
   
     
-      <p class="label">${i18n.translate('bgr.property.isSubjectAccountHolder.label')}</p>
+      <p class="label">${esc(i18n.translate('bgr.property.isSubjectAccountHolder.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.isSubjectAccountHolder ? 'class="checked"': ''}>
-                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
               ${it ? ' / ' : ''}
             <% } %>
@@ -158,10 +158,10 @@
     
   
     
-      <p class="label">${i18n.translate('bgr.property.accountHolderTitle.label')}</p>
+      <p class="label">${esc(i18n.translate('bgr.property.accountHolderTitle.label'))}</p>
           <div class="response">
             <% if(rqt.accountHolderTitle) { %>
-              ${i18n.translate('bgr.property.accountHolderTitle.' + StringUtils.uncapitalize(rqt.accountHolderTitle.toString()))}
+              ${esc(i18n.translate('bgr.property.accountHolderTitle.' + StringUtils.uncapitalize(rqt.accountHolderTitle.toString())))}
             <% } %>
           </div>
           
@@ -169,24 +169,24 @@
     
   
     
-      <p class="label">${i18n.translate('bgr.property.accountHolderLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.accountHolderLastName?.toString())}</div>
+      <p class="label">${esc(i18n.translate('bgr.property.accountHolderLastName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.accountHolderLastName?.toString()))}</div>
 
     
   
     
-      <p class="label">${i18n.translate('bgr.property.accountHolderFirstName.label')}</p><div class="response">${StringUtils.defaultString(rqt.accountHolderFirstName?.toString())}</div>
+      <p class="label">${esc(i18n.translate('bgr.property.accountHolderFirstName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.accountHolderFirstName?.toString()))}</div>
 
     
   
     
-      <p class="label">${i18n.translate('bgr.property.accountHolderBirthDate.label')}</p>
+      <p class="label">${esc(i18n.translate('bgr.property.accountHolderBirthDate.label'))}</p>
           <div class="response">${rqt.accountHolderBirthDate ? String.format('%td/%<tm/%<tY',rqt.accountHolderBirthDate) : ''}</div>
           
 
     
   
     
-      <p class="label">${i18n.translate('bgr.property.frenchRIB.label')}</p>
+      <p class="label">${esc(i18n.translate('bgr.property.frenchRIB.label'))}</p>
           <div class="response">
             <% if(rqt.frenchRIB) { %>
               <p>

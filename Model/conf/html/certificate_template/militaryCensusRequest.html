@@ -3,7 +3,7 @@
 <%
 
   import org.apache.commons.lang.StringUtils
-  
+  def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def lrHtml = ''
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -12,11 +12,11 @@
       lrEntries.eachWithIndex { entry, i -> 
       if (entry.entries) { 
         lrHtml += "<li>"
-        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
+        lrHtml += "<em>${esc(entry.labelsMap.fr)} :</em>"
         lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
         lrHtml += "</li>"
       } else {
-         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${esc(entry.labelsMap.fr)}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
       } 
     } 
     lrHtml += "</ul>"
@@ -33,20 +33,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <title>${i18n.translate('mcr.label')}</title>
+  <title>${esc(i18n.translate('mcr.label'))}</title>
   <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
 </head>
 <body>
   <div id="hd">
-    <p>${localAuthority.displayTitle}</p>
+    <p>${esc(localAuthority.displayTitle)}</p>
     <img src="file://${logoPath}" alt="mairie2424" />
   </div>
-  <h1>${i18n.translate('mcr.label')}</h1>
+  <h1>${esc(i18n.translate('mcr.label'))}</h1>
   <div class="localAuthority">
     <h2>${i18n.translate('pdf.localAutorityReservedSection')}</h2>
     <ul>
       <li>${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
-      <li>${i18n.translate('property.requester')} : <strong>${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong></li>
+      <li>${i18n.translate('property.requester')} : <strong>${esc(rqt.requesterFirstName +' '+ rqt.requesterLastName)}</strong></li>
       <li>${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong></li>
       <li>${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
     </ul>
@@ -56,17 +56,17 @@
   <h2>${i18n.translate('mcr.step.census.label')}</h2>
   
     
-      <p class="label">${i18n.translate('request.property.subject.label')}</p>
-          <div class="response">${subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName}</div>
+      <p class="label">${esc(i18n.translate('request.property.subject.label'))}</p>
+          <div class="response">${esc(subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName)}</div>
           
 
     
   
     
-      <p class="label">${i18n.translate('mcr.property.childTitle.label')}</p>
+      <p class="label">${esc(i18n.translate('mcr.property.childTitle.label'))}</p>
           <div class="response">
             <% if(rqt.childTitle) { %>
-              ${i18n.translate('mcr.property.childTitle.' + StringUtils.uncapitalize(rqt.childTitle.toString()))}
+              ${esc(i18n.translate('mcr.property.childTitle.' + StringUtils.uncapitalize(rqt.childTitle.toString())))}
             <% } %>
           </div>
           
@@ -74,15 +74,15 @@
     
   
     
-      <p class="label">${i18n.translate('mcr.property.maidenName.label')}</p><div class="response">${StringUtils.defaultString(rqt.maidenName?.toString())}</div>
+      <p class="label">${esc(i18n.translate('mcr.property.maidenName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.maidenName?.toString()))}</div>
 
     
   
     
-      <p class="label">${i18n.translate('mcr.property.childBirthCountry.label')}</p>
+      <p class="label">${esc(i18n.translate('mcr.property.childBirthCountry.label'))}</p>
           <div class="response">
             <% if(rqt.childBirthCountry) { %>
-              ${i18n.translate('mcr.property.childBirthCountry.' + StringUtils.uncapitalize(rqt.childBirthCountry.toString()))}
+              ${esc(i18n.translate('mcr.property.childBirthCountry.' + StringUtils.uncapitalize(rqt.childBirthCountry.toString())))}
             <% } %>
           </div>
           
@@ -90,10 +90,10 @@
     
   
     
-      <p class="label">${i18n.translate('mcr.property.childResidenceCountry.label')}</p>
+      <p class="label">${esc(i18n.translate('mcr.property.childResidenceCountry.label'))}</p>
           <div class="response">
             <% if(rqt.childResidenceCountry) { %>
-              ${i18n.translate('mcr.property.childResidenceCountry.' + StringUtils.uncapitalize(rqt.childResidenceCountry.toString()))}
+              ${esc(i18n.translate('mcr.property.childResidenceCountry.' + StringUtils.uncapitalize(rqt.childResidenceCountry.toString())))}
             <% } %>
           </div>
           
@@ -101,20 +101,20 @@
     
   
     
-      <p class="label">${i18n.translate('mcr.property.childPhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.childPhone?.toString())}</div>
+      <p class="label">${esc(i18n.translate('mcr.property.childPhone.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.childPhone?.toString()))}</div>
 
     
   
     
-      <p class="label">${i18n.translate('mcr.property.childMail.label')}</p><div class="response">${StringUtils.defaultString(rqt.childMail?.toString())}</div>
+      <p class="label">${esc(i18n.translate('mcr.property.childMail.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.childMail?.toString()))}</div>
 
     
   
     
-      <p class="label">${i18n.translate('mcr.property.childCountry.label')}</p>
+      <p class="label">${esc(i18n.translate('mcr.property.childCountry.label'))}</p>
           <div class="response">
             <% if(rqt.childCountry) { %>
-              ${i18n.translate('mcr.property.childCountry.' + StringUtils.uncapitalize(rqt.childCountry.toString()))}
+              ${esc(i18n.translate('mcr.property.childCountry.' + StringUtils.uncapitalize(rqt.childCountry.toString())))}
             <% } %>
           </div>
           
@@ -122,10 +122,10 @@
     
   
     
-      <p class="label">${i18n.translate('mcr.property.childOtherCountry.label')}</p>
+      <p class="label">${esc(i18n.translate('mcr.property.childOtherCountry.label'))}</p>
           <div class="response">
             <% if(rqt.childOtherCountry) { %>
-              ${i18n.translate('mcr.property.childOtherCountry.' + StringUtils.uncapitalize(rqt.childOtherCountry.toString()))}
+              ${esc(i18n.translate('mcr.property.childOtherCountry.' + StringUtils.uncapitalize(rqt.childOtherCountry.toString())))}
             <% } %>
           </div>
           
@@ -133,7 +133,7 @@
     
   
     
-      <p class="label">${i18n.translate('mcr.property.childConvention.label')}</p><div class="response">${StringUtils.defaultString(rqt.childConvention?.toString())}</div>
+      <p class="label">${esc(i18n.translate('mcr.property.childConvention.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.childConvention?.toString()))}</div>
 
     
   
@@ -145,42 +145,42 @@
       <h3>${i18n.translate('mcr.property.fatherInformation.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('mcr.property.fatherLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.fatherLastName?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mcr.property.fatherLastName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.fatherLastName?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('mcr.property.fatherFirstName.label')}</p><div class="response">${StringUtils.defaultString(rqt.fatherFirstName?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mcr.property.fatherFirstName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.fatherFirstName?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('mcr.property.fatherBirthDate.label')}</p>
+          <p class="label">${esc(i18n.translate('mcr.property.fatherBirthDate.label'))}</p>
           <div class="response">${rqt.fatherBirthDate ? String.format('%td/%<tm/%<tY',rqt.fatherBirthDate) : ''}</div>
           
 
         
-          <p class="label">${i18n.translate('mcr.property.fatherBirthCity.label')}</p><div class="response">${StringUtils.defaultString(rqt.fatherBirthCity?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mcr.property.fatherBirthCity.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.fatherBirthCity?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('mcr.property.fatherBirthDepartment.label')}</p>
+          <p class="label">${esc(i18n.translate('mcr.property.fatherBirthDepartment.label'))}</p>
           <div class="response">
             <% if(rqt.fatherBirthDepartment) { %>
-              ${i18n.translate('mcr.property.fatherBirthDepartment.' + StringUtils.uncapitalize(rqt.fatherBirthDepartment.toString()))}
+              ${esc(i18n.translate('mcr.property.fatherBirthDepartment.' + StringUtils.uncapitalize(rqt.fatherBirthDepartment.toString())))}
             <% } %>
           </div>
           
 
         
-          <p class="label">${i18n.translate('mcr.property.fatherBirthCountry.label')}</p>
+          <p class="label">${esc(i18n.translate('mcr.property.fatherBirthCountry.label'))}</p>
           <div class="response">
             <% if(rqt.fatherBirthCountry) { %>
-              ${i18n.translate('mcr.property.fatherBirthCountry.' + StringUtils.uncapitalize(rqt.fatherBirthCountry.toString()))}
+              ${esc(i18n.translate('mcr.property.fatherBirthCountry.' + StringUtils.uncapitalize(rqt.fatherBirthCountry.toString())))}
             <% } %>
           </div>
           
 
         
-          <p class="label">${i18n.translate('mcr.property.fatherNationality.label')}</p>
+          <p class="label">${esc(i18n.translate('mcr.property.fatherNationality.label'))}</p>
           <div class="response">
             <% if(rqt.fatherNationality) { %>
-              ${i18n.translate('mcr.property.fatherNationality.' + StringUtils.uncapitalize(rqt.fatherNationality.toString()))}
+              ${esc(i18n.translate('mcr.property.fatherNationality.' + StringUtils.uncapitalize(rqt.fatherNationality.toString())))}
             <% } %>
           </div>
           
@@ -193,42 +193,42 @@
       <h3>${i18n.translate('mcr.property.motherInformation.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('mcr.property.motherLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.motherLastName?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mcr.property.motherLastName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.motherLastName?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('mcr.property.motherFirstName.label')}</p><div class="response">${StringUtils.defaultString(rqt.motherFirstName?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mcr.property.motherFirstName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.motherFirstName?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('mcr.property.motherBirthDate.label')}</p>
+          <p class="label">${esc(i18n.translate('mcr.property.motherBirthDate.label'))}</p>
           <div class="response">${rqt.motherBirthDate ? String.format('%td/%<tm/%<tY',rqt.motherBirthDate) : ''}</div>
           
 
         
-          <p class="label">${i18n.translate('mcr.property.motherBirthCity.label')}</p><div class="response">${StringUtils.defaultString(rqt.motherBirthCity?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mcr.property.motherBirthCity.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.motherBirthCity?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('mcr.property.motherBirthDepartment.label')}</p>
+          <p class="label">${esc(i18n.translate('mcr.property.motherBirthDepartment.label'))}</p>
           <div class="response">
             <% if(rqt.motherBirthDepartment) { %>
-              ${i18n.translate('mcr.property.motherBirthDepartment.' + StringUtils.uncapitalize(rqt.motherBirthDepartment.toString()))}
+              ${esc(i18n.translate('mcr.property.motherBirthDepartment.' + StringUtils.uncapitalize(rqt.motherBirthDepartment.toString())))}
             <% } %>
           </div>
           
 
         
-          <p class="label">${i18n.translate('mcr.property.motherBirthCountry.label')}</p>
+          <p class="label">${esc(i18n.translate('mcr.property.motherBirthCountry.label'))}</p>
           <div class="response">
             <% if(rqt.motherBirthCountry) { %>
-              ${i18n.translate('mcr.property.motherBirthCountry.' + StringUtils.uncapitalize(rqt.motherBirthCountry.toString()))}
+              ${esc(i18n.translate('mcr.property.motherBirthCountry.' + StringUtils.uncapitalize(rqt.motherBirthCountry.toString())))}
             <% } %>
           </div>
           
 
         
-          <p class="label">${i18n.translate('mcr.property.motherNationality.label')}</p>
+          <p class="label">${esc(i18n.translate('mcr.property.motherNationality.label'))}</p>
           <div class="response">
             <% if(rqt.motherNationality) { %>
-              ${i18n.translate('mcr.property.motherNationality.' + StringUtils.uncapitalize(rqt.motherNationality.toString()))}
+              ${esc(i18n.translate('mcr.property.motherNationality.' + StringUtils.uncapitalize(rqt.motherNationality.toString())))}
             <% } %>
           </div>
           
@@ -245,29 +245,29 @@
       <h3>${i18n.translate('mcr.property.familySituationInformation.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('mcr.property.aliveChildren.label')}</p><div class="response">${StringUtils.defaultString(rqt.aliveChildren?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mcr.property.aliveChildren.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.aliveChildren?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('mcr.property.childStatus.label')}</p>
+          <p class="label">${esc(i18n.translate('mcr.property.childStatus.label'))}</p>
           <div class="response">
             <% if(rqt.childStatus) { %>
-              ${i18n.translate('mcr.property.childStatus.' + StringUtils.uncapitalize(rqt.childStatus.toString()))}
+              ${esc(i18n.translate('mcr.property.childStatus.' + StringUtils.uncapitalize(rqt.childStatus.toString())))}
             <% } %>
           </div>
           
 
         
-          <p class="label">${i18n.translate('mcr.property.childrenInCharge.label')}</p><div class="response">${StringUtils.defaultString(rqt.childrenInCharge?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mcr.property.childrenInCharge.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.childrenInCharge?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('mcr.property.otherSituation.label')}</p><div class="response">${StringUtils.defaultString(rqt.otherSituation?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mcr.property.otherSituation.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.otherSituation?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('mcr.property.statePupil.label')}</p>
+          <p class="label">${esc(i18n.translate('mcr.property.statePupil.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.statePupil ? 'class="checked"': ''}>
-                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
               ${it ? ' / ' : ''}
             <% } %>
@@ -275,11 +275,11 @@
           
 
         
-          <p class="label">${i18n.translate('mcr.property.prefectPupil.label')}</p>
+          <p class="label">${esc(i18n.translate('mcr.property.prefectPupil.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.prefectPupil ? 'class="checked"': ''}>
-                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
               ${it ? ' / ' : ''}
             <% } %>
@@ -287,10 +287,10 @@
           
 
         
-          <p class="label">${i18n.translate('mcr.property.prefectPupilDepartment.label')}</p>
+          <p class="label">${esc(i18n.translate('mcr.property.prefectPupilDepartment.label'))}</p>
           <div class="response">
             <% if(rqt.prefectPupilDepartment) { %>
-              ${i18n.translate('mcr.property.prefectPupilDepartment.' + StringUtils.uncapitalize(rqt.prefectPupilDepartment.toString()))}
+              ${esc(i18n.translate('mcr.property.prefectPupilDepartment.' + StringUtils.uncapitalize(rqt.prefectPupilDepartment.toString())))}
             <% } %>
           </div>
           
@@ -303,28 +303,28 @@
       <h3>${i18n.translate('mcr.property.professionalSituationInformation.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('mcr.property.childSituation.label')}</p>
+          <p class="label">${esc(i18n.translate('mcr.property.childSituation.label'))}</p>
           <div class="response">
             <% if(rqt.childSituation) { %>
-              ${i18n.translate('mcr.property.childSituation.' + StringUtils.uncapitalize(rqt.childSituation.toString()))}
+              ${esc(i18n.translate('mcr.property.childSituation.' + StringUtils.uncapitalize(rqt.childSituation.toString())))}
             <% } %>
           </div>
           
 
         
-          <p class="label">${i18n.translate('mcr.property.childDiploma.label')}</p>
+          <p class="label">${esc(i18n.translate('mcr.property.childDiploma.label'))}</p>
           <div class="response">
             <% if(rqt.childDiploma) { %>
-              ${i18n.translate('mcr.property.childDiploma.' + StringUtils.uncapitalize(rqt.childDiploma.toString()))}
+              ${esc(i18n.translate('mcr.property.childDiploma.' + StringUtils.uncapitalize(rqt.childDiploma.toString())))}
             <% } %>
           </div>
           
 
         
-          <p class="label">${i18n.translate('mcr.property.childSpeciality.label')}</p><div class="response">${StringUtils.defaultString(rqt.childSpeciality?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mcr.property.childSpeciality.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.childSpeciality?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('mcr.property.childProfession.label')}</p><div class="response">${StringUtils.defaultString(rqt.childProfession?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mcr.property.childProfession.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.childProfession?.toString()))}</div>
 
         
       </div>
@@ -335,11 +335,11 @@
   <h2>${i18n.translate('mcr.step.exemption.label')}</h2>
   
     
-      <p class="label">${i18n.translate('mcr.property.japdExemption.label')}</p>
+      <p class="label">${esc(i18n.translate('mcr.property.japdExemption.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.japdExemption ? 'class="checked"': ''}>
-                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
               ${it ? ' / ' : ''}
             <% } %>
@@ -349,11 +349,11 @@
     
   
     
-      <p class="label">${i18n.translate('mcr.property.highlyInfirm.label')}</p>
+      <p class="label">${esc(i18n.translate('mcr.property.highlyInfirm.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.highlyInfirm ? 'class="checked"': ''}>
-                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
               ${it ? ' / ' : ''}
             <% } %>
@@ -363,11 +363,11 @@
     
   
     
-      <p class="label">${i18n.translate('mcr.property.affectionOrDisease.label')}</p>
+      <p class="label">${esc(i18n.translate('mcr.property.affectionOrDisease.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.affectionOrDisease ? 'class="checked"': ''}>
-                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
               ${it ? ' / ' : ''}
             <% } %>

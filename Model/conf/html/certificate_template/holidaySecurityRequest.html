@@ -3,7 +3,7 @@
 <%
 
   import org.apache.commons.lang.StringUtils
-  
+  def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def lrHtml = ''
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -12,11 +12,11 @@
       lrEntries.eachWithIndex { entry, i -> 
       if (entry.entries) { 
         lrHtml += "<li>"
-        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
+        lrHtml += "<em>${esc(entry.labelsMap.fr)} :</em>"
         lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
         lrHtml += "</li>"
       } else {
-         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${esc(entry.labelsMap.fr)}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
       } 
     } 
     lrHtml += "</ul>"
@@ -33,20 +33,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <title>${i18n.translate('hsr.label')}</title>
+  <title>${esc(i18n.translate('hsr.label'))}</title>
   <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
 </head>
 <body>
   <div id="hd">
-    <p>${localAuthority.displayTitle}</p>
+    <p>${esc(localAuthority.displayTitle)}</p>
     <img src="file://${logoPath}" alt="mairie2424" />
   </div>
-  <h1>${i18n.translate('hsr.label')}</h1>
+  <h1>${esc(i18n.translate('hsr.label'))}</h1>
   <div class="localAuthority">
     <h2>${i18n.translate('pdf.localAutorityReservedSection')}</h2>
     <ul>
       <li>${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
-      <li>${i18n.translate('property.requester')} : <strong>${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong></li>
+      <li>${i18n.translate('property.requester')} : <strong>${esc(rqt.requesterFirstName +' '+ rqt.requesterLastName)}</strong></li>
       <li>${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong></li>
       <li>${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
     </ul>
@@ -56,21 +56,21 @@
   <h2>${i18n.translate('hsr.step.registration.label')}</h2>
   
     
-      <p class="label">${i18n.translate('request.property.subject.label')}</p>
-          <div class="response">${subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName}</div>
+      <p class="label">${esc(i18n.translate('request.property.subject.label'))}</p>
+          <div class="response">${esc(subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName)}</div>
           
 
     
   
     
-      <p class="label">${i18n.translate('hsr.property.absenceStartDate.label')}</p>
+      <p class="label">${esc(i18n.translate('hsr.property.absenceStartDate.label'))}</p>
           <div class="response">${rqt.absenceStartDate ? String.format('%td/%<tm/%<tY',rqt.absenceStartDate) : ''}</div>
           
 
     
   
     
-      <p class="label">${i18n.translate('hsr.property.absenceEndDate.label')}</p>
+      <p class="label">${esc(i18n.translate('hsr.property.absenceEndDate.label'))}</p>
           <div class="response">${rqt.absenceEndDate ? String.format('%td/%<tm/%<tY',rqt.absenceEndDate) : ''}</div>
           
 
@@ -81,7 +81,7 @@
   <h2>${i18n.translate('hsr.step.rules.label')}</h2>
   
     
-      <p class="label">${i18n.translate('hsr.property.rulesAndRegulationsAcceptance.label')}</p>
+      <p class="label">${esc(i18n.translate('hsr.property.rulesAndRegulationsAcceptance.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.rulesAndRegulationsAcceptance ? 'class="checked"': ''}>
@@ -99,7 +99,7 @@
   <h2>${i18n.translate('hsr.step.contactphone.label')}</h2>
   
     
-      <p class="label">${i18n.translate('hsr.property.alertPhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.alertPhone?.toString())}</div>
+      <p class="label">${esc(i18n.translate('hsr.property.alertPhone.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.alertPhone?.toString()))}</div>
 
     
   
@@ -108,11 +108,11 @@
   <h2>${i18n.translate('hsr.step.contact.label')}</h2>
   
     
-      <p class="label">${i18n.translate('hsr.property.otherContact.label')}</p>
+      <p class="label">${esc(i18n.translate('hsr.property.otherContact.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.otherContact ? 'class="checked"': ''}>
-                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
               ${it ? ' / ' : ''}
             <% } %>
@@ -125,27 +125,27 @@
       <h3>${i18n.translate('hsr.property.otherContactInformations.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('hsr.property.otherContactLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.otherContactLastName?.toString())}</div>
+          <p class="label">${esc(i18n.translate('hsr.property.otherContactLastName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.otherContactLastName?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('hsr.property.otherContactFirstName.label')}</p><div class="response">${StringUtils.defaultString(rqt.otherContactFirstName?.toString())}</div>
+          <p class="label">${esc(i18n.translate('hsr.property.otherContactFirstName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.otherContactFirstName?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('hsr.property.otherContactAddress.label')}</p>
+          <p class="label">${esc(i18n.translate('hsr.property.otherContactAddress.label'))}</p>
           <div class="response">
             <% if(rqt.otherContactAddress) { %>
-              <p>${StringUtils.defaultString(rqt.otherContactAddress?.additionalDeliveryInformation)}</p>
-              <p>${StringUtils.defaultString(rqt.otherContactAddress?.additionalGeographicalInformation)}</p>
-              <p>${StringUtils.defaultString(rqt.otherContactAddress?.streetNumber)} ${StringUtils.defaultString(rqt.otherContactAddress?.streetName)}</p>
-              <p>${StringUtils.defaultString(rqt.otherContactAddress?.placeNameOrService)}</p>
-              <p>${StringUtils.defaultString(rqt.otherContactAddress?.postalCode)} ${StringUtils.defaultString(rqt.otherContactAddress?.city)}</p>
-              <p>${StringUtils.defaultString(rqt.otherContactAddress?.countryName)}</p>
+              <p>${esc(StringUtils.defaultString(rqt.otherContactAddress?.additionalDeliveryInformation))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.otherContactAddress?.additionalGeographicalInformation))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.otherContactAddress?.streetNumber))} ${esc(StringUtils.defaultString(rqt.otherContactAddress?.streetName))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.otherContactAddress?.placeNameOrService))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.otherContactAddress?.postalCode))} ${esc(StringUtils.defaultString(rqt.otherContactAddress?.city))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.otherContactAddress?.countryName))}</p>
             <% } %>
           </div>
           
 
         
-          <p class="label">${i18n.translate('hsr.property.otherContactPhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.otherContactPhone?.toString())}</div>
+          <p class="label">${esc(i18n.translate('hsr.property.otherContactPhone.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.otherContactPhone?.toString()))}</div>
 
         
       </div>
@@ -156,11 +156,11 @@
   <h2>${i18n.translate('hsr.step.additional.label')}</h2>
   
     
-      <p class="label">${i18n.translate('hsr.property.alarm.label')}</p>
+      <p class="label">${esc(i18n.translate('hsr.property.alarm.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.alarm ? 'class="checked"': ''}>
-                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
               ${it ? ' / ' : ''}
             <% } %>
@@ -170,11 +170,11 @@
     
   
     
-      <p class="label">${i18n.translate('hsr.property.light.label')}</p>
+      <p class="label">${esc(i18n.translate('hsr.property.light.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.light ? 'class="checked"': ''}>
-                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
               ${it ? ' / ' : ''}
             <% } %>

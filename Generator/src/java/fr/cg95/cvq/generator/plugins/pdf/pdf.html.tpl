@@ -19,7 +19,7 @@
           <div class="response choice">
             ${toGT('[true,false].each {')}
               <span \${it == ${wrapper}.${element.javaFieldName} ? 'class="checked"': ''}>
-                \${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                \${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
               \${it ? ' / ' : ''}
             ${toGT('}')}
@@ -29,7 +29,7 @@
           """
           <div class="response">
             ${toGT("if(${wrapper}.${element.javaFieldName}) {")}
-              \${i18n.translate('${element.i18nPrefixCode}.' + StringUtils.uncapitalize(${wrapper}.${element.javaFieldName}.toString()))}
+              \${esc(i18n.translate('${element.i18nPrefixCode}.' + StringUtils.uncapitalize(${wrapper}.${element.javaFieldName}.toString())))}
             ${toGT('}')}
           </div>
           """
@@ -38,7 +38,7 @@
           <div class="response choice">
             ${toGT(element.enumValuesAsString + '.eachWithIndex {it, i ->')}
               <span \${it == ${wrapper}.${element.javaFieldName}.toString() ? 'class="checked"': ''}>
-                \${i18n.translate('${element.i18nPrefixCode}.' + StringUtils.uncapitalize(it))}
+                \${esc(i18n.translate('${element.i18nPrefixCode}.' + StringUtils.uncapitalize(it)))}
               </span>\${i + 1 < ${element.enumValuesAsString}?.size() ? ', ' : ''}
             ${toGT('}')}
           </div>
@@ -47,12 +47,12 @@
           """
           <div class="response">
             ${toGT("if(${wrapper}.${element.javaFieldName}) {")}
-              <p>\${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.additionalDeliveryInformation)}</p>
-              <p>\${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.additionalGeographicalInformation)}</p>
-              <p>\${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.streetNumber)} \${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.streetName)}</p>
-              <p>\${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.placeNameOrService)}</p>
-              <p>\${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.postalCode)} \${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.city)}</p>
-              <p>\${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.countryName)}</p>
+              <p>\${esc(StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.additionalDeliveryInformation))}</p>
+              <p>\${esc(StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.additionalGeographicalInformation))}</p>
+              <p>\${esc(StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.streetNumber))} \${esc(StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.streetName))}</p>
+              <p>\${esc(StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.placeNameOrService))}</p>
+              <p>\${esc(StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.postalCode))} \${esc(StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.city))}</p>
+              <p>\${esc(StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.countryName))}</p>
             ${toGT('}')}
           </div>
           """
@@ -87,18 +87,18 @@
           </div>
           """
       ,'text' :
-          """<div class="response">\${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.toString())}</div>"""
+          """<div class="response">\${esc(StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.toString()))}</div>"""
       ,'subject' :
           """
-          <div class="response">\${subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName}</div>
+          <div class="response">\${esc(subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName)}</div>
           """
       ,'school' :
           """
-           <div class="response">\${${wrapper}.${element.javaFieldName}?.name}</div>
+           <div class="response">\${esc(${wrapper}.${element.javaFieldName}?.name)}</div>
           """
       ,'recreationCenter' :
           """
-           <div class="response">\${${wrapper}.${element.javaFieldName}?.name}</div>
+           <div class="response">\${esc(${wrapper}.${element.javaFieldName}?.name)}</div>
           """
       ,'requester' :
           """
@@ -111,27 +111,27 @@
             ${toGT('if(requester?.title) {')}
               \${i18n.translate('homeFolder.adult.title.' + StringUtils.uncapitalize(requester?.title.toString()))}
             ${toGT('}')}
-            \${requester?.firstName}
-            \${requester?.lastName}
+            \${esc(requester?.firstName)}
+            \${esc(requester?.lastName)}
           </div>
           <p class="label">\${i18n.translate('homeFolder.individual.property.address')}</p>
           <div class="response">
             ${toGT('if (requester?.address) {')}
-              <p>\${StringUtils.defaultString(requester?.address?.additionalDeliveryInformation)}</p>
-              <p>\${StringUtils.defaultString(requester?.address?.additionalGeographicalInformation)}</p>
-              <p>\${StringUtils.defaultString(requester?.address?.streetNumber)} \${StringUtils.defaultString(requester?.address?.streetName)}</p>
-              <p>\${StringUtils.defaultString(requester?.address?.placeNameOrService)}</p>
-              <p>\${StringUtils.defaultString(requester?.address?.postalCode)} \${StringUtils.defaultString(requester?.address?.city)}</p>
-              <p>\${StringUtils.defaultString(requester?.address?.countryName)}</p>
+              <p>\${esc(StringUtils.defaultString(requester?.address?.additionalDeliveryInformation))}</p>
+              <p>\${esc(StringUtils.defaultString(requester?.address?.additionalGeographicalInformation))}</p>
+              <p>\${esc(StringUtils.defaultString(requester?.address?.streetNumber))} \${esc(StringUtils.defaultString(requester?.address?.streetName))}</p>
+              <p>\${esc(StringUtils.defaultString(requester?.address?.placeNameOrService))}</p>
+              <p>\${esc(StringUtils.defaultString(requester?.address?.postalCode))} \${esc(StringUtils.defaultString(requester?.address?.city))}</p>
+              <p>\${esc(StringUtils.defaultString(requester?.address?.countryName))}</p>
             ${toGT('}')}
           </div>
           <p class="label">\${i18n.translate('homeFolder.adult.property.email')}</p>
-          <div class="response">\${requester?.email}</div>
+          <div class="response">\${esc(requester?.email)}</div>
           <p class="label">\${i18n.translate('homeFolder.adult.property.homePhone')}</p>
-          <div class="response">\${requester?.homePhone}</div>
+          <div class="response">\${esc(requester?.homePhone)}</div>
           """
       ,'label' :
-          """<p class="label">\${i18n.translate('${element.i18nPrefixCode}.label')}</p>"""
+          """<p class="label">\${esc(i18n.translate('${element.i18nPrefixCode}.label'))}</p>"""
       ,'acceptance' :
           """
           <div class="response choice">
@@ -154,7 +154,7 @@
 
 ${beginGT()}
   import org.apache.commons.lang.StringUtils
-  
+  def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def lrHtml = ''
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -163,17 +163,17 @@ ${beginGT()}
       lrEntries.eachWithIndex { entry, i -> 
       if (entry.entries) { 
         lrHtml += "<li>"
-        lrHtml += "<em>\${entry.labelsMap.fr} :</em>"
+        lrHtml += "<em>\${esc(entry.labelsMap.fr)} :</em>"
         lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
         lrHtml += "</li>"
       } else {
-         lrHtml += "<li><span \${currentLrDatas?.contains(entry.key) ? 'class=\"checked\"' : ''}>\${entry.labelsMap.fr}</span>\${i + 1 < lrEntries.size() ? ',' : ''}</li>"
+         lrHtml += "<li><span \${currentLrDatas?.contains(entry.key) ? 'class=\"checked\"' : ''}>\${esc(entry.labelsMap.fr)}</span>\${i + 1 < lrEntries.size() ? ',' : ''}</li>"
       } 
     } 
     lrHtml += "</ul>"
     } else { 
       lrEntries.each { entry -> 
-        lrHtml += "\${currentLrDatas?.contains(entry.key) ? entry.labelsMap.fr: ''}"
+        lrHtml += "\${currentLrDatas?.contains(entry.key) ? esc(entry.labelsMap.fr): ''}"
       } 
     }
     println lrHtml
@@ -183,20 +183,20 @@ ${endGT()}
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <title>\${i18n.translate('${requestPdf.acronym}.label')}</title>
+  <title>\${esc(i18n.translate('${requestPdf.acronym}.label'))}</title>
   <link href="file://\${cssPath}" type="text/css" rel="stylesheet" media="print" />
 </head>
 <body>
   <div id="hd">
-    <p>\${localAuthority.displayTitle}</p>
+    <p>\${esc(localAuthority.displayTitle)}</p>
     <img src="file://\${logoPath}" alt="mairie2424" />
   </div>
-  <h1>\${i18n.translate('${requestPdf.acronym}.label')}</h1>
+  <h1>\${esc(i18n.translate('${requestPdf.acronym}.label'))}</h1>
   <div class="localAuthority">
     <h2>\${i18n.translate('pdf.localAutorityReservedSection')}</h2>
     <ul>
       <li>\${i18n.translate('property.creationDate')} : <strong>\${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
-      <li>\${i18n.translate('property.requester')} : <strong>\${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong></li>
+      <li>\${i18n.translate('property.requester')} : <strong>\${esc(rqt.requesterFirstName +' '+ rqt.requesterLastName)}</strong></li>
       <li>\${i18n.translate('pdf.requestId')} : <strong>\${rqt.id}</strong></li>
       <li>\${i18n.translate('pdf.agentId')} : <strong>\${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
     </ul>

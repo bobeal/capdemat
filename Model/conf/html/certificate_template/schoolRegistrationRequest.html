@@ -3,7 +3,7 @@
 <%
 
   import org.apache.commons.lang.StringUtils
-  
+  def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def lrHtml = ''
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -12,11 +12,11 @@
       lrEntries.eachWithIndex { entry, i -> 
       if (entry.entries) { 
         lrHtml += "<li>"
-        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
+        lrHtml += "<em>${esc(entry.labelsMap.fr)} :</em>"
         lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
         lrHtml += "</li>"
       } else {
-         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${esc(entry.labelsMap.fr)}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
       } 
     } 
     lrHtml += "</ul>"
@@ -33,20 +33,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <title>${i18n.translate('srr.label')}</title>
+  <title>${esc(i18n.translate('srr.label'))}</title>
   <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
 </head>
 <body>
   <div id="hd">
-    <p>${localAuthority.displayTitle}</p>
+    <p>${esc(localAuthority.displayTitle)}</p>
     <img src="file://${logoPath}" alt="mairie2424" />
   </div>
-  <h1>${i18n.translate('srr.label')}</h1>
+  <h1>${esc(i18n.translate('srr.label'))}</h1>
   <div class="localAuthority">
     <h2>${i18n.translate('pdf.localAutorityReservedSection')}</h2>
     <ul>
       <li>${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
-      <li>${i18n.translate('property.requester')} : <strong>${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong></li>
+      <li>${i18n.translate('property.requester')} : <strong>${esc(rqt.requesterFirstName +' '+ rqt.requesterLastName)}</strong></li>
       <li>${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong></li>
       <li>${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
     </ul>
@@ -56,17 +56,17 @@
   <h2>${i18n.translate('srr.step.registration.label')}</h2>
   
     
-      <p class="label">${i18n.translate('request.property.subject.label')}</p>
-          <div class="response">${subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName}</div>
+      <p class="label">${esc(i18n.translate('request.property.subject.label'))}</p>
+          <div class="response">${esc(subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName)}</div>
           
 
     
   
     
-      <p class="label">${i18n.translate('srr.property.section.label')}</p>
+      <p class="label">${esc(i18n.translate('srr.property.section.label'))}</p>
           <div class="response">
             <% if(rqt.section) { %>
-              ${i18n.translate('srr.property.section.' + StringUtils.uncapitalize(rqt.section.toString()))}
+              ${esc(i18n.translate('srr.property.section.' + StringUtils.uncapitalize(rqt.section.toString())))}
             <% } %>
           </div>
           
@@ -74,7 +74,7 @@
     
   
     
-      <p class="label">${i18n.translate('srr.property.urgencyPhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.urgencyPhone?.toString())}</div>
+      <p class="label">${esc(i18n.translate('srr.property.urgencyPhone.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.urgencyPhone?.toString()))}</div>
 
     
   
@@ -82,16 +82,16 @@
       <h3>${i18n.translate('srr.property.currentSchool.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('srr.property.currentSchoolName.label')}</p><div class="response">${StringUtils.defaultString(rqt.currentSchoolName?.toString())}</div>
+          <p class="label">${esc(i18n.translate('srr.property.currentSchoolName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.currentSchoolName?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('srr.property.currentSchoolAddress.label')}</p><div class="response">${StringUtils.defaultString(rqt.currentSchoolAddress?.toString())}</div>
+          <p class="label">${esc(i18n.translate('srr.property.currentSchoolAddress.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.currentSchoolAddress?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('srr.property.currentSection.label')}</p>
+          <p class="label">${esc(i18n.translate('srr.property.currentSection.label'))}</p>
           <div class="response">
             <% if(rqt.currentSection) { %>
-              ${i18n.translate('srr.property.currentSection.' + StringUtils.uncapitalize(rqt.currentSection.toString()))}
+              ${esc(i18n.translate('srr.property.currentSection.' + StringUtils.uncapitalize(rqt.currentSection.toString())))}
             <% } %>
           </div>
           
@@ -105,7 +105,7 @@
   <h2>${i18n.translate('srr.step.rules.label')}</h2>
   
     
-      <p class="label">${i18n.translate('srr.property.rulesAndRegulationsAcceptance.label')}</p>
+      <p class="label">${esc(i18n.translate('srr.property.rulesAndRegulationsAcceptance.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.rulesAndRegulationsAcceptance ? 'class="checked"': ''}>
@@ -123,8 +123,8 @@
   <h2>${i18n.translate('request.step.administration.label')}</h2>
   
     
-      <p class="label">${i18n.translate('srr.property.school.label')}</p>
-           <div class="response">${rqt.school?.name}</div>
+      <p class="label">${esc(i18n.translate('srr.property.school.label'))}</p>
+           <div class="response">${esc(rqt.school?.name)}</div>
           
 
     

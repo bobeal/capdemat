@@ -3,7 +3,7 @@
 <%
 
   import org.apache.commons.lang.StringUtils
-  
+  def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def lrHtml = ''
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -12,11 +12,11 @@
       lrEntries.eachWithIndex { entry, i -> 
       if (entry.entries) { 
         lrHtml += "<li>"
-        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
+        lrHtml += "<em>${esc(entry.labelsMap.fr)} :</em>"
         lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
         lrHtml += "</li>"
       } else {
-         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${esc(entry.labelsMap.fr)}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
       } 
     } 
     lrHtml += "</ul>"
@@ -33,20 +33,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <title>${i18n.translate('dccrr.label')}</title>
+  <title>${esc(i18n.translate('dccrr.label'))}</title>
   <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
 </head>
 <body>
   <div id="hd">
-    <p>${localAuthority.displayTitle}</p>
+    <p>${esc(localAuthority.displayTitle)}</p>
     <img src="file://${logoPath}" alt="mairie2424" />
   </div>
-  <h1>${i18n.translate('dccrr.label')}</h1>
+  <h1>${esc(i18n.translate('dccrr.label'))}</h1>
   <div class="localAuthority">
     <h2>${i18n.translate('pdf.localAutorityReservedSection')}</h2>
     <ul>
       <li>${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
-      <li>${i18n.translate('property.requester')} : <strong>${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong></li>
+      <li>${i18n.translate('property.requester')} : <strong>${esc(rqt.requesterFirstName +' '+ rqt.requesterLastName)}</strong></li>
       <li>${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong></li>
       <li>${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
     </ul>
@@ -56,8 +56,8 @@
   <h2>${i18n.translate('dccrr.step.subject.label')}</h2>
   
     
-      <p class="label">${i18n.translate('request.property.subject.label')}</p>
-          <div class="response">${subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName}</div>
+      <p class="label">${esc(i18n.translate('request.property.subject.label'))}</p>
+          <div class="response">${esc(subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName)}</div>
           
 
     
@@ -66,26 +66,26 @@
       <h3>${i18n.translate('dccrr.property.informationMere.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('dccrr.property.situationActuelleMere.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.situationActuelleMere.label'))}</p>
           <div class="response">
             <% if(rqt.situationActuelleMere) { %>
-              ${i18n.translate('dccrr.property.situationActuelleMere.' + StringUtils.uncapitalize(rqt.situationActuelleMere.toString()))}
+              ${esc(i18n.translate('dccrr.property.situationActuelleMere.' + StringUtils.uncapitalize(rqt.situationActuelleMere.toString())))}
             <% } %>
           </div>
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.precisionAutreSituationActuelleMere.label')}</p><div class="response">${StringUtils.defaultString(rqt.precisionAutreSituationActuelleMere?.toString())}</div>
+          <p class="label">${esc(i18n.translate('dccrr.property.precisionAutreSituationActuelleMere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.precisionAutreSituationActuelleMere?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('dccrr.property.professionMere.label')}</p><div class="response">${StringUtils.defaultString(rqt.professionMere?.toString())}</div>
+          <p class="label">${esc(i18n.translate('dccrr.property.professionMere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.professionMere?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('dccrr.property.estHorairesReguliersMere.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.estHorairesReguliersMere.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.estHorairesReguliersMere ? 'class="checked"': ''}>
-                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
               ${it ? ' / ' : ''}
             <% } %>
@@ -93,25 +93,25 @@
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairesReguliersMere.label')}</p><div class="response">${StringUtils.defaultString(rqt.horairesReguliersMere?.toString())}</div>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairesReguliersMere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesReguliersMere?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairesTravailLundiMere.label')}</p><div class="response">${StringUtils.defaultString(rqt.horairesTravailLundiMere?.toString())}</div>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairesTravailLundiMere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesTravailLundiMere?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairesTravailMardiMere.label')}</p><div class="response">${StringUtils.defaultString(rqt.horairesTravailMardiMere?.toString())}</div>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairesTravailMardiMere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesTravailMardiMere?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairesTravailMercrediMere.label')}</p><div class="response">${StringUtils.defaultString(rqt.horairesTravailMercrediMere?.toString())}</div>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairesTravailMercrediMere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesTravailMercrediMere?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairesTravailJeudiMere.label')}</p><div class="response">${StringUtils.defaultString(rqt.horairesTravailJeudiMere?.toString())}</div>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairesTravailJeudiMere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesTravailJeudiMere?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairesTravailVendrediMere.label')}</p><div class="response">${StringUtils.defaultString(rqt.horairesTravailVendrediMere?.toString())}</div>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairesTravailVendrediMere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesTravailVendrediMere?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('dccrr.property.communeLieuTravailMere.label')}</p><div class="response">${StringUtils.defaultString(rqt.communeLieuTravailMere?.toString())}</div>
+          <p class="label">${esc(i18n.translate('dccrr.property.communeLieuTravailMere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.communeLieuTravailMere?.toString()))}</div>
 
         
       </div>
@@ -121,26 +121,26 @@
       <h3>${i18n.translate('dccrr.property.informationPere.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('dccrr.property.situationActuellePere.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.situationActuellePere.label'))}</p>
           <div class="response">
             <% if(rqt.situationActuellePere) { %>
-              ${i18n.translate('dccrr.property.situationActuellePere.' + StringUtils.uncapitalize(rqt.situationActuellePere.toString()))}
+              ${esc(i18n.translate('dccrr.property.situationActuellePere.' + StringUtils.uncapitalize(rqt.situationActuellePere.toString())))}
             <% } %>
           </div>
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.precisionAutreSituationActuellePere.label')}</p><div class="response">${StringUtils.defaultString(rqt.precisionAutreSituationActuellePere?.toString())}</div>
+          <p class="label">${esc(i18n.translate('dccrr.property.precisionAutreSituationActuellePere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.precisionAutreSituationActuellePere?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('dccrr.property.professionPere.label')}</p><div class="response">${StringUtils.defaultString(rqt.professionPere?.toString())}</div>
+          <p class="label">${esc(i18n.translate('dccrr.property.professionPere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.professionPere?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('dccrr.property.estHorairesReguliersPere.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.estHorairesReguliersPere.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.estHorairesReguliersPere ? 'class="checked"': ''}>
-                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
               ${it ? ' / ' : ''}
             <% } %>
@@ -148,25 +148,25 @@
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairesReguliersPere.label')}</p><div class="response">${StringUtils.defaultString(rqt.horairesReguliersPere?.toString())}</div>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairesReguliersPere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesReguliersPere?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairesTravailLundiPere.label')}</p><div class="response">${StringUtils.defaultString(rqt.horairesTravailLundiPere?.toString())}</div>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairesTravailLundiPere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesTravailLundiPere?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairesTravailMardiPere.label')}</p><div class="response">${StringUtils.defaultString(rqt.horairesTravailMardiPere?.toString())}</div>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairesTravailMardiPere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesTravailMardiPere?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairesTravailMercrediPere.label')}</p><div class="response">${StringUtils.defaultString(rqt.horairesTravailMercrediPere?.toString())}</div>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairesTravailMercrediPere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesTravailMercrediPere?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairesTravailJeudiPere.label')}</p><div class="response">${StringUtils.defaultString(rqt.horairesTravailJeudiPere?.toString())}</div>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairesTravailJeudiPere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesTravailJeudiPere?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairesTravailVendrediPere.label')}</p><div class="response">${StringUtils.defaultString(rqt.horairesTravailVendrediPere?.toString())}</div>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairesTravailVendrediPere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesTravailVendrediPere?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('dccrr.property.communeLieuTravailPere.label')}</p><div class="response">${StringUtils.defaultString(rqt.communeLieuTravailPere?.toString())}</div>
+          <p class="label">${esc(i18n.translate('dccrr.property.communeLieuTravailPere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.communeLieuTravailPere?.toString()))}</div>
 
         
       </div>
@@ -177,11 +177,11 @@
   <h2>${i18n.translate('dccrr.step.accueil.label')}</h2>
   
     
-      <p class="label">${i18n.translate('dccrr.property.modeAccueil.label')}</p>
+      <p class="label">${esc(i18n.translate('dccrr.property.modeAccueil.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.modeAccueil ? 'class="checked"': ''}>
-                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
               ${it ? ' / ' : ''}
             <% } %>
@@ -191,10 +191,10 @@
     
   
     
-      <p class="label">${i18n.translate('dccrr.property.modeAccueilChoixUn.label')}</p>
+      <p class="label">${esc(i18n.translate('dccrr.property.modeAccueilChoixUn.label'))}</p>
           <div class="response">
             <% if(rqt.modeAccueilChoixUn) { %>
-              ${i18n.translate('dccrr.property.modeAccueilChoixUn.' + StringUtils.uncapitalize(rqt.modeAccueilChoixUn.toString()))}
+              ${esc(i18n.translate('dccrr.property.modeAccueilChoixUn.' + StringUtils.uncapitalize(rqt.modeAccueilChoixUn.toString())))}
             <% } %>
           </div>
           
@@ -202,10 +202,10 @@
     
   
     
-      <p class="label">${i18n.translate('dccrr.property.modeAccueilChoixDeux.label')}</p>
+      <p class="label">${esc(i18n.translate('dccrr.property.modeAccueilChoixDeux.label'))}</p>
           <div class="response">
             <% if(rqt.modeAccueilChoixDeux) { %>
-              ${i18n.translate('dccrr.property.modeAccueilChoixDeux.' + StringUtils.uncapitalize(rqt.modeAccueilChoixDeux.toString()))}
+              ${esc(i18n.translate('dccrr.property.modeAccueilChoixDeux.' + StringUtils.uncapitalize(rqt.modeAccueilChoixDeux.toString())))}
             <% } %>
           </div>
           
@@ -213,7 +213,7 @@
     
   
     
-      <p class="label">${i18n.translate('dccrr.property.accueilAnterieur.label')}</p><div class="response">${StringUtils.defaultString(rqt.accueilAnterieur?.toString())}</div>
+      <p class="label">${esc(i18n.translate('dccrr.property.accueilAnterieur.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.accueilAnterieur?.toString()))}</div>
 
     
   
@@ -221,21 +221,21 @@
       <h3>${i18n.translate('dccrr.property.datePlacementAccueilRegulier.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('dccrr.property.choixTypeDatePlacementAccueilRegulier.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.choixTypeDatePlacementAccueilRegulier.label'))}</p>
           <div class="response">
             <% if(rqt.choixTypeDatePlacementAccueilRegulier) { %>
-              ${i18n.translate('dccrr.property.choixTypeDatePlacementAccueilRegulier.' + StringUtils.uncapitalize(rqt.choixTypeDatePlacementAccueilRegulier.toString()))}
+              ${esc(i18n.translate('dccrr.property.choixTypeDatePlacementAccueilRegulier.' + StringUtils.uncapitalize(rqt.choixTypeDatePlacementAccueilRegulier.toString())))}
             <% } %>
           </div>
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.datePlacementDebut.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.datePlacementDebut.label'))}</p>
           <div class="response">${rqt.datePlacementDebut ? String.format('%td/%<tm/%<tY',rqt.datePlacementDebut) : ''}</div>
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.datePlacementFin.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.datePlacementFin.label'))}</p>
           <div class="response">${rqt.datePlacementFin ? String.format('%td/%<tm/%<tY',rqt.datePlacementFin) : ''}</div>
           
 
@@ -244,10 +244,10 @@
     
   
     
-      <p class="label">${i18n.translate('dccrr.property.choixHorairesAccueil.label')}</p>
+      <p class="label">${esc(i18n.translate('dccrr.property.choixHorairesAccueil.label'))}</p>
           <div class="response">
             <% if(rqt.choixHorairesAccueil) { %>
-              ${i18n.translate('dccrr.property.choixHorairesAccueil.' + StringUtils.uncapitalize(rqt.choixHorairesAccueil.toString()))}
+              ${esc(i18n.translate('dccrr.property.choixHorairesAccueil.' + StringUtils.uncapitalize(rqt.choixHorairesAccueil.toString())))}
             <% } %>
           </div>
           
@@ -258,7 +258,7 @@
       <h3>${i18n.translate('dccrr.property.plageHoraireAccueilReguliere.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementMatinDebut.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementMatinDebut.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementMatinDebut ? rqt.horairePlacementMatinDebut.getHourOfDay() : ''} :
             ${rqt.horairePlacementMatinDebut && rqt.horairePlacementMatinDebut.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinDebut ? rqt.horairePlacementMatinDebut.getMinuteOfHour() : ''}
@@ -266,7 +266,7 @@
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementMatinFin.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementMatinFin.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementMatinFin ? rqt.horairePlacementMatinFin.getHourOfDay() : ''} :
             ${rqt.horairePlacementMatinFin && rqt.horairePlacementMatinFin.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinFin ? rqt.horairePlacementMatinFin.getMinuteOfHour() : ''}
@@ -274,7 +274,7 @@
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementApresMidiDebut.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementApresMidiDebut.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementApresMidiDebut ? rqt.horairePlacementApresMidiDebut.getHourOfDay() : ''} :
             ${rqt.horairePlacementApresMidiDebut && rqt.horairePlacementApresMidiDebut.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiDebut ? rqt.horairePlacementApresMidiDebut.getMinuteOfHour() : ''}
@@ -282,7 +282,7 @@
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementApresMidiFin.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementApresMidiFin.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementApresMidiFin ? rqt.horairePlacementApresMidiFin.getHourOfDay() : ''} :
             ${rqt.horairePlacementApresMidiFin && rqt.horairePlacementApresMidiFin.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiFin ? rqt.horairePlacementApresMidiFin.getMinuteOfHour() : ''}
@@ -297,7 +297,7 @@
       <h3>${i18n.translate('dccrr.property.lundi.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementMatinDebutLundi.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementMatinDebutLundi.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementMatinDebutLundi ? rqt.horairePlacementMatinDebutLundi.getHourOfDay() : ''} :
             ${rqt.horairePlacementMatinDebutLundi && rqt.horairePlacementMatinDebutLundi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinDebutLundi ? rqt.horairePlacementMatinDebutLundi.getMinuteOfHour() : ''}
@@ -305,7 +305,7 @@
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementMatinFinLundi.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementMatinFinLundi.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementMatinFinLundi ? rqt.horairePlacementMatinFinLundi.getHourOfDay() : ''} :
             ${rqt.horairePlacementMatinFinLundi && rqt.horairePlacementMatinFinLundi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinFinLundi ? rqt.horairePlacementMatinFinLundi.getMinuteOfHour() : ''}
@@ -313,7 +313,7 @@
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementApresMidiDebutLundi.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementApresMidiDebutLundi.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementApresMidiDebutLundi ? rqt.horairePlacementApresMidiDebutLundi.getHourOfDay() : ''} :
             ${rqt.horairePlacementApresMidiDebutLundi && rqt.horairePlacementApresMidiDebutLundi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiDebutLundi ? rqt.horairePlacementApresMidiDebutLundi.getMinuteOfHour() : ''}
@@ -321,7 +321,7 @@
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementApresMidiFinLundi.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementApresMidiFinLundi.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementApresMidiFinLundi ? rqt.horairePlacementApresMidiFinLundi.getHourOfDay() : ''} :
             ${rqt.horairePlacementApresMidiFinLundi && rqt.horairePlacementApresMidiFinLundi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiFinLundi ? rqt.horairePlacementApresMidiFinLundi.getMinuteOfHour() : ''}
@@ -336,7 +336,7 @@
       <h3>${i18n.translate('dccrr.property.mardi.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementMatinDebutMardi.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementMatinDebutMardi.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementMatinDebutMardi ? rqt.horairePlacementMatinDebutMardi.getHourOfDay() : ''} :
             ${rqt.horairePlacementMatinDebutMardi && rqt.horairePlacementMatinDebutMardi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinDebutMardi ? rqt.horairePlacementMatinDebutMardi.getMinuteOfHour() : ''}
@@ -344,7 +344,7 @@
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementMatinFinMardi.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementMatinFinMardi.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementMatinFinMardi ? rqt.horairePlacementMatinFinMardi.getHourOfDay() : ''} :
             ${rqt.horairePlacementMatinFinMardi && rqt.horairePlacementMatinFinMardi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinFinMardi ? rqt.horairePlacementMatinFinMardi.getMinuteOfHour() : ''}
@@ -352,7 +352,7 @@
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementApresMidiDebutMardi.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementApresMidiDebutMardi.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementApresMidiDebutMardi ? rqt.horairePlacementApresMidiDebutMardi.getHourOfDay() : ''} :
             ${rqt.horairePlacementApresMidiDebutMardi && rqt.horairePlacementApresMidiDebutMardi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiDebutMardi ? rqt.horairePlacementApresMidiDebutMardi.getMinuteOfHour() : ''}
@@ -360,7 +360,7 @@
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementApresMidiFinMardi.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementApresMidiFinMardi.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementApresMidiFinMardi ? rqt.horairePlacementApresMidiFinMardi.getHourOfDay() : ''} :
             ${rqt.horairePlacementApresMidiFinMardi && rqt.horairePlacementApresMidiFinMardi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiFinMardi ? rqt.horairePlacementApresMidiFinMardi.getMinuteOfHour() : ''}
@@ -375,7 +375,7 @@
       <h3>${i18n.translate('dccrr.property.mercredi.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementMatinDebutMercredi.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementMatinDebutMercredi.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementMatinDebutMercredi ? rqt.horairePlacementMatinDebutMercredi.getHourOfDay() : ''} :
             ${rqt.horairePlacementMatinDebutMercredi && rqt.horairePlacementMatinDebutMercredi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinDebutMercredi ? rqt.horairePlacementMatinDebutMercredi.getMinuteOfHour() : ''}
@@ -383,7 +383,7 @@
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementMatinFinMercredi.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementMatinFinMercredi.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementMatinFinMercredi ? rqt.horairePlacementMatinFinMercredi.getHourOfDay() : ''} :
             ${rqt.horairePlacementMatinFinMercredi && rqt.horairePlacementMatinFinMercredi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinFinMercredi ? rqt.horairePlacementMatinFinMercredi.getMinuteOfHour() : ''}
@@ -391,7 +391,7 @@
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementApresMidiDebutMercredi.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementApresMidiDebutMercredi.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementApresMidiDebutMercredi ? rqt.horairePlacementApresMidiDebutMercredi.getHourOfDay() : ''} :
             ${rqt.horairePlacementApresMidiDebutMercredi && rqt.horairePlacementApresMidiDebutMercredi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiDebutMercredi ? rqt.horairePlacementApresMidiDebutMercredi.getMinuteOfHour() : ''}
@@ -399,7 +399,7 @@
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementApresMidiFinMercredi.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementApresMidiFinMercredi.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementApresMidiFinMercredi ? rqt.horairePlacementApresMidiFinMercredi.getHourOfDay() : ''} :
             ${rqt.horairePlacementApresMidiFinMercredi && rqt.horairePlacementApresMidiFinMercredi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiFinMercredi ? rqt.horairePlacementApresMidiFinMercredi.getMinuteOfHour() : ''}
@@ -414,7 +414,7 @@
       <h3>${i18n.translate('dccrr.property.jeudi.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementMatinDebutJeudi.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementMatinDebutJeudi.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementMatinDebutJeudi ? rqt.horairePlacementMatinDebutJeudi.getHourOfDay() : ''} :
             ${rqt.horairePlacementMatinDebutJeudi && rqt.horairePlacementMatinDebutJeudi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinDebutJeudi ? rqt.horairePlacementMatinDebutJeudi.getMinuteOfHour() : ''}
@@ -422,7 +422,7 @@
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementMatinFinJeudi.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementMatinFinJeudi.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementMatinFinJeudi ? rqt.horairePlacementMatinFinJeudi.getHourOfDay() : ''} :
             ${rqt.horairePlacementMatinFinJeudi && rqt.horairePlacementMatinFinJeudi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinFinJeudi ? rqt.horairePlacementMatinFinJeudi.getMinuteOfHour() : ''}
@@ -430,7 +430,7 @@
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementApresMidiDebutJeudi.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementApresMidiDebutJeudi.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementApresMidiDebutJeudi ? rqt.horairePlacementApresMidiDebutJeudi.getHourOfDay() : ''} :
             ${rqt.horairePlacementApresMidiDebutJeudi && rqt.horairePlacementApresMidiDebutJeudi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiDebutJeudi ? rqt.horairePlacementApresMidiDebutJeudi.getMinuteOfHour() : ''}
@@ -438,7 +438,7 @@
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementApresMidiFinJeudi.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementApresMidiFinJeudi.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementApresMidiFinJeudi ? rqt.horairePlacementApresMidiFinJeudi.getHourOfDay() : ''} :
             ${rqt.horairePlacementApresMidiFinJeudi && rqt.horairePlacementApresMidiFinJeudi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiFinJeudi ? rqt.horairePlacementApresMidiFinJeudi.getMinuteOfHour() : ''}
@@ -453,7 +453,7 @@
       <h3>${i18n.translate('dccrr.property.vendredi.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementMatinDebutVendredi.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementMatinDebutVendredi.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementMatinDebutVendredi ? rqt.horairePlacementMatinDebutVendredi.getHourOfDay() : ''} :
             ${rqt.horairePlacementMatinDebutVendredi && rqt.horairePlacementMatinDebutVendredi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinDebutVendredi ? rqt.horairePlacementMatinDebutVendredi.getMinuteOfHour() : ''}
@@ -461,7 +461,7 @@
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementMatinFinVendredi.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementMatinFinVendredi.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementMatinFinVendredi ? rqt.horairePlacementMatinFinVendredi.getHourOfDay() : ''} :
             ${rqt.horairePlacementMatinFinVendredi && rqt.horairePlacementMatinFinVendredi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinFinVendredi ? rqt.horairePlacementMatinFinVendredi.getMinuteOfHour() : ''}
@@ -469,7 +469,7 @@
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementApresMidiDebutVendredi.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementApresMidiDebutVendredi.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementApresMidiDebutVendredi ? rqt.horairePlacementApresMidiDebutVendredi.getHourOfDay() : ''} :
             ${rqt.horairePlacementApresMidiDebutVendredi && rqt.horairePlacementApresMidiDebutVendredi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiDebutVendredi ? rqt.horairePlacementApresMidiDebutVendredi.getMinuteOfHour() : ''}
@@ -477,7 +477,7 @@
           
 
         
-          <p class="label">${i18n.translate('dccrr.property.horairePlacementApresMidiFinVendredi.label')}</p>
+          <p class="label">${esc(i18n.translate('dccrr.property.horairePlacementApresMidiFinVendredi.label'))}</p>
           <div class="response">
             ${rqt.horairePlacementApresMidiFinVendredi ? rqt.horairePlacementApresMidiFinVendredi.getHourOfDay() : ''} :
             ${rqt.horairePlacementApresMidiFinVendredi && rqt.horairePlacementApresMidiFinVendredi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiFinVendredi ? rqt.horairePlacementApresMidiFinVendredi.getMinuteOfHour() : ''}
@@ -493,10 +493,10 @@
   <h2>${i18n.translate('dccrr.step.rendezVous.label')}</h2>
   
     
-      <p class="label">${i18n.translate('dccrr.property.choixTypeRendezVous.label')}</p>
+      <p class="label">${esc(i18n.translate('dccrr.property.choixTypeRendezVous.label'))}</p>
           <div class="response">
             <% if(rqt.choixTypeRendezVous) { %>
-              ${i18n.translate('dccrr.property.choixTypeRendezVous.' + StringUtils.uncapitalize(rqt.choixTypeRendezVous.toString()))}
+              ${esc(i18n.translate('dccrr.property.choixTypeRendezVous.' + StringUtils.uncapitalize(rqt.choixTypeRendezVous.toString())))}
             <% } %>
           </div>
           
@@ -504,15 +504,15 @@
     
   
     
-      <p class="label">${i18n.translate('dccrr.property.telephoneContact.label')}</p><div class="response">${StringUtils.defaultString(rqt.telephoneContact?.toString())}</div>
+      <p class="label">${esc(i18n.translate('dccrr.property.telephoneContact.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.telephoneContact?.toString()))}</div>
 
     
   
     
-      <p class="label">${i18n.translate('dccrr.property.plageHoraireContact.label')}</p>
+      <p class="label">${esc(i18n.translate('dccrr.property.plageHoraireContact.label'))}</p>
           <div class="response">
             <% if(rqt.plageHoraireContact) { %>
-              ${i18n.translate('dccrr.property.plageHoraireContact.' + StringUtils.uncapitalize(rqt.plageHoraireContact.toString()))}
+              ${esc(i18n.translate('dccrr.property.plageHoraireContact.' + StringUtils.uncapitalize(rqt.plageHoraireContact.toString())))}
             <% } %>
           </div>
           
@@ -520,7 +520,7 @@
     
   
     
-      <p class="label">${i18n.translate('dccrr.property.commentaireCitoyen.label')}</p><div class="response">${StringUtils.defaultString(rqt.commentaireCitoyen?.toString())}</div>
+      <p class="label">${esc(i18n.translate('dccrr.property.commentaireCitoyen.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.commentaireCitoyen?.toString()))}</div>
 
     
   

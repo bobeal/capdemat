@@ -3,7 +3,7 @@
 <%
 
   import org.apache.commons.lang.StringUtils
-  
+  def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def lrHtml = ''
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -12,11 +12,11 @@
       lrEntries.eachWithIndex { entry, i -> 
       if (entry.entries) { 
         lrHtml += "<li>"
-        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
+        lrHtml += "<em>${esc(entry.labelsMap.fr)} :</em>"
         lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
         lrHtml += "</li>"
       } else {
-         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${esc(entry.labelsMap.fr)}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
       } 
     } 
     lrHtml += "</ul>"
@@ -33,20 +33,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <title>${i18n.translate('rarr.label')}</title>
+  <title>${esc(i18n.translate('rarr.label'))}</title>
   <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
 </head>
 <body>
   <div id="hd">
-    <p>${localAuthority.displayTitle}</p>
+    <p>${esc(localAuthority.displayTitle)}</p>
     <img src="file://${logoPath}" alt="mairie2424" />
   </div>
-  <h1>${i18n.translate('rarr.label')}</h1>
+  <h1>${esc(i18n.translate('rarr.label'))}</h1>
   <div class="localAuthority">
     <h2>${i18n.translate('pdf.localAutorityReservedSection')}</h2>
     <ul>
       <li>${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
-      <li>${i18n.translate('property.requester')} : <strong>${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong></li>
+      <li>${i18n.translate('property.requester')} : <strong>${esc(rqt.requesterFirstName +' '+ rqt.requesterLastName)}</strong></li>
       <li>${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong></li>
       <li>${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
     </ul>
@@ -56,14 +56,14 @@
   <h2>${i18n.translate('rarr.step.registration.label')}</h2>
   
     
-      <p class="label">${i18n.translate('request.property.subject.label')}</p>
-          <div class="response">${subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName}</div>
+      <p class="label">${esc(i18n.translate('request.property.subject.label'))}</p>
+          <div class="response">${esc(subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName)}</div>
           
 
     
   
     
-      <p class="label">${i18n.translate('rarr.property.recreationActivity.label')}</p>
+      <p class="label">${esc(i18n.translate('rarr.property.recreationActivity.label'))}</p>
           <div class="response choice">
             <% localReferentialWidget(rqt, 'recreationActivity', lrTypes.recreationActivity.entries, 0) %>
           </div>
@@ -72,7 +72,7 @@
     
   
     
-      <p class="label">${i18n.translate('rarr.property.urgencyPhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.urgencyPhone?.toString())}</div>
+      <p class="label">${esc(i18n.translate('rarr.property.urgencyPhone.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.urgencyPhone?.toString()))}</div>
 
     
   
@@ -85,30 +85,30 @@
       <div class="complex">
       <% rqt.contactIndividuals.each { collectionIt -> %>
       
-        <p class="label">${i18n.translate('rarr.property.lastName.label')}</p><div class="response">${StringUtils.defaultString(collectionIt.lastName?.toString())}</div>
+        <p class="label">${esc(i18n.translate('rarr.property.lastName.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.lastName?.toString()))}</div>
 
       
-        <p class="label">${i18n.translate('rarr.property.firstName.label')}</p><div class="response">${StringUtils.defaultString(collectionIt.firstName?.toString())}</div>
+        <p class="label">${esc(i18n.translate('rarr.property.firstName.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.firstName?.toString()))}</div>
 
       
-        <p class="label">${i18n.translate('rarr.property.address.label')}</p>
+        <p class="label">${esc(i18n.translate('rarr.property.address.label'))}</p>
           <div class="response">
             <% if(collectionIt.address) { %>
-              <p>${StringUtils.defaultString(collectionIt.address?.additionalDeliveryInformation)}</p>
-              <p>${StringUtils.defaultString(collectionIt.address?.additionalGeographicalInformation)}</p>
-              <p>${StringUtils.defaultString(collectionIt.address?.streetNumber)} ${StringUtils.defaultString(collectionIt.address?.streetName)}</p>
-              <p>${StringUtils.defaultString(collectionIt.address?.placeNameOrService)}</p>
-              <p>${StringUtils.defaultString(collectionIt.address?.postalCode)} ${StringUtils.defaultString(collectionIt.address?.city)}</p>
-              <p>${StringUtils.defaultString(collectionIt.address?.countryName)}</p>
+              <p>${esc(StringUtils.defaultString(collectionIt.address?.additionalDeliveryInformation))}</p>
+              <p>${esc(StringUtils.defaultString(collectionIt.address?.additionalGeographicalInformation))}</p>
+              <p>${esc(StringUtils.defaultString(collectionIt.address?.streetNumber))} ${esc(StringUtils.defaultString(collectionIt.address?.streetName))}</p>
+              <p>${esc(StringUtils.defaultString(collectionIt.address?.placeNameOrService))}</p>
+              <p>${esc(StringUtils.defaultString(collectionIt.address?.postalCode))} ${esc(StringUtils.defaultString(collectionIt.address?.city))}</p>
+              <p>${esc(StringUtils.defaultString(collectionIt.address?.countryName))}</p>
             <% } %>
           </div>
           
 
       
-        <p class="label">${i18n.translate('rarr.property.homePhone.label')}</p><div class="response">${StringUtils.defaultString(collectionIt.homePhone?.toString())}</div>
+        <p class="label">${esc(i18n.translate('rarr.property.homePhone.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.homePhone?.toString()))}</div>
 
       
-        <p class="label">${i18n.translate('rarr.property.officePhone.label')}</p><div class="response">${StringUtils.defaultString(collectionIt.officePhone?.toString())}</div>
+        <p class="label">${esc(i18n.translate('rarr.property.officePhone.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.officePhone?.toString()))}</div>
 
       
       <% } %>
@@ -124,30 +124,30 @@
       <div class="complex">
       <% rqt.authorizedIndividuals.each { collectionIt -> %>
       
-        <p class="label">${i18n.translate('rarr.property.lastName.label')}</p><div class="response">${StringUtils.defaultString(collectionIt.lastName?.toString())}</div>
+        <p class="label">${esc(i18n.translate('rarr.property.lastName.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.lastName?.toString()))}</div>
 
       
-        <p class="label">${i18n.translate('rarr.property.firstName.label')}</p><div class="response">${StringUtils.defaultString(collectionIt.firstName?.toString())}</div>
+        <p class="label">${esc(i18n.translate('rarr.property.firstName.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.firstName?.toString()))}</div>
 
       
-        <p class="label">${i18n.translate('rarr.property.address.label')}</p>
+        <p class="label">${esc(i18n.translate('rarr.property.address.label'))}</p>
           <div class="response">
             <% if(collectionIt.address) { %>
-              <p>${StringUtils.defaultString(collectionIt.address?.additionalDeliveryInformation)}</p>
-              <p>${StringUtils.defaultString(collectionIt.address?.additionalGeographicalInformation)}</p>
-              <p>${StringUtils.defaultString(collectionIt.address?.streetNumber)} ${StringUtils.defaultString(collectionIt.address?.streetName)}</p>
-              <p>${StringUtils.defaultString(collectionIt.address?.placeNameOrService)}</p>
-              <p>${StringUtils.defaultString(collectionIt.address?.postalCode)} ${StringUtils.defaultString(collectionIt.address?.city)}</p>
-              <p>${StringUtils.defaultString(collectionIt.address?.countryName)}</p>
+              <p>${esc(StringUtils.defaultString(collectionIt.address?.additionalDeliveryInformation))}</p>
+              <p>${esc(StringUtils.defaultString(collectionIt.address?.additionalGeographicalInformation))}</p>
+              <p>${esc(StringUtils.defaultString(collectionIt.address?.streetNumber))} ${esc(StringUtils.defaultString(collectionIt.address?.streetName))}</p>
+              <p>${esc(StringUtils.defaultString(collectionIt.address?.placeNameOrService))}</p>
+              <p>${esc(StringUtils.defaultString(collectionIt.address?.postalCode))} ${esc(StringUtils.defaultString(collectionIt.address?.city))}</p>
+              <p>${esc(StringUtils.defaultString(collectionIt.address?.countryName))}</p>
             <% } %>
           </div>
           
 
       
-        <p class="label">${i18n.translate('rarr.property.homePhone.label')}</p><div class="response">${StringUtils.defaultString(collectionIt.homePhone?.toString())}</div>
+        <p class="label">${esc(i18n.translate('rarr.property.homePhone.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.homePhone?.toString()))}</div>
 
       
-        <p class="label">${i18n.translate('rarr.property.officePhone.label')}</p><div class="response">${StringUtils.defaultString(collectionIt.officePhone?.toString())}</div>
+        <p class="label">${esc(i18n.translate('rarr.property.officePhone.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.officePhone?.toString()))}</div>
 
       
       <% } %>
@@ -159,7 +159,7 @@
   <h2>${i18n.translate('rarr.step.rules.label')}</h2>
   
     
-      <p class="label">${i18n.translate('rarr.property.rulesAndRegulationsAcceptance.label')}</p>
+      <p class="label">${esc(i18n.translate('rarr.property.rulesAndRegulationsAcceptance.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.rulesAndRegulationsAcceptance ? 'class="checked"': ''}>
@@ -173,7 +173,7 @@
     
   
     
-      <p class="label">${i18n.translate('rarr.property.classTripPermission.label')}</p>
+      <p class="label">${esc(i18n.translate('rarr.property.classTripPermission.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.classTripPermission ? 'class="checked"': ''}>
@@ -187,7 +187,7 @@
     
   
     
-      <p class="label">${i18n.translate('rarr.property.childPhotoExploitationPermission.label')}</p>
+      <p class="label">${esc(i18n.translate('rarr.property.childPhotoExploitationPermission.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.childPhotoExploitationPermission ? 'class="checked"': ''}>
@@ -201,7 +201,7 @@
     
   
     
-      <p class="label">${i18n.translate('rarr.property.hospitalizationPermission.label')}</p>
+      <p class="label">${esc(i18n.translate('rarr.property.hospitalizationPermission.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.hospitalizationPermission ? 'class="checked"': ''}>
@@ -219,8 +219,8 @@
   <h2>${i18n.translate('request.step.administration.label')}</h2>
   
     
-      <p class="label">${i18n.translate('rarr.property.recreationCenter.label')}</p>
-           <div class="response">${rqt.recreationCenter?.name}</div>
+      <p class="label">${esc(i18n.translate('rarr.property.recreationCenter.label'))}</p>
+           <div class="response">${esc(rqt.recreationCenter?.name)}</div>
           
 
     

@@ -3,7 +3,7 @@
 <%
 
   import org.apache.commons.lang.StringUtils
-  
+  def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def lrHtml = ''
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -12,11 +12,11 @@
       lrEntries.eachWithIndex { entry, i -> 
       if (entry.entries) { 
         lrHtml += "<li>"
-        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
+        lrHtml += "<em>${esc(entry.labelsMap.fr)} :</em>"
         lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
         lrHtml += "</li>"
       } else {
-         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${esc(entry.labelsMap.fr)}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
       } 
     } 
     lrHtml += "</ul>"
@@ -33,20 +33,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <title>${i18n.translate('lrr.label')}</title>
+  <title>${esc(i18n.translate('lrr.label'))}</title>
   <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
 </head>
 <body>
   <div id="hd">
-    <p>${localAuthority.displayTitle}</p>
+    <p>${esc(localAuthority.displayTitle)}</p>
     <img src="file://${logoPath}" alt="mairie2424" />
   </div>
-  <h1>${i18n.translate('lrr.label')}</h1>
+  <h1>${esc(i18n.translate('lrr.label'))}</h1>
   <div class="localAuthority">
     <h2>${i18n.translate('pdf.localAutorityReservedSection')}</h2>
     <ul>
       <li>${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
-      <li>${i18n.translate('property.requester')} : <strong>${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong></li>
+      <li>${i18n.translate('property.requester')} : <strong>${esc(rqt.requesterFirstName +' '+ rqt.requesterLastName)}</strong></li>
       <li>${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong></li>
       <li>${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
     </ul>
@@ -56,14 +56,14 @@
   <h2>${i18n.translate('lrr.step.registration.label')}</h2>
   
     
-      <p class="label">${i18n.translate('request.property.subject.label')}</p>
-          <div class="response">${subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName}</div>
+      <p class="label">${esc(i18n.translate('request.property.subject.label'))}</p>
+          <div class="response">${esc(subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName)}</div>
           
 
     
   
     
-      <p class="label">${i18n.translate('lrr.property.subscription.label')}</p>
+      <p class="label">${esc(i18n.translate('lrr.property.subscription.label'))}</p>
           <div class="response choice">
             <% localReferentialWidget(rqt, 'subscription', lrTypes.subscription.entries, 0) %>
           </div>
@@ -72,7 +72,7 @@
     
   
     
-      <p class="label">${i18n.translate('lrr.property.registrationNumber.label')}</p><div class="response">${StringUtils.defaultString(rqt.registrationNumber?.toString())}</div>
+      <p class="label">${esc(i18n.translate('lrr.property.registrationNumber.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.registrationNumber?.toString()))}</div>
 
     
   
@@ -81,7 +81,7 @@
   <h2>${i18n.translate('lrr.step.rules.label')}</h2>
   
     
-      <p class="label">${i18n.translate('lrr.property.rulesAndRegulationsAcceptance.label')}</p>
+      <p class="label">${esc(i18n.translate('lrr.property.rulesAndRegulationsAcceptance.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.rulesAndRegulationsAcceptance ? 'class="checked"': ''}>
@@ -95,7 +95,7 @@
     
   
     
-      <p class="label">${i18n.translate('lrr.property.parentalAuthorization.label')}</p>
+      <p class="label">${esc(i18n.translate('lrr.property.parentalAuthorization.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
               <span ${it == rqt.parentalAuthorization ? 'class="checked"': ''}>
@@ -113,7 +113,7 @@
   <h2>${i18n.translate('request.step.administration.label')}</h2>
   
     
-      <p class="label">${i18n.translate('lrr.property.subscriptionPrice.label')}</p><div class="response">${StringUtils.defaultString(rqt.subscriptionPrice?.toString())}</div>
+      <p class="label">${esc(i18n.translate('lrr.property.subscriptionPrice.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.subscriptionPrice?.toString()))}</div>
 
     
   

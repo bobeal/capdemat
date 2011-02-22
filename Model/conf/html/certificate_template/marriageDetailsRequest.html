@@ -3,7 +3,7 @@
 <%
 
   import org.apache.commons.lang.StringUtils
-  
+  def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def lrHtml = ''
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -12,11 +12,11 @@
       lrEntries.eachWithIndex { entry, i -> 
       if (entry.entries) { 
         lrHtml += "<li>"
-        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
+        lrHtml += "<em>${esc(entry.labelsMap.fr)} :</em>"
         lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
         lrHtml += "</li>"
       } else {
-         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${esc(entry.labelsMap.fr)}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
       } 
     } 
     lrHtml += "</ul>"
@@ -33,20 +33,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <title>${i18n.translate('mdr.label')}</title>
+  <title>${esc(i18n.translate('mdr.label'))}</title>
   <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
 </head>
 <body>
   <div id="hd">
-    <p>${localAuthority.displayTitle}</p>
+    <p>${esc(localAuthority.displayTitle)}</p>
     <img src="file://${logoPath}" alt="mairie2424" />
   </div>
-  <h1>${i18n.translate('mdr.label')}</h1>
+  <h1>${esc(i18n.translate('mdr.label'))}</h1>
   <div class="localAuthority">
     <h2>${i18n.translate('pdf.localAutorityReservedSection')}</h2>
     <ul>
       <li>${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
-      <li>${i18n.translate('property.requester')} : <strong>${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong></li>
+      <li>${i18n.translate('property.requester')} : <strong>${esc(rqt.requesterFirstName +' '+ rqt.requesterLastName)}</strong></li>
       <li>${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong></li>
       <li>${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
     </ul>
@@ -66,24 +66,24 @@
             <% if(requester?.title) { %>
               ${i18n.translate('homeFolder.adult.title.' + StringUtils.uncapitalize(requester?.title.toString()))}
             <% } %>
-            ${requester?.firstName}
-            ${requester?.lastName}
+            ${esc(requester?.firstName)}
+            ${esc(requester?.lastName)}
           </div>
           <p class="label">${i18n.translate('homeFolder.individual.property.address')}</p>
           <div class="response">
             <% if (requester?.address) { %>
-              <p>${StringUtils.defaultString(requester?.address?.additionalDeliveryInformation)}</p>
-              <p>${StringUtils.defaultString(requester?.address?.additionalGeographicalInformation)}</p>
-              <p>${StringUtils.defaultString(requester?.address?.streetNumber)} ${StringUtils.defaultString(requester?.address?.streetName)}</p>
-              <p>${StringUtils.defaultString(requester?.address?.placeNameOrService)}</p>
-              <p>${StringUtils.defaultString(requester?.address?.postalCode)} ${StringUtils.defaultString(requester?.address?.city)}</p>
-              <p>${StringUtils.defaultString(requester?.address?.countryName)}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.additionalDeliveryInformation))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.additionalGeographicalInformation))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.streetNumber))} ${esc(StringUtils.defaultString(requester?.address?.streetName))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.placeNameOrService))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.postalCode))} ${esc(StringUtils.defaultString(requester?.address?.city))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.countryName))}</p>
             <% } %>
           </div>
           <p class="label">${i18n.translate('homeFolder.adult.property.email')}</p>
-          <div class="response">${requester?.email}</div>
+          <div class="response">${esc(requester?.email)}</div>
           <p class="label">${i18n.translate('homeFolder.adult.property.homePhone')}</p>
-          <div class="response">${requester?.homePhone}</div>
+          <div class="response">${esc(requester?.homePhone)}</div>
           
 
     
@@ -93,10 +93,10 @@
   <h2>${i18n.translate('mdr.step.nature.label')}</h2>
   
     
-      <p class="label">${i18n.translate('mdr.property.requesterQuality.label')}</p>
+      <p class="label">${esc(i18n.translate('mdr.property.requesterQuality.label'))}</p>
           <div class="response">
             <% if(rqt.requesterQuality) { %>
-              ${i18n.translate('mdr.property.requesterQuality.' + StringUtils.uncapitalize(rqt.requesterQuality.toString()))}
+              ${esc(i18n.translate('mdr.property.requesterQuality.' + StringUtils.uncapitalize(rqt.requesterQuality.toString())))}
             <% } %>
           </div>
           
@@ -104,7 +104,7 @@
     
   
     
-      <p class="label">${i18n.translate('mdr.property.requesterQualityPrecision.label')}</p><div class="response">${StringUtils.defaultString(rqt.requesterQualityPrecision?.toString())}</div>
+      <p class="label">${esc(i18n.translate('mdr.property.requesterQualityPrecision.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.requesterQualityPrecision?.toString()))}</div>
 
     
   
@@ -112,10 +112,10 @@
       <h3>${i18n.translate('mdr.property.marriageHusband.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('mdr.property.marriageHusbandLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.marriageHusbandLastName?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mdr.property.marriageHusbandLastName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.marriageHusbandLastName?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('mdr.property.marriageHusbandFirstNames.label')}</p><div class="response">${StringUtils.defaultString(rqt.marriageHusbandFirstNames?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mdr.property.marriageHusbandFirstNames.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.marriageHusbandFirstNames?.toString()))}</div>
 
         
       </div>
@@ -125,10 +125,10 @@
       <h3>${i18n.translate('mdr.property.marriageWife.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('mdr.property.marriageWifeLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.marriageWifeLastName?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mdr.property.marriageWifeLastName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.marriageWifeLastName?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('mdr.property.marriageWifeFirstNames.label')}</p><div class="response">${StringUtils.defaultString(rqt.marriageWifeFirstNames?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mdr.property.marriageWifeFirstNames.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.marriageWifeFirstNames?.toString()))}</div>
 
         
       </div>
@@ -138,15 +138,15 @@
       <h3>${i18n.translate('mdr.property.marriage.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('mdr.property.marriageDate.label')}</p>
+          <p class="label">${esc(i18n.translate('mdr.property.marriageDate.label'))}</p>
           <div class="response">${rqt.marriageDate ? String.format('%td/%<tm/%<tY',rqt.marriageDate) : ''}</div>
           
 
         
-          <p class="label">${i18n.translate('mdr.property.marriageCity.label')}</p><div class="response">${StringUtils.defaultString(rqt.marriageCity?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mdr.property.marriageCity.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.marriageCity?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('mdr.property.marriagePostalCode.label')}</p><div class="response">${StringUtils.defaultString(rqt.marriagePostalCode?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mdr.property.marriagePostalCode.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.marriagePostalCode?.toString()))}</div>
 
         
       </div>
@@ -157,10 +157,10 @@
   <h2>${i18n.translate('mdr.step.type.label')}</h2>
   
     
-      <p class="label">${i18n.translate('mdr.property.format.label')}</p>
+      <p class="label">${esc(i18n.translate('mdr.property.format.label'))}</p>
           <div class="response">
             <% if(rqt.format) { %>
-              ${i18n.translate('mdr.property.format.' + StringUtils.uncapitalize(rqt.format.toString()))}
+              ${esc(i18n.translate('mdr.property.format.' + StringUtils.uncapitalize(rqt.format.toString())))}
             <% } %>
           </div>
           
@@ -168,15 +168,15 @@
     
   
     
-      <p class="label">${i18n.translate('mdr.property.copies.label')}</p><div class="response">${StringUtils.defaultString(rqt.copies?.toString())}</div>
+      <p class="label">${esc(i18n.translate('mdr.property.copies.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.copies?.toString()))}</div>
 
     
   
     
-      <p class="label">${i18n.translate('mdr.property.motive.label')}</p>
+      <p class="label">${esc(i18n.translate('mdr.property.motive.label'))}</p>
           <div class="response">
             <% if(rqt.motive) { %>
-              ${i18n.translate('mdr.property.motive.' + StringUtils.uncapitalize(rqt.motive.toString()))}
+              ${esc(i18n.translate('mdr.property.motive.' + StringUtils.uncapitalize(rqt.motive.toString())))}
             <% } %>
           </div>
           
@@ -184,15 +184,15 @@
     
   
     
-      <p class="label">${i18n.translate('mdr.property.comment.label')}</p><div class="response">${StringUtils.defaultString(rqt.comment?.toString())}</div>
+      <p class="label">${esc(i18n.translate('mdr.property.comment.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.comment?.toString()))}</div>
 
     
   
     
-      <p class="label">${i18n.translate('mdr.property.relationship.label')}</p>
+      <p class="label">${esc(i18n.translate('mdr.property.relationship.label'))}</p>
           <div class="response">
             <% if(rqt.relationship) { %>
-              ${i18n.translate('mdr.property.relationship.' + StringUtils.uncapitalize(rqt.relationship.toString()))}
+              ${esc(i18n.translate('mdr.property.relationship.' + StringUtils.uncapitalize(rqt.relationship.toString())))}
             <% } %>
           </div>
           
@@ -203,10 +203,10 @@
       <h3>${i18n.translate('mdr.property.fatherInformation.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('mdr.property.fatherLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.fatherLastName?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mdr.property.fatherLastName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.fatherLastName?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('mdr.property.fatherFirstNames.label')}</p><div class="response">${StringUtils.defaultString(rqt.fatherFirstNames?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mdr.property.fatherFirstNames.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.fatherFirstNames?.toString()))}</div>
 
         
       </div>
@@ -216,10 +216,10 @@
       <h3>${i18n.translate('mdr.property.motherInformation.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('mdr.property.motherMaidenName.label')}</p><div class="response">${StringUtils.defaultString(rqt.motherMaidenName?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mdr.property.motherMaidenName.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.motherMaidenName?.toString()))}</div>
 
         
-          <p class="label">${i18n.translate('mdr.property.motherFirstNames.label')}</p><div class="response">${StringUtils.defaultString(rqt.motherFirstNames?.toString())}</div>
+          <p class="label">${esc(i18n.translate('mdr.property.motherFirstNames.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.motherFirstNames?.toString()))}</div>
 
         
       </div>

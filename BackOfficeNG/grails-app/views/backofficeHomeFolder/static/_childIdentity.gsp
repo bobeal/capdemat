@@ -1,16 +1,16 @@
 <dt class="required">${message(code:'homeFolder.individual.property.lastName')}'</dt> 
-<dd class="required">${child.lastName}</dd>
+<dd class="required">${individual.lastName}</dd>
 <dt class="required">${message(code:'homeFolder.individual.property.firstName')}</dt>
-<dd class="required">${child.firstName}</dd>
+<dd class="required">${individual.firstName}</dd>
 <dt>${message(code:'homeFolder.individual.property.firstName2')}</dt>
-<dd>${child.firstName2}</dd>
+<dd>${individual.firstName2}</dd>
 <dt>${message(code:'homeFolder.individual.property.firstName3')}</dt>
-<dd>${child.firstName3}</dd>
+<dd>${individual.firstName3}</dd>
 <dt class="required">${message(code:'homeFolder.individual.property.birthDate')}</dt>
-<dd class="required"><g:formatDate formatName="format.date" date="${child.birthDate}"/></dd>
+<dd class="required"><g:formatDate formatName="format.date" date="${individual.birthDate}"/></dd>
 <dt>${message(code:'homeFolder.individual.property.birthPostalCode')}</dt>
-<dd>${child.birthPostalCode}</dd>
+<dd>${individual.birthPostalCode}</dd>
 <dt>${message(code:'homeFolder.individual.property.birthCity')}</dt>
-<dd>${child.birthCity}</dd>
+<dd>${individual.birthCity}</dd>
 <dt>${message(code:'homeFolder.individual.property.birthCountry')}</dt>
-<dd>${child.birthCountry}</dd>
+<dd>${individual.birthCountry}</dd>

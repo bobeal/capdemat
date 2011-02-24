@@ -24,26 +24,26 @@
             <a class="toggle">${message(code:'action.expand')} / ${message(code:'action.collapse')}</a>
             <div class="yui-g">
               <div class="yui-u first">
-                <dl class="edit state collapse">
-                  <g:render template="static/adultState" model="['adult':homeFolderResponsible]" />
+                <dl class="edit individual-state collapse">
+                  <g:render template="static/state" model="['actor':homeFolderResponsible]" />
                 </dl>
                 <h3>${message(code:'homeFolder.individual.header.identity')}</h3>
-                <dl class="edit identity collapse">
-                  <g:render template="static/adultIdentity" model="['adult':homeFolderResponsible]" />
+                <dl class="edit individual-identity collapse">
+                  <g:render template="static/adultIdentity" model="['individual':homeFolderResponsible]" />
                 </dl>
                 <h3>${message(code:'homeFolder.individual.header.connexion')}</h3>
                 <dl class="collapse">
-                  <g:render template="static/adultConnexion" model="['adult':homeFolderResponsible]" />
+                  <g:render template="static/connexion" model="['adult':homeFolderResponsible]" />
                 </dl>
               </div>
               <div class="yui-u">
                 <h3>${message(code:'homeFolder.individual.header.address')}</h3>
-                <dl class="edit address reponsible collapse">
-                  <g:render template="static/adultAddress" model="['adult':homeFolderResponsible, 'isResponsible':true]" />
+                <dl class="edit adult-address reponsible collapse">
+                  <g:render template="static/address" model="['adult':homeFolderResponsible, 'isResponsible':true]" />
                 </dl>
                 <h3>${message(code:'homeFolder.individual.header.contact')}</h3>
-                <dl class="edit contact reponsible collapse">
-                  <g:render template="static/adultContact" model="['adult':homeFolderResponsible, 'isResponsible':true]" />
+                <dl class="edit adult-contact reponsible collapse">
+                  <g:render template="static/contact" model="['adult':homeFolderResponsible, 'isResponsible':true]" />
                 </dl>
               </div>
             </div>

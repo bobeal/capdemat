@@ -43,6 +43,19 @@
             </dd>
           </g:else>
         </g:if>
+        <g:if test="${action.atom}">
+          <dt>${action.atom.name}</dt>
+          <dd>
+            <dl>
+            <g:each var="field" in="${action.atom.fields}">
+              <dt>${field.key}</dt>
+              <dd>
+                ${field.value.from} ↪ ${field.value.to}
+              </dd>
+            </g:each>
+            </dl>
+          </dd>
+        </g:if>
       </dl>
     </li>
   </g:each>

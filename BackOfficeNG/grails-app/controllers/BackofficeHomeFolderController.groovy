@@ -1,3 +1,4 @@
+import com.google.gson.JsonObject
 import grails.converters.JSON
 import java.io.IOException
 import java.util.ArrayList
@@ -34,6 +35,7 @@ class BackofficeHomeFolderController {
     def translationService
     def homeFolderAdaptorService
     def requestAdaptorService
+    def individualAdaptorService
 
     def defaultAction = 'search'
     def defaultMax = 15
@@ -146,6 +148,91 @@ class BackofficeHomeFolderController {
             mode = 'static'
         }
         render(template: mode + '/' + params.template, model:['homeFolder': homeFolder])
+    }
+
+    def homeFolderState = {
+        def homeFolder = homeFolderService.getById(params.long("id"))
+        def mode = request.get ? params.mode : "static"
+        if (request.post) {
+            homeFolderService.modifyState(individual, ActorState.forString(params.state))
+        }
+        render(template : params.mode + "/state", model : [
+            "actor" : individual, "actorType" : "homeFolder", "states" : ActorState.allActorStates])
+    }
+
+    def individualState = {
+        def individual = individualService.getById(params.long("id"))
+        def mode = request.get ? params.mode : "static"
+        if (request.post) {
+            individualService.updateIndividualState(individual, ActorState.forString(params.state))
+        }
+        render(template : mode + "/state", model : [
+            "actor" : individual, "actorType" : "individual", "states" : ActorState.allActorStates])
+    }
+
+    def address = {
+        def adult = individualService.getAdultById(params.long("id"))
+        def mode = request.get ? params.mode : "static"
+        if (request.post) {
+            def temp = new Address()
+            bind(temp)
+            individualAdaptorService.historize(
+                adult, adult.address, temp, "address",
+                ["additionalDeliveryInformation", "additionalGeographicalInformation", "city",
+                    "cityInseeCode", "countryName", "placeNameOrService", "postalCode",
+                    "streetMatriculation", "streetName", "streetNumber", "streetRivoliCode"])
+        }
+        render(template : mode + "/address", model : ["actor" : adult])
+    }
+
+    def contact = {
+        def adult = individualService.getAdultById(params.long("id"))
+        def mode = request.get ? params.mode : "static"
+        if (request.post) {
+            def temp = new Adult()
+            bind(temp)
+            individualAdaptorService.historize(
+                adult, adult, temp, "contact", ["email", "homePhone", "mobilePhone", "officePhone"])
+        }
+        render(template : mode + "/contact", model : ["adult" : adult])
+    }
+
+    def identity = {
+        def individual = individualService.getById(params.long("id"))
+        def mode = request.get ? params.mode : "static"
+        if (request.post) {
+            def temp = new Adult()
+            bind(temp)
+            individualAdaptorService.historize(
+                individual, individual, temp, "contact",
+                individual instanceof Adult ?
+                    ["title", "familyStatus", "lastName", "maidenName", "nameOfUse", "firstName", "firstName2", "firstName3", "profession"] :
+                    ["lastName", "firstName", "firstName2", "firstName3", "birthDate", "birthPostalCode", "birthCity", "birthCountry"])
+        }
+        render(template : mode + "/" + individual.class.simpleName.toLowerCase() + "Identity",
+            model : ["individual" : individual])
+    }
+
+    def responsibles = {
+        def child = individualService.getChildById(Long.valueOf(params.id))
+        def mode = request.get ? params.mode : "static"
+        if (request.post) {
+            child.homeFolder.individuals.each {
+                homeFolderService.unlink(it, child)
+            }
+            params.roles.each {
+                if (it.value instanceof GrailsParameterMap && it.value.owner != '' && it.value.type != '') {
+                    homeFolderService.link(individualService.getById(Long.valueOf(it.value.owner)),
+                        child, [RoleType.forString(it.value.type)] as List)
+                }
+            }
+        }
+        def model = [
+            "child" : child,
+            "adults" : homeFolderService.getAdults(child.homeFolder.id),
+            "roleOwners" : homeFolderService.listBySubjectRoles(child.id, RoleType.childRoleTypes)
+        ]
+        render(template : mode + "/responsibles", model : model)
     }
 
     def actions = {

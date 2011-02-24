@@ -211,7 +211,7 @@ public class IndividualService implements IIndividualService {
     }
 
     @Override
-    public void modify(final Individual individual)
+    public void modify(final Individual individual, JsonObject atom)
         throws CvqException {
 
         if (individual == null)
@@ -219,8 +219,10 @@ public class IndividualService implements IIndividualService {
         else if (individual.getId() == null)
             throw new CvqException("Cannot modify a transient individual");
         individualDAO.update(individual);
+        JsonObject payload = new JsonObject();
+        payload.add("atom", atom);
         individual.getHomeFolder().getActions().add(
-            new UserAction(UserAction.Type.MODIFICATION, individual.getId()));
+            new UserAction(UserAction.Type.MODIFICATION, individual.getId(), payload));
         individualDAO.update(individual.getHomeFolder());
     }
 

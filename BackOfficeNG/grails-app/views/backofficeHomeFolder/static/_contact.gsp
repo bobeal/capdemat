@@ -6,4 +6,3 @@
 <dd>${adult.mobilePhone}</dd>
 <dt>${message(code:'homeFolder.adult.property.officePhone')}</dt>
 <dd>${adult.officePhone}</dd>
-

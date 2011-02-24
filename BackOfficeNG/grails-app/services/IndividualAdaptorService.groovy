@@ -1,3 +1,5 @@
+import com.google.gson.JsonObject
+
 import fr.cg95.cvq.business.users.Child
 import fr.cg95.cvq.business.users.SexType
 import fr.cg95.cvq.business.users.TitleType
@@ -49,5 +51,22 @@ class IndividualAdaptorService {
             ])
         }
         return result.sort {it.label}
+    }
+
+    public historize(individual, bean, dto, name, fields) {
+        def atom = new JsonObject()
+        atom.addProperty("name", name)
+        def diff = new JsonObject()
+        atom.add("fields", diff)
+        fields.each {
+            if (dto[it] != bean[it]) {
+                def field = new JsonObject()
+                field.addProperty("from", bean[it].toString())
+                field.addProperty("to", dto[it].toString())
+                diff.add(it, field)
+                bean[it] = dto[it]
+            }
+        }
+        if (diff.entrySet().size() > 0) individualService.modify(individual, atom)
     }
 }

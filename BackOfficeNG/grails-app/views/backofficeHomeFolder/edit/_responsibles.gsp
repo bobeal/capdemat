@@ -1,4 +1,4 @@
-<form id="childResponsibles_${child.id}" method="post" action="${g.createLink(action:'child')}" style="padding-top: .5em; text-align:center;">
+<form id="responsibles_${child.id}" method="post" action="${g.createLink(action:'individualResponsibles')}" style="padding-top: .5em; text-align:center;">
   <g:set var="roleCount" value="${0}" />
   <g:each var="roleOwner" in="${roleOwners}">
     <g:each var="individualRole" in="${roleOwner.getIndividualRoles(child.id)}">
@@ -56,4 +56,3 @@
     <input type="submit" name="submit" value="${message(code:'action.save')}" class="save" />
   </p>
 </form>
-

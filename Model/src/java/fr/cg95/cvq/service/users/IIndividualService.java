@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gson.JsonObject;
+
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
@@ -26,7 +28,7 @@ public interface IIndividualService extends IAutofillTriggerService {
 
     Long create(@IsIndividual Child child);
 
-    void modify(@IsIndividual Individual individual)
+    void modify(@IsIndividual Individual individual, JsonObject atom)
         throws CvqException;
 
     List<Individual> get(final Set<Critere> criteriaSet, final String orderedBy,

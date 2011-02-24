@@ -82,12 +82,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
         yue.preventDefault(e);
         var dl = zcbh.Details.getTarget(e);
         if (dl.tagName != 'DL') dl = yud.getAncestorByTagName(dl, 'dl');
+        var atom = dl.className.split(' ')[1].split('-');
         var div = yud.getAncestorByClassName(dl, 'account');
         zct.doAjaxCall(
-            '/'+ div.id.split('_')[0]
-            + '?id=' + div.id.split('_')[1]
-            + '&mode=' + mode
-            + '&template=' + div.id.split('_')[0] + zct.capitalize(dl.className.split(' ')[1])
+            '/' + atom[0]
+            + '/' + div.id.split('_')[1]
+            + '/' + atom[1]
+            + '?mode=' + mode
           , null,
           function(o) {
             dl.innerHTML = o.responseText;
@@ -103,7 +104,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
         yue.preventDefault(e);
         var target = yue.getTarget(e);
         var dl = yud.getAncestorByTagName(target, 'dl');
-        target.form.action += '?homeFolderId=' + zcbh.Details.homeFolderId;
         zct.doAjaxFormSubmitCall(target.form.getAttribute('id'), [], function(o) {
           if (!!target.form.id.value) {
             dl.innerHTML = o.responseText;
@@ -114,6 +114,17 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
             div.removeChild(individual);
             div.innerHTML += o.responseText;
           }
+          zct.each(zcbh.Details.bottomTabView.get("tabs"), function() {
+            if (this.get("label") == "Journal") {
+              var cacheData = this.get("cacheData");
+              var contentVisible = this.get("contentVisible");
+              this.set("cacheData", false);
+              this.set("contentVisible", false);
+              this.set("contentVisible", true);
+              this.set("contentVisible", contentVisible);
+              this.set("cacheData", cacheData);
+            }
+          }, null);
         });
       },
 

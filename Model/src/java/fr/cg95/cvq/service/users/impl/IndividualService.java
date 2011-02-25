@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.users.impl;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Type;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,9 +16,16 @@ import java.util.TreeSet;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 
 import fr.cg95.cvq.authentication.IAuthenticationService;
 import fr.cg95.cvq.business.users.ActorState;
@@ -25,6 +33,7 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.UserAction;
+import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.users.IAdultDAO;
 import fr.cg95.cvq.dao.users.IChildDAO;
 import fr.cg95.cvq.dao.users.IIndividualDAO;
@@ -124,10 +133,16 @@ public class IndividualService implements IIndividualService {
         authenticationService.resetAdultPassword(adult, newPassword);
     }
 
-    private String computeNewLogin(List<String> baseList, String baseLogin) {
-
+    private synchronized String computeNewLogin(Adult adult) {
+        String baseLogin =  Normalizer.normalize(
+            (adult.getFirstName().trim() + '.' + adult.getLastName().trim())
+                .replaceAll("\\s", "-")
+                .replaceAll("'", ""),
+            Normalizer.Form.NFD)
+                .replaceAll("[^\\p{ASCII}]","").toLowerCase();
+        logger.debug("computeNewLogin() searching from " + baseLogin);
         TreeSet<Integer> indexesSet = new TreeSet<Integer>();
-        for (String login : baseList) {
+        for (String login : individualDAO.getSimilarLogins(baseLogin)) {
             String index = login.substring(baseLogin.length());
             if (index == null || index.equals(""))
                 index = "1";
@@ -151,7 +166,7 @@ public class IndividualService implements IIndividualService {
         else
             loginFromDb = baseLogin + String.valueOf(++finalIndex);
         logger.debug("computeNewLogin() got new login from DB " + loginFromDb);
-        
+        String finalLogin = loginFromDb;
         if (bookedLogin.contains(loginFromDb)) {
             String currentIndex = loginFromDb.substring(baseLogin.length());
             int currIdx = 1;
@@ -163,32 +178,17 @@ public class IndividualService implements IIndividualService {
                 currIdx++;
                 loginToTest = baseLogin + String.valueOf(currIdx);
             } while (bookedLogin.contains(loginToTest));
-            
-            bookedLogin.add(loginToTest);
-            return loginToTest;
-        } else {
-            bookedLogin.add(loginFromDb);
-            return loginFromDb;
+            finalLogin = loginToTest;
         }
+        bookedLogin.add(finalLogin);
+        return finalLogin;
     }
 
     @Override
     public Long create(Adult adult, boolean assignLogin)
         throws CvqException {
         if (assignLogin) {
-            synchronized (bookedLogin) {
-                String baseLogin =  Normalizer.normalize(
-                    (adult.getFirstName().trim() + '.' + adult.getLastName().trim())
-                        .replaceAll("\\s", "-")
-                        .replaceAll("'", ""),
-                    Normalizer.Form.NFD)
-                        .replaceAll("[^\\p{ASCII}]","").toLowerCase();
-                logger.debug("assignLogin() searching from " + baseLogin);
-                List<String> similarLogins = individualDAO.getSimilarLogins(baseLogin);
-                String finalLogin = computeNewLogin(similarLogins, baseLogin);
-                logger.debug("assignLogin() setting login : " + finalLogin);
-                adult.setLogin(finalLogin);
-            }
+            adult.setLogin(computeNewLogin(adult));
         }
         if (adult.getPassword() != null)
             adult.setPassword(authenticationService.encryptPassword(adult.getPassword()));
@@ -218,11 +218,53 @@ public class IndividualService implements IIndividualService {
             throw new CvqException("No adult object provided");
         else if (individual.getId() == null)
             throw new CvqException("Cannot modify a transient individual");
-        individualDAO.update(individual);
         JsonObject payload = new JsonObject();
         payload.add("atom", atom);
-        individual.getHomeFolder().getActions().add(
-            new UserAction(UserAction.Type.MODIFICATION, individual.getId(), payload));
+        UserAction action = new UserAction(UserAction.Type.MODIFICATION, individual.getId(), payload);
+        // FIXME hack for specific business when changing a user's first or last name
+        if ("identity".equals(atom.get("name").getAsString())) {
+            JsonObject fields = atom.get("fields").getAsJsonObject();
+            if (fields.has("firstName") || fields.has("lastName")) {
+                String firstName = fields.has("firstName") ?
+                    fields.get("firstName").getAsJsonObject().get("from").getAsString()
+                    : individual.getFirstName();
+                String lastName = fields.has("lastName") ?
+                        fields.get("lastName").getAsJsonObject().get("from").getAsString()
+                        : individual.getLastName();
+                GsonBuilder gsonBuilder = new GsonBuilder();
+                gsonBuilder.registerTypeAdapter(JsonObject.class, new JsonDeserializer<JsonObject>() {
+                    @Override
+                    public JsonObject deserialize(JsonElement arg0, @SuppressWarnings("unused") Type arg1,
+                        @SuppressWarnings("unused") JsonDeserializationContext arg2)
+                        throws JsonParseException {
+                        return arg0.getAsJsonObject();
+                    }
+                });
+                Gson gson = gsonBuilder.create();
+                payload = gson.fromJson(action.getData(), JsonObject.class);
+                payload.get("target").getAsJsonObject()
+                    .addProperty("name", firstName + ' ' + lastName);
+                if (individual.getId().equals(payload.get("user").getAsJsonObject().get("id").getAsLong())) {
+                    payload.get("user").getAsJsonObject()
+                        .addProperty("name", firstName + ' ' + lastName);
+                }
+                if (individual instanceof Adult) {
+                    Adult adult = (Adult)individual;
+                    if (!StringUtils.isEmpty(adult.getLogin())) {
+                        JsonObject login = new JsonObject();
+                        login.addProperty("from", adult.getLogin());
+                        adult.setLogin(computeNewLogin(adult));
+                        login.addProperty("to", adult.getLogin());
+                        payload.get("atom").getAsJsonObject().get("fields").getAsJsonObject()
+                            .add("login", login);
+                        // hack to refresh security context
+                        HibernateUtil.getSession().flush();
+                    }
+                }
+                action.setData(gson.toJson(payload));
+            }
+        }
+        individual.getHomeFolder().getActions().add(action);
         individualDAO.update(individual.getHomeFolder());
     }
 

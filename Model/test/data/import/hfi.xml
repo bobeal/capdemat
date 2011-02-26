@@ -1,0 +1,52 @@
+<HomeFolderImport xmlns="http://www.cg95.fr/cvq/schema/import" xmlns:com="http://www.cg95.fr/cvq/schema/common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ExternalServiceLabel>fakeExternalService</ExternalServiceLabel>
+  <HomeFolder>
+    <com:Id>0</com:Id>
+    <com:ExternalId>hfExtId</com:ExternalId>
+    <com:Individuals xsi:type="com:AdultType">
+      <com:Id>0</com:Id>
+      <com:ExternalId>i1ExtId</com:ExternalId>
+      <com:Login>firstname.lastname</com:Login>
+      <com:LastName>LASTNAME</com:LastName>
+      <com:FirstName>firstName</com:FirstName>
+      <com:Address>
+        <com:Id>0</com:Id>
+        <com:StreetName>STREET</com:StreetName>
+        <com:PostalCode>75000</com:PostalCode>
+        <com:City>PARIS</com:City>
+      </com:Address>
+      <com:State>Valid</com:State>
+      <com:Role>
+        <com:RoleName>HomeFolderResponsible</com:RoleName>
+      </com:Role>
+      <com:Role>
+        <com:IndividualName>MOREAU Émilie</com:IndividualName>
+        <com:RoleName>ClrFather</com:RoleName>
+      </com:Role>
+      <com:Title>Mister</com:Title>
+      <com:FamilyStatus>Single</com:FamilyStatus>
+      <com:HomePhone>0111111111</com:HomePhone>
+      <com:Email>capdemat-dev@zenexity.com</com:Email>
+    </com:Individuals>
+    <com:Individuals xsi:type="com:ChildType">
+      <com:Id>0</com:Id>
+      <com:Login>emilie.moreau</com:Login>
+      <com:LastName>MOREAU</com:LastName>
+      <com:FirstName>Émilie</com:FirstName>
+      <com:Address>
+        <com:Id>0</com:Id>
+        <com:StreetName>STREET</com:StreetName>
+        <com:PostalCode>75000</com:PostalCode>
+        <com:City>PARIS</com:City>
+      </com:Address>
+      <com:State>Valid</com:State>
+    </com:Individuals>
+    <com:Address>
+      <com:Id>0</com:Id>
+      <com:StreetName>STREET</com:StreetName>
+      <com:PostalCode>75000</com:PostalCode>
+      <com:City>PARIS</com:City>
+    </com:Address>
+    <com:State>Valid</com:State>
+  </HomeFolder>
+</HomeFolderImport>

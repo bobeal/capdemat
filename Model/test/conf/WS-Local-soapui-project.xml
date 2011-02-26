@@ -1,0 +1,2132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project name="ServiceExporter" resourceRoot="" soapui-version="2.5" xmlns:con="http://eviware.com/soapui/config"><con:settings><con:setting id="ProjectSettings@projectRoot">/home/bor/zenexity/capdemat/git/capdemat/Model/test/conf</con:setting></con:settings><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="RequestServiceBinding" type="wsdl" bindingName="{http://www.capwebct.fr/capdemat}RequestServiceBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/ServiceExporter/external/requests.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/ServiceExporter/external/requests.wsdl"><con:part><con:url>http://people.zenexity.fr/~bor/capdemat/V4_1/schemas/CVQCommonElements.xsd</con:url><con:content><![CDATA[<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/common" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cvq="http://www.cg95.fr/cvq/schema/common">
+  <!--REFERENTIAL/AUTHORITY RELATED TYPES-->
+  <xs:complexType name="LocalAuthorityType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Identification d'une collectivité territoriale</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Collectivité Territoriale</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Id" type="xs:long"/>
+      <xs:element name="Name" type="xs:string"/>
+      <xs:element name="PostalCode" type="cvq:PostalCodeType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SchoolType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Identification d'une école</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Ecole</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Id" type="xs:long"/>
+      <xs:element name="Name" default="">
+        <xs:simpleType>
+          <xs:annotation>
+            <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Nom de l'école</xs:documentation>
+          </xs:annotation>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Z]?.*"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Type">
+        <xs:simpleType>
+          <xs:annotation>
+            <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Type de l'école (maternelle ou élémentaire)</xs:documentation>
+            <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+              <enum key="Nursery" value="Maternelle"/>
+              <enum key="Primary" value="Primaire"/>
+            </xs:documentation>
+          </xs:annotation>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Nursery"/>
+            <xs:enumeration value="Primary"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RecreationCenterType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Identification d'un centre de loisirs</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Centre de loisirs</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Identification of a recreation center</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Recreation center</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Id" type="xs:long"/>
+      <xs:element name="Name" type="xs:string"/>
+      <xs:element name="Description" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="SectionType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Informations caractérisant une classe - Le nom de la classe est composé du niveau et d'un
+        élément (en général le nom de l'instituteur) permettant de distinguer les classes entre
+        elles.</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Classe</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="BeforeFirstSection" value="Très Petite Section"/>
+        <enum key="FirstSection" value="Petite Section"/>
+        <enum key="SecondSection" value="Moyenne Section"/>
+        <enum key="ThirdSection" value="Grande Section"/>
+        <enum key="CP" value="CP"/>
+        <enum key="CE1" value="CE1"/>
+        <enum key="CE2" value="CE2"/>
+        <enum key="CM1" value="CM1"/>
+        <enum key="CM2" value="CM2"/>
+        <enum key="CLISS" value="CLISS"/>
+        <enum key="Unknown" value="Inconnue"/>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="32"/>
+      <xs:enumeration value="BeforeFirstSection"/>
+      <xs:enumeration value="FirstSection"/>
+      <xs:enumeration value="SecondSection"/>
+      <xs:enumeration value="ThirdSection"/>
+      <xs:enumeration value="CP"/>
+      <xs:enumeration value="CE1"/>
+      <xs:enumeration value="CE2"/>
+      <xs:enumeration value="CM1"/>
+      <xs:enumeration value="CM2"/>
+      <xs:enumeration value="CLISS"/>
+      <xs:enumeration value="Unknown"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--USERS RELATED TYPES-->
+  <xs:simpleType name="NationalityType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Information décrivant la nationalité d'une personne</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Nationalité</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="French" value="Française"/>
+        <enum key="EuropeanUnion" value="Union Européenne"/>
+        <enum key="OutsideEuropeanUnion" value="Hors Union Européenne"/>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="32"/>
+      <xs:enumeration value="French"/>
+      <xs:enumeration value="EuropeanUnion"/>
+      <xs:enumeration value="OutsideEuropeanUnion"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CountryType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Nom du pays habité</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Pays</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Unknown" value="Inconnu"/>
+        <enum key="af" value="Afghanistan (AF)"/>
+        <enum key="za" value="Afrique du Sud (ZA)"/>
+        <enum key="al" value="Albanie (AL)"/>
+        <enum key="dz" value="Algérie(DZ)"/>
+        <enum key="de" value="Allemagne (DE)"/>
+        <enum key="ad" value="Andorre (AD)"/>
+        <enum key="ao" value="Angola (AO)"/>
+        <enum key="ai" value="Anguilla (AI)"/>
+        <enum key="aq" value="Antarctique (AQ)"/>
+        <enum key="ag" value="Antigua-et-Barbuda (AG)"/>
+        <enum key="an" value="Antilles néerlandaises (AN)"/>
+        <enum key="sa" value="Arabie saoudite (SA)"/>
+        <enum key="ar" value="Argentine (AR)"/>
+        <enum key="am" value="Arménie (AM)"/>
+        <enum key="aw" value="Aruba (AW)"/>
+        <enum key="au" value="Australie (AU)"/>
+        <enum key="at" value="Autriche (AT)"/>
+        <enum key="az" value="Azerbaïdjan (AZ)"/>
+        <enum key="bj" value="Bénin (BJ)"/>
+        <enum key="bs" value="Bahamas (BS)"/>
+        <enum key="bh" value="Bahreïn (BH)"/>
+        <enum key="bd" value="Bangladesh (BD)"/>
+        <enum key="bb" value="Barbade (BB)"/>
+        <enum key="pw" value="Belau (PW)"/>
+        <enum key="be" value="Belgique (BE)"/>
+        <enum key="bz" value="Belize (BZ)"/>
+        <enum key="bm" value="Bermudes (BM)"/>
+        <enum key="bt" value="Bhoutan (BT)"/>
+        <enum key="by" value="Biélorussie (BY)"/>
+        <enum key="mm" value="Birmanie (MM)"/>
+        <enum key="bo" value="Bolivie (BO)"/>
+        <enum key="ba" value="Bosnie-Herzégovine (BA)"/>
+        <enum key="bw" value="Botswana (BW)"/>
+        <enum key="br" value="Brésil (BR)"/>
+        <enum key="bn" value="Brunei (BN)"/>
+        <enum key="bg" value="Bulgarie (BG)"/>
+        <enum key="bf" value="Burkina Faso (BF)"/>
+        <enum key="bi" value="Burundi (BI)"/>
+        <enum key="ci" value="Côte d'Ivoire (CI)"/>
+        <enum key="kh" value="Cambodge (KH)"/>
+        <enum key="cm" value="Cameroun (CM)"/>
+        <enum key="ca" value="Canada (CA)"/>
+        <enum key="cv" value="Cap-Vert (CV)"/>
+        <enum key="cl" value="Chili (CL)"/>
+        <enum key="cn" value="Chine (CN)"/>
+        <enum key="cy" value="Chypre (CY)"/>
+        <enum key="co" value="Colombie (CO)"/>
+        <enum key="km" value="Comores (KM)"/>
+        <enum key="cg" value="Congo (CG)"/>
+        <enum key="kp" value="Corée du Nord (KP)"/>
+        <enum key="kr" value="Corée du Sud (KR)"/>
+        <enum key="cr" value="Costa Rica (CR)"/>
+        <enum key="hr" value="Croatie (HR)"/>
+        <enum key="cu" value="Cuba (CU)"/>
+        <enum key="dk" value="Danemark (DK)"/>
+        <enum key="dj" value="Djibouti (DJ)"/>
+        <enum key="dm" value="Dominique (DM)"/>
+        <enum key="eg" value="Égypte (EG)"/>
+        <enum key="ae" value="Émirats arabes unis (AE)"/>
+        <enum key="ec" value="Équateur (EC)"/>
+        <enum key="er" value="Érythrée (ER)"/>
+        <enum key="es" value="Espagne (ES)"/>
+        <enum key="ee" value="Estonie (EE)"/>
+        <enum key="us" value="États-Unis (US)"/>
+        <enum key="et" value="Éthiopie (ET)"/>
+        <enum key="fi" value="Finlande (FI)"/>
+        <enum key="fr" value="France (FR)"/>
+        <enum key="ge" value="Géorgie (GE)"/>
+        <enum key="ga" value="Gabon (GA)"/>
+        <enum key="gm" value="Gambie (GM)"/>
+        <enum key="gh" value="Ghana (GH)"/>
+        <enum key="gi" value="Gibraltar (GI)"/>
+        <enum key="gr" value="Grèce (GR)"/>
+        <enum key="gd" value="Grenade (GD)"/>
+        <enum key="gl" value="Groenland (GL)"/>
+        <enum key="gp" value="Guadeloupe (GP)"/>
+        <enum key="gu" value="Guam (GU)"/>
+        <enum key="gt" value="Guatemala (GT)"/>
+        <enum key="gn" value="Guinée (GN)"/>
+        <enum key="gq" value="Guinée équatoriale (GQ)"/>
+        <enum key="gw" value="Guinée-Bissao (GW)"/>
+        <enum key="gy" value="Guyana (GY)"/>
+        <enum key="gf" value="Guyane française (GF)"/>
+        <enum key="ht" value="Haïti (HT)"/>
+        <enum key="hn" value="Honduras (HN)"/>
+        <enum key="hk" value="Hong Kong (HK)"/>
+        <enum key="hu" value="Hongrie (HU)"/>
+        <enum key="ck" value="Iles Cook (CK)"/>
+        <enum key="fj" value="Iles Fidji (FJ)"/>
+        <enum key="mh" value="Iles Marshall (MH)"/>
+        <enum key="sb" value="Iles Salomon (SB)"/>
+        <enum key="in" value="Inde (IN)"/>
+        <enum key="id" value="Indonésie (ID)"/>
+        <enum key="ir" value="Iran (IR)"/>
+        <enum key="iq" value="Iraq (IQ)"/>
+        <enum key="ie" value="Irlande (IE)"/>
+        <enum key="is" value="Islande (IS)"/>
+        <enum key="il" value="Israël (IL)"/>
+        <enum key="it" value="Italie (IT)"/>
+        <enum key="jm" value="Jamaïque (JM)"/>
+        <enum key="jp" value="Japon (JP)"/>
+        <enum key="jo" value="Jordanie (JO)"/>
+        <enum key="kz" value="Kazakhstan (KZ)"/>
+        <enum key="ke" value="Kenya (KE)"/>
+        <enum key="kg" value="Kirghizistan (KG)"/>
+        <enum key="ki" value="Kiribati (KI)"/>
+        <enum key="kw" value="Koweït (KW)"/>
+        <enum key="la" value="Laos (LA)"/>
+        <enum key="ls" value="Lesotho (LS)"/>
+        <enum key="lv" value="Lettonie (LV)"/>
+        <enum key="lb" value="Liban (LB)"/>
+        <enum key="lr" value="Liberia (LR)"/>
+        <enum key="ly" value="Libye (LY)"/>
+        <enum key="li" value="Liechtenstein (LI)"/>
+        <enum key="lt" value="Lituanie (LT)"/>
+        <enum key="lu" value="Luxembourg (LU)"/>
+        <enum key="mg" value="Madagascar (MG)"/>
+        <enum key="my" value="Malaisie (MY)"/>
+        <enum key="mw" value="Malawi (MW)"/>
+        <enum key="mv" value="Maldives (MV)"/>
+        <enum key="ml" value="Mali (ML)"/>
+        <enum key="mt" value="Malte (MT)"/>
+        <enum key="ma" value="Maroc (MA)"/>
+        <enum key="mu" value="Maurice (MU)"/>
+        <enum key="mr" value="Mauritanie (MR)"/>
+        <enum key="mx" value="Mexique (MX)"/>
+        <enum key="fm" value="Micronésie (FM)"/>
+        <enum key="md" value="Moldavie (MD)"/>
+        <enum key="mc" value="Monaco (MC)"/>
+        <enum key="mn" value="Mongolie (MN)"/>
+        <enum key="mz" value="Mozambique (MZ)"/>
+        <enum key="np" value="Népal (NP)"/>
+        <enum key="na" value="Namibie (NA)"/>
+        <enum key="nr" value="Nauru (NR)"/>
+        <enum key="ni" value="Nicaragua (NI)"/>
+        <enum key="ne" value="Niger (NE)"/>
+        <enum key="ng" value="Nigeria (NG)"/>
+        <enum key="nu" value="Nioué (NU)"/>
+        <enum key="no" value="Norvège (NO)"/>
+        <enum key="nz" value="Nouvelle-Zélande (NZ)"/>
+        <enum key="om" value="Oman (OM)"/>
+        <enum key="ug" value="Ouganda (UG)"/>
+        <enum key="uz" value="Ouzbékistan (UZ)"/>
+        <enum key="pe" value="Pérou (PE)"/>
+        <enum key="pk" value="Pakistan (PK)"/>
+        <enum key="pa" value="Panama (PA)"/>
+        <enum key="pg" value="Papouasie-Nouvelle-Guinée (PG)"/>
+        <enum key="py" value="Paraguay (PY)"/>
+        <enum key="nl" value="Pays-Bas (NL)"/>
+        <enum key="ph" value="Philippines (PH)"/>
+        <enum key="pl" value="Pologne (PL)"/>
+        <enum key="pt" value="Portugal (PT)"/>
+        <enum key="qa" value="Qatar (QA)"/>
+        <enum key="cf" value="République centrafricaine (CF)"/>
+        <enum key="cd" value="République démocratique du Congo (CD)"/>
+        <enum key="do" value="République dominicaine (DO)"/>
+        <enum key="cz" value="République tchèque (CZ)"/>
+        <enum key="ro" value="Roumanie (RO)"/>
+        <enum key="gb" value="Royaume-Uni (GB)"/>
+        <enum key="ru" value="Russie (RU)"/>
+        <enum key="rw" value="Rwanda (RW)"/>
+        <enum key="sn" value="Sénégal (SN)"/>
+        <enum key="kn" value="Saint-Christophe-et-Niévès (KN)"/>
+        <enum key="sm" value="Saint-Marin (SM)"/>
+        <enum key="va" value="Saint-Siège (VA)"/>
+        <enum key="vc" value="Saint-Vincent-et-les-Grenadines (VC)"/>
+        <enum key="lc" value="Sainte-Lucie (LC)"/>
+        <enum key="sv" value="Salvador (SV)"/>
+        <enum key="ws" value="Samoa (WS)"/>
+        <enum key="st" value="Sao Tomé-et-Principe (ST)"/>
+        <enum key="sc" value="Seychelles (SC)"/>
+        <enum key="sl" value="Sierra Leone (SL)"/>
+        <enum key="sg" value="Singapour (SG)"/>
+        <enum key="si" value="Slovénie (SI)"/>
+        <enum key="sk" value="Slovaquie (SK)"/>
+        <enum key="so" value="Somalie (SO)"/>
+        <enum key="sd" value="Soudan (SD)"/>
+        <enum key="lk" value="Sri Lanka (LK)"/>
+        <enum key="se" value="Suède (SE)"/>
+        <enum key="ch" value="Suisse (CH)"/>
+        <enum key="sr" value="Suriname (SR)"/>
+        <enum key="sz" value="Swaziland (SZ)"/>
+        <enum key="sy" value="Syrie (SY)"/>
+        <enum key="tw" value="Taïwan (TW)"/>
+        <enum key="tj" value="Tadjikistan (TJ)"/>
+        <enum key="tz" value="Tanzanie (TZ)"/>
+        <enum key="td" value="Tchad (TD)"/>
+        <enum key="th" value="Thaïlande (TH)"/>
+        <enum key="tl" value="Timor Oriental (TL)"/>
+        <enum key="tg" value="Togo (TG)"/>
+        <enum key="to" value="Tonga (TO)"/>
+        <enum key="vt" value="Trinité-et-Tobago (VT)"/>
+        <enum key="tn" value="Tunisie (TN)"/>
+        <enum key="tm" value="Turkménistan (TM)"/>
+        <enum key="tr" value="Turquie (TR)"/>
+        <enum key="tv" value="Tuvalu (TV)"/>
+        <enum key="ua" value="Ukraine (UA)"/>
+        <enum key="uy" value="Uruguay (UY)"/>
+        <enum key="vu" value="Vanuatu (VU)"/>
+        <enum key="ve" value="Venezuela (VE)"/>
+        <enum key="vn" value="Viêt Nam (VN)"/>
+        <enum key="ye" value="Yémen (YE)"/>
+        <enum key="zm" value="Zambie (ZM)"/>
+        <enum key="zw" value="Zimbabwe (ZW)"/>
+        <enum key="mk" value="ex-République yougoslave de Macédoine (MK)"/>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Unknown"/>
+      <xs:enumeration value="af"/>
+      <xs:enumeration value="za"/>
+      <xs:enumeration value="al"/>
+      <xs:enumeration value="dz"/>
+      <xs:enumeration value="de"/>
+      <xs:enumeration value="ad"/>
+      <xs:enumeration value="ao"/>
+      <xs:enumeration value="ai"/>
+      <xs:enumeration value="aq"/>
+      <xs:enumeration value="ag"/>
+      <xs:enumeration value="an"/>
+      <xs:enumeration value="sa"/>
+      <xs:enumeration value="ar"/>
+      <xs:enumeration value="am"/>
+      <xs:enumeration value="aw"/>
+      <xs:enumeration value="au"/>
+      <xs:enumeration value="at"/>
+      <xs:enumeration value="az"/>
+      <xs:enumeration value="bj"/>
+      <xs:enumeration value="bs"/>
+      <xs:enumeration value="bh"/>
+      <xs:enumeration value="bd"/>
+      <xs:enumeration value="bb"/>
+      <xs:enumeration value="pw"/>
+      <xs:enumeration value="be"/>
+      <xs:enumeration value="bz"/>
+      <xs:enumeration value="bm"/>
+      <xs:enumeration value="bt"/>
+      <xs:enumeration value="by"/>
+      <xs:enumeration value="mm"/>
+      <xs:enumeration value="bo"/>
+      <xs:enumeration value="ba"/>
+      <xs:enumeration value="bw"/>
+      <xs:enumeration value="br"/>
+      <xs:enumeration value="bn"/>
+      <xs:enumeration value="bg"/>
+      <xs:enumeration value="bf"/>
+      <xs:enumeration value="bi"/>
+      <xs:enumeration value="ci"/>
+      <xs:enumeration value="kh"/>
+      <xs:enumeration value="cm"/>
+      <xs:enumeration value="ca"/>
+      <xs:enumeration value="cv"/>
+      <xs:enumeration value="cl"/>
+      <xs:enumeration value="cn"/>
+      <xs:enumeration value="cy"/>
+      <xs:enumeration value="co"/>
+      <xs:enumeration value="km"/>
+      <xs:enumeration value="cg"/>
+      <xs:enumeration value="kp"/>
+      <xs:enumeration value="kr"/>
+      <xs:enumeration value="cr"/>
+      <xs:enumeration value="hr"/>
+      <xs:enumeration value="cu"/>
+      <xs:enumeration value="dk"/>
+      <xs:enumeration value="dj"/>
+      <xs:enumeration value="dm"/>
+      <xs:enumeration value="eg"/>
+      <xs:enumeration value="ae"/>
+      <xs:enumeration value="ec"/>
+      <xs:enumeration value="er"/>
+      <xs:enumeration value="es"/>
+      <xs:enumeration value="ee"/>
+      <xs:enumeration value="us"/>
+      <xs:enumeration value="et"/>
+      <xs:enumeration value="fi"/>
+      <xs:enumeration value="fr"/>
+      <xs:enumeration value="ge"/>
+      <xs:enumeration value="ga"/>
+      <xs:enumeration value="gm"/>
+      <xs:enumeration value="gh"/>
+      <xs:enumeration value="gi"/>
+      <xs:enumeration value="gr"/>
+      <xs:enumeration value="gd"/>
+      <xs:enumeration value="gl"/>
+      <xs:enumeration value="gp"/>
+      <xs:enumeration value="gu"/>
+      <xs:enumeration value="gt"/>
+      <xs:enumeration value="gn"/>
+      <xs:enumeration value="gq"/>
+      <xs:enumeration value="gw"/>
+      <xs:enumeration value="gy"/>
+      <xs:enumeration value="gf"/>
+      <xs:enumeration value="ht"/>
+      <xs:enumeration value="hn"/>
+      <xs:enumeration value="hk"/>
+      <xs:enumeration value="hu"/>
+      <xs:enumeration value="ck"/>
+      <xs:enumeration value="fj"/>
+      <xs:enumeration value="mh"/>
+      <xs:enumeration value="sb"/>
+      <xs:enumeration value="in"/>
+      <xs:enumeration value="id"/>
+      <xs:enumeration value="ir"/>
+      <xs:enumeration value="iq"/>
+      <xs:enumeration value="ie"/>
+      <xs:enumeration value="is"/>
+      <xs:enumeration value="il"/>
+      <xs:enumeration value="it"/>
+      <xs:enumeration value="jm"/>
+      <xs:enumeration value="jp"/>
+      <xs:enumeration value="jo"/>
+      <xs:enumeration value="kz"/>
+      <xs:enumeration value="ke"/>
+      <xs:enumeration value="kg"/>
+      <xs:enumeration value="ki"/>
+      <xs:enumeration value="kw"/>
+      <xs:enumeration value="la"/>
+      <xs:enumeration value="ls"/>
+      <xs:enumeration value="lv"/>
+      <xs:enumeration value="lb"/>
+      <xs:enumeration value="lr"/>
+      <xs:enumeration value="ly"/>
+      <xs:enumeration value="li"/>
+      <xs:enumeration value="lt"/>
+      <xs:enumeration value="lu"/>
+      <xs:enumeration value="mg"/>
+      <xs:enumeration value="my"/>
+      <xs:enumeration value="mw"/>
+      <xs:enumeration value="mv"/>
+      <xs:enumeration value="ml"/>
+      <xs:enumeration value="mt"/>
+      <xs:enumeration value="ma"/>
+      <xs:enumeration value="mu"/>
+      <xs:enumeration value="mr"/>
+      <xs:enumeration value="mx"/>
+      <xs:enumeration value="fm"/>
+      <xs:enumeration value="md"/>
+      <xs:enumeration value="mc"/>
+      <xs:enumeration value="mn"/>
+      <xs:enumeration value="mz"/>
+      <xs:enumeration value="np"/>
+      <xs:enumeration value="na"/>
+      <xs:enumeration value="nr"/>
+      <xs:enumeration value="ni"/>
+      <xs:enumeration value="ne"/>
+      <xs:enumeration value="ng"/>
+      <xs:enumeration value="nu"/>
+      <xs:enumeration value="no"/>
+      <xs:enumeration value="nz"/>
+      <xs:enumeration value="om"/>
+      <xs:enumeration value="ug"/>
+      <xs:enumeration value="uz"/>
+      <xs:enumeration value="pe"/>
+      <xs:enumeration value="pk"/>
+      <xs:enumeration value="pa"/>
+      <xs:enumeration value="pg"/>
+      <xs:enumeration value="py"/>
+      <xs:enumeration value="nl"/>
+      <xs:enumeration value="ph"/>
+      <xs:enumeration value="pl"/>
+      <xs:enumeration value="pt"/>
+      <xs:enumeration value="qa"/>
+      <xs:enumeration value="cf"/>
+      <xs:enumeration value="cd"/>
+      <xs:enumeration value="do"/>
+      <xs:enumeration value="cz"/>
+      <xs:enumeration value="ro"/>
+      <xs:enumeration value="gb"/>
+      <xs:enumeration value="ru"/>
+      <xs:enumeration value="rw"/>
+      <xs:enumeration value="sn"/>
+      <xs:enumeration value="kn"/>
+      <xs:enumeration value="sm"/>
+      <xs:enumeration value="va"/>
+      <xs:enumeration value="vc"/>
+      <xs:enumeration value="lc"/>
+      <xs:enumeration value="sv"/>
+      <xs:enumeration value="ws"/>
+      <xs:enumeration value="st"/>
+      <xs:enumeration value="sc"/>
+      <xs:enumeration value="sl"/>
+      <xs:enumeration value="sg"/>
+      <xs:enumeration value="si"/>
+      <xs:enumeration value="sk"/>
+      <xs:enumeration value="so"/>
+      <xs:enumeration value="sd"/>
+      <xs:enumeration value="lk"/>
+      <xs:enumeration value="se"/>
+      <xs:enumeration value="ch"/>
+      <xs:enumeration value="sr"/>
+      <xs:enumeration value="sz"/>
+      <xs:enumeration value="sy"/>
+      <xs:enumeration value="tw"/>
+      <xs:enumeration value="tj"/>
+      <xs:enumeration value="tz"/>
+      <xs:enumeration value="td"/>
+      <xs:enumeration value="th"/>
+      <xs:enumeration value="tl"/>
+      <xs:enumeration value="tg"/>
+      <xs:enumeration value="to"/>
+      <xs:enumeration value="vt"/>
+      <xs:enumeration value="tn"/>
+      <xs:enumeration value="tm"/>
+      <xs:enumeration value="tr"/>
+      <xs:enumeration value="tv"/>
+      <xs:enumeration value="ua"/>
+      <xs:enumeration value="uy"/>
+      <xs:enumeration value="vu"/>
+      <xs:enumeration value="ve"/>
+      <xs:enumeration value="vn"/>
+      <xs:enumeration value="ye"/>
+      <xs:enumeration value="zm"/>
+      <xs:enumeration value="zw"/>
+      <xs:enumeration value="mk"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="FullNationalityType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Nationalité</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Nationalité</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="None" value="Aucune"/>
+        <enum key="af" value="Afghan(e)"/>
+        <enum key="za" value="Sud-africain(e)"/>
+        <enum key="al" value="Albanais(e)"/>
+        <enum key="dz" value="Algérien(ne)"/>
+        <enum key="de" value="Allemand(e)"/>
+        <enum key="ad" value="Andorran(e)"/>
+        <enum key="ao" value="Angolais(e)"/>
+        <enum key="ai" value="d'Anguilla"/>
+        <enum key="aq" value="d'Antarctique"/>
+        <enum key="ag" value="d'Antigua-et-Barbuda"/>
+        <enum key="an" value="des Antilles néerlandaises"/>
+        <enum key="sa" value="Saoudien(nne)"/>
+        <enum key="ar" value="Argentin(e)"/>
+        <enum key="am" value="Arménien(ne)"/>
+        <enum key="aw" value="d'Aruba"/>
+        <enum key="au" value="Australien(ne)"/>
+        <enum key="at" value="Autrichien(ne)"/>
+        <enum key="az" value="Azerbaïdjanais(e)"/>
+        <enum key="bs" value="Bahamien(ne)"/>
+        <enum key="bh" value="Bahreïnien(ne)"/>
+        <enum key="bd" value="Bangladais(e)"/>
+        <enum key="bb" value="Barbadien(ne)"/>
+        <enum key="be" value="Belge"/>
+        <enum key="bz" value="Belizien(ne)"/>
+        <enum key="bj" value="Béninois(e)"/>
+        <enum key="bm" value="des Bermudes"/>
+        <enum key="bt" value="Bhoutanais(e)"/>
+        <enum key="by" value="Biélorusse"/>
+        <enum key="mm" value="Birman(e)"/>
+        <enum key="bo" value="Bolivien(ne)"/>
+        <enum key="ba" value="de Bosnie-et-Herzégovine"/>
+        <enum key="bw" value="Botswanais(e)"/>
+        <enum key="br" value="Brésilien(ne)"/>
+        <enum key="bn" value="du Brunei"/>
+        <enum key="bg" value="Bulgare"/>
+        <enum key="bf" value="Burkinabè"/>
+        <enum key="bi" value="Burundais(e)"/>
+        <enum key="kh" value="Cambodgien(ne)"/>
+        <enum key="cm" value="Camerounais(e)"/>
+        <enum key="ca" value="Canadien(ne)"/>
+        <enum key="cv" value="Cap-Verdien(ne)"/>
+        <enum key="cl" value="Chilien(ne)"/>
+        <enum key="cn" value="Chinois(e)"/>
+        <enum key="cy" value="Chypriote"/>
+        <enum key="co" value="Colombien(ne)"/>
+        <enum key="km" value="Comorien(ne)"/>
+        <enum key="cg" value="Congolais(e)"/>
+        <enum key="kp" value="Nord-Coréen(ne)"/>
+        <enum key="kr" value="Sud-Coréen(ne)"/>
+        <enum key="cr" value="Costaricien(ne)"/>
+        <enum key="hr" value="Croate"/>
+        <enum key="cu" value="Cubain(e)"/>
+        <enum key="dk" value="Danois(e)"/>
+        <enum key="dj" value="Djiboutien(ne)"/>
+        <enum key="dm" value="Dominiquais(e)"/>
+        <enum key="eg" value="Égyptien(ne)"/>
+        <enum key="ae" value="des Émirats arabes unis"/>
+        <enum key="ec" value="Équatorien(ne)"/>
+        <enum key="er" value="Érythréen(ne)"/>
+        <enum key="es" value="Espagnol(e)"/>
+        <enum key="ee" value="Estonien(ne)"/>
+        <enum key="us" value="Américain(e)"/>
+        <enum key="et" value="Éthiopien(ne)"/>
+        <enum key="fi" value="Finlandais(e)"/>
+        <enum key="fr" value="Français(e)"/>
+        <enum key="ge" value="Géorgien(ne)"/>
+        <enum key="ga" value="Gabonais(e)"/>
+        <enum key="gm" value="Gambien(ne)"/>
+        <enum key="gh" value="Ghanéen(ne)"/>
+        <enum key="gi" value="de Gibraltar"/>
+        <enum key="gr" value="Grec(que)"/>
+        <enum key="gd" value="Grenadin(e)"/>
+        <enum key="gl" value="du Groenland"/>
+        <enum key="gu" value="du Guam"/>
+        <enum key="gt" value="Guatemaltèque"/>
+        <enum key="gn" value="Guinéen(ne)"/>
+        <enum key="gq" value="Equato-guinéen(ne)"/>
+        <enum key="gw" value="de Guinée-Bissao"/>
+        <enum key="ht" value="Haïtien(ne)"/>
+        <enum key="hn" value="Hondurien(ne)"/>
+        <enum key="hk" value="de Hong Kong"/>
+        <enum key="hu" value="Hongrois(e)"/>
+        <enum key="ck" value="des Iles Cook (CK)"/>
+        <enum key="fj" value="des Iles Fidji"/>
+        <enum key="mh" value="Marshallais(e)"/>
+        <enum key="sb" value="Salomonais(e)"/>
+        <enum key="in" value="Indien(ne)"/>
+        <enum key="id" value="Indonésien(ne)"/>
+        <enum key="ir" value="Iranien(ne)"/>
+        <enum key="iq" value="Iraquien(ne)"/>
+        <enum key="ie" value="Irlandais(e)"/>
+        <enum key="is" value="Islandais(e)"/>
+        <enum key="il" value="Israëlien(ne)"/>
+        <enum key="it" value="Italien(ne)"/>
+        <enum key="ci" value="Ivoirien(ne)"/>
+        <enum key="jm" value="Jamaïquain(e)"/>
+        <enum key="jp" value="Japonais(e)"/>
+        <enum key="jo" value="Jordanien(ne)"/>
+        <enum key="kz" value="Kazakh(e)"/>
+        <enum key="ke" value="Kényan(e)"/>
+        <enum key="kg" value="Kirghize"/>
+        <enum key="ki" value="Kiribatien(ne)"/>
+        <enum key="kw" value="Koweïtien(ne)"/>
+        <enum key="la" value="Laotien(ne)"/>
+        <enum key="ls" value="du Lesotho"/>
+        <enum key="lv" value="Lettonien(ne)"/>
+        <enum key="lb" value="Libanais(e)"/>
+        <enum key="lr" value="Liberien(ne)"/>
+        <enum key="ly" value="Libyen(ne)"/>
+        <enum key="li" value="Liechtensteinois(e)"/>
+        <enum key="lt" value="Lituanien(ne)"/>
+        <enum key="lu" value="Luxembourgeois(e)"/>
+        <enum key="mg" value="Malgache"/>
+        <enum key="my" value="Malaisien(ne)"/>
+        <enum key="mw" value="Malawien(ne)"/>
+        <enum key="mv" value="Maldivien(ne)"/>
+        <enum key="ml" value="Malien(ne)"/>
+        <enum key="mt" value="Maltais(e)"/>
+        <enum key="ma" value="Marocain(e)"/>
+        <enum key="mu" value="Mauricien(ne)"/>
+        <enum key="mr" value="Mauritanien(ne)"/>
+        <enum key="mx" value="Mexicain(e)"/>
+        <enum key="fm" value="Micronésien(ne)"/>
+        <enum key="md" value="Moldove"/>
+        <enum key="mc" value="Monégasque"/>
+        <enum key="mn" value="Mongolien(ne)"/>
+        <enum key="mz" value="Mozambicain(e)"/>
+        <enum key="np" value="Népalais(e)"/>
+        <enum key="na" value="Namibien(ne)"/>
+        <enum key="nr" value="Nauruan(e)"/>
+        <enum key="ni" value="Nicaraguayen(ne)"/>
+        <enum key="ne" value="Nigérien(ne)"/>
+        <enum key="ng" value="Nigérian(ne)"/>
+        <enum key="nu" value="Niuéan(e)"/>
+        <enum key="no" value="Norvégien(ne)"/>
+        <enum key="nz" value="Néo-Zélandais(e)"/>
+        <enum key="om" value="Omanais(e)"/>
+        <enum key="ug" value="Ougandais(e)"/>
+        <enum key="uz" value="Ouzbèk(e)"/>
+        <enum key="pe" value="Péruvien(ne)"/>
+        <enum key="pk" value="Pakistanais(e)"/>
+        <enum key="pa" value="Panaméen(ne)"/>
+        <enum key="pg" value="de Papouasie-Nouvelle-Guinée"/>
+        <enum key="py" value="Paraguayen(ne)"/>
+        <enum key="nl" value="Néerlandais(e)"/>
+        <enum key="ph" value="Philippin(e)"/>
+        <enum key="pl" value="Polonais(e)"/>
+        <enum key="pt" value="Portugais(e)"/>
+        <enum key="qa" value="Qatarien(ne)"/>
+        <enum key="cf" value="Centrafricain(e)"/>
+        <enum key="cd" value="Congolais(e)"/>
+        <enum key="do" value="Dominicain(e)"/>
+        <enum key="cz" value="Tchèque"/>
+        <enum key="ro" value="Roumain(e)"/>
+        <enum key="gb" value="Britannique"/>
+        <enum key="ru" value="Russe"/>
+        <enum key="rw" value="Rwandais(e)"/>
+        <enum key="sn" value="Sénégalais(e)"/>
+        <enum key="kn" value="de Saint-Christophe-et-Niévès"/>
+        <enum key="sm" value="Saint-Marinais(e)"/>
+        <enum key="va" value="du Saint-Siège"/>
+        <enum key="vc" value="de Saint-Vincent-et-les-Grenadines"/>
+        <enum key="lc" value="Saint-Lucien(ne)"/>
+        <enum key="sv" value="Salvadorien(ne)"/>
+        <enum key="ws" value="Samoan(e)"/>
+        <enum key="st" value="de Sao Tomé-et-Principe"/>
+        <enum key="sc" value="Seychellois(e)"/>
+        <enum key="sl" value="de Sierra Leone"/>
+        <enum key="sg" value="Singapourien(ne)"/>
+        <enum key="si" value="Slovénien(ne)"/>
+        <enum key="sk" value="Slovaque"/>
+        <enum key="so" value="Somalien(ne)"/>
+        <enum key="sd" value="Soudanais(e)"/>
+        <enum key="lk" value="Sri Lankais(e)"/>
+        <enum key="se" value="Suèdois(e)"/>
+        <enum key="ch" value="Suisse"/>
+        <enum key="sr" value="Surinamais(e)"/>
+        <enum key="sz" value="Swazi(e)"/>
+        <enum key="sy" value="Syrien(ne)"/>
+        <enum key="tw" value="Taïwanais(e)"/>
+        <enum key="tj" value="Tadjik(e)"/>
+        <enum key="tz" value="Tanzanien(ne)"/>
+        <enum key="td" value="Tchadien(ne)"/>
+        <enum key="th" value="Thaïlandais(e)"/>
+        <enum key="tl" value="Est-Timorais(e)"/>
+        <enum key="tg" value="Togolais(e)"/>
+        <enum key="to" value="Tongan(e)"/>
+        <enum key="vt" value="Trinidadien(ne)"/>
+        <enum key="tn" value="Tunisien(ne)"/>
+        <enum key="tm" value="Turkmène"/>
+        <enum key="tr" value="Turc(que)"/>
+        <enum key="tv" value="Tuvaluan(e)"/>
+        <enum key="ua" value="Ukrainien(ne)"/>
+        <enum key="uy" value="Uruguayen(ne)"/>
+        <enum key="vu" value="Vanuatuan(e)"/>
+        <enum key="ve" value="Venezuelien(ne)"/>
+        <enum key="vn" value="Viêtnamien(ne)"/>
+        <enum key="ye" value="Yéménite"/>
+        <enum key="zm" value="Zambien(ne)"/>
+        <enum key="zw" value="Zimbabwéen(ne)"/>
+        <enum key="mk" value="de l'ancienne République yougoslave de Macédoine"/>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None"/>
+      <xs:enumeration value="af"/>
+      <xs:enumeration value="za"/>
+      <xs:enumeration value="al"/>
+      <xs:enumeration value="dz"/>
+      <xs:enumeration value="de"/>
+      <xs:enumeration value="ad"/>
+      <xs:enumeration value="ao"/>
+      <xs:enumeration value="ai"/>
+      <xs:enumeration value="aq"/>
+      <xs:enumeration value="ag"/>
+      <xs:enumeration value="an"/>
+      <xs:enumeration value="sa"/>
+      <xs:enumeration value="ar"/>
+      <xs:enumeration value="am"/>
+      <xs:enumeration value="aw"/>
+      <xs:enumeration value="au"/>
+      <xs:enumeration value="at"/>
+      <xs:enumeration value="az"/>
+      <xs:enumeration value="bs"/>
+      <xs:enumeration value="bh"/>
+      <xs:enumeration value="bd"/>
+      <xs:enumeration value="bb"/>
+      <xs:enumeration value="be"/>
+      <xs:enumeration value="bz"/>
+      <xs:enumeration value="bj"/>
+      <xs:enumeration value="bm"/>
+      <xs:enumeration value="bt"/>
+      <xs:enumeration value="by"/>
+      <xs:enumeration value="mm"/>
+      <xs:enumeration value="bo"/>
+      <xs:enumeration value="ba"/>
+      <xs:enumeration value="bw"/>
+      <xs:enumeration value="br"/>
+      <xs:enumeration value="bn"/>
+      <xs:enumeration value="bg"/>
+      <xs:enumeration value="bf"/>
+      <xs:enumeration value="bi"/>
+      <xs:enumeration value="kh"/>
+      <xs:enumeration value="cm"/>
+      <xs:enumeration value="ca"/>
+      <xs:enumeration value="cv"/>
+      <xs:enumeration value="cl"/>
+      <xs:enumeration value="cn"/>
+      <xs:enumeration value="cy"/>
+      <xs:enumeration value="co"/>
+      <xs:enumeration value="km"/>
+      <xs:enumeration value="cg"/>
+      <xs:enumeration value="kp"/>
+      <xs:enumeration value="kr"/>
+      <xs:enumeration value="cr"/>
+      <xs:enumeration value="hr"/>
+      <xs:enumeration value="cu"/>
+      <xs:enumeration value="dk"/>
+      <xs:enumeration value="dj"/>
+      <xs:enumeration value="dm"/>
+      <xs:enumeration value="eg"/>
+      <xs:enumeration value="ae"/>
+      <xs:enumeration value="ec"/>
+      <xs:enumeration value="er"/>
+      <xs:enumeration value="es"/>
+      <xs:enumeration value="ee"/>
+      <xs:enumeration value="us"/>
+      <xs:enumeration value="et"/>
+      <xs:enumeration value="fi"/>
+      <xs:enumeration value="fr"/>
+      <xs:enumeration value="ge"/>
+      <xs:enumeration value="ga"/>
+      <xs:enumeration value="gm"/>
+      <xs:enumeration value="gh"/>
+      <xs:enumeration value="gi"/>
+      <xs:enumeration value="gr"/>
+      <xs:enumeration value="gd"/>
+      <xs:enumeration value="gl"/>
+      <xs:enumeration value="gu"/>
+      <xs:enumeration value="gt"/>
+      <xs:enumeration value="gn"/>
+      <xs:enumeration value="gq"/>
+      <xs:enumeration value="gw"/>
+      <xs:enumeration value="ht"/>
+      <xs:enumeration value="hn"/>
+      <xs:enumeration value="hk"/>
+      <xs:enumeration value="hu"/>
+      <xs:enumeration value="ck"/>
+      <xs:enumeration value="fj"/>
+      <xs:enumeration value="mh"/>
+      <xs:enumeration value="sb"/>
+      <xs:enumeration value="in"/>
+      <xs:enumeration value="id"/>
+      <xs:enumeration value="ir"/>
+      <xs:enumeration value="iq"/>
+      <xs:enumeration value="ie"/>
+      <xs:enumeration value="is"/>
+      <xs:enumeration value="il"/>
+      <xs:enumeration value="it"/>
+      <xs:enumeration value="ci"/>
+      <xs:enumeration value="jm"/>
+      <xs:enumeration value="jp"/>
+      <xs:enumeration value="jo"/>
+      <xs:enumeration value="kz"/>
+      <xs:enumeration value="ke"/>
+      <xs:enumeration value="kg"/>
+      <xs:enumeration value="ki"/>
+      <xs:enumeration value="kw"/>
+      <xs:enumeration value="la"/>
+      <xs:enumeration value="ls"/>
+      <xs:enumeration value="lv"/>
+      <xs:enumeration value="lb"/>
+      <xs:enumeration value="lr"/>
+      <xs:enumeration value="ly"/>
+      <xs:enumeration value="li"/>
+      <xs:enumeration value="lt"/>
+      <xs:enumeration value="lu"/>
+      <xs:enumeration value="mg"/>
+      <xs:enumeration value="my"/>
+      <xs:enumeration value="mw"/>
+      <xs:enumeration value="mv"/>
+      <xs:enumeration value="ml"/>
+      <xs:enumeration value="mt"/>
+      <xs:enumeration value="ma"/>
+      <xs:enumeration value="mu"/>
+      <xs:enumeration value="mr"/>
+      <xs:enumeration value="mx"/>
+      <xs:enumeration value="fm"/>
+      <xs:enumeration value="md"/>
+      <xs:enumeration value="mc"/>
+      <xs:enumeration value="mn"/>
+      <xs:enumeration value="mz"/>
+      <xs:enumeration value="np"/>
+      <xs:enumeration value="na"/>
+      <xs:enumeration value="nr"/>
+      <xs:enumeration value="ni"/>
+      <xs:enumeration value="ne"/>
+      <xs:enumeration value="ng"/>
+      <xs:enumeration value="nu"/>
+      <xs:enumeration value="no"/>
+      <xs:enumeration value="nz"/>
+      <xs:enumeration value="om"/>
+      <xs:enumeration value="ug"/>
+      <xs:enumeration value="uz"/>
+      <xs:enumeration value="pe"/>
+      <xs:enumeration value="pk"/>
+      <xs:enumeration value="pa"/>
+      <xs:enumeration value="pg"/>
+      <xs:enumeration value="py"/>
+      <xs:enumeration value="nl"/>
+      <xs:enumeration value="ph"/>
+      <xs:enumeration value="pl"/>
+      <xs:enumeration value="pt"/>
+      <xs:enumeration value="qa"/>
+      <xs:enumeration value="cf"/>
+      <xs:enumeration value="cd"/>
+      <xs:enumeration value="do"/>
+      <xs:enumeration value="cz"/>
+      <xs:enumeration value="ro"/>
+      <xs:enumeration value="gb"/>
+      <xs:enumeration value="ru"/>
+      <xs:enumeration value="rw"/>
+      <xs:enumeration value="sn"/>
+      <xs:enumeration value="kn"/>
+      <xs:enumeration value="sm"/>
+      <xs:enumeration value="va"/>
+      <xs:enumeration value="vc"/>
+      <xs:enumeration value="lc"/>
+      <xs:enumeration value="sv"/>
+      <xs:enumeration value="ws"/>
+      <xs:enumeration value="st"/>
+      <xs:enumeration value="sc"/>
+      <xs:enumeration value="sl"/>
+      <xs:enumeration value="sg"/>
+      <xs:enumeration value="si"/>
+      <xs:enumeration value="sk"/>
+      <xs:enumeration value="so"/>
+      <xs:enumeration value="sd"/>
+      <xs:enumeration value="lk"/>
+      <xs:enumeration value="se"/>
+      <xs:enumeration value="ch"/>
+      <xs:enumeration value="sr"/>
+      <xs:enumeration value="sz"/>
+      <xs:enumeration value="sy"/>
+      <xs:enumeration value="tw"/>
+      <xs:enumeration value="tj"/>
+      <xs:enumeration value="tz"/>
+      <xs:enumeration value="td"/>
+      <xs:enumeration value="th"/>
+      <xs:enumeration value="tl"/>
+      <xs:enumeration value="tg"/>
+      <xs:enumeration value="to"/>
+      <xs:enumeration value="vt"/>
+      <xs:enumeration value="tn"/>
+      <xs:enumeration value="tm"/>
+      <xs:enumeration value="tr"/>
+      <xs:enumeration value="tv"/>
+      <xs:enumeration value="ua"/>
+      <xs:enumeration value="uy"/>
+      <xs:enumeration value="vu"/>
+      <xs:enumeration value="ve"/>
+      <xs:enumeration value="vn"/>
+      <xs:enumeration value="ye"/>
+      <xs:enumeration value="zm"/>
+      <xs:enumeration value="zw"/>
+      <xs:enumeration value="mk"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="InseeDepartementCodeType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Département</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Département</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="None" value="Aucun"/>
+        <enum key="DEP_01" value="Ain"/>
+        <enum key="DEP_02" value="Aisne"/>
+        <enum key="DEP_03" value="Allier"/>
+        <enum key="DEP_04" value="Alpes-de-Haute-Provence"/>
+        <enum key="DEP_05" value="Hautes-Alpes"/>
+        <enum key="DEP_06" value="Alpes-Maritimes"/>
+        <enum key="DEP_07" value="Ardèche"/>
+        <enum key="DEP_08" value="Ardennes"/>
+        <enum key="DEP_09" value="Ariège"/>
+        <enum key="DEP_10" value="Aube"/>
+        <enum key="DEP_11" value="Aude"/>
+        <enum key="DEP_12" value="Aveyron"/>
+        <enum key="DEP_13" value="Bouches-du-Rhône"/>
+        <enum key="DEP_14" value="Calvados"/>
+        <enum key="DEP_15" value="Cantal"/>
+        <enum key="DEP_16" value="Charente"/>
+        <enum key="DEP_17" value="Charente-Maritime"/>
+        <enum key="DEP_18" value="Cher"/>
+        <enum key="DEP_19" value="Corrèze"/>
+        <enum key="DEP_2A" value="Corse-du-Sud"/>
+        <enum key="DEP_2B" value="Haute-Corse"/>
+        <enum key="DEP_21" value="Côte-d'Or"/>
+        <enum key="DEP_22" value="Côtes-d'Armor"/>
+        <enum key="DEP_23" value="Creuse"/>
+        <enum key="DEP_24" value="Dordogne"/>
+        <enum key="DEP_25" value="Doubs"/>
+        <enum key="DEP_26" value="Drôme"/>
+        <enum key="DEP_27" value="Eure"/>
+        <enum key="DEP_28" value="Eure-et-Loir"/>
+        <enum key="DEP_29" value="Finistère"/>
+        <enum key="DEP_30" value="Gard"/>
+        <enum key="DEP_31" value="Haute-Garonne"/>
+        <enum key="DEP_32" value="Gers"/>
+        <enum key="DEP_33" value="Gironde"/>
+        <enum key="DEP_34" value="Hérault"/>
+        <enum key="DEP_35" value="Ille-et-Vilaine"/>
+        <enum key="DEP_36" value="Indre"/>
+        <enum key="DEP_37" value="Indre-et-Loire"/>
+        <enum key="DEP_38" value="Isère"/>
+        <enum key="DEP_39" value="Jura"/>
+        <enum key="DEP_40" value="Landes"/>
+        <enum key="DEP_41" value="Loir-et-Cher"/>
+        <enum key="DEP_42" value="Loire"/>
+        <enum key="DEP_43" value="Haute-Loire"/>
+        <enum key="DEP_44" value="Loire-Atlantique"/>
+        <enum key="DEP_45" value="Loiret"/>
+        <enum key="DEP_46" value="Lot"/>
+        <enum key="DEP_47" value="Lot-et-Garonne"/>
+        <enum key="DEP_48" value="Lozère"/>
+        <enum key="DEP_49" value="Maine-et-Loire"/>
+        <enum key="DEP_50" value="Manche"/>
+        <enum key="DEP_51" value="Marne"/>
+        <enum key="DEP_52" value="Haute-Marne"/>
+        <enum key="DEP_53" value="Mayenne"/>
+        <enum key="DEP_54" value="Meurthe-et-Moselle"/>
+        <enum key="DEP_55" value="Meuse"/>
+        <enum key="DEP_56" value="Morbihan"/>
+        <enum key="DEP_57" value="Moselle"/>
+        <enum key="DEP_58" value="Nièvre"/>
+        <enum key="DEP_59" value="Nord"/>
+        <enum key="DEP_60" value="Oise"/>
+        <enum key="DEP_61" value="Orne"/>
+        <enum key="DEP_62" value="Pas-de-Calais"/>
+        <enum key="DEP_63" value="Puy-de-Dôme"/>
+        <enum key="DEP_64" value="Pyrénes-Atlantiques"/>
+        <enum key="DEP_65" value="Hautes-Pyrénées"/>
+        <enum key="DEP_66" value="Pyrénées-Orientales"/>
+        <enum key="DEP_67" value="Bas-Rhin"/>
+        <enum key="DEP_68" value="Haut-Rhin"/>
+        <enum key="DEP_69" value="Rhône"/>
+        <enum key="DEP_70" value="Haute-Saône"/>
+        <enum key="DEP_71" value="Saône-et-Loire"/>
+        <enum key="DEP_72" value="Sarthe"/>
+        <enum key="DEP_73" value="Savoie"/>
+        <enum key="DEP_74" value="Haute-Savoie"/>
+        <enum key="DEP_75" value="Paris"/>
+        <enum key="DEP_76" value="Seine-Maritime"/>
+        <enum key="DEP_77" value="Seine-et-Marne"/>
+        <enum key="DEP_78" value="Yvelines"/>
+        <enum key="DEP_79" value="Deux-Sèvres"/>
+        <enum key="DEP_80" value="Somme"/>
+        <enum key="DEP_81" value="Tarn"/>
+        <enum key="DEP_82" value="Tarn-et-Garonne"/>
+        <enum key="DEP_83" value="Var"/>
+        <enum key="DEP_84" value="Vaucluse"/>
+        <enum key="DEP_85" value="Vendée"/>
+        <enum key="DEP_86" value="Vienne"/>
+        <enum key="DEP_87" value="Haute-Vienne"/>
+        <enum key="DEP_88" value="Vosges"/>
+        <enum key="DEP_89" value="Yonne"/>
+        <enum key="DEP_90" value="Territoire de Belfort"/>
+        <enum key="DEP_91" value="Essonne"/>
+        <enum key="DEP_92" value="Hauts-de-Seine"/>
+        <enum key="DEP_93" value="Seine-Saint-Denis"/>
+        <enum key="DEP_94" value="Val-de-Marne"/>
+        <enum key="DEP_95" value="Val-d'Oise"/>
+        <enum key="DEP_971" value="Guadeloupe"/>
+        <enum key="DEP_972" value="Martinique"/>
+        <enum key="DEP_973" value="Guyane"/>
+        <enum key="DEP_974" value="Réunion"/>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None"/>
+      <xs:enumeration value="DEP_01"/>
+      <xs:enumeration value="DEP_02"/>
+      <xs:enumeration value="DEP_03"/>
+      <xs:enumeration value="DEP_04"/>
+      <xs:enumeration value="DEP_05"/>
+      <xs:enumeration value="DEP_06"/>
+      <xs:enumeration value="DEP_07"/>
+      <xs:enumeration value="DEP_08"/>
+      <xs:enumeration value="DEP_09"/>
+      <xs:enumeration value="DEP_10"/>
+      <xs:enumeration value="DEP_11"/>
+      <xs:enumeration value="DEP_12"/>
+      <xs:enumeration value="DEP_13"/>
+      <xs:enumeration value="DEP_14"/>
+      <xs:enumeration value="DEP_15"/>
+      <xs:enumeration value="DEP_16"/>
+      <xs:enumeration value="DEP_17"/>
+      <xs:enumeration value="DEP_18"/>
+      <xs:enumeration value="DEP_19"/>
+      <xs:enumeration value="DEP_2A"/>
+      <xs:enumeration value="DEP_2B"/>
+      <xs:enumeration value="DEP_21"/>
+      <xs:enumeration value="DEP_22"/>
+      <xs:enumeration value="DEP_23"/>
+      <xs:enumeration value="DEP_24"/>
+      <xs:enumeration value="DEP_25"/>
+      <xs:enumeration value="DEP_26"/>
+      <xs:enumeration value="DEP_27"/>
+      <xs:enumeration value="DEP_28"/>
+      <xs:enumeration value="DEP_29"/>
+      <xs:enumeration value="DEP_30"/>
+      <xs:enumeration value="DEP_31"/>
+      <xs:enumeration value="DEP_32"/>
+      <xs:enumeration value="DEP_33"/>
+      <xs:enumeration value="DEP_34"/>
+      <xs:enumeration value="DEP_35"/>
+      <xs:enumeration value="DEP_36"/>
+      <xs:enumeration value="DEP_37"/>
+      <xs:enumeration value="DEP_38"/>
+      <xs:enumeration value="DEP_39"/>
+      <xs:enumeration value="DEP_40"/>
+      <xs:enumeration value="DEP_41"/>
+      <xs:enumeration value="DEP_42"/>
+      <xs:enumeration value="DEP_43"/>
+      <xs:enumeration value="DEP_44"/>
+      <xs:enumeration value="DEP_45"/>
+      <xs:enumeration value="DEP_46"/>
+      <xs:enumeration value="DEP_47"/>
+      <xs:enumeration value="DEP_48"/>
+      <xs:enumeration value="DEP_49"/>
+      <xs:enumeration value="DEP_50"/>
+      <xs:enumeration value="DEP_51"/>
+      <xs:enumeration value="DEP_52"/>
+      <xs:enumeration value="DEP_53"/>
+      <xs:enumeration value="DEP_54"/>
+      <xs:enumeration value="DEP_55"/>
+      <xs:enumeration value="DEP_56"/>
+      <xs:enumeration value="DEP_57"/>
+      <xs:enumeration value="DEP_58"/>
+      <xs:enumeration value="DEP_59"/>
+      <xs:enumeration value="DEP_60"/>
+      <xs:enumeration value="DEP_61"/>
+      <xs:enumeration value="DEP_62"/>
+      <xs:enumeration value="DEP_63"/>
+      <xs:enumeration value="DEP_64"/>
+      <xs:enumeration value="DEP_65"/>
+      <xs:enumeration value="DEP_66"/>
+      <xs:enumeration value="DEP_67"/>
+      <xs:enumeration value="DEP_68"/>
+      <xs:enumeration value="DEP_69"/>
+      <xs:enumeration value="DEP_70"/>
+      <xs:enumeration value="DEP_71"/>
+      <xs:enumeration value="DEP_72"/>
+      <xs:enumeration value="DEP_73"/>
+      <xs:enumeration value="DEP_74"/>
+      <xs:enumeration value="DEP_75"/>
+      <xs:enumeration value="DEP_76"/>
+      <xs:enumeration value="DEP_77"/>
+      <xs:enumeration value="DEP_78"/>
+      <xs:enumeration value="DEP_79"/>
+      <xs:enumeration value="DEP_80"/>
+      <xs:enumeration value="DEP_81"/>
+      <xs:enumeration value="DEP_82"/>
+      <xs:enumeration value="DEP_83"/>
+      <xs:enumeration value="DEP_84"/>
+      <xs:enumeration value="DEP_85"/>
+      <xs:enumeration value="DEP_86"/>
+      <xs:enumeration value="DEP_87"/>
+      <xs:enumeration value="DEP_88"/>
+      <xs:enumeration value="DEP_89"/>
+      <xs:enumeration value="DEP_90"/>
+      <xs:enumeration value="DEP_91"/>
+      <xs:enumeration value="DEP_92"/>
+      <xs:enumeration value="DEP_93"/>
+      <xs:enumeration value="DEP_94"/>
+      <xs:enumeration value="DEP_95"/>
+      <xs:enumeration value="DEP_971"/>
+      <xs:enumeration value="DEP_972"/>
+      <xs:enumeration value="DEP_973"/>
+      <xs:enumeration value="DEP_974"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PostalCodeType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Code postal selon norme de la poste</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Postal code as defined by mail office</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Code postal</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Postal code</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="5"/>
+      <xs:pattern value="[0-9]{5}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DepartmentCodeType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Numéro de département</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Department code</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Département</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Department</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="2"/>
+      <xs:pattern value="[0-9]{2}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CityType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Ville (selon la norme de la poste)</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Locality name (as defined by mail office)</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Ville</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Locality name</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="32"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="LastNameType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Type des éléments de nom Etat Civil (ORIGINE ADAE)</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Nom</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="38"/>
+      <xs:pattern value="[A-Z.]*"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SexType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Sexe de l'individu</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Sexe</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Male" value="Masculin"/>
+        <enum key="Female" value="Féminin"/>
+        <enum key="Unknown" value="Inconnu"/>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Male"/>
+      <xs:enumeration value="Female"/>
+      <xs:enumeration value="Unknown"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="TitleType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Civilité de l'individu</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Civilité</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Mister" value="Monsieur"/>
+        <enum key="Madam" value="Madame"/>
+        <enum key="Miss" value="Mademoiselle"/>
+        <enum key="Agency" value="Organisme"/>
+        <enum key="Unknown" value="Inconnue"/>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Mister"/>
+      <xs:enumeration value="Madam"/>
+      <xs:enumeration value="Miss"/>
+      <xs:enumeration value="Agency"/>
+      <xs:enumeration value="Unknown"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="FamilyStatusType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Situation familiale de l'individu</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Situation familiale</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Married" value="Marié(e)"/>
+        <enum key="Single" value="Célibataire"/>
+        <enum key="Divorced" value="Divorcé(e)"/>
+        <enum key="Widow" value="Veuf(ve)"/>
+        <enum key="CommonLawMarriage" value="Concubinage"/>
+        <enum key="PACS" value="PACS"/>
+        <enum key="Other" value="Autre"/>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Married"/>
+      <xs:enumeration value="Single"/>
+      <xs:enumeration value="Divorced"/>
+      <xs:enumeration value="Widow"/>
+      <xs:enumeration value="CommonLawMarriage"/>
+      <xs:enumeration value="PACS"/>
+      <xs:enumeration value="Other"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="EmailType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Courriel (Syntaxe: au moins un caractère avant le @ obligatoire, - ou . après le @, nom de
+        domaine d'au moins un caractère et extension de deux caractères, attention un changement de
+        casse vers des majuscules est nécessaire)</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Courriel</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[a-zA-Z0-9._%\-]+@[a-zA-Z0-9._%\-]+\.[a-zA-Z0-9._%\-]{2,4}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PhoneType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Numéro de Téléphone (Syntaxe: 10 chiffres)</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Téléphone</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="10"/>
+      <xs:pattern value="^0[1-9][0-9]{8}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="MobilePhoneType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Numéro de Téléphone mobile (Syntaxe: 10 chiffres)</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Téléphone mobile</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="10"/>
+      <xs:pattern value="^0[67][0-9]{8}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CfbnType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Numéro de caisse d'allocation familiale (Syntaxe xxxxxxy, x étant un chiffre et y une
+        lettre)</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Numéro de CAF</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="8"/>
+      <xs:pattern value="[0-9]{7}[A-Z]{0,1}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="FirstNameType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Prénom d'un individu (ORIGINE ADAE)</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Prénom</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="38"/>
+      <xs:pattern value="[A-Z]?.*"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="BirthPlaceType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Lieu de naissance d'un individu: Département, Commune et Code Postal (ORIGINE ADAE)</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="City" type="cvq:CityType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Ville de naissance d'un individu</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Ville</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PostalCode" type="cvq:PostalCodeType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Code postal de la ville de naissance d'un individu</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Code postal</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="AddressBloc32UpperType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Zone d'informations (Adresse postale) de 32 caratères</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Address information bloc (32 characters)</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Zone d'informations (Adresse postale) de 32 caratères</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Address information bloc (32 char)</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[ A-Z0-9]{1,32}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="AddressBloc38Type">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Zone d'informations (Adresse postale) de 38 caratères</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Address information bloc (38 characters)</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Zone d'informations (Adresse postale) de 38 caratères</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Address information bloc (38 char)</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="38"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="AddressBloc38UpperType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[ A-Z0-9]{1,38}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="AddressType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Adresse postale (selon la norme de la poste)</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Postal address  (as defined by mail office)</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Adresse</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Address</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Id" type="xs:long"/>
+      <!--Ligne 2 (normalized address)-->
+      <xs:element name="AdditionalDeliveryInformation" type="cvq:AddressBloc38Type" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Informations de destination complémentaires</xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Additional delivery point informations</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Informations de destination complémentaires</xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Additional delivery point informations</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <!--Ligne 3 (normalized address)-->
+      <xs:element name="AdditionalGeographicalInformation" type="cvq:AddressBloc38Type" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Informations géographiques complémentaires</xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Additional geographical informations</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Informations géographiques complémentaires</xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Additional geographical informations</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <!--Ligne 4 (normalized address)-->
+      <xs:element name="StreetNumber" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Numéro de voie</xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Street number</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Numéro de voie</xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Street number</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:pattern value="[0-9A-Z]{1,5}"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="StreetName" type="cvq:AddressBloc32UpperType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Type et nom de voie</xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Street name</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Type et nom de voie</xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Street name</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <!--Ligne 5 (normalized address)-->
+      <xs:element name="PlaceNameOrService" type="cvq:AddressBloc38UpperType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Mention spéciale de distribution et numéro</xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Place name or Service</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Mention spéciale de distribution et numéro</xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Place name or Service</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <!--Ligne 6 (normalized address)-->
+      <xs:element name="PostalCode" type="cvq:PostalCodeType"/>
+      <xs:element name="City" type="cvq:AddressBloc32UpperType"/>
+      <!--Ligne 7 (normalized address)-->
+      <xs:element name="CountryName" type="cvq:AddressBloc38UpperType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Nom de Pays</xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Coutry name</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Pays</xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Country</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="LegalResponsibleType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Informations caractérisant le responsable légal d'un enfant</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Responsable légal</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Id" type="xs:long"/>
+      <xs:element name="Role" type="cvq:LegalResponsibleRoleType"/>
+      <xs:element name="LegalResponsible" type="cvq:AdultType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="ActorStateType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Statut associé à un individu</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Statut</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Pending" value="En attente"/>
+        <enum key="Valid" value="Valide"/>
+        <enum key="Invalid" value="Invalide"/>
+        <enum key="Archived" value="Archivé"/>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Pending"/>
+      <xs:enumeration value="Valid"/>
+      <xs:enumeration value="Invalid"/>
+      <xs:enumeration value="Archived"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="MeansOfContactEnumType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">List de Moyen de contact</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Means of contact list</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Moyen de contact</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Means of contact</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Mail" value="Courrier"/>
+        <enum key="Email" value="Courriel"/>
+        <enum key="HomePhone" value="Téléphone Domicile"/>
+        <enum key="OfficePhone" value="Téléphone Bureau"/>
+        <enum key="MobilePhone" value="Téléphone Mobile"/>
+        <enum key="Sms" value="SMS"/>
+        <!--<enum key="Fax" value="Fax" />
+        <enum key="CapdematMessage" value="Méssage dans l'espace personel" />-->
+        <enum key="LocalAuthorityOffice" value="Guichet"/>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Mail"/>
+      <xs:enumeration value="Email"/>
+      <xs:enumeration value="HomePhone"/>
+      <xs:enumeration value="OfficePhone"/>
+      <xs:enumeration value="MobilePhone"/>
+      <xs:enumeration value="Sms"/>
+      <!--<xs:enumeration value="Fax" />
+      <xs:enumeration value="CapdematMessage" />-->
+      <xs:enumeration value="LocalAuthorityOffice"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="MeansOfContactType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Moyen de contact</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Means of contact</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Moyen de contact</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Means of contact</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Id" type="xs:long"/>
+      <xs:element name="Type" type="cvq:MeansOfContactEnumType"/>
+      <xs:element name="Enabled" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="IndividualType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Information caractérisant un individu</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Individu</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Id" type="xs:long"/>
+      <xs:element name="ExternalCapdematId" type="xs:string" minOccurs="0"/>
+      <xs:element name="ExternalId" type="xs:string" minOccurs="0"/>
+      <xs:element name="Login" type="xs:string" minOccurs="0"/>
+      <xs:element name="PublicKey" type="xs:string" minOccurs="0"/>
+      <xs:element name="LastName" type="cvq:LastNameType"/>
+      <xs:element name="FirstName" type="cvq:FirstNameType"/>
+      <xs:element name="FirstName2" type="cvq:FirstNameType" minOccurs="0"/>
+      <xs:element name="FirstName3" type="cvq:FirstNameType" minOccurs="0"/>
+      <xs:element name="BirthDate" type="xs:date" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Date de naissance de l'individu</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Date de naissance</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="BirthPlace" type="cvq:BirthPlaceType" minOccurs="0"/>
+      <xs:element name="Sex" type="cvq:SexType" minOccurs="0"/>
+      <xs:element name="Address" type="cvq:AddressType"/>
+      <xs:element name="CreationDate" type="xs:date" minOccurs="0"/>
+      <xs:element name="State" type="cvq:ActorStateType"/>
+      <xs:element name="Role" type="cvq:IndividualRoleType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AdultType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Information caractérisant un adulte</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Adulte</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="cvq:IndividualType">
+        <xs:sequence>
+          <xs:element name="Title" type="cvq:TitleType" minOccurs="0"/>
+          <xs:element name="MaidenName" type="cvq:LastNameType" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Nom de jeune fille</xs:documentation>
+              <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Nom de jeune fille</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="NameOfUse" type="cvq:LastNameType" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Nom d'usage</xs:documentation>
+              <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Nom d'usage</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FamilyStatus" type="cvq:FamilyStatusType" default="Other"/>
+          <xs:element name="HomePhone" type="cvq:PhoneType">
+            <xs:annotation>
+              <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Téléphone du domicile de l'adulte</xs:documentation>
+              <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Téléphone domicile</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="OfficePhone" type="cvq:PhoneType" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Téléphone professionnel de l'adulte</xs:documentation>
+              <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Téléphone professionnel</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="MobilePhone" type="cvq:MobilePhoneType" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Téléphone portable de l'adulte</xs:documentation>
+              <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Téléphone portable</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="Email" type="cvq:EmailType"/>
+          <xs:element name="Cfbn" type="cvq:CfbnType" minOccurs="0"/>
+          <xs:element name="Profession" type="xs:string" minOccurs="0"/>
+          <!--FIXME : do the three following elements have to appear in schema ?-->
+          <xs:element name="Question" type="xs:string" minOccurs="0"/>
+          <xs:element name="Answer" type="xs:string" minOccurs="0"/>
+          <xs:element name="Password" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ChildType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Informations caractérisant un enfant</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Enfant</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="cvq:IndividualType">
+        <xs:sequence>
+          <xs:element name="LegalResponsible" type="cvq:LegalResponsibleType" minOccurs="1" maxOccurs="3"/>
+          <xs:element name="Note" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="IndividualRoleType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Rôle d'un individu</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Individual role</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Rôle d'un individu</xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Individual role</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="IndividualId" type="xs:long" minOccurs="0"/>
+      <xs:element name="HomeFolderId" type="xs:long" minOccurs="0"/>
+      <xs:element name="RoleName" type="cvq:RoleType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="RoleType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Rôle</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Rôle</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Pending" value="En attente"/>
+        <enum key="Valid" value="Valide"/>
+        <enum key="Invalid" value="Invalide"/>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="HomeFolderResponsible"/>
+      <xs:enumeration value="ClrMother"/>
+      <xs:enumeration value="ClrFather"/>
+      <xs:enumeration value="ClrTutor"/>
+      <xs:enumeration value="Tutor"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="LegalResponsibleRoleType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Informations caractérisant la qualité du responsable légal pour l'enfant</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Qualité du responsable légal</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Father" value="Père"/>
+        <enum key="Mother" value="Mère"/>
+        <enum key="Tutor" value="Tuteur"/>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Father"/>
+      <xs:enumeration value="Mother"/>
+      <xs:enumeration value="Tutor"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="HomeFolderType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Informations relatives à un foyer</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Foyer</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Id" type="xs:long"/>
+      <xs:element name="ExternalCapdematId" type="xs:string" minOccurs="0"/>
+      <xs:element name="ExternalId" type="xs:string" minOccurs="0"/>
+      <xs:element name="Individuals" type="cvq:IndividualType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Address" type="cvq:AddressType" minOccurs="0"/>
+      <xs:element name="State" type="cvq:ActorStateType"/>
+      <xs:element name="FamilyQuotient" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="AcceptanceType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Acceptation d'un élément de formulaire</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Acceptation</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:boolean"/>
+  </xs:simpleType>
+  <!--REQUESTS RELATED TYPES-->
+  <xs:simpleType name="RequestStateType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Etat associé à la demande</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Etat</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Validated" value="Validé"/>
+        <enum key="Closed" value="Fermé"/>
+        <enum key="Archived" value="Archivé"/>
+        <enum key="Rejected" value="Refusé"/>
+        <enum key="Uncomplete" value="Incomplet"/>
+        <enum key="Complete" value="Complet"/>
+        <enum key="Cancelled" value="Annulé"/>
+        <enum key="Pending" value="En attente"/>
+        <enum key="Notified" value="Notifié"/>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Validated"/>
+      <xs:enumeration value="Closed"/>
+      <xs:enumeration value="Archived"/>
+      <xs:enumeration value="Rejected"/>
+      <xs:enumeration value="Uncomplete"/>
+      <xs:enumeration value="Complete"/>
+      <xs:enumeration value="Cancelled"/>
+      <xs:enumeration value="Pending"/>
+      <xs:enumeration value="Notified"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DataStateType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Statut associé aux données d'une demande</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Statut des données</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Pending" value="En attente"/>
+        <enum key="Valid" value="Valide"/>
+        <enum key="Invalid" value="Invalide"/>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Pending"/>
+      <xs:enumeration value="Valid"/>
+      <xs:enumeration value="Invalid"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="SubjectType">
+    <xs:choice>
+      <xs:element name="Individual" type="cvq:IndividualType"/>
+      <xs:element name="Adult" type="cvq:AdultType"/>
+      <xs:element name="Child" type="cvq:ChildType"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="RequestType" abstract="true">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Informations générales relatives à une demande administrative</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Demande</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="RequestTypeLabel" type="xs:string"/>
+      <xs:element name="Id" type="xs:long">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Identifiant de la demande</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Identifiant</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Subject" type="cvq:SubjectType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Sujet d'une demande</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Sujet</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Requester" type="cvq:AdultType"/>
+      <xs:element name="CreationDate" type="xs:date">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Date de création de la demande</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Date de création</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ValidationDate" type="xs:date">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Date de validation de la demande</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Date de validation</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="LastModificationDate" type="xs:date">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Date de dernière modification de la demande</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Dernière modification</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="LastInterveningUserId" type="xs:long"/>
+      <xs:element name="Step">
+        <xs:simpleType>
+          <xs:annotation>
+            <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Etape associée à la demande</xs:documentation>
+            <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Etape</xs:documentation>
+            <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+              <enum key="Instruction" value="Instruction"/>
+              <enum key="Delivery" value="Délivrance"/>
+            </xs:documentation>
+          </xs:annotation>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Instruction"/>
+            <xs:enumeration value="Delivery"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="State" type="cvq:RequestStateType"/>
+      <xs:element name="DataState" type="cvq:DataStateType"/>
+      <xs:element name="HomeFolder" type="cvq:HomeFolderType"/>
+      <xs:element name="MeansOfContact" type="cvq:MeansOfContactType"/>
+      <xs:element name="RequestSeason" type="cvq:RequestSeasonType" minOccurs="0"/>
+      <xs:element name="Observations" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="200"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <!--allow additional information from referential (only) to be added to the request-->
+      <xs:element name="AdditionalInformation" type="cvq:AdditionalInformationType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RequestSeasonType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Saison de validité d'une demande</xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Saison</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Id" type="xs:long">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Identifiant de la saison</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Identifiant</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Label" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Libellé de la saison</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Libellé</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="RegistrationStart" type="xs:date">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Date de début des inscriptions</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Début des inscriptions</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="RegistrationEnd" type="xs:date">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Date de fin des inscriptions</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Fin des inscriptions</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ValidationAuthorizationStart" type="xs:date" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Date de début de validation des inscriptions</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Début de validation des inscriptions</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="EffectStart" type="xs:date">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Date de début de la saison</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Début de la saison</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="EffectEnd" type="xs:date">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Date de fin de la saison</xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Fin de la saison</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AdditionalInformationType">
+    <xs:sequence>
+      <xs:any namespace="http://www.cg95.fr/cvq/schema/common" minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+  <!--LOCAL REFERENTIAL RELATED TYPES-->
+  <xs:complexType name="LocalReferentialDataType">
+    <xs:sequence>
+      <xs:element name="Id" type="xs:long"/>
+      <xs:element name="Name" type="xs:string"/>
+      <xs:element name="Priority" type="xs:positiveInteger" minOccurs="0"/>
+      <xs:element name="AdditionalInformationLabel" type="xs:string" minOccurs="0"/>
+      <xs:element name="AdditionalInformationValue" type="xs:string" minOccurs="0"/>
+      <xs:element name="Children" type="cvq:LocalReferentialDataType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TicketTypeSelectionType">
+    <xs:sequence>
+      <xs:element name="Id" type="xs:long"/>
+      <xs:element name="Name" type="xs:string"/>
+      <xs:element name="Number" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PlaceReservationDataType">
+    <xs:sequence>
+      <xs:element name="Id" type="xs:long"/>
+      <xs:element name="Name" type="xs:string"/>
+      <xs:element name="TicketTypeSelection" type="cvq:TicketTypeSelectionType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>http://localhost:8080/ServiceExporter/external/requests.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://www.capwebct.fr/capdemat" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:schema="http://www.capwebct.fr/capdemat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.capwebct.fr/capdemat" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="http://www.cg95.fr/cvq/schema/common" xmlns:capdemat="http://www.capwebct.fr/capdemat">
+      <xs:import namespace="http://www.cg95.fr/cvq/schema/common" schemaLocation="http://people.zenexity.fr/~bor/capdemat/V4_1/schemas/CVQCommonElements.xsd"/>
+      <xs:element name="GetRequestsRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="RequestTypeLabel" type="xs:string">
+              <xs:annotation>
+                <xs:documentation>The label of the request types. If not provided, all authorized 
+	          request types will be returned.</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="Id" type="xs:long">
+              <xs:annotation>
+                <xs:documentation>To retrieve a specific request by id</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="DateFrom" type="xs:dateTime">
+              <xs:annotation>
+                <xs:documentation>The date to search from</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="DateTo" type="xs:dateTime">
+              <xs:annotation>
+                <xs:documentation>The date to search to. Defaults to today (included) if not provided.</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element default="Validated" name="State" type="common:RequestStateType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetRequestsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:choice>
+              <xs:element minOccurs="0" name="Error" type="xs:string"/>
+              <xs:element maxOccurs="unbounded" minOccurs="0" name="Request" type="common:RequestType"/>
+            </xs:choice>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AckRequestsRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="AckElements" type="capdemat:AckRequestType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AckRequestsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Accomplished" type="xs:boolean"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="AckRequestType">
+        <xs:sequence>
+          <xs:element name="RequestId" type="xs:long">
+            <xs:annotation>
+              <xs:documentation>Processed request identifier</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="Erroneous" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>Error flag</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="GetRequestsResponse">
+    <wsdl:part element="schema:GetRequestsResponse" name="GetRequestsResponse"/>
+  </wsdl:message>
+  <wsdl:message name="AckRequestsResponse">
+    <wsdl:part element="schema:AckRequestsResponse" name="AckRequestsResponse"/>
+  </wsdl:message>
+  <wsdl:message name="AckRequestsRequest">
+    <wsdl:part element="schema:AckRequestsRequest" name="AckRequestsRequest"/>
+  </wsdl:message>
+  <wsdl:message name="GetRequestsRequest">
+    <wsdl:part element="schema:GetRequestsRequest" name="GetRequestsRequest"/>
+  </wsdl:message>
+  <wsdl:portType name="RequestService">
+    <wsdl:operation name="AckRequests">
+      <wsdl:input message="schema:AckRequestsRequest" name="AckRequestsRequest"/>
+      <wsdl:output message="schema:AckRequestsResponse" name="AckRequestsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetRequests">
+      <wsdl:input message="schema:GetRequestsRequest" name="GetRequestsRequest"/>
+      <wsdl:output message="schema:GetRequestsResponse" name="GetRequestsResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RequestServiceBinding" type="schema:RequestService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="AckRequests">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="AckRequestsRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="AckRequestsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRequests">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="GetRequestsRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetRequestsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RequestServiceService">
+    <wsdl:port binding="schema:RequestServiceBinding" name="RequestServicePort">
+      <soap:address location=""/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/CapDemat/service/soap</con:endpoint><con:endpoint>https://vosdemarches.enghien95.fr/ServiceExporter/external</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="AckRequests" bindingOperationName="AckRequests" type="Request-Response" outputName="AckRequestsResponse" inputName="AckRequestsRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="localhost"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/CapDemat/service/soap</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cap="http://www.capwebct.fr/capdemat" xmlns:wsse='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd'>
+   <soapenv:Header>
+      <wsse:Security>
+         <wsse:UsernameToken xmlns:wsu='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd' wsu:Id='XWSSGID-1178818329986803890945'>
+            <wsse:Username>Generic Rest External Service</wsse:Username>
+            <wsse:Password Type='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText'>Dude</wsse:Password>
+         </wsse:UsernameToken>
+      </wsse:Security>
+   </soapenv:Header>
+   <soapenv:Body>
+      <cap:AckRequestsRequest>
+         <!--1 or more repetitions:-->
+         <cap:AckElements>
+            <cap:RequestId>129</cap:RequestId>
+            <cap:Erroneous>false</cap:Erroneous>
+         </cap:AckElements>
+      </cap:AckRequestsRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.capwebct.fr/capdemat/RequestService/AckRequestsRequest"/></con:call></con:operation><con:operation isOneWay="false" action="" name="GetRequests" bindingOperationName="GetRequests" type="Request-Response" outputName="GetRequestsResponse" inputName="GetRequestsRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="localhost"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/CapDemat/service/soap</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cap="http://www.capwebct.fr/capdemat" xmlns:wsse='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd'>
+   <soapenv:Header>
+      <wsse:Security>
+         <wsse:UsernameToken xmlns:wsu='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd' wsu:Id='XWSSGID-1178818329986803890945'>
+            <wsse:Username>Generic Soap External Service</wsse:Username>
+            <wsse:Password Type='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText'>Roubaix</wsse:Password>
+         </wsse:UsernameToken>
+      </wsse:Security>
+   </soapenv:Header>
+   <soapenv:Body>
+      <cap:GetRequestsRequest>
+         <!--Optional:-->
+         <!--<cap:RequestTypeLabel>?</cap:RequestTypeLabel>-->
+         <!--Optional:-->
+         <cap:Id>265</cap:Id>
+         <!--Optional:-->
+         <!--<cap:DateFrom>?</cap:DateFrom>-->
+         <!--Optional:-->
+         <!--<cap:DateTo>?</cap:DateTo>-->
+         <!--<cap:State>Validated</cap:State>-->
+      </cap:GetRequestsRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.capwebct.fr/capdemat/RequestService/GetRequestsRequest"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="HomeFolderServiceBinding" type="wsdl" bindingName="{http://www.capwebct.fr/capdemat}HomeFolderServiceBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/ServiceExporter/external/homefolders.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/ServiceExporter/external/homefolders.wsdl"><con:part><con:url>http://localhost:8080/ServiceExporter/external/homefolders.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://www.capwebct.fr/capdemat" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:schema="http://www.capwebct.fr/capdemat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.capwebct.fr/capdemat" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:capdemat="http://www.capwebct.fr/capdemat">
+      <xs:element name="GetHomeFoldersRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="LocalAuthority" type="xs:string">
+              <xs:annotation>
+                <xs:documentation>The local authority for which the home folders list is asked for</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="ShortForm" type="xs:boolean">
+              <xs:annotation>
+                <xs:documentation>Whether the returned list is short (only individuals names and ids) or full</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetHomeFoldersResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="HomeFolder" type="capdemat:HomeFolderType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="HomeFolderType">
+        <xs:sequence>
+          <xs:element name="Id" type="xs:long"/>
+          <xs:element name="Address" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" name="Individual" type="capdemat:IndividualType"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="IndividualType">
+        <xs:sequence>
+          <xs:element name="Id" type="xs:long"/>
+          <xs:element name="FirstName" type="xs:string"/>
+          <xs:element name="LastName" type="xs:string"/>
+          <xs:element default="false" name="IsChild" type="xs:boolean"/>
+          <xs:element default="false" name="IsHomeFolderResponsible" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="GetHomeFoldersResponse">
+    <wsdl:part element="schema:GetHomeFoldersResponse" name="GetHomeFoldersResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetHomeFoldersRequest">
+    <wsdl:part element="schema:GetHomeFoldersRequest" name="GetHomeFoldersRequest"/>
+  </wsdl:message>
+  <wsdl:portType name="HomeFolderService">
+    <wsdl:operation name="GetHomeFolders">
+      <wsdl:input message="schema:GetHomeFoldersRequest" name="GetHomeFoldersRequest"/>
+      <wsdl:output message="schema:GetHomeFoldersResponse" name="GetHomeFoldersResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="HomeFolderServiceBinding" type="schema:HomeFolderService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetHomeFolders">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="GetHomeFoldersRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetHomeFoldersResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="HomeFolderServiceService">
+    <wsdl:port binding="schema:HomeFolderServiceBinding" name="HomeFolderServicePort">
+      <soap:address location=""/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints/><con:operation isOneWay="false" action="" name="GetHomeFolders" bindingOperationName="GetHomeFolders" type="Request-Response" outputName="GetHomeFoldersResponse" inputName="GetHomeFoldersRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cap="http://www.capwebct.fr/capdemat">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <cap:GetHomeFoldersRequest>
+         <cap:LocalAuthority>?</cap:LocalAuthority>
+         <cap:ShortForm>?</cap:ShortForm>
+      </cap:GetHomeFoldersRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.capwebct.fr/capdemat/HomeFolderService/GetHomeFoldersRequest"/></con:call></con:operation></con:interface><con:interface xsi:type="con:RestService" name="Request Documents List" type="rest" basePath="/CapDemat/service/request/179/documents" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart=""/><con:endpoints><con:endpoint>http://localhost:8080</con:endpoint></con:endpoints><con:resource name="Doc" path="/CapDemat/service/request/179/documents"><con:settings/><con:parameters/><con:request name="Doc" method="GET"><con:settings/><con:endpoint>http://localhost:8080</con:endpoint><con:request/><con:parameters/></con:request></con:resource></con:interface><con:mockService port="8088" path="/mockRequestServiceBinding" name="RequestServiceBinding MockService"><con:settings/><con:mockOperation name="AckRequests" interface="RequestServiceBinding" operation="AckRequests"><con:settings/><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:defaultResponse>Response 1</con:defaultResponse><con:response name="Response 1" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cap="http://www.capwebct.fr/capdemat">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <cap:AckRequestsResponse>
+         <cap:Accomplished>?</cap:Accomplished>
+      </cap:AckRequestsResponse>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.capwebct.fr/capdemat/RequestService/AckRequestsResponse"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="GetRequests" interface="RequestServiceBinding" operation="GetRequests"><con:settings/><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:defaultResponse>Response 1</con:defaultResponse><con:response name="Response 1" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cap="http://www.capwebct.fr/capdemat">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <cap:GetRequestsResponse>
+         <!--You have a CHOICE of the next 2 items at this level-->
+      </cap:GetRequestsResponse>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.capwebct.fr/capdemat/RequestService/GetRequestsResponse"/></con:response><con:dispatchConfig/></con:mockOperation><con:properties/></con:mockService><con:properties/><con:wssContainer/></con:soapui-project>

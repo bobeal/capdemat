@@ -692,6 +692,8 @@ class FrontofficeRequestCreationController {
                         redirect(url:paymentService.initPayment(payment).toString())
                         return false
                     }
+                    securityService.setEcitizenSessionInformation(parameters.requesterLogin,
+                        session)
                     redirect(action:'exit', params:parameters)
                     return
                 } else {

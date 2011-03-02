@@ -5,7 +5,7 @@
       <li>
         <p class="first-line">
           <g:if test="${record.homeFolderId}">
-            <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="actor.state" />
+            <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="user.state" />
             <a href="${createLink(action:'details',id:record.homeFolderId)}">
           </g:if>
           ${record.firstName} 

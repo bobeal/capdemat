@@ -1,9 +1,9 @@
 <dt>${message(code:'homeFolder.individual.property.address')}</dt>
 <dd>
-  <p>${actor?.address?.additionalDeliveryInformation}</p>
-  <p>${actor?.address?.additionalGeographicalInformation}</p>
-  <p>${actor?.address?.streetNumber} ${actor?.address?.streetName}</p>
-  <p>${actor?.address?.placeNameOrService}</p>
-  <p>${actor?.address?.postalCode} ${actor?.address?.city}</p>
-  <p>${actor?.address?.countryName}</p>
+  <p>${user?.address?.additionalDeliveryInformation}</p>
+  <p>${user?.address?.additionalGeographicalInformation}</p>
+  <p>${user?.address?.streetNumber} ${user?.address?.streetName}</p>
+  <p>${user?.address?.placeNameOrService}</p>
+  <p>${user?.address?.postalCode} ${user?.address?.city}</p>
+  <p>${user?.address?.countryName}</p>
 </dd>

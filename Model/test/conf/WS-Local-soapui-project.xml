@@ -1447,7 +1447,7 @@
       <xs:element name="LegalResponsible" type="cvq:AdultType"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:simpleType name="ActorStateType">
+  <xs:simpleType name="UserStateType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Statut associé à un individu</xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Statut</xs:documentation>
@@ -1533,7 +1533,7 @@
       <xs:element name="Sex" type="cvq:SexType" minOccurs="0"/>
       <xs:element name="Address" type="cvq:AddressType"/>
       <xs:element name="CreationDate" type="xs:date" minOccurs="0"/>
-      <xs:element name="State" type="cvq:ActorStateType"/>
+      <xs:element name="State" type="cvq:UserStateType"/>
       <xs:element name="Role" type="cvq:IndividualRoleType" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
@@ -1660,7 +1660,7 @@
       <xs:element name="ExternalId" type="xs:string" minOccurs="0"/>
       <xs:element name="Individuals" type="cvq:IndividualType" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="Address" type="cvq:AddressType" minOccurs="0"/>
-      <xs:element name="State" type="cvq:ActorStateType"/>
+      <xs:element name="State" type="cvq:UserStateType"/>
       <xs:element name="FamilyQuotient" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>

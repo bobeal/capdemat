@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.Map;
 
-import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType;
+import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.util.Critere;
 
@@ -26,7 +26,7 @@ public interface IIndividualDAO extends IGenericDAO {
      * Look up an Individual given a set of search criteria.
      */
     List<Individual> search(final Set<Critere> criteria, final String orderedBy, 
-            final ActorState[] excludedStates);
+            final UserState[] excludedStates);
 
     /**
      * Return the list of {@link Individual individuals} belonging to the given home folder.

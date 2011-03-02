@@ -154,20 +154,20 @@ class BackofficeHomeFolderController {
         def homeFolder = homeFolderService.getById(params.long("id"))
         def mode = request.get ? params.mode : "static"
         if (request.post) {
-            homeFolderService.modifyState(individual, ActorState.forString(params.state))
+            homeFolderService.modifyState(individual, UserState.forString(params.state))
         }
         render(template : params.mode + "/state", model : [
-            "actor" : individual, "actorType" : "homeFolder", "states" : ActorState.allActorStates])
+            "user" : individual, "userType" : "homeFolder", "states" : UserState.allUserStates])
     }
 
     def individualState = {
         def individual = individualService.getById(params.long("id"))
         def mode = request.get ? params.mode : "static"
         if (request.post) {
-            individualService.updateIndividualState(individual, ActorState.forString(params.state))
+            individualService.updateIndividualState(individual, UserState.forString(params.state))
         }
         render(template : mode + "/state", model : [
-            "actor" : individual, "actorType" : "individual", "states" : ActorState.allActorStates])
+            "user" : individual, "userType" : "individual", "states" : UserState.allUserStates])
     }
 
     def address = {
@@ -182,7 +182,7 @@ class BackofficeHomeFolderController {
                     "cityInseeCode", "countryName", "placeNameOrService", "postalCode",
                     "streetMatriculation", "streetName", "streetNumber", "streetRivoliCode"])
         }
-        render(template : mode + "/address", model : ["actor" : adult])
+        render(template : mode + "/address", model : ["user" : adult])
     }
 
     def contact = {
@@ -436,10 +436,10 @@ class BackofficeHomeFolderController {
     protected List buildHomeFolderStateFilter() {
         def result = []
         
-        for(ActorState state : ActorState.allActorStates) {
+        for(UserState state : UserState.allUserStates) {
             result.add([
                 'name':state.toString(),
-                'i18nKey': message(code:"actor.state.${state.toString().toLowerCase()}")
+                'i18nKey': message(code:"user.state.${state.toString().toLowerCase()}")
             ])
         }
         return result;

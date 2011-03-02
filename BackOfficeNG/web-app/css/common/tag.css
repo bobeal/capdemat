@@ -53,7 +53,7 @@ invoice : paid, no_paid
 .tag-free, .tag-lockacquired, .tag-locked,
 /* request action types */
 .tag-draftdeletenotification, .tag-creationnotification,
-.tag-orangealertnotification, .tag-redalertnotification, .tag-creation, .tag-modification,
+.tag-orangealertnotification, .tag-redalertnotification, .tag-creation, .tag-modification, .tag-modified,
 .tag-statechange, .tag-contactcitizen,
 /* document (request creation) */
 .tag-new, .tag-pageaddition, .tag-pageedition, .tag-pagedeletion, .tag-merge,
@@ -130,7 +130,7 @@ invoice : paid, no_paid
 /* orange*/
 .tag-homefolderresponsible,
 .tag-read_write,
-.tag-modification,
+.tag-modification, .tag-modified,
 .tag-pageedition,
 .tag-inprogress,
 .tag-orangealertnotification,

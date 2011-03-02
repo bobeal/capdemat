@@ -116,3 +116,12 @@ alter table user_action
     add constraint FKD768C52A8BD77771
     foreign key (home_folder_id)
     references home_folder;
+
+update individual i set state = 'Modified' where state = 'Pending' and
+    (select count(*) from home_folder_modification_request where id in
+        (select specific_data_id from request r where r.home_folder_id = i.home_folder_id)) > 0;
+update individual set state = 'New' where state = 'Pending';
+update home_folder hf set state = 'Modified' where state = 'Pending' and
+    (select count(*) from home_folder_modification_request where id in
+        (select specific_data_id from request r where r.home_folder_id = hf.id)) > 0;
+update home_folder set state = 'New' where state = 'Pending';

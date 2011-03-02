@@ -22,7 +22,7 @@
           </p>
           <p>
             <g:message code="property.state"/> : 
-            <g:capdematEnumToFlag var="${homeFolder.state}" i18nKeyPrefix="actor.state" />
+            <g:capdematEnumToFlag var="${homeFolder.state}" i18nKeyPrefix="user.state" />
           </p>
           <p>
             <g:message code="property.address"/> : <strong>${homeFolder.addressDetails}</strong>

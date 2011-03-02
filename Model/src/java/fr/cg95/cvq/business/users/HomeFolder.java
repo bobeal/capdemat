@@ -42,7 +42,7 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
      */
     private String externalCapDematId;
     
-    private ActorState state;
+    private UserState state;
 
     @NotNull(message = "address")
     @AssertValid(message = "address")
@@ -86,7 +86,7 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
         homeFolderType.setIndividualsArray(individualsArray);
         
         if (this.state != null)
-            homeFolderType.setState(fr.cg95.cvq.xml.common.ActorStateType.Enum.forString(this.state.toString()));
+            homeFolderType.setState(fr.cg95.cvq.xml.common.UserStateType.Enum.forString(this.state.toString()));
         if (this.familyQuotient != null)
             homeFolderType.setFamilyQuotient(this.familyQuotient);
         
@@ -110,7 +110,7 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
         homeFolder.setIndividuals(individuals);
 
         if (homeFolderType.getState() != null)
-            homeFolder.setState(ActorState.forString(homeFolderType.getState().toString()));
+            homeFolder.setState(UserState.forString(homeFolderType.getState().toString()));
         if (homeFolderType.getFamilyQuotient() != null)
             homeFolder.setFamilyQuotient(homeFolderType.getFamilyQuotient());
         
@@ -152,16 +152,16 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
      *  length="16"
      *  not-null="true"
      */
-    public ActorState getState() {
+    public UserState getState() {
         return this.state;
     }
 
-    public void setState(ActorState state) {
+    public void setState(UserState state) {
         this.state = state;
     }
 
     public void setState(String state) {
-    	this.state = ActorState.forString(state);
+        this.state = UserState.forString(state);
     }
 
     /**

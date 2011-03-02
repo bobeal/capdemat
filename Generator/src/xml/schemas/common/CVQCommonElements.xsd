@@ -1713,7 +1713,7 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:simpleType name="ActorStateType">
+  <xs:simpleType name="UserStateType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
         Statut associé à un individu
@@ -1831,7 +1831,7 @@
       <xs:element name="BirthPlace" type="cvq:BirthPlaceType" minOccurs="0" />
       <xs:element name="Address" type="cvq:AddressType" />
       <xs:element name="CreationDate" type="xs:date" minOccurs="0" />
-      <xs:element name="State" type="cvq:ActorStateType" />
+      <xs:element name="State" type="cvq:UserStateType" />
       <xs:element name="Role" type="cvq:IndividualRoleType" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
@@ -2010,7 +2010,7 @@
       <xs:element name="Individuals" type="cvq:IndividualType" maxOccurs="unbounded" />
       <xs:element name="ExternalIndividuals" type="cvq:IndividualType" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="Address" type="cvq:AddressType" minOccurs="0" />
-      <xs:element name="State" type="cvq:ActorStateType" />
+      <xs:element name="State" type="cvq:UserStateType" />
       <xs:element name="FamilyQuotient" type="xs:string" minOccurs="0" />
     </xs:sequence>
   </xs:complexType>

@@ -8,7 +8,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.authentication.IAuthenticationService;
-import fr.cg95.cvq.business.users.ActorState;
+import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
@@ -97,7 +97,7 @@ public class AuthenticationService implements IAuthenticationService {
         if (!(individual instanceof Adult))
             throw new CvqModelException("Children can't authenticate");
 
-        if (homeFolder.getState().equals(ActorState.ARCHIVED)) {
+        if (homeFolder.getState().equals(UserState.ARCHIVED)) {
             logger.warn("checkHomeFolderState() user belongs to an archived account");
             throw new CvqUnknownUserException();
         }

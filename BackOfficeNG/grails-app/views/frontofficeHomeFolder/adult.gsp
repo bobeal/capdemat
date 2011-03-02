@@ -14,7 +14,7 @@
             <dt><g:message code="property.creationDate" /> : </dt>
             <dd><g:formatDate formatName="format.date" date="${adult.creationDate}"/></dd>
             <dt><g:message code="property.state" /> : </dt>
-            <dd><g:capdematEnumToFlag var="${adult.state}" i18nKeyPrefix="actor.state" /></dd>
+            <dd><g:capdematEnumToFlag var="${adult.state}" i18nKeyPrefix="user.state" /></dd>
           </dl>
         </div>
         <div class="yui-u">

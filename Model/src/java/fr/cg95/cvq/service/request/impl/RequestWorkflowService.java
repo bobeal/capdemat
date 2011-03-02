@@ -34,11 +34,11 @@ import fr.cg95.cvq.business.request.RequestStep;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.RequestEvent.COMP_DATA;
 import fr.cg95.cvq.business.request.RequestEvent.EVENT_TYPE;
-import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.business.users.UsersEvent;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
@@ -106,7 +106,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         if (otherRequests != null && !otherRequests.isEmpty())
             throw new CvqModelException("homeFolder.error.alreadyAccountModifcationInProgess");
 
-        if (!homeFolder.getState().equals(ActorState.VALID))
+        if (!homeFolder.getState().equals(UserState.VALID))
             throw new CvqModelException("homeFolder.error.accountModifcationPossibleForValidatedAccount");
     }
 

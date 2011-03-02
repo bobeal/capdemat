@@ -32,7 +32,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 
 import fr.cg95.cvq.authentication.IAuthenticationService;
-import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
@@ -41,6 +40,7 @@ import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.IndividualRole;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.UserAction;
+import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.business.users.UsersEvent;
 import fr.cg95.cvq.business.users.UsersEvent.EVENT_TYPE;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
@@ -105,7 +105,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         HomeFolder homeFolder = new HomeFolder();
         homeFolder.setAddress(adult.getAddress());
         homeFolder.setEnabled(Boolean.TRUE);
-        homeFolder.setState(ActorState.PENDING);
+        homeFolder.setState(UserState.NEW);
         homeFolder.setTemporary(temporary);
         homeFolderDAO.create(homeFolder);
         homeFolder.getActions().add(new UserAction(UserAction.Type.CREATION, homeFolder.getId()));
@@ -426,7 +426,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         return individualDAO.listBySubjectRoles(subjectId, roles, false);
     }
 
-    private void updateHomeFolderState(HomeFolder homeFolder, ActorState newState) {
+    private void updateHomeFolderState(HomeFolder homeFolder, UserState newState) {
         logger.debug("updateHomeFolderState() Gonna update state of home folder : "
             + homeFolder.getId());
         homeFolder.setState(newState);
@@ -446,14 +446,14 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public final void validate(final Long id)
         throws CvqObjectNotFoundException {
-        updateHomeFolderState(getById(id), ActorState.VALID);
+        updateHomeFolderState(getById(id), UserState.VALID);
     }
 
     @Override
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public final void invalidate(final Long id)
         throws CvqObjectNotFoundException {
-        updateHomeFolderState(getById(id), ActorState.INVALID);
+        updateHomeFolderState(getById(id), UserState.INVALID);
     }
 
     @Override
@@ -461,7 +461,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     public final void archive(final Long id) 
         throws CvqObjectNotFoundException {
         HomeFolder homeFolder = getById(id);
-        updateHomeFolderState(homeFolder, ActorState.ARCHIVED);
+        updateHomeFolderState(homeFolder, UserState.ARCHIVED);
         UsersEvent homeFolderEvent =
             new UsersEvent(this, EVENT_TYPE.HOME_FOLDER_ARCHIVE, homeFolder.getId(), null);
         applicationContext.publishEvent(homeFolderEvent);
@@ -577,7 +577,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
                 }
                 HomeFolder result = new HomeFolder();
                 //create(adults, children, homeFolderAddress, false);
-                updateHomeFolderState(result, ActorState.VALID);
+                updateHomeFolderState(result, UserState.VALID);
                 HibernateUtil.getSession().flush();
                 Adult responsible = getHomeFolderResponsible(result.getId());
                 String password = authenticationService.generatePassword();

@@ -12,7 +12,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.type.Type;
 
-import fr.cg95.cvq.business.users.ActorState;
+import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
@@ -62,7 +62,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
     }
 
     public List<Individual> search(final Set<Critere> criteria, final String orderedBy, 
-            final ActorState[] excludedStates) {
+            final UserState[] excludedStates) {
 
         StringBuffer sb = new StringBuffer();
         sb.append("from Individual as individual").append(" where 1 = 1 ");

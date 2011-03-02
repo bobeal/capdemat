@@ -5,7 +5,7 @@
     <g:if test="${homeFolder.info.enabled}"><span class="tag-valid"><g:message code="message.yes" /></span></g:if>
     <g:else><span class="tag-invalid"><g:message code="message.no" /></span></g:else>
   </p>
-  <p>${message(code:'property.state')} : <g:capdematEnumToFlag var="${homeFolder.info.state}" i18nKeyPrefix="actor.state" /></p>
+  <p>${message(code:'property.state')} : <g:capdematEnumToFlag var="${homeFolder.info.state}" i18nKeyPrefix="user.state" /></p>
   <p>${message(code:'property.address')} : <strong>${homeFolder.info.addressDetails}</strong></p>
   <p>        
     <a href="${createLink(controller:'backofficeHomeFolder', action:'details', id:homeFolder.info.id)}">

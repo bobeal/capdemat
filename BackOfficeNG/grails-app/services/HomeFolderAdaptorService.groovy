@@ -51,7 +51,7 @@ class HomeFolderAdaptorService {
             JSON.parse(action.data).each {
                 switch (it.key) {
                     case "state" :
-                        result.state = CapdematUtils.adaptCapdematEnum(it.value, "actor.state")
+                        result.state = CapdematUtils.adaptCapdematEnum(it.value, "user.state")
                         break
                     default :
                         result.(it.key) = it.value

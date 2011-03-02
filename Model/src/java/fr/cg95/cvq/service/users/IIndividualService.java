@@ -7,10 +7,10 @@ import java.util.Set;
 
 import com.google.gson.JsonObject;
 
-import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.exception.CvqBadPasswordException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -58,7 +58,7 @@ public interface IIndividualService extends IAutofillTriggerService {
     void modifyPassword(final Adult adult, final String oldPassword, final String newPassword)
         throws CvqException, CvqBadPasswordException;
 
-    void updateIndividualState(Individual individual, ActorState newState);
+    void updateIndividualState(Individual individual, UserState newState);
 
     /**
      * @param adult The {@link Adult} to validate

@@ -28,11 +28,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import fr.cg95.cvq.authentication.IAuthenticationService;
-import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.UserAction;
+import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.users.IAdultDAO;
 import fr.cg95.cvq.dao.users.IChildDAO;
@@ -70,7 +70,7 @@ public class IndividualService implements IIndividualService {
     public List<Individual> get(final Set<Critere> criteriaSet, final String orderedBy,
         final boolean searchAmongArchived) {
         return individualDAO.search(criteriaSet, orderedBy,
-            searchAmongArchived ? null : new ActorState[] { ActorState.ARCHIVED });
+            searchAmongArchived ? null : new UserState[] { UserState.ARCHIVED });
     }
 
     @Override
@@ -202,7 +202,7 @@ public class IndividualService implements IIndividualService {
     }
 
     private Long create(Individual individual) {
-        individual.setState(ActorState.PENDING);
+        individual.setState(UserState.NEW);
         individual.setCreationDate(new Date());
         Long id = individualDAO.create(individual);
         individual.getHomeFolder().getActions().add(new UserAction(UserAction.Type.CREATION, id));
@@ -269,7 +269,7 @@ public class IndividualService implements IIndividualService {
     }
 
     @Override
-    public void updateIndividualState(Individual individual, ActorState newState) {
+    public void updateIndividualState(Individual individual, UserState newState) {
         individual.setState(newState);
         individualDAO.update(individual);
         JsonObject payload = new JsonObject();

@@ -87,7 +87,7 @@ public abstract class Individual implements Historizable, Serializable {
 
 
     private Date creationDate;
-    private ActorState state;
+    private UserState state;
 
     @NotNull(message = "address", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Adult")
     @AssertValid(message = "address", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Adult")
@@ -131,7 +131,7 @@ public abstract class Individual implements Historizable, Serializable {
         if (this.address != null)
             individualType.setAddress(Address.modelToXml(this.address));
         if (this.state != null)
-            individualType.setState(fr.cg95.cvq.xml.common.ActorStateType.Enum.forString(this.state.toString()));
+            individualType.setState(fr.cg95.cvq.xml.common.UserStateType.Enum.forString(this.state.toString()));
         IndividualRoleType roles[] = new IndividualRoleType[individualRoles.size()];
         int i = 0;
         for (IndividualRole individualRole : individualRoles) {
@@ -160,7 +160,7 @@ public abstract class Individual implements Historizable, Serializable {
             setCreationDate(individualType.getCreationDate().getTime());
         }
         if (individualType.getState() != null)
-            setState(ActorState.forString(individualType.getState().toString()));
+            setState(UserState.forString(individualType.getState().toString()));
         setAddress(Address.xmlToModel(individualType.getAddress()));
         Set<IndividualRole> roles = new HashSet<IndividualRole>();
         for (IndividualRoleType roleType : individualType.getRoleArray()) {
@@ -366,16 +366,16 @@ public abstract class Individual implements Historizable, Serializable {
      *  length="16"
      *  not-null="true"
      */
-    public ActorState getState() {
+    public UserState getState() {
         return this.state;
     }
 
-    public void setState(ActorState state) {
+    public void setState(UserState state) {
         this.state = state;
     }
 
     public void setState(String state) {
-        this.state = ActorState.forString(state);
+        this.state = UserState.forString(state);
     }
     
     /**

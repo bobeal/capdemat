@@ -332,6 +332,12 @@
     alter table recreation_contact_individual 
         drop constraint FK52B67F65FCCD2304;
 
+    alter table renewal_perischool_activities_request_regime_alimentaire_renouvellement 
+        drop constraint FK8AFF2E83E35CAE2;
+
+    alter table renewal_perischool_activities_request_regime_alimentaire_renouvellement 
+        drop constraint FK8AFF2E837F587126;
+
     alter table request 
         drop constraint FK414EF28F85577048;
 
@@ -624,6 +630,10 @@
     drop table recreation_contact_individual;
 
     drop table remote_support_request;
+
+    drop table renewal_perischool_activities_request;
+
+    drop table renewal_perischool_activities_request_regime_alimentaire_renouvellement;
 
     drop table request;
 
@@ -2142,6 +2152,21 @@
         primary key (id)
     );
 
+    create table renewal_perischool_activities_request (
+        id int8 not null,
+        acceptation_reglement_interieur bool,
+        est_periscolaire bool,
+        est_restauration bool,
+        primary key (id)
+    );
+
+    create table renewal_perischool_activities_request_regime_alimentaire_renouvellement (
+        renewal_perischool_activities_request_id int8 not null,
+        regime_alimentaire_renouvellement_id int8 not null,
+        regime_alimentaire_renouvellement_index int4 not null,
+        primary key (renewal_perischool_activities_request_id, regime_alimentaire_renouvellement_index)
+    );
+
     create table request (
         id int8 not null,
         home_folder_id int8,
@@ -3133,6 +3158,16 @@
         add constraint FK52B67F65FCCD2304 
         foreign key (recreation_activity_registration_request_id) 
         references recreation_activity_registration_request;
+
+    alter table renewal_perischool_activities_request_regime_alimentaire_renouvellement 
+        add constraint FK8AFF2E83E35CAE2 
+        foreign key (renewal_perischool_activities_request_id) 
+        references renewal_perischool_activities_request;
+
+    alter table renewal_perischool_activities_request_regime_alimentaire_renouvellement 
+        add constraint FK8AFF2E837F587126 
+        foreign key (regime_alimentaire_renouvellement_id) 
+        references local_referential_data;
 
     alter table request 
         add constraint FK414EF28F85577048 

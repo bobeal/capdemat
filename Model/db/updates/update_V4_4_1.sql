@@ -80,3 +80,28 @@ alter table tiers_informations
     add constraint FK58C18B7589395924
     foreign key (school_transport_registration_request_id)
     references school_transport_registration_request;
+
+create table renewal_perischool_activities_request (
+    id int8 not null,
+    acceptation_reglement_interieur bool,
+    est_periscolaire bool,
+    est_restauration bool,
+    primary key (id)
+);
+
+create table renewal_perischool_activities_request_regime_alimentaire_renouvellement (
+    renewal_perischool_activities_request_id int8 not null,
+    regime_alimentaire_renouvellement_id int8 not null,
+    regime_alimentaire_renouvellement_index int4 not null,
+    primary key (renewal_perischool_activities_request_id, regime_alimentaire_renouvellement_index)
+);
+
+alter table renewal_perischool_activities_request_regime_alimentaire_renouvellement
+    add constraint FK8AFF2E83E35CAE2
+    foreign key (renewal_perischool_activities_request_id)
+    references renewal_perischool_activities_request;
+
+alter table renewal_perischool_activities_request_regime_alimentaire_renouvellement
+    add constraint FK8AFF2E837F587126
+    foreign key (regime_alimentaire_renouvellement_id)
+    references local_referential_data;

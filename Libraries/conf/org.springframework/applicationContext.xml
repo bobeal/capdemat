@@ -444,6 +444,17 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="filingDelay" value="12"/>
   </bean>
 
+  <bean id="renewalPerischoolActivitiesRequestService" 
+    class="fr.cg95.cvq.service.request.school.impl.RenewalPerischoolActivitiesRequestService" 
+    parent="requestService">
+    <property name="localReferentialFilename" value="local_referential_rpar"/>
+    <property name="label" value="Renewal Perischool Activities"/>
+    <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
+    <property name="isOfRegistrationKind" value="true"/>
+    <property name="defaultDisplayGroup" value="school" />
+    <property name="filingDelay" value="12"/>
+  </bean>
+
   <bean id="perischoolActivityRegistrationRequestService" 
     class="fr.cg95.cvq.service.request.school.impl.PerischoolActivityRegistrationRequestService" 
     parent="requestService">

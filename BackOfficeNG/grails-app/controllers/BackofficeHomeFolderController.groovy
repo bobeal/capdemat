@@ -7,6 +7,7 @@ import java.util.Collections
 import fr.cg95.cvq.schema.ximport.HomeFolderImportDocument
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.service.users.IUserWorkflowService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.business.users.*
 import fr.cg95.cvq.security.SecurityContext
@@ -27,6 +28,7 @@ class BackofficeHomeFolderController {
     IHomeFolderService homeFolderService
     IExternalHomeFolderService externalHomeFolderService
     IIndividualService individualService
+    IUserWorkflowService userWorkflowService
     IRequestSearchService requestSearchService
     IPaymentService paymentService
     IMeansOfContactService meansOfContactService
@@ -150,24 +152,19 @@ class BackofficeHomeFolderController {
         render(template: mode + '/' + params.template, model:['homeFolder': homeFolder])
     }
 
-    def homeFolderState = {
-        def homeFolder = homeFolderService.getById(params.long("id"))
-        def mode = request.get ? params.mode : "static"
-        if (request.post) {
-            homeFolderService.modifyState(individual, UserState.forString(params.state))
+    def state = {
+        def user
+        try {
+            user = individualService.getById(params.long("id"))
+        } catch (CvqObjectNotFoundException) {
+            user = homeFolderService.getById(params.long("id"))
         }
-        render(template : params.mode + "/state", model : [
-            "user" : individual, "userType" : "homeFolder", "states" : UserState.allUserStates])
-    }
-
-    def individualState = {
-        def individual = individualService.getById(params.long("id"))
         def mode = request.get ? params.mode : "static"
         if (request.post) {
-            individualService.updateIndividualState(individual, UserState.forString(params.state))
+            userWorkflowService.changeState(user, UserState.forString(params.state))
         }
         render(template : mode + "/state", model : [
-            "user" : individual, "userType" : "individual", "states" : UserState.allUserStates])
+            "user" : user, "states" : userWorkflowService.getPossibleTransitions(user.state)])
     }
 
     def address = {

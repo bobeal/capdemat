@@ -157,6 +157,7 @@
 	      <fileset dir="${basedir}/${src.java.dir}">
 	        <include name="**/business/**/*.java" />
 	        <exclude name="**/business/authority/LocalAuthorityResource.java" />
+            <exclude name="**/business/users/UserWorkflow.java" />
           </fileset>
 	      <component
 	        classname="org.xdoclet.plugin.hibernate.HibernateMappingPlugin"
@@ -213,6 +214,7 @@
 				<include name="conf/html/**" />
 				<include name="conf/log4j/**" />
                 <include name="conf/pdf/**" />
+                <include name="conf/xml/**" />
                 <include name="test/data/**" />
 				<include name="utils/admin/**" />
 			</fileset>

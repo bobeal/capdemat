@@ -732,15 +732,14 @@ public class LocalAuthorityRegistry
                     homeFolderResponsible.setPassword("aaaaaaaa");
                     HomeFolder homeFolder = homeFolderService.create(homeFolderResponsible, false);
                     SecurityContext.setCurrentEcitizen(homeFolderResponsible);
-                    homeFolderService.addAdult(homeFolder,
-                        BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "Durand", "Jacques",
-                            address, FamilyStatusType.SINGLE), false);
+                    Adult other = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "Durand",
+                        "Jacques", address, FamilyStatusType.SINGLE);
+                    homeFolderService.addAdult(homeFolder, other, false);
                     Child child = BusinessObjectsFactory.gimmeChild("Moreau", "Émilie");
                     homeFolderService.addChild(homeFolder, child);
                     homeFolderService.link(homeFolderResponsible, child, Collections.singleton(RoleType.CLR_FATHER));
                     SecurityContext.setCurrentSite(DEVELOPMENT_LOCAL_AUTHORITY,
                         SecurityContext.ADMIN_CONTEXT);
-                    homeFolderService.validate(homeFolder.getId());
                 }
                 // set current site to be able to generateJPEGFiles (which uses getCurrentSite) ...
                 SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);

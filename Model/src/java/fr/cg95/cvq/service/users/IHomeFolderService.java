@@ -93,24 +93,6 @@ public interface IHomeFolderService {
     List<Individual> listBySubjectRoles(@IsIndividual Long subjectId, RoleType[] roles);
 
     /**
-     * Validate an home folder and its associated individuals.
-     */
-    void validate(@IsHomeFolder final Long id)
-        throws CvqObjectNotFoundException;
-
-    /**
-     * Invalidate an home folder and its associated individuals.
-     */
-    void invalidate(@IsHomeFolder final Long id)
-        throws CvqObjectNotFoundException;
-
-    /**
-     * Disable an home folder and its associated individuals and requests.
-     */
-    void archive(@IsHomeFolder final Long id)
-        throws CvqObjectNotFoundException;
-
-    /**
      * Send the new password by email to the home folder's responsible,
      * or to the category address if the responsible has no email address,
      * or does nothing if none have an address.

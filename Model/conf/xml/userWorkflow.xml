@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<workflow>
+	<transition from="New" to="Valid">
+		<context>backOffice</context>
+	</transition>
+	<transition from="New" to="Invalid">
+		<context>backOffice</context>
+	</transition>
+	<transition from="New" to="Archived">
+		<context>backOffice</context>
+	</transition>
+	<transition from="Valid" to="Invalid">
+		<context>backOffice</context>
+	</transition>
+	<transition from="Valid" to="Archived">
+		<context>backOffice</context>
+	</transition>
+	<transition from="Modified" to="Invalid">
+		<context>backOffice</context>
+	</transition>
+	<transition from="Modified" to="Valid">
+		<context>backOffice</context>
+	</transition>
+	<transition from="Invalid" to="Valid">
+		<context>backOffice</context>
+	</transition>
+	<transition from="Invalid" to="Archived">
+		<context>backOffice</context>
+	</transition>
+</workflow>

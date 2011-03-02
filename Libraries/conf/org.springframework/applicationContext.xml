@@ -180,6 +180,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="requestDocumentService" ref="requestDocumentService" />
     <property name="requestTypeService" ref="requestTypeService" />
     <property name="requestPdfService" ref="requestPdfService" />
+    <property name="userWorkflowService" ref="userWorkflowService" />
   </bean>
 
   <bean id="requestWorkflowServiceToSubjectIdCheckInjector"
@@ -344,6 +345,12 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="individualService" ref="individualService"/>
     <property name="mailService" ref="mailService"/>
     <property name="translationService" ref="translationService"/>
+  </bean>
+
+  <bean id="userWorkflowService" class="fr.cg95.cvq.service.users.impl.UserWorkflowService">
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
+    <property name="translationService" ref="translationService" />
+    <property name="homeFolderDAO" ref="homeFolderDAO" />
   </bean>
 
   <bean id="individualService" class="fr.cg95.cvq.service.users.impl.IndividualService">

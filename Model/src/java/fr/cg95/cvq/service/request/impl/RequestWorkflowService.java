@@ -62,6 +62,7 @@ import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.external.IRequestExternalService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.service.users.IUserWorkflowService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.ValidationUtils;
 
@@ -84,7 +85,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     private IDocumentService documentService;
     private IHomeFolderService homeFolderService;
     private IIndividualService individualService;
-    
+    private IUserWorkflowService userWorkflowService;
     private IRequestServiceRegistry requestServiceRegistry;
     private IRequestActionService requestActionService;
     private IRequestExternalService requestExternalService;
@@ -894,7 +895,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
         // those two request types are special ones
         if (homeFolder.isTemporary())
-            homeFolderService.validate(request.getHomeFolderId());
+            userWorkflowService.changeState(homeFolder, UserState.VALID);
 
 		// send request data to interested external services
         // TODO DECOUPLING
@@ -956,7 +957,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
         if (homeFolder.isTemporary())
-            homeFolderService.invalidate(request.getHomeFolderId());
+            userWorkflowService.changeState(homeFolder, UserState.INVALID);
     }
 
     private void reject(final Request request, final String motive)
@@ -990,7 +991,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
         if (homeFolder.isTemporary())
-            homeFolderService.invalidate(request.getHomeFolderId());
+            userWorkflowService.changeState(homeFolder, UserState.INVALID);
     }
     
     private void close(Request request)
@@ -1038,7 +1039,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         }
         HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
         if (homeFolder.isTemporary())
-            homeFolderService.archive(request.getHomeFolderId());
+            userWorkflowService.changeState(homeFolder, UserState.ARCHIVED);
     }
 
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
@@ -1296,6 +1297,10 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
     public void setIndividualService(IIndividualService individualService) {
         this.individualService = individualService;
+    }
+
+    public void setUserWorkflowService(IUserWorkflowService userWorkflowService) {
+        this.userWorkflowService = userWorkflowService;
     }
 
     public void setRequestActionService(IRequestActionService requestActionService) {

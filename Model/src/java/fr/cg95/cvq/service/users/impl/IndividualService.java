@@ -42,6 +42,7 @@ import fr.cg95.cvq.exception.CvqBadPasswordException;
 import fr.cg95.cvq.exception.CvqDisabledAccountException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.ValidationUtils;
@@ -202,10 +203,14 @@ public class IndividualService implements IIndividualService {
     }
 
     private Long create(Individual individual) {
-        individual.setState(UserState.NEW);
+        individual.setState(SecurityContext.isFrontOfficeContext() ? UserState.NEW : UserState.VALID);
         individual.setCreationDate(new Date());
         Long id = individualDAO.create(individual);
         individual.getHomeFolder().getActions().add(new UserAction(UserAction.Type.CREATION, id));
+        if (SecurityContext.isFrontOfficeContext()
+            && !UserState.NEW.equals(individual.getHomeFolder().getState())) {
+            individual.getHomeFolder().setState(UserState.MODIFIED);
+        }
         individualDAO.update(individual.getHomeFolder());
         return id;
     }
@@ -218,6 +223,12 @@ public class IndividualService implements IIndividualService {
             throw new CvqException("No adult object provided");
         else if (individual.getId() == null)
             throw new CvqException("Cannot modify a transient individual");
+        if (SecurityContext.isFrontOfficeContext()) {
+            if (!UserState.NEW.equals(individual.getState()))
+                individual.setState(UserState.MODIFIED);
+            if (!UserState.NEW.equals(individual.getHomeFolder().getState()))
+                individual.getHomeFolder().setState(UserState.MODIFIED);
+        }
         JsonObject payload = new JsonObject();
         payload.add("atom", atom);
         UserAction action = new UserAction(UserAction.Type.MODIFICATION, individual.getId(), payload);
@@ -265,17 +276,6 @@ public class IndividualService implements IIndividualService {
             }
         }
         individual.getHomeFolder().getActions().add(action);
-        individualDAO.update(individual.getHomeFolder());
-    }
-
-    @Override
-    public void updateIndividualState(Individual individual, UserState newState) {
-        individual.setState(newState);
-        individualDAO.update(individual);
-        JsonObject payload = new JsonObject();
-        payload.addProperty("state", newState.toString());
-        individual.getHomeFolder().getActions().add(
-            new UserAction(UserAction.Type.STATE_CHANGE, individual.getId(), payload));
         individualDAO.update(individual.getHomeFolder());
     }
 

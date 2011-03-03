@@ -245,9 +245,10 @@ public class RequestExternalService extends ExternalService implements IRequestE
                 }
             } catch (CvqException ce) {
                 logger.error("sendRequest() error while sending request to " 
-                        + externalServiceLabel);
+                        + externalServiceLabel + " (" + ce.getMessage() + ")");
                 if (!externalProviderService.handlesTraces()) {
                     trace.setStatus(RequestExternalAction.Status.NOT_SENT);
+                    trace.setMessage(ce.getMessage());
                 }
             }
             if (!externalProviderService.handlesTraces()) {

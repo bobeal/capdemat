@@ -182,7 +182,6 @@ class FrontofficeRequestController {
                         // to force step validation irrespective of collection elements manipulation
                         rqt.stepStates[params.currentStep].state = "uncomplete"
                         // hack : remove collection parameters to go back to step display,
-                        // since collection element is valid (no CvqValidationException)
                         params.currentCollection = null
                         params.collectionIndex = null
                     }
@@ -196,8 +195,6 @@ class FrontofficeRequestController {
                         )
                     }
                 }
-            } catch (CvqValidationException e) {
-                // nothing to do, business is in requestWorkflowService
             } catch (CvqException ce) {
                 log.error ce.getMessage()
                 rqt.stepStates.get(params.currentStep).state = "invalid"
@@ -243,14 +240,10 @@ class FrontofficeRequestController {
         requestLockService.lock(id)
         Request rqt = requestSearchService.getById(id, true)
         rqt[params.currentCollection].remove(Integer.valueOf(params.collectionIndex))
-        try {
-            requestWorkflowService.validate(rqt, [params.currentStep], false)
-            // hack : reset step to uncomplete,
-            // to force step validation irrespective of collection elements manipulation
-            rqt.stepStates[params.currentStep].state = "uncomplete"
-        } catch (CvqValidationException e) {
-            // nothing to do, business is in requestWorkflowService
-        }
+        requestWorkflowService.validate(rqt, [params.currentStep], false)
+        // hack : reset step to uncomplete,
+        // to force step validation irrespective of collection elements manipulation
+        rqt.stepStates[params.currentStep].state = "uncomplete"
         redirect(action:'edit', params:['id':params.id, 'currentStep':params.currentStep])
         return false
     }

@@ -375,9 +375,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                 request.getStepStates().get("validation").put("state", "unavailable");
             }
         }
-        if (!invalidFields.isEmpty()) {
-            throw new CvqValidationException();
-        }
     }
 
     /**

@@ -221,6 +221,6 @@ public interface IRequestWorkflowService {
     boolean isSupportMultiple(String requestLabel) throws CvqException;
 
     void validate(@IsRequest Request request, List<String> steps, boolean useAcceptance)
-        throws CvqValidationException, ClassNotFoundException, IllegalAccessException,
+        throws ClassNotFoundException, IllegalAccessException,
             InvocationTargetException, NoSuchMethodException;
 }

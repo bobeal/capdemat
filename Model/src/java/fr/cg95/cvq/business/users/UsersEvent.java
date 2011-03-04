@@ -9,6 +9,7 @@ public class UsersEvent extends CapDematEvent {
     public static enum EVENT_TYPE {
         HOME_FOLDER_ARCHIVE,
         HOME_FOLDER_DELETE,
+        HOME_FOLDER_VALIDATE,
         INDIVIDUAL_ARCHIVE,
         INDIVIDUAL_DELETE,
         LOGIN_ASSIGNED

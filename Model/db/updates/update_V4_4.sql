@@ -125,3 +125,24 @@ update home_folder hf set state = 'Modified' where state = 'Pending' and
     (select count(*) from home_folder_modification_request where id in
         (select specific_data_id from request r where r.home_folder_id = hf.id)) > 0;
 update home_folder set state = 'New' where state = 'Pending';
+
+create table user_external_action (
+    id int8 not null,
+    date timestamp not null,
+    key varchar(255) not null,
+    key_owner varchar(255) not null,
+    label varchar(255) not null,
+    status varchar(255) not null,
+    message varchar(255),
+    primary key (id)
+);
+
+insert into user_external_action
+    select nextval('hibernate_sequence'), date, cast(home_folder_id as varchar), key_owner, name, status, message
+    from request_external_action, request
+    where request_external_action.key = cast(request.id as varchar)
+    and request_type_id in (select id from request_type where label = 'VO Card' or label = 'Home Folder Modification');
+
+delete from request_external_action where key in
+    (select cast(id as varchar) from request where request_type_id in
+        (select id from request_type where label = 'VO Card' or label = 'Home Folder Modification'));

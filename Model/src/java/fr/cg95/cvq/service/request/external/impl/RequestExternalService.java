@@ -14,13 +14,16 @@ import java.util.TreeMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
+import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Async;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
+import fr.cg95.cvq.business.users.UsersEvent;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.business.users.external.IndividualMapping;
+import fr.cg95.cvq.business.users.external.UserExternalAction;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
@@ -41,6 +44,7 @@ import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.annotation.RequestFilter;
 import fr.cg95.cvq.service.request.external.IRequestExternalActionService;
 import fr.cg95.cvq.service.request.external.IRequestExternalService;
+import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.mail.IMailService;
@@ -48,9 +52,11 @@ import fr.cg95.cvq.util.translation.ITranslationService;
 import fr.cg95.cvq.xml.common.HomeFolderType;
 import fr.cg95.cvq.xml.common.IndividualType;
 import fr.cg95.cvq.xml.common.RequestType;
+import fr.cg95.cvq.xml.request.ecitizen.HomeFolderModificationRequestDocument;
+import fr.cg95.cvq.xml.request.ecitizen.HomeFolderModificationRequestDocument.HomeFolderModificationRequest;
 
 public class RequestExternalService extends ExternalService implements IRequestExternalService,
-    ILocalAuthorityLifecycleAware {
+    ILocalAuthorityLifecycleAware, ApplicationListener<UsersEvent> {
 
     private static Logger logger = Logger.getLogger(RequestExternalService.class);
 
@@ -58,6 +64,8 @@ public class RequestExternalService extends ExternalService implements IRequestE
     private IRequestExternalActionService requestExternalActionService;
 
     private IRequestExportService requestExportService;
+
+    private IHomeFolderService homeFolderService;
 
     private IExternalHomeFolderService externalHomeFolderService;
 
@@ -426,12 +434,48 @@ public class RequestExternalService extends ExternalService implements IRequestE
         // nothing to do yet
     }
 
+    @Override
+    public void onApplicationEvent(UsersEvent e) {
+        if (UsersEvent.EVENT_TYPE.HOME_FOLDER_VALIDATE.equals(e.getEvent())) {
+            try {
+                for (HomeFolderMapping mapping :
+                        externalHomeFolderService.getHomeFolderMappings(e.getHomeFolderId())) {
+                    HomeFolderModificationRequestDocument doc =
+                        HomeFolderModificationRequestDocument.Factory.newInstance();
+                    HomeFolderModificationRequest xmlRequest =
+                        doc.addNewHomeFolderModificationRequest();
+                    xmlRequest.addNewHomeFolder()
+                        .set(homeFolderService.getById(e.getHomeFolderId()).modelToXml());
+                    String externalServiceLabel = mapping.getExternalServiceLabel();
+                    IExternalProviderService externalProviderService =
+                        getExternalServiceByLabel(externalServiceLabel);
+                    if (externalProviderService instanceof ExternalApplicationProviderService)
+                        continue;
+                    fillRequestWithMapping(xmlRequest, mapping);
+                    String externalId = externalProviderService.sendRequest(xmlRequest);
+                    if (externalId != null && !externalId.equals("")) {
+                        mapping.setExternalId(externalId);
+                        externalHomeFolderService.modifyHomeFolderMapping(mapping);
+                    }
+                    requestDAO.create(new UserExternalAction(
+                        e.getHomeFolderId().toString(), externalServiceLabel, "Sent"));
+                }
+            } catch (CvqException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+    }
+
     public void setRequestDAO(IRequestDAO requestDAO) {
         this.requestDAO = requestDAO;
     }
 
     public void setRequestExportService(IRequestExportService requestExportService) {
         this.requestExportService = requestExportService;
+    }
+
+    public void setHomeFolderService(IHomeFolderService homeFolderService) {
+        this.homeFolderService = homeFolderService;
     }
 
     public void setExternalHomeFolderService(IExternalHomeFolderService externalHomeFolderService) {

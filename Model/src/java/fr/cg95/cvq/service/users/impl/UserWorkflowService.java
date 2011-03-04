@@ -109,6 +109,10 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
             UsersEvent homeFolderEvent =
                 new UsersEvent(this, EVENT_TYPE.HOME_FOLDER_ARCHIVE, homeFolder.getId(), null);
             applicationEventPublisher.publishEvent(homeFolderEvent);
+        } else if (UserState.VALID.equals(state)) {
+            UsersEvent homeFolderEvent =
+                new UsersEvent(this, EVENT_TYPE.HOME_FOLDER_VALIDATE, homeFolder.getId(), null);
+            applicationEventPublisher.publishEvent(homeFolderEvent);
         }
     }
 

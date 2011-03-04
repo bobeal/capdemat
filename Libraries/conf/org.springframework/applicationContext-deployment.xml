@@ -107,6 +107,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/external/RequestExternalAction.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/external/HomeFolderMapping.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/external/IndividualMapping.hbm.xml</value>
+        <value>fr/cg95/cvq/business/users/external/UserExternalAction.hbm.xml</value>
         <value>fr/cg95/cvq/business/payment/external/ExternalHomeFolder.hbm.xml</value>
         <value>fr/cg95/cvq/business/payment/external/ExternalIndividual.hbm.xml</value>
         <value>fr/cg95/cvq/business/payment/external/ExternalApplication.hbm.xml</value>

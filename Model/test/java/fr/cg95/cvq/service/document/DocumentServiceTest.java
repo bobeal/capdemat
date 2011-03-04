@@ -51,7 +51,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         
         // ensure all document types have been bootstrapped
         List<DocumentType> allDocumentTypes = documentTypeService.getAllDocumentTypes();
-        assertEquals(39, allDocumentTypes.size());
+        assertEquals(41, allDocumentTypes.size());
         
         SecurityContext.setCurrentEcitizen(fake.responsibleId);
 

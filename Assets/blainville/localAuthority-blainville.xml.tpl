@@ -53,10 +53,10 @@
           <bean class="fr.cg95.cvq.external.ExternalServiceBean">
             <property name="requestTypes">
               <list>
-                <value>Mdph Adult</value>
-                <value>Mdph Youth</value>
+                <value>Technical Intervention</value>
               </list>
             </property>
+           <property name="password" value="abcd"/>
           </bean>
         </entry>
         <entry>

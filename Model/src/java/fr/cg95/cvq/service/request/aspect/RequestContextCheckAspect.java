@@ -113,12 +113,13 @@ public class RequestContextCheckAspect implements Ordered {
                         request = findRequestByArgument(argument);
                     } catch (CvqObjectNotFoundException confe) {
                         // Handled in finally
+                        // FIXME Shouldn't be converted
                     } finally {
                         if (request == null) {
                             throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
                                     joinPoint.getSignature().getName(), context.types(),
                                     context.privilege(),
-                                    "unable to find the request using argument " + (i + 1) + ": "
+                                    "request not found using argument " + (i + 1) + ": "
                                     + argument.getClass().getSimpleName());
                         }
                     }

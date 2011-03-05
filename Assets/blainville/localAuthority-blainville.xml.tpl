@@ -48,7 +48,7 @@
         </entry>
         <entry>
           <key>
-            <ref bean="restExternalService" />
+            <ref bean="fakePointExternalService" />
           </key>
           <bean class="fr.cg95.cvq.external.ExternalServiceBean">
             <property name="requestTypes">

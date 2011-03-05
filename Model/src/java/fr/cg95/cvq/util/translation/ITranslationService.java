@@ -21,6 +21,10 @@ public interface ITranslationService {
     String translateRequestTypeLabel(String label);
 
     String translateRequestTypeLabel(String label, Locale locale);
-    
+
     String translateRequestTypeDescription(String label);
+
+    String translateDocumentTypeName(String name);
+
+    String translateDocumentTypeName(String name, Locale locale);
 }

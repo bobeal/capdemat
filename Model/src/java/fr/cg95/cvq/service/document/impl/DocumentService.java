@@ -104,11 +104,14 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     }
 
     /**
-     * Compute a default end validity date for the given document, according to its
-     * type.
+     * If unset, set document's end validity date according to the document type
+     *
+     * FIXME Either change the method name or don't set anything and return the date
      */
     private void computeEndValidityDate(Document document) {
-
+        if (document.getEndValidityDate() != null) {
+            return;
+        }
         DocumentType docType = document.getDocumentType();
         DocumentTypeValidity docTypeValidity = docType.getValidityDurationType();
 
@@ -212,9 +215,9 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         }
     }
 
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
     public Long create(Document document)
-    throws CvqException, CvqObjectNotFoundException {
+        throws CvqException, CvqObjectNotFoundException {
 
         if (document == null)
             throw new CvqException("No document object provided");
@@ -247,7 +250,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         documentDAO.update(document);
     }
 
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
     public void delete(final Long id)
     throws CvqException, CvqObjectNotFoundException {
 
@@ -259,7 +262,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
     public void addPage(final Long documentId, final byte[] data) throws  CvqException {
         if (data == null || data.length == 0)
             return;
@@ -497,8 +500,8 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         addActionTrace(DocumentAction.Type.STATE_CHANGE, DocumentState.PENDING, document);
     }
 
-    @Context(types = {ContextType.AGENT})
-    public void validate(final Long id, final Date validityDate, final String message)
+    @Context(types = {ContextType.AGENT, ContextType.EXTERNAL_SERVICE})
+    public void validate(final Long id, final Date validityDate, final String message) // FIXME message unused
         throws CvqException, CvqObjectNotFoundException, CvqInvalidTransitionException {
 
         Document document = getById(id);

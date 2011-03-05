@@ -1,11 +1,11 @@
 <xs:schema targetNamespace="http://www.capwebct.fr/capdemat/rin"
   xmlns:rin="http://www.capwebct.fr/capdemat/rin"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  xmlns:common="http://www.cg95.fr/cvq/schema/common" 
-  elementFormDefault="qualified" 
+  xmlns:common="http://www.cg95.fr/cvq/schema/common"
+  elementFormDefault="qualified"
   attributeFormDefault="unqualified">
 
-  <xs:element name="RequestInstructionNotifiyRequest">
+  <xs:element name="NotifiyResultingStateRequest">
     <xs:complexType>
       <xs:sequence>
         <xs:element name="RequestId" type="xs:long" />
@@ -15,14 +15,14 @@
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="RequestInstructionNotifiyResponse">
+  <xs:element name="NotifiyResultingStateResponse">
     <xs:complexType>
       <xs:sequence>
         <xs:element name="Accomplished" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  
+
   <xs:complexType name="BusinessDataType">
     <xs:sequence>
       <xs:element name="Data" type="xs:string">
@@ -40,6 +40,6 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
-  </xs:complexType>  
+  </xs:complexType>
 
 </xs:schema>

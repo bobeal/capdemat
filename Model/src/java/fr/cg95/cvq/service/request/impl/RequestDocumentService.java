@@ -153,6 +153,7 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
         Collection<String> authorizedRequestTypesLabels =
             requestExternalService.getRequestTypesForExternalService(SecurityContext.getCurrentExternalService());
 
+        // FIXME move it in DocumentContextCheckAspect
         // Check external service permissions wrt configured request types labels
         String requestTypeLabel = request.getRequestType().getLabel();
         if (!authorizedRequestTypesLabels.contains(requestTypeLabel)) {
@@ -195,6 +196,7 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
         Collection<String> authorizedRequestTypesLabels =
             requestExternalService.getRequestTypesForExternalService(SecurityContext.getCurrentExternalService());
 
+        // FIXME move it in DocumentContextCheckAspect
         // Check external service permissions wrt configured request types labels
         String requestTypeLabel = request.getRequestType().getLabel();
         if (!authorizedRequestTypesLabels.contains(requestTypeLabel)) {

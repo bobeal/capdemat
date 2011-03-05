@@ -56,7 +56,7 @@ public interface IRequestWorkflowService {
     /**
      * Dispatcher method to update request state.
      */
-    void updateRequestState(@IsRequest final Long id, RequestState rs, String motive)
+    void updateRequestState(@IsRequest final Long id, RequestState rs, String note)
         throws CvqException, CvqInvalidTransitionException,
             CvqObjectNotFoundException;
 

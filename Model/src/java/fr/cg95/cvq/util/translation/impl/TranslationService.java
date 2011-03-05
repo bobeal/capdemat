@@ -59,16 +59,27 @@ public class TranslationService implements ITranslationService, MessageSourceAwa
         return translateRequestTypeLabel(label, null);
     }
 
+    public String translateRequestTypeLabel(String label, Locale locale) {
+        String key = generateInitialism(label) + ".label";
+        String translation = translate(key, locale);
+        return !translation.equals(key) ? translation : label;
+    }
+
     public String translateRequestTypeDescription(String label) {
         String key = generateInitialism(label) + ".description";
         String translation = translate(key, null, null);
         return !translation.equals(key) ? translation : label;
     }
 
-    public String translateRequestTypeLabel(String label, Locale locale) {
-        String key = generateInitialism(label) + ".label";
+    public String translateDocumentTypeName(String name) {
+        return translateDocumentTypeName(name, null);
+    }
+
+    public String translateDocumentTypeName(String name, Locale locale) {
+        String key = StringUtils.remove(name, ' ');
+        key = "documentType." + key.substring(0, 1).toLowerCase() + key.substring(1);
         String translation = translate(key, locale);
-        return !translation.equals(key) ? translation : label;
+        return !translation.equals(key) ? translation : name;
     }
 
     public void setMessageSource(MessageSource messageSource) {

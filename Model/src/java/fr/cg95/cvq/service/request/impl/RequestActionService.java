@@ -49,7 +49,7 @@ public class RequestActionService implements IRequestActionService {
     }
 
     @Override
-    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
     public void addAction(final Long requestId, final RequestActionType type,
         final String message, final String note, final byte[] pdfData, String filename)
         throws CvqException {
@@ -82,7 +82,8 @@ public class RequestActionService implements IRequestActionService {
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE},
+            privilege = ContextPrivilege.WRITE)
     public void addWorfklowAction(final Long requestId, final String note, final Date date,
             final RequestState resultingState, final byte[] pdfData)
         throws CvqException {

@@ -719,30 +719,30 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
-    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void updateRequestState(final Long id, final RequestState rs, final String motive)
+    @Context(types = {ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
+    public void updateRequestState(final Long id, final RequestState rs, final String note)
             throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
         Request request = (Request) requestDAO.findById(Request.class, id);
         if (rs.equals(RequestState.COMPLETE))
-            complete(request);
+            complete(request, note);
         else if (rs.equals(RequestState.UNCOMPLETE))
-            specify(request, motive);
+            specify(request, note);
         else if (rs.equals(RequestState.REJECTED))
-            reject(request, motive);
+            reject(request, note);
         else if (rs.equals(RequestState.CANCELLED))
-            cancel(request);
+            cancel(request, note);
         else if (rs.equals(RequestState.VALIDATED))
-            validate(request);
+            validate(request, note);
         else if (rs.equals(RequestState.NOTIFIED))
-            notify(request, motive);
+            notify(request, note);
         else if (rs.equals(RequestState.CLOSED))
-            close(request);
+            close(request, note);
         else if (rs.equals(RequestState.ARCHIVED))
-            archive(request);
+            archive(request, note);
     }
 
-    private void complete(Request request)
+    private void complete(Request request, final String note)
         throws CvqException, CvqInvalidTransitionException {
 
         // if no state change asked, just return silently
@@ -756,7 +756,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             Date date = new Date();
             updateLastModificationInformation(request, date);
 
-            requestActionService.addWorfklowAction(request.getId(), null, date,
+            requestActionService.addWorfklowAction(request.getId(), note, date,
                 RequestState.COMPLETE, null);
 
         } else {
@@ -815,7 +815,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 	 *            certificate and so they call directly the
 	 *            {@link IRequestPdfService})
 	 */
-    private void validate(final Request request)
+    private void validate(final Request request, final String note)
         throws CvqException, CvqInvalidTransitionException, CvqModelException,
             CvqObjectNotFoundException {
 
@@ -848,7 +848,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         request.setValidationDate(date);
         updateLastModificationInformation(request, date);
        
-        requestActionService.addWorfklowAction(request.getId(), null, date,
+        requestActionService.addWorfklowAction(request.getId(), note, date,
             RequestState.VALIDATED, pdfData);
 
         validateAssociatedDocuments(request.getDocuments());
@@ -869,7 +869,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         applicationContext.publishEvent(requestEvent);
     }
 
-    private void notify(Request request, final String motive)
+    private void notify(Request request, final String note)
         throws CvqException, CvqInvalidTransitionException {
 
         // if no state change asked, just return silently
@@ -883,11 +883,11 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         Date date = new Date();
         updateLastModificationInformation(request, date);
 
-        requestActionService.addWorfklowAction(request.getId(), motive, date,
+        requestActionService.addWorfklowAction(request.getId(), note, date,
             RequestState.NOTIFIED, null);
     }
 
-    private void cancel(final Request request)
+    private void cancel(final Request request, final String note)
         throws CvqException, CvqInvalidTransitionException {
 
         IRequestService requestService = requestServiceRegistry.getRequestService(request.getId());
@@ -910,7 +910,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                     requestPdfService.generateDocumentsArchive(request.getDocuments()));
             }
 
-            requestActionService.addWorfklowAction(request.getId(), null, date,
+            requestActionService.addWorfklowAction(request.getId(), note, date,
                 RequestState.CANCELLED, pdfData);
         } else {
             throw new CvqInvalidTransitionException();
@@ -922,7 +922,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             userWorkflowService.changeState(individual, UserState.INVALID);
     }
 
-    private void reject(final Request request, final String motive)
+    private void reject(final Request request, final String note)
         throws CvqException, CvqInvalidTransitionException {
 
         IRequestService requestService = requestServiceRegistry.getRequestService(request.getId());
@@ -945,7 +945,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                     requestPdfService.generateDocumentsArchive(request.getDocuments()));
             }
 
-            requestActionService.addWorfklowAction(request.getId(), motive, date,
+            requestActionService.addWorfklowAction(request.getId(), note, date,
                 RequestState.REJECTED, pdfData);
         } else {
             throw new CvqInvalidTransitionException();
@@ -957,7 +957,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             userWorkflowService.changeState(individual, UserState.INVALID);
     }
     
-    private void close(Request request)
+    private void close(Request request, final String note)
         throws CvqException, CvqInvalidTransitionException {
 
         // if no state change asked, just return silently
@@ -969,14 +969,14 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             Date date = new Date();
             updateLastModificationInformation(request, date);
 
-            requestActionService.addWorfklowAction(request.getId(), null, date,
+            requestActionService.addWorfklowAction(request.getId(), note, date,
                 RequestState.CLOSED, null);
         } else {
             throw new CvqInvalidTransitionException();
         }
     }
 
-    private void archive(final Request request)
+    private void archive(final Request request, final String note)
         throws CvqException, CvqInvalidTransitionException {
 
         if (!SecurityContext.isAdminContext()) {
@@ -995,7 +995,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             Date date = new Date();
             updateLastModificationInformation(request, date);
 
-            requestActionService.addWorfklowAction(request.getId(), null, date,
+            requestActionService.addWorfklowAction(request.getId(), note, date,
                 RequestState.ARCHIVED, null);
         } else {
             throw new CvqInvalidTransitionException();

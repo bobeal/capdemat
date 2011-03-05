@@ -94,7 +94,7 @@ public class DocumentAdaptorService {
             'note': action.note,
             'date': action.date,
             'type' : CapdematUtils.adaptCapdematEnum(action.type, "documentAction.type"),
-            'username' : instructionService.getActionPosterDetails(action.agentId),
+            'username' : instructionService.getActionPosterDetails(action.userId),
             'resultingState': resultingState
         ]
     }

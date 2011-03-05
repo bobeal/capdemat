@@ -44,7 +44,7 @@ public class ExternalHomeFolderService implements IExternalHomeFolderService {
             String externalServiceLabel, String externalCapdematId) {
         return genericDAO.simpleSelect(HomeFolderMapping.class)
                 .and("externalServiceLabel", externalServiceLabel)
-                .and("externalCapdematId", externalCapdematId).unique();
+                .and("externalCapDematId", externalCapdematId).unique();
     }
 
     @Override

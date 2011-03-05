@@ -2,7 +2,10 @@ package fr.cg95.cvq.service.request.aspect;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
@@ -19,11 +22,13 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.ICategoryDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.IRequestTypeDAO;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.security.GenericAccessManager;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -33,44 +38,48 @@ import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.security.annotation.IsUser;
 import fr.cg95.cvq.security.annotation.IsRequester;
 import fr.cg95.cvq.security.annotation.IsSubject;
+import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.annotation.IsCategory;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.request.annotation.IsRequestType;
+import fr.cg95.cvq.util.Critere;
 
 @Aspect
 public class RequestContextCheckAspect implements Ordered {
-    
+
     private Logger logger = Logger.getLogger(RequestContextCheckAspect.class);
-    
+
     private IRequestDAO requestDAO;
     private IRequestTypeDAO requestTypeDAO;
     private ICategoryDAO categoryDAO;
 
     @Before("fr.cg95.cvq.SystemArchitecture.businessService() && @annotation(context) && within(fr.cg95.cvq.service.request..*)")
     public void contextAnnotatedMethod(JoinPoint joinPoint, Context context) {
-        
+
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 
         if (!ArrayUtils.contains(context.types(), ContextType.ECITIZEN)
-            && !ArrayUtils.contains(context.types(), ContextType.AGENT)) {
+            && !ArrayUtils.contains(context.types(), ContextType.AGENT)
+            && !ArrayUtils.contains(context.types(), ContextType.EXTERNAL_SERVICE)) {
             logger.debug("contextAnnotatedMethod() unhandled context types ("
                     + context.types() + ") on method " + signature.getMethod().getName()
                     + ", ignoring");
             return;
         }
-        
+
         if (context.privilege().equals(ContextPrivilege.NONE)) {
             logger.debug("contextAnnotatedMethod() no special privilege asked"
                     + " on method " + signature.getMethod().getName() + ", returning");
             return;
         }
-        
+
         Method method = signature.getMethod();
         Annotation[][] parametersAnnotations = method.getParameterAnnotations();
         Object[] arguments = joinPoint.getArgs();
         Long homeFolderId = null;
         Long individualId = null;
         Long categoryId = null;
+        Request request = null;
         int i = 0;
         for (Object argument : arguments) {
             if (parametersAnnotations[i] != null && parametersAnnotations[i].length > 0) {
@@ -99,27 +108,28 @@ public class RequestContextCheckAspect implements Ordered {
                 } else if (parameterAnnotation.annotationType().equals(IsRequester.class)) {
                     individualId = (Long) argument;
                 } else if (parameterAnnotation.annotationType().equals(IsRequest.class)) {
-                    Request request = null;
-                    if (argument instanceof Long) {
-                        try {
-                            request = requestDAO.findById((Long) argument, false);
-                        } catch (CvqObjectNotFoundException confe) {
-                            throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
+                    try {
+                        request = findRequestByArgument(argument);
+                    } catch (CvqObjectNotFoundException confe) {
+                        // Handled in finally
+                    } finally {
+                        if (request == null) {
+                            throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
                                     joinPoint.getSignature().getName(), context.types(),
-                                    context.privilege(), "unknown resource type : " + argument);
+                                    context.privilege(),
+                                    "unable to find the request using argument " + (i + 1) + ": "
+                                    + argument.getClass().getSimpleName());
                         }
-                    } else if (argument instanceof Request) {
-                        request = (Request) argument;
                     }
                     if (SecurityContext.isBackOfficeContext()) {
                         if (request.getRequestType() != null 
                                 && request.getRequestType().getCategory() != null)
                             categoryId = request.getRequestType().getCategory().getId();
                         else
-                            throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
+                            throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
                                 joinPoint.getSignature().getName(), context.types(),
                                 context.privilege(), 
-                                "no category associated to request type : " 
+                                "no category associated to request type : "
                                     + request.getRequestType().getLabel());
                     }
                     homeFolderId = request.getHomeFolderId();
@@ -140,7 +150,7 @@ public class RequestContextCheckAspect implements Ordered {
                             throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
                                     joinPoint.getSignature().getName(), context.types(), context.privilege(),
                                     "unknown resource type : " + argument);
-                        }                        
+                        }
                     } else if (argument instanceof RequestType) {
                         requestType = (RequestType) argument;
                     }
@@ -153,12 +163,12 @@ public class RequestContextCheckAspect implements Ordered {
 
                     if (requestType != null && requestType.getCategory() != null)
                         categoryId = requestType.getCategory().getId();
-                    
+
                 } else if (parameterAnnotation.annotationType().equals(IsCategory.class)) {
                     Category categoryToCheck = null;
                     if (argument instanceof Long) {
                         try {
-                            categoryToCheck = 
+                            categoryToCheck =
                                 (Category) categoryDAO.findById(Category.class, (Long) argument);
                         } catch (CvqObjectNotFoundException confe) {
                             throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
@@ -178,17 +188,17 @@ public class RequestContextCheckAspect implements Ordered {
         }
 
         if (!GenericAccessManager.performPermissionCheck(homeFolderId, individualId, context))
-            throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
+            throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
                     joinPoint.getSignature().getName(), context.types(), context.privilege(),
                     "access denied on home folder " + homeFolderId +
                     " / individual " + individualId);
-        
+
         if (SecurityContext.isBackOfficeContext()) {
 
             if (categoryId == null) {
                 if (context.privilege().equals(ContextPrivilege.MANAGE)) {
                     // Check when a MANAGE role is asked without a specific category
-                    // Typically for statistics service where category filtering is performed later  
+                    // Typically for statistics service where category filtering is performed later
 
                     List<Category> managedCategories = 
                         categoryDAO.listByAgent(SecurityContext.getCurrentUserId(), 
@@ -209,10 +219,10 @@ public class RequestContextCheckAspect implements Ordered {
 
                     throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
                             joinPoint.getSignature().getName(), context.types(), context.privilege(),
-                    "current agent does not have a role on any category");                    
+                    "current agent does not have a role on any category");
                 }
             }
-            
+
             Category categoryToCheck = null;
             try {
                 categoryToCheck = (Category) categoryDAO.findById(Category.class, categoryId);
@@ -247,8 +257,25 @@ public class RequestContextCheckAspect implements Ordered {
                     joinPoint.getSignature().getName(), context.types(), context.privilege(),
                     "category " + categoryToCheck.getName());
         }
+
+        if (SecurityContext.isExternalServiceContext()) {
+            if (request != null) {
+                LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
+                String externalServiceLabel = SecurityContext.getCurrentExternalService();
+
+                ExternalServiceBean esb = lacb.getBeanForExternalService(externalServiceLabel);
+
+                Collection<String> authorizedRequestTypesLabels =
+                    (esb != null) ? esb.getRequestTypes() : Collections.<String>emptyList();
+
+                if (!authorizedRequestTypesLabels.contains(request.getRequestType().getLabel())) {
+                    throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
+                        joinPoint.getSignature().getName(), context.types(), context.privilege(), "unauthorized request");
+                }
+            } 
+        }
     }
-    
+
     @Override
     public int getOrder() {
         return 1;
@@ -264,5 +291,33 @@ public class RequestContextCheckAspect implements Ordered {
 
     public void setCategoryDAO(ICategoryDAO categoryDAO) {
         this.categoryDAO = categoryDAO;
+    }
+
+    private Request findRequestByArgument(Object argument) throws CvqObjectNotFoundException {
+        Request request = null;
+
+        if (argument instanceof Request) {
+            request = (Request) argument;
+        } else {
+            Long requestId = null;
+            if (argument instanceof Long) {
+                requestId = (Long) argument;
+            } else if (argument instanceof RequestExternalAction) {
+                requestId = Long.valueOf(((RequestExternalAction) argument).getKey());
+            } else if (argument instanceof Set) {
+                Set<Critere> criterionSet = (Set<Critere>) argument;
+                for (Critere criterion : criterionSet) {
+                    if (RequestExternalAction.SEARCH_BY_KEY.equals(criterion.getAttribut())) {
+                        requestId = Long.valueOf((String) criterion.getValue());
+                        break;
+                    }
+                }
+            }
+            if (requestId != null) {
+                request = requestDAO.findById(requestId, false);
+            }
+        }
+
+        return request;
     }
 }

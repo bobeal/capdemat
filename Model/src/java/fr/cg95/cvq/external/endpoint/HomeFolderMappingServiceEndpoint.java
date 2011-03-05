@@ -25,28 +25,22 @@ public class HomeFolderMappingServiceEndpoint extends SecuredServiceEndpoint {
         HomeFolderMappingRequest homeFolderMappingRequest =
             ((HomeFolderMappingRequestDocument) arg0).getHomeFolderMappingRequest();
 
-        // Switch to admin context to be able to call services without permission exceptions
         String currentExternalService = SecurityContext.getCurrentExternalService();
-        SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
 
         HomeFolderMappingType homeFolderMappingType = homeFolderMappingRequest.getHomeFolderMapping();
-        HomeFolderMapping esim = 
+        HomeFolderMapping esim =
             externalHomeFolderService.getHomeFolderMapping(currentExternalService, homeFolderMappingType.getExternalCapDematId());
-        externalHomeFolderService.addHomeFolderMapping(currentExternalService, esim.getHomeFolderId(), 
+        externalHomeFolderService.addHomeFolderMapping(currentExternalService, esim.getHomeFolderId(),
                 homeFolderMappingType.getExternalId());
         IndividualMappingType[] individualMappingTypes = homeFolderMappingRequest.getIndividualMappingArray();
         for (int i = 0; i < individualMappingTypes.length; i++) {
             for (IndividualMapping indMapping : esim.getIndividualsMappings()) {
                 if (indMapping.getExternalCapDematId().equals(individualMappingTypes[i].getExternalCapDematId()))
                     externalHomeFolderService.setExternalId(currentExternalService, esim.getHomeFolderId(), 
-                            indMapping.getIndividualId(), 
+                            indMapping.getIndividualId(),
                             individualMappingTypes[i].getExternalId());
             }
         }
-        
-        // Reset to original context
-        SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentExternalService(currentExternalService);
 
         return null;
     }

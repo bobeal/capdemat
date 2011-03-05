@@ -26,7 +26,7 @@ public class UserService implements IUserService {
     private IUserSearchService userSearchService;
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.READ)
     public boolean hasHomeFolderRole(Long ownerId, Long homeFolderId, RoleType role)
         throws CvqObjectNotFoundException {
         for (IndividualRole individualRole : userSearchService.getById(ownerId).getIndividualRoles()) {

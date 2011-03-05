@@ -37,9 +37,10 @@ public class UsersContextAspect implements Ordered {
 
     @Before("fr.cg95.cvq.SystemArchitecture.businessService() && @annotation(context) && within(fr.cg95.cvq.service.users..*)")
     public void contextAnnotatedMethod(JoinPoint joinPoint, Context context) {
-        
+
         if (!ArrayUtils.contains(context.types(), ContextType.ECITIZEN)
-            && !ArrayUtils.contains(context.types(), ContextType.AGENT))
+            && !ArrayUtils.contains(context.types(), ContextType.AGENT)
+            && !ArrayUtils.contains(context.types(), ContextType.EXTERNAL_SERVICE))
             return;
 
         if (SecurityContext.isFrontOfficeContext() && SecurityContext.getCurrentEcitizen() == null
@@ -47,7 +48,7 @@ public class UsersContextAspect implements Ordered {
             return;
 
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        
+
         Method method = signature.getMethod();
         Annotation[][] parametersAnnotations = method.getParameterAnnotations();
         Object[] arguments = joinPoint.getArgs();

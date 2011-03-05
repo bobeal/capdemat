@@ -39,6 +39,7 @@ public class CredentialBean {
     private boolean boContext;
     private boolean foContext;
     private boolean adminContext;
+    private boolean externalServiceContext;
 
     /**
      * Used to keep trace of current agent's site roles.
@@ -61,14 +62,22 @@ public class CredentialBean {
             boContext = true;
             foContext = false;
             adminContext = false;
+            externalServiceContext = false;
         } else if (context.equals(SecurityContext.FRONT_OFFICE_CONTEXT)) {
             boContext = false;
             foContext = true;
             adminContext = false;
+            externalServiceContext = false;
         } else if (context.equals(SecurityContext.ADMIN_CONTEXT)) {
             boContext = false;
             foContext = false;
             adminContext = true;
+            externalServiceContext = false;
+        } else if (context.equals(SecurityContext.EXTERNAL_SERVICE_CONTEXT)) {
+            boContext = false;
+            foContext = false;
+            adminContext = false;
+            externalServiceContext = true;
         }
     }
 
@@ -84,19 +93,31 @@ public class CredentialBean {
         return adminContext;
     }
 
+    public boolean isExternalServiceContext() {
+        return externalServiceContext;
+    }
+
     public void setContext(final String context) {
         if (context.equals(SecurityContext.BACK_OFFICE_CONTEXT)) {
             boContext = true;
             foContext = false;
             adminContext = false;
+            externalServiceContext = false;
         } else if (context.equals(SecurityContext.FRONT_OFFICE_CONTEXT)) {
             boContext = false;
             foContext = true;
             adminContext = false;
+            externalServiceContext = false;
+        } else if (context.equals(SecurityContext.EXTERNAL_SERVICE_CONTEXT)) {
+            boContext = false;
+            foContext = false;
+            adminContext = false;
+            externalServiceContext = true;
         } else {
             boContext = false;
             foContext = false;
             adminContext = true;
+            externalServiceContext = false;
         }
     }
 

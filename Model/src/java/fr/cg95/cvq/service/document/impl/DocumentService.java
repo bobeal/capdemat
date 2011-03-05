@@ -96,7 +96,8 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     private int maxDataSize;
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN,
+            ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.READ)
     public Document getById(final Long id)
         throws CvqObjectNotFoundException {
         return (Document) documentDAO.findById(Document.class, id);
@@ -691,7 +692,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     /**
      * merge all (pdf) binaries from a document in only one (pdf) binary
      */
-    @Context(types = {ContextType.ADMIN, ContextType.AGENT})
+    @Context(types = {ContextType.ADMIN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE})
     public void mergeDocumentBinary(Document doc) throws CvqException {
        if (!doc.getDatas().isEmpty() && doc.getDatas().get(0).getContentType().equals(ContentType.PDF)) {
            if(doc.getDatas().size() > 1)

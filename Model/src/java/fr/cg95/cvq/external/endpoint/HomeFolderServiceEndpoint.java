@@ -32,14 +32,12 @@ public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoin
 
     @Override
     protected Object invokeInternal(Object request) throws Exception {
-       
+
        GetHomeFoldersResponseDocument responseDocument =
             GetHomeFoldersResponseDocument.Factory.newInstance();
-       GetHomeFoldersResponse response = 
+       GetHomeFoldersResponse response =
             responseDocument.addNewGetHomeFoldersResponse();
-        //Switch to admin context to be able to call services without permission exceptions
-        String currentExternalService = SecurityContext.getCurrentExternalService();
-        SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
+
         List<HomeFolder> homeFolders = userSearchService.getAll(true, true);
         for (HomeFolder homeFolder : homeFolders) {
             HomeFolderType homeFolderType = response.addNewHomeFolder();
@@ -62,10 +60,6 @@ public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoin
                 }
             }
         }
-
-       // Reset to original context
-       SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
-       SecurityContext.setCurrentExternalService(currentExternalService);
 
        return response;
     }

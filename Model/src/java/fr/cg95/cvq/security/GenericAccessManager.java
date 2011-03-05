@@ -139,6 +139,8 @@ public class GenericAccessManager {
             }
         } else if (credentialBean.isAdminContext()) {
             return true;
+        } else if (credentialBean.isExternalServiceContext()) {
+            return true;
         } else {
             return false;
         }        

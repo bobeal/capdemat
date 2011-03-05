@@ -1,5 +1,6 @@
 package fr.cg95.cvq.external;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import java.util.Map;
  * @author bor@zenexity.fr
  */
 public class ExternalServiceBean {
-    
+
     /**
      *  Authentication paraphrase
      */
@@ -50,6 +51,9 @@ public class ExternalServiceBean {
     }
 
     public final List<String> getRequestTypes() {
+        if (requestTypes == null) {
+            return Collections.emptyList();
+        }
         return requestTypes;
     }
 

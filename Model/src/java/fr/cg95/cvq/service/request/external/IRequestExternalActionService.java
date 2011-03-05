@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.Set;
 
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
+import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.util.Critere;
 
 public interface IRequestExternalActionService {
 
-    Long addTrace(RequestExternalAction trace);
+    Long addTrace(@IsRequest RequestExternalAction trace);
 
     List<RequestExternalAction> getTraces(Set<Critere> criteriaSet, String sort,
         String dir, int count, int offset);

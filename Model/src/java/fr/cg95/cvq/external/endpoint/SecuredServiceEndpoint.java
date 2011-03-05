@@ -8,17 +8,16 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 
 /**
- * Extends base payload endpoint functionalities. Verifies endpoint authentication status. 
- * 
- * @author vba@zenexity.fr
+ * Extends base payload endpoint functionalities. Verifies endpoint authentication status.
  *
+ * @author vba@zenexity.fr
  */
 public abstract class SecuredServiceEndpoint extends AbstractMarshallingPayloadEndpoint {
 
     public SecuredServiceEndpoint(Marshaller marshaller) {
         super(marshaller);
     }
-    
+
     @Override
     protected void onMarshalResponse(MessageContext messageContext, Object requestObject,
             Object responseObject) {
@@ -31,7 +30,7 @@ public abstract class SecuredServiceEndpoint extends AbstractMarshallingPayloadE
             throws Exception {
         
         if (SecurityContext.getCurrentExternalService() == null)
-            throw new CvqException("It's necessary to be logged for perform this task ");
+            throw new CvqException("It's necessary to be logged to perform this task");
         
         return super.onUnmarshalRequest(messageContext, requestObject);
     }

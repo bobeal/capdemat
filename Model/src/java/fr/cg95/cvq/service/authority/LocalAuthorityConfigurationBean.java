@@ -282,6 +282,17 @@ public final class LocalAuthorityConfigurationBean {
         service.checkConfiguration(esb, name);
         externalProviderServices.put(service, esb);
     }
+
+    public ExternalServiceBean getBeanForExternalService(String externalServiceLabel) {
+
+        if (externalProviderServices != null && !externalProviderServices.isEmpty()) {
+            for (IExternalProviderService service : externalProviderServices.keySet()) {
+                if (service.getLabel().equals(externalServiceLabel))
+                    return externalProviderServices.get(service);
+            }
+        }
+        return null;
+    }
     
     public void unregisterExternalService(IExternalProviderService service) {
         externalProviderServices.remove(service);

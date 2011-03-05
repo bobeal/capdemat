@@ -59,6 +59,7 @@ public class SimpleValidationCallbackHandler extends AbstractCallbackHandler imp
             boolean authStatus = externalService.authenticate(label, password);
             if (authStatus)
                 try {
+                    SecurityContext.setCurrentContext(SecurityContext.EXTERNAL_SERVICE_CONTEXT);
                     SecurityContext.setCurrentExternalService(label);
                 } catch (CvqException e) {
                     e.printStackTrace();

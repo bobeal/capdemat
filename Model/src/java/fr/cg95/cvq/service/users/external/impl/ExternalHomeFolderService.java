@@ -31,15 +31,17 @@ public class ExternalHomeFolderService implements IExternalHomeFolderService {
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public HomeFolderMapping getHomeFolderMapping (String externalServiceLabel, Long homeFolderId) {
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE},
+            privilege = ContextPrivilege.READ)
+    public HomeFolderMapping getHomeFolderMapping(String externalServiceLabel, Long homeFolderId) {
         return genericDAO.simpleSelect(HomeFolderMapping.class)
                 .and("externalServiceLabel", externalServiceLabel)
                 .and("homeFolderId", homeFolderId).unique();
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE},
+            privilege = ContextPrivilege.READ)
     public HomeFolderMapping getHomeFolderMapping(
             String externalServiceLabel, String externalCapDematId) {
         return genericDAO.simpleSelect(HomeFolderMapping.class)
@@ -87,8 +89,8 @@ public class ExternalHomeFolderService implements IExternalHomeFolderService {
     }
 
     @Override
-    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void setExternalId(String externalServiceLabel, Long homeFolderId, Long individualId, 
+    @Context(types = {ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
+    public void setExternalId(String externalServiceLabel, Long homeFolderId, Long individualId,
             String externalId) {
         HomeFolderMapping mapping = getHomeFolderMapping(externalServiceLabel, homeFolderId);
         IndividualMapping iMapping = genericDAO.simpleSelect(IndividualMapping.class)
@@ -102,7 +104,7 @@ public class ExternalHomeFolderService implements IExternalHomeFolderService {
     }
 
     @Override
-    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
     public void addHomeFolderMapping(String externalServiceLabel, Long homeFolderId,
             String externalId) {
 

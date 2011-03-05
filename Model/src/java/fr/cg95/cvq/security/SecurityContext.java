@@ -8,8 +8,6 @@ import org.apache.log4j.Logger;
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.Child;
-import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -34,23 +32,24 @@ public class SecurityContext {
     public static final String BACK_OFFICE_CONTEXT = "backOffice";
     public static final String FRONT_OFFICE_CONTEXT = "frontOffice";
     public static final String ADMIN_CONTEXT = "adminContext";
+    public static final String EXTERNAL_SERVICE_CONTEXT = "externalServiceContext";
 
     private static ILocalAuthorityRegistry localAuthorityRegistry;
     private static IAgentService agentService;
     private static IUserSearchService userSearchService;
-    
+
     private static List<String> administratorGroups;
     private static List<String> agentGroups;
 
-    private static ThreadLocal<CredentialBean> currentContextThreadLocal = 
+    private static ThreadLocal<CredentialBean> currentContextThreadLocal =
         new InheritableThreadLocal<CredentialBean>();
-  
+
     public void init() throws CvqConfigurationException {
         if (agentGroups == null || agentGroups.isEmpty() 
             || administratorGroups == null || administratorGroups.isEmpty())
             throw new CvqConfigurationException("security.error.accessGroupsNotConfigured");
     }
-    
+
     /**
      * Return whether one of the group in the given list permits access to the Back Office.
      */
@@ -67,7 +66,7 @@ public class SecurityContext {
      * Return whether at least one of the provided group is within the list of administrator
      * groups. 
      */
-    public static boolean isOfAnAdminGroup(List<String> groupList) {        
+    public static boolean isOfAnAdminGroup(List<String> groupList) {
         for (String group : groupList) {
             if (administratorGroups.contains(group)) {
                 return true;
@@ -76,7 +75,7 @@ public class SecurityContext {
 
         return false;
     }
-    
+
     /**
      * Return whether at least one of the provided group is within the list of agent
      * groups.
@@ -90,15 +89,15 @@ public class SecurityContext {
 
         return false;
     }
-    
+
     public static List<String> getAdministratorGroups() {
         return administratorGroups;
     }
-    
+
     public static List<String> getAgentGroups() {
         return agentGroups;
     }
-    
+
     /**
      * Return the user we are talking to (from the WWW session), or
      * null if we are not in a WWW or other user-driven context.
@@ -167,7 +166,7 @@ public class SecurityContext {
 
         return credentialBean.getProxyAgent();
     }
-    
+
     /**
      * Set the current agent who is doing a request on behalf of an ecitizen.
      */
@@ -185,7 +184,7 @@ public class SecurityContext {
 
         credentialBean.setProxyAgent(proxyAgent);
     }
-    
+
     /**
      * @see #setProxyAgent(Agent)
      */
@@ -205,7 +204,7 @@ public class SecurityContext {
 
         setProxyAgent(proxyAgent);
     }
-    
+
     /**
      * Return the user we are talking to (from the WWW session), or
      * null if we are not in a WWW or other user-driven context.
@@ -236,14 +235,14 @@ public class SecurityContext {
         throws CvqException {
 
         logger.debug("setCurrentEcitizen() adult = " + adult);
-        
+
         CredentialBean credentialBean = currentContextThreadLocal.get();
         if (credentialBean == null)
             throw new CvqException("setCurrentSite() has to be called before setCurrentEcitizen()");
 
         if (!credentialBean.isFoContext())
             throw new CvqException("Adult can only be set in Front Office context");
-        
+
         credentialBean.setEcitizen(adult);
     }
 
@@ -266,12 +265,12 @@ public class SecurityContext {
     public static String getCurrentExternalService() {
         CredentialBean credentialBean = currentContextThreadLocal.get();
         if (credentialBean == null) {
-            logger.warn("getCurrentExternalService() No user yet in security context");
+            logger.debug("getCurrentExternalService() No user yet in security context");
             return null;
         }
 
-        if (!credentialBean.isBoContext()) {
-            logger.warn("getCurrentExternalService() external service only exists in Back Office context");
+        if (!credentialBean.isExternalServiceContext()) {
+            logger.debug("getCurrentExternalService() external service only exists in External Service context");
             return null;
         }
 
@@ -283,14 +282,14 @@ public class SecurityContext {
         if (credentialBean == null)
             throw new CvqException("setCurrentSite() has to be called before setCurrentEcitizen()");
 
-        if (!credentialBean.isBoContext())
-            throw new CvqException("External service can only be set in Back Office context");
-        
+        if (!credentialBean.isExternalServiceContext())
+            throw new CvqException("External service can only be set in External Service context");
+
         credentialBean.setExternalService(externalService);
     }
 
     /**
-     * Return the login of the current user ("administrator" if admin context, 
+     * Return the login of the current user ("administrator" if admin context,
      * whether it is an agent or an e-citizen.
      *
      * @throws CvqException if security context is not initialized
@@ -311,7 +310,7 @@ public class SecurityContext {
     }
 
     /**
-     * Return the id of the current user (-1 if admin context), whether it is an agent 
+     * Return the id of the current user (-1 if admin context), whether it is an agent
      * or an e-citizen.
      *
      * @throws CvqException if security context is not initialized
@@ -333,13 +332,14 @@ public class SecurityContext {
             return Long.valueOf("-1");
         }
     }
-    
+
     /**
      * Return the current context for this thread or null if security context is not set.
      *
      * @see #BACK_OFFICE_CONTEXT
      * @see #FRONT_OFFICE_CONTEXT
      * @see #ADMIN_CONTEXT
+     * @see #EXTERNAL_SERVICE_CONTEXT
      */
     public static String getCurrentContext() {
         CredentialBean credentialBean = currentContextThreadLocal.get();
@@ -351,7 +351,9 @@ public class SecurityContext {
             return FRONT_OFFICE_CONTEXT;
         else if (credentialBean.isAdminContext())
             return ADMIN_CONTEXT;
-		
+        else if (credentialBean.isExternalServiceContext())
+            return EXTERNAL_SERVICE_CONTEXT;
+
         return null;
     }
 
@@ -363,8 +365,7 @@ public class SecurityContext {
         else
             credentialBean.setContext(context);
     }
-    
-    
+
     /**
      * Return the current local authority for this thread or null if security context is not set.
      */
@@ -382,12 +383,13 @@ public class SecurityContext {
         CredentialBean credentialBean = new CredentialBean(localAuthority, context);
         currentContextThreadLocal.set(credentialBean);
     }
-    
+
     /**
      * Set the current local authority. To be called by a sort of multi-site listener.
      *
      * @param context the context to set, as defined by
-     *  {@link #BACK_OFFICE_CONTEXT}, {@link #FRONT_OFFICE_CONTEXT} and {@link #ADMIN_CONTEXT}
+     *  {@link #BACK_OFFICE_CONTEXT}, {@link #FRONT_OFFICE_CONTEXT}, {@link #ADMIN_CONTEXT},
+     *  and {@link #EXTERNAL_SERVICE_CONTEXT}
      */
     public static void setCurrentSite(String localAuthorityName, String context)
         throws CvqObjectNotFoundException {
@@ -398,7 +400,7 @@ public class SecurityContext {
             logger.error("setCurrentSite() local authority " + localAuthorityName + " not found in DB");
             throw new CvqObjectNotFoundException("local authority " + localAuthorityName + " not found in DB");
         }
-        
+
         setCurrentSite(localAuthority, context);
     }
 
@@ -412,7 +414,7 @@ public class SecurityContext {
 
     public static void setCurrentLocale(Locale locale) throws CvqException {
         logger.debug("setCurrentLocale() locale = " + locale);
-        
+
         CredentialBean credentialBean = currentContextThreadLocal.get();
         if (credentialBean == null)
             throw new CvqException("setCurrentSite() has to be called before setCurrentLocale()");
@@ -431,7 +433,7 @@ public class SecurityContext {
 
         return credentialBean.getLocale();
     }
-    
+
     /**
      * Return the configuration bean for the current thread.
      */
@@ -480,7 +482,15 @@ public class SecurityContext {
         else
             return credentialBean.isFoContext();
     }
-    
+
+    public static boolean isExternalServiceContext() {
+        CredentialBean credentialBean = currentContextThreadLocal.get();
+        if (credentialBean == null)
+            return false;
+        else
+            return credentialBean.isExternalServiceContext();
+    }
+
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry iLocalAuthorityRegistry) {
         localAuthorityRegistry = iLocalAuthorityRegistry;
     }

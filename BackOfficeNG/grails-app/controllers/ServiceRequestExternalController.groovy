@@ -28,7 +28,7 @@ class ServiceRequestExternalController {
             render(text: "", status : 401)
             return false
         }
-        
+        SecurityContext.setCurrentContext(SecurityContext.EXTERNAL_SERVICE_CONTEXT)
         SecurityContext.setCurrentExternalService(credentials[0])
     }
 

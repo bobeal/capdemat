@@ -30,35 +30,31 @@ import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.xml.common.RequestType;
 
 public class RequestServiceEndpoint extends SecuredServiceEndpoint {
-    
+
     private static Logger logger = Logger.getLogger(RequestServiceEndpoint.class);
-    
+
     private IRequestExportService requestExportService;
     private IRequestSearchService requestSearchService;
     private IRequestExternalService requestExternalService;
     private IRequestDAO requestDAO;
     private IRequestExternalActionService requestExternalActionService;
-    
-    private final String noPermissions = "Access denied! No permissions granted"; 
-    
+
+    private final String noPermissions = "Access denied! No permissions granted";
+
     @Override
     protected Object invokeInternal(Object request) throws Exception {
-        
-        GetRequestsResponseDocument responseDocument = 
+
+        GetRequestsResponseDocument responseDocument =
             GetRequestsResponseDocument.Factory.newInstance();
         GetRequestsResponse response = responseDocument.addNewGetRequestsResponse();
-        
+
         Collection<String> authorizedRequestTypesLabels =
             requestExternalService.getRequestTypesForExternalService(SecurityContext.getCurrentExternalService());
 
-        // Switch to admin context to be able to call services without permission exceptions
-        String currentExternalService = SecurityContext.getCurrentExternalService();
-        SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
-        
         GetRequestsRequest typedRequest =
             ((GetRequestsRequestDocument)request).getGetRequestsRequest();
 
-        // Check external service permissions wrt configured request types labels 
+        // Check external service permissions wrt configured request types labels
         // and add request types labels filter if authorized
         List<String> selectedRequestTypesLabels = new ArrayList<String>();
         if (typedRequest.getRequestTypeLabel() != null) {
@@ -69,36 +65,31 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
                 return response;
             }
         } else {
-            if (authorizedRequestTypesLabels != null && !authorizedRequestTypesLabels.isEmpty()) {
+            if (!authorizedRequestTypesLabels.isEmpty()) {
                 selectedRequestTypesLabels.addAll(authorizedRequestTypesLabels);
             } else {
                 response.setError(noPermissions);
                 return response;
             }
         }
-        
+
         // if a request id is specified, return the request whatever states and dates are set to
         if (typedRequest.getId() != 0) {
             Request askedRequest = requestSearchService.getById(typedRequest.getId(), true);
-            if (askedRequest != null 
+            if (askedRequest != null
                     && authorizedRequestTypesLabels.contains(askedRequest.getRequestType().getLabel())) {
                 List<Request> requests = new ArrayList<Request>();
                 requests.add(askedRequest);
 
                 response.setRequestArray(prepareRequestsForResponse(requests));
-                
             } else {
                 response.setError(noPermissions);
             }
 
-            // Reset to original context
-            SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
-            SecurityContext.setCurrentExternalService(currentExternalService);
-
             return response;
         }
-        
-        RequestState requestedState = 
+
+        RequestState requestedState =
             typedRequest.getState() != null ? RequestState.forString(typedRequest.getState().toString()) : RequestState.VALIDATED;
         Date requestedDateFrom = null;
         if (typedRequest.getDateFrom() != null)
@@ -113,7 +104,7 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
 
         try {
             List<Request> requests =
-                requestDAO.listRequestsToExport(requestedState.toString(), requestedDateFrom, 
+                requestDAO.listRequestsToExport(requestedState.toString(), requestedDateFrom,
                         requestedDateTo, selectedRequestTypesLabels);
             List<Request> selectedRequests = new ArrayList<Request>();
             for (Request eligibleRequest : requests) {
@@ -129,29 +120,25 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
                 if (requestExternalActionService.getTracesCount(criteriaSet) == 0)
                     selectedRequests.add(eligibleRequest);
             }
-            
+
             response.setRequestArray(prepareRequestsForResponse(selectedRequests));
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             response.setError(e.getMessage());
         }
 
-        // Reset to original context
-        SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentExternalService(currentExternalService);
-
         return response;
     }
 
     private RequestType[] prepareRequestsForResponse(List<Request> requests) throws Exception {
-        
+
         Set<RequestType> resultArray = new HashSet<RequestType>();
         for (Request r : requests) {
-            
+
             if (r.getState().equals(RequestState.ARCHIVED))
                 continue;
-            
+
             RequestType rt = null;
             // TODO : port this properly in 4.2
             XmlObject xmlObject = requestExportService.fillRequestXml(r);
@@ -162,19 +149,19 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
                         + e.getMessage());
             }
             resultArray.add(rt);
-            
+
             RequestExternalAction trace = new RequestExternalAction();
             trace.setKeyOwner("capdemat");
             trace.setKey(String.valueOf(r.getId()));
             trace.setStatus(RequestExternalAction.Status.SENT);
-            
+
             requestExternalActionService.addTrace(trace);
         }
-        
+
         logger.debug("prepareRequestsForResponse() number of returned requests " + requests.size());
         return resultArray.toArray(new RequestType[0]);
     }
-    
+
     public RequestServiceEndpoint(Marshaller marshaller) {
         super(marshaller);
     }

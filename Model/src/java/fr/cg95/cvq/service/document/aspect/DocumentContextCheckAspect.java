@@ -37,7 +37,8 @@ public class DocumentContextCheckAspect implements Ordered {
 
         if (!ArrayUtils.contains(context.types(), ContextType.ECITIZEN)
                 && !ArrayUtils.contains(context.types(), ContextType.AGENT)
-                && !ArrayUtils.contains(context.types(), ContextType.UNAUTH_ECITIZEN))
+                && !ArrayUtils.contains(context.types(), ContextType.UNAUTH_ECITIZEN)
+                && !ArrayUtils.contains(context.types(), ContextType.EXTERNAL_SERVICE))
             return;
 
         if (context.privilege().equals(ContextPrivilege.NONE)) {

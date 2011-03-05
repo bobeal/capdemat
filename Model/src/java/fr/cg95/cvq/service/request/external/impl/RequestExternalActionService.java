@@ -18,23 +18,25 @@ public class RequestExternalActionService implements IRequestExternalActionServi
     private IRequestExternalActionDAO requestExternalActionDAO;
 
     @Override
-    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
     public Long addTrace(RequestExternalAction trace) {
         trace.setDate(new Date());
         return requestExternalActionDAO.create(trace);
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     @RequestFilter(privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, 
+            privilege = ContextPrivilege.READ)
     public List<RequestExternalAction> getTraces(Set<Critere> criteriaSet,
         String sort, String dir, int count, int offset) {
         return requestExternalActionDAO.get(criteriaSet, sort, dir, count, offset, false);
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     @RequestFilter(privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE},
+            privilege = ContextPrivilege.READ)
     public Long getTracesCount(Set<Critere> criteriaSet) {
         return requestExternalActionDAO.getCount(criteriaSet, false);
     }

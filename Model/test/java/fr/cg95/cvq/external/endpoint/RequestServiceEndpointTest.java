@@ -8,7 +8,6 @@ import java.util.Set;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.xmlbeans.XmlBeansMarshaller;
 
@@ -67,7 +66,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
             
-            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.EXTERNAL_SERVICE_CONTEXT);
             SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
 
             GetRequestsRequest getRequest = GetRequestsRequest.Factory.newInstance();
@@ -79,13 +78,15 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             getRequest.setState(RequestStateType.Enum.forString(RequestState.PENDING.toString()));
             requestDocument.setGetRequestsRequest(getRequest);
             
-            // test we get our VO card request
+            // test we get our request
             GetRequestsResponse getResponse = 
                 (GetRequestsResponse) endpoint2.invokeInternal(requestDocument);
             int getCountBefore = getResponse.getRequestArray().length;
             assertEquals(1, getCountBefore);
             
             continueWithNewTransaction();
+
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
             Set<Critere> criteriaSet = new HashSet<Critere>();
@@ -100,6 +101,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             type.setErroneous(false);
             types[0] = type;
             
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.EXTERNAL_SERVICE_CONTEXT);
             SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
 
             ackRequest.setAckElementsArray(types);
@@ -112,10 +114,13 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             assertTrue(ackResponse.getAccomplished());
             
             continueWithNewTransaction();
+            
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
             assertEquals(2, requestExternalActionService.getTracesCount(criteriaSet).longValue());
             
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.EXTERNAL_SERVICE_CONTEXT);
             SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
 
             getResponse = (GetRequestsResponse) endpoint2.invokeInternal(requestDocument);
@@ -125,6 +130,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             e.printStackTrace();
             fail("Unwaited exception trown : " + e.getMessage());
         } finally {
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             for (RequestExternalAction trace :
                 requestExternalActionService.getTraces(new HashSet<Critere>(), null, null, 0, 0)) {
@@ -159,6 +165,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             getRequest.setState(RequestStateType.Enum.forString(RequestState.PENDING.toString()));
             requestDocument.setGetRequestsRequest(getRequest);
             
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.EXTERNAL_SERVICE_CONTEXT);
             SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             
             /* Create sent traces */
@@ -177,6 +184,8 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             assertEquals(1, getCountBefore);
             
             continueWithNewTransaction();
+
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             
             Set<Critere> criteriaSet = new HashSet<Critere>();
@@ -205,6 +214,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             type.setErroneous(true);
             types[2] = type;
             
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.EXTERNAL_SERVICE_CONTEXT);
             SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             
             ackRequest.setAckElementsArray(types);
@@ -214,6 +224,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             assertNotNull(ackResponse);
 
             continueWithNewTransaction();
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             
             assertEquals(tracesCount+3, requestExternalActionService.getTracesCount(criteriaSet).longValue());
@@ -251,28 +262,24 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
 
             GetRequestsRequestDocument pendedRequestDocument = 
                 GetRequestsRequestDocument.Factory.newInstance();
-            GetRequestsRequest pendedRequest = GetRequestsRequest.Factory.newInstance();
+            pendedRequestDocument.addNewGetRequestsRequest();
             
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.EXTERNAL_SERVICE_CONTEXT);
             SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             
-            pendedRequestDocument.setGetRequestsRequest(pendedRequest);
             endpoint.invokeInternal(pendedRequestDocument);
-            fail();
-            
+
         } catch (CvqObjectNotFoundException e) {
             fail("Unwaited exception raised");
         } catch (CvqException e) {
-            // Do nothing because raised exception is a part of normal behavior in current situation
-        } catch (BeansException e) {
-            fail("Unwaited exception raised");
-        } 
-        
+            fail();
+        }
     }
     
     @Test
     public void testAccessPermissions() {
         try {
-            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.EXTERNAL_SERVICE_CONTEXT);
             SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
 
             RequestServiceEndpoint endpoint = gimmeRequestServiceEndpoint();
@@ -285,7 +292,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             pendedRequestDocument.setGetRequestsRequest(pendedRequest);
             GetRequestsResponse getResponse = 
                 (GetRequestsResponse) endpoint.invokeInternal(pendedRequestDocument);
-            assertNotSame(getResponse.getError().length(), 0);
+            assertNotNull(getResponse.getError());
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -295,7 +302,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
     
     @Test
     public void testRequestServiceEndpoint() throws Exception {
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.EXTERNAL_SERVICE_CONTEXT);
         SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
         Long[] requestIDs = new Long[2];
         try {
@@ -335,7 +342,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             requestIDs[0] = createRequest().getId();
             requestIDs[1] = createRequest().getId();
             
-            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.EXTERNAL_SERVICE_CONTEXT);
             SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
 
             pendedResponse = (GetRequestsResponse) endpoint.invokeInternal(pendedRequestDocument);
@@ -435,7 +442,9 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
                 }
             }
 
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.EXTERNAL_SERVICE_CONTEXT);
             SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
+
             endpoint.invokeInternal(homeFolderMappingRequestDocument);
             
             continueWithNewTransaction();

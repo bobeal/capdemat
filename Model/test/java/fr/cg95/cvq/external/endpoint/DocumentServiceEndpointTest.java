@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Date;
-import static org.junit.Assert.*;
 
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 import org.springframework.oxm.xmlbeans.XmlBeansMarshaller;
@@ -47,7 +47,7 @@ public class DocumentServiceEndpointTest extends ExternalServiceTestCase {
             requestDocumentService.addDocument(request, createDocumentForRequest(request, "pdf"));
             continueWithNewTransaction();
             
-            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.EXTERNAL_SERVICE_CONTEXT);
             SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             
             GetDocumentListRequest getDocumentRequest = GetDocumentListRequest.Factory.newInstance();
@@ -79,6 +79,7 @@ public class DocumentServiceEndpointTest extends ExternalServiceTestCase {
     
     @Test
     public void testGetDocumentListWithBadId() throws Exception {
+
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
         
@@ -88,7 +89,7 @@ public class DocumentServiceEndpointTest extends ExternalServiceTestCase {
         docListEndpoint.setRequestDocumentService(requestDocumentService);
 
         try {
-            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.EXTERNAL_SERVICE_CONTEXT);
             SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             
             GetDocumentListRequest getDocumentListRequest = GetDocumentListRequest.Factory.newInstance();
@@ -129,7 +130,7 @@ public class DocumentServiceEndpointTest extends ExternalServiceTestCase {
             requestDocumentService.addDocument(request, documentId);
             continueWithNewTransaction();
             
-            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.EXTERNAL_SERVICE_CONTEXT);
             SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             
             GetDocumentRequest getDocumentRequest = GetDocumentRequest.Factory.newInstance();
@@ -148,13 +149,16 @@ public class DocumentServiceEndpointTest extends ExternalServiceTestCase {
             
             assertEquals(2, getDocResponse.getDocumentBinaryArray().length);
             int getLenghtResponseBinaryDocument = 
-                getDocResponse.getDocumentBinaryArray(0).length;
+                getDocResponse.xgetDocumentBinaryArray(0).getByteArrayValue().length +
+                getDocResponse.xgetDocumentBinaryArray(1).getByteArrayValue().length;
             
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             
             int getLenghtBinaryDocument = 
-                documentService.getById(documentId).getDatas().get(0).getData().length;
-            assertEquals("Bad number of document list to response", 
+                documentService.getById(documentId).getDatas().get(0).getData().length +
+                documentService.getById(documentId).getDatas().get(1).getData().length;
+            assertEquals("Bad length for returned document", 
                     getLenghtBinaryDocument, getLenghtResponseBinaryDocument);
             
         } catch (Exception e) {
@@ -175,11 +179,12 @@ public class DocumentServiceEndpointTest extends ExternalServiceTestCase {
         docEndpoint.setRequestDocumentService(requestDocumentService);
 
         try {
+
             Long documentId = createDocumentForRequest(request,"image");
             requestDocumentService.addDocument(request, documentId);
             continueWithNewTransaction();
             
-            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.EXTERNAL_SERVICE_CONTEXT);
             SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             
             GetDocumentRequest getDocumentRequest = GetDocumentRequest.Factory.newInstance();
@@ -198,13 +203,14 @@ public class DocumentServiceEndpointTest extends ExternalServiceTestCase {
             
             assertEquals(1, getDocResponse.getDocumentBinaryArray().length);
             int getLenghtResponseBinaryDocument = 
-                getDocResponse.getDocumentBinaryArray(0).length;
+                getDocResponse.xgetDocumentBinaryArray(0).getByteArrayValue().length;
             
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             
             int getLenghtBinaryDocument = 
                 documentService.getById(documentId).getDatas().get(0).getData().length;
-            assertEquals("Bad number of document list to response", 
+            assertEquals("Bad length for returned document", 
                     getLenghtBinaryDocument, getLenghtResponseBinaryDocument);
             
         } catch (Exception e) {
@@ -215,34 +221,27 @@ public class DocumentServiceEndpointTest extends ExternalServiceTestCase {
     
     @Test
     public void testGetDocumentWithBadId() throws Exception {
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithManageRoles);
-        
+
         /* Initialize internal variables */
         DocumentServiceEndpoint docEndpoint =
             new DocumentServiceEndpoint(new XmlBeansMarshaller());
         docEndpoint.setRequestDocumentService(requestDocumentService);
 
         try {
-            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.EXTERNAL_SERVICE_CONTEXT);
             SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             
             GetDocumentRequest getDocumentRequest = GetDocumentRequest.Factory.newInstance();
-            GetDocumentRequestDocument getDocumentRequestDocument = GetDocumentRequestDocument.Factory.newInstance();
+            GetDocumentRequestDocument getDocumentRequestDocument = 
+                GetDocumentRequestDocument.Factory.newInstance();
             getDocumentRequest.setRequestId(12345); // use a random id
             getDocumentRequest.setDocumentId(12345); // use a random id
-            
             getDocumentRequestDocument.setGetDocumentRequest(getDocumentRequest);
-            continueWithNewTransaction();
-            
-            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-            SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             
             GetDocumentResponse getDocResponse = 
                 (GetDocumentResponse) docEndpoint.invokeInternal(getDocumentRequestDocument);
             
-            String getError = getDocResponse.getError();
-            assertEquals(DocumentServiceEndpoint.notFound, getError);
+            assertEquals(DocumentServiceEndpoint.noPermissions, getDocResponse.getError());
         } catch (Exception e) {
             e.printStackTrace();
             fail("Unwaited exception trown : " + e.getMessage());
@@ -251,7 +250,7 @@ public class DocumentServiceEndpointTest extends ExternalServiceTestCase {
     
     @Test
     public void testGetDocumentWithJustPdf() throws Exception {
-        
+
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
         
@@ -261,7 +260,8 @@ public class DocumentServiceEndpointTest extends ExternalServiceTestCase {
         docEndpoint.setRequestDocumentService(requestDocumentService);
 
         try {
-            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.EXTERNAL_SERVICE_CONTEXT);
             SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             
             GetDocumentRequest getDocumentRequest = GetDocumentRequest.Factory.newInstance();
@@ -302,7 +302,7 @@ public class DocumentServiceEndpointTest extends ExternalServiceTestCase {
             requestDocumentService.addDocument(request, documentId);
             continueWithNewTransaction();
             
-            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.EXTERNAL_SERVICE_CONTEXT);
             SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             
             GetDocumentRequest getDocumentRequest = GetDocumentRequest.Factory.newInstance();
@@ -329,6 +329,7 @@ public class DocumentServiceEndpointTest extends ExternalServiceTestCase {
     
     private Long createDocumentForRequest(Request request, String contentType) 
         throws CvqObjectNotFoundException, CvqException, IOException {
+
         DocumentType docType = 
             documentTypeService.getDocumentTypeByType(IDocumentTypeService.OLD_CNI_TYPE);
         Document doc = new Document(request.getHomeFolderId(), null, docType, DocumentState.PENDING);

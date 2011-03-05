@@ -57,7 +57,8 @@ public class RequestSearchService implements IRequestSearchService, BeanFactoryA
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE},
+            privilege = ContextPrivilege.READ)
     public Request getById(final Long id, final boolean full)
         throws CvqObjectNotFoundException {
         return requestDAO.findById(id, full);
@@ -93,7 +94,8 @@ public class RequestSearchService implements IRequestSearchService, BeanFactoryA
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE},
+            privilege = ContextPrivilege.READ)
     public byte[] getCertificate(final Long requestId) throws CvqException {
         byte[] data = getCertificate(requestId, RequestState.VALIDATED);
         return data != null ? data : getCertificate(requestId, RequestState.PENDING);

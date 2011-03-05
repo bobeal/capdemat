@@ -141,34 +141,29 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
 
     @Override
     @Context(types = {ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.READ)
-    public GetDocumentListResponseDocument getAssociatedFullDocuments(final Long requestId) 
+    public GetDocumentListResponseDocument getAssociatedFullDocuments(final Long requestId)
         throws CvqException, CvqObjectNotFoundException, PermissionException {
         Request request = getById(requestId);
 
         GetDocumentListResponseDocument getDocumentListResponseDocument =
             GetDocumentListResponseDocument.Factory.newInstance();
-        GetDocumentListResponse getDocumentListResponse = 
+        GetDocumentListResponse getDocumentListResponse =
             getDocumentListResponseDocument.addNewGetDocumentListResponse();
 
         Collection<String> authorizedRequestTypesLabels =
             requestExternalService.getRequestTypesForExternalService(SecurityContext.getCurrentExternalService());
-        
+
         // Check external service permissions wrt configured request types labels
         String requestTypeLabel = request.getRequestType().getLabel();
-        if (requestTypeLabel == null || authorizedRequestTypesLabels == null || 
-                !authorizedRequestTypesLabels.contains(requestTypeLabel)) {
-            throw new PermissionException(this.getClass(), "getAssociatedFullDocuments", 
-                    new ContextType[] {ContextType.EXTERNAL_SERVICE}, ContextPrivilege.READ, 
+        if (!authorizedRequestTypesLabels.contains(requestTypeLabel)) {
+            throw new PermissionException(this.getClass(), "getAssociatedFullDocuments",
+                    new ContextType[] {ContextType.EXTERNAL_SERVICE}, ContextPrivilege.READ,
                     "");
         }
 
         if (request.getDocuments().isEmpty()) {
             return getDocumentListResponseDocument;
         }
-        
-        // Switch to admin context to be able to call services without permission exceptions
-        String currentExternalService = SecurityContext.getCurrentExternalService();
-        SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
 
         for (RequestDocument rd : request.getDocuments()) {
             Document doc = documentService.getById(rd.getDocumentId());
@@ -187,14 +182,11 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
             }
         }
 
-        // Reset to original context
-        SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentExternalService(currentExternalService);
-        
         return getDocumentListResponseDocument;
     }
 
     @Override
+    @Context(types = {ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.READ)
     public GetDocumentResponseDocument getAssociatedDocument(Long requestId, Long documentId,
             boolean mergeDocument) throws CvqException, CvqObjectNotFoundException, PermissionException {
 
@@ -202,12 +194,11 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
 
         Collection<String> authorizedRequestTypesLabels =
             requestExternalService.getRequestTypesForExternalService(SecurityContext.getCurrentExternalService());
-        
+
         // Check external service permissions wrt configured request types labels
         String requestTypeLabel = request.getRequestType().getLabel();
-        if (requestTypeLabel == null || authorizedRequestTypesLabels == null || 
-                !authorizedRequestTypesLabels.contains(requestTypeLabel)) {
-            throw new PermissionException(this.getClass(), "getAssociatedFullDocuments", 
+        if (!authorizedRequestTypesLabels.contains(requestTypeLabel)) {
+            throw new PermissionException(this.getClass(), "getAssociatedFullDocuments",
                     new ContextType[] {ContextType.EXTERNAL_SERVICE}, ContextPrivilege.READ, "");
         }
 
@@ -219,10 +210,6 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
 
         RequestExternalAction est = new RequestExternalAction(new Date(), String.valueOf(requestId), "capdemat", 
                 null, SecurityContext.getCurrentExternalService(), RequestExternalAction.Status.SENT);
-
-        // Switch to admin context to be able to call services without permission exceptions
-        String currentExternalService = SecurityContext.getCurrentExternalService();
-        SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
 
         if (documentId != null) {
             // check the document is really associated to the request
@@ -272,10 +259,6 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
         }
 
         requestExternalActionService.addTrace(est);
-
-        // Reset to original context
-        SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentExternalService(currentExternalService);
 
         return getDocumentResponseDocument;
     }

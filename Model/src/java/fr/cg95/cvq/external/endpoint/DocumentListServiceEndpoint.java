@@ -13,10 +13,10 @@ import fr.cg95.cvq.service.request.IRequestDocumentService;
 public class DocumentListServiceEndpoint extends SecuredServiceEndpoint {
 
     private IRequestDocumentService requestDocumentService;
-    
-    private final String noPermissions = "Access denied! No permissions granted"; 
-    private final String notFound = "Request not found"; 
-    
+
+    private final String noPermissions = "Access denied! No permissions granted";
+    private final String notFound = "Request not found";
+
     public DocumentListServiceEndpoint(Marshaller marshaller) {
         super(marshaller);
     }
@@ -26,28 +26,28 @@ public class DocumentListServiceEndpoint extends SecuredServiceEndpoint {
 
         GetDocumentListRequest getDocumentListRequest =
             ((GetDocumentListRequestDocument)request).getGetDocumentListRequest();
-        
+
         try {
             GetDocumentListResponseDocument getDocumentListResponseDocument = 
                 requestDocumentService.getAssociatedFullDocuments(getDocumentListRequest.getRequestId());
-            
+
             return getDocumentListResponseDocument.getGetDocumentListResponse();
 
         } catch (CvqObjectNotFoundException confe) {
             GetDocumentListResponseDocument getDocumentListResponseDocument =
                 GetDocumentListResponseDocument.Factory.newInstance();
-            GetDocumentListResponse getDocumentListResponse = 
+            GetDocumentListResponse getDocumentListResponse =
                 getDocumentListResponseDocument.addNewGetDocumentListResponse();
               getDocumentListResponse.setError(notFound);
-              
+
               return getDocumentListResponse;
         } catch (PermissionException pe) {
           GetDocumentListResponseDocument getDocumentListResponseDocument =
               GetDocumentListResponseDocument.Factory.newInstance();
-          GetDocumentListResponse getDocumentListResponse = 
+          GetDocumentListResponse getDocumentListResponse =
               getDocumentListResponseDocument.addNewGetDocumentListResponse();
             getDocumentListResponse.setError(noPermissions);
-            
+
             return getDocumentListResponse;
         }
     }

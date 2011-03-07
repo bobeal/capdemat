@@ -36,12 +36,6 @@ class RequestAdaptorService {
         return allRequestTypesTranslated.sort{it.label}
     }
 
-    /* currently unused, remove it later if still not used */
-    public translateRequestType(requestTypeId) {
-        def requestType = requestTypeService.getRequestTypeById(requestTypeId)
-        return translationService.translateRequestTypeLabel(requestType.label)
-    }
-
     public prepareRecord(request) {
         return ['id':request.id,
                 'requestTypeLabel':request.requestType.label,

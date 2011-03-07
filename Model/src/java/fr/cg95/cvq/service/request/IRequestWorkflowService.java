@@ -108,14 +108,6 @@ public interface IRequestWorkflowService {
     RequestState[] getStatesExcludedForRunningRequests();
 
     /**
-     * Check if account modification is possible for the given home folder.
-     * 
-     * @throws CvqModelException if account modification is not possible
-     */
-    void isAccountModificationRequestAuthorized(final HomeFolder homeFolder) 
-        throws CvqModelException;
-
-    /**
      * Create a new request from given data.
      * 
      * It is meant to be used <strong>only</strong> by requests who require an home folder, 

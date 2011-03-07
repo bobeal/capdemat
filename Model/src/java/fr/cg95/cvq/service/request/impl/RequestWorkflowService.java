@@ -97,21 +97,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     private ApplicationContext applicationContext;
 
     @Override
-    public void isAccountModificationRequestAuthorized(final HomeFolder homeFolder) 
-        throws CvqModelException {
-        
-        List<Request> otherRequests = 
-            requestDAO.listByHomeFolderAndLabel(homeFolder.getId(), 
-                    IRequestTypeService.HOME_FOLDER_MODIFICATION_REQUEST, 
-                    getStatesExcludedForInProgressRequest(), false);
-        if (otherRequests != null && !otherRequests.isEmpty())
-            throw new CvqModelException("homeFolder.error.alreadyAccountModifcationInProgess");
-
-        if (!homeFolder.getState().equals(UserState.VALID))
-            throw new CvqModelException("homeFolder.error.accountModifcationPossibleForValidatedAccount");
-    }
-
-    @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public Long create(Request request, String note) throws CvqException {
         performBusinessChecks(request, SecurityContext.getCurrentEcitizen());
@@ -284,15 +269,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         }
         if (!requestTypeService.isRegistrationOpen(requestType.getId())) {
             throw new CvqModelException("requestType.message.registrationClosed");
-        }
-        if (homeFolder != null
-            && !IRequestWorkflowService.SUBJECT_POLICY_NONE.equals(service.getSubjectPolicy())
-            && getAuthorizedSubjects(requestType, homeFolder.getId()).isEmpty()) {
-            throw new CvqModelException("requestType.message.noAuthorizedSubjects");
-        }
-        if (requestType.getLabel().equals(IRequestTypeService.HOME_FOLDER_MODIFICATION_REQUEST)) {
-            isAccountModificationRequestAuthorized(
-                SecurityContext.getCurrentEcitizen().getHomeFolder());
         }
     }
 

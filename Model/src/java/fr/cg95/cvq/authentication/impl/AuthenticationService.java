@@ -11,7 +11,6 @@ import fr.cg95.cvq.authentication.IAuthenticationService;
 import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.dao.users.IAdultDAO;
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException;
 import fr.cg95.cvq.exception.CvqDisabledAccountException;
@@ -69,42 +68,35 @@ public class AuthenticationService implements IAuthenticationService {
         }
     }
 
+    @Override
     public HomeFolder authenticate(final String login, final String passwd)
         throws CvqException, CvqUnknownUserException,
                CvqAuthenticationFailedException, CvqDisabledAccountException {
 
         Adult adult = adultDAO.findByLogin(login);
-        checkHomeFolderState(adult);
-
+        if (adult == null)
+            throw new CvqUnknownUserException();
+        HomeFolder homeFolder = adult.getHomeFolder();
+        if (homeFolder == null)
+            throw new CvqModelException("authenticate() : no home folder bound to individual " + adult.getId());
+        if (homeFolder.getState().equals(UserState.ARCHIVED)) {
+            logger.warn("authenticate() user belongs to an archived account");
+            throw new CvqUnknownUserException();
+        }
+        if (!homeFolder.getEnabled()) {
+            logger.warn("authenticate() user belongs to a disabled account");
+            throw new CvqDisabledAccountException();
+        }
+        if (UserState.ARCHIVED.equals(adult.getState())) {
+            logger.warn("authenticate() user is archived");
+            throw new CvqUnknownUserException();
+        }
         String encryptedPassword = encryptPassword(passwd);
         if (!encryptedPassword.equals(adult.getPassword())) {
             logger.error("authenticate() bad password for login " + login);
             throw new CvqAuthenticationFailedException("individual.error.badPassword");
         }
-
         return adult.getHomeFolder();
-    }
-
-    private void checkHomeFolderState(Individual individual)
-        throws CvqUnknownUserException, CvqDisabledAccountException, CvqModelException {
-        
-        if (individual == null)
-            throw new CvqUnknownUserException();
-        HomeFolder homeFolder = individual.getHomeFolder();
-        if (homeFolder == null)
-            throw new CvqModelException("No home folder bound to individual " + individual.getId());
-        
-        if (!(individual instanceof Adult))
-            throw new CvqModelException("Children can't authenticate");
-
-        if (homeFolder.getState().equals(UserState.ARCHIVED)) {
-            logger.warn("checkHomeFolderState() user belongs to an archived account");
-            throw new CvqUnknownUserException();
-        }
-        if (!homeFolder.getEnabled()) {
-            logger.warn("checkHomeFolderState() user belongs to a disabled account");
-            throw new CvqDisabledAccountException();
-        }
     }
     
     public void resetAdultPassword(final Adult adult, final String newPassword)

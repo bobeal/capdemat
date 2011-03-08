@@ -1,7 +1,10 @@
 package fr.cg95.cvq.business.users;
 
+import org.apache.commons.lang3.StringUtils;
+
 import net.sf.oval.constraint.Email;
 import net.sf.oval.constraint.EqualToField;
+import net.sf.oval.constraint.MatchPattern;
 import net.sf.oval.constraint.MinLength;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -34,14 +37,17 @@ public class Adult extends Individual {
 
     @NotNull(message = "adultPhones", when = "groovy:_this.mobilePhone == null && _this.officePhone == null")
     @NotEmpty(message = "homePhone")
+    @MatchPattern(pattern = "^0[1-59][0-9]{8}$", message = "homePhone")
     private String homePhone;
 
     @NotNull(message = "adultPhones", when = "groovy:_this.homePhone == null && _this.officePhone == null")
     @NotEmpty(message = "mobilePhone")
+    @MatchPattern(pattern = "^0[67][0-9]{8}$", message = "mobilePhone")
     private String mobilePhone;
 
     @NotNull(message = "adultPhones", when = "groovy:_this.homePhone == null && _this.mobilePhone == null")
     @NotEmpty(message = "officePhone")
+    @MatchPattern(pattern = "^0[1-59][0-9]{8}$", message = "officePhone")
     private String officePhone;
 
     @NotNull(message = "email")
@@ -212,7 +218,7 @@ public class Adult extends Individual {
     }
 
     public void setHomePhone(String homePhone) {
-        this.homePhone = homePhone;
+        this.homePhone = homePhone == null ? null : homePhone.replaceAll("[^\\d]", "");
     }
 
     /**
@@ -225,7 +231,7 @@ public class Adult extends Individual {
     }
 
     public void setMobilePhone(String mobilePhone) {
-        this.mobilePhone = mobilePhone;
+        this.mobilePhone = mobilePhone == null ? null : mobilePhone.replaceAll("[^\\d]", "");
     }
 
     /**
@@ -238,7 +244,7 @@ public class Adult extends Individual {
     }
 
     public void setOfficePhone(String officePhone) {
-        this.officePhone = officePhone;
+        this.officePhone = officePhone == null ? null : officePhone.replaceAll("[^\\d]", "");
     }
 
     /**

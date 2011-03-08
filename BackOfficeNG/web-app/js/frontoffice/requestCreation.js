@@ -98,10 +98,7 @@
         zcf.RequestCreation.clickEvent = new zct.Event(zcf.RequestCreation, zcf.RequestCreation.getHandler);
         yue.on('request','click', zcf.RequestCreation.clickEvent.dispatch, zcf.RequestCreation.clickEvent, true);
         
-        yue.on('request','keyup',zcf.RequestCreation.formatField);
-        yue.on(yus.query("#request .validate-phone"), "keyup", zcf.RequestCreation.formatPhone);
         yue.on(yus.query("#request .date .month, #request .date .year"), "change", zcf.RequestCreation.dateChange);
-        yue.on(yus.query("#request .validate-mobilePhone"), "keyup", zcf.RequestCreation.formatPhone);
         
         var requestNote = yud.get("requestNote");
         if (requestNote != null) {
@@ -160,25 +157,6 @@
       nextStep : function(e) { validateAndSubmit(e); },
       previousStep : function(e) { validateAndSubmit(e); },
       collectionSave : function(e) { validateAndSubmit(e); },
-
-      formatField : function(e) {
-        var targetEl = yue.getTarget(e);
-        if (!zct.nodeName(targetEl,'input') || targetEl.type != 'text')
-          return;
-        
-        var fieldType = /validate-(\w+)/i.exec(targetEl.className);
-        if (fieldType) {
-          if (fieldType[1] === 'lastName') targetEl.value = targetEl.value.toUpperCase();
-          else if (fieldType[1] === 'city') targetEl.value = targetEl.value.toUpperCase();
-          else if (fieldType[1] === 'firstName') targetEl.value = zct.capitalize(targetEl.value);
-          else if (fieldType[1] === 'phone') zcf.RequestCreation.formatPhone(e);
-          else if (fieldType[1] === 'mobilePhone') zcf.RequestCreation.formatPhone(e);
-        }
-      },
-      formatPhone : function(e) {
-        var targetEl = yue.getTarget(e);
-        targetEl.value = targetEl.value.replace(/[^\d]/g, "");
-      },
       dateChange : function(e) {
         adaptDateDays(yud.getAncestorByTagName(yue.getTarget(e), "div"));
       },

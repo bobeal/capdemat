@@ -188,9 +188,6 @@ public class RequestExternalService extends ExternalService implements IRequestE
     @Context(types = {ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
     public void sendRequest(Request request) throws CvqException {
 
-        if (!request.getState().equals(RequestState.VALIDATED))
-            throw new CvqException("plugins.externalservices.error.requestMustBeValidated");
-
         if (!hasMatchingExternalService(request.getRequestType().getLabel()))
             return;
 

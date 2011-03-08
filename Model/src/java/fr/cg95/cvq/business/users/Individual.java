@@ -39,9 +39,9 @@ public abstract class Individual implements Historizable, Serializable {
     public static final String SEARCH_BY_ADDRESS = "address";
     public static final String SEARCH_BY_LASTNAME = "lastName";
     public static final String SEARCH_BY_INDIVIDUAL_ID = "individualId";
+    public static final String SEARCH_BY_USER_STATE = "userState";
     public static final String SEARCH_BY_HOME_FOLDER_ID = "homeFolderId";
     public static final String SEARCH_BY_HOME_FOLDER_STATE = "homeFolderState";
-    public static final String SEARCH_BY_HOME_FOLDER_STATUS = "homeFolderStatus";
     public static final String SEARCH_IS_HOME_FOLDER_RESPONSIBLE = "isHomeFolderResponsible";
     
 	private static final long serialVersionUID = 1L;

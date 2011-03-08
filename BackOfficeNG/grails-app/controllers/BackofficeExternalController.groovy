@@ -17,7 +17,7 @@ class BackofficeExternalController {
     def requestAdaptorService
 
     def beforeInterceptor = {
-        session['currentMenu'] = 'external'
+        session["currentMenu"] = "requests"
     }
 
     def afterInterceptor = { model ->

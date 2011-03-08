@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title><g:message code="requestType.header.requestList" /></title>
+    <title><g:message code="requestType.header.list" /></title>
     <meta name="layout" content="main" />
     <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'configuration.css')}" ></link>
     <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'requestTypeList.js')}"></script>
@@ -10,7 +10,7 @@
     <div id="yui-main">
       <div class="yui-b">
         <div class="head">
-          <h1><g:message code="requestType.header.requestList" /></h1>
+          <h1><g:message code="requestType.header.list" /></h1>
         </div>
         
         <ul class="overviewConfigurationList">
@@ -43,6 +43,7 @@
 
     <!-- filters -->
     <div id="narrow" class="yui-b">
+      <menu:subMenu i18nPrefix="header" data="${subMenuEntries}" />
       <div class="nobox">
         <h3><g:message code="header.filterBy" /></h3>
         <div class="body">

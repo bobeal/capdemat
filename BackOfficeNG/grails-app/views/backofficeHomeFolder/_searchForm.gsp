@@ -1,13 +1,3 @@
-<div class="txt-right" id="requestSearchSwitcher">
-  <a href="${createLink(controller:'backofficeRequest', action:'initSearch')}"
-     class="simple">
-    <g:message code="action.goToRequestSearch" /></a> |
-    <g:message code="action.goToHomeFolderSearch" /> |
-  <a class="simple"
-    href="${createLink(controller:'backofficeExternal',action:'search')}">
-    <g:message code="action.goToExternalSearch" /></a>
-</div>
-
 <div id="search-form">
   <h1><g:message code="homeFolder.header.search" /></h1>
   <form method="post" id="searchForm" class="advanced-search" action="${createLink(action:"search")}">

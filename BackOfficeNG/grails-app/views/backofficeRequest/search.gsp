@@ -23,6 +23,7 @@
 
     <!-- filters and sorters -->
     <div id="narrow" class="yui-b">
+      <menu:subMenu i18nPrefix="header" data="${subMenuEntries}" />
       <div class="nobox">
         <h3><g:message code="header.sortBy" /></h3>
         <div class="body">

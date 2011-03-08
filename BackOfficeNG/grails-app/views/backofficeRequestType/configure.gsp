@@ -30,6 +30,7 @@
       </div>
     </div>
     <div id="narrow" class="yui-b">
+      <menu:subMenu i18nPrefix="header" data="${subMenuEntries}" />
       <div class="nobox taskstate">
         <h3><g:message code="property.state" /></h3>
         <div class="body">
@@ -43,7 +44,7 @@
       </div>
 
       <div class="nobox">
-        <h3><g:message code="header.subMenus" /></h3>
+        <h3><g:message code="requestType.header.configurationElements" /></h3>
         <div class="body">
           <ul class="second-level-menu" id="secondMenu">
           <g:each in="${configurationItems}">

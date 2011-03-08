@@ -12,13 +12,13 @@
     <a id="taskBoardMenuItem" href="${createLink(controller:'backofficeRequest',action:'taskBoard')}">
       <g:message code="menu.taskBoard" />
     </a>
-    <a id="requestMenuItem" href="${createLink(controller:'backofficeRequest')}">
-      <g:message code="menu.search" />
+    <a id="requestsMenuItem" href="${createLink(controller:'backofficeRequest')}">
+      <g:message code="menu.requests" />
+    </a>
+    <a id="usersMenuItem" href="${createLink(controller:'backofficeHomeFolder')}">
+      <g:message code="menu.users" />
     </a>
     <g:if test="${session.isACategoryManager}">
-      <a id="requestTypeMenuItem" href="${createLink(controller:'backofficeRequestType')}">
-       <g:message code="menu.requestTypes" />
-      </a>
       <a id="statisticsMenuItem" href="${createLink(controller:'backofficeStatistic')}">
         <g:message code="menu.statistics" />
       </a>
@@ -31,8 +31,8 @@
      <a id="requestAdminMenuItem" href="${createLink(controller:'backofficeRequestAdmin')}">
       <g:message code="menu.requestsAdmin" />
     </a>
-    <a id="citizenMenuItem" href="${createLink(controller:'backofficeHomeFolder', action:'meansOfContact')}">
-      <g:message code="menu.citizens" />
+    <a id="usersMenuItem" href="${createLink(controller:'backofficeHomeFolder', action:'meansOfContact')}">
+      <g:message code="menu.users" />
     </a>
     <a id="paymentMenuItem" href="${createLink(controller:'backofficePayment')}">
       <g:message code="menu.payments" />

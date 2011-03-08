@@ -66,7 +66,7 @@ class BackofficeRequestInstructionController {
     def defaultAction = "edit"
 
     def beforeInterceptor = {
-        session["currentMenu"] = "request"
+        session["currentMenu"] = "requests"
         if (params.action != "requestLock") {
             if (params.requestId)
                 requestLockService.tryToLock(Long.valueOf(params.requestId))
@@ -163,7 +163,8 @@ class BackofficeRequestInstructionController {
             "externalTemplateName" : externalTemplateName,
             "lastTraceStatus" : lastTraceStatus,
             "subject" : subject,
-            "subjectIsChild" : subject != null && subject instanceof Child ? true : false
+            "subjectIsChild" : subject != null && subject instanceof Child ? true : false,
+            "subMenuEntries" : BackofficeRequestController.subMenuEntries
         ])
     }
     

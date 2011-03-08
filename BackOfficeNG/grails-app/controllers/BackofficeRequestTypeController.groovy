@@ -41,7 +41,11 @@ class BackofficeRequestTypeController {
     def defaultAction = 'list'
     
     def beforeInterceptor = {
-        session['currentMenu'] = 'requestType'
+        session["currentMenu"] = "requests"
+    }
+
+    def afterInterceptor = { model ->
+        model["subMenuEntries"] = BackofficeRequestController.subMenuEntries
     }
 
     def list = {

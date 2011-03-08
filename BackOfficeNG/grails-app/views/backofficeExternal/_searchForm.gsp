@@ -2,9 +2,6 @@
   <a class="simple"
     href="${createLink(controller:'backofficeRequest',action:'initSearch')}">
     <g:message code="action.goToRequestSearch" /></a> |
-  <a class="simple"
-    href="${createLink(controller:'backofficeHomeFolder',action:'search')}">
-    <g:message code="action.goToHomeFolderSearch" /></a> |
   <g:message code="action.goToExternalSearch" />
 </div>
 <div id="search-form">

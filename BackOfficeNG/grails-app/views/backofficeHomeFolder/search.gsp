@@ -61,13 +61,12 @@
                 </option>
               </g:each>
             </select>
-            
-            <label for="homeFolderStatus"><g:message code="property.homeFolderStatus" /> :</label>
-            <select name="homeFolderStatus" class="persistent filter"> 
+            <label for="userState"><g:message code="property.userState" /> :</label>
+            <select name="userState" class="persistent filter">
               <option value=""><g:message code="search.filter.defaultValue"/></option>
-              <g:each in="${homeFolderStatus}" var="record">
-                <option value="${record.name}" ${state.homeFolderStatus == record.name.toString() ? 'selected="selected"' : ''}>
-                  ${record.i18nKey}
+              <g:each in="${homeFolderStates}" var="userState">
+                <option value="${userState.name}" ${state.userState == userState.name ? 'selected="selected"' : ''}>
+                  ${userState.i18nKey}
                 </option>
               </g:each>
             </select>

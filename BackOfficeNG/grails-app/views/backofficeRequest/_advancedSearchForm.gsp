@@ -1,7 +1,5 @@
 <div class="txt-right" id="requestSearchSwitcher">
   <g:message code="action.goToRequestSearch" /> |
-  <a href="${createLink(controller:'backofficeHomeFolder',action:'search')}" class="simple">
-    <g:message code="action.goToHomeFolderSearch" /></a> |
   <a href="${createLink(controller:'backofficeExternal',action:'search')}" class="simple">
     <g:message code="action.goToExternalSearch" /></a>
 </div>

@@ -88,7 +88,7 @@
 
     <!-- request instruction tasks state -->
     <div id="narrow" class="yui-b">
-
+      <menu:subMenu i18nPrefix="header" data="${subMenuEntries}" />
       <!-- request state -->
       <div class="nobox taskstate">
         <h3><g:message code="request.header.request" /></h3>

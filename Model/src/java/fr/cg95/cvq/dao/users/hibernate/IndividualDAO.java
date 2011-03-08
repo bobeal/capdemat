@@ -284,16 +284,16 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
                 sb.append(String.format(" and individual.id %1$s ? ",criteria.getSqlComparatif()));
                 objectList.add(criteria.getLongValue());
                 typeList.add(Hibernate.LONG);
-            } else if(criteria.getAttribut().equals(Individual.SEARCH_BY_HOME_FOLDER_STATUS)) {
-                sb.append(String.format(" and individual.homeFolder.enabled %1$s ? ",criteria.getSqlComparatif()));
-                objectList.add(Boolean.parseBoolean(criteria.getValue().toString()));
-                typeList.add(Hibernate.BOOLEAN);
             } else if(criteria.getAttribut().equals(Individual.SEARCH_BY_HOME_FOLDER_STATE)) {
                 sb.append(String.format(" and lower(individual.homeFolder.state) %1$s lower(?) ",criteria.getSqlComparatif()));
                 objectList.add(criteria.getValue());
                 typeList.add(Hibernate.STRING);
             } else if(criteria.getAttribut().equals(Individual.SEARCH_IS_HOME_FOLDER_RESPONSIBLE)) {
                 sb.append(" and roles.role = 'HomeFolderResponsible' ");
+            } else if (Individual.SEARCH_BY_USER_STATE.equals(criteria.getAttribut())) {
+                sb.append(String.format(" and lower(individual.state) %1$s lower(?) ", criteria.getSqlComparatif()));
+                objectList.add(criteria.getValue());
+                typeList.add(Hibernate.STRING);
             } else {
                 logger.warn("Unknown search criteria for Individual object");
             }

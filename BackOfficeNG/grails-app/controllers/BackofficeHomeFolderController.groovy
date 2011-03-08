@@ -43,7 +43,7 @@ class BackofficeHomeFolderController {
     def defaultMax = 15
 
     def beforeInterceptor = {
-        session["currentMenu"] = session.currentCredentialBean.hasSiteAdminRole() ? "citizen" : "request"
+        session["currentMenu"] = "users"
     }
 
     def help = {}
@@ -372,11 +372,11 @@ class BackofficeHomeFolderController {
         for(Individual indv : individuals) {
             def entry = [
                 'id' : indv.id,
-                'state' : indv.homeFolder?.state,
-                'status' : indv.homeFolder?.enabled,
+                "state" : indv.state,
                 'lastName' : indv.lastName,
                 'firstName' : indv.firstName,
                 'homeFolderId' : indv.homeFolder?.id,
+                "homeFolderState" : indv.homeFolder?.state,
                 'streetName' : indv.address.streetName,
                 'streetNumber' : indv.address.streetNumber,
                 'postalCode': indv.address.postalCode,
@@ -396,9 +396,8 @@ class BackofficeHomeFolderController {
         mapper.firstName = Critere.STARTSWITH
         mapper.homeFolderId = Critere.EQUALS
         mapper.homeFolderState = Critere.EQUALS 
-        mapper.homeFolderStatus = Critere.EQUALS
         mapper.isHomeFolderResponsible = Critere.EQUALS
-        
+        mapper.userState = Critere.EQUALS
         Set<Critere> criterias = new LinkedHashSet<Critere>()
         
         for(String key : state.keySet()){

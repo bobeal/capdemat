@@ -25,7 +25,11 @@ class BackofficeRequestController {
     def requestAdaptorService
     
     def defaultAction = 'initSearch'
-    
+    def static subMenuEntries = [
+        "request.search",
+        "requestType.list"
+    ]
+
     // keys supported in advanced search screen : match with keys defined in Request.java
     def supportedKeys = ['requesterLastName', 'subjectLastName', 'id', 'homeFolderId',
                          'creationDateFrom', 'creationDateTo']
@@ -36,7 +40,7 @@ class BackofficeRequestController {
     // default number of tasks to show per type
     def tasksShowNb = 5 
     def beforeInterceptor = {
-        session['currentMenu'] = 'request'
+        session["currentMenu"] = "requests"
     }
     
     
@@ -221,7 +225,8 @@ class BackofficeRequestController {
         return ['allStates':RequestState.allRequestStates.findAll { it != RequestState.DRAFT },
                 'allAgents':agentService.getAll(),
                 'allCategories':categoryService.getAll(),
-                'allRequestTypes':requestAdaptorService.translateAndSortRequestTypes()]
+                'allRequestTypes':requestAdaptorService.translateAndSortRequestTypes(),
+                'subMenuEntries' : subMenuEntries]
     }
     
     protected filterRequests = {attr,val,state ->

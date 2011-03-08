@@ -69,7 +69,7 @@ public class AuthenticationService implements IAuthenticationService {
     }
 
     @Override
-    public HomeFolder authenticate(final String login, final String passwd)
+    public Adult authenticate(final String login, final String passwd)
         throws CvqException, CvqUnknownUserException,
                CvqAuthenticationFailedException, CvqDisabledAccountException {
 
@@ -96,7 +96,7 @@ public class AuthenticationService implements IAuthenticationService {
             logger.error("authenticate() bad password for login " + login);
             throw new CvqAuthenticationFailedException("individual.error.badPassword");
         }
-        return adult.getHomeFolder();
+        return adult;
     }
     
     public void resetAdultPassword(final Adult adult, final String newPassword)

@@ -22,7 +22,7 @@ class FrontofficeRequestTypeController {
     def documentAdaptorService
     
     def index = {
-        def adult = individualService.getByLogin(session.currentEcitizen)
+        def adult = individualService.getAdultById(session.currentEcitizenId)
         return ['groups':requestTypeAdaptorService.getDisplayGroups(adult?.homeFolder)]
     }
 

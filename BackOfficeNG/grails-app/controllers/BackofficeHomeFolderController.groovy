@@ -81,7 +81,6 @@ class BackofficeHomeFolderController {
         result.children = this.homeFolderService.getChildren(Long.parseLong(params.id))
         result.homeFolderState = homeFolder.state.toString().toLowerCase()
         result.homeFolderStatus = homeFolder.enabled ? 'enable' : 'disable'
-        result.responsableLogin = adult.login
         
         for(Child child : result.children)
             result.responsibles.put(child.id, homeFolderService.listBySubjectRoles(child.id, RoleType.childRoleTypes))

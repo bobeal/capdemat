@@ -1,7 +1,6 @@
 package fr.cg95.cvq.authentication;
 
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException;
 import fr.cg95.cvq.exception.CvqDisabledAccountException;
 import fr.cg95.cvq.exception.CvqException;
@@ -17,12 +16,7 @@ public interface IAuthenticationService {
     /** default minimal password length for all account types **/
     int passwordMinLength = 8;
 
-    /**
-     * Authenticate an user by login/password.
-     *
-     * @return the user's home folder
-     */
-    HomeFolder authenticate(final String login, final String passwd)
+    Adult authenticate(final String login, final String passwd)
         throws CvqException, CvqUnknownUserException,
                CvqAuthenticationFailedException, CvqDisabledAccountException;
 

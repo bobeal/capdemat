@@ -157,25 +157,28 @@ class SessionFilters {
                         actionName)
                 try {
                     SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
-                    if (session.frontContext == ContextType.AGENT)
+                    if (session.frontContext == ContextType.AGENT) {
                         SecurityContext.setProxyAgent(session.currentUser)
-                    else
+                        session.proxyAgent = SecurityContext.proxyAgent
+                    } else {
                         SecurityContext.setProxyAgent(null)
+                        session.proxyAgent = null
+                    }
                     if ((point.controller == controllerName && point.action != actionName) || 
                         (point.controller != controllerName)) {
                         if(point.action) redirect(controller: point.controller, action: point.action)
                         else redirect(controller: point.controller)
                         return false
-                    } else if (session.currentEcitizen) { 
-                        SecurityContext.setCurrentEcitizen(session.currentEcitizen)
+                    } else if (session.currentEcitizenId) {
+                        SecurityContext.setCurrentEcitizen(session.currentEcitizenId)
                         session.setAttribute("currentCredentialBean", SecurityContext.currentCredentialBean)
                     }
                 } catch (CvqObjectNotFoundException ce) {
-                    session.currentEcitizen = null
+                    session.currentEcitizenId = null
                     redirect(controller: 'frontofficeHome', action: 'login')
                     return false
                 } catch (CvqException ce) {
-                    if (session.currentEcitizen) session.currentEcitizen = null
+                    if (session.currentEcitizenId) session.currentEcitizenId = null
                 	log.error "Unexpected error while setting current ecitizen : ${ce.message}"
                 	response.setStatus(500)
                 	render "Unexpected error while setting current ecitizen : ${ce.message}"
@@ -310,6 +313,7 @@ class SessionFilters {
                     // set current user in security context for him to be available for using webapps
                     try {
                         SecurityContext.setCurrentAgent(user)
+                        session.setAttribute("currentCredentialBean", SecurityContext.currentCredentialBean)
                     } catch (CvqException e) {
                     	log.error "Unexpected error while setting agent in security context"
                     	response.setStatus(500)

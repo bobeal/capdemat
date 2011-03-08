@@ -43,7 +43,7 @@ public class SecurityService {
                 "frontofficeRequestCreation" : /.*/,
                 "frontofficeRequestType" : /.*/,
                 "frontofficeDocument" : [/details/,/binary/],
-                "frontofficeHome" : [/loginAgent/,/logout/,/logoutAgent/],
+                "frontofficeHome" : [/loginAgent/,/logoutAgent/],
                 "frontofficeHomeFolder" : /.*/,
                 "serviceAutocomplete" : /.*/,
                 "system" : /error/
@@ -124,20 +124,18 @@ public class SecurityService {
         }
     }
 
-    public void setEcitizenSessionInformation(ecitizenLogin,session) {
-        session.currentEcitizen = ecitizenLogin
+    public void setEcitizenSessionInformation(adult, session) {
+        session.currentEcitizenId = adult.id
         if (session.frontContext != ContextType.AGENT)
             session.frontContext = ContextType.ECITIZEN
         SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
-        SecurityContext.setCurrentEcitizen(ecitizenLogin)
-        
-        def adult = SecurityContext.currentEcitizen
+        SecurityContext.setCurrentEcitizen(adult)
         session.currentEcitizenName = adult.firstName + " " + adult.lastName
     }
 
     public void logout(session) {
         session.frontContext = null
-        session.currentEcitizen = null
+        session.currentEcitizenId = null
         session.currentEcitizenName = null
         session.currentCredentialBean = null
     }

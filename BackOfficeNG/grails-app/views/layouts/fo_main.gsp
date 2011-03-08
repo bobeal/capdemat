@@ -19,7 +19,8 @@
        <div class="top">
         <g:if test="${session.currentCredentialBean?.ecitizen && !(session.currentCredentialBean.ecitizen.homeFolder.temporary)}">
           <strong>${session.currentEcitizenName} &nbsp;</strong>
-          <a href="${createLink(controller:'frontofficeHome',action:'logout')}" class="menu" accesskey="9"><g:message code="action.logout" /></a>
+          <a href="${createLink(controller : "frontofficeHome", action : session.proxyAgent ? "logoutAgent" : "logout")}"
+            class="menu" accesskey="9"><g:message code="action.logout" /></a>
         </g:if>
         <g:elseif test="${isLogin}">
           <form action="${createLink(controller:'frontofficeHome',action:'login')}" method="post">

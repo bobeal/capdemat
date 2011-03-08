@@ -428,8 +428,7 @@ class FrontofficeRequestController {
                 'requesterLogin': params.requesterLogin,
                 'temporary': temporary,
                 'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
-                'isEdition' : params.isEdition,
-                'isProxyAgent': SecurityContext.getProxyAgent() != null ? true : false
+                'isEdition' : params.isEdition
             ]
         )
     }

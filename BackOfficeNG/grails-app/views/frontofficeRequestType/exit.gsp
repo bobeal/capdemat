@@ -48,7 +48,7 @@
                 </a>
               </li>
             </g:if>
-            <g:if test="${isProxyAgent}">
+            <g:if test="${session.proxyAgent}">
                 <hr />
                 <li>
                     <a href="${createLink(controller:'frontofficeHome', action:'logoutAgent', id:requestId)}" class="link-agent">

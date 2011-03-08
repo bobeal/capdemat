@@ -93,8 +93,8 @@ class FrontofficeHomeController {
         def error = ""
         if (request.post) {
             try {
-                authenticationService.authenticate(params.login,params.password)
-                securityService.setEcitizenSessionInformation(params.login, session)
+                securityService.setEcitizenSessionInformation(
+                    authenticationService.authenticate(params.login,params.password), session)
                 params.targetURL ? redirect(url : params.targetURL) : redirect(controller : "frontofficeHome")
                 return false
             } catch (CvqUnknownUserException e) {
@@ -128,20 +128,10 @@ class FrontofficeHomeController {
     def loginAgent = {
         if(session.currentUser) {
             session.frontContext = ContextType.AGENT
-            if (params.login) {
-                session.currentEcitizen = params.login
-                SecurityContext.setCurrentEcitizen(params.login)
-                if (params.requestTypeLabel)
-                    redirect(controller : "frontofficeRequest", action : "edit",
-                        params : ["label" : params.requestTypeLabel, "requestSeasonId" : params.requestSeasonId])
-                else
-                    redirect(controller:'frontofficeRequestType')
-                return false
-            } else {
-                redirect(controller : "frontofficeRequest", action : "edit",
-                    params : ["label" : params.requestTypeLabel, "requestSeasonId" : params.requestSeasonId])
-                return false
-            }
+            session.currentEcitizenId = params.long("id")
+            SecurityContext.setCurrentEcitizen(session.currentEcitizenId)
+            redirect(controller:'frontofficeRequestType')
+            return false
         } else {
             redirect(controller:'frontofficeHome')
             return false
@@ -150,9 +140,12 @@ class FrontofficeHomeController {
 
     def logoutAgent = {
         session.frontContext = null
-        session.currentEcitizen = null
+        session.currentEcitizenId = null
         session.currentEcitizenName = null
-        redirect(controller:'backofficeRequestInstruction', action:'edit', params:[id:params.id])
+        if (params.id)
+            redirect(controller : "backofficeRequestInstruction", action : "edit", id : params.id)
+        else
+            redirect(controller : "backofficeHomeFolder", action : "details", id : SecurityContext.currentEcitizen.homeFolder.id)
     }
 
     def accessibilityPolicy = {

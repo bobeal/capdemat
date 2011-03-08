@@ -90,7 +90,7 @@ class FrontofficeHomeFolderController {
             }
             if (model["invalidFields"].isEmpty()) {
                 homeFolderService.create(adult, model["temporary"] && params.boolean("temporary"))
-                securityService.setEcitizenSessionInformation(adult.login, session)
+                securityService.setEcitizenSessionInformation(adult, session)
                 if (params.requestTypeLabel) {
                     redirect(controller : "frontofficeRequestType", action : "start", id : params.requestTypeLabel)
                     return false
@@ -122,7 +122,7 @@ class FrontofficeHomeFolderController {
                 if (individual.id) {
                     historize(params.fragment, individual)
                     if (individual.id == currentEcitizen.id && params.fragment == 'identity') {
-                        securityService.setEcitizenSessionInformation(individual.login, session)
+                        securityService.setEcitizenSessionInformation(individual, session)
                     }
                 } else {
                     addAdult(individual)

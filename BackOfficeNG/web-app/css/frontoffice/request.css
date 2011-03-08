@@ -77,6 +77,8 @@
   -moz-border-radius: .5em;
   overflow: auto;
 }
+/* Hack */
+#request form { overflow: auto; }
 
 #request div.form.uncomplete { border-color: #fc0; }
 #request div.form.complete   { border-color: #20CC20; }
@@ -93,7 +95,7 @@
 #request h3 span.error { margin: 0; padding: 0; text-align: right; }
 #request h3 .tag-state { float: right; }
 
-#request h4      { margin: 1em 0 ; font-size: 1.3em; font-style: italic; }
+#request h4      { margin: 1em 0 ; font-size: 1.15em; font-style: italic; }
 #request h4 span { display: block; font-size: .8em; }
 
 #request div.form div label {
@@ -231,10 +233,10 @@ a.link-agent          { color: #EA3D1A; }
 
 /* help
 --------------------------------------------------------------*/
-#request div.help { 
-  margin: 0 1em 1em; padding: .5em 1.5em 1em;
+#request div.help {
+  margin-top: 1em;; padding: .5em 1.5em 1em;
+  clear: both;
   background: #eee;
-  -moz-border-radius: .5em;
 }
 
 

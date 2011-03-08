@@ -138,7 +138,7 @@
             
               
               <dl>
-                <dt class=""><g:message code="ddr.property.comment.label" />  : </dt><dd id="comment" class="action-editField validate-regex i18n-ddr.property.comment rows-3" regex="^.{0,255}$"><span>${rqt?.comment}</span></dd>
+                <dt class=""><g:message code="ddr.property.comment.label" />  : </dt><dd id="comment" class="action-editField validate-regex i18n-ddr.property.comment rows-3 maxLength-255" regex="^[\w\W]{0,255}$"><span>${rqt?.comment}</span></dd>
               </dl>
               
             

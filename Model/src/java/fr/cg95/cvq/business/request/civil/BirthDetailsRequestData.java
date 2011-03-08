@@ -147,9 +147,18 @@ public class BirthDetailsRequestData implements Serializable {
     }
   
     
+      @MaxLength(
+        
+          value = 255,
+        
+        
+        profiles = {"type"},
+        message = "comment"
+      )
+    
       @MatchPattern(
         
-          pattern = "^.{0,255}$",
+          pattern = "^[\\w\\W]{0,255}$",
         
         
         profiles = {"type"},
@@ -166,7 +175,7 @@ public class BirthDetailsRequestData implements Serializable {
  
         * @hibernate.property
         *  column="comment"
-        
+        *  length="255"
       
     */
     public final String getComment() {
@@ -231,6 +240,24 @@ public class BirthDetailsRequestData implements Serializable {
     }
   
     
+    private String requesterQualityPrecision;
+
+    public final void setRequesterQualityPrecision(final String requesterQualityPrecision) {
+        this.requesterQualityPrecision = requesterQualityPrecision;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="requester_quality_precision"
+        
+      
+    */
+    public final String getRequesterQualityPrecision() {
+        return this.requesterQualityPrecision;
+    }
+  
+    
       @NotNull(
         
         
@@ -256,21 +283,28 @@ public class BirthDetailsRequestData implements Serializable {
     }
   
     
-    private String requesterQualityPrecision;
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "requesterQuality"
+      )
+    
+    private fr.cg95.cvq.business.request.civil.BirthRequesterQualityType requesterQuality;
 
-    public final void setRequesterQualityPrecision(final String requesterQualityPrecision) {
-        this.requesterQualityPrecision = requesterQualityPrecision;
+    public final void setRequesterQuality(final fr.cg95.cvq.business.request.civil.BirthRequesterQualityType requesterQuality) {
+        this.requesterQuality = requesterQuality;
     }
 
     /**
  
         * @hibernate.property
-        *  column="requester_quality_precision"
+        *  column="requester_quality"
         
       
     */
-    public final String getRequesterQualityPrecision() {
-        return this.requesterQualityPrecision;
+    public final fr.cg95.cvq.business.request.civil.BirthRequesterQualityType getRequesterQuality() {
+        return this.requesterQuality;
     }
   
     
@@ -312,31 +346,6 @@ public class BirthDetailsRequestData implements Serializable {
     */
     public final String getBirthCity() {
         return this.birthCity;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"nature"},
-        message = "requesterQuality"
-      )
-    
-    private fr.cg95.cvq.business.request.civil.BirthRequesterQualityType requesterQuality;
-
-    public final void setRequesterQuality(final fr.cg95.cvq.business.request.civil.BirthRequesterQualityType requesterQuality) {
-        this.requesterQuality = requesterQuality;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="requester_quality"
-        
-      
-    */
-    public final fr.cg95.cvq.business.request.civil.BirthRequesterQualityType getRequesterQuality() {
-        return this.requesterQuality;
     }
   
     
@@ -448,6 +457,56 @@ public class BirthDetailsRequestData implements Serializable {
             "return active",
         
         profiles = {"type"},
+        message = "fatherFirstNames"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['format'].test(_this.format.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"type"},
+        message = "fatherFirstNames"
+      )
+    
+    private String fatherFirstNames;
+
+    public final void setFatherFirstNames(final String fatherFirstNames) {
+        this.fatherFirstNames = fatherFirstNames;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="father_first_names"
+        
+      
+    */
+    public final String getFatherFirstNames() {
+        return this.fatherFirstNames;
+    }
+  
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['format'].test(_this.format.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"type"},
         message = "motherFirstNames"
       )
     
@@ -485,53 +544,44 @@ public class BirthDetailsRequestData implements Serializable {
     }
   
     
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"nature"},
+        message = "birthLastName"
+      )
+    
       @NotNull(
         
         
-          when = "groovy:def active = true;" +
-          
-            
-            "active &= _this.conditions['format'].test(_this.format.toString());" +
-                
-              
-            
-            "return active",
-        
-        profiles = {"type"},
-        message = "fatherFirstNames"
+        profiles = {"nature"},
+        message = "birthLastName"
       )
     
       @NotBlank(
         
         
-          when = "groovy:def active = true;" +
-          
-            
-            "active &= _this.conditions['format'].test(_this.format.toString());" +
-                
-              
-            
-            "return active",
-        
-        profiles = {"type"},
-        message = "fatherFirstNames"
+        profiles = {"nature"},
+        message = "birthLastName"
       )
     
-    private String fatherFirstNames;
+    private String birthLastName;
 
-    public final void setFatherFirstNames(final String fatherFirstNames) {
-        this.fatherFirstNames = fatherFirstNames;
+    public final void setBirthLastName(final String birthLastName) {
+        this.birthLastName = birthLastName;
     }
 
     /**
  
         * @hibernate.property
-        *  column="father_first_names"
-        
+        *  column="birth_last_name"
+        *  length="38"
       
     */
-    public final String getFatherFirstNames() {
-        return this.fatherFirstNames;
+    public final String getBirthLastName() {
+        return this.birthLastName;
     }
   
     
@@ -600,47 +650,6 @@ public class BirthDetailsRequestData implements Serializable {
     */
     public final String getMotherMaidenName() {
         return this.motherMaidenName;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 38,
-        
-        
-        profiles = {"nature"},
-        message = "birthLastName"
-      )
-    
-      @NotNull(
-        
-        
-        profiles = {"nature"},
-        message = "birthLastName"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"nature"},
-        message = "birthLastName"
-      )
-    
-    private String birthLastName;
-
-    public final void setBirthLastName(final String birthLastName) {
-        this.birthLastName = birthLastName;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="birth_last_name"
-        *  length="38"
-      
-    */
-    public final String getBirthLastName() {
-        return this.birthLastName;
     }
   
 }

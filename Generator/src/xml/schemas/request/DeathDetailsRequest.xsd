@@ -187,7 +187,7 @@
               </xs:annotation>
             </xs:element>
             
-            <xs:element name="Comment" type="xs:token" minOccurs="0">
+            <xs:element name="Comment" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Commentaire
@@ -198,7 +198,7 @@
                 <xs:appinfo>
                   <common>
                     <step name="type" />
-                    <validation jsregexp="^.{0,255}$" />
+                    <validation jsregexp="^[\w\W]{0,255}$" />
                   </common>
                   <fo>
                     <textarea rows="3" />
@@ -209,8 +209,13 @@
                   <pdf />
                 </xs:appinfo>
               </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:pattern value="^[\w\W]{0,255}$" />
+                  <xs:maxLength value="255" />
+                </xs:restriction>
+              </xs:simpleType>
             </xs:element>
-
           </xs:sequence>
         </xs:extension>
       </xs:complexContent>

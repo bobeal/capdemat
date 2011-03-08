@@ -184,7 +184,7 @@
             
               
               <dl>
-                <dt class=""><g:message code="bdr.property.comment.label" />  : </dt><dd id="comment" class="action-editField validate-regex i18n-bdr.property.comment" regex="^.{0,255}$"><span>${rqt?.comment}</span></dd>
+                <dt class=""><g:message code="bdr.property.comment.label" />  : </dt><dd id="comment" class="action-editField validate-regex i18n-bdr.property.comment maxLength-255" regex="^[\w\W]{0,255}$"><span>${rqt?.comment}</span></dd>
               </dl>
               
             

@@ -65,7 +65,12 @@ public class BirthDetailsRequestServiceTest extends RequestTestCase {
         
           
           
-               request.setComment("Comment");
+            
+              if ("Comment".length() > 255)
+                  request.setComment("Comment".substring(0, 255));
+              else
+                  request.setComment("Comment");
+            
           
         
           
@@ -84,13 +89,20 @@ public class BirthDetailsRequestServiceTest extends RequestTestCase {
         
           
           
+            
+               request.setRequesterQualityPrecision("RequesterQualityPrecision");
+            
+          
+        
+          
+          
                request.setBirthDate(new Date());
           
         
           
           
             
-               request.setRequesterQualityPrecision("RequesterQualityPrecision");
+              request.setRequesterQuality(BirthRequesterQualityType.REQUESTER);
             
           
         
@@ -101,13 +113,6 @@ public class BirthDetailsRequestServiceTest extends RequestTestCase {
                   request.setBirthCity("BirthCity".substring(0, 32));
               else
                   request.setBirthCity("BirthCity");
-            
-          
-        
-          
-          
-            
-              request.setRequesterQuality(BirthRequesterQualityType.REQUESTER);
             
           
         
@@ -134,13 +139,6 @@ public class BirthDetailsRequestServiceTest extends RequestTestCase {
           
           
             
-               request.setMotherFirstNames("MotherFirstNames");
-            
-          
-        
-          
-          
-            
                request.setFatherFirstNames("FatherFirstNames");
             
           
@@ -148,10 +146,7 @@ public class BirthDetailsRequestServiceTest extends RequestTestCase {
           
           
             
-              if ("MotherMaidenName".length() > 38)
-                  request.setMotherMaidenName("MotherMaidenName".substring(0, 38));
-              else
-                  request.setMotherMaidenName("MotherMaidenName");
+               request.setMotherFirstNames("MotherFirstNames");
             
           
         
@@ -162,6 +157,16 @@ public class BirthDetailsRequestServiceTest extends RequestTestCase {
                   request.setBirthLastName("BirthLastName".substring(0, 38));
               else
                   request.setBirthLastName("BirthLastName");
+            
+          
+        
+          
+          
+            
+              if ("MotherMaidenName".length() > 38)
+                  request.setMotherMaidenName("MotherMaidenName".substring(0, 38));
+              else
+                  request.setMotherMaidenName("MotherMaidenName");
             
           
         

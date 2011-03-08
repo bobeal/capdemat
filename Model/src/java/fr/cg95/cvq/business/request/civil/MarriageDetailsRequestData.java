@@ -106,6 +106,303 @@ public class MarriageDetailsRequestData implements Serializable {
     }
   
     
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "marriageHusbandFirstNames"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"nature"},
+        message = "marriageHusbandFirstNames"
+      )
+    
+    private String marriageHusbandFirstNames;
+
+    public final void setMarriageHusbandFirstNames(final String marriageHusbandFirstNames) {
+        this.marriageHusbandFirstNames = marriageHusbandFirstNames;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="marriage_husband_first_names"
+        
+      
+    */
+    public final String getMarriageHusbandFirstNames() {
+        return this.marriageHusbandFirstNames;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 255,
+        
+        
+        profiles = {"type"},
+        message = "comment"
+      )
+    
+      @MatchPattern(
+        
+          pattern = "[\\w\\W]{0,255}$",
+        
+        
+        profiles = {"type"},
+        message = "comment"
+      )
+    
+    private String comment;
+
+    public final void setComment(final String comment) {
+        this.comment = comment;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="comment"
+        *  length="255"
+      
+    */
+    public final String getComment() {
+        return this.comment;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 32,
+        
+        
+        profiles = {"nature"},
+        message = "marriageCity"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "marriageCity"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"nature"},
+        message = "marriageCity"
+      )
+    
+    private String marriageCity;
+
+    public final void setMarriageCity(final String marriageCity) {
+        this.marriageCity = marriageCity;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="marriage_city"
+        *  length="32"
+      
+    */
+    public final String getMarriageCity() {
+        return this.marriageCity;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"nature"},
+        message = "marriageWifeLastName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "marriageWifeLastName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"nature"},
+        message = "marriageWifeLastName"
+      )
+    
+    private String marriageWifeLastName;
+
+    public final void setMarriageWifeLastName(final String marriageWifeLastName) {
+        this.marriageWifeLastName = marriageWifeLastName;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="marriage_wife_last_name"
+        *  length="38"
+      
+    */
+    public final String getMarriageWifeLastName() {
+        return this.marriageWifeLastName;
+    }
+  
+    
+    private fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType motive;
+
+    public final void setMotive(final fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType motive) {
+        this.motive = motive;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="motive"
+        
+      
+    */
+    public final fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType getMotive() {
+        return this.motive;
+    }
+  
+    
+    private String requesterQualityPrecision;
+
+    public final void setRequesterQualityPrecision(final String requesterQualityPrecision) {
+        this.requesterQualityPrecision = requesterQualityPrecision;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="requester_quality_precision"
+        
+      
+    */
+    public final String getRequesterQualityPrecision() {
+        return this.requesterQualityPrecision;
+    }
+  
+    
+    private fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType requesterQuality;
+
+    public final void setRequesterQuality(final fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType requesterQuality) {
+        this.requesterQuality = requesterQuality;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="requester_quality"
+        
+      
+    */
+    public final fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType getRequesterQuality() {
+        return this.requesterQuality;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "marriageDate"
+      )
+    
+    private java.util.Date marriageDate;
+
+    public final void setMarriageDate(final java.util.Date marriageDate) {
+        this.marriageDate = marriageDate;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="marriage_date"
+        
+      
+    */
+    public final java.util.Date getMarriageDate() {
+        return this.marriageDate;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['format'].test(_this.format.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"type"},
+        message = "fatherLastName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['format'].test(_this.format.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"type"},
+        message = "fatherLastName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['format'].test(_this.format.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"type"},
+        message = "fatherLastName"
+      )
+    
+    private String fatherLastName;
+
+    public final void setFatherLastName(final String fatherLastName) {
+        this.fatherLastName = fatherLastName;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="father_last_name"
+        *  length="38"
+      
+    */
+    public final String getFatherLastName() {
+        return this.fatherLastName;
+    }
+  
+    
       @MaxLength(
         
           value = 38,
@@ -150,6 +447,40 @@ public class MarriageDetailsRequestData implements Serializable {
       @NotNull(
         
         
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['format'].test(_this.format.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"type"},
+        message = "relationship"
+      )
+    
+    private fr.cg95.cvq.business.request.civil.MarriageRelationshipType relationship;
+
+    public final void setRelationship(final fr.cg95.cvq.business.request.civil.MarriageRelationshipType relationship) {
+        this.relationship = relationship;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="relationship"
+        
+      
+    */
+    public final fr.cg95.cvq.business.request.civil.MarriageRelationshipType getRelationship() {
+        return this.relationship;
+    }
+  
+    
+      @NotNull(
+        
+        
         profiles = {"nature"},
         message = "marriageWifeFirstNames"
       )
@@ -179,48 +510,53 @@ public class MarriageDetailsRequestData implements Serializable {
     }
   
     
-      @MatchPattern(
+      @NotNull(
         
-          pattern = "^.{0,255}$",
         
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['format'].test(_this.format.toString());" +
+                
+              
+            
+            "return active",
         
         profiles = {"type"},
-        message = "comment"
+        message = "motherFirstNames"
       )
     
-    private String comment;
-
-    public final void setComment(final String comment) {
-        this.comment = comment;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="comment"
+      @NotBlank(
         
-      
-    */
-    public final String getComment() {
-        return this.comment;
-    }
-  
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['format'].test(_this.format.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"type"},
+        message = "motherFirstNames"
+      )
     
-    private String requesterQualityPrecision;
+    private String motherFirstNames;
 
-    public final void setRequesterQualityPrecision(final String requesterQualityPrecision) {
-        this.requesterQualityPrecision = requesterQualityPrecision;
+    public final void setMotherFirstNames(final String motherFirstNames) {
+        this.motherFirstNames = motherFirstNames;
     }
 
     /**
  
         * @hibernate.property
-        *  column="requester_quality_precision"
+        *  column="mother_first_names"
         
       
     */
-    public final String getRequesterQualityPrecision() {
-        return this.requesterQualityPrecision;
+    public final String getMotherFirstNames() {
+        return this.motherFirstNames;
     }
   
     
@@ -380,333 +716,6 @@ public class MarriageDetailsRequestData implements Serializable {
     */
     public final String getMotherMaidenName() {
         return this.motherMaidenName;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"nature"},
-        message = "marriageHusbandFirstNames"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"nature"},
-        message = "marriageHusbandFirstNames"
-      )
-    
-    private String marriageHusbandFirstNames;
-
-    public final void setMarriageHusbandFirstNames(final String marriageHusbandFirstNames) {
-        this.marriageHusbandFirstNames = marriageHusbandFirstNames;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="marriage_husband_first_names"
-        
-      
-    */
-    public final String getMarriageHusbandFirstNames() {
-        return this.marriageHusbandFirstNames;
-    }
-  
-    
-    private fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType requesterQuality;
-
-    public final void setRequesterQuality(final fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType requesterQuality) {
-        this.requesterQuality = requesterQuality;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="requester_quality"
-        
-      
-    */
-    public final fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType getRequesterQuality() {
-        return this.requesterQuality;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 32,
-        
-        
-        profiles = {"nature"},
-        message = "marriageCity"
-      )
-    
-      @NotNull(
-        
-        
-        profiles = {"nature"},
-        message = "marriageCity"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"nature"},
-        message = "marriageCity"
-      )
-    
-    private String marriageCity;
-
-    public final void setMarriageCity(final String marriageCity) {
-        this.marriageCity = marriageCity;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="marriage_city"
-        *  length="32"
-      
-    */
-    public final String getMarriageCity() {
-        return this.marriageCity;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 38,
-        
-        
-        profiles = {"nature"},
-        message = "marriageWifeLastName"
-      )
-    
-      @NotNull(
-        
-        
-        profiles = {"nature"},
-        message = "marriageWifeLastName"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"nature"},
-        message = "marriageWifeLastName"
-      )
-    
-    private String marriageWifeLastName;
-
-    public final void setMarriageWifeLastName(final String marriageWifeLastName) {
-        this.marriageWifeLastName = marriageWifeLastName;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="marriage_wife_last_name"
-        *  length="38"
-      
-    */
-    public final String getMarriageWifeLastName() {
-        return this.marriageWifeLastName;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"nature"},
-        message = "marriageDate"
-      )
-    
-    private java.util.Date marriageDate;
-
-    public final void setMarriageDate(final java.util.Date marriageDate) {
-        this.marriageDate = marriageDate;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="marriage_date"
-        
-      
-    */
-    public final java.util.Date getMarriageDate() {
-        return this.marriageDate;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 38,
-        
-        
-          when = "groovy:def active = true;" +
-          
-            
-            "active &= _this.conditions['format'].test(_this.format.toString());" +
-                
-              
-            
-            "return active",
-        
-        profiles = {"type"},
-        message = "fatherLastName"
-      )
-    
-      @NotNull(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            
-            "active &= _this.conditions['format'].test(_this.format.toString());" +
-                
-              
-            
-            "return active",
-        
-        profiles = {"type"},
-        message = "fatherLastName"
-      )
-    
-      @NotBlank(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            
-            "active &= _this.conditions['format'].test(_this.format.toString());" +
-                
-              
-            
-            "return active",
-        
-        profiles = {"type"},
-        message = "fatherLastName"
-      )
-    
-    private String fatherLastName;
-
-    public final void setFatherLastName(final String fatherLastName) {
-        this.fatherLastName = fatherLastName;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="father_last_name"
-        *  length="38"
-      
-    */
-    public final String getFatherLastName() {
-        return this.fatherLastName;
-    }
-  
-    
-      @NotNull(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= _this.conditions['format'].test(_this.format.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"type"},
-        message = "relationship"
-      )
-    
-    private fr.cg95.cvq.business.request.civil.MarriageRelationshipType relationship;
-
-    public final void setRelationship(final fr.cg95.cvq.business.request.civil.MarriageRelationshipType relationship) {
-        this.relationship = relationship;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="relationship"
-        
-      
-    */
-    public final fr.cg95.cvq.business.request.civil.MarriageRelationshipType getRelationship() {
-        return this.relationship;
-    }
-  
-    
-      @NotNull(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            
-            "active &= _this.conditions['format'].test(_this.format.toString());" +
-                
-              
-            
-            "return active",
-        
-        profiles = {"type"},
-        message = "motherFirstNames"
-      )
-    
-      @NotBlank(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            
-            "active &= _this.conditions['format'].test(_this.format.toString());" +
-                
-              
-            
-            "return active",
-        
-        profiles = {"type"},
-        message = "motherFirstNames"
-      )
-    
-    private String motherFirstNames;
-
-    public final void setMotherFirstNames(final String motherFirstNames) {
-        this.motherFirstNames = motherFirstNames;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="mother_first_names"
-        
-      
-    */
-    public final String getMotherFirstNames() {
-        return this.motherFirstNames;
-    }
-  
-    
-    private fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType motive;
-
-    public final void setMotive(final fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType motive) {
-        this.motive = motive;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="motive"
-        
-      
-    */
-    public final fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType getMotive() {
-        return this.motive;
     }
   
 }

@@ -94,7 +94,7 @@
             
               
               <dl>
-                <dt class=""><g:message code="mcr.property.childConvention.label" />  : </dt><dd id="childConvention" class="action-editField validate-regex i18n-mcr.property.childConvention rows-3 maxLength-255" regex="^.{0,255}$"><span>${rqt?.childConvention}</span></dd>
+                <dt class=""><g:message code="mcr.property.childConvention.label" />  : </dt><dd id="childConvention" class="action-editField validate-regex i18n-mcr.property.childConvention rows-3 maxLength-255" regex="^[\w\W]{0,255}$"><span>${rqt?.childConvention}</span></dd>
               </dl>
               
             

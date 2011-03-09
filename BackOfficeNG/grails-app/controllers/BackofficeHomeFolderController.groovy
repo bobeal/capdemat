@@ -17,6 +17,8 @@ import fr.cg95.cvq.service.users.IMeansOfContactService
 import fr.cg95.cvq.service.users.external.IExternalHomeFolderService
 import fr.cg95.cvq.business.payment.Payment
 
+import fr.cg95.cvq.exception.CvqValidationException
+
 import org.apache.xmlbeans.XmlError
 import org.apache.xmlbeans.XmlException
 import org.apache.xmlbeans.XmlOptions
@@ -77,8 +79,8 @@ class BackofficeHomeFolderController {
         
         result.homeFolder = homeFolder
         result.homeFolderResponsible = adult
-        result.adults = this.homeFolderService.getAdults(Long.parseLong(params.id)).findAll { it.id != adult.id }
-        result.children = this.homeFolderService.getChildren(Long.parseLong(params.id))
+        result.adults = this.homeFolderService.getAdults(Long.parseLong(params.id)).findAll{ it.id != adult.id && it.state != UserState.ARCHIVED }
+        result.children = this.homeFolderService.getChildren(Long.parseLong(params.id)).findAll{ it.state != UserState.ARCHIVED }
         result.homeFolderState = homeFolder.state.toString().toLowerCase()
         result.homeFolderStatus = homeFolder.enabled ? 'enable' : 'disable'
         
@@ -99,56 +101,77 @@ class BackofficeHomeFolderController {
     }
 
     def adult = { 
-        def adult = !params.id ? new Adult() : individualService.getAdultById(Long.valueOf(params.id))
+        def adult, template
         def mode = params.mode 
-        def template = !params.id ? 'adult' : params.template
-        if (request.post) {
-            bind(adult)
+        if (!params.id) {
+            adult =  new Adult()
+            template = 'adult'
+            flash.homeFolderId = params.homeFolderId
+            if (request.get) {
+                def responsible = homeFolderService.getHomeFolderResponsible(Long.valueOf(params.homeFolderId))
+                adult.address = responsible.address
+            }
+        } else {
+            adult = individualService.getAdultById(Long.valueOf(params.id))
+            template = params.template
+        }
+
+        if (request.post && !adult.id) {
             mode = 'static'
-            if (!adult.id) {
-                def homeFolder = homeFolderService.getById(Long.valueOf(params.homeFolderId))
-                individualService.create(adult, homeFolder, homeFolder.address, false)
+            DataBindingUtils.initBind(adult, params)
+            bind(adult)
+            homeFolderService.addAdult(
+                homeFolderService.getById(Long.valueOf(params.homeFolderId)), adult, false)
+            def invalidFields = individualService.validate(adult)
+            if (!invalidFields.isEmpty()) {
+                session.doRollback = true
+                render (['invalidFields': invalidFields] as JSON)
+                return false
             }
         }
         render(template: mode + '/' + template, model:['adult': adult])
     }
 
     def child = {
-        def child = !params.id ? new Child() : individualService.getChildById(Long.valueOf(params.id))
+        def child, template
         def mode = params.mode
-        def template = !params.id ? 'child' : params.template
-        if (request.post) {
-            bind(child)
+        if (!params.id) {
+            child =  new Child()
+            template = 'child'
+            flash.homeFolderId = params.homeFolderId
+        } else {
+            child = individualService.getAdultById(Long.valueOf(params.id))
+            template = params.template
+        }
+        if (request.post && !child.id) {
             mode = 'static'
-            if (child.id) {
-                homeFolderService.removeRolesOnSubject(child.homeFolder.id, child.id)
-                params.roles.each {
-                    if (it.value instanceof GrailsParameterMap && it.value.owner != '' && it.value.type != '') {
-                        homeFolderService.addRole(individualService.getById(Long.valueOf(it.value.owner)),
-                            child, child.homeFolder.id, RoleType.forString(it.value.type))
+            bind(child)
+            homeFolderService.addChild(homeFolderService.getById(Long.valueOf(params.homeFolderId)), child)
+            params.roles.each {
+                if (it.value instanceof GrailsParameterMap && it.value.owner != '' && it.value.type != '') {
+                    homeFolderService.link(
+                        individualService.getById(Long.valueOf(it.value.owner)),
+                        child, [RoleType.forString(it.value.type)])
+                }
+            }
+            def invalidFields = individualService.validate(child)
+            if (!invalidFields.isEmpty()) {
+                session.doRollback = true
+                if (invalidFields.contains('legalResponsibles')) {
+                    homeFolderService.getAdults(child.homeFolder.id).eachWithIndex { adult, index ->
+                        invalidFields.add("roles.${index}.type")
                     }
                 }
-            } else {
-                def homeFolder = homeFolderService.getById(Long.valueOf(params.homeFolderId))
-                individualService.create(child, homeFolder, homeFolder.address, false)
+                render (['invalidFields': invalidFields] as JSON)
+                return false
             }
         }
         def models = ['child': child]
+        models['adults'] = homeFolderService.getAdults(Long.valueOf(params.homeFolderId)).findAll{ it.state != UserState.ARCHIVED }
         if (child.id) {
-            models['adults'] = homeFolderService.getAdults(child.homeFolder.id)
-            models['roleOwners'] = homeFolderService.listBySubjectRoles(child.id, RoleType.childRoleTypes)
+            models['roleOwners'] = homeFolderService.listBySubjectRoles(child.id, RoleType.childRoleTypes)  
         }
         render(template: mode + '/' + template, model: models)
-    }
-
-    def homeFolder = {
-        def homeFolder = homeFolderService.getById(Long.valueOf(params.id))
-        def mode = params.mode
-        if (request.post) {
-            bind(homeFolder)
-            mode = 'static'
-        }
-        render(template: mode + '/' + params.template, model:['homeFolder': homeFolder])
     }
 
     def state = {
@@ -170,13 +193,21 @@ class BackofficeHomeFolderController {
         def adult = individualService.getAdultById(params.long("id"))
         def mode = request.get ? params.mode : "static"
         if (request.post) {
-            def temp = new Address()
-            bind(temp)
-            individualAdaptorService.historize(
-                adult, adult.address, temp, "address",
-                ["additionalDeliveryInformation", "additionalGeographicalInformation", "city",
-                    "cityInseeCode", "countryName", "placeNameOrService", "postalCode",
-                    "streetMatriculation", "streetName", "streetNumber", "streetRivoliCode"])
+            try {
+                def temp = new Address()
+                bind(temp)
+                individualAdaptorService.historize(
+                    adult, adult.address, temp, "address",
+                    ["additionalDeliveryInformation", "additionalGeographicalInformation", "city",
+                        "cityInseeCode", "countryName", "placeNameOrService", "postalCode",
+                        "streetMatriculation", "streetName", "streetNumber", "streetRivoliCode"])
+            } catch (CvqValidationException e) {
+                session.doRollback = true
+                def invalidFields = []
+                e.invalidFields.each{ invalidFields.add(it = it.replace('address.',''))}
+                render (['invalidFields': invalidFields] as JSON)
+                return false
+            }
         }
         render(template : mode + "/address", model : ["user" : adult])
     }
@@ -185,10 +216,16 @@ class BackofficeHomeFolderController {
         def adult = individualService.getAdultById(params.long("id"))
         def mode = request.get ? params.mode : "static"
         if (request.post) {
-            def temp = new Adult()
-            bind(temp)
-            individualAdaptorService.historize(
-                adult, adult, temp, "contact", ["email", "homePhone", "mobilePhone", "officePhone"])
+            try {
+                def temp = new Adult()
+                bind(temp)
+                individualAdaptorService.historize(
+                    adult, adult, temp, "contact", ["email", "homePhone", "mobilePhone", "officePhone"])
+            } catch (CvqValidationException e) {
+                session.doRollback = true
+                render (['invalidFields': e.invalidFields] as JSON)
+                return false
+            }
         }
         render(template : mode + "/contact", model : ["adult" : adult])
     }
@@ -197,13 +234,19 @@ class BackofficeHomeFolderController {
         def individual = individualService.getById(params.long("id"))
         def mode = request.get ? params.mode : "static"
         if (request.post) {
-            def temp = new Adult()
-            bind(temp)
-            individualAdaptorService.historize(
-                individual, individual, temp, "contact",
-                individual instanceof Adult ?
-                    ["title", "familyStatus", "lastName", "maidenName", "nameOfUse", "firstName", "firstName2", "firstName3", "profession"] :
-                    ["lastName", "firstName", "firstName2", "firstName3", "birthDate", "birthPostalCode", "birthCity", "birthCountry"])
+            try {
+                def temp = individual instanceof Adult ? new Adult() : new Child()
+                bind(temp)
+                individualAdaptorService.historize(
+                    individual, individual, temp, "contact",
+                    individual instanceof Adult ?
+                        ["title", "familyStatus", "lastName", "maidenName", "nameOfUse", "firstName", "firstName2", "firstName3", "profession"] :
+                        ["born", "lastName", "firstName", "firstName2", "firstName3", "sex", "birthDate", "birthPostalCode", "birthCity", "birthCountry"])
+            } catch (CvqValidationException e) {
+                session.doRollback = true 
+                render (['invalidFields': e.invalidFields] as JSON)
+                return false
+            }
         }
         render(template : mode + "/" + individual.class.simpleName.toLowerCase() + "Identity",
             model : ["individual" : individual])
@@ -213,20 +256,31 @@ class BackofficeHomeFolderController {
         def child = individualService.getChildById(Long.valueOf(params.id))
         def mode = request.get ? params.mode : "static"
         if (request.post) {
-            child.homeFolder.individuals.each {
-                homeFolderService.unlink(it, child)
-            }
             params.roles.each {
-                if (it.value instanceof GrailsParameterMap && it.value.owner != '' && it.value.type != '') {
-                    homeFolderService.link(individualService.getById(Long.valueOf(it.value.owner)),
-                        child, [RoleType.forString(it.value.type)] as List)
+                if (it.value instanceof GrailsParameterMap && it.value.owner != '') {
+                    def owner = individualService.getById(Long.valueOf(it.value.owner))
+                    if (it.value.type == '')
+                        homeFolderService.unlink(owner,child)
+                    else
+                        homeFolderService.link(owner,child, [RoleType.forString(it.value.type)])
                 }
+            }
+            if (!individualService.validate(child).isEmpty())  {
+                session.doRollback = true
+                def errors = []
+                homeFolderService.getAdults(child.homeFolder.id).eachWithIndex { adult, index ->
+                    errors.add("roles.${index}.type")
+                }
+                render (['invalidFields': errors] as JSON)
+                return false
             }
         }
         def model = [
             "child" : child,
             "adults" : homeFolderService.getAdults(child.homeFolder.id),
-            "roleOwners" : homeFolderService.listBySubjectRoles(child.id, RoleType.childRoleTypes)
+            "roleOwners" : mode == 'static' ? 
+                homeFolderService.listBySubjectRoles(child.id, RoleType.childRoleTypes)
+                : homeFolderAdaptorService.roleOwners(child.id)
         ]
         render(template : mode + "/responsibles", model : model)
     }

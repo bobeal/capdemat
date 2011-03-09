@@ -31,6 +31,8 @@
 .account.collapse .required { display : block; }
 .account.collapse dl.edit:hover { background: transparent; cursor: default; }
 
+.account h3 a { float: right; font-size: .8em; }
+
 .account dl { overflow : auto; }
 .account dl.edit:hover { background: #ffb; cursor: pointer; }
 
@@ -43,9 +45,9 @@
   text-align: right; color: #444;
 }
 .account dt:after { content: " : " ;}
-.account dd { width: 60%; font-size: 1.15em; }
+.account dt.required { font-weight: bold;}
 
-.account h3 a { float: right; font-size: .8em; }
+.account dd { width: 60%; font-size: 1.15em; }
 .account dd .tag-state { display: inline; float: none; font-size: .7em; }
 .account dd ul    { margin: 0; }
 .account dd ul li { padding: .3em 0 0 0; border: 0; list-style-type: none; }
@@ -62,6 +64,9 @@
 }
 #homeFolder form input.line1 { width: 22%; }
 #homeFolder form input.line2 { width: 58%; }
+
+#homeFolder form li label { display: inline; font-size: .95em; }
+
 
 
 /* actions

@@ -1,4 +1,4 @@
-<form id="identity_${individual.id}" method="post" action="${g.createLink(action:'identity', id : individual.id)}">
+<form id="adultIdentity_${individual.id}"  method="post" action="${g.createLink(action:'identity', id : individual.id)}">
   <dt class="required">${message(code:'homeFolder.adult.property.title')}</dt>
   <dd class="required">
     <select name="title">

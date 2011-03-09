@@ -35,17 +35,17 @@ public class Adult extends Individual {
 
     private FamilyStatusType familyStatus;
 
-    @NotNull(message = "adultPhones", when = "groovy:_this.mobilePhone == null && _this.officePhone == null")
+    @NotNull(message = "homePhone", when = "groovy:_this.mobilePhone == null && _this.officePhone == null")
     @NotEmpty(message = "homePhone")
     @MatchPattern(pattern = "^0[1-59][0-9]{8}$", message = "homePhone")
     private String homePhone;
 
-    @NotNull(message = "adultPhones", when = "groovy:_this.homePhone == null && _this.officePhone == null")
+    @NotNull(message = "mobilePhone", when = "groovy:_this.homePhone == null && _this.officePhone == null")
     @NotEmpty(message = "mobilePhone")
     @MatchPattern(pattern = "^0[67][0-9]{8}$", message = "mobilePhone")
     private String mobilePhone;
 
-    @NotNull(message = "adultPhones", when = "groovy:_this.homePhone == null && _this.mobilePhone == null")
+    @NotNull(message = "officePhone", when = "groovy:_this.homePhone == null && _this.mobilePhone == null")
     @NotEmpty(message = "officePhone")
     @MatchPattern(pattern = "^0[1-59][0-9]{8}$", message = "officePhone")
     private String officePhone;

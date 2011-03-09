@@ -105,17 +105,41 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
         var target = yue.getTarget(e);
         var dl = yud.getAncestorByTagName(target, 'dl');
         zct.doAjaxFormSubmitCall(target.form.getAttribute('id'), [], function(o) {
-          if (!!target.form.id.value) {
+          if (!zcbh.Details.isValid(o, target.form)) return;
+          if (target.form['mode'].value === 'modify') {
             dl.innerHTML = o.responseText;
-          }
-          else {
+            // hack : refresh clr (hibernate problem)
+            var formId = target.form.getAttribute('id').split('_');
+            if (formId[0] === 'responsibles') {
+              zct.doAjaxCall('/child/' + formId[1] + '/responsibles?mode=static', null,function(o) {
+                dl.innerHTML = o.responseText;
+              });
+            }
+          } else {
             var individual = yud.getAncestorByClassName(dl, 'account');
             var div = individual.parentNode;
             div.removeChild(individual);
             div.innerHTML += o.responseText;
           }
-          zct.each(zcbh.Details.bottomTabView.get("tabs"), function() {
-            if (this.get("label") == "Journal") {
+          zcbh.Details.refreshActions();
+        });
+      },
+
+      isValid : function(o, form) {
+        // hack : if response type is JSON, some fields are invalid
+        if (!ylj.isValid(o.responseText)) return true;
+        zct.each(form.elements, function(){
+          yud.removeClass(this,'validation-failed');
+        });
+        zct.each(ylj.parse(o.responseText).invalidFields, function(){
+          yud.addClass(form[this], 'validation-failed');
+        });
+        return false;
+      },
+
+      refreshActions : function() {
+        zct.each(zcbh.Details.bottomTabView.get("tabs"), function() {
+            if (this.get("label") === "Historique") {
               var cacheData = this.get("cacheData");
               var contentVisible = this.get("contentVisible");
               this.set("cacheData", false);
@@ -125,7 +149,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
               this.set("cacheData", cacheData);
             }
           }, null);
-        });
       },
 
       add : function(e) {

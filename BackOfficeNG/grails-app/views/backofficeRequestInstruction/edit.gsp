@@ -38,7 +38,7 @@
         <div class="head">
           <div id="contactContainer" class="txt-right">
             <a id="contactLink">
-              <g:message code="request.action.contactEcitizen" />
+              <g:message code="contact.header.contactEcitizen" />
             </a>
             <!-- ecitizen contact panel [default display = none] -->
             <div id="contactPanel">

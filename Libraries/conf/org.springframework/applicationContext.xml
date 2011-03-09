@@ -344,8 +344,11 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 
   <bean id="userNotificationService" class="fr.cg95.cvq.service.users.impl.UserNotificationService">
     <property name="individualService" ref="individualService"/>
+    <property name="meansOfContactService" ref="meansOfContactService"/>
     <property name="mailService" ref="mailService"/>
+    <property name="smsService" ref="fakeSmsService"/>
     <property name="translationService" ref="translationService"/>
+    <property name="homeFolderDAO" ref="homeFolderDAO"/>
   </bean>
 
   <bean id="userWorkflowService" class="fr.cg95.cvq.service.users.impl.UserWorkflowService">
@@ -413,8 +416,6 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 
   <bean id="meansOfContactService" class="fr.cg95.cvq.service.users.impl.MeansOfContactService">
     <property name="meansOfContactDAO" ref="meansOfContactDAO" />
-    <property name="mailService" ref="mailService" />
-    <property name="smsService" ref="fakeSmsService" />
   </bean>
   
   <bean id="externalHomeFolderService" class="fr.cg95.cvq.service.users.external.impl.ExternalHomeFolderService">

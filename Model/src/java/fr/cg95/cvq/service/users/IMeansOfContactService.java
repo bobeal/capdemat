@@ -5,7 +5,6 @@ import java.util.List;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.MeansOfContact;
 import fr.cg95.cvq.business.users.MeansOfContactEnum;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 
@@ -44,6 +43,8 @@ public interface IMeansOfContactService {
      */
     List<MeansOfContact> getCurrentEcitizenEnabledMeansOfContact();
 
+    boolean isAvailable(MeansOfContactEnum type, Adult adult);
+
     /**
      * Enable a Means of Contact for a local authority
      */
@@ -66,23 +67,6 @@ public interface IMeansOfContactService {
      */
     void disableMeansOfContact(Long mocId)
         throws CvqModelException, CvqObjectNotFoundException;
-
-    /**
-     * Notify by email.
-     */
-    public void notifyByEmail(String from, String to, String subject,
-        String body, byte[] data, String attachmentName)
-        throws CvqException;
-
-    /**
-     * Notify by Sms
-     * <ul>
-     *   <li>Throw "sms_service.not.enabled" error code if smsService is not enable</li>
-     *   <li>Throw smsService error code if error in smsService</li>
-     * </ul>
-     */
-    void notifyBySms(String to, String body)
-        throws CvqException;
 
     MeansOfContact getById(Long id) throws CvqObjectNotFoundException;
 }

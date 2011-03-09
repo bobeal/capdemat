@@ -1,7 +1,7 @@
 
 /**
- * @description This file contains homefolder details client-module
- * @namespace zenexity.capdemat.backoffice.homeFolder
+ * @description This file contains payment details client-module
+ * @namespace zenexity.capdemat.bong.payment
  * 
  * @author vsi@zenexity.fr
  */

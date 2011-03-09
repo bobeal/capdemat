@@ -60,7 +60,8 @@ class HomeFolderAdaptorService {
         if (!action) return null
         def result = [
             "type" : CapdematUtils.adaptCapdematEnum(action.type, "userAction.type"),
-            "date" : action.date
+            "date" : action.date,
+            "note" : action.note
         ]
         if (action.data) {
             JSON.parse(action.data).each {

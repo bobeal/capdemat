@@ -2,18 +2,31 @@
   <head>
     <title>${message(code:'homeFolder.header.details', args:[params.id])}</title>
     <meta name="layout" content="main" />
+    <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'contact.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'homeFolderDetails.js')}"></script>
     <link rel="stylesheet" href="${resource(dir:'css/backoffice/common/yui-skin/',file:'container.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'homeFolder.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'document.css')}" />
+    <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'contact.css')}" />
     <script type="text/javascript">
-      zenexity.capdemat.backoffice.homeFolder.Details.homeFolderId = ${params.id};
+      zenexity.capdemat.bong.homeFolder.Details.homeFolderId = ${params.id};
+      zenexity.capdemat.bong.contactPanelUrl = "${createLink(controller : 'backofficeContact', action : 'panel')}";
     </script>
   </head>
   <body>
     <div id="yui-main">
       <div class="yui-b">
         <div class="head">
+          <div id="contactContainer" class="txt-right">
+            <a id="contactLink">
+              <g:message code="contact.header.contactEcitizen" />
+            </a>
+            <div id="contactPanel">
+              <div class="hd"></div>
+              <div class="bd">
+              </div>
+            </div>
+          </div>
           <h1>${message(code:'homeFolder.header.details', args:[params.id])}</h1>
         </div>
 

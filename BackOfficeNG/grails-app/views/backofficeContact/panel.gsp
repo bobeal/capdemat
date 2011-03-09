@@ -1,8 +1,10 @@
 <h1>
-  <span class="${rqt.state.cssClass}">
-    <g:message code="${rqt.state.i18nKey}" />
-  </span>
-  <span><g:message code="request.property.state" /> :&nbsp;</span>
+  <g:if test="${rqt}">
+    <span class="${rqt.state.cssClass}">
+      <g:message code="${rqt.state.i18nKey}" />
+    </span>
+    <span><g:message code="request.property.state" /> :&nbsp;</span>
+  </g:if>
   <g:message code="contact.header.contactEcitizen" />
 </h1>
 <div class="mainbox mainbox-yellow">
@@ -14,14 +16,14 @@
         <g:message code="contact.property.meansOfContact" /> :
       </label>
       <select id="meansOfContact" name="meansOfContact" class="required">
-        <g:each var="moc" in="${requesterMeansOfContacts}">
+        <g:each var="moc" in="${meansOfContacts}">
           <option id="switchMoC_${moc.enumString}" value="${moc.enumString}"
-            <g:if test="${moc.enumString == rqt.meansOfContact.enumString}">
+            <g:if test="${moc.enumString == defaultMeansOfContact.enumString}">
               selected="selected"
             </g:if>
           >
             ${moc.i18nKey}
-            <g:if test="${moc.enumString == rqt.meansOfContact.enumString}">
+            <g:if test="${moc.enumString == defaultMeansOfContact.enumString}">
               (<g:message
                 code="contact.message.meansOfContactChosenByCitizen" />)
             </g:if>
@@ -36,7 +38,7 @@
         </label>
         <input type="text" id="email" name="email"
           class="required validate-email"
-          value="${requester?.email}" />
+          value="${user.email}" />
       </p>
       <p id="homePhoneWidget" class="field">
         <label for="homePhone" class="required">
@@ -44,7 +46,7 @@
         </label>
         <input type="text" id="homePhone" name="homePhone"
           class="required"
-          value="${requester?.homePhone}" />
+          value="${user.homePhone}" />
       </p>
       <p id="officePhoneWidget" class="field">
         <label for="officePhone" class="required">
@@ -52,7 +54,7 @@
         </label>
         <input type="text" id="officePhone" name="officePhone"
           class="required"
-          value="${requester?.officePhone}" />
+          value="${user.officePhone}" />
       </p>
       <p id="mobilePhoneWidget" class="field">
         <label for="mobilePhone" class="required">
@@ -60,7 +62,7 @@
         </label>
         <input type="text" id="mobilePhone" name="mobilePhone"
           class="required"
-          value="${requester?.mobilePhone}" />
+          value="${user.mobilePhone}" />
       </p>
     </div>
     <div id="messageField">
@@ -73,34 +75,36 @@
           <textarea id="templateMessage" name="templateMessage" class="required"
             rows="5" cols="40" maxlength="1024"></textarea>
         </p>
-        <p class="field">
-          <span class="block">
-            <label for="requestFormId">
-              <g:message code="contact.property.template" /> :
-            </label>
-            <select id="requestFormId" name="requestFormId">
-              <option value="">
-                <g:message code="contact.message.noTemplate" />
-              </option>
-              <g:each var="requestForm" in="${requestForms}">
-                <option value="${requestForm.id}">
-                  ${requestForm.shortLabel}
+        <g:if test="${rqt && !requestForms.isEmpty()}">
+          <p class="field">
+            <span class="block">
+              <label for="requestFormId">
+                <g:message code="contact.property.template" /> :
+              </label>
+              <select id="requestFormId" name="requestFormId">
+                <option value="">
+                  <g:message code="contact.message.noTemplate" />
                 </option>
-              </g:each>
-            </select>
-          </span>
-          <span id="templatePreview" class="block">
-            <label for="previewFormat">
-              <g:message code="contact.property.previewFormat" /> :
-            </label>
-            <select id="previewFormat" name="previewFormat">
-              <option value="PDF">PDF</option>
-              <option value="HTML">HTML</option>
-            </select>
-            <input type="button" id="preview_contact"
-              value="${message(code:'contact.action.preview')}" />
-          </span>
-        </p>
+                <g:each var="requestForm" in="${requestForms}">
+                  <option value="${requestForm.id}">
+                    ${requestForm.shortLabel}
+                  </option>
+                </g:each>
+              </select>
+            </span>
+            <span id="templatePreview" class="block">
+              <label for="previewFormat">
+                <g:message code="contact.property.previewFormat" /> :
+              </label>
+              <select id="previewFormat" name="previewFormat">
+                <option value="PDF">PDF</option>
+                <option value="HTML">HTML</option>
+              </select>
+              <input type="button" id="preview_contact"
+                value="${message(code:'contact.action.preview')}" />
+            </span>
+          </p>
+        </g:if>
       </div>
       <p id="smsWidget" class="field">
         <label for="smsMessage" class="required">
@@ -120,7 +124,12 @@
         rows="5" cols="40" maxlength="1024"></textarea>
     </p>
     <div>
-      <input type="hidden" name="requestId" value="${rqt.id}" />
+      <g:if test="${rqt}">
+        <input type="hidden" name="requestId" value="${rqt.id}" />
+      </g:if>
+      <g:else>
+        <input type="hidden" name="id" value="${user.id}" />
+      </g:else>
     </div>
     <p id="validationField" class="field">
       <span id="sendWidget">

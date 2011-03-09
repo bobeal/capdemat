@@ -10,7 +10,6 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.MeansOfContact;
 import fr.cg95.cvq.business.users.MeansOfContactEnum;
 import fr.cg95.cvq.dao.users.IMeansOfContactDAO;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -18,8 +17,6 @@ import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.users.IMeansOfContactService;
-import fr.cg95.cvq.util.mail.IMailService;
-import fr.cg95.cvq.util.sms.ISmsService;
 
 /**
  * Implementation of the {@link IMeansOfContactService} service.
@@ -29,10 +26,6 @@ import fr.cg95.cvq.util.sms.ISmsService;
 public class MeansOfContactService implements IMeansOfContactService, ILocalAuthorityLifecycleAware {
 
     private static Logger logger = Logger.getLogger(MeansOfContactService.class);
-
-    private IMailService mailService;
-
-    private ISmsService smsService;
 
     private IMeansOfContactDAO meansOfContactDAO;
 
@@ -164,41 +157,15 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
             if(moc != null)
                 individualEnableMocList.add(moc);
         }
-        if (individualEnableMocList.size() > 0)
-            return individualEnableMocList;
-        else
-            return null;
+        return individualEnableMocList;
     }
 
     @Override
-    public void notifyByEmail(String from, String to, String subject,
-        String body, byte[] data, String attachmentName)
-        throws CvqException {
-        String fullSubject =
-            "[" + SecurityContext.getCurrentSite().getDisplayTitle() + "] "
-            + subject;
-        mailService.send(from, to, null, fullSubject, body, data, attachmentName);
-    }
-
-    @Override
-    public void notifyBySms(String to, String body)
-        throws CvqException {
-        if (smsService.isEnabled()) {
-            smsService.send(to, body);
-        } else {
-            throw new CvqException("sms_service.not.enabled");
-        }
+    public boolean isAvailable(MeansOfContactEnum type, Adult adult) {
+        return getAdultEnabledMeansOfContact(adult).contains(getMeansOfContactByType(type));
     }
 
     public void setMeansOfContactDAO(IMeansOfContactDAO meansOfContactDAO) {
         this.meansOfContactDAO = meansOfContactDAO;
-    }
-
-    public void setMailService(IMailService mailService) {
-        this.mailService = mailService;
-    }
-
-    public void setSmsService(ISmsService smsService) {
-        this.smsService = smsService;
     }
 }

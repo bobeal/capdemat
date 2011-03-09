@@ -55,7 +55,7 @@ invoice : paid, no_paid
 .tag-draftdeletenotification, .tag-creationnotification,
 .tag-qos, .tag-urgent, .tag-late,
 .tag-orangealertnotification, .tag-redalertnotification, .tag-creation, .tag-modification, .tag-modified,
-.tag-statechange, .tag-contactcitizen,
+.tag-statechange, .tag-contact, .tag-contactcitizen,
 /* document (request creation) */
 .tag-new, .tag-pageaddition, .tag-pageedition, .tag-pagedeletion, .tag-merge,
 /* request admin actions */
@@ -125,7 +125,7 @@ invoice : paid, no_paid
 .tag-pageaddition,
 .tag-clrfather,
 .tag-checked,
-.tag-contactcitizen,
+.tag-contact, .tag-contactcitizen,
 .tag-read_only     { background: #2020cc; border-color:#2020aa; }
 
 /* orange*/

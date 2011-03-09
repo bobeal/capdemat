@@ -6,6 +6,7 @@ import fr.cg95.cvq.business.request.RequestFormType
 import fr.cg95.cvq.service.request.IRequestLockService
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestTypeService
+import fr.cg95.cvq.service.users.IUserNotificationService
 import fr.cg95.cvq.security.SecurityContext
 
 import grails.converters.JSON
@@ -21,6 +22,7 @@ class BackofficeContactController {
     IRequestLockService requestLockService
     IRequestSearchService requestSearchService
     IRequestTypeService requestTypeService
+    IUserNotificationService userNotificationService
 
     def groovyPagesTemplateEngine
     def individualService
@@ -34,66 +36,59 @@ class BackofficeContactController {
 	def homeFolderService
 
     def beforeInterceptor = {
-        requestLockService.tryToLock(Long.valueOf(params.requestId))
+        if (params.requestId) requestLockService.tryToLock(Long.valueOf(params.requestId))
     }
 
     // directly taken from RequestInstructionController
     // TODO request decoupling
     def panel = {
         if (!request.get) return false
-        def rqt = requestSearchService.getById(Long.valueOf(params.requestId), false)
-        // FIXME RDJ - if no requester use homefolder responsible
-        def requester
-        if (rqt.requesterId != null)
-            requester = individualService.getById(rqt.requesterId)
-        else
-            requester =
-                homeFolderService.getHomeFolderResponsible(rqt.homeFolderId)
-
-        def requesterMeansOfContacts = []
-        meansOfContactService.getAdultEnabledMeansOfContact(requester).each {
-            requesterMeansOfContacts.add(
+        def rqt
+        if (params.requestId)
+            rqt = requestSearchService.getById(Long.valueOf(params.requestId), false)
+        def user
+        if (rqt) {
+            if (rqt.requesterId)
+                user = individualService.getById(rqt.requesterId)
+            else
+                user = homeFolderService.getHomeFolderResponsible(rqt.homeFolderId)
+        } else {
+            user = homeFolderService.getHomeFolderResponsible(Long.valueOf(params.homeFolderId))
+        }
+        def meansOfContacts = []
+        meansOfContactService.getAdultEnabledMeansOfContact(user).each {
+            meansOfContacts.add(
                 CapdematUtils.adaptCapdematEnum(it.type, "meansOfContact"))
         }
-
-        def requestForms = []
-        requestTypeService.getRequestTypeForms(rqt.requestType.id,
-            RequestFormType.REQUEST_MAIL_TEMPLATE).each {
-            String data = ""
-            if (it.personalizedData) data = new String(it.personalizedData)
-
-            requestForms.add([
-                "id": it.id,
-                "shortLabel": it.shortLabel,
-                "type": CapdematUtils.adaptCapdematEnum(it.type, "meansOfContact")
-            ])
-        }
-
-        // this task must maybe be done by a service
-        def defaultContactRecipient
-        if (rqt.meansOfContact?.type == MeansOfContactEnum.EMAIL)
-            defaultContactRecipient = requester.email
-        else if (rqt.meansOfContact?.type == MeansOfContactEnum.SMS)
-            defaultContactRecipient = requester.mobilePhone
-
-        requesterMeansOfContacts.each() {
+        meansOfContacts.each() {
             it.i18nKey = message(code:it.i18nKey)
         }
-
-        return [
-            "requesterMeansOfContacts": requesterMeansOfContacts,
-            "requestForms": requestForms,
-            "defaultContactRecipient": defaultContactRecipient,
-            "requester": requester,
-            "rqt": [
+        def defaultMeansOfContact = rqt ?
+            CapdematUtils.adaptCapdematEnum(rqt.meansOfContact?.type, "meansOfContact") :
+            CapdematUtils.adaptCapdematEnum(MeansOfContactEnum.EMAIL, "meansOfContact")
+        def requestForms = []
+        if (rqt) {
+            requestTypeService.getRequestTypeForms(rqt.requestType.id,
+                RequestFormType.REQUEST_MAIL_TEMPLATE).each {
+                String data = ""
+                if (it.personalizedData) data = new String(it.personalizedData)
+                requestForms.add([
+                    "id": it.id,
+                    "shortLabel": it.shortLabel,
+                    "type": CapdematUtils.adaptCapdematEnum(it.type, "meansOfContact")
+                ])
+            }
+            rqt = [
                 "id" : rqt.id,
-                "state": CapdematUtils.adaptCapdematEnum(rqt.state,
-                    "request.state"),
-                "requesterMobilePhone": requester.mobilePhone,
-                "requesterEmail": requester.email,
-                "meansOfContact": CapdematUtils.adaptCapdematEnum(rqt.meansOfContact?.type,
-                    "meansOfContact")
+                "state": CapdematUtils.adaptCapdematEnum(rqt.state, "request.state")
             ]
+        }
+        return [
+            "meansOfContacts": meansOfContacts,
+            "defaultMeansOfContact" : defaultMeansOfContact,
+            "requestForms": requestForms,
+            "user": user,
+            "rqt": rqt
         ]
     }
 
@@ -130,6 +125,9 @@ class BackofficeContactController {
 
     def contact = {
         if (!request.post) return false
+        def notification
+        if (params.requestId) {
+        // FIXME : no indentation to avoid fake rewriting of this action from git's POV
         def requestId = Long.valueOf(params.requestId)
         def requestFormId
         def requestFormLabel = null
@@ -138,7 +136,6 @@ class BackofficeContactController {
             def requestForm = requestTypeService.getRequestFormById(requestFormId)
             requestFormLabel = requestForm.getLabel()
         }
-        def notification
         switch (MeansOfContactEnum.forString(params.meansOfContact)) {
             case MeansOfContactEnum.MAIL :
                 requestActionService.addAction(
@@ -162,7 +159,7 @@ class BackofficeContactController {
                     requestId,
                     RequestActionType.CONTACT_CITIZEN,
                     params.templateMessage, params.note, pdf, requestFormLabel)
-                meansOfContactService.notifyByEmail(
+                userNotificationService.notifyByEmail(
                     requestSearchService.getById(requestId, false).requestType
                         .category.primaryEmail,
                     params.email,
@@ -196,7 +193,7 @@ class BackofficeContactController {
                     requestId,
                     RequestActionType.CONTACT_CITIZEN,
                     params.smsMessage, params.note, null,null)
-                meansOfContactService.notifyBySms(params.mobilePhone, params.smsMessage)
+                userNotificationService.notifyBySms(params.mobilePhone, params.smsMessage)
                 notification = [
                     status : "ok",
                     success_msg : message(code : "message.smsSent")
@@ -215,6 +212,43 @@ class BackofficeContactController {
                     success_msg : message(code : "message.actionTraced")
                 ]
                 break;
+        }
+        } else {
+            def user = individualService.getById(params.long("id"))
+            def moc = MeansOfContactEnum.forString(params.meansOfContact)
+            switch (moc) {
+                case MeansOfContactEnum.LOCAL_AUTHORITY_OFFICE :
+                case MeansOfContactEnum.MAIL :
+                    userNotificationService.contact(user, moc, null, params.templateMessage, params.note)
+                    notification = [
+                        status : "ok",
+                        success_msg : message(code : "message.actionTraced")
+                    ]
+                    break
+                case MeansOfContactEnum.EMAIL :
+                    userNotificationService.contact(user, moc, params.email, params.templateMessage, params.note)
+                    notification = [
+                        status : "ok",
+                        success_msg : message(code : "message.emailSent")
+                    ]
+                    break
+                case MeansOfContactEnum.HOME_PHONE :
+                case MeansOfContactEnum.OFFICE_PHONE :
+                case MeansOfContactEnum.MOBILE_PHONE :
+                    userNotificationService.contact(user, moc, null, null, params.note)
+                    notification = [
+                        status : "ok",
+                        success_msg : message(code : "message.actionTraced")
+                    ]
+                    break
+                case MeansOfContactEnum.SMS :
+                    userNotificationService.contact(user, moc, params.mobilePhone, params.smsMessage, params.note)
+                    notification = [
+                        status : "ok",
+                        success_msg : message(code : "message.smsSent")
+                    ]
+                    break
+            }
         }
         render(notification as JSON)
     }

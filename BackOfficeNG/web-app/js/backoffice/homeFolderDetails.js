@@ -1,10 +1,12 @@
 
-zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
+zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
 
 (function(){
 
   var zc = zenexity.capdemat;
-  var zcbh = zc.backoffice.homeFolder;
+  var zca = zc.aspect;
+  var zcb = zc.bong;
+  var zcbh = zcb.homeFolder;
   var zct = zc.tools;
 
   var y = YAHOO;
@@ -46,6 +48,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
         initControls();
         zcbh.Details.inlineEditEvent = new zct.Event(zcbh.Details, zcbh.Details.getHandler);
         yue.on(yud.get("homeFolder"), "click", zcbh.Details.inlineEditEvent.dispatch,zcbh.Details.inlineEditEvent,true)
+        zcb.Contact.init(yud.get("contactLink"), yud.get("contactPanel"), zcb.contactPanelUrl);
+        zca.advise("notify", new zca.Advice("afterReturn", zcbh.Details.refreshActions), zcb.Contact);
       },
 
       inlineEditEvent : undefined,

@@ -56,6 +56,22 @@
             </dl>
           </dd>
         </g:if>
+        <g:if test="${action.contact}">
+          <dt>${message(code : "contact.property.meansOfContact")}</dt>
+          <dd><g:capdematEnumToText var="${action.contact.meansOfContact}" i18nKeyPrefix="meansOfContact" /></dd>
+          <g:if test="${action.contact.recipient}">
+            <dt>${message(code : "contact.property.recipient")}</dt>
+            <dd>${action.contact.recipient}</dd>
+          </g:if>
+          <g:if test="${action.contact.message}">
+            <dt>${message(code : "contact.property.message")}</dt>
+            <dd>${action.contact.message}</dd>
+          </g:if>
+        </g:if>
+        <g:if test="${action.note}">
+          <dt>${message(code : "contact.property.note")}</dt>
+          <dd>${action.note}</dd>
+        </g:if>
       </dl>
     </li>
   </g:each>

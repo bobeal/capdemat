@@ -1,7 +1,6 @@
 package fr.cg95.cvq.service.users.impl;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Type;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,14 +17,11 @@ import net.sf.oval.Validator;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 
 import fr.cg95.cvq.authentication.IAuthenticationService;
 import fr.cg95.cvq.business.QoS;
@@ -34,6 +30,7 @@ import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.UserAction;
 import fr.cg95.cvq.business.users.UserState;
+import fr.cg95.cvq.business.users.UserEvent;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.users.IAdultDAO;
 import fr.cg95.cvq.dao.users.IChildDAO;
@@ -49,6 +46,7 @@ import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere;
+import fr.cg95.cvq.util.JSONUtils;
 import fr.cg95.cvq.util.ValidationUtils;
 
 /**
@@ -56,9 +54,11 @@ import fr.cg95.cvq.util.ValidationUtils;
  *
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public class IndividualService implements IIndividualService {
+public class IndividualService implements IIndividualService, ApplicationEventPublisherAware {
 
     static Logger logger = Logger.getLogger(IndividualService.class);
+
+    private ApplicationEventPublisher applicationEventPublisher;
 
     private static Collection<String> bookedLogin =
         Collections.synchronizedCollection(new ArrayList<String>());
@@ -218,12 +218,14 @@ public class IndividualService implements IIndividualService {
         individual.setQoS(SecurityContext.isFrontOfficeContext() ? QoS.GOOD : null);
         individual.setLastModificationDate(new Date());
         Long id = individualDAO.create(individual);
-        individual.getHomeFolder().getActions().add(new UserAction(UserAction.Type.CREATION, id));
+        UserAction action = new UserAction(UserAction.Type.CREATION, id);
+        individual.getHomeFolder().getActions().add(action);
         if (SecurityContext.isFrontOfficeContext()
             && !UserState.NEW.equals(individual.getHomeFolder().getState())) {
             individual.getHomeFolder().setState(UserState.MODIFIED);
         }
         individualDAO.update(individual.getHomeFolder());
+        applicationEventPublisher.publishEvent(new UserEvent(this, action));
         return id;
     }
 
@@ -258,17 +260,8 @@ public class IndividualService implements IIndividualService {
                 String lastName = fields.has("lastName") ?
                         fields.get("lastName").getAsJsonObject().get("from").getAsString()
                         : individual.getLastName();
-                GsonBuilder gsonBuilder = new GsonBuilder();
-                gsonBuilder.registerTypeAdapter(JsonObject.class, new JsonDeserializer<JsonObject>() {
-                    @Override
-                    public JsonObject deserialize(JsonElement arg0, @SuppressWarnings("unused") Type arg1,
-                        @SuppressWarnings("unused") JsonDeserializationContext arg2)
-                        throws JsonParseException {
-                        return arg0.getAsJsonObject();
-                    }
-                });
-                Gson gson = gsonBuilder.create();
-                payload = gson.fromJson(action.getData(), JsonObject.class);
+                Gson gson = new Gson();
+                payload = JSONUtils.deserialize(action.getData());
                 payload.get("target").getAsJsonObject()
                     .addProperty("name", firstName + ' ' + lastName);
                 if (individual.getId().equals(payload.get("user").getAsJsonObject().get("id").getAsLong())) {
@@ -293,6 +286,7 @@ public class IndividualService implements IIndividualService {
         }
         individual.getHomeFolder().getActions().add(action);
         individualDAO.update(individual.getHomeFolder());
+        applicationEventPublisher.publishEvent(new UserEvent(this, action));
     }
 
     public void setIndividualDAO(IIndividualDAO individualDAO) {
@@ -366,6 +360,11 @@ public class IndividualService implements IIndividualService {
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Long countTasks(QoS qoS) {
         return individualDAO.countTasks(qoS);
+    }
+
+    @Override
+    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 }
 

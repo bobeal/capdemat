@@ -254,7 +254,10 @@ public class SecurityContext {
         throws CvqException, CvqObjectNotFoundException {
 
         logger.debug("setCurrentEcitizen() id = " + id);
+        String context = getCurrentContext();
+        setCurrentContext(SecurityContext.ADMIN_CONTEXT);
         Adult adult = individualService.getAdultById(id);
+        setCurrentContext(context);
         if (adult == null)
             throw new CvqObjectNotFoundException("Adult not found !");
         setCurrentEcitizen(adult);

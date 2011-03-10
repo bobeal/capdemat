@@ -22,8 +22,7 @@ import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
-import fr.cg95.cvq.security.annotation.IsHomeFolder;
-import fr.cg95.cvq.security.annotation.IsIndividual;
+import fr.cg95.cvq.security.annotation.IsUser;
 import fr.cg95.cvq.service.payment.annotation.IsPayment;
 
 @Aspect
@@ -58,17 +57,24 @@ public class PaymentContextAspect implements Ordered {
         for (Object argument : arguments) {
             if (parametersAnnotations[i] != null && parametersAnnotations[i].length > 0) {
                 Annotation parameterAnnotation = parametersAnnotations[i][0];
-                if (parameterAnnotation.annotationType().equals(IsHomeFolder.class)) {
+                if (parameterAnnotation.annotationType().equals(IsUser.class)) {
                     if (argument instanceof Long) {
-                        homeFolderId = (Long) argument;
-                    } else if (argument instanceof HomeFolder) {
-                        homeFolderId = ((HomeFolder) argument).getId();
-                    }
-                } else if (parameterAnnotation.annotationType().equals(IsIndividual.class)) {
-                    if (argument instanceof Long) {
-                        individualId = (Long) argument;
+                        Long id = (Long) argument;
+                        try {
+                            paymentDAO.findById(Individual.class, id);
+                            individualId = id;
+                        } catch (CvqObjectNotFoundException e1) {
+                            try {
+                                paymentDAO.findById(HomeFolder.class, id);
+                                homeFolderId = id;
+                            } catch (CvqObjectNotFoundException e2) {
+                                // no user with this id
+                            }
+                        }
                     } else if (argument instanceof Individual) {
                         individualId = ((Individual) argument).getId();
+                    } else if (argument instanceof HomeFolder) {
+                        homeFolderId = ((HomeFolder)argument).getId();
                     }
                 } else if (parameterAnnotation.annotationType().equals(IsPayment.class)) {
                     if (argument instanceof Long) {

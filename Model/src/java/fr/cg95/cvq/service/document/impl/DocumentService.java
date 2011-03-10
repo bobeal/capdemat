@@ -32,8 +32,9 @@ import fr.cg95.cvq.business.document.DocumentState;
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.document.DocumentTypeValidity;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.UsersEvent;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.UserAction;
+import fr.cg95.cvq.business.users.UserEvent;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
@@ -48,6 +49,7 @@ import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.document.IDocumentService;
+import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.translation.ITranslationService;
 
 /**
@@ -55,7 +57,7 @@ import fr.cg95.cvq.util.translation.ITranslationService;
  *
  * @author bor@zenexity.fr
  */
-public class DocumentService implements IDocumentService, ApplicationListener<UsersEvent> {
+public class DocumentService implements IDocumentService, ApplicationListener<UserEvent> {
 
     static Logger logger = Logger.getLogger(DocumentService.class);
 
@@ -64,6 +66,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     protected IDocumentDAO documentDAO;
     protected IDocumentTypeDAO documentTypeDAO;
     private ITranslationService translationService;
+    private IIndividualService individualService;
 
     /**
      * Max allowed data size (in Mb) for uploaded files, 0 means unlimited
@@ -594,16 +597,19 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     }
 
     @Override
-    public void onApplicationEvent(UsersEvent homeFolderEvent) {
-        logger.debug("onApplicationEvent() got an home folder event of type " + homeFolderEvent.getEvent());
-        if (homeFolderEvent.getEvent().equals(UsersEvent.EVENT_TYPE.HOME_FOLDER_DELETE)) {
-            logger.debug("onApplicationEvent() gonna delete home folder "
-                    + homeFolderEvent.getHomeFolderId());
-            deleteHomeFolderDocuments(homeFolderEvent.getHomeFolderId());
-        } else if (homeFolderEvent.getEvent().equals(UsersEvent.EVENT_TYPE.INDIVIDUAL_DELETE)) {
-            logger.debug("onApplicationEvent() gonna delete individual "
-                    + homeFolderEvent.getIndividualId());
-            deleteIndividualDocuments(homeFolderEvent.getIndividualId());
+    public void onApplicationEvent(UserEvent event) {
+        logger.debug("onApplicationEvent() got a user event of type " + event.getAction().getType());
+        if (UserAction.Type.DELETION.equals(event.getAction().getType())) {
+            try {
+                individualService.getById(event.getAction().getTargetId());
+                logger.debug("onApplicationEvent() deleting documents of individual "
+                    + event.getAction().getTargetId());
+                deleteIndividualDocuments(event.getAction().getTargetId());
+            } catch (CvqObjectNotFoundException e) {
+                logger.debug("onApplicationEvent() deleting documents of home folder "
+                    + event.getAction().getTargetId());
+                deleteHomeFolderDocuments(event.getAction().getTargetId());
+            }
         }
     }
 
@@ -771,6 +777,10 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
     public void setTranslationService(ITranslationService translationService) {
         this.translationService = translationService;
+    }
+
+    public void setIndividualService(IIndividualService individualService) {
+        this.individualService = individualService;
     }
 
     public int getMaxDataSize() {

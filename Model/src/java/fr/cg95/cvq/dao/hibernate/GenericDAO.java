@@ -34,6 +34,11 @@ public class GenericDAO implements IGenericDAO {
             throw new CvqObjectNotFoundException("Object of class "
                 + clazz.getName() + " with id " + id + " has been deleted");
         }
+        if (!clazz.isAssignableFrom(object.getClass())) {
+            // why does session.load() returns the object if it doesn't match desired class ??
+            throw new CvqObjectNotFoundException("Object of class "
+                + clazz.getName() + " with id " + id + " not found");
+        }
         return object;
     }
 

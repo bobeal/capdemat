@@ -6,13 +6,13 @@ import org.springframework.context.ApplicationListener;
 import com.google.gson.JsonObject;
 
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.MeansOfContactEnum;
 import fr.cg95.cvq.business.users.UserAction;
-import fr.cg95.cvq.business.users.UsersEvent;
+import fr.cg95.cvq.business.users.UserEvent;
 import fr.cg95.cvq.dao.users.IHomeFolderDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
@@ -20,11 +20,12 @@ import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.service.users.IMeansOfContactService;
 import fr.cg95.cvq.service.users.IUserNotificationService;
+import fr.cg95.cvq.util.JSONUtils;
 import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.util.sms.ISmsService;
 import fr.cg95.cvq.util.translation.ITranslationService;
 
-public class UserNotificationService implements IUserNotificationService, ApplicationListener<UsersEvent> {
+public class UserNotificationService implements IUserNotificationService, ApplicationListener<UserEvent> {
 
     private IIndividualService individualService;
     private IMeansOfContactService meansOfContactService;
@@ -78,33 +79,38 @@ public class UserNotificationService implements IUserNotificationService, Applic
     }
 
     @Override
-    public void onApplicationEvent(UsersEvent event) {
-        switch (event.getEvent()) {
-            case LOGIN_ASSIGNED :
-                try {
-                    notifyLogin(individualService.getById(event.getIndividualId()));
-                } catch (CvqException e) {
-                    throw new RuntimeException(e);
+    public void onApplicationEvent(UserEvent event) {
+        if (UserAction.Type.CREATION.equals(event.getAction().getType())
+            || UserAction.Type.MODIFICATION.equals(event.getAction().getType())) {
+            try {
+                Adult adult = individualService.getAdultById(event.getAction().getTargetId());
+                JsonObject payload = JSONUtils.deserialize(event.getAction().getData());
+                if (!StringUtils.isEmpty(adult.getLogin())
+                    && (UserAction.Type.CREATION.equals(event.getAction().getType())
+                        || (payload.has("atom")
+                            && payload.get("atom").getAsJsonObject().get("fields").getAsJsonObject()
+                                .has("login")
+                            && !payload.get("atom").getAsJsonObject()
+                                .get("fields").getAsJsonObject().get("login").getAsJsonObject()
+                                    .get("to").isJsonNull()))) {
+                    try {
+                        mailService.send(
+                            SecurityContext.getCurrentSite().getAdminEmail(),
+                            adult.getEmail(),
+                            null,
+                            translationService.translate("homeFolder.adult.notification.loginAssigned.subject",
+                                new Object[]{SecurityContext.getCurrentSite().getDisplayTitle()}),
+                            translationService.translate("homeFolder.adult.notification.loginAssigned.body",
+                                new Object[]{SecurityContext.getCurrentSite().getDisplayTitle(), adult.getLogin()})
+                        );
+                    } catch (CvqException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-                break;
-            default :
-                break;
-        }
-    }
-
-    private void notifyLogin(Individual individual)
-        throws CvqException {
-        if (individual instanceof Adult) {
-            Adult adult = (Adult)individual;
-            mailService.send(
-                SecurityContext.getCurrentSite().getAdminEmail(),
-                adult.getEmail(),
-                null,
-                translationService.translate("homeFolder.adult.notification.loginAssigned.subject",
-                    new Object[]{SecurityContext.getCurrentSite().getDisplayTitle()}),
-                translationService.translate("homeFolder.adult.notification.loginAssigned.body",
-                    new Object[]{SecurityContext.getCurrentSite().getDisplayTitle(), adult.getLogin()})
-            );
+            } catch (CvqObjectNotFoundException e) {
+                // nothing to do for home folder or child events
+                return;
+            }
         }
     }
 

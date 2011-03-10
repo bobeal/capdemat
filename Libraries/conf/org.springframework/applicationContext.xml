@@ -242,6 +242,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     parent="externalService">
     <property name="requestDAO" ref="requestDAO" />
     <property name="homeFolderService" ref="homeFolderService" />
+    <property name="individualService" ref="individualService" />
     <property name="externalHomeFolderService" ref="externalHomeFolderService" />
     <property name="requestExportService" ref="requestExportService" />
     <property name="translationService" ref="translationService" />
@@ -320,6 +321,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   <bean id="documentService" class="fr.cg95.cvq.service.document.impl.DocumentService">
     <property name="documentDAO" ref="documentDAO"/>
     <property name="documentTypeDAO" ref="documentTypeDAO"/>
+    <property name="individualService" ref="individualService"/>
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="translationService" ref="translationService"/>
     <property name="maxDataSize" value="${document.upload.maxSize}" />

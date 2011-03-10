@@ -21,8 +21,7 @@ import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
-import fr.cg95.cvq.security.annotation.IsHomeFolder;
-import fr.cg95.cvq.security.annotation.IsIndividual;
+import fr.cg95.cvq.security.annotation.IsUser;
 
 @Aspect
 public class UsersContextAspect implements Ordered {
@@ -51,29 +50,26 @@ public class UsersContextAspect implements Ordered {
         for (Object argument : arguments) {
             if (parametersAnnotations[i] != null && parametersAnnotations[i].length > 0) {
                 Annotation parameterAnnotation = parametersAnnotations[i][0];
-                if (parameterAnnotation.annotationType().equals(IsHomeFolder.class)) {
+                if (parameterAnnotation.annotationType().equals(IsUser.class)) {
                     if (argument instanceof Long) {
+                        Long id = (Long)argument;
                         try {
-                            homeFolderId = (Long)argument;
-                            homeFolder = (HomeFolder)homeFolderDAO.findById(HomeFolder.class, homeFolderId);
-                        } catch (CvqObjectNotFoundException e) {
-                            // maybe it's an individual ?
-                        }
-                    } else if (argument instanceof HomeFolder) {
-                        homeFolder = (HomeFolder)argument;
-                        homeFolderId = homeFolder.getId();
-                    }
-                } else if (parameterAnnotation.annotationType().equals(IsIndividual.class)) {
-                    if (argument instanceof Long) {
-                        try {
-                            individualId = (Long)argument;
-                            individual = (Individual)individualDAO.findById(Individual.class, individualId);
-                        } catch (CvqObjectNotFoundException e) {
-                            // maybe it's a homeFolder ?
+                            individual = (Individual)individualDAO.findById(Individual.class, id);
+                            individualId = id;
+                        } catch (CvqObjectNotFoundException e1) {
+                            try {
+                                homeFolder = (HomeFolder)homeFolderDAO.findById(HomeFolder.class, id);
+                                homeFolderId = id;
+                            } catch (CvqObjectNotFoundException e2) {
+                                // no user with this id
+                            }
                         }
                     } else if (argument instanceof Individual) {
                         individual = (Individual)argument;
                         individualId = individual.getId();
+                    } else if (argument instanceof HomeFolder) {
+                        homeFolder = (HomeFolder)argument;
+                        homeFolderId = homeFolder.getId();
                     }
                 } 
             }

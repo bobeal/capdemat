@@ -12,6 +12,8 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.document.Document;
+import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.GenericAccessManager;
@@ -54,10 +56,25 @@ public class DocumentContextCheckAspect implements Ordered {
         for (Object argument : arguments) {
             if (parametersAnnotations[i] != null && parametersAnnotations[i].length > 0) {
                 Annotation parameterAnnotation = parametersAnnotations[i][0];
-                if (parameterAnnotation.annotationType().equals(IsHomeFolder.class)) {
-                    homeFolderId = (Long) argument;
-                } else if (parameterAnnotation.annotationType().equals(IsIndividual.class)) {
-                    individualId = (Long) argument;
+                if (parameterAnnotation.annotationType().equals(IsUser.class)) {
+                    if (argument instanceof Long) {
+                        Long id = (Long)argument;
+                        try {
+                            documentDAO.findById(Individual.class, id);
+                            individualId = id;
+                        } catch (CvqObjectNotFoundException e1) {
+                            try {
+                                documentDAO.findById(HomeFolder.class, id);
+                                homeFolderId = id;
+                            } catch (CvqObjectNotFoundException e2) {
+                                // no user with this id
+                            }
+                        }
+                    } else if (argument instanceof Individual) {
+                        individualId = ((Individual)argument).getId();
+                    } else if (argument instanceof HomeFolder) {
+                        homeFolderId = ((HomeFolder)argument).getId();
+                    }
                 } else if (parameterAnnotation.annotationType().equals(IsDocument.class)) {
                     if (argument instanceof Long) {
                         try {

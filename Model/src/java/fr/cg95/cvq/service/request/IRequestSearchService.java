@@ -11,7 +11,7 @@ import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.security.annotation.IsHomeFolder;
+import fr.cg95.cvq.security.annotation.IsUser;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.util.Critere;
 
@@ -47,13 +47,13 @@ public interface IRequestSearchService {
     /**
      * Get all requests belonging to the given home folder.
      */
-    List<Request> getByHomeFolderId(@IsHomeFolder final Long homeFolderId, final boolean full)
+    List<Request> getByHomeFolderId(@IsUser final Long homeFolderId, final boolean full)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
      * Get all requests of the given type belonging to the given home folder.
      */
-    List<Request> getByHomeFolderIdAndRequestLabel(@IsHomeFolder final Long homeFolderId, 
+    List<Request> getByHomeFolderIdAndRequestLabel(@IsUser final Long homeFolderId,
         final String requestLabel, final boolean full)
         throws CvqException, CvqObjectNotFoundException;
 

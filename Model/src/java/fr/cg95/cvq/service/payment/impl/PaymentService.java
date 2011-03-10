@@ -26,7 +26,8 @@ import fr.cg95.cvq.business.payment.PaymentMode;
 import fr.cg95.cvq.business.payment.PaymentState;
 import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.UsersEvent;
+import fr.cg95.cvq.business.users.UserAction;
+import fr.cg95.cvq.business.users.UserEvent;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.dao.payment.IPaymentDAO;
 import fr.cg95.cvq.exception.CvqException;
@@ -52,7 +53,7 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.mail.IMailService;
 
 public final class PaymentService implements IPaymentService, 
-    ApplicationListener<UsersEvent>, ApplicationContextAware {
+    ApplicationListener<UserEvent>, ApplicationContextAware {
 
     private static Logger logger = Logger.getLogger(PaymentService.class);
 
@@ -510,11 +511,18 @@ public final class PaymentService implements IPaymentService,
     }
 
     @Override
-    public void onApplicationEvent(UsersEvent usersEvent) {
-        logger.debug("onApplicationEvent() got an home folder event of type " + usersEvent.getEvent());
-        if (usersEvent.getEvent().equals(UsersEvent.EVENT_TYPE.HOME_FOLDER_DELETE)) {
-            logger.debug("onApplicationEvent() gonna delete home folder " + usersEvent.getHomeFolderId());
-            deleteHomeFolderPayments(usersEvent.getHomeFolderId());
+    public void onApplicationEvent(UserEvent event) {
+        logger.debug("onApplicationEvent() got a user event of type " + event.getAction().getType());
+        if (UserAction.Type.DELETION.equals(event.getAction().getType())) {
+            try {
+                individualService.getById(event.getAction().getTargetId());
+                logger.debug("onApplicationEvent() nothing to delete for individual "
+                    + event.getAction().getTargetId());
+            } catch (CvqObjectNotFoundException e) {
+                logger.debug("onApplicationEvent() deleting payments of home folder "
+                    + event.getAction().getTargetId());
+                    deleteHomeFolderPayments(event.getAction().getTargetId());
+            }
         }
     }
 

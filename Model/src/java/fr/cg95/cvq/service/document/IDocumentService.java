@@ -14,8 +14,7 @@ import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.security.annotation.IsHomeFolder;
-import fr.cg95.cvq.security.annotation.IsIndividual;
+import fr.cg95.cvq.security.annotation.IsUser;
 import fr.cg95.cvq.service.document.annotation.IsDocument;
 
 /**
@@ -85,19 +84,19 @@ public interface IDocumentService {
      * @param individualId an optional individual to restrict the search to
      */
     List<Document> getProvidedDocuments(final DocumentType docType, 
-            @IsHomeFolder final Long homeFolderId, @IsIndividual final Long individualId)
+        @IsUser final Long homeFolderId, @IsUser final Long individualId)
         throws CvqException;
 
     /**
      * Get documents associated to an home folder.
      */
-    List<Document> getHomeFolderDocuments(@IsHomeFolder final Long homeFolderId,
+    List<Document> getHomeFolderDocuments(@IsUser final Long homeFolderId,
         int maxResults);
 
     /**
      * Get documents associated to an individual.
      */
-    List<Document> getIndividualDocuments(@IsIndividual final Long individualId);
+    List<Document> getIndividualDocuments(@IsUser final Long individualId);
 
     /**
      * Check, for all known local authorities, that the end validity date of documents 

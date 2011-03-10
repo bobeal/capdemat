@@ -17,8 +17,7 @@ import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.UserAction;
 import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.business.users.UserWorkflow;
-import fr.cg95.cvq.business.users.UsersEvent;
-import fr.cg95.cvq.business.users.UsersEvent.EVENT_TYPE;
+import fr.cg95.cvq.business.users.UserEvent;
 import fr.cg95.cvq.dao.users.IHomeFolderDAO;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
@@ -104,18 +103,10 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         homeFolder.setState(state);
         JsonObject payload = new JsonObject();
         payload.addProperty("state", state.toString());
-        homeFolder.getActions().add(
-            new UserAction(UserAction.Type.STATE_CHANGE, homeFolder.getId(), payload));
+        UserAction action = new UserAction(UserAction.Type.STATE_CHANGE, homeFolder.getId(), payload);
+        homeFolder.getActions().add(action);
         homeFolderDAO.update(homeFolder);
-        if (UserState.ARCHIVED.equals(state)) {
-            UsersEvent homeFolderEvent =
-                new UsersEvent(this, EVENT_TYPE.HOME_FOLDER_ARCHIVE, homeFolder.getId(), null);
-            applicationEventPublisher.publishEvent(homeFolderEvent);
-        } else if (UserState.VALID.equals(state)) {
-            UsersEvent homeFolderEvent =
-                new UsersEvent(this, EVENT_TYPE.HOME_FOLDER_VALIDATE, homeFolder.getId(), null);
-            applicationEventPublisher.publishEvent(homeFolderEvent);
-        }
+        applicationEventPublisher.publishEvent(new UserEvent(this, action));
     }
 
     @Override
@@ -137,9 +128,10 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         }
         JsonObject payload = new JsonObject();
         payload.addProperty("state", state.toString());
-        individual.getHomeFolder().getActions().add(
-            new UserAction(UserAction.Type.STATE_CHANGE, individual.getId(), payload));
+        UserAction action = new UserAction(UserAction.Type.STATE_CHANGE, individual.getId(), payload);
+        individual.getHomeFolder().getActions().add(action);
         homeFolderDAO.update(individual.getHomeFolder());
+        applicationEventPublisher.publishEvent(new UserEvent(this, action));
         if (UserState.INVALID.equals(state))
             changeState(individual.getHomeFolder(), UserState.INVALID);
         else if (UserState.VALID.equals(state) || UserState.ARCHIVED.equals(state)) {

@@ -6,7 +6,7 @@ import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.security.annotation.IsHomeFolder;
+import fr.cg95.cvq.security.annotation.IsUser;
 
 public interface IPaymentExternalService {
     /**
@@ -19,7 +19,7 @@ public interface IPaymentExternalService {
      *        {@link fr.cg95.cvq.service.payment.IPaymentService#EXTERNAL_TICKETING_ACCOUNTS}
      *
      */
-    Set<ExternalAccountItem> getExternalAccounts(@IsHomeFolder final Long homeFolderId,
+    Set<ExternalAccountItem> getExternalAccounts(@IsUser final Long homeFolderId,
             final String type)
         throws CvqException;
 

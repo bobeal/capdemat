@@ -3,7 +3,6 @@ package fr.cg95.cvq.service.users.impl;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -23,13 +22,8 @@ import org.springframework.scheduling.annotation.Async;
 import au.com.bytecode.opencsv.CSVWriter;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 
 import fr.cg95.cvq.authentication.IAuthenticationService;
@@ -43,8 +37,7 @@ import fr.cg95.cvq.business.users.IndividualRole;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.UserAction;
 import fr.cg95.cvq.business.users.UserState;
-import fr.cg95.cvq.business.users.UsersEvent;
-import fr.cg95.cvq.business.users.UsersEvent.EVENT_TYPE;
+import fr.cg95.cvq.business.users.UserEvent;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.business.users.external.IndividualMapping;
 import fr.cg95.cvq.dao.IGenericDAO;
@@ -63,6 +56,7 @@ import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.util.JSONUtils;
 import fr.cg95.cvq.util.UserUtils;
 import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.util.translation.ITranslationService;
@@ -114,26 +108,12 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         addAdult(homeFolder, adult, !temporary);
         link(adult, homeFolder, Collections.singleton(RoleType.HOME_FOLDER_RESPONSIBLE));
         logger.debug("create() successfully created home folder " + homeFolder.getId());
-        // FIXME hack for CG77
-        if (adult.getPassword() != null) {
-            applicationContext.publishEvent(new UsersEvent(
-                this, UsersEvent.EVENT_TYPE.LOGIN_ASSIGNED, homeFolder.getId(), adult.getId()));
-        }
         HibernateUtil.getSession().flush();
         // FIXME attribute all actions to the newly created responsible instead of system
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(JsonObject.class, new JsonDeserializer<JsonObject>() {
-            @Override
-            public JsonObject deserialize(JsonElement arg0, @SuppressWarnings("unused") Type arg1,
-                @SuppressWarnings("unused") JsonDeserializationContext arg2)
-                throws JsonParseException {
-                return arg0.getAsJsonObject();
-            }
-        });
-        Gson gson = gsonBuilder.create();
+        Gson gson = new Gson();
         for (UserAction action : homeFolder.getActions()) {
             action.setUserId(adult.getId());
-            JsonObject payload = gson.fromJson(action.getData(), JsonObject.class);
+            JsonObject payload = JSONUtils.deserialize(action.getData());
             JsonObject user = payload.getAsJsonObject("user");
             user.addProperty("id", adult.getId());
             user.addProperty("name", UserUtils.getDisplayName(adult.getId()));
@@ -190,31 +170,21 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         for (Individual responsible : homeFolder.getIndividuals()) {
             unlink(responsible, individual);
         }
-        homeFolder.getActions().add(new UserAction(UserAction.Type.DELETION, individual.getId()));
+        UserAction action = new UserAction(UserAction.Type.DELETION, individual.getId());
+        homeFolder.getActions().add(action);
         homeFolder.getIndividuals().remove(individual);
         individual.setAddress(null);
         individual.setHomeFolder(null);
         individualDAO.delete(individual);
         homeFolderDAO.update(homeFolder);
-        UsersEvent individualEvent = 
-            new UsersEvent(this, EVENT_TYPE.INDIVIDUAL_DELETE, null, individual.getId());
-        applicationContext.publishEvent(individualEvent);
+        applicationContext.publishEvent(new UserEvent(this, action));
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void delete(HomeFolder homeFolder) {
-
-        UsersEvent homeFolderEvent = 
-            new UsersEvent(this, EVENT_TYPE.HOME_FOLDER_DELETE, homeFolder.getId(), null);
-        applicationContext.publishEvent(homeFolderEvent);
-        
+        applicationContext.publishEvent(new UserEvent(this, new UserAction(UserAction.Type.DELETION, homeFolder.getId())));
         List<Individual> individuals = homeFolder.getIndividuals();
-        for (Individual individual : individuals) {
-            UsersEvent individualEvent = 
-                new UsersEvent(this, EVENT_TYPE.INDIVIDUAL_DELETE, null, individual.getId());
-            applicationContext.publishEvent(individualEvent);
-        }
 
         // need to stack adults and children to ensure that adults are deleted before children
         // because of legal responsibles constraints
@@ -304,9 +274,10 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         jsonResponsible.addProperty("id", owner.getId());
         jsonResponsible.addProperty("name", UserUtils.getDisplayName(owner.getId()));
         payload.add("responsible", jsonResponsible);
-        owner.getHomeFolder().getActions().add(
-            new UserAction(UserAction.Type.MODIFICATION, target.getId(), payload));
+        UserAction action = new UserAction(UserAction.Type.MODIFICATION, target.getId(), payload);
+        owner.getHomeFolder().getActions().add(action);
         homeFolderDAO.update(owner.getHomeFolder());
+        applicationContext.publishEvent(new UserEvent(this, action));
     }
 
     @Override
@@ -330,9 +301,10 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         jsonResponsible.addProperty("id", owner.getId());
         jsonResponsible.addProperty("name", UserUtils.getDisplayName(owner.getId()));
         payload.add("responsible", jsonResponsible);
-        owner.getHomeFolder().getActions().add(
-            new UserAction(UserAction.Type.MODIFICATION, target.getId(), payload));
+        UserAction action = new UserAction(UserAction.Type.MODIFICATION, target.getId(), payload);
+        owner.getHomeFolder().getActions().add(action);
         homeFolderDAO.update(owner.getHomeFolder());
+        applicationContext.publishEvent(new UserEvent(this, action));
     }
 
     @Override
@@ -367,9 +339,10 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         jsonResponsible.addProperty("id", owner.getId());
         jsonResponsible.addProperty("name", UserUtils.getDisplayName(owner.getId()));
         payload.add("responsible", jsonResponsible);
-        owner.getHomeFolder().getActions().add(
-            new UserAction(UserAction.Type.MODIFICATION, target.getId(), payload));
+        UserAction action = new UserAction(UserAction.Type.MODIFICATION, target.getId(), payload);
+        owner.getHomeFolder().getActions().add(action);
         homeFolderDAO.update(owner.getHomeFolder());
+        applicationContext.publishEvent(new UserEvent(this, action));
     }
 
     @Override
@@ -399,9 +372,10 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         jsonResponsible.addProperty("id", owner.getId());
         jsonResponsible.addProperty("name", UserUtils.getDisplayName(owner.getId()));
         payload.add("responsible", jsonResponsible);
-        owner.getHomeFolder().getActions().add(
-            new UserAction(UserAction.Type.MODIFICATION, target.getId(), payload));
+        UserAction action = new UserAction(UserAction.Type.MODIFICATION, target.getId(), payload);
+        owner.getHomeFolder().getActions().add(action);
         homeFolderDAO.update(owner.getHomeFolder());
+        applicationContext.publishEvent(new UserEvent(this, action));
     }
 
     @Override

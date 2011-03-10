@@ -17,6 +17,8 @@ import fr.cg95.cvq.business.request.CategoryProfile;
 import fr.cg95.cvq.business.request.CategoryRoles;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestType;
+import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.ICategoryDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
@@ -28,8 +30,7 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
-import fr.cg95.cvq.security.annotation.IsHomeFolder;
-import fr.cg95.cvq.security.annotation.IsIndividual;
+import fr.cg95.cvq.security.annotation.IsUser;
 import fr.cg95.cvq.security.annotation.IsRequester;
 import fr.cg95.cvq.security.annotation.IsSubject;
 import fr.cg95.cvq.service.request.annotation.IsCategory;
@@ -74,10 +75,25 @@ public class RequestContextCheckAspect implements Ordered {
         for (Object argument : arguments) {
             if (parametersAnnotations[i] != null && parametersAnnotations[i].length > 0) {
                 Annotation parameterAnnotation = parametersAnnotations[i][0];
-                if (parameterAnnotation.annotationType().equals(IsHomeFolder.class)) {
-                    homeFolderId = (Long) argument;
-                } else if (parameterAnnotation.annotationType().equals(IsIndividual.class)) {
-                    individualId = (Long) argument;
+                if (parameterAnnotation.annotationType().equals(IsUser.class)) {
+                    if (argument instanceof Long) {
+                        Long id = (Long) argument;
+                        try {
+                            requestDAO.findById(Individual.class, id);
+                            individualId = id;
+                        } catch (CvqObjectNotFoundException e1) {
+                            try {
+                                requestDAO.findById(HomeFolder.class, id);
+                                homeFolderId = id;
+                            } catch (CvqObjectNotFoundException e2) {
+                                // no user with this id
+                            }
+                        }
+                    } else if (argument instanceof Individual) {
+                        individualId = ((Individual)argument).getId();
+                    } else if (argument instanceof HomeFolder) {
+                        homeFolderId = ((HomeFolder)argument).getId();
+                    }
                 } else if (parameterAnnotation.annotationType().equals(IsSubject.class)) {
                     individualId = (Long) argument;
                 } else if (parameterAnnotation.annotationType().equals(IsRequester.class)) {

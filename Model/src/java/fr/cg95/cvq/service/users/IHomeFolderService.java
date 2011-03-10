@@ -12,8 +12,7 @@ import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.schema.ximport.HomeFolderImportDocument;
-import fr.cg95.cvq.security.annotation.IsHomeFolder;
-import fr.cg95.cvq.security.annotation.IsIndividual;
+import fr.cg95.cvq.security.annotation.IsUser;
 
 /**
  * Service related to the management of home folders.
@@ -35,46 +34,46 @@ public interface IHomeFolderService {
     HomeFolder create(Adult adult, boolean temporary)
         throws CvqException;
 
-    void modify(@IsHomeFolder final HomeFolder homeFolder);
+    void modify(@IsUser final HomeFolder homeFolder);
 
-    void delete(@IsHomeFolder HomeFolder homeFolder);
+    void delete(@IsUser HomeFolder homeFolder);
 
-    void delete(@IsHomeFolder final Long id)
+    void delete(@IsUser final Long id)
         throws CvqObjectNotFoundException;
 
-    void addAdult(@IsHomeFolder HomeFolder homeFolder, @IsIndividual Adult adult, boolean assignLogin)
+    void addAdult(@IsUser HomeFolder homeFolder, @IsUser Adult adult, boolean assignLogin)
         throws CvqException;
 
-    void addChild(@IsHomeFolder HomeFolder homeFolder, @IsIndividual Child child);
+    void addChild(@IsUser HomeFolder homeFolder, @IsUser Child child);
 
-    void delete(@IsIndividual Individual individual);
+    void delete(@IsUser Individual individual);
 
     List<HomeFolder> getAll(boolean filterArchived, boolean filterTemporary);
 
-    HomeFolder getById(@IsHomeFolder final Long id)
+    HomeFolder getById(@IsUser final Long id)
         throws CvqObjectNotFoundException;
 
-    List<Child> getChildren(@IsHomeFolder final Long homeFolderId);
+    List<Child> getChildren(@IsUser final Long homeFolderId);
 
-    List<Adult> getAdults(@IsHomeFolder final Long homeFolderId);
+    List<Adult> getAdults(@IsUser final Long homeFolderId);
 
-    List<Individual> getIndividuals(@IsHomeFolder final Long homeFolderId);
+    List<Individual> getIndividuals(@IsUser final Long homeFolderId);
 
     /**
      * Get a list of individuals who have a role in the home folder but are not part of it.
      */
-    List<Individual> getExternalIndividuals(@IsHomeFolder final Long homeFolderId);
+    List<Individual> getExternalIndividuals(@IsUser final Long homeFolderId);
 
-    void link(@IsIndividual Individual owner, @IsHomeFolder HomeFolder target, Collection<RoleType> types);
+    void link(@IsUser Individual owner, @IsUser HomeFolder target, Collection<RoleType> types);
 
-    void unlink(@IsIndividual Individual owner, @IsHomeFolder HomeFolder target);
+    void unlink(@IsUser Individual owner, @IsUser HomeFolder target);
 
-    void link(@IsIndividual Individual owner, @IsIndividual Individual target, Collection<RoleType> roleTypes);
+    void link(@IsUser Individual owner, @IsUser Individual target, Collection<RoleType> roleTypes);
 
-    void unlink(@IsIndividual Individual owner, @IsIndividual Individual target);
+    void unlink(@IsUser Individual owner, @IsUser Individual target);
 
-    boolean hasHomeFolderRole(@IsIndividual final Long ownerId,
-        @IsHomeFolder final Long homeFolderId, final RoleType role)
+    boolean hasHomeFolderRole(@IsUser final Long ownerId,
+        @IsUser final Long homeFolderId, final RoleType role)
         throws CvqObjectNotFoundException;
 
     /**
@@ -82,15 +81,15 @@ public interface IHomeFolderService {
      * {@link RoleType#HOME_FOLDER_RESPONSIBLE home folder responsible role}
      * on the given home folder.
      */
-    Adult getHomeFolderResponsible(@IsHomeFolder final Long homeFolderId);
+    Adult getHomeFolderResponsible(@IsUser final Long homeFolderId);
 
-    List<Individual> listByHomeFolderRole(@IsHomeFolder final Long homeFolderId, RoleType role);
+    List<Individual> listByHomeFolderRole(@IsUser final Long homeFolderId, RoleType role);
 
-    List<Individual> listByHomeFolderRoles(@IsHomeFolder final Long homeFolderId, RoleType[] roles);
+    List<Individual> listByHomeFolderRoles(@IsUser final Long homeFolderId, RoleType[] roles);
 
-    List<Individual> listBySubjectRole(@IsIndividual Long subjectId, RoleType role);
+    List<Individual> listBySubjectRole(@IsUser Long subjectId, RoleType role);
 
-    List<Individual> listBySubjectRoles(@IsIndividual Long subjectId, RoleType[] roles);
+    List<Individual> listBySubjectRoles(@IsUser Long subjectId, RoleType[] roles);
 
     /**
      * Send the new password by email to the home folder's responsible,

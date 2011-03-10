@@ -38,8 +38,9 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.UserAction;
 import fr.cg95.cvq.business.users.UserState;
-import fr.cg95.cvq.business.users.UsersEvent;
+import fr.cg95.cvq.business.users.UserEvent;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
@@ -76,7 +77,7 @@ import fr.cg95.cvq.util.ValidationUtils;
  * 
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public class RequestWorkflowService implements IRequestWorkflowService, ApplicationListener<UsersEvent>,
+public class RequestWorkflowService implements IRequestWorkflowService, ApplicationListener<UserEvent>,
     ApplicationContextAware {
 
     private static Logger logger = Logger.getLogger(RequestWorkflowService.class);
@@ -1234,24 +1235,41 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
-    public void onApplicationEvent(UsersEvent usersEvent) {
-        logger.debug("onApplicationEvent() got an home folder event of type " + usersEvent.getEvent());
-        if (usersEvent.getEvent().equals(UsersEvent.EVENT_TYPE.HOME_FOLDER_ARCHIVE)) {
-            logger.debug("onApplicationEvent() gonna archive home folder " + usersEvent.getHomeFolderId());
+    public void onApplicationEvent(UserEvent event) {
+        logger.debug("onApplicationEvent() got a user event of type " + event.getAction().getType());
+        if (UserAction.Type.STATE_CHANGE.equals(event.getAction().getType())) {
             try {
-                archiveHomeFolderRequests(usersEvent.getHomeFolderId());
-            } catch (CvqException e) {
-                // FIXME : something better to do ?
-                e.printStackTrace();
-                throw new RuntimeException();
-            }
-        } else if (UsersEvent.EVENT_TYPE.HOME_FOLDER_DELETE.equals(usersEvent.getEvent())) {
-            for (Request request : requestDAO.listByHomeFolder(usersEvent.getHomeFolderId(), false)) {
-                try {
-                    delete(request);
-                } catch (CvqException e) {
-                    throw new RuntimeException(e);
+                HomeFolder homeFolder = homeFolderService.getById(event.getAction().getTargetId());
+                if (UserState.ARCHIVED.equals(homeFolder.getState())) {
+                    logger.debug("onApplicationEvent() archiving requests for home folder "
+                        + homeFolder.getId());
+                    try {
+                        archiveHomeFolderRequests(homeFolder.getId());
+                    } catch (CvqException e) {
+                        // FIXME : something better to do ?
+                        e.printStackTrace();
+                        throw new RuntimeException();
+                    }
                 }
+            } catch (CvqObjectNotFoundException e) {
+                logger.debug("onApplicationEvent() nothing to do for individual "
+                    + event.getAction().getTargetId());
+            }
+        } else if (UserAction.Type.DELETION.equals(event.getAction().getType())) {
+            try {
+                HomeFolder homeFolder = homeFolderService.getById(event.getAction().getTargetId());
+                logger.debug("onApplicationEvent() deleting requests for home folder "
+                    + homeFolder.getId());
+                for (Request request : requestDAO.listByHomeFolder(homeFolder.getId(), false)) {
+                    try {
+                        delete(request);
+                    } catch (CvqException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            } catch (CvqObjectNotFoundException e) {
+                logger.debug("onApplicationEvent() nothing to do for individual "
+                    + event.getAction().getTargetId());
             }
         }
     }

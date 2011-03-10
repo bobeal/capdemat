@@ -13,7 +13,7 @@ import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.security.annotation.IsHomeFolder;
+import fr.cg95.cvq.security.annotation.IsUser;
 import fr.cg95.cvq.service.payment.annotation.IsPayment;
 import fr.cg95.cvq.util.Critere;
 
@@ -88,7 +88,7 @@ public interface IPaymentService {
     /**
      * Get all payments issued by the given home folder.
      */
-    List<Payment> getByHomeFolder(@IsHomeFolder final Long homeFolderId);
+    List<Payment> getByHomeFolder(@IsUser final Long homeFolderId);
     
     /**
      * Get a constrained list of payments according to a set of criteria and requirements.
@@ -130,7 +130,7 @@ public interface IPaymentService {
 
     List<ExternalAccountItem> getAllExternalAccountItems();
 
-    List<ExternalInvoiceItem> getInvoicesPaid(@IsHomeFolder final Long homeFolderId) throws CvqException;
+    List<ExternalInvoiceItem> getInvoicesPaid(@IsUser final Long homeFolderId) throws CvqException;
 
     Long getInvoicesCount(Set<Critere> criteriaSet);
 

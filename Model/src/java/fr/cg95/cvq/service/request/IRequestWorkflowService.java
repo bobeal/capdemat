@@ -19,9 +19,9 @@ import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.exception.CvqValidationException;
-import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.security.annotation.IsRequester;
 import fr.cg95.cvq.security.annotation.IsSubject;
+import fr.cg95.cvq.security.annotation.IsUser;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.request.annotation.IsRequestType;
 
@@ -146,7 +146,7 @@ public interface IRequestWorkflowService {
      *                seasons if a request of the given type is issuable or null if not.
      */
     Map<Long, Set<RequestSeason>> getAuthorizedSubjects(RequestType requestType, 
-            @IsHomeFolder Long homeFolderId) 
+        @IsUser Long homeFolderId)
         throws CvqException, CvqObjectNotFoundException;
 
     List<Long> getAuthorizedSubjects(@IsRequest final Request request)
@@ -200,7 +200,7 @@ public interface IRequestWorkflowService {
      *
      * @throws CvqModelException if there's a policy violation
      */
-    void checkSubjectPolicy(@IsSubject final Long subjectId, @IsHomeFolder Long homeFolderId,
+    void checkSubjectPolicy(@IsSubject final Long subjectId, @IsUser Long homeFolderId,
         final String policy, @IsRequestType final RequestType requestType)
         throws CvqException, CvqModelException;
 

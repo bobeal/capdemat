@@ -5,8 +5,7 @@ import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
-import fr.cg95.cvq.security.annotation.IsHomeFolder;
-import fr.cg95.cvq.security.annotation.IsIndividual;
+import fr.cg95.cvq.security.annotation.IsUser;
 
 public interface IUserWorkflowService {
 
@@ -18,9 +17,9 @@ public interface IUserWorkflowService {
 
     UserState[] getStatesWithProperty(String propertyName);
 
-    void changeState(@IsHomeFolder HomeFolder homeFolder, UserState state)
+    void changeState(@IsUser HomeFolder homeFolder, UserState state)
         throws CvqModelException, CvqInvalidTransitionException;
 
-    void changeState(@IsIndividual Individual individual, UserState state)
+    void changeState(@IsUser Individual individual, UserState state)
         throws CvqModelException, CvqInvalidTransitionException;
 }

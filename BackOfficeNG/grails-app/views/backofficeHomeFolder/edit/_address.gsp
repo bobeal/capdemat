@@ -6,19 +6,18 @@
     <label>${message(code:'address.property.additionalGeographicalInformation')}</label>
     <input type="text" name="additionalGeographicalInformation" value="${user.address.additionalGeographicalInformation}" maxlength="38" class="validate-addressLine38" />
     <label>Numéro et <strong>${message(code:'address.property.streetName')} * </strong></label>
-    <input type="text" name="streetNumber" value="${user.address.streetNumber}" maxlength="5" class="line1 validate-streetNumber" />
-    <input type="text" name="streetName" value="${user.address.streetName}" maxlength="32" class="line2 validate-streetName" />
+    <input type="text" id="address_${user.id}_streetNumber" name="streetNumber" value="${user.address.streetNumber}" maxlength="5" class="line1 validate-streetNumber" />
+    <input type="text" id="address_${user.id}_streetName" name="streetName" value="${user.address.streetName}" maxlength="32" class="line2 validate-streetName" />
     <label>${message(code:'address.property.placeNameOrService')}</label>
     <input type="text" name="placeNameOrService" value="${user.address.placeNameOrService}" maxlength="38" class="validate-addressLine38" />
     <label><strong>${message(code:'address.property.postalCode')} * - ${message(code:'address.property.city')} * </strong></label>
-    <input type="text" name="postalCode" value="${user.address.postalCode}" maxlength="5" class="line1 validate-postalCode" />
-    <input type="text" name="city" value="${user.address.city}" maxlength="32" size="4" class="line2 validate-city" />
+    <input type="text" id="address_${user.id}_postalCode" name="postalCode" value="${user.address.postalCode}" maxlength="5" class="line1 validate-postalCode" />
+    <input type="text" id="address_${user.id}_city" name="city" value="${user.address.city}" maxlength="32" size="4" class="line2 validate-city" />
     <label>${message(code:'address.property.countryName')}</label>
     <input type="text" name="countryName" maxlength="38" class="validate-addressLine38" value="${user.address.countryName}" />
-    <!-- TODO : wire address referential -->
-    <input type="hidden" name="streetMatriculation" value="${user.address.streetMatriculation}" />
-    <input type="hidden" name="streetRivoliCode" value="${user.address.streetRivoliCode}" />
-    <input type="hidden" name="cityInseeCode" value="${user.address.cityInseeCode}" />
+    <input type="hidden" id="address_${user.id}_streetMatriculation" name="streetMatriculation" value="${user.address.streetMatriculation}" />
+    <input type="hidden" id="address_${user.id}_streetRivoliCode" name="streetRivoliCode" value="${user.address.streetRivoliCode}" />
+    <input type="hidden" id="address_${user.id}_cityInseeCode" name="cityInseeCode" value="${user.address.cityInseeCode}" />
   </dd>
   <g:render template="edit/submit" model="['object': user]" />
 </form>

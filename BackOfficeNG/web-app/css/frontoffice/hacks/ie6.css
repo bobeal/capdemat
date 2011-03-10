@@ -41,16 +41,16 @@
 #requestTabView .individual-edit h4 input       { font-size: .6em !important; }
 #requestTabView .individual-edit dl.role-add dd { width: 20.75em !important; }
 
-#requestTabView .individual.add .address-fieldset input.line2 { display: inline; width: 78%; }
+#requestTabView .individual.add .address input.line2 { display: inline; width: 78%; }
 
 #requestTabView .document-fieldset dl dd { width: 24.75em !important; }
 
 #requestTabView form div input { display: block; margin: 0 0 .5em; }
 #requestTabView form div uloo li input { display: inline !important; }
 
-#requestTabView .address-fieldset input { width: 99%; display: inline; margin: 0 0 .5em; padding: .1em; }
-#requestTabView .address-fieldset input.line1 { display: inline; width: 15%; }
-#requestTabView .address-fieldset input.line2 { display: inline; width: 81.5%; }
+#requestTabView .address input { width: 99%; display: inline; margin: 0 0 .5em; padding: .1em; }
+#requestTabView .address input.line1 { display: inline; width: 15%; }
+#requestTabView .address input.line2 { display: inline; width: 81.5%; }
 
 #requestNotes dl.notes { height: 1%; }
 #requestNotes dl.notes dd { width: 74% !important; }

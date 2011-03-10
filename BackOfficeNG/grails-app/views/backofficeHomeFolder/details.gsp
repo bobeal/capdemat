@@ -2,6 +2,14 @@
   <head>
     <title>${message(code:'homeFolder.header.details', args:[params.id])}</title>
     <meta name="layout" content="main" />
+    <g:if test="${flash.addressesReferentialEnabled}">
+      <link rel="stylesheet" type="text/css" href="${resource(dir:'css/common', file:'autocomplete.css')}" />
+      <script type="text/javascript">
+        zenexity.capdemat.contextPath = "${request.contextPath}";
+      </script>
+      <script type="text/javascript" src="${resource(dir:'js/common',file:'addressAutocomplete.js')}"></script>
+      <script type="text/javascript" src="${resource(dir:'js/common',file:'autocomplete.js')}"></script>
+    </g:if>
     <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'contact.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'homeFolderDetails.js')}"></script>
     <link rel="stylesheet" href="${resource(dir:'css/backoffice/common/yui-skin/',file:'container.css')}" />

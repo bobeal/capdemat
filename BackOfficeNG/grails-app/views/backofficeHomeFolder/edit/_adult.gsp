@@ -23,25 +23,24 @@
     </dl>
     <dl style="margin-top:1em">
       <dt class="required">${message(code:'homeFolder.individual.property.address')}</dt>
-      <dd class="required">
+      <dd id="adultAddress" class="required">
         <label>${message(code:'address.property.additionalDeliveryInformation')}</label>
         <input type="text" name="address.additionalDeliveryInformation" value="${adult?.address?.additionalDeliveryInformation}" maxlength="38" class="validate-addressLine38" />
         <label>${message(code:'address.property.additionalGeographicalInformation')}</label>
         <input type="text" name="address.additionalGeographicalInformation" value="${adult?.address?.additionalGeographicalInformation}" maxlength="38" class="validate-addressLine38" />
         <label>Numéro et <strong>${message(code:'address.property.streetName')} * </strong></label>
-        <input type="text" name="address.streetNumber" value="${adult?.address?.streetNumber}" maxlength="5" class="line1 validate-streetNumber" />
-        <input type="text" name="address.streetName" value="${adult?.address?.streetName}" maxlength="32" class="line2 validate-streetName" />
+        <input type="text" id="adultAddress_streetNumber" name="address.streetNumber" value="${adult?.address?.streetNumber}" maxlength="5" class="line1 validate-streetNumber" />
+        <input type="text" id="adultAddress_streetName" name="address.streetName" value="${adult?.address?.streetName}" maxlength="32" class="line2 validate-streetName" />
         <label>${message(code:'address.property.placeNameOrService')}</label>
         <input type="text" name="address.placeNameOrService" value="${adult?.address?.placeNameOrService}" maxlength="38" class="validate-addressLine38" />
         <label><strong>${message(code:'address.property.postalCode')} * - ${message(code:'address.property.city')} * </strong></label>
-        <input type="text" name="address.postalCode" value="${adult?.address?.postalCode}" maxlength="5" class="line1 validate-postalCode" />
-        <input type="text" name="address.city" value="${adult?.address?.city}" maxlength="32" size="4" class="line2 validate-city" />
+        <input type="text" id="adultAddress_postalCode" name="address.postalCode" value="${adult?.address?.postalCode}" maxlength="5" class="line1 validate-postalCode" />
+        <input type="text" id="adultAddress_city" name="address.city" value="${adult?.address?.city}" maxlength="32" size="4" class="line2 validate-city" />
         <label>${message(code:'address.property.countryName')}</label>
         <input type="text" name="address.countryName" maxlength="38" class="validate-addressLine38" value="${adult?.address?.countryName}" />
-        <!-- TODO : wire address referential -->
-        <input type="hidden" name="address.streetMatriculation" value="${adult?.address?.streetMatriculation}" />
-        <input type="hidden" name="address.streetRivoliCode" value="${adult?.address?.streetRivoliCode}" />
-        <input type="hidden" name="address.cityInseeCode" value="${adult?.address?.cityInseeCode}" />
+        <input type="hidden" id="adultAddress_streetMatriculation" name="address.streetMatriculation" value="${adult?.address?.streetMatriculation}" />
+        <input type="hidden" id="adultAddress_streetRivoliCode" name="address.streetRivoliCode" value="${adult?.address?.streetRivoliCode}" />
+        <input type="hidden" id="adultAddress_cityInseeCode" name="address.cityInseeCode" value="${adult?.address?.cityInseeCode}" />
       </dd>
     </dl>
     <dl style="margin-top:1em">

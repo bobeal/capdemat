@@ -4,6 +4,14 @@
     <meta name="layout" content="fo_main" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/common', file:'form.css')}" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'homefolder.css')}" />
+    <g:if test="${flash.addressesReferentialEnabled}">
+      <link rel="stylesheet" type="text/css" href="${resource(dir:'css/common', file:'autocomplete.css')}" />
+      <script type="text/javascript">
+        zenexity.capdemat.contextPath = "${request.contextPath}";
+      </script>
+      <script type="text/javascript" src="${resource(dir:'js/common',file:'addressAutocomplete.js')}"></script>
+      <script type="text/javascript" src="${resource(dir:'js/common',file:'autocomplete.js')}"></script>
+    </g:if>
   </head>
   <body>
     <div class="box individual">

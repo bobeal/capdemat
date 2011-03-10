@@ -6,6 +6,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
   var zc = zenexity.capdemat;
   var zca = zc.aspect;
   var zcb = zc.bong;
+  var zcc = zc.common;
   var zcbh = zcb.homeFolder;
   var zct = zc.tools;
 
@@ -88,14 +89,18 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
         if (dl.tagName != 'DL') dl = yud.getAncestorByTagName(dl, 'dl');
         var atom = dl.className.split(' ')[1].split('-');
         var div = yud.getAncestorByClassName(dl, 'account');
+        var id = div.id.split('_')[1];
         zct.doAjaxCall(
             '/' + atom[0]
-            + '/' + div.id.split('_')[1]
+            + '/' + id
             + '/' + atom[1]
             + '?mode=' + mode
           , null,
           function(o) {
             dl.innerHTML = o.responseText;
+            if (atom[1] === "address" && mode === "edit") {
+                zcc.AddressAutocomplete.bind("address_" + id);
+            }
           });
       },
       edit : function(e) {
@@ -158,13 +163,17 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
       add : function(e) {
         var target = yue.getTarget(e);
         var div = yud.getAncestorByTagName(target, 'div');
+        var type = target.className.split(' ')[1];
         zct.doAjaxCall(
-          '/' + target.className.split(' ')[1]
+          '/' + type
           +'?mode=edit'
           + '&homeFolderId=' + zcbh.Details.homeFolderId
           , null,
           function(o) {
             div.innerHTML += o.responseText;
+            if (type === "adult") {
+              zcc.AddressAutocomplete.bind("adultAddress");
+            }
           });
       },
 

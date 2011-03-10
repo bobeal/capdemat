@@ -16,8 +16,8 @@
 #requestTabView .account input[type="password"],
 #requestTabView .account select,
 #requestTabView .account textarea,
-#requestTabView .account .address-fieldset  { width: 90%; }
-#requestTabView .account .address-fieldset input[type="text"].line2 { width: 72%; }
+#requestTabView .account .address  { width: 90%; }
+#requestTabView .account .address input[type="text"].line2 { width: 72%; }
 
 #requestTabView .individual.add    { padding: 1em 1em 0 1em;  border-style: solid; border-width: 2px; border-color: #FF812B;  background: #ffd; }
 #requestTabView .individual.add h4 { margin: 0 0 .5em; font-size: 1.4em; font-weight: normal; }

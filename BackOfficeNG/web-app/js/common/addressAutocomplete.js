@@ -129,7 +129,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
         autocompleteBindFieldset(fieldsetId);
       }
       else {
-        zct.each(yus.query(".address-fieldset"), function() {
+        zct.each(yus.query(".address"), function() {
           autocompleteBindFieldset(this.id);
         });
       }
@@ -148,7 +148,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
         autocompleteUnbindFieldset(fieldsetId);
       }
       else {
-        zct.each(yus.query(".address-fieldset"), function() {
+        zct.each(yus.query(".address"), function() {
           autocompleteUnbindFieldset(this.id);
         });
       }

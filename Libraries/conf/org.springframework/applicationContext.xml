@@ -340,6 +340,8 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 
   <bean id="usersContextCheckAspect" 
     class="fr.cg95.cvq.service.users.aspect.UsersContextAspect">
+    <property name="homeFolderDAO" ref="homeFolderDAO"/>
+    <property name="individualDAO" ref="individualDAO"/>
   </bean>
 
   <bean id="userNotificationService" class="fr.cg95.cvq.service.users.impl.UserNotificationService">

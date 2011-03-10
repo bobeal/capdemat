@@ -55,7 +55,7 @@ public interface IIndividualService extends IAutofillTriggerService {
      */
     Individual getByFederationKey(final String federationKey);
 
-    void modifyPassword(final Adult adult, final String oldPassword, final String newPassword)
+    void modifyPassword(@IsIndividual final Adult adult, final String oldPassword, final String newPassword)
         throws CvqException, CvqBadPasswordException;
 
     /**

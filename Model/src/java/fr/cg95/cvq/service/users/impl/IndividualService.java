@@ -90,18 +90,21 @@ public class IndividualService implements IIndividualService {
     }
 
     @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Individual getById(final Long id)
         throws CvqObjectNotFoundException {
         return (Individual) individualDAO.findById(Individual.class, id);
     }
 
     @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Adult getAdultById(final Long id)
         throws CvqObjectNotFoundException {
         return (Adult) adultDAO.findById(Adult.class, id);
     }
 
     @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Child getChildById(final Long id)
         throws CvqObjectNotFoundException {
         return (Child) childDAO.findById(Child.class, id);
@@ -118,6 +121,7 @@ public class IndividualService implements IIndividualService {
     }
 
     @Override
+    @Context(types = {ContextType.ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public void modifyPassword(final Adult adult, final String oldPassword, 
             final String newPassword)
         throws CvqException, CvqBadPasswordException {
@@ -190,6 +194,7 @@ public class IndividualService implements IIndividualService {
     }
 
     @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public Long create(Adult adult, boolean assignLogin)
         throws CvqException {
         if (assignLogin) {
@@ -202,6 +207,7 @@ public class IndividualService implements IIndividualService {
 
 
     @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public Long create(Child child) {
         return create((Individual)child);
     }
@@ -222,6 +228,7 @@ public class IndividualService implements IIndividualService {
     }
 
     @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void modify(final Individual individual, JsonObject atom)
         throws CvqException {
 

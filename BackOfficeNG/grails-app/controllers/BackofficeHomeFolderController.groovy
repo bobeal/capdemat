@@ -101,6 +101,24 @@ class BackofficeHomeFolderController {
         return result
     }
 
+    def create = {
+        if (request.post) {
+            def adult = new Adult()
+            DataBindingUtils.initBind(adult, params)
+            bind(adult)
+            def invalidFields = individualService.validate(adult, true)
+            if (!invalidFields.isEmpty()) {
+                session.doRollback = true
+                render (['invalidFields': invalidFields] as JSON)
+                return false
+            }
+            homeFolderService.create(adult, false)
+            render (['id' : adult.homeFolder.id] as JSON)
+            return false
+        }
+        return []
+    }
+
     def adult = { 
         def adult, template
         def mode = params.mode 

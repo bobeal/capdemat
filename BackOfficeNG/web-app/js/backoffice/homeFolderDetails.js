@@ -46,11 +46,16 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
       bottomTabView : undefined,
 
       init : function() {
-        initControls();
+        if (!!zcbh.Details.homeFolderId) {
+          initControls();
+          zcb.Contact.init(yud.get("contactLink"), yud.get("contactPanel"), zcb.contactPanelUrl);
+          zca.advise("notify", new zca.Advice("afterReturn", zcbh.Details.refreshActions), zcb.Contact);
+        }
+        if (!zcbh.Details.homeFolderId && !!zcc.AddressAutocomplete) {
+          zcc.AddressAutocomplete.bind("address");
+        }
         zcbh.Details.inlineEditEvent = new zct.Event(zcbh.Details, zcbh.Details.getHandler);
-        yue.on(yud.get("homeFolder"), "click", zcbh.Details.inlineEditEvent.dispatch,zcbh.Details.inlineEditEvent,true)
-        zcb.Contact.init(yud.get("contactLink"), yud.get("contactPanel"), zcb.contactPanelUrl);
-        zca.advise("notify", new zca.Advice("afterReturn", zcbh.Details.refreshActions), zcb.Contact);
+        yue.on(yud.get("homeFolder"), "click", zcbh.Details.inlineEditEvent.dispatch,zcbh.Details.inlineEditEvent,true);
       },
 
       inlineEditEvent : undefined,
@@ -134,13 +139,29 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
         });
       },
 
+      create : function(e) {
+        yue.preventDefault(e);
+        var target = yue.getTarget(e);
+        zct.doAjaxFormSubmitCall(target.form.getAttribute('id'), [], function(o) {
+          if (!zcbh.Details.isValid(o, target.form)){
+            return;
+          } else {
+            var json = ylj.parse(o.responseText);
+            window.location = zenexity.capdemat.baseUrl + '/details/' + json.id;
+          }
+        });
+      },
+
+      // TODO : It would be better to use JSON wrapper for all response
       isValid : function(o, form) {
         // hack : if response type is JSON, some fields are invalid
         if (!ylj.isValid(o.responseText)) return true;
+        json = ylj.parse(o.responseText)
+        if (!json.invalidFields) return true;
         zct.each(form.elements, function(){
           yud.removeClass(this,'validation-failed');
         });
-        zct.each(ylj.parse(o.responseText).invalidFields, function(){
+        zct.each(json.invalidFields, function(){
           yud.addClass(form[this], 'validation-failed');
         });
         return false;

@@ -93,11 +93,12 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     private ITranslationService translationService;
 
     @Override
-    @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.UNAUTH_ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public HomeFolder create(final Adult adult, boolean temporary)
         throws CvqException {
         // FIXME bypass all access checks while we're setting everything up
-        SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
+        if (SecurityContext.isFrontOfficeContext())
+            SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
         HomeFolder homeFolder = new HomeFolder();
         homeFolder.setAddress(adult.getAddress());
         homeFolder.setEnabled(Boolean.TRUE);
@@ -109,19 +110,21 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         link(adult, homeFolder, Collections.singleton(RoleType.HOME_FOLDER_RESPONSIBLE));
         logger.debug("create() successfully created home folder " + homeFolder.getId());
         HibernateUtil.getSession().flush();
-        // FIXME attribute all actions to the newly created responsible instead of system
-        Gson gson = new Gson();
-        for (UserAction action : homeFolder.getActions()) {
-            action.setUserId(adult.getId());
-            JsonObject payload = JSONUtils.deserialize(action.getData());
-            JsonObject user = payload.getAsJsonObject("user");
-            user.addProperty("id", adult.getId());
-            user.addProperty("name", UserUtils.getDisplayName(adult.getId()));
-            action.setData(gson.toJson(payload));
+        if (SecurityContext.isAdminContext()) {
+            // FIXME attribute all actions to the newly created responsible instead of system
+            Gson gson = new Gson();
+            for (UserAction action : homeFolder.getActions()) {
+                action.setUserId(adult.getId());
+                JsonObject payload = JSONUtils.deserialize(action.getData());
+                JsonObject user = payload.getAsJsonObject("user");
+                user.addProperty("id", adult.getId());
+                user.addProperty("name", UserUtils.getDisplayName(adult.getId()));
+                action.setData(gson.toJson(payload));
+            }
+            // FIXME restore correct context
+            SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT);
         }
         homeFolderDAO.update(homeFolder);
-        // FIXME restore correct context
-        SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT);
         return homeFolder;
     }
 

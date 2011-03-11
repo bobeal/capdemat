@@ -41,9 +41,9 @@ public class SecurityService {
             ],
             (SecurityContext.FRONT_OFFICE_CONTEXT) : [
                 "frontofficeRequest" : /.*/,
-                "frontofficeRequestCreation" : /.*/,
+                "frontofficeRequestDocument" : /.*/,
                 "frontofficeRequestType" : /.*/,
-                "frontofficeDocument" : [/details/,/binary/],
+                "frontofficeDocument" : [/details/,/binary/,/preview/],
                 "frontofficeHome" : [/loginAgent/,/logoutAgent/],
                 "frontofficeHomeFolder" : /.*/,
                 "serviceAutocomplete" : /.*/,

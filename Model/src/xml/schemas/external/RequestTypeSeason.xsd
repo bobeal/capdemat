@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.capwebct.fr/modules/payment/schema/rts"
+  xmlns:rts="http://www.capwebct.fr/modules/payment/schema/rts"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
+    schemaLocation="http://people.zenexity.fr/~bor/capdemat/V4_3/common/CVQCommonElements.xsd" />
+
+  <xs:element name="requestTypeSeasonRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="RequestTypeLabel" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="requestTypeSeasonResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Season" type="cvq:RequestSeasonType" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

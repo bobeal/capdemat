@@ -39,6 +39,7 @@ import fr.cg95.cvq.business.request.RequestDocument;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.IExternalService;
@@ -109,15 +110,10 @@ public class RequestPdfService implements IRequestPdfService {
             }
             bindings.put("requester", requester);
             bindings.put("subject", subject);
-            // hack to test if the subject is a Child then test if is born or not.
-            if (subject != null) {
-                try {
-                    individualService.getChildById(subject.getId());
-                    bindings.put("subjectIsChild", true);
-                } catch (ClassCastException cce) {
-                    bindings.put("subjectIsChild", false);
-                }
-            }
+            if (subject != null && subject instanceof Child)
+                bindings.put("subjectIsChild", true);
+            else
+                bindings.put("subjectIsChild", false);
             bindings.put("lrTypes", getLocalReferentialTypes(request.getRequestType().getLabel()));
             bindings.put("cssPath", cssFile.getAbsolutePath());
             bindings.put("logoPath", logoFile.getAbsolutePath());

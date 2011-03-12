@@ -6,13 +6,13 @@ class FrontofficeSchoolTransportRegistrationController {
 
     def transportLines = {
         return [
-            'lines': schoolTransportRegistrationRequestService.transportLines(params.childId)
+            'lines': schoolTransportRegistrationRequestService.transportLines(params.long('childId'))
         ]
     }
 
     def stops = {
         return [
-            'stops': schoolTransportRegistrationRequestService.stops(params.childId, params.lineId)
+            'stops': schoolTransportRegistrationRequestService.stops(params.long('childId'), params.lineId)
         ]
     }
 }

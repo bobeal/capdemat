@@ -13,32 +13,48 @@ import java.util.Calendar;
 import java.math.BigDecimal;
 
 import org.apache.log4j.Logger;
+import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 
 import javax.xml.parsers.*;
 import org.xml.sax.InputSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.*;
 import java.io.*;
 import org.apache.soap.*;
 import org.apache.soap.rpc.*;
 
+import fr.capwebct.capdemat.Activite;
+import fr.capwebct.capdemat.ArretAller;
+import fr.capwebct.capdemat.CircuitAller;
+import fr.capwebct.capdemat.EcoleDerogType;
+import fr.capwebct.capdemat.EcoleSecteurType;
+import fr.capwebct.capdemat.ListeActiviteDocument;
+import fr.capwebct.capdemat.ListeEcoleDocument;
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItemDetail;
 import fr.cg95.cvq.business.payment.PurchaseItem;
+import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.service.payment.IPaymentService;
+import fr.cg95.cvq.service.request.school.external.IScholarBusinessProviderService;
+import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 
-public class TechnocarteService implements IExternalProviderService {
+public class TechnocarteService implements IExternalProviderService, IScholarBusinessProviderService {
+    
     private static Logger logger = Logger.getLogger(TechnocarteService.class);
 
     private String label;
-
     private String urlkiosque;
+
+    @Autowired
+    private IExternalHomeFolderService externalHomeFolderService;
 
     public String sendRequest(XmlObject requestXml) throws CvqException {
         String Method = "ReceptionCapdemat";
@@ -448,6 +464,202 @@ public class TechnocarteService implements IExternalProviderService {
         } else {
             throw new CvqException("");
         }
+    }
+
+
+    @Override
+    public Map<String, Map<String, String>> getSchools(Child child) {
+        String method = "ListeEcoles";
+        Map<String, Map<String,String>> schools = new HashMap<String, Map<String,String>>();
+
+        // get child info
+        String externalChildId = "";
+        if (externalHomeFolderService.getIndividualMapping(child, label) != null)
+            externalChildId = externalHomeFolderService.getIndividualMapping(child, label).getExternalCapDematId();
+        logger.debug("Get externalCapDematId for " + child.getFullName() + " - " + externalChildId);
+
+        Vector<Parameter> parameters = new Vector<Parameter>();
+        parameters.addElement(new Parameter("idenfantexterne", String.class, externalChildId, null));
+        parameters.addElement(new Parameter("nrue", String.class, child.getAddress().getStreetNumber(), null));
+        parameters.addElement(new Parameter("rivoli", String.class, child.getAddress().getStreetRivoliCode(), null));
+        parameters.addElement(new Parameter("cp", String.class, child.getAddress().getPostalCode(), null));
+        parameters.addElement(new Parameter("codeappli", String.class, "Capdemat", null));
+        try {
+            Call call = new Call();
+            String encodingStyleURI = org.apache.soap.Constants.NS_URI_SOAP_ENC;
+            call.setEncodingStyleURI(encodingStyleURI);
+            call.setTargetObjectURI ("urn:WSPocketTechno2" );
+            call.setMethodName(method);
+            call.setParams(parameters);
+            Response soap_response = call.invoke(new java.net.URL(urlkiosque), "" );
+
+            if (soap_response.generatedFault()) {
+                Fault fault = soap_response.getFault ();
+                logger.error("Error : " + fault.getFaultString());
+                return schools;
+            } else {
+                Parameter soap_result = soap_response.getReturnValue();
+                // add a header to xml return 'xmlns="http://www.capwebct.fr/capdemat"'
+                String xmlresult = soap_result.getValue().toString()
+                    .replaceFirst("<ListeEcole>", "<ListeEcole xmlns=\"http://www.capwebct.fr/capdemat\">");
+                logger.debug("Get soap response for child " + externalChildId + " and rivoli code " + child.getAddress().getStreetRivoliCode());
+                // start treatment
+                logger.debug("Parse : " + xmlresult);
+                ListeEcoleDocument document = ListeEcoleDocument.Factory.parse(xmlresult);
+                Map<String, String> schoolSectors = new HashMap<String, String>();
+                Map<String, String> schoolDerogs = new HashMap<String, String>();
+                if (document.getListeEcole().getListeEcoleSecteur() != null)
+                    for (EcoleSecteurType est : document.getListeEcole().getListeEcoleSecteur().getEcoleSecteurArray()) {
+                        schoolSectors.put(est.getIdEcoleSecteur(), est.getNomEcoleSecteur());
+                    }
+                if (document.getListeEcole().getListeEcoleDerog() != null)
+                    for (EcoleDerogType edt : document.getListeEcole().getListeEcoleDerog().getEcoleDerogArray()) {
+                        schoolDerogs.put(edt.getIdEcoleDerog(), edt.getNomEcoleDerog());
+                    }
+                schools.put("schoolSectors", schoolSectors);
+                schools.put("schoolDerogs", schoolDerogs);
+                return schools;
+            }
+        } catch (XmlException e) {
+            logger.error("XmlException : " + e.getMessage() + " : ");
+            e.printStackTrace();
+        } catch (Exception e) {
+            logger.error("Exception : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return schools;
+    }
+
+    private ListeActiviteDocument getActivities(Child child, String labelActivity) throws CvqObjectNotFoundException {
+        String method = "DetailActivites";
+        ListeActiviteDocument activities = null;
+
+        String externalChildId = "";
+        if (externalHomeFolderService.getIndividualMapping(child, label) != null)
+            externalChildId = externalHomeFolderService.getIndividualMapping(child, label).getExternalCapDematId();
+        logger.debug("Get externalCapDematId for " + child.getFullName() + " - " + externalChildId);
+
+        Vector<Parameter> parameters = new Vector<Parameter>();
+        parameters.addElement(new Parameter("idenfantexterne", String.class, externalChildId, null));
+        parameters.addElement(new Parameter("typeactivite", String.class, labelActivity, null));
+        parameters.addElement(new Parameter("codeappli", String.class, "Capdemat", null));
+        try {
+            Call call = new Call();
+            String encodingStyleURI = org.apache.soap.Constants.NS_URI_SOAP_ENC;
+            call.setEncodingStyleURI(encodingStyleURI);
+            call.setTargetObjectURI ("urn:WSPocketTechno2" );
+            call.setMethodName(method);
+            call.setParams(parameters);
+            Response soap_response = call.invoke(new java.net.URL(urlkiosque), "" );
+
+            if (soap_response.generatedFault()) {
+                Fault fault = soap_response.getFault ();
+                logger.error("Error : " + fault.getFaultString());
+                return activities;
+            } else {
+                Parameter soap_result = soap_response.getReturnValue();
+                // add a header to xml return 'xmlns="http://www.capwebct.fr/capdemat"'
+                String xmlresult = soap_result.getValue().toString()
+                    .replaceFirst("<ListeActivite>", "<ListeActivite xmlns=\"http://www.capwebct.fr/capdemat\">");
+                logger.debug("Get soap response for child " + externalChildId);
+                // start treatment
+                logger.debug("Parse : " + xmlresult);
+                
+                activities = ListeActiviteDocument.Factory.parse(xmlresult);
+            }
+        } catch (XmlException e) {
+            logger.error("XmlException : " + e.getMessage() + " : ");
+            e.printStackTrace();
+        } catch (Exception e) {
+            logger.error("Exception : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return activities;
+    }
+
+    @Override
+    public Map<String, String> getHolidayCamps(Child child) {
+
+        Map<String, String> camps = new HashMap<String, String>();
+        ListeActiviteDocument document = null;
+        try {
+            document = getActivities(child, "SEJ");
+        } catch (CvqObjectNotFoundException e) {
+            e.printStackTrace();
+            return camps;
+        }
+        if (document.getListeActivite() != null)
+            for (Activite camp : document.getListeActivite().getActiviteArray()) {
+                camps.put(camp.getIdActivite(), camp.getNomActivite());
+            }
+
+        return camps;
+    }
+
+    @Override
+    public Map<String, String> getLeisureCenters(Child child) {
+        Map<String, String> centers = new HashMap<String, String>();
+        ListeActiviteDocument activities;
+        try {
+            activities = getActivities(child, "LOI");
+        } catch (CvqObjectNotFoundException e) {
+            e.printStackTrace();
+            return centers;
+        }
+        for (Activite center : activities.getListeActivite().getActiviteArray()) {
+            centers.put(center.getIdActivite(), center.getNomActivite());
+        }
+        return centers;
+    }
+
+    @Override
+    public Map<String, String> getTransportLines(Child child) {
+        Map<String, String> lines = new HashMap<String, String>();
+
+        ListeActiviteDocument activities;
+        try {
+            activities = getActivities(child, "TRANS");
+        } catch (Exception e) {
+            logger.warn(e.getMessage());
+            return lines;
+        }
+        for (Activite activity : activities.getListeActivite().getActiviteArray()) {
+            if (activity.getTypeActivite().equals("TRANS")) {
+                for (CircuitAller line : activity.getListeCircuitAller().getCircuitAllerArray()) {
+                    lines.put(line.getIdCircuitAller(), line.getNomCircuitAller());
+                }
+                break; // There should be only one transport activity
+            }
+        }
+
+        return lines;
+    }
+
+    @Override
+    public Map<String, String> getTransportStops(Child child, String lineId) {
+        Map<String, String> stops = new HashMap<String, String>();
+        ListeActiviteDocument activities;
+        try {
+            activities = getActivities(child, "TRANS");
+        } catch (Exception e) {
+            logger.warn(e.getMessage());
+            return stops;
+        }
+        for (Activite activity : activities.getListeActivite().getActiviteArray()) {
+            if (activity.getTypeActivite().equals("TRANS")) {
+                for (CircuitAller line : activity.getListeCircuitAller().getCircuitAllerArray()) {
+                    if (line.getIdCircuitAller().equals(lineId)) {
+                        for (ArretAller stop : line.getListeArretAller().getArretAllerArray()) {
+                            stops.put(stop.getIdArretAller(), stop.getNomArretAller());
+                        }
+                        break;
+                    }
+                }
+                break; // There should be only one transport activity
+            }
+        }
+
+        return stops;
     }
 
 }

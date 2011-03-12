@@ -40,6 +40,7 @@ import fr.cg95.cvq.business.payment.ExternalInvoiceItemDetail;
 import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
 import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqConfigurationException;
@@ -51,6 +52,7 @@ import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.payment.IPaymentService;
 import fr.cg95.cvq.service.request.IRequestSearchService;
+import fr.cg95.cvq.service.request.school.external.IScholarBusinessProviderService;
 import fr.cg95.cvq.service.users.IUserSearchService;
 
 /**
@@ -62,7 +64,7 @@ import fr.cg95.cvq.service.users.IUserSearchService;
  * 
  * @author bor@zenexity.fr
  */
-public class FakeExternalService implements IExternalProviderService {
+public class FakeExternalService implements IExternalProviderService, IScholarBusinessProviderService {
 
     private static Logger logger = Logger.getLogger(FakeExternalService.class);
 
@@ -343,5 +345,72 @@ public class FakeExternalService implements IExternalProviderService {
 
     public void setPaymentService(IPaymentService paymentService) {
         this.paymentService = paymentService;
+    }
+
+    @Override
+    public Map<String, Map<String, String>> getSchools(Child child) {
+        Map<String, Map<String, String>> result = new HashMap<String, Map<String,String>>();
+        
+        Map<String, String> schoolSectors = new HashMap<String, String>();
+        schoolSectors.put("0001", "École élémentaire Jean Moulin");
+        schoolSectors.put("0002", "École élémentaire Lamartine");
+        
+        Map<String, String> schoolDerogs = new HashMap<String, String>();
+        schoolDerogs.put("0003", "École élémentaire Condorcet");
+        schoolDerogs.put("0004", "École élémentaire Jean Mermoz");
+        schoolDerogs.put("0005", "École élémentaire Jules Ferry");
+        schoolDerogs.put("0006", "École élémentaire Simon Bolivar");
+        schoolDerogs.put("0007", "École élémentaire Diderot");
+        
+        result.put("schoolSectors", schoolSectors);
+        result.put("schoolDerogs", schoolDerogs);
+
+        return result;
+    }
+
+    @Override
+    public Map<String, String> getHolidayCamps(Child child) {
+        Map<String, String> result = new HashMap<String, String>();
+        
+        result.put("0001", "Centre de séjours Cévennes");
+        result.put("0002", "Centre de séjours Auvergne");
+        result.put("0003", "Centre de séjours Savoie");
+        
+        return result;
+    }
+
+    @Override
+    public Map<String, String> getLeisureCenters(Child child) {
+        Map<String, String> result = new HashMap<String, String>();
+        
+        result.put("0001", "Centre de loisirs Le Relais des Enfants");
+        result.put("0002", "Centre de loisirs Les Cévennes ");
+        result.put("0003", "Centre de loisirs Les Lutins");
+        
+        return result;
+    }
+
+    @Override
+    public Map<String, String> getTransportLines(Child child) {
+        Map<String, String> result = new HashMap<String, String>();
+        
+        result.put("0001", "Baillargues");
+        result.put("0004", "Gignac");
+        result.put("0002", "Perols");
+        result.put("0003", "Villeneuve les Maguelone");
+        
+        return result;
+    }
+
+    @Override
+    public Map<String, String> getTransportStops(Child child, String lineId) {
+        Map<String, String> result = new HashMap<String, String>();
+        
+        result.put("0001", "Antigone");
+        result.put("0004", "Port Marianne");
+        result.put("0002", "Beaux Arts");
+        result.put("0003", "Hopitaux Facultés");
+
+        return result;
     }
 }

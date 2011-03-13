@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <request>RenewalPerischoolActivitiesRequest</request>
+    <data name="RegimeAlimentaireRenouvellement">
+        <label lang="fr">Régime alimentaire de votre enfant</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
+            <entry key="Sans-porc">
+                <label lang="fr">Sans porc</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Sans-lactose">
+                <label lang="fr">Sans lactose</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Sans-re-gime-particulier">
+                <label lang="fr">Sans régime particulier</label>
+                <message lang="fr"/>
+            </entry>
+        </entries>
+    </data>
+</LocalReferential>

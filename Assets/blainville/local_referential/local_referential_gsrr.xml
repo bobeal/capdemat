@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <request>GlobalSchoolRegistrationRequest</request>
+    <data name="MotifsDerogationEcole">
+        <label lang="fr">Le ou les motif(s) de votre demande de dérogation</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
+            <entry key="Rassemblement-de-fratrie">
+                <label lang="fr">Rassemblement de fratrie</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Poursuite-de-scolarite-">
+                <label lang="fr">Poursuite de scolarité</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Assistante-maternelle-a--proximite-">
+                <label lang="fr">Assistante maternelle à proximité</label>
+                <message lang="fr"/>
+            </entry>
+        </entries>
+    </data>
+    <data name="RegimeAlimentaire">
+        <label lang="fr">Régime alimentaire de votre enfant</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+            <entry key="Sans-viande">
+                <label lang="fr">Sans viande</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Sans-lactose">
+                <label lang="fr">Sans lactose</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Sans-re-gime-particulier">
+                <label lang="fr">Sans régime particulier</label>
+                <message lang="fr"/>
+            </entry>
+        </entries>
+    </data>
+</LocalReferential>

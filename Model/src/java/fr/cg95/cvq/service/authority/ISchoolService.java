@@ -1,9 +1,9 @@
 package fr.cg95.cvq.service.authority;
 
-import java.util.List;
-
 import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+
+import java.util.List;
 
 /**
  * @author bor@zenexity.fr
@@ -16,6 +16,8 @@ public interface ISchoolService {
     void modify(final School school);
 
     List<School> getAll();
+
+    List<School> getActives();
 
     School getByName(final String schoolName);
 

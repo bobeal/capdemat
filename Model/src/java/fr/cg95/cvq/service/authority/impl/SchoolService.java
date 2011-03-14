@@ -1,9 +1,5 @@
 package fr.cg95.cvq.service.authority.impl;
 
-import java.util.List;
-
-import org.apache.log4j.Logger;
-
 import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.dao.authority.ISchoolDAO;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -11,6 +7,9 @@ import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ISchoolService;
+import org.apache.log4j.Logger;
+
+import java.util.List;
 
 /**
  * This class provides School related business logic and
@@ -39,6 +38,11 @@ public class SchoolService implements ISchoolService {
     @Override
     public List<School> getAll() {
         return schoolDAO.listAll();
+    }
+
+    @Override
+    public List<School> getActives() {
+        return schoolDAO.getActives();
     }
 
     @Override

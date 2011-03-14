@@ -11,6 +11,7 @@ import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.exception.CvqException
+import fr.cg95.cvq.exception.CvqModelException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
@@ -239,7 +240,7 @@ class BackofficeRequestInstructionController {
             }
         }
         else if (propertyType == "recreationCenter") {
-            model.recreationCenters = recreationCenterService.getAll()
+            model.recreationCenters = recreationCenterService.getActive()
             if (params.propertyValue != "null") {
                 propertyValue = Long.valueOf(params.propertyValue)
             }
@@ -271,7 +272,13 @@ class BackofficeRequestInstructionController {
         } else if (params.keySet().contains('schoolId')) {
             rqt.school = schoolService.getById(Long.valueOf(params.schoolId))
         } else if (params.keySet().contains('recreationCenterId')) {
-            rqt.recreationCenter = recreationCenterService.getById(Long.valueOf(params.recreationCenterId))
+            // TODO move that in the business layer
+            def recreationCenter = recreationCenterService.getById(Long.valueOf(params.recreationCenterId))
+            if (recreationCenter?.active) { // Make sure the recreation center is active
+                rqt.recreationCenter = recreationCenter;
+            } else {
+                throw new CvqModelException("request.error.inactiveRecreationCenter")
+            }
         } else {
             DataBindingUtils.initBind(rqt, params)
             bind(rqt)

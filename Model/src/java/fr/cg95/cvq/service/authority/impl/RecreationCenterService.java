@@ -41,6 +41,11 @@ public final class RecreationCenterService implements IRecreationCenterService {
     }
 
     @Override
+    public List<RecreationCenter> getActive() {
+        return recreationCenterDAO.getActive();
+    }
+
+    @Override
     @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public Long create(final RecreationCenter recreationCenter) {
         Long recreationCenterId = null;

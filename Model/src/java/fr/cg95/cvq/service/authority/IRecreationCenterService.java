@@ -14,6 +14,8 @@ public interface IRecreationCenterService {
 
     List<RecreationCenter> getAll();
 
+    List<RecreationCenter> getActive();
+
     RecreationCenter getById(final Long id)
         throws CvqObjectNotFoundException;
 

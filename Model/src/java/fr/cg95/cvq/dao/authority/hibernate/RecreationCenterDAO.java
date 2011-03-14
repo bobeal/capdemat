@@ -30,4 +30,10 @@ public class RecreationCenterDAO extends GenericDAO implements IRecreationCenter
         return (List<RecreationCenter>)HibernateUtil.getSession()
             .createQuery("from RecreationCenter as recreationCenter").list();
     }
+
+    @Override
+    public List<RecreationCenter> getActive() {
+        return (List<RecreationCenter>)HibernateUtil.getSession()
+                .createQuery("from RecreationCenter as r where r.active = true").list();
+    }
 }

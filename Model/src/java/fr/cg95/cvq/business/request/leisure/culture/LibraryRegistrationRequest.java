@@ -1,25 +1,19 @@
 
 package fr.cg95.cvq.business.request.leisure.culture;
 
-import java.io.Serializable;
-import java.math.BigInteger;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import org.joda.time.LocalTime;
-
+import fr.cg95.cvq.business.request.LocalReferentialData;
+import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestData;
+import fr.cg95.cvq.business.request.annotation.IsRulesAcceptance;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
+import fr.cg95.cvq.xml.common.LocalReferentialDataType;
+import fr.cg95.cvq.xml.request.leisure.culture.LibraryRegistrationRequestDocument;
 import net.sf.oval.constraint.AssertValid;
 import org.apache.xmlbeans.XmlOptions;
-import fr.cg95.cvq.business.authority.*;
-import fr.cg95.cvq.business.request.*;
-import fr.cg95.cvq.business.request.annotation.*;
-import fr.cg95.cvq.business.users.*;
-import fr.cg95.cvq.xml.common.*;
-import fr.cg95.cvq.xml.request.leisure.culture.*;
-import fr.cg95.cvq.service.request.condition.IConditionChecker;
+import org.joda.time.LocalTime;
+
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * Generated class file, do not edit !
@@ -80,13 +74,8 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         super.fillCommonXmlInfo(libraryRegistrationRequest);
         int i = 0;
         
-        libraryRegistrationRequest.setRegistrationNumber(getRegistrationNumber());
-      
-        if (getParentalAuthorization() != null)
-            libraryRegistrationRequest.setParentalAuthorization(getParentalAuthorization().booleanValue());
-      
-        if (getSubscriptionPrice() != null)
-            libraryRegistrationRequest.setSubscriptionPrice(getSubscriptionPrice());
+        if (getRulesAndRegulationsAcceptance() != null)
+            libraryRegistrationRequest.setRulesAndRegulationsAcceptance(getRulesAndRegulationsAcceptance().booleanValue());
       
         i = 0;
         if (getSubscription() != null) {
@@ -97,8 +86,16 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
             libraryRegistrationRequest.setSubscriptionArray(subscriptionTypeTab);
         }
       
-        if (getRulesAndRegulationsAcceptance() != null)
-            libraryRegistrationRequest.setRulesAndRegulationsAcceptance(getRulesAndRegulationsAcceptance().booleanValue());
+        libraryRegistrationRequest.setRegistrationNumber(getRegistrationNumber());
+      
+        if (getParentalAuthorization() != null)
+            libraryRegistrationRequest.setParentalAuthorization(getParentalAuthorization().booleanValue());
+      
+        if (getAdultContentAuthorization() != null)
+            libraryRegistrationRequest.setAdultContentAuthorization(getAdultContentAuthorization().booleanValue());
+      
+        if (getSubscriptionPrice() != null)
+            libraryRegistrationRequest.setSubscriptionPrice(getSubscriptionPrice());
       
         return libraryRegistrationRequestDoc;
     }
@@ -116,12 +113,7 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         LibraryRegistrationRequest libraryRegistrationRequest = new LibraryRegistrationRequest();
         libraryRegistrationRequest.fillCommonModelInfo(libraryRegistrationRequest, libraryRegistrationRequestXml);
         
-        libraryRegistrationRequest.setRegistrationNumber(libraryRegistrationRequestXml.getRegistrationNumber());
-      
-        libraryRegistrationRequest.setParentalAuthorization(Boolean.valueOf(libraryRegistrationRequestXml.getParentalAuthorization()));
-      
-        if (libraryRegistrationRequestXml.getSubscriptionPrice() != null)
-            libraryRegistrationRequest.setSubscriptionPrice(libraryRegistrationRequestXml.getSubscriptionPrice());
+        libraryRegistrationRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(libraryRegistrationRequestXml.getRulesAndRegulationsAcceptance()));
       
         List<fr.cg95.cvq.business.request.LocalReferentialData> subscriptionList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(libraryRegistrationRequestXml.sizeOfSubscriptionArray());
         for (LocalReferentialDataType object : libraryRegistrationRequestXml.getSubscriptionArray()) {
@@ -129,11 +121,36 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         }
         libraryRegistrationRequest.setSubscription(subscriptionList);
       
-        libraryRegistrationRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(libraryRegistrationRequestXml.getRulesAndRegulationsAcceptance()));
+        libraryRegistrationRequest.setRegistrationNumber(libraryRegistrationRequestXml.getRegistrationNumber());
+      
+        libraryRegistrationRequest.setParentalAuthorization(Boolean.valueOf(libraryRegistrationRequestXml.getParentalAuthorization()));
+      
+        libraryRegistrationRequest.setAdultContentAuthorization(Boolean.valueOf(libraryRegistrationRequestXml.getAdultContentAuthorization()));
+      
+        if (libraryRegistrationRequestXml.getSubscriptionPrice() != null)
+            libraryRegistrationRequest.setSubscriptionPrice(libraryRegistrationRequestXml.getSubscriptionPrice());
       
         return libraryRegistrationRequest;
     }
 
+  
+    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
+        libraryRegistrationRequestData.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
+    }
+
+    @IsRulesAcceptance
+    public final Boolean getRulesAndRegulationsAcceptance() {
+        return libraryRegistrationRequestData.getRulesAndRegulationsAcceptance();
+    }
+  
+    public final void setSubscription(final List<fr.cg95.cvq.business.request.LocalReferentialData> subscription) {
+        libraryRegistrationRequestData.setSubscription(subscription);
+    }
+
+    
+    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getSubscription() {
+        return libraryRegistrationRequestData.getSubscription();
+    }
   
     public final void setRegistrationNumber(final String registrationNumber) {
         libraryRegistrationRequestData.setRegistrationNumber(registrationNumber);
@@ -153,6 +170,15 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         return libraryRegistrationRequestData.getParentalAuthorization();
     }
   
+    public final void setAdultContentAuthorization(final Boolean adultContentAuthorization) {
+        libraryRegistrationRequestData.setAdultContentAuthorization(adultContentAuthorization);
+    }
+
+    @IsRulesAcceptance
+    public final Boolean getAdultContentAuthorization() {
+        return libraryRegistrationRequestData.getAdultContentAuthorization();
+    }
+  
     public final void setSubscriptionPrice(final java.math.BigDecimal subscriptionPrice) {
         libraryRegistrationRequestData.setSubscriptionPrice(subscriptionPrice);
     }
@@ -160,24 +186,6 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
     
     public final java.math.BigDecimal getSubscriptionPrice() {
         return libraryRegistrationRequestData.getSubscriptionPrice();
-    }
-  
-    public final void setSubscription(final List<fr.cg95.cvq.business.request.LocalReferentialData> subscription) {
-        libraryRegistrationRequestData.setSubscription(subscription);
-    }
-
-    
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getSubscription() {
-        return libraryRegistrationRequestData.getSubscription();
-    }
-  
-    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
-        libraryRegistrationRequestData.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
-    }
-
-    @IsRulesAcceptance
-    public final Boolean getRulesAndRegulationsAcceptance() {
-        return libraryRegistrationRequestData.getRulesAndRegulationsAcceptance();
     }
   
 }

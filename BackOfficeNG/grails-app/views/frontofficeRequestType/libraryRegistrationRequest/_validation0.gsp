@@ -53,6 +53,15 @@
       </dl>
       
     
+      
+      <dl>
+        <dt><g:message code="lrr.property.adultContentAuthorization.label" /></dt>
+          <dd><g:message code="message.${rqt.adultContentAuthorization ? 'yes' : 'no'}" /></dd>
+          
+
+      </dl>
+      
+    
   
 
   

@@ -232,3 +232,5 @@ ALTER TABLE child ADD column child_born bool;
 UPDATE child set child_born = true;
 
 -- End PESSAC contributions by Zenexity
+
+ALTER TABLE library_registration_request ADD COLUMN adult_content_authorization bool;

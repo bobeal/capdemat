@@ -25,8 +25,8 @@
         <label for="_individuals.foreignAdults.${listIndex}.familyStatus" class="required"><g:message code="homeFolder.adult.property.familyStatus" /></label>
         <select id="_individuals.foreignAdults.${listIndex}.familyStatus" name="_individuals.foreignAdults[${listIndex}].familyStatus" class="required validate-not-first ${stepStates != null && stepStates['foreignAdults']?.invalidFields.contains('familyStatus') ? 'validation-failed' : ''}" title="<g:message code="homeFolder.adult.property.familyStatus.validationError" />">
           <option value=""><g:message code="message.select.defaultOption" /></option>
-          <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','Pacs','Other']}">
-            <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == editList?.foreignAdults?.familyStatus?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="homeFolder.adult.familyStatus" /></option>
+          <g:each in="${fr.cg95.cvq.business.users.FamilyStatusType.allFamilyStatusTypes}">
+            <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it.toString()}" ${it == editList?.foreignAdults?.familyStatus ? 'selected="selected"': ''}><g:capdematEnumToText var="${it.toString()}" i18nKeyPrefix="homeFolder.adult.familyStatus" /></option>
           </g:each>
         </select>
         

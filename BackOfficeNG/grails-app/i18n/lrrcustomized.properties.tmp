@@ -19,6 +19,10 @@ lrr.property.parentalAuthorization.help =
 lrr.property.parentalAuthorization.validationError =
 
 
+lrr.property.adultContentAuthorization.help =
+lrr.property.adultContentAuthorization.validationError =
+
+
 lrr.property.registrationNumber.help =
 lrr.property.registrationNumber.validationError =
 

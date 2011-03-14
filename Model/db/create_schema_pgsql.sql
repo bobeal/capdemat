@@ -1755,6 +1755,7 @@
         id int8 not null,
         registration_number varchar(255),
         parental_authorization bool,
+        adult_content_authorization bool,
         subscription_price numeric(19, 2),
         rules_and_regulations_acceptance bool,
         primary key (id)

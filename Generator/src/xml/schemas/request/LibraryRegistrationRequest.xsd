@@ -104,6 +104,26 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
+            <xs:element name="AdultContentAuthorization" type="cvq:AcceptanceType" default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Autorisation délivrée à l'enfant à emprunter des documents dans la section « Adultes » et déclaration
+                  du parent comme responsable de ses choix
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  J'autorise mon enfant à emprunter des documents de la section « Adultes » et me déclare responsable
+                  de ses choix
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="rules" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
             <xs:element name="RegistrationNumber" type="xs:string" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">

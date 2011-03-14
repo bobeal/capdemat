@@ -36,9 +36,11 @@ public class LibraryRegistrationRequestData implements Serializable {
 
     public LibraryRegistrationRequestData() {
       
+        rulesAndRegulationsAcceptance = Boolean.valueOf(false);
+      
         parentalAuthorization = Boolean.valueOf(false);
       
-        rulesAndRegulationsAcceptance = Boolean.valueOf(false);
+        adultContentAuthorization = Boolean.valueOf(false);
       
     }
 
@@ -55,6 +57,74 @@ public class LibraryRegistrationRequestData implements Serializable {
         return this.id;
     }
 
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "rulesAndRegulationsAcceptance"
+      )
+    
+    private Boolean rulesAndRegulationsAcceptance;
+
+    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
+        this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="rules_and_regulations_acceptance"
+        
+      
+    */
+    public final Boolean getRulesAndRegulationsAcceptance() {
+        return this.rulesAndRegulationsAcceptance;
+    }
+  
+    
+      @LocalReferential(
+        
+        
+        profiles = {"registration"},
+        message = "subscription"
+      )
+    
+      @MinSize(
+        
+          value = 1,
+        
+        
+        profiles = {"registration"},
+        message = "subscription"
+      )
+    
+    private List<fr.cg95.cvq.business.request.LocalReferentialData> subscription;
+
+    public final void setSubscription(final List<fr.cg95.cvq.business.request.LocalReferentialData> subscription) {
+        this.subscription = subscription;
+    }
+
+    /**
+ 
+        * @hibernate.list
+        *  inverse="false"
+        *  lazy="false"
+        *  cascade="all"
+        *  table="library_registration_request_subscription"
+        * @hibernate.key
+        *  column="library_registration_request_id"
+        * @hibernate.list-index
+        *  column="subscription_index"
+        * @hibernate.many-to-many
+        *  column="subscription_id"
+        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+      
+    */
+    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getSubscription() {
+        return this.subscription;
+    }
   
     
     private String registrationNumber;
@@ -103,6 +173,31 @@ public class LibraryRegistrationRequestData implements Serializable {
       @NotNull(
         
         
+        profiles = {"rules"},
+        message = "adultContentAuthorization"
+      )
+    
+    private Boolean adultContentAuthorization;
+
+    public final void setAdultContentAuthorization(final Boolean adultContentAuthorization) {
+        this.adultContentAuthorization = adultContentAuthorization;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="adult_content_authorization"
+        
+      
+    */
+    public final Boolean getAdultContentAuthorization() {
+        return this.adultContentAuthorization;
+    }
+  
+    
+      @NotNull(
+        
+        
         profiles = {"administration"},
         message = "subscriptionPrice"
       )
@@ -122,74 +217,6 @@ public class LibraryRegistrationRequestData implements Serializable {
     */
     public final java.math.BigDecimal getSubscriptionPrice() {
         return this.subscriptionPrice;
-    }
-  
-    
-      @LocalReferential(
-        
-        
-        profiles = {"registration"},
-        message = "subscription"
-      )
-    
-      @MinSize(
-        
-          value = 1,
-        
-        
-        profiles = {"registration"},
-        message = "subscription"
-      )
-    
-    private List<fr.cg95.cvq.business.request.LocalReferentialData> subscription;
-
-    public final void setSubscription(final List<fr.cg95.cvq.business.request.LocalReferentialData> subscription) {
-        this.subscription = subscription;
-    }
-
-    /**
- 
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="library_registration_request_subscription"
-        * @hibernate.key
-        *  column="library_registration_request_id"
-        * @hibernate.list-index
-        *  column="subscription_index"
-        * @hibernate.many-to-many
-        *  column="subscription_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
-      
-    */
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getSubscription() {
-        return this.subscription;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "rulesAndRegulationsAcceptance"
-      )
-    
-    private Boolean rulesAndRegulationsAcceptance;
-
-    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
-        this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="rules_and_regulations_acceptance"
-        
-      
-    */
-    public final Boolean getRulesAndRegulationsAcceptance() {
-        return this.rulesAndRegulationsAcceptance;
     }
   
 }

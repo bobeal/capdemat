@@ -11,6 +11,10 @@ public interface IUserWorkflowService {
 
     UserState[] getPossibleTransitions(UserState state);
 
+    UserState[] getPossibleTransitions(@IsUser Individual individual);
+
+    UserState[] getPossibleTransitions(@IsUser HomeFolder homeFolder);
+
     boolean isValidTransition(UserState from, UserState to);
 
     UserState[] getStatesBefore(UserState state);

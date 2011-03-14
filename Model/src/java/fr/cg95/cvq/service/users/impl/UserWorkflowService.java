@@ -1,8 +1,10 @@
 package fr.cg95.cvq.service.users.impl;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.context.ApplicationEventPublisher;
@@ -26,6 +28,7 @@ import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
+import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IUserWorkflowService;
 import fr.cg95.cvq.util.translation.ITranslationService;
 
@@ -37,6 +40,8 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
 
     private ITranslationService translationService;
 
+    private IHomeFolderService homeFolderService;
+
     private IHomeFolderDAO homeFolderDAO;
 
     private Map<String, UserWorkflow> workflows = new HashMap<String, UserWorkflow>();
@@ -44,6 +49,30 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
     @Override
     public UserState[] getPossibleTransitions(UserState state) {
         return getWorkflow().getPossibleTransitions(state);
+    }
+
+    @Override
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public UserState[] getPossibleTransitions(Individual user) {
+        UserState[] allStates = getPossibleTransitions(user.getState());
+        List<UserState> result = new ArrayList<UserState>(allStates.length);
+        for (UserState state : allStates) result.add(state);
+        if (homeFolderService.getHomeFolderResponsible(user.getHomeFolder().getId()).getId()
+            .equals(user.getId())) {
+            for (Individual i : user.getHomeFolder().getIndividuals()) {
+                if (!i.getId().equals(user.getId()) && !UserState.ARCHIVED.equals(i.getState())) {
+                    result.remove(UserState.ARCHIVED);
+                    break;
+                }
+            }
+        }
+        return result.toArray(new UserState[result.size()]);
+    }
+
+    @Override
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public UserState[] getPossibleTransitions(HomeFolder user) {
+        return getPossibleTransitions(user.getState());
     }
 
     @Override
@@ -126,6 +155,14 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         } else {
             individual.setQoS(QoS.GOOD);
         }
+        HomeFolder homeFolder = individual.getHomeFolder();
+        if (UserState.ARCHIVED.equals(state) && individual.getId().equals(
+            homeFolderService.getHomeFolderResponsible(homeFolder.getId()).getId())) {
+            for (Individual i : homeFolder.getIndividuals()) {
+                if (!UserState.ARCHIVED.equals(i.getState()))
+                    throw new CvqModelException("user.state.error.mustArchiveResponsibleLast");
+            }
+        }
         JsonObject payload = new JsonObject();
         payload.addProperty("state", state.toString());
         UserAction action = new UserAction(UserAction.Type.STATE_CHANGE, individual.getId(), payload);
@@ -154,6 +191,10 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
 
     public void setTranslationService(ITranslationService translationService) {
         this.translationService = translationService;
+    }
+
+    public void setHomeFolderService(IHomeFolderService homeFolderService) {
+        this.homeFolderService = homeFolderService;
     }
 
     public void setHomeFolderDAO(IHomeFolderDAO homeFolderDAO) {

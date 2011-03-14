@@ -205,7 +205,7 @@ class BackofficeHomeFolderController {
             userWorkflowService.changeState(user, UserState.forString(params.state))
         }
         render(template : mode + "/state", model : [
-            "user" : user, "states" : userWorkflowService.getPossibleTransitions(user.state)])
+            "user" : user, "states" : userWorkflowService.getPossibleTransitions(user)])
     }
 
     def address = {

@@ -1,0 +1,1 @@
+ALTER TABLE library_registration_request ADD COLUMN adult_content_authorization bool;

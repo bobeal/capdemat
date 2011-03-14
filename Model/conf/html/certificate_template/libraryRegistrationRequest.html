@@ -139,6 +139,20 @@
 
     
   
+    
+      <p class="label">${esc(i18n.translate('lrr.property.adultContentAuthorization.label'))}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.adultContentAuthorization ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+    
+  
 
   
   <h2>${i18n.translate('request.step.administration.label')}</h2>

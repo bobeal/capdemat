@@ -1781,6 +1781,7 @@
 
     create table library_registration_request (
         id int8 not null,
+        adult_content_authorization bool,
         parental_authorization bool,
         registration_number varchar(255),
         rules_and_regulations_acceptance bool,

@@ -118,6 +118,9 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         super.fillCommonXmlInfo(libraryRegistrationRequest);
         int i = 0;
         
+        if (getAdultContentAuthorization() != null)
+            libraryRegistrationRequest.setAdultContentAuthorization(getAdultContentAuthorization().booleanValue());
+      
         if (getParentalAuthorization() != null)
             libraryRegistrationRequest.setParentalAuthorization(getParentalAuthorization().booleanValue());
       
@@ -154,6 +157,8 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         LibraryRegistrationRequest libraryRegistrationRequest = new LibraryRegistrationRequest();
         libraryRegistrationRequest.fillCommonModelInfo(libraryRegistrationRequest, libraryRegistrationRequestXml);
         
+        libraryRegistrationRequest.setAdultContentAuthorization(Boolean.valueOf(libraryRegistrationRequestXml.getAdultContentAuthorization()));
+      
         libraryRegistrationRequest.setParentalAuthorization(Boolean.valueOf(libraryRegistrationRequestXml.getParentalAuthorization()));
       
         libraryRegistrationRequest.setRegistrationNumber(libraryRegistrationRequestXml.getRegistrationNumber());
@@ -215,6 +220,15 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         return clone;
     }
 
+  
+    public final void setAdultContentAuthorization(final Boolean adultContentAuthorization) {
+        libraryRegistrationRequestData.setAdultContentAuthorization(adultContentAuthorization);
+    }
+
+    @IsRulesAcceptance
+    public final Boolean getAdultContentAuthorization() {
+        return libraryRegistrationRequestData.getAdultContentAuthorization();
+    }
   
     public final void setParentalAuthorization(final Boolean parentalAuthorization) {
         libraryRegistrationRequestData.setParentalAuthorization(parentalAuthorization);

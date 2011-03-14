@@ -43,3 +43,24 @@
 
   
 
+  
+    
+              <label class="required">
+                <g:message code="lrr.property.adultContentAuthorization.label" /> *
+                <g:if test="${availableRules.contains('adultContentAuthorization')}">
+                  <p><a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':rqt.requestType.label, 'filename':'adultContentAuthorization']).encodeAsXML()}"><span><g:message code="request.action.consult.rules" /></span></a></p>
+                </g:if>
+                <span><g:message code="lrr.property.adultContentAuthorization.help" /></span>
+              </label>
+              <ul class="yes-no required ${rqt.stepStates['rules'].invalidFields.contains('adultContentAuthorization') ? 'validation-failed' : ''}">
+                <g:each in="${[true,false]}">
+                  <li>
+                    <input type="radio" id="adultContentAuthorization_${it ? 'yes' : 'no'}" class="required  validate-acceptance" title="" value="${it}" name="adultContentAuthorization" ${it == rqt.adultContentAuthorization ? 'checked="checked"': ''} />
+                    <label for="adultContentAuthorization_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
+                  </li>
+                </g:each>
+              </ul>
+            
+
+  
+

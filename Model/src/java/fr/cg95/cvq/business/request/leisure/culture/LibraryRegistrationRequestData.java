@@ -36,6 +36,8 @@ public class LibraryRegistrationRequestData implements Serializable {
 
     public LibraryRegistrationRequestData() {
       
+        adultContentAuthorization = Boolean.valueOf(false);
+      
         parentalAuthorization = Boolean.valueOf(false);
       
         rulesAndRegulationsAcceptance = Boolean.valueOf(false);
@@ -45,6 +47,12 @@ public class LibraryRegistrationRequestData implements Serializable {
     @Override
     public LibraryRegistrationRequestData clone() {
         LibraryRegistrationRequestData result = new LibraryRegistrationRequestData();
+        
+          
+            
+        result.setAdultContentAuthorization(adultContentAuthorization);
+      
+          
         
           
             
@@ -96,6 +104,31 @@ public class LibraryRegistrationRequestData implements Serializable {
         return this.id;
     }
 
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "adultContentAuthorization"
+      )
+    
+    private Boolean adultContentAuthorization;
+
+    public final void setAdultContentAuthorization(final Boolean adultContentAuthorization) {
+        this.adultContentAuthorization = adultContentAuthorization;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="adult_content_authorization"
+        
+      
+    */
+    public final Boolean getAdultContentAuthorization() {
+        return this.adultContentAuthorization;
+    }
   
     
       @NotNull(

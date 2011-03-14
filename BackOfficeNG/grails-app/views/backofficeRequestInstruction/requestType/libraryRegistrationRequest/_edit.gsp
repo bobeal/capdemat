@@ -94,6 +94,12 @@
               </dl>
               
             
+              
+              <dl>
+                <dt class="required"><g:message code="lrr.property.adultContentAuthorization.label" /> * : </dt><dd id="adultContentAuthorization" class="action-editField validate-acceptance required-true i18n-lrr.property.adultContentAuthorization" ><span class="value-${rqt?.adultContentAuthorization}"><g:message code="message.${rqt?.adultContentAuthorization ? 'yes' : 'no'}" /></span></dd>
+              </dl>
+              
+            
           </div>
           <!-- column end -->
           

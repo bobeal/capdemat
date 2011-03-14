@@ -1,41 +1,25 @@
-import java.util.Collections;
-
-import fr.cg95.cvq.business.request.external.RequestExternalAction
-import fr.cg95.cvq.business.document.ContentType
 import fr.cg95.cvq.business.request.DataState
-import fr.cg95.cvq.business.request.RequestAction
 import fr.cg95.cvq.business.request.RequestActionType
 import fr.cg95.cvq.business.request.RequestNoteType
 import fr.cg95.cvq.business.request.RequestState
-import fr.cg95.cvq.business.users.Child;
-import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.request.external.RequestExternalAction
+import fr.cg95.cvq.business.users.Child
 import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.IAgentService
-import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.authority.IRecreationCenterService
 import fr.cg95.cvq.service.authority.ISchoolService
-import fr.cg95.cvq.service.request.ICategoryService
-import fr.cg95.cvq.service.request.IConditionService
-import fr.cg95.cvq.service.request.ILocalReferentialService
-import fr.cg95.cvq.service.request.IMeansOfContactService
-import fr.cg95.cvq.service.request.IRequestLockService
-import fr.cg95.cvq.service.request.IRequestNoteService
-import fr.cg95.cvq.service.request.IRequestSearchService
-import fr.cg95.cvq.service.request.IRequestTypeService
-import fr.cg95.cvq.service.request.IRequestWorkflowService
-import fr.cg95.cvq.service.request.IRequestActionService
-import fr.cg95.cvq.service.request.external.IRequestExternalService
 import fr.cg95.cvq.service.request.external.IRequestExternalActionService
+import fr.cg95.cvq.service.request.external.IRequestExternalService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.util.Critere
-
 import grails.converters.JSON
-
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
+import fr.cg95.cvq.service.request.*
+import fr.cg95.cvq.exception.CvqModelException
 
 class BackofficeRequestInstructionController {
 
@@ -256,7 +240,7 @@ class BackofficeRequestInstructionController {
             }
         }
         else if (propertyType == "recreationCenter") {
-            model.recreationCenters = recreationCenterService.getAll()
+            model.recreationCenters = recreationCenterService.getActives()
             if (params.propertyValue != "null") {
                 propertyValue = Long.valueOf(params.propertyValue)
             }
@@ -292,7 +276,13 @@ class BackofficeRequestInstructionController {
         } else if (params.keySet().contains('schoolId')) {
             rqt.school = schoolService.getById(Long.valueOf(params.schoolId))
         } else if (params.keySet().contains('recreationCenterId')) {
-            rqt.recreationCenter = recreationCenterService.getById(Long.valueOf(params.recreationCenterId))
+            // TODO move that in the business layer
+            def recreationCenter = recreationCenterService.getById(Long.valueOf(params.recreationCenterId))
+            if (recreationCenter?.active) { // Make sure the recreation center is active
+                rqt.recreationCenter = recreationCenter;
+            } else {
+                throw new CvqModelException("request.error.inactiveRecreationCenter")
+            }
         } else {
             DataBindingUtils.initBind(rqt, params)
             bind(rqt)

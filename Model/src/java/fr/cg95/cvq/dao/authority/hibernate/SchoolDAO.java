@@ -29,4 +29,9 @@ public class SchoolDAO extends GenericDAO implements ISchoolDAO {
         return (List<School>)HibernateUtil.getSession()
             .createQuery("from School as school").list();
     }
+
+    @Override
+    public List<School> getActive() {
+        return (List<School>)HibernateUtil.getSession().createQuery("from School as s where s.active = true").list();
+    }
 }

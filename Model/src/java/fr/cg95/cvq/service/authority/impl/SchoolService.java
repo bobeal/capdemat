@@ -42,6 +42,11 @@ public class SchoolService implements ISchoolService {
     }
 
     @Override
+    public List<School> getActive() {
+        return schoolDAO.getActive();
+    }
+
+    @Override
     @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public Long create(final School school) {
         Long schoolId = null;

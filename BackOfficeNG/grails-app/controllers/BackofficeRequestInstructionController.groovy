@@ -234,7 +234,7 @@ class BackofficeRequestInstructionController {
                 model["required"]
         }
         else if (propertyType == "school") {
-            model.schools = schoolService.getAll()
+            model.schools = schoolService.getActive()
             if (params.propertyValue != "null") {
                 propertyValue = Long.valueOf(params.propertyValue)
             }
@@ -270,7 +270,13 @@ class BackofficeRequestInstructionController {
             def requester = userSearchService.getById(rqt.requesterId)
             bindRequester(requester, params)
         } else if (params.keySet().contains('schoolId')) {
-            rqt.school = schoolService.getById(Long.valueOf(params.schoolId))
+            // TODO Move the logic in a business layer
+            def school = schoolService.getById(Long.valueOf(params.schoolId))
+            if (school?.active) {
+                rqt.school = school;
+            } else {
+                throw new CvqModelException("request.error.inactiveSchool")
+            }
         } else if (params.keySet().contains('recreationCenterId')) {
             // TODO move that in the business layer
             def recreationCenter = recreationCenterService.getById(Long.valueOf(params.recreationCenterId))

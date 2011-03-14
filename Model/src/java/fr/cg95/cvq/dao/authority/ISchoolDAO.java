@@ -19,4 +19,9 @@ public interface ISchoolDAO extends IGenericDAO {
      * Return the list of all known schools.
      */
     List<School> listAll();
+
+    /**
+     * @return The active schools
+     */
+    List<School> getActive();
 }

@@ -17,6 +17,8 @@ public interface ISchoolService {
 
     List<School> getAll();
 
+    List<School> getActive();
+
     School getByName(final String schoolName);
 
     School getById(final Long id)

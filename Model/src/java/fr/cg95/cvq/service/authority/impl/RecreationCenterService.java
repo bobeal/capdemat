@@ -1,9 +1,5 @@
 package fr.cg95.cvq.service.authority.impl;
 
-import java.util.List;
-
-import org.apache.log4j.Logger;
-
 import fr.cg95.cvq.business.authority.RecreationCenter;
 import fr.cg95.cvq.dao.authority.IRecreationCenterDAO;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -11,6 +7,9 @@ import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.IRecreationCenterService;
+import org.apache.log4j.Logger;
+
+import java.util.List;
 
 /**
  * Implementation of the recreation center service.
@@ -38,6 +37,11 @@ public final class RecreationCenterService implements IRecreationCenterService {
     @Override
     public List<RecreationCenter> getAll() {
         return recreationCenterDAO.listAll();
+    }
+
+    @Override
+    public List<RecreationCenter> getActives() {
+        return recreationCenterDAO.getActives();
     }
 
     @Override

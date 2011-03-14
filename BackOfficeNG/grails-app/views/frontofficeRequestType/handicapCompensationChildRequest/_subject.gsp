@@ -273,7 +273,7 @@
       <label for="referentFamilyStatus" class="required"><g:message code="hccr.property.referentFamilyStatus.label" /> *  <span><g:message code="hccr.property.referentFamilyStatus.help" /></span></label>
             <select id="referentFamilyStatus" name="referentFamilyStatus" class="required  validate-not-first ${stepStates != null && stepStates['subject']?.invalidFields?.contains('referentFamilyStatus') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.referentFamilyStatus.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','PACS','Other']}">
+              <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','Separated','PACS','Other']}">
                 <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == rqt.referentFamilyStatus?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.referentFamilyStatus" /></option>
               </g:each>
             </select>

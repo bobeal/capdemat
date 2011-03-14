@@ -22,7 +22,7 @@ public class RequestActionDAO extends GenericDAO implements IRequestActionDAO {
 
     @Override
     public boolean hasAction(final Long requestId, final RequestActionType type) {
-        return !BigInteger.ZERO.equals(HibernateUtil.getSession()
+        return !Long.valueOf(0).equals(HibernateUtil.getSession()
             .createQuery("select count(*) from RequestAction where request_id = :requestId and type = :type")
                 .setLong("requestId", requestId).setString("type", type.toString()).uniqueResult());
     }

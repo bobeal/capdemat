@@ -63,12 +63,13 @@
 #request .steps li.complete   { border-color: #20CC20; background: #20CC20; }
 #request .steps li.invalid    { border-color: #CC2020; background: #CC2020; }
 
-#request .steps li.uncomplete:hover { border-color: #fa0; background: #fa0; }
+#request .steps li.unavailable:hover a { color: #555 !important; }
+#request .steps li.uncomplete:hover { border-color: #fa0; background: #fa0;}
 #request .steps li.complete:hover   { border-color: #20aa20; background: #20aa20; }
 #request .steps li.invalid:hover    { border-color: #aa2020; background: #aa2020; }
 
 /* override inherited properties */
-#request .steps li a:hover { background: transparent; }
+#request .steps li a:hover { background: transparent !important; }
 
 #request div.form { 
   min-height: 25em;

@@ -1,6 +1,6 @@
 /* --------------------------------------------------------
  * 
- *        Blainville - Style Sheet
+ *        Blainville
  *
  *        orange: #ff812b
  *        gray:   #b6aca5
@@ -12,47 +12,48 @@
  
 html { background: #fff; }
 #bd  { background-color: #b6aca5; }
-h2   { color: #fff; }
 
 
 /* menus
  * ----------------------------------------------------- */
- 
+
 #menu a, #menu a span                 { background-color: #ff812b; }
 #menu a:hover, #menu a:hover span     { color: #fff; background-color: #b6aca5; }
 #menu a.current, #menu a.current span { color: #fff; background-color: #b6aca5; }
 #menu a.disable ,#menu a.disable span { background-color: #b6aca5 !important; }
 
 #hd .top a.menu       { color: #fff; background-color: #ff812b; }
-#hd .top a.menu:hover { background-color: #b6aca5; }
+#hd .top a.menu:hover { color: #444; background-color: #b6aca5; }
+#hd .top form input[type=text],
+#hd .top form input[type=password] { border: 1px solid #ff812b !important; }
+
 
 /* boxes
  * ----------------------------------------------------- */
 
-.list-box               { border-color: #ff812b; }
-.list-box h2            { color: #ff812b; border-color: #ff812b; }
-.list-box h3            { color: #ff812b; }
+.list-box    { border-color: #ff812b; }
+.list-box h2 { color: #ff812b; border-color: #ff812b; }
 .list-box p.paginator a, 
-.list-box p.see-all a   { color: #ff812b; }
-.list-box p.see-all a:hover, 
+.list-box p.see-all a { color: #ff812b; }
+.list-box p.see-all a:hover,
 .list-box p.paginator a:hover,
 .list-box p.paginator span.currentStep { color: #ffffff; background: #ff812b; }
 
 .group-box         { border-color: #ff812b; }
 .group-box h3      { color: #ff812b; border-color: #ff812b; }
-.group-box h4      { color: #ff812b !important; }
+.group-box h4      { color: #95d5e9 !important; }
 .group-box a:hover { color: #fff; background: #ff812b; }
 
-.summary-box.created { border-color: #ff812b; }   
+.summary-box.created { border-color: #ff812b; }
 .summary-box h2      { color: #ff812b; border-color: #ff812b; }
 .summary-box h3      { border-bottom-color:  #ff812b !important; }
-.summary-box dl    { border-bottom-color: #ff812b !important; }
+.summary-box dl      { border-bottom-color: #ff812b !important; }
 .summary-box dl dt,
-.summary-box dl dd { border-top-color: #ff812b !important; }
+.summary-box dl dd   { border-top-color: #ff812b !important; }
 
-.main-box    { border-color: #ff812b; }   
-.main-box h2 { color: #ff812b; border-color: #ff812b; }
-/*.main-box a:hover { color: #ffffff !important; background: #ff812b !important; }*/
+.main-box         { border-color: #ff812b; }
+.main-box h2      { color: #ff812b; border-color: #ff812b; }
+.main-box a:hover { color: #ffffff !important; background: #ff812b !important; }
 
 .narrow-box h3           { color: #fff; background: #ff812b; }
 .narrow-box .body        { background: #FFFFFF; }
@@ -68,15 +69,11 @@ form select,
 form textarea { border-top-color: #ff812b !important; }
 
 
-/* home folder screen specific styles
+/* family account
  * ----------------------------------------------------- */
 
-.data-detail h3     { color: #ff812b !important; }
-.data-detail .yui-gb,
-.data-detail .yui-g { border-color: #ff812b !important; }
-.data-detail dl     { border-bottom-color: #ff812b !important; }
-.data-detail dl dt  { border-top-color: #ff812b !important; }
-.data-detail dl dd  { border-top-color: #ff812b !important; }
+.box h2 { color: #ff812b !important; }
+.box h3 { color: #ff812b !important; }
 
 
 /* request creation
@@ -87,19 +84,24 @@ form textarea { border-top-color: #ff812b !important; }
 #request h3       { border-bottom-color:  #ff812b !important; }
 #request legend   { color: #ff812b !important; }
 #request .address { border-color: #ff812b !important; }
+
 #request form ul.dataTree      { border-color: #ff812b !important; }
 #request form div .captcha img { border-color: #ff812b !important; }
 
-#request form div input[type="text"], 
+#request form div input[type="text"],
 #request form div input[type="password"],
-#request form div select, 
-#request form div textarea {
-  border-top-color: #ff812b !important;
-}
+#request form div select,
+#request form div textarea { border-top-color: #ff812b !important; }
 
-/* activities specific styles
+
+/* document and activities
  * ----------------------------------------------------- */
- 
+
+.data-detail .yui-g { border-color: #ff812b !important; }
+.data-detail dl     { border-color: #ff812b !important; }
+.data-detail dd,
+.data-detail dt     { border-color: #ff812b !important; }
+
 table.activity-calendar,
 table.activity-calendar th,
 table.activity-calendar td { border-color: #ff812b !important; }

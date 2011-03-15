@@ -13,11 +13,11 @@
 .box .side { width: 28%; float: right; }
 
 .box .side div { 
-  margin: 0 0 .5em; padding: .5em; font-size: 1.15em; background: #ddd;
+  margin: 0 0 .5em; padding: .5em 1em; font-size: 1.15em; background: #ddd;
   border-radius: .5em; -moz-border-radius: .5em; -webkit-border-radius .5em;
 }
 .box .side div.action a { display: block; line-height: 1.5em; }
-.box .side div.back a   { display: block; line-height: 1.5em; color: #e6648d; }
+.box .side div.back a   { display: block; line-height: 1.5em; color: #000; }
 .box .side div.note h4  { font-size: 1.1em; }
 .box .side div.note p   { font-size: .9em; font-style: italic; }
 
@@ -105,9 +105,9 @@
 .individual legend { margin: 0 0 .5em; font-size: 1.6em;  color: #e6648d; }
 .individual form .error { text-align: center; color: #f33; }
 
-.individual form ul       { width: 80%; margin: .2em 0 .5em 0; }
+.individual form ul           { width: 80%; margin: .2em 0 .5em 0; }
 .individual form ul.yes-no li { display: inline; margin: 0 .5em; }
-.individual form li label { display: inline; font-size: .95em; }
+.individual form li label     { display: inline; font-size: .95em; }
 
 .individual form input[type="submit"] { margin: 0 0 2em; }
 

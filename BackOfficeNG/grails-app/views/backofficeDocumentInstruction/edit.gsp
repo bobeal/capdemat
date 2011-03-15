@@ -69,7 +69,7 @@
   <div id="documentMetaData" class="blue-yui-tabview">
     <ul class="yui-nav">
       <li class="selected"><a href="#page1"><em><g:message code="document.header.actionHistory" /></em></a></li>
-      <li><a href="#page1"><em><g:message code="document.header.information" /></em></a></li>
+      <li><a href="#page2"><em><g:message code="document.header.information" /></em></a></li>
     </ul>
     <div class="yui-content">
       

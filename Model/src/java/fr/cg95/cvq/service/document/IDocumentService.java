@@ -123,6 +123,8 @@ public interface IDocumentService {
     void pending(@IsDocument final Long id)
         throws CvqObjectNotFoundException, CvqInvalidTransitionException;
 
+    void rePending(Long id)
+        throws CvqObjectNotFoundException, CvqInvalidTransitionException;
     /**
      * Validate a document.
      *

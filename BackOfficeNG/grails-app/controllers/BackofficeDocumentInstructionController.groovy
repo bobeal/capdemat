@@ -65,7 +65,7 @@ class BackofficeDocumentInstructionController {
 
         def actions = []
         for (DocumentAction action : document.actions) {
-            actions.add(documentAdaptorService.adaptDocumentAction(action))
+            actions.add(0, documentAdaptorService.adaptDocumentAction(action))
         }
         def agentCanWrite =
             categoryService.hasWriteProfileOnCategory(agent, request.requestType.category.id)

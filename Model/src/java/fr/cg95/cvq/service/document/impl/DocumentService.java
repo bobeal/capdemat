@@ -442,6 +442,8 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             refuse(id, message);
         else if (ds.equals(DocumentState.OUTDATED))
             outDated(id);
+        else if (ds.equals(DocumentState.PENDING))
+            rePending(id);
         
         Document doc = getById(id);
         if (!doc.getDatas().isEmpty() && doc.getDatas().get(0).getContentType().equals(ContentType.PDF)) {
@@ -461,6 +463,18 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
                 translationService.translate(
                     "document.state."+ DocumentState.PENDING.toString().toLowerCase()));
         }
+        document.setState(DocumentState.PENDING);
+        documentDAO.update(document);
+        addActionTrace(DocumentAction.Type.STATE_CHANGE, DocumentState.PENDING, document);
+    }
+
+    @Override
+    @Context(types = {ContextType.AGENT})
+    public void rePending(Long id) throws CvqObjectNotFoundException, CvqInvalidTransitionException {
+        Document document = getById(id);
+        if (!document.getState().equals(DocumentState.OUTDATED)
+                && !document.getState().equals(DocumentState.REFUSED))
+            throw new CvqInvalidTransitionException();
         document.setState(DocumentState.PENDING);
         documentDAO.update(document);
         addActionTrace(DocumentAction.Type.STATE_CHANGE, DocumentState.PENDING, document);
@@ -563,7 +577,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             documentStateList.add(DocumentState.REFUSED);
             documentStateList.add(DocumentState.OUTDATED);
         } else if (ds.equals(DocumentState.REFUSED)) {
-            // no more transitions available
+            documentStateList.add(DocumentState.PENDING);
         } else if (ds.equals(DocumentState.OUTDATED)) {
             documentStateList.add(DocumentState.PENDING);
         }

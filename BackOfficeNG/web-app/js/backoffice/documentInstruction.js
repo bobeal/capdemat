@@ -171,7 +171,18 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
         zct.doAjaxFormSubmitCall('documentStateForm',[],function(o){
           var json = ylj.parse(o.responseText);
           zcbd.Instruction.displayDocPanel(undefined,json);
+          zcbd.Instruction.refreshActions();
         });
+      },
+      refreshActions : function() {
+        var actions = zcbd.Instruction.dataTabView.get("tabs")[0];
+        var cacheData = actions.get("cacheData");
+        var contentVisible = actions.get("contentVisible");
+        actions.set("cacheData", false);
+        actions.set("contentVisible", false);
+        actions.set("contentVisible", true);
+        actions.set("contentVisible", contentVisible);
+        actions.set("cacheData", cacheData);
       },
       toggleStateOverlay: function(e) {
         if(zcbd.Instruction.overlay.cfg.getProperty('visible')) {

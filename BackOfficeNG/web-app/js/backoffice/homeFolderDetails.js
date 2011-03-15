@@ -23,7 +23,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
     var initControls = function() {
       zcbh.Details.bottomTabView = new yw.TabView();
       zcbh.Details.bottomTabView.addTab( new yw.Tab({
-        label: 'Journal', cacheData: true,active:true,
+        label: 'Historique', cacheData: true,active:true,
         dataSrc: [zc.baseUrl,'/actions/',zcbh.Details.homeFolderId].join('')
       }));
       zcbh.Details.bottomTabView.addTab( new yw.Tab({
@@ -33,10 +33,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
       zcbh.Details.bottomTabView.addTab( new yw.Tab({
         label: 'Paiements', cacheData: true,
         dataSrc: [zc.baseUrl,'/payments/',zcbh.Details.homeFolderId].join('')
-      }));
-      zcbh.Details.bottomTabView.addTab( new yw.Tab({
-        label: 'Aide', cacheData: true,
-        dataSrc: [zc.baseUrl,'/help/'].join('')
       }));
       zcbh.Details.bottomTabView.appendTo('homeFolderInformation');
     };
@@ -201,46 +197,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
       cancelAdd : function(e) {
         var div = yud.getAncestorByTagName(yue.getTarget(e), 'div');
         yud.getAncestorByTagName(div, 'div').removeChild(div);
-      },
-
-// --> legacy code
-
-      editField : function(e) {
-        var form = yue.getTarget(e);
-        if (form.tagName != "FORM")
-          form = yud.getAncestorByTagName(form, "form");
-        var dd = yud.getAncestorByTagName(form, "dd");
-        zct.doAjaxFormSubmitCall(form.getAttribute("id"), null, function(o) {
-          yud.addClass(dd, "current-editField");
-          yud.addClass(form, "invisible");
-          dd.innerHTML += o.responseText;
-        });
-      },
-      revertField : function(e) {
-        var form = yue.getTarget(e).form;
-        var dd = yud.getAncestorByTagName(form, "dd");
-        new yu.Element(dd).removeChild(form);
-        yud.removeClass(dd, "current-editField");
-        yud.removeClass(
-          yud.getFirstChildBy(dd, function(child){ return child.tagName === "FORM" }),
-          "invisible"
-        );
-      },
-      submitField : function(e) {
-        var form = yue.getTarget(e).form;
-        var dd = yud.getAncestorByTagName(form, "dd");
-        zct.doAjaxFormSubmitCall(form.getAttribute("id"), null, function(o) {
-          zcbh.Details.revertField(e);
-          var json = ylj.parse(o.responseText);
-          zct.Notifier.processMessage('success', json.success_msg, null, e);
-          yud.getFirstChildBy(
-            yud.getFirstChildBy(dd, function(child){ return child.tagName === "FORM" }),
-            function(child){ return child.tagName === "SPAN" })
-            .innerHTML = json.id;
-        });
       }
-
-// legacy code <--
     };
   }();
 

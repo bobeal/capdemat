@@ -27,6 +27,9 @@
               <widgets>
                 <subject />
               </widgets>
+              <conditions>
+                <condition name="foodAllergy" />
+              </conditions>
             </step>
             <step index="1" name="rules" />
             <step index="2" ref="document" />
@@ -130,6 +133,36 @@
                 <xs:appinfo>
                   <common>
                     <step name="registration" />
+                    <conditions>
+                      <condition name="foodAllergy" type="trigger" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="WhichFoodAllergy" type="xs:string">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Précisez la nature de l’allergie
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Precise which food allergy
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Précisez
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Precise
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="registration" />
+                    <conditions>
+                      <condition name="foodAllergy" type="filled" />
+                    </conditions>
                   </common>
                   <fo />
                   <bo column="1" />

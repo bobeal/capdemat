@@ -157,6 +157,8 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
       
         schoolCanteenRegistrationRequest.setUrgencyPhone(getUrgencyPhone());
       
+        schoolCanteenRegistrationRequest.setWhichFoodAllergy(getWhichFoodAllergy());
+      
         return schoolCanteenRegistrationRequestDoc;
     }
 
@@ -204,6 +206,8 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
             schoolCanteenRegistrationRequest.setSection(fr.cg95.cvq.business.users.SectionType.getDefaultSectionType());
       
         schoolCanteenRegistrationRequest.setUrgencyPhone(schoolCanteenRegistrationRequestXml.getUrgencyPhone());
+      
+        schoolCanteenRegistrationRequest.setWhichFoodAllergy(schoolCanteenRegistrationRequestXml.getWhichFoodAllergy());
       
         return schoolCanteenRegistrationRequest;
     }
@@ -340,6 +344,15 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
     
     public final String getUrgencyPhone() {
         return schoolCanteenRegistrationRequestData.getUrgencyPhone();
+    }
+  
+    public final void setWhichFoodAllergy(final String whichFoodAllergy) {
+        schoolCanteenRegistrationRequestData.setWhichFoodAllergy(whichFoodAllergy);
+    }
+
+    
+    public final String getWhichFoodAllergy() {
+        return schoolCanteenRegistrationRequestData.getWhichFoodAllergy();
     }
   
 }

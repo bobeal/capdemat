@@ -31,6 +31,10 @@ scrr.property.foodAllergy.help =
 scrr.property.foodAllergy.validationError =
 
 
+scrr.property.whichFoodAllergy.help =
+scrr.property.whichFoodAllergy.validationError =
+
+
 scrr.property.doctorName.help =
 scrr.property.doctorName.validationError =
 

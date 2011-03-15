@@ -2249,6 +2249,7 @@
         school_id int8,
         section varchar(32),
         urgency_phone varchar(10),
+        which_food_allergy varchar(255),
         primary key (id)
     );
 

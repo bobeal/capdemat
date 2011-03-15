@@ -70,7 +70,13 @@
             
               
               <dl>
-                <dt class="required"><g:message code="scrr.property.foodAllergy.label" /> * : </dt><dd id="foodAllergy" class="action-editField validate-boolean required-true i18n-scrr.property.foodAllergy" ><span class="value-${rqt?.foodAllergy}"><g:message code="message.${rqt?.foodAllergy ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required condition-foodAllergy-trigger"><g:message code="scrr.property.foodAllergy.label" /> * : </dt><dd id="foodAllergy" class="action-editField validate-boolean required-true i18n-scrr.property.foodAllergy" ><span class="value-${rqt?.foodAllergy}"><g:message code="message.${rqt?.foodAllergy ? 'yes' : 'no'}" /></span></dd>
+              </dl>
+              
+            
+              
+              <dl>
+                <dt class="required condition-foodAllergy-filled"><g:message code="scrr.property.whichFoodAllergy.label" /> * : </dt><dd id="whichFoodAllergy" class="action-editField validate-string required-true i18n-scrr.property.whichFoodAllergy" ><span>${rqt?.whichFoodAllergy}</span></dd>
               </dl>
               
             

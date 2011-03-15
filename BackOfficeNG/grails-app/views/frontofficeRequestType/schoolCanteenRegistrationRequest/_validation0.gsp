@@ -53,6 +53,13 @@
     
       
       <dl>
+        <dt><g:message code="scrr.property.whichFoodAllergy.label" /></dt><dd>${rqt.whichFoodAllergy?.toString()}</dd>
+
+      </dl>
+      
+    
+      
+      <dl>
         <dt><g:message code="scrr.property.doctorName.label" /></dt><dd>${rqt.doctorName?.toString()}</dd>
 
       </dl>

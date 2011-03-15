@@ -271,6 +271,56 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
       @NotNull(
         
         
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['foodAllergy'].test(_this.foodAllergy.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"registration"},
+        message = "whichFoodAllergy"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['foodAllergy'].test(_this.foodAllergy.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"registration"},
+        message = "whichFoodAllergy"
+      )
+    
+    private String whichFoodAllergy;
+
+    public final void setWhichFoodAllergy(final String whichFoodAllergy) {
+        this.whichFoodAllergy = whichFoodAllergy;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="which_food_allergy"
+        
+      
+    */
+    public final String getWhichFoodAllergy() {
+        return this.whichFoodAllergy;
+    }
+  
+    
+      @NotNull(
+        
+        
         profiles = {"rules"},
         message = "rulesAndRegulationsAcceptance"
       )

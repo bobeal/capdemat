@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request.school.impl;
 
+import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.authority.School;
@@ -19,6 +20,12 @@ import fr.cg95.cvq.service.request.impl.RequestService;
 public final class SchoolCanteenRegistrationRequestService extends RequestService {
 
     private static Logger logger = Logger.getLogger(SchoolCanteenRegistrationRequestService.class);
+
+
+    @Override
+    public void init() {
+        SchoolCanteenRegistrationRequest.conditions.put("foodAllergy", new EqualityChecker("true"));
+    }
 
     @Override
     public void onRequestCreated(final Request request)

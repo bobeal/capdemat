@@ -90,6 +90,13 @@ public class SchoolCanteenRegistrationRequestServiceTest extends RequestTestCase
         
           
           
+            
+               request.setWhichFoodAllergy("WhichFoodAllergy");
+            
+          
+        
+          
+          
                request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
           
         

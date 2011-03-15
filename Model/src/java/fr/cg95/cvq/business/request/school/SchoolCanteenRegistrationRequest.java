@@ -111,6 +111,8 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         if (getHospitalizationPermission() != null)
             schoolCanteenRegistrationRequest.setHospitalizationPermission(getHospitalizationPermission().booleanValue());
       
+        schoolCanteenRegistrationRequest.setWhichFoodAllergy(getWhichFoodAllergy());
+      
         if (getRulesAndRegulationsAcceptance() != null)
             schoolCanteenRegistrationRequest.setRulesAndRegulationsAcceptance(getRulesAndRegulationsAcceptance().booleanValue());
       
@@ -157,6 +159,8 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
             schoolCanteenRegistrationRequest.setSchool(School.xmlToModel(schoolCanteenRegistrationRequestXml.getSchool()));
       
         schoolCanteenRegistrationRequest.setHospitalizationPermission(Boolean.valueOf(schoolCanteenRegistrationRequestXml.getHospitalizationPermission()));
+      
+        schoolCanteenRegistrationRequest.setWhichFoodAllergy(schoolCanteenRegistrationRequestXml.getWhichFoodAllergy());
       
         schoolCanteenRegistrationRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(schoolCanteenRegistrationRequestXml.getRulesAndRegulationsAcceptance()));
       
@@ -232,6 +236,15 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
     @IsRulesAcceptance
     public final Boolean getHospitalizationPermission() {
         return schoolCanteenRegistrationRequestData.getHospitalizationPermission();
+    }
+  
+    public final void setWhichFoodAllergy(final String whichFoodAllergy) {
+        schoolCanteenRegistrationRequestData.setWhichFoodAllergy(whichFoodAllergy);
+    }
+
+    
+    public final String getWhichFoodAllergy() {
+        return schoolCanteenRegistrationRequestData.getWhichFoodAllergy();
     }
   
     public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {

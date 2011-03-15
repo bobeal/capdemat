@@ -2213,6 +2213,7 @@
         doctor_name varchar(255),
         school_id int8,
         hospitalization_permission bool,
+        which_food_allergy varchar(255),
         rules_and_regulations_acceptance bool,
         urgency_phone varchar(10),
         section varchar(32),

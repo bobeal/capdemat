@@ -47,11 +47,19 @@
             <ul class="yes-no required ${stepStates != null && stepStates['registration']?.invalidFields?.contains('foodAllergy') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" id="foodAllergy_${it ? 'yes' : 'no'}" class="required  validate-one-required boolean" title="" value="${it}" name="foodAllergy" ${it == rqt.foodAllergy ? 'checked="checked"': ''} />
+                <input type="radio" id="foodAllergy_${it ? 'yes' : 'no'}" class="required condition-foodAllergy-trigger  validate-one-required boolean" title="" value="${it}" name="foodAllergy" ${it == rqt.foodAllergy ? 'checked="checked"': ''} />
                 <label for="foodAllergy_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
+            
+
+  
+
+  
+    <label for="whichFoodAllergy" class="required condition-foodAllergy-filled"><g:message code="scrr.property.whichFoodAllergy.label" /> *  <span><g:message code="scrr.property.whichFoodAllergy.help" /></span></label>
+            <input type="text" id="whichFoodAllergy" name="whichFoodAllergy" value="${rqt.whichFoodAllergy?.toString()}" 
+                    class="required condition-foodAllergy-filled  validate-string ${stepStates != null && stepStates['registration']?.invalidFields?.contains('whichFoodAllergy') ? 'validation-failed' : ''}" title="<g:message code="scrr.property.whichFoodAllergy.validationError" />"   />
             
 
   

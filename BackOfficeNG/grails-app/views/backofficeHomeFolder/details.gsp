@@ -114,7 +114,7 @@
         <h3>${message(code:'header.subMenus')}</h3>
         <div class="body">
           <p>
-            <a href="${createLink(controller: 'frontofficeHome',action:'loginAgent', id : homeFolderResponsible.id)}" target="_blank">
+            <a href="${createLink(controller: 'frontofficeHome',action:'loginAgent', id : homeFolderResponsible.id)}">
               ${message(code:'homeFolder.header.goToAccount')}
             </a>
           </p>

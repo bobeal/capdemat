@@ -43,19 +43,26 @@ public class ElectoralRollRegistrationRequestServiceTest extends RequestTestCase
         
           
           
+            request.setElectoralNumber(new Long(1));
+          
+        
+          
+          
             
-              request.setSubjectNationality(NationalityType.FRENCH);
+              request.setMotive(ElectoralMotiveType.NEW_CITY_RESIDENT);
             
           
         
           
           
             
-              if ("SubjectOldCity".length() > 5)
-                  request.setSubjectOldCity("SubjectOldCity".substring(0, 5));
-              else
-                  request.setSubjectOldCity("SubjectOldCity");
+               request.setPollingSchoolName("PollingSchoolName");
             
+          
+        
+          
+          
+            request.setPollingStation(new Long(1));
           
         
           
@@ -70,26 +77,19 @@ public class ElectoralRollRegistrationRequestServiceTest extends RequestTestCase
         
           
           
-            request.setPollingStation(new Long(1));
-          
-        
-          
-          
             
-               request.setPollingSchoolName("PollingSchoolName");
+              request.setSubjectNationality(NationalityType.FRENCH);
             
           
         
           
           
             
-              request.setMotive(ElectoralMotiveType.NEW_CITY_RESIDENT);
+              if ("SubjectOldCity".length() > 5)
+                  request.setSubjectOldCity("SubjectOldCity".substring(0, 5));
+              else
+                  request.setSubjectOldCity("SubjectOldCity");
             
-          
-        
-          
-          
-            request.setElectoralNumber(new Long(1));
           
         
         // Means Of Contact

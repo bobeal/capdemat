@@ -43,512 +43,8 @@ public class HandicapCompensationChildRequestServiceTest extends RequestTestCase
         
           
           
-               request.setHealthFollowedByProfessional(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setProfessionalSupportProfessionals(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setReferentFamilyDependents(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setIsFamilyAssistance(Boolean.valueOf(true));
-          
-        
-          
-          
             
-              request.setSchoolingAttendedGrade(SectionType.BEFORE_FIRST_SECTION);
             
-          
-        
-          
-          
-            
-            
-          
-        
-          
-          
-            
-              request.setReferentTitle(TitleType.MISTER);
-            
-          
-        
-          
-          
-            
-              if ("ProjectComments".length() > 600)
-                  request.setProjectComments("ProjectComments".substring(0, 600));
-              else
-                  request.setProjectComments("ProjectComments");
-            
-          
-        
-          
-          
-               request.setFoldersCdes(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("FoldersMdphDepartment".length() > 2)
-                  request.setFoldersMdphDepartment("FoldersMdphDepartment".substring(0, 2));
-              else
-                  request.setFoldersMdphDepartment("FoldersMdphDepartment");
-            
-          
-        
-          
-          
-            
-              if ("ProjectNeeds".length() > 600)
-                  request.setProjectNeeds("ProjectNeeds".substring(0, 600));
-              else
-                  request.setProjectNeeds("ProjectNeeds");
-            
-          
-        
-          
-          
-               request.setHomeInterventionHomeIntervenant(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setBenefitsEducationAllocationOfDisabledChildren(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-            
-          
-        
-          
-          
-            
-              if ("FoldersMdphNumber".length() > 30)
-                  request.setFoldersMdphNumber("FoldersMdphNumber".substring(0, 30));
-              else
-                  request.setFoldersMdphNumber("FoldersMdphNumber");
-            
-          
-        
-          
-          
-            
-              request.setSubjectParentalAuthorityHolder(HccrSubjectParentalAuthorityHolderType.FATHER);
-            
-          
-        
-          
-          
-               request.setProjectRequestsHousingFacilities(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setSchoolingHomeSchooling(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setFatherActivityReductionRatio(BigInteger.valueOf(1));
-          
-        
-          
-          
-               request.setSubjectBirthDate(new Date());
-          
-        
-          
-          
-            
-              if ("SchoolingExtraCurricularDetails".length() > 50)
-                  request.setSchoolingExtraCurricularDetails("SchoolingExtraCurricularDetails".substring(0, 50));
-              else
-                  request.setSchoolingExtraCurricularDetails("SchoolingExtraCurricularDetails");
-            
-          
-        
-          
-          
-               request.setSchoolingSpecializedGrade(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setBenefitsDisabilityPension(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("ReferentMaidenName".length() > 38)
-                  request.setReferentMaidenName("ReferentMaidenName".substring(0, 38));
-              else
-                  request.setReferentMaidenName("ReferentMaidenName");
-            
-          
-        
-          
-          
-               request.setProjectRequestsDisabledWorkerRecognition(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setBenefitsUnemploymentBenefits(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-            
-          
-        
-          
-          
-            
-              request.setProfessionalStatusKind(HccrProfessionalStatusKindType.EMPLOYEE);
-            
-          
-        
-          
-          
-            
-              request.setSchoolingHomeSchoolingKind(HccrHomeSchoolingKindType.ALONE);
-            
-          
-        
-          
-          
-            
-              if ("BenefitsEducationOfDisabledChildrenDetails".length() > 60)
-                  request.setBenefitsEducationOfDisabledChildrenDetails("BenefitsEducationOfDisabledChildrenDetails".substring(0, 60));
-              else
-                  request.setBenefitsEducationOfDisabledChildrenDetails("BenefitsEducationOfDisabledChildrenDetails");
-            
-          
-        
-          
-          
-            
-              if ("FormationPreviousFormation".length() > 180)
-                  request.setFormationPreviousFormation("FormationPreviousFormation".substring(0, 180));
-              else
-                  request.setFormationPreviousFormation("FormationPreviousFormation");
-            
-          
-        
-          
-          
-               request.setProjectRequestsVocationalTraining(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setFacilitiesCustomCar(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setBenefitsDisabledAdultAllocation(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setProfessionalStatusIndemnified(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setSchoolingEnrolment(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setBenefitsThirdPartyCompensatoryAllowance(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setReferentBirthDate(new Date());
-          
-        
-          
-          
-               request.setProfessionalStatusDate(new Date());
-          
-        
-          
-          
-               request.setProjectRequestsTransportCostAllocation(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setBenefitsProfessionalOrientation(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("SchoolingHomeSchoolingAccompanistLastName".length() > 38)
-                  request.setSchoolingHomeSchoolingAccompanistLastName("SchoolingHomeSchoolingAccompanistLastName".substring(0, 38));
-              else
-                  request.setSchoolingHomeSchoolingAccompanistLastName("SchoolingHomeSchoolingAccompanistLastName");
-            
-          
-        
-          
-          
-               request.setBenefitsDisabilityRecognition(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setProfessionalStatusRegisterAsUnemployed(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setProfessionalStatusIndemnifiedDate(new Date());
-          
-        
-          
-          
-            
-              if ("DwellingSocialReceptionNaming".length() > 80)
-                  request.setDwellingSocialReceptionNaming("DwellingSocialReceptionNaming".substring(0, 80));
-              else
-                  request.setDwellingSocialReceptionNaming("DwellingSocialReceptionNaming");
-            
-          
-        
-          
-          
-            
-              if ("BenefitsProfessionalOrientationDetails".length() > 60)
-                  request.setBenefitsProfessionalOrientationDetails("BenefitsProfessionalOrientationDetails".substring(0, 60));
-              else
-                  request.setBenefitsProfessionalOrientationDetails("BenefitsProfessionalOrientationDetails");
-            
-          
-        
-          
-          
-               request.setBenefitsPainfulStandingCard(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("FoldersCdesDepartment".length() > 2)
-                  request.setFoldersCdesDepartment("FoldersCdesDepartment".substring(0, 2));
-              else
-                  request.setFoldersCdesDepartment("FoldersCdesDepartment");
-            
-          
-        
-          
-          
-               request.setFacilitiesSpecializedTransport(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setBenefitsParkingCard(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("FacilitiesSpecializedTransportDetails".length() > 60)
-                  request.setFacilitiesSpecializedTransportDetails("FacilitiesSpecializedTransportDetails".substring(0, 60));
-              else
-                  request.setFacilitiesSpecializedTransportDetails("FacilitiesSpecializedTransportDetails");
-            
-          
-        
-          
-          
-            
-              if ("BenefitsWorkAccidentAnnuityRatio".length() > 3)
-                  request.setBenefitsWorkAccidentAnnuityRatio("BenefitsWorkAccidentAnnuityRatio".substring(0, 3));
-              else
-                  request.setBenefitsWorkAccidentAnnuityRatio("BenefitsWorkAccidentAnnuityRatio");
-            
-          
-        
-          
-          
-            
-                  if ("SocialSecurityNumber".length() > 13)
-                      request.setSocialSecurityNumber("SocialSecurityNumber".substring(0, 13));
-                  else
-                      request.setSocialSecurityNumber("SocialSecurityNumber");
-            
-          
-        
-          
-          
-               request.setBenefitsWorkAccidentAnnuity(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setCareCareServices(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setBenefitsDailyAllowances(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("BenefitsDisabilityRatio".length() > 3)
-                  request.setBenefitsDisabilityRatio("BenefitsDisabilityRatio".substring(0, 3));
-              else
-                  request.setBenefitsDisabilityRatio("BenefitsDisabilityRatio");
-            
-          
-        
-          
-          
-            
-              if ("FatherFirstName".length() > 38)
-                  request.setFatherFirstName("FatherFirstName".substring(0, 38));
-              else
-                  request.setFatherFirstName("FatherFirstName");
-            
-          
-        
-          
-          
-            
-            
-              
-                request.setSchoolingHomeSchoolingAccompanistAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
-              
-            
-          
-        
-          
-          
-               request.setProjectRequestsCustomCar(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("PaymentAgencyBeneficiaryNumber".length() > 20)
-                  request.setPaymentAgencyBeneficiaryNumber("PaymentAgencyBeneficiaryNumber".substring(0, 20));
-              else
-                  request.setPaymentAgencyBeneficiaryNumber("PaymentAgencyBeneficiaryNumber");
-            
-          
-        
-          
-          
-            
-              if ("FoldersCotorepNumber".length() > 30)
-                  request.setFoldersCotorepNumber("FoldersCotorepNumber".substring(0, 30));
-              else
-                  request.setFoldersCotorepNumber("FoldersCotorepNumber");
-            
-          
-        
-          
-          
-               request.setProjectRequestsACTPRenewal(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              request.setReferentFamilyStatus(FamilyStatusType.MARRIED);
-            
-          
-        
-          
-          
-            
-              if ("SchoolingSchoolName".length() > 80)
-                  request.setSchoolingSchoolName("SchoolingSchoolName".substring(0, 80));
-              else
-                  request.setSchoolingSchoolName("SchoolingSchoolName");
-            
-          
-        
-          
-          
-            
-            
-              
-                request.setDwellingSocialReceptionAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
-              
-            
-          
-        
-          
-          
-            
-              if ("BenefitsSupportedByAnInstitutionDetails".length() > 60)
-                  request.setBenefitsSupportedByAnInstitutionDetails("BenefitsSupportedByAnInstitutionDetails".substring(0, 60));
-              else
-                  request.setBenefitsSupportedByAnInstitutionDetails("BenefitsSupportedByAnInstitutionDetails");
-            
-          
-        
-          
-          
-               request.setFoldersMdph(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("MotherJob".length() > 60)
-                  request.setMotherJob("MotherJob".substring(0, 60));
-              else
-                  request.setMotherJob("MotherJob");
-            
-          
-        
-          
-          
-            
-            
-              
-                request.setSchoolingSchoolAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
-              
-            
-          
-        
-          
-          
-            
-                  if ("SchoolingTime".length() > 4)
-                      request.setSchoolingTime("SchoolingTime".substring(0, 4));
-                  else
-                      request.setSchoolingTime("SchoolingTime");
-            
-          
-        
-          
-          
-               request.setProfessionalSupportDealsWithSameProfessional(Boolean.valueOf(true));
           
         
           
@@ -564,242 +60,36 @@ public class HandicapCompensationChildRequestServiceTest extends RequestTestCase
           
           
             
-              if ("FoldersCotorepDepartment".length() > 2)
-                  request.setFoldersCotorepDepartment("FoldersCotorepDepartment".substring(0, 2));
+              if ("AseReferentLastName".length() > 38)
+                  request.setAseReferentLastName("AseReferentLastName".substring(0, 38));
               else
-                  request.setFoldersCotorepDepartment("FoldersCotorepDepartment");
+                  request.setAseReferentLastName("AseReferentLastName");
             
           
         
           
           
-               request.setDwellingEstablishmentReception(Boolean.valueOf(true));
+               request.setBenefitsCompensatoryAllowanceForExpenses(Boolean.valueOf(true));
           
         
           
           
-            
-              if ("MotherFirstName".length() > 38)
-                  request.setMotherFirstName("MotherFirstName".substring(0, 38));
-              else
-                  request.setMotherFirstName("MotherFirstName");
-            
+               request.setBenefitsDailyAllowances(Boolean.valueOf(true));
           
         
           
           
-            
-            
+               request.setBenefitsDisabilityCard(Boolean.valueOf(true));
           
         
           
           
-               request.setProjectRequestsOrdinaryWorking(Boolean.valueOf(true));
+               request.setBenefitsDisabilityCompensation(Boolean.valueOf(true));
           
         
           
           
-               request.setBenefitsDisabledWorkerRecognition(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setDwellingSocialReception(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setProjectRequestsEuropeanParkingCard(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setHealthFollowedByDoctor(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-            
-          
-        
-          
-          
-            
-              if ("SchoolingHomeSchoolingAccompanistFirstName".length() > 38)
-                  request.setSchoolingHomeSchoolingAccompanistFirstName("SchoolingHomeSchoolingAccompanistFirstName".substring(0, 38));
-              else
-                  request.setSchoolingHomeSchoolingAccompanistFirstName("SchoolingHomeSchoolingAccompanistFirstName");
-            
-          
-        
-          
-          
-            
-              if ("ReferentBirthCity".length() > 32)
-                  request.setReferentBirthCity("ReferentBirthCity".substring(0, 32));
-              else
-                  request.setReferentBirthCity("ReferentBirthCity");
-            
-          
-        
-          
-          
-               request.setProjectRequestsFreePensionMembership(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("SchoolingSpecializedGradeDetails".length() > 30)
-                  request.setSchoolingSpecializedGradeDetails("SchoolingSpecializedGradeDetails".substring(0, 30));
-              else
-                  request.setSchoolingSpecializedGradeDetails("SchoolingSpecializedGradeDetails");
-            
-          
-        
-          
-          
-            
-              if ("ReferentBirthCountry".length() > 50)
-                  request.setReferentBirthCountry("ReferentBirthCountry".substring(0, 50));
-              else
-                  request.setReferentBirthCountry("ReferentBirthCountry");
-            
-          
-        
-          
-          
-            
-            
-          
-        
-          
-          
-               request.setHealthFollowedByHospital(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("ProfessionalStatusEmployerName".length() > 38)
-                  request.setProfessionalStatusEmployerName("ProfessionalStatusEmployerName".substring(0, 38));
-              else
-                  request.setProfessionalStatusEmployerName("ProfessionalStatusEmployerName");
-            
-          
-        
-          
-          
-               request.setProjectRequestsInstitutionSupport(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setBenefitsSocialWelfare(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setProjectRequestsHandicapRecognition(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-            
-          
-        
-          
-          
-               request.setSchoolingExtraCurricular(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("ProjectWish".length() > 600)
-                  request.setProjectWish("ProjectWish".substring(0, 600));
-              else
-                  request.setProjectWish("ProjectWish");
-            
-          
-        
-          
-          
-            
-              request.setDwellingKind(HccrDwellingKindType.PLACE_OF_RESIDENCE);
-            
-          
-        
-          
-          
-            
-              if ("HealthProfessionalLastName".length() > 38)
-                  request.setHealthProfessionalLastName("HealthProfessionalLastName".substring(0, 38));
-              else
-                  request.setHealthProfessionalLastName("HealthProfessionalLastName");
-            
-          
-        
-          
-          
-            
-              if ("FormationStudiesLevel".length() > 30)
-                  request.setFormationStudiesLevel("FormationStudiesLevel".substring(0, 30));
-              else
-                  request.setFormationStudiesLevel("FormationStudiesLevel");
-            
-          
-        
-          
-          
-               request.setProjectRequestsProfessionalOrientation(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("HealthDoctorLastName".length() > 38)
-                  request.setHealthDoctorLastName("HealthDoctorLastName".substring(0, 38));
-              else
-                  request.setHealthDoctorLastName("HealthDoctorLastName");
-            
-          
-        
-          
-          
-            
-            
-              
-                request.setSocialServiceAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
-              
-            
-          
-        
-          
-          
-            
-              if ("FacilitiesHousingDetails".length() > 60)
-                  request.setFacilitiesHousingDetails("FacilitiesHousingDetails".substring(0, 60));
-              else
-                  request.setFacilitiesHousingDetails("FacilitiesHousingDetails");
-            
-          
-        
-          
-          
-               request.setBenefitsSupplementForSingleParents(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setProjectRequestsIncreaseForIndependentLiving(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setBenefitsThirdPartySupplement(Boolean.valueOf(true));
+               request.setBenefitsDisabilityPension(Boolean.valueOf(true));
           
         
           
@@ -815,36 +105,91 @@ public class HandicapCompensationChildRequestServiceTest extends RequestTestCase
           
           
             
-              if ("StudiesHighSchoolGrade".length() > 60)
-                  request.setStudiesHighSchoolGrade("StudiesHighSchoolGrade".substring(0, 60));
+              if ("BenefitsDisabilityRatio".length() > 3)
+                  request.setBenefitsDisabilityRatio("BenefitsDisabilityRatio".substring(0, 3));
               else
-                  request.setStudiesHighSchoolGrade("StudiesHighSchoolGrade");
+                  request.setBenefitsDisabilityRatio("BenefitsDisabilityRatio");
             
           
         
           
           
-            
-              if ("ReferentLastName".length() > 38)
-                  request.setReferentLastName("ReferentLastName".substring(0, 38));
-              else
-                  request.setReferentLastName("ReferentLastName");
-            
+               request.setBenefitsDisabilityRecognition(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setBenefitsDisabledAdultAllocation(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setBenefitsDisabledWorkerRecognition(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setBenefitsEducationAllocationOfDisabledChildren(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setBenefitsEducationOfDisabledChildren(Boolean.valueOf(true));
           
         
           
           
             
-              if ("SubjectBirthCity".length() > 32)
-                  request.setSubjectBirthCity("SubjectBirthCity".substring(0, 32));
+              if ("BenefitsEducationOfDisabledChildrenDetails".length() > 60)
+                  request.setBenefitsEducationOfDisabledChildrenDetails("BenefitsEducationOfDisabledChildrenDetails".substring(0, 60));
               else
-                  request.setSubjectBirthCity("SubjectBirthCity");
+                  request.setBenefitsEducationOfDisabledChildrenDetails("BenefitsEducationOfDisabledChildrenDetails");
             
           
         
           
           
-               request.setProjectRequestsAssistance(Boolean.valueOf(true));
+               request.setBenefitsIncreaseForIndependentLiving(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setBenefitsOtherBenefits(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setBenefitsPainfulStandingCard(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setBenefitsParkingCard(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setBenefitsProfessionalOrientation(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              if ("BenefitsProfessionalOrientationDetails".length() > 60)
+                  request.setBenefitsProfessionalOrientationDetails("BenefitsProfessionalOrientationDetails".substring(0, 60));
+              else
+                  request.setBenefitsProfessionalOrientationDetails("BenefitsProfessionalOrientationDetails");
+            
+          
+        
+          
+          
+               request.setBenefitsSocialWelfare(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setBenefitsSupplementForSingleParents(Boolean.valueOf(true));
           
         
           
@@ -855,81 +200,21 @@ public class HandicapCompensationChildRequestServiceTest extends RequestTestCase
           
           
             
-              request.setProfessionalStatusEnvironment(HccrProfessionalStatusEnvironmentType.ORDINARY);
-            
-          
-        
-          
-          
-               request.setProjectRequestsThirdPartyHelp(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setProjectRequestsDisabledAdultAllowance(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setFoldersOtherFolders(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              request.setPaymentAgencyBeneficiary(HccrPaymentAgencyBeneficiaryType.C_A_F);
-            
-          
-        
-          
-          
-            
-              if ("FatherJob".length() > 60)
-                  request.setFatherJob("FatherJob".substring(0, 60));
+              if ("BenefitsSupportedByAnInstitutionDetails".length() > 60)
+                  request.setBenefitsSupportedByAnInstitutionDetails("BenefitsSupportedByAnInstitutionDetails".substring(0, 60));
               else
-                  request.setFatherJob("FatherJob");
+                  request.setBenefitsSupportedByAnInstitutionDetails("BenefitsSupportedByAnInstitutionDetails");
             
           
         
           
           
-            
-              if ("FacilitiesAnimalAidDetails".length() > 60)
-                  request.setFacilitiesAnimalAidDetails("FacilitiesAnimalAidDetails".substring(0, 60));
-              else
-                  request.setFacilitiesAnimalAidDetails("FacilitiesAnimalAidDetails");
-            
+               request.setBenefitsThirdPartyCompensatoryAllowance(Boolean.valueOf(true));
           
         
           
           
-            
-            
-          
-        
-          
-          
-            
-              if ("StudiesAssistanceUnderDisabilityDetails".length() > 60)
-                  request.setStudiesAssistanceUnderDisabilityDetails("StudiesAssistanceUnderDisabilityDetails".substring(0, 60));
-              else
-                  request.setStudiesAssistanceUnderDisabilityDetails("StudiesAssistanceUnderDisabilityDetails");
-            
-          
-        
-          
-          
-            
-            
-              
-                request.setPaymentAgencyAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
-              
-            
-          
-        
-          
-          
-               request.setProjectRequestsOther(Boolean.valueOf(true));
+               request.setBenefitsThirdPartySupplement(Boolean.valueOf(true));
           
         
           
@@ -939,36 +224,54 @@ public class HandicapCompensationChildRequestServiceTest extends RequestTestCase
         
           
           
-               request.setProjectRequestsDisabilityCostAllocation(Boolean.valueOf(true));
+               request.setBenefitsUnemploymentBenefits(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setBenefitsWorkAccidentAnnuity(Boolean.valueOf(true));
           
         
           
           
             
-            
-              
-                request.setSocialSecurityAgencyAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
-              
-            
-          
-        
-          
-          
-            
-            
-              
-                request.setProfessionalStatusAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
-              
-            
-          
-        
-          
-          
-            
-              if ("ProfessionalStatusProfession".length() > 60)
-                  request.setProfessionalStatusProfession("ProfessionalStatusProfession".substring(0, 60));
+              if ("BenefitsWorkAccidentAnnuityRatio".length() > 3)
+                  request.setBenefitsWorkAccidentAnnuityRatio("BenefitsWorkAccidentAnnuityRatio".substring(0, 3));
               else
-                  request.setProfessionalStatusProfession("ProfessionalStatusProfession");
+                  request.setBenefitsWorkAccidentAnnuityRatio("BenefitsWorkAccidentAnnuityRatio");
+            
+          
+        
+          
+          
+               request.setCareCareServices(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+            
+          
+        
+          
+          
+               request.setDwellingEstablishmentReception(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              request.setDwellingKind(HccrDwellingKindType.PLACE_OF_RESIDENCE);
+            
+          
+        
+          
+          
+            
+              if ("DwellingPrecision".length() > 120)
+                  request.setDwellingPrecision("DwellingPrecision".substring(0, 120));
+              else
+                  request.setDwellingPrecision("DwellingPrecision");
             
           
         
@@ -985,45 +288,129 @@ public class HandicapCompensationChildRequestServiceTest extends RequestTestCase
           
           
             
-              if ("FormationDiploma".length() > 120)
-                  request.setFormationDiploma("FormationDiploma".substring(0, 120));
+              if ("DwellingReceptionNaming".length() > 80)
+                  request.setDwellingReceptionNaming("DwellingReceptionNaming".substring(0, 80));
               else
-                  request.setFormationDiploma("FormationDiploma");
+                  request.setDwellingReceptionNaming("DwellingReceptionNaming");
             
           
         
           
           
             
-              if ("MotherLastName".length() > 38)
-                  request.setMotherLastName("MotherLastName".substring(0, 38));
+              request.setDwellingReceptionType(HccrDwellingReceptionKindType.INTERNSHIP);
+            
+          
+        
+          
+          
+               request.setDwellingSocialReception(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+            
+              
+                request.setDwellingSocialReceptionAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+              
+            
+          
+        
+          
+          
+            
+              if ("DwellingSocialReceptionNaming".length() > 80)
+                  request.setDwellingSocialReceptionNaming("DwellingSocialReceptionNaming".substring(0, 80));
               else
-                  request.setMotherLastName("MotherLastName");
+                  request.setDwellingSocialReceptionNaming("DwellingSocialReceptionNaming");
             
           
         
           
           
-               request.setFoldersCotorep(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setProfessionalStatusElectiveFunction(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setBenefitsIncreaseForIndependentLiving(Boolean.valueOf(true));
+               request.setFacilitiesAnimalAid(Boolean.valueOf(true));
           
         
           
           
             
-              if ("SubjectBirthCountry".length() > 50)
-                  request.setSubjectBirthCountry("SubjectBirthCountry".substring(0, 50));
+              if ("FacilitiesAnimalAidDetails".length() > 60)
+                  request.setFacilitiesAnimalAidDetails("FacilitiesAnimalAidDetails".substring(0, 60));
               else
-                  request.setSubjectBirthCountry("SubjectBirthCountry");
+                  request.setFacilitiesAnimalAidDetails("FacilitiesAnimalAidDetails");
+            
+          
+        
+          
+          
+               request.setFacilitiesCustomCar(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              if ("FacilitiesCustomCarDetails".length() > 60)
+                  request.setFacilitiesCustomCarDetails("FacilitiesCustomCarDetails".substring(0, 60));
+              else
+                  request.setFacilitiesCustomCarDetails("FacilitiesCustomCarDetails");
+            
+          
+        
+          
+          
+               request.setFacilitiesHousing(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              if ("FacilitiesHousingDetails".length() > 60)
+                  request.setFacilitiesHousingDetails("FacilitiesHousingDetails".substring(0, 60));
+              else
+                  request.setFacilitiesHousingDetails("FacilitiesHousingDetails");
+            
+          
+        
+          
+          
+               request.setFacilitiesSpecializedTransport(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              if ("FacilitiesSpecializedTransportDetails".length() > 60)
+                  request.setFacilitiesSpecializedTransportDetails("FacilitiesSpecializedTransportDetails".substring(0, 60));
+              else
+                  request.setFacilitiesSpecializedTransportDetails("FacilitiesSpecializedTransportDetails");
+            
+          
+        
+          
+          
+               request.setFacilitiesTechnicalAssistance(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              if ("FacilitiesTechnicalAssistanceDetails".length() > 60)
+                  request.setFacilitiesTechnicalAssistanceDetails("FacilitiesTechnicalAssistanceDetails".substring(0, 60));
+              else
+                  request.setFacilitiesTechnicalAssistanceDetails("FacilitiesTechnicalAssistanceDetails");
+            
+          
+        
+          
+          
+            
+            
+          
+        
+          
+          
+            
             
           
         
@@ -1034,23 +421,26 @@ public class HandicapCompensationChildRequestServiceTest extends RequestTestCase
         
           
           
-               request.setProjectRequestsDisabilityCard(Boolean.valueOf(true));
+               request.setFatherActivityReductionRatio(BigInteger.valueOf(1));
           
         
           
           
             
-              if ("StudiesHighSchoolName".length() > 60)
-                  request.setStudiesHighSchoolName("StudiesHighSchoolName".substring(0, 60));
+              if ("FatherFirstName".length() > 38)
+                  request.setFatherFirstName("FatherFirstName".substring(0, 38));
               else
-                  request.setStudiesHighSchoolName("StudiesHighSchoolName");
+                  request.setFatherFirstName("FatherFirstName");
             
           
         
           
           
             
-              request.setDwellingReceptionType(HccrDwellingReceptionKindType.INTERNSHIP);
+              if ("FatherJob".length() > 60)
+                  request.setFatherJob("FatherJob".substring(0, 60));
+              else
+                  request.setFatherJob("FatherJob");
             
           
         
@@ -1066,12 +456,282 @@ public class HandicapCompensationChildRequestServiceTest extends RequestTestCase
         
           
           
+               request.setFoldersCdes(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              if ("FoldersCdesDepartment".length() > 2)
+                  request.setFoldersCdesDepartment("FoldersCdesDepartment".substring(0, 2));
+              else
+                  request.setFoldersCdesDepartment("FoldersCdesDepartment");
+            
+          
+        
+          
+          
+            
+              if ("FoldersCdesNumber".length() > 30)
+                  request.setFoldersCdesNumber("FoldersCdesNumber".substring(0, 30));
+              else
+                  request.setFoldersCdesNumber("FoldersCdesNumber");
+            
+          
+        
+          
+          
+               request.setFoldersCotorep(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              if ("FoldersCotorepDepartment".length() > 2)
+                  request.setFoldersCotorepDepartment("FoldersCotorepDepartment".substring(0, 2));
+              else
+                  request.setFoldersCotorepDepartment("FoldersCotorepDepartment");
+            
+          
+        
+          
+          
+            
+              if ("FoldersCotorepNumber".length() > 30)
+                  request.setFoldersCotorepNumber("FoldersCotorepNumber".substring(0, 30));
+              else
+                  request.setFoldersCotorepNumber("FoldersCotorepNumber");
+            
+          
+        
+          
+          
+               request.setFoldersMdph(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              if ("FoldersMdphDepartment".length() > 2)
+                  request.setFoldersMdphDepartment("FoldersMdphDepartment".substring(0, 2));
+              else
+                  request.setFoldersMdphDepartment("FoldersMdphDepartment");
+            
+          
+        
+          
+          
+            
+              if ("FoldersMdphNumber".length() > 30)
+                  request.setFoldersMdphNumber("FoldersMdphNumber".substring(0, 30));
+              else
+                  request.setFoldersMdphNumber("FoldersMdphNumber");
+            
+          
+        
+          
+          
+               request.setFoldersOtherFolders(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              if ("FormationCurrentFormation".length() > 120)
+                  request.setFormationCurrentFormation("FormationCurrentFormation".substring(0, 120));
+              else
+                  request.setFormationCurrentFormation("FormationCurrentFormation");
+            
+          
+        
+          
+          
+            
+              if ("FormationDiploma".length() > 120)
+                  request.setFormationDiploma("FormationDiploma".substring(0, 120));
+              else
+                  request.setFormationDiploma("FormationDiploma");
+            
+          
+        
+          
+          
+            
+              if ("FormationPreviousFormation".length() > 180)
+                  request.setFormationPreviousFormation("FormationPreviousFormation".substring(0, 180));
+              else
+                  request.setFormationPreviousFormation("FormationPreviousFormation");
+            
+          
+        
+          
+          
+            
+              if ("FormationStudiesLevel".length() > 30)
+                  request.setFormationStudiesLevel("FormationStudiesLevel".substring(0, 30));
+              else
+                  request.setFormationStudiesLevel("FormationStudiesLevel");
+            
+          
+        
+          
+          
+            
+              if ("HealthDoctorFirstName".length() > 38)
+                  request.setHealthDoctorFirstName("HealthDoctorFirstName".substring(0, 38));
+              else
+                  request.setHealthDoctorFirstName("HealthDoctorFirstName");
+            
+          
+        
+          
+          
+            
+              if ("HealthDoctorLastName".length() > 38)
+                  request.setHealthDoctorLastName("HealthDoctorLastName".substring(0, 38));
+              else
+                  request.setHealthDoctorLastName("HealthDoctorLastName");
+            
+          
+        
+          
+          
+               request.setHealthFollowedByDoctor(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setHealthFollowedByHospital(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setHealthFollowedByProfessional(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              if ("HealthHospitalName".length() > 60)
+                  request.setHealthHospitalName("HealthHospitalName".substring(0, 60));
+              else
+                  request.setHealthHospitalName("HealthHospitalName");
+            
+          
+        
+          
+          
+            
+              if ("HealthProfessionalFirstName".length() > 38)
+                  request.setHealthProfessionalFirstName("HealthProfessionalFirstName".substring(0, 38));
+              else
+                  request.setHealthProfessionalFirstName("HealthProfessionalFirstName");
+            
+          
+        
+          
+          
+            
+              if ("HealthProfessionalLastName".length() > 38)
+                  request.setHealthProfessionalLastName("HealthProfessionalLastName".substring(0, 38));
+              else
+                  request.setHealthProfessionalLastName("HealthProfessionalLastName");
+            
+          
+        
+          
+          
+            
+            
+          
+        
+          
+          
+               request.setHomeInterventionHomeIntervenant(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setIsFamilyAssistance(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setMotherActivityReduction(Boolean.valueOf(true));
+          
+        
+          
+          
                request.setMotherActivityReductionRatio(BigInteger.valueOf(1));
           
         
           
           
-               request.setProfessionalStatusRegisterAsUnemployedDate(new Date());
+            
+              if ("MotherFirstName".length() > 38)
+                  request.setMotherFirstName("MotherFirstName".substring(0, 38));
+              else
+                  request.setMotherFirstName("MotherFirstName");
+            
+          
+        
+          
+          
+            
+              if ("MotherJob".length() > 60)
+                  request.setMotherJob("MotherJob".substring(0, 60));
+              else
+                  request.setMotherJob("MotherJob");
+            
+          
+        
+          
+          
+            
+              if ("MotherLastName".length() > 38)
+                  request.setMotherLastName("MotherLastName".substring(0, 38));
+              else
+                  request.setMotherLastName("MotherLastName");
+            
+          
+        
+          
+          
+            
+            
+          
+        
+          
+          
+            
+            
+          
+        
+          
+          
+            
+            
+              
+                request.setPaymentAgencyAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+              
+            
+          
+        
+          
+          
+            
+              request.setPaymentAgencyBeneficiary(HccrPaymentAgencyBeneficiaryType.C_A_F);
+            
+          
+        
+          
+          
+            
+              if ("PaymentAgencyBeneficiaryNumber".length() > 20)
+                  request.setPaymentAgencyBeneficiaryNumber("PaymentAgencyBeneficiaryNumber".substring(0, 20));
+              else
+                  request.setPaymentAgencyBeneficiaryNumber("PaymentAgencyBeneficiaryNumber");
+            
           
         
           
@@ -1081,6 +741,476 @@ public class HandicapCompensationChildRequestServiceTest extends RequestTestCase
                   request.setPaymentAgencyName("PaymentAgencyName".substring(0, 50));
               else
                   request.setPaymentAgencyName("PaymentAgencyName");
+            
+          
+        
+          
+          
+            
+            
+              
+                request.setProfessionalStatusAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+              
+            
+          
+        
+          
+          
+               request.setProfessionalStatusDate(new Date());
+          
+        
+          
+          
+               request.setProfessionalStatusElectiveFunction(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              if ("ProfessionalStatusElectiveFunctionDetails".length() > 60)
+                  request.setProfessionalStatusElectiveFunctionDetails("ProfessionalStatusElectiveFunctionDetails".substring(0, 60));
+              else
+                  request.setProfessionalStatusElectiveFunctionDetails("ProfessionalStatusElectiveFunctionDetails");
+            
+          
+        
+          
+          
+            
+              if ("ProfessionalStatusEmployerName".length() > 38)
+                  request.setProfessionalStatusEmployerName("ProfessionalStatusEmployerName".substring(0, 38));
+              else
+                  request.setProfessionalStatusEmployerName("ProfessionalStatusEmployerName");
+            
+          
+        
+          
+          
+            
+              request.setProfessionalStatusEnvironment(HccrProfessionalStatusEnvironmentType.ORDINARY);
+            
+          
+        
+          
+          
+               request.setProfessionalStatusIndemnified(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProfessionalStatusIndemnifiedDate(new Date());
+          
+        
+          
+          
+            
+              request.setProfessionalStatusKind(HccrProfessionalStatusKindType.EMPLOYEE);
+            
+          
+        
+          
+          
+            
+              if ("ProfessionalStatusProfession".length() > 60)
+                  request.setProfessionalStatusProfession("ProfessionalStatusProfession".substring(0, 60));
+              else
+                  request.setProfessionalStatusProfession("ProfessionalStatusProfession");
+            
+          
+        
+          
+          
+               request.setProfessionalStatusRegisterAsUnemployed(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProfessionalStatusRegisterAsUnemployedDate(new Date());
+          
+        
+          
+          
+               request.setProfessionalSupportDealsWithSameProfessional(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProfessionalSupportProfessionals(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+            
+          
+        
+          
+          
+            
+              if ("ProjectComments".length() > 600)
+                  request.setProjectComments("ProjectComments".substring(0, 600));
+              else
+                  request.setProjectComments("ProjectComments");
+            
+          
+        
+          
+          
+            
+              if ("ProjectNeeds".length() > 600)
+                  request.setProjectNeeds("ProjectNeeds".substring(0, 600));
+              else
+                  request.setProjectNeeds("ProjectNeeds");
+            
+          
+        
+          
+          
+               request.setProjectRequestsACTPRenewal(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsAssistance(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsCustomCar(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsDisabilityCard(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsDisabilityCostAllocation(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsDisabledAdultAllowance(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsDisabledPriorityCard(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsDisabledWorkerRecognition(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsEducationAllocationOfDisabledChildren(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsEuropeanParkingCard(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsFreePensionMembership(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsHandicapRecognition(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsHousingFacilities(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsIncreaseForIndependentLiving(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsInstitutionSupport(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsOrdinaryWorking(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsOther(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              if ("ProjectRequestsOtherDetails".length() > 60)
+                  request.setProjectRequestsOtherDetails("ProjectRequestsOtherDetails".substring(0, 60));
+              else
+                  request.setProjectRequestsOtherDetails("ProjectRequestsOtherDetails");
+            
+          
+        
+          
+          
+               request.setProjectRequestsProfessionalOrientation(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsShelteredWork(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsTechnicalHelp(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsThirdPartyHelp(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsTransportCostAllocation(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setProjectRequestsVocationalTraining(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              if ("ProjectWish".length() > 600)
+                  request.setProjectWish("ProjectWish".substring(0, 600));
+              else
+                  request.setProjectWish("ProjectWish");
+            
+          
+        
+          
+          
+            
+              if ("ReferentBirthCity".length() > 32)
+                  request.setReferentBirthCity("ReferentBirthCity".substring(0, 32));
+              else
+                  request.setReferentBirthCity("ReferentBirthCity");
+            
+          
+        
+          
+          
+            
+              if ("ReferentBirthCountry".length() > 50)
+                  request.setReferentBirthCountry("ReferentBirthCountry".substring(0, 50));
+              else
+                  request.setReferentBirthCountry("ReferentBirthCountry");
+            
+          
+        
+          
+          
+               request.setReferentBirthDate(new Date());
+          
+        
+          
+          
+               request.setReferentFamilyDependents(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              request.setReferentFamilyStatus(FamilyStatusType.MARRIED);
+            
+          
+        
+          
+          
+            
+              if ("ReferentFirstName".length() > 38)
+                  request.setReferentFirstName("ReferentFirstName".substring(0, 38));
+              else
+                  request.setReferentFirstName("ReferentFirstName");
+            
+          
+        
+          
+          
+            
+              if ("ReferentLastName".length() > 38)
+                  request.setReferentLastName("ReferentLastName".substring(0, 38));
+              else
+                  request.setReferentLastName("ReferentLastName");
+            
+          
+        
+          
+          
+            
+              if ("ReferentMaidenName".length() > 38)
+                  request.setReferentMaidenName("ReferentMaidenName".substring(0, 38));
+              else
+                  request.setReferentMaidenName("ReferentMaidenName");
+            
+          
+        
+          
+          
+            
+              request.setReferentTitle(TitleType.MISTER);
+            
+          
+        
+          
+          
+            
+              request.setSchoolingAttendedGrade(SectionType.BEFORE_FIRST_SECTION);
+            
+          
+        
+          
+          
+               request.setSchoolingEnrolment(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setSchoolingExtraCurricular(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              if ("SchoolingExtraCurricularDetails".length() > 50)
+                  request.setSchoolingExtraCurricularDetails("SchoolingExtraCurricularDetails".substring(0, 50));
+              else
+                  request.setSchoolingExtraCurricularDetails("SchoolingExtraCurricularDetails");
+            
+          
+        
+          
+          
+               request.setSchoolingHomeSchooling(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+            
+              
+                request.setSchoolingHomeSchoolingAccompanistAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+              
+            
+          
+        
+          
+          
+            
+              if ("SchoolingHomeSchoolingAccompanistFirstName".length() > 38)
+                  request.setSchoolingHomeSchoolingAccompanistFirstName("SchoolingHomeSchoolingAccompanistFirstName".substring(0, 38));
+              else
+                  request.setSchoolingHomeSchoolingAccompanistFirstName("SchoolingHomeSchoolingAccompanistFirstName");
+            
+          
+        
+          
+          
+            
+              if ("SchoolingHomeSchoolingAccompanistLastName".length() > 38)
+                  request.setSchoolingHomeSchoolingAccompanistLastName("SchoolingHomeSchoolingAccompanistLastName".substring(0, 38));
+              else
+                  request.setSchoolingHomeSchoolingAccompanistLastName("SchoolingHomeSchoolingAccompanistLastName");
+            
+          
+        
+          
+          
+            
+              request.setSchoolingHomeSchoolingKind(HccrHomeSchoolingKindType.ALONE);
+            
+          
+        
+          
+          
+               request.setSchoolingPersonalizedSchoolingPlan(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+            
+              
+                request.setSchoolingSchoolAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+              
+            
+          
+        
+          
+          
+            
+              if ("SchoolingSchoolName".length() > 80)
+                  request.setSchoolingSchoolName("SchoolingSchoolName".substring(0, 80));
+              else
+                  request.setSchoolingSchoolName("SchoolingSchoolName");
+            
+          
+        
+          
+          
+            
+              request.setSchoolingSchoolingKind(HccrSchoolingKindType.FULL_TIME);
+            
+          
+        
+          
+          
+               request.setSchoolingSendToSchool(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setSchoolingSpecializedGrade(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              if ("SchoolingSpecializedGradeDetails".length() > 30)
+                  request.setSchoolingSpecializedGradeDetails("SchoolingSpecializedGradeDetails".substring(0, 30));
+              else
+                  request.setSchoolingSpecializedGradeDetails("SchoolingSpecializedGradeDetails");
+            
+          
+        
+          
+          
+            
+                  if ("SchoolingTime".length() > 4)
+                      request.setSchoolingTime("SchoolingTime".substring(0, 4));
+                  else
+                      request.setSchoolingTime("SchoolingTime");
+            
+          
+        
+          
+          
+            
+            
+              
+                request.setSocialSecurityAgencyAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+              
             
           
         
@@ -1097,55 +1227,27 @@ public class HandicapCompensationChildRequestServiceTest extends RequestTestCase
           
           
             
-              if ("DwellingReceptionNaming".length() > 80)
-                  request.setDwellingReceptionNaming("DwellingReceptionNaming".substring(0, 80));
-              else
-                  request.setDwellingReceptionNaming("DwellingReceptionNaming");
-            
-          
-        
-          
-          
-               request.setSchoolingSendToSchool(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setBenefitsEducationOfDisabledChildren(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("ReferentFirstName".length() > 38)
-                  request.setReferentFirstName("ReferentFirstName".substring(0, 38));
-              else
-                  request.setReferentFirstName("ReferentFirstName");
+              request.setSocialSecurityMemberShipKind(HccrSocialSecurityMemberShipKindType.INSURED);
             
           
         
           
           
             
-              if ("FacilitiesTechnicalAssistanceDetails".length() > 60)
-                  request.setFacilitiesTechnicalAssistanceDetails("FacilitiesTechnicalAssistanceDetails".substring(0, 60));
-              else
-                  request.setFacilitiesTechnicalAssistanceDetails("FacilitiesTechnicalAssistanceDetails");
+                  if ("SocialSecurityNumber".length() > 13)
+                      request.setSocialSecurityNumber("SocialSecurityNumber".substring(0, 13));
+                  else
+                      request.setSocialSecurityNumber("SocialSecurityNumber");
             
           
         
           
           
-               request.setBenefitsOtherBenefits(Boolean.valueOf(true));
-          
-        
-          
-          
             
-              if ("FoldersCdesNumber".length() > 30)
-                  request.setFoldersCdesNumber("FoldersCdesNumber".substring(0, 30));
-              else
-                  request.setFoldersCdesNumber("FoldersCdesNumber");
+            
+              
+                request.setSocialServiceAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+              
             
           
         
@@ -1161,99 +1263,22 @@ public class HandicapCompensationChildRequestServiceTest extends RequestTestCase
         
           
           
-               request.setBenefitsDisabilityCompensation(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("HealthDoctorFirstName".length() > 38)
-                  request.setHealthDoctorFirstName("HealthDoctorFirstName".substring(0, 38));
-              else
-                  request.setHealthDoctorFirstName("HealthDoctorFirstName");
-            
-          
-        
-          
-          
-               request.setProjectRequestsTechnicalHelp(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setFacilitiesTechnicalAssistance(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setBenefitsCompensatoryAllowanceForExpenses(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setFacilitiesHousing(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("HealthHospitalName".length() > 60)
-                  request.setHealthHospitalName("HealthHospitalName".substring(0, 60));
-              else
-                  request.setHealthHospitalName("HealthHospitalName");
-            
-          
-        
-          
-          
-               request.setProjectRequestsDisabledPriorityCard(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setProjectRequestsEducationAllocationOfDisabledChildren(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("ProjectRequestsOtherDetails".length() > 60)
-                  request.setProjectRequestsOtherDetails("ProjectRequestsOtherDetails".substring(0, 60));
-              else
-                  request.setProjectRequestsOtherDetails("ProjectRequestsOtherDetails");
-            
-          
-        
-          
-          
                request.setSocialServiceSupport(Boolean.valueOf(true));
           
         
           
           
-               request.setProjectRequestsShelteredWork(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("FormationCurrentFormation".length() > 120)
-                  request.setFormationCurrentFormation("FormationCurrentFormation".substring(0, 120));
-              else
-                  request.setFormationCurrentFormation("FormationCurrentFormation");
-            
-          
-        
-          
-          
-            
-              request.setSchoolingSchoolingKind(HccrSchoolingKindType.FULL_TIME);
-            
-          
-        
-          
-          
                request.setStudiesAssistanceUnderDisability(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              if ("StudiesAssistanceUnderDisabilityDetails".length() > 60)
+                  request.setStudiesAssistanceUnderDisabilityDetails("StudiesAssistanceUnderDisabilityDetails".substring(0, 60));
+              else
+                  request.setStudiesAssistanceUnderDisabilityDetails("StudiesAssistanceUnderDisabilityDetails");
+            
           
         
           
@@ -1264,87 +1289,62 @@ public class HandicapCompensationChildRequestServiceTest extends RequestTestCase
           
           
             
-              if ("HealthProfessionalFirstName".length() > 38)
-                  request.setHealthProfessionalFirstName("HealthProfessionalFirstName".substring(0, 38));
-              else
-                  request.setHealthProfessionalFirstName("HealthProfessionalFirstName");
-            
-          
-        
-          
-          
-               request.setMotherActivityReduction(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("FacilitiesCustomCarDetails".length() > 60)
-                  request.setFacilitiesCustomCarDetails("FacilitiesCustomCarDetails".substring(0, 60));
-              else
-                  request.setFacilitiesCustomCarDetails("FacilitiesCustomCarDetails");
-            
-          
-        
-          
-          
-               request.setSchoolingPersonalizedSchoolingPlan(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("DwellingPrecision".length() > 120)
-                  request.setDwellingPrecision("DwellingPrecision".substring(0, 120));
-              else
-                  request.setDwellingPrecision("DwellingPrecision");
-            
-          
-        
-          
-          
-               request.setBenefitsDisabilityCard(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              request.setSocialSecurityMemberShipKind(HccrSocialSecurityMemberShipKindType.INSURED);
-            
-          
-        
-          
-          
-            
-              if ("AseReferentLastName".length() > 38)
-                  request.setAseReferentLastName("AseReferentLastName".substring(0, 38));
-              else
-                  request.setAseReferentLastName("AseReferentLastName");
-            
-          
-        
-          
-          
-            
-              if ("ProfessionalStatusElectiveFunctionDetails".length() > 60)
-                  request.setProfessionalStatusElectiveFunctionDetails("ProfessionalStatusElectiveFunctionDetails".substring(0, 60));
-              else
-                  request.setProfessionalStatusElectiveFunctionDetails("ProfessionalStatusElectiveFunctionDetails");
-            
-          
-        
-          
-          
-               request.setFacilitiesAnimalAid(Boolean.valueOf(true));
-          
-        
-          
-          
-            
             
               
                 request.setStudiesHighSchoolAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
               
+            
+          
+        
+          
+          
+            
+              if ("StudiesHighSchoolGrade".length() > 60)
+                  request.setStudiesHighSchoolGrade("StudiesHighSchoolGrade".substring(0, 60));
+              else
+                  request.setStudiesHighSchoolGrade("StudiesHighSchoolGrade");
+            
+          
+        
+          
+          
+            
+              if ("StudiesHighSchoolName".length() > 60)
+                  request.setStudiesHighSchoolName("StudiesHighSchoolName".substring(0, 60));
+              else
+                  request.setStudiesHighSchoolName("StudiesHighSchoolName");
+            
+          
+        
+          
+          
+            
+              if ("SubjectBirthCity".length() > 32)
+                  request.setSubjectBirthCity("SubjectBirthCity".substring(0, 32));
+              else
+                  request.setSubjectBirthCity("SubjectBirthCity");
+            
+          
+        
+          
+          
+            
+              if ("SubjectBirthCountry".length() > 50)
+                  request.setSubjectBirthCountry("SubjectBirthCountry".substring(0, 50));
+              else
+                  request.setSubjectBirthCountry("SubjectBirthCountry");
+            
+          
+        
+          
+          
+               request.setSubjectBirthDate(new Date());
+          
+        
+          
+          
+            
+              request.setSubjectParentalAuthorityHolder(HccrSubjectParentalAuthorityHolderType.FATHER);
             
           
         

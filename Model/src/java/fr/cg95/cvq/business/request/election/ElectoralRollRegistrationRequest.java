@@ -80,24 +80,24 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
         super.fillCommonXmlInfo(electoralRollRegistrationRequest);
         int i = 0;
         
-        if (getSubjectNationality() != null)
-            electoralRollRegistrationRequest.setSubjectNationality(fr.cg95.cvq.xml.common.NationalityType.Enum.forString(getSubjectNationality().toString()));
-      
-        electoralRollRegistrationRequest.setSubjectOldCity(getSubjectOldCity());
-      
-        if (getSubjectAddressOutsideCity() != null)
-            electoralRollRegistrationRequest.setSubjectAddressOutsideCity(Address.modelToXml(getSubjectAddressOutsideCity()));
-      
-        if (getPollingStation() != null)
-            electoralRollRegistrationRequest.setPollingStation(getPollingStation().longValue());
-      
-        electoralRollRegistrationRequest.setPollingSchoolName(getPollingSchoolName());
+        if (getElectoralNumber() != null)
+            electoralRollRegistrationRequest.setElectoralNumber(getElectoralNumber().longValue());
       
         if (getMotive() != null)
             electoralRollRegistrationRequest.setMotive(fr.cg95.cvq.xml.request.election.ElectoralMotiveType.Enum.forString(getMotive().toString()));
       
-        if (getElectoralNumber() != null)
-            electoralRollRegistrationRequest.setElectoralNumber(getElectoralNumber().longValue());
+        electoralRollRegistrationRequest.setPollingSchoolName(getPollingSchoolName());
+      
+        if (getPollingStation() != null)
+            electoralRollRegistrationRequest.setPollingStation(getPollingStation().longValue());
+      
+        if (getSubjectAddressOutsideCity() != null)
+            electoralRollRegistrationRequest.setSubjectAddressOutsideCity(Address.modelToXml(getSubjectAddressOutsideCity()));
+      
+        if (getSubjectNationality() != null)
+            electoralRollRegistrationRequest.setSubjectNationality(fr.cg95.cvq.xml.common.NationalityType.Enum.forString(getSubjectNationality().toString()));
+      
+        electoralRollRegistrationRequest.setSubjectOldCity(getSubjectOldCity());
       
         return electoralRollRegistrationRequestDoc;
     }
@@ -115,6 +115,22 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
         ElectoralRollRegistrationRequest electoralRollRegistrationRequest = new ElectoralRollRegistrationRequest();
         electoralRollRegistrationRequest.fillCommonModelInfo(electoralRollRegistrationRequest, electoralRollRegistrationRequestXml);
         
+        if (electoralRollRegistrationRequestXml.getElectoralNumber() != 0)
+            electoralRollRegistrationRequest.setElectoralNumber(new Long(electoralRollRegistrationRequestXml.getElectoralNumber()));
+      
+        if (electoralRollRegistrationRequestXml.getMotive() != null)
+            electoralRollRegistrationRequest.setMotive(fr.cg95.cvq.business.request.election.ElectoralMotiveType.forString(electoralRollRegistrationRequestXml.getMotive().toString()));
+        else
+            electoralRollRegistrationRequest.setMotive(fr.cg95.cvq.business.request.election.ElectoralMotiveType.getDefaultElectoralMotiveType());
+      
+        electoralRollRegistrationRequest.setPollingSchoolName(electoralRollRegistrationRequestXml.getPollingSchoolName());
+      
+        if (electoralRollRegistrationRequestXml.getPollingStation() != 0)
+            electoralRollRegistrationRequest.setPollingStation(new Long(electoralRollRegistrationRequestXml.getPollingStation()));
+      
+        if (electoralRollRegistrationRequestXml.getSubjectAddressOutsideCity() != null)
+            electoralRollRegistrationRequest.setSubjectAddressOutsideCity(Address.xmlToModel(electoralRollRegistrationRequestXml.getSubjectAddressOutsideCity()));
+      
         if (electoralRollRegistrationRequestXml.getSubjectNationality() != null)
             electoralRollRegistrationRequest.setSubjectNationality(fr.cg95.cvq.business.users.NationalityType.forString(electoralRollRegistrationRequestXml.getSubjectNationality().toString()));
         else
@@ -122,25 +138,54 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
       
         electoralRollRegistrationRequest.setSubjectOldCity(electoralRollRegistrationRequestXml.getSubjectOldCity());
       
-        if (electoralRollRegistrationRequestXml.getSubjectAddressOutsideCity() != null)
-            electoralRollRegistrationRequest.setSubjectAddressOutsideCity(Address.xmlToModel(electoralRollRegistrationRequestXml.getSubjectAddressOutsideCity()));
-      
-        if (electoralRollRegistrationRequestXml.getPollingStation() != 0)
-            electoralRollRegistrationRequest.setPollingStation(new Long(electoralRollRegistrationRequestXml.getPollingStation()));
-      
-        electoralRollRegistrationRequest.setPollingSchoolName(electoralRollRegistrationRequestXml.getPollingSchoolName());
-      
-        if (electoralRollRegistrationRequestXml.getMotive() != null)
-            electoralRollRegistrationRequest.setMotive(fr.cg95.cvq.business.request.election.ElectoralMotiveType.forString(electoralRollRegistrationRequestXml.getMotive().toString()));
-        else
-            electoralRollRegistrationRequest.setMotive(fr.cg95.cvq.business.request.election.ElectoralMotiveType.getDefaultElectoralMotiveType());
-      
-        if (electoralRollRegistrationRequestXml.getElectoralNumber() != 0)
-            electoralRollRegistrationRequest.setElectoralNumber(new Long(electoralRollRegistrationRequestXml.getElectoralNumber()));
-      
         return electoralRollRegistrationRequest;
     }
 
+  
+    public final void setElectoralNumber(final Long electoralNumber) {
+        electoralRollRegistrationRequestData.setElectoralNumber(electoralNumber);
+    }
+
+    
+    public final Long getElectoralNumber() {
+        return electoralRollRegistrationRequestData.getElectoralNumber();
+    }
+  
+    public final void setMotive(final fr.cg95.cvq.business.request.election.ElectoralMotiveType motive) {
+        electoralRollRegistrationRequestData.setMotive(motive);
+    }
+
+    
+    public final fr.cg95.cvq.business.request.election.ElectoralMotiveType getMotive() {
+        return electoralRollRegistrationRequestData.getMotive();
+    }
+  
+    public final void setPollingSchoolName(final String pollingSchoolName) {
+        electoralRollRegistrationRequestData.setPollingSchoolName(pollingSchoolName);
+    }
+
+    
+    public final String getPollingSchoolName() {
+        return electoralRollRegistrationRequestData.getPollingSchoolName();
+    }
+  
+    public final void setPollingStation(final Long pollingStation) {
+        electoralRollRegistrationRequestData.setPollingStation(pollingStation);
+    }
+
+    
+    public final Long getPollingStation() {
+        return electoralRollRegistrationRequestData.getPollingStation();
+    }
+  
+    public final void setSubjectAddressOutsideCity(final fr.cg95.cvq.business.users.Address subjectAddressOutsideCity) {
+        electoralRollRegistrationRequestData.setSubjectAddressOutsideCity(subjectAddressOutsideCity);
+    }
+
+    
+    public final fr.cg95.cvq.business.users.Address getSubjectAddressOutsideCity() {
+        return electoralRollRegistrationRequestData.getSubjectAddressOutsideCity();
+    }
   
     public final void setSubjectNationality(final fr.cg95.cvq.business.users.NationalityType subjectNationality) {
         electoralRollRegistrationRequestData.setSubjectNationality(subjectNationality);
@@ -158,51 +203,6 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
     
     public final String getSubjectOldCity() {
         return electoralRollRegistrationRequestData.getSubjectOldCity();
-    }
-  
-    public final void setSubjectAddressOutsideCity(final fr.cg95.cvq.business.users.Address subjectAddressOutsideCity) {
-        electoralRollRegistrationRequestData.setSubjectAddressOutsideCity(subjectAddressOutsideCity);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.Address getSubjectAddressOutsideCity() {
-        return electoralRollRegistrationRequestData.getSubjectAddressOutsideCity();
-    }
-  
-    public final void setPollingStation(final Long pollingStation) {
-        electoralRollRegistrationRequestData.setPollingStation(pollingStation);
-    }
-
-    
-    public final Long getPollingStation() {
-        return electoralRollRegistrationRequestData.getPollingStation();
-    }
-  
-    public final void setPollingSchoolName(final String pollingSchoolName) {
-        electoralRollRegistrationRequestData.setPollingSchoolName(pollingSchoolName);
-    }
-
-    
-    public final String getPollingSchoolName() {
-        return electoralRollRegistrationRequestData.getPollingSchoolName();
-    }
-  
-    public final void setMotive(final fr.cg95.cvq.business.request.election.ElectoralMotiveType motive) {
-        electoralRollRegistrationRequestData.setMotive(motive);
-    }
-
-    
-    public final fr.cg95.cvq.business.request.election.ElectoralMotiveType getMotive() {
-        return electoralRollRegistrationRequestData.getMotive();
-    }
-  
-    public final void setElectoralNumber(final Long electoralNumber) {
-        electoralRollRegistrationRequestData.setElectoralNumber(electoralNumber);
-    }
-
-    
-    public final Long getElectoralNumber() {
-        return electoralRollRegistrationRequestData.getElectoralNumber();
     }
   
 }

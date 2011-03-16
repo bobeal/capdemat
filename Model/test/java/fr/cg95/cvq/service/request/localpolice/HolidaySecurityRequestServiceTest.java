@@ -43,22 +43,37 @@ public class HolidaySecurityRequestServiceTest extends RequestTestCase {
         
           
           
-            
-              if ("OtherContactLastName".length() > 38)
-                  request.setOtherContactLastName("OtherContactLastName".substring(0, 38));
-              else
-                  request.setOtherContactLastName("OtherContactLastName");
-            
-          
-        
-          
-          
                request.setAbsenceEndDate(new Date());
           
         
           
           
+               request.setAbsenceStartDate(new Date());
+          
+        
+          
+          
                request.setAlarm(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              if ("AlertPhone".length() > 10)
+                  request.setAlertPhone("AlertPhone".substring(0, 10));
+              else
+                  request.setAlertPhone("AlertPhone");
+            
+          
+        
+          
+          
+               request.setLight(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setOtherContact(Boolean.valueOf(true));
           
         
           
@@ -73,11 +88,6 @@ public class HolidaySecurityRequestServiceTest extends RequestTestCase {
         
           
           
-               request.setOtherContact(Boolean.valueOf(true));
-          
-        
-          
-          
             
               if ("OtherContactFirstName".length() > 38)
                   request.setOtherContactFirstName("OtherContactFirstName".substring(0, 38));
@@ -88,7 +98,12 @@ public class HolidaySecurityRequestServiceTest extends RequestTestCase {
         
           
           
-               request.setLight(Boolean.valueOf(true));
+            
+              if ("OtherContactLastName".length() > 38)
+                  request.setOtherContactLastName("OtherContactLastName".substring(0, 38));
+              else
+                  request.setOtherContactLastName("OtherContactLastName");
+            
           
         
           
@@ -104,21 +119,6 @@ public class HolidaySecurityRequestServiceTest extends RequestTestCase {
           
           
                request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("AlertPhone".length() > 10)
-                  request.setAlertPhone("AlertPhone".substring(0, 10));
-              else
-                  request.setAlertPhone("AlertPhone");
-            
-          
-        
-          
-          
-               request.setAbsenceStartDate(new Date());
           
         
         // Means Of Contact

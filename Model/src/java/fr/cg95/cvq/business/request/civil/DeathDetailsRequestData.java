@@ -55,114 +55,6 @@ public class DeathDetailsRequestData implements Serializable {
 
   
     
-      @NotNull(
-        
-        
-        profiles = {"nature"},
-        message = "deathFirstNames"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"nature"},
-        message = "deathFirstNames"
-      )
-    
-    private String deathFirstNames;
-
-    public final void setDeathFirstNames(final String deathFirstNames) {
-        this.deathFirstNames = deathFirstNames;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="death_first_names"
-        
-      
-    */
-    public final String getDeathFirstNames() {
-        return this.deathFirstNames;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"type"},
-        message = "format"
-      )
-    
-    private fr.cg95.cvq.business.request.civil.DeathCertificateFormatType format;
-
-    public final void setFormat(final fr.cg95.cvq.business.request.civil.DeathCertificateFormatType format) {
-        this.format = format;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="format"
-        
-      
-    */
-    public final fr.cg95.cvq.business.request.civil.DeathCertificateFormatType getFormat() {
-        return this.format;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"type"},
-        message = "copies"
-      )
-    
-    private java.math.BigInteger copies;
-
-    public final void setCopies(final java.math.BigInteger copies) {
-        this.copies = copies;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="copies"
-        *  type="serializable"
-        
-      
-    */
-    public final java.math.BigInteger getCopies() {
-        return this.copies;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"nature"},
-        message = "deathDate"
-      )
-    
-    private java.util.Date deathDate;
-
-    public final void setDeathDate(final java.util.Date deathDate) {
-        this.deathDate = deathDate;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="death_date"
-        
-      
-    */
-    public final java.util.Date getDeathDate() {
-        return this.deathDate;
-    }
-  
-    
       @MatchPattern(
         
           pattern = "^.{0,255}$",
@@ -190,44 +82,29 @@ public class DeathDetailsRequestData implements Serializable {
     }
   
     
-      @MaxLength(
-        
-          value = 2,
-        
-        
-        profiles = {"nature"},
-        message = "deathPostalCode"
-      )
-    
       @NotNull(
         
         
-        profiles = {"nature"},
-        message = "deathPostalCode"
+        profiles = {"type"},
+        message = "copies"
       )
     
-      @NotBlank(
-        
-        
-        profiles = {"nature"},
-        message = "deathPostalCode"
-      )
-    
-    private String deathPostalCode;
+    private java.math.BigInteger copies;
 
-    public final void setDeathPostalCode(final String deathPostalCode) {
-        this.deathPostalCode = deathPostalCode;
+    public final void setCopies(final java.math.BigInteger copies) {
+        this.copies = copies;
     }
 
     /**
  
         * @hibernate.property
-        *  column="death_postal_code"
-        *  length="2"
+        *  column="copies"
+        *  type="serializable"
+        
       
     */
-    public final String getDeathPostalCode() {
-        return this.deathPostalCode;
+    public final java.math.BigInteger getCopies() {
+        return this.copies;
     }
   
     
@@ -272,21 +149,60 @@ public class DeathDetailsRequestData implements Serializable {
     }
   
     
-    private fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType motive;
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "deathDate"
+      )
+    
+    private java.util.Date deathDate;
 
-    public final void setMotive(final fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType motive) {
-        this.motive = motive;
+    public final void setDeathDate(final java.util.Date deathDate) {
+        this.deathDate = deathDate;
     }
 
     /**
  
         * @hibernate.property
-        *  column="motive"
+        *  column="death_date"
         
       
     */
-    public final fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType getMotive() {
-        return this.motive;
+    public final java.util.Date getDeathDate() {
+        return this.deathDate;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "deathFirstNames"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"nature"},
+        message = "deathFirstNames"
+      )
+    
+    private String deathFirstNames;
+
+    public final void setDeathFirstNames(final String deathFirstNames) {
+        this.deathFirstNames = deathFirstNames;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="death_first_names"
+        
+      
+    */
+    public final String getDeathFirstNames() {
+        return this.deathFirstNames;
     }
   
     
@@ -328,6 +244,90 @@ public class DeathDetailsRequestData implements Serializable {
     */
     public final String getDeathLastName() {
         return this.deathLastName;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 2,
+        
+        
+        profiles = {"nature"},
+        message = "deathPostalCode"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "deathPostalCode"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"nature"},
+        message = "deathPostalCode"
+      )
+    
+    private String deathPostalCode;
+
+    public final void setDeathPostalCode(final String deathPostalCode) {
+        this.deathPostalCode = deathPostalCode;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="death_postal_code"
+        *  length="2"
+      
+    */
+    public final String getDeathPostalCode() {
+        return this.deathPostalCode;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"type"},
+        message = "format"
+      )
+    
+    private fr.cg95.cvq.business.request.civil.DeathCertificateFormatType format;
+
+    public final void setFormat(final fr.cg95.cvq.business.request.civil.DeathCertificateFormatType format) {
+        this.format = format;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="format"
+        
+      
+    */
+    public final fr.cg95.cvq.business.request.civil.DeathCertificateFormatType getFormat() {
+        return this.format;
+    }
+  
+    
+    private fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType motive;
+
+    public final void setMotive(final fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType motive) {
+        this.motive = motive;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="motive"
+        
+      
+    */
+    public final fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType getMotive() {
+        return this.motive;
     }
   
 }

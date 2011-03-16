@@ -43,23 +43,7 @@ public class MilitaryCensusRequestServiceTest extends RequestTestCase {
         
           
           
-            
-              request.setFatherBirthDepartment(InseeDepartementCodeType.NONE);
-            
-          
-        
-          
-          
-            
-               request.setChildProfession("ChildProfession");
-            
-          
-        
-          
-          
-            
-              request.setChildStatus(FamilyStatusType.MARRIED);
-            
+               request.setAffectionOrDisease(Boolean.valueOf(true));
           
         
           
@@ -69,25 +53,25 @@ public class MilitaryCensusRequestServiceTest extends RequestTestCase {
         
           
           
-               request.setAffectionOrDisease(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setStatePupil(Boolean.valueOf(true));
-          
-        
-          
-          
             
-              request.setChildTitle(TitleType.MISTER);
+              request.setChildBirthCountry(CountryType.UNKNOWN);
             
           
         
           
           
             
-               request.setChildMail("ChildMail");
+              if ("ChildConvention".length() > 255)
+                  request.setChildConvention("ChildConvention".substring(0, 255));
+              else
+                  request.setChildConvention("ChildConvention");
+            
+          
+        
+          
+          
+            
+              request.setChildCountry(FullNationalityType.NONE);
             
           
         
@@ -101,84 +85,7 @@ public class MilitaryCensusRequestServiceTest extends RequestTestCase {
           
           
             
-              request.setMotherBirthCountry(CountryType.UNKNOWN);
-            
-          
-        
-          
-          
-            
-               request.setFatherBirthCity("FatherBirthCity");
-            
-          
-        
-          
-          
-               request.setFatherBirthDate(new Date());
-          
-        
-          
-          
-            
-              if ("FatherFirstName".length() > 38)
-                  request.setFatherFirstName("FatherFirstName".substring(0, 38));
-              else
-                  request.setFatherFirstName("FatherFirstName");
-            
-          
-        
-          
-          
-            
-               request.setMotherBirthCity("MotherBirthCity");
-            
-          
-        
-          
-          
-            
-              request.setFatherNationality(FullNationalityType.NONE);
-            
-          
-        
-          
-          
-               request.setMotherBirthDate(new Date());
-          
-        
-          
-          
-            
-              if ("MotherFirstName".length() > 38)
-                  request.setMotherFirstName("MotherFirstName".substring(0, 38));
-              else
-                  request.setMotherFirstName("MotherFirstName");
-            
-          
-        
-          
-          
-            
-              request.setChildBirthCountry(CountryType.UNKNOWN);
-            
-          
-        
-          
-          
-            
-              request.setMotherNationality(FullNationalityType.NONE);
-            
-          
-        
-          
-          
-               request.setHighlyInfirm(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-               request.setChildSpeciality("ChildSpeciality");
+               request.setChildMail("ChildMail");
             
           
         
@@ -186,33 +93,6 @@ public class MilitaryCensusRequestServiceTest extends RequestTestCase {
           
             
               request.setChildOtherCountry(FullNationalityType.NONE);
-            
-          
-        
-          
-          
-               request.setChildrenInCharge(BigInteger.valueOf(1));
-          
-        
-          
-          
-               request.setJapdExemption(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              request.setChildSituation(ChildSituationType.COLLEGE);
-            
-          
-        
-          
-          
-            
-              if ("MaidenName".length() > 38)
-                  request.setMaidenName("MaidenName".substring(0, 38));
-              else
-                  request.setMaidenName("MaidenName");
             
           
         
@@ -229,10 +109,83 @@ public class MilitaryCensusRequestServiceTest extends RequestTestCase {
           
           
             
-              if ("MotherLastName".length() > 38)
-                  request.setMotherLastName("MotherLastName".substring(0, 38));
+               request.setChildProfession("ChildProfession");
+            
+          
+        
+          
+          
+            
+              request.setChildResidenceCountry(CountryType.UNKNOWN);
+            
+          
+        
+          
+          
+            
+              request.setChildSituation(ChildSituationType.COLLEGE);
+            
+          
+        
+          
+          
+            
+               request.setChildSpeciality("ChildSpeciality");
+            
+          
+        
+          
+          
+            
+              request.setChildStatus(FamilyStatusType.MARRIED);
+            
+          
+        
+          
+          
+            
+              request.setChildTitle(TitleType.MISTER);
+            
+          
+        
+          
+          
+               request.setChildrenInCharge(BigInteger.valueOf(1));
+          
+        
+          
+          
+            
+               request.setFatherBirthCity("FatherBirthCity");
+            
+          
+        
+          
+          
+            
+              request.setFatherBirthCountry(CountryType.UNKNOWN);
+            
+          
+        
+          
+          
+               request.setFatherBirthDate(new Date());
+          
+        
+          
+          
+            
+              request.setFatherBirthDepartment(InseeDepartementCodeType.NONE);
+            
+          
+        
+          
+          
+            
+              if ("FatherFirstName".length() > 38)
+                  request.setFatherFirstName("FatherFirstName".substring(0, 38));
               else
-                  request.setMotherLastName("MotherLastName");
+                  request.setFatherFirstName("FatherFirstName");
             
           
         
@@ -249,8 +202,47 @@ public class MilitaryCensusRequestServiceTest extends RequestTestCase {
           
           
             
-              request.setPrefectPupilDepartment(InseeDepartementCodeType.NONE);
+              request.setFatherNationality(FullNationalityType.NONE);
             
+          
+        
+          
+          
+               request.setHighlyInfirm(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setJapdExemption(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              if ("MaidenName".length() > 38)
+                  request.setMaidenName("MaidenName".substring(0, 38));
+              else
+                  request.setMaidenName("MaidenName");
+            
+          
+        
+          
+          
+            
+               request.setMotherBirthCity("MotherBirthCity");
+            
+          
+        
+          
+          
+            
+              request.setMotherBirthCountry(CountryType.UNKNOWN);
+            
+          
+        
+          
+          
+               request.setMotherBirthDate(new Date());
           
         
           
@@ -263,7 +255,27 @@ public class MilitaryCensusRequestServiceTest extends RequestTestCase {
           
           
             
-              request.setChildResidenceCountry(CountryType.UNKNOWN);
+              if ("MotherFirstName".length() > 38)
+                  request.setMotherFirstName("MotherFirstName".substring(0, 38));
+              else
+                  request.setMotherFirstName("MotherFirstName");
+            
+          
+        
+          
+          
+            
+              if ("MotherLastName".length() > 38)
+                  request.setMotherLastName("MotherLastName".substring(0, 38));
+              else
+                  request.setMotherLastName("MotherLastName");
+            
+          
+        
+          
+          
+            
+              request.setMotherNationality(FullNationalityType.NONE);
             
           
         
@@ -282,25 +294,13 @@ public class MilitaryCensusRequestServiceTest extends RequestTestCase {
           
           
             
-              request.setChildCountry(FullNationalityType.NONE);
+              request.setPrefectPupilDepartment(InseeDepartementCodeType.NONE);
             
           
         
           
           
-            
-              if ("ChildConvention".length() > 255)
-                  request.setChildConvention("ChildConvention".substring(0, 255));
-              else
-                  request.setChildConvention("ChildConvention");
-            
-          
-        
-          
-          
-            
-              request.setFatherBirthCountry(CountryType.UNKNOWN);
-            
+               request.setStatePupil(Boolean.valueOf(true));
           
         
         // Means Of Contact

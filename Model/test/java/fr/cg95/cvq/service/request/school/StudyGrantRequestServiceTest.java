@@ -43,85 +43,12 @@ public class StudyGrantRequestServiceTest extends RequestTestCase {
         
           
           
-            
-               request.setEdemandeId("EdemandeId");
-            
+               request.setAbroadInternship(Boolean.valueOf(true));
           
         
           
           
-               request.setSubjectBirthDate(new Date());
-          
-        
-          
-          
-            
-              if ("CurrentSchoolCity".length() > 32)
-                  request.setCurrentSchoolCity("CurrentSchoolCity".substring(0, 32));
-              else
-                  request.setCurrentSchoolCity("CurrentSchoolCity");
-            
-          
-        
-          
-          
-            
-               request.setSubjectEmail("SubjectEmail");
-            
-          
-        
-          
-          
-            
-            
-          
-        
-          
-          
-               request.setSubjectFirstRequest(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setHasOtherHelp(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("SubjectPhone".length() > 10)
-                  request.setSubjectPhone("SubjectPhone".substring(0, 10));
-              else
-                  request.setSubjectPhone("SubjectPhone");
-            
-          
-        
-          
-          
-            
-              if ("AlevelsDate".length() > 4)
-                  request.setAlevelsDate("AlevelsDate".substring(0, 4));
-              else
-                  request.setAlevelsDate("AlevelsDate");
-            
-          
-        
-          
-          
-               request.setAccountHolderBirthDate(new Date());
-          
-        
-          
-          
-            
-            
-          
-        
-          
-          
-            
-              request.setAccountHolderTitle(TitleType.MISTER);
-            
+               request.setAbroadInternshipEndDate(new Date());
           
         
           
@@ -134,46 +61,7 @@ public class StudyGrantRequestServiceTest extends RequestTestCase {
           
           
             
-              if ("TaxHouseholdLastName".length() > 38)
-                  request.setTaxHouseholdLastName("TaxHouseholdLastName".substring(0, 38));
-              else
-                  request.setTaxHouseholdLastName("TaxHouseholdLastName");
-            
-          
-        
-          
-          
-            
                request.setAbroadInternshipSchoolName("AbroadInternshipSchoolName");
-            
-          
-        
-          
-          
-               request.setHasRegionalCouncilHelp(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-               request.setTaxHouseholdCityPrecision("TaxHouseholdCityPrecision");
-            
-          
-        
-          
-          
-            
-              request.setCurrentStudiesLevel(CurrentStudiesLevelType.FIRST_YEAR);
-            
-          
-        
-          
-          
-            
-              if ("CurrentSchoolPostalCode".length() > 5)
-                  request.setCurrentSchoolPostalCode("CurrentSchoolPostalCode".substring(0, 5));
-              else
-                  request.setCurrentSchoolPostalCode("CurrentSchoolPostalCode");
             
           
         
@@ -184,17 +72,14 @@ public class StudyGrantRequestServiceTest extends RequestTestCase {
         
           
           
-            
-              if ("AccountHolderLastName".length() > 38)
-                  request.setAccountHolderLastName("AccountHolderLastName".substring(0, 38));
-              else
-                  request.setAccountHolderLastName("AccountHolderLastName");
-            
+               request.setAccountHolderBirthDate(new Date());
           
         
           
           
-               request.setHasCROUSHelp(Boolean.valueOf(true));
+            
+               request.setAccountHolderEdemandeId("AccountHolderEdemandeId");
+            
           
         
           
@@ -210,7 +95,17 @@ public class StudyGrantRequestServiceTest extends RequestTestCase {
           
           
             
-              request.setDistance(DistanceType.LESS_THAN30KMS);
+              if ("AccountHolderLastName".length() > 38)
+                  request.setAccountHolderLastName("AccountHolderLastName".substring(0, 38));
+              else
+                  request.setAccountHolderLastName("AccountHolderLastName");
+            
+          
+        
+          
+          
+            
+              request.setAccountHolderTitle(TitleType.MISTER);
             
           
         
@@ -223,7 +118,150 @@ public class StudyGrantRequestServiceTest extends RequestTestCase {
         
           
           
+            
+              if ("AlevelsDate".length() > 4)
+                  request.setAlevelsDate("AlevelsDate".substring(0, 4));
+              else
+                  request.setAlevelsDate("AlevelsDate");
+            
+          
+        
+          
+          
+            
+              if ("CurrentSchoolCity".length() > 32)
+                  request.setCurrentSchoolCity("CurrentSchoolCity".substring(0, 32));
+              else
+                  request.setCurrentSchoolCity("CurrentSchoolCity");
+            
+          
+        
+          
+          
+            
+              request.setCurrentSchoolCountry(CountryType.UNKNOWN);
+            
+          
+        
+          
+          
+            
+            
+          
+        
+          
+          
+            
+               request.setCurrentSchoolNamePrecision("CurrentSchoolNamePrecision");
+            
+          
+        
+          
+          
+            
+              if ("CurrentSchoolPostalCode".length() > 5)
+                  request.setCurrentSchoolPostalCode("CurrentSchoolPostalCode".substring(0, 5));
+              else
+                  request.setCurrentSchoolPostalCode("CurrentSchoolPostalCode");
+            
+          
+        
+          
+          
+            
+              request.setCurrentStudiesDiploma(CurrentStudiesType.LICENCE);
+            
+          
+        
+          
+          
+            
+              request.setCurrentStudiesLevel(CurrentStudiesLevelType.FIRST_YEAR);
+            
+          
+        
+          
+          
+            
+              request.setDistance(DistanceType.LESS_THAN30KMS);
+            
+          
+        
+          
+          
+            
+               request.setEdemandeId("EdemandeId");
+            
+          
+        
+          
+          
+            
+            
+          
+        
+          
+          
+               request.setHasCROUSHelp(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setHasEuropeHelp(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setHasOtherHelp(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setHasRegionalCouncilHelp(Boolean.valueOf(true));
+          
+        
+          
+          
                request.setIsSubjectAccountHolder(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+               request.setOtherStudiesLabel("OtherStudiesLabel");
+            
+          
+        
+          
+          
+               request.setSandwichCourses(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+            
+              
+                request.setSubjectAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+              
+            
+          
+        
+          
+          
+               request.setSubjectBirthDate(new Date());
+          
+        
+          
+          
+            
+               request.setSubjectEmail("SubjectEmail");
+            
+          
+        
+          
+          
+               request.setSubjectFirstRequest(Boolean.valueOf(true));
           
         
           
@@ -239,24 +277,10 @@ public class StudyGrantRequestServiceTest extends RequestTestCase {
           
           
             
-               request.setOtherStudiesLabel("OtherStudiesLabel");
-            
-          
-        
-          
-          
-        
-          
-          
-            
-               request.setCurrentSchoolNamePrecision("CurrentSchoolNamePrecision");
-            
-          
-        
-          
-          
-            
-              request.setCurrentSchoolCountry(CountryType.UNKNOWN);
+              if ("SubjectPhone".length() > 10)
+                  request.setSubjectPhone("SubjectPhone".substring(0, 10));
+              else
+                  request.setSubjectPhone("SubjectPhone");
             
           
         
@@ -264,26 +288,12 @@ public class StudyGrantRequestServiceTest extends RequestTestCase {
           
             
             
-              
-                request.setSubjectAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
-              
-            
-          
-        
-          
-          
-               request.setAbroadInternshipEndDate(new Date());
-          
-        
-          
-          
-               request.setHasEuropeHelp(Boolean.valueOf(true));
           
         
           
           
             
-               request.setAccountHolderEdemandeId("AccountHolderEdemandeId");
+               request.setTaxHouseholdCityPrecision("TaxHouseholdCityPrecision");
             
           
         
@@ -299,24 +309,14 @@ public class StudyGrantRequestServiceTest extends RequestTestCase {
         
           
           
-               request.setSandwichCourses(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setAbroadInternship(Boolean.valueOf(true));
-          
         
           
           
             
-            
-          
-        
-          
-          
-            
-              request.setCurrentStudiesDiploma(CurrentStudiesType.LICENCE);
+              if ("TaxHouseholdLastName".length() > 38)
+                  request.setTaxHouseholdLastName("TaxHouseholdLastName".substring(0, 38));
+              else
+                  request.setTaxHouseholdLastName("TaxHouseholdLastName");
             
           
         

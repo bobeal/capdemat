@@ -43,16 +43,7 @@ public class DeathDetailsRequestServiceTest extends RequestTestCase {
         
           
           
-            
-               request.setDeathFirstNames("DeathFirstNames");
-            
-          
-        
-          
-          
-            
-              request.setFormat(DeathCertificateFormatType.FULL_COPY);
-            
+               request.setComment("Comment");
           
         
           
@@ -62,12 +53,34 @@ public class DeathDetailsRequestServiceTest extends RequestTestCase {
         
           
           
+            
+              if ("DeathCity".length() > 32)
+                  request.setDeathCity("DeathCity".substring(0, 32));
+              else
+                  request.setDeathCity("DeathCity");
+            
+          
+        
+          
+          
                request.setDeathDate(new Date());
           
         
           
           
-               request.setComment("Comment");
+            
+               request.setDeathFirstNames("DeathFirstNames");
+            
+          
+        
+          
+          
+            
+              if ("DeathLastName".length() > 38)
+                  request.setDeathLastName("DeathLastName".substring(0, 38));
+              else
+                  request.setDeathLastName("DeathLastName");
+            
           
         
           
@@ -83,10 +96,7 @@ public class DeathDetailsRequestServiceTest extends RequestTestCase {
           
           
             
-              if ("DeathCity".length() > 32)
-                  request.setDeathCity("DeathCity".substring(0, 32));
-              else
-                  request.setDeathCity("DeathCity");
+              request.setFormat(DeathCertificateFormatType.FULL_COPY);
             
           
         
@@ -94,16 +104,6 @@ public class DeathDetailsRequestServiceTest extends RequestTestCase {
           
             
               request.setMotive(DeathCertificateMotiveType.NOTARY_ACT);
-            
-          
-        
-          
-          
-            
-              if ("DeathLastName".length() > 38)
-                  request.setDeathLastName("DeathLastName".substring(0, 38));
-              else
-                  request.setDeathLastName("DeathLastName");
             
           
         

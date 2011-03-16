@@ -79,43 +79,51 @@ public class StudyGrantRequest extends Request implements Serializable {
         StudyGrantRequestDocument.StudyGrantRequest studyGrantRequest = studyGrantRequestDoc.addNewStudyGrantRequest();
         super.fillCommonXmlInfo(studyGrantRequest);
         int i = 0;
-        
-        studyGrantRequest.setEdemandeId(getEdemandeId());
-        SubjectInformationsType subjectInformationsTypeSubjectInformations = studyGrantRequest.addNewSubjectInformations();
-        date = getSubjectBirthDate();
+          CurrentStudiesInformationsType currentStudiesInformationsTypeCurrentStudiesInformations = studyGrantRequest.addNewCurrentStudiesInformations();
+        if (getAbroadInternship() != null)
+            currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternship(getAbroadInternship().booleanValue());
+      
+        date = getAbroadInternshipEndDate();
         if (date != null) {
             calendar.setTime(date);
-            subjectInformationsTypeSubjectInformations.setSubjectBirthDate(calendar);
-        }
-        SgrCurrentSchoolType sgrCurrentSchoolTypeCurrentSchool = studyGrantRequest.addNewCurrentSchool();
-        sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolCity(getCurrentSchoolCity());
-      
-        subjectInformationsTypeSubjectInformations.setSubjectEmail(getSubjectEmail());
-      
-        i = 0;
-        if (getTaxHouseholdCity() != null) {
-            fr.cg95.cvq.xml.common.LocalReferentialDataType[] taxHouseholdCityTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[getTaxHouseholdCity().size()];
-            for (LocalReferentialData object : getTaxHouseholdCity()) {
-              taxHouseholdCityTypeTab[i++] = LocalReferentialData.modelToXml(object);
-            }
-            studyGrantRequest.setTaxHouseholdCityArray(taxHouseholdCityTypeTab);
+            currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipEndDate(calendar);
         }
       
-        if (getSubjectFirstRequest() != null)
-            subjectInformationsTypeSubjectInformations.setSubjectFirstRequest(getSubjectFirstRequest().booleanValue());
+        if (getAbroadInternshipSchoolCountry() != null)
+            currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipSchoolCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getAbroadInternshipSchoolCountry().toString()));
       
-        if (getHasOtherHelp() != null)
-            studyGrantRequest.setHasOtherHelp(getHasOtherHelp().booleanValue());
+        currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipSchoolName(getAbroadInternshipSchoolName());
       
-        subjectInformationsTypeSubjectInformations.setSubjectPhone(getSubjectPhone());
-        ALevelsInformationsType aLevelsInformationsTypeALevelsInformations = studyGrantRequest.addNewALevelsInformations();
-        aLevelsInformationsTypeALevelsInformations.setAlevelsDate(getAlevelsDate());
+        date = getAbroadInternshipStartDate();
+        if (date != null) {
+            calendar.setTime(date);
+            currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipStartDate(calendar);
+        }
       
         date = getAccountHolderBirthDate();
         if (date != null) {
             calendar.setTime(date);
             studyGrantRequest.setAccountHolderBirthDate(calendar);
         }
+      
+        studyGrantRequest.setAccountHolderEdemandeId(getAccountHolderEdemandeId());
+      
+        studyGrantRequest.setAccountHolderFirstName(getAccountHolderFirstName());
+      
+        studyGrantRequest.setAccountHolderLastName(getAccountHolderLastName());
+      
+        if (getAccountHolderTitle() != null)
+            studyGrantRequest.setAccountHolderTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getAccountHolderTitle().toString()));
+        ALevelsInformationsType aLevelsInformationsTypeALevelsInformations = studyGrantRequest.addNewALevelsInformations();
+        if (getAlevels() != null)
+            aLevelsInformationsTypeALevelsInformations.setAlevels(fr.cg95.cvq.xml.request.school.ALevelsType.Enum.forString(getAlevels().toString()));
+      
+        aLevelsInformationsTypeALevelsInformations.setAlevelsDate(getAlevelsDate());
+        SgrCurrentSchoolType sgrCurrentSchoolTypeCurrentSchool = studyGrantRequest.addNewCurrentSchool();
+        sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolCity(getCurrentSchoolCity());
+      
+        if (getCurrentSchoolCountry() != null)
+            sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getCurrentSchoolCountry().toString()));
       
         i = 0;
         if (getCurrentSchoolName() != null) {
@@ -126,87 +134,79 @@ public class StudyGrantRequest extends Request implements Serializable {
             sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolNameArray(currentSchoolNameTypeTab);
         }
       
-        if (getAccountHolderTitle() != null)
-            studyGrantRequest.setAccountHolderTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getAccountHolderTitle().toString()));
-        CurrentStudiesInformationsType currentStudiesInformationsTypeCurrentStudiesInformations = studyGrantRequest.addNewCurrentStudiesInformations();
-        if (getAbroadInternshipSchoolCountry() != null)
-            currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipSchoolCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getAbroadInternshipSchoolCountry().toString()));
+        sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolNamePrecision(getCurrentSchoolNamePrecision());
       
-        studyGrantRequest.setTaxHouseholdLastName(getTaxHouseholdLastName());
+        sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolPostalCode(getCurrentSchoolPostalCode());
       
-        currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipSchoolName(getAbroadInternshipSchoolName());
-      
-        if (getHasRegionalCouncilHelp() != null)
-            studyGrantRequest.setHasRegionalCouncilHelp(getHasRegionalCouncilHelp().booleanValue());
-      
-        studyGrantRequest.setTaxHouseholdCityPrecision(getTaxHouseholdCityPrecision());
+        if (getCurrentStudiesDiploma() != null)
+            currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudiesDiploma(fr.cg95.cvq.xml.request.school.CurrentStudiesType.Enum.forString(getCurrentStudiesDiploma().toString()));
       
         if (getCurrentStudiesLevel() != null)
             currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudiesLevel(fr.cg95.cvq.xml.request.school.CurrentStudiesLevelType.Enum.forString(getCurrentStudiesLevel().toString()));
       
-        sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolPostalCode(getCurrentSchoolPostalCode());
-      
-        date = getAbroadInternshipStartDate();
-        if (date != null) {
-            calendar.setTime(date);
-            currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipStartDate(calendar);
-        }
-      
-        studyGrantRequest.setAccountHolderLastName(getAccountHolderLastName());
-      
-        if (getHasCROUSHelp() != null)
-            studyGrantRequest.setHasCROUSHelp(getHasCROUSHelp().booleanValue());
-      
-        studyGrantRequest.setAccountHolderFirstName(getAccountHolderFirstName());
-      
         if (getDistance() != null)
             studyGrantRequest.setDistance(fr.cg95.cvq.xml.request.school.DistanceType.Enum.forString(getDistance().toString()));
       
-        if (getAlevels() != null)
-            aLevelsInformationsTypeALevelsInformations.setAlevels(fr.cg95.cvq.xml.request.school.ALevelsType.Enum.forString(getAlevels().toString()));
-      
-        if (getIsSubjectAccountHolder() != null)
-            studyGrantRequest.setIsSubjectAccountHolder(getIsSubjectAccountHolder().booleanValue());
-      
-        subjectInformationsTypeSubjectInformations.setSubjectMobilePhone(getSubjectMobilePhone());
-      
-        currentStudiesInformationsTypeCurrentStudiesInformations.setOtherStudiesLabel(getOtherStudiesLabel());
-      
-        if (getTaxHouseholdIncome() != null)
-            studyGrantRequest.setTaxHouseholdIncome(getTaxHouseholdIncome().doubleValue());
-      
-        sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolNamePrecision(getCurrentSchoolNamePrecision());
-      
-        if (getCurrentSchoolCountry() != null)
-            sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getCurrentSchoolCountry().toString()));
-      
-        if (getSubjectAddress() != null)
-            subjectInformationsTypeSubjectInformations.setSubjectAddress(Address.modelToXml(getSubjectAddress()));
-      
-        date = getAbroadInternshipEndDate();
-        if (date != null) {
-            calendar.setTime(date);
-            currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipEndDate(calendar);
-        }
-      
-        if (getHasEuropeHelp() != null)
-            studyGrantRequest.setHasEuropeHelp(getHasEuropeHelp().booleanValue());
-      
-        studyGrantRequest.setAccountHolderEdemandeId(getAccountHolderEdemandeId());
-      
-        studyGrantRequest.setTaxHouseholdFirstName(getTaxHouseholdFirstName());
-      
-        if (getSandwichCourses() != null)
-            currentStudiesInformationsTypeCurrentStudiesInformations.setSandwichCourses(getSandwichCourses().booleanValue());
-      
-        if (getAbroadInternship() != null)
-            currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternship(getAbroadInternship().booleanValue());
+        studyGrantRequest.setEdemandeId(getEdemandeId());
       
         if (getFrenchRIB() != null)
             studyGrantRequest.setFrenchRIB(FrenchRIB.modelToXml(getFrenchRIB()));
       
-        if (getCurrentStudiesDiploma() != null)
-            currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudiesDiploma(fr.cg95.cvq.xml.request.school.CurrentStudiesType.Enum.forString(getCurrentStudiesDiploma().toString()));
+        if (getHasCROUSHelp() != null)
+            studyGrantRequest.setHasCROUSHelp(getHasCROUSHelp().booleanValue());
+      
+        if (getHasEuropeHelp() != null)
+            studyGrantRequest.setHasEuropeHelp(getHasEuropeHelp().booleanValue());
+      
+        if (getHasOtherHelp() != null)
+            studyGrantRequest.setHasOtherHelp(getHasOtherHelp().booleanValue());
+      
+        if (getHasRegionalCouncilHelp() != null)
+            studyGrantRequest.setHasRegionalCouncilHelp(getHasRegionalCouncilHelp().booleanValue());
+      
+        if (getIsSubjectAccountHolder() != null)
+            studyGrantRequest.setIsSubjectAccountHolder(getIsSubjectAccountHolder().booleanValue());
+      
+        currentStudiesInformationsTypeCurrentStudiesInformations.setOtherStudiesLabel(getOtherStudiesLabel());
+      
+        if (getSandwichCourses() != null)
+            currentStudiesInformationsTypeCurrentStudiesInformations.setSandwichCourses(getSandwichCourses().booleanValue());
+        SubjectInformationsType subjectInformationsTypeSubjectInformations = studyGrantRequest.addNewSubjectInformations();
+        if (getSubjectAddress() != null)
+            subjectInformationsTypeSubjectInformations.setSubjectAddress(Address.modelToXml(getSubjectAddress()));
+      
+        date = getSubjectBirthDate();
+        if (date != null) {
+            calendar.setTime(date);
+            subjectInformationsTypeSubjectInformations.setSubjectBirthDate(calendar);
+        }
+      
+        subjectInformationsTypeSubjectInformations.setSubjectEmail(getSubjectEmail());
+      
+        if (getSubjectFirstRequest() != null)
+            subjectInformationsTypeSubjectInformations.setSubjectFirstRequest(getSubjectFirstRequest().booleanValue());
+      
+        subjectInformationsTypeSubjectInformations.setSubjectMobilePhone(getSubjectMobilePhone());
+      
+        subjectInformationsTypeSubjectInformations.setSubjectPhone(getSubjectPhone());
+      
+        i = 0;
+        if (getTaxHouseholdCity() != null) {
+            fr.cg95.cvq.xml.common.LocalReferentialDataType[] taxHouseholdCityTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[getTaxHouseholdCity().size()];
+            for (LocalReferentialData object : getTaxHouseholdCity()) {
+              taxHouseholdCityTypeTab[i++] = LocalReferentialData.modelToXml(object);
+            }
+            studyGrantRequest.setTaxHouseholdCityArray(taxHouseholdCityTypeTab);
+        }
+      
+        studyGrantRequest.setTaxHouseholdCityPrecision(getTaxHouseholdCityPrecision());
+      
+        studyGrantRequest.setTaxHouseholdFirstName(getTaxHouseholdFirstName());
+      
+        if (getTaxHouseholdIncome() != null)
+            studyGrantRequest.setTaxHouseholdIncome(getTaxHouseholdIncome().doubleValue());
+      
+        studyGrantRequest.setTaxHouseholdLastName(getTaxHouseholdLastName());
       
         return studyGrantRequestDoc;
     }
@@ -224,35 +224,54 @@ public class StudyGrantRequest extends Request implements Serializable {
         StudyGrantRequest studyGrantRequest = new StudyGrantRequest();
         studyGrantRequest.fillCommonModelInfo(studyGrantRequest, studyGrantRequestXml);
         
-        studyGrantRequest.setEdemandeId(studyGrantRequestXml.getEdemandeId());
+        studyGrantRequest.setAbroadInternship(Boolean.valueOf(studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternship()));
       
-        calendar = studyGrantRequestXml.getSubjectInformations().getSubjectBirthDate();
+        calendar = studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipEndDate();
         if (calendar != null) {
-            studyGrantRequest.setSubjectBirthDate(calendar.getTime());
+            studyGrantRequest.setAbroadInternshipEndDate(calendar.getTime());
         }
       
-        studyGrantRequest.setCurrentSchoolCity(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolCity());
+        if (studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipSchoolCountry() != null)
+            studyGrantRequest.setAbroadInternshipSchoolCountry(fr.cg95.cvq.business.users.CountryType.forString(studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipSchoolCountry().toString()));
+        else
+            studyGrantRequest.setAbroadInternshipSchoolCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
       
-        studyGrantRequest.setSubjectEmail(studyGrantRequestXml.getSubjectInformations().getSubjectEmail());
+        studyGrantRequest.setAbroadInternshipSchoolName(studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipSchoolName());
       
-        List<fr.cg95.cvq.business.request.LocalReferentialData> taxHouseholdCityList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(studyGrantRequestXml.sizeOfTaxHouseholdCityArray());
-        for (LocalReferentialDataType object : studyGrantRequestXml.getTaxHouseholdCityArray()) {
-            taxHouseholdCityList.add(fr.cg95.cvq.business.request.LocalReferentialData.xmlToModel(object));
+        calendar = studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipStartDate();
+        if (calendar != null) {
+            studyGrantRequest.setAbroadInternshipStartDate(calendar.getTime());
         }
-        studyGrantRequest.setTaxHouseholdCity(taxHouseholdCityList);
-      
-        studyGrantRequest.setSubjectFirstRequest(Boolean.valueOf(studyGrantRequestXml.getSubjectInformations().getSubjectFirstRequest()));
-      
-        studyGrantRequest.setHasOtherHelp(Boolean.valueOf(studyGrantRequestXml.getHasOtherHelp()));
-      
-        studyGrantRequest.setSubjectPhone(studyGrantRequestXml.getSubjectInformations().getSubjectPhone());
-      
-        studyGrantRequest.setAlevelsDate(studyGrantRequestXml.getALevelsInformations().getAlevelsDate());
       
         calendar = studyGrantRequestXml.getAccountHolderBirthDate();
         if (calendar != null) {
             studyGrantRequest.setAccountHolderBirthDate(calendar.getTime());
         }
+      
+        studyGrantRequest.setAccountHolderEdemandeId(studyGrantRequestXml.getAccountHolderEdemandeId());
+      
+        studyGrantRequest.setAccountHolderFirstName(studyGrantRequestXml.getAccountHolderFirstName());
+      
+        studyGrantRequest.setAccountHolderLastName(studyGrantRequestXml.getAccountHolderLastName());
+      
+        if (studyGrantRequestXml.getAccountHolderTitle() != null)
+            studyGrantRequest.setAccountHolderTitle(fr.cg95.cvq.business.users.TitleType.forString(studyGrantRequestXml.getAccountHolderTitle().toString()));
+        else
+            studyGrantRequest.setAccountHolderTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
+      
+        if (studyGrantRequestXml.getALevelsInformations().getAlevels() != null)
+            studyGrantRequest.setAlevels(fr.cg95.cvq.business.request.school.ALevelsType.forString(studyGrantRequestXml.getALevelsInformations().getAlevels().toString()));
+        else
+            studyGrantRequest.setAlevels(fr.cg95.cvq.business.request.school.ALevelsType.getDefaultALevelsType());
+      
+        studyGrantRequest.setAlevelsDate(studyGrantRequestXml.getALevelsInformations().getAlevelsDate());
+      
+        studyGrantRequest.setCurrentSchoolCity(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolCity());
+      
+        if (studyGrantRequestXml.getCurrentSchool().getCurrentSchoolCountry() != null)
+            studyGrantRequest.setCurrentSchoolCountry(fr.cg95.cvq.business.users.CountryType.forString(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolCountry().toString()));
+        else
+            studyGrantRequest.setCurrentSchoolCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
       
         List<fr.cg95.cvq.business.request.LocalReferentialData> currentSchoolNameList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(studyGrantRequestXml.getCurrentSchool().sizeOfCurrentSchoolNameArray());
         for (LocalReferentialDataType object : studyGrantRequestXml.getCurrentSchool().getCurrentSchoolNameArray()) {
@@ -260,383 +279,85 @@ public class StudyGrantRequest extends Request implements Serializable {
         }
         studyGrantRequest.setCurrentSchoolName(currentSchoolNameList);
       
-        if (studyGrantRequestXml.getAccountHolderTitle() != null)
-            studyGrantRequest.setAccountHolderTitle(fr.cg95.cvq.business.users.TitleType.forString(studyGrantRequestXml.getAccountHolderTitle().toString()));
-        else
-            studyGrantRequest.setAccountHolderTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
-      
-        if (studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipSchoolCountry() != null)
-            studyGrantRequest.setAbroadInternshipSchoolCountry(fr.cg95.cvq.business.users.CountryType.forString(studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipSchoolCountry().toString()));
-        else
-            studyGrantRequest.setAbroadInternshipSchoolCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
-      
-        studyGrantRequest.setTaxHouseholdLastName(studyGrantRequestXml.getTaxHouseholdLastName());
-      
-        studyGrantRequest.setAbroadInternshipSchoolName(studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipSchoolName());
-      
-        studyGrantRequest.setHasRegionalCouncilHelp(Boolean.valueOf(studyGrantRequestXml.getHasRegionalCouncilHelp()));
-      
-        studyGrantRequest.setTaxHouseholdCityPrecision(studyGrantRequestXml.getTaxHouseholdCityPrecision());
-      
-        if (studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudiesLevel() != null)
-            studyGrantRequest.setCurrentStudiesLevel(fr.cg95.cvq.business.request.school.CurrentStudiesLevelType.forString(studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudiesLevel().toString()));
-        else
-            studyGrantRequest.setCurrentStudiesLevel(fr.cg95.cvq.business.request.school.CurrentStudiesLevelType.getDefaultCurrentStudiesLevelType());
-      
-        studyGrantRequest.setCurrentSchoolPostalCode(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolPostalCode());
-      
-        calendar = studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipStartDate();
-        if (calendar != null) {
-            studyGrantRequest.setAbroadInternshipStartDate(calendar.getTime());
-        }
-      
-        studyGrantRequest.setAccountHolderLastName(studyGrantRequestXml.getAccountHolderLastName());
-      
-        studyGrantRequest.setHasCROUSHelp(Boolean.valueOf(studyGrantRequestXml.getHasCROUSHelp()));
-      
-        studyGrantRequest.setAccountHolderFirstName(studyGrantRequestXml.getAccountHolderFirstName());
-      
-        if (studyGrantRequestXml.getDistance() != null)
-            studyGrantRequest.setDistance(fr.cg95.cvq.business.request.school.DistanceType.forString(studyGrantRequestXml.getDistance().toString()));
-        else
-            studyGrantRequest.setDistance(fr.cg95.cvq.business.request.school.DistanceType.getDefaultDistanceType());
-      
-        if (studyGrantRequestXml.getALevelsInformations().getAlevels() != null)
-            studyGrantRequest.setAlevels(fr.cg95.cvq.business.request.school.ALevelsType.forString(studyGrantRequestXml.getALevelsInformations().getAlevels().toString()));
-        else
-            studyGrantRequest.setAlevels(fr.cg95.cvq.business.request.school.ALevelsType.getDefaultALevelsType());
-      
-        studyGrantRequest.setIsSubjectAccountHolder(Boolean.valueOf(studyGrantRequestXml.getIsSubjectAccountHolder()));
-      
-        studyGrantRequest.setSubjectMobilePhone(studyGrantRequestXml.getSubjectInformations().getSubjectMobilePhone());
-      
-        studyGrantRequest.setOtherStudiesLabel(studyGrantRequestXml.getCurrentStudiesInformations().getOtherStudiesLabel());
-      
-        studyGrantRequest.setTaxHouseholdIncome(new Double(studyGrantRequestXml.getTaxHouseholdIncome()));
-      
         studyGrantRequest.setCurrentSchoolNamePrecision(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolNamePrecision());
       
-        if (studyGrantRequestXml.getCurrentSchool().getCurrentSchoolCountry() != null)
-            studyGrantRequest.setCurrentSchoolCountry(fr.cg95.cvq.business.users.CountryType.forString(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolCountry().toString()));
-        else
-            studyGrantRequest.setCurrentSchoolCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
-      
-        if (studyGrantRequestXml.getSubjectInformations().getSubjectAddress() != null)
-            studyGrantRequest.setSubjectAddress(Address.xmlToModel(studyGrantRequestXml.getSubjectInformations().getSubjectAddress()));
-      
-        calendar = studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipEndDate();
-        if (calendar != null) {
-            studyGrantRequest.setAbroadInternshipEndDate(calendar.getTime());
-        }
-      
-        studyGrantRequest.setHasEuropeHelp(Boolean.valueOf(studyGrantRequestXml.getHasEuropeHelp()));
-      
-        studyGrantRequest.setAccountHolderEdemandeId(studyGrantRequestXml.getAccountHolderEdemandeId());
-      
-        studyGrantRequest.setTaxHouseholdFirstName(studyGrantRequestXml.getTaxHouseholdFirstName());
-      
-        studyGrantRequest.setSandwichCourses(Boolean.valueOf(studyGrantRequestXml.getCurrentStudiesInformations().getSandwichCourses()));
-      
-        studyGrantRequest.setAbroadInternship(Boolean.valueOf(studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternship()));
-      
-        if (studyGrantRequestXml.getFrenchRIB() != null)
-            studyGrantRequest.setFrenchRIB(FrenchRIB.xmlToModel(studyGrantRequestXml.getFrenchRIB()));
+        studyGrantRequest.setCurrentSchoolPostalCode(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolPostalCode());
       
         if (studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudiesDiploma() != null)
             studyGrantRequest.setCurrentStudiesDiploma(fr.cg95.cvq.business.request.school.CurrentStudiesType.forString(studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudiesDiploma().toString()));
         else
             studyGrantRequest.setCurrentStudiesDiploma(fr.cg95.cvq.business.request.school.CurrentStudiesType.getDefaultCurrentStudiesType());
       
+        if (studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudiesLevel() != null)
+            studyGrantRequest.setCurrentStudiesLevel(fr.cg95.cvq.business.request.school.CurrentStudiesLevelType.forString(studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudiesLevel().toString()));
+        else
+            studyGrantRequest.setCurrentStudiesLevel(fr.cg95.cvq.business.request.school.CurrentStudiesLevelType.getDefaultCurrentStudiesLevelType());
+      
+        if (studyGrantRequestXml.getDistance() != null)
+            studyGrantRequest.setDistance(fr.cg95.cvq.business.request.school.DistanceType.forString(studyGrantRequestXml.getDistance().toString()));
+        else
+            studyGrantRequest.setDistance(fr.cg95.cvq.business.request.school.DistanceType.getDefaultDistanceType());
+      
+        studyGrantRequest.setEdemandeId(studyGrantRequestXml.getEdemandeId());
+      
+        if (studyGrantRequestXml.getFrenchRIB() != null)
+            studyGrantRequest.setFrenchRIB(FrenchRIB.xmlToModel(studyGrantRequestXml.getFrenchRIB()));
+      
+        studyGrantRequest.setHasCROUSHelp(Boolean.valueOf(studyGrantRequestXml.getHasCROUSHelp()));
+      
+        studyGrantRequest.setHasEuropeHelp(Boolean.valueOf(studyGrantRequestXml.getHasEuropeHelp()));
+      
+        studyGrantRequest.setHasOtherHelp(Boolean.valueOf(studyGrantRequestXml.getHasOtherHelp()));
+      
+        studyGrantRequest.setHasRegionalCouncilHelp(Boolean.valueOf(studyGrantRequestXml.getHasRegionalCouncilHelp()));
+      
+        studyGrantRequest.setIsSubjectAccountHolder(Boolean.valueOf(studyGrantRequestXml.getIsSubjectAccountHolder()));
+      
+        studyGrantRequest.setOtherStudiesLabel(studyGrantRequestXml.getCurrentStudiesInformations().getOtherStudiesLabel());
+      
+        studyGrantRequest.setSandwichCourses(Boolean.valueOf(studyGrantRequestXml.getCurrentStudiesInformations().getSandwichCourses()));
+      
+        if (studyGrantRequestXml.getSubjectInformations().getSubjectAddress() != null)
+            studyGrantRequest.setSubjectAddress(Address.xmlToModel(studyGrantRequestXml.getSubjectInformations().getSubjectAddress()));
+      
+        calendar = studyGrantRequestXml.getSubjectInformations().getSubjectBirthDate();
+        if (calendar != null) {
+            studyGrantRequest.setSubjectBirthDate(calendar.getTime());
+        }
+      
+        studyGrantRequest.setSubjectEmail(studyGrantRequestXml.getSubjectInformations().getSubjectEmail());
+      
+        studyGrantRequest.setSubjectFirstRequest(Boolean.valueOf(studyGrantRequestXml.getSubjectInformations().getSubjectFirstRequest()));
+      
+        studyGrantRequest.setSubjectMobilePhone(studyGrantRequestXml.getSubjectInformations().getSubjectMobilePhone());
+      
+        studyGrantRequest.setSubjectPhone(studyGrantRequestXml.getSubjectInformations().getSubjectPhone());
+      
+        List<fr.cg95.cvq.business.request.LocalReferentialData> taxHouseholdCityList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(studyGrantRequestXml.sizeOfTaxHouseholdCityArray());
+        for (LocalReferentialDataType object : studyGrantRequestXml.getTaxHouseholdCityArray()) {
+            taxHouseholdCityList.add(fr.cg95.cvq.business.request.LocalReferentialData.xmlToModel(object));
+        }
+        studyGrantRequest.setTaxHouseholdCity(taxHouseholdCityList);
+      
+        studyGrantRequest.setTaxHouseholdCityPrecision(studyGrantRequestXml.getTaxHouseholdCityPrecision());
+      
+        studyGrantRequest.setTaxHouseholdFirstName(studyGrantRequestXml.getTaxHouseholdFirstName());
+      
+        studyGrantRequest.setTaxHouseholdIncome(new Double(studyGrantRequestXml.getTaxHouseholdIncome()));
+      
+        studyGrantRequest.setTaxHouseholdLastName(studyGrantRequestXml.getTaxHouseholdLastName());
+      
         return studyGrantRequest;
     }
 
   
-    public final void setEdemandeId(final String edemandeId) {
-        studyGrantRequestData.setEdemandeId(edemandeId);
+    public final void setAbroadInternship(final Boolean abroadInternship) {
+        studyGrantRequestData.setAbroadInternship(abroadInternship);
     }
 
     
-    public final String getEdemandeId() {
-        return studyGrantRequestData.getEdemandeId();
-    }
-  
-    public final void setSubjectBirthDate(final java.util.Date subjectBirthDate) {
-        studyGrantRequestData.setSubjectBirthDate(subjectBirthDate);
-    }
-
-    
-    public final java.util.Date getSubjectBirthDate() {
-        return studyGrantRequestData.getSubjectBirthDate();
-    }
-  
-    public final void setCurrentSchoolCity(final String currentSchoolCity) {
-        studyGrantRequestData.setCurrentSchoolCity(currentSchoolCity);
-    }
-
-    
-    public final String getCurrentSchoolCity() {
-        return studyGrantRequestData.getCurrentSchoolCity();
-    }
-  
-    public final void setSubjectEmail(final String subjectEmail) {
-        studyGrantRequestData.setSubjectEmail(subjectEmail);
-    }
-
-    
-    public final String getSubjectEmail() {
-        return studyGrantRequestData.getSubjectEmail();
-    }
-  
-    public final void setTaxHouseholdCity(final List<fr.cg95.cvq.business.request.LocalReferentialData> taxHouseholdCity) {
-        studyGrantRequestData.setTaxHouseholdCity(taxHouseholdCity);
-    }
-
-    
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getTaxHouseholdCity() {
-        return studyGrantRequestData.getTaxHouseholdCity();
-    }
-  
-    public final void setSubjectFirstRequest(final Boolean subjectFirstRequest) {
-        studyGrantRequestData.setSubjectFirstRequest(subjectFirstRequest);
-    }
-
-    
-    public final Boolean getSubjectFirstRequest() {
-        return studyGrantRequestData.getSubjectFirstRequest();
-    }
-  
-    public final void setHasOtherHelp(final Boolean hasOtherHelp) {
-        studyGrantRequestData.setHasOtherHelp(hasOtherHelp);
-    }
-
-    
-    public final Boolean getHasOtherHelp() {
-        return studyGrantRequestData.getHasOtherHelp();
-    }
-  
-    public final void setSubjectPhone(final String subjectPhone) {
-        studyGrantRequestData.setSubjectPhone(subjectPhone);
-    }
-
-    
-    public final String getSubjectPhone() {
-        return studyGrantRequestData.getSubjectPhone();
-    }
-  
-    public final void setAlevelsDate(final String alevelsDate) {
-        studyGrantRequestData.setAlevelsDate(alevelsDate);
-    }
-
-    
-    public final String getAlevelsDate() {
-        return studyGrantRequestData.getAlevelsDate();
-    }
-  
-    public final void setAccountHolderBirthDate(final java.util.Date accountHolderBirthDate) {
-        studyGrantRequestData.setAccountHolderBirthDate(accountHolderBirthDate);
-    }
-
-    
-    public final java.util.Date getAccountHolderBirthDate() {
-        return studyGrantRequestData.getAccountHolderBirthDate();
-    }
-  
-    public final void setCurrentSchoolName(final List<fr.cg95.cvq.business.request.LocalReferentialData> currentSchoolName) {
-        studyGrantRequestData.setCurrentSchoolName(currentSchoolName);
-    }
-
-    
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getCurrentSchoolName() {
-        return studyGrantRequestData.getCurrentSchoolName();
-    }
-  
-    public final void setAccountHolderTitle(final fr.cg95.cvq.business.users.TitleType accountHolderTitle) {
-        studyGrantRequestData.setAccountHolderTitle(accountHolderTitle);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.TitleType getAccountHolderTitle() {
-        return studyGrantRequestData.getAccountHolderTitle();
-    }
-  
-    public final void setAbroadInternshipSchoolCountry(final fr.cg95.cvq.business.users.CountryType abroadInternshipSchoolCountry) {
-        studyGrantRequestData.setAbroadInternshipSchoolCountry(abroadInternshipSchoolCountry);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.CountryType getAbroadInternshipSchoolCountry() {
-        return studyGrantRequestData.getAbroadInternshipSchoolCountry();
-    }
-  
-    public final void setTaxHouseholdLastName(final String taxHouseholdLastName) {
-        studyGrantRequestData.setTaxHouseholdLastName(taxHouseholdLastName);
-    }
-
-    
-    public final String getTaxHouseholdLastName() {
-        return studyGrantRequestData.getTaxHouseholdLastName();
-    }
-  
-    public final void setAbroadInternshipSchoolName(final String abroadInternshipSchoolName) {
-        studyGrantRequestData.setAbroadInternshipSchoolName(abroadInternshipSchoolName);
-    }
-
-    
-    public final String getAbroadInternshipSchoolName() {
-        return studyGrantRequestData.getAbroadInternshipSchoolName();
-    }
-  
-    public final void setHasRegionalCouncilHelp(final Boolean hasRegionalCouncilHelp) {
-        studyGrantRequestData.setHasRegionalCouncilHelp(hasRegionalCouncilHelp);
-    }
-
-    
-    public final Boolean getHasRegionalCouncilHelp() {
-        return studyGrantRequestData.getHasRegionalCouncilHelp();
-    }
-  
-    public final void setTaxHouseholdCityPrecision(final String taxHouseholdCityPrecision) {
-        studyGrantRequestData.setTaxHouseholdCityPrecision(taxHouseholdCityPrecision);
-    }
-
-    
-    public final String getTaxHouseholdCityPrecision() {
-        return studyGrantRequestData.getTaxHouseholdCityPrecision();
-    }
-  
-    public final void setCurrentStudiesLevel(final fr.cg95.cvq.business.request.school.CurrentStudiesLevelType currentStudiesLevel) {
-        studyGrantRequestData.setCurrentStudiesLevel(currentStudiesLevel);
-    }
-
-    
-    public final fr.cg95.cvq.business.request.school.CurrentStudiesLevelType getCurrentStudiesLevel() {
-        return studyGrantRequestData.getCurrentStudiesLevel();
-    }
-  
-    public final void setCurrentSchoolPostalCode(final String currentSchoolPostalCode) {
-        studyGrantRequestData.setCurrentSchoolPostalCode(currentSchoolPostalCode);
-    }
-
-    
-    public final String getCurrentSchoolPostalCode() {
-        return studyGrantRequestData.getCurrentSchoolPostalCode();
-    }
-  
-    public final void setAbroadInternshipStartDate(final java.util.Date abroadInternshipStartDate) {
-        studyGrantRequestData.setAbroadInternshipStartDate(abroadInternshipStartDate);
-    }
-
-    
-    public final java.util.Date getAbroadInternshipStartDate() {
-        return studyGrantRequestData.getAbroadInternshipStartDate();
-    }
-  
-    public final void setAccountHolderLastName(final String accountHolderLastName) {
-        studyGrantRequestData.setAccountHolderLastName(accountHolderLastName);
-    }
-
-    
-    public final String getAccountHolderLastName() {
-        return studyGrantRequestData.getAccountHolderLastName();
-    }
-  
-    public final void setHasCROUSHelp(final Boolean hasCROUSHelp) {
-        studyGrantRequestData.setHasCROUSHelp(hasCROUSHelp);
-    }
-
-    
-    public final Boolean getHasCROUSHelp() {
-        return studyGrantRequestData.getHasCROUSHelp();
-    }
-  
-    public final void setAccountHolderFirstName(final String accountHolderFirstName) {
-        studyGrantRequestData.setAccountHolderFirstName(accountHolderFirstName);
-    }
-
-    
-    public final String getAccountHolderFirstName() {
-        return studyGrantRequestData.getAccountHolderFirstName();
-    }
-  
-    public final void setDistance(final fr.cg95.cvq.business.request.school.DistanceType distance) {
-        studyGrantRequestData.setDistance(distance);
-    }
-
-    
-    public final fr.cg95.cvq.business.request.school.DistanceType getDistance() {
-        return studyGrantRequestData.getDistance();
-    }
-  
-    public final void setAlevels(final fr.cg95.cvq.business.request.school.ALevelsType alevels) {
-        studyGrantRequestData.setAlevels(alevels);
-    }
-
-    
-    public final fr.cg95.cvq.business.request.school.ALevelsType getAlevels() {
-        return studyGrantRequestData.getAlevels();
-    }
-  
-    public final void setIsSubjectAccountHolder(final Boolean isSubjectAccountHolder) {
-        studyGrantRequestData.setIsSubjectAccountHolder(isSubjectAccountHolder);
-    }
-
-    
-    public final Boolean getIsSubjectAccountHolder() {
-        return studyGrantRequestData.getIsSubjectAccountHolder();
-    }
-  
-    public final void setSubjectMobilePhone(final String subjectMobilePhone) {
-        studyGrantRequestData.setSubjectMobilePhone(subjectMobilePhone);
-    }
-
-    
-    public final String getSubjectMobilePhone() {
-        return studyGrantRequestData.getSubjectMobilePhone();
-    }
-  
-    public final void setOtherStudiesLabel(final String otherStudiesLabel) {
-        studyGrantRequestData.setOtherStudiesLabel(otherStudiesLabel);
-    }
-
-    
-    public final String getOtherStudiesLabel() {
-        return studyGrantRequestData.getOtherStudiesLabel();
-    }
-  
-    public final void setTaxHouseholdIncome(final Double taxHouseholdIncome) {
-        studyGrantRequestData.setTaxHouseholdIncome(taxHouseholdIncome);
-    }
-
-    
-    public final Double getTaxHouseholdIncome() {
-        return studyGrantRequestData.getTaxHouseholdIncome();
-    }
-  
-    public final void setCurrentSchoolNamePrecision(final String currentSchoolNamePrecision) {
-        studyGrantRequestData.setCurrentSchoolNamePrecision(currentSchoolNamePrecision);
-    }
-
-    
-    public final String getCurrentSchoolNamePrecision() {
-        return studyGrantRequestData.getCurrentSchoolNamePrecision();
-    }
-  
-    public final void setCurrentSchoolCountry(final fr.cg95.cvq.business.users.CountryType currentSchoolCountry) {
-        studyGrantRequestData.setCurrentSchoolCountry(currentSchoolCountry);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.CountryType getCurrentSchoolCountry() {
-        return studyGrantRequestData.getCurrentSchoolCountry();
-    }
-  
-    public final void setSubjectAddress(final fr.cg95.cvq.business.users.Address subjectAddress) {
-        studyGrantRequestData.setSubjectAddress(subjectAddress);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.Address getSubjectAddress() {
-        return studyGrantRequestData.getSubjectAddress();
+    public final Boolean getAbroadInternship() {
+        return studyGrantRequestData.getAbroadInternship();
     }
   
     public final void setAbroadInternshipEndDate(final java.util.Date abroadInternshipEndDate) {
@@ -648,13 +369,40 @@ public class StudyGrantRequest extends Request implements Serializable {
         return studyGrantRequestData.getAbroadInternshipEndDate();
     }
   
-    public final void setHasEuropeHelp(final Boolean hasEuropeHelp) {
-        studyGrantRequestData.setHasEuropeHelp(hasEuropeHelp);
+    public final void setAbroadInternshipSchoolCountry(final fr.cg95.cvq.business.users.CountryType abroadInternshipSchoolCountry) {
+        studyGrantRequestData.setAbroadInternshipSchoolCountry(abroadInternshipSchoolCountry);
     }
 
     
-    public final Boolean getHasEuropeHelp() {
-        return studyGrantRequestData.getHasEuropeHelp();
+    public final fr.cg95.cvq.business.users.CountryType getAbroadInternshipSchoolCountry() {
+        return studyGrantRequestData.getAbroadInternshipSchoolCountry();
+    }
+  
+    public final void setAbroadInternshipSchoolName(final String abroadInternshipSchoolName) {
+        studyGrantRequestData.setAbroadInternshipSchoolName(abroadInternshipSchoolName);
+    }
+
+    
+    public final String getAbroadInternshipSchoolName() {
+        return studyGrantRequestData.getAbroadInternshipSchoolName();
+    }
+  
+    public final void setAbroadInternshipStartDate(final java.util.Date abroadInternshipStartDate) {
+        studyGrantRequestData.setAbroadInternshipStartDate(abroadInternshipStartDate);
+    }
+
+    
+    public final java.util.Date getAbroadInternshipStartDate() {
+        return studyGrantRequestData.getAbroadInternshipStartDate();
+    }
+  
+    public final void setAccountHolderBirthDate(final java.util.Date accountHolderBirthDate) {
+        studyGrantRequestData.setAccountHolderBirthDate(accountHolderBirthDate);
+    }
+
+    
+    public final java.util.Date getAccountHolderBirthDate() {
+        return studyGrantRequestData.getAccountHolderBirthDate();
     }
   
     public final void setAccountHolderEdemandeId(final String accountHolderEdemandeId) {
@@ -666,31 +414,130 @@ public class StudyGrantRequest extends Request implements Serializable {
         return studyGrantRequestData.getAccountHolderEdemandeId();
     }
   
-    public final void setTaxHouseholdFirstName(final String taxHouseholdFirstName) {
-        studyGrantRequestData.setTaxHouseholdFirstName(taxHouseholdFirstName);
+    public final void setAccountHolderFirstName(final String accountHolderFirstName) {
+        studyGrantRequestData.setAccountHolderFirstName(accountHolderFirstName);
     }
 
     
-    public final String getTaxHouseholdFirstName() {
-        return studyGrantRequestData.getTaxHouseholdFirstName();
+    public final String getAccountHolderFirstName() {
+        return studyGrantRequestData.getAccountHolderFirstName();
     }
   
-    public final void setSandwichCourses(final Boolean sandwichCourses) {
-        studyGrantRequestData.setSandwichCourses(sandwichCourses);
+    public final void setAccountHolderLastName(final String accountHolderLastName) {
+        studyGrantRequestData.setAccountHolderLastName(accountHolderLastName);
     }
 
     
-    public final Boolean getSandwichCourses() {
-        return studyGrantRequestData.getSandwichCourses();
+    public final String getAccountHolderLastName() {
+        return studyGrantRequestData.getAccountHolderLastName();
     }
   
-    public final void setAbroadInternship(final Boolean abroadInternship) {
-        studyGrantRequestData.setAbroadInternship(abroadInternship);
+    public final void setAccountHolderTitle(final fr.cg95.cvq.business.users.TitleType accountHolderTitle) {
+        studyGrantRequestData.setAccountHolderTitle(accountHolderTitle);
     }
 
     
-    public final Boolean getAbroadInternship() {
-        return studyGrantRequestData.getAbroadInternship();
+    public final fr.cg95.cvq.business.users.TitleType getAccountHolderTitle() {
+        return studyGrantRequestData.getAccountHolderTitle();
+    }
+  
+    public final void setAlevels(final fr.cg95.cvq.business.request.school.ALevelsType alevels) {
+        studyGrantRequestData.setAlevels(alevels);
+    }
+
+    
+    public final fr.cg95.cvq.business.request.school.ALevelsType getAlevels() {
+        return studyGrantRequestData.getAlevels();
+    }
+  
+    public final void setAlevelsDate(final String alevelsDate) {
+        studyGrantRequestData.setAlevelsDate(alevelsDate);
+    }
+
+    
+    public final String getAlevelsDate() {
+        return studyGrantRequestData.getAlevelsDate();
+    }
+  
+    public final void setCurrentSchoolCity(final String currentSchoolCity) {
+        studyGrantRequestData.setCurrentSchoolCity(currentSchoolCity);
+    }
+
+    
+    public final String getCurrentSchoolCity() {
+        return studyGrantRequestData.getCurrentSchoolCity();
+    }
+  
+    public final void setCurrentSchoolCountry(final fr.cg95.cvq.business.users.CountryType currentSchoolCountry) {
+        studyGrantRequestData.setCurrentSchoolCountry(currentSchoolCountry);
+    }
+
+    
+    public final fr.cg95.cvq.business.users.CountryType getCurrentSchoolCountry() {
+        return studyGrantRequestData.getCurrentSchoolCountry();
+    }
+  
+    public final void setCurrentSchoolName(final List<fr.cg95.cvq.business.request.LocalReferentialData> currentSchoolName) {
+        studyGrantRequestData.setCurrentSchoolName(currentSchoolName);
+    }
+
+    
+    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getCurrentSchoolName() {
+        return studyGrantRequestData.getCurrentSchoolName();
+    }
+  
+    public final void setCurrentSchoolNamePrecision(final String currentSchoolNamePrecision) {
+        studyGrantRequestData.setCurrentSchoolNamePrecision(currentSchoolNamePrecision);
+    }
+
+    
+    public final String getCurrentSchoolNamePrecision() {
+        return studyGrantRequestData.getCurrentSchoolNamePrecision();
+    }
+  
+    public final void setCurrentSchoolPostalCode(final String currentSchoolPostalCode) {
+        studyGrantRequestData.setCurrentSchoolPostalCode(currentSchoolPostalCode);
+    }
+
+    
+    public final String getCurrentSchoolPostalCode() {
+        return studyGrantRequestData.getCurrentSchoolPostalCode();
+    }
+  
+    public final void setCurrentStudiesDiploma(final fr.cg95.cvq.business.request.school.CurrentStudiesType currentStudiesDiploma) {
+        studyGrantRequestData.setCurrentStudiesDiploma(currentStudiesDiploma);
+    }
+
+    
+    public final fr.cg95.cvq.business.request.school.CurrentStudiesType getCurrentStudiesDiploma() {
+        return studyGrantRequestData.getCurrentStudiesDiploma();
+    }
+  
+    public final void setCurrentStudiesLevel(final fr.cg95.cvq.business.request.school.CurrentStudiesLevelType currentStudiesLevel) {
+        studyGrantRequestData.setCurrentStudiesLevel(currentStudiesLevel);
+    }
+
+    
+    public final fr.cg95.cvq.business.request.school.CurrentStudiesLevelType getCurrentStudiesLevel() {
+        return studyGrantRequestData.getCurrentStudiesLevel();
+    }
+  
+    public final void setDistance(final fr.cg95.cvq.business.request.school.DistanceType distance) {
+        studyGrantRequestData.setDistance(distance);
+    }
+
+    
+    public final fr.cg95.cvq.business.request.school.DistanceType getDistance() {
+        return studyGrantRequestData.getDistance();
+    }
+  
+    public final void setEdemandeId(final String edemandeId) {
+        studyGrantRequestData.setEdemandeId(edemandeId);
+    }
+
+    
+    public final String getEdemandeId() {
+        return studyGrantRequestData.getEdemandeId();
     }
   
     public final void setFrenchRIB(final fr.cg95.cvq.business.users.FrenchRIB frenchRIB) {
@@ -702,13 +549,166 @@ public class StudyGrantRequest extends Request implements Serializable {
         return studyGrantRequestData.getFrenchRIB();
     }
   
-    public final void setCurrentStudiesDiploma(final fr.cg95.cvq.business.request.school.CurrentStudiesType currentStudiesDiploma) {
-        studyGrantRequestData.setCurrentStudiesDiploma(currentStudiesDiploma);
+    public final void setHasCROUSHelp(final Boolean hasCROUSHelp) {
+        studyGrantRequestData.setHasCROUSHelp(hasCROUSHelp);
     }
 
     
-    public final fr.cg95.cvq.business.request.school.CurrentStudiesType getCurrentStudiesDiploma() {
-        return studyGrantRequestData.getCurrentStudiesDiploma();
+    public final Boolean getHasCROUSHelp() {
+        return studyGrantRequestData.getHasCROUSHelp();
+    }
+  
+    public final void setHasEuropeHelp(final Boolean hasEuropeHelp) {
+        studyGrantRequestData.setHasEuropeHelp(hasEuropeHelp);
+    }
+
+    
+    public final Boolean getHasEuropeHelp() {
+        return studyGrantRequestData.getHasEuropeHelp();
+    }
+  
+    public final void setHasOtherHelp(final Boolean hasOtherHelp) {
+        studyGrantRequestData.setHasOtherHelp(hasOtherHelp);
+    }
+
+    
+    public final Boolean getHasOtherHelp() {
+        return studyGrantRequestData.getHasOtherHelp();
+    }
+  
+    public final void setHasRegionalCouncilHelp(final Boolean hasRegionalCouncilHelp) {
+        studyGrantRequestData.setHasRegionalCouncilHelp(hasRegionalCouncilHelp);
+    }
+
+    
+    public final Boolean getHasRegionalCouncilHelp() {
+        return studyGrantRequestData.getHasRegionalCouncilHelp();
+    }
+  
+    public final void setIsSubjectAccountHolder(final Boolean isSubjectAccountHolder) {
+        studyGrantRequestData.setIsSubjectAccountHolder(isSubjectAccountHolder);
+    }
+
+    
+    public final Boolean getIsSubjectAccountHolder() {
+        return studyGrantRequestData.getIsSubjectAccountHolder();
+    }
+  
+    public final void setOtherStudiesLabel(final String otherStudiesLabel) {
+        studyGrantRequestData.setOtherStudiesLabel(otherStudiesLabel);
+    }
+
+    
+    public final String getOtherStudiesLabel() {
+        return studyGrantRequestData.getOtherStudiesLabel();
+    }
+  
+    public final void setSandwichCourses(final Boolean sandwichCourses) {
+        studyGrantRequestData.setSandwichCourses(sandwichCourses);
+    }
+
+    
+    public final Boolean getSandwichCourses() {
+        return studyGrantRequestData.getSandwichCourses();
+    }
+  
+    public final void setSubjectAddress(final fr.cg95.cvq.business.users.Address subjectAddress) {
+        studyGrantRequestData.setSubjectAddress(subjectAddress);
+    }
+
+    
+    public final fr.cg95.cvq.business.users.Address getSubjectAddress() {
+        return studyGrantRequestData.getSubjectAddress();
+    }
+  
+    public final void setSubjectBirthDate(final java.util.Date subjectBirthDate) {
+        studyGrantRequestData.setSubjectBirthDate(subjectBirthDate);
+    }
+
+    
+    public final java.util.Date getSubjectBirthDate() {
+        return studyGrantRequestData.getSubjectBirthDate();
+    }
+  
+    public final void setSubjectEmail(final String subjectEmail) {
+        studyGrantRequestData.setSubjectEmail(subjectEmail);
+    }
+
+    
+    public final String getSubjectEmail() {
+        return studyGrantRequestData.getSubjectEmail();
+    }
+  
+    public final void setSubjectFirstRequest(final Boolean subjectFirstRequest) {
+        studyGrantRequestData.setSubjectFirstRequest(subjectFirstRequest);
+    }
+
+    
+    public final Boolean getSubjectFirstRequest() {
+        return studyGrantRequestData.getSubjectFirstRequest();
+    }
+  
+    public final void setSubjectMobilePhone(final String subjectMobilePhone) {
+        studyGrantRequestData.setSubjectMobilePhone(subjectMobilePhone);
+    }
+
+    
+    public final String getSubjectMobilePhone() {
+        return studyGrantRequestData.getSubjectMobilePhone();
+    }
+  
+    public final void setSubjectPhone(final String subjectPhone) {
+        studyGrantRequestData.setSubjectPhone(subjectPhone);
+    }
+
+    
+    public final String getSubjectPhone() {
+        return studyGrantRequestData.getSubjectPhone();
+    }
+  
+    public final void setTaxHouseholdCity(final List<fr.cg95.cvq.business.request.LocalReferentialData> taxHouseholdCity) {
+        studyGrantRequestData.setTaxHouseholdCity(taxHouseholdCity);
+    }
+
+    
+    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getTaxHouseholdCity() {
+        return studyGrantRequestData.getTaxHouseholdCity();
+    }
+  
+    public final void setTaxHouseholdCityPrecision(final String taxHouseholdCityPrecision) {
+        studyGrantRequestData.setTaxHouseholdCityPrecision(taxHouseholdCityPrecision);
+    }
+
+    
+    public final String getTaxHouseholdCityPrecision() {
+        return studyGrantRequestData.getTaxHouseholdCityPrecision();
+    }
+  
+    public final void setTaxHouseholdFirstName(final String taxHouseholdFirstName) {
+        studyGrantRequestData.setTaxHouseholdFirstName(taxHouseholdFirstName);
+    }
+
+    
+    public final String getTaxHouseholdFirstName() {
+        return studyGrantRequestData.getTaxHouseholdFirstName();
+    }
+  
+    public final void setTaxHouseholdIncome(final Double taxHouseholdIncome) {
+        studyGrantRequestData.setTaxHouseholdIncome(taxHouseholdIncome);
+    }
+
+    
+    public final Double getTaxHouseholdIncome() {
+        return studyGrantRequestData.getTaxHouseholdIncome();
+    }
+  
+    public final void setTaxHouseholdLastName(final String taxHouseholdLastName) {
+        studyGrantRequestData.setTaxHouseholdLastName(taxHouseholdLastName);
+    }
+
+    
+    public final String getTaxHouseholdLastName() {
+        return studyGrantRequestData.getTaxHouseholdLastName();
     }
   
 }

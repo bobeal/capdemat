@@ -66,12 +66,12 @@ mdr.property.copies.help =
 mdr.property.copies.validationError =
 
 
-mdr.property.comment.help =
-mdr.property.comment.validationError =
-
-
 mdr.property.motive.help =
 mdr.property.motive.validationError =
+
+
+mdr.property.comment.help =
+mdr.property.comment.validationError =
 
 
 mdr.property.relationship.help =

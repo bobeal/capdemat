@@ -43,59 +43,14 @@ public class DomesticHelpRequestServiceTest extends RequestTestCase {
         
           
           
-            
-            
+               request.setDhrAllowances(BigInteger.valueOf(1));
           
         
           
           
             
-              request.setDhrSpousePrincipalPensionPlan(DhrPrincipalPensionPlanType.C_N_A_V);
+               request.setDhrComplementaryPensionPlan("DhrComplementaryPensionPlan");
             
-          
-        
-          
-          
-            
-               request.setDhrSpouseProfession("DhrSpouseProfession");
-            
-          
-        
-          
-          
-               request.setDhrNetIncome(BigInteger.valueOf(1));
-          
-        
-          
-          
-               request.setProfessionalTaxes(BigInteger.valueOf(1));
-          
-        
-          
-          
-               request.setDhrIsSpouseRetired(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              request.setDhrSpouseTitle(TitleType.MISTER);
-            
-          
-        
-          
-          
-               request.setDhrRequesterBirthDate(new Date());
-          
-        
-          
-          
-               request.setDhrRealEstateInvestmentIncome(BigInteger.valueOf(1));
-          
-        
-          
-          
-               request.setDhrRequesterIsFrenchResident(Boolean.valueOf(true));
           
         
           
@@ -110,93 +65,36 @@ public class DomesticHelpRequestServiceTest extends RequestTestCase {
         
           
           
-               request.setDhrSpouseFranceArrivalDate(new Date());
-          
-        
-          
-          
-            
-            
-          
-        
-          
-          
-            
-              request.setDhrRequesterNationality(NationalityType.FRENCH);
-            
-          
-        
-          
-          
                request.setDhrCurrentDwellingArrivalDate(new Date());
           
         
           
           
-               request.setDhrIncomesAnnualTotal(BigInteger.valueOf(1));
+            
+              request.setDhrCurrentDwellingKind(DhrDwellingKindType.PLACE_OF_RESIDENCE);
+            
+          
+        
+          
+          
+        
+          
           
         
           
           
             
-              if ("DhrReferentFirstName".length() > 38)
-                  request.setDhrReferentFirstName("DhrReferentFirstName".substring(0, 38));
+              if ("DhrCurrentDwellingPhone".length() > 10)
+                  request.setDhrCurrentDwellingPhone("DhrCurrentDwellingPhone".substring(0, 10));
               else
-                  request.setDhrReferentFirstName("DhrReferentFirstName");
+                  request.setDhrCurrentDwellingPhone("DhrCurrentDwellingPhone");
             
-          
-        
-          
-          
-               request.setDhrRequesterHaveGuardian(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setDhrIncomeTax(BigInteger.valueOf(1));
-          
-        
-          
-          
-        
-          
-          
-            
-               request.setDhrSpouseBirthPlace("DhrSpouseBirthPlace");
-            
-          
-        
-          
-          
-               request.setDhrSpouseBirthDate(new Date());
-          
-        
-          
-          
-               request.setDhrRequesterFranceArrivalDate(new Date());
           
         
           
           
             
               request.setDhrCurrentDwellingStatus(DhrDwellingStatusType.OWNER);
-            
-          
-        
-          
-          
-            
-              if ("DhrSpouseFirstName".length() > 38)
-                  request.setDhrSpouseFirstName("DhrSpouseFirstName".substring(0, 38));
-              else
-                  request.setDhrSpouseFirstName("DhrSpouseFirstName");
-            
-          
-        
-          
-          
-            
-              request.setDhrSpouseFamilyStatus(FamilyStatusType.MARRIED);
             
           
         
@@ -218,59 +116,8 @@ public class DomesticHelpRequestServiceTest extends RequestTestCase {
           
           
             
-              if ("DhrReferentName".length() > 38)
-                  request.setDhrReferentName("DhrReferentName".substring(0, 38));
-              else
-                  request.setDhrReferentName("DhrReferentName");
+              request.setDhrGuardianMeasure(DhrGuardianMeasureType.SAFEGUARDING_JUSTICE);
             
-          
-        
-          
-          
-               request.setLocalRate(BigInteger.valueOf(1));
-          
-        
-          
-          
-            
-               request.setDhrSpouseEmployer("DhrSpouseEmployer");
-            
-          
-        
-          
-          
-            
-              request.setDhrRequestKind(DhrRequestKindType.INDIVIDUAL);
-            
-          
-        
-          
-          
-            
-              request.setDhrPrincipalPensionPlan(DhrPrincipalPensionPlanType.C_N_A_V);
-            
-          
-        
-          
-          
-            
-               request.setDhrComplementaryPensionPlan("DhrComplementaryPensionPlan");
-            
-          
-        
-          
-          
-            
-            
-              
-                request.setDhrReferentAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
-              
-            
-          
-        
-          
-          
-               request.setPropertyTaxes(BigInteger.valueOf(1));
           
         
           
@@ -285,34 +132,193 @@ public class DomesticHelpRequestServiceTest extends RequestTestCase {
         
           
           
-               request.setPensions(BigInteger.valueOf(1));
+               request.setDhrHaveFamilyReferent(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setDhrIncomeTax(BigInteger.valueOf(1));
+          
+        
+          
+          
+               request.setDhrIncomesAnnualTotal(BigInteger.valueOf(1));
+          
+        
+          
+          
+               request.setDhrIsSpouseRetired(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setDhrNetIncome(BigInteger.valueOf(1));
           
         
           
           
             
-              request.setDhrCurrentDwellingKind(DhrDwellingKindType.PLACE_OF_RESIDENCE);
             
           
         
           
           
+            
+               request.setDhrPensionPlanDetail("DhrPensionPlanDetail");
+            
+          
         
           
           
             
-              if ("DhrCurrentDwellingPhone".length() > 10)
-                  request.setDhrCurrentDwellingPhone("DhrCurrentDwellingPhone".substring(0, 10));
+            
+          
+        
+          
+          
+            
+              request.setDhrPrincipalPensionPlan(DhrPrincipalPensionPlanType.C_N_A_V);
+            
+          
+        
+          
+          
+            
+            
+          
+        
+          
+          
+               request.setDhrRealEstateInvestmentIncome(BigInteger.valueOf(1));
+          
+        
+          
+          
+            
+            
+              
+                request.setDhrReferentAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+              
+            
+          
+        
+          
+          
+            
+              if ("DhrReferentFirstName".length() > 38)
+                  request.setDhrReferentFirstName("DhrReferentFirstName".substring(0, 38));
               else
-                  request.setDhrCurrentDwellingPhone("DhrCurrentDwellingPhone");
+                  request.setDhrReferentFirstName("DhrReferentFirstName");
             
           
         
           
           
             
-              request.setDhrGuardianMeasure(DhrGuardianMeasureType.SAFEGUARDING_JUSTICE);
+              if ("DhrReferentName".length() > 38)
+                  request.setDhrReferentName("DhrReferentName".substring(0, 38));
+              else
+                  request.setDhrReferentName("DhrReferentName");
             
+          
+        
+          
+          
+            
+              request.setDhrRequestKind(DhrRequestKindType.INDIVIDUAL);
+            
+          
+        
+          
+          
+               request.setDhrRequesterBirthDate(new Date());
+          
+        
+          
+          
+            
+               request.setDhrRequesterBirthPlace("DhrRequesterBirthPlace");
+            
+          
+        
+          
+          
+               request.setDhrRequesterFranceArrivalDate(new Date());
+          
+        
+          
+          
+               request.setDhrRequesterHaveGuardian(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setDhrRequesterIsFrenchResident(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              request.setDhrRequesterNationality(NationalityType.FRENCH);
+            
+          
+        
+          
+          
+            
+            
+              
+                request.setDhrSpouseAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+              
+            
+          
+        
+          
+          
+               request.setDhrSpouseBirthDate(new Date());
+          
+        
+          
+          
+            
+               request.setDhrSpouseBirthPlace("DhrSpouseBirthPlace");
+            
+          
+        
+          
+          
+            
+               request.setDhrSpouseComplementaryPensionPlan("DhrSpouseComplementaryPensionPlan");
+            
+          
+        
+          
+          
+            
+               request.setDhrSpouseEmployer("DhrSpouseEmployer");
+            
+          
+        
+          
+          
+            
+              request.setDhrSpouseFamilyStatus(FamilyStatusType.MARRIED);
+            
+          
+        
+          
+          
+            
+              if ("DhrSpouseFirstName".length() > 38)
+                  request.setDhrSpouseFirstName("DhrSpouseFirstName".substring(0, 38));
+              else
+                  request.setDhrSpouseFirstName("DhrSpouseFirstName");
+            
+          
+        
+          
+          
+               request.setDhrSpouseFranceArrivalDate(new Date());
           
         
           
@@ -322,36 +328,11 @@ public class DomesticHelpRequestServiceTest extends RequestTestCase {
         
           
           
-               request.setDhrAllowances(BigInteger.valueOf(1));
-          
-        
-          
-          
-            
-              request.setDhrSpouseNationality(NationalityType.FRENCH);
-            
-          
-        
-          
-          
-            
-            
-          
-        
-          
-          
             
               if ("DhrSpouseMaidenName".length() > 38)
                   request.setDhrSpouseMaidenName("DhrSpouseMaidenName".substring(0, 38));
               else
                   request.setDhrSpouseMaidenName("DhrSpouseMaidenName");
-            
-          
-        
-          
-          
-            
-               request.setDhrSpousePensionPlanDetail("DhrSpousePensionPlanDetail");
             
           
         
@@ -368,37 +349,56 @@ public class DomesticHelpRequestServiceTest extends RequestTestCase {
           
           
             
-               request.setDhrRequesterBirthPlace("DhrRequesterBirthPlace");
+              request.setDhrSpouseNationality(NationalityType.FRENCH);
             
           
         
           
           
             
-            
-              
-                request.setDhrSpouseAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
-              
-            
-          
-        
-          
-          
-               request.setDhrHaveFamilyReferent(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-               request.setDhrSpouseComplementaryPensionPlan("DhrSpouseComplementaryPensionPlan");
+               request.setDhrSpousePensionPlanDetail("DhrSpousePensionPlanDetail");
             
           
         
           
           
             
-               request.setDhrPensionPlanDetail("DhrPensionPlanDetail");
+              request.setDhrSpousePrincipalPensionPlan(DhrPrincipalPensionPlanType.C_N_A_V);
             
+          
+        
+          
+          
+            
+               request.setDhrSpouseProfession("DhrSpouseProfession");
+            
+          
+        
+          
+          
+            
+              request.setDhrSpouseTitle(TitleType.MISTER);
+            
+          
+        
+          
+          
+               request.setLocalRate(BigInteger.valueOf(1));
+          
+        
+          
+          
+               request.setPensions(BigInteger.valueOf(1));
+          
+        
+          
+          
+               request.setProfessionalTaxes(BigInteger.valueOf(1));
+          
+        
+          
+          
+               request.setPropertyTaxes(BigInteger.valueOf(1));
           
         
         // Means Of Contact

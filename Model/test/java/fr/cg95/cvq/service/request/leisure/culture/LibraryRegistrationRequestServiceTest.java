@@ -1,11 +1,24 @@
 
 package fr.cg95.cvq.service.request.leisure.culture;
 
-import fr.cg95.cvq.business.document.DepositOrigin;
-import fr.cg95.cvq.business.document.DepositType;
-import fr.cg95.cvq.business.document.Document;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.annotation.Resource;
+
+import static org.junit.Assert.*;
+import org.junit.Test;
+
+import fr.cg95.cvq.business.document.*;
 import fr.cg95.cvq.business.request.*;
-import fr.cg95.cvq.business.request.leisure.culture.LibraryRegistrationRequest;
+import fr.cg95.cvq.business.request.leisure.culture.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -15,18 +28,6 @@ import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.RequestTestCase;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.development.BusinessObjectsFactory;
-import org.junit.Test;
-
-import javax.annotation.Resource;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import static org.junit.Assert.*;
 
 /**
  * Generated class file, do not edit !
@@ -42,13 +43,12 @@ public class LibraryRegistrationRequestServiceTest extends RequestTestCase {
         
           
           
-               request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
+               request.setAdultContentAuthorization(Boolean.valueOf(true));
           
         
           
           
-            
-            
+               request.setParentalAuthorization(Boolean.valueOf(true));
           
         
           
@@ -60,12 +60,13 @@ public class LibraryRegistrationRequestServiceTest extends RequestTestCase {
         
           
           
-               request.setParentalAuthorization(Boolean.valueOf(true));
+               request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
           
         
           
           
-               request.setAdultContentAuthorization(Boolean.valueOf(true));
+            
+            
           
         
           

@@ -38,11 +38,11 @@ ddr.property.copies.help =
 ddr.property.copies.validationError =
 
 
-ddr.property.comment.help =
-ddr.property.comment.validationError =
-
-
 ddr.property.motive.help =
 ddr.property.motive.validationError =
+
+
+ddr.property.comment.help =
+ddr.property.comment.validationError =
 
 

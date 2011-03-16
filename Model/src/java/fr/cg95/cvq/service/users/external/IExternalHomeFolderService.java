@@ -4,6 +4,7 @@ import java.util.List;
 
 import fr.cg95.cvq.business.payment.external.ExternalHomeFolder;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
+import fr.cg95.cvq.business.users.external.IndividualMapping;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.security.annotation.IsIndividual;
@@ -50,6 +51,12 @@ public interface IExternalHomeFolderService {
     void setExternalId(String externalServiceLabel,
         @IsHomeFolder Long homeFolderId, @IsIndividual Long individualId,
         String externalId);
+
+    List<IndividualMapping> getIndividualMappings(@IsIndividual Long individualId);
+
+    IndividualMapping getIndividualMapping(HomeFolderMapping homeFolderMapping, @IsIndividual Long individualId);
+
+    void deleteIndividualMapping(HomeFolderMapping homeFolderMapping, @IsIndividual Long individualId);
 
 
 }

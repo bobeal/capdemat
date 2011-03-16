@@ -12,11 +12,11 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HistoryEntry;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.IndividualRole;
+import fr.cg95.cvq.business.users.external.IndividualMapping;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.users.IHistoryEntryDAO;
 import fr.cg95.cvq.exception.CvqException;
@@ -25,6 +25,7 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 
 /**
  * Implementation of the home folder modification request service.
@@ -42,6 +43,8 @@ public class HomeFolderModificationRequestService extends RequestService {
 
     private IHomeFolderService homeFolderService;
     private IIndividualService individualService;
+
+    private IExternalHomeFolderService externalHomeFolderService;
 
     private List<HistoryEntry> getHistoryEntries(final Long hfmrId)
         throws CvqException {
@@ -158,8 +161,16 @@ public class HomeFolderModificationRequestService extends RequestService {
 
         for (Object object : objectsToRemove) {
             logger.debug("updateObjects() Removing " + object);
-            if (object instanceof Individual)
-                individuals.remove(object);
+            if (object instanceof Individual) {
+                Individual individual = (Individual) object;
+                individuals.remove(individual);
+                if (externalHomeFolderService.getIndividualMappings(individual.getId()) != null &&
+                        !externalHomeFolderService.getIndividualMappings(individual.getId()).isEmpty()) {
+                    for (IndividualMapping im : externalHomeFolderService.getIndividualMappings(individual.getId())) {
+                        externalHomeFolderService.deleteIndividualMapping(im.getHomeFolderMapping(), individual.getId());
+                    }
+                }
+            }
             genericDAO.delete(object);
         }
 
@@ -430,5 +441,9 @@ public class HomeFolderModificationRequestService extends RequestService {
 
     public void setIndividualService(IIndividualService individualService) {
         this.individualService = individualService;
+    }
+
+    public void setExternalHomeFolderService(IExternalHomeFolderService externalHomeFolderService) {
+        this.externalHomeFolderService = externalHomeFolderService;
     }
 }

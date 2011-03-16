@@ -148,7 +148,8 @@ class BackofficeRequestController {
                    'recordOffset':recordOffset,
                    'sortBy':sortBy,
                    'dir':sortDir,
-                   'inSearch':true].plus(initSearchReferential()))
+                   'inSearch':true,
+                   'results':results].plus(initSearchReferential()))
     }
 
     def initSearchReferential() {
@@ -177,7 +178,8 @@ class BackofficeRequestController {
                    'filterBy' : [:],
                    'recordOffset' : 0,
                    'sortBy' : defaultSortBy,
-                   'inSearch' : true
+                   'inSearch' : true,
+                   'results' : 100
                    ].plus(initSearchReferential()))
     }
 }

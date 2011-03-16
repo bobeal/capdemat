@@ -15,7 +15,7 @@
     var displayPaginator = function() {
       var myPaginator = new YAHOO.widget.Paginator({
         containers: ['pagination-top','pagination-bottom'],
-        rowsPerPage : 15,
+        rowsPerPage : parseInt(yud.get('rowsPerPage').value),
         totalRecords: parseInt(yud.get('totalRecords').value),
         recordOffset: parseInt(yud.get('recordOffset').value),
         template : "{FirstPageLink} {PreviousPageLink} <span>{CurrentPageReport}</span> {NextPageLink} {LastPageLink}",

@@ -10,6 +10,7 @@
     <input type="hidden" id="totalRecords" name="totalRecords" value="${totalRecords}" />
     <input type="hidden" id="recordsReturned" name="recordsReturned" value="${recordsReturned}" />
     <input type="hidden" id="recordOffset" name="recordOffset" value="${recordOffset}" />
+    <input type="hidden" id="rowsPerPage" name="rowsPerPage" value="${results}" />
     <input type="hidden" id="sortBy" name="sortBy" value="${sortBy}" />
     <input type="hidden" id="filterBy" name="filterBy" value="${filterBy}" />
 

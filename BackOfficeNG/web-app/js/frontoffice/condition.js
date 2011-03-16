@@ -245,9 +245,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
           zct.each(json,function(i,el){
             if(!el.test && !!confirm && zcf.Condition.checkChanges(i) && !yud.hasClass(zcf.Condition.filleds[i][0],'unactive')) {
               zcf.Condition.confirmDialog.triggerIndex = i;
-              zcf.Condition.confirmDialog.triggerTarget = yue.getTarget(e);
-              zcf.Condition.confirmDialog.triggerTargetValue = yue.getTarget(e).value; // hack RDJ
-              zcf.Condition.confirmDialog.show(e);
+              zcf.Condition.confirmDialog.triggerTarget = t;
+              zcf.Condition.confirmDialog.show();
               
               var v = zcf.Condition.triggered[t.name];
               zcfi[zcfi.getType(t)].setValue(t.name,v);
@@ -343,8 +342,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
         if(typeof i != 'undefined') {
           zcf.Condition.fill(i,false);
           var t = zcf.Condition.confirmDialog.triggerTarget;
-          var v = zcf.Condition.confirmDialog.triggerTargetValue; // hack RDJ
-          zcfi[zcfi.getType(t)].setValue(t.name,v);
+          zcfi[zcfi.getType(t)].setValue(t.name, t.value);
         }
       },
       /**

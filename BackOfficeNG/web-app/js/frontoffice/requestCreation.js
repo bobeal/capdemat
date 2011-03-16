@@ -123,7 +123,7 @@
       
       getHandler : function(e) {
           var targetEl = yue.getTarget(e);
-          tokens = targetEl.id.split('-');
+          var tokens = targetEl.id.split('-');
           if (tokens.length > 1)
             return [tokens[0], zct.capitalize(tokens[1])].join('');
           else

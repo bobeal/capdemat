@@ -48,19 +48,19 @@ public class LibraryRegistrationRequestData implements Serializable {
         
           
             
-        result.setRegistrationNumber(registrationNumber);
-      
-          
-        
-          
-            
         result.setParentalAuthorization(parentalAuthorization);
       
           
         
           
             
-        result.setSubscriptionPrice(subscriptionPrice);
+        result.setRegistrationNumber(registrationNumber);
+      
+          
+        
+          
+            
+        result.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
       
           
         
@@ -76,7 +76,7 @@ public class LibraryRegistrationRequestData implements Serializable {
         
           
             
-        result.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
+        result.setSubscriptionPrice(subscriptionPrice);
       
           
         
@@ -96,24 +96,6 @@ public class LibraryRegistrationRequestData implements Serializable {
         return this.id;
     }
 
-  
-    
-    private String registrationNumber;
-
-    public final void setRegistrationNumber(final String registrationNumber) {
-        this.registrationNumber = registrationNumber;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="registration_number"
-        
-      
-    */
-    public final String getRegistrationNumber() {
-        return this.registrationNumber;
-    }
   
     
       @NotNull(
@@ -141,28 +123,46 @@ public class LibraryRegistrationRequestData implements Serializable {
     }
   
     
-      @NotNull(
-        
-        
-        profiles = {"administration"},
-        message = "subscriptionPrice"
-      )
-    
-    private java.math.BigDecimal subscriptionPrice;
+    private String registrationNumber;
 
-    public final void setSubscriptionPrice(final java.math.BigDecimal subscriptionPrice) {
-        this.subscriptionPrice = subscriptionPrice;
+    public final void setRegistrationNumber(final String registrationNumber) {
+        this.registrationNumber = registrationNumber;
     }
 
     /**
  
         * @hibernate.property
-        *  column="subscription_price"
+        *  column="registration_number"
         
       
     */
-    public final java.math.BigDecimal getSubscriptionPrice() {
-        return this.subscriptionPrice;
+    public final String getRegistrationNumber() {
+        return this.registrationNumber;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "rulesAndRegulationsAcceptance"
+      )
+    
+    private Boolean rulesAndRegulationsAcceptance;
+
+    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
+        this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="rules_and_regulations_acceptance"
+        
+      
+    */
+    public final Boolean getRulesAndRegulationsAcceptance() {
+        return this.rulesAndRegulationsAcceptance;
     }
   
     
@@ -212,25 +212,25 @@ public class LibraryRegistrationRequestData implements Serializable {
       @NotNull(
         
         
-        profiles = {"rules"},
-        message = "rulesAndRegulationsAcceptance"
+        profiles = {"administration"},
+        message = "subscriptionPrice"
       )
     
-    private Boolean rulesAndRegulationsAcceptance;
+    private java.math.BigDecimal subscriptionPrice;
 
-    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
-        this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+    public final void setSubscriptionPrice(final java.math.BigDecimal subscriptionPrice) {
+        this.subscriptionPrice = subscriptionPrice;
     }
 
     /**
  
         * @hibernate.property
-        *  column="rules_and_regulations_acceptance"
+        *  column="subscription_price"
         
       
     */
-    public final Boolean getRulesAndRegulationsAcceptance() {
-        return this.rulesAndRegulationsAcceptance;
+    public final java.math.BigDecimal getSubscriptionPrice() {
+        return this.subscriptionPrice;
     }
   
 }

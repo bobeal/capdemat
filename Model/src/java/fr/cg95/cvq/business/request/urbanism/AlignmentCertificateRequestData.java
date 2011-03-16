@@ -46,6 +46,37 @@ public class AlignmentCertificateRequestData implements Serializable {
         
           
             
+        result.setLocality(locality);
+      
+          
+        
+          
+            
+        result.setNumber(number);
+      
+          
+        
+          
+            
+        if (ownerAddress != null)
+            result.setOwnerAddress(ownerAddress.clone());
+      
+          
+        
+          
+            
+        result.setOwnerFirstNames(ownerFirstNames);
+      
+          
+        
+          
+            
+        result.setOwnerLastName(ownerLastName);
+      
+          
+        
+          
+            
         if (requesterQuality != null)
             result.setRequesterQuality(requesterQuality);
         else
@@ -62,37 +93,6 @@ public class AlignmentCertificateRequestData implements Serializable {
           
             
         result.setTransportationRoute(transportationRoute);
-      
-          
-        
-          
-            
-        result.setOwnerFirstNames(ownerFirstNames);
-      
-          
-        
-          
-            
-        result.setLocality(locality);
-      
-          
-        
-          
-            
-        result.setNumber(number);
-      
-          
-        
-          
-            
-        result.setOwnerLastName(ownerLastName);
-      
-          
-        
-          
-            
-        if (ownerAddress != null)
-            result.setOwnerAddress(ownerAddress.clone());
       
           
         
@@ -114,28 +114,21 @@ public class AlignmentCertificateRequestData implements Serializable {
 
   
     
-      @NotNull(
-        
-        
-        profiles = {"cadastre"},
-        message = "requesterQuality"
-      )
-    
-    private fr.cg95.cvq.business.request.urbanism.AcrRequesterQualityType requesterQuality;
+    private String locality;
 
-    public final void setRequesterQuality(final fr.cg95.cvq.business.request.urbanism.AcrRequesterQualityType requesterQuality) {
-        this.requesterQuality = requesterQuality;
+    public final void setLocality(final String locality) {
+        this.locality = locality;
     }
 
     /**
  
         * @hibernate.property
-        *  column="requester_quality"
+        *  column="locality"
         
       
     */
-    public final fr.cg95.cvq.business.request.urbanism.AcrRequesterQualityType getRequesterQuality() {
-        return this.requesterQuality;
+    public final String getLocality() {
+        return this.locality;
     }
   
     
@@ -143,49 +136,76 @@ public class AlignmentCertificateRequestData implements Serializable {
         
         
         profiles = {"cadastre"},
-        message = "section"
+        message = "number"
       )
     
-      @NotBlank(
-        
-        
-        profiles = {"cadastre"},
-        message = "section"
-      )
-    
-    private String section;
+    private java.math.BigInteger number;
 
-    public final void setSection(final String section) {
-        this.section = section;
+    public final void setNumber(final java.math.BigInteger number) {
+        this.number = number;
     }
 
     /**
  
         * @hibernate.property
-        *  column="section"
+        *  column="number"
+        *  type="serializable"
         
       
     */
-    public final String getSection() {
-        return this.section;
+    public final java.math.BigInteger getNumber() {
+        return this.number;
     }
   
     
-    private String transportationRoute;
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerAddress"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerAddress"
+      )
+    
+    private fr.cg95.cvq.business.users.Address ownerAddress;
 
-    public final void setTransportationRoute(final String transportationRoute) {
-        this.transportationRoute = transportationRoute;
+    public final void setOwnerAddress(final fr.cg95.cvq.business.users.Address ownerAddress) {
+        this.ownerAddress = ownerAddress;
     }
 
     /**
  
-        * @hibernate.property
-        *  column="transportation_route"
-        
+        * @hibernate.many-to-one
+        *  cascade="all"
+        *  column="owner_address_id"
+        *  class="fr.cg95.cvq.business.users.Address"
       
     */
-    public final String getTransportationRoute() {
-        return this.transportationRoute;
+    public final fr.cg95.cvq.business.users.Address getOwnerAddress() {
+        return this.ownerAddress;
     }
   
     
@@ -236,50 +256,6 @@ public class AlignmentCertificateRequestData implements Serializable {
     */
     public final String getOwnerFirstNames() {
         return this.ownerFirstNames;
-    }
-  
-    
-    private String locality;
-
-    public final void setLocality(final String locality) {
-        this.locality = locality;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="locality"
-        
-      
-    */
-    public final String getLocality() {
-        return this.locality;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"cadastre"},
-        message = "number"
-      )
-    
-    private java.math.BigInteger number;
-
-    public final void setNumber(final java.math.BigInteger number) {
-        this.number = number;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="number"
-        *  type="serializable"
-        
-      
-    */
-    public final java.math.BigInteger getNumber() {
-        return this.number;
     }
   
     
@@ -354,51 +330,75 @@ public class AlignmentCertificateRequestData implements Serializable {
       @NotNull(
         
         
-          when = "groovy:def active = true;" +
-          
-            "active &= _this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
-                
-              
-            
-            
-            "return active",
-        
         profiles = {"cadastre"},
-        message = "ownerAddress"
+        message = "requesterQuality"
       )
     
-      @AssertValid(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= _this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"cadastre"},
-        message = "ownerAddress"
-      )
-    
-    private fr.cg95.cvq.business.users.Address ownerAddress;
+    private fr.cg95.cvq.business.request.urbanism.AcrRequesterQualityType requesterQuality;
 
-    public final void setOwnerAddress(final fr.cg95.cvq.business.users.Address ownerAddress) {
-        this.ownerAddress = ownerAddress;
+    public final void setRequesterQuality(final fr.cg95.cvq.business.request.urbanism.AcrRequesterQualityType requesterQuality) {
+        this.requesterQuality = requesterQuality;
     }
 
     /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="owner_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+        * @hibernate.property
+        *  column="requester_quality"
+        
       
     */
-    public final fr.cg95.cvq.business.users.Address getOwnerAddress() {
-        return this.ownerAddress;
+    public final fr.cg95.cvq.business.request.urbanism.AcrRequesterQualityType getRequesterQuality() {
+        return this.requesterQuality;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"cadastre"},
+        message = "section"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"cadastre"},
+        message = "section"
+      )
+    
+    private String section;
+
+    public final void setSection(final String section) {
+        this.section = section;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="section"
+        
+      
+    */
+    public final String getSection() {
+        return this.section;
+    }
+  
+    
+    private String transportationRoute;
+
+    public final void setTransportationRoute(final String transportationRoute) {
+        this.transportationRoute = transportationRoute;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="transportation_route"
+        
+      
+    */
+    public final String getTransportationRoute() {
+        return this.transportationRoute;
     }
   
 }

@@ -36,9 +36,9 @@ public class SewerConnectionRequestData implements Serializable {
 
     public SewerConnectionRequestData() {
       
-        requesterQuality = fr.cg95.cvq.business.request.urbanism.ScrRequesterQualityType.OWNER;
-      
         moreThanTwoYears = Boolean.valueOf(false);
+      
+        requesterQuality = fr.cg95.cvq.business.request.urbanism.ScrRequesterQualityType.OWNER;
       
     }
 
@@ -48,7 +48,26 @@ public class SewerConnectionRequestData implements Serializable {
         
           
             
-        result.setOwnerLastName(ownerLastName);
+        result.setLocality(locality);
+      
+          
+        
+          
+            
+        result.setMoreThanTwoYears(moreThanTwoYears);
+      
+          
+        
+          
+            
+        result.setNumber(number);
+      
+          
+        
+          
+            
+        if (ownerAddress != null)
+            result.setOwnerAddress(ownerAddress.clone());
       
           
         
@@ -60,8 +79,7 @@ public class SewerConnectionRequestData implements Serializable {
         
           
             
-        if (ownerAddress != null)
-            result.setOwnerAddress(ownerAddress.clone());
+        result.setOwnerLastName(ownerLastName);
       
           
         
@@ -76,31 +94,13 @@ public class SewerConnectionRequestData implements Serializable {
         
           
             
-        result.setMoreThanTwoYears(moreThanTwoYears);
+        result.setSection(section);
       
           
         
           
             
         result.setTransportationRoute(transportationRoute);
-      
-          
-        
-          
-            
-        result.setLocality(locality);
-      
-          
-        
-          
-            
-        result.setNumber(number);
-      
-          
-        
-          
-            
-        result.setSection(section);
       
           
         
@@ -120,6 +120,176 @@ public class SewerConnectionRequestData implements Serializable {
         return this.id;
     }
 
+  
+    
+    private String locality;
+
+    public final void setLocality(final String locality) {
+        this.locality = locality;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="locality"
+        
+      
+    */
+    public final String getLocality() {
+        return this.locality;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"cadastre"},
+        message = "moreThanTwoYears"
+      )
+    
+    private Boolean moreThanTwoYears;
+
+    public final void setMoreThanTwoYears(final Boolean moreThanTwoYears) {
+        this.moreThanTwoYears = moreThanTwoYears;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="more_than_two_years"
+        
+      
+    */
+    public final Boolean getMoreThanTwoYears() {
+        return this.moreThanTwoYears;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"cadastre"},
+        message = "number"
+      )
+    
+    private java.math.BigInteger number;
+
+    public final void setNumber(final java.math.BigInteger number) {
+        this.number = number;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="number"
+        *  type="serializable"
+        
+      
+    */
+    public final java.math.BigInteger getNumber() {
+        return this.number;
+    }
+  
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerAddress"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerAddress"
+      )
+    
+    private fr.cg95.cvq.business.users.Address ownerAddress;
+
+    public final void setOwnerAddress(final fr.cg95.cvq.business.users.Address ownerAddress) {
+        this.ownerAddress = ownerAddress;
+    }
+
+    /**
+ 
+        * @hibernate.many-to-one
+        *  cascade="all"
+        *  column="owner_address_id"
+        *  class="fr.cg95.cvq.business.users.Address"
+      
+    */
+    public final fr.cg95.cvq.business.users.Address getOwnerAddress() {
+        return this.ownerAddress;
+    }
+  
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerFirstNames"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerFirstNames"
+      )
+    
+    private String ownerFirstNames;
+
+    public final void setOwnerFirstNames(final String ownerFirstNames) {
+        this.ownerFirstNames = ownerFirstNames;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="owner_first_names"
+        
+      
+    */
+    public final String getOwnerFirstNames() {
+        return this.ownerFirstNames;
+    }
   
     
       @MaxLength(
@@ -193,107 +363,6 @@ public class SewerConnectionRequestData implements Serializable {
       @NotNull(
         
         
-          when = "groovy:def active = true;" +
-          
-            "active &= _this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"cadastre"},
-        message = "ownerFirstNames"
-      )
-    
-      @NotBlank(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= _this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"cadastre"},
-        message = "ownerFirstNames"
-      )
-    
-    private String ownerFirstNames;
-
-    public final void setOwnerFirstNames(final String ownerFirstNames) {
-        this.ownerFirstNames = ownerFirstNames;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="owner_first_names"
-        
-      
-    */
-    public final String getOwnerFirstNames() {
-        return this.ownerFirstNames;
-    }
-  
-    
-      @NotNull(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= _this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"cadastre"},
-        message = "ownerAddress"
-      )
-    
-      @AssertValid(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= _this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"cadastre"},
-        message = "ownerAddress"
-      )
-    
-    private fr.cg95.cvq.business.users.Address ownerAddress;
-
-    public final void setOwnerAddress(final fr.cg95.cvq.business.users.Address ownerAddress) {
-        this.ownerAddress = ownerAddress;
-    }
-
-    /**
- 
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="owner_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
-      
-    */
-    public final fr.cg95.cvq.business.users.Address getOwnerAddress() {
-        return this.ownerAddress;
-    }
-  
-    
-      @NotNull(
-        
-        
         profiles = {"cadastre"},
         message = "requesterQuality"
       )
@@ -313,93 +382,6 @@ public class SewerConnectionRequestData implements Serializable {
     */
     public final fr.cg95.cvq.business.request.urbanism.ScrRequesterQualityType getRequesterQuality() {
         return this.requesterQuality;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"cadastre"},
-        message = "moreThanTwoYears"
-      )
-    
-    private Boolean moreThanTwoYears;
-
-    public final void setMoreThanTwoYears(final Boolean moreThanTwoYears) {
-        this.moreThanTwoYears = moreThanTwoYears;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="more_than_two_years"
-        
-      
-    */
-    public final Boolean getMoreThanTwoYears() {
-        return this.moreThanTwoYears;
-    }
-  
-    
-    private String transportationRoute;
-
-    public final void setTransportationRoute(final String transportationRoute) {
-        this.transportationRoute = transportationRoute;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="transportation_route"
-        
-      
-    */
-    public final String getTransportationRoute() {
-        return this.transportationRoute;
-    }
-  
-    
-    private String locality;
-
-    public final void setLocality(final String locality) {
-        this.locality = locality;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="locality"
-        
-      
-    */
-    public final String getLocality() {
-        return this.locality;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"cadastre"},
-        message = "number"
-      )
-    
-    private java.math.BigInteger number;
-
-    public final void setNumber(final java.math.BigInteger number) {
-        this.number = number;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="number"
-        *  type="serializable"
-        
-      
-    */
-    public final java.math.BigInteger getNumber() {
-        return this.number;
     }
   
     
@@ -432,6 +414,24 @@ public class SewerConnectionRequestData implements Serializable {
     */
     public final String getSection() {
         return this.section;
+    }
+  
+    
+    private String transportationRoute;
+
+    public final void setTransportationRoute(final String transportationRoute) {
+        this.transportationRoute = transportationRoute;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="transportation_route"
+        
+      
+    */
+    public final String getTransportationRoute() {
+        return this.transportationRoute;
     }
   
 }

@@ -104,15 +104,15 @@ public class HomeEmergencyRegistrationRequest extends Request implements Seriali
         super.fillCommonXmlInfo(homeEmergencyRegistrationRequest);
         int i = 0;
         
-        homeEmergencyRegistrationRequest.setTelephone(getTelephone());
-      
-        homeEmergencyRegistrationRequest.setDuree(getDuree());
-      
         date = getDateDepart();
         if (date != null) {
             calendar.setTime(date);
             homeEmergencyRegistrationRequest.setDateDepart(calendar);
         }
+      
+        homeEmergencyRegistrationRequest.setDuree(getDuree());
+      
+        homeEmergencyRegistrationRequest.setTelephone(getTelephone());
       
         return homeEmergencyRegistrationRequestDoc;
     }
@@ -130,14 +130,14 @@ public class HomeEmergencyRegistrationRequest extends Request implements Seriali
         HomeEmergencyRegistrationRequest homeEmergencyRegistrationRequest = new HomeEmergencyRegistrationRequest();
         homeEmergencyRegistrationRequest.fillCommonModelInfo(homeEmergencyRegistrationRequest, homeEmergencyRegistrationRequestXml);
         
-        homeEmergencyRegistrationRequest.setTelephone(homeEmergencyRegistrationRequestXml.getTelephone());
-      
-        homeEmergencyRegistrationRequest.setDuree(homeEmergencyRegistrationRequestXml.getDuree());
-      
         calendar = homeEmergencyRegistrationRequestXml.getDateDepart();
         if (calendar != null) {
             homeEmergencyRegistrationRequest.setDateDepart(calendar.getTime());
         }
+      
+        homeEmergencyRegistrationRequest.setDuree(homeEmergencyRegistrationRequestXml.getDuree());
+      
+        homeEmergencyRegistrationRequest.setTelephone(homeEmergencyRegistrationRequestXml.getTelephone());
       
         return homeEmergencyRegistrationRequest;
     }
@@ -172,13 +172,13 @@ public class HomeEmergencyRegistrationRequest extends Request implements Seriali
     }
 
   
-    public final void setTelephone(final String telephone) {
-        homeEmergencyRegistrationRequestData.setTelephone(telephone);
+    public final void setDateDepart(final java.util.Date dateDepart) {
+        homeEmergencyRegistrationRequestData.setDateDepart(dateDepart);
     }
 
     
-    public final String getTelephone() {
-        return homeEmergencyRegistrationRequestData.getTelephone();
+    public final java.util.Date getDateDepart() {
+        return homeEmergencyRegistrationRequestData.getDateDepart();
     }
   
     public final void setDuree(final String duree) {
@@ -190,13 +190,13 @@ public class HomeEmergencyRegistrationRequest extends Request implements Seriali
         return homeEmergencyRegistrationRequestData.getDuree();
     }
   
-    public final void setDateDepart(final java.util.Date dateDepart) {
-        homeEmergencyRegistrationRequestData.setDateDepart(dateDepart);
+    public final void setTelephone(final String telephone) {
+        homeEmergencyRegistrationRequestData.setTelephone(telephone);
     }
 
     
-    public final java.util.Date getDateDepart() {
-        return homeEmergencyRegistrationRequestData.getDateDepart();
+    public final String getTelephone() {
+        return homeEmergencyRegistrationRequestData.getTelephone();
     }
   
 }

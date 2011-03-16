@@ -36,9 +36,9 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
 
     public AlignmentNumberingConnectionRequestData() {
       
-        requesterQuality = fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType.OWNER;
-      
         isAccountAddress = Boolean.valueOf(true);
+      
+        requesterQuality = fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType.OWNER;
       
     }
 
@@ -48,7 +48,49 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
         
           
             
+        result.setArea(area);
+      
+          
+        
+          
+            
+        result.setIsAccountAddress(isAccountAddress);
+      
+          
+        
+          
+            
+        result.setIsAlignment(isAlignment);
+      
+          
+        
+          
+            
+        result.setIsConnection(isConnection);
+      
+          
+        
+          
+            
         result.setIsNumbering(isNumbering);
+      
+          
+        
+          
+            
+        result.setLocality(locality);
+      
+          
+        
+          
+            
+        result.setMoreThanTwoYears(moreThanTwoYears);
+      
+          
+        
+          
+            
+        result.setNumber(number);
       
           
         
@@ -61,32 +103,20 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
         
           
             
+        if (ownerAddress != null)
+            result.setOwnerAddress(ownerAddress.clone());
+      
+          
+        
+          
+            
         result.setOwnerFirstNames(ownerFirstNames);
       
           
         
           
             
-        result.setNumber(number);
-      
-          
-        
-          
-            
-        result.setArea(area);
-      
-          
-        
-          
-            
-        result.setMoreThanTwoYears(moreThanTwoYears);
-      
-          
-        
-          
-            
-        if (ownerAddress != null)
-            result.setOwnerAddress(ownerAddress.clone());
+        result.setOwnerLastName(ownerLastName);
       
           
         
@@ -111,36 +141,6 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
       
           
         
-          
-            
-        result.setLocality(locality);
-      
-          
-        
-          
-            
-        result.setIsConnection(isConnection);
-      
-          
-        
-          
-            
-        result.setIsAccountAddress(isAccountAddress);
-      
-          
-        
-          
-            
-        result.setIsAlignment(isAlignment);
-      
-          
-        
-          
-            
-        result.setOwnerLastName(ownerLastName);
-      
-          
-        
         return result;
     }
 
@@ -157,6 +157,100 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
         return this.id;
     }
 
+  
+    
+    private java.math.BigInteger area;
+
+    public final void setArea(final java.math.BigInteger area) {
+        this.area = area;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="area"
+        *  type="serializable"
+        
+      
+    */
+    public final java.math.BigInteger getArea() {
+        return this.area;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"address"},
+        message = "isAccountAddress"
+      )
+    
+    private Boolean isAccountAddress;
+
+    public final void setIsAccountAddress(final Boolean isAccountAddress) {
+        this.isAccountAddress = isAccountAddress;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="is_account_address"
+        
+      
+    */
+    public final Boolean getIsAccountAddress() {
+        return this.isAccountAddress;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"cadastre"},
+        message = "isAlignment"
+      )
+    
+    private Boolean isAlignment;
+
+    public final void setIsAlignment(final Boolean isAlignment) {
+        this.isAlignment = isAlignment;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="is_alignment"
+        
+      
+    */
+    public final Boolean getIsAlignment() {
+        return this.isAlignment;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"cadastre"},
+        message = "isConnection"
+      )
+    
+    private Boolean isConnection;
+
+    public final void setIsConnection(final Boolean isConnection) {
+        this.isConnection = isConnection;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="is_connection"
+        
+      
+    */
+    public final Boolean getIsConnection() {
+        return this.isConnection;
+    }
   
     
       @NotNull(
@@ -181,6 +275,75 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
     */
     public final Boolean getIsNumbering() {
         return this.isNumbering;
+    }
+  
+    
+    private String locality;
+
+    public final void setLocality(final String locality) {
+        this.locality = locality;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="locality"
+        
+      
+    */
+    public final String getLocality() {
+        return this.locality;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"cadastre"},
+        message = "moreThanTwoYears"
+      )
+    
+    private Boolean moreThanTwoYears;
+
+    public final void setMoreThanTwoYears(final Boolean moreThanTwoYears) {
+        this.moreThanTwoYears = moreThanTwoYears;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="more_than_two_years"
+        
+      
+    */
+    public final Boolean getMoreThanTwoYears() {
+        return this.moreThanTwoYears;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"cadastre"},
+        message = "number"
+      )
+    
+    private java.math.BigInteger number;
+
+    public final void setNumber(final java.math.BigInteger number) {
+        this.number = number;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="number"
+        *  type="serializable"
+        
+      
+    */
+    public final java.math.BigInteger getNumber() {
+        return this.number;
     }
   
     
@@ -248,6 +411,57 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
             "return active",
         
         profiles = {"cadastre"},
+        message = "ownerAddress"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerAddress"
+      )
+    
+    private fr.cg95.cvq.business.users.Address ownerAddress;
+
+    public final void setOwnerAddress(final fr.cg95.cvq.business.users.Address ownerAddress) {
+        this.ownerAddress = ownerAddress;
+    }
+
+    /**
+ 
+        * @hibernate.many-to-one
+        *  cascade="all"
+        *  column="owner_address_id"
+        *  class="fr.cg95.cvq.business.users.Address"
+      
+    */
+    public final fr.cg95.cvq.business.users.Address getOwnerAddress() {
+        return this.ownerAddress;
+    }
+  
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
         message = "ownerFirstNames"
       )
     
@@ -285,75 +499,23 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
     }
   
     
-      @NotNull(
+      @MaxLength(
+        
+          value = 38,
         
         
-        profiles = {"cadastre"},
-        message = "number"
-      )
-    
-    private java.math.BigInteger number;
-
-    public final void setNumber(final java.math.BigInteger number) {
-        this.number = number;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="number"
-        *  type="serializable"
-        
-      
-    */
-    public final java.math.BigInteger getNumber() {
-        return this.number;
-    }
-  
-    
-    private java.math.BigInteger area;
-
-    public final void setArea(final java.math.BigInteger area) {
-        this.area = area;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="area"
-        *  type="serializable"
-        
-      
-    */
-    public final java.math.BigInteger getArea() {
-        return this.area;
-    }
-  
-    
-      @NotNull(
-        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
         
         profiles = {"cadastre"},
-        message = "moreThanTwoYears"
+        message = "ownerLastName"
       )
-    
-    private Boolean moreThanTwoYears;
-
-    public final void setMoreThanTwoYears(final Boolean moreThanTwoYears) {
-        this.moreThanTwoYears = moreThanTwoYears;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="more_than_two_years"
-        
-      
-    */
-    public final Boolean getMoreThanTwoYears() {
-        return this.moreThanTwoYears;
-    }
-  
     
       @NotNull(
         
@@ -368,10 +530,10 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
             "return active",
         
         profiles = {"cadastre"},
-        message = "ownerAddress"
+        message = "ownerLastName"
       )
     
-      @AssertValid(
+      @NotBlank(
         
         
           when = "groovy:def active = true;" +
@@ -384,25 +546,24 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
             "return active",
         
         profiles = {"cadastre"},
-        message = "ownerAddress"
+        message = "ownerLastName"
       )
     
-    private fr.cg95.cvq.business.users.Address ownerAddress;
+    private String ownerLastName;
 
-    public final void setOwnerAddress(final fr.cg95.cvq.business.users.Address ownerAddress) {
-        this.ownerAddress = ownerAddress;
+    public final void setOwnerLastName(final String ownerLastName) {
+        this.ownerLastName = ownerLastName;
     }
 
     /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="owner_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+        * @hibernate.property
+        *  column="owner_last_name"
+        *  length="38"
       
     */
-    public final fr.cg95.cvq.business.users.Address getOwnerAddress() {
-        return this.ownerAddress;
+    public final String getOwnerLastName() {
+        return this.ownerLastName;
     }
   
     
@@ -478,167 +639,6 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
     */
     public final String getTransportationRoute() {
         return this.transportationRoute;
-    }
-  
-    
-    private String locality;
-
-    public final void setLocality(final String locality) {
-        this.locality = locality;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="locality"
-        
-      
-    */
-    public final String getLocality() {
-        return this.locality;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"cadastre"},
-        message = "isConnection"
-      )
-    
-    private Boolean isConnection;
-
-    public final void setIsConnection(final Boolean isConnection) {
-        this.isConnection = isConnection;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="is_connection"
-        
-      
-    */
-    public final Boolean getIsConnection() {
-        return this.isConnection;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"address"},
-        message = "isAccountAddress"
-      )
-    
-    private Boolean isAccountAddress;
-
-    public final void setIsAccountAddress(final Boolean isAccountAddress) {
-        this.isAccountAddress = isAccountAddress;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="is_account_address"
-        
-      
-    */
-    public final Boolean getIsAccountAddress() {
-        return this.isAccountAddress;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"cadastre"},
-        message = "isAlignment"
-      )
-    
-    private Boolean isAlignment;
-
-    public final void setIsAlignment(final Boolean isAlignment) {
-        this.isAlignment = isAlignment;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="is_alignment"
-        
-      
-    */
-    public final Boolean getIsAlignment() {
-        return this.isAlignment;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 38,
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= !_this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"cadastre"},
-        message = "ownerLastName"
-      )
-    
-      @NotNull(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= !_this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"cadastre"},
-        message = "ownerLastName"
-      )
-    
-      @NotBlank(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= !_this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"cadastre"},
-        message = "ownerLastName"
-      )
-    
-    private String ownerLastName;
-
-    public final void setOwnerLastName(final String ownerLastName) {
-        this.ownerLastName = ownerLastName;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="owner_last_name"
-        *  length="38"
-      
-    */
-    public final String getOwnerLastName() {
-        return this.ownerLastName;
     }
   
 }

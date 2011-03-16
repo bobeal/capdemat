@@ -46,13 +46,53 @@ public class BafaGrantRequestData implements Serializable {
         
           
             
-        result.setAccountHolderFirstName(accountHolderFirstName);
+        result.setAccountHolderBirthDate(accountHolderBirthDate);
       
           
         
           
             
         result.setAccountHolderEdemandeId(accountHolderEdemandeId);
+      
+          
+        
+          
+            
+        result.setAccountHolderFirstName(accountHolderFirstName);
+      
+          
+        
+          
+            
+        result.setAccountHolderLastName(accountHolderLastName);
+      
+          
+        
+          
+            
+        if (accountHolderTitle != null)
+            result.setAccountHolderTitle(accountHolderTitle);
+        else
+            result.setAccountHolderTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
+      
+          
+        
+          
+            
+        result.setEdemandeId(edemandeId);
+      
+          
+        
+          
+            
+        if (frenchRIB != null)
+            result.setFrenchRIB(frenchRIB.clone());
+      
+          
+        
+          
+            
+        result.setInternshipEndDate(internshipEndDate);
       
           
         
@@ -65,13 +105,7 @@ public class BafaGrantRequestData implements Serializable {
         
           
             
-        result.setEdemandeId(edemandeId);
-      
-          
-        
-          
-            
-        result.setInternshipEndDate(internshipEndDate);
+        result.setInternshipInstituteName(internshipInstituteName);
       
           
         
@@ -89,8 +123,8 @@ public class BafaGrantRequestData implements Serializable {
         
           
             
-        if (frenchRIB != null)
-            result.setFrenchRIB(frenchRIB.clone());
+        if (subjectAddress != null)
+            result.setSubjectAddress(subjectAddress.clone());
       
           
         
@@ -102,38 +136,7 @@ public class BafaGrantRequestData implements Serializable {
         
           
             
-        result.setAccountHolderBirthDate(accountHolderBirthDate);
-      
-          
-        
-          
-            
         result.setSubjectBirthDate(subjectBirthDate);
-      
-          
-        
-          
-            
-        result.setInternshipInstituteName(internshipInstituteName);
-      
-          
-        
-          
-            
-        result.setAccountHolderLastName(accountHolderLastName);
-      
-          
-        
-          
-            
-        if (subjectAddress != null)
-            result.setSubjectAddress(subjectAddress.clone());
-      
-          
-        
-          
-            
-        result.setSubjectPhone(subjectPhone);
       
           
         
@@ -145,10 +148,7 @@ public class BafaGrantRequestData implements Serializable {
         
           
             
-        if (accountHolderTitle != null)
-            result.setAccountHolderTitle(accountHolderTitle);
-        else
-            result.setAccountHolderTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
+        result.setSubjectPhone(subjectPhone);
       
           
         
@@ -168,6 +168,72 @@ public class BafaGrantRequestData implements Serializable {
         return this.id;
     }
 
+  
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"bankReference"},
+        message = "accountHolderBirthDate"
+      )
+    
+    private java.util.Date accountHolderBirthDate;
+
+    public final void setAccountHolderBirthDate(final java.util.Date accountHolderBirthDate) {
+        this.accountHolderBirthDate = accountHolderBirthDate;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="account_holder_birth_date"
+        
+      
+    */
+    public final java.util.Date getAccountHolderBirthDate() {
+        return this.accountHolderBirthDate;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"administration"},
+        message = "accountHolderEdemandeId"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"administration"},
+        message = "accountHolderEdemandeId"
+      )
+    
+    private String accountHolderEdemandeId;
+
+    public final void setAccountHolderEdemandeId(final String accountHolderEdemandeId) {
+        this.accountHolderEdemandeId = accountHolderEdemandeId;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="account_holder_edemande_id"
+        
+      
+    */
+    public final String getAccountHolderEdemandeId() {
+        return this.accountHolderEdemandeId;
+    }
   
     
       @MaxLength(
@@ -235,343 +301,6 @@ public class BafaGrantRequestData implements Serializable {
     */
     public final String getAccountHolderFirstName() {
         return this.accountHolderFirstName;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"administration"},
-        message = "accountHolderEdemandeId"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"administration"},
-        message = "accountHolderEdemandeId"
-      )
-    
-    private String accountHolderEdemandeId;
-
-    public final void setAccountHolderEdemandeId(final String accountHolderEdemandeId) {
-        this.accountHolderEdemandeId = accountHolderEdemandeId;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="account_holder_edemande_id"
-        
-      
-    */
-    public final String getAccountHolderEdemandeId() {
-        return this.accountHolderEdemandeId;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"internship"},
-        message = "internshipInstituteAddress"
-      )
-    
-      @AssertValid(
-        
-        
-        profiles = {"internship"},
-        message = "internshipInstituteAddress"
-      )
-    
-    private fr.cg95.cvq.business.users.Address internshipInstituteAddress;
-
-    public final void setInternshipInstituteAddress(final fr.cg95.cvq.business.users.Address internshipInstituteAddress) {
-        this.internshipInstituteAddress = internshipInstituteAddress;
-    }
-
-    /**
- 
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="internship_institute_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
-      
-    */
-    public final fr.cg95.cvq.business.users.Address getInternshipInstituteAddress() {
-        return this.internshipInstituteAddress;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"administration"},
-        message = "edemandeId"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"administration"},
-        message = "edemandeId"
-      )
-    
-    private String edemandeId;
-
-    public final void setEdemandeId(final String edemandeId) {
-        this.edemandeId = edemandeId;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="edemande_id"
-        
-      
-    */
-    public final String getEdemandeId() {
-        return this.edemandeId;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"internship"},
-        message = "internshipEndDate"
-      )
-    
-    private java.util.Date internshipEndDate;
-
-    public final void setInternshipEndDate(final java.util.Date internshipEndDate) {
-        this.internshipEndDate = internshipEndDate;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="internship_end_date"
-        
-      
-    */
-    public final java.util.Date getInternshipEndDate() {
-        return this.internshipEndDate;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"internship"},
-        message = "internshipStartDate"
-      )
-    
-    private java.util.Date internshipStartDate;
-
-    public final void setInternshipStartDate(final java.util.Date internshipStartDate) {
-        this.internshipStartDate = internshipStartDate;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="internship_start_date"
-        
-      
-    */
-    public final java.util.Date getInternshipStartDate() {
-        return this.internshipStartDate;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"bankReference"},
-        message = "isSubjectAccountHolder"
-      )
-    
-    private Boolean isSubjectAccountHolder;
-
-    public final void setIsSubjectAccountHolder(final Boolean isSubjectAccountHolder) {
-        this.isSubjectAccountHolder = isSubjectAccountHolder;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="is_subject_account_holder"
-        
-      
-    */
-    public final Boolean getIsSubjectAccountHolder() {
-        return this.isSubjectAccountHolder;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"bankReference"},
-        message = "frenchRIB"
-      )
-    
-      @AssertValid(
-        
-        
-        profiles = {"bankReference"},
-        message = "frenchRIB"
-      )
-    
-    private fr.cg95.cvq.business.users.FrenchRIB frenchRIB;
-
-    public final void setFrenchRIB(final fr.cg95.cvq.business.users.FrenchRIB frenchRIB) {
-        this.frenchRIB = frenchRIB;
-    }
-
-    /**
- 
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="french_r_i_b_id"
-        *  class="fr.cg95.cvq.business.users.FrenchRIB"
-      
-    */
-    public final fr.cg95.cvq.business.users.FrenchRIB getFrenchRIB() {
-        return this.frenchRIB;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 32,
-        
-        
-        profiles = {"subject"},
-        message = "subjectBirthCity"
-      )
-    
-      @NotNull(
-        
-        
-        profiles = {"subject"},
-        message = "subjectBirthCity"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"subject"},
-        message = "subjectBirthCity"
-      )
-    
-    private String subjectBirthCity;
-
-    public final void setSubjectBirthCity(final String subjectBirthCity) {
-        this.subjectBirthCity = subjectBirthCity;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="subject_birth_city"
-        *  length="32"
-      
-    */
-    public final String getSubjectBirthCity() {
-        return this.subjectBirthCity;
-    }
-  
-    
-      @NotNull(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"bankReference"},
-        message = "accountHolderBirthDate"
-      )
-    
-    private java.util.Date accountHolderBirthDate;
-
-    public final void setAccountHolderBirthDate(final java.util.Date accountHolderBirthDate) {
-        this.accountHolderBirthDate = accountHolderBirthDate;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="account_holder_birth_date"
-        
-      
-    */
-    public final java.util.Date getAccountHolderBirthDate() {
-        return this.accountHolderBirthDate;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"subject"},
-        message = "subjectBirthDate"
-      )
-    
-    private java.util.Date subjectBirthDate;
-
-    public final void setSubjectBirthDate(final java.util.Date subjectBirthDate) {
-        this.subjectBirthDate = subjectBirthDate;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="subject_birth_date"
-        
-      
-    */
-    public final java.util.Date getSubjectBirthDate() {
-        return this.subjectBirthDate;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"internship"},
-        message = "internshipInstituteName"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"internship"},
-        message = "internshipInstituteName"
-      )
-    
-    private String internshipInstituteName;
-
-    public final void setInternshipInstituteName(final String internshipInstituteName) {
-        this.internshipInstituteName = internshipInstituteName;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="internship_institute_name"
-        
-      
-    */
-    public final String getInternshipInstituteName() {
-        return this.internshipInstituteName;
     }
   
     
@@ -646,6 +375,245 @@ public class BafaGrantRequestData implements Serializable {
       @NotNull(
         
         
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"bankReference"},
+        message = "accountHolderTitle"
+      )
+    
+    private fr.cg95.cvq.business.users.TitleType accountHolderTitle;
+
+    public final void setAccountHolderTitle(final fr.cg95.cvq.business.users.TitleType accountHolderTitle) {
+        this.accountHolderTitle = accountHolderTitle;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="account_holder_title"
+        
+      
+    */
+    public final fr.cg95.cvq.business.users.TitleType getAccountHolderTitle() {
+        return this.accountHolderTitle;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"administration"},
+        message = "edemandeId"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"administration"},
+        message = "edemandeId"
+      )
+    
+    private String edemandeId;
+
+    public final void setEdemandeId(final String edemandeId) {
+        this.edemandeId = edemandeId;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="edemande_id"
+        
+      
+    */
+    public final String getEdemandeId() {
+        return this.edemandeId;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"bankReference"},
+        message = "frenchRIB"
+      )
+    
+      @AssertValid(
+        
+        
+        profiles = {"bankReference"},
+        message = "frenchRIB"
+      )
+    
+    private fr.cg95.cvq.business.users.FrenchRIB frenchRIB;
+
+    public final void setFrenchRIB(final fr.cg95.cvq.business.users.FrenchRIB frenchRIB) {
+        this.frenchRIB = frenchRIB;
+    }
+
+    /**
+ 
+        * @hibernate.many-to-one
+        *  cascade="all"
+        *  column="french_r_i_b_id"
+        *  class="fr.cg95.cvq.business.users.FrenchRIB"
+      
+    */
+    public final fr.cg95.cvq.business.users.FrenchRIB getFrenchRIB() {
+        return this.frenchRIB;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"internship"},
+        message = "internshipEndDate"
+      )
+    
+    private java.util.Date internshipEndDate;
+
+    public final void setInternshipEndDate(final java.util.Date internshipEndDate) {
+        this.internshipEndDate = internshipEndDate;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="internship_end_date"
+        
+      
+    */
+    public final java.util.Date getInternshipEndDate() {
+        return this.internshipEndDate;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"internship"},
+        message = "internshipInstituteAddress"
+      )
+    
+      @AssertValid(
+        
+        
+        profiles = {"internship"},
+        message = "internshipInstituteAddress"
+      )
+    
+    private fr.cg95.cvq.business.users.Address internshipInstituteAddress;
+
+    public final void setInternshipInstituteAddress(final fr.cg95.cvq.business.users.Address internshipInstituteAddress) {
+        this.internshipInstituteAddress = internshipInstituteAddress;
+    }
+
+    /**
+ 
+        * @hibernate.many-to-one
+        *  cascade="all"
+        *  column="internship_institute_address_id"
+        *  class="fr.cg95.cvq.business.users.Address"
+      
+    */
+    public final fr.cg95.cvq.business.users.Address getInternshipInstituteAddress() {
+        return this.internshipInstituteAddress;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"internship"},
+        message = "internshipInstituteName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"internship"},
+        message = "internshipInstituteName"
+      )
+    
+    private String internshipInstituteName;
+
+    public final void setInternshipInstituteName(final String internshipInstituteName) {
+        this.internshipInstituteName = internshipInstituteName;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="internship_institute_name"
+        
+      
+    */
+    public final String getInternshipInstituteName() {
+        return this.internshipInstituteName;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"internship"},
+        message = "internshipStartDate"
+      )
+    
+    private java.util.Date internshipStartDate;
+
+    public final void setInternshipStartDate(final java.util.Date internshipStartDate) {
+        this.internshipStartDate = internshipStartDate;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="internship_start_date"
+        
+      
+    */
+    public final java.util.Date getInternshipStartDate() {
+        return this.internshipStartDate;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"bankReference"},
+        message = "isSubjectAccountHolder"
+      )
+    
+    private Boolean isSubjectAccountHolder;
+
+    public final void setIsSubjectAccountHolder(final Boolean isSubjectAccountHolder) {
+        this.isSubjectAccountHolder = isSubjectAccountHolder;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="is_subject_account_holder"
+        
+      
+    */
+    public final Boolean getIsSubjectAccountHolder() {
+        return this.isSubjectAccountHolder;
+    }
+  
+    
+      @NotNull(
+        
+        
         profiles = {"subject"},
         message = "subjectAddress"
       )
@@ -673,6 +641,104 @@ public class BafaGrantRequestData implements Serializable {
     */
     public final fr.cg95.cvq.business.users.Address getSubjectAddress() {
         return this.subjectAddress;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 32,
+        
+        
+        profiles = {"subject"},
+        message = "subjectBirthCity"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "subjectBirthCity"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"subject"},
+        message = "subjectBirthCity"
+      )
+    
+    private String subjectBirthCity;
+
+    public final void setSubjectBirthCity(final String subjectBirthCity) {
+        this.subjectBirthCity = subjectBirthCity;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="subject_birth_city"
+        *  length="32"
+      
+    */
+    public final String getSubjectBirthCity() {
+        return this.subjectBirthCity;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "subjectBirthDate"
+      )
+    
+    private java.util.Date subjectBirthDate;
+
+    public final void setSubjectBirthDate(final java.util.Date subjectBirthDate) {
+        this.subjectBirthDate = subjectBirthDate;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="subject_birth_date"
+        
+      
+    */
+    public final java.util.Date getSubjectBirthDate() {
+        return this.subjectBirthDate;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "subjectEmail"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"subject"},
+        message = "subjectEmail"
+      )
+    
+    private String subjectEmail;
+
+    public final void setSubjectEmail(final String subjectEmail) {
+        this.subjectEmail = subjectEmail;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="subject_email"
+        
+      
+    */
+    public final String getSubjectEmail() {
+        return this.subjectEmail;
     }
   
     
@@ -714,72 +780,6 @@ public class BafaGrantRequestData implements Serializable {
     */
     public final String getSubjectPhone() {
         return this.subjectPhone;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"subject"},
-        message = "subjectEmail"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"subject"},
-        message = "subjectEmail"
-      )
-    
-    private String subjectEmail;
-
-    public final void setSubjectEmail(final String subjectEmail) {
-        this.subjectEmail = subjectEmail;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="subject_email"
-        
-      
-    */
-    public final String getSubjectEmail() {
-        return this.subjectEmail;
-    }
-  
-    
-      @NotNull(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"bankReference"},
-        message = "accountHolderTitle"
-      )
-    
-    private fr.cg95.cvq.business.users.TitleType accountHolderTitle;
-
-    public final void setAccountHolderTitle(final fr.cg95.cvq.business.users.TitleType accountHolderTitle) {
-        this.accountHolderTitle = accountHolderTitle;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="account_holder_title"
-        
-      
-    */
-    public final fr.cg95.cvq.business.users.TitleType getAccountHolderTitle() {
-        return this.accountHolderTitle;
     }
   
 }

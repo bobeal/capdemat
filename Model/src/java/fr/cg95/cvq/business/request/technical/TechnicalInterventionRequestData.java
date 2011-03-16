@@ -44,12 +44,6 @@ public class TechnicalInterventionRequestData implements Serializable {
         
           
             
-        result.setOtherInterventionLabel(otherInterventionLabel);
-      
-          
-        
-          
-            
         result.setInterventionDescription(interventionDescription);
       
           
@@ -71,6 +65,12 @@ public class TechnicalInterventionRequestData implements Serializable {
       
           
         
+          
+            
+        result.setOtherInterventionLabel(otherInterventionLabel);
+      
+          
+        
         return result;
     }
 
@@ -87,56 +87,6 @@ public class TechnicalInterventionRequestData implements Serializable {
         return this.id;
     }
 
-  
-    
-      @NotNull(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "if (_this.interventionType == null || _this.interventionType.isEmpty()) return false; _this.interventionType.each { active &= _this.conditions['interventionType'].test(it.name) };" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"intervention"},
-        message = "otherInterventionLabel"
-      )
-    
-      @NotBlank(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "if (_this.interventionType == null || _this.interventionType.isEmpty()) return false; _this.interventionType.each { active &= _this.conditions['interventionType'].test(it.name) };" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"intervention"},
-        message = "otherInterventionLabel"
-      )
-    
-    private String otherInterventionLabel;
-
-    public final void setOtherInterventionLabel(final String otherInterventionLabel) {
-        this.otherInterventionLabel = otherInterventionLabel;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="other_intervention_label"
-        
-      
-    */
-    public final String getOtherInterventionLabel() {
-        return this.otherInterventionLabel;
-    }
   
     
       @NotNull(
@@ -244,6 +194,56 @@ public class TechnicalInterventionRequestData implements Serializable {
     */
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getInterventionType() {
         return this.interventionType;
+    }
+  
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "if (_this.interventionType == null || _this.interventionType.isEmpty()) return false; _this.interventionType.each { active &= _this.conditions['interventionType'].test(it.name) };" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"intervention"},
+        message = "otherInterventionLabel"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "if (_this.interventionType == null || _this.interventionType.isEmpty()) return false; _this.interventionType.each { active &= _this.conditions['interventionType'].test(it.name) };" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"intervention"},
+        message = "otherInterventionLabel"
+      )
+    
+    private String otherInterventionLabel;
+
+    public final void setOtherInterventionLabel(final String otherInterventionLabel) {
+        this.otherInterventionLabel = otherInterventionLabel;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="other_intervention_label"
+        
+      
+    */
+    public final String getOtherInterventionLabel() {
+        return this.otherInterventionLabel;
     }
   
 }

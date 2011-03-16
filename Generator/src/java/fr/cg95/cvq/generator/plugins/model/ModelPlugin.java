@@ -1,7 +1,7 @@
 package fr.cg95.cvq.generator.plugins.model;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.NamedNodeMap;
@@ -67,7 +67,7 @@ public class ModelPlugin implements IPluginGenerator {
         logger.debug("initialize()");
 
         modelRequestObject = new ModelRequestObject();
-        commonElements = new HashMap<String, ElementCommon>();
+        commonElements = new TreeMap<String, ElementCommon>();
 
         NodeList nodeList = configurationNode.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {

@@ -104,8 +104,6 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
         super.fillCommonXmlInfo(technicalInterventionRequest);
         int i = 0;
         
-        technicalInterventionRequest.setOtherInterventionLabel(getOtherInterventionLabel());
-      
         technicalInterventionRequest.setInterventionDescription(getInterventionDescription());
       
         if (getInterventionPlace() != null)
@@ -119,6 +117,8 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
             }
             technicalInterventionRequest.setInterventionTypeArray(interventionTypeTypeTab);
         }
+      
+        technicalInterventionRequest.setOtherInterventionLabel(getOtherInterventionLabel());
       
         return technicalInterventionRequestDoc;
     }
@@ -136,8 +136,6 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
         TechnicalInterventionRequest technicalInterventionRequest = new TechnicalInterventionRequest();
         technicalInterventionRequest.fillCommonModelInfo(technicalInterventionRequest, technicalInterventionRequestXml);
         
-        technicalInterventionRequest.setOtherInterventionLabel(technicalInterventionRequestXml.getOtherInterventionLabel());
-      
         technicalInterventionRequest.setInterventionDescription(technicalInterventionRequestXml.getInterventionDescription());
       
         if (technicalInterventionRequestXml.getInterventionPlace() != null)
@@ -148,6 +146,8 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
             interventionTypeList.add(fr.cg95.cvq.business.request.LocalReferentialData.xmlToModel(object));
         }
         technicalInterventionRequest.setInterventionType(interventionTypeList);
+      
+        technicalInterventionRequest.setOtherInterventionLabel(technicalInterventionRequestXml.getOtherInterventionLabel());
       
         return technicalInterventionRequest;
     }
@@ -182,15 +182,6 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
     }
 
   
-    public final void setOtherInterventionLabel(final String otherInterventionLabel) {
-        technicalInterventionRequestData.setOtherInterventionLabel(otherInterventionLabel);
-    }
-
-    
-    public final String getOtherInterventionLabel() {
-        return technicalInterventionRequestData.getOtherInterventionLabel();
-    }
-  
     public final void setInterventionDescription(final String interventionDescription) {
         technicalInterventionRequestData.setInterventionDescription(interventionDescription);
     }
@@ -216,6 +207,15 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
     
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getInterventionType() {
         return technicalInterventionRequestData.getInterventionType();
+    }
+  
+    public final void setOtherInterventionLabel(final String otherInterventionLabel) {
+        technicalInterventionRequestData.setOtherInterventionLabel(otherInterventionLabel);
+    }
+
+    
+    public final String getOtherInterventionLabel() {
+        return technicalInterventionRequestData.getOtherInterventionLabel();
     }
   
 }

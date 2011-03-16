@@ -104,24 +104,24 @@ public class AlignmentCertificateRequest extends Request implements Serializable
         super.fillCommonXmlInfo(alignmentCertificateRequest);
         int i = 0;
         
+        alignmentCertificateRequest.setLocality(getLocality());
+      
+        if (getNumber() != null)
+            alignmentCertificateRequest.setNumber(new BigInteger(getNumber().toString()));
+      
+        if (getOwnerAddress() != null)
+            alignmentCertificateRequest.setOwnerAddress(Address.modelToXml(getOwnerAddress()));
+      
+        alignmentCertificateRequest.setOwnerFirstNames(getOwnerFirstNames());
+      
+        alignmentCertificateRequest.setOwnerLastName(getOwnerLastName());
+      
         if (getRequesterQuality() != null)
             alignmentCertificateRequest.setRequesterQuality(fr.cg95.cvq.xml.request.urbanism.AcrRequesterQualityType.Enum.forString(getRequesterQuality().toString()));
       
         alignmentCertificateRequest.setSection(getSection());
       
         alignmentCertificateRequest.setTransportationRoute(getTransportationRoute());
-      
-        alignmentCertificateRequest.setOwnerFirstNames(getOwnerFirstNames());
-      
-        alignmentCertificateRequest.setLocality(getLocality());
-      
-        if (getNumber() != null)
-            alignmentCertificateRequest.setNumber(new BigInteger(getNumber().toString()));
-      
-        alignmentCertificateRequest.setOwnerLastName(getOwnerLastName());
-      
-        if (getOwnerAddress() != null)
-            alignmentCertificateRequest.setOwnerAddress(Address.modelToXml(getOwnerAddress()));
       
         return alignmentCertificateRequestDoc;
     }
@@ -139,6 +139,17 @@ public class AlignmentCertificateRequest extends Request implements Serializable
         AlignmentCertificateRequest alignmentCertificateRequest = new AlignmentCertificateRequest();
         alignmentCertificateRequest.fillCommonModelInfo(alignmentCertificateRequest, alignmentCertificateRequestXml);
         
+        alignmentCertificateRequest.setLocality(alignmentCertificateRequestXml.getLocality());
+      
+        alignmentCertificateRequest.setNumber(alignmentCertificateRequestXml.getNumber());
+      
+        if (alignmentCertificateRequestXml.getOwnerAddress() != null)
+            alignmentCertificateRequest.setOwnerAddress(Address.xmlToModel(alignmentCertificateRequestXml.getOwnerAddress()));
+      
+        alignmentCertificateRequest.setOwnerFirstNames(alignmentCertificateRequestXml.getOwnerFirstNames());
+      
+        alignmentCertificateRequest.setOwnerLastName(alignmentCertificateRequestXml.getOwnerLastName());
+      
         if (alignmentCertificateRequestXml.getRequesterQuality() != null)
             alignmentCertificateRequest.setRequesterQuality(fr.cg95.cvq.business.request.urbanism.AcrRequesterQualityType.forString(alignmentCertificateRequestXml.getRequesterQuality().toString()));
         else
@@ -147,17 +158,6 @@ public class AlignmentCertificateRequest extends Request implements Serializable
         alignmentCertificateRequest.setSection(alignmentCertificateRequestXml.getSection());
       
         alignmentCertificateRequest.setTransportationRoute(alignmentCertificateRequestXml.getTransportationRoute());
-      
-        alignmentCertificateRequest.setOwnerFirstNames(alignmentCertificateRequestXml.getOwnerFirstNames());
-      
-        alignmentCertificateRequest.setLocality(alignmentCertificateRequestXml.getLocality());
-      
-        alignmentCertificateRequest.setNumber(alignmentCertificateRequestXml.getNumber());
-      
-        alignmentCertificateRequest.setOwnerLastName(alignmentCertificateRequestXml.getOwnerLastName());
-      
-        if (alignmentCertificateRequestXml.getOwnerAddress() != null)
-            alignmentCertificateRequest.setOwnerAddress(Address.xmlToModel(alignmentCertificateRequestXml.getOwnerAddress()));
       
         return alignmentCertificateRequest;
     }
@@ -192,6 +192,51 @@ public class AlignmentCertificateRequest extends Request implements Serializable
     }
 
   
+    public final void setLocality(final String locality) {
+        alignmentCertificateRequestData.setLocality(locality);
+    }
+
+    
+    public final String getLocality() {
+        return alignmentCertificateRequestData.getLocality();
+    }
+  
+    public final void setNumber(final java.math.BigInteger number) {
+        alignmentCertificateRequestData.setNumber(number);
+    }
+
+    
+    public final java.math.BigInteger getNumber() {
+        return alignmentCertificateRequestData.getNumber();
+    }
+  
+    public final void setOwnerAddress(final fr.cg95.cvq.business.users.Address ownerAddress) {
+        alignmentCertificateRequestData.setOwnerAddress(ownerAddress);
+    }
+
+    
+    public final fr.cg95.cvq.business.users.Address getOwnerAddress() {
+        return alignmentCertificateRequestData.getOwnerAddress();
+    }
+  
+    public final void setOwnerFirstNames(final String ownerFirstNames) {
+        alignmentCertificateRequestData.setOwnerFirstNames(ownerFirstNames);
+    }
+
+    
+    public final String getOwnerFirstNames() {
+        return alignmentCertificateRequestData.getOwnerFirstNames();
+    }
+  
+    public final void setOwnerLastName(final String ownerLastName) {
+        alignmentCertificateRequestData.setOwnerLastName(ownerLastName);
+    }
+
+    
+    public final String getOwnerLastName() {
+        return alignmentCertificateRequestData.getOwnerLastName();
+    }
+  
     public final void setRequesterQuality(final fr.cg95.cvq.business.request.urbanism.AcrRequesterQualityType requesterQuality) {
         alignmentCertificateRequestData.setRequesterQuality(requesterQuality);
     }
@@ -217,51 +262,6 @@ public class AlignmentCertificateRequest extends Request implements Serializable
     
     public final String getTransportationRoute() {
         return alignmentCertificateRequestData.getTransportationRoute();
-    }
-  
-    public final void setOwnerFirstNames(final String ownerFirstNames) {
-        alignmentCertificateRequestData.setOwnerFirstNames(ownerFirstNames);
-    }
-
-    
-    public final String getOwnerFirstNames() {
-        return alignmentCertificateRequestData.getOwnerFirstNames();
-    }
-  
-    public final void setLocality(final String locality) {
-        alignmentCertificateRequestData.setLocality(locality);
-    }
-
-    
-    public final String getLocality() {
-        return alignmentCertificateRequestData.getLocality();
-    }
-  
-    public final void setNumber(final java.math.BigInteger number) {
-        alignmentCertificateRequestData.setNumber(number);
-    }
-
-    
-    public final java.math.BigInteger getNumber() {
-        return alignmentCertificateRequestData.getNumber();
-    }
-  
-    public final void setOwnerLastName(final String ownerLastName) {
-        alignmentCertificateRequestData.setOwnerLastName(ownerLastName);
-    }
-
-    
-    public final String getOwnerLastName() {
-        return alignmentCertificateRequestData.getOwnerLastName();
-    }
-  
-    public final void setOwnerAddress(final fr.cg95.cvq.business.users.Address ownerAddress) {
-        alignmentCertificateRequestData.setOwnerAddress(ownerAddress);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.Address getOwnerAddress() {
-        return alignmentCertificateRequestData.getOwnerAddress();
     }
   
 }

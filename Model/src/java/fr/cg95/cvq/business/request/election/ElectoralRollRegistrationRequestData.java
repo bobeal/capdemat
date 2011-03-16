@@ -46,35 +46,7 @@ public class ElectoralRollRegistrationRequestData implements Serializable {
         
           
             
-        if (subjectNationality != null)
-            result.setSubjectNationality(subjectNationality);
-        else
-            result.setSubjectNationality(fr.cg95.cvq.business.users.NationalityType.getDefaultNationalityType());
-      
-          
-        
-          
-            
-        result.setSubjectOldCity(subjectOldCity);
-      
-          
-        
-          
-            
-        if (subjectAddressOutsideCity != null)
-            result.setSubjectAddressOutsideCity(subjectAddressOutsideCity.clone());
-      
-          
-        
-          
-            
-        result.setPollingStation(pollingStation);
-      
-          
-        
-          
-            
-        result.setPollingSchoolName(pollingSchoolName);
+        result.setElectoralNumber(electoralNumber);
       
           
         
@@ -89,7 +61,35 @@ public class ElectoralRollRegistrationRequestData implements Serializable {
         
           
             
-        result.setElectoralNumber(electoralNumber);
+        result.setPollingSchoolName(pollingSchoolName);
+      
+          
+        
+          
+            
+        result.setPollingStation(pollingStation);
+      
+          
+        
+          
+            
+        if (subjectAddressOutsideCity != null)
+            result.setSubjectAddressOutsideCity(subjectAddressOutsideCity.clone());
+      
+          
+        
+          
+            
+        if (subjectNationality != null)
+            result.setSubjectNationality(subjectNationality);
+        else
+            result.setSubjectNationality(fr.cg95.cvq.business.users.NationalityType.getDefaultNationalityType());
+      
+          
+        
+          
+            
+        result.setSubjectOldCity(subjectOldCity);
       
           
         
@@ -109,6 +109,136 @@ public class ElectoralRollRegistrationRequestData implements Serializable {
         return this.id;
     }
 
+  
+    
+    private Long electoralNumber;
+
+    public final void setElectoralNumber(final Long electoralNumber) {
+        this.electoralNumber = electoralNumber;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="electoral_number"
+        
+      
+    */
+    public final Long getElectoralNumber() {
+        return this.electoralNumber;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"registration"},
+        message = "motive"
+      )
+    
+    private fr.cg95.cvq.business.request.election.ElectoralMotiveType motive;
+
+    public final void setMotive(final fr.cg95.cvq.business.request.election.ElectoralMotiveType motive) {
+        this.motive = motive;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="motive"
+        
+      
+    */
+    public final fr.cg95.cvq.business.request.election.ElectoralMotiveType getMotive() {
+        return this.motive;
+    }
+  
+    
+    private String pollingSchoolName;
+
+    public final void setPollingSchoolName(final String pollingSchoolName) {
+        this.pollingSchoolName = pollingSchoolName;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="polling_school_name"
+        
+      
+    */
+    public final String getPollingSchoolName() {
+        return this.pollingSchoolName;
+    }
+  
+    
+    private Long pollingStation;
+
+    public final void setPollingStation(final Long pollingStation) {
+        this.pollingStation = pollingStation;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="polling_station"
+        
+      
+    */
+    public final Long getPollingStation() {
+        return this.pollingStation;
+    }
+  
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['motive'].test(_this.motive.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"registration"},
+        message = "subjectAddressOutsideCity"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['motive'].test(_this.motive.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"registration"},
+        message = "subjectAddressOutsideCity"
+      )
+    
+    private fr.cg95.cvq.business.users.Address subjectAddressOutsideCity;
+
+    public final void setSubjectAddressOutsideCity(final fr.cg95.cvq.business.users.Address subjectAddressOutsideCity) {
+        this.subjectAddressOutsideCity = subjectAddressOutsideCity;
+    }
+
+    /**
+ 
+        * @hibernate.many-to-one
+        *  cascade="all"
+        *  column="subject_address_outside_city_id"
+        *  class="fr.cg95.cvq.business.users.Address"
+      
+    */
+    public final fr.cg95.cvq.business.users.Address getSubjectAddressOutsideCity() {
+        return this.subjectAddressOutsideCity;
+    }
   
     
       @NotNull(
@@ -201,136 +331,6 @@ public class ElectoralRollRegistrationRequestData implements Serializable {
     */
     public final String getSubjectOldCity() {
         return this.subjectOldCity;
-    }
-  
-    
-      @NotNull(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= _this.conditions['motive'].test(_this.motive.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"registration"},
-        message = "subjectAddressOutsideCity"
-      )
-    
-      @AssertValid(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= _this.conditions['motive'].test(_this.motive.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"registration"},
-        message = "subjectAddressOutsideCity"
-      )
-    
-    private fr.cg95.cvq.business.users.Address subjectAddressOutsideCity;
-
-    public final void setSubjectAddressOutsideCity(final fr.cg95.cvq.business.users.Address subjectAddressOutsideCity) {
-        this.subjectAddressOutsideCity = subjectAddressOutsideCity;
-    }
-
-    /**
- 
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="subject_address_outside_city_id"
-        *  class="fr.cg95.cvq.business.users.Address"
-      
-    */
-    public final fr.cg95.cvq.business.users.Address getSubjectAddressOutsideCity() {
-        return this.subjectAddressOutsideCity;
-    }
-  
-    
-    private Long pollingStation;
-
-    public final void setPollingStation(final Long pollingStation) {
-        this.pollingStation = pollingStation;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="polling_station"
-        
-      
-    */
-    public final Long getPollingStation() {
-        return this.pollingStation;
-    }
-  
-    
-    private String pollingSchoolName;
-
-    public final void setPollingSchoolName(final String pollingSchoolName) {
-        this.pollingSchoolName = pollingSchoolName;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="polling_school_name"
-        
-      
-    */
-    public final String getPollingSchoolName() {
-        return this.pollingSchoolName;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"registration"},
-        message = "motive"
-      )
-    
-    private fr.cg95.cvq.business.request.election.ElectoralMotiveType motive;
-
-    public final void setMotive(final fr.cg95.cvq.business.request.election.ElectoralMotiveType motive) {
-        this.motive = motive;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="motive"
-        
-      
-    */
-    public final fr.cg95.cvq.business.request.election.ElectoralMotiveType getMotive() {
-        return this.motive;
-    }
-  
-    
-    private Long electoralNumber;
-
-    public final void setElectoralNumber(final Long electoralNumber) {
-        this.electoralNumber = electoralNumber;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="electoral_number"
-        
-      
-    */
-    public final Long getElectoralNumber() {
-        return this.electoralNumber;
     }
   
 }

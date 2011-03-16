@@ -52,17 +52,17 @@ public class SmsNotificationRequestData implements Serializable {
         
           
             
-        result.setMobilePhone(mobilePhone);
-      
-          
-        
-          
-            
         List<fr.cg95.cvq.business.request.LocalReferentialData> interestsList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>();
         for (LocalReferentialData object : interests) {
             interestsList.add(object.clone());
         }
         result.setInterests(interestsList);
+      
+          
+        
+          
+            
+        result.setMobilePhone(mobilePhone);
       
           
         
@@ -122,33 +122,6 @@ public class SmsNotificationRequestData implements Serializable {
     }
   
     
-      @MaxLength(
-        
-          value = 10,
-        
-        
-        profiles = {"subscription"},
-        message = "mobilePhone"
-      )
-    
-    private String mobilePhone;
-
-    public final void setMobilePhone(final String mobilePhone) {
-        this.mobilePhone = mobilePhone;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="mobile_phone"
-        *  length="10"
-      
-    */
-    public final String getMobilePhone() {
-        return this.mobilePhone;
-    }
-  
-    
       @LocalReferential(
         
         
@@ -189,6 +162,33 @@ public class SmsNotificationRequestData implements Serializable {
     */
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getInterests() {
         return this.interests;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+        profiles = {"subscription"},
+        message = "mobilePhone"
+      )
+    
+    private String mobilePhone;
+
+    public final void setMobilePhone(final String mobilePhone) {
+        this.mobilePhone = mobilePhone;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="mobile_phone"
+        *  length="10"
+      
+    */
+    public final String getMobilePhone() {
+        return this.mobilePhone;
     }
   
     

@@ -44,18 +44,18 @@ public class BulkyWasteCollectionRequestData implements Serializable {
         
           
             
-        if (collectionAddress != null)
-            result.setCollectionAddress(collectionAddress.clone());
-      
-          
-        
-          
-            
         List<fr.cg95.cvq.business.request.LocalReferentialData> bulkyWasteTypeList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>();
         for (LocalReferentialData object : bulkyWasteType) {
             bulkyWasteTypeList.add(object.clone());
         }
         result.setBulkyWasteType(bulkyWasteTypeList);
+      
+          
+        
+          
+            
+        if (collectionAddress != null)
+            result.setCollectionAddress(collectionAddress.clone());
       
           
         
@@ -81,32 +81,6 @@ public class BulkyWasteCollectionRequestData implements Serializable {
         return this.id;
     }
 
-  
-    
-      @AssertValid(
-        
-        
-        profiles = {"waste"},
-        message = "collectionAddress"
-      )
-    
-    private fr.cg95.cvq.business.users.Address collectionAddress;
-
-    public final void setCollectionAddress(final fr.cg95.cvq.business.users.Address collectionAddress) {
-        this.collectionAddress = collectionAddress;
-    }
-
-    /**
- 
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="collection_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
-      
-    */
-    public final fr.cg95.cvq.business.users.Address getCollectionAddress() {
-        return this.collectionAddress;
-    }
   
     
       @LocalReferential(
@@ -149,6 +123,32 @@ public class BulkyWasteCollectionRequestData implements Serializable {
     */
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getBulkyWasteType() {
         return this.bulkyWasteType;
+    }
+  
+    
+      @AssertValid(
+        
+        
+        profiles = {"waste"},
+        message = "collectionAddress"
+      )
+    
+    private fr.cg95.cvq.business.users.Address collectionAddress;
+
+    public final void setCollectionAddress(final fr.cg95.cvq.business.users.Address collectionAddress) {
+        this.collectionAddress = collectionAddress;
+    }
+
+    /**
+ 
+        * @hibernate.many-to-one
+        *  cascade="all"
+        *  column="collection_address_id"
+        *  class="fr.cg95.cvq.business.users.Address"
+      
+    */
+    public final fr.cg95.cvq.business.users.Address getCollectionAddress() {
+        return this.collectionAddress;
     }
   
     

@@ -44,7 +44,7 @@ public class HomeEmergencyRegistrationRequestData implements Serializable {
         
           
             
-        result.setTelephone(telephone);
+        result.setDateDepart(dateDepart);
       
           
         
@@ -56,7 +56,7 @@ public class HomeEmergencyRegistrationRequestData implements Serializable {
         
           
             
-        result.setDateDepart(dateDepart);
+        result.setTelephone(telephone);
       
           
         
@@ -78,44 +78,28 @@ public class HomeEmergencyRegistrationRequestData implements Serializable {
 
   
     
-      @MaxLength(
-        
-          value = 10,
-        
-        
-        profiles = {"subject"},
-        message = "telephone"
-      )
-    
       @NotNull(
         
         
         profiles = {"subject"},
-        message = "telephone"
+        message = "dateDepart"
       )
     
-      @NotBlank(
-        
-        
-        profiles = {"subject"},
-        message = "telephone"
-      )
-    
-    private String telephone;
+    private java.util.Date dateDepart;
 
-    public final void setTelephone(final String telephone) {
-        this.telephone = telephone;
+    public final void setDateDepart(final java.util.Date dateDepart) {
+        this.dateDepart = dateDepart;
     }
 
     /**
  
         * @hibernate.property
-        *  column="telephone"
-        *  length="10"
+        *  column="date_depart"
+        
       
     */
-    public final String getTelephone() {
-        return this.telephone;
+    public final java.util.Date getDateDepart() {
+        return this.dateDepart;
     }
   
     
@@ -169,28 +153,44 @@ public class HomeEmergencyRegistrationRequestData implements Serializable {
     }
   
     
+      @MaxLength(
+        
+          value = 10,
+        
+        
+        profiles = {"subject"},
+        message = "telephone"
+      )
+    
       @NotNull(
         
         
         profiles = {"subject"},
-        message = "dateDepart"
+        message = "telephone"
       )
     
-    private java.util.Date dateDepart;
+      @NotBlank(
+        
+        
+        profiles = {"subject"},
+        message = "telephone"
+      )
+    
+    private String telephone;
 
-    public final void setDateDepart(final java.util.Date dateDepart) {
-        this.dateDepart = dateDepart;
+    public final void setTelephone(final String telephone) {
+        this.telephone = telephone;
     }
 
     /**
  
         * @hibernate.property
-        *  column="date_depart"
-        
+        *  column="telephone"
+        *  length="10"
       
     */
-    public final java.util.Date getDateDepart() {
-        return this.dateDepart;
+    public final String getTelephone() {
+        return this.telephone;
     }
   
 }

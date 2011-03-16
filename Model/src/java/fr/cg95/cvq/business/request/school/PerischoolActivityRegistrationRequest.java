@@ -141,6 +141,12 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
             perischoolActivityRegistrationRequest.setAuthorizedIndividualsArray(authorizedIndividualsTypeTab);
         }
       
+        if (getChildPhotoExploitationPermission() != null)
+            perischoolActivityRegistrationRequest.setChildPhotoExploitationPermission(getChildPhotoExploitationPermission().booleanValue());
+      
+        if (getClassTripPermission() != null)
+            perischoolActivityRegistrationRequest.setClassTripPermission(getClassTripPermission().booleanValue());
+      
         i = 0;
         if (getContactIndividuals() != null) {
             fr.cg95.cvq.xml.request.school.PerischoolContactIndividualType[] contactIndividualsTypeTab = new fr.cg95.cvq.xml.request.school.PerischoolContactIndividualType[getContactIndividuals().size()];
@@ -150,22 +156,8 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
             perischoolActivityRegistrationRequest.setContactIndividualsArray(contactIndividualsTypeTab);
         }
       
-        if (getClassTripPermission() != null)
-            perischoolActivityRegistrationRequest.setClassTripPermission(getClassTripPermission().booleanValue());
-      
-        if (getChildPhotoExploitationPermission() != null)
-            perischoolActivityRegistrationRequest.setChildPhotoExploitationPermission(getChildPhotoExploitationPermission().booleanValue());
-      
-        if (getSchool() != null)
-            perischoolActivityRegistrationRequest.setSchool(School.modelToXml(getSchool()));
-      
         if (getHospitalizationPermission() != null)
             perischoolActivityRegistrationRequest.setHospitalizationPermission(getHospitalizationPermission().booleanValue());
-      
-        if (getRulesAndRegulationsAcceptance() != null)
-            perischoolActivityRegistrationRequest.setRulesAndRegulationsAcceptance(getRulesAndRegulationsAcceptance().booleanValue());
-      
-        perischoolActivityRegistrationRequest.setUrgencyPhone(getUrgencyPhone());
       
         i = 0;
         if (getPerischoolActivity() != null) {
@@ -176,8 +168,16 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
             perischoolActivityRegistrationRequest.setPerischoolActivityArray(perischoolActivityTypeTab);
         }
       
+        if (getRulesAndRegulationsAcceptance() != null)
+            perischoolActivityRegistrationRequest.setRulesAndRegulationsAcceptance(getRulesAndRegulationsAcceptance().booleanValue());
+      
+        if (getSchool() != null)
+            perischoolActivityRegistrationRequest.setSchool(School.modelToXml(getSchool()));
+      
         if (getSection() != null)
             perischoolActivityRegistrationRequest.setSection(fr.cg95.cvq.xml.common.SectionType.Enum.forString(getSection().toString()));
+      
+        perischoolActivityRegistrationRequest.setUrgencyPhone(getUrgencyPhone());
       
         return perischoolActivityRegistrationRequestDoc;
     }
@@ -201,24 +201,17 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         }
         perischoolActivityRegistrationRequest.setAuthorizedIndividuals(authorizedIndividualsList);
       
+        perischoolActivityRegistrationRequest.setChildPhotoExploitationPermission(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getChildPhotoExploitationPermission()));
+      
+        perischoolActivityRegistrationRequest.setClassTripPermission(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getClassTripPermission()));
+      
         List<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> contactIndividualsList = new ArrayList<fr.cg95.cvq.business.request.school.PerischoolContactIndividual>(perischoolActivityRegistrationRequestXml.sizeOfContactIndividualsArray());
         for (PerischoolContactIndividualType object : perischoolActivityRegistrationRequestXml.getContactIndividualsArray()) {
             contactIndividualsList.add(fr.cg95.cvq.business.request.school.PerischoolContactIndividual.xmlToModel(object));
         }
         perischoolActivityRegistrationRequest.setContactIndividuals(contactIndividualsList);
       
-        perischoolActivityRegistrationRequest.setClassTripPermission(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getClassTripPermission()));
-      
-        perischoolActivityRegistrationRequest.setChildPhotoExploitationPermission(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getChildPhotoExploitationPermission()));
-      
-        if (perischoolActivityRegistrationRequestXml.getSchool() != null)
-            perischoolActivityRegistrationRequest.setSchool(School.xmlToModel(perischoolActivityRegistrationRequestXml.getSchool()));
-      
         perischoolActivityRegistrationRequest.setHospitalizationPermission(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getHospitalizationPermission()));
-      
-        perischoolActivityRegistrationRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getRulesAndRegulationsAcceptance()));
-      
-        perischoolActivityRegistrationRequest.setUrgencyPhone(perischoolActivityRegistrationRequestXml.getUrgencyPhone());
       
         List<fr.cg95.cvq.business.request.LocalReferentialData> perischoolActivityList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(perischoolActivityRegistrationRequestXml.sizeOfPerischoolActivityArray());
         for (LocalReferentialDataType object : perischoolActivityRegistrationRequestXml.getPerischoolActivityArray()) {
@@ -226,10 +219,17 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         }
         perischoolActivityRegistrationRequest.setPerischoolActivity(perischoolActivityList);
       
+        perischoolActivityRegistrationRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getRulesAndRegulationsAcceptance()));
+      
+        if (perischoolActivityRegistrationRequestXml.getSchool() != null)
+            perischoolActivityRegistrationRequest.setSchool(School.xmlToModel(perischoolActivityRegistrationRequestXml.getSchool()));
+      
         if (perischoolActivityRegistrationRequestXml.getSection() != null)
             perischoolActivityRegistrationRequest.setSection(fr.cg95.cvq.business.users.SectionType.forString(perischoolActivityRegistrationRequestXml.getSection().toString()));
         else
             perischoolActivityRegistrationRequest.setSection(fr.cg95.cvq.business.users.SectionType.getDefaultSectionType());
+      
+        perischoolActivityRegistrationRequest.setUrgencyPhone(perischoolActivityRegistrationRequestXml.getUrgencyPhone());
       
         return perischoolActivityRegistrationRequest;
     }
@@ -301,13 +301,13 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         return perischoolActivityRegistrationRequestData.getAuthorizedIndividuals();
     }
   
-    public final void setContactIndividuals(final List<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> contactIndividuals) {
-        perischoolActivityRegistrationRequestData.setContactIndividuals(contactIndividuals);
+    public final void setChildPhotoExploitationPermission(final Boolean childPhotoExploitationPermission) {
+        perischoolActivityRegistrationRequestData.setChildPhotoExploitationPermission(childPhotoExploitationPermission);
     }
 
-    
-    public final List<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> getContactIndividuals() {
-        return perischoolActivityRegistrationRequestData.getContactIndividuals();
+    @IsRulesAcceptance
+    public final Boolean getChildPhotoExploitationPermission() {
+        return perischoolActivityRegistrationRequestData.getChildPhotoExploitationPermission();
     }
   
     public final void setClassTripPermission(final Boolean classTripPermission) {
@@ -319,22 +319,13 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         return perischoolActivityRegistrationRequestData.getClassTripPermission();
     }
   
-    public final void setChildPhotoExploitationPermission(final Boolean childPhotoExploitationPermission) {
-        perischoolActivityRegistrationRequestData.setChildPhotoExploitationPermission(childPhotoExploitationPermission);
-    }
-
-    @IsRulesAcceptance
-    public final Boolean getChildPhotoExploitationPermission() {
-        return perischoolActivityRegistrationRequestData.getChildPhotoExploitationPermission();
-    }
-  
-    public final void setSchool(final fr.cg95.cvq.business.authority.School school) {
-        perischoolActivityRegistrationRequestData.setSchool(school);
+    public final void setContactIndividuals(final List<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> contactIndividuals) {
+        perischoolActivityRegistrationRequestData.setContactIndividuals(contactIndividuals);
     }
 
     
-    public final fr.cg95.cvq.business.authority.School getSchool() {
-        return perischoolActivityRegistrationRequestData.getSchool();
+    public final List<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> getContactIndividuals() {
+        return perischoolActivityRegistrationRequestData.getContactIndividuals();
     }
   
     public final void setHospitalizationPermission(final Boolean hospitalizationPermission) {
@@ -346,24 +337,6 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         return perischoolActivityRegistrationRequestData.getHospitalizationPermission();
     }
   
-    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
-        perischoolActivityRegistrationRequestData.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
-    }
-
-    @IsRulesAcceptance
-    public final Boolean getRulesAndRegulationsAcceptance() {
-        return perischoolActivityRegistrationRequestData.getRulesAndRegulationsAcceptance();
-    }
-  
-    public final void setUrgencyPhone(final String urgencyPhone) {
-        perischoolActivityRegistrationRequestData.setUrgencyPhone(urgencyPhone);
-    }
-
-    
-    public final String getUrgencyPhone() {
-        return perischoolActivityRegistrationRequestData.getUrgencyPhone();
-    }
-  
     public final void setPerischoolActivity(final List<fr.cg95.cvq.business.request.LocalReferentialData> perischoolActivity) {
         perischoolActivityRegistrationRequestData.setPerischoolActivity(perischoolActivity);
     }
@@ -373,6 +346,24 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         return perischoolActivityRegistrationRequestData.getPerischoolActivity();
     }
   
+    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
+        perischoolActivityRegistrationRequestData.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
+    }
+
+    @IsRulesAcceptance
+    public final Boolean getRulesAndRegulationsAcceptance() {
+        return perischoolActivityRegistrationRequestData.getRulesAndRegulationsAcceptance();
+    }
+  
+    public final void setSchool(final fr.cg95.cvq.business.authority.School school) {
+        perischoolActivityRegistrationRequestData.setSchool(school);
+    }
+
+    
+    public final fr.cg95.cvq.business.authority.School getSchool() {
+        return perischoolActivityRegistrationRequestData.getSchool();
+    }
+  
     public final void setSection(final fr.cg95.cvq.business.users.SectionType section) {
         perischoolActivityRegistrationRequestData.setSection(section);
     }
@@ -380,6 +371,15 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
     
     public final fr.cg95.cvq.business.users.SectionType getSection() {
         return perischoolActivityRegistrationRequestData.getSection();
+    }
+  
+    public final void setUrgencyPhone(final String urgencyPhone) {
+        perischoolActivityRegistrationRequestData.setUrgencyPhone(urgencyPhone);
+    }
+
+    
+    public final String getUrgencyPhone() {
+        return perischoolActivityRegistrationRequestData.getUrgencyPhone();
     }
   
 }

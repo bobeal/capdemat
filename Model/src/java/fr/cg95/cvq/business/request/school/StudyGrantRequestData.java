@@ -36,15 +36,15 @@ public class StudyGrantRequestData implements Serializable {
 
     public StudyGrantRequestData() {
       
-        subjectFirstRequest = Boolean.valueOf(true);
-      
-        isSubjectAccountHolder = Boolean.valueOf(true);
+        abroadInternship = Boolean.valueOf(false);
       
         currentSchoolCountry = fr.cg95.cvq.business.users.CountryType.FR;
       
+        isSubjectAccountHolder = Boolean.valueOf(true);
+      
         sandwichCourses = Boolean.valueOf(false);
       
-        abroadInternship = Boolean.valueOf(false);
+        subjectFirstRequest = Boolean.valueOf(true);
       
     }
 
@@ -54,41 +54,76 @@ public class StudyGrantRequestData implements Serializable {
         
           
             
-        result.setEdemandeId(edemandeId);
+        result.setAbroadInternship(abroadInternship);
       
           
         
           
             
-        result.setSubjectBirthDate(subjectBirthDate);
+        result.setAbroadInternshipEndDate(abroadInternshipEndDate);
       
           
         
           
             
-        result.setCurrentSchoolCity(currentSchoolCity);
+        if (abroadInternshipSchoolCountry != null)
+            result.setAbroadInternshipSchoolCountry(abroadInternshipSchoolCountry);
+        else
+            result.setAbroadInternshipSchoolCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
       
           
         
           
             
-        List<fr.cg95.cvq.business.request.LocalReferentialData> taxHouseholdCityList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>();
-        for (LocalReferentialData object : taxHouseholdCity) {
-            taxHouseholdCityList.add(object.clone());
-        }
-        result.setTaxHouseholdCity(taxHouseholdCityList);
+        result.setAbroadInternshipSchoolName(abroadInternshipSchoolName);
       
           
         
           
             
-        result.setSubjectFirstRequest(subjectFirstRequest);
+        result.setAbroadInternshipStartDate(abroadInternshipStartDate);
       
           
         
           
             
-        result.setHasOtherHelp(hasOtherHelp);
+        result.setAccountHolderBirthDate(accountHolderBirthDate);
+      
+          
+        
+          
+            
+        result.setAccountHolderEdemandeId(accountHolderEdemandeId);
+      
+          
+        
+          
+            
+        result.setAccountHolderFirstName(accountHolderFirstName);
+      
+          
+        
+          
+            
+        result.setAccountHolderLastName(accountHolderLastName);
+      
+          
+        
+          
+            
+        if (accountHolderTitle != null)
+            result.setAccountHolderTitle(accountHolderTitle);
+        else
+            result.setAccountHolderTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
+      
+          
+        
+          
+            
+        if (alevels != null)
+            result.setAlevels(alevels);
+        else
+            result.setAlevels(fr.cg95.cvq.business.request.school.ALevelsType.getDefaultALevelsType());
       
           
         
@@ -100,7 +135,16 @@ public class StudyGrantRequestData implements Serializable {
         
           
             
-        result.setAccountHolderBirthDate(accountHolderBirthDate);
+        result.setCurrentSchoolCity(currentSchoolCity);
+      
+          
+        
+          
+            
+        if (currentSchoolCountry != null)
+            result.setCurrentSchoolCountry(currentSchoolCountry);
+        else
+            result.setCurrentSchoolCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
       
           
         
@@ -116,43 +160,22 @@ public class StudyGrantRequestData implements Serializable {
         
           
             
-        if (accountHolderTitle != null)
-            result.setAccountHolderTitle(accountHolderTitle);
+        result.setCurrentSchoolNamePrecision(currentSchoolNamePrecision);
+      
+          
+        
+          
+            
+        result.setCurrentSchoolPostalCode(currentSchoolPostalCode);
+      
+          
+        
+          
+            
+        if (currentStudiesDiploma != null)
+            result.setCurrentStudiesDiploma(currentStudiesDiploma);
         else
-            result.setAccountHolderTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
-      
-          
-        
-          
-            
-        if (abroadInternshipSchoolCountry != null)
-            result.setAbroadInternshipSchoolCountry(abroadInternshipSchoolCountry);
-        else
-            result.setAbroadInternshipSchoolCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
-      
-          
-        
-          
-            
-        result.setTaxHouseholdLastName(taxHouseholdLastName);
-      
-          
-        
-          
-            
-        result.setAbroadInternshipSchoolName(abroadInternshipSchoolName);
-      
-          
-        
-          
-            
-        result.setHasRegionalCouncilHelp(hasRegionalCouncilHelp);
-      
-          
-        
-          
-            
-        result.setTaxHouseholdCityPrecision(taxHouseholdCityPrecision);
+            result.setCurrentStudiesDiploma(fr.cg95.cvq.business.request.school.CurrentStudiesType.getDefaultCurrentStudiesType());
       
           
         
@@ -167,19 +190,23 @@ public class StudyGrantRequestData implements Serializable {
         
           
             
-        result.setCurrentSchoolPostalCode(currentSchoolPostalCode);
+        if (distance != null)
+            result.setDistance(distance);
+        else
+            result.setDistance(fr.cg95.cvq.business.request.school.DistanceType.getDefaultDistanceType());
       
           
         
           
             
-        result.setAbroadInternshipStartDate(abroadInternshipStartDate);
+        result.setEdemandeId(edemandeId);
       
           
         
           
             
-        result.setAccountHolderLastName(accountHolderLastName);
+        if (frenchRIB != null)
+            result.setFrenchRIB(frenchRIB.clone());
       
           
         
@@ -191,25 +218,19 @@ public class StudyGrantRequestData implements Serializable {
         
           
             
-        result.setAccountHolderFirstName(accountHolderFirstName);
+        result.setHasEuropeHelp(hasEuropeHelp);
       
           
         
           
             
-        if (distance != null)
-            result.setDistance(distance);
-        else
-            result.setDistance(fr.cg95.cvq.business.request.school.DistanceType.getDefaultDistanceType());
+        result.setHasOtherHelp(hasOtherHelp);
       
           
         
           
             
-        if (alevels != null)
-            result.setAlevels(alevels);
-        else
-            result.setAlevels(fr.cg95.cvq.business.request.school.ALevelsType.getDefaultALevelsType());
+        result.setHasRegionalCouncilHelp(hasRegionalCouncilHelp);
       
           
         
@@ -227,40 +248,35 @@ public class StudyGrantRequestData implements Serializable {
         
           
             
-        result.setTaxHouseholdIncome(taxHouseholdIncome);
+        result.setSandwichCourses(sandwichCourses);
       
           
         
           
             
-        result.setCurrentSchoolNamePrecision(currentSchoolNamePrecision);
+        result.setSubjectBirthDate(subjectBirthDate);
       
           
         
           
             
-        if (currentSchoolCountry != null)
-            result.setCurrentSchoolCountry(currentSchoolCountry);
-        else
-            result.setCurrentSchoolCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
+        result.setSubjectFirstRequest(subjectFirstRequest);
       
           
         
           
             
-        result.setAbroadInternshipEndDate(abroadInternshipEndDate);
+        List<fr.cg95.cvq.business.request.LocalReferentialData> taxHouseholdCityList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>();
+        for (LocalReferentialData object : taxHouseholdCity) {
+            taxHouseholdCityList.add(object.clone());
+        }
+        result.setTaxHouseholdCity(taxHouseholdCityList);
       
           
         
           
             
-        result.setHasEuropeHelp(hasEuropeHelp);
-      
-          
-        
-          
-            
-        result.setAccountHolderEdemandeId(accountHolderEdemandeId);
+        result.setTaxHouseholdCityPrecision(taxHouseholdCityPrecision);
       
           
         
@@ -272,29 +288,13 @@ public class StudyGrantRequestData implements Serializable {
         
           
             
-        result.setSandwichCourses(sandwichCourses);
+        result.setTaxHouseholdIncome(taxHouseholdIncome);
       
           
         
           
             
-        result.setAbroadInternship(abroadInternship);
-      
-          
-        
-          
-            
-        if (frenchRIB != null)
-            result.setFrenchRIB(frenchRIB.clone());
-      
-          
-        
-          
-            
-        if (currentStudiesDiploma != null)
-            result.setCurrentStudiesDiploma(currentStudiesDiploma);
-        else
-            result.setCurrentStudiesDiploma(fr.cg95.cvq.business.request.school.CurrentStudiesType.getDefaultCurrentStudiesType());
+        result.setTaxHouseholdLastName(taxHouseholdLastName);
       
           
         
@@ -319,241 +319,25 @@ public class StudyGrantRequestData implements Serializable {
       @NotNull(
         
         
-        profiles = {"administration"},
-        message = "edemandeId"
+        profiles = {"currentStudies"},
+        message = "abroadInternship"
       )
     
-      @NotBlank(
-        
-        
-        profiles = {"administration"},
-        message = "edemandeId"
-      )
-    
-    private String edemandeId;
+    private Boolean abroadInternship;
 
-    public final void setEdemandeId(final String edemandeId) {
-        this.edemandeId = edemandeId;
+    public final void setAbroadInternship(final Boolean abroadInternship) {
+        this.abroadInternship = abroadInternship;
     }
 
     /**
  
         * @hibernate.property
-        *  column="edemande_id"
+        *  column="abroad_internship"
         
       
     */
-    public final String getEdemandeId() {
-        return this.edemandeId;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"subject"},
-        message = "subjectBirthDate"
-      )
-    
-    private java.util.Date subjectBirthDate;
-
-    public final void setSubjectBirthDate(final java.util.Date subjectBirthDate) {
-        this.subjectBirthDate = subjectBirthDate;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="subject_birth_date"
-        
-      
-    */
-    public final java.util.Date getSubjectBirthDate() {
-        return this.subjectBirthDate;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 32,
-        
-        
-        profiles = {"currentStudies"},
-        message = "currentSchoolCity"
-      )
-    
-      @NotNull(
-        
-        
-        profiles = {"currentStudies"},
-        message = "currentSchoolCity"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"currentStudies"},
-        message = "currentSchoolCity"
-      )
-    
-    private String currentSchoolCity;
-
-    public final void setCurrentSchoolCity(final String currentSchoolCity) {
-        this.currentSchoolCity = currentSchoolCity;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="current_school_city"
-        *  length="32"
-      
-    */
-    public final String getCurrentSchoolCity() {
-        return this.currentSchoolCity;
-    }
-  
-    
-      @LocalReferential(
-        
-        
-        profiles = {"taxHousehold"},
-        message = "taxHouseholdCity"
-      )
-    
-      @MinSize(
-        
-          value = 1,
-        
-        
-        profiles = {"taxHousehold"},
-        message = "taxHouseholdCity"
-      )
-    
-    private List<fr.cg95.cvq.business.request.LocalReferentialData> taxHouseholdCity;
-
-    public final void setTaxHouseholdCity(final List<fr.cg95.cvq.business.request.LocalReferentialData> taxHouseholdCity) {
-        this.taxHouseholdCity = taxHouseholdCity;
-    }
-
-    /**
- 
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="study_grant_request_tax_household_city"
-        * @hibernate.key
-        *  column="study_grant_request_id"
-        * @hibernate.list-index
-        *  column="tax_household_city_index"
-        * @hibernate.many-to-many
-        *  column="tax_household_city_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
-      
-    */
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getTaxHouseholdCity() {
-        return this.taxHouseholdCity;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"subject"},
-        message = "subjectFirstRequest"
-      )
-    
-    private Boolean subjectFirstRequest;
-
-    public final void setSubjectFirstRequest(final Boolean subjectFirstRequest) {
-        this.subjectFirstRequest = subjectFirstRequest;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="subject_first_request"
-        
-      
-    */
-    public final Boolean getSubjectFirstRequest() {
-        return this.subjectFirstRequest;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"otherHelps"},
-        message = "hasOtherHelp"
-      )
-    
-    private Boolean hasOtherHelp;
-
-    public final void setHasOtherHelp(final Boolean hasOtherHelp) {
-        this.hasOtherHelp = hasOtherHelp;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="has_other_help"
-        
-      
-    */
-    public final Boolean getHasOtherHelp() {
-        return this.hasOtherHelp;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 4,
-        
-        
-        profiles = {"currentStudies"},
-        message = "alevelsDate"
-      )
-    
-      @NotNull(
-        
-        
-        profiles = {"currentStudies"},
-        message = "alevelsDate"
-      )
-    
-      @MatchPattern(
-        
-          pattern = "^\\d{2,4}$",
-        
-        
-        profiles = {"currentStudies"},
-        message = "alevelsDate"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"currentStudies"},
-        message = "alevelsDate"
-      )
-    
-    private String alevelsDate;
-
-    public final void setAlevelsDate(final String alevelsDate) {
-        this.alevelsDate = alevelsDate;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="alevels_date"
-        *  length="4"
-      
-    */
-    public final String getAlevelsDate() {
-        return this.alevelsDate;
+    public final Boolean getAbroadInternship() {
+        return this.abroadInternship;
     }
   
     
@@ -562,109 +346,32 @@ public class StudyGrantRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
+            "active &= _this.conditions['abroadInternship'].test(_this.abroadInternship.toString());" +
                 
               
             
             
             "return active",
         
-        profiles = {"bankReference"},
-        message = "accountHolderBirthDate"
+        profiles = {"currentStudies"},
+        message = "abroadInternshipEndDate"
       )
     
-    private java.util.Date accountHolderBirthDate;
+    private java.util.Date abroadInternshipEndDate;
 
-    public final void setAccountHolderBirthDate(final java.util.Date accountHolderBirthDate) {
-        this.accountHolderBirthDate = accountHolderBirthDate;
+    public final void setAbroadInternshipEndDate(final java.util.Date abroadInternshipEndDate) {
+        this.abroadInternshipEndDate = abroadInternshipEndDate;
     }
 
     /**
  
         * @hibernate.property
-        *  column="account_holder_birth_date"
+        *  column="abroad_internship_end_date"
         
       
     */
-    public final java.util.Date getAccountHolderBirthDate() {
-        return this.accountHolderBirthDate;
-    }
-  
-    
-      @LocalReferential(
-        
-        
-        profiles = {"currentStudies"},
-        message = "currentSchoolName"
-      )
-    
-      @MinSize(
-        
-          value = 1,
-        
-        
-        profiles = {"currentStudies"},
-        message = "currentSchoolName"
-      )
-    
-    private List<fr.cg95.cvq.business.request.LocalReferentialData> currentSchoolName;
-
-    public final void setCurrentSchoolName(final List<fr.cg95.cvq.business.request.LocalReferentialData> currentSchoolName) {
-        this.currentSchoolName = currentSchoolName;
-    }
-
-    /**
- 
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="study_grant_request_current_school_name"
-        * @hibernate.key
-        *  column="study_grant_request_id"
-        * @hibernate.list-index
-        *  column="current_school_name_index"
-        * @hibernate.many-to-many
-        *  column="current_school_name_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
-      
-    */
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getCurrentSchoolName() {
-        return this.currentSchoolName;
-    }
-  
-    
-      @NotNull(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"bankReference"},
-        message = "accountHolderTitle"
-      )
-    
-    private fr.cg95.cvq.business.users.TitleType accountHolderTitle;
-
-    public final void setAccountHolderTitle(final fr.cg95.cvq.business.users.TitleType accountHolderTitle) {
-        this.accountHolderTitle = accountHolderTitle;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="account_holder_title"
-        
-      
-    */
-    public final fr.cg95.cvq.business.users.TitleType getAccountHolderTitle() {
-        return this.accountHolderTitle;
+    public final java.util.Date getAbroadInternshipEndDate() {
+        return this.abroadInternshipEndDate;
     }
   
     
@@ -699,47 +406,6 @@ public class StudyGrantRequestData implements Serializable {
     */
     public final fr.cg95.cvq.business.users.CountryType getAbroadInternshipSchoolCountry() {
         return this.abroadInternshipSchoolCountry;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 38,
-        
-        
-        profiles = {"taxHousehold"},
-        message = "taxHouseholdLastName"
-      )
-    
-      @NotNull(
-        
-        
-        profiles = {"taxHousehold"},
-        message = "taxHouseholdLastName"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"taxHousehold"},
-        message = "taxHouseholdLastName"
-      )
-    
-    private String taxHouseholdLastName;
-
-    public final void setTaxHouseholdLastName(final String taxHouseholdLastName) {
-        this.taxHouseholdLastName = taxHouseholdLastName;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="tax_household_last_name"
-        *  length="38"
-      
-    */
-    public final String getTaxHouseholdLastName() {
-        return this.taxHouseholdLastName;
     }
   
     
@@ -796,147 +462,6 @@ public class StudyGrantRequestData implements Serializable {
       @NotNull(
         
         
-        profiles = {"otherHelps"},
-        message = "hasRegionalCouncilHelp"
-      )
-    
-    private Boolean hasRegionalCouncilHelp;
-
-    public final void setHasRegionalCouncilHelp(final Boolean hasRegionalCouncilHelp) {
-        this.hasRegionalCouncilHelp = hasRegionalCouncilHelp;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="has_regional_council_help"
-        
-      
-    */
-    public final Boolean getHasRegionalCouncilHelp() {
-        return this.hasRegionalCouncilHelp;
-    }
-  
-    
-      @NotNull(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "if (_this.taxHouseholdCity == null || _this.taxHouseholdCity.isEmpty()) return false; _this.taxHouseholdCity.each { active &= _this.conditions['taxHouseholdCity'].test(it.name) };" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"taxHousehold"},
-        message = "taxHouseholdCityPrecision"
-      )
-    
-      @NotBlank(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "if (_this.taxHouseholdCity == null || _this.taxHouseholdCity.isEmpty()) return false; _this.taxHouseholdCity.each { active &= _this.conditions['taxHouseholdCity'].test(it.name) };" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"taxHousehold"},
-        message = "taxHouseholdCityPrecision"
-      )
-    
-    private String taxHouseholdCityPrecision;
-
-    public final void setTaxHouseholdCityPrecision(final String taxHouseholdCityPrecision) {
-        this.taxHouseholdCityPrecision = taxHouseholdCityPrecision;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="tax_household_city_precision"
-        
-      
-    */
-    public final String getTaxHouseholdCityPrecision() {
-        return this.taxHouseholdCityPrecision;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"currentStudies"},
-        message = "currentStudiesLevel"
-      )
-    
-    private fr.cg95.cvq.business.request.school.CurrentStudiesLevelType currentStudiesLevel;
-
-    public final void setCurrentStudiesLevel(final fr.cg95.cvq.business.request.school.CurrentStudiesLevelType currentStudiesLevel) {
-        this.currentStudiesLevel = currentStudiesLevel;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="current_studies_level"
-        
-      
-    */
-    public final fr.cg95.cvq.business.request.school.CurrentStudiesLevelType getCurrentStudiesLevel() {
-        return this.currentStudiesLevel;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 5,
-        
-        
-        profiles = {"currentStudies"},
-        message = "currentSchoolPostalCode"
-      )
-    
-      @NotNull(
-        
-        
-        profiles = {"currentStudies"},
-        message = "currentSchoolPostalCode"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"currentStudies"},
-        message = "currentSchoolPostalCode"
-      )
-    
-    private String currentSchoolPostalCode;
-
-    public final void setCurrentSchoolPostalCode(final String currentSchoolPostalCode) {
-        this.currentSchoolPostalCode = currentSchoolPostalCode;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="current_school_postal_code"
-        *  length="5"
-      
-    */
-    public final String getCurrentSchoolPostalCode() {
-        return this.currentSchoolPostalCode;
-    }
-  
-    
-      @NotNull(
-        
-        
           when = "groovy:def active = true;" +
           
             "active &= _this.conditions['abroadInternship'].test(_this.abroadInternship.toString());" +
@@ -965,6 +490,140 @@ public class StudyGrantRequestData implements Serializable {
     */
     public final java.util.Date getAbroadInternshipStartDate() {
         return this.abroadInternshipStartDate;
+    }
+  
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"bankReference"},
+        message = "accountHolderBirthDate"
+      )
+    
+    private java.util.Date accountHolderBirthDate;
+
+    public final void setAccountHolderBirthDate(final java.util.Date accountHolderBirthDate) {
+        this.accountHolderBirthDate = accountHolderBirthDate;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="account_holder_birth_date"
+        
+      
+    */
+    public final java.util.Date getAccountHolderBirthDate() {
+        return this.accountHolderBirthDate;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"administration"},
+        message = "accountHolderEdemandeId"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"administration"},
+        message = "accountHolderEdemandeId"
+      )
+    
+    private String accountHolderEdemandeId;
+
+    public final void setAccountHolderEdemandeId(final String accountHolderEdemandeId) {
+        this.accountHolderEdemandeId = accountHolderEdemandeId;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="account_holder_edemande_id"
+        
+      
+    */
+    public final String getAccountHolderEdemandeId() {
+        return this.accountHolderEdemandeId;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"bankReference"},
+        message = "accountHolderFirstName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"bankReference"},
+        message = "accountHolderFirstName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"bankReference"},
+        message = "accountHolderFirstName"
+      )
+    
+    private String accountHolderFirstName;
+
+    public final void setAccountHolderFirstName(final String accountHolderFirstName) {
+        this.accountHolderFirstName = accountHolderFirstName;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="account_holder_first_name"
+        *  length="38"
+      
+    */
+    public final String getAccountHolderFirstName() {
+        return this.accountHolderFirstName;
     }
   
     
@@ -1039,33 +698,6 @@ public class StudyGrantRequestData implements Serializable {
       @NotNull(
         
         
-        profiles = {"otherHelps"},
-        message = "hasCROUSHelp"
-      )
-    
-    private Boolean hasCROUSHelp;
-
-    public final void setHasCROUSHelp(final Boolean hasCROUSHelp) {
-        this.hasCROUSHelp = hasCROUSHelp;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="has_c_r_o_u_s_help"
-        
-      
-    */
-    public final Boolean getHasCROUSHelp() {
-        return this.hasCROUSHelp;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 38,
-        
-        
           when = "groovy:def active = true;" +
           
             "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
@@ -1076,23 +708,225 @@ public class StudyGrantRequestData implements Serializable {
             "return active",
         
         profiles = {"bankReference"},
-        message = "accountHolderFirstName"
+        message = "accountHolderTitle"
       )
+    
+    private fr.cg95.cvq.business.users.TitleType accountHolderTitle;
+
+    public final void setAccountHolderTitle(final fr.cg95.cvq.business.users.TitleType accountHolderTitle) {
+        this.accountHolderTitle = accountHolderTitle;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="account_holder_title"
+        
+      
+    */
+    public final fr.cg95.cvq.business.users.TitleType getAccountHolderTitle() {
+        return this.accountHolderTitle;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"currentStudies"},
+        message = "alevels"
+      )
+    
+    private fr.cg95.cvq.business.request.school.ALevelsType alevels;
+
+    public final void setAlevels(final fr.cg95.cvq.business.request.school.ALevelsType alevels) {
+        this.alevels = alevels;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="alevels"
+        
+      
+    */
+    public final fr.cg95.cvq.business.request.school.ALevelsType getAlevels() {
+        return this.alevels;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 4,
+        
+        
+        profiles = {"currentStudies"},
+        message = "alevelsDate"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"currentStudies"},
+        message = "alevelsDate"
+      )
+    
+      @MatchPattern(
+        
+          pattern = "^\\d{2,4}$",
+        
+        
+        profiles = {"currentStudies"},
+        message = "alevelsDate"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"currentStudies"},
+        message = "alevelsDate"
+      )
+    
+    private String alevelsDate;
+
+    public final void setAlevelsDate(final String alevelsDate) {
+        this.alevelsDate = alevelsDate;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="alevels_date"
+        *  length="4"
+      
+    */
+    public final String getAlevelsDate() {
+        return this.alevelsDate;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 32,
+        
+        
+        profiles = {"currentStudies"},
+        message = "currentSchoolCity"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"currentStudies"},
+        message = "currentSchoolCity"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"currentStudies"},
+        message = "currentSchoolCity"
+      )
+    
+    private String currentSchoolCity;
+
+    public final void setCurrentSchoolCity(final String currentSchoolCity) {
+        this.currentSchoolCity = currentSchoolCity;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="current_school_city"
+        *  length="32"
+      
+    */
+    public final String getCurrentSchoolCity() {
+        return this.currentSchoolCity;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"currentStudies"},
+        message = "currentSchoolCountry"
+      )
+    
+    private fr.cg95.cvq.business.users.CountryType currentSchoolCountry;
+
+    public final void setCurrentSchoolCountry(final fr.cg95.cvq.business.users.CountryType currentSchoolCountry) {
+        this.currentSchoolCountry = currentSchoolCountry;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="current_school_country"
+        
+      
+    */
+    public final fr.cg95.cvq.business.users.CountryType getCurrentSchoolCountry() {
+        return this.currentSchoolCountry;
+    }
+  
+    
+      @LocalReferential(
+        
+        
+        profiles = {"currentStudies"},
+        message = "currentSchoolName"
+      )
+    
+      @MinSize(
+        
+          value = 1,
+        
+        
+        profiles = {"currentStudies"},
+        message = "currentSchoolName"
+      )
+    
+    private List<fr.cg95.cvq.business.request.LocalReferentialData> currentSchoolName;
+
+    public final void setCurrentSchoolName(final List<fr.cg95.cvq.business.request.LocalReferentialData> currentSchoolName) {
+        this.currentSchoolName = currentSchoolName;
+    }
+
+    /**
+ 
+        * @hibernate.list
+        *  inverse="false"
+        *  lazy="false"
+        *  cascade="all"
+        *  table="study_grant_request_current_school_name"
+        * @hibernate.key
+        *  column="study_grant_request_id"
+        * @hibernate.list-index
+        *  column="current_school_name_index"
+        * @hibernate.many-to-many
+        *  column="current_school_name_id"
+        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+      
+    */
+    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getCurrentSchoolName() {
+        return this.currentSchoolName;
+    }
+  
     
       @NotNull(
         
         
           when = "groovy:def active = true;" +
           
-            "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
+            "if (_this.currentSchoolName == null || _this.currentSchoolName.isEmpty()) return false; _this.currentSchoolName.each { active &= _this.conditions['currentSchoolName'].test(it.name) };" +
                 
               
             
             
             "return active",
         
-        profiles = {"bankReference"},
-        message = "accountHolderFirstName"
+        profiles = {"currentStudies"},
+        message = "currentSchoolNamePrecision"
       )
     
       @NotBlank(
@@ -1100,32 +934,123 @@ public class StudyGrantRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
+            "if (_this.currentSchoolName == null || _this.currentSchoolName.isEmpty()) return false; _this.currentSchoolName.each { active &= _this.conditions['currentSchoolName'].test(it.name) };" +
                 
               
             
             
             "return active",
         
-        profiles = {"bankReference"},
-        message = "accountHolderFirstName"
+        profiles = {"currentStudies"},
+        message = "currentSchoolNamePrecision"
       )
     
-    private String accountHolderFirstName;
+    private String currentSchoolNamePrecision;
 
-    public final void setAccountHolderFirstName(final String accountHolderFirstName) {
-        this.accountHolderFirstName = accountHolderFirstName;
+    public final void setCurrentSchoolNamePrecision(final String currentSchoolNamePrecision) {
+        this.currentSchoolNamePrecision = currentSchoolNamePrecision;
     }
 
     /**
  
         * @hibernate.property
-        *  column="account_holder_first_name"
-        *  length="38"
+        *  column="current_school_name_precision"
+        
       
     */
-    public final String getAccountHolderFirstName() {
-        return this.accountHolderFirstName;
+    public final String getCurrentSchoolNamePrecision() {
+        return this.currentSchoolNamePrecision;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 5,
+        
+        
+        profiles = {"currentStudies"},
+        message = "currentSchoolPostalCode"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"currentStudies"},
+        message = "currentSchoolPostalCode"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"currentStudies"},
+        message = "currentSchoolPostalCode"
+      )
+    
+    private String currentSchoolPostalCode;
+
+    public final void setCurrentSchoolPostalCode(final String currentSchoolPostalCode) {
+        this.currentSchoolPostalCode = currentSchoolPostalCode;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="current_school_postal_code"
+        *  length="5"
+      
+    */
+    public final String getCurrentSchoolPostalCode() {
+        return this.currentSchoolPostalCode;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"currentStudies"},
+        message = "currentStudiesDiploma"
+      )
+    
+    private fr.cg95.cvq.business.request.school.CurrentStudiesType currentStudiesDiploma;
+
+    public final void setCurrentStudiesDiploma(final fr.cg95.cvq.business.request.school.CurrentStudiesType currentStudiesDiploma) {
+        this.currentStudiesDiploma = currentStudiesDiploma;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="current_studies_diploma"
+        
+      
+    */
+    public final fr.cg95.cvq.business.request.school.CurrentStudiesType getCurrentStudiesDiploma() {
+        return this.currentStudiesDiploma;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"currentStudies"},
+        message = "currentStudiesLevel"
+      )
+    
+    private fr.cg95.cvq.business.request.school.CurrentStudiesLevelType currentStudiesLevel;
+
+    public final void setCurrentStudiesLevel(final fr.cg95.cvq.business.request.school.CurrentStudiesLevelType currentStudiesLevel) {
+        this.currentStudiesLevel = currentStudiesLevel;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="current_studies_level"
+        
+      
+    */
+    public final fr.cg95.cvq.business.request.school.CurrentStudiesLevelType getCurrentStudiesLevel() {
+        return this.currentStudiesLevel;
     }
   
     
@@ -1157,25 +1082,165 @@ public class StudyGrantRequestData implements Serializable {
       @NotNull(
         
         
-        profiles = {"currentStudies"},
-        message = "alevels"
+        profiles = {"administration"},
+        message = "edemandeId"
       )
     
-    private fr.cg95.cvq.business.request.school.ALevelsType alevels;
+      @NotBlank(
+        
+        
+        profiles = {"administration"},
+        message = "edemandeId"
+      )
+    
+    private String edemandeId;
 
-    public final void setAlevels(final fr.cg95.cvq.business.request.school.ALevelsType alevels) {
-        this.alevels = alevels;
+    public final void setEdemandeId(final String edemandeId) {
+        this.edemandeId = edemandeId;
     }
 
     /**
  
         * @hibernate.property
-        *  column="alevels"
+        *  column="edemande_id"
         
       
     */
-    public final fr.cg95.cvq.business.request.school.ALevelsType getAlevels() {
-        return this.alevels;
+    public final String getEdemandeId() {
+        return this.edemandeId;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"bankReference"},
+        message = "frenchRIB"
+      )
+    
+      @AssertValid(
+        
+        
+        profiles = {"bankReference"},
+        message = "frenchRIB"
+      )
+    
+    private fr.cg95.cvq.business.users.FrenchRIB frenchRIB;
+
+    public final void setFrenchRIB(final fr.cg95.cvq.business.users.FrenchRIB frenchRIB) {
+        this.frenchRIB = frenchRIB;
+    }
+
+    /**
+ 
+        * @hibernate.many-to-one
+        *  cascade="all"
+        *  column="french_r_i_b_id"
+        *  class="fr.cg95.cvq.business.users.FrenchRIB"
+      
+    */
+    public final fr.cg95.cvq.business.users.FrenchRIB getFrenchRIB() {
+        return this.frenchRIB;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"otherHelps"},
+        message = "hasCROUSHelp"
+      )
+    
+    private Boolean hasCROUSHelp;
+
+    public final void setHasCROUSHelp(final Boolean hasCROUSHelp) {
+        this.hasCROUSHelp = hasCROUSHelp;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="has_c_r_o_u_s_help"
+        
+      
+    */
+    public final Boolean getHasCROUSHelp() {
+        return this.hasCROUSHelp;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"otherHelps"},
+        message = "hasEuropeHelp"
+      )
+    
+    private Boolean hasEuropeHelp;
+
+    public final void setHasEuropeHelp(final Boolean hasEuropeHelp) {
+        this.hasEuropeHelp = hasEuropeHelp;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="has_europe_help"
+        
+      
+    */
+    public final Boolean getHasEuropeHelp() {
+        return this.hasEuropeHelp;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"otherHelps"},
+        message = "hasOtherHelp"
+      )
+    
+    private Boolean hasOtherHelp;
+
+    public final void setHasOtherHelp(final Boolean hasOtherHelp) {
+        this.hasOtherHelp = hasOtherHelp;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="has_other_help"
+        
+      
+    */
+    public final Boolean getHasOtherHelp() {
+        return this.hasOtherHelp;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"otherHelps"},
+        message = "hasRegionalCouncilHelp"
+      )
+    
+    private Boolean hasRegionalCouncilHelp;
+
+    public final void setHasRegionalCouncilHelp(final Boolean hasRegionalCouncilHelp) {
+        this.hasRegionalCouncilHelp = hasRegionalCouncilHelp;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="has_regional_council_help"
+        
+      
+    */
+    public final Boolean getHasRegionalCouncilHelp() {
+        return this.hasRegionalCouncilHelp;
     }
   
     
@@ -1257,34 +1322,118 @@ public class StudyGrantRequestData implements Serializable {
       @NotNull(
         
         
-        profiles = {"taxHousehold"},
-        message = "taxHouseholdIncome"
+        profiles = {"currentStudies"},
+        message = "sandwichCourses"
       )
     
-      @MatchPattern(
-        
-          pattern = "^\\d+(?:\\.\\d{1,2})?$",
-        
-        
-        profiles = {"taxHousehold"},
-        message = "taxHouseholdIncome"
-      )
-    
-    private Double taxHouseholdIncome;
+    private Boolean sandwichCourses;
 
-    public final void setTaxHouseholdIncome(final Double taxHouseholdIncome) {
-        this.taxHouseholdIncome = taxHouseholdIncome;
+    public final void setSandwichCourses(final Boolean sandwichCourses) {
+        this.sandwichCourses = sandwichCourses;
     }
 
     /**
  
         * @hibernate.property
-        *  column="tax_household_income"
+        *  column="sandwich_courses"
         
       
     */
-    public final Double getTaxHouseholdIncome() {
-        return this.taxHouseholdIncome;
+    public final Boolean getSandwichCourses() {
+        return this.sandwichCourses;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "subjectBirthDate"
+      )
+    
+    private java.util.Date subjectBirthDate;
+
+    public final void setSubjectBirthDate(final java.util.Date subjectBirthDate) {
+        this.subjectBirthDate = subjectBirthDate;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="subject_birth_date"
+        
+      
+    */
+    public final java.util.Date getSubjectBirthDate() {
+        return this.subjectBirthDate;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "subjectFirstRequest"
+      )
+    
+    private Boolean subjectFirstRequest;
+
+    public final void setSubjectFirstRequest(final Boolean subjectFirstRequest) {
+        this.subjectFirstRequest = subjectFirstRequest;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="subject_first_request"
+        
+      
+    */
+    public final Boolean getSubjectFirstRequest() {
+        return this.subjectFirstRequest;
+    }
+  
+    
+      @LocalReferential(
+        
+        
+        profiles = {"taxHousehold"},
+        message = "taxHouseholdCity"
+      )
+    
+      @MinSize(
+        
+          value = 1,
+        
+        
+        profiles = {"taxHousehold"},
+        message = "taxHouseholdCity"
+      )
+    
+    private List<fr.cg95.cvq.business.request.LocalReferentialData> taxHouseholdCity;
+
+    public final void setTaxHouseholdCity(final List<fr.cg95.cvq.business.request.LocalReferentialData> taxHouseholdCity) {
+        this.taxHouseholdCity = taxHouseholdCity;
+    }
+
+    /**
+ 
+        * @hibernate.list
+        *  inverse="false"
+        *  lazy="false"
+        *  cascade="all"
+        *  table="study_grant_request_tax_household_city"
+        * @hibernate.key
+        *  column="study_grant_request_id"
+        * @hibernate.list-index
+        *  column="tax_household_city_index"
+        * @hibernate.many-to-many
+        *  column="tax_household_city_id"
+        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+      
+    */
+    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getTaxHouseholdCity() {
+        return this.taxHouseholdCity;
     }
   
     
@@ -1293,15 +1442,15 @@ public class StudyGrantRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "if (_this.currentSchoolName == null || _this.currentSchoolName.isEmpty()) return false; _this.currentSchoolName.each { active &= _this.conditions['currentSchoolName'].test(it.name) };" +
+            "if (_this.taxHouseholdCity == null || _this.taxHouseholdCity.isEmpty()) return false; _this.taxHouseholdCity.each { active &= _this.conditions['taxHouseholdCity'].test(it.name) };" +
                 
               
             
             
             "return active",
         
-        profiles = {"currentStudies"},
-        message = "currentSchoolNamePrecision"
+        profiles = {"taxHousehold"},
+        message = "taxHouseholdCityPrecision"
       )
     
       @NotBlank(
@@ -1309,148 +1458,32 @@ public class StudyGrantRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "if (_this.currentSchoolName == null || _this.currentSchoolName.isEmpty()) return false; _this.currentSchoolName.each { active &= _this.conditions['currentSchoolName'].test(it.name) };" +
+            "if (_this.taxHouseholdCity == null || _this.taxHouseholdCity.isEmpty()) return false; _this.taxHouseholdCity.each { active &= _this.conditions['taxHouseholdCity'].test(it.name) };" +
                 
               
             
             
             "return active",
         
-        profiles = {"currentStudies"},
-        message = "currentSchoolNamePrecision"
+        profiles = {"taxHousehold"},
+        message = "taxHouseholdCityPrecision"
       )
     
-    private String currentSchoolNamePrecision;
+    private String taxHouseholdCityPrecision;
 
-    public final void setCurrentSchoolNamePrecision(final String currentSchoolNamePrecision) {
-        this.currentSchoolNamePrecision = currentSchoolNamePrecision;
+    public final void setTaxHouseholdCityPrecision(final String taxHouseholdCityPrecision) {
+        this.taxHouseholdCityPrecision = taxHouseholdCityPrecision;
     }
 
     /**
  
         * @hibernate.property
-        *  column="current_school_name_precision"
+        *  column="tax_household_city_precision"
         
       
     */
-    public final String getCurrentSchoolNamePrecision() {
-        return this.currentSchoolNamePrecision;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"currentStudies"},
-        message = "currentSchoolCountry"
-      )
-    
-    private fr.cg95.cvq.business.users.CountryType currentSchoolCountry;
-
-    public final void setCurrentSchoolCountry(final fr.cg95.cvq.business.users.CountryType currentSchoolCountry) {
-        this.currentSchoolCountry = currentSchoolCountry;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="current_school_country"
-        
-      
-    */
-    public final fr.cg95.cvq.business.users.CountryType getCurrentSchoolCountry() {
-        return this.currentSchoolCountry;
-    }
-  
-    
-      @NotNull(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= _this.conditions['abroadInternship'].test(_this.abroadInternship.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"currentStudies"},
-        message = "abroadInternshipEndDate"
-      )
-    
-    private java.util.Date abroadInternshipEndDate;
-
-    public final void setAbroadInternshipEndDate(final java.util.Date abroadInternshipEndDate) {
-        this.abroadInternshipEndDate = abroadInternshipEndDate;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="abroad_internship_end_date"
-        
-      
-    */
-    public final java.util.Date getAbroadInternshipEndDate() {
-        return this.abroadInternshipEndDate;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"otherHelps"},
-        message = "hasEuropeHelp"
-      )
-    
-    private Boolean hasEuropeHelp;
-
-    public final void setHasEuropeHelp(final Boolean hasEuropeHelp) {
-        this.hasEuropeHelp = hasEuropeHelp;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="has_europe_help"
-        
-      
-    */
-    public final Boolean getHasEuropeHelp() {
-        return this.hasEuropeHelp;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"administration"},
-        message = "accountHolderEdemandeId"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"administration"},
-        message = "accountHolderEdemandeId"
-      )
-    
-    private String accountHolderEdemandeId;
-
-    public final void setAccountHolderEdemandeId(final String accountHolderEdemandeId) {
-        this.accountHolderEdemandeId = accountHolderEdemandeId;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="account_holder_edemande_id"
-        
-      
-    */
-    public final String getAccountHolderEdemandeId() {
-        return this.accountHolderEdemandeId;
+    public final String getTaxHouseholdCityPrecision() {
+        return this.taxHouseholdCityPrecision;
     }
   
     
@@ -1498,108 +1531,75 @@ public class StudyGrantRequestData implements Serializable {
       @NotNull(
         
         
-        profiles = {"currentStudies"},
-        message = "sandwichCourses"
+        profiles = {"taxHousehold"},
+        message = "taxHouseholdIncome"
       )
     
-    private Boolean sandwichCourses;
+      @MatchPattern(
+        
+          pattern = "^\\d+(?:\\.\\d{1,2})?$",
+        
+        
+        profiles = {"taxHousehold"},
+        message = "taxHouseholdIncome"
+      )
+    
+    private Double taxHouseholdIncome;
 
-    public final void setSandwichCourses(final Boolean sandwichCourses) {
-        this.sandwichCourses = sandwichCourses;
+    public final void setTaxHouseholdIncome(final Double taxHouseholdIncome) {
+        this.taxHouseholdIncome = taxHouseholdIncome;
     }
 
     /**
  
         * @hibernate.property
-        *  column="sandwich_courses"
+        *  column="tax_household_income"
         
       
     */
-    public final Boolean getSandwichCourses() {
-        return this.sandwichCourses;
+    public final Double getTaxHouseholdIncome() {
+        return this.taxHouseholdIncome;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"taxHousehold"},
+        message = "taxHouseholdLastName"
+      )
     
       @NotNull(
         
         
-        profiles = {"currentStudies"},
-        message = "abroadInternship"
+        profiles = {"taxHousehold"},
+        message = "taxHouseholdLastName"
       )
     
-    private Boolean abroadInternship;
+      @NotBlank(
+        
+        
+        profiles = {"taxHousehold"},
+        message = "taxHouseholdLastName"
+      )
+    
+    private String taxHouseholdLastName;
 
-    public final void setAbroadInternship(final Boolean abroadInternship) {
-        this.abroadInternship = abroadInternship;
+    public final void setTaxHouseholdLastName(final String taxHouseholdLastName) {
+        this.taxHouseholdLastName = taxHouseholdLastName;
     }
 
     /**
  
         * @hibernate.property
-        *  column="abroad_internship"
-        
+        *  column="tax_household_last_name"
+        *  length="38"
       
     */
-    public final Boolean getAbroadInternship() {
-        return this.abroadInternship;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"bankReference"},
-        message = "frenchRIB"
-      )
-    
-      @AssertValid(
-        
-        
-        profiles = {"bankReference"},
-        message = "frenchRIB"
-      )
-    
-    private fr.cg95.cvq.business.users.FrenchRIB frenchRIB;
-
-    public final void setFrenchRIB(final fr.cg95.cvq.business.users.FrenchRIB frenchRIB) {
-        this.frenchRIB = frenchRIB;
-    }
-
-    /**
- 
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="french_r_i_b_id"
-        *  class="fr.cg95.cvq.business.users.FrenchRIB"
-      
-    */
-    public final fr.cg95.cvq.business.users.FrenchRIB getFrenchRIB() {
-        return this.frenchRIB;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"currentStudies"},
-        message = "currentStudiesDiploma"
-      )
-    
-    private fr.cg95.cvq.business.request.school.CurrentStudiesType currentStudiesDiploma;
-
-    public final void setCurrentStudiesDiploma(final fr.cg95.cvq.business.request.school.CurrentStudiesType currentStudiesDiploma) {
-        this.currentStudiesDiploma = currentStudiesDiploma;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="current_studies_diploma"
-        
-      
-    */
-    public final fr.cg95.cvq.business.request.school.CurrentStudiesType getCurrentStudiesDiploma() {
-        return this.currentStudiesDiploma;
+    public final String getTaxHouseholdLastName() {
+        return this.taxHouseholdLastName;
     }
   
 }

@@ -119,22 +119,6 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         int i = 0;
         
         i = 0;
-        if (getFoodDiet() != null) {
-            fr.cg95.cvq.xml.common.LocalReferentialDataType[] foodDietTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[getFoodDiet().size()];
-            for (LocalReferentialData object : getFoodDiet()) {
-              foodDietTypeTab[i++] = LocalReferentialData.modelToXml(object);
-            }
-            schoolCanteenRegistrationRequest.setFoodDietArray(foodDietTypeTab);
-        }
-      
-        if (getFoodAllergy() != null)
-            schoolCanteenRegistrationRequest.setFoodAllergy(getFoodAllergy().booleanValue());
-      
-        schoolCanteenRegistrationRequest.setDoctorPhone(getDoctorPhone());
-      
-        schoolCanteenRegistrationRequest.setDoctorName(getDoctorName());
-      
-        i = 0;
         if (getCanteenAttendingDays() != null) {
             fr.cg95.cvq.xml.common.LocalReferentialDataType[] canteenAttendingDaysTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[getCanteenAttendingDays().size()];
             for (LocalReferentialData object : getCanteenAttendingDays()) {
@@ -143,8 +127,21 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
             schoolCanteenRegistrationRequest.setCanteenAttendingDaysArray(canteenAttendingDaysTypeTab);
         }
       
-        if (getSchool() != null)
-            schoolCanteenRegistrationRequest.setSchool(School.modelToXml(getSchool()));
+        schoolCanteenRegistrationRequest.setDoctorName(getDoctorName());
+      
+        schoolCanteenRegistrationRequest.setDoctorPhone(getDoctorPhone());
+      
+        if (getFoodAllergy() != null)
+            schoolCanteenRegistrationRequest.setFoodAllergy(getFoodAllergy().booleanValue());
+      
+        i = 0;
+        if (getFoodDiet() != null) {
+            fr.cg95.cvq.xml.common.LocalReferentialDataType[] foodDietTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[getFoodDiet().size()];
+            for (LocalReferentialData object : getFoodDiet()) {
+              foodDietTypeTab[i++] = LocalReferentialData.modelToXml(object);
+            }
+            schoolCanteenRegistrationRequest.setFoodDietArray(foodDietTypeTab);
+        }
       
         if (getHospitalizationPermission() != null)
             schoolCanteenRegistrationRequest.setHospitalizationPermission(getHospitalizationPermission().booleanValue());
@@ -152,10 +149,13 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         if (getRulesAndRegulationsAcceptance() != null)
             schoolCanteenRegistrationRequest.setRulesAndRegulationsAcceptance(getRulesAndRegulationsAcceptance().booleanValue());
       
-        schoolCanteenRegistrationRequest.setUrgencyPhone(getUrgencyPhone());
+        if (getSchool() != null)
+            schoolCanteenRegistrationRequest.setSchool(School.modelToXml(getSchool()));
       
         if (getSection() != null)
             schoolCanteenRegistrationRequest.setSection(fr.cg95.cvq.xml.common.SectionType.Enum.forString(getSection().toString()));
+      
+        schoolCanteenRegistrationRequest.setUrgencyPhone(getUrgencyPhone());
       
         return schoolCanteenRegistrationRequestDoc;
     }
@@ -173,37 +173,37 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         SchoolCanteenRegistrationRequest schoolCanteenRegistrationRequest = new SchoolCanteenRegistrationRequest();
         schoolCanteenRegistrationRequest.fillCommonModelInfo(schoolCanteenRegistrationRequest, schoolCanteenRegistrationRequestXml);
         
-        List<fr.cg95.cvq.business.request.LocalReferentialData> foodDietList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(schoolCanteenRegistrationRequestXml.sizeOfFoodDietArray());
-        for (LocalReferentialDataType object : schoolCanteenRegistrationRequestXml.getFoodDietArray()) {
-            foodDietList.add(fr.cg95.cvq.business.request.LocalReferentialData.xmlToModel(object));
-        }
-        schoolCanteenRegistrationRequest.setFoodDiet(foodDietList);
-      
-        schoolCanteenRegistrationRequest.setFoodAllergy(Boolean.valueOf(schoolCanteenRegistrationRequestXml.getFoodAllergy()));
-      
-        schoolCanteenRegistrationRequest.setDoctorPhone(schoolCanteenRegistrationRequestXml.getDoctorPhone());
-      
-        schoolCanteenRegistrationRequest.setDoctorName(schoolCanteenRegistrationRequestXml.getDoctorName());
-      
         List<fr.cg95.cvq.business.request.LocalReferentialData> canteenAttendingDaysList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(schoolCanteenRegistrationRequestXml.sizeOfCanteenAttendingDaysArray());
         for (LocalReferentialDataType object : schoolCanteenRegistrationRequestXml.getCanteenAttendingDaysArray()) {
             canteenAttendingDaysList.add(fr.cg95.cvq.business.request.LocalReferentialData.xmlToModel(object));
         }
         schoolCanteenRegistrationRequest.setCanteenAttendingDays(canteenAttendingDaysList);
       
-        if (schoolCanteenRegistrationRequestXml.getSchool() != null)
-            schoolCanteenRegistrationRequest.setSchool(School.xmlToModel(schoolCanteenRegistrationRequestXml.getSchool()));
+        schoolCanteenRegistrationRequest.setDoctorName(schoolCanteenRegistrationRequestXml.getDoctorName());
+      
+        schoolCanteenRegistrationRequest.setDoctorPhone(schoolCanteenRegistrationRequestXml.getDoctorPhone());
+      
+        schoolCanteenRegistrationRequest.setFoodAllergy(Boolean.valueOf(schoolCanteenRegistrationRequestXml.getFoodAllergy()));
+      
+        List<fr.cg95.cvq.business.request.LocalReferentialData> foodDietList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(schoolCanteenRegistrationRequestXml.sizeOfFoodDietArray());
+        for (LocalReferentialDataType object : schoolCanteenRegistrationRequestXml.getFoodDietArray()) {
+            foodDietList.add(fr.cg95.cvq.business.request.LocalReferentialData.xmlToModel(object));
+        }
+        schoolCanteenRegistrationRequest.setFoodDiet(foodDietList);
       
         schoolCanteenRegistrationRequest.setHospitalizationPermission(Boolean.valueOf(schoolCanteenRegistrationRequestXml.getHospitalizationPermission()));
       
         schoolCanteenRegistrationRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(schoolCanteenRegistrationRequestXml.getRulesAndRegulationsAcceptance()));
       
-        schoolCanteenRegistrationRequest.setUrgencyPhone(schoolCanteenRegistrationRequestXml.getUrgencyPhone());
+        if (schoolCanteenRegistrationRequestXml.getSchool() != null)
+            schoolCanteenRegistrationRequest.setSchool(School.xmlToModel(schoolCanteenRegistrationRequestXml.getSchool()));
       
         if (schoolCanteenRegistrationRequestXml.getSection() != null)
             schoolCanteenRegistrationRequest.setSection(fr.cg95.cvq.business.users.SectionType.forString(schoolCanteenRegistrationRequestXml.getSection().toString()));
         else
             schoolCanteenRegistrationRequest.setSection(fr.cg95.cvq.business.users.SectionType.getDefaultSectionType());
+      
+        schoolCanteenRegistrationRequest.setUrgencyPhone(schoolCanteenRegistrationRequestXml.getUrgencyPhone());
       
         return schoolCanteenRegistrationRequest;
     }
@@ -252,31 +252,13 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
     }
 
   
-    public final void setFoodDiet(final List<fr.cg95.cvq.business.request.LocalReferentialData> foodDiet) {
-        schoolCanteenRegistrationRequestData.setFoodDiet(foodDiet);
+    public final void setCanteenAttendingDays(final List<fr.cg95.cvq.business.request.LocalReferentialData> canteenAttendingDays) {
+        schoolCanteenRegistrationRequestData.setCanteenAttendingDays(canteenAttendingDays);
     }
 
     
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getFoodDiet() {
-        return schoolCanteenRegistrationRequestData.getFoodDiet();
-    }
-  
-    public final void setFoodAllergy(final Boolean foodAllergy) {
-        schoolCanteenRegistrationRequestData.setFoodAllergy(foodAllergy);
-    }
-
-    
-    public final Boolean getFoodAllergy() {
-        return schoolCanteenRegistrationRequestData.getFoodAllergy();
-    }
-  
-    public final void setDoctorPhone(final String doctorPhone) {
-        schoolCanteenRegistrationRequestData.setDoctorPhone(doctorPhone);
-    }
-
-    
-    public final String getDoctorPhone() {
-        return schoolCanteenRegistrationRequestData.getDoctorPhone();
+    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getCanteenAttendingDays() {
+        return schoolCanteenRegistrationRequestData.getCanteenAttendingDays();
     }
   
     public final void setDoctorName(final String doctorName) {
@@ -288,22 +270,31 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         return schoolCanteenRegistrationRequestData.getDoctorName();
     }
   
-    public final void setCanteenAttendingDays(final List<fr.cg95.cvq.business.request.LocalReferentialData> canteenAttendingDays) {
-        schoolCanteenRegistrationRequestData.setCanteenAttendingDays(canteenAttendingDays);
+    public final void setDoctorPhone(final String doctorPhone) {
+        schoolCanteenRegistrationRequestData.setDoctorPhone(doctorPhone);
     }
 
     
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getCanteenAttendingDays() {
-        return schoolCanteenRegistrationRequestData.getCanteenAttendingDays();
+    public final String getDoctorPhone() {
+        return schoolCanteenRegistrationRequestData.getDoctorPhone();
     }
   
-    public final void setSchool(final fr.cg95.cvq.business.authority.School school) {
-        schoolCanteenRegistrationRequestData.setSchool(school);
+    public final void setFoodAllergy(final Boolean foodAllergy) {
+        schoolCanteenRegistrationRequestData.setFoodAllergy(foodAllergy);
     }
 
     
-    public final fr.cg95.cvq.business.authority.School getSchool() {
-        return schoolCanteenRegistrationRequestData.getSchool();
+    public final Boolean getFoodAllergy() {
+        return schoolCanteenRegistrationRequestData.getFoodAllergy();
+    }
+  
+    public final void setFoodDiet(final List<fr.cg95.cvq.business.request.LocalReferentialData> foodDiet) {
+        schoolCanteenRegistrationRequestData.setFoodDiet(foodDiet);
+    }
+
+    
+    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getFoodDiet() {
+        return schoolCanteenRegistrationRequestData.getFoodDiet();
     }
   
     public final void setHospitalizationPermission(final Boolean hospitalizationPermission) {
@@ -324,13 +315,13 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         return schoolCanteenRegistrationRequestData.getRulesAndRegulationsAcceptance();
     }
   
-    public final void setUrgencyPhone(final String urgencyPhone) {
-        schoolCanteenRegistrationRequestData.setUrgencyPhone(urgencyPhone);
+    public final void setSchool(final fr.cg95.cvq.business.authority.School school) {
+        schoolCanteenRegistrationRequestData.setSchool(school);
     }
 
     
-    public final String getUrgencyPhone() {
-        return schoolCanteenRegistrationRequestData.getUrgencyPhone();
+    public final fr.cg95.cvq.business.authority.School getSchool() {
+        return schoolCanteenRegistrationRequestData.getSchool();
     }
   
     public final void setSection(final fr.cg95.cvq.business.users.SectionType section) {
@@ -340,6 +331,15 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
     
     public final fr.cg95.cvq.business.users.SectionType getSection() {
         return schoolCanteenRegistrationRequestData.getSection();
+    }
+  
+    public final void setUrgencyPhone(final String urgencyPhone) {
+        schoolCanteenRegistrationRequestData.setUrgencyPhone(urgencyPhone);
+    }
+
+    
+    public final String getUrgencyPhone() {
+        return schoolCanteenRegistrationRequestData.getUrgencyPhone();
     }
   
 }

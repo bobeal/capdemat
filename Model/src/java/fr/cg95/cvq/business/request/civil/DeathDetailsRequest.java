@@ -111,30 +111,30 @@ public class DeathDetailsRequest extends Request implements Serializable {
         super.fillCommonXmlInfo(deathDetailsRequest);
         int i = 0;
         
-        deathDetailsRequest.setDeathFirstNames(getDeathFirstNames());
-      
-        deathDetailsRequest.setDeathCity(getDeathCity());
-      
-        if (getFormat() != null)
-            deathDetailsRequest.setFormat(fr.cg95.cvq.xml.request.civil.DeathCertificateFormatType.Enum.forString(getFormat().toString()));
+        deathDetailsRequest.setComment(getComment());
       
         if (getCopies() != null)
             deathDetailsRequest.setCopies(new BigInteger(getCopies().toString()));
       
-        deathDetailsRequest.setComment(getComment());
-      
-        if (getMotive() != null)
-            deathDetailsRequest.setMotive(fr.cg95.cvq.xml.request.civil.DeathCertificateMotiveType.Enum.forString(getMotive().toString()));
-      
-        deathDetailsRequest.setDeathPostalCode(getDeathPostalCode());
-      
-        deathDetailsRequest.setDeathLastName(getDeathLastName());
+        deathDetailsRequest.setDeathCity(getDeathCity());
       
         date = getDeathDate();
         if (date != null) {
             calendar.setTime(date);
             deathDetailsRequest.setDeathDate(calendar);
         }
+      
+        deathDetailsRequest.setDeathFirstNames(getDeathFirstNames());
+      
+        deathDetailsRequest.setDeathLastName(getDeathLastName());
+      
+        deathDetailsRequest.setDeathPostalCode(getDeathPostalCode());
+      
+        if (getFormat() != null)
+            deathDetailsRequest.setFormat(fr.cg95.cvq.xml.request.civil.DeathCertificateFormatType.Enum.forString(getFormat().toString()));
+      
+        if (getMotive() != null)
+            deathDetailsRequest.setMotive(fr.cg95.cvq.xml.request.civil.DeathCertificateMotiveType.Enum.forString(getMotive().toString()));
       
         return deathDetailsRequestDoc;
     }
@@ -152,32 +152,32 @@ public class DeathDetailsRequest extends Request implements Serializable {
         DeathDetailsRequest deathDetailsRequest = new DeathDetailsRequest();
         deathDetailsRequest.fillCommonModelInfo(deathDetailsRequest, deathDetailsRequestXml);
         
-        deathDetailsRequest.setDeathFirstNames(deathDetailsRequestXml.getDeathFirstNames());
+        deathDetailsRequest.setComment(deathDetailsRequestXml.getComment());
+      
+        deathDetailsRequest.setCopies(deathDetailsRequestXml.getCopies());
       
         deathDetailsRequest.setDeathCity(deathDetailsRequestXml.getDeathCity());
+      
+        calendar = deathDetailsRequestXml.getDeathDate();
+        if (calendar != null) {
+            deathDetailsRequest.setDeathDate(calendar.getTime());
+        }
+      
+        deathDetailsRequest.setDeathFirstNames(deathDetailsRequestXml.getDeathFirstNames());
+      
+        deathDetailsRequest.setDeathLastName(deathDetailsRequestXml.getDeathLastName());
+      
+        deathDetailsRequest.setDeathPostalCode(deathDetailsRequestXml.getDeathPostalCode());
       
         if (deathDetailsRequestXml.getFormat() != null)
             deathDetailsRequest.setFormat(fr.cg95.cvq.business.request.civil.DeathCertificateFormatType.forString(deathDetailsRequestXml.getFormat().toString()));
         else
             deathDetailsRequest.setFormat(fr.cg95.cvq.business.request.civil.DeathCertificateFormatType.getDefaultDeathCertificateFormatType());
       
-        deathDetailsRequest.setCopies(deathDetailsRequestXml.getCopies());
-      
-        deathDetailsRequest.setComment(deathDetailsRequestXml.getComment());
-      
         if (deathDetailsRequestXml.getMotive() != null)
             deathDetailsRequest.setMotive(fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType.forString(deathDetailsRequestXml.getMotive().toString()));
         else
             deathDetailsRequest.setMotive(fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType.getDefaultDeathCertificateMotiveType());
-      
-        deathDetailsRequest.setDeathPostalCode(deathDetailsRequestXml.getDeathPostalCode());
-      
-        deathDetailsRequest.setDeathLastName(deathDetailsRequestXml.getDeathLastName());
-      
-        calendar = deathDetailsRequestXml.getDeathDate();
-        if (calendar != null) {
-            deathDetailsRequest.setDeathDate(calendar.getTime());
-        }
       
         return deathDetailsRequest;
     }
@@ -219,31 +219,13 @@ public class DeathDetailsRequest extends Request implements Serializable {
     }
 
   
-    public final void setDeathFirstNames(final String deathFirstNames) {
-        deathDetailsRequestData.setDeathFirstNames(deathFirstNames);
+    public final void setComment(final String comment) {
+        deathDetailsRequestData.setComment(comment);
     }
 
     
-    public final String getDeathFirstNames() {
-        return deathDetailsRequestData.getDeathFirstNames();
-    }
-  
-    public final void setDeathCity(final String deathCity) {
-        deathDetailsRequestData.setDeathCity(deathCity);
-    }
-
-    
-    public final String getDeathCity() {
-        return deathDetailsRequestData.getDeathCity();
-    }
-  
-    public final void setFormat(final fr.cg95.cvq.business.request.civil.DeathCertificateFormatType format) {
-        deathDetailsRequestData.setFormat(format);
-    }
-
-    
-    public final fr.cg95.cvq.business.request.civil.DeathCertificateFormatType getFormat() {
-        return deathDetailsRequestData.getFormat();
+    public final String getComment() {
+        return deathDetailsRequestData.getComment();
     }
   
     public final void setCopies(final java.math.BigInteger copies) {
@@ -255,31 +237,31 @@ public class DeathDetailsRequest extends Request implements Serializable {
         return deathDetailsRequestData.getCopies();
     }
   
-    public final void setComment(final String comment) {
-        deathDetailsRequestData.setComment(comment);
+    public final void setDeathCity(final String deathCity) {
+        deathDetailsRequestData.setDeathCity(deathCity);
     }
 
     
-    public final String getComment() {
-        return deathDetailsRequestData.getComment();
+    public final String getDeathCity() {
+        return deathDetailsRequestData.getDeathCity();
     }
   
-    public final void setMotive(final fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType motive) {
-        deathDetailsRequestData.setMotive(motive);
+    public final void setDeathDate(final java.util.Date deathDate) {
+        deathDetailsRequestData.setDeathDate(deathDate);
     }
 
     
-    public final fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType getMotive() {
-        return deathDetailsRequestData.getMotive();
+    public final java.util.Date getDeathDate() {
+        return deathDetailsRequestData.getDeathDate();
     }
   
-    public final void setDeathPostalCode(final String deathPostalCode) {
-        deathDetailsRequestData.setDeathPostalCode(deathPostalCode);
+    public final void setDeathFirstNames(final String deathFirstNames) {
+        deathDetailsRequestData.setDeathFirstNames(deathFirstNames);
     }
 
     
-    public final String getDeathPostalCode() {
-        return deathDetailsRequestData.getDeathPostalCode();
+    public final String getDeathFirstNames() {
+        return deathDetailsRequestData.getDeathFirstNames();
     }
   
     public final void setDeathLastName(final String deathLastName) {
@@ -291,13 +273,31 @@ public class DeathDetailsRequest extends Request implements Serializable {
         return deathDetailsRequestData.getDeathLastName();
     }
   
-    public final void setDeathDate(final java.util.Date deathDate) {
-        deathDetailsRequestData.setDeathDate(deathDate);
+    public final void setDeathPostalCode(final String deathPostalCode) {
+        deathDetailsRequestData.setDeathPostalCode(deathPostalCode);
     }
 
     
-    public final java.util.Date getDeathDate() {
-        return deathDetailsRequestData.getDeathDate();
+    public final String getDeathPostalCode() {
+        return deathDetailsRequestData.getDeathPostalCode();
+    }
+  
+    public final void setFormat(final fr.cg95.cvq.business.request.civil.DeathCertificateFormatType format) {
+        deathDetailsRequestData.setFormat(format);
+    }
+
+    
+    public final fr.cg95.cvq.business.request.civil.DeathCertificateFormatType getFormat() {
+        return deathDetailsRequestData.getFormat();
+    }
+  
+    public final void setMotive(final fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType motive) {
+        deathDetailsRequestData.setMotive(motive);
+    }
+
+    
+    public final fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType getMotive() {
+        return deathDetailsRequestData.getMotive();
     }
   
 }

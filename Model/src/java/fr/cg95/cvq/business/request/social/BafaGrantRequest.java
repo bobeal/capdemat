@@ -125,20 +125,36 @@ public class BafaGrantRequest extends Request implements Serializable {
         super.fillCommonXmlInfo(bafaGrantRequest);
         int i = 0;
         
-        bafaGrantRequest.setAccountHolderFirstName(getAccountHolderFirstName());
+        date = getAccountHolderBirthDate();
+        if (date != null) {
+            calendar.setTime(date);
+            bafaGrantRequest.setAccountHolderBirthDate(calendar);
+        }
       
         bafaGrantRequest.setAccountHolderEdemandeId(getAccountHolderEdemandeId());
       
-        if (getInternshipInstituteAddress() != null)
-            bafaGrantRequest.setInternshipInstituteAddress(Address.modelToXml(getInternshipInstituteAddress()));
+        bafaGrantRequest.setAccountHolderFirstName(getAccountHolderFirstName());
+      
+        bafaGrantRequest.setAccountHolderLastName(getAccountHolderLastName());
+      
+        if (getAccountHolderTitle() != null)
+            bafaGrantRequest.setAccountHolderTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getAccountHolderTitle().toString()));
       
         bafaGrantRequest.setEdemandeId(getEdemandeId());
+      
+        if (getFrenchRIB() != null)
+            bafaGrantRequest.setFrenchRIB(FrenchRIB.modelToXml(getFrenchRIB()));
       
         date = getInternshipEndDate();
         if (date != null) {
             calendar.setTime(date);
             bafaGrantRequest.setInternshipEndDate(calendar);
         }
+      
+        if (getInternshipInstituteAddress() != null)
+            bafaGrantRequest.setInternshipInstituteAddress(Address.modelToXml(getInternshipInstituteAddress()));
+      
+        bafaGrantRequest.setInternshipInstituteName(getInternshipInstituteName());
       
         date = getInternshipStartDate();
         if (date != null) {
@@ -149,16 +165,10 @@ public class BafaGrantRequest extends Request implements Serializable {
         if (getIsSubjectAccountHolder() != null)
             bafaGrantRequest.setIsSubjectAccountHolder(getIsSubjectAccountHolder().booleanValue());
       
-        if (getFrenchRIB() != null)
-            bafaGrantRequest.setFrenchRIB(FrenchRIB.modelToXml(getFrenchRIB()));
+        if (getSubjectAddress() != null)
+            bafaGrantRequest.setSubjectAddress(Address.modelToXml(getSubjectAddress()));
       
         bafaGrantRequest.setSubjectBirthCity(getSubjectBirthCity());
-      
-        date = getAccountHolderBirthDate();
-        if (date != null) {
-            calendar.setTime(date);
-            bafaGrantRequest.setAccountHolderBirthDate(calendar);
-        }
       
         date = getSubjectBirthDate();
         if (date != null) {
@@ -166,19 +176,9 @@ public class BafaGrantRequest extends Request implements Serializable {
             bafaGrantRequest.setSubjectBirthDate(calendar);
         }
       
-        bafaGrantRequest.setInternshipInstituteName(getInternshipInstituteName());
-      
-        bafaGrantRequest.setAccountHolderLastName(getAccountHolderLastName());
-      
-        if (getSubjectAddress() != null)
-            bafaGrantRequest.setSubjectAddress(Address.modelToXml(getSubjectAddress()));
-      
-        bafaGrantRequest.setSubjectPhone(getSubjectPhone());
-      
         bafaGrantRequest.setSubjectEmail(getSubjectEmail());
       
-        if (getAccountHolderTitle() != null)
-            bafaGrantRequest.setAccountHolderTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getAccountHolderTitle().toString()));
+        bafaGrantRequest.setSubjectPhone(getSubjectPhone());
       
         return bafaGrantRequestDoc;
     }
@@ -196,19 +196,36 @@ public class BafaGrantRequest extends Request implements Serializable {
         BafaGrantRequest bafaGrantRequest = new BafaGrantRequest();
         bafaGrantRequest.fillCommonModelInfo(bafaGrantRequest, bafaGrantRequestXml);
         
-        bafaGrantRequest.setAccountHolderFirstName(bafaGrantRequestXml.getAccountHolderFirstName());
+        calendar = bafaGrantRequestXml.getAccountHolderBirthDate();
+        if (calendar != null) {
+            bafaGrantRequest.setAccountHolderBirthDate(calendar.getTime());
+        }
       
         bafaGrantRequest.setAccountHolderEdemandeId(bafaGrantRequestXml.getAccountHolderEdemandeId());
       
-        if (bafaGrantRequestXml.getInternshipInstituteAddress() != null)
-            bafaGrantRequest.setInternshipInstituteAddress(Address.xmlToModel(bafaGrantRequestXml.getInternshipInstituteAddress()));
+        bafaGrantRequest.setAccountHolderFirstName(bafaGrantRequestXml.getAccountHolderFirstName());
+      
+        bafaGrantRequest.setAccountHolderLastName(bafaGrantRequestXml.getAccountHolderLastName());
+      
+        if (bafaGrantRequestXml.getAccountHolderTitle() != null)
+            bafaGrantRequest.setAccountHolderTitle(fr.cg95.cvq.business.users.TitleType.forString(bafaGrantRequestXml.getAccountHolderTitle().toString()));
+        else
+            bafaGrantRequest.setAccountHolderTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
       
         bafaGrantRequest.setEdemandeId(bafaGrantRequestXml.getEdemandeId());
+      
+        if (bafaGrantRequestXml.getFrenchRIB() != null)
+            bafaGrantRequest.setFrenchRIB(FrenchRIB.xmlToModel(bafaGrantRequestXml.getFrenchRIB()));
       
         calendar = bafaGrantRequestXml.getInternshipEndDate();
         if (calendar != null) {
             bafaGrantRequest.setInternshipEndDate(calendar.getTime());
         }
+      
+        if (bafaGrantRequestXml.getInternshipInstituteAddress() != null)
+            bafaGrantRequest.setInternshipInstituteAddress(Address.xmlToModel(bafaGrantRequestXml.getInternshipInstituteAddress()));
+      
+        bafaGrantRequest.setInternshipInstituteName(bafaGrantRequestXml.getInternshipInstituteName());
       
         calendar = bafaGrantRequestXml.getInternshipStartDate();
         if (calendar != null) {
@@ -217,36 +234,19 @@ public class BafaGrantRequest extends Request implements Serializable {
       
         bafaGrantRequest.setIsSubjectAccountHolder(Boolean.valueOf(bafaGrantRequestXml.getIsSubjectAccountHolder()));
       
-        if (bafaGrantRequestXml.getFrenchRIB() != null)
-            bafaGrantRequest.setFrenchRIB(FrenchRIB.xmlToModel(bafaGrantRequestXml.getFrenchRIB()));
+        if (bafaGrantRequestXml.getSubjectAddress() != null)
+            bafaGrantRequest.setSubjectAddress(Address.xmlToModel(bafaGrantRequestXml.getSubjectAddress()));
       
         bafaGrantRequest.setSubjectBirthCity(bafaGrantRequestXml.getSubjectBirthCity());
-      
-        calendar = bafaGrantRequestXml.getAccountHolderBirthDate();
-        if (calendar != null) {
-            bafaGrantRequest.setAccountHolderBirthDate(calendar.getTime());
-        }
       
         calendar = bafaGrantRequestXml.getSubjectBirthDate();
         if (calendar != null) {
             bafaGrantRequest.setSubjectBirthDate(calendar.getTime());
         }
       
-        bafaGrantRequest.setInternshipInstituteName(bafaGrantRequestXml.getInternshipInstituteName());
-      
-        bafaGrantRequest.setAccountHolderLastName(bafaGrantRequestXml.getAccountHolderLastName());
-      
-        if (bafaGrantRequestXml.getSubjectAddress() != null)
-            bafaGrantRequest.setSubjectAddress(Address.xmlToModel(bafaGrantRequestXml.getSubjectAddress()));
-      
-        bafaGrantRequest.setSubjectPhone(bafaGrantRequestXml.getSubjectPhone());
-      
         bafaGrantRequest.setSubjectEmail(bafaGrantRequestXml.getSubjectEmail());
       
-        if (bafaGrantRequestXml.getAccountHolderTitle() != null)
-            bafaGrantRequest.setAccountHolderTitle(fr.cg95.cvq.business.users.TitleType.forString(bafaGrantRequestXml.getAccountHolderTitle().toString()));
-        else
-            bafaGrantRequest.setAccountHolderTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
+        bafaGrantRequest.setSubjectPhone(bafaGrantRequestXml.getSubjectPhone());
       
         return bafaGrantRequest;
     }
@@ -302,13 +302,13 @@ public class BafaGrantRequest extends Request implements Serializable {
     }
 
   
-    public final void setAccountHolderFirstName(final String accountHolderFirstName) {
-        bafaGrantRequestData.setAccountHolderFirstName(accountHolderFirstName);
+    public final void setAccountHolderBirthDate(final java.util.Date accountHolderBirthDate) {
+        bafaGrantRequestData.setAccountHolderBirthDate(accountHolderBirthDate);
     }
 
     
-    public final String getAccountHolderFirstName() {
-        return bafaGrantRequestData.getAccountHolderFirstName();
+    public final java.util.Date getAccountHolderBirthDate() {
+        return bafaGrantRequestData.getAccountHolderBirthDate();
     }
   
     public final void setAccountHolderEdemandeId(final String accountHolderEdemandeId) {
@@ -320,13 +320,31 @@ public class BafaGrantRequest extends Request implements Serializable {
         return bafaGrantRequestData.getAccountHolderEdemandeId();
     }
   
-    public final void setInternshipInstituteAddress(final fr.cg95.cvq.business.users.Address internshipInstituteAddress) {
-        bafaGrantRequestData.setInternshipInstituteAddress(internshipInstituteAddress);
+    public final void setAccountHolderFirstName(final String accountHolderFirstName) {
+        bafaGrantRequestData.setAccountHolderFirstName(accountHolderFirstName);
     }
 
     
-    public final fr.cg95.cvq.business.users.Address getInternshipInstituteAddress() {
-        return bafaGrantRequestData.getInternshipInstituteAddress();
+    public final String getAccountHolderFirstName() {
+        return bafaGrantRequestData.getAccountHolderFirstName();
+    }
+  
+    public final void setAccountHolderLastName(final String accountHolderLastName) {
+        bafaGrantRequestData.setAccountHolderLastName(accountHolderLastName);
+    }
+
+    
+    public final String getAccountHolderLastName() {
+        return bafaGrantRequestData.getAccountHolderLastName();
+    }
+  
+    public final void setAccountHolderTitle(final fr.cg95.cvq.business.users.TitleType accountHolderTitle) {
+        bafaGrantRequestData.setAccountHolderTitle(accountHolderTitle);
+    }
+
+    
+    public final fr.cg95.cvq.business.users.TitleType getAccountHolderTitle() {
+        return bafaGrantRequestData.getAccountHolderTitle();
     }
   
     public final void setEdemandeId(final String edemandeId) {
@@ -338,6 +356,15 @@ public class BafaGrantRequest extends Request implements Serializable {
         return bafaGrantRequestData.getEdemandeId();
     }
   
+    public final void setFrenchRIB(final fr.cg95.cvq.business.users.FrenchRIB frenchRIB) {
+        bafaGrantRequestData.setFrenchRIB(frenchRIB);
+    }
+
+    
+    public final fr.cg95.cvq.business.users.FrenchRIB getFrenchRIB() {
+        return bafaGrantRequestData.getFrenchRIB();
+    }
+  
     public final void setInternshipEndDate(final java.util.Date internshipEndDate) {
         bafaGrantRequestData.setInternshipEndDate(internshipEndDate);
     }
@@ -345,6 +372,24 @@ public class BafaGrantRequest extends Request implements Serializable {
     
     public final java.util.Date getInternshipEndDate() {
         return bafaGrantRequestData.getInternshipEndDate();
+    }
+  
+    public final void setInternshipInstituteAddress(final fr.cg95.cvq.business.users.Address internshipInstituteAddress) {
+        bafaGrantRequestData.setInternshipInstituteAddress(internshipInstituteAddress);
+    }
+
+    
+    public final fr.cg95.cvq.business.users.Address getInternshipInstituteAddress() {
+        return bafaGrantRequestData.getInternshipInstituteAddress();
+    }
+  
+    public final void setInternshipInstituteName(final String internshipInstituteName) {
+        bafaGrantRequestData.setInternshipInstituteName(internshipInstituteName);
+    }
+
+    
+    public final String getInternshipInstituteName() {
+        return bafaGrantRequestData.getInternshipInstituteName();
     }
   
     public final void setInternshipStartDate(final java.util.Date internshipStartDate) {
@@ -365,13 +410,13 @@ public class BafaGrantRequest extends Request implements Serializable {
         return bafaGrantRequestData.getIsSubjectAccountHolder();
     }
   
-    public final void setFrenchRIB(final fr.cg95.cvq.business.users.FrenchRIB frenchRIB) {
-        bafaGrantRequestData.setFrenchRIB(frenchRIB);
+    public final void setSubjectAddress(final fr.cg95.cvq.business.users.Address subjectAddress) {
+        bafaGrantRequestData.setSubjectAddress(subjectAddress);
     }
 
     
-    public final fr.cg95.cvq.business.users.FrenchRIB getFrenchRIB() {
-        return bafaGrantRequestData.getFrenchRIB();
+    public final fr.cg95.cvq.business.users.Address getSubjectAddress() {
+        return bafaGrantRequestData.getSubjectAddress();
     }
   
     public final void setSubjectBirthCity(final String subjectBirthCity) {
@@ -383,15 +428,6 @@ public class BafaGrantRequest extends Request implements Serializable {
         return bafaGrantRequestData.getSubjectBirthCity();
     }
   
-    public final void setAccountHolderBirthDate(final java.util.Date accountHolderBirthDate) {
-        bafaGrantRequestData.setAccountHolderBirthDate(accountHolderBirthDate);
-    }
-
-    
-    public final java.util.Date getAccountHolderBirthDate() {
-        return bafaGrantRequestData.getAccountHolderBirthDate();
-    }
-  
     public final void setSubjectBirthDate(final java.util.Date subjectBirthDate) {
         bafaGrantRequestData.setSubjectBirthDate(subjectBirthDate);
     }
@@ -399,42 +435,6 @@ public class BafaGrantRequest extends Request implements Serializable {
     
     public final java.util.Date getSubjectBirthDate() {
         return bafaGrantRequestData.getSubjectBirthDate();
-    }
-  
-    public final void setInternshipInstituteName(final String internshipInstituteName) {
-        bafaGrantRequestData.setInternshipInstituteName(internshipInstituteName);
-    }
-
-    
-    public final String getInternshipInstituteName() {
-        return bafaGrantRequestData.getInternshipInstituteName();
-    }
-  
-    public final void setAccountHolderLastName(final String accountHolderLastName) {
-        bafaGrantRequestData.setAccountHolderLastName(accountHolderLastName);
-    }
-
-    
-    public final String getAccountHolderLastName() {
-        return bafaGrantRequestData.getAccountHolderLastName();
-    }
-  
-    public final void setSubjectAddress(final fr.cg95.cvq.business.users.Address subjectAddress) {
-        bafaGrantRequestData.setSubjectAddress(subjectAddress);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.Address getSubjectAddress() {
-        return bafaGrantRequestData.getSubjectAddress();
-    }
-  
-    public final void setSubjectPhone(final String subjectPhone) {
-        bafaGrantRequestData.setSubjectPhone(subjectPhone);
-    }
-
-    
-    public final String getSubjectPhone() {
-        return bafaGrantRequestData.getSubjectPhone();
     }
   
     public final void setSubjectEmail(final String subjectEmail) {
@@ -446,13 +446,13 @@ public class BafaGrantRequest extends Request implements Serializable {
         return bafaGrantRequestData.getSubjectEmail();
     }
   
-    public final void setAccountHolderTitle(final fr.cg95.cvq.business.users.TitleType accountHolderTitle) {
-        bafaGrantRequestData.setAccountHolderTitle(accountHolderTitle);
+    public final void setSubjectPhone(final String subjectPhone) {
+        bafaGrantRequestData.setSubjectPhone(subjectPhone);
     }
 
     
-    public final fr.cg95.cvq.business.users.TitleType getAccountHolderTitle() {
-        return bafaGrantRequestData.getAccountHolderTitle();
+    public final String getSubjectPhone() {
+        return bafaGrantRequestData.getSubjectPhone();
     }
   
 }

@@ -36,9 +36,9 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
 
     public PerischoolActivityRegistrationRequestData() {
       
-        classTripPermission = Boolean.valueOf(false);
-      
         childPhotoExploitationPermission = Boolean.valueOf(false);
+      
+        classTripPermission = Boolean.valueOf(false);
       
         hospitalizationPermission = Boolean.valueOf(false);
       
@@ -64,11 +64,7 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
         
           
             
-        List<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> contactIndividualsList = new ArrayList<fr.cg95.cvq.business.request.school.PerischoolContactIndividual>();
-        for (PerischoolContactIndividual object : contactIndividuals) {
-            contactIndividualsList.add(object.clone());
-        }
-        result.setContactIndividuals(contactIndividualsList);
+        result.setChildPhotoExploitationPermission(childPhotoExploitationPermission);
       
           
         
@@ -80,29 +76,17 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
         
           
             
-        result.setChildPhotoExploitationPermission(childPhotoExploitationPermission);
+        List<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> contactIndividualsList = new ArrayList<fr.cg95.cvq.business.request.school.PerischoolContactIndividual>();
+        for (PerischoolContactIndividual object : contactIndividuals) {
+            contactIndividualsList.add(object.clone());
+        }
+        result.setContactIndividuals(contactIndividualsList);
       
-          
-        
-          
-            result.setSchool(school);
           
         
           
             
         result.setHospitalizationPermission(hospitalizationPermission);
-      
-          
-        
-          
-            
-        result.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
-      
-          
-        
-          
-            
-        result.setUrgencyPhone(urgencyPhone);
       
           
         
@@ -118,10 +102,26 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
         
           
             
+        result.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
+      
+          
+        
+          
+            result.setSchool(school);
+          
+        
+          
+            
         if (section != null)
             result.setSection(section);
         else
             result.setSection(fr.cg95.cvq.business.users.SectionType.getDefaultSectionType());
+      
+          
+        
+          
+            
+        result.setUrgencyPhone(urgencyPhone);
       
           
         
@@ -175,6 +175,56 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
     }
   
     
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "childPhotoExploitationPermission"
+      )
+    
+    private Boolean childPhotoExploitationPermission;
+
+    public final void setChildPhotoExploitationPermission(final Boolean childPhotoExploitationPermission) {
+        this.childPhotoExploitationPermission = childPhotoExploitationPermission;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="child_photo_exploitation_permission"
+        
+      
+    */
+    public final Boolean getChildPhotoExploitationPermission() {
+        return this.childPhotoExploitationPermission;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "classTripPermission"
+      )
+    
+    private Boolean classTripPermission;
+
+    public final void setClassTripPermission(final Boolean classTripPermission) {
+        this.classTripPermission = classTripPermission;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="class_trip_permission"
+        
+      
+    */
+    public final Boolean getClassTripPermission() {
+        return this.classTripPermission;
+    }
+  
+    
       @AssertValid(
         
         
@@ -211,82 +261,6 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
         
         
         profiles = {"rules"},
-        message = "classTripPermission"
-      )
-    
-    private Boolean classTripPermission;
-
-    public final void setClassTripPermission(final Boolean classTripPermission) {
-        this.classTripPermission = classTripPermission;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="class_trip_permission"
-        
-      
-    */
-    public final Boolean getClassTripPermission() {
-        return this.classTripPermission;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "childPhotoExploitationPermission"
-      )
-    
-    private Boolean childPhotoExploitationPermission;
-
-    public final void setChildPhotoExploitationPermission(final Boolean childPhotoExploitationPermission) {
-        this.childPhotoExploitationPermission = childPhotoExploitationPermission;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="child_photo_exploitation_permission"
-        
-      
-    */
-    public final Boolean getChildPhotoExploitationPermission() {
-        return this.childPhotoExploitationPermission;
-    }
-  
-    
-      @AssertValid(
-        
-        
-        profiles = {"administration"},
-        message = "school"
-      )
-    
-    private fr.cg95.cvq.business.authority.School school;
-
-    public final void setSchool(final fr.cg95.cvq.business.authority.School school) {
-        this.school = school;
-    }
-
-    /**
- 
-        * @hibernate.many-to-one
-        
-        *  column="school_id"
-        *  class="fr.cg95.cvq.business.authority.School"
-      
-    */
-    public final fr.cg95.cvq.business.authority.School getSchool() {
-        return this.school;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"rules"},
         message = "hospitalizationPermission"
       )
     
@@ -305,72 +279,6 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
     */
     public final Boolean getHospitalizationPermission() {
         return this.hospitalizationPermission;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "rulesAndRegulationsAcceptance"
-      )
-    
-    private Boolean rulesAndRegulationsAcceptance;
-
-    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
-        this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="rules_and_regulations_acceptance"
-        
-      
-    */
-    public final Boolean getRulesAndRegulationsAcceptance() {
-        return this.rulesAndRegulationsAcceptance;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 10,
-        
-        
-        profiles = {"registration"},
-        message = "urgencyPhone"
-      )
-    
-      @NotNull(
-        
-        
-        profiles = {"registration"},
-        message = "urgencyPhone"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"registration"},
-        message = "urgencyPhone"
-      )
-    
-    private String urgencyPhone;
-
-    public final void setUrgencyPhone(final String urgencyPhone) {
-        this.urgencyPhone = urgencyPhone;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="urgency_phone"
-        *  length="10"
-      
-    */
-    public final String getUrgencyPhone() {
-        return this.urgencyPhone;
     }
   
     
@@ -420,6 +328,57 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
       @NotNull(
         
         
+        profiles = {"rules"},
+        message = "rulesAndRegulationsAcceptance"
+      )
+    
+    private Boolean rulesAndRegulationsAcceptance;
+
+    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
+        this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="rules_and_regulations_acceptance"
+        
+      
+    */
+    public final Boolean getRulesAndRegulationsAcceptance() {
+        return this.rulesAndRegulationsAcceptance;
+    }
+  
+    
+      @AssertValid(
+        
+        
+        profiles = {"administration"},
+        message = "school"
+      )
+    
+    private fr.cg95.cvq.business.authority.School school;
+
+    public final void setSchool(final fr.cg95.cvq.business.authority.School school) {
+        this.school = school;
+    }
+
+    /**
+ 
+        * @hibernate.many-to-one
+        
+        *  column="school_id"
+        *  class="fr.cg95.cvq.business.authority.School"
+      
+    */
+    public final fr.cg95.cvq.business.authority.School getSchool() {
+        return this.school;
+    }
+  
+    
+      @NotNull(
+        
+        
         profiles = {"administration"},
         message = "section"
       )
@@ -439,6 +398,47 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
     */
     public final fr.cg95.cvq.business.users.SectionType getSection() {
         return this.section;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+        profiles = {"registration"},
+        message = "urgencyPhone"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"registration"},
+        message = "urgencyPhone"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"registration"},
+        message = "urgencyPhone"
+      )
+    
+    private String urgencyPhone;
+
+    public final void setUrgencyPhone(final String urgencyPhone) {
+        this.urgencyPhone = urgencyPhone;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="urgency_phone"
+        *  length="10"
+      
+    */
+    public final String getUrgencyPhone() {
+        return this.urgencyPhone;
     }
   
 }

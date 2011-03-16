@@ -104,9 +104,6 @@ public class BulkyWasteCollectionRequest extends Request implements Serializable
         super.fillCommonXmlInfo(bulkyWasteCollectionRequest);
         int i = 0;
         
-        if (getCollectionAddress() != null)
-            bulkyWasteCollectionRequest.setCollectionAddress(Address.modelToXml(getCollectionAddress()));
-      
         i = 0;
         if (getBulkyWasteType() != null) {
             fr.cg95.cvq.xml.common.LocalReferentialDataType[] bulkyWasteTypeTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[getBulkyWasteType().size()];
@@ -115,6 +112,9 @@ public class BulkyWasteCollectionRequest extends Request implements Serializable
             }
             bulkyWasteCollectionRequest.setBulkyWasteTypeArray(bulkyWasteTypeTypeTab);
         }
+      
+        if (getCollectionAddress() != null)
+            bulkyWasteCollectionRequest.setCollectionAddress(Address.modelToXml(getCollectionAddress()));
       
         bulkyWasteCollectionRequest.setOtherWaste(getOtherWaste());
       
@@ -134,14 +134,14 @@ public class BulkyWasteCollectionRequest extends Request implements Serializable
         BulkyWasteCollectionRequest bulkyWasteCollectionRequest = new BulkyWasteCollectionRequest();
         bulkyWasteCollectionRequest.fillCommonModelInfo(bulkyWasteCollectionRequest, bulkyWasteCollectionRequestXml);
         
-        if (bulkyWasteCollectionRequestXml.getCollectionAddress() != null)
-            bulkyWasteCollectionRequest.setCollectionAddress(Address.xmlToModel(bulkyWasteCollectionRequestXml.getCollectionAddress()));
-      
         List<fr.cg95.cvq.business.request.LocalReferentialData> bulkyWasteTypeList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(bulkyWasteCollectionRequestXml.sizeOfBulkyWasteTypeArray());
         for (LocalReferentialDataType object : bulkyWasteCollectionRequestXml.getBulkyWasteTypeArray()) {
             bulkyWasteTypeList.add(fr.cg95.cvq.business.request.LocalReferentialData.xmlToModel(object));
         }
         bulkyWasteCollectionRequest.setBulkyWasteType(bulkyWasteTypeList);
+      
+        if (bulkyWasteCollectionRequestXml.getCollectionAddress() != null)
+            bulkyWasteCollectionRequest.setCollectionAddress(Address.xmlToModel(bulkyWasteCollectionRequestXml.getCollectionAddress()));
       
         bulkyWasteCollectionRequest.setOtherWaste(bulkyWasteCollectionRequestXml.getOtherWaste());
       
@@ -178,15 +178,6 @@ public class BulkyWasteCollectionRequest extends Request implements Serializable
     }
 
   
-    public final void setCollectionAddress(final fr.cg95.cvq.business.users.Address collectionAddress) {
-        bulkyWasteCollectionRequestData.setCollectionAddress(collectionAddress);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.Address getCollectionAddress() {
-        return bulkyWasteCollectionRequestData.getCollectionAddress();
-    }
-  
     public final void setBulkyWasteType(final List<fr.cg95.cvq.business.request.LocalReferentialData> bulkyWasteType) {
         bulkyWasteCollectionRequestData.setBulkyWasteType(bulkyWasteType);
     }
@@ -194,6 +185,15 @@ public class BulkyWasteCollectionRequest extends Request implements Serializable
     
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getBulkyWasteType() {
         return bulkyWasteCollectionRequestData.getBulkyWasteType();
+    }
+  
+    public final void setCollectionAddress(final fr.cg95.cvq.business.users.Address collectionAddress) {
+        bulkyWasteCollectionRequestData.setCollectionAddress(collectionAddress);
+    }
+
+    
+    public final fr.cg95.cvq.business.users.Address getCollectionAddress() {
+        return bulkyWasteCollectionRequestData.getCollectionAddress();
     }
   
     public final void setOtherWaste(final String otherWaste) {

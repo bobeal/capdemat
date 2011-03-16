@@ -36,9 +36,9 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
 
     public RecreationActivityRegistrationRequestData() {
       
-        classTripPermission = Boolean.valueOf(false);
-      
         childPhotoExploitationPermission = Boolean.valueOf(false);
+      
+        classTripPermission = Boolean.valueOf(false);
       
         hospitalizationPermission = Boolean.valueOf(false);
       
@@ -51,16 +51,24 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
         RecreationActivityRegistrationRequestData result = new RecreationActivityRegistrationRequestData();
         
           
-            result.setRecreationCenter(recreationCenter);
-          
-        
-          
             
         List<fr.cg95.cvq.business.request.school.RecreationAuthorizedIndividual> authorizedIndividualsList = new ArrayList<fr.cg95.cvq.business.request.school.RecreationAuthorizedIndividual>();
         for (RecreationAuthorizedIndividual object : authorizedIndividuals) {
             authorizedIndividualsList.add(object.clone());
         }
         result.setAuthorizedIndividuals(authorizedIndividualsList);
+      
+          
+        
+          
+            
+        result.setChildPhotoExploitationPermission(childPhotoExploitationPermission);
+      
+          
+        
+          
+            
+        result.setClassTripPermission(classTripPermission);
       
           
         
@@ -76,7 +84,7 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
         
           
             
-        result.setClassTripPermission(classTripPermission);
+        result.setHospitalizationPermission(hospitalizationPermission);
       
           
         
@@ -91,15 +99,7 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
           
         
           
-            
-        result.setChildPhotoExploitationPermission(childPhotoExploitationPermission);
-      
-          
-        
-          
-            
-        result.setHospitalizationPermission(hospitalizationPermission);
-      
+            result.setRecreationCenter(recreationCenter);
           
         
           
@@ -135,32 +135,6 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
       @AssertValid(
         
         
-        profiles = {"administration"},
-        message = "recreationCenter"
-      )
-    
-    private fr.cg95.cvq.business.authority.RecreationCenter recreationCenter;
-
-    public final void setRecreationCenter(final fr.cg95.cvq.business.authority.RecreationCenter recreationCenter) {
-        this.recreationCenter = recreationCenter;
-    }
-
-    /**
- 
-        * @hibernate.many-to-one
-        
-        *  column="recreation_center_id"
-        *  class="fr.cg95.cvq.business.authority.RecreationCenter"
-      
-    */
-    public final fr.cg95.cvq.business.authority.RecreationCenter getRecreationCenter() {
-        return this.recreationCenter;
-    }
-  
-    
-      @AssertValid(
-        
-        
         profiles = {"authorization"},
         message = "authorizedIndividuals"
       )
@@ -187,6 +161,56 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
     */
     public final List<fr.cg95.cvq.business.request.school.RecreationAuthorizedIndividual> getAuthorizedIndividuals() {
         return this.authorizedIndividuals;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "childPhotoExploitationPermission"
+      )
+    
+    private Boolean childPhotoExploitationPermission;
+
+    public final void setChildPhotoExploitationPermission(final Boolean childPhotoExploitationPermission) {
+        this.childPhotoExploitationPermission = childPhotoExploitationPermission;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="child_photo_exploitation_permission"
+        
+      
+    */
+    public final Boolean getChildPhotoExploitationPermission() {
+        return this.childPhotoExploitationPermission;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "classTripPermission"
+      )
+    
+    private Boolean classTripPermission;
+
+    public final void setClassTripPermission(final Boolean classTripPermission) {
+        this.classTripPermission = classTripPermission;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="class_trip_permission"
+        
+      
+    */
+    public final Boolean getClassTripPermission() {
+        return this.classTripPermission;
     }
   
     
@@ -226,24 +250,24 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
         
         
         profiles = {"rules"},
-        message = "classTripPermission"
+        message = "hospitalizationPermission"
       )
     
-    private Boolean classTripPermission;
+    private Boolean hospitalizationPermission;
 
-    public final void setClassTripPermission(final Boolean classTripPermission) {
-        this.classTripPermission = classTripPermission;
+    public final void setHospitalizationPermission(final Boolean hospitalizationPermission) {
+        this.hospitalizationPermission = hospitalizationPermission;
     }
 
     /**
  
         * @hibernate.property
-        *  column="class_trip_permission"
+        *  column="hospitalization_permission"
         
       
     */
-    public final Boolean getClassTripPermission() {
-        return this.classTripPermission;
+    public final Boolean getHospitalizationPermission() {
+        return this.hospitalizationPermission;
     }
   
     
@@ -290,53 +314,29 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
     }
   
     
-      @NotNull(
+      @AssertValid(
         
         
-        profiles = {"rules"},
-        message = "childPhotoExploitationPermission"
+        profiles = {"administration"},
+        message = "recreationCenter"
       )
     
-    private Boolean childPhotoExploitationPermission;
+    private fr.cg95.cvq.business.authority.RecreationCenter recreationCenter;
 
-    public final void setChildPhotoExploitationPermission(final Boolean childPhotoExploitationPermission) {
-        this.childPhotoExploitationPermission = childPhotoExploitationPermission;
+    public final void setRecreationCenter(final fr.cg95.cvq.business.authority.RecreationCenter recreationCenter) {
+        this.recreationCenter = recreationCenter;
     }
 
     /**
  
-        * @hibernate.property
-        *  column="child_photo_exploitation_permission"
+        * @hibernate.many-to-one
         
+        *  column="recreation_center_id"
+        *  class="fr.cg95.cvq.business.authority.RecreationCenter"
       
     */
-    public final Boolean getChildPhotoExploitationPermission() {
-        return this.childPhotoExploitationPermission;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "hospitalizationPermission"
-      )
-    
-    private Boolean hospitalizationPermission;
-
-    public final void setHospitalizationPermission(final Boolean hospitalizationPermission) {
-        this.hospitalizationPermission = hospitalizationPermission;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="hospitalization_permission"
-        
-      
-    */
-    public final Boolean getHospitalizationPermission() {
-        return this.hospitalizationPermission;
+    public final fr.cg95.cvq.business.authority.RecreationCenter getRecreationCenter() {
+        return this.recreationCenter;
     }
   
     

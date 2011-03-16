@@ -125,16 +125,16 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
         if (getCurrentSection() != null)
             currentSchoolTypeCurrentSchool.setCurrentSection(fr.cg95.cvq.xml.common.SectionType.Enum.forString(getCurrentSection().toString()));
       
-        if (getSchool() != null)
-            schoolRegistrationRequest.setSchool(School.modelToXml(getSchool()));
-      
         if (getRulesAndRegulationsAcceptance() != null)
             schoolRegistrationRequest.setRulesAndRegulationsAcceptance(getRulesAndRegulationsAcceptance().booleanValue());
       
-        schoolRegistrationRequest.setUrgencyPhone(getUrgencyPhone());
+        if (getSchool() != null)
+            schoolRegistrationRequest.setSchool(School.modelToXml(getSchool()));
       
         if (getSection() != null)
             schoolRegistrationRequest.setSection(fr.cg95.cvq.xml.common.SectionType.Enum.forString(getSection().toString()));
+      
+        schoolRegistrationRequest.setUrgencyPhone(getUrgencyPhone());
       
         return schoolRegistrationRequestDoc;
     }
@@ -161,17 +161,17 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
         else
             schoolRegistrationRequest.setCurrentSection(fr.cg95.cvq.business.users.SectionType.getDefaultSectionType());
       
-        if (schoolRegistrationRequestXml.getSchool() != null)
-            schoolRegistrationRequest.setSchool(School.xmlToModel(schoolRegistrationRequestXml.getSchool()));
-      
         schoolRegistrationRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(schoolRegistrationRequestXml.getRulesAndRegulationsAcceptance()));
       
-        schoolRegistrationRequest.setUrgencyPhone(schoolRegistrationRequestXml.getUrgencyPhone());
+        if (schoolRegistrationRequestXml.getSchool() != null)
+            schoolRegistrationRequest.setSchool(School.xmlToModel(schoolRegistrationRequestXml.getSchool()));
       
         if (schoolRegistrationRequestXml.getSection() != null)
             schoolRegistrationRequest.setSection(fr.cg95.cvq.business.users.SectionType.forString(schoolRegistrationRequestXml.getSection().toString()));
         else
             schoolRegistrationRequest.setSection(fr.cg95.cvq.business.users.SectionType.getDefaultSectionType());
+      
+        schoolRegistrationRequest.setUrgencyPhone(schoolRegistrationRequestXml.getUrgencyPhone());
       
         return schoolRegistrationRequest;
     }
@@ -247,15 +247,6 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
         return schoolRegistrationRequestData.getCurrentSection();
     }
   
-    public final void setSchool(final fr.cg95.cvq.business.authority.School school) {
-        schoolRegistrationRequestData.setSchool(school);
-    }
-
-    
-    public final fr.cg95.cvq.business.authority.School getSchool() {
-        return schoolRegistrationRequestData.getSchool();
-    }
-  
     public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
         schoolRegistrationRequestData.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
     }
@@ -265,13 +256,13 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
         return schoolRegistrationRequestData.getRulesAndRegulationsAcceptance();
     }
   
-    public final void setUrgencyPhone(final String urgencyPhone) {
-        schoolRegistrationRequestData.setUrgencyPhone(urgencyPhone);
+    public final void setSchool(final fr.cg95.cvq.business.authority.School school) {
+        schoolRegistrationRequestData.setSchool(school);
     }
 
     
-    public final String getUrgencyPhone() {
-        return schoolRegistrationRequestData.getUrgencyPhone();
+    public final fr.cg95.cvq.business.authority.School getSchool() {
+        return schoolRegistrationRequestData.getSchool();
     }
   
     public final void setSection(final fr.cg95.cvq.business.users.SectionType section) {
@@ -281,6 +272,15 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
     
     public final fr.cg95.cvq.business.users.SectionType getSection() {
         return schoolRegistrationRequestData.getSection();
+    }
+  
+    public final void setUrgencyPhone(final String urgencyPhone) {
+        schoolRegistrationRequestData.setUrgencyPhone(urgencyPhone);
+    }
+
+    
+    public final String getUrgencyPhone() {
+        return schoolRegistrationRequestData.getUrgencyPhone();
     }
   
 }

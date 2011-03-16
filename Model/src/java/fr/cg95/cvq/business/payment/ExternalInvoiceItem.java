@@ -114,6 +114,7 @@ public class ExternalInvoiceItem extends ExternalAccountItem {
         if (this.invoiceDetails == null)
             this.invoiceDetails = new HashSet<ExternalInvoiceItemDetail>();
         this.invoiceDetails.add(invoiceDetail);
+        invoiceDetail.setExternalInvoiceItem(this);
     }
 
     /**

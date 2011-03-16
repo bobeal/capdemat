@@ -103,5 +103,6 @@ public class ExternalDepositAccountItem extends ExternalAccountItem {
         if (this.accountDetails == null)
             this.accountDetails = new HashSet<ExternalDepositAccountItemDetail>();
         this.accountDetails.add(accountDetail);
+        accountDetail.setExternalDepositAccountItem(this);
     }
 }

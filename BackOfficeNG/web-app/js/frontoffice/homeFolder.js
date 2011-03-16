@@ -13,7 +13,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.");
 
     return {
       init: function() {
-        yue.on(yus.query(".born"), "change", zcf.HomeFolder.isChildBornChange);
+        yue.on(yus.query(".born"), "click", zcf.HomeFolder.isChildBornChange);
         zcf.HomeFolder.initChildBorn();
       },
 

@@ -44,13 +44,6 @@ public class TechnicalInterventionRequestServiceTest extends RequestTestCase {
           
           
             
-               request.setOtherInterventionLabel("OtherInterventionLabel");
-            
-          
-        
-          
-          
-            
                request.setInterventionDescription("InterventionDescription");
             
           
@@ -68,6 +61,13 @@ public class TechnicalInterventionRequestServiceTest extends RequestTestCase {
           
           
             
+            
+          
+        
+          
+          
+            
+               request.setOtherInterventionLabel("OtherInterventionLabel");
             
           
         

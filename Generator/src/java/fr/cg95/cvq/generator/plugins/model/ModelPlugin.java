@@ -2,6 +2,8 @@ package fr.cg95.cvq.generator.plugins.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.NamedNodeMap;
@@ -61,13 +63,13 @@ public class ModelPlugin implements IPluginGenerator {
     private String currentContainerComplexElement;
     private String currentContainerComplexElementType;
 
-    private Map<String, ElementCommon> commonElements;
+    private SortedMap<String, ElementCommon> commonElements;
 
     public void initialize(Node configurationNode) {
         logger.debug("initialize()");
 
         modelRequestObject = new ModelRequestObject();
-        commonElements = new HashMap<String, ElementCommon>();
+        commonElements = new TreeMap<String, ElementCommon>();
 
         NodeList nodeList = configurationNode.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {

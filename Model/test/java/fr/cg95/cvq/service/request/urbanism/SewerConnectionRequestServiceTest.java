@@ -44,18 +44,18 @@ public class SewerConnectionRequestServiceTest extends RequestTestCase {
           
           
             
-              if ("OwnerLastName".length() > 38)
-                  request.setOwnerLastName("OwnerLastName".substring(0, 38));
-              else
-                  request.setOwnerLastName("OwnerLastName");
+               request.setLocality("Locality");
             
           
         
           
           
-            
-               request.setOwnerFirstNames("OwnerFirstNames");
-            
+               request.setMoreThanTwoYears(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setNumber(BigInteger.valueOf(1));
           
         
           
@@ -71,38 +71,38 @@ public class SewerConnectionRequestServiceTest extends RequestTestCase {
           
           
             
+               request.setOwnerFirstNames("OwnerFirstNames");
+            
+          
+        
+          
+          
+            
+              if ("OwnerLastName".length() > 38)
+                  request.setOwnerLastName("OwnerLastName".substring(0, 38));
+              else
+                  request.setOwnerLastName("OwnerLastName");
+            
+          
+        
+          
+          
+            
               request.setRequesterQuality(ScrRequesterQualityType.OWNER);
             
           
         
           
           
-               request.setMoreThanTwoYears(Boolean.valueOf(true));
+            
+               request.setSection("Section");
+            
           
         
           
           
             
                request.setTransportationRoute("TransportationRoute");
-            
-          
-        
-          
-          
-            
-               request.setLocality("Locality");
-            
-          
-        
-          
-          
-               request.setNumber(BigInteger.valueOf(1));
-          
-        
-          
-          
-            
-               request.setSection("Section");
             
           
         

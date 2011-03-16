@@ -53,47 +53,6 @@ public class HomeEmergencyRegistrationRequestData implements Serializable {
 
   
     
-      @MaxLength(
-        
-          value = 10,
-        
-        
-        profiles = {"subject"},
-        message = "telephone"
-      )
-    
-      @NotNull(
-        
-        
-        profiles = {"subject"},
-        message = "telephone"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"subject"},
-        message = "telephone"
-      )
-    
-    private String telephone;
-
-    public final void setTelephone(final String telephone) {
-        this.telephone = telephone;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="telephone"
-        *  length="10"
-      
-    */
-    public final String getTelephone() {
-        return this.telephone;
-    }
-  
-    
       @NotNull(
         
         
@@ -166,6 +125,47 @@ public class HomeEmergencyRegistrationRequestData implements Serializable {
     */
     public final String getDuree() {
         return this.duree;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+        profiles = {"subject"},
+        message = "telephone"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "telephone"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"subject"},
+        message = "telephone"
+      )
+    
+    private String telephone;
+
+    public final void setTelephone(final String telephone) {
+        this.telephone = telephone;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="telephone"
+        *  length="10"
+      
+    */
+    public final String getTelephone() {
+        return this.telephone;
     }
   
 }

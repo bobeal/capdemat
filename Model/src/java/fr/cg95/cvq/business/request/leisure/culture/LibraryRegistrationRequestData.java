@@ -36,11 +36,11 @@ public class LibraryRegistrationRequestData implements Serializable {
 
     public LibraryRegistrationRequestData() {
       
-        rulesAndRegulationsAcceptance = Boolean.valueOf(false);
+        adultContentAuthorization = Boolean.valueOf(false);
       
         parentalAuthorization = Boolean.valueOf(false);
       
-        adultContentAuthorization = Boolean.valueOf(false);
+        rulesAndRegulationsAcceptance = Boolean.valueOf(false);
       
     }
 
@@ -57,6 +57,74 @@ public class LibraryRegistrationRequestData implements Serializable {
         return this.id;
     }
 
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "adultContentAuthorization"
+      )
+    
+    private Boolean adultContentAuthorization;
+
+    public final void setAdultContentAuthorization(final Boolean adultContentAuthorization) {
+        this.adultContentAuthorization = adultContentAuthorization;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="adult_content_authorization"
+        
+      
+    */
+    public final Boolean getAdultContentAuthorization() {
+        return this.adultContentAuthorization;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "parentalAuthorization"
+      )
+    
+    private Boolean parentalAuthorization;
+
+    public final void setParentalAuthorization(final Boolean parentalAuthorization) {
+        this.parentalAuthorization = parentalAuthorization;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="parental_authorization"
+        
+      
+    */
+    public final Boolean getParentalAuthorization() {
+        return this.parentalAuthorization;
+    }
+  
+    
+    private String registrationNumber;
+
+    public final void setRegistrationNumber(final String registrationNumber) {
+        this.registrationNumber = registrationNumber;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="registration_number"
+        
+      
+    */
+    public final String getRegistrationNumber() {
+        return this.registrationNumber;
+    }
   
     
       @NotNull(
@@ -124,74 +192,6 @@ public class LibraryRegistrationRequestData implements Serializable {
     */
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getSubscription() {
         return this.subscription;
-    }
-  
-    
-    private String registrationNumber;
-
-    public final void setRegistrationNumber(final String registrationNumber) {
-        this.registrationNumber = registrationNumber;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="registration_number"
-        
-      
-    */
-    public final String getRegistrationNumber() {
-        return this.registrationNumber;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "parentalAuthorization"
-      )
-    
-    private Boolean parentalAuthorization;
-
-    public final void setParentalAuthorization(final Boolean parentalAuthorization) {
-        this.parentalAuthorization = parentalAuthorization;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="parental_authorization"
-        
-      
-    */
-    public final Boolean getParentalAuthorization() {
-        return this.parentalAuthorization;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "adultContentAuthorization"
-      )
-    
-    private Boolean adultContentAuthorization;
-
-    public final void setAdultContentAuthorization(final Boolean adultContentAuthorization) {
-        this.adultContentAuthorization = adultContentAuthorization;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="adult_content_authorization"
-        
-      
-    */
-    public final Boolean getAdultContentAuthorization() {
-        return this.adultContentAuthorization;
     }
   
     

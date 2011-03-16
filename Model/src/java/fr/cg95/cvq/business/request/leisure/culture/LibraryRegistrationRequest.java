@@ -1,19 +1,25 @@
 
 package fr.cg95.cvq.business.request.leisure.culture;
 
-import fr.cg95.cvq.business.request.LocalReferentialData;
-import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.request.RequestData;
-import fr.cg95.cvq.business.request.annotation.IsRulesAcceptance;
-import fr.cg95.cvq.service.request.condition.IConditionChecker;
-import fr.cg95.cvq.xml.common.LocalReferentialDataType;
-import fr.cg95.cvq.xml.request.leisure.culture.LibraryRegistrationRequestDocument;
-import net.sf.oval.constraint.AssertValid;
-import org.apache.xmlbeans.XmlOptions;
+import java.io.Serializable;
+import java.math.BigInteger;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import org.joda.time.LocalTime;
 
-import java.io.Serializable;
-import java.util.*;
+import net.sf.oval.constraint.AssertValid;
+import org.apache.xmlbeans.XmlOptions;
+import fr.cg95.cvq.business.authority.*;
+import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
+import fr.cg95.cvq.business.users.*;
+import fr.cg95.cvq.xml.common.*;
+import fr.cg95.cvq.xml.request.leisure.culture.*;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -74,6 +80,14 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         super.fillCommonXmlInfo(libraryRegistrationRequest);
         int i = 0;
         
+        if (getAdultContentAuthorization() != null)
+            libraryRegistrationRequest.setAdultContentAuthorization(getAdultContentAuthorization().booleanValue());
+      
+        if (getParentalAuthorization() != null)
+            libraryRegistrationRequest.setParentalAuthorization(getParentalAuthorization().booleanValue());
+      
+        libraryRegistrationRequest.setRegistrationNumber(getRegistrationNumber());
+      
         if (getRulesAndRegulationsAcceptance() != null)
             libraryRegistrationRequest.setRulesAndRegulationsAcceptance(getRulesAndRegulationsAcceptance().booleanValue());
       
@@ -85,14 +99,6 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
             }
             libraryRegistrationRequest.setSubscriptionArray(subscriptionTypeTab);
         }
-      
-        libraryRegistrationRequest.setRegistrationNumber(getRegistrationNumber());
-      
-        if (getParentalAuthorization() != null)
-            libraryRegistrationRequest.setParentalAuthorization(getParentalAuthorization().booleanValue());
-      
-        if (getAdultContentAuthorization() != null)
-            libraryRegistrationRequest.setAdultContentAuthorization(getAdultContentAuthorization().booleanValue());
       
         if (getSubscriptionPrice() != null)
             libraryRegistrationRequest.setSubscriptionPrice(getSubscriptionPrice());
@@ -113,6 +119,12 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         LibraryRegistrationRequest libraryRegistrationRequest = new LibraryRegistrationRequest();
         libraryRegistrationRequest.fillCommonModelInfo(libraryRegistrationRequest, libraryRegistrationRequestXml);
         
+        libraryRegistrationRequest.setAdultContentAuthorization(Boolean.valueOf(libraryRegistrationRequestXml.getAdultContentAuthorization()));
+      
+        libraryRegistrationRequest.setParentalAuthorization(Boolean.valueOf(libraryRegistrationRequestXml.getParentalAuthorization()));
+      
+        libraryRegistrationRequest.setRegistrationNumber(libraryRegistrationRequestXml.getRegistrationNumber());
+      
         libraryRegistrationRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(libraryRegistrationRequestXml.getRulesAndRegulationsAcceptance()));
       
         List<fr.cg95.cvq.business.request.LocalReferentialData> subscriptionList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(libraryRegistrationRequestXml.sizeOfSubscriptionArray());
@@ -121,18 +133,39 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         }
         libraryRegistrationRequest.setSubscription(subscriptionList);
       
-        libraryRegistrationRequest.setRegistrationNumber(libraryRegistrationRequestXml.getRegistrationNumber());
-      
-        libraryRegistrationRequest.setParentalAuthorization(Boolean.valueOf(libraryRegistrationRequestXml.getParentalAuthorization()));
-      
-        libraryRegistrationRequest.setAdultContentAuthorization(Boolean.valueOf(libraryRegistrationRequestXml.getAdultContentAuthorization()));
-      
         if (libraryRegistrationRequestXml.getSubscriptionPrice() != null)
             libraryRegistrationRequest.setSubscriptionPrice(libraryRegistrationRequestXml.getSubscriptionPrice());
       
         return libraryRegistrationRequest;
     }
 
+  
+    public final void setAdultContentAuthorization(final Boolean adultContentAuthorization) {
+        libraryRegistrationRequestData.setAdultContentAuthorization(adultContentAuthorization);
+    }
+
+    @IsRulesAcceptance
+    public final Boolean getAdultContentAuthorization() {
+        return libraryRegistrationRequestData.getAdultContentAuthorization();
+    }
+  
+    public final void setParentalAuthorization(final Boolean parentalAuthorization) {
+        libraryRegistrationRequestData.setParentalAuthorization(parentalAuthorization);
+    }
+
+    @IsRulesAcceptance
+    public final Boolean getParentalAuthorization() {
+        return libraryRegistrationRequestData.getParentalAuthorization();
+    }
+  
+    public final void setRegistrationNumber(final String registrationNumber) {
+        libraryRegistrationRequestData.setRegistrationNumber(registrationNumber);
+    }
+
+    
+    public final String getRegistrationNumber() {
+        return libraryRegistrationRequestData.getRegistrationNumber();
+    }
   
     public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
         libraryRegistrationRequestData.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
@@ -150,33 +183,6 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
     
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getSubscription() {
         return libraryRegistrationRequestData.getSubscription();
-    }
-  
-    public final void setRegistrationNumber(final String registrationNumber) {
-        libraryRegistrationRequestData.setRegistrationNumber(registrationNumber);
-    }
-
-    
-    public final String getRegistrationNumber() {
-        return libraryRegistrationRequestData.getRegistrationNumber();
-    }
-  
-    public final void setParentalAuthorization(final Boolean parentalAuthorization) {
-        libraryRegistrationRequestData.setParentalAuthorization(parentalAuthorization);
-    }
-
-    @IsRulesAcceptance
-    public final Boolean getParentalAuthorization() {
-        return libraryRegistrationRequestData.getParentalAuthorization();
-    }
-  
-    public final void setAdultContentAuthorization(final Boolean adultContentAuthorization) {
-        libraryRegistrationRequestData.setAdultContentAuthorization(adultContentAuthorization);
-    }
-
-    @IsRulesAcceptance
-    public final Boolean getAdultContentAuthorization() {
-        return libraryRegistrationRequestData.getAdultContentAuthorization();
     }
   
     public final void setSubscriptionPrice(final java.math.BigDecimal subscriptionPrice) {

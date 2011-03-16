@@ -51,16 +51,16 @@ public class SmsNotificationRequestServiceTest extends RequestTestCase {
           
           
             
-              if ("MobilePhone".length() > 10)
-                  request.setMobilePhone("MobilePhone".substring(0, 10));
-              else
-                  request.setMobilePhone("MobilePhone");
             
           
         
           
           
             
+              if ("MobilePhone".length() > 10)
+                  request.setMobilePhone("MobilePhone".substring(0, 10));
+              else
+                  request.setMobilePhone("MobilePhone");
             
           
         

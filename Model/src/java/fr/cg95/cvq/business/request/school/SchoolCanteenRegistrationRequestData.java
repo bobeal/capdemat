@@ -65,6 +65,119 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
         
         
         profiles = {"registration"},
+        message = "canteenAttendingDays"
+      )
+    
+      @MinSize(
+        
+          value = 1,
+        
+        
+        profiles = {"registration"},
+        message = "canteenAttendingDays"
+      )
+    
+    private List<fr.cg95.cvq.business.request.LocalReferentialData> canteenAttendingDays;
+
+    public final void setCanteenAttendingDays(final List<fr.cg95.cvq.business.request.LocalReferentialData> canteenAttendingDays) {
+        this.canteenAttendingDays = canteenAttendingDays;
+    }
+
+    /**
+ 
+        * @hibernate.list
+        *  inverse="false"
+        *  lazy="false"
+        *  cascade="all"
+        *  table="school_canteen_registration_request_canteen_attending_days"
+        * @hibernate.key
+        *  column="school_canteen_registration_request_id"
+        * @hibernate.list-index
+        *  column="canteen_attending_days_index"
+        * @hibernate.many-to-many
+        *  column="canteen_attending_days_id"
+        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+      
+    */
+    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getCanteenAttendingDays() {
+        return this.canteenAttendingDays;
+    }
+  
+    
+    private String doctorName;
+
+    public final void setDoctorName(final String doctorName) {
+        this.doctorName = doctorName;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="doctor_name"
+        
+      
+    */
+    public final String getDoctorName() {
+        return this.doctorName;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+        profiles = {"registration"},
+        message = "doctorPhone"
+      )
+    
+    private String doctorPhone;
+
+    public final void setDoctorPhone(final String doctorPhone) {
+        this.doctorPhone = doctorPhone;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="doctor_phone"
+        *  length="10"
+      
+    */
+    public final String getDoctorPhone() {
+        return this.doctorPhone;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"registration"},
+        message = "foodAllergy"
+      )
+    
+    private Boolean foodAllergy;
+
+    public final void setFoodAllergy(final Boolean foodAllergy) {
+        this.foodAllergy = foodAllergy;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="food_allergy"
+        
+      
+    */
+    public final Boolean getFoodAllergy() {
+        return this.foodAllergy;
+    }
+  
+    
+      @LocalReferential(
+        
+        
+        profiles = {"registration"},
         message = "foodDiet"
       )
     
@@ -107,113 +220,50 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
       @NotNull(
         
         
-        profiles = {"registration"},
-        message = "foodAllergy"
+        profiles = {"rules"},
+        message = "hospitalizationPermission"
       )
     
-    private Boolean foodAllergy;
+    private Boolean hospitalizationPermission;
 
-    public final void setFoodAllergy(final Boolean foodAllergy) {
-        this.foodAllergy = foodAllergy;
+    public final void setHospitalizationPermission(final Boolean hospitalizationPermission) {
+        this.hospitalizationPermission = hospitalizationPermission;
     }
 
     /**
  
         * @hibernate.property
-        *  column="food_allergy"
+        *  column="hospitalization_permission"
         
       
     */
-    public final Boolean getFoodAllergy() {
-        return this.foodAllergy;
+    public final Boolean getHospitalizationPermission() {
+        return this.hospitalizationPermission;
     }
   
     
-      @MaxLength(
-        
-          value = 10,
+      @NotNull(
         
         
-        profiles = {"registration"},
-        message = "doctorPhone"
+        profiles = {"rules"},
+        message = "rulesAndRegulationsAcceptance"
       )
     
-    private String doctorPhone;
+    private Boolean rulesAndRegulationsAcceptance;
 
-    public final void setDoctorPhone(final String doctorPhone) {
-        this.doctorPhone = doctorPhone;
+    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
+        this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
     }
 
     /**
  
         * @hibernate.property
-        *  column="doctor_phone"
-        *  length="10"
-      
-    */
-    public final String getDoctorPhone() {
-        return this.doctorPhone;
-    }
-  
-    
-    private String doctorName;
-
-    public final void setDoctorName(final String doctorName) {
-        this.doctorName = doctorName;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="doctor_name"
+        *  column="rules_and_regulations_acceptance"
         
       
     */
-    public final String getDoctorName() {
-        return this.doctorName;
-    }
-  
-    
-      @LocalReferential(
-        
-        
-        profiles = {"registration"},
-        message = "canteenAttendingDays"
-      )
-    
-      @MinSize(
-        
-          value = 1,
-        
-        
-        profiles = {"registration"},
-        message = "canteenAttendingDays"
-      )
-    
-    private List<fr.cg95.cvq.business.request.LocalReferentialData> canteenAttendingDays;
-
-    public final void setCanteenAttendingDays(final List<fr.cg95.cvq.business.request.LocalReferentialData> canteenAttendingDays) {
-        this.canteenAttendingDays = canteenAttendingDays;
-    }
-
-    /**
- 
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="school_canteen_registration_request_canteen_attending_days"
-        * @hibernate.key
-        *  column="school_canteen_registration_request_id"
-        * @hibernate.list-index
-        *  column="canteen_attending_days_index"
-        * @hibernate.many-to-many
-        *  column="canteen_attending_days_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
-      
-    */
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getCanteenAttendingDays() {
-        return this.canteenAttendingDays;
+    public final Boolean getRulesAndRegulationsAcceptance() {
+        return this.rulesAndRegulationsAcceptance;
     }
   
     
@@ -246,25 +296,66 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
       @NotNull(
         
         
-        profiles = {"rules"},
-        message = "hospitalizationPermission"
+        profiles = {"administration"},
+        message = "section"
       )
     
-    private Boolean hospitalizationPermission;
+    private fr.cg95.cvq.business.users.SectionType section;
 
-    public final void setHospitalizationPermission(final Boolean hospitalizationPermission) {
-        this.hospitalizationPermission = hospitalizationPermission;
+    public final void setSection(final fr.cg95.cvq.business.users.SectionType section) {
+        this.section = section;
     }
 
     /**
  
         * @hibernate.property
-        *  column="hospitalization_permission"
-        
+        *  column="section"
+        *  length="32"
       
     */
-    public final Boolean getHospitalizationPermission() {
-        return this.hospitalizationPermission;
+    public final fr.cg95.cvq.business.users.SectionType getSection() {
+        return this.section;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+        profiles = {"registration"},
+        message = "urgencyPhone"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"registration"},
+        message = "urgencyPhone"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"registration"},
+        message = "urgencyPhone"
+      )
+    
+    private String urgencyPhone;
+
+    public final void setUrgencyPhone(final String urgencyPhone) {
+        this.urgencyPhone = urgencyPhone;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="urgency_phone"
+        *  length="10"
+      
+    */
+    public final String getUrgencyPhone() {
+        return this.urgencyPhone;
     }
   
     
@@ -315,97 +406,6 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
     */
     public final String getWhichFoodAllergy() {
         return this.whichFoodAllergy;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "rulesAndRegulationsAcceptance"
-      )
-    
-    private Boolean rulesAndRegulationsAcceptance;
-
-    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
-        this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="rules_and_regulations_acceptance"
-        
-      
-    */
-    public final Boolean getRulesAndRegulationsAcceptance() {
-        return this.rulesAndRegulationsAcceptance;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 10,
-        
-        
-        profiles = {"registration"},
-        message = "urgencyPhone"
-      )
-    
-      @NotNull(
-        
-        
-        profiles = {"registration"},
-        message = "urgencyPhone"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"registration"},
-        message = "urgencyPhone"
-      )
-    
-    private String urgencyPhone;
-
-    public final void setUrgencyPhone(final String urgencyPhone) {
-        this.urgencyPhone = urgencyPhone;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="urgency_phone"
-        *  length="10"
-      
-    */
-    public final String getUrgencyPhone() {
-        return this.urgencyPhone;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"administration"},
-        message = "section"
-      )
-    
-    private fr.cg95.cvq.business.users.SectionType section;
-
-    public final void setSection(final fr.cg95.cvq.business.users.SectionType section) {
-        this.section = section;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="section"
-        *  length="32"
-      
-    */
-    public final fr.cg95.cvq.business.users.SectionType getSection() {
-        return this.section;
     }
   
 }

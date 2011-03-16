@@ -2,3 +2,4 @@ Libraries/fr.cg95/
 Libraries/conf/deployments/local.properties
 *~
 .DS_Store
+/BackOfficeNG/.settings/

@@ -80,6 +80,9 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
         super.fillCommonXmlInfo(compostableWasteCollectionRequest);
         int i = 0;
         
+        if (getCollectionAddress() != null)
+            compostableWasteCollectionRequest.setCollectionAddress(Address.modelToXml(getCollectionAddress()));
+      
         i = 0;
         if (getCompostableWasteType() != null) {
             fr.cg95.cvq.xml.common.LocalReferentialDataType[] compostableWasteTypeTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[getCompostableWasteType().size()];
@@ -88,9 +91,6 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
             }
             compostableWasteCollectionRequest.setCompostableWasteTypeArray(compostableWasteTypeTypeTab);
         }
-      
-        if (getCollectionAddress() != null)
-            compostableWasteCollectionRequest.setCollectionAddress(Address.modelToXml(getCollectionAddress()));
       
         compostableWasteCollectionRequest.setOtherWaste(getOtherWaste());
       
@@ -110,29 +110,20 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
         CompostableWasteCollectionRequest compostableWasteCollectionRequest = new CompostableWasteCollectionRequest();
         compostableWasteCollectionRequest.fillCommonModelInfo(compostableWasteCollectionRequest, compostableWasteCollectionRequestXml);
         
+        if (compostableWasteCollectionRequestXml.getCollectionAddress() != null)
+            compostableWasteCollectionRequest.setCollectionAddress(Address.xmlToModel(compostableWasteCollectionRequestXml.getCollectionAddress()));
+      
         List<fr.cg95.cvq.business.request.LocalReferentialData> compostableWasteTypeList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(compostableWasteCollectionRequestXml.sizeOfCompostableWasteTypeArray());
         for (LocalReferentialDataType object : compostableWasteCollectionRequestXml.getCompostableWasteTypeArray()) {
             compostableWasteTypeList.add(fr.cg95.cvq.business.request.LocalReferentialData.xmlToModel(object));
         }
         compostableWasteCollectionRequest.setCompostableWasteType(compostableWasteTypeList);
       
-        if (compostableWasteCollectionRequestXml.getCollectionAddress() != null)
-            compostableWasteCollectionRequest.setCollectionAddress(Address.xmlToModel(compostableWasteCollectionRequestXml.getCollectionAddress()));
-      
         compostableWasteCollectionRequest.setOtherWaste(compostableWasteCollectionRequestXml.getOtherWaste());
       
         return compostableWasteCollectionRequest;
     }
 
-  
-    public final void setCompostableWasteType(final List<fr.cg95.cvq.business.request.LocalReferentialData> compostableWasteType) {
-        compostableWasteCollectionRequestData.setCompostableWasteType(compostableWasteType);
-    }
-
-    
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getCompostableWasteType() {
-        return compostableWasteCollectionRequestData.getCompostableWasteType();
-    }
   
     public final void setCollectionAddress(final fr.cg95.cvq.business.users.Address collectionAddress) {
         compostableWasteCollectionRequestData.setCollectionAddress(collectionAddress);
@@ -141,6 +132,15 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
     
     public final fr.cg95.cvq.business.users.Address getCollectionAddress() {
         return compostableWasteCollectionRequestData.getCollectionAddress();
+    }
+  
+    public final void setCompostableWasteType(final List<fr.cg95.cvq.business.request.LocalReferentialData> compostableWasteType) {
+        compostableWasteCollectionRequestData.setCompostableWasteType(compostableWasteType);
+    }
+
+    
+    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getCompostableWasteType() {
+        return compostableWasteCollectionRequestData.getCompostableWasteType();
     }
   
     public final void setOtherWaste(final String otherWaste) {

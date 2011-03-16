@@ -61,7 +61,7 @@
               <input type="hidden" name="hasLogo" value="${hasLogo}" />
               <label for="logo">${message(code:'displayGroup.message.newLogo')} :</label>
               <input type="file" name="logo" id="logo" />
-              <input name="save" type="submit" value="${message(code:'action.save')}" />
+              <input name="save" id="saveLogo" type="submit" value="${message(code:'action.save')}" />
             </form>
           </div>
           <div id="displayGroupRequestTypesBox" class="mainbox mainbox-yellow">

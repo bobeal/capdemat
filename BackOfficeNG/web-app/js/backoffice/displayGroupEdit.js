@@ -47,7 +47,7 @@
         zcb.DisplayGroupEdit.clickEvent = new zct.Event(zcb.DisplayGroupEdit, zcb.DisplayGroupEdit.getHandler);
         yue.on('displayGroupRequestTypesBox','click', zcb.DisplayGroupEdit.clickEvent.dispatch, zcb.DisplayGroupEdit.clickEvent, true);
         yue.on('displayGroupForm','submit', zcb.DisplayGroupEdit.saveDisplayGroup);
-        yue.on('logoForm','submit', zcb.DisplayGroupEdit.saveLogo);
+        yue.on('saveLogo','click', zcb.DisplayGroupEdit.saveLogo);
         yue.on('orderRequestTypeBy','change', zcb.DisplayGroupEdit.sortRequestTypes);
         yue.on("changeDisplayGroup", "change", zcb.DisplayGroupEdit.changeDisplayGroup);
       },

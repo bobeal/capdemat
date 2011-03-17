@@ -300,7 +300,7 @@ public class RequestData implements Serializable {
      * @hibernate.set
      *  lazy="true"
      *  cascade="all"
-     *  order-by="id asc"
+     *  order-by="date desc"
      * @hibernate.key
      *  column="request_id"
      * @hibernate.one-to-many

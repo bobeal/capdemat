@@ -496,7 +496,6 @@ class BackofficeRequestInstructionController {
             ]
             requestActionList.add(requestAction)
         }
-        Collections.reverse(requestActionList)
         render(template : "requestHistory", model : [
             "requestId" : params.id,
             "requestActionList" : requestActionList

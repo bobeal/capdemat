@@ -446,7 +446,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
 
     public List<Request> listByHomeFolder(final Long homeFolderId, final boolean full) {
         Query query = HibernateUtil.getSession()
-            .createQuery("from RequestData as request where request.homeFolderId = :homeFolderId and request.state != :draft");
+            .createQuery("from RequestData as request where request.homeFolderId = :homeFolderId and request.state != :draft order by creationDate desc");
         query.setLong("homeFolderId", homeFolderId);
         query.setString("draft", RequestState.DRAFT.toString());
         return transform(query.list(), full);

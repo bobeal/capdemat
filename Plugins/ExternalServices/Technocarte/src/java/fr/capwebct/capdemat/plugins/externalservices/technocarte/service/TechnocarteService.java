@@ -1,5 +1,7 @@
 package fr.capwebct.capdemat.plugins.externalservices.technocarte.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -541,6 +543,11 @@ public class TechnocarteService implements IExternalProviderService, IScholarBus
         parameters.addElement(new Parameter("idenfantexterne", String.class, externalChildId, null));
         parameters.addElement(new Parameter("typeactivite", String.class, labelActivity, null));
         parameters.addElement(new Parameter("codeappli", String.class, "Capdemat", null));
+        if (child.getBirthDate() != null) {
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            logger.debug("getActivities() sending : " + df.format(child.getBirthDate()));
+            parameters.addElement(new Parameter("datenai", String.class, df.format(child.getBirthDate()), null));
+        }
         try {
             Call call = new Call();
             String encodingStyleURI = org.apache.soap.Constants.NS_URI_SOAP_ENC;

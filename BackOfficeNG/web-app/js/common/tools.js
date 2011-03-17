@@ -910,10 +910,15 @@
       effect:{effect:YAHOO.widget.ContainerEffect.FADE, duration:0.25},
       modal:true, visible:false, draggable:false, fixedcenter:true,
       icon:YAHOO.widget.SimpleDialog.ICON_WARN ,
-      buttons:[{ text:'  Ok  ',isDefault:true, handler:function(e){
-        zct.tryToCall(confirmHandler,this,e,this.showEv);
-        this.hide();
-      }}]
+      buttons:[
+        { text:'  Oui  ',
+          handler: function(e){ zct.tryToCall(confirmHandler,this,e,this.showEv); this.hide(); }
+        },
+        { text:'  Non  ',
+          handler: function(e){ this.hide(); },
+          isDefault: true
+        }
+      ]
     });
     this.setHeader(content.head || 'Warning');
     this.setBody(content.body || 'Confirm ?');

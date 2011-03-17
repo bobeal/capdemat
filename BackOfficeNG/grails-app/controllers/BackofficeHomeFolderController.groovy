@@ -193,6 +193,12 @@ class BackofficeHomeFolderController {
         render(template: mode + '/' + template, model: models)
     }
 
+    def removeIndividual = {
+        def user = individualService.getById(params.long("id"))
+        userWorkflowService.changeState(user, UserState.ARCHIVED)
+        render (['status':'success', 'message':message(code:'homeFolder.message.individualRemoveSuccess')] as JSON)
+    }
+
     def state = {
         def user
         try {

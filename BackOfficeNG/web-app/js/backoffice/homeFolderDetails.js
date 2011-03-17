@@ -52,6 +52,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
         }
         zcbh.Details.inlineEditEvent = new zct.Event(zcbh.Details, zcbh.Details.getHandler);
         yue.on(yud.get("homeFolder"), "click", zcbh.Details.inlineEditEvent.dispatch,zcbh.Details.inlineEditEvent,true);
+
+        zcbh.Details.confirmRemoveDialog = new zct.ConfirmationDialog(
+          { head : 'Attention',
+            body : 'Voulez-vous supprimer cet individu ?' },
+          zcbh.Details.removeIndividual);
       },
 
       inlineEditEvent : undefined,
@@ -197,6 +202,17 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
       cancelAdd : function(e) {
         var div = yud.getAncestorByTagName(yue.getTarget(e), 'div');
         yud.getAncestorByTagName(div, 'div').removeChild(div);
+      },
+
+      confirmRemoveIndividual : function(e) { zcbh.Details.confirmRemoveDialog.show(e); },
+      removeIndividual : function(e, se) {
+        var target = (yue.getTarget(se)||se);
+        var individual = yud.getAncestorByTagName(target, 'div');
+        zct.doAjaxCall('/removeIndividual?id=' + individual.id.split('_')[1], null, function(o) {
+          var json = ylj.parse(o.responseText);
+          if (json.status === 'success')
+            individual.parentNode.removeChild(individual);
+        });
       }
     };
   }();

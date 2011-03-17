@@ -1,30 +1,25 @@
-import fr.cg95.cvq.service.request.school.ILeisureCenterRegistrationRequestService;
-
-import org.apache.soap.*;
-import org.apache.soap.rpc.*;
+import fr.cg95.cvq.service.request.school.ILeisureCenterRegistrationRequestService
+import grails.converters.JSON
 
 class FrontofficeLeisureCenterRegistrationController {
 
     ILeisureCenterRegistrationRequestService leisureCenterRegistrationRequestService
 
     def leisureCenters = {
-        return [
-            'leisureCenters': leisureCenterRegistrationRequestService
-                .getLeisureCenters(Long.valueOf(params.childId))
-        ]
+        render(
+            leisureCenterRegistrationRequestService.getLeisureCenters(Long.valueOf(params.childId))
+        as JSON)
     }
 
     def lines = {
-        return [
-            'lines': leisureCenterRegistrationRequestService
-                .getTransportLines(Long.valueOf(params.childId))
-        ]
+        render(
+            leisureCenterRegistrationRequestService.getTransportLines(Long.valueOf(params.childId))
+        as JSON)
     }
 
     def stops = {
-        return [
-            'stops': leisureCenterRegistrationRequestService
-                .getTransportStops(Long.valueOf(params.childId),params.lineId)
-        ]
+        render(
+            leisureCenterRegistrationRequestService.getTransportStops(Long.valueOf(params.childId),params.lineId)
+        as JSON)
     }
 }

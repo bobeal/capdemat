@@ -1,18 +1,19 @@
 import fr.cg95.cvq.service.request.school.ISchoolTransportRegistrationRequestService
+import grails.converters.JSON
 
 class FrontofficeSchoolTransportRegistrationController {
 
     ISchoolTransportRegistrationRequestService schoolTransportRegistrationRequestService
 
     def transportLines = {
-        return [
-            'lines': schoolTransportRegistrationRequestService.transportLines(params.long('childId'))
-        ]
+        render(
+            schoolTransportRegistrationRequestService.transportLines(params.long('childId'))
+        as JSON)
     }
 
     def stops = {
-        return [
-            'stops': schoolTransportRegistrationRequestService.stops(params.long('childId'), params.lineId)
-        ]
+        render(
+            schoolTransportRegistrationRequestService.stops(params.long('childId'), params.lineId)
+        as JSON)
     }
 }

@@ -7,6 +7,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
   var yue = YAHOO.util.Event;
   var yud = YAHOO.util.Dom;
   var yus = YAHOO.util.Selector;
+  var ylj = YAHOO.lang.JSON;
 
   zcfr.HolidayCampRegistrationRequest = function() {
 
@@ -16,7 +17,14 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
       newNode.className = el.className;
       newNode.name = el.name;
       newNode.id = el.id;
-      newNode.innerHTML = '<option value="">Choisissez ...</option>';
+      newNode.options[0] = new Option('Choisissez...','');
+      newNode.initOptions = function(jsonAsText) {
+        var json = ylj.parse(jsonAsText);
+        var index = 1;
+        for (var key in json) {
+            newNode.options[index++] = new Option(json[key],key);
+        }
+      };
       newNode.previousValue = yud.get('subjectId').value !== '' ? el.value : undefined;
       newNode.select = function(value) {
         var i = 0;
@@ -79,7 +87,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
         var childId = yud.get('subjectId').value;
         if (childId !== '') {
           zct.doAjaxCall(zenexity.capdemat.contextPath + '/frontoffice/holidayCampRegistration/holidayCamps/?childId=' + childId, null, function(o){
-            camps.innerHTML = o.responseText;
+            camps.initOptions(o.responseText);
             camps.select(camps.previousValue);
           }, true);
         } else {

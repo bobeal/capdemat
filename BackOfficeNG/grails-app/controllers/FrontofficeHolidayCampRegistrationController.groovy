@@ -1,13 +1,13 @@
-import fr.cg95.cvq.service.request.school.IHolidayCampRegistrationRequestService;
+import fr.cg95.cvq.service.request.school.IHolidayCampRegistrationRequestService
+import grails.converters.JSON
 
 class FrontofficeHolidayCampRegistrationController {
-    
-        IHolidayCampRegistrationRequestService holidayCampRegistrationRequestService
-    
-        def holidayCamps = {
-            return [
-                'holidayCamps': holidayCampRegistrationRequestService
-                    .getHolidayCamps(Long.valueOf(params.childId))
-            ]
-        }
+
+    IHolidayCampRegistrationRequestService holidayCampRegistrationRequestService
+
+    def holidayCamps = {
+        render(
+            holidayCampRegistrationRequestService.getHolidayCamps(Long.valueOf(params.childId))
+        as JSON)
     }
+}

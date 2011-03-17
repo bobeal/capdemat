@@ -7,6 +7,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
   var yue = YAHOO.util.Event;
   var yud = YAHOO.util.Dom;
   var yus = YAHOO.util.Selector;
+  var ylj = YAHOO.lang.JSON;
 
   zcfr.LeisureCenterRegistrationRequest = function() {
 
@@ -16,7 +17,14 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
       newNode.className = el.className;
       newNode.name = el.name;
       newNode.id = el.id;
-      newNode.innerHTML = '<option value="">Choisissez ...</option>';
+      newNode.options[0] = new Option('Choisissez...','');
+      newNode.initOptions = function(jsonAsText) {
+        var json = ylj.parse(jsonAsText);
+        var index = 1;
+        for (var key in json) {
+            newNode.options[index++] = new Option(json[key],key);
+        }
+      };
       newNode.previousValue = yud.get('subjectId').value !== '' ? el.value : undefined;
       newNode.select = function(value) {
         var i = 0;
@@ -82,7 +90,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
         var childId = yud.get('subjectId').value;
         if (childId !== '') {
           zct.doAjaxCall(zenexity.capdemat.contextPath + '/frontoffice/leisureCenterRegistration/leisureCenters/?childId=' + childId, null, function(o){
-            centers.innerHTML = o.responseText;
+            centers.initOptions(o.responseText);
             centers.select(centers.previousValue);
           }, true);
         } else {
@@ -96,7 +104,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
         var childId = yud.get('subjectId').value;
         if (childId !== '') {
           zct.doAjaxCall(zenexity.capdemat.contextPath + '/frontoffice/leisureCenterRegistration/lines/?childId=' + childId, null, function(o){
-            lines.innerHTML = o.responseText;
+            lines.initOptions(o.responseText);
             lines.select(lines.previousValue);
           }, true);
         } else {
@@ -112,7 +120,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
         if (lineId !== '') {
           zct.doAjaxCall(zenexity.capdemat.contextPath + '/frontoffice/leisureCenterRegistration/stops/?childId=' + childId
                   + '&lineId=' + lineId, null, function(o){
-            stops.innerHTML = o.responseText;
+            stops.initOptions(o.responseText);
             stops.select(stops.previousValue);
           }, true);
         } else {

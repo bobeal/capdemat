@@ -7,20 +7,27 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
   var yud = YAHOO.util.Dom;
   var yue = YAHOO.util.Event;
   var yus = YAHOO.util.Selector;
+  var ylj = YAHOO.lang.JSON;
 
   zcfr.SchoolTransportRegistrationRequest = function() {
 
     var fill = function(callUrl, callback, callbackParams) {
       var selector = this;
       zct.doAjaxCall(callUrl, null, function(o) {
-        selector.innerHTML = o.responseText;
+        var json = ylj.parse(o.responseText);
+        var index = 1;
+        for (var key in json) {
+            selector.options[index++] = new Option(json[key],key);
+        }
         if (zct.isFunction(callback))
           callback.apply(selector, callbackParams);
       }, true);
     };
 
     var empty = function() {
-      this.innerHTML = '<option value="">Choisissez ...</option>';
+      while (this.options.length > 1) {
+        this.options[1].parentNode.removeChild(this.options[1]);
+      }
       yud.get(this.id.replace('id', 'label')).value = '';
     };
 
@@ -52,7 +59,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
       selector.id = id;
       selector.className = 'required validate-not-first';
       selector.name = id;
-      selector.innerHTML = '<option value="">Choisissez ...</option>';
+      selector.options[0] = new Option('Choisissez...','');
       // Add methods
       selector.fill = fill;
       selector.empty = empty;
@@ -65,15 +72,15 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
     };
 
     var changeLayout = function() {
-      yus.query('fieldset').forEach(function(fieldset) {
-        yud.setStyle(fieldset, 'padding', '0');
-        yud.setStyle(fieldset, 'margin', '0');
+      zct.each(yus.query('fieldset'),function() {
+        yud.setStyle(this, 'padding', '0');
+        yud.setStyle(this, 'margin', '0');
       });
-      yus.query('legend, label[for^="label"]').forEach(function(legend) {
-        yud.addClass(legend, 'unactive');
+      zct.each(yus.query('legend, label[for^="label"]'), function() {
+        yud.addClass(this, 'unactive');
       });
-      yus.query('label[for^="id"]').forEach(function(label) {
-        label.innerHTML = yud.getPreviousSibling(label).innerHTML + ' *';
+      zct.each(yus.query('label[for^="id"]'), function() {
+        this.innerHTML = yud.getPreviousSibling(this).innerHTML + ' *';
       });
     };
 

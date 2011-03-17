@@ -1,12 +1,13 @@
 zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
 
 (function() {
-  var zcf = zenexity.capdemat.fong
+  var zcf = zenexity.capdemat.fong;
   var zcfr = zcf.requesttype;
   var zct = zenexity.capdemat.tools;
   var yue = YAHOO.util.Event;
   var yud = YAHOO.util.Dom;
   var yus = YAHOO.util.Selector;
+  var ylj = YAHOO.lang.JSON;
 
   zcfr.GlobalSchoolRegistrationRequest = function() {
 
@@ -16,7 +17,14 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
       newNode.className = el.className;
       newNode.name = el.name;
       newNode.id = el.id;
-      newNode.innerHTML = '<option value="">Choisissez ...</option>';
+      newNode.options[0] = new Option('Choisissez...','');
+      newNode.initOptions = function(jsonAsText) {
+        var json = ylj.parse(jsonAsText);
+        var index = 1;
+        for (var key in json) {
+            newNode.options[index++] = new Option(json[key],key);
+        }
+      };
       newNode.previousValue = yud.get('subjectId').value !== '' ? el.value : undefined;
       newNode.select = function(value) {
         var i = 0;
@@ -100,11 +108,11 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
         var childId = yud.get('subjectId').value;
         if (childId !== '') {
           zct.doAjaxCall(zenexity.capdemat.contextPath + '/frontoffice/globalSchoolRegistration/schoolSectors/?childId=' + childId, null, function(o){
-            schoolSector.innerHTML = o.responseText;
+            schoolSector.initOptions(o.responseText);
             schoolSector.select(schoolSector.previousValue);
           }, true);
           zct.doAjaxCall(zenexity.capdemat.contextPath + '/frontoffice/globalSchoolRegistration/schoolDerogs/?childId=' + childId, null, function(o){
-            schoolDerog.innerHTML = o.responseText;
+            schoolDerog.initOptions(o.responseText);
             schoolDerog.select(schoolDerog.previousValue);
           }, true);
         } else {

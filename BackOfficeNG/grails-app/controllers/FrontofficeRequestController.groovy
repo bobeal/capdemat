@@ -98,7 +98,7 @@ class FrontofficeRequestController {
         return ([
             'state': state,
             'pageState' : (new JSON(state)).toString(),
-            'individuals': currentEcitizen.homeFolder.individuals.sort { it.firstName },
+            'individuals': currentEcitizen.homeFolder.individuals.sort { it.fullName },
             'allRequestTypes' : requestAdaptorService.translateAndSortRequestTypes(),
             'requests': requests,
             'requestStates' : RequestState.allRequestStates.collect{ it.toString().toLowerCase()}

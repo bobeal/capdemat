@@ -18,6 +18,7 @@ import fr.cg95.cvq.dao.users.IIndividualDAO;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.GenericAccessManager;
 import fr.cg95.cvq.security.PermissionException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
@@ -36,7 +37,11 @@ public class UsersContextAspect implements Ordered {
         if (!ArrayUtils.contains(context.types(), ContextType.ECITIZEN)
             && !ArrayUtils.contains(context.types(), ContextType.AGENT))
             return;
-        
+
+        if (SecurityContext.isFrontOfficeContext() && SecurityContext.getCurrentEcitizen() == null
+            && ArrayUtils.contains(context.types(), ContextType.UNAUTH_ECITIZEN))
+            return;
+
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         
         Method method = signature.getMethod();

@@ -88,9 +88,9 @@
     <property name="ecitizenValidationNotifications">
       <map>
         <entry>
-          <key><value>Place Reservation</value></key>
+          <key><value>All</value></key>
           <map>
-            <entry key="mailData" value="PlaceReservationMailConfirmation"/>
+            <entry key="mailData" value="RequestValidationNotification"/>
             <entry key="attachPdf" value="true"/>
           </map>
         </entry>

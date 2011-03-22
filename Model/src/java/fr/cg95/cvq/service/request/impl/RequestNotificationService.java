@@ -85,7 +85,7 @@ public class RequestNotificationService implements ApplicationListener<CapDematE
     private void notifyRequestValidation(Long requestId, final byte[] pdfData)
         throws CvqException {
 
-		LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
+        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
 
         Request request = (Request) requestDAO.findById(Request.class, requestId);
         String requestTypeLabel = request.getRequestType().getLabel();

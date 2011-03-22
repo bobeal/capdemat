@@ -69,7 +69,8 @@ public final class LocalAuthorityConfigurationBean {
     public boolean hasEcitizenValidationNotification(final String requestTypeLabel) {
         if (ecitizenValidationNotifications == null)
             return false;
-        
+        if (ecitizenValidationNotifications.get("All")!= null)
+            return true;
         if (ecitizenValidationNotifications.get(requestTypeLabel) != null)
             return true;
         
@@ -84,8 +85,11 @@ public final class LocalAuthorityConfigurationBean {
             final String dataKey) {
         if (ecitizenValidationNotifications == null)
             return null;
-        Map<String, String> data =
-            ecitizenValidationNotifications.get(requestTypeLabel);
+        Map<String, String> data;
+        if (ecitizenValidationNotifications.get("All")!= null)
+            data = ecitizenValidationNotifications.get("All");
+        else
+            data = ecitizenValidationNotifications.get(requestTypeLabel);
         if (data == null)
             return null;
         return data.get(dataKey);

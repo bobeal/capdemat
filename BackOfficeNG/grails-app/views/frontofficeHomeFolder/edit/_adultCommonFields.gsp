@@ -32,7 +32,7 @@
     <input type="text" id="firstName" name="firstName" value="${adult?.firstName}"
         class="required validate-firstName ${invalidFields?.contains('firstName') ? 'validation-failed' : ''}"
         title="${message(code:'homeFolder.individual.property.firstName.validationError')}" />
-
+  </fieldset>
 
   <fieldset>
   <legend>${message(code:'homeFolder.individual.header.contact')}</legend>

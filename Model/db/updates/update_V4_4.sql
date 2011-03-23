@@ -11,6 +11,8 @@ alter table individual add constraint FKFD3DA299B7531222 foreign key (address_id
 
 alter table child rename child_born to born;
 
+alter table school rename column adress to address;
+
 alter table document_action rename agent_id to user_id;
 alter table document_action rename label to type;
 alter table document_action alter column type set not null;

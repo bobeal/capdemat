@@ -53,7 +53,7 @@
                 <dt class="required"><g:message code="snr.property.interests.label" /> * : </dt><dd id="interests" class="action-editField validate-localReferentialData required-true i18n-snr.property.interests data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'interests', 'lrEntries': lrTypes.interests?.entries, 
-                             'rqt':rqt, 'isMultiple':lrTypes.interests?.entriesSupportMultiple, 'depth':0]" />
+                             'rqt':rqt, 'isMultiple':lrTypes.interests?.isMultiple(), 'depth':0]" />
  
           </dd>
               </dl>

@@ -1,46 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
   <request>SchoolCanteenRegistrationRequest</request>
-  <data name="FoodDiet">
-    <label lang="fr">Régime alimentaire</label>
-    <label lang="en">Food Diet</label>
-    <entries supportMultiple="true" supportPriority="false"
-      supportPrecision="false">
+  <data name="FoodDiet" allowMultipleChoices="false">
+    <label>Régime alimentaire</label>
+    <entries>
       <entry key="NoPork">
-	<label lang="fr">Sans porc</label>
+	<label>Sans porc</label>
       </entry>
       <entry key="NoSoy">
-	<label lang="fr">Sans soja</label>
+	<label>Sans soja</label>
       </entry>
       <entry key="NoMilk">
-	<label lang="fr">Sans laitages</label>
+	<label>Sans laitages</label>
       </entry>
       <entry key="NoSalt">
-	<label lang="fr">Sans sel</label>
+	<label>Sans sel</label>
       </entry>
       <entry key="NoSugar">
-	<label lang="fr">Sans sucre</label>
+	<label>Sans sucre</label>
       </entry>
     </entries>
   </data>
   <data name="CanteenAttendingDays">
-    <label lang="fr">Jours de présence</label>
-    <entries supportMultiple="true" supportPriority="false"
-      supportPrecision="false">
+    <label>Jours de présence</label>
+    <entries>
       <entry key="Monday">
-	<label lang="fr">Lundi</label>
+	<label>Lundi</label>
       </entry>
       <entry key="Tuesday">
-	<label lang="fr">Mardi</label>
+	<label>Mardi</label>
       </entry>
       <entry key="Wednesday">
-	<label lang="fr">Mercredi</label>
+	<label>Mercredi</label>
       </entry>
       <entry key="Thursday">
-	<label lang="fr">Jeudi</label>
+	<label>Jeudi</label>
       </entry>
       <entry key="Friday">
-	<label lang="fr">Vendredi</label>
+	<label>Vendredi</label>
       </entry>
     </entries>
   </data>

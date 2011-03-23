@@ -16,40 +16,23 @@
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="request" type="xs:normalizedString">
-          <xs:annotation>
-            <xs:documentation xml:lang="fr">
-              Label du t&#x00E9;l&#x00E9;-service d&#x00E9;finissant ce(s) type(s) de
-              r&#x00E9;f&#x00E9;rentiel local
-            </xs:documentation>
-            <xs:documentation xml:lang="en">
-              Label of the request type defining this local referential data
-            </xs:documentation>
-          </xs:annotation>
-        </xs:element>
         <xs:element name="data" minOccurs="0" maxOccurs="unbounded">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="label" maxOccurs="unbounded">
+              <xs:element name="label" maxOccurs="1" type="xs:normalizedString">
                 <xs:annotation>
                   <xs:documentation xml:lang="fr">
-                    Localisation du nom de la donn&#x00E9;e de r&#x00E9;f&#x00E9;rentiel local
+                    Nom (lisible par un humain) de la donn&#x00E9;e de r&#x00E9;f&#x00E9;rentiel local
                   </xs:documentation>
                   <xs:documentation xml:lang="en">
-                    Local referential data localization
+                    Human readable local referential data name
                   </xs:documentation>
                 </xs:annotation>
-                <xs:complexType>
-                  <xs:simpleContent>
-                    <xs:extension base="xs:normalizedString">
-                      <xs:attribute name="lang" type="xs:language" />
-                    </xs:extension>
-                  </xs:simpleContent>
-                </xs:complexType>
               </xs:element>
               <xs:element name="entries" minOccurs="0" type="ref:LocalReferentialEntryType" />
             </xs:sequence>
             <xs:attribute name="name" type="xs:NMTOKEN" />
+            <xs:attribute name="allowMultipleChoices" type="xs:boolean" />
           </xs:complexType>
           <xs:unique name="localEntryKey">
             <xs:selector xpath="./ref:entries/ref:entry" />
@@ -58,10 +41,6 @@
         </xs:element>
       </xs:sequence>
     </xs:complexType>
-    <xs:unique name="localDataName">
-      <xs:selector xpath="./ref:data" />
-      <xs:field xpath="@name" />
-    </xs:unique>
   </xs:element>
 
   <xs:complexType name="LocalReferentialEntryType">
@@ -69,24 +48,17 @@
       <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="label" maxOccurs="unbounded">
+            <xs:element name="label" maxOccurs="1" type="xs:normalizedString">
               <xs:annotation>
                 <xs:documentation xml:lang="fr">
-                  Label &#x00E0; afficher devant l'entr&#x00E9;e
+                  Label &#x00E0; affich&#x00E9; devant l'entr&#x00E9;e
                 </xs:documentation>
                 <xs:documentation xml:lang="en">
                   Label to be displayed in front of the entry
                 </xs:documentation>
               </xs:annotation>
-              <xs:complexType>
-                <xs:simpleContent>
-                  <xs:extension base="xs:normalizedString">
-                    <xs:attribute name="lang" type="xs:language" />
-                  </xs:extension>
-                </xs:simpleContent>
-              </xs:complexType>
             </xs:element>
-            <xs:element name="message" minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="message" minOccurs="0" maxOccurs="1" type="xs:normalizedString">
               <xs:annotation>
                 <xs:documentation xml:lang="fr">
                   Message informatif optionnel &#x00E0; afficher en plus du label
@@ -95,29 +67,6 @@
                   Optional informative message to be displayed in addition of the label
                 </xs:documentation>
               </xs:annotation>
-              <xs:complexType>
-                <xs:simpleContent>
-                  <xs:extension base="xs:normalizedString">
-                    <xs:attribute name="lang" type="xs:language" />
-                  </xs:extension>
-                </xs:simpleContent>
-              </xs:complexType>
-            </xs:element>
-            <xs:element name="precision" minOccurs="0">
-              <xs:complexType>
-                <xs:sequence>
-                  <xs:element name="label" maxOccurs="unbounded">
-                    <xs:complexType>
-                      <xs:simpleContent>
-                        <xs:extension base="xs:normalizedString">
-                          <xs:attribute name="lang" type="xs:language" />
-                        </xs:extension>
-                      </xs:simpleContent>
-                    </xs:complexType>
-                  </xs:element>
-                </xs:sequence>
-                <xs:attribute name="key" type="xs:NMTOKEN" />
-              </xs:complexType>
             </xs:element>
             <xs:element name="entries" type="ref:LocalReferentialEntryType" minOccurs="0" />
           </xs:sequence>
@@ -125,19 +74,6 @@
         </xs:complexType>
       </xs:element>
     </xs:sequence>
-    <xs:attribute name="supportPriority" type="xs:boolean">
-      <xs:annotation>
-        <xs:documentation xml:lang="fr">
-          D&#x00E9;finit si les entr&#x00E9;es filles de cette entr&#x00E9;e peuvent &#x00EA;tre
-          class&#x00E9;es par ordre de priorit&#x00E9; par les utilisateurs
-        </xs:documentation>
-        <xs:documentation xml:lang="en">
-          Whether this entry's children can be sorted by priority by users
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="supportPrecision" type="xs:boolean" />
-    <xs:attribute name="supportMultiple" type="xs:boolean" />
   </xs:complexType>
 
   <xs:element name="GlobalReferential">

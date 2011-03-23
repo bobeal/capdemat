@@ -1,7 +1,6 @@
 package fr.cg95.cvq.testtool;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -48,22 +47,14 @@ public final class TestUtils {
         }
     }
     
-    public static void printLocalRefData(Set<LocalReferentialType> allLocalReferentialData) {
+    public static void printLocalRefData(Iterable<LocalReferentialType> allLocalReferentialData) {
 
         for (LocalReferentialType lrt : allLocalReferentialData) {
-            logger.debug("From request : " + lrt.getRequest());
-            logger.debug("Data name : " + lrt.getDataName());
+            logger.debug("Data name : " + lrt.getName());
 
-            logger.debug("Labels : ");
-            Map<String, String> labelsMap = lrt.getLabelsMap();
-            for (String lang : labelsMap.keySet()) {
-                String value = labelsMap.get(lang);
-                logger.debug("Data for lang : " + lang + " is " + value);
-            }
+            logger.debug("Label : " + lrt.getLabel());
 
-            logger.debug("Entries support priority : " + lrt.getEntriesSupportPriority());
-            logger.debug("Entries support precision : " + lrt.getEntriesSupportPrecision());
-            logger.debug("Entries support multiple : " + lrt.getEntriesSupportMultiple());
+            logger.debug("Entries support multiple : " + lrt.isMultiple());
 
             if (lrt.getEntries() != null) {
                 for (LocalReferentialEntry lre : lrt.getEntries()) {
@@ -73,53 +64,14 @@ public final class TestUtils {
         }
     }
 
-    public static void printLocalRefDataSummary(Map<String, Map<String, String>> allLocalRefDataSummary) {
-
-        for (String dataName : allLocalRefDataSummary.keySet()) {
-            logger.debug("Labels : ");
-            Map<String, String> labelsMap = allLocalRefDataSummary.get(dataName);
-            for (String lang : labelsMap.keySet()) {
-                String value = labelsMap.get(lang);
-                logger.debug("Data for lang : " + lang + " is " + value);
-            }
-        }
-    }
-
 
     public static void printEntry(LocalReferentialEntry lre, int depth) {
 
         logger.debug("(" + depth + ") Key : " + lre.getKey());
 
-        Map<String, String> labelsMap = lre.getLabelsMap();
-        Set<String> labelsMapKeys = labelsMap.keySet();
-        for (String key : labelsMapKeys) {
-            logger.debug("(" + depth + ") Label in " + key + " : " + labelsMap.get(key));
-        }
+        logger.debug("(" + depth + ") Label : " + lre.getLabel());
 
-        Map<String, String> messagesMap = lre.getMessagesMap();
-        if (messagesMap != null) {
-            Set<String> messagesMapKeys = messagesMap.keySet();
-            for (String key : messagesMapKeys) {
-                logger.debug("(" + depth + ") Message in " + key + " : " + messagesMap.get(key));
-            }
-        }
-
-        Map<String, Map<String, String>> precisionsMap = lre.getPrecisionsMap();
-        if (precisionsMap != null) {
-            Set<String> precisionsMapKeys = precisionsMap.keySet();
-            for (String key : precisionsMapKeys) {
-                Map<String, String> precLabelsMap = precisionsMap.get(key);
-                Set<String> precLabelsMapKeys = precLabelsMap.keySet();
-                for (String langKey : precLabelsMapKeys) {
-                    logger.debug("(" + depth + ") Precision " + key + " has label "
-                            + precLabelsMap.get(langKey) + " in " + langKey);
-                }
-            }
-        }
-
-        logger.debug("(" + depth + ") Entries support priority : " + lre.getEntriesSupportPriority());
-        logger.debug("(" + depth + ") Entries support precision : " + lre.getEntriesSupportPrecision());
-        logger.debug("(" + depth + ") Entries support multiple : " + lre.getEntriesSupportMultiple());
+        logger.debug("(" + depth + ") Message : " + lre.getMessage());
 
         Set<LocalReferentialEntry> entries = lre.getEntries();
         if (entries != null) {

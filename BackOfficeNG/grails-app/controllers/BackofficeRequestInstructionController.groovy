@@ -84,10 +84,6 @@ class BackofficeRequestInstructionController {
         for (RequestState state : requestWorkflowService.getEditableStates())
             editableStates.add(state.toString())
         
-        def localReferentialTypes =
-            getLocalReferentialTypes(localReferentialService, rqt.requestType.label)
-        localReferentialTypes.each { lazyInit(rqt, it.key) }
-
         def externalProviderServiceLabel = null
         def externalTemplateName = null
         def lastTraceStatus = null
@@ -129,7 +125,7 @@ class BackofficeRequestInstructionController {
         return ([
             "rqt": rqt,
             "requestTypeLabel": rqt.requestType.label,
-            "lrTypes": localReferentialTypes,
+            "lrTypes": getLocalReferentialTypes(localReferentialService, rqt.requestType.label),
             "adults": adults,
             "children": children,
             "requester": requester,
@@ -152,16 +148,26 @@ class BackofficeRequestInstructionController {
     }
     
     // TODO - Mutualize with FrontOffice
-    def getLocalReferentialTypes(localReferentialService, requestTypeLabel) {
+    def getLocalReferentialTypes(lrService, requestTypeLabel) {
         def result = [:]
         if (requestTypeLabel == 'Ticket Booking')
             return result
         try {
-            localReferentialService.getLocalReferentialDataByRequestType(requestTypeLabel).each{
-                result.put(StringUtils.firstCase(it.dataName,'Lower'), it)
+            lrService.getLocalReferentialTypes(requestTypeLabel).each{
+                result.put(StringUtils.firstCase(it.name,'Lower'), it)
             }
         } catch (CvqException ce) { /* No localReferentialData found ! */ }
         return result
+    }
+    
+    def getLocalReferentialType(lrService, rtLabel, lrtName) {
+        def lrt = null
+        if (rtLabel != 'Ticket Booking') {
+            try {
+                lrt = lrService.getLocalReferentialType(rtLabel, StringUtils.firstCase(lrtName, 'Upper'))
+            } catch (CvqException ce) {}
+        }
+        return lrt
     }
     
     // FIXME - Modify lazy initialization policy in JavaBean ?
@@ -172,12 +178,12 @@ class BackofficeRequestInstructionController {
     
     def localReferentialData = {
         def rqt = requestSearchService.getById(Long.valueOf(params.requestId), true)
-        def lrTypes = getLocalReferentialTypes(localReferentialService, rqt.requestType.label)
+        def lrt = getLocalReferentialType(localReferentialService, rqt.requestType.label, params.javaName)
         render( template: '/backofficeRequestInstruction/widget/localReferentialDataStatic',
                 model: ['rqt':rqt,
                         'javaName':params.javaName, 
-                        'lrEntries':lrTypes[params.javaName]?.entries,
-                        'isMultiple':lrTypes[params.javaName]?.entriesSupportMultiple,
+                        'lrEntries':lrt.entries,
+                        'isMultiple':lrt.isMultiple(),
                         'depth':0 ])
     }
 
@@ -224,12 +230,12 @@ class BackofficeRequestInstructionController {
         }
         else if (propertyType == "localReferentialData") {
             def rqt = requestSearchService.getById(Long.valueOf(params.id), true)
-            def lrTypes = getLocalReferentialTypes(localReferentialService, rqt.requestType.label)
-            model['lrType'] = lrTypes[params.propertyName]
+            def lrt = getLocalReferentialType(localReferentialService, rqt.requestType.label, params.propertyName)
+            model['lrType'] = lrt
             model['lrDatas'] = rqt[params.propertyName].collect { it.name }
             flash[params.propertyName + 'Index'] = 0
             model["htmlClass"] =
-                (model["lrType"].entriesSupportMultiple ? "validate-localReferentialData " :
+                (model["lrType"].isMultiple() ? "validate-localReferentialData " :
                     (model["required"] != "" ? "validate-not-first " : "")) +
                 model["required"]
         }

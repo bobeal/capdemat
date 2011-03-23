@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-    <request>LibraryRegistrationRequest</request>
     <data name="Subscription">
-        <label lang="fr">Formule d'abonnement</label>
+        <label>Formule d'abonnement</label>
     </data>
 </LocalReferential>

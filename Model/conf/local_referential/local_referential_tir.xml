@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-    <request>TechnicalInterventionRequest</request>
     <data name="InterventionType">
-        <label lang="fr">Nature de l'intervention</label>
-        <label lang="en">Intervention topic</label>
+        <label>Intervention topic</label>
     </data>
 </LocalReferential>

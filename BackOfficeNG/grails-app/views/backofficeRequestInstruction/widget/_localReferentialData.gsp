@@ -3,7 +3,7 @@
   
   <g:render template="/backofficeRequestInstruction/widget/localReferentialEntries" 
       model="['javaName':propertyName, 'lrDatas':lrDatas, 'htmlClass':htmlClass,
-              'lrEntries':lrType?.entries, 'isMultiple':lrType.entriesSupportMultiple,
+              'lrEntries':lrType?.entries, 'isMultiple':lrType.isMultiple(),
               'i18nKeyPrefix':i18nKeyPrefix, 'depth':0]" />
   
   <input name="requestId" type="hidden" value="${requestId}" />

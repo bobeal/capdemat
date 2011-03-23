@@ -51,11 +51,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
             body : 'Voulez-vous supprimer cette entrée et tous ces descendants ?' },
           zcbrt.LocalReferential.removeEntry);
         
-        zcbrt.LocalReferential.confirmSaveWidgetDialog = new zct.ConfirmationDialog(
-          { head : 'Attention',
-            body : 'La modification du widget entraine la suppression de vos données !' },
-          zcbrt.LocalReferential.saveWidget);
-        
         // click event
         zcbrt.LocalReferential.clickEvent = new zct.Event(zcbrt.LocalReferential, zcbrt.LocalReferential.prepareEvent);
         yue.on(yud.get('requestTypeLocalReferential'),'click',zcbrt.LocalReferential.clickEvent.dispatch,zcbrt.LocalReferential.clickEvent,true);
@@ -83,7 +78,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         var entryKey = target.id.split('_')[1];
         var parentEntryKey = yud.getAncestorByTagName(target, 'ul').id.split('_')[1];
         var dataName = yud.getAncestorByClassName(target, 'editableTree').id.split('_')[1];
-        zct.doAjaxCall(['/localReferentialEntry/','?dataName=',dataName,'&entryKey=',entryKey,
+        zct.doAjaxCall(['/localReferentialEntry/' + (zcbrt.currentId || 0),'?dataName=',dataName,'&entryKey=',entryKey,
                         '&parentEntryKey=',parentEntryKey].join(''),[],function(o){
           var entryFormContainerEl = yud.get('formContainer_' + entryKey);
           zct.style(entryFormContainerEl, {display:'block'});
@@ -91,10 +86,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         });
       },
       
-      confirmSaveWidget : function(e) {
-        if (e.type === 'change') zcbrt.LocalReferential.confirmSaveWidgetDialog.show(e); 
-      },
-      saveWidget : function(e, se) {
+      saveWidget : function(se) {
         var target = (yue.getTarget(se)||se);
         zct.doAjaxFormSubmitCall(target.form.id, null, function(o) {
           var response = ylj.parse(o.responseText);
@@ -124,7 +116,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       addEntry : function(e) {
         var target = (yue.getTarget(e)||e);
         var dataName = target.id.split('_')[1];
-        zct.doAjaxCall(['/localReferentialEntry/','?dataName=',dataName,
+        zct.doAjaxCall(['/localReferentialEntry/' + (zcbrt.currentId || 0),'?dataName=',dataName,
                         '&parentEntryKey=',dataName,'&isNew'].join(''),[],function(o){
           var entryFormContainerEl = yud.get('formContainer_' + dataName);
           zct.style(entryFormContainerEl, {display:'block'});
@@ -136,7 +128,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         var target = (yue.getTarget(e)||e);
         var parentEntryKey = target.id.split('_')[1];
         var dataName = yud.getAncestorByClassName(target, 'editableTree').id.split('_')[1];
-        zct.doAjaxCall(['/localReferentialEntry/','?dataName=',dataName,
+        zct.doAjaxCall(['/localReferentialEntry/' + (zcbrt.currentId || 0),'?dataName=',dataName,
                         '&parentEntryKey=',parentEntryKey, '&isNew'].join(''),[],function(o){
           var entryFormContainerEl = yud.get('formContainer_' + parentEntryKey);
           zct.style(entryFormContainerEl, {display:'block'});
@@ -150,7 +142,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         var entryKey = target.id.split('_')[1];
         var parentEntryKey = yud.getAncestorByTagName(target, 'ul').id.split('_')[1];
         var dataName = yud.getAncestorByClassName(target, 'editableTree').id.split('_')[1];
-        zct.doAjaxCall(['/removeLocalReferentialEntry/','?dataName=',dataName,'&entryKey=',entryKey,
+        zct.doAjaxCall(['/removeLocalReferentialEntry/' + (zcbrt.currentId || 0),'?dataName=',dataName,'&entryKey=',entryKey,
                         '&parentEntryKey=',parentEntryKey].join(''),[],function(o){
           var response = ylj.parse(o.responseText);
           if (response.status === 'success')
@@ -159,7 +151,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       },
       
       refreshEntries : function(dataName) {
-        zct.doAjaxCall(['/localReferentialType/','?dataName=',dataName].join(''),[],function(o){
+        zct.doAjaxCall(['/localReferentialType/' + (zcbrt.currentId || 0),'?dataName=',dataName].join(''),[],function(o){
           zct.html(yud.get('lrtEntriesContainer_' + dataName),o.responseText);
         });
         if (yud.hasClass(yud.get('collapseEntries_' + dataName), 'current'))

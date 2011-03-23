@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-    <request>PerischoolActivityRegistrationRequest</request>
-    <data name="PerischoolActivity">
-        <label lang="fr">Activités péri-scolaires</label>
-        <label lang="en">Perischool Activity</label>
-        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+    <data name="PerischoolActivity" allowMultipleChoices="false">
+        <label>Activités péri-scolaires</label>
+        <entries>
             <entry key="Garderie-soir">
-                <label lang="fr">Garderie soir</label>
-                <message lang="fr"/>
+                <label>Garderie soir</label>
+                <message/>
             </entry>
             <entry key="Garderie-matin">
-                <label lang="fr">Garderie matin</label>
-                <message lang="fr"/>
+                <label>Garderie matin</label>
+                <message/>
             </entry>
             <entry key="Garderie-soir-et-matin">
-                <label lang="fr">Garderie soir et matin</label>
-                <message lang="fr"/>
+                <label>Garderie soir et matin</label>
+                <message/>
             </entry>
         </entries>
     </data>

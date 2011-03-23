@@ -42,5 +42,5 @@ div.response.choice .checked { font-size: 1em; color: #000; }
 
 div.response p  { margin: 0; }
 div.response ul { margin: 0; padding: 0; list-style-type: none; }
-div.response li { padding-right: .5em; display: inline; }
+div.response li { margin: 0 1em; padding-right: .5em; display: block; }
 

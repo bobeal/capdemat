@@ -129,7 +129,6 @@ public class EnumerationPlugin implements IPluginGenerator {
             if (requestLrdDoc == null) {
                 requestLrdDoc = LocalReferentialDocument.Factory.newInstance();
                 localReferential = requestLrdDoc.addNewLocalReferential();
-                localReferential.setRequest(currentRequestName);
             } else {
                 localReferential = requestLrdDoc.getLocalReferential();
             }
@@ -149,9 +148,7 @@ public class EnumerationPlugin implements IPluginGenerator {
             if (currentLocalReferentialData == null)
                 currentLocalReferentialData = LocalReferential.Data.Factory.newInstance();
             currentLocalReferentialData.setName(currentElementName);
-            LocalReferential.Data.Label label = currentLocalReferentialData.addNewLabel();
-            label.setLang(userDocumentation.getLang());
-            label.setStringValue(userDocumentation.getText());
+            currentLocalReferentialData.setLabel(userDocumentation.getText());
         }
     }
 

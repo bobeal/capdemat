@@ -2,4 +2,13 @@ Libraries/fr.cg95/
 Libraries/conf/deployments/local.properties
 *~
 .DS_Store
+<<<<<<< HEAD
 /BackOfficeNG/.settings/
+=======
+/nbproject/private/
+/.settings/
+/BackOfficeNG/.settings/
+/build/
+/Model/build
+/Generator/build
+>>>>>>> 7775a8f... Work in progress.

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-    <request>LibraryRegistrationRequest</request>
-    <data name="Subscription">
-        <label lang="fr">Formule d'abonnement</label>
-        <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
+    <data name="Subscription" allowMultipleChoices="true">
+        <label>Formule d'abonnement</label>
+        <entries>
             <entry key="Familial">
-                <label lang="fr">Abonnement familial</label>
+                <label>Abonnement familial</label>
             </entry>
             <entry key="Individual">
-                <label lang="fr">Abonnement individuel</label>
+                <label>Abonnement individuel</label>
             </entry>
         </entries>
     </data>

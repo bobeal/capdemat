@@ -295,9 +295,9 @@ public class TicketBookingService implements ITicketBookingService , ILocalAutho
         int cartSize = -1;
         try {
             LocalReferentialType lrt =
-                localReferentialService.getLocalReferentialDataByName("ticketBookingConfiguration");
+                localReferentialService.getLocalReferentialType("Ticket Booking", "ticketBookingConfiguration");
             LocalReferentialEntry lre = lrt.getEntryByKey("Taille-du-panier");
-            cartSize =  new Integer(lre.getMessagesMap().get("fr"));
+            cartSize =  new Integer(lre.getMessage());
         } catch (NumberFormatException e) {
             logger.error(e.getMessage());
         } catch (CvqException e) {
@@ -308,22 +308,18 @@ public class TicketBookingService implements ITicketBookingService , ILocalAutho
 
     // FIXME : dirty implementation for mandatory fares "Plein" et "Réduit"
     private void initMandadoryFares() {
-        try {
-            LocalReferentialType lrt = 
-                    localReferentialService.getLocalReferentialDataByName("rateTypes");
-            for (FareType fare : FareType.allFareTypes) {
-                LocalReferentialEntry lre = new LocalReferentialEntry();
-                lre.setKey(fare.toString());
-                lre.addLabel("fr", fare.getLabel());
-                if (lrt.getEntryByKey(lre.getKey()) != null) {
-                    lrt.removeEntry(lrt.getEntryByKey(lre.getKey()), null);
-                }
-                lrt.addEntry(lre, null);
+        for (FareType fare : FareType.allFareTypes) {
+            try {
+                localReferentialService.removeLocalReferentialEntry("Ticket Booking", "rateTypes", fare.toString());
+            } catch (CvqException e) {
+                // the rate types probably weren't configured ; let's try and create them
             }
-            localReferentialService.setLocalReferentialData(lrt);
-        } catch (CvqException e) {
-            e.printStackTrace();
-            logger.error(e.getMessage());
+            try {
+                localReferentialService.addLocalReferentialEntry("Ticket Booking", "rateTypes", null, fare.toString(), fare.getLabel(), null);
+            } catch (CvqException e) {
+                e.printStackTrace();
+                logger.error(e.getMessage());
+            }
         }
     }
 

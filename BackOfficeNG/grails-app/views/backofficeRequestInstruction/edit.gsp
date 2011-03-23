@@ -62,7 +62,7 @@
 
         <!-- request data template selection by request type -->
         <g:render template="/backofficeRequestInstruction/requestType/${requestTypeTemplate}/edit" 
-                  model="['rqt':rqt, 'requester':requester]" />
+                  model="['rqt':rqt, 'requester':requester, 'lrTypes': lrTypes]" />
 
 
         <!-- request intruction document -->

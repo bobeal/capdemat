@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
     <request>CompostableWasteCollectionRequest</request>
-    <data name="CompostableWasteType">
-        <label lang="fr">Type de végétaux</label>
-        <label lang="en">Kind of waste</label>
-        <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
+    <data name="CompostableWasteType" allowMultipleChoices="false">
+        <label>Type de végétaux</label>
+        <entries>
             <entry key="phanérophytes_">
-                <label lang="fr">phanérophytes</label>
-                <message lang="fr"/>
+                <label>phanérophytes</label>
+                <message />
             </entry>
             <entry key="chamaephytes">
-                <label lang="fr">chamaephytes</label>
-                <message lang="fr"/>
+                <label>chamaephytes</label>
+                <message />
             </entry>
         </entries>
     </data>

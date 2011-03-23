@@ -218,6 +218,7 @@
                 <include name="test/data/**" />
 				<include name="utils/admin/**" />
 			</fileset>
+			<zipfileset prefix="utils/admin" dir="${deploy.admin.dir}" includes="*" />
 		</zip>
                 <move file="${application.name}-admin-${application.version}-${application.revision}.zip"
                     todir="${release.dir}" />

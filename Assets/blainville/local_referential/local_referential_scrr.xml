@@ -1,50 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-    <request>SchoolCanteenRegistrationRequest</request>
-    <data name="FoodDiet">
-        <label lang="fr">Régime alimentaire</label>
-        <label lang="en">Food Diet</label>
-        <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
+    <data name="FoodDiet" allowMultipleChoices="true">
+        <label>Régime alimentaire</label>
+        <entries>
             <entry key="NoPork">
-                <label lang="fr">Sans mouton</label>
-                <message lang="fr"/>
+                <label>Sans mouton</label>
+                <message/>
             </entry>
             <entry key="NoSoy">
-                <label lang="fr">Sans soja</label>
-                <message lang="fr"/>
+                <label>Sans soja</label>
+                <message/>
             </entry>
             <entry key="NoSugar">
-                <label lang="fr">Sans sucre</label>
-                <message lang="fr"/>
+                <label>Sans sucre</label>
+                <message/>
             </entry>
         </entries>
     </data>
-    <data name="CanteenAttendingDays">
-        <label lang="fr">Jours de présence</label>
-        <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
+    <data name="CanteenAttendingDays" allowMultipleChoices="true">
+        <label>Jours de présence</label>
+        <entries>
             <entry key="Tuesday">
-                <label lang="fr">Mardi</label>
-                <message lang="fr"/>
+                <label>Mardi</label>
+                <message/>
             </entry>
             <entry key="Wednesday">
-                <label lang="fr">Mercredi</label>
-                <message lang="fr"/>
+                <label>Mercredi</label>
+                <message/>
             </entry>
             <entry key="Thursday">
-                <label lang="fr">Jeudi</label>
-                <message lang="fr"/>
+                <label>Jeudi</label>
+                <message/>
             </entry>
             <entry key="Friday">
-                <label lang="fr">Vendredi</label>
-                <message lang="fr"/>
+                <label>Vendredi</label>
+                <message/>
             </entry>
             <entry key="Samedi">
-                <label lang="fr">Samedi</label>
-                <message lang="fr">Samedi</message>
+                <label>Samedi</label>
+                <message>Samedi</message>
             </entry>
             <entry key="Dimanche">
-                <label lang="fr">Dimanche</label>
-                <message lang="fr">Dimanche</message>
+                <label>Dimanche</label>
+                <message>Dimanche</message>
             </entry>
         </entries>
     </data>

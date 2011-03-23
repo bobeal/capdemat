@@ -42,7 +42,6 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
@@ -73,6 +72,7 @@ public class RequestPdfService implements IRequestPdfService {
     private IRequestExternalActionService requestExternalActionService;
     private IDocumentService documentService;
 
+    @Override
     public byte[] generateCertificate(Request request) throws CvqException {
         String htmlFilename = 
             StringUtils.uncapitalize(request.getRequestType().getLabel().replace(" ", "")) + "Request";
@@ -139,6 +139,7 @@ public class RequestPdfService implements IRequestPdfService {
         }
     }
 
+    @Override
     public byte[] generateArchive(Long requestId)
         throws CvqException, CompilationFailedException, ClassNotFoundException, IOException,
             DocumentException {
@@ -275,6 +276,7 @@ public class RequestPdfService implements IRequestPdfService {
         return baos.toByteArray();
     }
 
+    @Override
     public byte[] generateDocumentsArchive(Collection<RequestDocument> requestDocuments)
         throws CvqException {
         if (requestDocuments.isEmpty()) return null;
@@ -355,8 +357,9 @@ public class RequestPdfService implements IRequestPdfService {
         Map<String,LocalReferentialType> result = new HashMap<String,LocalReferentialType>();
         try {
             for(LocalReferentialType lrt : 
-                localReferentialService.getLocalReferentialDataByRequestType(requestTypeLabel))
-                result.put(StringUtils.uncapitalize(lrt.getDataName()), lrt);
+                localReferentialService.getLocalReferentialTypes(requestTypeLabel)) {
+                result.put(StringUtils.uncapitalize(lrt.getName()), lrt);
+            }
         } catch (CvqException ce) { /* No localReferentialData found ! */ }
         return result;
     }

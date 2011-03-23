@@ -91,12 +91,9 @@ public class RequestTestCase extends ServiceTestCase {
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
         if (!localReferentialService.isLocalReferentialConfigured(tirLabel)) {
             Set<LocalReferentialType> lrts =
-                localReferentialService.getLocalReferentialDataByRequestType(tirLabel);
+                localReferentialService.getLocalReferentialTypes(tirLabel);
             for (LocalReferentialType lrt : lrts) {
-                LocalReferentialEntry entry = new LocalReferentialEntry();
-                entry.addLabel("fr", "abc");
-                lrt.addEntry(entry, null);
-                localReferentialService.setLocalReferentialData(lrt);
+                localReferentialService.addLocalReferentialEntry(tirLabel, lrt.getName(), null, "abc", null);
             }
             continueWithNewTransaction();
         }

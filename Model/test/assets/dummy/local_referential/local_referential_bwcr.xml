@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
     <request>BulkyWasteCollectionRequest</request>
-    <data name="BulkyWasteType">
-        <label lang="fr">Type d'encombrants</label>
-        <label lang="en">Kind of waste</label>
-         <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
+    <data name="BulkyWasteType" allowMultipleChoices="false">
+        <label>Type d'encombrants</label>
+         <entries>
             <entry key="mobilier">
-                <label lang="fr">Mobilier</label>
-                <message lang="fr"/>
+                <label>Mobilier</label>
+                <message />
             </entry>
             <entry key="gravats">
-                <label lang="fr">Gravats</label>
-                <message lang="fr"/>
+                <label>Gravats</label>
+                <message />
             </entry>
         </entries>
     </data>

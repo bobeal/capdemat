@@ -31,6 +31,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.service.request.ILocalReferentialService;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.xml.common.LocalReferentialDataType;
 import fr.cg95.cvq.xml.request.leisure.SmsNotificationRequestDocument;
@@ -44,6 +45,7 @@ public class CleverService implements IExternalProviderService {
 
     private CleverSMSServiceProvider provider;
     private ILocalReferentialService localReferentialService;
+    private IRequestService smsNotificationRequestService;
     private IUserSearchService userSearchService;
 
     private String endportpath;
@@ -85,7 +87,8 @@ public class CleverService implements IExternalProviderService {
                 values.add(value);
             }
             // Not Subscribers's interests
-            LocalReferentialType lrt = localReferentialService.getLocalReferentialDataByName("Interests");
+            LocalReferentialType lrt = localReferentialService.getLocalReferentialType(
+                smsNotificationRequestService.getLabel(), "Interests");
             Set<LocalReferentialEntry> lrtEntries = lrt.getEntries();
             for (LocalReferentialEntry lrtEntry : lrtEntries) {
                 String lrtEntryKey = lrtEntry.getKey();
@@ -197,6 +200,10 @@ public class CleverService implements IExternalProviderService {
 
     public void setLocalReferentialService(ILocalReferentialService localReferentialService) {
         this.localReferentialService = localReferentialService;
+    }
+
+    public void setSmsNotificationRequestService(IRequestService smsNotificationRequestService) {
+        this.smsNotificationRequestService = smsNotificationRequestService;
     }
 
     public void setUserSearchService(IUserSearchService userSearchService) {

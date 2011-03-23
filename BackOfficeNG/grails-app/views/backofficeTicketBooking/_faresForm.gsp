@@ -6,8 +6,8 @@
     <select id="placeCategoryName_${event.id}">
       <option>${message(code:'placeCategory.action.add')}</option>
       <g:each var="lre" in="${lrTypes.placeCategories?.entries}">
-      <option value="${lre.labelsMap.fr}" ${lre.labelsMap.fr == '' ? 'selected="selected"' : ''}>
-        ${lre.labelsMap.fr}  
+      <option value="${lre.label}" ${lre.label == '' ? 'selected="selected"' : ''}>
+        ${lre.label}  
       </option>
       </g:each>
     </select>
@@ -17,8 +17,8 @@
   <script type="text/html" id="fareEditTmpl">
     <select id="name_<!=id!>">
     <g:each var="lre" in="${lrTypes.rateTypes?.entries}">
-    <option value="${lre.labelsMap.fr}" <!= '${lre.labelsMap.fr}' == name ? 'selected="selected"' : '' !>>
-      ${lre.labelsMap.fr}  
+    <option value="${lre.label}" <!= '${lre.label}' == name ? 'selected="selected"' : '' !>>
+      ${lre.label}  
     </option>
     </g:each>
     </select>

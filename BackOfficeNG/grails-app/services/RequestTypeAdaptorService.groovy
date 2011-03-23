@@ -89,8 +89,8 @@ public class RequestTypeAdaptorService {
     public Map getLocalReferentialTypes(requestTypeLabel) {
         def result = [:]
         try {
-            localReferentialService.getLocalReferentialDataByRequestType(requestTypeLabel).each {
-                result.put(StringUtils.firstCase(it.dataName,'Lower'), it)
+            localReferentialService.getLocalReferentialTypes(requestTypeLabel).each {
+                result.put(StringUtils.firstCase(it.name,'Lower'), it)
             }
         } catch (CvqException ce) { /* No localReferentialData found ! */ }
 

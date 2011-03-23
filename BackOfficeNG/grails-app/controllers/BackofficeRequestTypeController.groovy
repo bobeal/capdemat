@@ -358,31 +358,33 @@ class BackofficeRequestTypeController {
         render(
             template : "localReferentialList",
             model : [
-                "lrTypes" : localReferentialService.getLocalReferentialDataByRequestType(
-                    requestTypeService.getRequestTypeById(Long.valueOf(params.id)).label)
+                "lrTypes" : localReferentialService.getLocalReferentialTypes(
+                    requestTypeService.getRequestTypeById(Long.valueOf(params.id)).label),
+                "requestTypeId" : params.id
             ]
         )
     }
     
     def localReferentialType = {
-        def lrType = localReferentialService.getLocalReferentialDataByName(params.dataName)
+        def lrType = localReferentialService.getLocalReferentialType(requestTypeService.getRequestTypeById(Long.valueOf(params.id)).label, params.dataName)
         render(template:"localReferentialEntries", 
-               model:['lrEntries': lrType.entries, , 'parentEntry':lrType.dataName,
-                       'isMultiple':lrType.entriesSupportMultiple, 'depth':0])
+               model:['lrEntries': lrType.entries, , 'parentEntry':lrType.name,
+                       'isMultiple':lrType.isMultiple(), 'depth':0])
     }
     
-    def localReferentialWidget = {
-        def lrType = localReferentialService.getLocalReferentialDataByName(params.lrtDataName)
-        bind(lrType)
-        lrType.entries = Collections.emptySet();
-        localReferentialService.setLocalReferentialData(lrType)
+    def saveLocalReferentialType = {
+        localReferentialService.setLocalReferentialTypeAllowingMultipleChoices(
+            requestTypeService.getRequestTypeById(Long.valueOf(params.id)).label,
+            params.lrtDataName,
+            Boolean.valueOf(params.allowMultipleChoices)
+        )
         render (['status':'success', 'message':message(code:"message.updateDone")] as JSON)
     }
     
     
     def localReferentialEntry = {
-       def lrType = localReferentialService.getLocalReferentialDataByName(params.dataName)
-       def lre          
+       def lrType = localReferentialService.getLocalReferentialType(requestTypeService.getRequestTypeById(Long.valueOf(params.id)).label, params.dataName)
+       def lre
        if (params.isNew != null) {
           lre = new LocalReferentialEntry()
           lre.key = params.parentEntryKey
@@ -393,39 +395,31 @@ class BackofficeRequestTypeController {
               model:['entry':lre,
                      'parentEntryKey':params.parentEntryKey,
                      'dataName':params.dataName,
-                     'isNewSubEntry':params.isNew != null ? true : false])
+                     'isNewSubEntry':params.isNew != null ? true : false,
+                     'requestTypeId':params.id])
     }
     
     def saveLocalReferentialEntry = {
-        def lrType = localReferentialService.getLocalReferentialDataByName(params.dataName)
         def isNew = false
-        def lre
+        def rtLabel = requestTypeService.getRequestTypeById(Long.valueOf(params.id)).label
+        def parentKey = params.parentEntryKey != params.dataName ? params.parentEntryKey : null
+        def newLabel = params.label
+        def newMessage = params.message
         if (params.'entry.key' == params.parentEntryKey) {
-            lre = new LocalReferentialEntry()
-            lre.addLangage('fr')
-            lre.labelsMap.fr = params.labelsMap.fr
-            lre.messagesMap.fr = params.messagesMap.fr
-            lre.key = null
-            lrType.addEntry(lre, 
-                params.parentEntryKey != params.dataName ? lrType.getEntryByKey(params.parentEntryKey) : null )
+            localReferentialService.addLocalReferentialEntry(rtLabel, params.dataName, parentKey, newLabel, newMessage)
             isNew = true
         } else {
-            lre = lrType.getEntryByKey(params.'entry.key')
-            lre.labelsMap.fr = params.labelsMap.fr
-            lre.messagesMap.fr = params.messagesMap.fr
+            localReferentialService.editLocalReferentialEntry(rtLabel, params.dataName, params.'entry.key', newLabel, newMessage)
         }
-        localReferentialService.setLocalReferentialData(lrType)
-        render (['isNew': isNew, 'entryLabel': lre.labelsMap.fr,
+        render (['isNew': isNew, 'entryLabel': newLabel,
                  'status':'success', 'message':message(code:"message.updateDone")] as JSON)
     }
     
     def removeLocalReferentialEntry = {
-        def lrType = localReferentialService.getLocalReferentialDataByName(params.dataName)
-        def lre = lrType.getEntryByKey(params.entryKey)
-        lrType.removeEntry(lre, 
-              params.parentEntryKey != params.dataName ? lrType.getEntryByKey(params.parentEntryKey) : null )
-        localReferentialService.setLocalReferentialData(lrType)
-        render (['entryLabel': lre.labelsMap.fr,
+        def rtLabel = requestTypeService.getRequestTypeById(Long.valueOf(params.id)).label
+        def label = localReferentialService.getLocalReferentialEntry(rtLabel, params.dataName, params.entryKey).label
+        localReferentialService.removeLocalReferentialEntry(rtLabel, params.dataName, params.entryKey)
+        render (['entryLabel': label,
                   'status':'success', 'message':message(code:"message.updateDone")] as JSON)
     }
 

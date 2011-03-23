@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-    <request>LearningActivitiesDiscoveryRegistrationRequest</request>
-    <data name="AtelierEveil">
-        <label lang="fr">Choisissez l'atelier d'éveil auquel vous souhaitez participer</label>
-        <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
+    <data name="AtelierEveil" allowMultipleChoices="true">
+        <label>Choisissez l'atelier d'éveil auquel vous souhaitez participer</label>
+        <entries>
             <entry key="Eveil-corporel---Lundi---16h-18h">
-                <label lang="fr">Eveil corporel - Lundi - 16h/18h</label>
-                <message lang="fr"/>
+                <label>Eveil corporel - Lundi - 16h/18h</label>
+                <message/>
             </entry>
             <entry key="Eveil-corporel---Mercredi---14h-16h">
-                <label lang="fr">Eveil corporel - Mercredi - 14h/16h</label>
-                <message lang="fr"/>
+                <label>Eveil corporel - Mercredi - 14h/16h</label>
+                <message/>
             </entry>
             <entry key="Baby-Nage---Samedi---9h-12h">
-                <label lang="fr">Baby Nage - Samedi - 9h/12h</label>
-                <message lang="fr"/>
+                <label>Baby Nage - Samedi - 9h/12h</label>
+                <message/>
             </entry>
         </entries>
     </data>

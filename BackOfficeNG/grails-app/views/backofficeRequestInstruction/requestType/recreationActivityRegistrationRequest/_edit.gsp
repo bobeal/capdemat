@@ -53,7 +53,7 @@
                 <dt class="required"><g:message code="rarr.property.recreationActivity.label" /> * : </dt><dd id="recreationActivity" class="action-editField validate-localReferentialData required-true i18n-rarr.property.recreationActivity data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'recreationActivity', 'lrEntries': lrTypes.recreationActivity?.entries, 
-                             'rqt':rqt, 'isMultiple':lrTypes.recreationActivity?.entriesSupportMultiple, 'depth':0]" />
+                             'rqt':rqt, 'isMultiple':lrTypes.recreationActivity?.isMultiple(), 'depth':0]" />
  
           </dd>
               </dl>

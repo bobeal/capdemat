@@ -1,12 +1,13 @@
 package fr.cg95.cvq.service.request;
 
 import fr.cg95.cvq.business.request.LocalReferentialEntry;
+import fr.cg95.cvq.business.request.LocalReferentialEntryData;
 import fr.cg95.cvq.business.request.LocalReferentialType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.testtool.TestUtils;
 
-import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,73 +35,53 @@ public class LocalReferentialServiceTest extends RequestTestCase {
         Set<LocalReferentialType> allLocalReferentialData = 
             localReferentialService.getAllLocalReferentialData();
         TestUtils.printLocalRefData(allLocalReferentialData);
-        
-        // check retrieving of referential data summary information
-        Map<String, Map<String, String>> allLocalReferentialDataNames = 
-            localReferentialService.getAllLocalReferentialDataNames();
-        TestUtils.printLocalRefDataSummary(allLocalReferentialDataNames);
-        
-        String dataName = allLocalReferentialDataNames.keySet().iterator().next();
-        logger.debug("Asking information for : " + dataName);
-
-        // check retrieving by data name
-        LocalReferentialType lrt = localReferentialService.getLocalReferentialDataByName(dataName);
-        Assert.assertNotNull(lrt);
-        Assert.assertEquals(lrt.getDataName(), dataName);
+                
+        Set<String> requestTypeLabels = localReferentialService.getAllLocalReferentialRequestTypeLabels();
+        // rt = request type
+        String rtLabel = requestTypeLabels.iterator().next();
+        // lrt = local referential type
+        String lrtName = localReferentialService.getLocalReferentialTypes(rtLabel).iterator().next().getName();
+        logger.debug("Asking information for : " + rtLabel + "->" + lrtName);
 
         // check retrieving by request type
-        Set<LocalReferentialType> commonLocalReferentialDataSet = 
-            localReferentialService.getLocalReferentialDataByRequestType("Study Grant");
-        Assert.assertNotNull(commonLocalReferentialDataSet);
-        TestUtils.printLocalRefData(commonLocalReferentialDataSet);
+        final String studyGrantLabel = "Study Grant";
+        Set<LocalReferentialType> lrts = 
+            localReferentialService.getLocalReferentialTypes(studyGrantLabel);
+        Assert.assertNotNull(lrts);
+        TestUtils.printLocalRefData(lrts);
 
+        // check retrieving by data name
+        String lreKey = localReferentialService.getLocalReferentialType(rtLabel, lrtName).getEntriesKeys().iterator().next();
+        
         // check modifications on a local referential type :
         //    -> remove the first entry
         //    -> add another one
-        LocalReferentialEntry backupLre = null;
-        if (lrt.getEntries() != null) {
-            backupLre = lrt.getEntries().iterator().next();
-            lrt.getEntries().remove(backupLre);
-        }
-        LocalReferentialEntry lre = new LocalReferentialEntry();
-        lre.setKey("ANewEntry");
-        lre.addLabel("fr", "Une nouvelle entrée");
-        lrt.addEntry(lre,null);
-        lrt.setEntriesSupportMultiple(true);
-        lrt.setEntriesSupportPriority(true);
-        LocalReferentialEntry subLre = new LocalReferentialEntry();
-        subLre.setKey("ANewSubEntry");
-        subLre.addLabel("fr", "Une sous entrée de la nouvelle entrée");
-        subLre.addMessage("fr", "Le référentiel parle au référentiel");
-        Map<String, String> precisionLabelsMap = new HashMap<String, String>();
-        precisionLabelsMap.put("fr", "Précise moi ça, fiston");
-        subLre.addPrecision("Précision", precisionLabelsMap);
-        lre.addEntry(subLre);
-        lre.setEntriesSupportPrecision(true);
-        localReferentialService.setLocalReferentialData(lrt);
+        LocalReferentialEntryData backupLre = localReferentialService.getLocalReferentialEntry(rtLabel, lrtName, lreKey);
+        localReferentialService.removeLocalReferentialEntry(rtLabel, lrtName, lreKey);
+        
+        localReferentialService.setLocalReferentialTypeAllowingMultipleChoices(rtLabel, lrtName, true);
+        String entryKey = localReferentialService.addLocalReferentialEntry(rtLabel, lrtName, null, "Une nouvelle entrée", null);
+        localReferentialService.addLocalReferentialEntry(rtLabel, lrtName, entryKey, "Une sous entrée de la nouvelle entrée", "Le référentiel parle au référentiel");
 
         // check modifications have been effectively saved
         LocalReferentialType retrievedLrt = 
-            localReferentialService.getLocalReferentialDataByName(dataName);
+            localReferentialService.getLocalReferentialType(rtLabel, lrtName);
         Assert.assertNotNull(retrievedLrt);
-        Assert.assertTrue(retrievedLrt.getEntriesSupportMultiple());
-        Assert.assertTrue(retrievedLrt.getEntriesSupportPriority());
+        Assert.assertTrue(retrievedLrt.isMultiple());
         LocalReferentialEntry retrievedLre = retrievedLrt.getEntryByKey("ANewEntry");
         Assert.assertNotNull(retrievedLre);
         Assert.assertEquals(retrievedLre.getEntries().size(), 1);
 
-        retrievedLrt.removeEntry(retrievedLre, null);
-        retrievedLrt.addEntry(backupLre, null);
-        localReferentialService.setLocalReferentialData(retrievedLrt);
+        localReferentialService.removeLocalReferentialEntry(rtLabel, lrtName, entryKey);
+        String backupKey = localReferentialService.addLocalReferentialEntry(rtLabel, lrtName, null, backupLre.getLabel(), backupLre.getMessage());
         
         // check modifications have been effectively saved
-        retrievedLrt = localReferentialService.getLocalReferentialDataByName(dataName);
+        retrievedLrt = localReferentialService.getLocalReferentialType(rtLabel, lrtName);
         Assert.assertNotNull(retrievedLrt);
-        Assert.assertTrue(retrievedLrt.getEntriesSupportMultiple());
-        Assert.assertTrue(retrievedLrt.getEntriesSupportPriority());
+        Assert.assertTrue(retrievedLrt.isMultiple());
         retrievedLre = retrievedLrt.getEntryByKey("ANewEntry");
         Assert.assertNull(retrievedLre);
-        retrievedLre = retrievedLrt.getEntryByKey(backupLre.getKey());
+        retrievedLre = retrievedLrt.getEntryByKey(backupKey);
         Assert.assertNotNull(retrievedLre);
     }
 }

@@ -37,7 +37,7 @@
                 <dt class="required"><g:message code="ladrr.property.atelierEveil.label" /> * : </dt><dd id="atelierEveil" class="action-editField validate-localReferentialData required-true i18n-ladrr.property.atelierEveil data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'atelierEveil', 'lrEntries': lrTypes.atelierEveil?.entries, 
-                             'rqt':rqt, 'isMultiple':lrTypes.atelierEveil?.entriesSupportMultiple, 'depth':0]" />
+                             'rqt':rqt, 'isMultiple':lrTypes.atelierEveil?.isMultiple(), 'depth':0]" />
  
           </dd>
               </dl>

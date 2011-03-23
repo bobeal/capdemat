@@ -1,43 +1,82 @@
 package fr.cg95.cvq.service.request;
 
-import java.util.Map;
 import java.util.Set;
 
 import fr.cg95.cvq.business.request.LocalReferentialType;
+import fr.cg95.cvq.business.request.LocalReferentialEntryData;
 import fr.cg95.cvq.exception.CvqException;
 
 public interface ILocalReferentialService {
 
     /**
-     * Get a list of all known local referential data.
-     * @deprecated only used in unit tests
+     * Get a list of all local referential type names belonging to a given request type.
+     * Warning: Any modification on the local referential types will be lost. Use the dedicated methods of this service for that.
      */
-    @Deprecated
-    Set<LocalReferentialType> getAllLocalReferentialData()
-        throws CvqException;
+    Set<LocalReferentialType> getLocalReferentialTypes(final String requestTypeLabel)
+            throws CvqException;
 
     /**
-     * Get a summary of all local referential data names (data name being the name of the
-     * corresponding element in the request's XML schema).
-     *
-     * @return a map of (dataName, {@link Map}(lang, value))
-     * @deprecated only used in unit tests
+     * @param requestTypeLabel
+     * @param typeName
+     * @return
+     * @throws CvqException
+     * Warning: Any modification on the local referential type will be lost. Use the dedicated methods of this service for that.
      */
-    @Deprecated
-    Map<String, Map<String, String>> getAllLocalReferentialDataNames()
-        throws CvqException;
+    LocalReferentialType getLocalReferentialType(final String requestTypeLabel, final String typeName) throws CvqException;
 
     /**
-     * Get all information related to the given data.
+     * Sounds like this method name is too long…
+     * @param requestTypeLabel Label of the request type the local referential type belongs to
+     * @param typeName Name of the local referential type
+     * @return true if the local referential type allows multiple choices
+     * @throws CvqException 
      */
-    LocalReferentialType getLocalReferentialDataByName(final String dataName)
-        throws CvqException;
+    public boolean isLocalReferentialTypeAllowingMultipleChoices(final String requestTypeLabel, final String typeName) throws CvqException;
+    
+    public void setLocalReferentialTypeAllowingMultipleChoices(final String requestTypeLabel, final String typeName, boolean multiple) throws CvqException;
 
     /**
-     * Get a list of all local referential data names belonging to a given request type.
+     * 
+     * @param requestTypeLabel Label of the request type the local referential type belongs to
+     * @param typeName Name of the local referential type
+     * @param key
+     * @return
+     * @throws CvqException 
      */
-    Set<LocalReferentialType> getLocalReferentialDataByRequestType(final String requestTypeLabel)
-        throws CvqException;
+    public LocalReferentialEntryData getLocalReferentialEntry(String requestTypeLabel, String typeName, String key) throws CvqException;
+    
+    /**
+     * 
+     * @param requestTypeLabel Label of the request type the local referential type belongs to
+     * @param typeName Name of the local referential type
+     * @param parentKey
+     * @param label
+     * @param message
+     * @returns The key of the added entry
+     * @throws CvqException 
+     */
+    public String addLocalReferentialEntry(String requestTypeLabel, String typeName, String parentKey, String label, String message) throws CvqException;
+    public String addLocalReferentialEntry(String requestTypeLabel, String typeName, String parentKey, String key, String label, String message) throws CvqException;
+
+    /**
+     * 
+     * @param requestTypeLabel Label of the request type the local referential type belongs to
+     * @param typeName Name of the local referential type
+     * @param entryKey
+     * @throws CvqException 
+     */
+    public void removeLocalReferentialEntry(String requestTypeLabel, String typeName, String entryKey) throws CvqException;
+
+    /**
+     * 
+     * @param requestTypeLabel Label of the request type the local referential type belongs to
+     * @param typeName Name of the local referential type
+     * @param key
+     * @param label
+     * @param message
+     * @throws CvqException 
+     */
+    public void editLocalReferentialEntry(String requestTypeLabel, String typeName, String key, String label, String message) throws CvqException;
 
     /**
      * Return whether local referential is configured for the given request type.
@@ -46,10 +85,20 @@ public interface ILocalReferentialService {
      *  Otherwise return true.
      */
     public boolean isLocalReferentialConfigured(final String requestTypeLabel) throws CvqException;
+
+    /**
+     * Get a list of all known local referential data.
+     * @deprecated only used in unit tests
+     */
+    @Deprecated
+    Set<LocalReferentialType> getAllLocalReferentialData()
+            throws CvqException;
     
     /**
-     * Set local referential data.
+     * @return a set of all request type labels using local referentials
+     * @throws CvqException
+     * @deprecated only used in unit tests
      */
-    void setLocalReferentialData(final LocalReferentialType localReferentialType)
-        throws CvqException;
+    @Deprecated
+    Set<String> getAllLocalReferentialRequestTypeLabels() throws CvqException;
 }

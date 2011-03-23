@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
     <request>RecreationActivityRegistrationRequest</request>
-    <data name="RecreationActivity">
-        <label lang="fr">Activités de l'enfant au centre</label>
-        <entries supportPriority="true" supportPrecision="false" supportMultiple="true">
+    <data name="RecreationActivity" allowMultipleChoices="true">
+        <label>Activités de l'enfant au centre</label>
+        <entries>
             <entry key="ANewEntry">
-                <label lang="fr">Une nouvelle entrée</label>
-                <entries supportPriority="false" supportPrecision="true" supportMultiple="false">
+                <label>Une nouvelle entrée</label>
+                <entries>
                     <entry key="ANewSubEntry">
-                        <label lang="fr">Une sous entrée de la nouvelle entrée</label>
-                        <message lang="fr">Le référentiel parle au référentiel</message>
+                        <label>Une sous entrée de la nouvelle entrée</label>
+                        <message>Le référentiel parle au référentiel</message>
                         <precision key="Précision">
-                            <label lang="fr">Précise moi ça, fiston</label>
+                            <label>Précise moi ça, fiston</label>
                         </precision>
                     </entry>
                 </entries>

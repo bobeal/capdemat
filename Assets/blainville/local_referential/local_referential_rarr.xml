@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-    <request>RecreationActivityRegistrationRequest</request>
-    <data name="RecreationActivity">
-        <label lang="fr">Activités de l'enfant au centre</label>
-        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+    <data name="RecreationActivity" allowMultipleChoices="false">
+        <label>Activités de l'enfant au centre</label>
+        <entries>
             <entry key="Picine">
-                <label lang="fr">Piscine</label>
-                <message lang="fr"/>
+                <label>Piscine</label>
+                <message/>
             </entry>
             <entry key="P-che---la-ligne">
-                <label lang="fr">Pêche à la ligne</label>
-                <message lang="fr"/>
+                <label>Pêche à la ligne</label>
+                <message/>
             </entry>
             <entry key="Roller">
-                <label lang="fr">Roller</label>
-                <message lang="fr"/>
+                <label>Roller</label>
+                <message/>
             </entry>
         </entries>
     </data>

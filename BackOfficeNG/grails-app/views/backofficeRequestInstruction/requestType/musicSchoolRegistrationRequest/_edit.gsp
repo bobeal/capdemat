@@ -41,7 +41,7 @@
                 <dt class="required"><g:message code="msrr.property.activity.label" /> * : </dt><dd id="activity" class="action-editField validate-localReferentialData required-true i18n-msrr.property.activity data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'activity', 'lrEntries': lrTypes.activity?.entries, 
-                             'rqt':rqt, 'isMultiple':lrTypes.activity?.entriesSupportMultiple, 'depth':0]" />
+                             'rqt':rqt, 'isMultiple':lrTypes.activity?.isMultiple(), 'depth':0]" />
  
           </dd>
               </dl>

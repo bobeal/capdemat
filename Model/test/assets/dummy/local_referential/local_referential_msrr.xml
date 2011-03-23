@@ -1,74 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
     <request>MusicSchoolRegistrationRequest</request>
-    <data name="Activity">
-        <label lang="fr">Activités</label>
-        <label lang="en">Activities</label>
-        <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
+    <data name="Activity" allowMultipleChoices="true">
+        <label>Activités</label>
+        <entries>
             <entry key="Dance">
-                <label lang="fr">Danse</label>
-                <entries supportPriority="false" supportPrecision="true" supportMultiple="false">
+                <label>Danse</label>
+                <entries>
                     <entry key="Clasic">
-                        <label lang="fr">Classique</label>
+                        <label>Classique</label>
                     </entry>
                     <entry key="Jazz">
-                        <label lang="fr">Jazz</label>
+                        <label>Jazz</label>
                     </entry>
                     <entry key="Modern">
-                        <label lang="fr">Contemporain</label>
+                        <label>Contemporain</label>
                     </entry>
                 </entries>
             </entry>
             <entry key="Music">
-                <label lang="fr">Musique</label>
-                <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+                <label>Musique</label>
+                <entries>
                     <entry key="Instrument">
-                        <label lang="fr">Instrument</label>
-                        <entries supportPriority="true" supportPrecision="true" supportMultiple="false">
+                        <label>Instrument</label>
+                        <entries>
                             <entry key="Gitar">
-                                <label lang="fr">Guitare</label>
+                                <label>Guitare</label>
                             </entry>
                             <entry key="Piano">
-                                <label lang="fr">Piano</label>
+                                <label>Piano</label>
                             </entry>
                             <entry key="Harmonica">
-                                <label lang="fr">Harmonica</label>
+                                <label>Harmonica</label>
                             </entry>
                         </entries>
                     </entry>
                     <entry key="group">
-                        <label lang="fr">Activité d'ensemble</label>
-                        <entries supportPriority="true" supportPrecision="false" supportMultiple="false">
+                        <label>Activité d'ensemble</label>
+                        <entries>
                             <entry key="Saloon">
-                                <label lang="fr">Musique de chambre</label>
+                                <label>Musique de chambre</label>
                             </entry>
                             <entry key="Orkest">
-                                <label lang="fr">Orchestre</label>
+                                <label>Orchestre</label>
                             </entry>
                             <entry key="Jazz2">
-                                <label lang="fr">Jazz</label>
+                                <label>Jazz</label>
                             </entry>
                             <entry key="Rock">
-                                <label lang="fr">Rock</label>
+                                <label>Rock</label>
                             </entry>
                         </entries>
                     </entry>
                     <entry key="Formation">
-                        <label lang="fr">Formation musicale</label>
+                        <label>Formation musicale</label>
                     </entry>
                 </entries>
             </entry>
             <entry key="Init">
-                <label lang="fr">Initiation et orientation</label>
-                <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+                <label>Initiation et orientation</label>
+                <entries>
                     <entry key="init1">
-                        <label lang="fr">Eveil 1</label>
+                        <label>Eveil 1</label>
                     </entry>
                     <entry key="Init2">
-                        <label lang="fr">Eveil 2</label>
+                        <label>Eveil 2</label>
                     </entry>
                     <entry key="ADI">
-                        <label lang="fr">ADI</label>
+                        <label>ADI</label>
                     </entry>
                 </entries>
             </entry>

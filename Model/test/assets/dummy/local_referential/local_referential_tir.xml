@@ -2,20 +2,20 @@
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
     <request>TechnicalInterventionRequest</request>
     <data name="InterventionType">
-        <label lang="fr">Nature de l'intervention</label>
+        <label>Nature de l'intervention</label>
         <label lang="en">Intervention type</label>
-         <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+         <entries>
             <entry key="plomberie">
-                <label lang="fr">Plomberie</label>
-                <message lang="fr"/>
+                <label>Plomberie</label>
+                <message/>
             </entry>
             <entry key="demenagement">
-                <label lang="fr">Déménagement</label>
-                <message lang="fr"/>
+                <label>Déménagement</label>
+                <message/>
             </entry>
             <entry key="other">
-                <label lang="fr">Autre</label>
-                <message lang="fr"/>
+                <label>Autre</label>
+                <message/>
             </entry>
         </entries>
     </data>

@@ -60,19 +60,6 @@ class FrontofficeRequestController {
     def defaultAction = 'index'
     Adult currentEcitizen
 
-    def afterInterceptor = {
-        if (((params.action == "edit" || params.action == "individual") && request.post)
-            || params.action == "collectionRemove") {
-            def requestId
-            if (params.requestId) requestId = Long.parseLong(params.requestId)
-            else requestId = Long.parseLong(params.id)
-            def rqt = requestSearchService.getById(requestId, true)
-            if (RequestState.UNCOMPLETE.equals(rqt.state)) {
-                requestWorkflowService.rewindWorkflow(rqt)
-            }
-        }
-    }
-
     def index = {
         def state = [:]
         def requests = [:]
@@ -146,6 +133,9 @@ class FrontofficeRequestController {
                     def parameters = [:]
                     if (!RequestState.DRAFT.equals(rqt.state)) {
                         parameters.isEdition = true
+                        if (RequestState.UNCOMPLETE.equals(rqt.state)) {
+                            requestWorkflowService.rewindWorkflow(rqt, params.requestNote && !params.requestNote.trim().isEmpty() ? params.requestNote : null)
+                        }
                     } else {
                         rqt.state = RequestState.PENDING
                         if (SecurityContext.currentEcitizen == null)

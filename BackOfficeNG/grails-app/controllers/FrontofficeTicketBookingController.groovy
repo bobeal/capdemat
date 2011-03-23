@@ -28,15 +28,6 @@ class FrontofficeTicketBookingController {
     DocumentAdaptorService documentAdaptorService
     RequestTypeAdaptorService requestTypeAdaptorService
 
-//    def afterInterceptor = {
-//        if (params.action != "edit" || request.post) {
-//            def rqt = requestSearchService.getById(Long.valueOf(params.requestId), true)
-//            if (RequestState.UNCOMPLETE.equals(rqt.state)) {
-//                requestWorkflowService.rewindWorkflow(rqt)
-//            }
-//        }
-//    }
-
     def getAndLockRequest() {
         def requestId = Long.valueOf(params.requestId != null ? params.requestId : params.id)
         requestLockService.lock(requestId)

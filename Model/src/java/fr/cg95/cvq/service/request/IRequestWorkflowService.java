@@ -18,7 +18,6 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.exception.CvqValidationException;
 import fr.cg95.cvq.security.annotation.IsRequester;
 import fr.cg95.cvq.security.annotation.IsSubject;
 import fr.cg95.cvq.security.annotation.IsUser;
@@ -172,11 +171,6 @@ public interface IRequestWorkflowService {
 
     Request getSkeletonRequest(final String requestTypeLabel, final Long requestSeasonId)
         throws CvqException;
-
-    /**
-     * Edit a request.
-     */
-    void rewindWorkflow(@IsRequest Request request, List<Document> documents, String note) throws CvqException;
 
     /**
      * Modify a request.

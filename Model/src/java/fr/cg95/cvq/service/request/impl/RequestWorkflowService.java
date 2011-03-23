@@ -264,7 +264,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     @Context(types = {ContextType.UNAUTH_ECITIZEN, ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void checkRequestTypePolicy(RequestType requestType, HomeFolder homeFolder)
         throws CvqException {
-        IRequestService service = requestServiceRegistry.getRequestService(requestType.getLabel());
         if (!requestType.getActive()) {
             throw new CvqModelException("requestType.message.inactive");
         }
@@ -650,14 +649,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         request.setState(RequestState.DRAFT);
         create(request, null);
         return request;
-    }
-
-    @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void rewindWorkflow(Request request, List<Document> documents, String note)
-        throws CvqException {
-        rewindWorkflow(request, note);
-        requestDocumentService.addDocuments(request, documents);
     }
 
     @Override

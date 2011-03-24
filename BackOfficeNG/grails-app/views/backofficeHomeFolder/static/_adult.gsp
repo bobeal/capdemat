@@ -1,11 +1,11 @@
-<div id="adult_${adult.id}" class="account collapse">
+<div id="adult_${adult.id}" class="individual collapse">
   <a class="confirmRemoveIndividual" style="float: right;">${message(code:'action.delete')}</a>
   <a class="toggle">${message(code:'action.expand')} / ${message(code:'action.collapse')}</a>
-  <dl class="${adult?.state?.toString() != 'Archived' ? 'edit' : ''} individual-state collapse">
+  <dl class="${adult?.state?.toString() != 'Archived' ? 'edit' : ''} individual-state required collapse">
     <g:render template="static/state" model="['user':adult]" />
   </dl>
   <h3>${message(code:'homeFolder.individual.header.identity')}</h3>
-  <dl class="${adult?.state?.toString() != 'Archived' ? 'edit' : ''} individual-identity collapse">
+  <dl class="${adult?.state?.toString() != 'Archived' ? 'edit' : ''} individual-identity required collapse">
     <g:render template="static/adultIdentity" model="['individual':adult]" />
   </dl>
   <h3>${message(code:'homeFolder.individual.header.address')}</h3>

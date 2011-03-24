@@ -1,60 +1,58 @@
-/* --------------------------------------------------------------
-
-    homeFolder special styles :
-
--------------------------------------------------------------- */
-
 
 /* home folder
 -------------------------------------------------------------- */
-.account {
+.individual {
   margin : 10px 15px; padding: 5px;
   border: 2px solid #ec7000;
   border-radius: .5em; -moz-border-radius: .5em; -webkit-border-radius: .5em;
   background-color: #ffffff;
 }
 
-.account a { font-size:.85em; cursor:pointer }
-.account.collapse {
+.individual a { font-size:.85em; cursor:pointer; }
+.individual p { margin-bottom: 0; }
+
+.individual.collapse {
   border: 1px solid #cccccc;
   border-right-color: #aaaaaa; border-bottom-color: #aaaaaa;
 }
 
-.account.collapse h3 { display : none; }
+.individual.collapse h3 { display : none; }
 
-.account.collapse dt,
-.account.collapse dd { display : none; }
+.individual.collapse dl,
+.individual.collapse dt,
+.individual.collapse dd { display : none; }
+.individual.collapse .required { display : block; }
 
-.account.collapse dl.reponsible dt,
-.account.collapse dl.reponsible dd { display : block; }
+.individual.collapse dl.reponsible dt,
+.individual.collapse dl.reponsible dd { display : block; }
 
-.account.collapse .required { display : block; }
-.account.collapse dl.edit:hover { background: transparent; cursor: default; }
+.individual.collapse dl.edit:hover { background: transparent; cursor: default; }
 
-.account h3 a { float: right; font-size: .8em; }
+.individual h3 a { float: right; font-size: .8em; }
 
-.account dl { overflow : auto; }
-.account dl.edit:hover { background: #ffb; cursor: pointer; }
+.individual dl { overflow : auto; }
+.individual dl.edit:hover { background: #ffb; cursor: pointer; }
 
-.account dt,
-.account dd { float: left; margin: 0; padding: .4em; }
+.individual dt,
+.individual dd { float: left; margin: 0; padding: .4em; }
 
-.account dt {
+.individual dt {
   clear: both; width: 33%; padding-top: .6em;
   font-size: .95em; min-height: 1.5em;
   text-align: right; color: #444;
 }
-.account dt:after { content: " : " ;}
-.account dt.required { font-weight: bold;}
+.individual dt:after { content: " : " ;}
+.individual dt.required { font-weight: bold;}
 
-.account dd { width: 60%; font-size: 1.15em; }
-.account dd .tag-state { display: inline; float: none; font-size: .7em; }
-.account dd ul    { margin: 0; }
-.account dd ul li { padding: .3em 0 0 0; border: 0; list-style-type: none; }
+.individual dd { width: 60%; font-size: 1.15em; }
+.individual dd .tag-state { display: inline; float: none; font-size: .7em; }
+.individual dd ul    { margin: 0; }
+.individual dd ul li { padding: .3em 0 0 0; border: 0; list-style-type: none; }
 
 #homeFolder form { padding: 0; }
 #homeFolder input,
 #homeFolder select { margin: 0; }
+#homeFolder select { max-width: 85%; }
 
 /* FIXME: hack for address */
 #homeFolder form label {

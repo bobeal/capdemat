@@ -25,7 +25,7 @@
         <div id="homeFolder" class="mainbox mainbox-yellow">
           <h2>${message(code:'homeFolder.search.isHomeFolderResponsible')}</h2>
 
-          <div class="account">
+          <div class="individual">
             <form id="createHomeFolder"  method="post" action="${g.createLink(action:'create')}">
               <div class="yui-g">
                 <div class="yui-u first">

@@ -94,7 +94,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
         var dl = zcbh.Details.getTarget(e);
         if (dl.tagName != 'DL') dl = yud.getAncestorByTagName(dl, 'dl');
         var atom = dl.className.split(' ')[1].split('-');
-        var div = yud.getAncestorByClassName(dl, 'account');
+        var div = yud.getAncestorByClassName(dl, 'individual');
         var id = div.id.split('_')[1];
         zct.doAjaxCall(
             '/' + atom[0]
@@ -104,7 +104,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
           , null,
           function(o) {
             dl.innerHTML = o.responseText;
-            if (atom[1] === "address" && mode === "edit") {
+            if (atom[1] === "address" && mode === "edit" && !!zcc.AddressAutocomplete) {
                 zcc.AddressAutocomplete.bind("address_" + id);
             }
           });
@@ -131,7 +131,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
               });
             }
           } else {
-            var individual = yud.getAncestorByClassName(dl, 'account');
+            var individual = yud.getAncestorByClassName(dl, 'individual');
             var div = individual.parentNode;
             div.removeChild(individual);
             div.innerHTML += o.responseText;

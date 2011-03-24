@@ -1,5 +1,5 @@
-<dt>${message(code:'homeFolder.individual.property.address')}</dt>
-<dd>
+<dt class="required">${message(code:'homeFolder.individual.property.address')}</dt>
+<dd class="required">
   <p>${user?.address?.additionalDeliveryInformation}</p>
   <p>${user?.address?.additionalGeographicalInformation}</p>
   <p>${user?.address?.streetNumber} ${user?.address?.streetName}</p>

@@ -1,4 +1,4 @@
-<div id="adult_" class="account">
+<div id="adult_" class="individual">
   <h3>${message(code:'homeFolder.individual.header.newAdult')}</h3>
   <form id="addAdult" method="post" action="${g.createLink(action:'adult')}">
     <dl style="margin-top:1em">

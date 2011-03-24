@@ -1,4 +1,4 @@
-<div id="child_" class="account">
+<div id="child_" class="individual">
   <h3>${message(code:'homeFolder.individual.header.newChild')}</h3>
   <form id="addChild" method="post" action="${g.createLink(action:'child')}">
     <dl>

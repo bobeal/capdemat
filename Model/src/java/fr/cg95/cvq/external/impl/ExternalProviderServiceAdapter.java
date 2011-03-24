@@ -47,23 +47,7 @@ public abstract class ExternalProviderServiceAdapter implements IExternalProvide
 
     @Override
     public void visit(final WorkflowCompleteEvent wfEvent) throws CvqException {
-// Example of a state change from an external provider
-//      wfEvent.setWorkflowPostAction(new IWorkflowPostAction() {
-//          @Override
-//          public String getExecutor() {
-//              return getLabel();
-//          }
-//
-//          @Override
-//          public void execute(IRequestWorkflowService requestWorkflowService) {
-//              try {
-//                  requestWorkflowService.updateRequestState(wfEvent.getRequest().getId(),
-//                          RequestState.CANCELLED, null);
-//              } catch (CvqException e) {
-//                  logger.error(e.getMessage());
-//              }
-//          }
-//      });
+        checkExtReferentialAndSendRequest(wfEvent.getRequest());
     }
 
     @Override
@@ -80,7 +64,23 @@ public abstract class ExternalProviderServiceAdapter implements IExternalProvide
 
     @Override
     public void visit(final WorkflowValidatedEvent wfEvent) throws CvqException {
-        checkExtReferentialAndSendRequest(wfEvent.getRequest());
+// Example of a state change from an external provider
+//      wfEvent.setWorkflowPostAction(new IWorkflowPostAction() {
+//          @Override
+//          public String getExecutor() {
+//              return getLabel();
+//          }
+//
+//          @Override
+//          public void execute(IRequestWorkflowService requestWorkflowService) {
+//              try {
+//                  requestWorkflowService.updateRequestState(wfEvent.getRequest().getId(),
+//                          RequestState.CLOSED, null);
+//              } catch (CvqException e) {
+//                  logger.error(e.getMessage());
+//              }
+//          }
+//      });
     }
 
     @Override

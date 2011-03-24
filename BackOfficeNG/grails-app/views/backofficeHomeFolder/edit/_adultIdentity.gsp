@@ -12,6 +12,7 @@
   <dt>${message(code:'homeFolder.adult.property.familyStatus')}</dt>
   <dd>
     <select name="familyStatus">
+      <option value="">${message(code:'homeFolder.adult.familyStatus.null')}</option>
       <g:each var="familyStatus" in="${fr.cg95.cvq.business.users.FamilyStatusType.allFamilyStatusTypes}">
         <option value="fr.cg95.cvq.business.users.FamilyStatusType_${familyStatus}" ${familyStatus == individual.familyStatus ? 'selected="selected"' : ''}>
           ${g.capdematEnumToText(var:familyStatus, i18nKeyPrefix:'homeFolder.adult.familyStatus')}

@@ -132,7 +132,7 @@ class BackofficeHomeFolderController {
             }
         } else {
             adult = individualService.getAdultById(Long.valueOf(params.id))
-            template = params.template
+            template = params.template ? params.template : 'adult'
         }
 
         if (request.post && !adult.id) {
@@ -147,25 +147,29 @@ class BackofficeHomeFolderController {
                 render (['invalidFields': invalidFields] as JSON)
                 return false
             }
+            render (['status': 'success', 'type':'adult', 'id': adult.id] as JSON)
+            return false
         }
         render(template: mode + '/' + template, model:['adult': adult])
     }
 
     def child = {
-        def child, template
+        def child, template, homeFolderId
         def mode = params.mode
         if (!params.id) {
             child =  new Child()
             template = 'child'
+            homeFolderId = Long.valueOf(params.homeFolderId)
             flash.homeFolderId = params.homeFolderId
         } else {
-            child = individualService.getAdultById(Long.valueOf(params.id))
-            template = params.template
+            child = individualService.getChildById(Long.valueOf(params.id))
+            template = params.template ? params.template : 'child'
+            homeFolderId = child.homeFolder.id
         }
         if (request.post && !child.id) {
             mode = 'static'
             bind(child)
-            homeFolderService.addChild(homeFolderService.getById(Long.valueOf(params.homeFolderId)), child)
+            homeFolderService.addChild(homeFolderService.getById(homeFolderId), child)
             params.roles.each {
                 if (it.value instanceof GrailsParameterMap && it.value.owner != '' && it.value.type != '') {
                     homeFolderService.link(
@@ -184,9 +188,11 @@ class BackofficeHomeFolderController {
                 render (['invalidFields': invalidFields] as JSON)
                 return false
             }
+            render (['status': 'success', 'type':'child', 'id': child.id] as JSON)
+            return false
         }
         def models = ['child': child]
-        models['adults'] = homeFolderService.getAdults(Long.valueOf(params.homeFolderId)).findAll{ it.state != UserState.ARCHIVED }
+        models['adults'] = homeFolderService.getAdults(homeFolderId).findAll{ it.state != UserState.ARCHIVED }
         if (child.id) {
             models['roleOwners'] = homeFolderService.listBySubjectRoles(child.id, RoleType.childRoleTypes)  
         }

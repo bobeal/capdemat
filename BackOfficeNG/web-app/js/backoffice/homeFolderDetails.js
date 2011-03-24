@@ -115,6 +115,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
       },
       cancel : function(e) { zcbh.Details.individual(e,'static'); },
 
+      // TODO : refactor individual and atom refresh policy after creation or modification
       save : function(e) {
         yue.preventDefault(e);
         var target = yue.getTarget(e);
@@ -131,10 +132,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
               });
             }
           } else {
-            var individual = yud.getAncestorByClassName(dl, 'individual');
-            var div = individual.parentNode;
-            div.removeChild(individual);
-            div.innerHTML += o.responseText;
+            json = ylj.parse(o.responseText);
+            zct.doAjaxCall('/' + json.type + '/' + json.id + '/?mode=static' , null,function(o) {
+              var individual = yud.getAncestorByClassName(dl, 'individual');
+              var div = individual.parentNode;
+              div.removeChild(individual);
+              div.innerHTML += o.responseText;
+            });
           }
           zcbh.Details.refreshActions();
         });

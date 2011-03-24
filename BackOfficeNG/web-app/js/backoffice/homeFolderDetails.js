@@ -184,16 +184,17 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
 
       add : function(e) {
         var target = yue.getTarget(e);
-        var div = yud.getAncestorByTagName(target, 'div');
         var type = target.className.split(' ')[1];
+        if (yud.get('add' + zct.capitalize(type))) return;
         zct.doAjaxCall(
           '/' + type
           +'?mode=edit'
           + '&homeFolderId=' + zcbh.Details.homeFolderId
           , null,
           function(o) {
-            div.innerHTML += o.responseText;
-            if (type === "adult") {
+            var div = yud.getNextSibling(target.parentNode)
+            div.innerHTML = o.responseText + div.innerHTML;
+            if (type === "adult" && !!zcc.AddressAutocomplete) {
               zcc.AddressAutocomplete.bind("adultAddress");
             }
           });

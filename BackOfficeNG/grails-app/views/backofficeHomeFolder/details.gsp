@@ -76,6 +76,7 @@
                 ${message(code:'homeFolder.property.adults')}
                 <a class="add adult" style="font-size:.7em;">${message(code:'action.add')}</a>
               </h2>
+              <div class="new"></div>
               <g:each var="adult" in="${adults}">
                 <g:render template="static/adult" model="['adult':adult]" />
               </g:each>
@@ -85,6 +86,7 @@
                 ${message(code:'homeFolder.property.children')}
                 <a class="add child" style="font-size:.7em;">${message(code:'action.add')}</a>
               </h2>
+              <div class="new"></div>
               <g:each var="child" in="${children}">
                 <g:render template="static/child" model="['child':child, 'roleOwners': responsibles[child.id]]" />
               </g:each>

@@ -1,6 +1,6 @@
 <div id="child_" class="account">
   <h3>${message(code:'homeFolder.individual.header.newChild')}</h3>
-  <form id="addChild_" method="post" action="${g.createLink(action:'child')}">
+  <form id="addChild" method="post" action="${g.createLink(action:'child')}">
     <dl>
       <dt class="required">${message(code:'homeFolder.individual.property.born')}</dt>
       <dd class="required">

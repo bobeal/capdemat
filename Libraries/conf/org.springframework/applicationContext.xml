@@ -759,20 +759,6 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   </bean>
 
   <!-- ======================================================= -->
-  <!-- ================ EXTENSIONS POINTS ==================== -->  
-  <!-- ======================================================= -->
-
-  <!-- extension for external data importation -->
-  <bean id="csvParserService" 
-    class="fr.cg95.cvq.service.importer.impl.CsvParserService">
-    <property name="importers">
-      <set>
-        <!-- properties added via plug-in mechanism -->
-      </set>
-    </property>
-  </bean>
-
-  <!-- ======================================================= -->
   <!-- =================== DAO DEFINITION ==================== -->  
   <!-- ======================================================= -->
 

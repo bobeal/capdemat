@@ -42,7 +42,6 @@
                 <include name="dom4j-*.jar" />
                 <include name="hibernate*.jar" />
             </fileset>
-            <fileset dir="${csvobjects.lib.dir}" />
             <fileset dir="${xmlbean.lib.dir}" />
             <fileset dir="${mail.lib.dir}" />
             <fileset dir="${postgresql.jdbc.lib.dir}" />

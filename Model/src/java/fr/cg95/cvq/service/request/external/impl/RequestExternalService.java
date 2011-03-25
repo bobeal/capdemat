@@ -20,6 +20,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Async;
 
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.business.users.HomeFolder;
@@ -396,8 +397,9 @@ public class RequestExternalService extends ExternalService implements IRequestE
             throws CvqException {
 
         Request request = (Request) requestDAO.findById(Request.class, requestId);
-        if (request.getState().equals(RequestState.ARCHIVED)) {
-            logger.debug("getConsumptions() Filtering archived request : " + requestId);
+        RequestSeason requestSeason = request.getRequestSeason();
+        if (request.getState().equals(RequestState.ARCHIVED) || (requestSeason != null && requestSeason.getEffectEnd().isBeforeNow())) {
+            logger.debug("getConsumptionsByRequest() Filtering request (archived or season finished) : " + requestId);
             return null;
         }
 

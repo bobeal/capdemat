@@ -5,6 +5,7 @@ import org.junit.Test;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import static org.junit.Assert.*;
 
@@ -17,7 +18,10 @@ public class IndividualServiceTest extends ServiceTestCase {
 
     @Test
     public void testAssignLogin() throws CvqException {
-        HomeFolder homeFolder = homeFolderService.getById(gimmeAnHomeFolder().getHomeFolderId());
+        SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT);
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
+        Adult responsible = SecurityContext.getCurrentEcitizen();
+        HomeFolder homeFolder = homeFolderService.getById(fake.id);
         Adult emilie = new Adult();
         Adult jean = new Adult();
         Adult albert = new Adult();
@@ -29,7 +33,8 @@ public class IndividualServiceTest extends ServiceTestCase {
 
         emilie.setLastName(lnA);
         emilie.setFirstName(fnA);
-        homeFolderService.addAdult(homeFolder, emilie);
+        emilie.setEmail(responsible.getEmail());
+        homeFolderService.addAdult(homeFolder, emilie, true);
 
         // Test with accent
         String lnB = "DUPÖÑT";
@@ -38,7 +43,8 @@ public class IndividualServiceTest extends ServiceTestCase {
 
         jean.setLastName(lnB);
         jean.setFirstName(fnB);
-        homeFolderService.addAdult(homeFolder, jean);
+        jean.setEmail(responsible.getEmail());
+        homeFolderService.addAdult(homeFolder, jean, true);
         
         // Test with space
         String lnC = "DE LA PORTE";
@@ -47,7 +53,8 @@ public class IndividualServiceTest extends ServiceTestCase {
 
         albert.setLastName(lnC);
         albert.setFirstName(fnC);
-        homeFolderService.addAdult(homeFolder, albert);
+        albert.setEmail(responsible.getEmail());
+        homeFolderService.addAdult(homeFolder, albert, true);
 
         assertEquals(loginA, emilie.getLogin());
         assertEquals(loginB, jean.getLogin());

@@ -12,8 +12,6 @@ import static org.junit.Assert.*;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestType;
-import fr.cg95.cvq.business.users.CreationBean;
-import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
@@ -269,32 +267,17 @@ public class RequestSeasonServiceTest extends RequestTestCase {
 
         /* Request for a school registration (in FrontOffice) */
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        
-        // create a vo card request (to create home folder and associates)
-        CreationBean cb = gimmeAnHomeFolderWithRequest();
-        Long voCardRequestId = cb.getRequestId();
-        String proposedLogin = cb.getLogin();
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
 
-        // close current session and re-open a new one
-        continueWithNewTransaction();
-    
-        SecurityContext.setCurrentEcitizen(proposedLogin);
-
-        // get the home folder id
-        HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
-        assertNotNull(homeFolder);
-        Long homeFolderId = homeFolder.getId();
-        assertNotNull(homeFolderId);
-        
         RequestType requestType = requestTypeService.getRequestTypeById(requestTypeId);
         IRequestService requestService = 
             requestServiceRegistry.getRequestService(requestType.getLabel());
         Request request = requestService.getSkeletonRequest();
         request.setRequestSeason(season);
-        request.setRequesterId(homeFolderService.getHomeFolderResponsible(homeFolderId).getId());
-        request.setSubjectId(child1.getId());
-
-        Long requestId = requestWorkflowService.create(request, null, null, null);
+        request.setRequesterId(fake.responsibleId);
+        request.setSubjectId(fake.childId);
+        request.setHomeFolderId(fake.id);
+        Long requestId = requestWorkflowService.create(request, null);
 
         continueWithNewTransaction();
         
@@ -304,7 +287,7 @@ public class RequestSeasonServiceTest extends RequestTestCase {
         /* Test season associated to the school registration request */
         assertEquals(season, requestSearchService.getById(requestId, false).getRequestSeason());
         
-        assertNull(requestSearchService.getById(voCardRequestId, false).getRequestSeason());
+        assertNull(requestSearchService.getById(super.request.getId(), false).getRequestSeason());
         
         requestWorkflowService.delete(requestId);
         continueWithNewTransaction();

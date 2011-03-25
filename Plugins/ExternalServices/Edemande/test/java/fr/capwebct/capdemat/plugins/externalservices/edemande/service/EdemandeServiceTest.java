@@ -1,20 +1,21 @@
 package fr.capwebct.capdemat.plugins.externalservices.edemande.service;
 
-import static org.junit.Assert.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.school.StudyGrantRequest;
-import fr.cg95.cvq.business.users.CreationBean;
-import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
+import fr.cg95.cvq.service.request.RequestTestCase;
 import fr.cg95.cvq.service.request.external.IRequestExternalService;
-import fr.cg95.cvq.service.request.school.StudyGrantRequestFeeder;
-import fr.cg95.cvq.service.request.school.StudyGrantRequestServiceTest;
+import fr.cg95.cvq.service.request.school.impl.StudyGrantRequestService;
 
-public class EdemandeServiceTest extends StudyGrantRequestServiceTest {
+public class EdemandeServiceTest extends RequestTestCase {
 
     private IRequestExternalService requestExternalService;
+
+    @Autowired
+    private StudyGrantRequestService studyGrantRequestService;
 
     @Override
     public void onSetUp() throws Exception {
@@ -24,28 +25,19 @@ public class EdemandeServiceTest extends StudyGrantRequestServiceTest {
 
     public void testChargerTypeDemande() throws Exception {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-
-        // create a vo card request (to create home folder and associates)
-        CreationBean cb = gimmeAnHomeFolderWithRequest();
-
-        SecurityContext.setCurrentEcitizen(cb.getLogin());
-
-        // get the home folder id
-        HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
-        assertNotNull(homeFolder);
-        Long homeFolderId = homeFolder.getId();
-        assertNotNull(homeFolderId);
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
 
         // fill and create the request
         //////////////////////////////
 
-        StudyGrantRequest request = fillMeARequest();
+        StudyGrantRequest request = (StudyGrantRequest)requestWorkflowService.getSkeletonRequest(
+                studyGrantRequestService.getLabel());
         request.setRequesterId(SecurityContext.getCurrentUserId());
-        request.setHomeFolderId(homeFolderId);
-        StudyGrantRequestFeeder.setSubject(request, requestService.getSubjectPolicy(), null, homeFolder);
+        request.setHomeFolderId(fake.id);
+        request.setSubjectId(fake.childId);
         Document document = new Document();
         document.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.SCHOOL_CERTIFICATE_TYPE));
-        document.setHomeFolderId(homeFolderId);
+        document.setHomeFolderId(fake.id);
         document.setIndividualId(request.getSubjectId());
         Long documentId = documentService.create(document);
         //DocumentBinary documentBinary = new DocumentBinary();

@@ -3,15 +3,11 @@ package fr.cg95.cvq.external.endpoint;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import static org.junit.Assert.*;
 
-import org.apache.axis.encoding.Base64;
 import org.junit.Test;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.xmlbeans.XmlBeansMarshaller;
 
 import fr.capwebct.capdemat.GetDocumentListRequestDocument;
@@ -21,44 +17,19 @@ import fr.capwebct.capdemat.GetDocumentRequestDocument;
 import fr.capwebct.capdemat.GetDocumentListResponseDocument.GetDocumentListResponse;
 import fr.capwebct.capdemat.GetDocumentListRequestDocument.GetDocumentListRequest;
 import fr.cg95.cvq.business.document.Document;
-import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.document.DocumentState;
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.external.ExternalServiceBean;
-import fr.cg95.cvq.external.IExternalProviderService;
+import fr.cg95.cvq.external.ExternalServiceTestCase;
 import fr.cg95.cvq.external.endpoint.DocumentListServiceEndpoint;
 import fr.cg95.cvq.external.endpoint.DocumentServiceEndpoint;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
-import fr.cg95.cvq.service.request.IRequestTypeService;
-import fr.cg95.cvq.service.request.RequestTestCase;
 
-public class DocumentServiceEndpointTest extends RequestTestCase {
-   
-    @Autowired
-    private IExternalProviderService fakeExternalService;
+public class DocumentServiceEndpointTest extends ExternalServiceTestCase {
 
-    private String fakeExternalServiceLabel = "Fake External Service";
-    
-    @Override
-    public void onSetUp() throws Exception {
-        super.onSetUp();
-        
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
-        
-        ExternalServiceBean esb = new ExternalServiceBean();
-        List<String> requestTypes = new ArrayList<String>();
-        requestTypes.add(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST);
-        esb.setRequestTypes(requestTypes);
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        lacb.registerExternalService(fakeExternalService, esb);
-    }
-    
     @Test
     public void testGetDocumentList() throws Exception {
         
@@ -71,16 +42,13 @@ public class DocumentServiceEndpointTest extends RequestTestCase {
         docListEndpoint.setRequestDocumentService(requestDocumentService);
 
         try {
-            
-            CreationBean cb = this.gimmeAnHomeFolderWithRequest();
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
-            Request request = requestSearchService.getById(cb.getRequestId(), false);
             requestDocumentService.addDocument(request, createDocumentForRequest(request,"pdf"));
             requestDocumentService.addDocument(request, createDocumentForRequest(request, "pdf"));
             continueWithNewTransaction();
             
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+            SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             
             GetDocumentListRequest getDocumentRequest = GetDocumentListRequest.Factory.newInstance();
             GetDocumentListRequestDocument getDocumentListRequestDocument = 
@@ -121,7 +89,7 @@ public class DocumentServiceEndpointTest extends RequestTestCase {
 
         try {
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+            SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             
             GetDocumentListRequest getDocumentListRequest = GetDocumentListRequest.Factory.newInstance();
             GetDocumentListRequestDocument getDocumentListRequestDocument = GetDocumentListRequestDocument.Factory.newInstance();
@@ -157,14 +125,12 @@ public class DocumentServiceEndpointTest extends RequestTestCase {
         docEndpoint.setRequestDocumentService(requestDocumentService);
 
         try {
-            CreationBean cb = this.gimmeAnHomeFolderWithRequest();
-            Request request = requestSearchService.getById(cb.getRequestId(), false);
             Long documentId = createDocumentForRequest(request,"pdf");
             requestDocumentService.addDocument(request, documentId);
             continueWithNewTransaction();
             
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+            SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             
             GetDocumentRequest getDocumentRequest = GetDocumentRequest.Factory.newInstance();
             GetDocumentRequestDocument getDocumentRequestDocument = 
@@ -182,7 +148,7 @@ public class DocumentServiceEndpointTest extends RequestTestCase {
             
             assertEquals(2, getDocResponse.getDocumentBinaryArray().length);
             int getLenghtResponseBinaryDocument = 
-                Base64.decode(new String(getDocResponse.getDocumentBinaryArray(0))).length;
+                getDocResponse.getDocumentBinaryArray(0).length;
             
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             
@@ -209,14 +175,12 @@ public class DocumentServiceEndpointTest extends RequestTestCase {
         docEndpoint.setRequestDocumentService(requestDocumentService);
 
         try {
-            CreationBean cb = this.gimmeAnHomeFolderWithRequest();
-            Request request = requestSearchService.getById(cb.getRequestId(), false);
             Long documentId = createDocumentForRequest(request,"image");
             requestDocumentService.addDocument(request, documentId);
             continueWithNewTransaction();
             
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+            SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             
             GetDocumentRequest getDocumentRequest = GetDocumentRequest.Factory.newInstance();
             GetDocumentRequestDocument getDocumentRequestDocument = 
@@ -234,7 +198,7 @@ public class DocumentServiceEndpointTest extends RequestTestCase {
             
             assertEquals(1, getDocResponse.getDocumentBinaryArray().length);
             int getLenghtResponseBinaryDocument = 
-                Base64.decode(new String(getDocResponse.getDocumentBinaryArray(0))).length;
+                getDocResponse.getDocumentBinaryArray(0).length;
             
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             
@@ -261,7 +225,7 @@ public class DocumentServiceEndpointTest extends RequestTestCase {
 
         try {
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+            SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             
             GetDocumentRequest getDocumentRequest = GetDocumentRequest.Factory.newInstance();
             GetDocumentRequestDocument getDocumentRequestDocument = GetDocumentRequestDocument.Factory.newInstance();
@@ -297,12 +261,8 @@ public class DocumentServiceEndpointTest extends RequestTestCase {
         docEndpoint.setRequestDocumentService(requestDocumentService);
 
         try {
-            CreationBean cb = this.gimmeAnHomeFolderWithRequest();
-            Request request = requestSearchService.getById(cb.getRequestId(), false);
-            continueWithNewTransaction();
-            
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+            SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             
             GetDocumentRequest getDocumentRequest = GetDocumentRequest.Factory.newInstance();
             GetDocumentRequestDocument getDocumentRequestDocument = 
@@ -338,14 +298,12 @@ public class DocumentServiceEndpointTest extends RequestTestCase {
         docEndpoint.setRequestDocumentService(requestDocumentService);
 
         try {
-            CreationBean cb = this.gimmeAnHomeFolderWithRequest();
-            Request request = requestSearchService.getById(cb.getRequestId(), false);
             Long documentId = createDocumentForRequest(request,"image");
             requestDocumentService.addDocument(request, documentId);
             continueWithNewTransaction();
             
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+            SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             
             GetDocumentRequest getDocumentRequest = GetDocumentRequest.Factory.newInstance();
             GetDocumentRequestDocument getDocumentRequestDocument = 

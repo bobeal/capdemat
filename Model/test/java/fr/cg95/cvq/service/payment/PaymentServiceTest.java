@@ -21,7 +21,7 @@ import fr.cg95.cvq.business.payment.Payment;
 import fr.cg95.cvq.business.payment.PaymentMode;
 import fr.cg95.cvq.business.payment.PaymentState;
 import fr.cg95.cvq.business.payment.PurchaseItem;
-import fr.cg95.cvq.business.users.CreationBean;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.ExternalServiceBean;
@@ -88,11 +88,8 @@ public class PaymentServiceTest extends PaymentTestCase {
     
     @Test
     public void testPaymentCreate() throws CvqException {
-        
-        CreationBean cb = gimmeAnHomeFolder();
-
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(cb.getLogin());
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
 
         Payment payment = gimmePayment();
         
@@ -100,12 +97,12 @@ public class PaymentServiceTest extends PaymentTestCase {
         
         continueWithNewTransaction();
         
-        List<Payment> payments = paymentService.getByHomeFolder(cb.getHomeFolderId());
+        List<Payment> payments = paymentService.getByHomeFolder(fake.id);
         assertNotNull(payments);
         assertEquals(1, payments.size());
         
         payment = payments.get(0);
-        
+        Individual homeFolderResponsible = individualService.getById(fake.responsibleId);
         assertEquals(homeFolderResponsible.getId(), payment.getRequesterId());
         assertEquals(homeFolderResponsible.getFirstName(), payment.getRequesterFirstName());
         assertEquals(homeFolderResponsible.getLastName(), payment.getRequesterLastName());
@@ -119,10 +116,7 @@ public class PaymentServiceTest extends PaymentTestCase {
     public void testPaymentSuccessFlow() throws CvqException {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-
-        // create a vo card request (to create home folder and associates)
-        CreationBean cb = gimmeAnHomeFolder();
-        SecurityContext.setCurrentEcitizen(cb.getLogin());
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
         
         Payment payment = gimmePayment();
 
@@ -131,7 +125,7 @@ public class PaymentServiceTest extends PaymentTestCase {
         
         continueWithNewTransaction();
         
-        List<Payment> payments = paymentService.getByHomeFolder(cb.getHomeFolderId());
+        List<Payment> payments = paymentService.getByHomeFolder(fake.id);
         assertEquals(1, payments.size());
         payment = payments.get(0);
         assertEquals(3, payment.getPurchaseItems().size());
@@ -161,7 +155,7 @@ public class PaymentServiceTest extends PaymentTestCase {
         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
         PaymentResultStatus returnStatus = paymentService.commitPayment(parameters);
         SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(cb.getLogin());
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
         assertEquals(returnStatus, PaymentResultStatus.OK);
         
         continueWithNewTransaction();
@@ -181,16 +175,13 @@ public class PaymentServiceTest extends PaymentTestCase {
             // that was expected
         }
 
-        assertEquals(0, paymentService.getByHomeFolder(cb.getHomeFolderId()).size());
+        assertEquals(0, paymentService.getByHomeFolder(fake.id).size());
     }
 
     @Test
     public void testPaymentSearch() throws CvqException {
-
-        CreationBean cb = gimmeAnHomeFolder();
-
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(cb.getLogin());
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
 
         Payment payment = gimmePayment();
         
@@ -220,7 +211,7 @@ public class PaymentServiceTest extends PaymentTestCase {
         Critere crit = new Critere();
         crit.setAttribut(Payment.SEARCH_BY_HOME_FOLDER_ID);
         crit.setComparatif(Critere.EQUALS);
-        crit.setValue(cb.getHomeFolderId());
+        crit.setValue(fake.id);
         criteria.add(crit);
         
         crit = new Critere();

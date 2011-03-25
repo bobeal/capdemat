@@ -14,7 +14,6 @@ import fr.cg95.cvq.business.request.GlobalRequestTypeConfiguration;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.civil.BirthDetailsRequest;
-import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -128,16 +127,14 @@ public class DraftManagementJobTest extends RequestTestCase {
     }
     
     void createDrafts(int step) throws CvqException {
-        CreationBean bean = this.gimmeAnHomeFolderWithRequest();
-        
         for (int i = 1;i<=step;i++) {
             SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT);
-            SecurityContext.setCurrentEcitizen(bean.getLogin());
+            SecurityContext.setCurrentEcitizen(fake.responsibleId);
             Request request = new BirthDetailsRequest();
             request.setRequesterId(SecurityContext.getCurrentEcitizen().getId());
             request.setHomeFolderId(SecurityContext.getCurrentEcitizen().getHomeFolder().getId());
             request.setState(RequestState.DRAFT);
-            Long id = requestWorkflowService.create(request, null, null, null);
+            Long id = requestWorkflowService.create(request, null);
             request = requestSearchService.getById(id, true);
             request.setCreationDate(DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR,i*(-1)));
             

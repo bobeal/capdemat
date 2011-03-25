@@ -3,7 +3,6 @@ package fr.cg95.cvq.service.request;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
-import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.util.Critere;
@@ -88,18 +87,17 @@ public class RequestDraftTest extends RequestTestCase {
     }
     
     void createDrafts(int step) throws CvqException {
-        CreationBean bean = this.gimmeAnHomeFolderWithRequest();
         continueWithNewTransaction();
         
         for(int i = 1;i<=step;i++) {
             SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT);
-            SecurityContext.setCurrentEcitizen(bean.getLogin());
+            SecurityContext.setCurrentEcitizen(fake.responsibleId);
             
             Request request = new SchoolRegistrationRequest();
             request.setRequesterId(SecurityContext.getCurrentEcitizen().getId());
-            request.setSubjectId(child1.getId());
+            request.setSubjectId(fake.childId);
             request.setState(RequestState.DRAFT);
-            Long id = requestWorkflowService.create(request, null, null, null);
+            Long id = requestWorkflowService.create(request, null);
             continueWithNewTransaction();
             
             request = requestSearchService.getById(id, true);

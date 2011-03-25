@@ -1,11 +1,8 @@
 package fr.cg95.cvq.external.endpoint;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.*;
@@ -26,8 +23,6 @@ import fr.capwebct.capdemat.AckRequestsResponseDocument.AckRequestsResponse;
 import fr.capwebct.capdemat.GetRequestsRequestDocument.GetRequestsRequest;
 import fr.capwebct.capdemat.GetRequestsResponseDocument.GetRequestsResponse;
 import fr.capwebct.capdemat.HomeFolderMappingRequestDocument.HomeFolderMappingRequest;
-import fr.cg95.cvq.business.users.CreationBean;
-import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.business.users.external.IndividualMapping;
 import fr.cg95.cvq.business.request.RequestState;
@@ -36,43 +31,24 @@ import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.ExternalServiceTestCase;
 import fr.cg95.cvq.external.endpoint.AckRequestServiceEndpoint;
 import fr.cg95.cvq.external.endpoint.HomeFolderMappingServiceEndpoint;
 import fr.cg95.cvq.external.endpoint.RequestServiceEndpoint;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestExportService;
-import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.external.IRequestExternalService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.xml.common.RequestStateType;
 
 public class RequestServiceEndpointTest extends ExternalServiceTestCase {
-    
-    private String fakeExternalServiceLabel = "Fake External Service";
+
     @Autowired
     private IRequestExternalService requestExternalService;
     @Autowired
     private IRequestExportService requestExportService;
 
-    @Override
-    public void onSetUp() throws Exception {
-        super.onSetUp();
-        
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
-
-        ExternalServiceBean esb = new ExternalServiceBean();
-        List<String> requestTypes = new ArrayList<String>();
-        requestTypes.add(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST);
-        esb.setRequestTypes(requestTypes);
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        fakeExternalService = getApplicationBean("fakeExternalService");
-        lacb.registerExternalService(fakeExternalService, esb);
-    }
-    
     @Test
     public void testGetAndAckFlow() throws Exception {
 
@@ -85,18 +61,14 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
 
         try {
             for (RequestExternalAction trace :
-                requestExternalActionService.getTraces(Collections.<Critere>emptySet(),
-                    null, null, 0, 0)) {
+                requestExternalActionService.getTraces(new HashSet<Critere>(), null, null, 0, 0)) {
                 HibernateUtil.getSession().delete(trace);
             }
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
             
-            CreationBean cb = this.gimmeAnHomeFolderWithRequest();
-            this.continueWithNewTransaction();
-            
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+            SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
 
             GetRequestsRequest getRequest = GetRequestsRequest.Factory.newInstance();
             AckRequestsRequest ackRequest = AckRequestsRequest.Factory.newInstance();
@@ -124,11 +96,11 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             /* Create acknowledgement response */
             AckRequestType[] types = new AckRequestType[1];
             AckRequestType type = AckRequestType.Factory.newInstance();
-            type.setRequestId(cb.getRequestId());
+            type.setRequestId(request.getId());
             type.setErroneous(false);
             types[0] = type;
             
-            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+            SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
 
             ackRequest.setAckElementsArray(types);
             AckRequestsRequestDocument ackRequestDocument = 
@@ -144,7 +116,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
 
             assertEquals(2, requestExternalActionService.getTracesCount(criteriaSet).longValue());
             
-            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+            SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
 
             getResponse = (GetRequestsResponse) endpoint2.invokeInternal(requestDocument);
             assertEquals(0, getResponse.getRequestArray().length);
@@ -155,8 +127,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
         } finally {
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             for (RequestExternalAction trace :
-                requestExternalActionService.getTraces(Collections.<Critere>emptySet(),
-                    null, null, 0, 0)) {
+                requestExternalActionService.getTraces(new HashSet<Critere>(), null, null, 0, 0)) {
                 HibernateUtil.getSession().delete(trace);
             }
         }
@@ -170,18 +141,14 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
         /* Initialize internal variables */
         AckRequestServiceEndpoint endpoint1 = gimmeAckRequestServiceEndpoint();
         RequestServiceEndpoint endpoint2 = gimmeRequestServiceEndpoint();
-
+        Long[] requestIDs = new Long[3];
         try {
             for (RequestExternalAction trace :
-                requestExternalActionService.getTraces(Collections.<Critere>emptySet(),
-                    null, null, 0, 0)) {
+                requestExternalActionService.getTraces(new HashSet<Critere>(), null, null, 0, 0)) {
                 HibernateUtil.getSession().delete(trace);
             }
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
-            
-            this.gimmeAnHomeFolderWithRequest();
-            this.continueWithNewTransaction();
             
             GetRequestsRequest getRequest = GetRequestsRequest.Factory.newInstance();
             AckRequestsRequest ackRequest = AckRequestsRequest.Factory.newInstance();
@@ -192,7 +159,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             getRequest.setState(RequestStateType.Enum.forString(RequestState.PENDING.toString()));
             requestDocument.setGetRequestsRequest(getRequest);
             
-            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+            SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             
             /* Create sent traces */
             GetRequestsResponse getResponse = 
@@ -201,7 +168,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             
             assertEquals(1, getCountBefore);
             
-            getRequest.setRequestTypeLabel(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST);
+            getRequest.setRequestTypeLabel(tirLabel);
             requestDocument.setGetRequestsRequest(getRequest);
 
             getResponse = (GetRequestsResponse) endpoint2.invokeInternal(requestDocument);
@@ -221,21 +188,24 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             /* Create acknowledged traces */
             AckRequestType[] types = new AckRequestType[3];
             AckRequestType type = AckRequestType.Factory.newInstance();
-            type.setRequestId(2345L);
+            requestIDs[0] = createRequest().getId();
+            type.setRequestId(requestIDs[0]);
             type.setErroneous(false);
             types[0] = type;
             
             type = AckRequestType.Factory.newInstance();
-            type.setRequestId(2346L);
+            requestIDs[1] = createRequest().getId();
+            type.setRequestId(requestIDs[1]);
             type.setErroneous(false);
             types[1] = type;
             
             type = AckRequestType.Factory.newInstance();
-            type.setRequestId(2347L);
+            requestIDs[2] = createRequest().getId();
+            type.setRequestId(requestIDs[2]);
             type.setErroneous(true);
             types[2] = type;
             
-            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+            SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             
             ackRequest.setAckElementsArray(types);
             AckRequestsRequestDocument ackRequestDocument = AckRequestsRequestDocument.Factory.newInstance();
@@ -253,7 +223,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
                 RequestExternalAction.Status.ERROR, Critere.EQUALS));
             RequestExternalAction trace = requestExternalActionService.getTraces(criteriaSet, null, null, 1, 0).get(0);
             
-            assertEquals(trace.getKey(), "2347");
+            assertEquals(trace.getKey(), requestIDs[2].toString());
             assertEquals(trace.getKeyOwner(),"capdemat");
             assertEquals(trace.getStatus(), RequestExternalAction.Status.ERROR);
             
@@ -263,10 +233,10 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             fail("Unwaited exception trown : " + e.getMessage());
         } finally {
             for (RequestExternalAction trace :
-                requestExternalActionService.getTraces(Collections.<Critere>emptySet(),
-                    null, null, 0, 0)) {
+                requestExternalActionService.getTraces(new HashSet<Critere>(), null, null, 0, 0)) {
                 HibernateUtil.getSession().delete(trace);
             }
+            for (Long id : requestIDs) requestWorkflowService.delete(id);
         }
         
     }
@@ -283,7 +253,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
                 GetRequestsRequestDocument.Factory.newInstance();
             GetRequestsRequest pendedRequest = GetRequestsRequest.Factory.newInstance();
             
-            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+            SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             
             pendedRequestDocument.setGetRequestsRequest(pendedRequest);
             endpoint.invokeInternal(pendedRequestDocument);
@@ -303,7 +273,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
     public void testAccessPermissions() {
         try {
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+            SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
 
             RequestServiceEndpoint endpoint = gimmeRequestServiceEndpoint();
 
@@ -326,8 +296,8 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
     @Test
     public void testRequestServiceEndpoint() throws Exception {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
-        
+        SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
+        Long[] requestIDs = new Long[2];
         try {
             int completeCountBefore = 0;
 
@@ -361,13 +331,12 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             GetRequestsResponse completeResponse = (GetRequestsResponse) endpoint.invokeInternal(completeRequestDocument);
             completeCountBefore = completeResponse.getRequestArray().length;
             
-            /* Create new request and child entities */
-            CreationBean cb = this.gimmeAnHomeFolderWithRequest();
-            this.gimmeAnHomeFolderWithRequest();
-            this.continueWithNewTransaction();
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
+            requestIDs[0] = createRequest().getId();
+            requestIDs[1] = createRequest().getId();
             
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+            SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
 
             pendedResponse = (GetRequestsResponse) endpoint.invokeInternal(pendedRequestDocument);
             completeResponse = (GetRequestsResponse) endpoint.invokeInternal(completeRequestDocument);
@@ -383,7 +352,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
              * Retrieve a request by its id
              */
             GetRequestsRequest getRequestById = GetRequestsRequest.Factory.newInstance();
-            getRequestById.setId(cb.getRequestId());
+            getRequestById.setId(request.getId());
             pendedRequestDocument.setGetRequestsRequest(getRequestById);
             GetRequestsResponse getRequestByIdResponse = 
                 (GetRequestsResponse) endpoint.invokeInternal(pendedRequestDocument);
@@ -395,7 +364,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             AckRequestsRequest ackRequest = AckRequestsRequest.Factory.newInstance();
             AckRequestType[] types = new AckRequestType[1];
             AckRequestType type = AckRequestType.Factory.newInstance();
-            type.setRequestId(cb.getRequestId());
+            type.setRequestId(request.getId());
             type.setErroneous(false);
             types[0] = type;
             ackRequest.setAckElementsArray(types);
@@ -418,10 +387,10 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             for (RequestExternalAction trace :
-                requestExternalActionService.getTraces(Collections.<Critere>emptySet(),
-                    null, null, 0, 0)) {
+                requestExternalActionService.getTraces(new HashSet<Critere>(), null, null, 0, 0)) {
                 HibernateUtil.getSession().delete(trace);
             }
+            for (Long id : requestIDs) requestWorkflowService.delete(id);
         }
     }
     
@@ -436,10 +405,6 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             HomeFolderMappingServiceEndpoint endpoint = new HomeFolderMappingServiceEndpoint(xmlBeansMarshaller);
             endpoint.setExternalHomeFolderService(externalHomeFolderService);
 
-            /* Create new request and child entities */
-            CreationBean cb = gimmeAnHomeFolder();
-            continueWithNewTransaction();
-
             HomeFolderMappingRequestDocument homeFolderMappingRequestDocument =
                 HomeFolderMappingRequestDocument.Factory.newInstance();
             HomeFolderMappingRequest homeFolderMappingRequest =
@@ -448,14 +413,13 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
 
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             
-            externalHomeFolderService.addHomeFolderMapping(fakeExternalServiceLabel, cb.getHomeFolderId(), "OriginalHomeFolderId");
+            externalHomeFolderService.addHomeFolderMapping(fakeExternalService.getLabel(), fake.id, "OriginalHomeFolderId");
             continueWithNewTransaction();
-            Individual individual = individualService.getByLogin(cb.getLogin());
-            externalHomeFolderService.setExternalId(fakeExternalServiceLabel, cb.getHomeFolderId(), individual.getId(), "OriginalIndividualId");
+            externalHomeFolderService.setExternalId(fakeExternalService.getLabel(), fake.id, fake.responsibleId, "OriginalIndividualId");
             continueWithNewTransaction();
             
             HomeFolderMapping homeFolderMapping =
-                externalHomeFolderService.getHomeFolderMapping(fakeExternalServiceLabel, cb.getHomeFolderId());
+                externalHomeFolderService.getHomeFolderMapping(fakeExternalService.getLabel(), fake.id);
             HomeFolderMappingType homeFolderMappingType = homeFolderMappingRequest.addNewHomeFolderMapping();
             homeFolderMappingType.setExternalCapDematId(homeFolderMapping.getExternalCapDematId());
             homeFolderMappingType.setExternalId("ExternalHomeFolderId");
@@ -471,11 +435,11 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
                 }
             }
 
-            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+            SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
             endpoint.invokeInternal(homeFolderMappingRequestDocument);
             
             continueWithNewTransaction();
-            homeFolderMapping = externalHomeFolderService.getHomeFolderMapping(fakeExternalServiceLabel, cb.getHomeFolderId());
+            homeFolderMapping = externalHomeFolderService.getHomeFolderMapping(fakeExternalService.getLabel(), fake.id);
             assertEquals("ExternalHomeFolderId", homeFolderMapping.getExternalId());
             for (IndividualMapping indMapping : homeFolderMapping.getIndividualsMappings()) {
                 if (indMapping.getExternalCapDematId().equals(externalCapDematId)) {
@@ -489,8 +453,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             for (RequestExternalAction trace :
-                requestExternalActionService.getTraces(Collections.<Critere>emptySet(),
-                    null, null, 0, 0)) {
+                requestExternalActionService.getTraces(new HashSet<Critere>(), null, null, 0, 0)) {
                 HibernateUtil.getSession().delete(trace);
             }
         }

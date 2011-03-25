@@ -169,16 +169,9 @@ public class CategoryServiceTest extends RequestTestCase {
 
         continueWithNewTransaction();
 
-        // associate the new category with account creation requests
+        // associate the new category with a request type
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        RequestType requestTypeToAdd = null;
-        for (RequestType rt : requestTypesSet) {
-            // add VO Card Request to the new category
-            if (rt.getLabel().equals(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST)) {
-                requestTypeToAdd = rt;
-                break;
-            }
-        }
+        RequestType requestTypeToAdd = requestTypesSet.get(0);
         try {
             categoryService.addRequestType(newCategoryId, requestTypeToAdd.getId());
             fail("should have thrown an exception");
@@ -203,17 +196,12 @@ public class CategoryServiceTest extends RequestTestCase {
         
         continueWithNewTransaction();
 
-        // create an account creation request to make a test on categories rights
-        gimmeAnHomeFolderWithRequest();
-        
-        continueWithNewTransaction();
-
         // to force re-association of agent within current session
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
         
         try {
-            requestSearchService.getById(voCardRequestId, false);
+            requestSearchService.getById(request.getId(), false);
             fail("should have thrown a permission exception");
         } catch (PermissionException pe) {
             // ok, that was expeceted
@@ -231,7 +219,7 @@ public class CategoryServiceTest extends RequestTestCase {
         continueWithNewTransaction();
 
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        requestSearchService.getById(voCardRequestId, false);
+        requestSearchService.getById(request.getId(), false);
         
         continueWithNewTransaction();
 

@@ -25,8 +25,6 @@ import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.document.DocumentState;
 import fr.cg95.cvq.business.document.DocumentType;
-import fr.cg95.cvq.business.users.CreationBean;
-import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
@@ -53,21 +51,17 @@ public class DocumentServiceTest extends DocumentTestCase {
         
         // ensure all document types have been bootstrapped
         List<DocumentType> allDocumentTypes = documentTypeService.getAllDocumentTypes();
-        assertEquals(38, allDocumentTypes.size());
+        assertEquals(39, allDocumentTypes.size());
         
-        // create background data
-        CreationBean cb = gimmeAnHomeFolder();
-        String responsibleLogin = cb.getLogin();
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
 
-        SecurityContext.setCurrentEcitizen(responsibleLogin);
-
-        Individual anIndividual = homeFolderService.getAdults(cb.getHomeFolderId()).get(0);
+        Individual anIndividual = homeFolderService.getAdults(fake.id).get(0);
 
         // create a document
         Document doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.ECITIZEN, DepositType.PC, 
                     documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         doc.setDepositId(anIndividual.getId());
-        doc.setHomeFolderId(cb.getHomeFolderId());
+        doc.setHomeFolderId(fake.id);
         doc.setIndividualId(anIndividual.getId());
         Long docId = documentService.create(doc);
 
@@ -89,7 +83,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         
         // check the document and its two binary have been successfully added ...
         // ... to the home folder
-        List<Document> documentsList = documentService.getHomeFolderDocuments(cb.getHomeFolderId(), -1);
+        List<Document> documentsList = documentService.getHomeFolderDocuments(fake.id, -1);
         assertEquals("Bad number of associated documents on home folder", 1, documentsList.size());
         List<DocumentBinary> docBinarys = documentService.getById(docId).getDatas();
         assertEquals("Bad number of associated data on document",2, doc.getDatas().size());
@@ -120,16 +114,16 @@ public class DocumentServiceTest extends DocumentTestCase {
         DocumentType docType =
             documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE);
         documentsList =
-            documentService.getProvidedDocuments(docType, cb.getHomeFolderId(), null);
+            documentService.getProvidedDocuments(docType, fake.id, null);
         assertEquals("Bad number of docs for home folder (1)", 1, documentsList.size());
         // and try other successful and unsuccessful searches among provided documents
         documentsList =
-            documentService.getProvidedDocuments(docType, cb.getHomeFolderId(), anIndividual.getId());
+            documentService.getProvidedDocuments(docType, fake.id, anIndividual.getId());
         assertEquals("Bad number of docs for home folder and individual", 1, documentsList.size());
         docType =
             documentTypeService.getDocumentTypeByType(IDocumentTypeService.MEDICAL_CERTIFICATE_TYPE);
         documentsList =
-            documentService.getProvidedDocuments(docType, cb.getHomeFolderId(), null);
+            documentService.getProvidedDocuments(docType, fake.id, null);
         assertEquals("Bad number of docs for home folder (2)", 0, documentsList.size());
 
         // test end validity durations by creating different sort of doc types
@@ -139,7 +133,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.ECITIZEN, DepositType.PC, 
                 documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         doc.setDepositId(anIndividual.getId());
-        doc.setHomeFolderId(cb.getHomeFolderId());
+        doc.setHomeFolderId(fake.id);
         doc.setIndividualId(anIndividual.getId());
         documentService.create(doc);
 
@@ -147,14 +141,14 @@ public class DocumentServiceTest extends DocumentTestCase {
         doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.ECITIZEN, DepositType.PC, 
                 documentTypeService.getDocumentTypeByType(IDocumentTypeService.DOMICILE_RECEIPT_TYPE));
         doc.setDepositId(anIndividual.getId());
-        doc.setHomeFolderId(cb.getHomeFolderId());
+        doc.setHomeFolderId(fake.id);
         documentService.create(doc);
 
         // ... a 2-month valid
         doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.ECITIZEN, DepositType.PC, 
                 documentTypeService.getDocumentTypeByType(IDocumentTypeService.ID_CARD_LOSS_DECLARATION_TYPE));
         doc.setDepositId(anIndividual.getId());
-        doc.setHomeFolderId(cb.getHomeFolderId());
+        doc.setHomeFolderId(fake.id);
         Long docId3 = documentService.create(doc);
 
         // ... an end-of-the-year valid
@@ -163,14 +157,14 @@ public class DocumentServiceTest extends DocumentTestCase {
         doc.setDepositOrigin(DepositOrigin.ECITIZEN);
         doc.setDepositType(DepositType.PC);
         doc.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.TAXES_NOTIFICATION_TYPE));
-        doc.setHomeFolderId(cb.getHomeFolderId());
+        doc.setHomeFolderId(fake.id);
         Long docId4 = documentService.create(doc);
 
         // ... an end-of-the-school-year valid
         doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.ECITIZEN, DepositType.PC, 
                 documentTypeService.getDocumentTypeByType(IDocumentTypeService.VACATING_CERTIFICATE_TYPE));
         doc.setDepositId(anIndividual.getId());
-        doc.setHomeFolderId(cb.getHomeFolderId());
+        doc.setHomeFolderId(fake.id);
         documentService.create(doc);
 
         // delete a document
@@ -204,7 +198,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         allDocumentTypes = documentTypeService.getAllDocumentTypes();
         assertNotNull(allDocumentTypes);
         
-        SecurityContext.setCurrentEcitizen(cb.getLogin());
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
         int count = documentService.searchCount(null);
         assertNotSame(count, 0);
         
@@ -217,7 +211,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         assertNotSame(docs.size(), 0);
         
         params = new Hashtable<String, Object>();
-        params.put("homeFolderId", cb.getHomeFolderId());        
+        params.put("homeFolderId", fake.id);
         
         count = documentService.searchCount(params);
         docs = documentService.search(params,-1,-1);
@@ -228,19 +222,17 @@ public class DocumentServiceTest extends DocumentTestCase {
     public void testCreate() throws CvqException {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        CreationBean cb = gimmeAnHomeFolder();
-        SecurityContext.setCurrentEcitizen(cb.getLogin());
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
         
         continueWithNewTransaction();
         
-        HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
-        Individual individual = homeFolderService.getHomeFolderResponsible(homeFolder.getId());
+        Individual individual = homeFolderService.getHomeFolderResponsible(fake.id);
         DocumentType documentType =
             documentTypeService.getDocumentTypeByType(IDocumentTypeService.ADOPTION_JUDGMENT_TYPE);
         
         Document document = 
             BusinessObjectsFactory.gimmeDocument("", null, null, documentType);
-        document.setHomeFolderId(homeFolder.getId());
+        document.setHomeFolderId(fake.id);
         document.setIndividualId(new Long(individual.getId().longValue()));
         documentService.create(document);
         Long documentId = document.getId();
@@ -273,16 +265,16 @@ public class DocumentServiceTest extends DocumentTestCase {
     @Test
     public void testHomeFolderDeleteEvent() throws CvqException {
         
-        CreationBean cb = gimmeMinimalHomeFolder();
+        FakeHomeFolder fake = new FakeHomeFolder(false);
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(cb.getLogin());
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
 
         DocumentType documentType =
             documentTypeService.getDocumentTypeByType(IDocumentTypeService.ADOPTION_JUDGMENT_TYPE);
         
         Document document = BusinessObjectsFactory.gimmeDocument("", null, null, documentType);
-        document.setHomeFolderId(cb.getHomeFolderId());
+        document.setHomeFolderId(fake.id);
         documentService.create(document);
    
         continueWithNewTransaction();
@@ -290,30 +282,26 @@ public class DocumentServiceTest extends DocumentTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
-        homeFolderService.delete(cb.getHomeFolderId());
-        homeFolderIds.remove(cb.getHomeFolderId());
+        homeFolderService.delete(fake.id);
         
         continueWithNewTransaction();
         
         List<Document> documents = 
-            documentService.getHomeFolderDocuments(cb.getHomeFolderId(), -1);
+            documentService.getHomeFolderDocuments(fake.id, -1);
         assertTrue(documents.isEmpty());
     }
 
     @Test
     public void testIndividualDeleteEvent() throws CvqException {
-
-        CreationBean cb = gimmeAnHomeFolder();
-        
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(cb.getLogin());
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
 
         DocumentType documentType =
             documentTypeService.getDocumentTypeByType(IDocumentTypeService.ADOPTION_JUDGMENT_TYPE);
         
         Document document = BusinessObjectsFactory.gimmeDocument("", null, null, documentType);
-        document.setHomeFolderId(cb.getHomeFolderId());
-        document.setIndividualId(homeFolderWoman.getId());
+        document.setHomeFolderId(fake.id);
+        document.setIndividualId(fake.womanId);
         documentService.create(document);
    
         continueWithNewTransaction();
@@ -321,13 +309,11 @@ public class DocumentServiceTest extends DocumentTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
-        homeFolderService.deleteIndividual(cb.getHomeFolderId(), homeFolderWoman.getId());
+        homeFolderService.delete(individualService.getById(fake.womanId));
         
         continueWithNewTransaction();
         
-        List<Document> documents = 
-            documentService.getIndividualDocuments(homeFolderWoman.getId());
-        assertTrue(documents.isEmpty());
+        assertTrue(documentService.getIndividualDocuments(fake.womanId).isEmpty());
     }
 
     @Test

@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,11 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
@@ -28,14 +24,10 @@ import fr.cg95.cvq.business.payment.Payment;
 import fr.cg95.cvq.business.payment.PaymentMode;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.technical.TechnicalInterventionRequest;
-import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.payment.IPaymentService;
 import fr.cg95.cvq.service.payment.PaymentResultStatus;
-import fr.cg95.cvq.service.request.external.IRequestExternalService;
-import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.util.Critere;
 
 public class RestExternalServiceTest extends ExternalServiceTestCase {
@@ -45,42 +37,6 @@ public class RestExternalServiceTest extends ExternalServiceTestCase {
 
     @Autowired
     private IExternalProviderService restExternalService;
-
-    @Autowired
-    @Qualifier("technicalInterventionRequestService")
-    private IRequestService service;
-
-    @Autowired
-    private IRequestExternalService requestExternalService;
-
-    private CreationBean cb;
-
-    private TechnicalInterventionRequest request;
-
-    @Before
-    public void bootstrap()
-        throws CvqException {
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
-        ExternalServiceBean esb = new ExternalServiceBean();
-        esb.setRequestTypes(Arrays.asList(new String[]{service.getLabel()}));
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        lacb.registerExternalService(restExternalService, esb);
-        continueWithNewTransaction();
-        cb = gimmeMinimalHomeFolder();
-        continueWithNewTransaction();
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(homeFolderResponsible);
-        request = (TechnicalInterventionRequest)
-            requestWorkflowService.getSkeletonRequest(service.getLabel());
-        requestWorkflowService.create(request, null, null, null);
-        continueWithNewTransaction();
-    }
-
-    @After
-    public void clean()
-        throws CvqException {
-        requestWorkflowService.delete(request.getId());
-    }
 
     private Payment gimmePayment()
         throws CvqException {
@@ -114,8 +70,9 @@ public class RestExternalServiceTest extends ExternalServiceTestCase {
     @Test
     public void checkExternalReferential()
         throws CvqException {
+        TechnicalInterventionRequest request = (TechnicalInterventionRequest) super.request;
         request.setInterventionDescription("error");
-        requestWorkflowService.rewindWorkflow(request, null, null);
+        requestWorkflowService.rewindWorkflow(request, null);
         continueWithNewTransaction();
         SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
@@ -167,7 +124,7 @@ public class RestExternalServiceTest extends ExternalServiceTestCase {
         requestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
         requestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
         continueWithNewTransaction();
-        assertEquals(1, paymentExternalService.getExternalAccounts(cb.getHomeFolderId(),
+        assertEquals(1, paymentExternalService.getExternalAccounts(fake.id,
             IPaymentService.EXTERNAL_INVOICES).size());
     }
 

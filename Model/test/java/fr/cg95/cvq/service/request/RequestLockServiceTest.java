@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -18,15 +17,10 @@ public class RequestLockServiceTest extends RequestTestCase {
     
     @Test
     public void testRequestLocks() throws CvqException {
-        
-        // create a home folder request
-        CreationBean creationBean = gimmeAnHomeFolderWithRequest();
-        continueWithNewTransaction();
-
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(creationBean.getLogin());
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
 
-        Long requestId = creationBean.getRequestId();
+        Long requestId = request.getId();
         Request request;
         // try to lock it with agent method in FO
         try {
@@ -55,7 +49,7 @@ public class RequestLockServiceTest extends RequestTestCase {
 
         // go back in FO and release request
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(creationBean.getLogin());
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
         requestLockService.release(requestId);
         // check it was correctly released
         assertFalse(requestLockService.isLockedByCurrentUser(requestId));
@@ -81,7 +75,7 @@ public class RequestLockServiceTest extends RequestTestCase {
         assertFalse(requestLockService.isLocked(requestId));
         // go back in FO and try to lock it
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(creationBean.getLogin());
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
         try {
             requestLockService.lock(requestId);
             fail("should have been forbidden");

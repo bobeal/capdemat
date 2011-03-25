@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.*;
 
-import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
-import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -53,16 +51,13 @@ public class RequestStatisticsServiceTest extends RequestTestCase {
 
         Map<RequestState, Long> stateStats =
             requestStatisticsService.getStateStats(startDate.getTime(), endDate.getTime(),
-                requestTypeService.getRequestTypeByLabel(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST).getId(),
+                requestTypeService.getRequestTypeByLabel(tirLabel).getId(),
                 null);
         Long initialCancelledNb = stateStats.get(RequestState.CANCELLED);
         Long initialCompleteNb = stateStats.get(RequestState.COMPLETE);
         Long initialPendingNb = stateStats.get(RequestState.PENDING);
 
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-
-        CreationBean cb = gimmeAnHomeFolderWithRequest();
-        Request request = requestSearchService.getById(cb.getRequestId(), false);
 
         Long requestTypeId = request.getRequestType().getId();
         Long categoryId = request.getRequestType().getCategory().getId();
@@ -116,7 +111,7 @@ public class RequestStatisticsServiceTest extends RequestTestCase {
                 requestTypeId, null);
         assertEquals(Long.valueOf(initialCancelledNb + 1), stateStats.get(RequestState.CANCELLED));
         assertEquals(Long.valueOf(initialCompleteNb), stateStats.get(RequestState.COMPLETE));
-        assertEquals(Long.valueOf(initialPendingNb), stateStats.get(RequestState.PENDING));
+        assertEquals(Long.valueOf(initialPendingNb - 1), stateStats.get(RequestState.PENDING));
 
         // By type
         Map<Long, Long> typeStats =

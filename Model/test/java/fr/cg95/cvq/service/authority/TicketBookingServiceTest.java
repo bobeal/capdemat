@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.cg95.cvq.business.request.ticket.Entertainment;
 import fr.cg95.cvq.business.request.ticket.Event;
-import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.ITicketBookingService;
@@ -31,6 +30,7 @@ public class TicketBookingServiceTest extends ServiceTestCase {
         for(Entertainment et : ticketBookingService.getAllEntertainments())
             ticketBookingService.deleteEntertainment(et.getId());
         continueWithNewTransaction();
+        super.onTearDown();
     }
 
     @Override
@@ -82,8 +82,7 @@ public class TicketBookingServiceTest extends ServiceTestCase {
     @Test
     public void testPaginateEvents() throws CvqException {
        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-       CreationBean cb = gimmeAnHomeFolder();
-       SecurityContext.setCurrentEcitizen(cb.getLogin());
+       SecurityContext.setCurrentEcitizen(fake.responsibleId);
        
        Entertainment et = new Entertainment();
        et.setName("Zenexity show");

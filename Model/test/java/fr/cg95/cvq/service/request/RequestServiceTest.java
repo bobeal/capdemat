@@ -16,7 +16,6 @@ import fr.cg95.cvq.business.request.RequestFormType;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.Requirement;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -115,31 +114,22 @@ public class RequestServiceTest extends RequestTestCase {
 
     @Test
     public void testRequestCloning() throws CvqException {
-
-        CreationBean creationBean = gimmeAnHomeFolderWithRequest();
-        Long requestId = creationBean.getRequestId();
-
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
-        Request requestClone =
-            requestWorkflowService.getRequestClone(requestId);
-        assertEquals(0, requestClone.getId().intValue());
+        Request requestClone = requestWorkflowService.getRequestClone(request.getId());
         assertNotNull(requestClone);
-        assertEquals("VO Card", requestClone.getRequestType().getLabel());
+        assertNull(requestClone.getId());
+        assertEquals(tirLabel, requestClone.getRequestType().getLabel());
         
         SecurityContext.resetCurrentSite();
     }
 
     @Test
     public void testRequestSearch() throws CvqException {
-        
-        CreationBean cb = gimmeAnHomeFolderWithRequest();
-
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        Request request = requestSearchService.getById(cb.getRequestId(), false);
         Long requesterId = request.getRequesterId();
         Adult requester = individualService.getAdultById(requesterId);
         
@@ -195,14 +185,9 @@ public class RequestServiceTest extends RequestTestCase {
 
     @Test
     public void testRequestTypeForm() throws CvqException {
-
-        CreationBean creationBean = gimmeAnHomeFolderWithRequest();
-        Long requestId = creationBean.getRequestId();
-
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        Request request = requestSearchService.getById(requestId, false);
         RequestType requestType = request.getRequestType();
 
         RequestForm requestForm = new RequestForm();

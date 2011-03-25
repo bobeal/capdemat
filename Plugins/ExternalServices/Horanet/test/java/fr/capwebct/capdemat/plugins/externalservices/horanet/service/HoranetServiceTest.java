@@ -19,16 +19,15 @@ import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
 import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.request.LocalReferentialData;
 import fr.cg95.cvq.business.request.RequestState;
-import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.request.school.PerischoolActivityRegistrationRequest;
 import fr.cg95.cvq.business.request.school.SchoolCanteenRegistrationRequest;
 import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
-import fr.cg95.cvq.business.users.Address;
-import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.MeansOfContact;
 import fr.cg95.cvq.business.users.MeansOfContactEnum;
 import fr.cg95.cvq.business.users.SectionType;
+import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.security.SecurityContext;
@@ -63,26 +62,16 @@ public class HoranetServiceTest extends RequestTestCase {
 		
 		setServices();
 		
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-
-        // create a vo card request (to create home folder and associates)
-        CreationBean cb = gimmeAnHomeFolderWithRequest();
-
-        Long requestId = cb.getRequestId();
-        String proposedLogin = cb.getLogin();
-        
-        continueWithNewTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        requestWorkflowService.updateRequestState(requestId, RequestState.COMPLETE, null);
-        requestWorkflowService.updateRequestState(requestId, RequestState.VALIDATED, null);
+        requestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
+        requestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
 
         continueWithNewTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(proposedLogin);
-
-        HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
+        HomeFolder homeFolder = homeFolderService.getById(fake.id);
         homeFolder.setFamilyQuotient("354,44");
         homeFolderService.modify(homeFolder);
         
@@ -98,8 +87,8 @@ public class HoranetServiceTest extends RequestTestCase {
         srrRequest.setCurrentSection(SectionType.FIRST_SECTION);
         srrRequest.setCurrentSchoolAddress("CurrentSchoolAddress");
         srrRequest.setCurrentSchoolName("CurrentSchoolName");
-        srrRequest.setSubjectId(child1.getId());
-        srrRequest.setSubjectLastName(child1.getLastName());
+        srrRequest.setSubjectId(fake.childId);
+        srrRequest.setSubjectLastName(individualService.getById(fake.childId).getLastName());
         MeansOfContact meansOfContact = meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.MAIL);
         srrRequest.setMeansOfContact(meansOfContact);
         requestWorkflowService.create(srrRequest, null, null, null);
@@ -117,7 +106,7 @@ public class HoranetServiceTest extends RequestTestCase {
 
 		continueWithNewTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(proposedLogin);
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
 
         SchoolCanteenRegistrationRequest scrrRequest = new SchoolCanteenRegistrationRequest();
         scrrRequest.setSection(SectionType.FIRST_SECTION);
@@ -128,8 +117,8 @@ public class HoranetServiceTest extends RequestTestCase {
         scrrRequest.setDoctorName("DoctorName");
         scrrRequest.setHospitalizationPermission(Boolean.valueOf(true));
         scrrRequest.setFoodAllergy(Boolean.valueOf(true));
-        scrrRequest.setSubjectId(child1.getId());
-        scrrRequest.setSubjectLastName(child1.getLastName());
+        scrrRequest.setSubjectId(fake.childId);
+        scrrRequest.setSubjectLastName(individualService.getById(fake.childId).getLastName());
         scrrRequest.setMeansOfContact(meansOfContact);
         LocalReferentialData foodDietLrd = new LocalReferentialData();
         foodDietLrd.setName("NoPork");
@@ -151,7 +140,7 @@ public class HoranetServiceTest extends RequestTestCase {
 
 		continueWithNewTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(proposedLogin);
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
 
         PerischoolActivityRegistrationRequest parrRequest = new PerischoolActivityRegistrationRequest();
         parrRequest.setClassTripPermission(Boolean.valueOf(true));
@@ -159,8 +148,8 @@ public class HoranetServiceTest extends RequestTestCase {
         parrRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
         parrRequest.setUrgencyPhone("0102030405");
         parrRequest.setHospitalizationPermission(Boolean.valueOf(true));
-        parrRequest.setSubjectId(child1.getId());
-        parrRequest.setSubjectLastName(child1.getLastName());
+        parrRequest.setSubjectId(fake.childId);
+        parrRequest.setSubjectLastName(individualService.getById(fake.childId).getLastName());
         parrRequest.setMeansOfContact(meansOfContact);
         LocalReferentialData activityLrd = new LocalReferentialData();
         activityLrd.setName("EveningNursery");
@@ -178,7 +167,7 @@ public class HoranetServiceTest extends RequestTestCase {
 
 		continueWithNewTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(proposedLogin);
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
 
         // get account details, perform a payment on a deposit account and on a 
         // ticketing contract then load details of those two accounts
@@ -281,19 +270,14 @@ public class HoranetServiceTest extends RequestTestCase {
 
         // send an home folder modification request
         /////////////////////////////////////////////
-
-        HomeFolderModificationRequest hfmr = new HomeFolderModificationRequest();
-        Address address = homeFolder.getAddress();
-        address.setStreetName("Ma nouvelle adresse");
-        requestWorkflowService.createAccountModificationRequest(hfmr, 
-                homeFolderService.getAdults(homeFolder.getId()), 
-                homeFolderService.getChildren(homeFolder.getId()), null, address, null, null);
-        
+        homeFolder = homeFolderService.getById(fake.id);
+        homeFolder.getAddress().setStreetName("Ma nouvelle adresse");
+        homeFolderService.modify(homeFolder);
         continueWithNewTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-
-        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
-        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
+        Individual homeFolderResponsible = individualService.getById(fake.responsibleId);
+        userWorkflowService.changeState(homeFolderResponsible, UserState.INVALID);
+        userWorkflowService.changeState(homeFolderResponsible, UserState.VALID);
 	}
 }

@@ -4,9 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -22,13 +21,11 @@ import fr.cg95.cvq.authentication.IAuthenticationService;
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.authority.SiteProfile;
 import fr.cg95.cvq.business.authority.SiteRoles;
-import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
-import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.FamilyStatusType;
-import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.RoleType;
+import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
@@ -42,6 +39,7 @@ import fr.cg95.cvq.service.authority.ISchoolService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.service.users.IMeansOfContactService;
+import fr.cg95.cvq.service.users.IUserWorkflowService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.development.BusinessObjectsFactory;
 
@@ -50,21 +48,63 @@ import fr.cg95.cvq.util.development.BusinessObjectsFactory;
     "classpath*:pluginContext.xml", "classpath:/localAuthority-dummy.xml"})
 public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
 
+    protected class FakeHomeFolder {
+        public Long id;
+        public Long addressId;
+        public Long responsibleId;
+        public Long womanId;
+        public Long uncleId;
+        public Long childId;
+
+        public FakeHomeFolder()
+            throws CvqException {
+            this(true);
+        }
+
+        public FakeHomeFolder(boolean full)
+            throws CvqException {
+            // keep current context to reset it after home folder creation
+            String currentContext = SecurityContext.getCurrentContext();
+            Agent currentAgent = SecurityContext.getCurrentAgent();
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
+            Adult homeFolderResponsible = BusinessObjectsFactory.gimmeAdult(
+                TitleType.MISTER, "lastName", "firstName", BusinessObjectsFactory.gimmeAddress("12","Rue d'Aligre", "Paris", "75012"), FamilyStatusType.SINGLE);
+            homeFolderResponsible.setPassword("toto");
+            homeFolderService.create(homeFolderResponsible, false);
+            SecurityContext.setCurrentEcitizen(homeFolderResponsible);
+            id = homeFolderResponsible.getHomeFolder().getId();
+            responsibleId = homeFolderResponsible.getId();
+            addressId = homeFolderResponsible.getHomeFolder().getAddress().getId();
+            Adult homeFolderWoman = BusinessObjectsFactory.gimmeAdult(
+                TitleType.MADAM, "LASTNAME", "wife", null, FamilyStatusType.MARRIED);
+            homeFolderService.addAdult(homeFolderResponsible.getHomeFolder(), homeFolderWoman, false);
+            womanId = homeFolderWoman.getId();
+            if (full) {
+                Adult homeFolderUncle = BusinessObjectsFactory.gimmeAdult(
+                    TitleType.MISTER, "LASTNAME", "uncle", null, FamilyStatusType.SINGLE);
+                homeFolderService.addAdult(homeFolderResponsible.getHomeFolder(), homeFolderUncle, false);
+                Child child = BusinessObjectsFactory.gimmeChild("LASTNAME", "childone");
+                child.setSex(SexType.MALE);
+                homeFolderService.addChild(homeFolderResponsible.getHomeFolder(), child);
+                homeFolderService.link(homeFolderResponsible, child, Collections.singleton(RoleType.CLR_FATHER));
+                homeFolderService.link(homeFolderWoman, child, Collections.singleton(RoleType.CLR_MOTHER));
+                homeFolderService.link(homeFolderUncle, child, Collections.singleton(RoleType.CLR_TUTOR));
+                uncleId = homeFolderUncle.getId();
+                childId = child.getId();
+            }
+            continueWithNewTransaction();
+            if (currentContext != null)
+                SecurityContext.setCurrentContext(currentContext);
+            if (currentAgent != null)
+                SecurityContext.setCurrentAgent(currentAgent);
+        }
+    }
+
     // some tests data that can (have to) be used inside tests
     public String localAuthorityName = "dummy";
     public String agentNameWithCategoriesRoles = "agent";
     public String agentNameWithManageRoles = "manager";
     public String agentNameWithSiteRoles = "admin";
-
-    // some ecitizen-related objects that can be reused in tests
-    // they are created by the {@link #gimmeAnHomeFolder} method
-    protected Child child1;
-    protected Child child2;
-    protected Adult homeFolderResponsible;
-    protected Adult homeFolderWoman;
-    protected Adult homeFolderUncle;
-    protected Address address;
-    protected List<Long> homeFolderIds = new ArrayList<Long>();
 
     // users related services
     @Resource(name="individualService")
@@ -75,6 +115,8 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
     protected IAuthenticationService authenticationService;
     @Autowired
     protected IMeansOfContactService meansOfContactService;
+    @Autowired
+    protected IUserWorkflowService userWorkflowService;
 
     // authority related services
     @Autowired
@@ -88,57 +130,38 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
 
     @Resource(name="sessionFactory_dummy")
     private SessionFactory sessionFactory;
-    
-    protected static Boolean isInitialized = Boolean.FALSE;
+
+    protected FakeHomeFolder fake;
 
     @Before
     public void onSetUp() throws Exception {
-        
-        synchronized(isInitialized) {
-            if (!isInitialized.booleanValue()) {
-                
-                startTransaction();
-                
-                IGenericDAO genericDAO = getApplicationBean("genericDAO");
-                
-                SecurityContext.setCurrentSite(localAuthorityName, 
-                        SecurityContext.BACK_OFFICE_CONTEXT);
-                try {
-                    SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
-                    logger.debug("onSetUp() fixture data already created");
-                    rollbackTransaction();
-                    isInitialized = Boolean.TRUE;
-                    startTransaction();
-                    return;
-                } catch (CvqObjectNotFoundException confe) {
-                    // ok, so we have to add fixture data
-                }
-
-                Agent admin = new Agent();
-                admin.setActive(Boolean.TRUE);
-                admin.setLogin(agentNameWithSiteRoles);
-                SiteRoles siteRoles = new SiteRoles(SiteProfile.ADMIN, admin);
-                Set<SiteRoles> siteRolesSet = new HashSet<SiteRoles>();
-                siteRolesSet.add(siteRoles);
-                admin.setSitesRoles(siteRolesSet);
-                genericDAO.create(admin);
-
-                continueWithNewTransaction();
-                
-                SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
-                
-                bootstrapAgent(agentNameWithCategoriesRoles, SiteProfile.AGENT);
-                bootstrapAgent(agentNameWithManageRoles, SiteProfile.AGENT);
-                
-                genericDAO.create(BusinessObjectsFactory.gimmeSchool("École Jean Jaurès"));
-                genericDAO.create(BusinessObjectsFactory.gimmeRecreationCenter("Centre de loisirs Louise Michel"));
-
-                commitTransaction();
-                
-                isInitialized = Boolean.TRUE;
-            }
+        startTransaction();
+        IGenericDAO genericDAO = getApplicationBean("genericDAO");
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        try {
+            SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
+            logger.debug("onSetUp() fixture data already created");
+            rollbackTransaction();
+            startTransaction();
+        } catch (CvqObjectNotFoundException confe) {
+            Agent admin = new Agent();
+            admin.setActive(Boolean.TRUE);
+            admin.setLogin(agentNameWithSiteRoles);
+            SiteRoles siteRoles = new SiteRoles(SiteProfile.ADMIN, admin);
+            Set<SiteRoles> siteRolesSet = new HashSet<SiteRoles>();
+            siteRolesSet.add(siteRoles);
+            admin.setSitesRoles(siteRolesSet);
+            genericDAO.create(admin);
+            continueWithNewTransaction();
+            SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
+            bootstrapAgent(agentNameWithCategoriesRoles, SiteProfile.AGENT);
+            bootstrapAgent(agentNameWithManageRoles, SiteProfile.AGENT);
+            genericDAO.create(BusinessObjectsFactory.gimmeSchool("École Jean Jaurès"));
+            genericDAO.create(BusinessObjectsFactory.gimmeRecreationCenter("Centre de loisirs Louise Michel"));
+            continueWithNewTransaction();
         }
-        
+        fake = new FakeHomeFolder();
+        commitTransaction();
         startTransaction();
     }
 
@@ -196,17 +219,13 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
             // to force re-association of agent within current session
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-            for (Long homeFolderId : homeFolderIds) {
-                homeFolderService.delete(homeFolderId);
-                try {
-                    homeFolderService.getById(homeFolderId);
-                    fail("should have thrown an exception");
-                } catch (CvqObjectNotFoundException confe) {
-                    // ok, that was expected
-                }
+            homeFolderService.delete(fake.id);
+            try {
+                homeFolderService.getById(fake.id);
+                fail("should have thrown an exception");
+            } catch (CvqObjectNotFoundException confe) {
+                // ok, that was expected
             }
-
-            homeFolderIds.clear();
 
             continueWithNewTransaction();
 
@@ -247,73 +266,4 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
     protected static File getTestDataFile(String path) {
         return new File(System.getProperty("test.data.dir"), path);
     }
-
-    public CreationBean gimmeMinimalHomeFolder() throws CvqException {
-        
-        // keep current context to reset it after home folder creation
-        String currentContext = SecurityContext.getCurrentContext();
-        Agent currentAgent = SecurityContext.getCurrentAgent();
-        
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-
-        address = BusinessObjectsFactory.gimmeAddress("12","Rue d'Aligre", "Paris", "75012");
-        homeFolderResponsible = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "lastName", 
-                "firstName", address, FamilyStatusType.SINGLE);
-        homeFolderResponsible.setAddress(address);
-        homeFolderService.addHomeFolderRole(homeFolderResponsible, RoleType.HOME_FOLDER_RESPONSIBLE);
-        
-        HomeFolder homeFolder = homeFolderService.create(homeFolderResponsible, false);
-
-        CreationBean cb = new CreationBean();
-        cb.setHomeFolderId(homeFolder.getId());
-        cb.setLogin(homeFolderResponsible.getLogin());
-
-        homeFolderIds.add(homeFolder.getId());
-        
-        if (currentContext != null)
-            SecurityContext.setCurrentContext(currentContext);
-        if (currentAgent != null)
-            SecurityContext.setCurrentAgent(currentAgent);
-        
-        continueWithNewTransaction();
-        
-        return cb;
-    }
-    
-    public CreationBean gimmeAnHomeFolder() throws CvqException {
-
-        // keep current context to reset it after home folder creation
-        String currentContext = SecurityContext.getCurrentContext();
-        Agent currentAgent = SecurityContext.getCurrentAgent();
-        
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-
-        address = BusinessObjectsFactory.gimmeAddress("12","Rue d'Aligre", "Paris", "75012");
-        
-        homeFolderResponsible = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "lastName", 
-                "firstName", address, FamilyStatusType.SINGLE);
-        homeFolderService.addHomeFolderRole(homeFolderResponsible, RoleType.HOME_FOLDER_RESPONSIBLE);
-        
-        homeFolderWoman = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "lastName", 
-                "woman", address, FamilyStatusType.SINGLE);
-        List<Adult> adults = new ArrayList<Adult>();
-        adults.add(homeFolderResponsible);
-        adults.add(homeFolderWoman);
-        HomeFolder homeFolder = homeFolderService.create(adults, null, new Address(), false);
-
-        CreationBean cb = new CreationBean();
-        cb.setHomeFolderId(homeFolder.getId());
-        cb.setLogin(homeFolderResponsible.getLogin());
-
-        homeFolderIds.add(homeFolder.getId());
-        
-        if (currentContext != null)
-            SecurityContext.setCurrentContext(currentContext);
-        if (currentAgent != null)
-            SecurityContext.setCurrentAgent(currentAgent);
-        
-        continueWithNewTransaction();
-        
-        return cb;
-    }    
 }

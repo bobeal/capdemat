@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import junit.framework.Assert;
 
@@ -21,9 +20,6 @@ import junit.framework.Assert;
  * @author bor@zenexity.fr
  */
 public class LocalReferentialServiceTest extends RequestTestCase {
-
-    @Autowired
-    protected ILocalReferentialService localReferentialService;
 
     @Test
     public void testAgentManipulation() throws CvqException {

@@ -18,8 +18,6 @@ import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItemDetail;
 import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
 import fr.cg95.cvq.business.payment.PurchaseItem;
-import fr.cg95.cvq.business.users.CreationBean;
-import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.payment.IPaymentService;
@@ -28,31 +26,14 @@ public class FakeExternalServiceTest extends ExternalServiceTestCase {
 
     @Test
     public void testContracts() throws CvqException {
-
-        // create a vo card request (to create home folder and associates)
-        // ////////////////////////////////////////////////////////////////
-
-        SecurityContext.setCurrentSite(localAuthorityName, 
-                SecurityContext.FRONT_OFFICE_CONTEXT);
-
-        // create a vo card request (to create home folder and associates)
-        CreationBean cb = gimmeAnHomeFolder();
-
-        String proposedLogin = cb.getLogin();
-
-        SecurityContext.setCurrentEcitizen(proposedLogin);
-
-        // get the home folder id
-        HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
-        Long homeFolderId = homeFolder.getId();
-
-        registerFakeExternalService();
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
 
         // retrieve all external accounts directly from fake external service
         Map<String, List<ExternalAccountItem>> completeAccount = 
-            fakeExternalService.getAccountsByHomeFolder(homeFolderId, null, null);
+            fakeExternalService.getAccountsByHomeFolder(fake.id, null, null);
         if (completeAccount == null) {
-            logger.debug("testContracts() no contract found for home folder : " + homeFolderId);
+            logger.debug("testContracts() no contract found for home folder : " + fake.id);
             return;
         }
         assertEquals(2, completeAccount.get(IPaymentService.EXTERNAL_DEPOSIT_ACCOUNTS).size());
@@ -72,7 +53,7 @@ public class FakeExternalServiceTest extends ExternalServiceTestCase {
         etciToPayOn.setAmount(etciToPayOn.getQuantity() * etciToPayOn.getUnitPrice());
         purchaseItems.add(etciToPayOn);
         fakeExternalService.creditHomeFolderAccounts(purchaseItems, "cvqReference", 
-                "bankReference", homeFolderId, null, null, new Date());
+                "bankReference", fake.id, null, null, new Date());
 
         // retrieve external deposit accounts from home folder service
         externalAccounts = 
@@ -125,7 +106,5 @@ public class FakeExternalServiceTest extends ExternalServiceTestCase {
                     fail("did not find Lolita !");
             }
         }
-        
-        unregisterFakeExternalService();
     }
 }

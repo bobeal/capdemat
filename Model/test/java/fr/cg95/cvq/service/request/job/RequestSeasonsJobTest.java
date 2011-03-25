@@ -10,10 +10,6 @@ import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
-import fr.cg95.cvq.business.users.Child;
-import fr.cg95.cvq.business.users.CreationBean;
-import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.MeansOfContact;
 import fr.cg95.cvq.business.users.MeansOfContactEnum;
 import fr.cg95.cvq.business.users.SectionType;
@@ -73,44 +69,23 @@ public class RequestSeasonsJobTest extends RequestTestCase {
         /* Request for a school registration (in FrontOffice) */
         SecurityContext.setCurrentSite(localAuthorityName,
             SecurityContext.FRONT_OFFICE_CONTEXT);
-        
-        // create a vo card request (to create home folder and associates)
-        CreationBean cb = gimmeAnHomeFolderWithRequest();
-        String proposedLogin = cb.getLogin();
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
 
-        // close current session and re-open a new one
-        continueWithNewTransaction();
-    
-        SecurityContext.setCurrentEcitizen(proposedLogin);
-
-        // get the home folder id
-        HomeFolder homeFolder =
-            homeFolderService.getById(cb.getHomeFolderId());
-
-        Long requestIds[] = new Long[2];
-        int i = 0;
-        for (Individual individual : homeFolder.getIndividuals()) {
-            if (individual instanceof Child) {
-                SchoolRegistrationRequest request = new SchoolRegistrationRequest();
-                request.setRequestSeason(season);
-                request.setSection(SectionType.BEFORE_FIRST_SECTION);
-                request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
-                request.setSchool(schoolService.getAll().iterator().next());
-                request.setUrgencyPhone("0101010101");
-                request.setCurrentSection(SectionType.BEFORE_FIRST_SECTION);
-                request.setCurrentSchoolAddress("CurrentSchoolAddress");
-                request.setCurrentSchoolName("CurrentSchoolName");
-                request.setRequesterId(
-                    homeFolderService.getHomeFolderResponsible(
-                        homeFolder.getId()).getId());
-                request.setSubjectId(individual.getId());
-                MeansOfContact meansOfContact =
-                    meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.EMAIL);
-                request.setMeansOfContact(meansOfContact);
-                requestIds[i++] =
-                    requestWorkflowService.create(request, null, null, null);
-            }
-        }
+        SchoolRegistrationRequest request = new SchoolRegistrationRequest();
+        request.setRequestSeason(season);
+        request.setSection(SectionType.BEFORE_FIRST_SECTION);
+        request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
+        request.setSchool(schoolService.getAll().iterator().next());
+        request.setUrgencyPhone("0101010101");
+        request.setCurrentSection(SectionType.BEFORE_FIRST_SECTION);
+        request.setCurrentSchoolAddress("CurrentSchoolAddress");
+        request.setCurrentSchoolName("CurrentSchoolName");
+        request.setRequesterId(fake.responsibleId);
+        request.setSubjectId(fake.childId);
+        MeansOfContact meansOfContact =
+            meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.EMAIL);
+        request.setMeansOfContact(meansOfContact);
+        Long requestId = requestWorkflowService.create(request, null);
 
         continueWithNewTransaction();
         
@@ -119,16 +94,9 @@ public class RequestSeasonsJobTest extends RequestTestCase {
             SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
-        requestWorkflowService.updateRequestState(requestIds[0],
-            RequestState.COMPLETE, null);
-        requestWorkflowService.updateRequestState(requestIds[0],
-            RequestState.VALIDATED, null);
-        requestWorkflowService.updateRequestState(requestIds[1],
-            RequestState.COMPLETE, null);
-        requestWorkflowService.updateRequestState(requestIds[1],
-            RequestState.VALIDATED, null);
-        requestWorkflowService.updateRequestState(requestIds[1],
-            RequestState.NOTIFIED, "Bon pour inscription");
+        requestWorkflowService.updateRequestState(requestId, RequestState.COMPLETE, null);
+        requestWorkflowService.updateRequestState(requestId, RequestState.VALIDATED, null);
+        requestWorkflowService.updateRequestState(requestId, RequestState.NOTIFIED, "Bon pour inscription");
 
         continueWithNewTransaction();
         
@@ -140,9 +108,7 @@ public class RequestSeasonsJobTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        Request requestFromDb = requestSearchService.getById(requestIds[0], false);
-        assertEquals(RequestState.VALIDATED, requestFromDb.getState());
-        requestFromDb = requestSearchService.getById(requestIds[1], false);
+        Request requestFromDb = requestSearchService.getById(requestId, false);
         assertEquals(RequestState.NOTIFIED, requestFromDb.getState());
 
         continueWithNewTransaction();
@@ -164,12 +130,9 @@ public class RequestSeasonsJobTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        requestFromDb = requestSearchService.getById(requestIds[0], false);
+        requestFromDb = requestSearchService.getById(requestId, false);
         assertEquals(RequestState.CLOSED, requestFromDb.getState());
-        requestWorkflowService.delete(requestIds[0]);
-        requestFromDb = requestSearchService.getById(requestIds[1], false);
-        assertEquals(RequestState.CLOSED, requestFromDb.getState());
-        requestWorkflowService.delete(requestIds[1]);
+        requestWorkflowService.delete(requestId);
 
         continueWithNewTransaction();
         

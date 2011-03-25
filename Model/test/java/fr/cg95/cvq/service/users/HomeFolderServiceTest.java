@@ -1,10 +1,10 @@
 package fr.cg95.cvq.service.users;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.mail.MessagingException;
@@ -13,14 +13,15 @@ import javax.mail.internet.MimeMessage;
 import org.jsmtpd.domain.Email;
 import org.jsmtpd.utils.junit.SmtpServer;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.*;
 
-import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.UserState;
+import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException;
 import fr.cg95.cvq.exception.CvqDisabledAccountException;
 import fr.cg95.cvq.exception.CvqException;
@@ -38,46 +39,35 @@ import fr.cg95.cvq.util.Critere;
  */
 public class HomeFolderServiceTest extends ServiceTestCase {
 
+    @Autowired
+    private IGenericDAO genericDAO;
+
     @Test
     public void testDisabledHomeFolder()
         throws CvqException {
-        
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-
-        CreationBean cb = gimmeAnHomeFolder();
-
-        SecurityContext.setCurrentEcitizen(cb.getLogin());
-
-        // get the home folder id
-        assertNotNull(cb.getHomeFolderId());
-        HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
-        String responsibleLogin = cb.getLogin();
-        
-        continueWithNewTransaction();
-        
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-
+        HomeFolder homeFolder = homeFolderService.getById(fake.id);
         homeFolder.setEnabled(Boolean.FALSE);
         homeFolderService.modify(homeFolder);
         
         continueWithNewTransaction();
         
         try {
-            authenticationService.authenticate(responsibleLogin, "toto");
+            authenticationService.authenticate(individualService.getAdultById(fake.responsibleId).getLogin(), "toto");
             fail("should have thrown an exception");
         } catch (CvqDisabledAccountException cdae) {
             // that was expected
         }
         
-        homeFolder = homeFolderService.getById(cb.getHomeFolderId());
+        homeFolder = homeFolderService.getById(fake.id);
         homeFolder.setEnabled(Boolean.TRUE);
         homeFolderService.modify(homeFolder);
         
         continueWithNewTransaction();
         
         try {
-            authenticationService.authenticate(responsibleLogin, "toto");
+            authenticationService.authenticate(individualService.getAdultById(fake.responsibleId).getLogin(), "toto");
         } catch (CvqDisabledAccountException cdae) {
             fail("should not have thrown this exception");
         } catch (CvqAuthenticationFailedException cafe) {
@@ -88,9 +78,6 @@ public class HomeFolderServiceTest extends ServiceTestCase {
     @Test
     public void testArchivedHomeFolder()
         throws CvqException {
-    
-        CreationBean cb = gimmeAnHomeFolder();
-
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
@@ -99,12 +86,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         assertEquals(fetchHomeFolders.size(), 1);
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(cb.getLogin());
-
-        // get the home folder id
-        HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
-        assertNotNull(homeFolder.getId());
-
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
         continueWithNewTransaction();
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -113,55 +95,57 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         List<Individual> initialResults = individualService.get(new HashSet<Critere>(), null, false);
         int initialResultsSize = initialResults.size();
         int homeFoldersCountBeforeArchive = homeFolderService.getAll(true, false).size();
-
-        homeFolderService.archive(homeFolder.getId());
+        continueWithNewTransaction();
+        userWorkflowService.changeState(individualService.getById(fake.childId), UserState.ARCHIVED);
+        userWorkflowService.changeState(individualService.getById(fake.uncleId), UserState.ARCHIVED);
+        userWorkflowService.changeState(individualService.getById(fake.womanId), UserState.ARCHIVED);
+        userWorkflowService.changeState(individualService.getById(fake.responsibleId), UserState.ARCHIVED);
 
         continueWithNewTransaction();
 
-        assertEquals(homeFoldersCountBeforeArchive - 1,
-            homeFolderService.getAll(true, false).size());
-        assertEquals(homeFoldersCountBeforeArchive - 1,
-            homeFolderService.getAll(true, true).size());
+        assertEquals(homeFoldersCountBeforeArchive - 1, homeFolderService.getAll(true, false).size());
+        assertEquals(homeFoldersCountBeforeArchive - 1, homeFolderService.getAll(true, true).size());
 
         // individuals from home folder should no longer appear in search results
         initialResults = individualService.get(new HashSet<Critere>(), null, false);
         assertEquals(initialResultsSize, 
-                initialResults.size() + homeFolder.getIndividuals().size());
+                initialResults.size() + homeFolderService.getById(fake.id).getIndividuals().size());
         
         try {
-            Adult homeFolderResponsible = 
-                homeFolderService.getHomeFolderResponsible(homeFolder.getId());
-            authenticationService.authenticate(homeFolderResponsible.getLogin(), "toto");
+            authenticationService.authenticate(individualService.getAdultById(fake.responsibleId).getLogin(), "toto");
             fail("should have thrown an exception");
         } catch (CvqUnknownUserException cuue) {
             // that was expected
         }
 
-        homeFolder = homeFolderService.getById(cb.getHomeFolderId());
-        assertEquals(homeFolder.getState(), ActorState.ARCHIVED);
+        HomeFolder homeFolder = homeFolderService.getById(fake.id);
+        assertEquals(homeFolder.getState(), UserState.ARCHIVED);
         
         List<Individual> individuals = homeFolder.getIndividuals();
         for (Individual individual : individuals) {
-            assertEquals(individual.getState(), ActorState.ARCHIVED);
+            assertEquals(individual.getState(), UserState.ARCHIVED);
         }
+        homeFolder.setState(UserState.VALID);
+        for (Individual i : homeFolder.getIndividuals()) i.setState(UserState.VALID);
+        genericDAO.update(homeFolder);
     }
 
     @Test
     public void testIndividualSearch() throws CvqException {
-        Integer total1 = 0, total2 = 0; 
-        List<CreationBean> beans = new ArrayList<CreationBean>();
+        Integer total1 = 4, total2 = 1;
+        List<FakeHomeFolder> homeFolders = new ArrayList<FakeHomeFolder>();
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
-        beans.add(gimmeAnHomeFolder());
-        beans.add(gimmeAnHomeFolder());
-        beans.add(gimmeAnHomeFolder());
+        homeFolders.add(new FakeHomeFolder());
+        homeFolders.add(new FakeHomeFolder());
+        homeFolders.add(new FakeHomeFolder());
         
-        for(CreationBean bean: beans) {
-            HomeFolder folder = homeFolderService.getById(bean.getHomeFolderId());
+        for (FakeHomeFolder fake : homeFolders) {
+            HomeFolder folder = homeFolderService.getById(fake.id);
             total1 += folder.getIndividuals().size();
-            total2 += homeFolderService.getHomeFolderResponsible(bean.getHomeFolderId()) != null ? 1 : 0;
+            total2 += homeFolderService.getHomeFolderResponsible(fake.id) != null ? 1 : 0;
         }
         continueWithNewTransaction();
         
@@ -193,7 +177,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         ct = new Critere();
         ct.setAttribut(Individual.SEARCH_BY_HOME_FOLDER_ID);
         ct.setComparatif(Critere.EQUALS);
-        ct.setValue(beans.get(1).getHomeFolderId());
+        ct.setValue(fake.id);
         criterias.add(ct);
         
         Integer count3 = individualService.getCount(criterias);
@@ -207,6 +191,9 @@ public class HomeFolderServiceTest extends ServiceTestCase {
             new HashMap<String,String>(),5,null).size();
         
         assertTrue(result4 <= 5);
+        for (FakeHomeFolder fake : homeFolders) {
+            homeFolderService.delete(fake.id);
+        }
     }
     
     @Test
@@ -246,12 +233,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
                     Critere.LIKE, null, null, null, false);
         int badFirstNameSearchSize = (individuals == null ? 0 : individuals.size());
 
-        CreationBean cb = gimmeAnHomeFolder();
-
-        SecurityContext.setCurrentEcitizen(cb.getLogin());
-
-        // get the home folder id
-        HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
+        FakeHomeFolder fake = new FakeHomeFolder(false);
 
         continueWithNewTransaction();
         
@@ -259,18 +241,15 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         // and validate it
-        homeFolderService.validate(homeFolder.getId());
+        userWorkflowService.changeState(individualService.getById(fake.responsibleId), UserState.VALID);
 
         continueWithNewTransaction();
         
         // do some tests on home folder's individuals
-        homeFolder = homeFolderService.getById(homeFolder.getId());
+        HomeFolder homeFolder = homeFolderService.getById(fake.id);
         assertEquals(2, homeFolder.getIndividuals().size());
 
-        Adult homeFolderResponsibleDb = 
-            homeFolderService.getHomeFolderResponsible(homeFolder.getId());
-        assertEquals(homeFolderResponsibleDb.getFirstName(),
-                homeFolderResponsible.getFirstName());
+        Adult homeFolderResponsible = homeFolderService.getHomeFolderResponsible(homeFolder.getId());
 
         individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, homeFolderResponsible.getLastName(), 
@@ -302,6 +281,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
             performIndividualSearch(Individual.SEARCH_BY_FIRSTNAME, "OSTNAM", 
                     Critere.LIKE, null, null, null, false);
         assertEquals(individuals.size(), badFirstNameSearchSize);
+        homeFolderService.delete(fake.id);
     }
     
     private List<Individual> performIndividualSearch(final String attribut, final Object value,
@@ -330,14 +310,10 @@ public class HomeFolderServiceTest extends ServiceTestCase {
 
     @Test
     public void testNotifyPasswordReset() throws CvqException {
-
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-
-        CreationBean cb = gimmeAnHomeFolder();
-
-        SecurityContext.setCurrentEcitizen(cb.getLogin());
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
+        Adult adult = SecurityContext.getCurrentEcitizen();
         
-        Adult adult = homeFolderService.getHomeFolderResponsible(cb.getHomeFolderId());
         adult.setEmail(null);
         Email email = null;
         SmtpServer server = null;

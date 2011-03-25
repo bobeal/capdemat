@@ -27,7 +27,7 @@ public class RequestExternalActionTest extends ExternalServiceTestCase {
         /* Tests entity creation */
         RequestExternalAction trace = new RequestExternalAction();
 
-        trace.setKey("2345");
+        trace.setKey(request.getId().toString());
         trace.setKeyOwner("MyOwner");
         trace.setMessage("No message");
         trace.setName("MyName");
@@ -39,7 +39,7 @@ public class RequestExternalActionTest extends ExternalServiceTestCase {
 
         Set<Critere> criteriaSet = new HashSet<Critere>();
         criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_KEY,
-            "2345", Critere.EQUALS));
+            request.getId().toString(), Critere.EQUALS));
         List<RequestExternalAction> traces =
             requestExternalActionService.getTraces(criteriaSet, null, null, 0, 0);
 
@@ -68,7 +68,7 @@ public class RequestExternalActionTest extends ExternalServiceTestCase {
 
         criteriaSet = new HashSet<Critere>();
         criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_KEY,
-            "2345", Critere.EQUALS));
+            request.getId().toString(), Critere.EQUALS));
         criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_DATE,
                 DateUtils.parseDate("13/09/2007"), Critere.GT));
         criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_DATE,

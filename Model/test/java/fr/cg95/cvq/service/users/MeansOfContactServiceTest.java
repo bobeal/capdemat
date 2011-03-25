@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.MeansOfContact;
 import fr.cg95.cvq.business.users.MeansOfContactEnum;
 import fr.cg95.cvq.exception.CvqException;
@@ -50,11 +49,8 @@ public class MeansOfContactServiceTest extends ServiceTestCase {
         fetchMoc = meansOfContactService.getEnabledMeansOfContact();
         assertEquals(3, fetchMoc.size());
 
-        // Get by current ecitizen
-        CreationBean cb = gimmeAnHomeFolder();
-        
         SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(cb.getLogin());
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
         
         /* In this case:
          *  - MeansOfContactEnum.EMAIL,MAIL,SMS are enabled

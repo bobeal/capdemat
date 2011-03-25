@@ -2,6 +2,8 @@ package fr.cg95.cvq.service.request;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,6 +23,7 @@ public class DisplayGroupServiceTest extends RequestTestCase {
         for(DisplayGroup dg:displayGroupService.getAll())
             displayGroupService.delete(dg.getId());
         continueWithNewTransaction();
+        super.onTearDown();
     }
 
     @Override
@@ -113,20 +116,10 @@ public class DisplayGroupServiceTest extends RequestTestCase {
         dg2.setLabel("d g 2");
         displayGroupService.create(dg2);
 
-        RequestType voRt = null;
-        RequestType hfmRt = null;
-
-        for (RequestType rt : requestTypeService.getAllRequestTypes()) {
-            if ("Home Folder Modification".equals(rt.getLabel()))
-                hfmRt = rt;
-            if ("VO Card".equals(rt.getLabel()))
-                voRt = rt;
-        }
-
-        continueWithNewTransaction();
-
-        displayGroupService.addRequestType(dg.getId(), voRt.getId());
-        displayGroupService.addRequestType(dg.getId(), hfmRt.getId());
+        List<RequestType> requestTypes = requestTypeService.getAllRequestTypes();
+        assertTrue(requestTypes.size() > 1);
+        displayGroupService.addRequestType(dg.getId(), requestTypes.get(0).getId());
+        displayGroupService.addRequestType(dg.getId(), requestTypes.get(1).getId());
 
         continueWithNewTransaction();
 
@@ -135,7 +128,7 @@ public class DisplayGroupServiceTest extends RequestTestCase {
 
         continueWithNewTransaction();
 
-        displayGroupService.addRequestType(dg2.getId(), hfmRt.getId());
+        displayGroupService.addRequestType(dg2.getId(), requestTypes.get(0).getId());
 
         continueWithNewTransaction();
 

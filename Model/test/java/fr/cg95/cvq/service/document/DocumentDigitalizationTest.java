@@ -10,9 +10,6 @@ import static org.junit.Assert.*;
 
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.document.Document;
-import fr.cg95.cvq.business.document.DocumentBinary;
-import fr.cg95.cvq.business.users.CreationBean;
-import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.exception.CvqDisabledFunctionalityException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -23,21 +20,12 @@ public class DocumentDigitalizationTest extends DocumentTestCase {
     public void testDocumentDigitalization() throws CvqException, IOException {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-
-        // create background data
-        CreationBean cb = gimmeAnHomeFolder();
-        String responsibleLogin = cb.getLogin();
-
-        SecurityContext.setCurrentEcitizen(responsibleLogin);
-
-        // get home folder id from request id
-        HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
-        Long homeFolderId = homeFolder.getId();
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
 
         // create a document
         Document doc = new Document();
         doc.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
-        doc.setHomeFolderId(homeFolderId);
+        doc.setHomeFolderId(fake.id);
         Long docId = documentService.create(doc);
 
         // add binary data

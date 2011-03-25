@@ -10,7 +10,6 @@ import static org.junit.Assert.*;
 import fr.cg95.cvq.business.payment.InternalInvoiceItem;
 import fr.cg95.cvq.business.payment.Payment;
 import fr.cg95.cvq.business.payment.PaymentMode;
-import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.payment.PaymentTestCase;
@@ -21,10 +20,7 @@ public class PaylineV4ServiceTest extends PaymentTestCase {
     public void testAll() throws CvqException {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-
-        // create an home folder and associates
-        CreationBean cb = gimmeAnHomeFolder();
-        SecurityContext.setCurrentEcitizen(cb.getLogin());
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
 
         InternalInvoiceItem invoice1 =
             new InternalInvoiceItem("PaylineV4 Invoice 1", Double.valueOf("300"),
@@ -45,8 +41,7 @@ public class PaylineV4ServiceTest extends PaymentTestCase {
         continueWithNewTransaction();
 
         Set<Critere> criterias = new HashSet<Critere>();
-        criterias.add(new Critere(Payment.SEARCH_BY_HOME_FOLDER_ID,
-            cb.getHomeFolderId(), Critere.EQUALS));
+        criterias.add(new Critere(Payment.SEARCH_BY_HOME_FOLDER_ID, fake.id, Critere.EQUALS));
         List<Payment> payments =
             paymentService.get(criterias, null, null, 0, 0);
         assertEquals(1, payments.size());

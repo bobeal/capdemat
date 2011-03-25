@@ -12,7 +12,6 @@ import static org.junit.Assert.*;
 import fr.cg95.cvq.business.payment.Payment;
 import fr.cg95.cvq.business.payment.PaymentMode;
 import fr.cg95.cvq.business.payment.PaymentState;
-import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.dao.payment.IPaymentDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -30,10 +29,7 @@ public class PaymentServiceJobTest extends PaymentTestCase {
 			String broker, String cvqReference , PaymentMode paymentMode) throws CvqException {
        
 		SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-
-		CreationBean cb = gimmeAnHomeFolder();
-        
-		SecurityContext.setCurrentEcitizen(cb.getLogin());
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
 		
 		Payment payment = new Payment();
 		
@@ -108,7 +104,7 @@ public class PaymentServiceJobTest extends PaymentTestCase {
         
         // set the current site and citizen after launching the job since it resets them after running
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(homeFolderResponsible.getLogin());
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
 
     	List<Payment> listPayment = paymentDAO.searchNotCommited();
     	assertTrue(listPayment.isEmpty());

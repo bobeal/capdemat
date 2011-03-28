@@ -89,18 +89,6 @@ public class UsersContextAspect implements Ordered {
                     joinPoint.getSignature().getName(), context.types(), context.privilege(),
                     "access denied on home folder " + homeFolderId 
                         + " / individual " + individualId);
-        if (ContextPrivilege.WRITE.equals(context.privilege())) {
-            if (individual != null && UserState.ARCHIVED.equals(individual.getState())) {
-                throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
-                    joinPoint.getSignature().getName(), context.types(), context.privilege(),
-                        "access denied on archived individual " + individual.getId());
-            }
-            if (homeFolder != null && UserState.ARCHIVED.equals(homeFolder.getState())) {
-                throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
-                    joinPoint.getSignature().getName(), context.types(), context.privilege(),
-                    "access denied on archived homeFolder " + homeFolder.getId());
-            }
-        }
     }
     
     @Override

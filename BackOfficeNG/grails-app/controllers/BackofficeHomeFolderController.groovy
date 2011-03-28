@@ -74,30 +74,26 @@ class BackofficeHomeFolderController {
     }
     
     def details = {
+        def homeFolder = homeFolderService.getById(Long.parseLong(params.id))
+        def adult = homeFolderService.getHomeFolderResponsible(homeFolder.id)
+        def adults = homeFolderService.getAdults(homeFolder.id)
+        def children = homeFolderService.getChildren(homeFolder.id)
+
         def result = [responsibles:[:],adults:[],children:[]]
-        HomeFolder homeFolder = this.homeFolderService.getById(Long.parseLong(params.id))
-        Adult adult = homeFolderService.getHomeFolderResponsible(homeFolder.id)
-        
+        if (homeFolder.state == UserState.ARCHIVED) {
+            result.adults = adults.findAll{it.id != adult.id}
+        } else {
+            result.adults = adults.findAll{it.id != adult.id && it.state != UserState.ARCHIVED}
+            result.children = children.findAll{it.state != UserState.ARCHIVED}
+        }
         result.homeFolder = homeFolder
         result.homeFolderResponsible = adult
-        result.adults = this.homeFolderService.getAdults(Long.parseLong(params.id)).findAll{ it.id != adult.id && it.state != UserState.ARCHIVED }
-        result.children = this.homeFolderService.getChildren(Long.parseLong(params.id)).findAll{ it.state != UserState.ARCHIVED }
         result.homeFolderState = homeFolder.state.toString().toLowerCase()
         result.homeFolderStatus = homeFolder.enabled ? 'enable' : 'disable'
-        
+
         for(Child child : result.children)
             result.responsibles.put(child.id, homeFolderService.listBySubjectRoles(child.id, RoleType.childRoleTypes))
 
-        result.identifierMappings =
-            externalHomeFolderService.getHomeFolderMappings(homeFolder.id).collect { [
-                "externalServiceLabel" : it.externalServiceLabel,
-                "homeFolderId" : it.homeFolderId,
-                "externalId" : it.externalId,
-                "individualMappings" : it.individualsMappings.collect { [
-                    "individual" : individualService.getById(it.individualId),
-                    "externalId" : it.externalId
-                ] }
-            ] }
         return result
     }
 

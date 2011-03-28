@@ -261,7 +261,9 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
         
         // we filter the individual who don't get a home folder
         sb.append(" and individual.homeFolder is not null ");
-        
+
+        // TODO (rdj) : I know this is apoor solution
+        boolean searchByUserState = false;
         // go through all the criteria and create the query
         for (Critere criteria : criterias) {
             if (criteria.getAttribut().equals(Individual.SEARCH_BY_LASTNAME)) {
@@ -296,10 +298,19 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
                 sb.append(String.format(" and lower(individual.state) %1$s lower(?) ", criteria.getSqlComparatif()));
                 objectList.add(criteria.getValue());
                 typeList.add(Hibernate.STRING);
+                searchByUserState = true;
             } else {
                 logger.warn("Unknown search criteria for Individual object");
             }
         }
+
+        // exclude archived individual if no UserState filter is used
+        if (!searchByUserState) {
+            sb.append(" and individual.state != ?");
+            objectList.add(UserState.ARCHIVED.toString());
+            typeList.add(Hibernate.STRING);
+        }
+
         return sb;
     }
 

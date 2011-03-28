@@ -45,11 +45,11 @@
             <a class="toggle">${message(code:'action.expand')} / ${message(code:'action.collapse')}</a>
             <div class="yui-g">
               <div class="yui-u first">
-                <dl class="edit individual-state required collapse">
+                <dl class="${homeFolderResponsible?.state?.toString() != 'Archived' ? 'edit' : ''} individual-state required collapse">
                   <g:render template="static/state" model="['user':homeFolderResponsible]" />
                 </dl>
                 <h3>${message(code:'homeFolder.individual.header.identity')}</h3>
-                <dl class="edit individual-identity required collapse">
+                <dl class="${homeFolderResponsible?.state?.toString() != 'Archived' ? 'edit' : ''} individual-identity required collapse">
                   <g:render template="static/adultIdentity" model="['individual':homeFolderResponsible]" />
                 </dl>
                 <h3>${message(code:'homeFolder.individual.header.connexion')}</h3>
@@ -59,11 +59,11 @@
               </div>
               <div class="yui-u">
                 <h3>${message(code:'homeFolder.individual.header.address')}</h3>
-                <dl class="edit adult-address required collapse">
+                <dl class="${homeFolderResponsible?.state?.toString() != 'Archived' ? 'edit' : ''} adult-address required collapse">
                   <g:render template="static/address" model="['user' : homeFolderResponsible]" />
                 </dl>
                 <h3>${message(code:'homeFolder.individual.header.contact')}</h3>
-                <dl class="edit adult-contact required collapse">
+                <dl class="${homeFolderResponsible?.state?.toString() != 'Archived' ? 'edit' : ''} adult-contact required collapse">
                   <g:render template="static/contact" model="['adult':homeFolderResponsible, 'isResponsible':true]" />
                 </dl>
               </div>

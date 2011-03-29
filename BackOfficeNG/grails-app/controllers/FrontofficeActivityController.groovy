@@ -5,6 +5,8 @@ import fr.cg95.cvq.service.request.external.IRequestExternalService
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.security.SecurityContext
 
+import java.text.DateFormatSymbols
+
 class FrontofficeActivityController {
     
     IRequestSearchService requestSearchService
@@ -21,11 +23,10 @@ class FrontofficeActivityController {
         result.currentMonth = calendar.get(Calendar.MONTH) + 1
         
         result.monthsNames = [:]
-    	(1..12).each { it ->
-    		calendar.set(Calendar.MONTH, it - 1)
-    		result.monthsNames[it] = 
-    			calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, SecurityContext.currentLocale)
-    	}
+        String[] months = new DateFormatSymbols().getMonths()
+        (0..11).each { it ->
+            result.monthsNames[it+1] = months[it]
+        }
     }
     
     def beforeInterceptor = {

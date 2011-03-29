@@ -38,6 +38,7 @@ import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItemDetail;
 import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.users.Child;
+import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -59,6 +60,9 @@ public class TechnocarteService implements IExternalProviderService, IScholarBus
     public String sendRequest(XmlObject requestXml) throws CvqException {
         String Method = "ReceptionCapdemat";
 
+        HibernateUtil.commitTransaction();
+        HibernateUtil.closeSession();
+        
         Vector<Parameter> parameters = new Vector<Parameter>();
         String la = "La connexion au serveur a echoué";
         parameters.addElement(new Parameter("var", String.class, requestXml, null));
@@ -102,6 +106,8 @@ public class TechnocarteService implements IExternalProviderService, IScholarBus
             }
         } catch (Exception e) {
             throw new CvqException(la);
+        } finally {
+            HibernateUtil.beginTransaction();
         }
         return null;
     }

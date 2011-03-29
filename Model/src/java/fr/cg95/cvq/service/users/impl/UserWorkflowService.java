@@ -166,14 +166,19 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         individual.getHomeFolder().getActions().add(action);
         homeFolderDAO.update(individual.getHomeFolder());
         applicationEventPublisher.publishEvent(new UserEvent(this, action));
-        if (UserState.INVALID.equals(state))
+        if (UserState.INVALID.equals(state) && !UserState.INVALID.equals(homeFolder.getState()))
             changeState(individual.getHomeFolder(), UserState.INVALID);
         else if (UserState.VALID.equals(state) || UserState.ARCHIVED.equals(state)) {
-            boolean allAtSameState = true;
+            UserState homeFolderState = state;
             for (Individual i : individual.getHomeFolder().getIndividuals()) {
-                allAtSameState &= UserState.ARCHIVED.equals(i.getState()) || state.equals(i.getState());
+                if (UserState.VALID.equals(i.getState())) {
+                    homeFolderState = UserState.VALID;
+                } else if (!UserState.ARCHIVED.equals(i.getState())) {
+                    homeFolderState = null;
+                    break;
+                }
             }
-            if (allAtSameState) changeState(individual.getHomeFolder(), state);
+            if (homeFolderState != null) changeState(individual.getHomeFolder(), homeFolderState);
         }
     }
 

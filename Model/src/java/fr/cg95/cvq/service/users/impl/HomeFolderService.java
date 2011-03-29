@@ -111,6 +111,10 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         logger.debug("create() successfully created home folder " + homeFolder.getId());
         HibernateUtil.getSession().flush();
         if (SecurityContext.isAdminContext()) {
+            // FIXME restore new states and good QoS
+            homeFolder.setState(UserState.NEW);
+            adult.setState(UserState.NEW);
+            adult.setQoS(QoS.GOOD);
             // FIXME attribute all actions to the newly created responsible instead of system
             Gson gson = new Gson();
             for (UserAction action : homeFolder.getActions()) {

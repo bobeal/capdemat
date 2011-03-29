@@ -12,7 +12,6 @@ import org.springframework.context.ApplicationEventPublisherAware;
 
 import com.google.gson.JsonObject;
 
-import fr.cg95.cvq.business.QoS;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
@@ -150,10 +149,8 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
                     "user.state." + state.toString().toLowerCase()));
         individual.setState(state);
         individual.setLastModificationDate(new Date());
-        if (UserState.VALID.equals(state) || UserState.ARCHIVED.equals(state)) {
+        if (SecurityContext.isBackOfficeContext()) {
             individual.setQoS(null);
-        } else {
-            individual.setQoS(QoS.GOOD);
         }
         HomeFolder homeFolder = individual.getHomeFolder();
         if (UserState.ARCHIVED.equals(state) && individual.getId().equals(

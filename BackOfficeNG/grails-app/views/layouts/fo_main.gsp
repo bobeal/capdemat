@@ -74,9 +74,7 @@
             alt="Projet cofinancé par l’Union Européenne (FEDER)"
             style="float:left; margin: 0 0 1em;" />
      </a>
-     <g:if test="${!isLogin}">
      <a href="${createLink(controller:'frontofficeHome',action:'accessibilityPolicy')}">${message(code:'home.header.accessibilityPolicy')}</a> | 
-     </g:if>
      <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'legal')}"
         target="blank">${message(code:'message.legalInformation')}</a>
    </div>

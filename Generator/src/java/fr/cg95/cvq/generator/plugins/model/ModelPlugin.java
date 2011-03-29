@@ -73,11 +73,7 @@ public class ModelPlugin implements IPluginGenerator {
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node childNode = nodeList.item(i);
             if (childNode.getNodeName().equals("output")) {
-                NamedNodeMap childAttributesMap = childNode.getAttributes();
-                Node valueAttribute = childAttributesMap.getNamedItem("dir");
-                modelRequestObject.setOutputDir(valueAttribute.getNodeValue());
-                valueAttribute = childAttributesMap.getNamedItem("testdir");
-                modelRequestObject.setOutputTestDir(valueAttribute.getNodeValue());
+                modelRequestObject.setOutputDir(childNode.getAttributes().getNamedItem("dir").getNodeValue());
             }
         }
     }

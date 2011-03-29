@@ -40,12 +40,6 @@ public class ModelRequestObject {
      */
     private String outputDir;
 
-    /**
-     * The base directory in which we generate services test classes
-     * Configurable in Model plugin configuration file (src/xml/plugins/model_plugin.xml)
-     */
-    private String outputTestDir;
-
     /** the name of the request being generated */
     private String requestName;
 
@@ -239,34 +233,11 @@ public class ModelRequestObject {
         for (ComplexType complexType : complexTypesMap.values()) {
             complexType.generate();
         }
-        generateSampleServiceTestClass();
 
         // reset local maps for the next request
         elementsPropertiesMap.clear();
         elementsModelInfoMap.clear();
         complexTypesMap.clear();
-    }
-
-    /**
-     * Generate a base service test class and an empty class where to feed request
-     * with specific data.
-     */
-    private void generateSampleServiceTestClass() {
-        Map<String, Object> model = new HashMap<String, Object>();
-        model.put("request", this);
-        String basePath = outputTestDir + File.separator
-            + transformNamespaceLastParticle(requestNamespaceLastParticle);
-        File basePathFile = new File(basePath);
-        if (! basePathFile.exists()) {
-            basePathFile.mkdirs();
-        }
-        GroovyManager.generate(basePath + File.separator + requestName + "ServiceTest.java", "ServiceTest.groovy", model);
-        File javaFile = new File(basePath + File.separator + requestName + "Feeder.java");
-        if (javaFile.exists()) {
-            logger.debug("generateSampleServiceTestClass() Request feeder class already exists, ignoring");
-        } else {
-            GroovyManager.generate(javaFile, "RequestFeeder.groovy", model);
-        }
     }
 
     private void generateRequestObject() {
@@ -442,10 +413,6 @@ public class ModelRequestObject {
 
     public void setOutputDir(String outputDir) {
         this.outputDir = outputDir;
-    }
-
-    public void setOutputTestDir(String outputTestDir) {
-        this.outputTestDir = outputTestDir;
     }
 
     public void setRequestName(String requestName) {

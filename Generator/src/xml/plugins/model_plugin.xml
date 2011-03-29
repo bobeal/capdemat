@@ -7,6 +7,6 @@
   </appinfo>
   <configuration>
     <!-- define a base output dir for business objects -->
-    <output dir="./Model/src/java/fr/cg95/cvq" testdir="./Model/test/java/fr/cg95/cvq/service/request"/>
+    <output dir="./Model/src/java/fr/cg95/cvq" />
   </configuration>
 </plugin>

@@ -265,7 +265,7 @@ class BackofficeHomeFolderController {
                 def temp = individual instanceof Adult ? new Adult() : new Child()
                 bind(temp)
                 individualAdaptorService.historize(
-                    individual, individual, temp, "contact",
+                    individual, individual, temp, "identity",
                     individual instanceof Adult ?
                         ["title", "familyStatus", "lastName", "maidenName", "nameOfUse", "firstName", "firstName2", "firstName3", "profession"] :
                         ["born", "lastName", "firstName", "firstName2", "firstName3", "sex", "birthDate", "birthPostalCode", "birthCity", "birthCountry"])

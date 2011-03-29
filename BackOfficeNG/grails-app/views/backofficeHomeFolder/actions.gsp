@@ -4,21 +4,20 @@
       <dl class="action">
         <dt class="title">
           <span class="tag ${action.type.cssClass}">
-            <g:message code="${action.type.i18nKey}" />
+            ${message(code:action.type.i18nKey)}
           </span>
         </dt>
         <dd class="title">
+          <span class="date"><g:formatDate formatName="format.fullDate" date="${action.date}"/></span>
           <g:if test="${action.state}">
-            <span class="tag ${action.state.cssClass}"><g:message code="${action.state.i18nKey}" /></span>
+            <span class="tag ${action.state.cssClass}">${message(code:action.state.i18nKey)}</span>
           </g:if>
-          ${action.target.name}
+          <strong>${action.target.name}</strong>
         </dd>
-        <dd class="title">
-          <g:message code="searchResult.actionDate" /> :
-          <strong><g:formatDate formatName="format.fullDate" date="${action.date}"/></strong>
-          <g:if test="${action.user.name}">
-            <g:message code="layout.by" />
-            <strong>${action.user.name}</strong>
+        <dd class="user">
+          <g:if test="${action.user.displayName}">
+            ${message(code:'layout.by')}
+            <strong class="${action.user.nature}">${action.user.displayName}</strong>
           </g:if>
         </dd>
         <g:if test="${action.responsible}">
@@ -44,13 +43,13 @@
           </g:else>
         </g:if>
         <g:if test="${action.atom}">
-          <dt>${action.atom.name}</dt>
+          <dt>${message(code:'user.atom.' + action.atom.name)}</dt>
           <dd>
-            <dl>
+            <dl class="atom">
             <g:each var="field" in="${action.atom.fields}">
-              <dt>${field.key}</dt>
+              <dt>${message(code:'user.atom.field.' + field.key)}</dt>
               <dd>
-                ${field.value.from} ↪ ${field.value.to}
+                <span class="previous">${field.value.from}</span> ↪ ${field.value.to}
               </dd>
             </g:each>
             </dl>

@@ -72,6 +72,9 @@ class HomeFolderAdaptorService {
                     case "quality" :
                         result.state = CapdematUtils.adaptCapdematEnum(it.value, "qoS.quality")
                         break
+                    case "user" : 
+                        result.user = instructionService.getActionPosterDetails(action.userId, true)
+                        break;
                     default :
                         result.(it.key) = it.value
                         break

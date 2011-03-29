@@ -107,22 +107,21 @@ dl.action dd.action-note,
   display : inherit;
 }
 
+dl.action .date  { float: right; color: #333; }
+dl.action .user { font-size: .85em; text-align: right; }
+dl.action .agent { color: #AA00FF; }
+dl.action .eCitizen { color: #EC7000; }
+
 #userActions li:hover dl.action {
   border-color : #EC7000;
   border-width : 2px;
 }
 
-dl.previous {
-  margin: .5em 1em;
-  -moz-border-radius : .5em; -webkit-border-radius : .5em; border-radius : .5em;
-  font-size: .85em;
-  background: #FFD8DF; color: #444;
-}
-
-dl.previous dt { width: 35%; color: #666; }
-dl.previous dt:after { content: " : " ;}
-dl.previous dd { margin : 0 0 0 36%; border: 0; }
-
+dl.atom { font-size: .85em; }
+dl.atom dt { width: 30%; padding-top: .6em; color: #444; }
+dl.atom dt:after { content: " : " ;}
+dl.atom dd { margin : 0 0 0 31%; border: 0; font-size: 1.3em; }
+dl.atom .previous { text-decoration: line-through; }
 
 /* Information
 -------------------------------------------------------------- */

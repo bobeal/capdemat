@@ -26,6 +26,7 @@ public class RequestExternalActionService implements IRequestExternalActionServi
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    @RequestFilter(privilege = ContextPrivilege.READ)
     public List<RequestExternalAction> getTraces(Set<Critere> criteriaSet,
         String sort, String dir, int count, int offset) {
         return requestExternalActionDAO.get(criteriaSet, sort, dir, count, offset, false);
@@ -33,11 +34,13 @@ public class RequestExternalActionService implements IRequestExternalActionServi
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    @RequestFilter(privilege = ContextPrivilege.READ)
     public Long getTracesCount(Set<Critere> criteriaSet) {
         return requestExternalActionDAO.getCount(criteriaSet, false);
     }
 
     @Override
+    @RequestFilter(privilege = ContextPrivilege.READ)
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<RequestExternalAction> getLastTraces(Set<Critere> criteriaSet,
         String sort, String dir, int count, int offset) {
@@ -45,6 +48,7 @@ public class RequestExternalActionService implements IRequestExternalActionServi
     }
 
     @Override
+    @RequestFilter(privilege = ContextPrivilege.READ)
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Long getLastTracesCount(Set<Critere> criteriaSet) {
         return requestExternalActionDAO.getCount(criteriaSet, true);

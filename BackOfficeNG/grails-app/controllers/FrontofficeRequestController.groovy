@@ -126,10 +126,14 @@ class FrontofficeRequestController {
                 // clean empty collections elements
                 DataBindingUtils.cleanBind(rqt, params)
                 if (params.currentStep == 'validation' && params.send) {
+                    if (!params.useAcceptance) {
+                        rqt.stepStates.get('validation').invalidFields = ['useAcceptance']
+                        throw new CvqValidationException('request.error.useAcceptanceRequired')
+                    }
                     // bind the selected means of contact into request
                     MeansOfContactEnum moce = MeansOfContactEnum.forString(params.meansOfContact)
                     rqt.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
-                    requestWorkflowService.validate(rqt, null, params.useAcceptance != null)
+                    requestWorkflowService.validate(rqt, null)
                     def parameters = [:]
                     if (!RequestState.DRAFT.equals(rqt.state)) {
                         parameters.isEdition = true
@@ -138,12 +142,8 @@ class FrontofficeRequestController {
                         }
                     } else {
                         rqt.state = RequestState.PENDING
-                        if (SecurityContext.currentEcitizen == null)
-                            requestWorkflowService.create(rqt, objectToBind.requester,
-                                params.requestNote && !params.requestNote.trim().isEmpty() ? params.requestNote : null)
-                        else
-                            requestWorkflowService.create(rqt,
-                                params.requestNote && !params.requestNote.trim().isEmpty() ? params.requestNote : null)
+                        requestWorkflowService.create(rqt,
+                            params.requestNote && !params.requestNote.trim().isEmpty() ? params.requestNote : null)
                     }
                     parameters.id = rqt.id
                     parameters.label = rqt.requestType.label
@@ -166,7 +166,7 @@ class FrontofficeRequestController {
                     }
                     return
                 } else {
-                    requestWorkflowService.validate(rqt, [params.currentStep], false)
+                    requestWorkflowService.validate(rqt, [params.currentStep])
                     if (params.currentCollection != null) {
                         // hack : reset step to uncomplete,
                         // to force step validation irrespective of collection elements manipulation
@@ -192,7 +192,8 @@ class FrontofficeRequestController {
                     code : ExceptionUtils.getModelI18nKey(ce),
                     args : ExceptionUtils.getModelI18nArgs(ce)
                 )
-                session.doRollback = true
+                if (!(ce instanceof CvqValidationException))
+                    session.doRollback = true
             }
         }
         def requestTypeLabelAsDir = CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label)
@@ -230,7 +231,7 @@ class FrontofficeRequestController {
         requestLockService.lock(id)
         Request rqt = requestSearchService.getById(id, true)
         rqt[params.currentCollection].remove(Integer.valueOf(params.collectionIndex))
-        requestWorkflowService.validate(rqt, [params.currentStep], false)
+        requestWorkflowService.validate(rqt, [params.currentStep])
         // hack : reset step to uncomplete,
         // to force step validation irrespective of collection elements manipulation
         rqt.stepStates[params.currentStep].state = "uncomplete"
@@ -241,9 +242,8 @@ class FrontofficeRequestController {
     def webflowNextStep(rqt, step) {
         if (step == null)
             return rqt.stepStates.keySet().iterator().next()
-        if (rqt.stepStates[step].state == 'invalid' || request.get)
+        if (rqt.stepStates[step].state == 'invalid' && params.nextStep)
             return step
-        updateStepState(rqt, step)
         def stepStates = []
         for (entry in rqt.stepStates) {
             if (entry.key == 'administration'
@@ -253,7 +253,7 @@ class FrontofficeRequestController {
         }
         for (def i = 0; i < stepStates.size(); i++) {
             if (stepStates[i].equals(step)) {
-                if (params.nextStep) return stepStates[i + 1]
+                if (params.nextStep) { updateStepState(rqt, step); return stepStates[i + 1] }
                 if (params.previousStep) return stepStates[i - 1]
             }
         }

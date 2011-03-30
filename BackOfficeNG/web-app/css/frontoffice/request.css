@@ -122,6 +122,8 @@
   color: #095ba6;
 } 
 
+#request #nextStep, #request .previousStep { font-size: 1.2em; }
+
 #request div.form select#subjectId option:disabled { color: inherit; }
 
 /* validation screen

@@ -18,6 +18,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.exception.CvqValidationException;
 import fr.cg95.cvq.security.annotation.IsRequester;
 import fr.cg95.cvq.security.annotation.IsSubject;
 import fr.cg95.cvq.security.annotation.IsUser;
@@ -206,7 +207,7 @@ public interface IRequestWorkflowService {
 
     boolean isSupportMultiple(String requestLabel) throws CvqException;
 
-    void validate(@IsRequest Request request, List<String> steps, boolean useAcceptance)
-        throws ClassNotFoundException, IllegalAccessException,
+    void validate(@IsRequest Request request, List<String> steps)
+        throws ClassNotFoundException, IllegalAccessException, CvqValidationException,
             InvocationTargetException, NoSuchMethodException;
 }

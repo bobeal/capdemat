@@ -286,8 +286,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void validate(Request request, List<String> steps, boolean useAcceptance)
-        throws ClassNotFoundException, IllegalAccessException,
+    public void validate(Request request, List<String> steps)
+        throws ClassNotFoundException, IllegalAccessException, CvqValidationException,
             InvocationTargetException, NoSuchMethodException {
         Validator validator = new Validator();
         validator.disableAllProfiles();
@@ -332,11 +332,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                 invalidFields.remove("");
             }
         }
-        if (validator.isProfileEnabled("validation") && !useAcceptance) {
-            if (invalidFields.get("validation") == null)
-                invalidFields.put("validation", new ArrayList<String>(1));
-            invalidFields.get("validation").add("useAcceptance");
-        }
         for (Map.Entry<String, Map<String, Object>> stepState :
             request.getStepStates().entrySet()) {
             List<String> fields = invalidFields.get(stepState.getKey());
@@ -350,6 +345,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                         && (Boolean)stepState.getValue().get("required")))) {
                 request.getStepStates().get("validation").put("state", "unavailable");
             }
+        }
+        if (!invalidFields.isEmpty()) {
+            throw new CvqValidationException("request.error.dataValidation");
         }
     }
 

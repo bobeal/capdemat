@@ -42,7 +42,9 @@
      <input type="hidden" name="id" value="${rqt.id}" />
      <input type="hidden" name="currentStep" value="validation" />
      <input type="submit" id="send" name="send" style=" float:right; font-size: 1.8em;" value="${message(code:'action.send')}" />
-     <input type="submit" id="previousStep" name="previousStep" value="${message(code:'request.action.previousStep')}" />
+     <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'validation', 'previousStep':'previousStep'])}" class="previousStep">
+        ${message(code:'request.action.previousStep')}
+      </a>
    </form>
    <g:if test="${helps.validation != null}">
    <div class="help">
@@ -126,7 +128,9 @@
       <g:if test="${!currentCollection}">
         <input type="submit" id="nextStep" name="nextStep" style="float:right;" value="${message(code:'request.action.nextStep')}" />
         <g:if test="${!(rqt.stepStates.keySet().iterator().next() == currentStep)}">
-          <input type="submit" id="previousStep" name="previousStep" value="${message(code:'request.action.previousStep')}" />
+          <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':currentStep, 'previousStep':'previousStep'])}" class="previousStep">
+            ${message(code:'request.action.previousStep')}
+          </a>
         </g:if>
       </g:if>
     </form>

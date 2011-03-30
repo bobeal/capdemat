@@ -79,4 +79,6 @@
 </g:each>
 <div class="error" id="stepForm-error"> </div>
 <input type="submit" id="nextStep" name="nextStep" style="float:right;" value="${message(code:'request.action.nextStep')}" />
-<input type="submit" id="previousStep" name="previousStep" value="${message(code:'request.action.previousStep')}" />
+<a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'document','previousStep':'previousStep'])}" class="previousStep">
+  ${message(code:'request.action.previousStep')}
+</a>

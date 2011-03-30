@@ -461,10 +461,10 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             homeFolderMappingType.setExternalId("ExternalHomeFolderId");
             
             IndividualMappingType individualMappingType = homeFolderMappingRequest.addNewIndividualMapping();
-            String externalCapdematId = null;
+            String externalCapDematId = null;
             for (IndividualMapping indMapping : homeFolderMapping.getIndividualsMappings()) {
                 if (indMapping.getExternalId().equals("OriginalIndividualId")) {
-                    externalCapdematId = indMapping.getExternalCapDematId();
+                    externalCapDematId = indMapping.getExternalCapDematId();
                     individualMappingType.setExternalCapDematId(indMapping.getExternalCapDematId());
                     individualMappingType.setExternalId("ExternalIndividualId");
                     break;
@@ -478,7 +478,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             homeFolderMapping = externalHomeFolderService.getHomeFolderMapping(fakeExternalServiceLabel, cb.getHomeFolderId());
             assertEquals("ExternalHomeFolderId", homeFolderMapping.getExternalId());
             for (IndividualMapping indMapping : homeFolderMapping.getIndividualsMappings()) {
-                if (indMapping.getExternalCapDematId().equals(externalCapdematId)) {
+                if (indMapping.getExternalCapDematId().equals(externalCapDematId)) {
                     assertEquals("ExternalIndividualId", indMapping.getExternalId());
                 }
             }

@@ -41,10 +41,10 @@ public class ExternalHomeFolderService implements IExternalHomeFolderService {
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public HomeFolderMapping getHomeFolderMapping(
-            String externalServiceLabel, String externalCapdematId) {
+            String externalServiceLabel, String externalCapDematId) {
         return genericDAO.simpleSelect(HomeFolderMapping.class)
                 .and("externalServiceLabel", externalServiceLabel)
-                .and("externalCapDematId", externalCapdematId).unique();
+                .and("externalCapDematId", externalCapDematId).unique();
     }
 
     @Override

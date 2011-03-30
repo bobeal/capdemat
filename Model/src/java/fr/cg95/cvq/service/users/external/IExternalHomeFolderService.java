@@ -21,7 +21,7 @@ public interface IExternalHomeFolderService {
         @IsUser final Long homeFolderId);
 
     HomeFolderMapping getHomeFolderMapping(final String externalServiceLabel, 
-            final String externalCapdematId);
+            final String externalCapDematId);
 
     HomeFolderMapping getHomeFolderMapping(String externalServiceLabel, ExternalHomeFolder eh);
 

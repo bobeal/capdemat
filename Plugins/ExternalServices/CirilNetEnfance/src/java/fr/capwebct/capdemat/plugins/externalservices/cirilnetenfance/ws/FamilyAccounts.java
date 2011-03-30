@@ -30,17 +30,17 @@ public class FamilyAccounts {
     private String endPoint;
     private String zipCode;
     private Long homeFolderId;
-    private String externalCapdematId;
+    private String externalCapDematId;
     private String externalId;
     
     public FamilyAccounts() {}
     
-    public FamilyAccounts(String endPoint, String zipCode, Long homeFolderId, String externalCapdematId, String externalId){
+    public FamilyAccounts(String endPoint, String zipCode, Long homeFolderId, String externalCapDematId, String externalId){
         super();
         this.endPoint = endPoint;
         this.zipCode = zipCode;
         this.homeFolderId = homeFolderId;
-        this.externalCapdematId = externalCapdematId;
+        this.externalCapDematId = externalCapDematId;
         this.externalId = externalId;
     }
     
@@ -80,7 +80,7 @@ public class FamilyAccounts {
             SOAPElement f4 = rt.addChildElement(fourthElement);
             f1.addTextNode(zipCode);
             f2.addTextNode(String.valueOf(homeFolderId));
-            f3.addTextNode(externalCapdematId);
+            f3.addTextNode(externalCapDematId);
             f4.addTextNode(externalId);
             
             ByteArrayOutputStream outStream = new ByteArrayOutputStream();
@@ -135,12 +135,12 @@ public class FamilyAccounts {
         this.homeFolderId = homeFolderId;
     }
 
-    public final String getExternalCapdematId() {
-        return externalCapdematId;
+    public final String getExternalCapDematId() {
+        return externalCapDematId;
     }
 
-    public final void setExternalCapdematId(String externalCapdematId) {
-        this.externalCapdematId = externalCapdematId;
+    public final void setExternalCapDematId(String externalCapDematId) {
+        this.externalCapDematId = externalCapDematId;
     }
 
     public final String getExternalId() {

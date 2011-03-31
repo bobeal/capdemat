@@ -178,13 +178,13 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
             unlink(responsible, individual);
         }
         UserAction action = new UserAction(UserAction.Type.DELETION, individual.getId());
+        applicationContext.publishEvent(new UserEvent(this, action));
         homeFolder.getActions().add(action);
         homeFolder.getIndividuals().remove(individual);
         individual.setAddress(null);
         individual.setHomeFolder(null);
         individualDAO.delete(individual);
         homeFolderDAO.update(homeFolder);
-        applicationContext.publishEvent(new UserEvent(this, action));
     }
 
     @Override

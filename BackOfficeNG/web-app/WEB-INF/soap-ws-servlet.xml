@@ -6,7 +6,6 @@
     class="fr.cg95.cvq.external.endpoint.HomeFolderServiceEndpoint">
     <constructor-arg ref="xmlBeanMarshaller" />
     <property name="homeFolderService" ref="homeFolderService" />  
-    <property name="requestSearchService" ref="requestSearchService" />
   </bean>
   
   <bean id="requestServiceEndpoint" 

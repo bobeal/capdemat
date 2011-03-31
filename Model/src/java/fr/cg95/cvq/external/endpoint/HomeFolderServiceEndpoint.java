@@ -10,21 +10,18 @@ import fr.capwebct.capdemat.HomeFolderType;
 import fr.capwebct.capdemat.IndividualType;
 import fr.capwebct.capdemat.GetHomeFoldersResponseDocument.GetHomeFoldersResponse;
 
-import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType;
-import fr.cg95.cvq.service.request.IRequestSearchService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 
 public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoint {
 
     private IHomeFolderService homeFolderService;
-    private IRequestSearchService requestSearchService;
     
     public HomeFolderServiceEndpoint(Marshaller marshaller) {
         super(marshaller);
@@ -42,14 +39,6 @@ public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoin
         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
         List<HomeFolder> homeFolders = homeFolderService.getAll(true, true);
         for (HomeFolder homeFolder : homeFolders) {
-            List<Request> voCardRequests =
-                requestSearchService.getByHomeFolderIdAndRequestLabel(homeFolder.getId(),
-                    "VO Card", false);
-            if (voCardRequests == null || voCardRequests.isEmpty()) {
-//               logger.debug("invokeInternal() ignoring home folder " + homeFolder.getId()
-//                       + " without VO Card request");
-                continue;
-            }
             HomeFolderType homeFolderType = response.addNewHomeFolder();
             homeFolderType.setId(homeFolder.getId());
             Address address = homeFolder.getAddress();
@@ -80,9 +69,5 @@ public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoin
 
     public void setHomeFolderService(IHomeFolderService homeFolderService) {
         this.homeFolderService = homeFolderService;
-    }
-
-    public void setRequestSearchService(IRequestSearchService requestSearchService) {
-        this.requestSearchService = requestSearchService;
     }
 }

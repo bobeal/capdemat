@@ -580,7 +580,7 @@ class BackofficeRequestInstructionController {
             params.id, Critere.EQUALS))
         criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_NAME,
             params.label, Critere.EQUALS))
-        requestExternalActionService.getTraces(criteriaSet, null, null, 0, 0).each {
+        requestExternalActionService.getTraces(criteriaSet, null, "desc", 0, 0).each {
             traces.add(["date" : it.date,
                         "status" : CapdematUtils.adaptCapdematEnum(it.status, "externalservice.trace.status"),
                         "message" : it.message,

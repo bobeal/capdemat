@@ -99,6 +99,7 @@ public class LocalReferentialService
             if (lrType.getEntries() == null || !lrType.getEntries().iterator().hasNext())
                 isConfigure = false;
         
+        logger.debug("isLocalReferentialConfigured(" + requestTypeLabel + ") = " + isConfigure);
         return isConfigure;
     }
 

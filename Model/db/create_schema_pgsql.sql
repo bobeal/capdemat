@@ -327,7 +327,7 @@
         drop constraint FK414EF28FC5FD0068;
 
     alter table request 
-        drop constraint FK414EF28F396D729D;
+        drop constraint FK414EF28F3FFD6284;
 
     alter table request_action 
         drop constraint FK7AC459E6D7FE2713;
@@ -778,16 +778,16 @@
         account_holder_edemande_id varchar(255),
         internship_institute_address_id int8,
         edemande_id varchar(255),
-        internship_start_date timestamp,
         internship_end_date timestamp,
+        internship_start_date timestamp,
         is_subject_account_holder bool,
         french_r_i_b_id int8,
         subject_birth_city varchar(32),
         account_holder_birth_date timestamp,
         subject_birth_date timestamp,
         internship_institute_name varchar(255),
-        subject_address_id int8,
         account_holder_last_name varchar(38),
+        subject_address_id int8,
         subject_phone varchar(10),
         subject_email varchar(255),
         account_holder_title varchar(255),
@@ -898,8 +898,8 @@
         horaire_placement_apres_midi_fin_lundi bytea,
         horaire_placement_matin_fin_lundi bytea,
         choix_type_rendez_vous varchar(255),
-        dix_huit_mois_enfant timestamp,
         situation_actuelle_mere varchar(255),
+        dix_huit_mois_enfant timestamp,
         horaire_placement_matin_fin_vendredi bytea,
         date_placement_debut timestamp,
         horaire_placement_matin_debut_vendredi bytea,
@@ -929,14 +929,14 @@
     create table death_details_request (
         id int8 not null,
         death_first_names varchar(255),
-        death_city varchar(32),
         format varchar(255),
         copies bytea,
-        comment varchar(255),
-        motive varchar(255),
-        death_postal_code varchar(2),
-        death_last_name varchar(38),
         death_date timestamp,
+        comment varchar(255),
+        death_postal_code varchar(2),
+        death_city varchar(32),
+        motive varchar(255),
+        death_last_name varchar(38),
         primary key (id)
     );
 
@@ -1051,13 +1051,13 @@
         dhr_spouse_france_arrival_date timestamp,
         dhr_requester_nationality varchar(32),
         dhr_current_dwelling_arrival_date timestamp,
-        dhr_referent_first_name varchar(38),
         dhr_incomes_annual_total bytea,
+        dhr_referent_first_name varchar(38),
         dhr_requester_have_guardian bool,
         dhr_income_tax bytea,
+        dhr_current_dwelling_net_area numeric(19, 2),
         dhr_spouse_birth_place varchar(255),
         dhr_spouse_birth_date timestamp,
-        dhr_current_dwelling_net_area numeric(19, 2),
         dhr_requester_france_arrival_date timestamp,
         dhr_current_dwelling_status varchar(255),
         dhr_spouse_first_name varchar(38),
@@ -1076,19 +1076,19 @@
         pensions bytea,
         dhr_current_dwelling_kind varchar(255),
         dhr_current_dwelling_number_of_room numeric(19, 2),
-        dhr_guardian_measure varchar(255),
         dhr_current_dwelling_phone varchar(10),
+        dhr_guardian_measure varchar(255),
         dhr_spouse_is_french_resident bool,
         dhr_allowances bytea,
         dhr_spouse_nationality varchar(32),
         dhr_spouse_maiden_name varchar(38),
-        dhr_spouse_name varchar(38),
         dhr_spouse_pension_plan_detail varchar(255),
+        dhr_spouse_name varchar(38),
         dhr_requester_birth_place varchar(255),
         dhr_spouse_address_id int8,
         dhr_have_family_referent bool,
-        dhr_pension_plan_detail varchar(255),
         dhr_spouse_complementary_pension_plan varchar(255),
+        dhr_pension_plan_detail varchar(255),
         primary key (id)
     );
 
@@ -1144,6 +1144,8 @@
         first_name varchar(255),
         external_id varchar(255),
         last_name varchar(255),
+        email varchar(255),
+        home_phone varchar(255),
         responsible bool,
         external_home_folder_id int8,
         external_home_folder_index int4,
@@ -1708,8 +1710,8 @@
     create table home_emergency_registration_request (
         id int8 not null,
         telephone varchar(10),
-        date_depart timestamp,
         duree varchar(2),
+        date_depart timestamp,
         primary key (id)
     );
 
@@ -3048,7 +3050,7 @@
         references request_type;
 
     alter table request 
-        add constraint FK414EF28F396D729D 
+        add constraint FK414EF28F3FFD6284 
         foreign key (means_of_contact_id) 
         references means_of_contact;
 

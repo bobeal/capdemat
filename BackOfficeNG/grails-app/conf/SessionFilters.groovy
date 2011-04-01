@@ -139,16 +139,6 @@ class SessionFilters {
             }
         }
 
-        enableAccountCreation(uri: '/frontoffice/**') {
-            before = {
-                if (requestTypeService.getRequestTypeByLabel(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST).active) {
-                    session.setAttribute("accountCreationEnabled", true)
-                } else {
-                    session.setAttribute("accountCreationEnabled", null)
-                }
-            }
-        }
-
         setupFrontUser(uri: '/frontoffice/**') {
             before = {
                 def point =

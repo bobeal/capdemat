@@ -15,6 +15,7 @@ import fr.cg95.cvq.xml.request.ecitizen.VoCardRequestDocument;
 /**
  * @author bor@zenexity.fr
  */
+@Deprecated
 public class VoCardRequest extends Request implements Serializable {
 
     private static final long serialVersionUID = 1L;

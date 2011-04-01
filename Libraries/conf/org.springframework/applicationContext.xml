@@ -429,25 +429,6 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 
   <!-- ********************** INSTANCE REQUESTS SERVICES ***********************  -->
 
-  <bean id="voCardRequestService" class="fr.cg95.cvq.service.request.ecitizen.impl.VoCardRequestService" 
-    parent="requestService">
-    <property name="supportUnregisteredCreation" value="true"/>
-    <property name="label" value="VO Card"/>
-  </bean>
-
-  <bean id="homeFolderModificationRequestService" 
-    class="fr.cg95.cvq.service.request.ecitizen.impl.HomeFolderModificationRequestService" 
-    parent="requestService">
-    <property name="label" value="Home Folder Modification"/>
-    <!-- service specifics -->
-    <property name="historyEntryDAO" ref="historyEntryDAO" />
-    <property name="homeFolderService" ref="homeFolderService" />
-    <property name="individualService" ref="individualService" />
-    <property name="externalHomeFolderService" ref="externalHomeFolderService" />
-    <property name="requestDAO" ref="requestDAO" />
-    <!-- end service specifics -->
-  </bean>
-
   <bean id="schoolRegistrationRequestService" 
     class="fr.cg95.cvq.service.request.school.impl.SchoolRegistrationRequestService" 
     parent="requestService">
@@ -795,8 +776,6 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   <bean id="childDAO" class="fr.cg95.cvq.dao.users.hibernate.ChildDAO" parent="genericDAO"/>
 
   <bean id="homeFolderDAO" class="fr.cg95.cvq.dao.users.hibernate.HomeFolderDAO" parent="genericDAO"/>
-
-  <bean id="historyEntryDAO" class="fr.cg95.cvq.dao.users.hibernate.HistoryEntryDAO" parent="genericDAO"/>
 
   <bean id="documentDAO" class="fr.cg95.cvq.dao.document.hibernate.DocumentDAO" parent="genericDAO"/>
 

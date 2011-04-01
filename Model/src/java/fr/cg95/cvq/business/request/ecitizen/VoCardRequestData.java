@@ -14,6 +14,7 @@ import fr.cg95.cvq.service.request.condition.IConditionChecker;
  *
  * @author bor@zenexity.fr
  */
+@Deprecated
 public class VoCardRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;

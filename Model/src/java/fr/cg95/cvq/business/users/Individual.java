@@ -65,8 +65,8 @@ public abstract class Individual implements Historizable, Serializable {
     @NotEmpty(message = "lastName")
     private String lastName;
 
-    @NotNull(message = "firstName", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child && _this.born")
-    @NotEmpty(message = "firstName", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child && _this.born")
+    @NotNull(message = "firstName", when = "groovy:(_this instanceof fr.cg95.cvq.business.users.Child && _this.born) || _this instanceof fr.cg95.cvq.business.users.Adult")
+    @NotEmpty(message = "firstName", when = "groovy:(_this instanceof fr.cg95.cvq.business.users.Child && _this.born) || _this instanceof fr.cg95.cvq.business.users.Adult")
     private String firstName;
 
     @NotEmpty(message = "firstName2")

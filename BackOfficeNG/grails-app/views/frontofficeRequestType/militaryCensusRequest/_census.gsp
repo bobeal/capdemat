@@ -118,7 +118,7 @@
 
   
     <label for="childConvention" class=""><g:message code="mcr.property.childConvention.label" />   <span><g:message code="mcr.property.childConvention.help" /></span></label>
-            <textarea id="childConvention" name="childConvention" class="  validate-regex ${rqt.stepStates['census'].invalidFields.contains('childConvention') ? 'validation-failed' : ''}" title="<g:message code="mcr.property.childConvention.validationError" />" rows="3" cols="" regex="^.{0,255}$" maxlength="255">${rqt.childConvention}</textarea>
+            <textarea id="childConvention" name="childConvention" class="  validate-regex ${rqt.stepStates['census'].invalidFields.contains('childConvention') ? 'validation-failed' : ''}" title="<g:message code="mcr.property.childConvention.validationError" />" rows="3" cols="" regex="^[\w\W]{0,255}$" maxlength="255">${rqt.childConvention}</textarea>
             
 
   

@@ -403,6 +403,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="historyEntryDAO" ref="historyEntryDAO" />
     <property name="homeFolderService" ref="homeFolderService" />
     <property name="individualService" ref="individualService" />
+    <property name="externalHomeFolderService" ref="externalHomeFolderService" />
     <property name="requestDAO" ref="requestDAO" />
     <!-- end service specifics -->
   </bean>

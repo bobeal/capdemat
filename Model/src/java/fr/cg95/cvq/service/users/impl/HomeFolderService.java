@@ -25,7 +25,10 @@ import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
+import fr.cg95.cvq.business.users.FamilyStatusType;
 import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.SexType;
+import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.business.users.UsersEvent;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.IndividualRole;
@@ -165,7 +168,11 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         // Merge new homeFolder object if reuired
         for (int i = 0; i < newAdults.size(); i++) {
             if (newAdults.get(i).getId() != null) {
+                TitleType oldTitle = newAdults.get(i).getTitle();
+                FamilyStatusType oldFamilyStatus = newAdults.get(i).getFamilyStatus();
                 Adult mergeAdult = (Adult)HibernateUtil.getSession().merge(newAdults.get(i));
+                mergeAdult.setTitle(oldTitle);
+                mergeAdult.setFamilyStatus(oldFamilyStatus);
                 newAdults.set(i, mergeAdult);
             }
         }
@@ -174,7 +181,9 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
             newChildren = Collections.<Child>emptyList();
         for (int i = 0; i < newChildren.size(); i++) {
             if (newChildren.get(i).getId() != null) {
+                SexType oldSex = newChildren.get(i).getSex();
                 Child mergeChild = (Child)HibernateUtil.getSession().merge(newChildren.get(i));
+                mergeChild.setSex(oldSex);
                 newChildren.set(i, mergeChild);
             }
         }
@@ -673,10 +682,11 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
                                 + individualRole.getIndividualId() + ")");
                         if (individualRole.getIndividualId() == null) {
                             String childName = individualRole.getIndividualName();
-                            if (childName == null)
+                            //FIXME : CLR role can only be used on Child. Useful to test corrupted xml import
+                            if (individualRole.getHomeFolderId() != null && childName == null)
                                 throw new CvqException("homeFolder.error.legalResponsibleMustReferenceAChild");
                             for (Child child : children) {
-                                if (childName.equals(child.getLastName() + " " + child.getFirstName())) {
+                                if (childName.equals(child.getFullName())) {
                                     individualRole.setIndividualId(child.getId());
                                     break;
                                 }

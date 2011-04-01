@@ -75,7 +75,7 @@
 
   
     <label for="comment" class=""><g:message code="bdr.property.comment.label" />   <span><g:message code="bdr.property.comment.help" /></span></label>
-            <textarea id="comment" name="comment" class="  validate-regex ${rqt.stepStates['type'].invalidFields.contains('comment') ? 'validation-failed' : ''}" title="<g:message code="bdr.property.comment.validationError" />" rows="3" cols="" regex="^.{0,255}$" >${rqt.comment}</textarea>
+            <textarea id="comment" name="comment" class="  validate-regex ${rqt.stepStates['type'].invalidFields.contains('comment') ? 'validation-failed' : ''}" title="<g:message code="bdr.property.comment.validationError" />" rows="3" cols="" regex="^[\w\W]{0,255}$" maxlength="255">${rqt.comment}</textarea>
             
 
   

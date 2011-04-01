@@ -250,7 +250,8 @@ public final class PaymentService implements IPaymentService,
         PaymentEvent paymentEvent = new PaymentEvent(this, event, payment);
         applicationContext.publishEvent(paymentEvent);
         
-        notifyPaymentByMail(payment);
+        if (paymentStatus.equals(PaymentResultStatus.OK))
+            notifyPaymentByMail(payment);
         
         return paymentStatus;
     }

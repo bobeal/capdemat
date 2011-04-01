@@ -51,6 +51,16 @@ public class DeathDetailsRequestServiceTest extends RequestTestCase {
           
           
             
+              if ("DeathCity".length() > 32)
+                  request.setDeathCity("DeathCity".substring(0, 32));
+              else
+                  request.setDeathCity("DeathCity");
+            
+          
+        
+          
+          
+            
               request.setFormat(DeathCertificateFormatType.FULL_COPY);
             
           
@@ -62,12 +72,19 @@ public class DeathDetailsRequestServiceTest extends RequestTestCase {
         
           
           
-               request.setDeathDate(new Date());
+            
+              if ("Comment".length() > 255)
+                  request.setComment("Comment".substring(0, 255));
+              else
+                  request.setComment("Comment");
+            
           
         
           
           
-               request.setComment("Comment");
+            
+              request.setMotive(DeathCertificateMotiveType.NOTARY_ACT);
+            
           
         
           
@@ -83,28 +100,16 @@ public class DeathDetailsRequestServiceTest extends RequestTestCase {
           
           
             
-              if ("DeathCity".length() > 32)
-                  request.setDeathCity("DeathCity".substring(0, 32));
-              else
-                  request.setDeathCity("DeathCity");
-            
-          
-        
-          
-          
-            
-              request.setMotive(DeathCertificateMotiveType.NOTARY_ACT);
-            
-          
-        
-          
-          
-            
               if ("DeathLastName".length() > 38)
                   request.setDeathLastName("DeathLastName".substring(0, 38));
               else
                   request.setDeathLastName("DeathLastName");
             
+          
+        
+          
+          
+               request.setDeathDate(new Date());
           
         
         // Means Of Contact

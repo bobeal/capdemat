@@ -265,7 +265,7 @@
                 <xs:appinfo>
                   <common>
                     <step name="census" />
-                    <validation jsregexp="^.{0,255}$" />
+                    <validation jsregexp="^[\w\W]{0,255}$" />
                   </common>
                   <fo>
                     <textarea rows="3" />    
@@ -278,7 +278,8 @@
               </xs:annotation>
               <xs:simpleType>
                 <xs:restriction base="xs:string">
-                    <xs:maxLength value="255" />
+                  <xs:pattern value="^[\w\W]{0,255}$" />
+                  <xs:maxLength value="255" />
                 </xs:restriction>
               </xs:simpleType>
             </xs:element>

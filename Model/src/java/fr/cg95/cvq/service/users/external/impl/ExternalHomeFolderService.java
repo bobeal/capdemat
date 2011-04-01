@@ -66,9 +66,24 @@ public class ExternalHomeFolderService implements IExternalHomeFolderService {
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
+    public IndividualMapping getIndividualMapping(HomeFolderMapping homeFolderMapping, Long individualId) {
+        return genericDAO.simpleSelect(IndividualMapping.class)
+                .and("homeFolderMapping", homeFolderMapping)
+                .and("individualId", individualId).unique();
+    }
+
+    @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public List<HomeFolderMapping> getHomeFolderMappings(Long homeFolderId) {
         return genericDAO.simpleSelect(HomeFolderMapping.class)
                 .and("homeFolderId", homeFolderId).list();
+    }
+
+    @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
+    public List<IndividualMapping> getIndividualMappings(Long individualId) {
+        return genericDAO.simpleSelect(IndividualMapping.class)
+                .and("individualId", individualId).list();
     }
 
     @Override
@@ -116,6 +131,13 @@ public class ExternalHomeFolderService implements IExternalHomeFolderService {
     public void deleteHomeFolderMappings(final String externalServiceLabel, final Long homeFolderId) {
         HomeFolderMapping esim = getHomeFolderMapping(externalServiceLabel, homeFolderId);
         genericDAO.delete(esim);
+    }
+
+    @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
+    public void deleteIndividualMapping(final HomeFolderMapping homeFolderMapping, final Long individualId) {
+        IndividualMapping im = getIndividualMapping(homeFolderMapping, individualId);
+        genericDAO.delete(im);
     }
 
     public void setGenericDAO(IGenericDAO genericDAO) {

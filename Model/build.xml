@@ -213,6 +213,7 @@
 				<include name="conf/html/**" />
 				<include name="conf/log4j/**" />
                 <include name="conf/pdf/**" />
+                <include name="test/data/**" />
 				<include name="utils/admin/**" />
 			</fileset>
 		</zip>

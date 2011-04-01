@@ -178,9 +178,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
                     break;
                 }
             }
-            if (homeFolderState != null
-                    && homeFolderState.equals(UserState.VALID)
-                    && !UserState.VALID.equals(individual.getHomeFolder().getState()))
+            if (homeFolderState != null && !homeFolderState.equals(homeFolder.getState()))
                 changeState(individual.getHomeFolder(), homeFolderState);
         }
     }

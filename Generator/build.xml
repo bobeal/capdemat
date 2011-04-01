@@ -149,7 +149,6 @@
           <include name="pdf_plugin.xml" />
           <include name="fong_plugin.xml" />
           <include name="i18n_plugin.xml" />
-          <include name="enumeration_plugin.xml" />
           -->
         </fileset>
       </plugins>

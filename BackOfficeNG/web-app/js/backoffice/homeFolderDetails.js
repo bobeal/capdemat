@@ -217,6 +217,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
           var json = ylj.parse(o.responseText);
           if (json.status === 'success')
             individual.parentNode.removeChild(individual);
+            zcbh.Details.refreshActions();
         });
       }
     };

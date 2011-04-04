@@ -15,6 +15,7 @@ class CalendarTagLib {
             }
         }
         
+        calendar.setMinimalDaysInFirstWeek(1)
         calendar.setFirstDayOfWeek(Calendar.MONDAY)
         calendar.set(Calendar.DATE, 1)
         calendar.set(Calendar.ERA, GregorianCalendar.AD)

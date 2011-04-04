@@ -4,7 +4,7 @@ import fr.cg95.cvq.business.QoS
 import fr.cg95.cvq.business.users.Individual
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.service.request.IRequestSearchService
-import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.service.users.IUserSearchService
 import fr.cg95.cvq.util.Critere
 
 import grails.converters.JSON
@@ -12,7 +12,7 @@ import grails.converters.JSON
 class BackofficeTasksController {
 
     IRequestSearchService requestSearchService
-    IIndividualService individualService
+    IUserSearchService userSearchService
 
     def defaultAction = 'tasks'
 
@@ -48,16 +48,16 @@ class BackofficeTasksController {
 
         taskMap.aboutIndividuals = [
             'late' : [
-                'count' : individualService.countTasks(QoS.LATE),
-                'all' : individualService.listTasks(QoS.LATE, tasksShownNb)
+                'count' : userSearchService.countTasks(QoS.LATE),
+                'all' : userSearchService.listTasks(QoS.LATE, tasksShownNb)
             ],
             'urgent' : [
-                'count' : individualService.countTasks(QoS.URGENT),
-                'all' : individualService.listTasks(QoS.URGENT, tasksShownNb)
+                'count' : userSearchService.countTasks(QoS.URGENT),
+                'all' : userSearchService.listTasks(QoS.URGENT, tasksShownNb)
             ],
             'good' : [
-                'count' : individualService.countTasks(QoS.GOOD),
-                'all' : individualService.listTasks(QoS.GOOD, tasksShownNb)
+                'count' : userSearchService.countTasks(QoS.GOOD),
+                'all' : userSearchService.listTasks(QoS.GOOD, tasksShownNb)
             ]
         ]
 

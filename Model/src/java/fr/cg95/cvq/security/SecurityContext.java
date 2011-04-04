@@ -16,7 +16,7 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
-import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.service.users.IUserSearchService;
 
 /**
  * A manager for the notions of "current everything" that
@@ -37,7 +37,7 @@ public class SecurityContext {
 
     private static ILocalAuthorityRegistry localAuthorityRegistry;
     private static IAgentService agentService;
-    private static IIndividualService individualService;
+    private static IUserSearchService userSearchService;
     
     private static List<String> administratorGroups;
     private static List<String> agentGroups;
@@ -256,7 +256,7 @@ public class SecurityContext {
         logger.debug("setCurrentEcitizen() id = " + id);
         String context = getCurrentContext();
         setCurrentContext(SecurityContext.ADMIN_CONTEXT);
-        Adult adult = individualService.getAdultById(id);
+        Adult adult = userSearchService.getAdultById(id);
         setCurrentContext(context);
         if (adult == null)
             throw new CvqObjectNotFoundException("Adult not found !");
@@ -489,8 +489,8 @@ public class SecurityContext {
         agentService = iAgentService;
     }
 
-    public void setIndividualService(IIndividualService iIndividualService) {
-        individualService = iIndividualService;
+    public void setUserSearchService(IUserSearchService userSearchService) {
+        SecurityContext.userSearchService = userSearchService;
     }
 
     public void setAdministratorGroups(List<String> administratorGroupsToSet) {

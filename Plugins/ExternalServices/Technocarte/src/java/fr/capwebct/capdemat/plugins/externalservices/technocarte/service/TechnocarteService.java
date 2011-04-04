@@ -29,7 +29,6 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.service.request.ILocalReferentialService;
-import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.xml.common.LocalReferentialDataType;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.request.school.SchoolCanteenRegistrationRequestDocument.SchoolCanteenRegistrationRequest;
@@ -46,8 +45,6 @@ public class TechnocarteService implements IExternalProviderService {
     private static Logger logger = Logger.getLogger(TechnocarteService.class);
     
     private String label;
-
-    private IIndividualService individualService;
 
     private String endportpath;
     private String username;
@@ -208,10 +205,6 @@ public class TechnocarteService implements IExternalProviderService {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public void setIndividualService(IIndividualService individualService) {
-        this.individualService = individualService;
     }
 
     public boolean supportsConsumptions() {

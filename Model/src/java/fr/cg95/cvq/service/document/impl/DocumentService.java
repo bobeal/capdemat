@@ -49,7 +49,7 @@ import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.document.IDocumentService;
-import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.util.translation.ITranslationService;
 
 /**
@@ -66,7 +66,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     protected IDocumentDAO documentDAO;
     protected IDocumentTypeDAO documentTypeDAO;
     private ITranslationService translationService;
-    private IIndividualService individualService;
+    private IUserSearchService userSearchService;
 
     /**
      * Max allowed data size (in Mb) for uploaded files, 0 means unlimited
@@ -615,7 +615,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         logger.debug("onApplicationEvent() got a user event of type " + event.getAction().getType());
         if (UserAction.Type.DELETION.equals(event.getAction().getType())) {
             try {
-                individualService.getById(event.getAction().getTargetId());
+                userSearchService.getById(event.getAction().getTargetId());
                 logger.debug("onApplicationEvent() deleting documents of individual "
                     + event.getAction().getTargetId());
                 deleteIndividualDocuments(event.getAction().getTargetId());
@@ -793,8 +793,8 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         this.translationService = translationService;
     }
 
-    public void setIndividualService(IIndividualService individualService) {
-        this.individualService = individualService;
+    public void setUserSearchService(IUserSearchService userSearchService) {
+        this.userSearchService = userSearchService;
     }
 
     public int getMaxDataSize() {

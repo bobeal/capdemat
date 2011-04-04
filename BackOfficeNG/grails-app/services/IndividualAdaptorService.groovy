@@ -3,14 +3,18 @@ import com.google.gson.JsonObject
 import fr.cg95.cvq.business.users.Child
 import fr.cg95.cvq.business.users.SexType
 import fr.cg95.cvq.business.users.TitleType
-import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.service.users.IUserService
+import fr.cg95.cvq.service.users.IUserSearchService
+import fr.cg95.cvq.service.users.IUserWorkflowService
 import fr.cg95.cvq.util.translation.ITranslationService
 import fr.cg95.cvq.exception.CvqValidationException
 
 class IndividualAdaptorService {
 
     ITranslationService translationService
-    IIndividualService individualService
+    IUserService userService
+    IUserSearchService userSearchService
+    IUserWorkflowService userWorkflowService
 
     public getIndividualDescription(individual) {
         def result = ["firstName" : "", "lastName" : "", "title" : ""]
@@ -37,7 +41,7 @@ class IndividualAdaptorService {
     public adaptSubjects(subjects) {
         def result = [:]
         subjects.each {
-            def subject = individualService.getById(it)
+            def subject = userSearchService.getById(it)
             result[it] = subject instanceof Child && !subject.born ? translationService.translate("request.subject.childNoBorn", subject.fullName) : subject.fullName
         }
         return result
@@ -68,8 +72,8 @@ class IndividualAdaptorService {
                 bean[it] = dto[it]
             }
         }
-        def invalidFields = individualService.validate(individual)
+        def invalidFields = userService.validate(individual)
         if (!invalidFields.isEmpty()) throw new CvqValidationException(invalidFields)
-        if (diff.entrySet().size() > 0) individualService.modify(individual, atom)
+        if (diff.entrySet().size() > 0) userWorkflowService.modify(individual, atom)
     }
 }

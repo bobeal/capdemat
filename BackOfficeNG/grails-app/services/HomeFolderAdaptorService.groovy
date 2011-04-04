@@ -1,8 +1,7 @@
 import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.business.users.UserAction
 import fr.cg95.cvq.business.users.UserState
-import fr.cg95.cvq.service.users.IHomeFolderService
-import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.service.users.IUserSearchService
 import fr.cg95.cvq.util.UserUtils
 import fr.cg95.cvq.util.translation.ITranslationService
 
@@ -10,13 +9,12 @@ import grails.converters.JSON
 
 class HomeFolderAdaptorService {
 
-    IHomeFolderService homeFolderService
-    IIndividualService individualService
+    IUserSearchService userSearchService
     ITranslationService translationService
 
     public prepareAdultSubjectRoles(adult) {
         def adultSubjectRoles = []
-        homeFolderService.listBySubjectRole(adult.id, RoleType.TUTOR).each { individual ->
+        userSearchService.listBySubjectRole(adult.id, RoleType.TUTOR).each { individual ->
             adultSubjectRoles.add(['fullName': "${individual.firstName} ${individual.lastName}",
                 'roles': individual.getIndividualRoles(adult.id)])
         }
@@ -27,7 +25,7 @@ class HomeFolderAdaptorService {
         def ownerRoles = ['homeFolder':[],'individual':[]]
         individual.individualRoles.each { individualRole ->
             if (individualRole.individualId) {
-                def subject = individualService.getById(individualRole.individualId)
+                def subject = userSearchService.getById(individualRole.individualId)
                 ownerRoles.individual.add(['role':individualRole.role, 
                                            'subjectName':subject.firstName + " " + subject.lastName])
             } else {
@@ -39,7 +37,7 @@ class HomeFolderAdaptorService {
 
     public roleOwners(subjectId) {
         def roleOwners = []
-        (homeFolderService.getAdults(individualService.getById(subjectId).homeFolder.id).findAll{ it.state != UserState.ARCHIVED }).each { adult ->
+        (userSearchService.getAdults(userSearchService.getById(subjectId).homeFolder.id).findAll{ it.state != UserState.ARCHIVED }).each { adult ->
             def roleOwner = ['adult':adult, 'roles':[]]
             if (!adult.getIndividualRoles(subjectId).isEmpty()) {
                 adult.getIndividualRoles(subjectId).each { individualRole ->

@@ -12,7 +12,7 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.condition.EqualityListChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
-import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.service.users.IUserSearchService;
 
 /**
  *
@@ -21,7 +21,7 @@ import fr.cg95.cvq.service.users.IIndividualService;
 public final class DayCareCenterRegistrationRequestService extends RequestService {
 
     @Autowired
-    IIndividualService individualService;
+    IUserSearchService userSearchService;
     
     @Override
     public void init() {
@@ -60,14 +60,14 @@ public final class DayCareCenterRegistrationRequestService extends RequestServic
         
         DayCareCenterRegistrationRequest dccrr = (DayCareCenterRegistrationRequest) request;
         // get the 18 months date of the subject
-        Individual subject = individualService.getById(dccrr.getSubjectId());
+        Individual subject = userSearchService.getById(dccrr.getSubjectId());
         Calendar cal = Calendar.getInstance();
         cal.setTime(subject.getBirthDate());
         cal.add(Calendar.MONTH, 18);
         dccrr.setDixHuitMoisEnfant(cal.getTime());
     }
 
-    public void setIndividualService(IIndividualService individualService) {
-        this.individualService = individualService;
+    public void setUserSearchService(IUserSearchService userSearchService) {
+        this.userSearchService = userSearchService;
     }
 }

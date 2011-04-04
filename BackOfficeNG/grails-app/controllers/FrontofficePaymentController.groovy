@@ -18,7 +18,6 @@ import fr.cg95.cvq.service.payment.IPaymentService
 import fr.cg95.cvq.service.payment.external.IPaymentExternalService
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
-import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.util.Critere
 
 import org.apache.commons.lang.StringUtils
@@ -28,7 +27,6 @@ import grails.converters.JSON
 class FrontofficePaymentController {
 
     IPaymentExternalService paymentExternalService
-    IIndividualService individualService
     IPaymentService paymentService
     ILocalAuthorityRegistry localAuthorityRegistry
     Adult ecitizen

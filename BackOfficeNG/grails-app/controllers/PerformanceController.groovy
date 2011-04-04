@@ -1,6 +1,6 @@
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.security.SecurityContext
-import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.service.users.IUserSearchService
 import grails.converters.JSON
 
 /**
@@ -12,7 +12,7 @@ import grails.converters.JSON
 public class PerformanceController {
     
     def performanceService
-    IIndividualService individualService
+    IUserSearchService userSearchService
     
     def beforeInterceptor = {}
     
@@ -22,7 +22,7 @@ public class PerformanceController {
     
     def randomSubject = {
         def individuals = []
-        Adult a =  individualService.getAdultById(Long.parseLong(params.subjectId))
+        Adult a =  userSearchService.getAdultById(Long.parseLong(params.subjectId))
         a.homeFolder.individuals.each{if(!a.id.equals(it.id) && it instanceof Adult) individuals.add(it.id)}
         render("subjectId=${individuals.get((new Random()).nextInt(individuals.size()))}")
     }

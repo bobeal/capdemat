@@ -21,7 +21,7 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
-import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.util.mail.IMailService;
@@ -46,7 +46,7 @@ public class DraftManagementJob {
     private IRequestActionService requestActionService;
     private ILocalAuthorityRegistry localAuthorityRegistry;
     private IMailService mailService;
-    private IIndividualService individualService;
+    private IUserSearchService userSearchService;
     private ITranslationService translationService;
     private IRequestTypeService requestTypeService;
     private IRequestWorkflowService requestWorkflowService;
@@ -89,7 +89,7 @@ public class DraftManagementJob {
             DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR, -limit));
         
         for (Request r : requests) {
-            Adult adult = this.individualService.getAdultById(r.getRequesterId());
+            Adult adult = userSearchService.getAdultById(r.getRequesterId());
             String from = null;
             if (r.getRequestType().getCategory() != null)
                 from = r.getRequestType().getCategory().getPrimaryEmail();
@@ -174,8 +174,8 @@ public class DraftManagementJob {
         this.mailService = mailService;
     }
 
-    public void setIndividualService(IIndividualService individualService) {
-        this.individualService = individualService;
+    public void setUserSearchService(IUserSearchService userSearchService) {
+        this.userSearchService = userSearchService;
     }
 
     public void setRequestDAO(IRequestDAO requestDAO) {

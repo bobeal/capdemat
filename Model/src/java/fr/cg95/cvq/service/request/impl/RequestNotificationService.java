@@ -25,7 +25,7 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.job.RequestArchivingJob;
 import fr.cg95.cvq.service.request.job.RequestArchivingJob.Result;
-import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.util.translation.ITranslationService;
 
@@ -37,7 +37,7 @@ public class RequestNotificationService implements ApplicationListener<CapDematE
 
     private static Logger logger = Logger.getLogger(RequestNotificationService.class);
 
-    private IIndividualService individualService;
+    private IUserSearchService userSearchService;
     private IMailService mailService;
     private ILocalAuthorityRegistry localAuthorityRegistry;
     private IAgentService agentService;
@@ -48,7 +48,7 @@ public class RequestNotificationService implements ApplicationListener<CapDematE
     private void notifyRequestCreation(Request request, byte[] pdfData)
         throws CvqException {
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        Adult requester = (Adult) individualService.getById(request.getRequesterId());
+        Adult requester = (Adult) userSearchService.getById(request.getRequesterId());
         if (requester.getEmail() != null && !requester.getEmail().equals("")) {
             Map<String, String> ecitizenCreationNotifications =
                 lacb.getEcitizenCreationNotifications();
@@ -91,7 +91,7 @@ public class RequestNotificationService implements ApplicationListener<CapDematE
         String requestTypeLabel = request.getRequestType().getLabel();
 
         // send notification to ecitizen if enabled
-        Adult requester = (Adult) individualService.getById(request.getRequesterId());
+        Adult requester = (Adult) userSearchService.getById(request.getRequesterId());
         if (lacb.hasEcitizenValidationNotification(requestTypeLabel)
                 && (requester.getEmail() != null && !requester.getEmail().equals(""))) {
             String mailData = lacb.getEcitizenValidationNotificationData(requestTypeLabel,
@@ -132,7 +132,7 @@ public class RequestNotificationService implements ApplicationListener<CapDematE
         if (note.getType().equals(RequestNoteType.PUBLIC)) {
             Request request = (Request) requestDAO.findById(Request.class, requestId);
             Agent agent = agentService.getById(note.getUserId());
-            Adult requester = individualService.getAdultById(request.getRequesterId());
+            Adult requester = userSearchService.getAdultById(request.getRequesterId());
             if (requester.getEmail() != null) {
                 mailService.send(request.getRequestType().getCategory().getPrimaryEmail(),
                     requester.getEmail(), null,
@@ -192,8 +192,8 @@ public class RequestNotificationService implements ApplicationListener<CapDematE
         this.requestDAO = requestDAO;
     }
 
-    public void setIndividualService(IIndividualService individualService) {
-        this.individualService = individualService;
+    public void setUserSearchService(IUserSearchService userSearchService) {
+        this.userSearchService = userSearchService;
     }
 
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {

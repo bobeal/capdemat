@@ -11,7 +11,7 @@ import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.IAutofillService;
 import fr.cg95.cvq.service.request.IAutofillTriggerService;
-import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.service.users.IUserSearchService;
 
 /**
  * @author jsb@zenexity.fr
@@ -19,19 +19,19 @@ import fr.cg95.cvq.service.users.IIndividualService;
  */
 public class AutofillService implements IAutofillService {
 
-    private static IIndividualService individualService;
+    private static IUserSearchService userSearchService;
 
     private enum TriggerType {
         SUBJECTID {
             @Override
             public IAutofillTriggerService getService() {
-                return individualService;
+                return userSearchService;
             }
         },
         REQUESTERID {
             @Override
             public IAutofillTriggerService getService() {
-                return individualService;
+                return userSearchService;
             }
         };
         public abstract IAutofillTriggerService getService();
@@ -76,8 +76,8 @@ public class AutofillService implements IAutofillService {
         return values;
     }
 
-    public void setIndividualService(IIndividualService individualService) {
-        AutofillService.individualService = individualService;
+    public void setUserSearchService(IUserSearchService userSearchService) {
+        AutofillService.userSearchService = userSearchService;
     }
 
 }

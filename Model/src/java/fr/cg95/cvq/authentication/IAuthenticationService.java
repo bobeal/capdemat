@@ -23,6 +23,8 @@ public interface IAuthenticationService {
     String encryptPassword(final String clearPassword)
         throws CvqException;
 
+    String generateLogin(Adult adult);
+
     /**
      * Generate a new random password.
      */

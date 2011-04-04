@@ -37,10 +37,11 @@ import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.IRecreationCenterService;
 import fr.cg95.cvq.service.authority.ISchoolService;
-import fr.cg95.cvq.service.users.IHomeFolderService;
-import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.service.users.IMeansOfContactService;
+import fr.cg95.cvq.service.users.IUserNotificationService;
+import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.service.users.IUserSecurityService;
+import fr.cg95.cvq.service.users.IUserService;
 import fr.cg95.cvq.service.users.IUserWorkflowService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.development.BusinessObjectsFactory;
@@ -72,25 +73,25 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
             Adult homeFolderResponsible = BusinessObjectsFactory.gimmeAdult(
                 TitleType.MISTER, "lastName", "firstName", BusinessObjectsFactory.gimmeAddress("12","Rue d'Aligre", "Paris", "75012"), FamilyStatusType.SINGLE);
             homeFolderResponsible.setPassword("toto");
-            homeFolderService.create(homeFolderResponsible, false);
+            userWorkflowService.create(homeFolderResponsible, false);
             SecurityContext.setCurrentEcitizen(homeFolderResponsible);
             id = homeFolderResponsible.getHomeFolder().getId();
             responsibleId = homeFolderResponsible.getId();
             addressId = homeFolderResponsible.getHomeFolder().getAddress().getId();
             Adult homeFolderWoman = BusinessObjectsFactory.gimmeAdult(
                 TitleType.MADAM, "LASTNAME", "wife", null, FamilyStatusType.MARRIED);
-            homeFolderService.addAdult(homeFolderResponsible.getHomeFolder(), homeFolderWoman, false);
+            userWorkflowService.add(homeFolderResponsible.getHomeFolder(), homeFolderWoman, false);
             womanId = homeFolderWoman.getId();
             if (full) {
                 Adult homeFolderUncle = BusinessObjectsFactory.gimmeAdult(
                     TitleType.MISTER, "LASTNAME", "uncle", null, FamilyStatusType.SINGLE);
-                homeFolderService.addAdult(homeFolderResponsible.getHomeFolder(), homeFolderUncle, false);
+                userWorkflowService.add(homeFolderResponsible.getHomeFolder(), homeFolderUncle, false);
                 Child child = BusinessObjectsFactory.gimmeChild("LASTNAME", "childone");
                 child.setSex(SexType.MALE);
-                homeFolderService.addChild(homeFolderResponsible.getHomeFolder(), child);
-                homeFolderService.link(homeFolderResponsible, child, Collections.singleton(RoleType.CLR_FATHER));
-                homeFolderService.link(homeFolderWoman, child, Collections.singleton(RoleType.CLR_MOTHER));
-                homeFolderService.link(homeFolderUncle, child, Collections.singleton(RoleType.CLR_TUTOR));
+                userWorkflowService.add(homeFolderResponsible.getHomeFolder(), child);
+                userWorkflowService.link(homeFolderResponsible, child, Collections.singleton(RoleType.CLR_FATHER));
+                userWorkflowService.link(homeFolderWoman, child, Collections.singleton(RoleType.CLR_MOTHER));
+                userWorkflowService.link(homeFolderUncle, child, Collections.singleton(RoleType.CLR_TUTOR));
                 uncleId = homeFolderUncle.getId();
                 childId = child.getId();
             }
@@ -108,15 +109,16 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
     public String agentNameWithManageRoles = "manager";
     public String agentNameWithSiteRoles = "admin";
 
-    // users related services
-    @Resource(name="individualService")
-    protected IIndividualService individualService;
-    @Autowired
-    protected IHomeFolderService homeFolderService;
     @Autowired
     protected IAuthenticationService authenticationService;
     @Autowired
     protected IMeansOfContactService meansOfContactService;
+    @Autowired
+    protected IUserService userService;
+    @Autowired
+    protected IUserNotificationService userNotificationService;
+    @Autowired
+    protected IUserSearchService userSearchService;
     @Autowired
     protected IUserWorkflowService userWorkflowService;
 
@@ -224,9 +226,9 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
             // to force re-association of agent within current session
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-            homeFolderService.delete(fake.id);
+            userWorkflowService.delete(fake.id);
             try {
-                homeFolderService.getById(fake.id);
+                userSearchService.getHomeFolderById(fake.id);
                 fail("should have thrown an exception");
             } catch (CvqObjectNotFoundException confe) {
                 // ok, that was expected
@@ -239,7 +241,7 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
             // ensure all requests have been deleted after each test
-            assertEquals(0, individualService.get(new HashSet<Critere>(), null, true).size());
+            assertEquals(0, userSearchService.get(new HashSet<Critere>(), null, true).size());
 
             rollbackTransaction();
             SecurityContext.resetCurrentSite();

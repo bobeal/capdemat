@@ -15,7 +15,8 @@ public class HomeFolderServiceEndpointTest extends ServiceTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         XmlBeansMarshaller xmlBeansMarshaller = new XmlBeansMarshaller();
         HomeFolderServiceEndpoint hfsEndpoint = new HomeFolderServiceEndpoint(xmlBeansMarshaller);
-        hfsEndpoint.setHomeFolderService(homeFolderService);
+        hfsEndpoint.setUserService(userService);
+        hfsEndpoint.setUserSearchService(userSearchService);
         hfsEndpoint.invokeInternal(null);
         SecurityContext.resetCurrentSite();
     }

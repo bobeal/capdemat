@@ -4,7 +4,7 @@ import fr.cg95.cvq.service.request.ICategoryService
 import fr.cg95.cvq.service.request.IRequestLockService
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestTypeService
-import fr.cg95.cvq.service.users.IHomeFolderService
+import fr.cg95.cvq.service.users.IUserSearchService
 import fr.cg95.cvq.util.UserUtils
 
 import org.joda.time.DateTime;
@@ -15,12 +15,11 @@ class RequestAdaptorService {
     IRequestLockService requestLockService
     IRequestSearchService requestSearchService
     IRequestTypeService requestTypeService
-    IHomeFolderService homeFolderService
+    IUserSearchService userSearchService
     ICategoryService categoryService
 
     def translationService
     def agentService
-    def individualService
 
     public translateAndSortRequestTypes(onlyManaged = false) {
         def allRequestTypes =
@@ -69,7 +68,7 @@ class RequestAdaptorService {
     }
 
     public prepareRecordForSummaryView(request) {
-        def homeFolder = homeFolderService.getById(request.homeFolderId)
+        def homeFolder = userSearchService.getHomeFolderById(request.homeFolderId)
         def quality = 'green'
         if (request.redAlert)
             quality = 'red'

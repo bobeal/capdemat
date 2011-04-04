@@ -65,7 +65,7 @@ import fr.cg95.cvq.service.request.IRequestDocumentService;
 import fr.cg95.cvq.service.request.IRequestSearchService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.external.IRequestExternalActionService;
-import fr.cg95.cvq.service.users.IHomeFolderService;
+import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.translation.ITranslationService;
@@ -79,13 +79,13 @@ public class EdemandeService implements IExternalProviderService {
 
     private String label;
     private IEdemandeClient edemandeClient;
+    private IUserSearchService userSearchService;
     private IRequestExternalActionService requestExternalActionService;
     private IRequestSearchService requestSearchService;
     private IRequestDocumentService requestDocumentService;
     private IDocumentService documentService;
     private IRequestWorkflowService requestWorkflowService;
     private ITranslationService translationService;
-    private IHomeFolderService homeFolderService;
     private IExternalHomeFolderService externalHomeFolderService;
     private EdemandeUploader uploader;
 
@@ -326,7 +326,7 @@ public class EdemandeService implements IExternalProviderService {
         model.put("frenchRIB", FrenchRIB.xmlToModel(request.getFrenchRIB()).format(" "));
         try {
             model.put("email", StringUtils.defaultIfEmpty(request.getSubjectEmail(),
-                homeFolderService.getHomeFolderResponsible(request.getHomeFolderId()).getEmail()));
+                userSearchService.getHomeFolderResponsible(request.getHomeFolderId()).getEmail()));
             GestionCompteResponseDocument response =
                 edemandeClient.creerTiers(escapeStrings(model));
             if (!"0".equals(parseData(response.getGestionCompteResponse().getReturn(), "//Retour/codeRetour"))) {
@@ -361,7 +361,7 @@ public class EdemandeService implements IExternalProviderService {
         try {
             //FIXME placeholder
             model.put("email",
-                homeFolderService.getHomeFolderResponsible(request.getHomeFolderId()).getEmail());
+                userSearchService.getHomeFolderResponsible(request.getHomeFolderId()).getEmail());
             GestionCompteResponseDocument response =
                 edemandeClient.creerTiers(escapeStrings(model));
             if (!"0".equals(parseData(response.getGestionCompteResponse().getReturn(), "//Retour/codeRetour"))) {
@@ -444,7 +444,7 @@ public class EdemandeService implements IExternalProviderService {
                 }
             }
             model.put("email", StringUtils.defaultIfEmpty(request.getSubjectEmail(),
-                homeFolderService.getHomeFolderResponsible(request.getHomeFolderId()).getEmail()));
+                userSearchService.getHomeFolderResponsible(request.getHomeFolderId()).getEmail()));
             model.put("msStatut", firstSending ? "" :
                 getRequestStatus(request, psCodeTiers));
             model.put("millesime", firstSending ? "" :
@@ -883,8 +883,8 @@ public class EdemandeService implements IExternalProviderService {
         this.documentService = documentService;
     }
 
-    public void setHomeFolderService(IHomeFolderService homeFolderService) {
-        this.homeFolderService = homeFolderService;
+    public void setUserSearchService(IUserSearchService userSearchService) {
+        this.userSearchService = userSearchService;
     }
 
     public void setRequestExternalActionService(IRequestExternalActionService requestExternalActionService) {

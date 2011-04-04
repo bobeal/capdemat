@@ -25,7 +25,7 @@ public class RequestSearchServiceTest extends RequestTestCase {
         Critere crit = new Critere();
         crit.setAttribut(Request.SEARCH_BY_REQUESTER_LASTNAME);
         crit.setComparatif(Critere.EQUALS);
-        crit.setValue(individualService.getById(fake.responsibleId).getLastName());
+        crit.setValue(userSearchService.getById(fake.responsibleId).getLastName());
         criteriaSet.add(crit);
         Critere crit2 = new Critere();
         crit2.setAttribut(Request.SEARCH_BY_CREATION_DATE);

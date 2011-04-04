@@ -27,7 +27,7 @@ import fr.cg95.cvq.exception.CvqDisabledAccountException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqUnknownUserException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.users.IHomeFolderService.PasswordResetNotificationType;
+import fr.cg95.cvq.service.users.IUserNotificationService.PasswordResetNotificationType;
 import fr.cg95.cvq.testtool.JsmtpdMailService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.Critere;
@@ -37,7 +37,7 @@ import fr.cg95.cvq.util.Critere;
  *
  * @author bor@zenexity.fr
  */
-public class HomeFolderServiceTest extends ServiceTestCase {
+public class UserServicesTest extends ServiceTestCase {
 
     @Autowired
     private IGenericDAO genericDAO;
@@ -47,27 +47,27 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         throws CvqException {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        HomeFolder homeFolder = homeFolderService.getById(fake.id);
+        HomeFolder homeFolder = userSearchService.getHomeFolderById(fake.id);
         homeFolder.setEnabled(Boolean.FALSE);
-        homeFolderService.modify(homeFolder);
+        userWorkflowService.modify(homeFolder);
         
         continueWithNewTransaction();
         
         try {
-            authenticationService.authenticate(individualService.getAdultById(fake.responsibleId).getLogin(), "toto");
+            authenticationService.authenticate(userSearchService.getAdultById(fake.responsibleId).getLogin(), "toto");
             fail("should have thrown an exception");
         } catch (CvqDisabledAccountException cdae) {
             // that was expected
         }
         
-        homeFolder = homeFolderService.getById(fake.id);
+        homeFolder = userSearchService.getHomeFolderById(fake.id);
         homeFolder.setEnabled(Boolean.TRUE);
-        homeFolderService.modify(homeFolder);
+        userWorkflowService.modify(homeFolder);
         
         continueWithNewTransaction();
         
         try {
-            authenticationService.authenticate(individualService.getAdultById(fake.responsibleId).getLogin(), "toto");
+            authenticationService.authenticate(userSearchService.getAdultById(fake.responsibleId).getLogin(), "toto");
         } catch (CvqDisabledAccountException cdae) {
             fail("should not have thrown this exception");
         } catch (CvqAuthenticationFailedException cafe) {
@@ -82,7 +82,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
         // get all home folders
-        List<HomeFolder> fetchHomeFolders = homeFolderService.getAll(true, true);
+        List<HomeFolder> fetchHomeFolders = userSearchService.getAll(true, true);
         assertEquals(fetchHomeFolders.size(), 1);
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
@@ -92,33 +92,33 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        List<Individual> initialResults = individualService.get(new HashSet<Critere>(), null, false);
+        List<Individual> initialResults = userSearchService.get(new HashSet<Critere>(), null, false);
         int initialResultsSize = initialResults.size();
-        int homeFoldersCountBeforeArchive = homeFolderService.getAll(true, false).size();
+        int homeFoldersCountBeforeArchive = userSearchService.getAll(true, false).size();
         continueWithNewTransaction();
-        userWorkflowService.changeState(individualService.getById(fake.childId), UserState.ARCHIVED);
-        userWorkflowService.changeState(individualService.getById(fake.uncleId), UserState.ARCHIVED);
-        userWorkflowService.changeState(individualService.getById(fake.womanId), UserState.ARCHIVED);
-        userWorkflowService.changeState(individualService.getById(fake.responsibleId), UserState.ARCHIVED);
+        userWorkflowService.changeState(userSearchService.getById(fake.childId), UserState.ARCHIVED);
+        userWorkflowService.changeState(userSearchService.getById(fake.uncleId), UserState.ARCHIVED);
+        userWorkflowService.changeState(userSearchService.getById(fake.womanId), UserState.ARCHIVED);
+        userWorkflowService.changeState(userSearchService.getById(fake.responsibleId), UserState.ARCHIVED);
 
         continueWithNewTransaction();
 
-        assertEquals(homeFoldersCountBeforeArchive - 1, homeFolderService.getAll(true, false).size());
-        assertEquals(homeFoldersCountBeforeArchive - 1, homeFolderService.getAll(true, true).size());
+        assertEquals(homeFoldersCountBeforeArchive - 1, userSearchService.getAll(true, false).size());
+        assertEquals(homeFoldersCountBeforeArchive - 1, userSearchService.getAll(true, true).size());
 
         // individuals from home folder should no longer appear in search results
-        initialResults = individualService.get(new HashSet<Critere>(), null, false);
+        initialResults = userSearchService.get(new HashSet<Critere>(), null, false);
         assertEquals(initialResultsSize, 
-                initialResults.size() + homeFolderService.getById(fake.id).getIndividuals().size());
+                initialResults.size() + userSearchService.getHomeFolderById(fake.id).getIndividuals().size());
         
         try {
-            authenticationService.authenticate(individualService.getAdultById(fake.responsibleId).getLogin(), "toto");
+            authenticationService.authenticate(userSearchService.getAdultById(fake.responsibleId).getLogin(), "toto");
             fail("should have thrown an exception");
         } catch (CvqUnknownUserException cuue) {
             // that was expected
         }
 
-        HomeFolder homeFolder = homeFolderService.getById(fake.id);
+        HomeFolder homeFolder = userSearchService.getHomeFolderById(fake.id);
         assertEquals(homeFolder.getState(), UserState.ARCHIVED);
         
         List<Individual> individuals = homeFolder.getIndividuals();
@@ -143,16 +143,16 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         homeFolders.add(new FakeHomeFolder());
         
         for (FakeHomeFolder fake : homeFolders) {
-            HomeFolder folder = homeFolderService.getById(fake.id);
+            HomeFolder folder = userSearchService.getHomeFolderById(fake.id);
             total1 += folder.getIndividuals().size();
-            total2 += homeFolderService.getHomeFolderResponsible(fake.id) != null ? 1 : 0;
+            total2 += userSearchService.getHomeFolderResponsible(fake.id) != null ? 1 : 0;
         }
         continueWithNewTransaction();
         
-        Integer result1 = individualService.get(new HashSet<Critere>(),
+        Integer result1 = userSearchService.get(new HashSet<Critere>(),
             new HashMap<String,String>(),null,null).size();
         
-        Integer count1 = individualService.getCount(new HashSet<Critere>());
+        Integer count1 = userSearchService.getCount(new HashSet<Critere>());
         
         assertEquals(total1,result1);
         assertEquals(count1,result1);
@@ -162,8 +162,8 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         ct.setAttribut(Individual.SEARCH_IS_HOME_FOLDER_RESPONSIBLE);
         criterias.add(ct);
         
-        Integer count2 = individualService.getCount(criterias);
-        Integer result2 = individualService.get(criterias,
+        Integer count2 = userSearchService.getCount(criterias);
+        Integer result2 = userSearchService.get(criterias,
             new HashMap<String,String>(),null,null).size();
         
         assertEquals(total2,result2);
@@ -180,19 +180,19 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         ct.setValue(fake.id);
         criterias.add(ct);
         
-        Integer count3 = individualService.getCount(criterias);
-        Integer result3 = individualService.get(criterias,
+        Integer count3 = userSearchService.getCount(criterias);
+        Integer result3 = userSearchService.get(criterias,
             new HashMap<String,String>(),null,null).size();
         
         assertTrue(result3 <= 1);
         assertEquals(count3,result3);
         
-        Integer result4 = individualService.get(new HashSet<Critere>(),
+        Integer result4 = userSearchService.get(new HashSet<Critere>(),
             new HashMap<String,String>(),5,null).size();
         
         assertTrue(result4 <= 5);
         for (FakeHomeFolder fake : homeFolders) {
-            homeFolderService.delete(fake.id);
+            userWorkflowService.delete(fake.id);
         }
     }
     
@@ -241,15 +241,15 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         // and validate it
-        userWorkflowService.changeState(individualService.getById(fake.responsibleId), UserState.VALID);
+        userWorkflowService.changeState(userSearchService.getById(fake.responsibleId), UserState.VALID);
 
         continueWithNewTransaction();
         
         // do some tests on home folder's individuals
-        HomeFolder homeFolder = homeFolderService.getById(fake.id);
+        HomeFolder homeFolder = userSearchService.getHomeFolderById(fake.id);
         assertEquals(2, homeFolder.getIndividuals().size());
 
-        Adult homeFolderResponsible = homeFolderService.getHomeFolderResponsible(homeFolder.getId());
+        Adult homeFolderResponsible = userSearchService.getHomeFolderResponsible(homeFolder.getId());
 
         individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, homeFolderResponsible.getLastName(), 
@@ -281,7 +281,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
             performIndividualSearch(Individual.SEARCH_BY_FIRSTNAME, "OSTNAM", 
                     Critere.LIKE, null, null, null, false);
         assertEquals(individuals.size(), badFirstNameSearchSize);
-        homeFolderService.delete(fake.id);
+        userWorkflowService.delete(fake.id);
     }
     
     private List<Individual> performIndividualSearch(final String attribut, final Object value,
@@ -305,7 +305,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
             criteriaSet.add(crit2);
         }
         
-        return individualService.get(criteriaSet, null, false);
+        return userSearchService.get(criteriaSet, null, false);
     }
 
     @Test
@@ -325,14 +325,14 @@ public class HomeFolderServiceTest extends ServiceTestCase {
 
         server.getQueue().clear();
         PasswordResetNotificationType notificationType = 
-            homeFolderService.notifyPasswordReset(adult, adult.getPassword(), null);
+            userNotificationService.notifyPasswordReset(adult, adult.getPassword(), null);
         assertEquals(PasswordResetNotificationType.INLINE, notificationType);
         email = server.getMessage(1000);
         assertNull(email);
 
         server.getQueue().clear();
         notificationType = 
-            homeFolderService.notifyPasswordReset(adult, adult.getPassword(), "example@example.com");
+            userNotificationService.notifyPasswordReset(adult, adult.getPassword(), "example@example.com");
         assertEquals(PasswordResetNotificationType.CATEGORY_EMAIL, notificationType);
         email = server.getMessage(1000);
         assertEquals(email.getRecipients().size(), 1);
@@ -348,7 +348,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         adult.setEmail("example2@example.com");
 
         server.getQueue().clear();
-        notificationType = homeFolderService.notifyPasswordReset(adult, adult.getPassword(), null);
+        notificationType = userNotificationService.notifyPasswordReset(adult, adult.getPassword(), null);
         assertEquals(PasswordResetNotificationType.ADULT_EMAIL, notificationType);
         email = server.getMessage(1000);
         assertEquals(email.getRecipients().size(), 1);
@@ -363,7 +363,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
 
         server.getQueue().clear();
         notificationType = 
-            homeFolderService.notifyPasswordReset(adult, adult.getPassword(), "example@example.com");
+            userNotificationService.notifyPasswordReset(adult, adult.getPassword(), "example@example.com");
         assertEquals(PasswordResetNotificationType.ADULT_EMAIL, notificationType);
         email = server.getMessage(1000);
         assertEquals(email.getRecipients().size(), 1);
@@ -375,5 +375,50 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         } catch (IOException e) {
             fail("could not open email datastream");
         }
+    }
+
+    @Test
+    public void testAssignLogin() throws CvqException {
+        SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT);
+        SecurityContext.setCurrentEcitizen(fake.responsibleId);
+        Adult responsible = SecurityContext.getCurrentEcitizen();
+        HomeFolder homeFolder = userSearchService.getHomeFolderById(fake.id);
+        Adult emilie = new Adult();
+        Adult jean = new Adult();
+        Adult albert = new Adult();
+
+        // Test with apostrophe
+        String lnA = "L'ALBATROS";
+        String fnA = "Emilie";
+        String loginA = "emilie.lalbatros";
+
+        emilie.setLastName(lnA);
+        emilie.setFirstName(fnA);
+        emilie.setEmail(responsible.getEmail());
+        userWorkflowService.add(homeFolder, emilie, true);
+
+        // Test with accent
+        String lnB = "DUPÖÑT";
+        String fnB = "Jean";
+        String loginB = "jean.dupont";
+
+        jean.setLastName(lnB);
+        jean.setFirstName(fnB);
+        jean.setEmail(responsible.getEmail());
+        userWorkflowService.add(homeFolder, jean, true);
+        
+        // Test with space
+        String lnC = "DE LA PORTE";
+        String fnC = "Albert";
+        String loginC = "albert.de-la-porte";
+
+        albert.setLastName(lnC);
+        albert.setFirstName(fnC);
+        albert.setEmail(responsible.getEmail());
+        userWorkflowService.add(homeFolder, albert, true);
+
+        assertEquals(loginA, emilie.getLogin());
+        assertEquals(loginB, jean.getLogin());
+        assertEquals(loginC, albert.getLogin());
     }
 }

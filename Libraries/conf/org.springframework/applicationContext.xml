@@ -26,6 +26,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   <bean id="authenticationService" 
     class="fr.cg95.cvq.authentication.impl.AuthenticationService">
     <property name="adultDAO" ref="adultDAO"/>
+    <property name="individualDAO" ref="individualDAO" />
   </bean>
 
   <bean id="mailService" class="fr.cg95.cvq.util.mail.impl.MailService">
@@ -49,8 +50,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   <bean id="requestPdfService" class="fr.cg95.cvq.service.request.impl.RequestPdfService">
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="translationService" ref="translationService"/>
-    <property name="individualService" ref="individualService"/>
-    <property name="homeFolderService" ref="homeFolderService" />
+    <property name="userSearchService" ref="userSearchService"/>
     <property name="localReferentialService" ref="localReferentialService"/>
     <property name="requestSearchService" ref="requestSearchService"/>
     <property name="agentService" ref="agentService"/>
@@ -61,7 +61,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   <bean id="securityContext" class="fr.cg95.cvq.security.SecurityContext">
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
     <property name="agentService" ref="agentService" />
-    <property name="individualService" ref="individualService" />
+    <property name="userSearchService" ref="userSearchService" />
     <property name="administratorGroups">
       <list>
        <value>${agent.administrator_group}</value>
@@ -175,8 +175,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="requestServiceRegistry" ref="requestServiceRegistry" />
     <property name="requestExternalService" ref="requestExternalService" />
     <property name="documentService" ref="documentService" />
-    <property name="homeFolderService" ref="homeFolderService" />
-    <property name="individualService" ref="individualService" />
+    <property name="userSearchService" ref="userSearchService" />
     <property name="requestDocumentService" ref="requestDocumentService" />
     <property name="requestTypeService" ref="requestTypeService" />
     <property name="requestPdfService" ref="requestPdfService" />
@@ -195,7 +194,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   </bean>
 
   <bean id="autofillService" class="fr.cg95.cvq.service.request.impl.AutofillService">
-    <property name="individualService" ref="individualService"/>
+    <property name="userSearchService" ref="userSearchService"/>
   </bean>
 
   <bean id="conditionService" class="fr.cg95.cvq.service.request.impl.ConditionService">
@@ -225,7 +224,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     class="fr.cg95.cvq.service.request.impl.RequestNotificationService">
     <property name="requestDAO" ref="requestDAO" />
     <property name="mailService" ref="mailService" />
-    <property name="individualService" ref="individualService"/>
+    <property name="userSearchService" ref="userSearchService"/>
     <property name="localAuthorityRegistry"><ref bean="localAuthorityRegistry"/></property>
     <property name="translationService" ref="translationService"/>
     <property name="agentService" ref="agentService" />
@@ -241,8 +240,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   <bean id="requestExternalService" class="fr.cg95.cvq.service.request.external.impl.RequestExternalService"
     parent="externalService">
     <property name="requestDAO" ref="requestDAO" />
-    <property name="homeFolderService" ref="homeFolderService" />
-    <property name="individualService" ref="individualService" />
+    <property name="userSearchService" ref="userSearchService" />
     <property name="externalHomeFolderService" ref="externalHomeFolderService" />
     <property name="requestExportService" ref="requestExportService" />
     <property name="translationService" ref="translationService" />
@@ -257,8 +255,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   </bean>
 
   <bean id="requestExportService" class="fr.cg95.cvq.service.request.impl.RequestExportService">
-    <property name="homeFolderService" ref="homeFolderService" />
-    <property name="individualService" ref="individualService" />
+    <property name="userSearchService" ref="userSearchService" />
   </bean>
   
   <bean id="requestSearchService" class="fr.cg95.cvq.service.request.impl.RequestSearchService">
@@ -321,7 +318,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   <bean id="documentService" class="fr.cg95.cvq.service.document.impl.DocumentService">
     <property name="documentDAO" ref="documentDAO"/>
     <property name="documentTypeDAO" ref="documentTypeDAO"/>
-    <property name="individualService" ref="individualService"/>
+    <property name="userSearchService" ref="userSearchService"/>
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="translationService" ref="translationService"/>
     <property name="maxDataSize" value="${document.upload.maxSize}" />
@@ -352,8 +349,12 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="agentService" ref="agentService" />
   </bean>
 
+  <bean id="userService" class="fr.cg95.cvq.service.users.impl.UserService">
+    <property name="userSearchService" ref="userSearchService" />
+  </bean>
+
   <bean id="userNotificationService" class="fr.cg95.cvq.service.users.impl.UserNotificationService">
-    <property name="individualService" ref="individualService"/>
+    <property name="userSearchService" ref="userSearchService"/>
     <property name="meansOfContactService" ref="meansOfContactService"/>
     <property name="mailService" ref="mailService"/>
     <property name="smsService" ref="fakeSmsService"/>
@@ -363,64 +364,39 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 
   <bean id="userWorkflowService" class="fr.cg95.cvq.service.users.impl.UserWorkflowService">
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
+    <property name="authenticationService" ref="authenticationService" />
+    <property name="mailService" ref="mailService" />
     <property name="translationService" ref="translationService" />
-    <property name="homeFolderService" ref="homeFolderService" />
+    <property name="userSearchService" ref="userSearchService" />
     <property name="homeFolderDAO" ref="homeFolderDAO" />
+    <property name="individualDAO" ref="individualDAO" />
   </bean>
 
-  <bean id="individualService" class="fr.cg95.cvq.service.users.impl.IndividualService">
+  <bean id="userSearchService" class="fr.cg95.cvq.service.users.impl.UserSearchService">
     <property name="individualDAO" ref="individualDAO"/>
     <property name="adultDAO" ref="adultDAO" />
     <property name="childDAO" ref="childDAO" />
-    <property name="authenticationService" ref="authenticationService"/>
-  </bean>
-
-  <bean id="individualServiceToUserUtilsInjector"
-    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-    <property name="staticMethod"
-      value="fr.cg95.cvq.util.UserUtils.setIndividualService" />
-    <property name="arguments">
-      <list>
-        <ref local="individualService" />
-      </list>
-    </property>
-  </bean>
-
-  <bean id="homeFolderService" class="fr.cg95.cvq.service.users.impl.HomeFolderService">
-    <property name="localAuthorityRegistry"> 
-  	 	<ref bean="localAuthorityRegistry"/>
-  	</property>
-    <property name="mailService">
-	   <ref local="mailService"/>
-    </property>
-    <property name="individualService" ref="individualService"/>
-    <property name="genericDAO" ref="genericDAO" />
     <property name="homeFolderDAO" ref="homeFolderDAO"/>
-    <property name="childDAO" ref="childDAO"/>
-    <property name="adultDAO" ref="adultDAO"/>
-    <property name="individualDAO" ref="individualDAO" />
-    <property name="authenticationService" ref="authenticationService"/>
-    <property name="translationService" ref="translationService"/>
   </bean>
 
-  <bean id="homeFolderServiceToHasLegalResponsiblesCheckInjector"
+  <bean id="userSearchServiceToHasLegalResponsiblesCheckInjector"
     class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
     <property name="staticMethod"
-      value="fr.cg95.cvq.service.users.HasLegalResponsiblesCheck.setHomeFolderService" />
+      value="fr.cg95.cvq.service.users.HasLegalResponsiblesCheck.setUserSearchService" />
     <property name="arguments">
       <list>
-        <ref local="homeFolderService" />
+        <ref local="userSearchService" />
       </list>
     </property>
   </bean>
 
-  <bean id="homeFolderServiceToUserUtilsInjector"
+  <bean id="userSearchServiceToUserUtilsInjector"
     class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
     <property name="staticMethod"
-      value="fr.cg95.cvq.util.UserUtils.setHomeFolderService" />
+      value="fr.cg95.cvq.util.UserUtils.setUserSearchService" />
     <property name="arguments">
       <list>
-        <ref local="homeFolderService" />
+        <ref local="userSearchService" />
       </list>
     </property>
   </bean>
@@ -727,7 +703,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="paymentDAO" ref="paymentDAO" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
     <property name="mailService" ref="mailService" />
-    <property name="individualService" ref="individualService" />
+    <property name="userSearchService" ref="userSearchService" />
   </bean>
 
   <bean id="externalApplicationProviderService"

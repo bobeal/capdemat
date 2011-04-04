@@ -31,7 +31,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.service.request.ILocalReferentialService;
-import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.xml.common.LocalReferentialDataType;
 import fr.cg95.cvq.xml.request.leisure.SmsNotificationRequestDocument;
 
@@ -44,7 +44,7 @@ public class CleverService implements IExternalProviderService {
 
     private CleverSMSServiceProvider provider;
     private ILocalReferentialService localReferentialService;
-    private IIndividualService individualService;
+    private IUserSearchService userSearchService;
 
     private String endportpath;
     private String username;
@@ -63,7 +63,7 @@ public class CleverService implements IExternalProviderService {
             CleverSMSContactSEI contactService = provider.getContactService();
 
             SmsNotificationRequestDocument snr = (SmsNotificationRequestDocument) requestXml;
-            Adult adult = individualService.getAdultById(snr.getSmsNotificationRequest().getSubject().getIndividual().getId());
+            Adult adult = userSearchService.getAdultById(snr.getSmsNotificationRequest().getSubject().getIndividual().getId());
 
             Integer cleverSmsContactId = null;
             if (snr.getSmsNotificationRequest().getCleverSmsContactId() != null && snr.getSmsNotificationRequest().getCleverSmsContactId().length() > 0)
@@ -199,8 +199,8 @@ public class CleverService implements IExternalProviderService {
         this.localReferentialService = localReferentialService;
     }
 
-    public void setIndividualService(IIndividualService individualService) {
-        this.individualService = individualService;
+    public void setUserSearchService(IUserSearchService userSearchService) {
+        this.userSearchService = userSearchService;
     }
 
     public boolean supportsConsumptions() {

@@ -28,8 +28,7 @@ import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.request.IRequestActionService
 import fr.cg95.cvq.service.request.external.IRequestExternalService
 import fr.cg95.cvq.service.request.external.IRequestExternalActionService
-import fr.cg95.cvq.service.users.IHomeFolderService
-import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.service.users.IUserSearchService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.util.UserUtils
 
@@ -48,8 +47,7 @@ class BackofficeRequestInstructionController {
     IRequestNoteService requestNoteService
     IRequestTypeService requestTypeService
     IRequestWorkflowService requestWorkflowService
-    IHomeFolderService homeFolderService
-    IIndividualService individualService
+    IUserSearchService userSearchService
     IMeansOfContactService meansOfContactService
     IAgentService agentService
     ICategoryService categoryService
@@ -77,14 +75,14 @@ class BackofficeRequestInstructionController {
 
     def edit = {
         def rqt = requestSearchService.getById(Long.valueOf(params.id), true)
-        def requester = rqt.requesterId != null ? individualService.getById(rqt.requesterId) : null
+        def requester = rqt.requesterId != null ? userSearchService.getById(rqt.requesterId) : null
 
         // just for VoCardRequest and HomeFolderModificationRequest
         def adults = []
         def children = []
         def clr = [:]
         if (requestTypeService.isAccountRequest(rqt.id)) {
-            def individuals = homeFolderService.getIndividuals(rqt.homeFolderId)
+            def individuals = userSearchService.getIndividuals(rqt.homeFolderId)
             individuals.eachWithIndex { individual, index ->
                 def item = ['data':individual, 'index':index]
                 if (individual.class.simpleName == "Adult") adults.add(item)
@@ -92,7 +90,7 @@ class BackofficeRequestInstructionController {
             }
             children.each {
                 def child = it.data
-                clr.put(child.id, homeFolderService.listBySubjectRoles(child.id,
+                clr.put(child.id, userSearchService.listBySubjectRoles(child.id,
                         [RoleType.CLR_FATHER,RoleType.CLR_MOTHER,RoleType.CLR_TUTOR] as RoleType[]))
             }
         }
@@ -140,7 +138,7 @@ class BackofficeRequestInstructionController {
             }
         }
 
-        def subject = rqt.subjectId != null ? individualService.getById(rqt.subjectId) : null
+        def subject = rqt.subjectId != null ? userSearchService.getById(rqt.subjectId) : null
 
         return ([
             "rqt": rqt,
@@ -149,7 +147,7 @@ class BackofficeRequestInstructionController {
             "adults": adults,
             "children": children,
             "requester": requester,
-            'hasHomeFolder': !homeFolderService.getById(rqt.homeFolderId).temporary,
+            'hasHomeFolder': !userSearchService.getHomeFolderById(rqt.homeFolderId).temporary,
             "childrenLegalResponsibles": clr,
             "editableStates": (editableStates as JSON).toString(),
             "agentCanWrite": categoryService.hasWriteProfileOnCategory(SecurityContext.currentAgent, 
@@ -284,11 +282,11 @@ class BackofficeRequestInstructionController {
              return false
         def rqt = requestSearchService.getById(Long.valueOf(params.requestId), true)
         if (["VO Card", "Home Folder Modification"].contains(rqt.requestType.label)) {
-            def homeFolder = homeFolderService.getById(rqt.homeFolderId)
+            def homeFolder = userSearchService.getHomeFolderById(rqt.homeFolderId)
             DataBindingUtils.initBind(homeFolder, params)
             bind(homeFolder)
         } else if (params.keySet().contains('_requester')) {
-            def requester = individualService.getById(rqt.requesterId)
+            def requester = userSearchService.getById(rqt.requesterId)
             bindRequester(requester, params)
         } else if (params.keySet().contains('schoolId')) {
             rqt.school = schoolService.getById(Long.valueOf(params.schoolId))
@@ -412,8 +410,8 @@ class BackofficeRequestInstructionController {
     def homeFolder = {
         def result = ['adults':[], 'children': [], homeFolder: []]
         def cRequest = requestSearchService.getById(Long.valueOf(params.id), false)
-        def homeFolder = homeFolderService.getById(cRequest.homeFolderId)
-        homeFolderService.getAdults(homeFolder.id).each { adult ->
+        def homeFolder = userSearchService.getHomeFolderById(cRequest.homeFolderId)
+        userSearchService.getAdults(homeFolder.id).each { adult ->
             result.adults.add([
                 'id' : adult.id,
                 'title' : message('code':"homeFolder.adult.title.${adult.title.toString().toLowerCase()}"),
@@ -428,7 +426,7 @@ class BackofficeRequestInstructionController {
                 'ownerRoles' : homeFolderAdaptorService.prepareOwnerRoles(adult)
             ])
         }
-        homeFolderService.getChildren(homeFolder.id).each{ child ->
+        userSearchService.getChildren(homeFolder.id).each{ child ->
             result.children.add([
                 'id' : child.id,
                 'sex' : child.sex,
@@ -437,7 +435,7 @@ class BackofficeRequestInstructionController {
                 'birthCountry' : child.birthCountry,
                 'birthPostalCode' : child.birthPostalCode,
                 'birthCity' : child.birthCity,
-                'roleOwners' : homeFolderService.listBySubjectRoles(child.id,
+                'roleOwners' : userSearchService.listBySubjectRoles(child.id,
                     [RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR] as RoleType[])
             ])
         }

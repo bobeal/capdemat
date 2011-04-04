@@ -1,43 +1,11 @@
 <%
   import java.text.SimpleDateFormat
   import org.apache.commons.lang.StringEscapeUtils
+  import fr.cg95.cvq.util.UserUtils
   def dateFormat = new SimpleDateFormat(i18n.translate("format.fullDate"))
   def mixedCase(o) {
       def result = o.toString()
       return result[0].toLowerCase() + result[1..(result.length() - 1)]
-  }
-  def getUserName(userId) {
-      def displayName = ""
-      if (userId == -1) {
-          displayName = i18n.translate("system")
-      } else {
-          def user
-          try {
-              user = agentService.getById(userId)
-          } catch (CvqObjectNotFoundException) {}
-          if (!user) {
-              try {
-                  user = individualService.getById(userId)
-              } catch (CvqObjectNotFoundException) {}
-          }
-          if (user)
-              displayName = "${user.firstName} ${user.lastName}"
-      }
-      return displayName
-  }
-  def getUserNature(userId) {
-      def nature = ""
-      if (userId == -1) {
-          nature = "system"
-      } else {
-          try {
-              agentService.getById(userId)
-              nature = "agent"
-          } catch (CvqObjectNotFoundException) {
-              nature = "eCitizen"
-          }
-      }
-      return nature
   }
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -71,7 +39,7 @@
               <strong>${dateFormat.format(it.date)}</strong>
               <% if (it.agentId) { %>
                 ${i18n.translate("layout.by")}
-                <strong>${getUserName(it.agentId)}</strong>
+                <strong>${UserUtils.getDisplayName(it.agentId)}</strong>
               <% } %>
             </dd>
             <% if (it.message) { %>
@@ -93,7 +61,7 @@
           <li>
             <dl>
               <dt>
-                <% def nature = getUserNature(it.userId) %>
+                <% def nature = UserUtils.getNature(it.userId) %>
                 <span class="tag-${nature}">${i18n.translate(nature)}</span>
               </dt>
               <dd>
@@ -109,7 +77,7 @@
                   <strong>${dateFormat.format(it.date)}</strong>
                 <% } %>
                 ${i18n.translate("layout.by")}
-                <strong>${getUserName(it.userId)}</strong>
+                <strong>${UserUtils.getDisplayName(it.userId)}</strong>
               </dd>
               <dt>${i18n.translate("request.property.note")} :</dt>
               <dd>${StringEscapeUtils.escapeXml(it.note)}</dd>

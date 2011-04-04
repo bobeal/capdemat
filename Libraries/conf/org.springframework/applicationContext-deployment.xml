@@ -182,8 +182,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="localAuthoritiesListFilename" value="local_authorities_list.txt" />
     <property name="templateSessionFactory" ref="templateSessionFactory" />
     <property name="agentService" ref="agentService" />
-    <property name="homeFolderService" ref="homeFolderService" />
     <property name="userSecurityService" ref="userSecurityService" />
+    <property name="userWorkflowService" ref="userWorkflowService" />
   </bean>
 
   <!-- ================================================================ -->
@@ -202,9 +202,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="requestSearchService">
       <ref bean="requestSearchService" />
     </property>
-    <property name="homeFolderService">
-      <ref bean="homeFolderService" />
-    </property>
+    <property name="userSearchService" ref="userSearchService" />
     <property name="paymentService" ref="paymentService" />
     <property name="xmlDirectory" value="external_service"/>
     <property name="consumptionsFile" value="consumptions.xml"/>

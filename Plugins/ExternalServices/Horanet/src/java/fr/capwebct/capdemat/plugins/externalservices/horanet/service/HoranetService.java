@@ -49,10 +49,6 @@ import org.jaxen.JaxenException;
 import org.jaxen.XPath;
 import org.jaxen.dom.DOMXPath;
 import org.jdom.output.XMLOutputter;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.ListableBeanFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.NamedNodeMap;
@@ -78,15 +74,14 @@ import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.payment.IPaymentService;
-import fr.cg95.cvq.service.users.IHomeFolderService;
-import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.SchoolType;
 
 /**
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public class HoranetService implements IExternalProviderService, BeanFactoryAware {
+public class HoranetService implements IExternalProviderService {
 
     private static Logger logger = Logger.getLogger(HoranetService.class);
 
@@ -105,15 +100,8 @@ public class HoranetService implements IExternalProviderService, BeanFactoryAwar
     private Service service;
     private Call call;
 
-    private IHomeFolderService homeFolderService;
-    private IIndividualService individualService;
+    private IUserSearchService userSearchService;
 
-    private ListableBeanFactory beanFactory;
-
-    public void init() {
-        this.homeFolderService = (IHomeFolderService) beanFactory.getBean("homeFolderService");
-    }
-    
     /**
      * @fixme use it instead all those ifs and casts !
      */
@@ -256,7 +244,7 @@ public class HoranetService implements IExternalProviderService, BeanFactoryAwar
                 total = total + purchaseItem.getAmount().intValue();
             }
 
-            HomeFolder homeFolder = homeFolderService.getById(homeFolderId);
+            HomeFolder homeFolder = userSearchService.getHomeFolderById(homeFolderId);
             String xmlPayment = null;
             try {
                 xmlPayment = paymentToXml(purchaseItems, cvqReference, 
@@ -403,7 +391,7 @@ public class HoranetService implements IExternalProviderService, BeanFactoryAwar
             call.addParameter(new QName(HORANET_CVQ_NS, "FamilyID"), 
                     Constants.XSD_STRING, ParameterMode.IN);
 
-            HomeFolder currentHomeFolder = homeFolderService.getById(homeFolderId);
+            HomeFolder currentHomeFolder = userSearchService.getHomeFolderById(homeFolderId);
 
             call.invoke(new Object[] {
                             SecurityContext.getCurrentSite().getPostalCode(),
@@ -521,7 +509,7 @@ public class HoranetService implements IExternalProviderService, BeanFactoryAwar
 
                 Child child = null;
                 try {
-                    child = individualService.getChildById(new Long(childId));
+                    child = userSearchService.getChildById(new Long(childId));
                 } catch (CvqObjectNotFoundException confe) {
                     logger.error("getHomeFolderAccounts() could not find child with id : " + childId);
                     continue;
@@ -912,12 +900,8 @@ public class HoranetService implements IExternalProviderService, BeanFactoryAwar
         this.globalConfiguration.put("password", password);
     }
 
-    public final void setHomeFolderService(final IHomeFolderService homeFolderService) {
-        this.homeFolderService = homeFolderService;
-    }
-
-    public final void setIndividualService(final IIndividualService individualService) {
-        this.individualService = individualService;
+    public void setUserSearchService(IUserSearchService userSearchService) {
+        this.userSearchService = userSearchService;
     }
 
     public String getLabel() {
@@ -943,10 +927,5 @@ public class HoranetService implements IExternalProviderService, BeanFactoryAwar
     public Map<String, Object> loadExternalInformations(XmlObject requestXml)
         throws CvqException {
         return Collections.emptyMap();
-    }
-
-    @Override
-    public void setBeanFactory(BeanFactory arg0) throws BeansException {
-        this.beanFactory = (ListableBeanFactory) arg0;        
     }
 }

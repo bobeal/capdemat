@@ -131,7 +131,7 @@ public class RequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         Long requesterId = request.getRequesterId();
-        Adult requester = individualService.getAdultById(requesterId);
+        Adult requester = userSearchService.getAdultById(requesterId);
         
         Set <Critere> critSet = new HashSet<Critere>();
         // search by ...

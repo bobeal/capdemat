@@ -17,12 +17,15 @@ import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.users.IHomeFolderService;
+import fr.cg95.cvq.service.users.IUserSearchService;
+import fr.cg95.cvq.service.users.IUserService;
 
 public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoint {
 
-    private IHomeFolderService homeFolderService;
-    
+    private IUserService userService;
+
+    private IUserSearchService userSearchService;
+
     public HomeFolderServiceEndpoint(Marshaller marshaller) {
         super(marshaller);
     }
@@ -37,7 +40,7 @@ public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoin
         //Switch to admin context to be able to call services without permission exceptions
         String currentExternalService = SecurityContext.getCurrentExternalService();
         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
-        List<HomeFolder> homeFolders = homeFolderService.getAll(true, true);
+        List<HomeFolder> homeFolders = userSearchService.getAll(true, true);
         for (HomeFolder homeFolder : homeFolders) {
             HomeFolderType homeFolderType = response.addNewHomeFolder();
             homeFolderType.setId(homeFolder.getId());
@@ -51,7 +54,7 @@ public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoin
                 individualType.setLastName(individual.getLastName());
                 if (individual instanceof Adult) {
                     Adult adult = (Adult) individual;
-                    if (homeFolderService.hasHomeFolderRole(adult.getId(), homeFolder.getId(),
+                    if (userService.hasHomeFolderRole(adult.getId(), homeFolder.getId(),
                             RoleType.HOME_FOLDER_RESPONSIBLE))
                         individualType.setIsHomeFolderResponsible(true);
                 } else if (individual instanceof Child) {
@@ -67,7 +70,11 @@ public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoin
        return response;
     }
 
-    public void setHomeFolderService(IHomeFolderService homeFolderService) {
-        this.homeFolderService = homeFolderService;
+    public void setUserService(IUserService userService) {
+        this.userService = userService;
+    }
+
+    public void setUserSearchService(IUserSearchService userSearchService) {
+        this.userSearchService = userSearchService;
     }
 }

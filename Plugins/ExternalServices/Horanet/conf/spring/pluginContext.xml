@@ -4,8 +4,7 @@
 <beans>
 
   <bean id="horanetExternalService"
-    class="fr.capwebct.capdemat.plugins.externalservices.horanet.service.HoranetService"
-    init-method="init">
+    class="fr.capwebct.capdemat.plugins.externalservices.horanet.service.HoranetService">
     <property name="label" value="Horanet"></property>
     <!-- Insert services you need here -->
     <property name="endPoint">
@@ -23,12 +22,7 @@
     <property name="password">
       <value>${plugins.externalservices.horanet.password}</value>
     </property>
-    <property name="homeFolderService">
-      <ref bean="homeFolderService" />
-    </property>
-    <property name="individualService">
-      <ref bean="individualService" />
-    </property>
+    <property name="userSearchService" ref="userSearchService" />
   </bean>
 
   <bean id="horanetExternalServiceV3"
@@ -51,12 +45,7 @@
     <property name="password">
       <value>${plugins.externalservices.horanet.password}</value>
     </property>
-    <property name="homeFolderService">
-      <ref bean="homeFolderService" />
-    </property>
-    <property name="individualService">
-      <ref bean="individualService" />
-    </property>
+    <property name="userSearchService" ref="userSearchService" />
   </bean>
 
 </beans>

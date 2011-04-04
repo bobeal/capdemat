@@ -7,6 +7,7 @@ import fr.cg95.cvq.service.request.IRequestLockService
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.users.IUserNotificationService
+import fr.cg95.cvq.service.users.IUserSearchService
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.util.UserUtils
 
@@ -24,16 +25,15 @@ class BackofficeContactController {
     IRequestSearchService requestSearchService
     IRequestTypeService requestTypeService
     IUserNotificationService userNotificationService
+    IUserSearchService userSearchService
 
     def groovyPagesTemplateEngine
-    def individualService
     def individualAdaptorService
     def localAuthorityRegistry
     def meansOfContactService
     def messageSource
     def requestActionService
 	def translationService
-	def homeFolderService
 
     def beforeInterceptor = {
         if (params.requestId) requestLockService.tryToLock(Long.valueOf(params.requestId))
@@ -49,11 +49,11 @@ class BackofficeContactController {
         def user
         if (rqt) {
             if (rqt.requesterId)
-                user = individualService.getById(rqt.requesterId)
+                user = userSearchService.getById(rqt.requesterId)
             else
-                user = homeFolderService.getHomeFolderResponsible(rqt.homeFolderId)
+                user = userSearchService.getHomeFolderResponsible(rqt.homeFolderId)
         } else {
-            user = homeFolderService.getHomeFolderResponsible(Long.valueOf(params.homeFolderId))
+            user = userSearchService.getHomeFolderResponsible(Long.valueOf(params.homeFolderId))
         }
         def meansOfContacts = []
         meansOfContactService.getAdultEnabledMeansOfContact(user).each {
@@ -214,7 +214,7 @@ class BackofficeContactController {
                 break;
         }
         } else {
-            def user = individualService.getById(params.long("id"))
+            def user = userSearchService.getById(params.long("id"))
             def moc = MeansOfContactEnum.forString(params.meansOfContact)
             switch (moc) {
                 case MeansOfContactEnum.LOCAL_AUTHORITY_OFFICE :
@@ -276,15 +276,14 @@ class BackofficeContactController {
         // FIXME RDJ - if no requester use homefolder responsible
         def requester
         if (rqt.requesterId != null)
-            requester = individualService.getById(rqt.requesterId)
+            requester = userSearchService.getById(rqt.requesterId)
         else
-            requester =
-                homeFolderService.getHomeFolderResponsible(rqt.homeFolderId)
+            requester = userSearchService.getHomeFolderResponsible(rqt.homeFolderId)
 
         def address = requester.getHomeFolder().getAddress()
         def subjectObject = null
         if (rqt.subjectId) {
-            subjectObject = individualService.getById(rqt.subjectId)
+            subjectObject = userSearchService.getById(rqt.subjectId)
         }
         def subject =
             individualAdaptorService.getIndividualDescription(subjectObject)

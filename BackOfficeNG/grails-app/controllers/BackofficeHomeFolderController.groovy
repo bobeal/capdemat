@@ -5,8 +5,8 @@ import java.util.ArrayList
 import java.util.Collections
 
 import fr.cg95.cvq.schema.ximport.HomeFolderImportDocument
-import fr.cg95.cvq.service.users.IHomeFolderService
-import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.service.users.IUserService
+import fr.cg95.cvq.service.users.IUserSearchService
 import fr.cg95.cvq.service.users.IUserWorkflowService
 import fr.cg95.cvq.service.users.IUserSecurityService
 import fr.cg95.cvq.util.Critere
@@ -29,9 +29,9 @@ import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
 
 class BackofficeHomeFolderController {
 
-    IHomeFolderService homeFolderService
     IExternalHomeFolderService externalHomeFolderService
-    IIndividualService individualService
+    IUserService userService
+    IUserSearchService userSearchService
     IUserWorkflowService userWorkflowService
     IRequestSearchService requestSearchService
     IPaymentService paymentService
@@ -59,7 +59,7 @@ class BackofficeHomeFolderController {
         
         if(!request.get) {
             records = this.doSearch(state)
-            count = individualService.getCount(this.prepareCriterias(state))
+            count = userSearchService.getCount(this.prepareCriterias(state))
         }
         
         return ([
@@ -77,10 +77,10 @@ class BackofficeHomeFolderController {
     }
     
     def details = {
-        def homeFolder = homeFolderService.getById(Long.parseLong(params.id))
-        def adult = homeFolderService.getHomeFolderResponsible(homeFolder.id)
-        def adults = homeFolderService.getAdults(homeFolder.id)
-        def children = homeFolderService.getChildren(homeFolder.id)
+        def homeFolder = userSearchService.getHomeFolderById(Long.parseLong(params.id))
+        def adult = userSearchService.getHomeFolderResponsible(homeFolder.id)
+        def adults = userSearchService.getAdults(homeFolder.id)
+        def children = userSearchService.getChildren(homeFolder.id)
 
         def result = [responsibles:[:],adults:[],children:[]]
         if (homeFolder.state == UserState.ARCHIVED) {
@@ -95,7 +95,7 @@ class BackofficeHomeFolderController {
         result.homeFolderStatus = homeFolder.enabled ? 'enable' : 'disable'
 
         for(Child child : result.children)
-            result.responsibles.put(child.id, homeFolderService.listBySubjectRoles(child.id, RoleType.childRoleTypes))
+            result.responsibles.put(child.id, userSearchService.listBySubjectRoles(child.id, RoleType.childRoleTypes))
 
         result.agentCanWrite = userSecurityService.canWrite(SecurityContext.currentAgent.id)
         return result
@@ -106,13 +106,13 @@ class BackofficeHomeFolderController {
             def adult = new Adult()
             DataBindingUtils.initBind(adult, params)
             bind(adult)
-            def invalidFields = individualService.validate(adult, true)
+            def invalidFields = userService.validate(adult, true)
             if (!invalidFields.isEmpty()) {
                 session.doRollback = true
                 render (['invalidFields': invalidFields] as JSON)
                 return false
             }
-            homeFolderService.create(adult, false)
+            userWorkflowService.create(adult, false)
             render (['id' : adult.homeFolder.id] as JSON)
             return false
         }
@@ -127,11 +127,11 @@ class BackofficeHomeFolderController {
             template = 'adult'
             flash.homeFolderId = params.homeFolderId
             if (request.get) {
-                def responsible = homeFolderService.getHomeFolderResponsible(Long.valueOf(params.homeFolderId))
+                def responsible = userSearchService.getHomeFolderResponsible(Long.valueOf(params.homeFolderId))
                 adult.address = responsible.address
             }
         } else {
-            adult = individualService.getAdultById(Long.valueOf(params.id))
+            adult = userSearchService.getAdultById(Long.valueOf(params.id))
             template = params.template ? params.template : 'adult'
         }
 
@@ -139,9 +139,9 @@ class BackofficeHomeFolderController {
             mode = 'static'
             DataBindingUtils.initBind(adult, params)
             bind(adult)
-            homeFolderService.addAdult(
-                homeFolderService.getById(Long.valueOf(params.homeFolderId)), adult, false)
-            def invalidFields = individualService.validate(adult)
+            userWorkflowService.add(
+                userSearchService.getHomeFolderById(Long.valueOf(params.homeFolderId)), adult, false)
+            def invalidFields = userService.validate(adult)
             if (!invalidFields.isEmpty()) {
                 session.doRollback = true
                 render (['invalidFields': invalidFields] as JSON)
@@ -162,26 +162,26 @@ class BackofficeHomeFolderController {
             homeFolderId = Long.valueOf(params.homeFolderId)
             flash.homeFolderId = params.homeFolderId
         } else {
-            child = individualService.getChildById(Long.valueOf(params.id))
+            child = userSearchService.getChildById(Long.valueOf(params.id))
             template = params.template ? params.template : 'child'
             homeFolderId = child.homeFolder.id
         }
         if (request.post && !child.id) {
             mode = 'static'
             bind(child)
-            homeFolderService.addChild(homeFolderService.getById(homeFolderId), child)
+            userWorkflowService.add(userSearchService.getHomeFolderById(homeFolderId), child)
             params.roles.each {
                 if (it.value instanceof GrailsParameterMap && it.value.owner != '' && it.value.type != '') {
-                    homeFolderService.link(
-                        individualService.getById(Long.valueOf(it.value.owner)),
+                    userWorkflowService.link(
+                        userSearchService.getById(Long.valueOf(it.value.owner)),
                         child, [RoleType.forString(it.value.type)])
                 }
             }
-            def invalidFields = individualService.validate(child)
+            def invalidFields = userService.validate(child)
             if (!invalidFields.isEmpty()) {
                 session.doRollback = true
                 if (invalidFields.contains('legalResponsibles')) {
-                    homeFolderService.getAdults(child.homeFolder.id).eachWithIndex { adult, index ->
+                    userSearchService.getAdults(child.homeFolder.id).eachWithIndex { adult, index ->
                         invalidFields.add("roles.${index}.type")
                     }
                 }
@@ -192,15 +192,15 @@ class BackofficeHomeFolderController {
             return false
         }
         def models = ['child': child]
-        models['adults'] = homeFolderService.getAdults(homeFolderId).findAll{ it.state != UserState.ARCHIVED }
+        models['adults'] = userSearchService.getAdults(homeFolderId).findAll{ it.state != UserState.ARCHIVED }
         if (child.id) {
-            models['roleOwners'] = homeFolderService.listBySubjectRoles(child.id, RoleType.childRoleTypes)  
+            models['roleOwners'] = userSearchService.listBySubjectRoles(child.id, RoleType.childRoleTypes)
         }
         render(template: mode + '/' + template, model: models)
     }
 
     def removeIndividual = {
-        def user = individualService.getById(params.long("id"))
+        def user = userSearchService.getById(params.long("id"))
         userWorkflowService.changeState(user, UserState.ARCHIVED)
         render (['status':'success', 'message':message(code:'homeFolder.message.individualRemoveSuccess')] as JSON)
     }
@@ -208,9 +208,9 @@ class BackofficeHomeFolderController {
     def state = {
         def user
         try {
-            user = individualService.getById(params.long("id"))
+            user = userSearchService.getById(params.long("id"))
         } catch (CvqObjectNotFoundException) {
-            user = homeFolderService.getById(params.long("id"))
+            user = userSearchService.getHomeFolderById(params.long("id"))
         }
         def mode = request.get ? params.mode : "static"
         if (request.post) {
@@ -221,7 +221,7 @@ class BackofficeHomeFolderController {
     }
 
     def address = {
-        def adult = individualService.getAdultById(params.long("id"))
+        def adult = userSearchService.getAdultById(params.long("id"))
         def mode = request.get ? params.mode : "static"
         if (request.post) {
             try {
@@ -244,7 +244,7 @@ class BackofficeHomeFolderController {
     }
 
     def contact = {
-        def adult = individualService.getAdultById(params.long("id"))
+        def adult = userSearchService.getAdultById(params.long("id"))
         def mode = request.get ? params.mode : "static"
         if (request.post) {
             try {
@@ -262,7 +262,7 @@ class BackofficeHomeFolderController {
     }
 
     def identity = {
-        def individual = individualService.getById(params.long("id"))
+        def individual = userSearchService.getById(params.long("id"))
         def mode = request.get ? params.mode : "static"
         if (request.post) {
             try {
@@ -284,22 +284,22 @@ class BackofficeHomeFolderController {
     }
 
     def responsibles = {
-        def child = individualService.getChildById(Long.valueOf(params.id))
+        def child = userSearchService.getChildById(Long.valueOf(params.id))
         def mode = request.get ? params.mode : "static"
         if (request.post) {
             params.roles.each {
                 if (it.value instanceof GrailsParameterMap && it.value.owner != '') {
-                    def owner = individualService.getById(Long.valueOf(it.value.owner))
+                    def owner = userSearchService.getById(Long.valueOf(it.value.owner))
                     if (it.value.type == '')
-                        homeFolderService.unlink(owner,child)
+                        userWorkflowService.unlink(owner,child)
                     else
-                        homeFolderService.link(owner,child, [RoleType.forString(it.value.type)])
+                        userWorkflowService.link(owner,child, [RoleType.forString(it.value.type)])
                 }
             }
-            if (!individualService.validate(child).isEmpty())  {
+            if (!userService.validate(child).isEmpty())  {
                 session.doRollback = true
                 def errors = []
-                homeFolderService.getAdults(child.homeFolder.id).eachWithIndex { adult, index ->
+                userSearchService.getAdults(child.homeFolder.id).eachWithIndex { adult, index ->
                     errors.add("roles.${index}.type")
                 }
                 render (['invalidFields': errors] as JSON)
@@ -308,16 +308,16 @@ class BackofficeHomeFolderController {
         }
         def model = [
             "child" : child,
-            "adults" : homeFolderService.getAdults(child.homeFolder.id),
+            "adults" : userSearchService.getAdults(child.homeFolder.id),
             "roleOwners" : mode == 'static' ? 
-                homeFolderService.listBySubjectRoles(child.id, RoleType.childRoleTypes)
+                userSearchService.listBySubjectRoles(child.id, RoleType.childRoleTypes)
                 : homeFolderAdaptorService.roleOwners(child.id)
         ]
         render(template : mode + "/responsibles", model : model)
     }
 
     def actions = {
-        def list = new ArrayList(homeFolderService.getById(Long.valueOf(params.id)).actions)
+        def list = new ArrayList(userSearchService.getHomeFolderById(Long.valueOf(params.id)).actions)
         Collections.reverse(list)
         return ["actions" : homeFolderAdaptorService.prepareActions(list)]
     }
@@ -439,7 +439,7 @@ class BackofficeHomeFolderController {
                     error_msg : message(code : "homeFolder.import.error.invalidFile")]).toString())
                 return false
             }
-            homeFolderService.importHomeFolders(doc)
+            userWorkflowService.importHomeFolders(doc)
             render (new JSON([status : "ok", success_msg :
                 message(code : "homeFolder.import.message.started",
                     args : [SecurityContext.currentSite.adminEmail])]).toString())
@@ -448,7 +448,7 @@ class BackofficeHomeFolderController {
     }
 
     protected List doSearch(state) {
-        return individualService.get(prepareCriterias(state), prepareSort(state), defaultMax,
+        return userSearchService.get(prepareCriterias(state), prepareSort(state), defaultMax,
             params.currentOffset ? Integer.parseInt(params.currentOffset) : 0)
     }
     
@@ -509,8 +509,8 @@ class BackofficeHomeFolderController {
         // TODO deal with pagination
         render(view : 'search', model: [
             'state': state,
-            'records' : individualService.listTasks(QoS.forString(params.qoS), 0),
-            'count' : individualService.countTasks(QoS.forString(params.qoS)),
+            'records' : userSearchService.listTasks(QoS.forString(params.qoS), 0),
+            'count' : userSearchService.countTasks(QoS.forString(params.qoS)),
             'max': 100,
             'homeFolderStates': buildHomeFolderStateFilter(),
             'currentSiteName': SecurityContext.currentSite.name,

@@ -61,8 +61,7 @@ import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.external.IRequestExternalService;
-import fr.cg95.cvq.service.users.IHomeFolderService;
-import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.service.users.IUserWorkflowService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.ValidationUtils;
@@ -84,8 +83,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     
     private IRequestPdfService requestPdfService;
     private IDocumentService documentService;
-    private IHomeFolderService homeFolderService;
-    private IIndividualService individualService;
+    private IUserSearchService userSearchService;
     private IUserWorkflowService userWorkflowService;
     private IRequestServiceRegistry requestServiceRegistry;
     private IRequestActionService requestActionService;
@@ -127,7 +125,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         
         HibernateUtil.getSession().flush();
         SecurityContext.setCurrentEcitizen(
-                homeFolderService.getHomeFolderResponsible(homeFolder.getId()));
+                userSearchService.getHomeFolderResponsible(homeFolder.getId()));
 
         IRequestService requestService = requestServiceRegistry.getRequestService(request);
         requestService.onRequestIssued(request);
@@ -149,7 +147,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         }
         
         if (request.getSubjectId() != null) {
-            Individual individual = individualService.getById(request.getSubjectId());
+            Individual individual = userSearchService.getById(request.getSubjectId());
             request.setSubjectId(individual.getId());
             request.setSubjectLastName(individual.getLastName());
             request.setSubjectFirstName(individual.getFirstName());
@@ -182,7 +180,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             IRequestService requestService = requestServiceRegistry.getRequestService(request);
             if (requestService.supportUnregisteredCreation()) {
                 logger.debug("create() Gonna create implicit home folder");
-                HomeFolder homeFolder = homeFolderService.create(requester, true);
+                HomeFolder homeFolder = userWorkflowService.create(requester, true);
                 request.setHomeFolderId(homeFolder.getId());
                 request.setRequesterId(requester.getId());
                 request.setRequesterLastName(requester.getLastName());
@@ -198,7 +196,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         } else {
             logger.debug("create() Adult already exists, re-synchronizing it with DB");
             // load requester in order to have names information
-            Individual somebody = individualService.getById(request.getRequesterId());
+            Individual somebody = userSearchService.getById(request.getRequesterId());
             if (somebody instanceof Child)
                 throw new CvqModelException("request.error.requesterMustBeAdult");
             Adult adult = (Adult) somebody;
@@ -220,7 +218,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         if (!policy.equals(IRequestWorkflowService.SUBJECT_POLICY_NONE)) {
             if (subjectId == null)
                 throw new CvqModelException("model.request.subject_is_required");
-            Individual subject = individualService.getById(subjectId);
+            Individual subject = userSearchService.getById(subjectId);
             if (policy.equals(IRequestWorkflowService.SUBJECT_POLICY_INDIVIDUAL)) {
                 if (!(subject instanceof Individual)) {
                     throw new CvqModelException("model.request.wrong_subject_type");
@@ -242,7 +240,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         // then check that request's subject is allowed to issue this request
         // ie that it is authorized to issue it (no current one, an open season, ...)
         if (!policy.equals(IRequestWorkflowService.SUBJECT_POLICY_NONE)) {
-            Individual individual = individualService.getById(subjectId);
+            Individual individual = userSearchService.getById(subjectId);
             boolean isAuthorized = false;
             Map<Long, Set<RequestSeason>> authorizedSubjectsMap = 
                 getAuthorizedSubjects(requestType, homeFolderId);
@@ -363,7 +361,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             result.add(homeFolderId);
             return result;
         } else {
-            List<Individual> individualsReference = homeFolderService.getIndividuals(homeFolderId);
+            List<Individual> individualsReference = userSearchService.getIndividuals(homeFolderId);
             Set<Long> result = new HashSet<Long>();
             for (Individual individual : individualsReference) {
                 if (policy.equals(IRequestWorkflowService.SUBJECT_POLICY_INDIVIDUAL)) {
@@ -592,7 +590,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                             request = requestCloned;
                     }
                 }
-                result.put(individualService.getById(subjectId), request);
+                result.put(userSearchService.getById(subjectId), request);
             }
         }
         return result;
@@ -639,7 +637,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     private Request bootstrapDraft(Request request, Long requestSeasonId)
         throws CvqException {
         RequestType requestType = request.getRequestType();
-        checkRequestTypePolicy(requestType, homeFolderService.getById(request.getHomeFolderId()));
+        checkRequestTypePolicy(requestType, userSearchService.getHomeFolderById(request.getHomeFolderId()));
         if (requestSeasonId != null) {
             request.setRequestSeason(
                 requestTypeService.getRequestSeason(requestType.getId(), requestSeasonId));
@@ -666,10 +664,10 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         throws CvqException, CvqObjectNotFoundException {
         requestDAO.delete(request);
         applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.REQUEST_DELETED, request));
-        HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
+        HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
         if (homeFolder.isTemporary()) {
             HibernateUtil.getSession().flush();
-            homeFolderService.delete(homeFolder);
+            userWorkflowService.delete(homeFolder);
         }
     }
 
@@ -855,7 +853,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         validateAssociatedDocuments(request.getDocuments());
 
-        HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
+        HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
         // those two request types are special ones
         if (homeFolder.isTemporary())
             userWorkflowService.changeState(homeFolder, UserState.VALID);
@@ -918,7 +916,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             throw new CvqInvalidTransitionException();
         }
 
-        HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
+        HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
         if (homeFolder.isTemporary())
             userWorkflowService.changeState(homeFolder, UserState.INVALID);
     }
@@ -952,7 +950,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             throw new CvqInvalidTransitionException();
         }
 
-        HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
+        HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
         if (homeFolder.isTemporary())
             userWorkflowService.changeState(homeFolder, UserState.INVALID);
     }
@@ -1000,7 +998,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         } else {
             throw new CvqInvalidTransitionException();
         }
-        HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
+        HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
         if (homeFolder.isTemporary())
             userWorkflowService.changeState(homeFolder, UserState.ARCHIVED);
     }
@@ -1228,7 +1226,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         logger.debug("onApplicationEvent() got a user event of type " + event.getAction().getType());
         if (UserAction.Type.STATE_CHANGE.equals(event.getAction().getType())) {
             try {
-                HomeFolder homeFolder = homeFolderService.getById(event.getAction().getTargetId());
+                HomeFolder homeFolder = userSearchService.getHomeFolderById(event.getAction().getTargetId());
                 if (UserState.ARCHIVED.equals(homeFolder.getState())) {
                     logger.debug("onApplicationEvent() archiving requests for home folder "
                         + homeFolder.getId());
@@ -1246,7 +1244,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             }
         } else if (UserAction.Type.DELETION.equals(event.getAction().getType())) {
             try {
-                HomeFolder homeFolder = homeFolderService.getById(event.getAction().getTargetId());
+                HomeFolder homeFolder = userSearchService.getHomeFolderById(event.getAction().getTargetId());
                 logger.debug("onApplicationEvent() deleting requests for home folder "
                     + homeFolder.getId());
                 for (Request request : requestDAO.listByHomeFolder(homeFolder.getId(), false)) {
@@ -1271,12 +1269,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         this.documentService = documentService;
     }
 
-    public void setHomeFolderService(IHomeFolderService homeFolderService) {
-        this.homeFolderService = homeFolderService;
-    }
-
-    public void setIndividualService(IIndividualService individualService) {
-        this.individualService = individualService;
+    public void setUserSearchService(IUserSearchService userSearchService) {
+        this.userSearchService = userSearchService;
     }
 
     public void setUserWorkflowService(IUserWorkflowService userWorkflowService) {

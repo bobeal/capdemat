@@ -47,7 +47,7 @@ import fr.cg95.cvq.service.payment.PaymentResultStatus;
 import fr.cg95.cvq.service.payment.PaymentServiceBean;
 import fr.cg95.cvq.service.payment.annotation.PaymentFilter;
 import fr.cg95.cvq.service.payment.external.IPaymentExternalService;
-import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.mail.IMailService;
@@ -60,7 +60,7 @@ public final class PaymentService implements IPaymentService,
     private IPaymentDAO paymentDAO;
     private ILocalAuthorityRegistry localAuthorityRegistry;
     private IMailService mailService;
-    private IIndividualService individualService;
+    private IUserSearchService userSearchService;
     @Autowired
     private IExternalHomeFolderService externalHomeFolderService;
     @Autowired
@@ -470,7 +470,7 @@ public final class PaymentService implements IPaymentService,
 
     private void notifyPaymentByMail(Payment payment) throws CvqException {
         
-        Adult requester = individualService.getAdultById(payment.getRequesterId());
+        Adult requester = userSearchService.getAdultById(payment.getRequesterId());
         String mailSendTo = requester.getEmail();
         if (mailSendTo == null || mailSendTo.equals("")) {
             logger.warn("notifyPaymentByMail() e-citizen has no email address, returning");
@@ -515,7 +515,7 @@ public final class PaymentService implements IPaymentService,
         logger.debug("onApplicationEvent() got a user event of type " + event.getAction().getType());
         if (UserAction.Type.DELETION.equals(event.getAction().getType())) {
             try {
-                individualService.getById(event.getAction().getTargetId());
+                userSearchService.getById(event.getAction().getTargetId());
                 logger.debug("onApplicationEvent() nothing to delete for individual "
                     + event.getAction().getTargetId());
             } catch (CvqObjectNotFoundException e) {
@@ -538,8 +538,8 @@ public final class PaymentService implements IPaymentService,
         this.mailService = mailService;
     }
 
-    public void setIndividualService(IIndividualService individualService) {
-        this.individualService = individualService;
+    public void setUserSearchService(IUserSearchService userSearchService) {
+        this.userSearchService = userSearchService;
     }
 
     @Override

@@ -102,7 +102,7 @@ public class PaymentServiceTest extends PaymentTestCase {
         assertEquals(1, payments.size());
         
         payment = payments.get(0);
-        Individual homeFolderResponsible = individualService.getById(fake.responsibleId);
+        Individual homeFolderResponsible = userSearchService.getById(fake.responsibleId);
         assertEquals(homeFolderResponsible.getId(), payment.getRequesterId());
         assertEquals(homeFolderResponsible.getFirstName(), payment.getRequesterFirstName());
         assertEquals(homeFolderResponsible.getLastName(), payment.getRequesterLastName());

@@ -190,7 +190,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="translationService" ref="translationService" />
     <property name="requestDAO" ref="requestDAO"/>
     <property name="mailService" ref="mailService"/>
-    <property name="individualService" ref="individualService"/>
+    <property name="userSearchService" ref="userSearchService"/>
     <property name="requestTypeService" ref="requestTypeService" />
     <property name="requestWorkflowService" ref="requestWorkflowService" />
   </bean>

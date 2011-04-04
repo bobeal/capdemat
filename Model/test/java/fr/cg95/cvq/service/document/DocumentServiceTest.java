@@ -55,7 +55,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         
         SecurityContext.setCurrentEcitizen(fake.responsibleId);
 
-        Individual anIndividual = homeFolderService.getAdults(fake.id).get(0);
+        Individual anIndividual = userSearchService.getAdults(fake.id).get(0);
 
         // create a document
         Document doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.ECITIZEN, DepositType.PC, 
@@ -226,7 +226,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         
         continueWithNewTransaction();
         
-        Individual individual = homeFolderService.getHomeFolderResponsible(fake.id);
+        Individual individual = userSearchService.getHomeFolderResponsible(fake.id);
         DocumentType documentType =
             documentTypeService.getDocumentTypeByType(IDocumentTypeService.ADOPTION_JUDGMENT_TYPE);
         
@@ -282,7 +282,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
-        homeFolderService.delete(fake.id);
+        userWorkflowService.delete(fake.id);
         
         continueWithNewTransaction();
         
@@ -309,7 +309,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
-        homeFolderService.delete(individualService.getById(fake.womanId));
+        userWorkflowService.delete(userSearchService.getById(fake.womanId));
         
         continueWithNewTransaction();
         

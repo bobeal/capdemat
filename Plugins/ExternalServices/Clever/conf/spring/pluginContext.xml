@@ -8,7 +8,7 @@
     <property name="label" value="Clever"></property>
     <!-- Insert services you need here -->
     <property name="localReferentialService" ref="localReferentialService"/>
-    <property name="individualService" ref="individualService"/>
+    <property name="userSearchService" ref="userSearchService" />
     <property name="endportpath">
       <value>${plugins.externalservices.clever.endportpath}</value>
     </property>

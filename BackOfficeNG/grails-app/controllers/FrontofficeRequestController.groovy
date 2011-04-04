@@ -22,8 +22,8 @@ import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
-import fr.cg95.cvq.service.users.IIndividualService
-import fr.cg95.cvq.service.users.IHomeFolderService
+import fr.cg95.cvq.service.users.IUserService
+import fr.cg95.cvq.service.users.IUserSearchService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.util.translation.ITranslationService
 import fr.cg95.cvq.service.payment.IRequestPaymentService
@@ -43,7 +43,8 @@ class FrontofficeRequestController {
 
     IAutofillService autofillService
     IConditionService conditionService
-    IIndividualService individualService
+    IUserService userService
+    IUserSearchService userSearchService
     ILocalAuthorityRegistry localAuthorityRegistry
     IMeansOfContactService meansOfContactService
     IRequestExternalService requestExternalService
@@ -54,7 +55,6 @@ class FrontofficeRequestController {
     IRequestWorkflowService requestWorkflowService
     IRequestSearchService requestSearchService
     IRequestServiceRegistry requestServiceRegistry
-    IHomeFolderService homeFolderService
     IPaymentService paymentService
 
     def defaultAction = 'index'
@@ -151,7 +151,7 @@ class FrontofficeRequestController {
                         parameters.returnUrl = params.returnUrl
                     }
                     parameters.temporary = temporary
-                    parameters.requesterLogin = homeFolderService.getHomeFolderResponsible(rqt.homeFolderId).login
+                    parameters.requesterLogin = userSearchService.getHomeFolderResponsible(rqt.homeFolderId).login
 
                     if (requestServiceRegistry.getRequestService(rqt) instanceof IRequestPaymentService) {
                         def payment = requestServiceRegistry.getRequestService(rqt).buildPayment(rqt)
@@ -333,7 +333,7 @@ class FrontofficeRequestController {
             "customJS" : requestTypeAdaptorService.getCustomJS(rqt.requestType.label),
             "subjectPolicy" : requestTypeService.getSubjectPolicy(rqt.requestType.id),
             "individual" : individual,
-            "adults" : homeFolderService.getAdults(SecurityContext.currentEcitizen.homeFolder.id),
+            "adults" : userSearchService.getAdults(SecurityContext.currentEcitizen.homeFolder.id),
             "currentUser" : SecurityContext.currentEcitizen
         ]
         if (request.post) {
@@ -354,23 +354,23 @@ class FrontofficeRequestController {
     private addAdult(individual) throws CvqValidationException {
         DataBindingUtils.initBind(individual, params)
         bind(individual)
-        def invalidFields = individualService.validate(individual)
+        def invalidFields = userService.validate(individual)
         if (!invalidFields.isEmpty())
             throw new CvqValidationException(invalidFields)
-        homeFolderService.addAdult(SecurityContext.currentEcitizen.homeFolder, individual, false)
+        userWorkflowService.add(SecurityContext.currentEcitizen.homeFolder, individual, false)
     }
 
     private addChild(individual) throws CvqValidationException {
         bind(individual)
-        homeFolderService.addChild(SecurityContext.currentEcitizen.homeFolder, individual)
+        userWorkflowService.add(SecurityContext.currentEcitizen.homeFolder, individual)
         params.roles.each {
             if (it.value instanceof GrailsParameterMap && it.value.owner != '' && it.value.type != '') {
-                homeFolderService.link(
-                    individualService.getById(Long.valueOf(it.value.owner)),
+                userWorkflowService.link(
+                    userSearchService.getById(Long.valueOf(it.value.owner)),
                     individual, [RoleType.forString(it.value.type)])
             }
         }
-        def invalidFields = individualService.validate(individual)
+        def invalidFields = userService.validate(individual)
         if (!invalidFields.isEmpty())
             throw new CvqValidationException(invalidFields)
     }
@@ -441,13 +441,13 @@ class FrontofficeRequestController {
         def individuals = [:]
         if (rqt.requestType.label == 'VO Card' || rqt.requestType.label == 'Home Folder Modification') {
             def homeFolderId = SecurityContext.currentEcitizen.homeFolder.id
-            individuals.adults = homeFolderService.getAdults(homeFolderId)
-            individuals.children = homeFolderService.getChildren(homeFolderId)
+            individuals.adults = userSearchService.getAdults(homeFolderId)
+            individuals.children = userSearchService.getChildren(homeFolderId)
         }
         def requestTypeLabel =
             translationService.translateRequestTypeLabel(rqt.requestType.label).encodeAsHTML()
-        def requester = rqt.requesterId != null ? individualService.getById(rqt.requesterId) : null
-        def subject = rqt.subjectId != null ? individualService.getById(rqt.subjectId) : null
+        def requester = rqt.requesterId != null ? userSearchService.getById(rqt.requesterId) : null
+        def subject = rqt.subjectId != null ? userSearchService.getById(rqt.subjectId) : null
         def subjects = [:]
         subjects[rqt.subjectId] = subject instanceof Child && !subject.born ? message(code:'request.subject.childNoBorn', args:[subject.getFullName()]) : "${rqt.subjectLastName} ${rqt.subjectFirstName}"
         return ['rqt': rqt,

@@ -17,9 +17,9 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
-import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.service.users.IMeansOfContactService;
 import fr.cg95.cvq.service.users.IUserNotificationService;
+import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.util.JSONUtils;
 import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.util.sms.ISmsService;
@@ -27,7 +27,7 @@ import fr.cg95.cvq.util.translation.ITranslationService;
 
 public class UserNotificationService implements IUserNotificationService, ApplicationListener<UserEvent> {
 
-    private IIndividualService individualService;
+    private IUserSearchService userSearchService;
     private IMeansOfContactService meansOfContactService;
     private IMailService mailService;
     private ISmsService smsService;
@@ -59,6 +59,27 @@ public class UserNotificationService implements IUserNotificationService, Applic
     }
 
     @Override
+    public PasswordResetNotificationType notifyPasswordReset(Adult adult, String password, String categoryAddress)
+        throws CvqException {
+        String to = null;
+        String body = null;
+        PasswordResetNotificationType notificationType = PasswordResetNotificationType.INLINE;
+        if (adult.getEmail() != null && !adult.getEmail().trim().isEmpty()) {
+            to = adult.getEmail();
+            body = "Veuillez trouver ci-dessous votre nouveau mot de passe :\n\t" + password + "\n\nBien cordialement.";
+            notificationType = PasswordResetNotificationType.ADULT_EMAIL;
+        } else if (categoryAddress != null) {
+            to = categoryAddress;
+            body = "Le mot de passe ci-dessous a été attribué à " + adult.getTitle() + " " + adult.getLastName() + " " + adult.getFirstName() + " (" + adult.getLogin() + ") :\n\t" + password;
+            notificationType = PasswordResetNotificationType.CATEGORY_EMAIL;
+        }
+        if (notificationType != PasswordResetNotificationType.INLINE) {
+            mailService.send(categoryAddress, to, null, "[" + SecurityContext.getCurrentSite().getDisplayTitle() + "] " + "Votre nouveau mot de passe pour vos démarches en ligne", body);
+        }
+        return notificationType;
+    }
+
+    @Override
     public void notifyByEmail(String from, String to, String subject,
         String body, byte[] data, String attachmentName)
         throws CvqException {
@@ -80,10 +101,11 @@ public class UserNotificationService implements IUserNotificationService, Applic
 
     @Override
     public void onApplicationEvent(UserEvent event) {
-        if (UserAction.Type.CREATION.equals(event.getAction().getType())
+        if ((UserAction.Type.CREATION.equals(event.getAction().getType())
+            && SecurityContext.isFrontOfficeContext())
             || UserAction.Type.MODIFICATION.equals(event.getAction().getType())) {
             try {
-                Adult adult = individualService.getAdultById(event.getAction().getTargetId());
+                Adult adult = userSearchService.getAdultById(event.getAction().getTargetId());
                 JsonObject payload = JSONUtils.deserialize(event.getAction().getData());
                 if (!StringUtils.isEmpty(adult.getLogin())
                     && (UserAction.Type.CREATION.equals(event.getAction().getType())
@@ -114,8 +136,8 @@ public class UserNotificationService implements IUserNotificationService, Applic
         }
     }
 
-    public void setIndividualService(IIndividualService individualService) {
-        this.individualService = individualService;
+    public void setUserSearchService(IUserSearchService userSearchService) {
+        this.userSearchService = userSearchService;
     }
 
     public void setMeansOfContactService(IMeansOfContactService meansOfContactService) {

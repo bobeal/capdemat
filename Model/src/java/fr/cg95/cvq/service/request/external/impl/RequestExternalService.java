@@ -48,8 +48,7 @@ import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.annotation.RequestFilter;
 import fr.cg95.cvq.service.request.external.IRequestExternalActionService;
 import fr.cg95.cvq.service.request.external.IRequestExternalService;
-import fr.cg95.cvq.service.users.IHomeFolderService;
-import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.mail.IMailService;
@@ -70,9 +69,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
 
     private IRequestExportService requestExportService;
 
-    private IHomeFolderService homeFolderService;
-
-    private IIndividualService individualService;
+    private IUserSearchService userSearchService;
 
     private IExternalHomeFolderService externalHomeFolderService;
 
@@ -447,10 +444,10 @@ public class RequestExternalService extends ExternalService implements IRequestE
             || UserAction.Type.STATE_CHANGE.equals(event.getAction().getType())) {
             HomeFolder homeFolder;
             try {
-                homeFolder = homeFolderService.getById(event.getAction().getTargetId());
+                homeFolder = userSearchService.getHomeFolderById(event.getAction().getTargetId());
             } catch (CvqObjectNotFoundException e1) {
                 try {
-                    homeFolder = individualService.getById(event.getAction().getTargetId()).getHomeFolder();
+                    homeFolder = userSearchService.getById(event.getAction().getTargetId()).getHomeFolder();
                 } catch (CvqObjectNotFoundException e2) {
                     logger.debug("onApplicationEvent() got an event for a non-existent user ID : "
                         + event.getAction().getTargetId());
@@ -495,12 +492,8 @@ public class RequestExternalService extends ExternalService implements IRequestE
         this.requestExportService = requestExportService;
     }
 
-    public void setHomeFolderService(IHomeFolderService homeFolderService) {
-        this.homeFolderService = homeFolderService;
-    }
-
-    public void setIndividualService(IIndividualService individualService) {
-        this.individualService = individualService;
+    public void setUserSearchService(IUserSearchService userSearchService) {
+        this.userSearchService = userSearchService;
     }
 
     public void setExternalHomeFolderService(IExternalHomeFolderService externalHomeFolderService) {

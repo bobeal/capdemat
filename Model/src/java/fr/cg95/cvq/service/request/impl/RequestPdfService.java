@@ -51,8 +51,7 @@ import fr.cg95.cvq.service.request.ILocalReferentialService;
 import fr.cg95.cvq.service.request.IRequestPdfService;
 import fr.cg95.cvq.service.request.IRequestSearchService;
 import fr.cg95.cvq.service.request.external.IRequestExternalActionService;
-import fr.cg95.cvq.service.users.IHomeFolderService;
-import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.translation.ITranslationService;
 import groovy.text.SimpleTemplateEngine;
@@ -67,8 +66,7 @@ public class RequestPdfService implements IRequestPdfService {
 
     protected ILocalAuthorityRegistry localAuthorityRegistry;
     protected ITranslationService translationService;
-    protected IIndividualService individualService;
-    protected IHomeFolderService homeFolderService;
+    protected IUserSearchService userSearchService;
     protected ILocalReferentialService localReferentialService;
     private IRequestSearchService requestSearchService;
     private IAgentService agentService;
@@ -92,10 +90,10 @@ public class RequestPdfService implements IRequestPdfService {
         
         Adult requester = null;
         if (request.getRequesterId() != null)
-            requester = individualService.getAdultById(request.getRequesterId());
+            requester = userSearchService.getAdultById(request.getRequesterId());
         Individual subject = null;
         if (request.getSubjectId() != null)
-            subject = individualService.getById(request.getSubjectId());
+            subject = userSearchService.getById(request.getSubjectId());
        
         try {
             SimpleTemplateEngine templateEngine = new SimpleTemplateEngine();
@@ -105,8 +103,8 @@ public class RequestPdfService implements IRequestPdfService {
             bindings.put("rqt", request);
             if (Arrays.asList(new String[]{"VO Card","Home Folder Modification"})
                     .contains(request.getRequestType().getLabel())) {
-                bindings.put("adults", homeFolderService.getAdults(request.getHomeFolderId()));
-                bindings.put("children", homeFolderService.getChildren(request.getHomeFolderId()));
+                bindings.put("adults", userSearchService.getAdults(request.getHomeFolderId()));
+                bindings.put("children", userSearchService.getChildren(request.getHomeFolderId()));
             }
             bindings.put("requester", requester);
             bindings.put("subject", subject);
@@ -184,7 +182,6 @@ public class RequestPdfService implements IRequestPdfService {
         bindings.put("request", requestSearchService.getById(requestId, false));
         bindings.put("externalTraces", traces);
         bindings.put("i18n", translationService);
-        bindings.put("individualService", individualService);
         bindings.put("agentService", agentService);
         File htmlCertificateFile = File.createTempFile("history", ".html");
         template.make(bindings).writeTo(new FileWriter(htmlCertificateFile));
@@ -377,12 +374,8 @@ public class RequestPdfService implements IRequestPdfService {
         this.translationService = translationService;
     }
 
-    public void setIndividualService(IIndividualService individualService) {
-        this.individualService = individualService;
-    }
-
-    public void setHomeFolderService(IHomeFolderService homeFolderService) {
-        this.homeFolderService = homeFolderService;
+    public void setUserSearchService(IUserSearchService userSearchService) {
+        this.userSearchService = userSearchService;
     }
 
     public void setLocalReferentialService(ILocalReferentialService localReferentialService) {

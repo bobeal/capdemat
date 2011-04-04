@@ -1,7 +1,12 @@
 package fr.cg95.cvq.authentication.impl;
 
 import java.security.MessageDigest;
+import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Random;
+import java.util.TreeSet;
 import java.util.Vector;
 
 import org.apache.commons.codec.binary.Base64;
@@ -12,11 +17,15 @@ import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.dao.users.IAdultDAO;
+import fr.cg95.cvq.dao.users.IIndividualDAO;
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException;
 import fr.cg95.cvq.exception.CvqDisabledAccountException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqUnknownUserException;
+import fr.cg95.cvq.security.annotation.Context;
+import fr.cg95.cvq.security.annotation.ContextPrivilege;
+import fr.cg95.cvq.security.annotation.ContextType;
 
 /**
  * Implementation of the {@link IAuthenticationService authentication service}.
@@ -27,6 +36,8 @@ public class AuthenticationService implements IAuthenticationService {
 
     static Logger logger = Logger.getLogger(AuthenticationService.class);
 
+    private IIndividualDAO individualDAO;
+
     private IAdultDAO adultDAO;
 
     private static String[] alph = {
@@ -35,6 +46,9 @@ public class AuthenticationService implements IAuthenticationService {
         "g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w",
         "x","y","z"
     };
+
+    private static Collection<String> bookedLogin =
+        Collections.synchronizedCollection(new ArrayList<String>());
 
     // Random object to generate passwords
     private static Random r1 = new Random();
@@ -131,6 +145,57 @@ public class AuthenticationService implements IAuthenticationService {
         return pass;
     }
 
+    @Override
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    public synchronized String generateLogin(Adult adult) {
+        String baseLogin =  Normalizer.normalize(
+            (adult.getFirstName().trim() + '.' + adult.getLastName().trim())
+                .replaceAll("\\s", "-")
+                .replaceAll("'", ""),
+            Normalizer.Form.NFD)
+                .replaceAll("[^\\p{ASCII}]","").toLowerCase();
+        logger.debug("generateLogin() searching from " + baseLogin);
+        TreeSet<Integer> indexesSet = new TreeSet<Integer>();
+        for (String login : individualDAO.getSimilarLogins(baseLogin)) {
+            String index = login.substring(baseLogin.length());
+            if (index == null || index.equals(""))
+                index = "1";
+            try {
+                Integer intIndex = Integer.valueOf(index);
+                indexesSet.add(intIndex);
+            } catch (NumberFormatException nfe) {
+                // the tail was not an integer, ignore it
+            }
+        }
+        int finalIndex = 0;
+        if (!indexesSet.isEmpty()) {
+            finalIndex = indexesSet.last();
+        }
+        logger.debug("generateLogin() got final index " + finalIndex);
+        String loginFromDb = null;
+        if (finalIndex == 0)
+            loginFromDb = baseLogin;
+        else
+            loginFromDb = baseLogin + String.valueOf(++finalIndex);
+        logger.debug("generateLogin() got new login from DB " + loginFromDb);
+        String finalLogin = loginFromDb;
+        if (bookedLogin.contains(loginFromDb)) {
+            String currentIndex = loginFromDb.substring(baseLogin.length());
+            int currIdx = 1;
+            if (currentIndex != null && !currentIndex.equals(""))
+                currIdx = Integer.parseInt(currentIndex) > finalIndex ?
+                    Integer.parseInt(currentIndex) : finalIndex;
+            String loginToTest = null;
+            do {
+                currIdx++;
+                loginToTest = baseLogin + String.valueOf(currIdx);
+            } while (bookedLogin.contains(loginToTest));
+            finalLogin = loginToTest;
+        }
+        bookedLogin.add(finalLogin);
+        return finalLogin;
+    }
+
     public String generatePassword() {
 
         // Inits result variable
@@ -167,5 +232,9 @@ public class AuthenticationService implements IAuthenticationService {
 
     public void setAdultDAO(IAdultDAO adultDAO) {
         this.adultDAO = adultDAO;
+    }
+
+    public void setIndividualDAO(IIndividualDAO individualDAO) {
+        this.individualDAO = individualDAO;
     }
 }

@@ -68,9 +68,8 @@ import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.ExternalServiceUtils;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.service.payment.IPaymentService;
+import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.users.IHomeFolderService;
-import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.SchoolType;
 
@@ -101,8 +100,7 @@ public class HoranetServiceV3 implements IExternalProviderService {
     private Service service;
     private Call call;
 
-    private IHomeFolderService homeFolderService;
-    private IIndividualService individualService;
+    private IUserSearchService userSearchService;
 
     public void init() {
     }
@@ -190,7 +188,7 @@ public class HoranetServiceV3 implements IExternalProviderService {
             if (request.getSubject() != null && request.getSubject().getChild() != null) {
                 subjectId = request.getSubject().getChild().getId();
             }
-            Child subject = individualService.getChildById(subjectId);
+            Child subject = userSearchService.getChildById(subjectId);
             if (subject != null) {
                 childId = subjectId.toString();
             }
@@ -237,7 +235,7 @@ public class HoranetServiceV3 implements IExternalProviderService {
                 total = total + purchaseItem.getAmount().intValue();
             }
 
-            HomeFolder homeFolder = homeFolderService.getById(homeFolderId);
+            HomeFolder homeFolder = userSearchService.getHomeFolderById(homeFolderId);
             String xmlPayment = null;
             try {
                 xmlPayment = paymentToXml(purchaseItems, cvqReference, 
@@ -393,7 +391,7 @@ public class HoranetServiceV3 implements IExternalProviderService {
             call.addParameter(new QName(HORANET_CVQ_NS, "FamilyID"), 
                     Constants.XSD_STRING, ParameterMode.IN);
 
-            HomeFolder currentHomeFolder = homeFolderService.getById(homeFolderId);
+            HomeFolder currentHomeFolder = userSearchService.getHomeFolderById(homeFolderId);
 
             call.invoke(new Object[] {
                             SecurityContext.getCurrentSite().getPostalCode(),
@@ -511,7 +509,7 @@ public class HoranetServiceV3 implements IExternalProviderService {
 
                 Child child = null;
                 try {
-                    child = individualService.getChildById(new Long(childId));
+                    child = userSearchService.getChildById(new Long(childId));
                 } catch (CvqObjectNotFoundException confe) {
                     logger.error("getHomeFolderAccounts() could not find child with id : " + childId);
                     continue;
@@ -586,7 +584,7 @@ public class HoranetServiceV3 implements IExternalProviderService {
 
                 Child child = null;
                 try {
-                    child = individualService.getChildById(new Long(childId));
+                    child = userSearchService.getChildById(new Long(childId));
                 } catch (CvqObjectNotFoundException confe) {
                     logger.error("getIndividualAccountsInformation() could not find child : " 
                             + childId);
@@ -901,12 +899,8 @@ public class HoranetServiceV3 implements IExternalProviderService {
         this.password = password;
     }
 
-    public final void setHomeFolderService(final IHomeFolderService homeFolderService) {
-        this.homeFolderService = homeFolderService;
-    }
-
-    public final void setIndividualService(final IIndividualService individualService) {
-        this.individualService = individualService;
+    public void setUserSearchService(IUserSearchService userSearchService) {
+        this.userSearchService = userSearchService;
     }
 
     public String getLabel() {

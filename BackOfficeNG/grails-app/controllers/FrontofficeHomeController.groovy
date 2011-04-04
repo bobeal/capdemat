@@ -20,7 +20,7 @@ import fr.cg95.cvq.service.request.IRequestNoteService
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestActionService
 import fr.cg95.cvq.service.request.IRequestTypeService
-import fr.cg95.cvq.service.users.IHomeFolderService
+import fr.cg95.cvq.service.users.IUserWorkflowService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.util.UserUtils
 
@@ -35,7 +35,7 @@ class FrontofficeHomeController {
     IRequestActionService requestActionService
     IRequestTypeService requestTypeService
     ILocalAuthorityRegistry localAuthorityRegistry
-    IHomeFolderService homeFolderService
+    IUserWorkflowService userWorkflowService
     IPaymentService paymentService
     IDocumentService documentService
     IAuthenticationService authenticationService
@@ -119,7 +119,7 @@ class FrontofficeHomeController {
     
     def logout = {
         if (SecurityContext.currentCredentialBean?.ecitizen?.homeFolder.temporary) {
-            homeFolderService.delete(SecurityContext.currentCredentialBean.ecitizen.homeFolder.id)
+            userWorkflowService.delete(SecurityContext.currentCredentialBean.ecitizen.homeFolder.id)
         }
         securityService.logout(session)
         redirect(controller:'frontofficeHome')

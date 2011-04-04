@@ -12,8 +12,7 @@ import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.IRequestExportService;
-import fr.cg95.cvq.service.users.IHomeFolderService;
-import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.xml.common.IndividualType;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.SubjectType;
@@ -21,9 +20,8 @@ import fr.cg95.cvq.xml.common.SubjectType;
 public class RequestExportService implements IRequestExportService {
 
     private static Logger logger = Logger.getLogger(RequestExportService.class);
-    
-    private IHomeFolderService homeFolderService;
-    private IIndividualService individualService;
+
+    private IUserSearchService userSearchService;
 
     @Override
     public XmlObject fillRequestXml(Request request)
@@ -45,7 +43,7 @@ public class RequestExportService implements IRequestExportService {
             throw new CvqException("No such method exception while filling request xml");
         }
         if (request.getSubjectId() != null) {
-            Individual individual = individualService.getById(request.getSubjectId());
+            Individual individual = userSearchService.getById(request.getSubjectId());
             SubjectType subject = xmlRequestType.addNewSubject();
             if (individual instanceof Adult) {
                 subject.setAdult(((Adult)individual).modelToXml());
@@ -55,9 +53,9 @@ public class RequestExportService implements IRequestExportService {
         }
         if (request.getHomeFolderId() != null) {
             xmlRequestType.addNewHomeFolder()
-                .set(homeFolderService.getById(request.getHomeFolderId()).modelToXml());
+                .set(userSearchService.getHomeFolderById(request.getHomeFolderId()).modelToXml());
             List<Individual> externalIndividuals =
-                homeFolderService.getExternalIndividuals(request.getHomeFolderId());
+                userSearchService.getExternalIndividuals(request.getHomeFolderId());
             if (externalIndividuals != null && !externalIndividuals.isEmpty()) {
                 IndividualType[] individualsArray = new IndividualType[externalIndividuals.size()];
                 int i = 0;
@@ -75,16 +73,12 @@ public class RequestExportService implements IRequestExportService {
             }
         }
         if (request.getRequesterId() != null) {
-            xmlRequestType.addNewRequester().set(individualService.getAdultById(request.getRequesterId()).modelToXml());
+            xmlRequestType.addNewRequester().set(userSearchService.getAdultById(request.getRequesterId()).modelToXml());
         }
         return result;
     }
 
-    public void setHomeFolderService(IHomeFolderService homeFolderService) {
-        this.homeFolderService = homeFolderService;
-    }
-
-    public void setIndividualService(IIndividualService individualService) {
-        this.individualService = individualService;
+    public void setUserSearchService(IUserSearchService userSearchService) {
+        this.userSearchService = userSearchService;
     }
 }

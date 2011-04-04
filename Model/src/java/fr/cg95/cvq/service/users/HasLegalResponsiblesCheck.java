@@ -16,7 +16,7 @@ public class HasLegalResponsiblesCheck  extends AbstractAnnotationCheck<HasLegal
 
     private static final long serialVersionUID = 1L;
 
-    private static IHomeFolderService homeFolderService;
+    private static IUserSearchService userSearchService;
 
     @Override
     public boolean isSatisfied(Object validatedObject, Object valueToValidate, OValContext context,
@@ -24,7 +24,7 @@ public class HasLegalResponsiblesCheck  extends AbstractAnnotationCheck<HasLegal
         throws OValException {
         Child child = (Child) validatedObject;
         int legalResponsibles = 0;
-        for (Adult adult : homeFolderService.getAdults(child.getHomeFolder().getId())) {
+        for (Adult adult : userSearchService.getAdults(child.getHomeFolder().getId())) {
             if (adult.getIndividualRoles() != null) {
                 for (IndividualRole individualRole : adult.getIndividualRoles()) {
                     if (((child.getId() != null
@@ -38,7 +38,7 @@ public class HasLegalResponsiblesCheck  extends AbstractAnnotationCheck<HasLegal
         return legalResponsibles > 0 && legalResponsibles < 4;
     }
 
-    public static void setHomeFolderService(IHomeFolderService homeFolderService) {
-        HasLegalResponsiblesCheck.homeFolderService = homeFolderService;
+    public static void setUserSearchService(IUserSearchService userSearchService) {
+        HasLegalResponsiblesCheck.userSearchService = userSearchService;
     }
 }

@@ -75,8 +75,8 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.job.RequestArchivingJob;
-import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IUserSecurityService;
+import fr.cg95.cvq.service.users.IUserWorkflowService;
 import fr.cg95.cvq.util.development.BusinessObjectsFactory;
 
 /**
@@ -114,8 +114,8 @@ public class LocalAuthorityRegistry
     private RequestArchivingJob requestArchivingJob;
     private ILocalAuthorityDAO localAuthorityDAO;
     private IAgentService agentService;
-    private IHomeFolderService homeFolderService;
     private IUserSecurityService userSecurityService;
+    private IUserWorkflowService userWorkflowService;
     private IRequestActionDAO requestActionDAO;
 
     private ListableBeanFactory beanFactory;
@@ -733,14 +733,14 @@ public class LocalAuthorityRegistry
                         BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "Dupont", "Jean",
                             address, FamilyStatusType.SINGLE);
                     homeFolderResponsible.setPassword("aaaaaaaa");
-                    HomeFolder homeFolder = homeFolderService.create(homeFolderResponsible, false);
+                    HomeFolder homeFolder = userWorkflowService.create(homeFolderResponsible, false);
                     SecurityContext.setCurrentEcitizen(homeFolderResponsible);
                     Adult other = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "Durand",
                         "Jacques", address, FamilyStatusType.SINGLE);
-                    homeFolderService.addAdult(homeFolder, other, false);
+                    userWorkflowService.add(homeFolder, other, false);
                     Child child = BusinessObjectsFactory.gimmeChild("Moreau", "Émilie");
-                    homeFolderService.addChild(homeFolder, child);
-                    homeFolderService.link(homeFolderResponsible, child, Collections.singleton(RoleType.CLR_FATHER));
+                    userWorkflowService.add(homeFolder, child);
+                    userWorkflowService.link(homeFolderResponsible, child, Collections.singleton(RoleType.CLR_FATHER));
                     SecurityContext.setCurrentSite(DEVELOPMENT_LOCAL_AUTHORITY,
                         SecurityContext.ADMIN_CONTEXT);
                 }
@@ -979,8 +979,8 @@ public class LocalAuthorityRegistry
         this.agentService = agentService;
     }
 
-    public void setHomeFolderService(IHomeFolderService homeFolderService) {
-        this.homeFolderService = homeFolderService;
+    public void setUserWorkflowService(IUserWorkflowService userWorkflowService) {
+        this.userWorkflowService = userWorkflowService;
     }
 
     public void setUserSecurityService(IUserSecurityService userSecurityService) {

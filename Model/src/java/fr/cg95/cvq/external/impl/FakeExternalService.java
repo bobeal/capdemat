@@ -51,7 +51,7 @@ import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.payment.IPaymentService;
 import fr.cg95.cvq.service.request.IRequestSearchService;
-import fr.cg95.cvq.service.users.IHomeFolderService;
+import fr.cg95.cvq.service.users.IUserSearchService;
 
 /**
  * A fake implementation of the {@link IExternalProviderService external provider service interface}
@@ -67,7 +67,7 @@ public class FakeExternalService implements IExternalProviderService {
     private static Logger logger = Logger.getLogger(FakeExternalService.class);
 
     private IRequestSearchService requestSearchService;
-    private IHomeFolderService homeFolderService;
+    private IUserSearchService userSearchService;
     private IPaymentService paymentService;
     
     private String label;
@@ -196,7 +196,7 @@ public class FakeExternalService implements IExternalProviderService {
                 String childCsn = node.getAttributes().getNamedItem("child-csn").getNodeValue();
 
                 List<Individual> individuals = 
-                    homeFolderService.getIndividuals(request.getHomeFolderId());
+                    userSearchService.getIndividuals(request.getHomeFolderId());
                 Individual subject = null;
                 for (Individual individual : individuals) {
                     if (individual.getId().equals(request.getSubjectId())) {
@@ -205,7 +205,7 @@ public class FakeExternalService implements IExternalProviderService {
                     }
                 }
                 HomeFolder homeFolder = 
-                    homeFolderService.getById(request.getHomeFolderId());
+                    userSearchService.getHomeFolderById(request.getHomeFolderId());
                 if (subject == null) {
                     int k = i % homeFolder.getIndividuals().size();
                     subject = (Individual) homeFolder.getIndividuals().toArray()[k]; 
@@ -388,8 +388,8 @@ public class FakeExternalService implements IExternalProviderService {
         this.invoiceDetailsFile = invoiceDetailsFile;
     }
 
-    public void setHomeFolderService(IHomeFolderService homeFolderService) {
-        this.homeFolderService = homeFolderService;
+    public void setUserSearchService(IUserSearchService userSearchService) {
+        this.userSearchService = userSearchService;
     }
 
     public void setRequestSearchService(IRequestSearchService requestSearchService) {

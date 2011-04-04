@@ -28,7 +28,7 @@ import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IRequestSearchService;
-import fr.cg95.cvq.service.users.IHomeFolderService;
+import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.util.JSONUtils;
 import fr.cg95.cvq.util.UserUtils;
 
@@ -38,7 +38,7 @@ public class UserReferentialMigration {
 
     private IRequestSearchService requestSearchService;
 
-    private IHomeFolderService homeFolderService;
+    private IUserSearchService userSearchService;
 
     private Map<Long, UserState> homeFolderStates = new HashMap<Long, UserState>();
 
@@ -54,7 +54,7 @@ public class UserReferentialMigration {
         UserReferentialMigration userReferentialMigration = new UserReferentialMigration();
         userReferentialMigration.localAuthorityRegistry = (LocalAuthorityRegistry)context.getBean("localAuthorityRegistry");
         userReferentialMigration.requestSearchService = (IRequestSearchService)context.getBean("requestSearchService");
-        userReferentialMigration.homeFolderService = (IHomeFolderService)context.getBean("homeFolderService");
+        userReferentialMigration.userSearchService = (IUserSearchService)context.getBean("userSearchService");
         userReferentialMigration.localAuthorityRegistry.browseAndCallback(userReferentialMigration, "migrate", new Object[0]);
         System.exit(0);
     }
@@ -69,7 +69,7 @@ public class UserReferentialMigration {
                 "select request_id from request_action where id = :id")
                 .setLong("id", requestAction.getId()).uniqueResult()).longValue();
             Request request = requestSearchService.getById(requestId, true);
-            HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
+            HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
             if (RequestActionType.CREATION.equals(requestAction.getType())) {
                 UserAction.Type type = request instanceof VoCardRequest ? UserAction.Type.CREATION : UserAction.Type.MODIFICATION;
                 add(homeFolder, new UserAction(type, homeFolder.getId()), requestAction);
@@ -89,12 +89,12 @@ public class UserReferentialMigration {
                 }
             }
         }
-        for (HomeFolder homeFolder : homeFolderService.getAll(false, false)) {
+        for (HomeFolder homeFolder : userSearchService.getAll(false, false)) {
             List<UserAction> actions = homeFolder.getActions();
             if (actions.isEmpty() || !UserAction.Type.CREATION.equals(actions.get(0).getType())) {
                 RequestAction fake = new RequestAction();
                 fake.setAgentId(-1L);
-                Date responsibleCreation = homeFolderService.getHomeFolderResponsible(homeFolder.getId()).getCreationDate();
+                Date responsibleCreation = userSearchService.getHomeFolderResponsible(homeFolder.getId()).getCreationDate();
                 Date firstAction = actions.isEmpty() ? null : actions.get(0).getDate();
                 Date homeFolderCreation =
                     firstAction != null && responsibleCreation.compareTo(firstAction) > 0 ? firstAction

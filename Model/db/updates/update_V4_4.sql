@@ -152,3 +152,43 @@ delete from request_external_action where key in
         (select id from request_type where label = 'VO Card' or label = 'Home Folder Modification'));
 
 alter table individual add column q_o_s varchar(16);
+
+-- task board related updates
+
+alter table individual add column last_modification_date timestamp;
+
+create or replace function migrate_individual_lastmodificationdate() returns void as $$
+  declare
+    r record;
+  begin
+    for r in select * from individual loop
+      update individual i set last_modification_date = r.creation_date where i.id = r.id;
+    end loop;
+  end;
+$$ LANGUAGE plpgsql;
+
+select * from migrate_individual_lastmodificationdate();
+drop function migrate_individual_lastmodificationdate();
+
+-- Clean data related to home folders without individuals
+
+delete from home_folder_modification_request where id in
+    (select specific_data_id from request where home_folder_id in
+        (select id from home_folder hf where
+            (select count(*) from individual where home_folder_id = hf.id) = 0));
+
+delete from vo_card_request where id in
+    (select specific_data_id from request where home_folder_id in
+        (select id from home_folder hf where
+            (select count(*) from individual where home_folder_id = hf.id) = 0));
+
+delete from request_action where request_id in
+    (select id from request where home_folder_id in
+        (select id from home_folder hf where
+            (select count(*) from individual where home_folder_id = hf.id) = 0));
+
+delete from request where home_folder_id in
+    (select id from home_folder hf where
+        (select count(*) from individual where home_folder_id = hf.id) = 0);
+
+delete from home_folder hf where (select count(*) from individual where home_folder_id = hf.id) = 0;

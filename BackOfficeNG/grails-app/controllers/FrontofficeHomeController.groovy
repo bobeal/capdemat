@@ -22,11 +22,11 @@ import fr.cg95.cvq.service.request.IRequestActionService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.util.Critere
+import fr.cg95.cvq.util.UserUtils
 
 class FrontofficeHomeController {
 
     def requestAdaptorService
-    def instructionService
     def requestTypeAdaptorService
     def securityService
     
@@ -178,7 +178,7 @@ class FrontofficeHomeController {
                 'creationDate' : doc.creationDate,
                 'endValidityDate' : doc.endValidityDate,
                 'state' : doc.state.toString(),
-                'subject' : instructionService.getActionPosterDetails(doc.individualId),
+                'subject' : UserUtils.getDisplayName(doc.individualId),
                 'title' : message(code:CapdematUtils.adaptDocumentTypeName(doc.documentType.name))
             ])
         }

@@ -11,12 +11,11 @@ import fr.cg95.cvq.service.request.IRequestDocumentService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.document.IDocumentTypeService
-
+import fr.cg95.cvq.util.UserUtils
 
 public class DocumentAdaptorService {
 
     def messageSource
-    InstructionService instructionService
     RequestAdaptorService requestAdaptorService
 
     IRequestTypeService requestTypeService
@@ -94,7 +93,7 @@ public class DocumentAdaptorService {
             'note': action.note,
             'date': action.date,
             'type' : CapdematUtils.adaptCapdematEnum(action.type, "documentAction.type"),
-            'username' : instructionService.getActionPosterDetails(action.userId),
+            'username' : UserUtils.getDisplayName(action.userId),
             'resultingState': resultingState
         ]
     }

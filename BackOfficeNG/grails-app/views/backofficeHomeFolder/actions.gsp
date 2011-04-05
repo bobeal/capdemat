@@ -15,9 +15,9 @@
           <strong>${action.target.name}</strong>
         </dd>
         <dd class="user">
-          <g:if test="${action.user.displayName}">
+          <g:if test="${action.user.name}">
             ${message(code:'layout.by')}
-            <strong class="${action.user.nature}">${action.user.displayName}</strong>
+            <strong class="${action.user.nature}">${action.user.name}</strong>
           </g:if>
         </dd>
         <g:if test="${action.responsible}">

@@ -19,7 +19,6 @@ class BackofficeRequestController {
     IRequestStatisticsService requestStatisticsService
     
     def translationService
-    def instructionService
     def requestAdaptorService
     
     def defaultAction = 'initSearch'

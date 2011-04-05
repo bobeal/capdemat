@@ -3,6 +3,7 @@ import fr.cg95.cvq.business.users.UserAction
 import fr.cg95.cvq.business.users.UserState
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.util.UserUtils
 import fr.cg95.cvq.util.translation.ITranslationService
 
 import grails.converters.JSON
@@ -12,7 +13,6 @@ class HomeFolderAdaptorService {
     IHomeFolderService homeFolderService
     IIndividualService individualService
     ITranslationService translationService
-    def instructionService
 
     public prepareAdultSubjectRoles(adult) {
         def adultSubjectRoles = []
@@ -73,7 +73,8 @@ class HomeFolderAdaptorService {
                         result.state = CapdematUtils.adaptCapdematEnum(it.value, "qoS.quality")
                         break
                     case "user" : 
-                        result.user = instructionService.getActionPosterDetails(action.userId, true)
+                        result.user = it.value
+                        result.user.nature = UserUtils.getNature(action.userId)
                         break;
                     default :
                         result.(it.key) = it.value

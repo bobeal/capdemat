@@ -3,12 +3,12 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.IRequestActionService
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestTypeService
+import fr.cg95.cvq.util.UserUtils
 
 import grails.converters.JSON
 
 class BackofficeRequestArchivesController {
 
-    InstructionService instructionService
     ILocalAuthorityRegistry localAuthorityRegistry
     IRequestActionService requestActionService
     IRequestSearchService requestSearchService
@@ -86,7 +86,7 @@ class BackofficeRequestArchivesController {
         def history = []
         actions.each {
             history << [
-                "admin" : instructionService.getActionPosterDetails(it.adminId),
+                "admin" : UserUtils.getDisplayName(it.adminId),
                 "type" : CapdematUtils.adaptCapdematEnum(it.type, "requestAdminAction.type"),
                 "date" : it.date,
                 "complementaryData" : it.complementaryData

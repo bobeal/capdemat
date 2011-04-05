@@ -36,7 +36,6 @@ class BackofficeHomeFolderController {
     IPaymentService paymentService
     IMeansOfContactService meansOfContactService
     
-    def instructionService
     def translationService
     def homeFolderAdaptorService
     def requestAdaptorService

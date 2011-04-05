@@ -7,6 +7,7 @@ import fr.cg95.cvq.business.users.Individual
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.document.IDocumentTypeService
+import fr.cg95.cvq.util.UserUtils
 
 import java.util.Hashtable
 import javax.servlet.http.HttpServletResponse
@@ -17,7 +18,6 @@ class FrontofficeDocumentController {
     IDocumentService documentService
     IDocumentTypeService documentTypeService
     
-    InstructionService instructionService
     DocumentAdaptorService documentAdaptorService
     
     Adult currentEcitizen
@@ -55,7 +55,7 @@ class FrontofficeDocumentController {
             "state": document.state,
             "depositType": document.depositType,
             "depositOrigin": document.depositOrigin,
-            'depositor' : instructionService.getActionPosterDetails(document.depositId),
+            'depositor' : UserUtils.getDisplayName(document.depositId),
             "creationDate" : document.creationDate,
             "validationDate": document.validationDate,
             "endValidityDate": document.endValidityDate,
@@ -140,10 +140,10 @@ class FrontofficeDocumentController {
                 'certified' : it.certified,
                 'endValidityDate' : it.endValidityDate,
                 'state' : it.state.toString(),
-                'subject' : instructionService.getActionPosterDetails(it.individualId),
+                'subject' : UserUtils.getDisplayName(it.individualId),
                 'depositType' : it.depositType,
                 'depositOrigin' : it.depositOrigin,
-                'depositor' : instructionService.getActionPosterDetails(it.depositId),
+                'depositor' : UserUtils.getDisplayName(it.depositId),
                 'title' : message(code: CapdematUtils.adaptDocumentTypeName(it.documentType.name))
             ]);
         }
@@ -171,7 +171,7 @@ class FrontofficeDocumentController {
         currentEcitizen.homeFolder.individuals.each{
             individuals.add([
                 id : it.id,
-                fullName : instructionService.getActionPosterDetails(it.id)
+                fullName : UserUtils.getDisplayName(it.id)
             ])
         }
         individuals = individuals.sort {it.fullName}

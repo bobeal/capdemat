@@ -31,6 +31,7 @@ import fr.cg95.cvq.service.request.external.IRequestExternalActionService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.util.Critere
+import fr.cg95.cvq.util.UserUtils
 
 import grails.converters.JSON
 
@@ -60,7 +61,6 @@ class BackofficeRequestInstructionController {
     IConditionService conditionService
 
     def translationService
-    def instructionService
     def homeFolderAdaptorService
     def requestAdaptorService
     def defaultAction = "edit"
@@ -472,7 +472,7 @@ class BackofficeRequestInstructionController {
         requestSearchService.getById(Long.valueOf(params.id), false).actions.each {
             if (RequestState.DRAFT.equals(it.resultingState))
                 return
-            def user = instructionService.getActionPosterDetails(it.agentId, true)
+            def user = UserUtils.getUserDetails(it.agentId)
             def resultingState = null
             if (it.type.equals(RequestActionType.STATE_CHANGE)) {
                 resultingState = CapdematUtils.adaptCapdematEnum(it.resultingState, "request.state")

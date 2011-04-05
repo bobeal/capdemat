@@ -8,6 +8,7 @@ import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.users.IUserNotificationService
 import fr.cg95.cvq.security.SecurityContext
+import fr.cg95.cvq.util.UserUtils
 
 import grails.converters.JSON
 
@@ -32,7 +33,6 @@ class BackofficeContactController {
     def messageSource
     def requestActionService
 	def translationService
-	def instructionService
 	def homeFolderService
 
     def beforeInterceptor = {
@@ -333,7 +333,7 @@ class BackofficeContactController {
             String content = out.toString().replace('#{','${')
             def model = [
                 "DATE" : DateUtils.dateToFullString(new Date()),
-                "LAST_AGENT_NAME" : instructionService.getActionPosterDetails(rqt.lastInterveningUserId),
+                "LAST_AGENT_NAME" : UserUtils.getDisplayName(rqt.lastInterveningUserId),
                 "MOC" : message(code : "meansOfContact." + StringUtils.pascalToCamelCase(meansOfContact)),
                 "RQ_ID" : rqt.id,
                 "RQ_CAT" : rqt.requestType.category.name,

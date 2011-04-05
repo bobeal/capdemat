@@ -5,6 +5,7 @@ import fr.cg95.cvq.service.request.IRequestLockService
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.users.IHomeFolderService
+import fr.cg95.cvq.util.UserUtils
 
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
@@ -17,7 +18,6 @@ class RequestAdaptorService {
     IHomeFolderService homeFolderService
     ICategoryService categoryService
 
-    def instructionService
     def translationService
     def agentService
     def individualService
@@ -48,7 +48,7 @@ class RequestAdaptorService {
                 'subjectFirstName': request.subjectFirstName,
                 'state':request.state.toString(),
                 'lastModificationDate':request.lastModificationDate,
-                'lastInterveningUserId': instructionService.getActionPosterDetails(request.lastInterveningUserId),
+                'lastInterveningUserId': UserUtils.getDisplayName(request.lastInterveningUserId),
                 /* FIXME : use IRequestWorkflowService.isEditable when circular dependencies are resolved */
                 'isEditable' : (RequestState.DRAFT.equals(request.state)
                         || RequestState.PENDING.equals(request.state)
@@ -84,7 +84,7 @@ class RequestAdaptorService {
               'homeFolderId':request.homeFolderId,
               'state':request.state.toString(),
               'lastModificationDate':request.lastModificationDate,
-              'lastInterveningUserId': instructionService.getActionPosterDetails(request.lastInterveningUserId),
+              'lastInterveningUserId': UserUtils.getDisplayName(request.lastInterveningUserId),
               'temporary':homeFolder.temporary,
               'quality':quality,
               'isViewable' : !RequestState.ARCHIVED.equals(request.state)
@@ -97,7 +97,7 @@ class RequestAdaptorService {
 
     public prepareNote(requestNote) {
         if (!requestNote) return null
-        def user = instructionService.getActionPosterDetails(requestNote.userId, true)
+        def user = UserUtils.getUserDetails(requestNote.userId)
         return [
             'id':requestNote.id,
             'user_name':user.displayName,

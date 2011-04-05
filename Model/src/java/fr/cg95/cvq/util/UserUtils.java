@@ -18,29 +18,46 @@ public class UserUtils {
 
     private static ITranslationService translationService;
 
-    public static String getDisplayName(Long id) {
+    public static class UserDetails {
+        public String nature;
+        public String name;
+        public UserDetails(String nature, String name) {
+            this.nature = nature;
+            this.name = name;
+        }
+    }
+
+    public static UserDetails getUserDetails(Long id) {
         if (id == null || id == 0) {
-            return "";
+            return new UserDetails("", "");
         } else if (id == -1) {
-            return translationService.translate("system");
+            return new UserDetails("system", translationService.translate("system"));
         } else {
             try {
                 Agent agent = agentService.getById(id);
-                return agent.getFirstName() + ' ' + agent.getLastName();
+                return new UserDetails("agent", agent.getFirstName() + ' ' + agent.getLastName());
             } catch (CvqObjectNotFoundException e1) {
                 try {
                     Individual individual = individualService.getById(id);
-                    return individual.getFirstName() + ' ' + individual.getLastName();
+                    return new UserDetails("eCitizen", individual.getFirstName() + ' ' + individual.getLastName());
                 } catch (CvqObjectNotFoundException e2) {
                     try {
                         homeFolderService.getById(id);
-                        return translationService.translate("homeFolder.header");
+                        return new UserDetails("eCitizen", translationService.translate("homeFolder.header"));
                     } catch (CvqObjectNotFoundException e3) {
-                        return "";
+                        return new UserDetails("", "");
                     }
                 }
             }
         }
+    }
+
+    public static String getNature(Long id) {
+        return getUserDetails(id).nature;
+    }
+
+    public static String getDisplayName(Long id) {
+        return getUserDetails(id).name;
     }
 
     public static void setAgentService(IAgentService agentService) {

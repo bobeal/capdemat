@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import fr.cg95.cvq.business.payment.external.ExternalApplication;
 import fr.cg95.cvq.business.payment.external.ExternalHomeFolder;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.business.users.external.IndividualMapping;
 import fr.cg95.cvq.dao.IGenericDAO;
@@ -89,8 +90,16 @@ public class ExternalHomeFolderService implements IExternalHomeFolderService {
     }
 
     @Override
+    public IndividualMapping getIndividualMapping(Individual individual, String externalServiceLabel) {
+        HomeFolderMapping homeFolderMapping = getHomeFolderMapping(externalServiceLabel, individual.getHomeFolder().getId());
+        return genericDAO.simpleSelect(IndividualMapping.class)
+                .and("individualId", individual.getId())
+                .and("homeFolderMapping", homeFolderMapping).unique();
+    }
+
+    @Override
     @Context(types = {ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
-    public void setExternalId(String externalServiceLabel, Long homeFolderId, Long individualId,
+    public void setExternalId(String externalServiceLabel, Long homeFolderId, Long individualId, 
             String externalId) {
         HomeFolderMapping mapping = getHomeFolderMapping(externalServiceLabel, homeFolderId);
         IndividualMapping iMapping = genericDAO.simpleSelect(IndividualMapping.class)

@@ -346,6 +346,11 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="individualDAO" ref="individualDAO"/>
   </bean>
 
+  <bean id="userSecurityService" class="fr.cg95.cvq.service.users.impl.UserSecurityService">
+    <property name="genericDAO" ref="genericDAO" />
+    <property name="agentService" ref="agentService" />
+  </bean>
+
   <bean id="userNotificationService" class="fr.cg95.cvq.service.users.impl.UserNotificationService">
     <property name="individualService" ref="individualService"/>
     <property name="meansOfContactService" ref="meansOfContactService"/>

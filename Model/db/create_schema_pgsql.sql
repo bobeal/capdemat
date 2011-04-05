@@ -678,6 +678,8 @@
 
     drop table user_external_action;
 
+    drop table user_security_rule;
+
     drop table vo_card_request;
 
     drop sequence hibernate_sequence;
@@ -802,16 +804,16 @@
         comment varchar(255),
         birth_first_names varchar(255),
         motive varchar(255),
-        birth_date timestamp,
         requester_quality_precision varchar(255),
-        birth_city varchar(32),
+        birth_date timestamp,
         requester_quality varchar(255),
+        birth_city varchar(32),
         father_last_name varchar(38),
         birth_marriage_name varchar(38),
-        mother_first_names varchar(255),
         father_first_names varchar(255),
-        mother_maiden_name varchar(38),
+        mother_first_names varchar(255),
         birth_last_name varchar(38),
+        mother_maiden_name varchar(38),
         primary key (id)
     );
 
@@ -929,14 +931,14 @@
     create table death_details_request (
         id int8 not null,
         death_first_names varchar(255),
+        death_city varchar(32),
         format varchar(255),
         copies bytea,
-        death_date timestamp,
         comment varchar(255),
-        death_postal_code varchar(2),
-        death_city varchar(32),
         motive varchar(255),
+        death_postal_code varchar(2),
         death_last_name varchar(38),
+        death_date timestamp,
         primary key (id)
     );
 
@@ -1843,22 +1845,22 @@
         id int8 not null,
         format varchar(255),
         copies bytea,
-        marriage_husband_last_name varchar(38),
-        marriage_wife_first_names varchar(255),
+        marriage_husband_first_names varchar(255),
         comment varchar(255),
+        marriage_city varchar(32),
+        marriage_wife_last_name varchar(38),
+        motive varchar(255),
         requester_quality_precision varchar(255),
+        requester_quality varchar(255),
+        marriage_date timestamp,
+        father_last_name varchar(38),
+        marriage_husband_last_name varchar(38),
+        relationship varchar(255),
+        marriage_wife_first_names varchar(255),
+        mother_first_names varchar(255),
         father_first_names varchar(255),
         marriage_postal_code varchar(2),
         mother_maiden_name varchar(38),
-        marriage_husband_first_names varchar(255),
-        requester_quality varchar(255),
-        marriage_city varchar(32),
-        marriage_wife_last_name varchar(38),
-        marriage_date timestamp,
-        father_last_name varchar(38),
-        relationship varchar(255),
-        mother_first_names varchar(255),
-        motive varchar(255),
         primary key (id)
     );
 
@@ -1871,43 +1873,43 @@
 
     create table military_census_request (
         id int8 not null,
-        father_birth_department varchar(255),
-        child_profession varchar(255),
-        child_status varchar(255),
-        alive_children bytea,
-        affection_or_disease bool,
-        state_pupil bool,
-        child_title varchar(255),
-        child_mail varchar(255),
-        child_diploma varchar(255),
-        mother_birth_country varchar(255),
         father_birth_city varchar(255),
         father_birth_date timestamp,
+        father_birth_department varchar(255),
+        child_profession varchar(255),
+        child_speciality varchar(255),
         father_first_name varchar(38),
+        child_other_country varchar(255),
+        other_situation varchar(255),
         mother_birth_city varchar(255),
         father_nationality varchar(255),
         mother_birth_date timestamp,
-        mother_first_name varchar(38),
-        child_birth_country varchar(255),
-        mother_nationality varchar(255),
-        highly_infirm bool,
-        child_speciality varchar(255),
-        child_other_country varchar(255),
+        child_status varchar(255),
+        alive_children bytea,
+        prefect_pupil bool,
         children_in_charge bytea,
+        child_country varchar(255),
+        affection_or_disease bool,
         japd_exemption bool,
         child_situation varchar(255),
+        mother_first_name varchar(38),
         maiden_name varchar(38),
-        child_phone varchar(10),
-        mother_last_name varchar(38),
-        father_last_name varchar(38),
-        prefect_pupil_department varchar(255),
-        mother_birth_department varchar(255),
-        child_residence_country varchar(255),
-        other_situation varchar(255),
-        prefect_pupil bool,
-        child_country varchar(255),
+        state_pupil bool,
+        child_title varchar(255),
+        child_birth_country varchar(255),
         child_convention varchar(255),
+        mother_nationality varchar(255),
+        child_phone varchar(10),
         father_birth_country varchar(255),
+        child_mail varchar(255),
+        mother_last_name varchar(38),
+        child_diploma varchar(255),
+        highly_infirm bool,
+        father_last_name varchar(38),
+        mother_birth_country varchar(255),
+        prefect_pupil_department varchar(255),
+        child_residence_country varchar(255),
+        mother_birth_department varchar(255),
         primary key (id)
     );
 
@@ -2496,6 +2498,13 @@
         label varchar(255) not null,
         status varchar(255) not null,
         message varchar(255),
+        primary key (id)
+    );
+
+    create table user_security_rule (
+        id int8 not null,
+        agent_id int8,
+        profile varchar(16),
         primary key (id)
     );
 

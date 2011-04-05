@@ -12,7 +12,6 @@ import org.springframework.core.Ordered;
 
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.dao.users.IHomeFolderDAO;
 import fr.cg95.cvq.dao.users.IIndividualDAO;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -20,7 +19,6 @@ import fr.cg95.cvq.security.GenericAccessManager;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
-import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.security.annotation.IsUser;
 
@@ -90,7 +88,7 @@ public class UsersContextAspect implements Ordered {
                     "access denied on home folder " + homeFolderId 
                         + " / individual " + individualId);
     }
-    
+
     @Override
     public int getOrder() {
         return 1;

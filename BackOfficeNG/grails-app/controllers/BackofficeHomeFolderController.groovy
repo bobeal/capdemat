@@ -43,6 +43,7 @@ class BackofficeHomeFolderController {
 
     def defaultAction = 'search'
     def defaultMax = 15
+    def subMenuEntries = ["userSecurity.index", "homeFolder.meansOfContact", "homeFolder.importHomeFolders"]
 
     def beforeInterceptor = {
         session["currentMenu"] = "users"
@@ -376,7 +377,7 @@ class BackofficeHomeFolderController {
     }
 
     def meansOfContact = {
-        return ["subMenuEntries" : ["homeFolder.meansOfContact", "homeFolder.importHomeFolders"]]
+        return ["subMenuEntries" : subMenuEntries]
     }
 
     def moCs = {
@@ -396,7 +397,7 @@ class BackofficeHomeFolderController {
     def importHomeFolders = {
         if (request.get) {
             render(view : "import", model : [
-                "subMenuEntries" : ["homeFolder.meansOfContact", "homeFolder.importHomeFolders"],
+                "subMenuEntries" : subMenuEntries,
                 "hasAdminEmail" : SecurityContext.currentSite.adminEmail
             ])
             return false

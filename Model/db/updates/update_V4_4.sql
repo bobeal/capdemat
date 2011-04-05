@@ -192,3 +192,12 @@ delete from request where home_folder_id in
         (select count(*) from individual where home_folder_id = hf.id) = 0);
 
 delete from home_folder hf where (select count(*) from individual where home_folder_id = hf.id) = 0;
+
+-- User referential security
+
+create table user_security_rule (
+    id int8 not null,
+    agent_id int8,
+    profile varchar(16),
+    primary key (id)
+);

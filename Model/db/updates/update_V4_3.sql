@@ -17,8 +17,9 @@ alter table external_service_individual_mapping rename to individual_mapping;
 alter table individual_mapping add constraint FK19DDB92881C62393 foreign key (home_folder_mapping_id) references home_folder_mapping;
 alter table individual_mapping rename column mapping_id to home_folder_mapping_id;
 alter table individual_mapping add column home_folder_mapping_index int8;
-alter table individual_mapping add column id int8 not null;
+alter table individual_mapping add column id int8;
 update individual_mapping set id = nextval('hibernate_sequence');
+alter table individual_mapping alter column id set not null;
 
 -- Add an int hibernate list index
 CREATE FUNCTION init_hibernate_list_index(table_name text, foreign_id_col_name text, id_col_name text, index_col_name text) RETURNS void AS $$

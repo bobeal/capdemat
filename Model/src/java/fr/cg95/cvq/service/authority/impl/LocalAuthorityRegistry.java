@@ -725,8 +725,6 @@ public class LocalAuthorityRegistry
                         BusinessObjectsFactory.gimmeSchool("École Jean Jaurès"));
                     localAuthorityDAO.create(BusinessObjectsFactory
                         .gimmeRecreationCenter("Centre de loisirs Louise Michel"));
-                    SecurityContext.setCurrentSite(DEVELOPMENT_LOCAL_AUTHORITY,
-                        SecurityContext.FRONT_OFFICE_CONTEXT);
                     Address address = BusinessObjectsFactory.gimmeAddress(
                         "12", "Rue d'Aligre", "Paris", "75012");
                     Adult homeFolderResponsible =
@@ -734,15 +732,12 @@ public class LocalAuthorityRegistry
                             address, FamilyStatusType.SINGLE);
                     homeFolderResponsible.setPassword("aaaaaaaa");
                     HomeFolder homeFolder = userWorkflowService.create(homeFolderResponsible, false);
-                    SecurityContext.setCurrentEcitizen(homeFolderResponsible);
                     Adult other = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "Durand",
                         "Jacques", address, FamilyStatusType.SINGLE);
                     userWorkflowService.add(homeFolder, other, false);
                     Child child = BusinessObjectsFactory.gimmeChild("Moreau", "Émilie");
                     userWorkflowService.add(homeFolder, child);
                     userWorkflowService.link(homeFolderResponsible, child, Collections.singleton(RoleType.CLR_FATHER));
-                    SecurityContext.setCurrentSite(DEVELOPMENT_LOCAL_AUTHORITY,
-                        SecurityContext.ADMIN_CONTEXT);
                 }
                 // set current site to be able to generateJPEGFiles (which uses getCurrentSite) ...
                 SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);

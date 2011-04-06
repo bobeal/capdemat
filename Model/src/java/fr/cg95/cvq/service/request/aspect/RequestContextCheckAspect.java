@@ -177,8 +177,7 @@ public class RequestContextCheckAspect implements Ordered {
             i++;
         }
 
-        if (!GenericAccessManager.performPermissionCheck(homeFolderId, individualId,
-            context.privilege()))
+        if (!GenericAccessManager.performPermissionCheck(homeFolderId, individualId, context))
             throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
                     joinPoint.getSignature().getName(), context.types(), context.privilege(),
                     "access denied on home folder " + homeFolderId +

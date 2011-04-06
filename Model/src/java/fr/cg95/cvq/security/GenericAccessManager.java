@@ -1,5 +1,8 @@
 package fr.cg95.cvq.security;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -9,7 +12,9 @@ import fr.cg95.cvq.business.authority.SiteRoles;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.IndividualRole;
 import fr.cg95.cvq.business.users.RoleType;
+import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
+import fr.cg95.cvq.security.annotation.ContextType;
 
 public class GenericAccessManager {
 
@@ -27,7 +32,7 @@ public class GenericAccessManager {
      * </ul>
      */
     public static boolean performPermissionCheck(Long homeFolderId, Long individualId, 
-            ContextPrivilege privilege) {
+            Context context) {
         
         CredentialBean credentialBean = SecurityContext.getCurrentCredentialBean();
         if (credentialBean.isFoContext()) {
@@ -43,7 +48,7 @@ public class GenericAccessManager {
                 
                 // if it requires a modification on home folder, 
                 // ensure it has a role of Tutor or Responsible on home folder
-                if (privilege.equals(ContextPrivilege.WRITE)) {
+                if (context.privilege().equals(ContextPrivilege.WRITE)) {
                     Set<IndividualRole> homeFolderRoles = credentialBean.getHomeFolderRoles();
                     boolean hasRequiredHomeFolderRole = false;
                     for (IndividualRole homeFolderRole : homeFolderRoles) {
@@ -119,9 +124,12 @@ public class GenericAccessManager {
             }
         } else if (credentialBean.isBoContext()) {
             SiteRoles[] siteRoles = SecurityContext.getCurrentCredentialBean().getSiteRoles();
+            List<ContextType> contextTypes = Arrays.asList(context.types());
             boolean hasAnAgentProfile = false;
             for (SiteRoles siteRole : siteRoles) {
-                if (siteRole.getProfile().equals(SiteProfile.AGENT))
+                if (siteRole.getProfile().equals(SiteProfile.AGENT) && contextTypes.contains(ContextType.AGENT))
+                    hasAnAgentProfile = true;
+                if (siteRole.getProfile().equals(SiteProfile.ADMIN) && contextTypes.contains(ContextType.ADMIN))
                     hasAnAgentProfile = true;
             }
             if (!hasAnAgentProfile) {

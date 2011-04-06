@@ -8,6 +8,7 @@ import fr.cg95.cvq.schema.ximport.HomeFolderImportDocument
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.service.users.IUserWorkflowService
+import fr.cg95.cvq.service.users.IUserSecurityService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.business.users.*
 import fr.cg95.cvq.business.QoS
@@ -35,6 +36,7 @@ class BackofficeHomeFolderController {
     IRequestSearchService requestSearchService
     IPaymentService paymentService
     IMeansOfContactService meansOfContactService
+    IUserSecurityService userSecurityService
     
     def translationService
     def homeFolderAdaptorService
@@ -61,6 +63,7 @@ class BackofficeHomeFolderController {
         }
         
         return ([
+            'agentCanWrite': userSecurityService.canWrite(SecurityContext.currentAgent.id),
             'state': state,
             'records': records,
             'count' : count,
@@ -94,6 +97,7 @@ class BackofficeHomeFolderController {
         for(Child child : result.children)
             result.responsibles.put(child.id, homeFolderService.listBySubjectRoles(child.id, RoleType.childRoleTypes))
 
+        result.agentCanWrite = userSecurityService.canWrite(SecurityContext.currentAgent.id)
         return result
     }
 

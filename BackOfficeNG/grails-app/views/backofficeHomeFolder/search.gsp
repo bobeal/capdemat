@@ -3,6 +3,9 @@
     <title><g:message code="homeFolder.header.search" /></title>
     <meta name="layout" content="main" />
     <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'homeFolderSearch.js')}"></script>
+    <script type="text/javascript">
+      zenexity.capdemat.bong.homeFolder.Search.agentCanWrite = ${agentCanWrite};
+    </script>
   </head>
   <body>
 
@@ -75,7 +78,7 @@
         </div>
       </div>
       
-      <div class="nobox taskstate">
+      <div id="createAccount" class="nobox">
         <h3><g:message code="header.subMenus" /></h3>
         <div class="body">
           <a href="${g.createLink(action:'create')}">${message(code:'homeFolder.action.createAccount')}</a>

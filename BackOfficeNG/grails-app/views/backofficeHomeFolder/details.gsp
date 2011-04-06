@@ -19,6 +19,7 @@
     <script type="text/javascript">
       zenexity.capdemat.bong.homeFolder.Details.homeFolderId = ${params.id};
       zenexity.capdemat.bong.contactPanelUrl = "${createLink(controller : 'backofficeContact', action : 'panel')}";
+      zenexity.capdemat.bong.homeFolder.Details.agentCanWrite = ${agentCanWrite};
     </script>
   </head>
   <body>

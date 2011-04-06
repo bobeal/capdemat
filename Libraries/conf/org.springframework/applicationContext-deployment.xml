@@ -183,6 +183,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="templateSessionFactory" ref="templateSessionFactory" />
     <property name="agentService" ref="agentService" />
     <property name="homeFolderService" ref="homeFolderService" />
+    <property name="userSecurityService" ref="userSecurityService" />
   </bean>
 
   <!-- ================================================================ -->

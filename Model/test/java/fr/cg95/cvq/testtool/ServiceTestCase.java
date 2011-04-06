@@ -27,6 +27,7 @@ import fr.cg95.cvq.business.users.FamilyStatusType;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;
+import fr.cg95.cvq.business.users.UserSecurityProfile;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqException;
@@ -39,6 +40,7 @@ import fr.cg95.cvq.service.authority.ISchoolService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.service.users.IMeansOfContactService;
+import fr.cg95.cvq.service.users.IUserSecurityService;
 import fr.cg95.cvq.service.users.IUserWorkflowService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.development.BusinessObjectsFactory;
@@ -127,6 +129,8 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
     protected IAgentService agentService;
     @Autowired
     protected ILocalAuthorityRegistry localAuthorityRegistry;
+    @Autowired
+    protected IUserSecurityService userSecurityService;
 
     @Resource(name="sessionFactory_dummy")
     private SessionFactory sessionFactory;
@@ -176,6 +180,7 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
         siteRolesSet.add(siteRoles);
         agent.setSitesRoles(siteRolesSet);
         agentService.create(agent);
+        userSecurityService.allow(agent.getId(), UserSecurityProfile.MANAGE);
     }
 
     protected void startTransaction() throws CvqException {

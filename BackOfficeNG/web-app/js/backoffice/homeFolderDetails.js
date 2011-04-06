@@ -57,6 +57,22 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
           { head : 'Attention',
             body : 'Voulez-vous supprimer cet individu ?' },
           zcbh.Details.removeIndividual);
+
+        zcbh.Details.initSecurityRule(zcbh.Details.agentCanWrite);
+      },
+
+      initSecurityRule : function(canWrite) {
+        if (!canWrite) {
+          zct.each(yus.query('.edit', 'homeFolder'),function(){
+            yud.removeClass(this, 'edit');
+          });
+          zct.each(yus.query('.add', 'homeFolder'),function(){
+            this.parentNode.removeChild(this);
+          });
+          zct.each(yus.query('.confirmRemoveIndividual', 'homeFolder'),function(){
+            this.parentNode.removeChild(this);
+          });
+        }
       },
 
       inlineEditEvent : undefined,

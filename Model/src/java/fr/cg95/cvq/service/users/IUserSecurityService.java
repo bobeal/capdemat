@@ -19,4 +19,5 @@ public interface IUserSecurityService {
 
     void disallow(Long agentId);
 
+    boolean canWrite(Long agentId);
 }

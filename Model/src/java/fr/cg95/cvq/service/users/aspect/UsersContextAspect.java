@@ -12,6 +12,9 @@ import org.springframework.core.Ordered;
 
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.UserSecurityProfile;
+import fr.cg95.cvq.business.users.UserSecurityRule;
+import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.users.IHomeFolderDAO;
 import fr.cg95.cvq.dao.users.IIndividualDAO;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -19,6 +22,7 @@ import fr.cg95.cvq.security.GenericAccessManager;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
+import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.security.annotation.IsUser;
 
@@ -28,6 +32,8 @@ public class UsersContextAspect implements Ordered {
     private IHomeFolderDAO homeFolderDAO;
 
     private IIndividualDAO individualDAO;
+
+    private IGenericDAO genericDAO;
 
     @Before("fr.cg95.cvq.SystemArchitecture.businessService() && @annotation(context) && within(fr.cg95.cvq.service.users..*)")
     public void contextAnnotatedMethod(JoinPoint joinPoint, Context context) {
@@ -87,6 +93,30 @@ public class UsersContextAspect implements Ordered {
                     joinPoint.getSignature().getName(), context.types(), context.privilege(),
                     "access denied on home folder " + homeFolderId 
                         + " / individual " + individualId);
+
+        if (SecurityContext.isBackOfficeContext()) {
+            UserSecurityRule rule = genericDAO.simpleSelect(UserSecurityRule.class).and("agentId", SecurityContext.getCurrentUserId()).unique();
+            if (!can(rule, context.privilege()))
+                throw new PermissionException(joinPoint.getSignature().getDeclaringType(), joinPoint.getSignature().getName(), context.types(), context.privilege(),
+                    "current agent does not have "+ context.privilege() +" prvilege on user referential");
+
+        }
+    }
+
+    private boolean can(UserSecurityRule rule, ContextPrivilege privilege) {
+        switch(privilege) {
+        case MANAGE:
+            if (rule != null && UserSecurityProfile.MANAGE.equals(rule.getProfile()))
+                return true;
+            break;
+        case WRITE:
+            if (rule != null && UserSecurityProfile.writer.contains(rule.getProfile()))
+                return true;
+            break;
+        default:
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -101,4 +131,9 @@ public class UsersContextAspect implements Ordered {
     public void setIndividualDAO(IIndividualDAO individualDAO) {
         this.individualDAO = individualDAO;
     }
+
+    public void setGenericDAO(IGenericDAO genericDAO) {
+        this.genericDAO = genericDAO;
+    }
+
 }

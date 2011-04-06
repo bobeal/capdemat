@@ -59,6 +59,7 @@ import fr.cg95.cvq.business.users.FamilyStatusType;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.TitleType;
+import fr.cg95.cvq.business.users.UserSecurityProfile;
 import fr.cg95.cvq.dao.authority.ILocalAuthorityDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestActionDAO;
@@ -75,6 +76,7 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.job.RequestArchivingJob;
 import fr.cg95.cvq.service.users.IHomeFolderService;
+import fr.cg95.cvq.service.users.IUserSecurityService;
 import fr.cg95.cvq.util.development.BusinessObjectsFactory;
 
 /**
@@ -113,6 +115,7 @@ public class LocalAuthorityRegistry
     private ILocalAuthorityDAO localAuthorityDAO;
     private IAgentService agentService;
     private IHomeFolderService homeFolderService;
+    private IUserSecurityService userSecurityService;
     private IRequestActionDAO requestActionDAO;
 
     private ListableBeanFactory beanFactory;
@@ -963,6 +966,8 @@ public class LocalAuthorityRegistry
         siteRolesSet.add(siteRoles);
         agent.setSitesRoles(siteRolesSet);
         agentService.create(agent);
+        if (SiteProfile.AGENT.equals(siteProfile))
+            userSecurityService.allow(agent.getId(), UserSecurityProfile.MANAGE);
         return agent;
     }
 
@@ -976,6 +981,10 @@ public class LocalAuthorityRegistry
 
     public void setHomeFolderService(IHomeFolderService homeFolderService) {
         this.homeFolderService = homeFolderService;
+    }
+
+    public void setUserSecurityService(IUserSecurityService userSecurityService) {
+        this.userSecurityService = userSecurityService;
     }
 
     public void setRequestActionDAO(IRequestActionDAO requestActionDAO) {

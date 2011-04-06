@@ -63,6 +63,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
         yue.on(yus.query('.sort'),'change',zcbh.Search.doSearch);
         yue.on(yus.query('.filter'),'change',zcbh.Search.doSearch);
         initControls();
+        zcbh.Search.initSecurityRule(zcbh.Search.agentCanWrite);
+      },
+      initSecurityRule : function(canWrite) {
+        if (!canWrite) {
+          var div = yud.get("createAccount");
+          div.parentNode.removeChild(div);
+        }
       },
       /**
        * @description Retrives and save page state to input element

@@ -344,6 +344,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     class="fr.cg95.cvq.service.users.aspect.UsersContextAspect">
     <property name="homeFolderDAO" ref="homeFolderDAO"/>
     <property name="individualDAO" ref="individualDAO"/>
+    <property name="genericDAO" ref="genericDAO" />
   </bean>
 
   <bean id="userSecurityService" class="fr.cg95.cvq.service.users.impl.UserSecurityService">

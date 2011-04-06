@@ -9,6 +9,9 @@ import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.users.UserSecurityProfile;
 import fr.cg95.cvq.business.users.UserSecurityRule;
 import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.security.annotation.Context;
+import fr.cg95.cvq.security.annotation.ContextPrivilege;
+import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.users.IUserSecurityService;
 
@@ -18,6 +21,7 @@ public class UserSecurityService implements IUserSecurityService {
     private IAgentService agentService;
 
     @Override
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public List<Agent> listAgents(boolean withWriteProfile) {
         List<Agent> agents = agentService.getAll();
         if (!withWriteProfile)
@@ -33,6 +37,7 @@ public class UserSecurityService implements IUserSecurityService {
     }
 
     @Override
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public Map<Long, UserSecurityProfile> mapRules() {
         List<UserSecurityRule> rules = genericDAO.all(UserSecurityRule.class);
         Map<Long, UserSecurityProfile> mapRules = new HashMap<Long, UserSecurityProfile>();
@@ -43,11 +48,13 @@ public class UserSecurityService implements IUserSecurityService {
     }
 
     @Override
+    @Context(types = {ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.READ)
     public UserSecurityRule getRule(Long agentId) {
         return genericDAO.simpleSelect(UserSecurityRule.class).and("agentId", agentId).unique();
     }
 
     @Override
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public void allow(Long agentId, UserSecurityProfile profile) {
         UserSecurityRule rule = getRule(agentId);
         if (rule == null) {
@@ -60,6 +67,7 @@ public class UserSecurityService implements IUserSecurityService {
     }
 
     @Override
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public void disallow(Long agentId) {
         UserSecurityRule rule = getRule(agentId);
         if (rule != null)

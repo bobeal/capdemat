@@ -2,7 +2,6 @@ package fr.cg95.cvq.business.users;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import net.sf.oval.constraint.AssertValid;
@@ -23,7 +22,7 @@ import fr.cg95.cvq.xml.common.IndividualType;
  *
  * @author bor@zenexity.fr
  */
-public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializable {
+public class HomeFolder implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

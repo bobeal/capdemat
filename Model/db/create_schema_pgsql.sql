@@ -538,8 +538,6 @@
 
     drop table hccr_professional;
 
-    drop table history_entry;
-
     drop table holiday_security_request;
 
     drop table home_emergency_registration_request;
@@ -1677,19 +1675,6 @@
         professional_address_id int8,
         handicap_compensation_child_request_id int8,
         professionals_index int4,
-        primary key (id)
-    );
-
-    create table history_entry (
-        id int8 not null,
-        user_name varchar(255),
-        request_id int8,
-        operation varchar(255),
-        clazz varchar(255),
-        property varchar(255),
-        old_value varchar(1024),
-        new_value varchar(1024),
-        object_id int8,
         primary key (id)
     );
 

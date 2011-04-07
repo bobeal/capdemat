@@ -201,3 +201,7 @@ create table user_security_rule (
     profile varchar(16),
     primary key (id)
 );
+
+-- Remove table used for old modification requests
+
+drop table history_entry;

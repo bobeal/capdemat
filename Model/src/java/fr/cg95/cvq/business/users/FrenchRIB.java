@@ -9,7 +9,6 @@ import net.sf.oval.constraint.Max;
 import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.NotNull;
 
-import fr.cg95.cvq.business.Historizable;
 import fr.cg95.cvq.service.users.IsFrenchRIB;
 import fr.cg95.cvq.xml.common.FrenchRIBType;
 
@@ -21,7 +20,7 @@ import fr.cg95.cvq.xml.common.FrenchRIBType;
  * @author jsb@zenexity.fr
  */
 @IsFrenchRIB
-public class FrenchRIB implements Historizable, Serializable, Cloneable {
+public class FrenchRIB implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 1L;
 
@@ -91,7 +90,6 @@ public class FrenchRIB implements Historizable, Serializable, Cloneable {
      *  generator-class="sequence"
      *  column="id"
      */
-    @Override
     public Long getId() {
         return id;
     }

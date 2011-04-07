@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import fr.cg95.cvq.business.Historizable;
 import fr.cg95.cvq.xml.common.IndividualRoleType;
 
 /**
@@ -14,7 +13,7 @@ import fr.cg95.cvq.xml.common.IndividualRoleType;
  *
  * @author bor@zenexity.fr
  */
-public class IndividualRole implements Historizable, Serializable {
+public class IndividualRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

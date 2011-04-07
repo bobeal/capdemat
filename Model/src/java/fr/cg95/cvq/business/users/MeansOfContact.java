@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import fr.cg95.cvq.business.Historizable;
 import fr.cg95.cvq.xml.common.MeansOfContactEnumType;
 import fr.cg95.cvq.xml.common.MeansOfContactType;
 
@@ -16,7 +15,7 @@ import fr.cg95.cvq.xml.common.MeansOfContactType;
  * @author rdj@zenexity.fr
  *
  */
-public class MeansOfContact implements Historizable, Serializable, Comparable<MeansOfContact> {
+public class MeansOfContact implements Serializable, Comparable<MeansOfContact> {
 
     private static final long serialVersionUID = 1L;
 
@@ -65,7 +64,6 @@ public class MeansOfContact implements Historizable, Serializable, Comparable<Me
      *  generator-class="sequence"
      *  column="id"
      */
-    @Override
     public Long getId() {
         return id;
     }

@@ -1,7 +1,5 @@
 package fr.cg95.cvq.business.users;
 
-import org.apache.commons.lang3.StringUtils;
-
 import net.sf.oval.constraint.Email;
 import net.sf.oval.constraint.EqualToField;
 import net.sf.oval.constraint.MatchPattern;

@@ -19,7 +19,7 @@ import fr.cg95.cvq.xml.common.AddressType;
  *
  * @author bor@zenexity.fr
  */
-public class Address implements fr.cg95.cvq.business.Historizable,Serializable,Cloneable {
+public class Address implements Serializable,Cloneable {
 
     private static final long serialVersionUID = 1L;
 

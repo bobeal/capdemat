@@ -18,7 +18,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
-import fr.cg95.cvq.business.Historizable;
 import fr.cg95.cvq.business.QoS;
 import fr.cg95.cvq.xml.common.BirthPlaceType;
 import fr.cg95.cvq.xml.common.IndividualRoleType;
@@ -31,7 +30,7 @@ import fr.cg95.cvq.xml.common.IndividualType;
  *
  * @author bor@zenexity.fr
  */
-public abstract class Individual implements Historizable, Serializable {
+public abstract class Individual implements Serializable {
 
     // Search fields used in DAO and Service Layer
 
@@ -187,7 +186,6 @@ public abstract class Individual implements Historizable, Serializable {
      *  generator-class="sequence"
      *  column="id"
      */
-    @Override
     public Long getId() {
         return this.id;
     }

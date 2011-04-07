@@ -6,10 +6,7 @@ import fr.cg95.cvq.exception.CvqBadPasswordException
 import fr.cg95.cvq.exception.CvqModelException
 import fr.cg95.cvq.exception.CvqValidationException
 import fr.cg95.cvq.security.SecurityContext
-import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
-import fr.cg95.cvq.service.request.IRequestTypeService
-import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.service.users.IUserWorkflowService
@@ -22,10 +19,7 @@ class FrontofficeHomeFolderController {
     IHomeFolderService homeFolderService
     IIndividualService individualService
     IAuthenticationService authenticationService
-    IRequestSearchService requestSearchService
     IRequestServiceRegistry requestServiceRegistry
-    IRequestTypeService requestTypeService
-    IRequestWorkflowService requestWorkflowService
     IUserWorkflowService userWorkflowService
 
     def homeFolderAdaptorService
@@ -291,15 +285,10 @@ class FrontofficeHomeFolderController {
                 render(view : "answerLogin", model : [])
                 return false
             }
-            if (adult.answer == params.answer) {
+            if (adult.answer != null && (adult.answer == params.answer)) {
                 def password = authenticationService.generatePassword()
                 authenticationService.resetAdultPassword(adult, password)
-                def category = requestTypeService.getRequestTypeByLabel("VO Card").category
-                def categoryEmail = null
-                if (category != null) {
-                    categoryEmail = category.primaryEmail
-                }
-                def notificationType = homeFolderService.notifyPasswordReset(adult, password, categoryEmail)
+                def notificationType = homeFolderService.notifyPasswordReset(adult, password, SecurityContext.currentSite.adminEmail)
                 switch (notificationType) {
                     case IHomeFolderService.PasswordResetNotificationType.INLINE :
                         flash.successMessage = message("code" : "account.message.passwordResetSuccessAdultEmail", "args" : [password])

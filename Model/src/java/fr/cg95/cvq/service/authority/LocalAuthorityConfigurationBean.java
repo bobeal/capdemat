@@ -39,9 +39,6 @@ public final class LocalAuthorityConfigurationBean {
     private Map<String, Map<String, String>> agentNotifications;
     private Map<String, Map<String, String>> paymentNotifications;
 
-    private boolean displayChildrenInAccountCreation = true;
-    private boolean displayTutorsInAccountCreation = true;
-
     public LocalAuthorityConfigurationBean() {
         paymentServices =
             new HashMap<IPaymentProviderService, PaymentServiceBean>();
@@ -301,20 +298,4 @@ public final class LocalAuthorityConfigurationBean {
 	public void setPaymentNotifications(Map<String, Map<String, String>> paymentNotifications) {
 		this.paymentNotifications = paymentNotifications;
 	}
-
-    public boolean isDisplayChildrenInAccountCreation() {
-        return displayChildrenInAccountCreation;
-    }
-
-    public void setDisplayChildrenInAccountCreation(boolean displayChildrenInAccountCreation) {
-        this.displayChildrenInAccountCreation = displayChildrenInAccountCreation;
-    }
-
-    public boolean isDisplayTutorsInAccountCreation() {
-        return displayTutorsInAccountCreation;
-    }
-
-    public void setDisplayTutorsInAccountCreation(boolean displayTutorsInAccountCreation) {
-        this.displayTutorsInAccountCreation = displayTutorsInAccountCreation;
-    }
 }

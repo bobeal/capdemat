@@ -8,7 +8,6 @@
     init-method="init">
     <property name="name" value="blainville"/>
     <property name="defaultServerName" value="localhost"/>
-    <property name="displayTutorsInAccountCreation" value="false" />
     <property name="sessionFactory">
       <ref bean="sessionFactory_blainville" />
     </property>

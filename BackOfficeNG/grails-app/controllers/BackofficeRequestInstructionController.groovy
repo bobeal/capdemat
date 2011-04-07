@@ -479,7 +479,7 @@ class BackofficeRequestInstructionController {
             }
             def requestAction = [
                 'id':it.id,
-                'agent_name':user.displayName,
+                'agent_name':user.name,
                 'userNature':user.nature,
                 "type" : CapdematUtils.adaptCapdematEnum(it.type, "requestAction.type"),
                 'note':it.note,

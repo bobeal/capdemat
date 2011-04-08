@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +55,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.exception.CvqValidationException;
 import fr.cg95.cvq.schema.ximport.HomeFolderImportDocument;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
@@ -61,6 +63,7 @@ import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.users.IUserSearchService;
+import fr.cg95.cvq.service.users.IUserService;
 import fr.cg95.cvq.service.users.IUserWorkflowService;
 import fr.cg95.cvq.util.JSONUtils;
 import fr.cg95.cvq.util.UserUtils;
@@ -85,6 +88,8 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
     private IMailService mailService;
 
     private ITranslationService translationService;
+
+    private IUserService userService;
 
     private IUserSearchService userSearchService;
 
@@ -576,6 +581,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
     @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public void importHomeFolders(HomeFolderImportDocument doc)
         throws CvqException, IOException {
+        SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
         ByteArrayOutputStream creationsOutput = new ByteArrayOutputStream();
         CSVWriter creations = new CSVWriter(new OutputStreamWriter(creationsOutput));
         creations.writeNext(new String[] {
@@ -611,6 +617,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         homeFolders : for (HomeFolderType homeFolder : doc.getHomeFolderImport().getHomeFolderArray()) {
             HibernateUtil.beginTransaction();
             try {
+                Adult responsible = null;
                 List<Adult> adults = new ArrayList<Adult>();
                 List<Child> children = new ArrayList<Child>();
                 List<Individual> individuals = new ArrayList<Individual>();
@@ -627,7 +634,17 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
                         email = adult.getEmail();
                         phone = adult.getHomePhone();
                         Adult a = Adult.xmlToModel(adult);
-                        adults.add(a);
+                        boolean isResponsible = false;
+                        Iterator<IndividualRole> it = a.getIndividualRoles().iterator();
+                        while (it.hasNext()) {
+                            if (RoleType.HOME_FOLDER_RESPONSIBLE.equals(it.next().getRole())) {
+                                if (responsible != null)
+                                    throw new CvqModelException("homeFolder.error.onlyOneResponsibleIsAllowed");
+                                isResponsible = true;
+                                it.remove();
+                            }
+                        }
+                        if (isResponsible) responsible = a; else adults.add(a);
                         individuals.add(a);
                     } else {
                         Child c = Child.xmlToModel((ChildType)individual);
@@ -658,11 +675,35 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
                             new IndividualMapping(null, individual.getExternalId(), homeFolderMapping));
                     }
                 }
-                HomeFolder result = new HomeFolder();
-                //create(adults, children, homeFolderAddress, false);
-                //updateHomeFolderState(result, UserState.VALID);
+                if (responsible == null)
+                    throw new CvqModelException("homeFolder.error.responsibleIsRequired");
+                HomeFolder result = create(responsible, false);
                 HibernateUtil.getSession().flush();
-                Adult responsible = userSearchService.getHomeFolderResponsible(result.getId());
+                for (Adult a : adults) add(result, a, false);
+                adults.add(responsible);
+                for (Child c : children) {
+                    add(result, c);
+                    for (Adult a : adults) {
+                        List<RoleType> roles = new ArrayList<RoleType>();
+                        Iterator<IndividualRole> it = a.getIndividualRoles().iterator();
+                        while (it.hasNext()) {
+                            IndividualRole role = it.next();
+                            if (c.getFullName().equals(role.getIndividualName())) {
+                                roles.add(role.getRole());
+                                it.remove();
+                                homeFolderDAO.delete(role);
+                            }
+                        }
+                        if (!roles.isEmpty()) {
+                            for (RoleType role : roles) link(a, c, Collections.singleton(role));
+                        }
+                    }
+                }
+                HibernateUtil.getSession().flush();
+                for (Individual i : individuals) {
+                    List<String> errors = userService.validate(i);
+                    if (!errors.isEmpty()) throw new CvqValidationException(errors);
+                }
                 String password = authenticationService.generatePassword();
                 authenticationService.resetAdultPassword(responsible, password);
                 creations.writeNext(new String[] {
@@ -686,6 +727,15 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
                             individuals.get(i).getId());
                     }
                     homeFolderDAO.create(homeFolderMapping);
+                    // FIXME attribute all actions to the external service
+                    Gson gson = new Gson();
+                    for (UserAction action : result.getActions()) {
+                        JsonObject payload = JSONUtils.deserialize(action.getData());
+                        JsonObject user = payload.getAsJsonObject("user");
+                        user.addProperty("name", homeFolderMapping.getExternalServiceLabel());
+                        action.setData(gson.toJson(payload));
+                    }
+                    homeFolderDAO.update(result);
                 }
                 HibernateUtil.commitTransaction();
                 hasCreations = true;
@@ -743,6 +793,10 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
 
     public void setTranslationService(ITranslationService translationService) {
         this.translationService = translationService;
+    }
+
+    public void setUserService(IUserService userService) {
+        this.userService = userService;
     }
 
     public void setUserSearchService(IUserSearchService userSearchService) {

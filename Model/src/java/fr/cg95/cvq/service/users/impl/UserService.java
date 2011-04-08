@@ -10,7 +10,7 @@ import java.util.Map;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.Child;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.IndividualRole;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -38,13 +38,6 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<String> validate(Adult adult)
-        throws ClassNotFoundException, IllegalAccessException, InvocationTargetException,
-            NoSuchMethodException {
-        return validate(adult, false);
-    }
-
-    @Override
     public List<String> validate(Adult adult, boolean login)
         throws ClassNotFoundException, IllegalAccessException, InvocationTargetException,
             NoSuchMethodException {
@@ -68,14 +61,14 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<String> validate(Child child)
+    public List<String> validate(Individual individual)
         throws ClassNotFoundException, IllegalAccessException, InvocationTargetException,
             NoSuchMethodException {
         Validator validator = new Validator();
         validator.disableAllProfiles();
         validator.enableProfile("default");
         Map<String, List<String>> invalidFields = new LinkedHashMap<String, List<String>>();
-        for (ConstraintViolation violation : validator.validate(child)) {
+        for (ConstraintViolation violation : validator.validate(individual)) {
             ValidationUtils.collectInvalidFields(violation, invalidFields, "", "");
         }
         return invalidFields.get("") != null ? invalidFields.get("") : Collections.<String>emptyList();

@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.Child;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.annotation.IsUser;
@@ -28,11 +28,7 @@ public interface IUserService {
         throws ClassNotFoundException, IllegalAccessException, InvocationTargetException,
             NoSuchMethodException;
 
-    List<String> validate(Adult adult)
-        throws ClassNotFoundException, IllegalAccessException, InvocationTargetException,
-            NoSuchMethodException;
-
-    List<String> validate(Child child)
+    List<String> validate(Individual individual)
         throws ClassNotFoundException, IllegalAccessException, InvocationTargetException,
             NoSuchMethodException;
 }

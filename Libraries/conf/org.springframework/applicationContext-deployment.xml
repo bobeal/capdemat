@@ -42,7 +42,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/RequestNote.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/RequestForm.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/Category.hbm.xml</value>
-        <value>fr/cg95/cvq/business/users/HistoryEntry.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/LocalReferentialData.hbm.xml</value>
         <value>fr/cg95/cvq/business/payment/Payment.hbm.xml</value>
         <value>fr/cg95/cvq/business/payment/PurchaseItem.hbm.xml</value>

@@ -8,7 +8,6 @@ import fr.cg95.cvq.exception.CvqValidationException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.users.IUserService
-import fr.cg95.cvq.service.users.IUserNotificationService
 import fr.cg95.cvq.service.users.IUserSearchService
 import fr.cg95.cvq.service.users.IUserWorkflowService
 
@@ -20,7 +19,6 @@ class FrontofficeHomeFolderController {
     IAuthenticationService authenticationService
     IRequestServiceRegistry requestServiceRegistry
     IUserService userService
-    IUserNotificationService userNotificationService
     IUserSearchService userSearchService
     IUserWorkflowService userWorkflowService
 
@@ -288,20 +286,7 @@ class FrontofficeHomeFolderController {
                 return false
             }
             if (adult.answer != null && (adult.answer == params.answer)) {
-                def password = authenticationService.generatePassword()
-                authenticationService.resetAdultPassword(adult, password)
-                def notificationType = userNotificationService.notifyPasswordReset(adult, password, SecurityContext.currentSite.adminEmail)
-                switch (notificationType) {
-                    case IUserNotificationService.PasswordResetNotificationType.INLINE :
-                        flash.successMessage = message("code" : "account.message.passwordResetSuccessAdultEmail", "args" : [password])
-                        break
-                    case IUserNotificationService.PasswordResetNotificationType.ADULT_EMAIL :
-                        flash.successMessage = message("code" : "account.message.passwordResetSuccessAdultEmail", "args" : [adult.email])
-                        break
-                    case IUserNotificationService.PasswordResetNotificationType.CATEGORY_EMAIL :
-                        flash.successMessage = message("code" : "account.message.passwordResetSuccessAdultEmail")
-                        break
-                }
+                flash.successMessage = userWorkflowService.resetPassword(adult)
                 redirect(controller : "frontofficeHome", action : "login")
                 return false
             } else {

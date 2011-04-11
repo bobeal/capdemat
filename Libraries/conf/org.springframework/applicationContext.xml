@@ -368,6 +368,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="mailService" ref="mailService" />
     <property name="translationService" ref="translationService" />
     <property name="userService" ref="userService" />
+    <property name="userNotificationService" ref="userNotificationService" />
     <property name="userSearchService" ref="userSearchService" />
     <property name="homeFolderDAO" ref="homeFolderDAO" />
     <property name="individualDAO" ref="individualDAO" />

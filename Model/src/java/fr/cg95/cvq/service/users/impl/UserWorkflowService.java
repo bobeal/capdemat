@@ -62,6 +62,7 @@ import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
+import fr.cg95.cvq.service.users.IUserNotificationService;
 import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.service.users.IUserService;
 import fr.cg95.cvq.service.users.IUserWorkflowService;
@@ -90,6 +91,8 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
     private ITranslationService translationService;
 
     private IUserService userService;
+
+    private IUserNotificationService userNotificationService;
 
     private IUserSearchService userSearchService;
 
@@ -321,6 +324,44 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
             logger.info("modifyPassword() account is disabled, still authorizing password change");
         }
         authenticationService.resetAdultPassword(adult, newPassword);
+    }
+
+    @Override
+    public String resetPassword(Adult adult)
+        throws CvqException {
+        String password = authenticationService.generatePassword();
+        authenticationService.resetAdultPassword(adult, password);
+        String message;
+        if (!StringUtils.isBlank(adult.getEmail())) {
+            userNotificationService.notifyByEmail(
+                SecurityContext.getCurrentSite().getAdminEmail(),
+                adult.getEmail(),
+                translationService.translate("account.notification.passwordReset.adult.subject"),
+                translationService.translate("account.notification.passwordReset.adult.body",
+                    new String[]{password}),
+                null, null);
+            message = translationService.translate("account.message.passwordResetSuccessAdultEmail",
+                new String[]{adult.getEmail()});
+        } else if (!StringUtils.isBlank(SecurityContext.getCurrentSite().getAdminEmail())) {
+            mailService.send(
+                SecurityContext.getCurrentSite().getAdminEmail(),
+                SecurityContext.getCurrentSite().getAdminEmail(),
+                null,
+                translationService.translate("account.notification.passwordReset.admin.subject",
+                    new String[]{SecurityContext.getCurrentSite().getDisplayTitle()}),
+                translationService.translate("account.notification.passwordReset.admin.body",
+                    new String[] {
+                        translationService.translate("homeFolder.adult.title."
+                            + adult.getTitle().toString().toLowerCase()),
+                        adult.getLastName(), adult.getFirstName(), adult.getLogin(), password
+                    }));
+            message =
+                translationService.translate("account.message.passwordResetSuccessAdminEmail");
+        } else {
+            message = translationService.translate("account.message.passwordResetSuccessNoEmail",
+                new String[]{password});
+        }
+        return message;
     }
 
     @Override
@@ -797,6 +838,10 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
 
     public void setUserService(IUserService userService) {
         this.userService = userService;
+    }
+
+    public void setUserNotificationService(IUserNotificationService userNotificationService) {
+        this.userNotificationService = userNotificationService;
     }
 
     public void setUserSearchService(IUserSearchService userSearchService) {

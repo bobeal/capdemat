@@ -49,6 +49,16 @@ public interface IUserWorkflowService {
     void modifyPassword(@IsUser Adult adult, String oldPassword, String newPassword)
         throws CvqException, CvqBadPasswordException;
 
+    /**
+     * Send the new password by email to the home folder's responsible,
+     * or to the admin address if the responsible has no email address,
+     * or output it in confirmation message if none have an address.
+     *
+     * @return the confirmation message
+     */
+    String resetPassword(Adult adult)
+        throws CvqException;
+
     void link(@IsUser Individual owner, @IsUser HomeFolder target, Collection<RoleType> types);
 
     void unlink(@IsUser Individual owner, @IsUser HomeFolder target);

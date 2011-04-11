@@ -27,7 +27,6 @@ import fr.cg95.cvq.exception.CvqDisabledAccountException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqUnknownUserException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.users.IUserNotificationService.PasswordResetNotificationType;
 import fr.cg95.cvq.testtool.JsmtpdMailService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.Critere;
@@ -324,16 +323,14 @@ public class UserServicesTest extends ServiceTestCase {
         }
 
         server.getQueue().clear();
-        PasswordResetNotificationType notificationType = 
-            userNotificationService.notifyPasswordReset(adult, adult.getPassword(), null);
-        assertEquals(PasswordResetNotificationType.INLINE, notificationType);
+        String message = userWorkflowService.resetPassword(adult);
+        assertTrue(message.contains("veuillez le conserver précieusement"));
         email = server.getMessage(1000);
         assertNull(email);
 
         server.getQueue().clear();
-        notificationType = 
-            userNotificationService.notifyPasswordReset(adult, adult.getPassword(), "example@example.com");
-        assertEquals(PasswordResetNotificationType.CATEGORY_EMAIL, notificationType);
+        message = userWorkflowService.resetPassword(adult);
+        assertTrue(message.contains("veuillez prendre contact avec votre collectivité afin de le récupérer"));
         email = server.getMessage(1000);
         assertEquals(email.getRecipients().size(), 1);
         assertEquals(email.getRecipients().get(0).toString(), "example@example.com");
@@ -345,11 +342,12 @@ public class UserServicesTest extends ServiceTestCase {
             fail("could not open email datastream");
         }
 
-        adult.setEmail("example2@example.com");
+        String address = "example2@example.com";
+        adult.setEmail(address);
 
         server.getQueue().clear();
-        notificationType = userNotificationService.notifyPasswordReset(adult, adult.getPassword(), null);
-        assertEquals(PasswordResetNotificationType.ADULT_EMAIL, notificationType);
+        message = userWorkflowService.resetPassword(adult);
+        assertTrue(message.contains(address));
         email = server.getMessage(1000);
         assertEquals(email.getRecipients().size(), 1);
         assertEquals(email.getRecipients().get(0).toString(), adult.getEmail());
@@ -362,9 +360,8 @@ public class UserServicesTest extends ServiceTestCase {
         }
 
         server.getQueue().clear();
-        notificationType = 
-            userNotificationService.notifyPasswordReset(adult, adult.getPassword(), "example@example.com");
-        assertEquals(PasswordResetNotificationType.ADULT_EMAIL, notificationType);
+        message = userWorkflowService.resetPassword(adult);
+        assertTrue(message.contains(address));
         email = server.getMessage(1000);
         assertEquals(email.getRecipients().size(), 1);
         assertEquals(email.getRecipients().get(0).toString(), adult.getEmail());

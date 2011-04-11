@@ -33,7 +33,7 @@ class BackofficeDisplayGroupController {
         }
         def orphanRequestTypes = []
         requestTypeService.getAllRequestTypes().each {
-            if (it.displayGroup == null && !['VO Card', 'Home Folder Modification'].contains(it.label))
+            if (it.displayGroup == null)
                 orphanRequestTypes.add(CapdematUtils.adaptRequestType(translationService,it))
         }
 

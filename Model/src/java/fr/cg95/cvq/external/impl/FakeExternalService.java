@@ -71,7 +71,6 @@ public class FakeExternalService implements IExternalProviderService {
     private IPaymentService paymentService;
     
     private String label;
-    private String authorizingRequestLabel;
     private String testDataDirectory;
     private String xmlDirectory;
     private String consumptionsFile;
@@ -162,73 +161,6 @@ public class FakeExternalService implements IExternalProviderService {
             e.printStackTrace();
         }
         return null;
-    }
-
-
-    public Map<Individual, Map<String, String>> getIndividualAccountsInformation(Long homeFolderId, String externalHomeFolderId, String externalId) 
-        throws CvqException {
-        
-        Map<Individual, Map<String, String> > results =
-            new HashMap<Individual, Map<String, String> >();
-
-        try {
-            List<Request> requests = 
-                requestSearchService.getByHomeFolderIdAndRequestLabel(homeFolderId,
-                    authorizingRequestLabel, false);
-            if (requests == null || requests.size() == 0)
-                return null;
-            // pick the first request
-            Request request = requests.get(0);
-            logger.debug("getIndividualAccountsInformation() using request : " + request.getId());
-            
-            String pathToFile = testDataDirectory + xmlDirectory + "/" + accountsFile;
-            File file = new File(pathToFile);
-            logger.debug("getIndividualAccountsInformation() got file " + file);
-            Document accountsXMLDocument = 
-                DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
-
-            //  contracts accounts
-            XPath xpath = new DOMXPath("//child");
-            int i = 0;
-            List childElements = (List) xpath.evaluate(accountsXMLDocument);
-            for (Iterator iter = childElements.iterator(); iter.hasNext();) {
-                Node node = (Node) iter.next();
-                String childCsn = node.getAttributes().getNamedItem("child-csn").getNodeValue();
-
-                List<Individual> individuals = 
-                    userSearchService.getIndividuals(request.getHomeFolderId());
-                Individual subject = null;
-                for (Individual individual : individuals) {
-                    if (individual.getId().equals(request.getSubjectId())) {
-                        subject = individual;
-                        break;
-                    }
-                }
-                HomeFolder homeFolder = 
-                    userSearchService.getHomeFolderById(request.getHomeFolderId());
-                if (subject == null) {
-                    int k = i % homeFolder.getIndividuals().size();
-                    subject = (Individual) homeFolder.getIndividuals().toArray()[k]; 
-                }
-
-                Map<String, String> individualData = new HashMap<String, String>();
-                individualData.put("child-csn", childCsn);
-                results.put(subject, individualData);
-                
-                i++;
-            }
-            
-        } catch (JaxenException jaxe) {
-            throw new CvqException("Failed to parse received data : " + jaxe.getMessage());
-        } catch (SAXException sae) {
-            throw new CvqException("Failed to parse received data : " + sae.getMessage());
-        } catch (IOException ioe) {
-            throw new CvqRemoteException("Failed to read received data : " + ioe.getMessage());
-        } catch (ParserConfigurationException pce) {
-            throw new CvqException("Failed to parse received data : " + pce.getMessage());
-        }
-
-        return results;
     }
 
     public void loadDepositAccountDetails(ExternalDepositAccountItem edai) throws CvqException {
@@ -374,10 +306,6 @@ public class FakeExternalService implements IExternalProviderService {
 
     public void setLabel(String label) {
         this.label = label;
-    }
-
-    public final void setAuthorizingRequestLabel(String authorizingRequestLabel) {
-        this.authorizingRequestLabel = authorizingRequestLabel;
     }
 
     public final void setDepositAccountDetailsFile(String depositAccountDetailsFile) {

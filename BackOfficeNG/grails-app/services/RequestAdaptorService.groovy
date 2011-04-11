@@ -4,6 +4,7 @@ import fr.cg95.cvq.service.request.ICategoryService
 import fr.cg95.cvq.service.request.IRequestLockService
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestTypeService
+import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.users.IUserSearchService
 import fr.cg95.cvq.util.UserUtils
 
@@ -15,6 +16,7 @@ class RequestAdaptorService {
     IRequestLockService requestLockService
     IRequestSearchService requestSearchService
     IRequestTypeService requestTypeService
+    IRequestWorkflowService requestWorkflowService
     IUserSearchService userSearchService
     ICategoryService categoryService
 
@@ -48,13 +50,7 @@ class RequestAdaptorService {
                 'state':request.state.toString(),
                 'lastModificationDate':request.lastModificationDate,
                 'lastInterveningUserId': UserUtils.getDisplayName(request.lastInterveningUserId),
-                /* FIXME : use IRequestWorkflowService.isEditable when circular dependencies are resolved */
-                'isEditable' : (RequestState.DRAFT.equals(request.state)
-                        || RequestState.PENDING.equals(request.state)
-                        || RequestState.UNCOMPLETE.equals(request.state)) 
-                        && !IRequestTypeService.VO_CARD_REGISTRATION_REQUEST.equals(request.requestType.label)
-                        && !IRequestTypeService.HOME_FOLDER_MODIFICATION_REQUEST.equals(request.requestType.label)
-                        && !requestLockService.isLocked(request.id)
+                'isEditable' : requestWorkflowService.isEditable(request.id)
         ]
     }
 

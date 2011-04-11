@@ -77,23 +77,6 @@ class BackofficeRequestInstructionController {
         def rqt = requestSearchService.getById(Long.valueOf(params.id), true)
         def requester = rqt.requesterId != null ? userSearchService.getById(rqt.requesterId) : null
 
-        // just for VoCardRequest and HomeFolderModificationRequest
-        def adults = []
-        def children = []
-        def clr = [:]
-        if (requestTypeService.isAccountRequest(rqt.id)) {
-            def individuals = userSearchService.getIndividuals(rqt.homeFolderId)
-            individuals.eachWithIndex { individual, index ->
-                def item = ['data':individual, 'index':index]
-                if (individual.class.simpleName == "Adult") adults.add(item)
-                else if (individual.class.simpleName == "Child") children.add(item)
-            }
-            children.each {
-                def child = it.data
-                clr.put(child.id, userSearchService.listBySubjectRoles(child.id,
-                        [RoleType.CLR_FATHER,RoleType.CLR_MOTHER,RoleType.CLR_TUTOR] as RoleType[]))
-            }
-        }
         def editableStates = []
         for (RequestState state : requestWorkflowService.getEditableStates())
             editableStates.add(state.toString())
@@ -144,11 +127,8 @@ class BackofficeRequestInstructionController {
             "rqt": rqt,
             "requestTypeLabel": rqt.requestType.label,
             "lrTypes": localReferentialTypes,
-            "adults": adults,
-            "children": children,
             "requester": requester,
             'hasHomeFolder': !userSearchService.getHomeFolderById(rqt.homeFolderId).temporary,
-            "childrenLegalResponsibles": clr,
             "editableStates": (editableStates as JSON).toString(),
             "agentCanWrite": categoryService.hasWriteProfileOnCategory(SecurityContext.currentAgent, 
                 rqt.requestType.category.id),
@@ -281,11 +261,7 @@ class BackofficeRequestInstructionController {
         if (params.requestId == null)
              return false
         def rqt = requestSearchService.getById(Long.valueOf(params.requestId), true)
-        if (["VO Card", "Home Folder Modification"].contains(rqt.requestType.label)) {
-            def homeFolder = userSearchService.getHomeFolderById(rqt.homeFolderId)
-            DataBindingUtils.initBind(homeFolder, params)
-            bind(homeFolder)
-        } else if (params.keySet().contains('_requester')) {
+        if (params.keySet().contains('_requester')) {
             def requester = userSearchService.getById(rqt.requesterId)
             bindRequester(requester, params)
         } else if (params.keySet().contains('schoolId')) {

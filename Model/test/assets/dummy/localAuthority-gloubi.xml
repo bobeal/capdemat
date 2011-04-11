@@ -19,8 +19,9 @@
             <property name="broker" value="Régie de la ville de gloubi"></property>
             <property name="requestTypes">
               <list>
-                <value>Place Reservation</value>
-                <value>VO Card Request</value>
+                <value>School Canteen Registration</value>
+                <value>Perischool Activity Registration</value>
+                <value>Recreation Activity Registration</value>
               </list>
             </property>
             <property name="serviceProperties">

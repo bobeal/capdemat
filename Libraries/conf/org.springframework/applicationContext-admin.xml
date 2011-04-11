@@ -109,41 +109,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   </bean>
 
   <!-- *******************************************************************  -->
-  <!-- ********** Requests Workflow Navigator Job Configuration **********  -->
-  <!-- *******************************************************************  -->
-
-  <!--
-  <bean id="requestWorkflowNavigatorJob" 
-    class="fr.cg95.cvq.service.request.job.RequestWorkflowNavigatorJob">
-    <property name="localAuthorityRegistry"><ref bean="localAuthorityRegistry"/></property>
-    <property name="requestServiceRegistry"><ref bean="requestServiceRegistry"/></property>
-    <property name="requestDAO"><ref bean="requestDAO"/></property>
-  </bean>
-
-  <bean id="requestWorkflowNavigatorJobInvoker"
-    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-    <property name="targetObject" ref="requestWorkflowNavigatorJob" />
-    <property name="targetMethod" value="launchJob" />
-    <property name="arguments">
-      <list>
-        <value>valdoise</value>
-        <value>VO Card</value>
-        <value>Pending</value>
-        <value>Complete</value>
-      </list>
-    </property>
-  </bean>
-
-  <bean id="requestWorkflowNavigatorTrigger"
-    class="org.springframework.scheduling.quartz.SimpleTriggerBean">
-    <property name="jobDetail" ref="requestWorkflowNavigatorJobInvoker" />
-    <property name="startDelay" value="50000" />
-    <property name="repeatCount" value="0" />
-    <property name="repeatInterval" value="600000"/>
-  </bean>
-  -->
-
-  <!-- *******************************************************************  -->
   <!-- ***************** Requests Seasons Job Configuration **************  -->
   <!-- *******************************************************************  -->
 

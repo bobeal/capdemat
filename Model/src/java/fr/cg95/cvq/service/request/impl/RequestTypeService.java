@@ -260,15 +260,6 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public boolean isAccountRequest(final Long requestId) 
-        throws CvqException, CvqObjectNotFoundException {
-        Request request = (Request) requestDAO.findById(Request.class, requestId);
-        return request.getRequestType().getLabel().equals(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST)
-            || request.getRequestType().getLabel().equals(IRequestTypeService.HOME_FOLDER_MODIFICATION_REQUEST);
-    }
-
-    @Override
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
     public void modifyRequestType(RequestType requestType) {
         requestTypeDAO.update(requestType);

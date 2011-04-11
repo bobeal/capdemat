@@ -23,19 +23,6 @@ import fr.cg95.cvq.util.Critere;
 public interface IRequestTypeService {
 
     /**
-     * Label used to identify account creation requests.
-     * 
-     * TODO : rename to ACCOUNT_CREATION_REQUEST
-     */
-    String VO_CARD_REGISTRATION_REQUEST = "VO Card";
-    /**
-     * Label used to identify account modification requests.
-     * 
-     * TODO : rename to ACCOUNT_MODIFICATION_REQUEST
-     */    
-    String HOME_FOLDER_MODIFICATION_REQUEST = "Home Folder Modification";
-
-    /**
      * Get a list of all existing requests types.
      *
      * For an agent, return the list of requests types for which it has at least a read permission.
@@ -70,12 +57,6 @@ public interface IRequestTypeService {
     RequestType getRequestTypeByLabel(final String requestLabel)
         throws CvqException;
 
-    /**
-     * Return whether the given request is an account related request (creation or modification).
-     */
-    boolean isAccountRequest(@IsRequest final Long requestId) 
-        throws CvqException, CvqObjectNotFoundException;
-    
     /**
      * Modify a request type properties.
      */

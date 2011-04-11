@@ -1181,11 +1181,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     public boolean isEditable(final Long requestId) throws CvqObjectNotFoundException {
         Request request = (Request) requestDAO.findById(Request.class, requestId);
         String requestTypeLabel = request.getRequestType().getLabel();
-        if ((RequestState.DRAFT.equals(request.getState())
+        if (RequestState.DRAFT.equals(request.getState())
                 || RequestState.PENDING.equals(request.getState())
-                || RequestState.UNCOMPLETE.equals(request.getState())) 
-                && !IRequestTypeService.VO_CARD_REGISTRATION_REQUEST.equals(requestTypeLabel)
-                && !IRequestTypeService.HOME_FOLDER_MODIFICATION_REQUEST.equals(requestTypeLabel))
+                || RequestState.UNCOMPLETE.equals(request.getState()))
             return true;
         
         return false;

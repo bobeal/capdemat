@@ -438,12 +438,6 @@ class FrontofficeRequestController {
 
     def summary = {
         def rqt = requestSearchService.getById(Long.parseLong(params.id), true)
-        def individuals = [:]
-        if (rqt.requestType.label == 'VO Card' || rqt.requestType.label == 'Home Folder Modification') {
-            def homeFolderId = SecurityContext.currentEcitizen.homeFolder.id
-            individuals.adults = userSearchService.getAdults(homeFolderId)
-            individuals.children = userSearchService.getChildren(homeFolderId)
-        }
         def requestTypeLabel =
             translationService.translateRequestTypeLabel(rqt.requestType.label).encodeAsHTML()
         def requester = rqt.requesterId != null ? userSearchService.getById(rqt.requesterId) : null
@@ -459,8 +453,7 @@ class FrontofficeRequestController {
                 'externalInformations' : requestExternalService.loadExternalInformations(rqt),
                 'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(rqt.requestType.label),
                 'documentsByTypes': documentAdaptorService.getDocumentsByType(rqt),
-                'validationTemplateDirectory':CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label),
-                'individuals':individuals
+                'validationTemplateDirectory':CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label)
         ]
     }
 

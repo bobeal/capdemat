@@ -23,7 +23,6 @@
             <property name="requestTypes">
               <list>
                 <value>Ticket Booking</value>
-                <value>VO Card</value>
                 <value>Perischool Activity Registration</value>
               </list>
             </property>
@@ -67,7 +66,6 @@
           <bean class="fr.cg95.cvq.external.ExternalServiceBean">
             <property name="requestTypes">
               <list>
-                <value>VO Card</value>
                 <value>School Canteen Registration</value>
                 <value>Perischool Activity Registration</value>
                 <value>Recreation Activity Registration</value>

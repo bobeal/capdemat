@@ -101,11 +101,6 @@ public class RequestPdfService implements IRequestPdfService {
             Map<String, Object> bindings = new HashMap<String, Object>();
             bindings.put("localAuthority", SecurityContext.getCurrentSite());
             bindings.put("rqt", request);
-            if (Arrays.asList(new String[]{"VO Card","Home Folder Modification"})
-                    .contains(request.getRequestType().getLabel())) {
-                bindings.put("adults", userSearchService.getAdults(request.getHomeFolderId()));
-                bindings.put("children", userSearchService.getChildren(request.getHomeFolderId()));
-            }
             bindings.put("requester", requester);
             bindings.put("subject", subject);
             if (subject != null && subject instanceof Child)

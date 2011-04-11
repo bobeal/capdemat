@@ -1,16 +1,14 @@
-  <g:if test="${!['VO Card','Home Folder Modification'].contains(rqt.requestType.label)}">
-    <p>${message(code:'request.step.validation.help.followRequest')}</p>
-    <label class="required">${message(code:'request.step.validation.label.followRequest')} * </label>
-    <ul class="yes-no required">
-      <g:each in="${[true,false]}">
-      <li>
-        <input type="radio" class="required validate-boolean condition-activeHomeFolder-trigger" title="" value="${it}" 
-               id="_homeFolderResponsible.activeHomeFolder" name="_homeFolderResponsible.activeHomeFolder" ${flash.activeHomeFolder == null ? (!it ? 'checked="checked"' : '') : (flash.activeHomeFolder == it ? 'checked="checked"' : '') } />
-        <label for="_homeFolderResponsible.activeHomeFolder_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
-      </li>
-      </g:each>
-    </ul>
-  </g:if>
+  <p>${message(code:'request.step.validation.help.followRequest')}</p>
+  <label class="required">${message(code:'request.step.validation.label.followRequest')} * </label>
+  <ul class="yes-no required">
+    <g:each in="${[true,false]}">
+    <li>
+      <input type="radio" class="required validate-boolean condition-activeHomeFolder-trigger" title="" value="${it}" 
+             id="_homeFolderResponsible.activeHomeFolder" name="_homeFolderResponsible.activeHomeFolder" ${flash.activeHomeFolder == null ? (!it ? 'checked="checked"' : '') : (flash.activeHomeFolder == it ? 'checked="checked"' : '') } />
+      <label for="_homeFolderResponsible.activeHomeFolder_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
+    </li>
+    </g:each>
+  </ul>
   <p class="condition-activeHomeFolder-filled"><strong>${message(code:'request.step.validation.message.choosePassword')}</strong></p>
   <fieldset class="condition-activeHomeFolder-filled">
     <input type="hidden" name="homeFolderResponsible" />

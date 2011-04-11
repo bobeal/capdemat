@@ -122,8 +122,9 @@ alter table user_action
     references home_folder;
 
 update individual set state = 'Modified' where state = 'Pending' and
-    (select count(*) from home_folder_modification_request where id in
-        (select specific_data_id from request r where r.home_folder_id = home_folder_id)) > 0;
+    (select count(*) from home_folder_modification_request where
+        state in ('Pending', 'Complete', 'Uncomplete') and id in
+            (select specific_data_id from request r where r.home_folder_id = home_folder_id)) > 0;
 update individual set state = 'New' where state = 'Pending';
 update home_folder set state = 'Modified' where state = 'Pending' and id in
     (select r.home_folder_id from request r where
@@ -247,7 +248,3 @@ create table user_security_rule (
     profile varchar(16),
     primary key (id)
 );
-
--- Remove table used for old modification requests
-
-drop table history_entry;

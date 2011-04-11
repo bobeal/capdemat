@@ -20,3 +20,5 @@ delete from vo_card_request where id in
 
 delete from request where request_type_id in
     (select id from request_type where label = 'VO Card' or label = 'Home Folder Modification');
+
+drop table history_entry;

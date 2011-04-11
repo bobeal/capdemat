@@ -91,7 +91,7 @@ public class UserServicesTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        List<Individual> initialResults = userSearchService.get(new HashSet<Critere>(), null, false);
+        List<Individual> initialResults = userSearchService.get(new HashSet<Critere>(), null, null, null);
         int initialResultsSize = initialResults.size();
         int homeFoldersCountBeforeArchive = userSearchService.getAll(true, false).size();
         continueWithNewTransaction();
@@ -106,7 +106,7 @@ public class UserServicesTest extends ServiceTestCase {
         assertEquals(homeFoldersCountBeforeArchive - 1, userSearchService.getAll(true, true).size());
 
         // individuals from home folder should no longer appear in search results
-        initialResults = userSearchService.get(new HashSet<Critere>(), null, false);
+        initialResults = userSearchService.get(new HashSet<Critere>(), null, null, null);
         assertEquals(initialResultsSize, 
                 initialResults.size() + userSearchService.getHomeFolderById(fake.id).getIndividuals().size());
         
@@ -303,8 +303,7 @@ public class UserServicesTest extends ServiceTestCase {
             crit2.setComparatif(comparatif2);
             criteriaSet.add(crit2);
         }
-        
-        return userSearchService.get(criteriaSet, null, false);
+        return userSearchService.get(criteriaSet, null, null, null);
     }
 
     @Test

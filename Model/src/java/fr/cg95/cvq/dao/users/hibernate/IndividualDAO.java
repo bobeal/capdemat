@@ -63,71 +63,14 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
         return !BigInteger.ZERO.equals(query.uniqueResult());
     }
 
-    public List<Individual> search(final Set<Critere> criteria, final String orderedBy, 
-            final UserState[] excludedStates) {
-
-        StringBuffer sb = new StringBuffer();
-        sb.append("from Individual as individual").append(" where 1 = 1 ");
-
-        List<Type> typeList = new ArrayList<Type>();
-        List<Object> objectList = new ArrayList<Object>();
-
-        // go through all the criteria and create the query
-        for (Critere searchCrit : criteria) {
-            if (searchCrit.getAttribut().equals(Individual.SEARCH_BY_LASTNAME)) {
-                sb.append(" and lower(individual.lastName) " + searchCrit.getSqlComparatif() + " lower(?)");
-                objectList.add(searchCrit.getSqlStringValue());
-                typeList.add(Hibernate.STRING);
-            } else if (searchCrit.getAttribut().equals(Individual.SEARCH_BY_FIRSTNAME)) {
-                sb.append(" and lower(individual.firstName) " + searchCrit.getSqlComparatif() + " lower(?)");
-                objectList.add(searchCrit.getSqlStringValue());
-                typeList.add(Hibernate.STRING);
-            } else if (searchCrit.getAttribut().equals(Individual.SEARCH_BY_BIRTHDATE)) {
-                sb.append(" and individual.birthDate " + searchCrit.getSqlComparatif() + " ?");
-                objectList.add(searchCrit.getDateValue());
-                typeList.add(Hibernate.DATE);
-            } else if (searchCrit.getAttribut().equals(Individual.SEARCH_BY_HOME_FOLDER_ID)) {
-                sb.append(" and individual.homeFolder.id " + searchCrit.getSqlComparatif() + " ?");
-                objectList.add(searchCrit.getLongValue());
-                typeList.add(Hibernate.LONG);
-            } else {
-                logger.warn("Unknown search criteria for Individual object");
-            }
-        }
-
-        if (excludedStates != null && excludedStates.length > 0) {
-            for (int i = 0; i < excludedStates.length; i++) {
-                sb.append(" and individual.homeFolder.state != ?");
-                objectList.add(excludedStates[i].toString());
-                typeList.add(Hibernate.STRING);
-            }
-        }
-
-//        if (orderedBy != null) {
-//            if (orderedBy.equals(Individual.ORDER_BY_LASTNAME))
-//                sb.append(" order by individual.lastName");
-//            else
-//                sb.append(" order by individual.id");
-//        } else {
-//            // default sort order
-//            sb.append(" order by individual.id");
-//        }
-
-        Type[] typeTab = typeList.toArray(new Type[0]);
-        Object[] objectTab = objectList.toArray(new Object[0]);
-        return HibernateUtil.getSession()
-            .createQuery(sb.toString())
-            .setParameters(objectTab, typeTab)
-            .list();
-    }
-
     public List<Individual> listByHomeFolder(Long homeFolderId) {
-        StringBuffer sb = new StringBuffer();
-        sb.append("from Individual as individual")
-            .append(" where individual.homeFolder = ?");
+        String hql = "from Individual as individual"
+            + " where individual.homeFolder.id = :homeFolderId"
+            + " and individual.state in (:states)";
         return HibernateUtil.getSession()
-            .createQuery(sb.toString())
-            .setLong(0, homeFolderId.longValue())
+            .createQuery(hql)
+            .setParameter("homeFolderId", homeFolderId.longValue())
+            .setParameterList("states", UserState.activeStates)
             .list();
     }
 

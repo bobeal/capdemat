@@ -23,6 +23,8 @@ public final class UserState extends PersistentStringEnum {
 
     public static final UserState[] allUserStates = { NEW, VALID, MODIFIED, INVALID, ARCHIVED };
 
+    public static final UserState[] activeStates = { NEW, VALID, MODIFIED, INVALID };
+
     public static UserState forString(final String enumAsString) {
         for (UserState state : allUserStates) {
             if (state.toString().equals(enumAsString)) return state;

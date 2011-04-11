@@ -25,12 +25,6 @@ public interface IIndividualDAO extends IGenericDAO {
     Individual findByFederationKey(final String federationKey);
 
     /**
-     * Look up an Individual given a set of search criteria.
-     */
-    List<Individual> search(final Set<Critere> criteria, final String orderedBy, 
-            final UserState[] excludedStates);
-
-    /**
      * Return the list of {@link Individual individuals} belonging to the given home folder.
      */
     List<Individual> listByHomeFolder(final Long homeFolderId);

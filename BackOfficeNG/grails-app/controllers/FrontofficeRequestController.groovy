@@ -24,6 +24,7 @@ import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.users.IUserService
 import fr.cg95.cvq.service.users.IUserSearchService
+import fr.cg95.cvq.service.users.IUserWorkflowService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.util.translation.ITranslationService
 import fr.cg95.cvq.service.payment.IRequestPaymentService
@@ -45,6 +46,7 @@ class FrontofficeRequestController {
     IConditionService conditionService
     IUserService userService
     IUserSearchService userSearchService
+    IUserWorkflowService userWorkflowService
     ILocalAuthorityRegistry localAuthorityRegistry
     IMeansOfContactService meansOfContactService
     IRequestExternalService requestExternalService

@@ -241,7 +241,7 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
             // ensure all requests have been deleted after each test
-            assertEquals(0, userSearchService.get(new HashSet<Critere>(), null, true).size());
+            assertEquals(0, userSearchService.get(new HashSet<Critere>(), null, null, null).size());
 
             rollbackTransaction();
             SecurityContext.resetCurrentSite();

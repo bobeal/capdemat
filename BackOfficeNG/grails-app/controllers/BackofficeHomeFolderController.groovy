@@ -78,22 +78,24 @@ class BackofficeHomeFolderController {
     
     def details = {
         def homeFolder = userSearchService.getHomeFolderById(Long.parseLong(params.id))
-        def adult = userSearchService.getHomeFolderResponsible(homeFolder.id)
-        def adults = userSearchService.getAdults(homeFolder.id)
-        def children = userSearchService.getChildren(homeFolder.id)
-
-        def result = [responsibles:[:],adults:[],children:[]]
-        if (homeFolder.state == UserState.ARCHIVED) {
-            result.adults = adults.findAll{it.id != adult.id}
+        def adults, children
+        if (params.viewArchived != null) {
+            adults = userSearchService.getAdults(homeFolder.id, UserState.allUserStates)
+            children = userSearchService.getChildren(homeFolder.id, UserState.allUserStates)
         } else {
-            result.adults = adults.findAll{it.id != adult.id && it.state != UserState.ARCHIVED}
-            result.children = children.findAll{it.state != UserState.ARCHIVED}
+            adults = userSearchService.getAdults(homeFolder.id)
+            children = userSearchService.getChildren(homeFolder.id)
         }
+
+        def result = [:]
         result.homeFolder = homeFolder
-        result.homeFolderResponsible = adult
+        result.homeFolderResponsible = userSearchService.getHomeFolderResponsible(homeFolder.id)
+        result.adults = adults.findAll{it.id != result.homeFolderResponsible.id}
+        result.children = children
         result.homeFolderState = homeFolder.state.toString().toLowerCase()
         result.homeFolderStatus = homeFolder.enabled ? 'enable' : 'disable'
 
+        result.responsibles = [:]
         for(Child child : result.children)
             result.responsibles.put(child.id, userSearchService.listBySubjectRoles(child.id, RoleType.childRoleTypes))
 

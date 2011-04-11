@@ -10,14 +10,13 @@ import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType;
+import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.annotation.IsUser;
 import fr.cg95.cvq.service.request.IAutofillTriggerService;
 import fr.cg95.cvq.util.Critere;
 
 public interface IUserSearchService extends IAutofillTriggerService {
-
-    List<Individual> get(Set<Critere> criteriaSet, String orderedBy, boolean searchAmongArchived);
 
     List<Individual> get(Set<Critere> criterias, Map<String,String> sortParams, Integer max, Integer offset);
 
@@ -56,9 +55,9 @@ public interface IUserSearchService extends IAutofillTriggerService {
     HomeFolder getHomeFolderById(@IsUser Long id)
         throws CvqObjectNotFoundException;
 
-    List<Child> getChildren(@IsUser Long homeFolderId);
+    List<Child> getChildren(@IsUser Long homeFolderId, UserState... states);
 
-    List<Adult> getAdults(@IsUser Long homeFolderId);
+    List<Adult> getAdults(@IsUser Long homeFolderId, UserState... states);
 
     List<Individual> getIndividuals(@IsUser Long homeFolderId);
 

@@ -6,7 +6,7 @@
         <p class="first-line">
           <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="user.state" />
           <g:if test="${record.homeFolder}">
-            <a href="${createLink(action:'details',id:record.homeFolder.id)}">
+            <a href="${createLink(action:'details',id:record.homeFolder.id)}${fr.cg95.cvq.business.users.UserState.ARCHIVED == record.state ? '?viewArchived' : ''}">
           </g:if>
           ${record.firstName} 
           <span class="${state?.orderBy == 'lastName' ? 'current-sort' : ''}">${record.lastName}</span>

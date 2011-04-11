@@ -35,13 +35,6 @@ public class UserSearchService implements IUserSearchService {
     private IChildDAO childDAO;
 
     @Override
-    public List<Individual> get(Set<Critere> criteriaSet, String orderedBy,
-        boolean searchAmongArchived) {
-        return individualDAO.search(criteriaSet, orderedBy,
-            searchAmongArchived ? null : new UserState[] { UserState.ARCHIVED });
-    }
-
-    @Override
     public List<Individual> get(Set<Critere> criterias, Map<String,String> sortParams,
         Integer max, Integer offset) {
         return individualDAO.search(criterias,sortParams,max,offset);
@@ -110,14 +103,14 @@ public class UserSearchService implements IUserSearchService {
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public final List<Child> getChildren(final Long homeFolderId) {
-        return childDAO.listChildrenByHomeFolder(homeFolderId);
+    public final List<Child> getChildren(final Long homeFolderId, UserState... states) {
+        return childDAO.listChildrenByHomeFolder(homeFolderId, states);
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public final List<Adult> getAdults(final Long homeFolderId) {
-        return adultDAO.listAdultsByHomeFolder(homeFolderId);
+    public final List<Adult> getAdults(final Long homeFolderId, UserState... states) {
+        return adultDAO.listAdultsByHomeFolder(homeFolderId, states);
     }
 
     @Override

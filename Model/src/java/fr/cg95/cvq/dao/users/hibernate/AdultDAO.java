@@ -7,6 +7,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 
 import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.users.IAdultDAO;
 import fr.cg95.cvq.util.Critere;
@@ -30,14 +31,14 @@ public class AdultDAO extends IndividualDAO implements IAdultDAO {
         return (Adult)crit.uniqueResult();
     }
 
-    public List listAdultsByHomeFolder(final Long homeFolderId) {
-        StringBuffer sb = new StringBuffer(100);
-        sb.append("select adult from Adult as adult")
-            .append(" join adult.homeFolder homeFolder")
-            .append(" where homeFolder.id = ?");
+    public List<Adult> listAdultsByHomeFolder(final Long homeFolderId, UserState... states) {
+        String hql = "from Adult as adult"
+            + " where adult.homeFolder.id = :homeFolderId"
+            + " and adult.state in (:states)";
         return HibernateUtil.getSession()
-            .createQuery(sb.toString())
-            .setLong(0, homeFolderId.longValue())
+            .createQuery(hql)
+            .setParameter("homeFolderId", homeFolderId.longValue())
+            .setParameterList("states", states.length > 0 ? states : UserState.activeStates)
             .list();
     }
 

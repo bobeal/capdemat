@@ -52,10 +52,9 @@ class FrontofficeHomeFolderController {
         if (params.idToDelete)
             flash.idToDelete = Long.valueOf(params.idToDelete)
 
-        // TODO: filter individual by state ine Service Layer
         return ['homeFolder': currentEcitizen.homeFolder,
-                'adults':  userSearchService.getAdults(homeFolderId).findAll{ it.state != UserState.ARCHIVED },
-                'children': children.findAll{ it.state != UserState.ARCHIVED },
+                'adults':  userSearchService.getAdults(homeFolderId),
+                'children': children,
                 'childResponsibles' : childResponsibles]
     }
 

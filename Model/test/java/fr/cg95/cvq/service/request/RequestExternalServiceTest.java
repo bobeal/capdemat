@@ -41,7 +41,7 @@ public class RequestExternalServiceTest extends RequestTestCase {
         if (!matched)
             fail("should have matched");
         
-        matched = requestExternalService.hasMatchingExternalService("VO Card");
+        matched = requestExternalService.hasMatchingExternalService("Ticket Booking");
         if (matched)
             fail("should have not matched");
 

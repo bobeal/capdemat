@@ -813,7 +813,7 @@
           button1 : "Envoyer un rapport"
         };
         zct.Notifier.confirmationDialog = new zct.ConfirmationDialog(
-        content,zct.Notifier.confirmHandler);
+        content,undefined);
       },
       /**
        * @description Process received message
@@ -881,8 +881,7 @@
        * 
        * @author vba@zenexity.fr
        **/
-      displayModelError : function(message,cn) {},
-      confirmHandler : function() {}
+      displayModelError : function(message,cn) {}
     };
   }();
   
@@ -903,22 +902,21 @@
     this.id = YAHOO.util.Dom.generateId();
     this.showTarget = undefined;
     this.showEv = undefined;
-    
+    var buttons = [];
+    if (!confirmHandler) {
+      buttons.push({text:'  OK  ', handler: function(e){ this.hide(); }, isDefault: true});
+    }
+    else {
+      buttons.push({text:'  Oui  ', handler: function(e){ zct.tryToCall(confirmHandler,this,e,this.showEv); this.hide(); }});
+      buttons.push({text:'  Non  ', handler: function(e){ this.hide(); }, isDefault: true});
+    }
     zct.ConfirmationDialog.superclass.constructor.call(this,
     this.id,{ 
       width: "20em",
       effect:{effect:YAHOO.widget.ContainerEffect.FADE, duration:0.25},
       modal:true, visible:false, draggable:false, fixedcenter:true,
       icon:YAHOO.widget.SimpleDialog.ICON_WARN ,
-      buttons:[
-        { text:'  Oui  ',
-          handler: function(e){ zct.tryToCall(confirmHandler,this,e,this.showEv); this.hide(); }
-        },
-        { text:'  Non  ',
-          handler: function(e){ this.hide(); },
-          isDefault: true
-        }
-      ]
+      buttons: buttons
     });
     this.setHeader(content.head || 'Warning');
     this.setBody(content.body || 'Confirm ?');

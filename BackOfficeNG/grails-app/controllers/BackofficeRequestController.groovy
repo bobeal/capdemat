@@ -22,11 +22,6 @@ class BackofficeRequestController {
     def requestAdaptorService
     
     def defaultAction = 'initSearch'
-    def static subMenuEntries = [
-        "request.search",
-        "requestType.list"
-    ]
-
     // keys supported in advanced search screen : match with keys defined in Request.java
     def supportedKeys = ['requesterLastName', 'subjectLastName', 'id', 'homeFolderId',
                          'creationDateFrom', 'creationDateTo']
@@ -152,6 +147,10 @@ class BackofficeRequestController {
     }
 
     def initSearchReferential() {
+        def subMenuEntries = ["request.search"]
+        if (categoryService.hasManagerProfile(SecurityContext.currentAgent))
+            subMenuEntries.add("requestType.list")
+
         return ['allStates':RequestState.allRequestStates.findAll { it != RequestState.DRAFT },
                 'allAgents':agentService.getAll(),
                 'allCategories':categoryService.getAll(),

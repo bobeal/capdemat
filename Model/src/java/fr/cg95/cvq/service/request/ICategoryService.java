@@ -36,6 +36,8 @@ public interface ICategoryService {
     boolean hasWriteProfileOnCategory(Agent agent, @IsCategory Long categoryId) 
         throws CvqObjectNotFoundException;
 
+    boolean hasManagerProfile(Agent agent);
+
     /**
      * Get current agent's profile for this category.
      */

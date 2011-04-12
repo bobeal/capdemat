@@ -192,6 +192,19 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
 
     @Override
     @Context(types = {ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
+    public boolean hasManagerProfile(Agent agent) {
+        for(Category category : getAll()) {
+            for (CategoryRoles role : category.getCategoriesRoles()) {
+                if (role.getAgentId().equals(agent.getId())
+                        && CategoryProfile.MANAGER.equals(role.getProfile()))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    @Context(types = {ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public CategoryProfile getProfileForCategory(final Long categoryId) 
         throws CvqObjectNotFoundException {
         return getProfileForCategory(SecurityContext.getCurrentAgent().getId(), categoryId);

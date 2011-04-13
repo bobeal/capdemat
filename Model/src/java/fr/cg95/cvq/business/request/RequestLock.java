@@ -2,23 +2,28 @@ package fr.cg95.cvq.business.request;
 
 import java.util.Date;
 
-/**
- * Represents a lock on a request.
- *
- * @hibernate.class
- *  table="request_lock"
- *  lazy="false"
- *
- * @author jsb@zenexity.fr
- */
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="request_lock")
 public class RequestLock {
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(name="request_id",nullable=false)
     private Long requestId;
 
+    @Column(name="user_id",nullable=false)
     private Long userId;
 
+    @Column(nullable=false)
     private Date date;
 
     // empty constructor for hibernate
@@ -30,11 +35,6 @@ public class RequestLock {
         this.date = new Date();
     }
 
-    /**
-     * @hibernate.property
-     *  column="request_id"
-     *  not-null="true"
-     */
     public Long getRequestId() {
         return requestId;
     }
@@ -43,11 +43,6 @@ public class RequestLock {
         this.requestId = requestId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="user_id"
-     *  not-null="true"
-     */
     public Long getUserId() {
         return userId;
     }
@@ -56,11 +51,6 @@ public class RequestLock {
         this.userId = userId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="date"
-     *  not-null="true"
-     */
     public Date getDate() {
         return date;
     }
@@ -69,11 +59,6 @@ public class RequestLock {
         this.date = date;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return id;
     }

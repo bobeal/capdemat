@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.Calendar;
 
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.school.ChoixDatePlacement;
+import fr.cg95.cvq.business.request.school.ChoixHorairesAccueilType;
+import fr.cg95.cvq.business.request.school.ChoixSituationActuelle;
 import fr.cg95.cvq.business.request.school.DayCareCenterRegistrationRequest;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
@@ -23,14 +26,14 @@ public final class DayCareCenterRegistrationRequestService extends RequestServic
     
     @Override
     public void init() {
-        DayCareCenterRegistrationRequest.conditions.put("situationActuelleMere", new EqualityChecker("Autre"));
-        DayCareCenterRegistrationRequest.conditions.put("situationActuellePere", new EqualityChecker("Autre"));
+        DayCareCenterRegistrationRequest.conditions.put("situationActuelleMere", new EqualityChecker(ChoixSituationActuelle.AUTRE.name()));
+        DayCareCenterRegistrationRequest.conditions.put("situationActuellePere", new EqualityChecker(ChoixSituationActuelle.AUTRE.name()));
         DayCareCenterRegistrationRequest.conditions.put("estHorairesReguliersMere", new EqualityChecker("true"));
         DayCareCenterRegistrationRequest.conditions.put("estHorairesReguliersPere", new EqualityChecker("true"));
-        DayCareCenterRegistrationRequest.conditions.put("choixTypeDatePlacementAccueilRegulier", new EqualityChecker("Connue"));
+        DayCareCenterRegistrationRequest.conditions.put("choixTypeDatePlacementAccueilRegulier", new EqualityChecker(ChoixDatePlacement.CONNUE.name()));
         DayCareCenterRegistrationRequest.conditions.put("modeAccueil", new EqualityChecker("false"));
         DayCareCenterRegistrationRequest.conditions.put("choixHorairesAccueil",
-                new EqualityListChecker(Arrays.asList("estHorairesAccueilRegulier=Regulier","estHorairesAccueilIrregulier=Irregulier")));
+                new EqualityListChecker(Arrays.asList("estHorairesAccueilRegulier="+ChoixHorairesAccueilType.REGULIER.name(),"estHorairesAccueilIrregulier="+ChoixHorairesAccueilType.IRREGULIER.name())));
     }
     
     @Override
@@ -53,8 +56,7 @@ public final class DayCareCenterRegistrationRequestService extends RequestServic
     }
     
     @Override
-    public void onRequestIssued(final Request request)
-        throws CvqException {
+    public void onRequestIssued(final Request request) {
         
         DayCareCenterRegistrationRequest dccrr = (DayCareCenterRegistrationRequest) request;
         // this hook is also called at the request's creation, when starting the form filling process

@@ -1,45 +1,34 @@
 package fr.cg95.cvq.business.users;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
+public enum SectionType {
 
-public final class SectionType extends PersistentStringEnum {
+    BEFORE_FIRST_SECTION("BeforeFirstSection"),
+    FIRST_SECTION("FirstSection"),
+    SECOND_SECTION("SecondSection"),
+    THIRD_SECTION("ThirdSection"),
+    C_P("CP"),
+    C_E1("CE1"),
+    C_E2("CE2"),
+    C_M1("CM1"),
+    C_M2("CM2"),
+    C_L_I_S_S("CLISS"),
+    UNKNOWN("Unknown");
 
-	private static final long serialVersionUID = 1L;
+    private String legacyLabel;
 
-    public static final SectionType BEFORE_FIRST_SECTION = new SectionType("BeforeFirstSection");
-	public static final SectionType FIRST_SECTION = new SectionType("FirstSection");
-    public static final SectionType SECOND_SECTION = new SectionType("SecondSection");
-    public static final SectionType THIRD_SECTION = new SectionType("ThirdSection");
-    public static final SectionType CP = new SectionType("CP");
-    public static final SectionType CE1 = new SectionType("CE1");
-    public static final SectionType CE2 = new SectionType("CE2");
-    public static final SectionType CM1 = new SectionType("CM1");
-    public static final SectionType CM2 = new SectionType("CM2");
-    public static final SectionType CLISS = new SectionType("CLISS");
-    public static final SectionType UNKNOWN = new SectionType("Unknown");
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
-    public SectionType() {}
-
-    private SectionType(String name) {
-        super(name);
+    private SectionType(String legacyLabel) {
+        this.legacyLabel = legacyLabel;
     }
 
     /**
      * A vector of all possible {@link SectionType sections}.
+     * @deprecated only for backward, use values() instead
      */
-    public static final SectionType[] allSectionTypes = {
-        BEFORE_FIRST_SECTION,
-        FIRST_SECTION,
-        SECOND_SECTION,
-        THIRD_SECTION,
-        CP,
-        CE1,
-        CE2,
-        CM1,
-        CM2,
-        CLISS,
-        UNKNOWN
-    };
+    public static final SectionType[] allSectionTypes = SectionType.values();
 
     public static SectionType getDefaultSectionType() {
         return UNKNOWN;
@@ -57,19 +46,20 @@ public final class SectionType extends PersistentStringEnum {
             return SECOND_SECTION;
         else if (enumAsString.equals(THIRD_SECTION.toString()))
             return THIRD_SECTION;
-        else if (enumAsString.equals(CP.toString()))
-            return CP;
-        else if (enumAsString.equals(CE1.toString()))
-            return CE1;
-        else if (enumAsString.equals(CE2.toString()))
-            return CE2;
-        else if (enumAsString.equals(CM1.toString()))
-            return CM1;
-        else if (enumAsString.equals(CM2.toString()))
-            return CM2;
-        else if (enumAsString.equals(CLISS.toString()))
-            return CLISS;
+        else if (enumAsString.equals(C_P.toString()))
+            return C_P;
+        else if (enumAsString.equals(C_E1.toString()))
+            return C_E1;
+        else if (enumAsString.equals(C_E2.toString()))
+            return C_E2;
+        else if (enumAsString.equals(C_M1.toString()))
+            return C_M1;
+        else if (enumAsString.equals(C_M2.toString()))
+            return C_M2;
+        else if (enumAsString.equals(C_L_I_S_S.toString()))
+            return C_L_I_S_S;
 
         return UNKNOWN;
     }
+
 }

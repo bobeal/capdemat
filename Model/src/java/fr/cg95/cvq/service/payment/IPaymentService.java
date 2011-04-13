@@ -112,12 +112,12 @@ public interface IPaymentService {
     /**
      * Get a payment by id.
      */
-    Payment getById(@IsPayment final Long id) throws CvqObjectNotFoundException;
+    Payment getById(@IsPayment final Long id);
     
     /**
      * Delete a payment.
      */
-    void delete(@IsPayment final Long id) throws CvqObjectNotFoundException;
+    void delete(@IsPayment final Long id);
 
     List<ExternalAccountItem> getInvoices(Set<Critere> criteriaSet, String sort, String dir,
             int recordsReturned, int startIndex);

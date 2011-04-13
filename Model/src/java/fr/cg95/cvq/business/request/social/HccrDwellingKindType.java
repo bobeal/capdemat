@@ -1,42 +1,42 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class HccrDwellingKindType extends PersistentStringEnum {
+public enum HccrDwellingKindType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final HccrDwellingKindType PLACE_OF_RESIDENCE = new HccrDwellingKindType("PlaceOfResidence");
-  
-    public static final HccrDwellingKindType THIRD_PARTY_PLACE_OF_RESIDENCE = new HccrDwellingKindType("ThirdPartyPlaceOfResidence");
-  
-    public static final HccrDwellingKindType OTHER = new HccrDwellingKindType("Other");
-  
+    PLACE_OF_RESIDENCE("PlaceOfResidence"),
+    THIRD_PARTY_PLACE_OF_RESIDENCE("ThirdPartyPlaceOfResidence"),
+    OTHER("Other");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use HccrDwellingKindType.values() instead
+     * @deprecated only for backward
      */
-    private HccrDwellingKindType(String value) {
-        super(value);
+    @Deprecated 
+    public static HccrDwellingKindType[] allHccrDwellingKindTypes = HccrDwellingKindType.values();
+
+    private String legacyLabel;
+
+    private HccrDwellingKindType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public HccrDwellingKindType() {}
-
-    public static HccrDwellingKindType[] allHccrDwellingKindTypes = {
-        PLACE_OF_RESIDENCE,
-        THIRD_PARTY_PLACE_OF_RESIDENCE,
-        OTHER
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static HccrDwellingKindType getDefaultHccrDwellingKindType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of HccrDwellingKindType.something
+     * not the value of the name attribut.
+     */
     public static HccrDwellingKindType forString(final String enumAsString) {
-        for (HccrDwellingKindType value : allHccrDwellingKindTypes)
+        for (HccrDwellingKindType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultHccrDwellingKindType();

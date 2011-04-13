@@ -5,7 +5,7 @@ import java.util.Map;
 
 import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;

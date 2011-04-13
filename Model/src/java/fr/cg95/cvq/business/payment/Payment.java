@@ -6,16 +6,24 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-/** 
- * @hibernate.class
- *  table="payment"
- *  lazy="false"
- *
- * @author bor@zenexity.fr
- * @author rdj@zenexity.fr
- */
+@Entity
+@Table(name="payment")
 public class Payment implements Serializable, Comparable<Payment> {
 
 	private static final long serialVersionUID = 1L;
@@ -38,40 +46,66 @@ public class Payment implements Serializable, Comparable<Payment> {
      * Specific data automatically added to any payment container.
      */
     public static final String SPECIFIC_DATA_EMAIL = "email";
-    
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
+
     /** the broker ("régie" in french) to which this payment is made */
     private String broker;
+
     /** internal reference */
+    @Column(name="cvq_reference")
     private String cvqReference;
-    /** bank transaction reference */
-    private String bankReference;
-    private Date initializationDate;
-    private Date commitDate;
-    private Double amount;
-    private PaymentState state;
-    private Long homeFolderId;
-    private Long requesterId;
-    private String requesterLastName;
-    private String requesterFirstName;
-    private PaymentMode paymentMode;
-    private Set<PurchaseItem> purchaseItems;
-    private boolean commitAlert;
     
+    /** bank transaction reference */
+    @Column(name="bank_reference")
+    private String bankReference;
+
+    @Column(name="initialization_date")
+    private Date initializationDate;
+
+    @Column(name="commit_date")
+    private Date commitDate;
+
+    private Double amount;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="state", length=15)
+    private PaymentState state;
+
+    @Column(name="home_folder_id",nullable=false)
+    private Long homeFolderId;
+
+    @Column(name="requester_id",nullable=false)
+    private Long requesterId;
+
+    @Column(name="requester_last_name",length=38,nullable=false)
+    private String requesterLastName;
+
+    @Column(name="requester_first_name",length=38,nullable=false)
+    private String requesterFirstName;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="payment_mode",length=10)
+    private PaymentMode paymentMode;
+
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+    @JoinColumn(name="payment_id")
+    private Set<PurchaseItem> purchaseItems;
+
+    @Column(name="commit_alert")
+    private boolean commitAlert;
+
     /** 
      * Used to pass payment providers specific information, eg the "borne" from which
      * a payment is initiated. These informations won't be persisted.
      */
-    private Map<String, String> paymentSpecificData = new HashMap<String, String>();
+    @Transient private Map<String, String> paymentSpecificData = new HashMap<String, String>();
 
     public Payment() {
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -80,10 +114,6 @@ public class Payment implements Serializable, Comparable<Payment> {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="broker"
-     */
     public String getBroker() {
         return broker;
     }
@@ -92,10 +122,6 @@ public class Payment implements Serializable, Comparable<Payment> {
         this.broker = broker;
     }
 
-    /**
-     * @hibernate.property
-     *  column="cvq_reference"
-     */
     public final String getCvqReference() {
         return this.cvqReference;
     }
@@ -104,10 +130,6 @@ public class Payment implements Serializable, Comparable<Payment> {
         this.cvqReference = cvqReference;
     }
 
-    /**
-     * @hibernate.property
-     *  column="bank_reference"
-     */
     public final String getBankReference() {
         return this.bankReference;
     }
@@ -116,10 +138,6 @@ public class Payment implements Serializable, Comparable<Payment> {
         this.bankReference = bankReference;
     }
 
-    /**
-     * @hibernate.property
-     *  column="initialization_date"
-     */
     public final Date getInitializationDate() {
         return initializationDate;
     }
@@ -128,10 +146,6 @@ public class Payment implements Serializable, Comparable<Payment> {
         this.initializationDate = initializationDate;
     }
 
-    /**
-     * @hibernate.property
-     *  column="commit_date"
-     */
     public final Date getCommitDate() {
         return this.commitDate;
     }
@@ -140,10 +154,6 @@ public class Payment implements Serializable, Comparable<Payment> {
         this.commitDate = validationDate;
     }
 
-    /**
-     * @hibernate.property
-     *  column="amount"
-     */
     public final Double getAmount() {
         return this.amount;
     }
@@ -163,11 +173,6 @@ public class Payment implements Serializable, Comparable<Payment> {
         return String.valueOf(amount.doubleValue()/100);
     }
 
-    /**
-     * @hibernate.property
-     *  column="state"
-     *  length="15"
-     */
     public final PaymentState getState() {
         return state;
     }
@@ -176,11 +181,6 @@ public class Payment implements Serializable, Comparable<Payment> {
         this.state = state;
     }
 
-    /**
-     * @hibernate.property
-     *  column="home_folder_id"
-     *  not-null="true"
-     */
     public Long getHomeFolderId() {
         return this.homeFolderId;
     }
@@ -189,11 +189,6 @@ public class Payment implements Serializable, Comparable<Payment> {
         this.homeFolderId = homeFolderId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="requester_id"
-     *  not-null="true"
-     */
     public final Long getRequesterId() {
         return requesterId;
     }
@@ -202,12 +197,6 @@ public class Payment implements Serializable, Comparable<Payment> {
         this.requesterId = requesterId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="requester_last_name"
-     *  length="38"
-     *  not-null="true"
-     */
     public String getRequesterLastName() {
         return requesterLastName;
     }
@@ -216,12 +205,6 @@ public class Payment implements Serializable, Comparable<Payment> {
         this.requesterLastName = requesterLastName;
     }
 
-    /**
-     * @hibernate.property
-     *  column="requester_first_name"
-     *  length="38"
-     *  not-null="true"
-     */
     public String getRequesterFirstName() {
         return requesterFirstName;
     }
@@ -230,11 +213,6 @@ public class Payment implements Serializable, Comparable<Payment> {
         this.requesterFirstName = requesterFirstName;
     }
 
-    /**
-     * @hibernate.property
-     *  column="payment_mode"
-     *  length="10"
-     */
     public PaymentMode getPaymentMode() {
         return this.paymentMode;
     }
@@ -243,15 +221,6 @@ public class Payment implements Serializable, Comparable<Payment> {
         this.paymentMode = paymentMode;
     }
 
-    /**
-     * @hibernate.set
-     *  lazy="true"
-     *  cascade="all"
-     * @hibernate.key
-     *  column="payment_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.payment.PurchaseItem"
-     */
     public final Set<PurchaseItem> getPurchaseItems() {
         return purchaseItems;
     }
@@ -260,10 +229,6 @@ public class Payment implements Serializable, Comparable<Payment> {
         this.purchaseItems = purchaseItems;
     }
 
-    /**
-     * @hibernate.property
-     *  column="commit_alert"
-     */
 	public boolean isCommitAlert() {
 		return commitAlert;
 	}

@@ -270,7 +270,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
             hccrDwellingTypeDwelling.setDwellingEstablishmentReception(getDwellingEstablishmentReception().booleanValue());
       
         if (getDwellingKind() != null)
-            hccrDwellingTypeDwelling.setDwellingKind(fr.cg95.cvq.xml.request.social.HccrDwellingKindType.Enum.forString(getDwellingKind().toString()));
+            hccrDwellingTypeDwelling.setDwellingKind(fr.cg95.cvq.xml.request.social.HccrDwellingKindType.Enum.forString(getDwellingKind().getLegacyLabel()));
       
         hccrDwellingTypeDwelling.setDwellingPrecision(getDwellingPrecision());
       
@@ -280,7 +280,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         hccrDwellingTypeDwelling.setDwellingReceptionNaming(getDwellingReceptionNaming());
       
         if (getDwellingReceptionType() != null)
-            hccrDwellingTypeDwelling.setDwellingReceptionType(fr.cg95.cvq.xml.request.social.HccrDwellingReceptionKindType.Enum.forString(getDwellingReceptionType().toString()));
+            hccrDwellingTypeDwelling.setDwellingReceptionType(fr.cg95.cvq.xml.request.social.HccrDwellingReceptionKindType.Enum.forString(getDwellingReceptionType().getLegacyLabel()));
       
         if (getDwellingSocialReception() != null)
             hccrDwellingTypeDwelling.setDwellingSocialReception(getDwellingSocialReception().booleanValue());
@@ -445,7 +445,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
             hccrPaymentAgencyTypePaymentAgency.setPaymentAgencyAddress(Address.modelToXml(getPaymentAgencyAddress()));
       
         if (getPaymentAgencyBeneficiary() != null)
-            hccrPaymentAgencyTypePaymentAgency.setPaymentAgencyBeneficiary(fr.cg95.cvq.xml.request.social.HccrPaymentAgencyBeneficiaryType.Enum.forString(getPaymentAgencyBeneficiary().toString()));
+            hccrPaymentAgencyTypePaymentAgency.setPaymentAgencyBeneficiary(fr.cg95.cvq.xml.request.social.HccrPaymentAgencyBeneficiaryType.Enum.forString(getPaymentAgencyBeneficiary().getLegacyLabel()));
       
         hccrPaymentAgencyTypePaymentAgency.setPaymentAgencyBeneficiaryNumber(getPaymentAgencyBeneficiaryNumber());
       
@@ -468,7 +468,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         hccrProfessionalStatusTypeProfessionalStatus.setProfessionalStatusEmployerName(getProfessionalStatusEmployerName());
       
         if (getProfessionalStatusEnvironment() != null)
-            hccrProfessionalStatusTypeProfessionalStatus.setProfessionalStatusEnvironment(fr.cg95.cvq.xml.request.social.HccrProfessionalStatusEnvironmentType.Enum.forString(getProfessionalStatusEnvironment().toString()));
+            hccrProfessionalStatusTypeProfessionalStatus.setProfessionalStatusEnvironment(fr.cg95.cvq.xml.request.social.HccrProfessionalStatusEnvironmentType.Enum.forString(getProfessionalStatusEnvironment().getLegacyLabel()));
       
         if (getProfessionalStatusIndemnified() != null)
             hccrProfessionalStatusTypeProfessionalStatus.setProfessionalStatusIndemnified(getProfessionalStatusIndemnified().booleanValue());
@@ -480,7 +480,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         }
       
         if (getProfessionalStatusKind() != null)
-            hccrProfessionalStatusTypeProfessionalStatus.setProfessionalStatusKind(fr.cg95.cvq.xml.request.social.HccrProfessionalStatusKindType.Enum.forString(getProfessionalStatusKind().toString()));
+            hccrProfessionalStatusTypeProfessionalStatus.setProfessionalStatusKind(fr.cg95.cvq.xml.request.social.HccrProfessionalStatusKindType.Enum.forString(getProfessionalStatusKind().getLegacyLabel()));
       
         hccrProfessionalStatusTypeProfessionalStatus.setProfessionalStatusProfession(getProfessionalStatusProfession());
       
@@ -599,7 +599,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
             hccrReferentReferent.setReferentFamilyDependents(getReferentFamilyDependents().booleanValue());
       
         if (getReferentFamilyStatus() != null)
-            hccrReferentReferent.setReferentFamilyStatus(fr.cg95.cvq.xml.common.FamilyStatusType.Enum.forString(getReferentFamilyStatus().toString()));
+            hccrReferentReferent.setReferentFamilyStatus(fr.cg95.cvq.xml.common.FamilyStatusType.Enum.forString(getReferentFamilyStatus().getLegacyLabel()));
       
         hccrReferentReferent.setReferentFirstName(getReferentFirstName());
       
@@ -608,10 +608,10 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         hccrReferentReferent.setReferentMaidenName(getReferentMaidenName());
       
         if (getReferentTitle() != null)
-            hccrReferentReferent.setReferentTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getReferentTitle().toString()));
+            hccrReferentReferent.setReferentTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getReferentTitle().getLegacyLabel()));
         HccrSchoolingType hccrSchoolingTypeSchooling = handicapCompensationChildRequest.addNewSchooling();
         if (getSchoolingAttendedGrade() != null)
-            hccrSchoolingTypeSchooling.setSchoolingAttendedGrade(fr.cg95.cvq.xml.common.SectionType.Enum.forString(getSchoolingAttendedGrade().toString()));
+            hccrSchoolingTypeSchooling.setSchoolingAttendedGrade(fr.cg95.cvq.xml.common.SectionType.Enum.forString(getSchoolingAttendedGrade().getLegacyLabel()));
       
         if (getSchoolingEnrolment() != null)
             hccrSchoolingTypeSchooling.setSchoolingEnrolment(getSchoolingEnrolment().booleanValue());
@@ -632,7 +632,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         hccrSchoolingTypeSchooling.setSchoolingHomeSchoolingAccompanistLastName(getSchoolingHomeSchoolingAccompanistLastName());
       
         if (getSchoolingHomeSchoolingKind() != null)
-            hccrSchoolingTypeSchooling.setSchoolingHomeSchoolingKind(fr.cg95.cvq.xml.request.social.HccrHomeSchoolingKindType.Enum.forString(getSchoolingHomeSchoolingKind().toString()));
+            hccrSchoolingTypeSchooling.setSchoolingHomeSchoolingKind(fr.cg95.cvq.xml.request.social.HccrHomeSchoolingKindType.Enum.forString(getSchoolingHomeSchoolingKind().getLegacyLabel()));
       
         if (getSchoolingPersonalizedSchoolingPlan() != null)
             hccrSchoolingTypeSchooling.setSchoolingPersonalizedSchoolingPlan(getSchoolingPersonalizedSchoolingPlan().booleanValue());
@@ -643,7 +643,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         hccrSchoolingTypeSchooling.setSchoolingSchoolName(getSchoolingSchoolName());
       
         if (getSchoolingSchoolingKind() != null)
-            hccrSchoolingTypeSchooling.setSchoolingSchoolingKind(fr.cg95.cvq.xml.request.social.HccrSchoolingKindType.Enum.forString(getSchoolingSchoolingKind().toString()));
+            hccrSchoolingTypeSchooling.setSchoolingSchoolingKind(fr.cg95.cvq.xml.request.social.HccrSchoolingKindType.Enum.forString(getSchoolingSchoolingKind().getLegacyLabel()));
       
         if (getSchoolingSendToSchool() != null)
             hccrSchoolingTypeSchooling.setSchoolingSendToSchool(getSchoolingSendToSchool().booleanValue());
@@ -661,7 +661,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         hccrSocialSecurityTypeSocialSecurity.setSocialSecurityAgencyName(getSocialSecurityAgencyName());
       
         if (getSocialSecurityMemberShipKind() != null)
-            hccrSocialSecurityTypeSocialSecurity.setSocialSecurityMemberShipKind(fr.cg95.cvq.xml.request.social.HccrSocialSecurityMemberShipKindType.Enum.forString(getSocialSecurityMemberShipKind().toString()));
+            hccrSocialSecurityTypeSocialSecurity.setSocialSecurityMemberShipKind(fr.cg95.cvq.xml.request.social.HccrSocialSecurityMemberShipKindType.Enum.forString(getSocialSecurityMemberShipKind().getLegacyLabel()));
       
         hccrSocialSecurityTypeSocialSecurity.setSocialSecurityNumber(getSocialSecurityNumber());
         HccrSocialServiceType hccrSocialServiceTypeSocialService = handicapCompensationChildRequest.addNewSocialService();
@@ -699,7 +699,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         }
       
         if (getSubjectParentalAuthorityHolder() != null)
-            hccrSubjectTypeHccrSubject.setSubjectParentalAuthorityHolder(fr.cg95.cvq.xml.request.social.HccrSubjectParentalAuthorityHolderType.Enum.forString(getSubjectParentalAuthorityHolder().toString()));
+            hccrSubjectTypeHccrSubject.setSubjectParentalAuthorityHolder(fr.cg95.cvq.xml.request.social.HccrSubjectParentalAuthorityHolderType.Enum.forString(getSubjectParentalAuthorityHolder().getLegacyLabel()));
       
         return handicapCompensationChildRequestDoc;
     }

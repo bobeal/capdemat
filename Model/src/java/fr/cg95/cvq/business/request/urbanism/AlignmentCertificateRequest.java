@@ -117,7 +117,7 @@ public class AlignmentCertificateRequest extends Request implements Serializable
         alignmentCertificateRequest.setOwnerLastName(getOwnerLastName());
       
         if (getRequesterQuality() != null)
-            alignmentCertificateRequest.setRequesterQuality(fr.cg95.cvq.xml.request.urbanism.AcrRequesterQualityType.Enum.forString(getRequesterQuality().toString()));
+            alignmentCertificateRequest.setRequesterQuality(fr.cg95.cvq.xml.request.urbanism.AcrRequesterQualityType.Enum.forString(getRequesterQuality().getLegacyLabel()));
       
         alignmentCertificateRequest.setSection(getSection());
       

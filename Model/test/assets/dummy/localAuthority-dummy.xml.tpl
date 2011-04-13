@@ -6,8 +6,40 @@
   <bean id="configurationBean_dummy"
     class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean" init-method="init">
     <property name="name" value="dummy" />
-    <property name="sessionFactory">
-      <ref bean="sessionFactory_dummy" />
+        <property name="jpaConfigurations">
+        <props>
+          <% if (databaseType == 'pgsql') { %>
+          <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+          <prop key="hibernate.connection.driver_class">org.postgresql.Driver</prop>
+          <prop key="hibernate.connection.url">jdbc:postgresql://localhost:5432/capdemat_dummy</prop>
+          <prop key="hibernate.connection.username">capdemat</prop>
+          <prop key="hibernate.connection.password">capdematpass</prop>
+            <prop key="initialPoolSize">0</prop>
+            <prop key="minPoolSize">0</prop>
+            <prop key="maxPoolSize">24</prop>
+            <prop key="maxStatements">0</prop>
+            <prop key="maxIdleTime">300</prop>
+          <% } %>
+
+          <% if (databaseType == 'hsqldb') { %>
+            <prop key="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</prop>
+            <prop key="hibernate.connection.url">jdbc:hsqldb:file:/tmp/capdemat_dummy;shutdown=true</prop>
+            <prop key="hibernate.connection.username">sa</prop>
+            <prop key="hibernate.connection.password"></prop>
+            <prop key="password"></prop>
+            <prop key="acquireIncrement">3</prop>
+            <prop key="initialPoolSize">1</prop>
+            <prop key="minPoolSize">1</prop>
+            <prop key="maxPoolSize">12</prop>
+          <% } %>
+            <prop key="hibernate.show_sql">false</prop>
+            <prop key="hibernate.bytecode.use_reflection_optimizer">true</prop>
+            <prop key="hibernate.use_outer_join">false</prop>
+            <prop key="hibernate.cache.use_query_cache">false</prop>
+            <prop key="hibernate.auto_import">true</prop>
+<!--        <prop key="hibernate.hbm2ddl.auto">create-drop</prop>-->
+            <prop key="hibernate.format_sql">false</prop>
+        </props>
     </property>
     <property name="paymentServices">
       <map>
@@ -73,74 +105,5 @@
       </map>
     </property>
   </bean>
-  
-  <bean id="sessionFactory_dummy"
-    class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
-    parent="abstractSessionFactory">
-    <property name="dataSource">
-      <ref bean="${databaseType}DataSource_dummy" />
-    </property>
-    
-     <property name="hibernateProperties">
-      <props>
-        <% if (databaseType == 'hsqldb') { %>
-          <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
-        <% } else if (databaseType == 'pgsql') { %>
-          <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
-        <% } %>
-        <prop key="hibernate.show_sql">false</prop>
-        <prop key="hibernate.bytecode.use_reflection_optimizer">true</prop>
-        <prop key="hibernate.use_outer_join">false</prop>
-        <prop key="hibernate.cache.use_query_cache">false</prop>
-        <prop key="hibernate.auto_import">true</prop>
-   <!-- <prop key="hibernate.hbm2ddl.auto">create-drop</prop> -->
-      </props>
-    </property>
-    
-  </bean>
-
-  <% if (databaseType == 'pgsql') { %>
-  <bean id="pgsqlDataSource_dummy" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-    <property name="driverClass">
-      <value>org.postgresql.Driver</value>
-    </property>
-    <property name="jdbcUrl">
-      <value>jdbc:postgresql://localhost:5432/capdemat_dummy</value>
-    </property>
-    <property name="user">
-      <value>capdemat</value>
-    </property>
-    <property name="password">
-      <value>capdematpass</value>
-    </property>
-    <property name="acquireIncrement" value="3" />
-    <property name="initialPoolSize" value="0" />
-    <property name="minPoolSize" value="0" />
-    <property name="maxPoolSize" value="24" />
-    <property name="maxStatements" value="0"/>
-    <property name="maxIdleTime" value="300" />
-  </bean>
-  <% } %>
-  
-  <% if (databaseType == 'hsqldb') { %>
-  <bean id="hsqldbDataSource_dummy" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-    <property name="driverClass">
-      <value>org.hsqldb.jdbcDriver</value>
-    </property>
-    <property name="jdbcUrl">
-      <value>jdbc:hsqldb:file:/tmp/capdemat_dummy;shutdown=true</value>
-    </property>
-    <property name="user">
-      <value>sa</value>
-    </property>
-    <property name="password">
-      <value></value>
-    </property>
-    <property name="acquireIncrement" value="3" />
-    <property name="initialPoolSize" value="1" />
-    <property name="minPoolSize" value="1" />
-    <property name="maxPoolSize" value="12" />
-  </bean>
-  <% } %>
 
 </beans>

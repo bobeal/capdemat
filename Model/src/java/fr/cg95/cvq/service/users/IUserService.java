@@ -6,13 +6,11 @@ import java.util.List;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.annotation.IsUser;
 
 public interface IUserService {
 
-    boolean hasHomeFolderRole(@IsUser Long ownerId, @IsUser Long homeFolderId, RoleType role)
-        throws CvqObjectNotFoundException;
+    boolean hasHomeFolderRole(@IsUser Long ownerId, @IsUser Long homeFolderId, RoleType role);
 
     /**
      * @param adult The {@link Adult} to validate

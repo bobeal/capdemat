@@ -1,39 +1,41 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class DhrDwellingStatusType extends PersistentStringEnum {
+public enum DhrDwellingStatusType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final DhrDwellingStatusType OWNER = new DhrDwellingStatusType("owner");
-  
-    public static final DhrDwellingStatusType TENANT = new DhrDwellingStatusType("tenant");
-  
+    OWNER("owner"),
+    TENANT("tenant");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use DhrDwellingStatusType.values() instead
+     * @deprecated only for backward
      */
-    private DhrDwellingStatusType(String value) {
-        super(value);
+    @Deprecated 
+    public static DhrDwellingStatusType[] allDhrDwellingStatusTypes = DhrDwellingStatusType.values();
+
+    private String legacyLabel;
+
+    private DhrDwellingStatusType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public DhrDwellingStatusType() {}
-
-    public static DhrDwellingStatusType[] allDhrDwellingStatusTypes = {
-        OWNER,
-        TENANT
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static DhrDwellingStatusType getDefaultDhrDwellingStatusType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of DhrDwellingStatusType.something
+     * not the value of the name attribut.
+     */
     public static DhrDwellingStatusType forString(final String enumAsString) {
-        for (DhrDwellingStatusType value : allDhrDwellingStatusTypes)
+        for (DhrDwellingStatusType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultDhrDwellingStatusType();

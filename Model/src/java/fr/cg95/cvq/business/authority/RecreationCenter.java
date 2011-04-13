@@ -2,26 +2,30 @@ package fr.cg95.cvq.business.authority;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import fr.cg95.cvq.xml.common.RecreationCenterType;
 
-
-/**
- * @hibernate.class
- *  table="recreation_center"
- *  lazy="false"
- *
- * @author bor@zenexity.fr
- */
+@Entity
+@Table(name="recreation_center")
 public class RecreationCenter implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	/** identifier field */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(name="name", nullable=false)
     private String name;
+
     private String address;
     private Boolean active;
 
@@ -53,11 +57,6 @@ public class RecreationCenter implements Serializable {
         return recreationCenter;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -66,11 +65,6 @@ public class RecreationCenter implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="name"
-     *  not-null="true"
-     */
     public String getName() {
         return this.name;
     }
@@ -79,10 +73,6 @@ public class RecreationCenter implements Serializable {
         this.name = name;
     }
     
-    /**
-     * @hibernate.property
-     *  column="address"
-     */
     public String getAddress() {
         return address;
     }
@@ -91,10 +81,6 @@ public class RecreationCenter implements Serializable {
         this.address = address;
     }
 
-    /**
-     * @hibernate.property
-     *  column="active"
-     */
     public Boolean getActive() {
         return active;
     }

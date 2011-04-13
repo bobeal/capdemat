@@ -4,16 +4,26 @@ import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-
-/**
- * @hibernate.class
- *  table="request_type"
- *  lazy="false"
- *
- * @author Benoit Orihuela (bor@zenexity.fr)
- */
+@Entity
+@Table(name="request_type")
 public class RequestType implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,44 +31,60 @@ public class RequestType implements Serializable {
     public static final String SEARCH_BY_CATEGORY_ID = "categoryId";
     public static final String SEARCH_BY_STATE = "active";
 
-    /** identifier field */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
     private String label;
 
     /** whether or not this request type is activated for the current local authority */
     private Boolean active;
+
     /** the category which is in charge of this request type */
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="category_id")
     private Category category;
+
     /** this group in which request type will be display */
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="display_group_id")
     private DisplayGroup displayGroup;
 
     /** the set of requirements to fulfill this request type */
+    @ElementCollection(fetch=FetchType.EAGER)
+    @CollectionTable(
+          name="requirement",
+          joinColumns=@JoinColumn(name="request_type_id")
+    )
     private Set<Requirement> requirements;
+
     /** the set of forms associated with this request type */
+    @ManyToMany(mappedBy="requestTypes",fetch=FetchType.LAZY)
     private Set<RequestForm> forms;
+
     /** the set of seasons associated with this request type */
+    @OneToMany(mappedBy="requestType",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     private Set<RequestSeason> seasons;
+
     /** 
      * whether or not an user can issue multiple registration requests for a given season.
      * only applicable to request types that have seasons defined. 
      */
+    @Column(name="authorize_multiple_registrations_per_season")
     private Boolean authorizeMultipleRegistrationsPerSeason;
 
     /** the maximum delay (in days) to deal with a request's instruction */
+    @Column(name="instruction_max_delay")
     private Integer instructionMaxDelay;
+
     /** the number of days before the maximum delay timeout where we send an alert email */
+    @Column(name="instruction_alert_delay")
     private Integer instructionAlertDelay;
 
     public RequestType() {
         setSeasons(new TreeSet<RequestSeason>());
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -67,10 +93,6 @@ public class RequestType implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="label"
-     */
     public String getLabel() {
         return this.label;
     }
@@ -79,10 +101,6 @@ public class RequestType implements Serializable {
         this.label = label;
     }
 
-    /**
-     * @hibernate.property
-     *  column="active"
-     */
     public Boolean getActive() {
         return this.active;
     }
@@ -91,11 +109,6 @@ public class RequestType implements Serializable {
         this.active = active;
     }
 
-    /**
-     * @hibernate.many-to-one
-     *  column="category_id"
-     *  class="fr.cg95.cvq.business.request.Category"
-     */
     public Category getCategory() {
         return this.category;
     }
@@ -104,11 +117,6 @@ public class RequestType implements Serializable {
         this.category = category;
     }
 
-    /**
-     * @hibernate.many-to-one
-     *  column="display_group_id"
-     *  class="fr.cg95.cvq.business.request.DisplayGroup"
-     */
     public DisplayGroup getDisplayGroup() {
         return displayGroup;
     }
@@ -117,15 +125,6 @@ public class RequestType implements Serializable {
         this.displayGroup = displayGroup;
     }
 
-    /**
-     * @hibernate.set
-     *  table="requirement"
-     *  lazy="true"
-     * @hibernate.key
-     *  column="request_type_id"
-     * @hibernate.composite-element
-     *  class="fr.cg95.cvq.business.request.Requirement"
-     */
     public Set<Requirement> getRequirements() {
         return this.requirements;
     }
@@ -134,17 +133,6 @@ public class RequestType implements Serializable {
         this.requirements = requirements;
     }
 
-    /**
-     * @hibernate.set
-     *  table="forms"
-     *  inverse="true"
-     *  lazy="true"
-     * @hibernate.key
-     *  column="request_type_id"
-     * @hibernate.many-to-many
-     *  class="fr.cg95.cvq.business.request.RequestForm"
-     *  column="request_form_id"
-     */
     public Set<RequestForm> getForms() {
         return this.forms;
     }
@@ -153,15 +141,6 @@ public class RequestType implements Serializable {
         this.forms = forms;
     }
 
-    /**
-     * @hibernate.set
-     *  inverse="true"
-     *  cascade="all"
-     * @hibernate.key
-     *  column="request_type_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.request.RequestSeason"
-     */
     public final Set<RequestSeason> getSeasons() {
         return seasons;
     }
@@ -170,10 +149,6 @@ public class RequestType implements Serializable {
         this.seasons = seasons;
     }
 
-    /**
-     * @hibernate.property
-     *  column="authorize_multiple_registrations_per_season"
-     */
     public final Boolean getAuthorizeMultipleRegistrationsPerSeason() {
         return authorizeMultipleRegistrationsPerSeason;
     }
@@ -183,29 +158,21 @@ public class RequestType implements Serializable {
         this.authorizeMultipleRegistrationsPerSeason = authorizeMultipleRegistrationPerSeason;
     }
 
-    /**
-     * @hibernate.property
-     *  column="instruction_alert_delay"
-     */
-	public Integer getInstructionAlertDelay() {
-		return instructionAlertDelay;
-	}
+    public Integer getInstructionAlertDelay() {
+        return instructionAlertDelay;
+    }
 
-	public void setInstructionAlertDelay(Integer instructionAlertDelay) {
-		this.instructionAlertDelay = instructionAlertDelay;
-	}
+    public void setInstructionAlertDelay(Integer instructionAlertDelay) {
+        this.instructionAlertDelay = instructionAlertDelay;
+    }
 
-    /**
-     * @hibernate.property
-     *  column="instruction_max_delay"
-     */
-	public Integer getInstructionMaxDelay() {
-		return instructionMaxDelay;
-	}
+    public Integer getInstructionMaxDelay() {
+        return instructionMaxDelay;
+    }
 
-	public void setInstructionMaxDelay(Integer instructionMaxDelay) {
-		this.instructionMaxDelay = instructionMaxDelay;
-	}
+    public void setInstructionMaxDelay(Integer instructionMaxDelay) {
+        this.instructionMaxDelay = instructionMaxDelay;
+    }
 
     @Override
     public String toString() {

@@ -25,6 +25,7 @@ import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.FamilyStatusType;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;
+import fr.cg95.cvq.business.users.UserState;
 
 /**
  * A factory to create necessary referential objects.
@@ -64,6 +65,7 @@ public class BusinessObjectsFactory {
     public static Adult gimmeAdult(TitleType title, String lastName, String firstName,
         Address address, FamilyStatusType fs) {
         Adult adult = new Adult();
+        adult.setState(UserState.VALID);
         adult.setTitle(title);
         adult.setLastName(lastName);
         adult.setFirstName(firstName);

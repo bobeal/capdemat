@@ -2,19 +2,24 @@ package fr.cg95.cvq.business.request;
 
 import java.io.Serializable;
 
-/**
- * @hibernate.class
- *  table="request_document"
- *  lazy="false"
- *
- * @author bor@zenexity.fr
- */
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="request_document")
 public class RequestDocument implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /** identifier field */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
+
+    @Column(name="document_id")
     private Long documentId;
 
     public RequestDocument() {
@@ -25,11 +30,6 @@ public class RequestDocument implements Serializable {
         this.documentId = documentId;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return id;
     }
@@ -38,10 +38,6 @@ public class RequestDocument implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="document_id"
-     */
     public Long getDocumentId() {
         return documentId;
     }

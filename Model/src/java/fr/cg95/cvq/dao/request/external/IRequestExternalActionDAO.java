@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Set;
 
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
-import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.IJpaTemplate;
 import fr.cg95.cvq.util.Critere;
 
 /**
  * @author jsb@zenexity.fr
  */
-public interface IRequestExternalActionDAO extends IGenericDAO {
+public interface IRequestExternalActionDAO extends IJpaTemplate<RequestExternalAction,Long> {
 
     List<RequestExternalAction> get(Set<Critere> criteriaSet, String sort,
         String dir, int count, int offset, boolean lastOnly);

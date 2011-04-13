@@ -16,7 +16,7 @@ import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
 import fr.cg95.cvq.business.payment.Payment;
 import fr.cg95.cvq.business.payment.PaymentState;
-import fr.cg95.cvq.dao.hibernate.GenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaTemplate;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.payment.IPaymentDAO;
 import fr.cg95.cvq.external.ExternalServiceUtils;
@@ -29,7 +29,7 @@ import fr.cg95.cvq.util.DateUtils;
  * @author bor@zenexity.fr
  * @author rdj@zenexity.fr
  */
-public class PaymentDAO extends GenericDAO implements IPaymentDAO {
+public class PaymentDAO extends JpaTemplate<Payment,Long> implements IPaymentDAO {
 	  
     public PaymentDAO() {
         super();
@@ -301,7 +301,7 @@ public class PaymentDAO extends GenericDAO implements IPaymentDAO {
         typeList.add(Hibernate.TIMESTAMP);
 
         sb.append("and payment.state = ? ");
-        objectList.add(PaymentState.INITIALIZED.toString());
+        objectList.add(PaymentState.INITIALIZED.name());
         typeList.add(Hibernate.STRING);
 
         sb.append("and payment.commitAlert = ?");

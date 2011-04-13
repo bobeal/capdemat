@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.school;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="recreation_activity_registration_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="recreation_activity_registration_request")
 public class RecreationActivityRegistrationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -121,11 +124,8 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -141,25 +141,16 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.school.RecreationAuthorizedIndividual> authorizedIndividuals;
 
-    public final void setAuthorizedIndividuals(final List<fr.cg95.cvq.business.request.school.RecreationAuthorizedIndividual> authorizedIndividuals) {
+    public void setAuthorizedIndividuals(final List<fr.cg95.cvq.business.request.school.RecreationAuthorizedIndividual> authorizedIndividuals) {
         this.authorizedIndividuals = authorizedIndividuals;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="recreation_activity_registration_request_id"
-        * @hibernate.list-index
-        *  column="authorized_individuals_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.school.RecreationAuthorizedIndividual"
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @OrderColumn(name="authorized_individuals_index")
+    @JoinColumn(name="recreation_activity_registration_request_id")
       
-    */
-    public final List<fr.cg95.cvq.business.request.school.RecreationAuthorizedIndividual> getAuthorizedIndividuals() {
+    public List<fr.cg95.cvq.business.request.school.RecreationAuthorizedIndividual> getAuthorizedIndividuals() {
         return this.authorizedIndividuals;
     }
   
@@ -173,18 +164,14 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
     
     private Boolean childPhotoExploitationPermission;
 
-    public final void setChildPhotoExploitationPermission(final Boolean childPhotoExploitationPermission) {
+    public void setChildPhotoExploitationPermission(final Boolean childPhotoExploitationPermission) {
         this.childPhotoExploitationPermission = childPhotoExploitationPermission;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="child_photo_exploitation_permission"
-        
+    @Column(name="child_photo_exploitation_permission"  )
       
-    */
-    public final Boolean getChildPhotoExploitationPermission() {
+    public Boolean getChildPhotoExploitationPermission() {
         return this.childPhotoExploitationPermission;
     }
   
@@ -198,18 +185,14 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
     
     private Boolean classTripPermission;
 
-    public final void setClassTripPermission(final Boolean classTripPermission) {
+    public void setClassTripPermission(final Boolean classTripPermission) {
         this.classTripPermission = classTripPermission;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="class_trip_permission"
-        
+    @Column(name="class_trip_permission"  )
       
-    */
-    public final Boolean getClassTripPermission() {
+    public Boolean getClassTripPermission() {
         return this.classTripPermission;
     }
   
@@ -223,25 +206,16 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.school.RecreationContactIndividual> contactIndividuals;
 
-    public final void setContactIndividuals(final List<fr.cg95.cvq.business.request.school.RecreationContactIndividual> contactIndividuals) {
+    public void setContactIndividuals(final List<fr.cg95.cvq.business.request.school.RecreationContactIndividual> contactIndividuals) {
         this.contactIndividuals = contactIndividuals;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="recreation_activity_registration_request_id"
-        * @hibernate.list-index
-        *  column="contact_individuals_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.school.RecreationContactIndividual"
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @OrderColumn(name="contact_individuals_index")
+    @JoinColumn(name="recreation_activity_registration_request_id")
       
-    */
-    public final List<fr.cg95.cvq.business.request.school.RecreationContactIndividual> getContactIndividuals() {
+    public List<fr.cg95.cvq.business.request.school.RecreationContactIndividual> getContactIndividuals() {
         return this.contactIndividuals;
     }
   
@@ -255,18 +229,14 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
     
     private Boolean hospitalizationPermission;
 
-    public final void setHospitalizationPermission(final Boolean hospitalizationPermission) {
+    public void setHospitalizationPermission(final Boolean hospitalizationPermission) {
         this.hospitalizationPermission = hospitalizationPermission;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="hospitalization_permission"
-        
+    @Column(name="hospitalization_permission"  )
       
-    */
-    public final Boolean getHospitalizationPermission() {
+    public Boolean getHospitalizationPermission() {
         return this.hospitalizationPermission;
     }
   
@@ -289,27 +259,20 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.LocalReferentialData> recreationActivity;
 
-    public final void setRecreationActivity(final List<fr.cg95.cvq.business.request.LocalReferentialData> recreationActivity) {
+    public void setRecreationActivity(final List<fr.cg95.cvq.business.request.LocalReferentialData> recreationActivity) {
         this.recreationActivity = recreationActivity;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="recreation_activity_registration_request_recreation_activity"
-        * @hibernate.key
-        *  column="recreation_activity_registration_request_id"
-        * @hibernate.list-index
-        *  column="recreation_activity_index"
-        * @hibernate.many-to-many
-        *  column="recreation_activity_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+    @ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="recreation_activity_registration_request_recreation_activity",
+            joinColumns=
+                @JoinColumn(name="recreation_activity_registration_request_id"),
+            inverseJoinColumns=
+                @JoinColumn(name="recreation_activity_id"))
+    @OrderColumn(name="recreation_activity_index")
       
-    */
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getRecreationActivity() {
+    public List<fr.cg95.cvq.business.request.LocalReferentialData> getRecreationActivity() {
         return this.recreationActivity;
     }
   
@@ -323,19 +286,15 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
     
     private fr.cg95.cvq.business.authority.RecreationCenter recreationCenter;
 
-    public final void setRecreationCenter(final fr.cg95.cvq.business.authority.RecreationCenter recreationCenter) {
+    public void setRecreationCenter(final fr.cg95.cvq.business.authority.RecreationCenter recreationCenter) {
         this.recreationCenter = recreationCenter;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        
-        *  column="recreation_center_id"
-        *  class="fr.cg95.cvq.business.authority.RecreationCenter"
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="recreation_center_id")
       
-    */
-    public final fr.cg95.cvq.business.authority.RecreationCenter getRecreationCenter() {
+    public fr.cg95.cvq.business.authority.RecreationCenter getRecreationCenter() {
         return this.recreationCenter;
     }
   
@@ -349,18 +308,14 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
     
     private Boolean rulesAndRegulationsAcceptance;
 
-    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
+    public void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
         this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="rules_and_regulations_acceptance"
-        
+    @Column(name="rules_and_regulations_acceptance"  )
       
-    */
-    public final Boolean getRulesAndRegulationsAcceptance() {
+    public Boolean getRulesAndRegulationsAcceptance() {
         return this.rulesAndRegulationsAcceptance;
     }
   
@@ -390,18 +345,14 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
     
     private String urgencyPhone;
 
-    public final void setUrgencyPhone(final String urgencyPhone) {
+    public void setUrgencyPhone(final String urgencyPhone) {
         this.urgencyPhone = urgencyPhone;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="urgency_phone"
-        *  length="10"
+    @Column(name="urgency_phone" , length=10 )
       
-    */
-    public final String getUrgencyPhone() {
+    public String getUrgencyPhone() {
         return this.urgencyPhone;
     }
   

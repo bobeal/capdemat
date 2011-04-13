@@ -1,39 +1,41 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class HccrSchoolingKindType extends PersistentStringEnum {
+public enum HccrSchoolingKindType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final HccrSchoolingKindType FULL_TIME = new HccrSchoolingKindType("FullTime");
-  
-    public static final HccrSchoolingKindType PART_TIME = new HccrSchoolingKindType("PartTime");
-  
+    FULL_TIME("FullTime"),
+    PART_TIME("PartTime");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use HccrSchoolingKindType.values() instead
+     * @deprecated only for backward
      */
-    private HccrSchoolingKindType(String value) {
-        super(value);
+    @Deprecated 
+    public static HccrSchoolingKindType[] allHccrSchoolingKindTypes = HccrSchoolingKindType.values();
+
+    private String legacyLabel;
+
+    private HccrSchoolingKindType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public HccrSchoolingKindType() {}
-
-    public static HccrSchoolingKindType[] allHccrSchoolingKindTypes = {
-        FULL_TIME,
-        PART_TIME
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static HccrSchoolingKindType getDefaultHccrSchoolingKindType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of HccrSchoolingKindType.something
+     * not the value of the name attribut.
+     */
     public static HccrSchoolingKindType forString(final String enumAsString) {
-        for (HccrSchoolingKindType value : allHccrSchoolingKindTypes)
+        for (HccrSchoolingKindType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultHccrSchoolingKindType();

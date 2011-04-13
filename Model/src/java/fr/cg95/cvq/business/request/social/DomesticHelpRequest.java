@@ -154,7 +154,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
         }
       
         if (getDhrCurrentDwellingKind() != null)
-            dhrCurrentDwellingTypeDhrCurrentDwelling.setDhrCurrentDwellingKind(fr.cg95.cvq.xml.request.social.DhrDwellingKindType.Enum.forString(getDhrCurrentDwellingKind().toString()));
+            dhrCurrentDwellingTypeDhrCurrentDwelling.setDhrCurrentDwellingKind(fr.cg95.cvq.xml.request.social.DhrDwellingKindType.Enum.forString(getDhrCurrentDwellingKind().getLegacyLabel()));
       
         if (getDhrCurrentDwellingNetArea() != null)
             dhrCurrentDwellingTypeDhrCurrentDwelling.setDhrCurrentDwellingNetArea(getDhrCurrentDwellingNetArea());
@@ -165,7 +165,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
         dhrCurrentDwellingTypeDhrCurrentDwelling.setDhrCurrentDwellingPhone(getDhrCurrentDwellingPhone());
       
         if (getDhrCurrentDwellingStatus() != null)
-            dhrCurrentDwellingTypeDhrCurrentDwelling.setDhrCurrentDwellingStatus(fr.cg95.cvq.xml.request.social.DhrDwellingStatusType.Enum.forString(getDhrCurrentDwellingStatus().toString()));
+            dhrCurrentDwellingTypeDhrCurrentDwelling.setDhrCurrentDwellingStatus(fr.cg95.cvq.xml.request.social.DhrDwellingStatusType.Enum.forString(getDhrCurrentDwellingStatus().getLegacyLabel()));
       
         if (getDhrFurnitureInvestmentIncome() != null)
             dhrIncomesTypeDhrRequesterIncomes.setDhrFurnitureInvestmentIncome(new BigInteger(getDhrFurnitureInvestmentIncome().toString()));
@@ -174,7 +174,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
             dhrRequesterGuardianTypeDhrRequesterGuardian.setDhrGuardianAddress(Address.modelToXml(getDhrGuardianAddress()));
       
         if (getDhrGuardianMeasure() != null)
-            dhrRequesterGuardianTypeDhrRequesterGuardian.setDhrGuardianMeasure(fr.cg95.cvq.xml.request.social.DhrGuardianMeasureType.Enum.forString(getDhrGuardianMeasure().toString()));
+            dhrRequesterGuardianTypeDhrRequesterGuardian.setDhrGuardianMeasure(fr.cg95.cvq.xml.request.social.DhrGuardianMeasureType.Enum.forString(getDhrGuardianMeasure().getLegacyLabel()));
       
         dhrRequesterGuardianTypeDhrRequesterGuardian.setDhrGuardianName(getDhrGuardianName());
         DhrFamilyReferentType dhrFamilyReferentTypeDhrFamilyReferent = domesticHelpRequest.addNewDhrFamilyReferent();
@@ -214,7 +214,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
         }
       
         if (getDhrPrincipalPensionPlan() != null)
-            dhrRequesterPensionPlanTypeDhrRequesterPensionPlan.setDhrPrincipalPensionPlan(fr.cg95.cvq.xml.request.social.DhrPrincipalPensionPlanType.Enum.forString(getDhrPrincipalPensionPlan().toString()));
+            dhrRequesterPensionPlanTypeDhrRequesterPensionPlan.setDhrPrincipalPensionPlan(fr.cg95.cvq.xml.request.social.DhrPrincipalPensionPlanType.Enum.forString(getDhrPrincipalPensionPlan().getLegacyLabel()));
       
         i = 0;
         if (getDhrRealAsset() != null) {
@@ -236,7 +236,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
         dhrFamilyReferentTypeDhrFamilyReferent.setDhrReferentName(getDhrReferentName());
         DhrSpouseType dhrSpouseTypeDhrSpouse = domesticHelpRequest.addNewDhrSpouse();
         if (getDhrRequestKind() != null)
-            dhrSpouseTypeDhrSpouse.setDhrRequestKind(fr.cg95.cvq.xml.request.social.DhrRequestKindType.Enum.forString(getDhrRequestKind().toString()));
+            dhrSpouseTypeDhrSpouse.setDhrRequestKind(fr.cg95.cvq.xml.request.social.DhrRequestKindType.Enum.forString(getDhrRequestKind().getLegacyLabel()));
         DhrRequesterType dhrRequesterTypeDhrRequester = domesticHelpRequest.addNewDhrRequester();
         date = getDhrRequesterBirthDate();
         if (date != null) {
@@ -259,7 +259,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
             dhrRequesterTypeDhrRequester.setDhrRequesterIsFrenchResident(getDhrRequesterIsFrenchResident().booleanValue());
       
         if (getDhrRequesterNationality() != null)
-            dhrRequesterTypeDhrRequester.setDhrRequesterNationality(fr.cg95.cvq.xml.common.NationalityType.Enum.forString(getDhrRequesterNationality().toString()));
+            dhrRequesterTypeDhrRequester.setDhrRequesterNationality(fr.cg95.cvq.xml.common.NationalityType.Enum.forString(getDhrRequesterNationality().getLegacyLabel()));
       
         if (getDhrSpouseAddress() != null)
             dhrSpouseStatusTypeDhrSpouseStatus.setDhrSpouseAddress(Address.modelToXml(getDhrSpouseAddress()));
@@ -277,7 +277,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
         dhrSpouseStatusTypeDhrSpouseStatus.setDhrSpouseEmployer(getDhrSpouseEmployer());
       
         if (getDhrSpouseFamilyStatus() != null)
-            dhrSpouseTypeDhrSpouse.setDhrSpouseFamilyStatus(fr.cg95.cvq.xml.common.FamilyStatusType.Enum.forString(getDhrSpouseFamilyStatus().toString()));
+            dhrSpouseTypeDhrSpouse.setDhrSpouseFamilyStatus(fr.cg95.cvq.xml.common.FamilyStatusType.Enum.forString(getDhrSpouseFamilyStatus().getLegacyLabel()));
       
         dhrSpouseTypeDhrSpouse.setDhrSpouseFirstName(getDhrSpouseFirstName());
       
@@ -295,17 +295,17 @@ public class DomesticHelpRequest extends Request implements Serializable {
         dhrSpouseTypeDhrSpouse.setDhrSpouseName(getDhrSpouseName());
       
         if (getDhrSpouseNationality() != null)
-            dhrSpouseTypeDhrSpouse.setDhrSpouseNationality(fr.cg95.cvq.xml.common.NationalityType.Enum.forString(getDhrSpouseNationality().toString()));
+            dhrSpouseTypeDhrSpouse.setDhrSpouseNationality(fr.cg95.cvq.xml.common.NationalityType.Enum.forString(getDhrSpouseNationality().getLegacyLabel()));
       
         dhrSpouseStatusTypeDhrSpouseStatus.setDhrSpousePensionPlanDetail(getDhrSpousePensionPlanDetail());
       
         if (getDhrSpousePrincipalPensionPlan() != null)
-            dhrSpouseStatusTypeDhrSpouseStatus.setDhrSpousePrincipalPensionPlan(fr.cg95.cvq.xml.request.social.DhrPrincipalPensionPlanType.Enum.forString(getDhrSpousePrincipalPensionPlan().toString()));
+            dhrSpouseStatusTypeDhrSpouseStatus.setDhrSpousePrincipalPensionPlan(fr.cg95.cvq.xml.request.social.DhrPrincipalPensionPlanType.Enum.forString(getDhrSpousePrincipalPensionPlan().getLegacyLabel()));
       
         dhrSpouseStatusTypeDhrSpouseStatus.setDhrSpouseProfession(getDhrSpouseProfession());
       
         if (getDhrSpouseTitle() != null)
-            dhrSpouseTypeDhrSpouse.setDhrSpouseTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getDhrSpouseTitle().toString()));
+            dhrSpouseTypeDhrSpouse.setDhrSpouseTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getDhrSpouseTitle().getLegacyLabel()));
       
         if (getLocalRate() != null)
             dhrTaxesAmountTypeDhrTaxesAmount.setLocalRate(new BigInteger(getLocalRate().toString()));

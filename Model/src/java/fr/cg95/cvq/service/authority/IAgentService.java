@@ -27,8 +27,7 @@ public interface IAgentService {
     /**
      * Get an agent by id.
      */
-    Agent getById(final Long id)
-        throws CvqObjectNotFoundException;
+    Agent getById(final Long id);
 
     /**
      * Get an agent by login.

@@ -1,42 +1,42 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class HccrSubjectParentalAuthorityHolderType extends PersistentStringEnum {
+public enum HccrSubjectParentalAuthorityHolderType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final HccrSubjectParentalAuthorityHolderType FATHER = new HccrSubjectParentalAuthorityHolderType("Father");
-  
-    public static final HccrSubjectParentalAuthorityHolderType MOTHER = new HccrSubjectParentalAuthorityHolderType("Mother");
-  
-    public static final HccrSubjectParentalAuthorityHolderType OTHER = new HccrSubjectParentalAuthorityHolderType("Other");
-  
+    FATHER("Father"),
+    MOTHER("Mother"),
+    OTHER("Other");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use HccrSubjectParentalAuthorityHolderType.values() instead
+     * @deprecated only for backward
      */
-    private HccrSubjectParentalAuthorityHolderType(String value) {
-        super(value);
+    @Deprecated 
+    public static HccrSubjectParentalAuthorityHolderType[] allHccrSubjectParentalAuthorityHolderTypes = HccrSubjectParentalAuthorityHolderType.values();
+
+    private String legacyLabel;
+
+    private HccrSubjectParentalAuthorityHolderType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public HccrSubjectParentalAuthorityHolderType() {}
-
-    public static HccrSubjectParentalAuthorityHolderType[] allHccrSubjectParentalAuthorityHolderTypes = {
-        FATHER,
-        MOTHER,
-        OTHER
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static HccrSubjectParentalAuthorityHolderType getDefaultHccrSubjectParentalAuthorityHolderType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of HccrSubjectParentalAuthorityHolderType.something
+     * not the value of the name attribut.
+     */
     public static HccrSubjectParentalAuthorityHolderType forString(final String enumAsString) {
-        for (HccrSubjectParentalAuthorityHolderType value : allHccrSubjectParentalAuthorityHolderTypes)
+        for (HccrSubjectParentalAuthorityHolderType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultHccrSubjectParentalAuthorityHolderType();

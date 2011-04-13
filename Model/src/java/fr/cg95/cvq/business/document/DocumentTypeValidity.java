@@ -1,47 +1,39 @@
 package fr.cg95.cvq.business.document;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Utility class used to represent the default validity duration of a
  * {@link fr.cg95.cvq.business.document.DocumentType document type}.
  *
  * @author bor@zenexity.fr
  */
-public final class DocumentTypeValidity extends PersistentStringEnum {
+public enum DocumentTypeValidity {
 
-	private static final long serialVersionUID = 1L;
-
-	/** a document type which does not have an end validity date */
-    public static final DocumentTypeValidity UNLIMITED =
-        new DocumentTypeValidity("Unlimited");
+    /** a document type which does not have an end validity date */
+    UNLIMITED("Unlimited"),
     /** a document type whose end validity date is expressed in years */
-    public static final DocumentTypeValidity YEAR =
-        new DocumentTypeValidity("Year");
+    YEAR("Year"),
     /** a document type whose end validity date is expressed in months */
-    public static final DocumentTypeValidity MONTH =
-        new DocumentTypeValidity("Month");
+    MONTH("Month"),
     /** a document type which is valid 'till the end of the current year */
-    public static final DocumentTypeValidity END_YEAR =
-        new DocumentTypeValidity("End Year");
+    END_YEAR("End Year"),
     /** a document type which is valid 'till the end of the current school year */
-    public static final DocumentTypeValidity END_SCHOOL_YEAR =
-        new DocumentTypeValidity("End School Year");
+    END_SCHOOL_YEAR("End School Year");
 
-    public DocumentTypeValidity() {}
+    private String name;
 
     private DocumentTypeValidity(String name) {
-        super(name);
+        this.name = name;
     }
 
     /**
      * A vector of all possible {@link DocumentTypeValidity DocumentTypeValidity}.
+     * only for backward use DocumentTypeValidity.values() instead
+     * @deprecated only for backward
      */
-    public static final DocumentTypeValidity[] allDocumentTypeValidity = {
-        UNLIMITED,
-        YEAR,
-        MONTH,
-        END_YEAR,
-        END_SCHOOL_YEAR
-    };
+    public static final DocumentTypeValidity[] allDocumentTypeValidity = DocumentTypeValidity.values();
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

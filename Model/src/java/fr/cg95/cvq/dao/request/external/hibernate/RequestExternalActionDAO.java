@@ -15,7 +15,7 @@ import org.hibernate.type.Type;
 
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
-import fr.cg95.cvq.dao.hibernate.GenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaTemplate;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.external.IRequestExternalActionDAO;
 import fr.cg95.cvq.util.Critere;
@@ -24,7 +24,7 @@ import fr.cg95.cvq.util.Critere;
  * @author jsb@zenexity.fr
  *
  */
-public final class RequestExternalActionDAO extends GenericDAO implements IRequestExternalActionDAO {
+public final class RequestExternalActionDAO extends JpaTemplate<RequestExternalAction,Long> implements IRequestExternalActionDAO {
 
     @Override
     @SuppressWarnings("unchecked")
@@ -99,7 +99,7 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
                     parametersValues.add(searchCrit.getSqlStringValue());
                     parametersTypes.add(Hibernate.STRING);
                 } else if (RequestExternalAction.SEARCH_BY_STATUS.equals(searchCrit.getAttribut())) {
-                    parametersValues.add(searchCrit.getValue().toString());
+                    parametersValues.add(RequestExternalAction.Status.forString(searchCrit.getValue().toString()).name());
                     parametersTypes.add(Hibernate.STRING);
                 }
             }
@@ -173,7 +173,7 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
                     parametersValues.add(searchCrit.getSqlStringValue());
                     parametersTypes.add(Hibernate.STRING);
                 } else if (RequestExternalAction.SEARCH_BY_STATUS.equals(searchCrit.getAttribut())) {
-                    parametersValues.add(searchCrit.getValue().toString());
+                    parametersValues.add(RequestExternalAction.Status.forString(searchCrit.getValue().toString()).name());
                     parametersTypes.add(Hibernate.STRING);
                 }
             }
@@ -255,7 +255,7 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
                     parametersValues.add(searchCrit.getSqlStringValue());
                     parametersTypes.add(Hibernate.STRING);
                 } else if (RequestExternalAction.SEARCH_BY_STATUS.equals(searchCrit.getAttribut())) {
-                    parametersValues.add(searchCrit.getValue().toString());
+                    parametersValues.add(RequestExternalAction.Status.forString(searchCrit.getValue().toString()).name());
                     parametersTypes.add(Hibernate.STRING);
                 }
             }
@@ -270,9 +270,9 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
         return HibernateUtil.getSession().createQuery(
             "select id from RequestData r where r.requestType.id = :rt and state in (:complete, :validated, :notified) and (select count(*) from RequestExternalAction where name = :name and r.id = key) = 0")
                 .setLong("rt", requestTypeId)
-                .setString("complete", RequestState.COMPLETE.toString())
-                .setString("validated", RequestState.VALIDATED.toString())
-                .setString("notified", RequestState.NOTIFIED.toString())
+                .setString("complete", RequestState.COMPLETE.name())
+                .setString("validated", RequestState.VALIDATED.name())
+                .setString("notified", RequestState.NOTIFIED.name())
                 .setString("name", externalServiceLabel).list();
     }
 }

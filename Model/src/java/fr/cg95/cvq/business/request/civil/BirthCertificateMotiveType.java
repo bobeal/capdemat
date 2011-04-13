@@ -1,60 +1,48 @@
 package fr.cg95.cvq.business.request.civil;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class BirthCertificateMotiveType extends PersistentStringEnum {
+public enum BirthCertificateMotiveType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final BirthCertificateMotiveType NOTARY_ACT = new BirthCertificateMotiveType("NotaryAct");
-  
-    public static final BirthCertificateMotiveType NATIONAL_IDENTITY_CARD = new BirthCertificateMotiveType("NationalIdentityCard");
-  
-    public static final BirthCertificateMotiveType FRENCH_NATIONALITY_CERTIFICATE = new BirthCertificateMotiveType("FrenchNationalityCertificate");
-  
-    public static final BirthCertificateMotiveType MARRIAGE = new BirthCertificateMotiveType("Marriage");
-  
-    public static final BirthCertificateMotiveType PACS = new BirthCertificateMotiveType("Pacs");
-  
-    public static final BirthCertificateMotiveType PASSPORT = new BirthCertificateMotiveType("Passport");
-  
-    public static final BirthCertificateMotiveType PENSION = new BirthCertificateMotiveType("Pension");
-  
-    public static final BirthCertificateMotiveType LEGAL_PROCEEDINGS = new BirthCertificateMotiveType("LegalProceedings");
-  
-    public static final BirthCertificateMotiveType OTHER = new BirthCertificateMotiveType("Other");
-  
+    NOTARY_ACT("NotaryAct"),
+    NATIONAL_IDENTITY_CARD("NationalIdentityCard"),
+    FRENCH_NATIONALITY_CERTIFICATE("FrenchNationalityCertificate"),
+    MARRIAGE("Marriage"),
+    PACS("Pacs"),
+    PASSPORT("Passport"),
+    PENSION("Pension"),
+    LEGAL_PROCEEDINGS("LegalProceedings"),
+    OTHER("Other");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use BirthCertificateMotiveType.values() instead
+     * @deprecated only for backward
      */
-    private BirthCertificateMotiveType(String value) {
-        super(value);
+    @Deprecated 
+    public static BirthCertificateMotiveType[] allBirthCertificateMotiveTypes = BirthCertificateMotiveType.values();
+
+    private String legacyLabel;
+
+    private BirthCertificateMotiveType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public BirthCertificateMotiveType() {}
-
-    public static BirthCertificateMotiveType[] allBirthCertificateMotiveTypes = {
-        NOTARY_ACT,
-        NATIONAL_IDENTITY_CARD,
-        FRENCH_NATIONALITY_CERTIFICATE,
-        MARRIAGE,
-        PACS,
-        PASSPORT,
-        PENSION,
-        LEGAL_PROCEEDINGS,
-        OTHER
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static BirthCertificateMotiveType getDefaultBirthCertificateMotiveType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of BirthCertificateMotiveType.something
+     * not the value of the name attribut.
+     */
     public static BirthCertificateMotiveType forString(final String enumAsString) {
-        for (BirthCertificateMotiveType value : allBirthCertificateMotiveTypes)
+        for (BirthCertificateMotiveType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultBirthCertificateMotiveType();

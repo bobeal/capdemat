@@ -3,15 +3,19 @@ package fr.cg95.cvq.business.request;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-/**
- * @hibernate.class
- *  table="request_action"
- *  lazy="false"
- *
- * @author bor@zenexity.fr
- */
+@Entity
+@Table(name="request_action")
 public class RequestAction implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,21 +25,36 @@ public class RequestAction implements Serializable {
     public static final String SEARCH_BY_DATE = "date";
     public static final String SEARCH_BY_RESULTING_STATE = "resultingState";
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
+
+    @Column(name="agent_id")
     private Long agentId;
+
+    @Enumerated(EnumType.STRING)
+    @Column
     private RequestActionType type;
+
+    @Column(name="note",length=1024)
     private String note;
+
+    @Column(name="date")
     private Date date;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="resulting_state",length=16)
     private RequestState resultingState;
+
+    @Column(name="message",length=1024)
     private String message;
+
+    @Column(name="file")
     private byte[] file;
+
+    @Column
     private String filename;
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -44,10 +63,6 @@ public class RequestAction implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="agent_id"
-     */
     public Long getAgentId() {
         return this.agentId;
     }
@@ -56,11 +71,6 @@ public class RequestAction implements Serializable {
         this.agentId = agentId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="note"
-     *  length="1024"
-     */
     public String getNote() {
         return this.note;
     }
@@ -69,10 +79,6 @@ public class RequestAction implements Serializable {
         this.note = note;
     }
 
-    /**
-     * @hibernate.property
-     *  column="date"
-     */
     public Date getDate() {
         return this.date;
     }
@@ -81,12 +87,6 @@ public class RequestAction implements Serializable {
         this.date = date;
     }
 
-    /**
-     * @hibernate.property
-     *  column="resulting_state"
-     *  not-null="false"
-     *  length="16"
-     */
     public RequestState getResultingState() {
         return this.resultingState;
     }
@@ -95,11 +95,6 @@ public class RequestAction implements Serializable {
         this.resultingState = resultingState;
     }
 
-    /**
-     * @hibernate.property
-     *  column="message"
-     *  length="1024"
-     */
     public String getMessage() {
         return message;
     }
@@ -107,11 +102,7 @@ public class RequestAction implements Serializable {
     public void setMessage(String message) {
         this.message = message;
     }
-    
-    /**
-     * @hibernate.property
-     *  column="filename"
-     */
+
     public String getFilename() {
         return filename;
     }
@@ -120,13 +111,6 @@ public class RequestAction implements Serializable {
         this.filename = filename;
     }
 
-    /**
-     * @hibernate.property
-     *  type="binary"
-     *  access="field"
-     * @hibernate.column
-     *  name="file"
-     */
     public byte[] getFile() {
         return this.file;
     }
@@ -140,10 +124,6 @@ public class RequestAction implements Serializable {
         return new ToStringBuilder(this).append("id", getId()).toString();
     }
 
-    /**
-     * @hibernate.property
-     *  column="type"
-     */
     public RequestActionType getType() {
         return type;
     }

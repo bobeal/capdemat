@@ -40,8 +40,7 @@ public class RequestCreationNotificationJob {
         localAuthorityRegistry.browseAndCallback(this, "notifyLocalAuthRequestsCreation", null);
     }
 
-    public void notifyLocalAuthRequestsCreation()
-            throws CvqException {
+    public void notifyLocalAuthRequestsCreation() {
 
         LocalAuthority la = SecurityContext.getCurrentSite();
         logger.info("notifyLocalAuthRequestsCreation() dealing with " + la.getName());

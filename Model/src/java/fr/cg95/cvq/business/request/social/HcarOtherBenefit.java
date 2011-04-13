@@ -20,14 +20,15 @@ import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="hcar_other_benefit"
- *  lazy="false"
  */
+@Entity
+@Table(name="hcar_other_benefit")
 public class HcarOtherBenefit implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -90,11 +91,8 @@ public class HcarOtherBenefit implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -126,18 +124,14 @@ public class HcarOtherBenefit implements Serializable {
     
     private String otherBenefitName;
 
-    public final void setOtherBenefitName(final String otherBenefitName) {
+    public void setOtherBenefitName(final String otherBenefitName) {
         this.otherBenefitName = otherBenefitName;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="other_benefit_name"
-        *  length="60"
+
+    @Column(name="other_benefit_name" , length=60 )
       
-    */
-    public final String getOtherBenefitName() {
+    public String getOtherBenefitName() {
         return this.otherBenefitName;
     }
   

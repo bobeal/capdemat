@@ -2,7 +2,14 @@ package fr.cg95.cvq.business.request;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.hibernate.annotations.Parent;
 
 import fr.cg95.cvq.business.document.DocumentType;
 
@@ -10,6 +17,7 @@ import fr.cg95.cvq.business.document.DocumentType;
 /**
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
+@Embeddable
 public class Requirement implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -19,8 +27,14 @@ public class Requirement implements Serializable {
     /** Whether this document is always required (special=false) or only required in particular cases (special=true) */
     private Boolean special;
     /** A message to specifiy why the requirement of this document type is special */
+    @Column(name="special_reason")
     private String specialReason;
+
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="document_type_id")
     private DocumentType documentType;
+
+    @Parent
     private RequestType requestType;
 
     /** full constructor */
@@ -37,9 +51,6 @@ public class Requirement implements Serializable {
     public Requirement() {
     }
 
-    /**
-     * @hibernate.parent
-     */
     public RequestType getRequestType() {
         return this.requestType;
     }
@@ -48,10 +59,6 @@ public class Requirement implements Serializable {
         this.requestType = requestType;
     }
 
-    /**
-     * @hibernate.property
-     *  column="multiplicity"
-     */
     public Integer getMultiplicity() {
         return this.multiplicity;
     }
@@ -60,10 +67,6 @@ public class Requirement implements Serializable {
         this.multiplicity = multiplicity;
     }
 
-    /**
-     * @hibernate.property
-     *  column="special"
-     */
     public Boolean getSpecial() {
         return this.special;
     }
@@ -72,10 +75,6 @@ public class Requirement implements Serializable {
         this.special = special;
     }
 
-    /**
-     * @hibernate.property
-     *  column="special_reason"
-     */
     public String getSpecialReason() {
         return this.specialReason;
     }
@@ -84,11 +83,6 @@ public class Requirement implements Serializable {
         this.specialReason = specialReason;
     }
 
-    /**
-     * @hibernate.many-to-one
-     *  column="document_type_id"
-     *  class="fr.cg95.cvq.business.document.DocumentType"
-     */
     public DocumentType getDocumentType() {
         return this.documentType;
     }

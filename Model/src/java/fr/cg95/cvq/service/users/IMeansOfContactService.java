@@ -6,7 +6,6 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.MeansOfContact;
 import fr.cg95.cvq.business.users.MeansOfContactEnum;
 import fr.cg95.cvq.exception.CvqModelException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 
 /**
  * @author rdj@zenexity.fr
@@ -66,7 +65,7 @@ public interface IMeansOfContactService {
      * @see #disableMeansOfContact(MeansOfContact)
      */
     void disableMeansOfContact(Long mocId)
-        throws CvqModelException, CvqObjectNotFoundException;
+        throws CvqModelException;
 
-    MeansOfContact getById(Long id) throws CvqObjectNotFoundException;
+    MeansOfContact getById(Long id);
 }

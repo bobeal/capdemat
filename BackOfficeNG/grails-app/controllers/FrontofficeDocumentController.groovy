@@ -50,7 +50,7 @@ class FrontofficeDocumentController {
         
         result.doc = [
             "id": document.id,
-            "name": document.documentType.name,
+            "name": document.documentType,
             "title" : message(code: CapdematUtils.adaptDocumentTypeName(document.documentType.name)),
             "state": document.state,
             "depositType": document.depositType,

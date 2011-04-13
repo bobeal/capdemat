@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.leisure.music;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="music_school_registration_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="music_school_registration_request")
 public class MusicSchoolRegistrationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -65,11 +68,8 @@ public class MusicSchoolRegistrationRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -94,45 +94,34 @@ public class MusicSchoolRegistrationRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.LocalReferentialData> activity;
 
-    public final void setActivity(final List<fr.cg95.cvq.business.request.LocalReferentialData> activity) {
+    public void setActivity(final List<fr.cg95.cvq.business.request.LocalReferentialData> activity) {
         this.activity = activity;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="music_school_registration_request_activity"
-        * @hibernate.key
-        *  column="music_school_registration_request_id"
-        * @hibernate.list-index
-        *  column="activity_index"
-        * @hibernate.many-to-many
-        *  column="activity_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+    @ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="music_school_registration_request_activity",
+            joinColumns=
+                @JoinColumn(name="music_school_registration_request_id"),
+            inverseJoinColumns=
+                @JoinColumn(name="activity_id"))
+    @OrderColumn(name="activity_index")
       
-    */
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getActivity() {
+    public List<fr.cg95.cvq.business.request.LocalReferentialData> getActivity() {
         return this.activity;
     }
   
     
     private Boolean rulesAndRegulationsAcceptance;
 
-    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
+    public void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
         this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="rules_and_regulations_acceptance"
-        
+    @Column(name="rules_and_regulations_acceptance"  )
       
-    */
-    public final Boolean getRulesAndRegulationsAcceptance() {
+    public Boolean getRulesAndRegulationsAcceptance() {
         return this.rulesAndRegulationsAcceptance;
     }
   

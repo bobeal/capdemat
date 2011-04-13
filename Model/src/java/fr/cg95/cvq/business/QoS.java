@@ -1,24 +1,22 @@
 package fr.cg95.cvq.business;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
+public enum QoS {
 
-public class QoS extends PersistentStringEnum {
+    GOOD("Good"),
+    URGENT("Urgent"),
+    LATE("Late");
 
     private static final long serialVersionUID = 1L;
-
-    public static final QoS GOOD = new QoS("Good");
-    public static final QoS URGENT = new QoS("Urgent");
-    public static final QoS LATE = new QoS("Late");
+    private String name;
 
     private QoS(String name) {
-        super(name);
+        this.name = name;
     }
 
-    public QoS() { /* empty constructor for Hibernate */ }
-
-    public static final QoS[] allQoS = {
-        GOOD, URGENT, LATE
-    };
+    /**
+     * @deprecated only for backward, use values() instead
+     */
+    public static final QoS[] allQoS = QoS.values();
 
     public static QoS forString(String enumAsString) {
         if (enumAsString == null)
@@ -26,5 +24,10 @@ public class QoS extends PersistentStringEnum {
         for (QoS qoS : allQoS)
             if (qoS.toString().equals(enumAsString)) return qoS;
         return GOOD;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

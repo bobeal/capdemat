@@ -54,7 +54,7 @@ public interface IExternalApplicationService {
 
     void modifyHomeFolder(ExternalHomeFolder eh) throws CvqException;
 
-    List<Adult> matchAdults (Long externalHomeFolderId) throws CvqException;
+    List<Adult> matchAdults(Long externalHomeFolderId);
 
     List<ExternalInvoiceItem> getExternalInvoiceItems(String externalApplicationId);
 

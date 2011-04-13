@@ -59,10 +59,9 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
     @Deprecated
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void addDocuments(final Long requestId, final Set<Long> documentsId)
-        throws CvqException, CvqObjectNotFoundException {
+    public void addDocuments(final Long requestId, final Set<Long> documentsId) {
 
-        Request request = getById(requestId);
+        Request request = requestDAO.findById(requestId);
         for (Long documentId : documentsId)
             request.getDocuments().add(new RequestDocument(documentId));
 
@@ -73,7 +72,7 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public void addDocument(final Long requestId, final Long documentId)
         throws CvqException, CvqObjectNotFoundException {
-        addDocument(getById(requestId), documentId);
+        addDocument(requestDAO.findById(requestId), documentId);
     }
 
     @Override
@@ -119,17 +118,15 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public Set<RequestDocument> getAssociatedDocuments(final Long requestId)
-        throws CvqException {
-        Request request = getById(requestId);
+    public Set<RequestDocument> getAssociatedDocuments(final Long requestId) {
+        Request request = requestDAO.findById(requestId);
         return request.getDocuments();
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.READ)
-    public Set<Document> getAssociatedDocumentsByType(final Long requestId, final Long documentTypeId)
-        throws CvqException {
-        Request request = getById(requestId);
+    public Set<Document> getAssociatedDocumentsByType(final Long requestId, final Long documentTypeId) {
+        Request request = requestDAO.findById(requestId);
         if (request.getDocuments() == null)
             return Collections.emptySet();
         Set<Document> result = new HashSet<Document>();
@@ -144,8 +141,8 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
     @Override
     @Context(types = {ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.READ)
     public GetDocumentListResponseDocument getAssociatedFullDocuments(final Long requestId)
-        throws CvqException, CvqObjectNotFoundException, PermissionException {
-        Request request = getById(requestId);
+        throws CvqException, PermissionException {
+        Request request = requestDAO.findById(requestId);
 
         GetDocumentListResponseDocument getDocumentListResponseDocument =
             GetDocumentListResponseDocument.Factory.newInstance();
@@ -191,9 +188,9 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
     @Override
     @Context(types = {ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.READ)
     public GetDocumentResponseDocument getAssociatedDocument(Long requestId, Long documentId,
-            boolean mergeDocument) throws CvqException, CvqObjectNotFoundException, PermissionException {
+            boolean mergeDocument) throws CvqException, PermissionException {
 
-        Request request = getById(requestId);
+        Request request = requestDAO.findById(requestId);
 
         Collection<String> authorizedRequestTypesLabels =
             requestExternalService.getRequestTypesForExternalService(SecurityContext.getCurrentExternalService());
@@ -271,7 +268,7 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<Document> getProvidedNotAssociatedDocumentsByType(final Long requestId, final Long documentTypeId)
             throws CvqException {
-        Request request = getById(requestId);
+        Request request = requestDAO.findById(requestId);
         List<Document> result = documentService.getProvidedDocuments(
                 documentTypeService.getDocumentTypeById(documentTypeId),
                 SecurityContext.getCurrentEcitizen().getHomeFolder().getId(), null);
@@ -323,18 +320,18 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
         Iterator<RequestDocument> it = request.getDocuments().iterator();
         while (it.hasNext()) {
             RequestDocument rd = it.next();
-            try {
-                Document d = documentService.getById(rd.getDocumentId());
+            Document d = documentService.getById(rd.getDocumentId());
+            if (d != null) {
                 if (DocumentState.DRAFT.equals(d.getState())) {
                     documentService.pending(d.getId());
                 }
-            } catch (CvqObjectNotFoundException e) {
+            } else {
                 it.remove();
             }
         }
     }
 
-    private void onRequestDeleted(Request request) throws CvqException {
+    private void onRequestDeleted(Request request) {
         Iterator<RequestDocument> it = request.getDocuments().iterator();
         while (it.hasNext()) {
             RequestDocument rd = it.next();
@@ -344,10 +341,6 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
                 documentService.delete(d.getId());
             }
         }
-    }
-
-    private Request getById(final Long requestId) throws CvqObjectNotFoundException {
-        return (Request) requestDAO.findById(Request.class, requestId);
     }
 
     public void setRequestDAO(IRequestDAO requestDAO) {

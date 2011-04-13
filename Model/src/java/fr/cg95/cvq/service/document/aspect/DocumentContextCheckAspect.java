@@ -15,7 +15,8 @@ import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.dao.users.IHomeFolderDAO;
+import fr.cg95.cvq.dao.users.IIndividualDAO;
 import fr.cg95.cvq.security.GenericAccessManager;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -29,6 +30,8 @@ public class DocumentContextCheckAspect implements Ordered {
     private Logger logger = Logger.getLogger(RequestContextCheckAspect.class);
 
     private IDocumentDAO documentDAO;
+    private IHomeFolderDAO homeFolderDAO;
+    private IIndividualDAO individualDAO;
 
     @Before("fr.cg95.cvq.SystemArchitecture.businessService() && @annotation(context) && within(fr.cg95.cvq.service.document..*)")
     public void contextAnnotatedMethod(JoinPoint joinPoint, Context context) {
@@ -60,16 +63,11 @@ public class DocumentContextCheckAspect implements Ordered {
                 if (parameterAnnotation.annotationType().equals(IsUser.class)) {
                     if (argument instanceof Long) {
                         Long id = (Long)argument;
-                        try {
-                            documentDAO.findById(Individual.class, id);
-                            individualId = id;
-                        } catch (CvqObjectNotFoundException e1) {
-                            try {
-                                documentDAO.findById(HomeFolder.class, id);
+                        if (individualDAO.findById(id) == null) {
+                            if (homeFolderDAO.findById(id) != null)
                                 homeFolderId = id;
-                            } catch (CvqObjectNotFoundException e2) {
-                                // no user with this id
-                            }
+                        } else {
+                            individualId = id;
                         }
                     } else if (argument instanceof Individual) {
                         individualId = ((Individual)argument).getId();
@@ -78,14 +76,11 @@ public class DocumentContextCheckAspect implements Ordered {
                     }
                 } else if (parameterAnnotation.annotationType().equals(IsDocument.class)) {
                     if (argument instanceof Long) {
-                        try {
-                            document = (Document) documentDAO.findById(Document.class,
-                                    (Long) argument);
-                        } catch (CvqObjectNotFoundException confe) {
+                        document = documentDAO.findById((Long) argument);
+                        if (document == null)
                             throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
                                     joinPoint.getSignature().getName(), context.types(), context.privilege(),
                                     "no document match the given id : " + argument);
-                        }
                     } else if (argument instanceof Document) {
                         document = (Document) argument;
                     } else {
@@ -128,5 +123,13 @@ public class DocumentContextCheckAspect implements Ordered {
 
     public void setDocumentDAO(IDocumentDAO documentDAO) {
         this.documentDAO = documentDAO;
+    }
+
+    public void setHomeFolderDAO(IHomeFolderDAO homeFolderDAO) {
+        this.homeFolderDAO = homeFolderDAO;
+    }
+
+    public void setIndividualDAO(IIndividualDAO individualDAO) {
+        this.individualDAO = individualDAO;
     }
 }

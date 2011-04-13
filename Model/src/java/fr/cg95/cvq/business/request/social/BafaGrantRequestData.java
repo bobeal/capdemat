@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.social;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="bafa_grant_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="bafa_grant_request")
 public class BafaGrantRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -159,11 +162,8 @@ public class BafaGrantRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -188,18 +188,14 @@ public class BafaGrantRequestData implements Serializable {
     
     private java.util.Date accountHolderBirthDate;
 
-    public final void setAccountHolderBirthDate(final java.util.Date accountHolderBirthDate) {
+    public void setAccountHolderBirthDate(final java.util.Date accountHolderBirthDate) {
         this.accountHolderBirthDate = accountHolderBirthDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="account_holder_birth_date"
-        
+    @Column(name="account_holder_birth_date"  )
       
-    */
-    public final java.util.Date getAccountHolderBirthDate() {
+    public java.util.Date getAccountHolderBirthDate() {
         return this.accountHolderBirthDate;
     }
   
@@ -220,18 +216,14 @@ public class BafaGrantRequestData implements Serializable {
     
     private String accountHolderEdemandeId;
 
-    public final void setAccountHolderEdemandeId(final String accountHolderEdemandeId) {
+    public void setAccountHolderEdemandeId(final String accountHolderEdemandeId) {
         this.accountHolderEdemandeId = accountHolderEdemandeId;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="account_holder_edemande_id"
-        
+    @Column(name="account_holder_edemande_id"  )
       
-    */
-    public final String getAccountHolderEdemandeId() {
+    public String getAccountHolderEdemandeId() {
         return this.accountHolderEdemandeId;
     }
   
@@ -288,18 +280,14 @@ public class BafaGrantRequestData implements Serializable {
     
     private String accountHolderFirstName;
 
-    public final void setAccountHolderFirstName(final String accountHolderFirstName) {
+    public void setAccountHolderFirstName(final String accountHolderFirstName) {
         this.accountHolderFirstName = accountHolderFirstName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="account_holder_first_name"
-        *  length="38"
+    @Column(name="account_holder_first_name" , length=38 )
       
-    */
-    public final String getAccountHolderFirstName() {
+    public String getAccountHolderFirstName() {
         return this.accountHolderFirstName;
     }
   
@@ -356,18 +344,14 @@ public class BafaGrantRequestData implements Serializable {
     
     private String accountHolderLastName;
 
-    public final void setAccountHolderLastName(final String accountHolderLastName) {
+    public void setAccountHolderLastName(final String accountHolderLastName) {
         this.accountHolderLastName = accountHolderLastName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="account_holder_last_name"
-        *  length="38"
+    @Column(name="account_holder_last_name" , length=38 )
       
-    */
-    public final String getAccountHolderLastName() {
+    public String getAccountHolderLastName() {
         return this.accountHolderLastName;
     }
   
@@ -390,18 +374,15 @@ public class BafaGrantRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.TitleType accountHolderTitle;
 
-    public final void setAccountHolderTitle(final fr.cg95.cvq.business.users.TitleType accountHolderTitle) {
+    public void setAccountHolderTitle(final fr.cg95.cvq.business.users.TitleType accountHolderTitle) {
         this.accountHolderTitle = accountHolderTitle;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="account_holder_title"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="account_holder_title"  )
       
-    */
-    public final fr.cg95.cvq.business.users.TitleType getAccountHolderTitle() {
+    public fr.cg95.cvq.business.users.TitleType getAccountHolderTitle() {
         return this.accountHolderTitle;
     }
   
@@ -422,19 +403,15 @@ public class BafaGrantRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.BankAccount bankAccount;
 
-    public final void setBankAccount(final fr.cg95.cvq.business.users.BankAccount bankAccount) {
+    public void setBankAccount(final fr.cg95.cvq.business.users.BankAccount bankAccount) {
         this.bankAccount = bankAccount;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="bank_account_id"
-        *  class="fr.cg95.cvq.business.users.BankAccount"
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="bank_account_id")
       
-    */
-    public final fr.cg95.cvq.business.users.BankAccount getBankAccount() {
+    public fr.cg95.cvq.business.users.BankAccount getBankAccount() {
         return this.bankAccount;
     }
   
@@ -455,18 +432,14 @@ public class BafaGrantRequestData implements Serializable {
     
     private String edemandeId;
 
-    public final void setEdemandeId(final String edemandeId) {
+    public void setEdemandeId(final String edemandeId) {
         this.edemandeId = edemandeId;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="edemande_id"
-        
+    @Column(name="edemande_id"  )
       
-    */
-    public final String getEdemandeId() {
+    public String getEdemandeId() {
         return this.edemandeId;
     }
   
@@ -480,18 +453,14 @@ public class BafaGrantRequestData implements Serializable {
     
     private java.util.Date internshipEndDate;
 
-    public final void setInternshipEndDate(final java.util.Date internshipEndDate) {
+    public void setInternshipEndDate(final java.util.Date internshipEndDate) {
         this.internshipEndDate = internshipEndDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="internship_end_date"
-        
+    @Column(name="internship_end_date"  )
       
-    */
-    public final java.util.Date getInternshipEndDate() {
+    public java.util.Date getInternshipEndDate() {
         return this.internshipEndDate;
     }
   
@@ -512,19 +481,15 @@ public class BafaGrantRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.Address internshipInstituteAddress;
 
-    public final void setInternshipInstituteAddress(final fr.cg95.cvq.business.users.Address internshipInstituteAddress) {
+    public void setInternshipInstituteAddress(final fr.cg95.cvq.business.users.Address internshipInstituteAddress) {
         this.internshipInstituteAddress = internshipInstituteAddress;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="internship_institute_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="internship_institute_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getInternshipInstituteAddress() {
+    public fr.cg95.cvq.business.users.Address getInternshipInstituteAddress() {
         return this.internshipInstituteAddress;
     }
   
@@ -545,18 +510,14 @@ public class BafaGrantRequestData implements Serializable {
     
     private String internshipInstituteName;
 
-    public final void setInternshipInstituteName(final String internshipInstituteName) {
+    public void setInternshipInstituteName(final String internshipInstituteName) {
         this.internshipInstituteName = internshipInstituteName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="internship_institute_name"
-        
+    @Column(name="internship_institute_name"  )
       
-    */
-    public final String getInternshipInstituteName() {
+    public String getInternshipInstituteName() {
         return this.internshipInstituteName;
     }
   
@@ -570,18 +531,14 @@ public class BafaGrantRequestData implements Serializable {
     
     private java.util.Date internshipStartDate;
 
-    public final void setInternshipStartDate(final java.util.Date internshipStartDate) {
+    public void setInternshipStartDate(final java.util.Date internshipStartDate) {
         this.internshipStartDate = internshipStartDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="internship_start_date"
-        
+    @Column(name="internship_start_date"  )
       
-    */
-    public final java.util.Date getInternshipStartDate() {
+    public java.util.Date getInternshipStartDate() {
         return this.internshipStartDate;
     }
   
@@ -595,18 +552,14 @@ public class BafaGrantRequestData implements Serializable {
     
     private Boolean isSubjectAccountHolder;
 
-    public final void setIsSubjectAccountHolder(final Boolean isSubjectAccountHolder) {
+    public void setIsSubjectAccountHolder(final Boolean isSubjectAccountHolder) {
         this.isSubjectAccountHolder = isSubjectAccountHolder;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="is_subject_account_holder"
-        
+    @Column(name="is_subject_account_holder"  )
       
-    */
-    public final Boolean getIsSubjectAccountHolder() {
+    public Boolean getIsSubjectAccountHolder() {
         return this.isSubjectAccountHolder;
     }
   
@@ -627,19 +580,15 @@ public class BafaGrantRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.Address subjectAddress;
 
-    public final void setSubjectAddress(final fr.cg95.cvq.business.users.Address subjectAddress) {
+    public void setSubjectAddress(final fr.cg95.cvq.business.users.Address subjectAddress) {
         this.subjectAddress = subjectAddress;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="subject_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="subject_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getSubjectAddress() {
+    public fr.cg95.cvq.business.users.Address getSubjectAddress() {
         return this.subjectAddress;
     }
   
@@ -669,18 +618,14 @@ public class BafaGrantRequestData implements Serializable {
     
     private String subjectBirthCity;
 
-    public final void setSubjectBirthCity(final String subjectBirthCity) {
+    public void setSubjectBirthCity(final String subjectBirthCity) {
         this.subjectBirthCity = subjectBirthCity;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subject_birth_city"
-        *  length="32"
+    @Column(name="subject_birth_city" , length=32 )
       
-    */
-    public final String getSubjectBirthCity() {
+    public String getSubjectBirthCity() {
         return this.subjectBirthCity;
     }
   
@@ -694,18 +639,14 @@ public class BafaGrantRequestData implements Serializable {
     
     private java.util.Date subjectBirthDate;
 
-    public final void setSubjectBirthDate(final java.util.Date subjectBirthDate) {
+    public void setSubjectBirthDate(final java.util.Date subjectBirthDate) {
         this.subjectBirthDate = subjectBirthDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subject_birth_date"
-        
+    @Column(name="subject_birth_date"  )
       
-    */
-    public final java.util.Date getSubjectBirthDate() {
+    public java.util.Date getSubjectBirthDate() {
         return this.subjectBirthDate;
     }
   
@@ -726,18 +667,14 @@ public class BafaGrantRequestData implements Serializable {
     
     private String subjectEmail;
 
-    public final void setSubjectEmail(final String subjectEmail) {
+    public void setSubjectEmail(final String subjectEmail) {
         this.subjectEmail = subjectEmail;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subject_email"
-        
+    @Column(name="subject_email"  )
       
-    */
-    public final String getSubjectEmail() {
+    public String getSubjectEmail() {
         return this.subjectEmail;
     }
   
@@ -767,18 +704,14 @@ public class BafaGrantRequestData implements Serializable {
     
     private String subjectPhone;
 
-    public final void setSubjectPhone(final String subjectPhone) {
+    public void setSubjectPhone(final String subjectPhone) {
         this.subjectPhone = subjectPhone;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subject_phone"
-        *  length="10"
+    @Column(name="subject_phone" , length=10 )
       
-    */
-    public final String getSubjectPhone() {
+    public String getSubjectPhone() {
         return this.subjectPhone;
     }
   

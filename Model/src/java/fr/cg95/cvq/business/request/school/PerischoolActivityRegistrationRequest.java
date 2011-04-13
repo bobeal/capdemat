@@ -175,7 +175,7 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
             perischoolActivityRegistrationRequest.setSchool(School.modelToXml(getSchool()));
       
         if (getSection() != null)
-            perischoolActivityRegistrationRequest.setSection(fr.cg95.cvq.xml.common.SectionType.Enum.forString(getSection().toString()));
+            perischoolActivityRegistrationRequest.setSection(fr.cg95.cvq.xml.common.SectionType.Enum.forString(getSection().getLegacyLabel()));
       
         perischoolActivityRegistrationRequest.setUrgencyPhone(getUrgencyPhone());
       

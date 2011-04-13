@@ -1,26 +1,27 @@
 package fr.cg95.cvq.business.document;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * @author bor@zenexity.fr
  */
-public final class DocumentUsageType extends PersistentStringEnum {
+public enum DocumentUsageType {
 
-    private static final long serialVersionUID = 1L;
+    SINGLE_USE("Single Use"),
+    REUSABLE("Reusable");
 
-    public static final DocumentUsageType SINGLE_USE = new DocumentUsageType("Single Use");
-    public static final DocumentUsageType REUSABLE = new DocumentUsageType("Reusable");
-
-    public DocumentUsageType() {
-    }
+    private String name;
 
     private DocumentUsageType(String name) {
-        super(name);
+        this.name = name;
     }
 
     /**
      * A vector of all possible {@link DocumentUsageType  document usages types}.
+     * @deprecated only for backward, use DocumentUsageType.values() instead
      */
-    public static final DocumentUsageType[] allDocumentUsageType = { SINGLE_USE, REUSABLE };
+    public static final DocumentUsageType[] allDocumentUsageType = DocumentUsageType.values();
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

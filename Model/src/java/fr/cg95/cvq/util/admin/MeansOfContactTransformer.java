@@ -16,12 +16,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.MeansOfContact;
 import fr.cg95.cvq.business.users.MeansOfContactEnum;
-import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry;
@@ -113,7 +112,7 @@ public class MeansOfContactTransformer {
         logger.debug("TEST SINGLE");
         try {
             MeansOfContact mocMail= meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.MAIL);
-            Request request = (Request)requestDAO.findById(Request.class, new Long(requestId));
+            Request request = (Request)requestDAO.findById(new Long(requestId));
             request.setMeansOfContact(mocMail);
             requestDAO.update(request);
             System.out.println("request.id=" + request.getId());
@@ -157,40 +156,38 @@ public class MeansOfContactTransformer {
         
         for (Iterator it = rmocSubList.iterator(); it.hasNext();){
             RequestMeansOfContactDTO rmoc= (RequestMeansOfContactDTO) it.next();
+            Request request = (Request)requestDAO.findById(rmoc.getRequestId());
+            if (request == null) {
+                logger.debug("request with id " + rmoc.getRequestId() + " does not exist");
+            }
+            if (isMail(rmoc))
+                request.setMeansOfContact(mocMail);
+            else if (isEmail(rmoc))
+                request.setMeansOfContact(mocEmail);
+            else if (isHomePhone(rmoc))
+                request.setMeansOfContact(mocHomePhone);
+            else if (isOfficePhone(rmoc))
+                request.setMeansOfContact(mocOfficePhone);
+            else if (isMobilePhone(rmoc))
+                request.setMeansOfContact(mocMobilePhone);
+            else if (isHomePhone(rmoc))
+                request.setMeansOfContact(mocHomePhone);
+            else if (isSms(rmoc))
+                request.setMeansOfContact(mocSms);
+            else if (isLAOffice(rmoc))
+                request.setMeansOfContact(mocLAOffice);
+            else
+                request.setMeansOfContact(mocMail);
+
+            requestDAO.update(request);
+            requestList.add(request);
+
             try {
-                Request request = (Request)requestDAO.findById(Request.class, rmoc.getRequestId());
-                if (isMail(rmoc))
-                    request.setMeansOfContact(mocMail);
-                else if (isEmail(rmoc))
-                    request.setMeansOfContact(mocEmail);
-                else if (isHomePhone(rmoc))
-                    request.setMeansOfContact(mocHomePhone);
-                else if (isOfficePhone(rmoc))
-                    request.setMeansOfContact(mocOfficePhone);
-                else if (isMobilePhone(rmoc))
-                    request.setMeansOfContact(mocMobilePhone);
-                else if (isHomePhone(rmoc))
-                    request.setMeansOfContact(mocHomePhone);
-                else if (isSms(rmoc))
-                    request.setMeansOfContact(mocSms);
-                else if (isLAOffice(rmoc))
-                    request.setMeansOfContact(mocLAOffice);
-                else
-                    request.setMeansOfContact(mocMail);
-                
-                requestDAO.update(request);
-                requestList.add(request);
-                
-                try {
-                    HibernateUtil.getSession().flush();
-                } catch (HibernateException he) {
-                    logger.debug("error request =" + request.getId());
-                    if (!isErrorCatched)
-                        isErrorCatched = true;
-                }
-            } catch (CvqObjectNotFoundException confe) {
-                logger.debug("confe request id="+requestList.get(requestList.size()-1).getId());
-                logger.debug(confe.getStackTrace());
+                HibernateUtil.getSession().flush();
+            } catch (HibernateException he) {
+                logger.debug("error request =" + request.getId());
+                if (!isErrorCatched)
+                    isErrorCatched = true;
             }
         }
         if (isErrorCatched)
@@ -271,7 +268,7 @@ public class MeansOfContactTransformer {
         //localAuthorityRegistry.browseAndCallback(meansOfContactTransformer, "test", new Object[]{requestId});
     }
     
-    private static class RequestMeansOfContactDAO extends GenericDAO implements IGenericDAO{
+    private static class RequestMeansOfContactDAO {
         public static List listAll(){
             return HibernateUtil.getSession().createSQLQuery(
                  "SELECT " +

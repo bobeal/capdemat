@@ -8,6 +8,21 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
+
 import net.sf.oval.constraint.NotNull;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -18,13 +33,9 @@ import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Real persisted class containing request data
- *
- * @hibernate.class
- *  table="request"
- *  lazy="false"
- *
- * @author bor@zenexity.fr
  */
+@Entity
+@Table(name="request")
 public class RequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,77 +44,124 @@ public class RequestData implements Serializable {
     public static final Map<String, IConditionChecker> conditions =
         new HashMap<String, IConditionChecker>();
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(name="creation_date")
     private Date creationDate;
 
+    @Column(name="last_modification_date")
     private Date lastModificationDate;
 
+    @Column(name="validation_date")
     private Date validationDate;
 
+    @Column(name="last_intervening_user_id")
     private Long lastInterveningUserId;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="state",length=16,nullable=false)
     private RequestState state;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="data_state",length=16,nullable=false)
     private DataState dataState;
 
     @NotNull(profiles = {"validation"}, message = "meansOfContact")
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="means_of_contact_id")
     private MeansOfContact meansOfContact;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="request_step",length=16)
     private RequestStep step;
 
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="request_type_id")
     private RequestType requestType;
 
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="request_season_id")
     private RequestSeason requestSeason;
 
     /** QoS level 1 : instruction delay is expiring soon. */
+    @Column(name="orange_alert")
     private Boolean orangeAlert;
 
     /** QoS level 2 : instruction delay has expired. */
+    @Column(name="red_alert")
     private Boolean redAlert;
 
+    @Column(name="home_folder_id")
     private Long homeFolderId;
 
+    @Column(name="requester_id")
     private Long requesterId;
 
+    @Column(name="requester_last_name")
     private String requesterLastName;
 
+    @Column(name="requester_first_name")
     private String requesterFirstName;
 
     @SubjectId
+    @Column(name="subject_id")
     private Long subjectId;
 
+    @Column(name="subject_last_name")
     private String subjectLastName;
 
+    @Column(name="subject_first_name")
     private String subjectFirstName;
 
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+    @OrderBy("id asc")
+    @JoinColumn(name="request_id")
     private Set<RequestDocument> documents;
 
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+    @OrderBy("date desc")
+    @JoinColumn(name="request_id")
     private Set<RequestAction> actions;
 
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+    @OrderBy("id asc")
+    @JoinColumn(name="request_id")
     private Set<RequestNote> notes;
 
-    private Map<String, Map<String, Object>> stepStates;
+    private class SerializableInstanceOf<T> implements Serializable {
+        private static final long serialVersionUID = 1L;
+        public final T instance;
 
+        @SuppressWarnings("unused")
+        public SerializableInstanceOf(T instance) {
+            Serializable s = (Serializable)instance; // Check
+            this.instance = instance;
+        }
+    }
+
+    @Column(name="step_states")
+    private SerializableInstanceOf<Map<String, Map<String, Object>>> stepStates;
+
+    @Column(name="specific_data_class")
     private Class<?> specificDataClass;
 
+    @Column(name="specific_data_id")
     private Long specificDataId;
 
     /**
      * Hack to store PDF chunk with documents as they are when the request is validated;
      * to be deleted when we have document versioning
      */
+    @Column(name="documents_archive")
     private byte[] documentsArchive;
 
     public RequestData() {
-        this.stepStates = new LinkedHashMap<String, Map<String, Object>>();
+        this.stepStates = new SerializableInstanceOf<Map<String,Map<String,Object>>>(
+                new LinkedHashMap<String, Map<String, Object>>());
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -112,10 +170,6 @@ public class RequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="home_folder_id"
-     */
     public Long getHomeFolderId() {
         return this.homeFolderId;
     }
@@ -124,10 +178,6 @@ public class RequestData implements Serializable {
         this.homeFolderId = homeFolderId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="creation_date"
-     */
     public Date getCreationDate() {
         return this.creationDate;
     }
@@ -136,10 +186,6 @@ public class RequestData implements Serializable {
         this.creationDate = creationDate;
     }
 
-    /**
-     * @hibernate.property
-     *  column="last_modification_date"
-     */
     public Date getLastModificationDate() {
         return this.lastModificationDate;
     }
@@ -148,10 +194,6 @@ public class RequestData implements Serializable {
         this.lastModificationDate = lastModificationDate;
     }
 
-    /**
-     * @hibernate.property
-     *  column="last_intervening_user_id"
-     */
     public Long getLastInterveningUserId() {
         return this.lastInterveningUserId;
     }
@@ -160,12 +202,6 @@ public class RequestData implements Serializable {
         this.lastInterveningUserId = lastInterveningUserId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="state"
-     *  not-null="true"
-     *  length="16"
-     */
     public RequestState getState() {
         return this.state;
     }
@@ -174,12 +210,6 @@ public class RequestData implements Serializable {
         this.state = state;
     }
 
-    /**
-     * @hibernate.property
-     *  column="data_state"
-     *  not-null="true"
-     *  length="16"
-     */
     public DataState getDataState() {
         return this.dataState;
     }
@@ -188,11 +218,6 @@ public class RequestData implements Serializable {
         this.dataState = dataState;
     }
 
-    /** 
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.users.MeansOfContact"
-     *  column="means_of_contact_id"
-     */
     public MeansOfContact getMeansOfContact() {
         return this.meansOfContact;
     }
@@ -201,11 +226,6 @@ public class RequestData implements Serializable {
         this.meansOfContact = meansOfContact;
     }
 
-    /**
-     * @hibernate.property
-     *  column="request_step"
-     *  length="16"
-     */
     public RequestStep getStep() {
         return this.step;
     }
@@ -214,10 +234,6 @@ public class RequestData implements Serializable {
         this.step = step;
     }
 
-    /**
-     * @hibernate.property
-     *  column="requester_id"
-     */
     public Long getRequesterId() {
         return this.requesterId;
     }
@@ -226,10 +242,6 @@ public class RequestData implements Serializable {
         this.requesterId = requesterId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="requester_last_name"
-     */
     public String getRequesterLastName() {
         return requesterLastName;
     }
@@ -238,10 +250,6 @@ public class RequestData implements Serializable {
         this.requesterLastName = requesterLastName;
     }
 
-    /**
-     * @hibernate.property
-     *  column="requester_first_name"
-     */
     public String getRequesterFirstName() {
         return requesterFirstName;
     }
@@ -250,11 +258,6 @@ public class RequestData implements Serializable {
         this.requesterFirstName = requesterFirstName;
     }
 
-    /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.request.RequestType"
-     *  column="request_type_id"
-     */
     public RequestType getRequestType() {
         return this.requestType;
     }
@@ -263,11 +266,6 @@ public class RequestData implements Serializable {
         this.requestType = requestType;
     }
 
-    /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.request.RequestSeason"
-     *  column="request_season_id"
-     */
     public RequestSeason getRequestSeason() {
         return requestSeason;
     }
@@ -276,16 +274,6 @@ public class RequestData implements Serializable {
         this.requestSeason = requestSeason;
     }
 
-    /**
-     * @hibernate.set
-     *  lazy="true"
-     *  cascade="all"
-     *  order-by="id asc"
-     * @hibernate.key
-     *  column="request_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.request.RequestDocument"
-     */
     public Set<RequestDocument> getDocuments() {
         if (documents == null)
             documents = new HashSet<RequestDocument>();
@@ -296,16 +284,6 @@ public class RequestData implements Serializable {
         this.documents = documents;
     }
 
-    /**
-     * @hibernate.set
-     *  lazy="true"
-     *  cascade="all"
-     *  order-by="date desc"
-     * @hibernate.key
-     *  column="request_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.request.RequestAction"
-     */
     public Set<RequestAction> getActions() {
         return this.actions;
     }
@@ -314,16 +292,6 @@ public class RequestData implements Serializable {
         this.actions = actions;
     }
 
-    /**
-     * @hibernate.set
-     *  lazy="true"
-     *  cascade="all"
-     *  order-by="id asc"
-     * @hibernate.key
-     *  column="request_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.request.RequestNote"
-     */
     public Set<RequestNote> getNotes() {
         return this.notes;
     }
@@ -337,34 +305,22 @@ public class RequestData implements Serializable {
         return new ToStringBuilder(this).append("id", getId()).toString();
     }
 
-    /**
-     * @hibernate.property
-     *  column="orange_alert"
-     */
-	public Boolean getOrangeAlert() {
-		return orangeAlert;
-	}
+    public Boolean getOrangeAlert() {
+        return orangeAlert;
+    }
 
-	public void setOrangeAlert(Boolean orangeAlert) {
-		this.orangeAlert = orangeAlert;
-	}
+    public void setOrangeAlert(Boolean orangeAlert) {
+        this.orangeAlert = orangeAlert;
+    }
 
-    /**
-     * @hibernate.property
-     *  column="red_alert"
-     */
-	public Boolean getRedAlert() {
-		return redAlert;
-	}
+    public Boolean getRedAlert() {
+        return redAlert;
+    }
 
-	public void setRedAlert(Boolean redAlert) {
-		this.redAlert = redAlert;
-	}
+    public void setRedAlert(Boolean redAlert) {
+        this.redAlert = redAlert;
+    }
 
-    /**
-     * @hibernate.property
-     *  column="validation_date"
-     */
     public Date getValidationDate() {
         return validationDate;
     }
@@ -373,10 +329,6 @@ public class RequestData implements Serializable {
         this.validationDate = validationDate;
     }
 
-    /**
-     * @hibernate.property
-     *  column="subject_id"
-     */
     public Long getSubjectId() {
         return subjectId;
     }
@@ -385,10 +337,6 @@ public class RequestData implements Serializable {
         this.subjectId = subjectId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="subject_last_name"
-     */
     public String getSubjectLastName() {
         return subjectLastName;
     }
@@ -397,10 +345,6 @@ public class RequestData implements Serializable {
         this.subjectLastName = subjectLastName;
     }
 
-    /**
-     * @hibernate.property
-     *  column="subject_first_name"
-     */
     public String getSubjectFirstName() {
         return subjectFirstName;
     }
@@ -409,23 +353,14 @@ public class RequestData implements Serializable {
         this.subjectFirstName = subjectFirstName;
     }
 
-    /**
-     * @hibernate.property
-     *  column="step_states"
-     *  type="serializable"
-     */
     public Map<String, Map<String, Object>> getStepStates() {
-        return stepStates;
+        return stepStates.instance;
     }
 
     public void setStepStates(Map<String, Map<String, Object>> stepStates) {
-        this.stepStates = stepStates;
+        this.stepStates = new SerializableInstanceOf<Map<String,Map<String,Object>>>(stepStates);
     }
 
-    /**
-     * @hibernate.property
-     *  column="specific_data_class"
-     */
     public Class<?> getSpecificDataClass() {
         return specificDataClass;
     }
@@ -434,10 +369,6 @@ public class RequestData implements Serializable {
         this.specificDataClass = specificDataClass;
     }
 
-    /**
-     * @hibernate.property
-     *  column="specific_data_id"
-     */
     public Long getSpecificDataId() {
         return specificDataId;
     }
@@ -446,10 +377,6 @@ public class RequestData implements Serializable {
         this.specificDataId = specificDataId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="documents_archive"
-     */
     public byte[] getDocumentsArchive() {
         return documentsArchive;
     }

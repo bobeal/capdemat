@@ -4,19 +4,27 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * @hibernate.class
- *  table="display_group"
- *  lazy="false"
- *
- * @author Victor Bartel (vba@zenexity.fr)
- */
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="display_group")
 public class DisplayGroup implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
     private String name;
     private String label;
+
+    @OneToMany
+    @JoinColumn(name="display_group_id")
     private Set<RequestType> requestTypes;
 
     
@@ -28,11 +36,6 @@ public class DisplayGroup implements Serializable {
         this.label = label;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return id;
     }
@@ -41,10 +44,6 @@ public class DisplayGroup implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="name"
-     */
     public String getName() {
         return name;
     }
@@ -52,11 +51,7 @@ public class DisplayGroup implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
-    /**
-     * @hibernate.property
-     *  column="label"
-     */
+
     public String getLabel() {
         return label;
     }
@@ -65,15 +60,6 @@ public class DisplayGroup implements Serializable {
         this.label = label;
     }
 
-    /**
-     * @hibernate.set
-     *  inverse="true"
-     *  lazy="true"
-     * @hibernate.key
-     *  column="display_group_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.request.RequestType"
-     */
     public Set<RequestType> getRequestTypes() {
         if (requestTypes == null)
             return new HashSet<RequestType>();

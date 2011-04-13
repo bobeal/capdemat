@@ -1,30 +1,27 @@
 package fr.cg95.cvq.business.request;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * State of data associated to a request.
  * 
  * @author bor@zenexity.fr
  */
-public final class DataState extends PersistentStringEnum {
+public enum DataState {
 
-	private static final long serialVersionUID = 1L;
+    PENDING("Pending"),
+    VALID("Valid"),
+    INVALID("Invalid");
 
-	public static final DataState PENDING = new DataState("Pending");
-    public static final DataState VALID = new DataState("Valid");
-    public static final DataState INVALID = new DataState("Invalid");
+    private String name;
 
-    /**
-     * Prevent instantiation and subclassing with a private constructor.
-     */
     private DataState(String state) {
-        super(state);
+        this.name = state;
     }
 
-    public DataState() {}
-    
-    public static final DataState[] allDataStates = { PENDING, VALID, INVALID };
+    /**
+     * only for retro-compatibility use DataState.values() instead
+     * @deprecated only for retro-compatibility
+     */
+    public static final DataState[] allDataStates = DataState.values();
 
     public static DataState forString(String enumAsString) {
         if (enumAsString == null || enumAsString.equals(""))
@@ -46,5 +43,9 @@ public final class DataState extends PersistentStringEnum {
 
         return toString().equals(dataState.toString());
     }
-    
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

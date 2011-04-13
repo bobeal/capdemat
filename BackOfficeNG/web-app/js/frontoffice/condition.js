@@ -111,7 +111,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
         return triggerEl.value || "";
       if (zct.nodeName(triggerEl,'select')
         || (!yud.hasClass(triggerEl, 'boolean') && yud.hasClass(triggerEl, 'validate-one-required')))
-        return triggerEl.value.split('_')[1] || "";
+        return triggerEl.value || "";
       else
         return triggerEl.value || "";
     };

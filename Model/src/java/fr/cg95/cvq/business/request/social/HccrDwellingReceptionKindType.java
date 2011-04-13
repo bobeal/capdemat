@@ -1,39 +1,41 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class HccrDwellingReceptionKindType extends PersistentStringEnum {
+public enum HccrDwellingReceptionKindType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final HccrDwellingReceptionKindType INTERNSHIP = new HccrDwellingReceptionKindType("Internship");
-  
-    public static final HccrDwellingReceptionKindType CLERKSHIP = new HccrDwellingReceptionKindType("Clerkship");
-  
+    INTERNSHIP("Internship"),
+    CLERKSHIP("Clerkship");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use HccrDwellingReceptionKindType.values() instead
+     * @deprecated only for backward
      */
-    private HccrDwellingReceptionKindType(String value) {
-        super(value);
+    @Deprecated 
+    public static HccrDwellingReceptionKindType[] allHccrDwellingReceptionKindTypes = HccrDwellingReceptionKindType.values();
+
+    private String legacyLabel;
+
+    private HccrDwellingReceptionKindType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public HccrDwellingReceptionKindType() {}
-
-    public static HccrDwellingReceptionKindType[] allHccrDwellingReceptionKindTypes = {
-        INTERNSHIP,
-        CLERKSHIP
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static HccrDwellingReceptionKindType getDefaultHccrDwellingReceptionKindType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of HccrDwellingReceptionKindType.something
+     * not the value of the name attribut.
+     */
     public static HccrDwellingReceptionKindType forString(final String enumAsString) {
-        for (HccrDwellingReceptionKindType value : allHccrDwellingReceptionKindTypes)
+        for (HccrDwellingReceptionKindType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultHccrDwellingReceptionKindType();

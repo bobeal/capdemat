@@ -1,42 +1,42 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class HccrReferentFamilyDependentActualSituationType extends PersistentStringEnum {
+public enum HccrReferentFamilyDependentActualSituationType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final HccrReferentFamilyDependentActualSituationType SCHOOLING = new HccrReferentFamilyDependentActualSituationType("Schooling");
-  
-    public static final HccrReferentFamilyDependentActualSituationType LEARNING = new HccrReferentFamilyDependentActualSituationType("Learning");
-  
-    public static final HccrReferentFamilyDependentActualSituationType MEDICO_SOCIAL = new HccrReferentFamilyDependentActualSituationType("MedicoSocial");
-  
+    SCHOOLING("Schooling"),
+    LEARNING("Learning"),
+    MEDICO_SOCIAL("MedicoSocial");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use HccrReferentFamilyDependentActualSituationType.values() instead
+     * @deprecated only for backward
      */
-    private HccrReferentFamilyDependentActualSituationType(String value) {
-        super(value);
+    @Deprecated 
+    public static HccrReferentFamilyDependentActualSituationType[] allHccrReferentFamilyDependentActualSituationTypes = HccrReferentFamilyDependentActualSituationType.values();
+
+    private String legacyLabel;
+
+    private HccrReferentFamilyDependentActualSituationType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public HccrReferentFamilyDependentActualSituationType() {}
-
-    public static HccrReferentFamilyDependentActualSituationType[] allHccrReferentFamilyDependentActualSituationTypes = {
-        SCHOOLING,
-        LEARNING,
-        MEDICO_SOCIAL
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static HccrReferentFamilyDependentActualSituationType getDefaultHccrReferentFamilyDependentActualSituationType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of HccrReferentFamilyDependentActualSituationType.something
+     * not the value of the name attribut.
+     */
     public static HccrReferentFamilyDependentActualSituationType forString(final String enumAsString) {
-        for (HccrReferentFamilyDependentActualSituationType value : allHccrReferentFamilyDependentActualSituationTypes)
+        for (HccrReferentFamilyDependentActualSituationType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultHccrReferentFamilyDependentActualSituationType();

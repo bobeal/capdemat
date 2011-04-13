@@ -5,48 +5,67 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.MapKeyEnumerated;
+import javax.persistence.Table;
+
 import fr.cg95.cvq.security.SecurityContext;
 
-/**
- * @hibernate.class
- *  table="request_admin_action"
- *  lazy="false"
- *
- * @author jsb@zenexity.fr
- */
+@Entity
+@Table(name="request_admin_action")
 public class RequestAdminAction implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static class Type extends PersistentStringEnum {
-        private static final long serialVersionUID = 1L;
-        public static final Type ARCHIVES_DELETED = new Type("ArchivesDeleted");
-        public static final Type ARCHIVES_DOWNLOADED = new Type("ArchivesDownloaded");
-        public static final Type PASSWORD_RESET = new Type("PasswordReset");
-        public static final Type REQUESTS_ARCHIVED = new Type("RequestsArchived");
-        public static final Type ARCHIVES_MIGRATED = new Type("ArchivesMigrated");
-        public Type() { /* public constructor for Hibernate */ }
-        private Type(String type) { super(type); }
+    public enum Type {
+
+        ARCHIVES_DELETED("ArchivesDeleted"),
+        ARCHIVES_DOWNLOADED("ArchivesDownloaded"),
+        PASSWORD_RESET("PasswordReset"),
+        REQUESTS_ARCHIVED("RequestsArchived"),
+        ARCHIVES_MIGRATED("ArchivesMigrated");
+        private String name;
+        private Type(String type) { this.name = type; }
     }
 
-    public static class Data extends PersistentStringEnum {
-        private static final long serialVersionUID = 1L;
-        public static final Data ARCHIVE_NAMES = new Data("ArchiveNames");
-        public static final Data ARCHIVING_RESULT = new Data("ArchivingResult");
-        public static final Data PASSWORD = new Data("Password");
-        public Data() { /* public constructor for Hibernate */ }
-        private Data(String data) { super(data); }
+    public enum Data {
+        ARCHIVE_NAMES("ArchiveNames"),
+        ARCHIVING_RESULT("ArchivingResult"),
+        PASSWORD("Password");
+        private String name;
+        private Data(String name) { this.name = name; }
     }
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="type",nullable=false)
     private Type type;
 
+    @Column(name="admin_id",nullable=false)
     private Long adminId;
 
+    @Column(nullable=false)
     private Date date;
 
+    @ElementCollection(fetch=FetchType.EAGER)
+    @CollectionTable(name="request_admin_action_complementary_data", joinColumns=@JoinColumn(name="id"))
+    @MapKeyEnumerated(EnumType.STRING)
+    @MapKeyColumn(name="key")
+    @Column(name="value")
     private Map<Data, Serializable> complementaryData;
 
     @SuppressWarnings("unused")
@@ -61,11 +80,6 @@ public class RequestAdminAction implements Serializable {
         complementaryData = new HashMap<Data, Serializable>();
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return id;
     }
@@ -74,11 +88,6 @@ public class RequestAdminAction implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="type"
-     *  not-null="true"
-     */
     public Type getType() {
         return type;
     }
@@ -87,11 +96,6 @@ public class RequestAdminAction implements Serializable {
         this.type = type;
     }
 
-    /**
-     * @hibernate.property
-     *  column="admin_id"
-     *  not-null="true"
-     */
     public Long getAdminId() {
         return adminId;
     }
@@ -100,11 +104,6 @@ public class RequestAdminAction implements Serializable {
         this.adminId = adminId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="date"
-     *  not-null="true"
-     */
     public Date getDate() {
         return date;
     }
@@ -113,20 +112,6 @@ public class RequestAdminAction implements Serializable {
         this.date = date;
     }
 
-    /**
-     * @hibernate.map
-     *  lazy="false"
-     *  cascade="all"
-     *  table="request_admin_action_complementary_data"
-     * @hibernate.key
-     *  column="id"
-     * @hibernate.index
-     *  column="key"
-     *  type="fr.cg95.cvq.business.request.RequestAdminAction$Data"
-     * @hibernate.element
-     *  column="value"
-     *  type="serializable"
-     */
     public Map<Data, Serializable> getComplementaryData() {
         return complementaryData;
     }

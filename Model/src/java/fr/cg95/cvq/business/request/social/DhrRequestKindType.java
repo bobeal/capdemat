@@ -1,39 +1,41 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class DhrRequestKindType extends PersistentStringEnum {
+public enum DhrRequestKindType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final DhrRequestKindType INDIVIDUAL = new DhrRequestKindType("Individual");
-  
-    public static final DhrRequestKindType COUPLE = new DhrRequestKindType("Couple");
-  
+    INDIVIDUAL("Individual"),
+    COUPLE("Couple");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use DhrRequestKindType.values() instead
+     * @deprecated only for backward
      */
-    private DhrRequestKindType(String value) {
-        super(value);
+    @Deprecated 
+    public static DhrRequestKindType[] allDhrRequestKindTypes = DhrRequestKindType.values();
+
+    private String legacyLabel;
+
+    private DhrRequestKindType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public DhrRequestKindType() {}
-
-    public static DhrRequestKindType[] allDhrRequestKindTypes = {
-        INDIVIDUAL,
-        COUPLE
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static DhrRequestKindType getDefaultDhrRequestKindType() {
         return INDIVIDUAL;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of DhrRequestKindType.something
+     * not the value of the name attribut.
+     */
     public static DhrRequestKindType forString(final String enumAsString) {
-        for (DhrRequestKindType value : allDhrRequestKindTypes)
+        for (DhrRequestKindType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultDhrRequestKindType();

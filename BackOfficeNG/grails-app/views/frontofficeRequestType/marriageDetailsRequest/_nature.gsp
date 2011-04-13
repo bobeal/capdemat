@@ -5,8 +5,8 @@
     <label for="requesterQuality" class=""><g:message code="mdr.property.requesterQuality.label" />   <span><g:message code="mdr.property.requesterQuality.help" /></span></label>
             <select id="requesterQuality" name="requesterQuality" class="condition-isOtherRequesterQuality-trigger  validate-select ${rqt.stepStates['nature'].invalidFields.contains('requesterQuality') ? 'validation-failed' : ''}" title="<g:message code="mdr.property.requesterQuality.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Requester','Spouse','Parent','GrandParent','Child','LegalRepresentant','Agent','HeirFamily','Heir','Authorized','LawyerNotary','Other']}">
-                <option value="fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType_${it}" ${it == rqt.requesterQuality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="mdr.property.requesterQuality" /></option>
+              <g:each in="${['REQUESTER','SPOUSE','PARENT','GRAND_PARENT','CHILD','LEGAL_REPRESENTANT','AGENT','HEIR_FAMILY','HEIR','AUTHORIZED','LAWYER_NOTARY','OTHER']}">
+                <option value="${it}" ${it == rqt.requesterQuality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="mdr.property.requesterQuality" /></option>
               </g:each>
             </select>
             

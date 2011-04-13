@@ -11,7 +11,6 @@ import org.hibernate.Hibernate;
 import org.hibernate.type.Type;
 
 import fr.cg95.cvq.business.request.RequestState;
-import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestStatisticsDAO;
 import fr.cg95.cvq.util.DateUtils;
@@ -19,7 +18,7 @@ import fr.cg95.cvq.util.DateUtils;
 /**
  * @author bor@zenexity.fr
  */
-public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisticsDAO {
+public class RequestStatisticsDAO  implements IRequestStatisticsDAO {
 
     public Long countByQuality(final Date startDate, final Date endDate,
             final List<RequestState> resultingStates, final String qualityType,
@@ -72,7 +71,7 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
         }
 
         sb.append(" and request.state != ?");
-        objectList.add(RequestState.DRAFT.toString());
+        objectList.add(RequestState.DRAFT.name());
         typeList.add(Hibernate.STRING);
 
         Type[] typeTab = typeList.toArray(new Type[0]);
@@ -134,7 +133,7 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
         }
 
         sb.append(" and request.state != ?");
-        objectList.add(RequestState.DRAFT.toString());
+        objectList.add(RequestState.DRAFT.name());
         typeList.add(Hibernate.STRING);
 
         sb.append(" group by request.requestType.id");
@@ -226,7 +225,7 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
         }
 
         sb.append(" and request.state != ?");
-        objectList.add(RequestState.DRAFT.toString());
+        objectList.add(RequestState.DRAFT.name());
         typeList.add(Hibernate.STRING);
 
         sb.append(" group by request.requestType.id");
@@ -275,7 +274,7 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
         }
 
         sb.append(" and request.state != ?");
-        objectList.add(RequestState.DRAFT.toString());
+        objectList.add(RequestState.DRAFT.name());
         typeList.add(Hibernate.STRING);
 
         Type[] typeTab = typeList.toArray(new Type[0]);

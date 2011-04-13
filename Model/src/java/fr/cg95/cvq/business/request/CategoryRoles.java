@@ -2,18 +2,31 @@ package fr.cg95.cvq.business.request;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.hibernate.annotations.Parent;
 
 
 /**
  * @author bor@zenexity.fr
  */
+@Embeddable
 public class CategoryRoles implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="profile",length=16)
     private CategoryProfile profile;
+
+    @Parent
     private Category category;
+
+    @Column(name="agent_id")
     private Long agentId;
 
     /** full constructor */
@@ -27,9 +40,6 @@ public class CategoryRoles implements Serializable {
     public CategoryRoles() {
     }
 
-    /**
-     * @hibernate.parent
-     */
     public Category getCategory() {
         return this.category;
     }
@@ -38,10 +48,6 @@ public class CategoryRoles implements Serializable {
         this.category = category;
     }
 
-    /**
-     * @hibernate.property
-     *  column="agent_id"
-     */
     public Long getAgentId() {
         return this.agentId;
     }
@@ -50,11 +56,6 @@ public class CategoryRoles implements Serializable {
         this.agentId = agentId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="profile"
-     *  length="16"
-     */
     public CategoryProfile getProfile() {
         return this.profile;
     }

@@ -23,8 +23,8 @@ import fr.cg95.cvq.business.payment.external.ExternalIndividual;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.IndividualRole;
 import fr.cg95.cvq.business.users.RoleType;
-import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.dao.users.IAdultDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
@@ -518,7 +518,7 @@ public class ExternalApplicationService implements IExternalApplicationService {
         genericDAO.update(eh);
     }
 
-    @Override public List<Adult> matchAdults (Long externalHomeFolderId) throws CvqException {
+    @Override public List<Adult> matchAdults(Long externalHomeFolderId) {
         ExternalHomeFolder ehf = (ExternalHomeFolder) genericDAO.findById(ExternalHomeFolder.class, externalHomeFolderId);
         ExternalIndividual ehfr =  ehf.getResponsible();
 

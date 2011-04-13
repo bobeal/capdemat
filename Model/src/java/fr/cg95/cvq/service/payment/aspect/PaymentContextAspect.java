@@ -9,13 +9,15 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 
 import fr.cg95.cvq.business.payment.Payment;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.dao.payment.IPaymentDAO;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.dao.users.IHomeFolderDAO;
+import fr.cg95.cvq.dao.users.IIndividualDAO;
 import fr.cg95.cvq.security.GenericAccessManager;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.annotation.Context;
@@ -29,7 +31,12 @@ public class PaymentContextAspect implements Ordered {
 
     private Logger logger = Logger.getLogger(PaymentContextAspect.class);
 
+    @Autowired
     private IPaymentDAO paymentDAO;
+    @Autowired
+    private IHomeFolderDAO homeFolderDAO;
+    @Autowired
+    private IIndividualDAO individualDAO;
 
     @Before("fr.cg95.cvq.SystemArchitecture.businessService() && @annotation(context) && within(fr.cg95.cvq.service.payment..*)")
     public void contextAnnotatedMethod(JoinPoint joinPoint, Context context) {
@@ -58,16 +65,11 @@ public class PaymentContextAspect implements Ordered {
                 if (parameterAnnotation.annotationType().equals(IsUser.class)) {
                     if (argument instanceof Long) {
                         Long id = (Long) argument;
-                        try {
-                            paymentDAO.findById(Individual.class, id);
-                            individualId = id;
-                        } catch (CvqObjectNotFoundException e1) {
-                            try {
-                                paymentDAO.findById(HomeFolder.class, id);
+                        if (individualDAO.findById(id) == null) {
+                            if (homeFolderDAO.findById(id) != null);
                                 homeFolderId = id;
-                            } catch (CvqObjectNotFoundException e2) {
-                                // no user with this id
-                            }
+                        } else {
+                            individualId = id;
                         }
                     } else if (argument instanceof Individual) {
                         individualId = ((Individual) argument).getId();
@@ -76,13 +78,13 @@ public class PaymentContextAspect implements Ordered {
                     }
                 } else if (parameterAnnotation.annotationType().equals(IsPayment.class)) {
                     if (argument instanceof Long) {
-                        Object payment;
-                        try {
-                            payment = paymentDAO.findById(Payment.class, (Long) argument);
+                        Object payment = paymentDAO.findById((Long)argument);
+                        if (payment != null) {
                             homeFolderId = ((Payment) payment).getHomeFolderId();
                             individualId = ((Payment) payment).getRequesterId();
-                        } catch (CvqObjectNotFoundException confe) {
-                            logger.error(confe.getMessage());
+                        } else {
+                            // FIXME throw PermissionException?
+                            logger.error("no payment match the given id: " + (Long) argument);
                         }
                     } else if (argument instanceof Payment) {
                         homeFolderId = ((Payment) argument).getHomeFolderId();
@@ -105,7 +107,19 @@ public class PaymentContextAspect implements Ordered {
         return 1;
     }
 
+    public IPaymentDAO getPaymentDAO() {
+        return paymentDAO;
+    }
+
     public void setPaymentDAO(IPaymentDAO paymentDAO) {
         this.paymentDAO = paymentDAO;
+    }
+
+    public void setHomeFolderDAO(IHomeFolderDAO homeFolderDAO) {
+        this.homeFolderDAO = homeFolderDAO;
+    }
+
+    public void setIndividualDAO(IIndividualDAO individualDAO) {
+        this.individualDAO = individualDAO;
     }
 }

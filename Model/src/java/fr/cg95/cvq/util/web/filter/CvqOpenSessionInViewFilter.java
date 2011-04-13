@@ -1,7 +1,10 @@
 package fr.cg95.cvq.util.web.filter;
 
 import java.io.IOException;
+import java.util.Map;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -16,6 +19,7 @@ import org.springframework.web.filter.GenericFilterBean;
 
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.jpa.JpaUtil;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -69,9 +73,13 @@ public class CvqOpenSessionInViewFilter extends GenericFilterBean {
                 localAuthRegistry.getLocalAuthorityBeanByName(la.getName());
             if (lacb == null)
                 throw new ServletException("No local authority found !");
-            SessionFactory sessionFactory = lacb.getSessionFactory();
-            HibernateUtil.setSessionFactory(sessionFactory);
-            HibernateUtil.beginTransaction();
+            EntityManagerFactory entityManagerFactory = lacb.getEntityManagerFactory();
+            if(entityManagerFactory == null){
+                entityManagerFactory = Persistence.createEntityManagerFactory("capdematPersistenceUnit", lacb.getJpaConfigurations());
+                lacb.setEntityManagerFactory(entityManagerFactory);
+            }
+            JpaUtil.setEntityManagerFactory(entityManagerFactory);
+            JpaUtil.beginTransaction();
             txRollback.set(Boolean.FALSE);
             try {
                 SecurityContext.setCurrentSite(lacb.getName(), context);
@@ -91,14 +99,14 @@ public class CvqOpenSessionInViewFilter extends GenericFilterBean {
             Boolean doRollback = txRollback.get();
             logger.debug("doFilter() Tx rollback status : " + doRollback.booleanValue());
             if (doRollback.booleanValue()) {
-                HibernateUtil.rollbackTransaction();
+                JpaUtil.rollbackTransaction();
             } else {
-                HibernateUtil.commitTransaction();
+                JpaUtil.commitTransaction();
             }
         } finally {
             txRollback.set(null);
             // No matter what happens, close the Session.
-            HibernateUtil.closeSession();
+            JpaUtil.close();
             SecurityContext.resetCurrentSite();
         }
     }

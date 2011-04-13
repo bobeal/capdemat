@@ -9,8 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.persistence.Persistence;
 
-import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +28,9 @@ import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.business.users.UserSecurityProfile;
-import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaUtil;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -37,6 +38,7 @@ import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.IRecreationCenterService;
 import fr.cg95.cvq.service.authority.ISchoolService;
+import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.users.IMeansOfContactService;
 import fr.cg95.cvq.service.users.IUserNotificationService;
 import fr.cg95.cvq.service.users.IUserSearchService;
@@ -134,13 +136,14 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
     @Autowired
     protected IUserSecurityService userSecurityService;
 
-    @Resource(name="sessionFactory_dummy")
-    private SessionFactory sessionFactory;
-
     protected FakeHomeFolder fake;
+
+    @Resource(name="configurationBean_dummy")
+    protected LocalAuthorityConfigurationBean localAuthorityConfigurationBean;
 
     @Before
     public void onSetUp() throws Exception {
+        JpaUtil.setEntityManagerFactory(Persistence.createEntityManagerFactory("capdematPersistenceUnit",localAuthorityConfigurationBean.getJpaConfigurations()));
         startTransaction();
         IGenericDAO genericDAO = getApplicationBean("genericDAO");
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -187,7 +190,6 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
 
     protected void startTransaction() throws CvqException {
         try {
-            HibernateUtil.setSessionFactory(sessionFactory);
             HibernateUtil.beginTransaction();
         } catch (Exception e) {
             logger.error("got exception while starting new tx");
@@ -212,7 +214,6 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
     
     protected void continueWithNewTransaction() {
         HibernateUtil.commitTransaction();
-        HibernateUtil.closeSession();
         HibernateUtil.beginTransaction();
     }
     
@@ -227,12 +228,9 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
             userWorkflowService.delete(fake.id);
-            try {
-                userSearchService.getHomeFolderById(fake.id);
+            if (userSearchService.getHomeFolderById(fake.id) != null)
                 fail("should have thrown an exception");
-            } catch (CvqObjectNotFoundException confe) {
-                // ok, that was expected
-            }
+            // Else ok, that was expected
 
             continueWithNewTransaction();
 

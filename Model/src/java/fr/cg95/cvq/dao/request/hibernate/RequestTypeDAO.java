@@ -10,7 +10,7 @@ import org.hibernate.criterion.Restrictions;
 import fr.cg95.cvq.business.request.GlobalRequestTypeConfiguration;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.DisplayGroup;
-import fr.cg95.cvq.dao.hibernate.GenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaTemplate;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestTypeDAO;
 import fr.cg95.cvq.util.Critere;
@@ -20,7 +20,7 @@ import fr.cg95.cvq.util.Critere;
  * 
  * @author bor@zenexity.fr
  */
-public class RequestTypeDAO extends GenericDAO implements IRequestTypeDAO {
+public class RequestTypeDAO extends JpaTemplate<RequestType, Long> implements IRequestTypeDAO {
 
     public List<RequestType> listAll() {
         StringBuffer sb = new StringBuffer()

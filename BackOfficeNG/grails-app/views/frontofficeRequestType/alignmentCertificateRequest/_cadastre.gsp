@@ -4,9 +4,9 @@
   
     <label class="required"><g:message code="acr.property.requesterQuality.label" /> *  <span><g:message code="acr.property.requesterQuality.help" /></span></label>
             <ul class="required ${rqt.stepStates['cadastre'].invalidFields.contains('requesterQuality') ? 'validation-failed' : ''}">
-              <g:each in="${['Owner','Tenant']}">
+              <g:each in="${['OWNER','TENANT']}">
               <li>
-                <input type="radio" id="requesterQuality_${it}" class="required condition-isTenant-trigger  validate-one-required" value="fr.cg95.cvq.business.request.urbanism.AcrRequesterQualityType_${it}" name="requesterQuality" ${it == rqt.requesterQuality.toString() ? 'checked="checked"': ''} title="<g:message code="acr.property.requesterQuality.validationError" />" />
+                <input type="radio" id="requesterQuality_${it}" class="required condition-isTenant-trigger  validate-one-required" value="${it}" name="requesterQuality" ${it == rqt.requesterQuality.toString() ? 'checked="checked"': ''} title="<g:message code="acr.property.requesterQuality.validationError" />" />
                 <label for="requesterQuality_${it}"><g:capdematEnumToText var="${it}" i18nKeyPrefix="acr.property.requesterQuality" /></label>
               </li>
               </g:each>

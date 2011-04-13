@@ -120,7 +120,7 @@ public class SewerConnectionRequest extends Request implements Serializable {
         sewerConnectionRequest.setOwnerLastName(getOwnerLastName());
       
         if (getRequesterQuality() != null)
-            sewerConnectionRequest.setRequesterQuality(fr.cg95.cvq.xml.request.urbanism.ScrRequesterQualityType.Enum.forString(getRequesterQuality().toString()));
+            sewerConnectionRequest.setRequesterQuality(fr.cg95.cvq.xml.request.urbanism.ScrRequesterQualityType.Enum.forString(getRequesterQuality().getLegacyLabel()));
       
         sewerConnectionRequest.setSection(getSection());
       

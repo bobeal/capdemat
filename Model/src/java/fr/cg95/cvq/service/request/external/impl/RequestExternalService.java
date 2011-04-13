@@ -32,10 +32,10 @@ import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.business.users.external.IndividualMapping;
 import fr.cg95.cvq.business.users.external.UserExternalAction;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.ExternalServiceUtils;
 import fr.cg95.cvq.external.IExternalProviderService;
@@ -70,6 +70,8 @@ public class RequestExternalService extends ExternalService implements IRequestE
     private static Logger logger = Logger.getLogger(RequestExternalService.class);
 
     private IRequestDAO requestDAO;
+    private IGenericDAO genericDAO;
+
     private IRequestExternalActionService requestExternalActionService;
 
     private IRequestExportService requestExportService;
@@ -390,7 +392,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
     public Map<Date, String> getConsumptions(final Long requestId, Date dateFrom, Date dateTo)
             throws CvqException {
 
-        Request request = (Request) requestDAO.findById(Request.class, requestId);
+        Request request = (Request) requestDAO.findById(requestId);
         RequestSeason requestSeason = request.getRequestSeason();
         if (request.getState().equals(RequestState.ARCHIVED) || (requestSeason != null && requestSeason.getEffectEnd().isBeforeNow())) {
             logger.debug("getConsumptionsByRequest() Filtering request (archived or season finished) : " + requestId);
@@ -438,17 +440,13 @@ public class RequestExternalService extends ExternalService implements IRequestE
     @Override
     public void onApplicationEvent(UserEvent event) {
 
-        HomeFolder homeFolder;
-        try {
-            homeFolder = userSearchService.getHomeFolderById(event.getAction().getTargetId());
-        } catch (CvqObjectNotFoundException e1) {
-            try {
-                homeFolder = userSearchService.getById(event.getAction().getTargetId()).getHomeFolder();
-            } catch (CvqObjectNotFoundException e2) {
-                logger.debug("onApplicationEvent() got an event for a non-existent user ID : "
+        HomeFolder homeFolder = userSearchService.getHomeFolderById(event.getAction().getTargetId());
+        if (homeFolder == null)
+            homeFolder = userSearchService.getById(event.getAction().getTargetId()).getHomeFolder();
+        if (homeFolder == null) {
+            logger.debug("onApplicationEvent() got an event for a non-existent user ID : "
                     + event.getAction().getTargetId());
-                return;
-            }
+            return;
         }
 
         if (UserAction.Type.MODIFICATION.equals(event.getAction().getType())
@@ -505,9 +503,10 @@ public class RequestExternalService extends ExternalService implements IRequestE
                             mapping.setExternalId(externalId);
                             externalHomeFolderService.modifyHomeFolderMapping(mapping);
                         }
+
                         if (!externalProviderService.handlesTraces()) {
-                            requestDAO.create(new UserExternalAction(
-                                homeFolder.getId().toString(), externalServiceLabel, "Sent"));
+                        genericDAO.create(new UserExternalAction(
+                            homeFolder.getId().toString(), externalServiceLabel, "Sent"));
                         }
                     }
                 } catch (CvqException ex) {
@@ -519,6 +518,10 @@ public class RequestExternalService extends ExternalService implements IRequestE
 
     public void setRequestDAO(IRequestDAO requestDAO) {
         this.requestDAO = requestDAO;
+    }
+
+    public void setGenericDAO(IGenericDAO genericDAO) {
+        this.genericDAO = genericDAO;
     }
 
     public void setRequestExportService(IRequestExportService requestExportService) {

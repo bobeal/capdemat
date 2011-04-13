@@ -25,6 +25,15 @@ public class StringUtils {
     }
 
     /**
+     * Transform a string like 'FIRST_NAME' or 'FirstName' to 'firstName'
+     */
+    public static String toLowerCamelCase(String s){
+        s = s.replaceAll( "([a-z])([A-Z])", "\$1@\$2" ).toLowerCase() //add @ between words and lowcase the string
+        s = s.replaceAll( "([_@])([A-Za-z0-9])", { Object[] it -> it[2].toUpperCase() } )
+        return s
+    }
+
+    /**
      * Transform a string like 'FirstName' into 'firstName'
      */
     public static pascalToCamelCase (String s) {

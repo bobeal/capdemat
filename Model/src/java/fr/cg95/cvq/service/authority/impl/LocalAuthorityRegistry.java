@@ -22,14 +22,18 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
+import javax.persistence.Persistence;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
+import org.hibernate.ejb.HibernateEntityManager;
 import org.joda.time.DateMidnight;
 import org.joda.time.Interval;
 import org.springframework.beans.BeansException;
@@ -38,6 +42,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.TypedStringValue;
+import org.springframework.beans.factory.support.ManagedProperties;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -57,6 +62,9 @@ import fr.cg95.cvq.business.authority.LocalAuthorityResource.Version;
 import fr.cg95.cvq.business.users.UserSecurityProfile;
 import fr.cg95.cvq.dao.authority.ILocalAuthorityDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaUtil;
+import fr.cg95.cvq.dao.request.IRequestActionDAO;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -107,6 +115,8 @@ public class LocalAuthorityRegistry
     private ILocalAuthorityDAO localAuthorityDAO;
     private IAgentService agentService;
     private IUserSecurityService userSecurityService;
+    private IRequestActionDAO requestActionDAO;
+    private IGenericDAO genericDAO;
 
     private ListableBeanFactory beanFactory;
 
@@ -115,7 +125,7 @@ public class LocalAuthorityRegistry
     private String[] includedLocalAuthorities;
     private String localAuthoritiesListFilename;
 
-    private SessionFactory templateSessionFactory;
+    private Properties templateJpaProperties;
 
     public void init() {
         Map<String, ILocalAuthorityLifecycleAware> services =
@@ -634,25 +644,27 @@ public class LocalAuthorityRegistry
                         logger.debug("registerLocalAuthorities() loading " + localAuthorityName);
                         xmlBeanDefinitionReader.loadBeanDefinitions(localAuthoritiesFiles[i]);
                         if (DEVELOPMENT_LOCAL_AUTHORITY.equals(localAuthorityName)) {
-                            HibernateUtil.setSessionFactory(templateSessionFactory);
+                            JpaUtil.setEntityManagerFactory(Persistence.createEntityManagerFactory("capdematPersistenceUnit", getTemplateJpaProperties()));
                             BeanDefinition definition =
-                                gac.getBeanDefinition("pgDataSource_blainville");
+                                gac.getBeanDefinition("configurationBean_blainville");
                             try {
                                 String dbName =
-                                    new URI(parseJDBCProperty(definition, "jdbcUrl").substring(5))
+                                    new URI(parseJDBCProperty(definition, "jpaConfigurations").substring(5))
                                         .getPath().substring(1);
-                                if (BigInteger.ZERO.equals(HibernateUtil.getSession()
-                                    .createSQLQuery("select count(*) from pg_catalog.pg_database where datname = :dbName")
-                                        .setString("dbName", dbName).uniqueResult())) {
+                                if (BigInteger.ZERO.equals(JpaUtil.getEntityManager()
+                                        .createNativeQuery("select count(*) from pg_catalog.pg_database where datname = :dbName")
+                                        .setParameter("dbName", dbName).getSingleResult())) {
                                     try {
-                                        HibernateUtil.getSession().connection().createStatement()
-                                            .execute("create database \"" + dbName + '\"');
-                                    } catch (SQLException e) {
+                                        ((HibernateEntityManager)JpaUtil.getEntityManager()).getSession()
+                                            .connection().createStatement().execute("create database \"" + dbName + '\"');
+                                    } catch (Exception e) {
                                         logger.error("could not create database " + dbName);
                                         e.printStackTrace();
                                     }
-                                    gac.getBean("&sessionFactory_blainville",
-                                        LocalSessionFactoryBean.class).createDatabaseSchema();
+                                    //jpa is in hibernate autoddl... should be enough ..
+                                    Map jpaConfigurations = parseJPAConfiguration(definition);
+                                    jpaConfigurations.put("hibernate.hbm2ddl.auto", "create-drop");
+                                    JpaUtil.setEntityManagerFactory(Persistence.createEntityManagerFactory("capdematPersistenceUnit",jpaConfigurations));
                                 }
                             } catch (URISyntaxException e) {
                                 logger.error("got an exception while trying to create dev database");
@@ -681,6 +693,16 @@ public class LocalAuthorityRegistry
                 new String[]{lacb.getName()});
         }
         generateLocalAuthoritiesList();
+    }
+
+    private Map parseJPAConfiguration(BeanDefinition definition) {
+        ManagedProperties managedProperties = ((ManagedProperties)definition.getPropertyValues().getPropertyValue("jpaConfigurations").getValue());
+        Map jpaConfigurationMap = new HashMap();
+        for(Entry entry : managedProperties.entrySet())
+        {
+            jpaConfigurationMap.put(((TypedStringValue) entry.getKey()).getValue(),((TypedStringValue) entry.getValue()).getValue());
+        }
+        return jpaConfigurationMap;
     }
 
     @SuppressWarnings("unused")
@@ -713,16 +735,16 @@ public class LocalAuthorityRegistry
                 if (lacb.getDefaultServerName() != null)
                     localAuthority.getServerNames().add(lacb.getDefaultServerName());
                 localAuthorityDAO.create(localAuthority);
-                HibernateUtil.getSession().flush();
+                JpaUtil.getEntityManager().flush();
                 if (DEVELOPMENT_LOCAL_AUTHORITY.equals(localAuthorityName)) {
                     SecurityContext.setCurrentSite(DEVELOPMENT_LOCAL_AUTHORITY,
                         SecurityContext.ADMIN_CONTEXT);
                     createAgent(DEVELOPMENT_ADMIN_NAME, SiteProfile.ADMIN);
                     createAgent(DEVELOPMENT_AGENT_NAME, SiteProfile.AGENT);
                     createAgent(DEVELOPMENT_MANAGER_NAME, SiteProfile.AGENT);
-                    localAuthorityDAO.create(
+                    genericDAO.create(
                         BusinessObjectsFactory.gimmeSchool("École Jean Jaurès"));
-                    localAuthorityDAO.create(BusinessObjectsFactory
+                    genericDAO.create(BusinessObjectsFactory
                         .gimmeRecreationCenter("Centre de loisirs Louise Michel"));
                 }
                 // set current site to be able to generateJPEGFiles (which uses getCurrentSite) ...
@@ -763,8 +785,7 @@ public class LocalAuthorityRegistry
         
         LocalAuthorityConfigurationBean lacb =
             configurationBeansMap.get(localAuthority);
-        SessionFactory sessionFactory = lacb.getSessionFactory();
-        HibernateUtil.setSessionFactory(sessionFactory);
+        JpaUtil.setEntityManagerFactory(lacb.getEntityManagerFactory());
         try {
             SecurityContext.setCurrentSite(lacb.getName(), SecurityContext.ADMIN_CONTEXT);
         } catch (CvqObjectNotFoundException confe) {
@@ -772,8 +793,8 @@ public class LocalAuthorityRegistry
         }
 
         try {
-            Store.init(new File(assetsBase + lacb.getName(), "zdb"));
-            HibernateUtil.beginTransaction();
+            Store.init(new File(assetsBase + lacb.getName(), "zdb"));            
+            JpaUtil.beginTransaction();
 
             if (args == null || args.length == 0) {
                 Method method = 
@@ -791,15 +812,15 @@ public class LocalAuthorityRegistry
                 method.invoke(object, methArgs);
             }
 
-            HibernateUtil.commitTransaction();
+            JpaUtil.commitTransaction();
 
         } catch (Exception e) {
             logger.error("callback() got an exception, rollbacking");
             e.printStackTrace();
-            HibernateUtil.rollbackTransaction();
+            JpaUtil.rollbackTransaction();
         } finally {
             Store.release();
-            HibernateUtil.closeSession();
+            JpaUtil.close();
             SecurityContext.resetCurrentSite();
         }
     }
@@ -927,9 +948,9 @@ public class LocalAuthorityRegistry
      * for on-the-fly development database creation.
      */
     private String parseJDBCProperty(BeanDefinition definition, String property) {
-        return
-            ((TypedStringValue)definition.getPropertyValues().getPropertyValue(property).getValue())
-                .getValue();
+        ManagedProperties managedProperties = ((ManagedProperties)definition.getPropertyValues().getPropertyValue(property).getValue());
+        TypedStringValue url = (TypedStringValue) managedProperties.get(new TypedStringValue("hibernate.connection.url"));
+        return url.getValue();
     }
 
     private Agent createAgent(String login, SiteProfile siteProfile)
@@ -949,10 +970,6 @@ public class LocalAuthorityRegistry
         return agent;
     }
 
-    public void setTemplateSessionFactory(SessionFactory templateSessionFactory) {
-        this.templateSessionFactory = templateSessionFactory;
-    }
-
     public void setAgentService(IAgentService agentService) {
         this.agentService = agentService;
     }
@@ -960,4 +977,21 @@ public class LocalAuthorityRegistry
     public void setUserSecurityService(IUserSecurityService userSecurityService) {
         this.userSecurityService = userSecurityService;
     }
+
+    public void setRequestActionDAO(IRequestActionDAO requestActionDAO) {
+        this.requestActionDAO = requestActionDAO;
+    }
+
+    public void setGenericDAO(IGenericDAO genericDAO) {
+        this.genericDAO = genericDAO;
+    }
+
+    public Properties getTemplateJpaProperties() {
+        return templateJpaProperties;
+    }
+
+    public void setTemplateJpaProperties(Properties templateJpaProperties) {
+        this.templateJpaProperties = templateJpaProperties;
+    }
+
 }

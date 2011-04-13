@@ -3,12 +3,12 @@ package fr.cg95.cvq.dao.authority;
 import java.util.List;
 
 import fr.cg95.cvq.business.authority.RecreationCenter;
-import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.IJpaTemplate;
 
 /**
  * @author bor@zenexity.fr
  */
-public interface IRecreationCenterDAO extends IGenericDAO {
+public interface IRecreationCenterDAO extends IJpaTemplate<RecreationCenter,Long> {
 
     /**
      * Look up a recreation center by name.

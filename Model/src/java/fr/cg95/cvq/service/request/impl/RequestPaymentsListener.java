@@ -15,7 +15,6 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
@@ -56,7 +55,7 @@ public class RequestPaymentsListener implements ApplicationListener<PaymentEvent
 
         if (!requests.isEmpty()) {
             for (Long requestId : requests) {
-                Request request = getById(requestId);
+                Request request = requestDAO.findById(requestId);
                 IRequestService requestService = 
                     requestServiceRegistry.getRequestService(request);
                 if (payment.getState().equals(PaymentState.VALIDATED)) {
@@ -80,11 +79,6 @@ public class RequestPaymentsListener implements ApplicationListener<PaymentEvent
                 }
             }
         }
-    }
-
-    protected Request getById(final Long id)
-        throws CvqException, CvqObjectNotFoundException {
-        return (Request) requestDAO.findById(Request.class, id);
     }
 
     @Override

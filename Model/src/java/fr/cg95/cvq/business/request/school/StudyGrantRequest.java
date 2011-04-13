@@ -149,7 +149,7 @@ public class StudyGrantRequest extends Request implements Serializable {
         }
       
         if (getAbroadInternshipSchoolCountry() != null)
-            currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipSchoolCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getAbroadInternshipSchoolCountry().toString()));
+            currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipSchoolCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getAbroadInternshipSchoolCountry().getLegacyLabel()));
       
         currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipSchoolName(getAbroadInternshipSchoolName());
       
@@ -172,10 +172,10 @@ public class StudyGrantRequest extends Request implements Serializable {
         studyGrantRequest.setAccountHolderLastName(getAccountHolderLastName());
       
         if (getAccountHolderTitle() != null)
-            studyGrantRequest.setAccountHolderTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getAccountHolderTitle().toString()));
+            studyGrantRequest.setAccountHolderTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getAccountHolderTitle().getLegacyLabel()));
         ALevelsInformationsType aLevelsInformationsTypeALevelsInformations = studyGrantRequest.addNewALevelsInformations();
         if (getAlevels() != null)
-            aLevelsInformationsTypeALevelsInformations.setAlevels(fr.cg95.cvq.xml.request.school.ALevelsType.Enum.forString(getAlevels().toString()));
+            aLevelsInformationsTypeALevelsInformations.setAlevels(fr.cg95.cvq.xml.request.school.ALevelsType.Enum.forString(getAlevels().getLegacyLabel()));
       
         aLevelsInformationsTypeALevelsInformations.setAlevelsDate(getAlevelsDate());
       
@@ -197,13 +197,13 @@ public class StudyGrantRequest extends Request implements Serializable {
         sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolNamePrecision(getCurrentSchoolNamePrecision());
       
         if (getCurrentStudiesDiploma() != null)
-            currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudiesDiploma(fr.cg95.cvq.xml.request.school.CurrentStudiesType.Enum.forString(getCurrentStudiesDiploma().toString()));
+            currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudiesDiploma(fr.cg95.cvq.xml.request.school.CurrentStudiesType.Enum.forString(getCurrentStudiesDiploma().getLegacyLabel()));
       
         if (getCurrentStudiesLevel() != null)
-            currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudiesLevel(fr.cg95.cvq.xml.request.school.CurrentStudiesLevelType.Enum.forString(getCurrentStudiesLevel().toString()));
+            currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudiesLevel(fr.cg95.cvq.xml.request.school.CurrentStudiesLevelType.Enum.forString(getCurrentStudiesLevel().getLegacyLabel()));
       
         if (getDistance() != null)
-            studyGrantRequest.setDistance(fr.cg95.cvq.xml.request.school.DistanceType.Enum.forString(getDistance().toString()));
+            studyGrantRequest.setDistance(fr.cg95.cvq.xml.request.school.DistanceType.Enum.forString(getDistance().getLegacyLabel()));
       
         studyGrantRequest.setEdemandeId(getEdemandeId());
       

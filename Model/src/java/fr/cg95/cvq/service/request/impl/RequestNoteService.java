@@ -20,7 +20,6 @@ import fr.cg95.cvq.business.request.RequestEvent.EVENT_TYPE;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.IRequestNoteDAO;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
@@ -83,8 +82,7 @@ public class RequestNoteService implements IRequestNoteService, ApplicationConte
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void addNote(final Long requestId, final RequestNoteType rtn, final String note)
-        throws CvqException, CvqObjectNotFoundException {
+    public void addNote(final Long requestId, final RequestNoteType rtn, final String note) {
 
 
         Long userId = SecurityContext.getCurrentUserId();
@@ -95,7 +93,7 @@ public class RequestNoteService implements IRequestNoteService, ApplicationConte
         requestNote.setUserId(userId);
         requestNote.setDate(new Date());
 
-        Request request = (Request) requestDAO.findById(Request.class, requestId);
+        Request request = requestDAO.findById(requestId);
         if (request.getNotes() == null) {
             Set<RequestNote> notes = new HashSet<RequestNote>();
             notes.add(requestNote);

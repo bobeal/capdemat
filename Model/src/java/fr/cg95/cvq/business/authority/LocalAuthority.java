@@ -4,42 +4,60 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.TreeSet;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import fr.cg95.cvq.xml.common.LocalAuthorityType;
 
-/**
- * @hibernate.class
- *  table="local_authority"
- *  lazy="false"
- *
- * @author bor@zenexity.fr
- */
+@Entity
+@Table(name="local_authority")
 public class LocalAuthority implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /** identifier field */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(name="name", length=32,nullable=false)
     private String name;
+
+    @Column(name="postal_code", length=5,nullable=false)
     private String postalCode = "00000";
+
+    @Column(name="display_title", length=100, nullable=false)
     private String displayTitle;
+
+    @Column(name="admin_email")
     private String adminEmail;
 
+    @Column(name="token")
     private String token;
 
     /**
      * Whether document digitalization is enabled for this local authority, defaults to true.
      */
+    @Column(name="document_digitalization_enabled", nullable=false)
     private boolean documentDigitalizationEnabled = true;
 
     /* using an explicit ArrayList instead of List interface to allow Hibernate to instantiate it */
+    @Column(name="server_names")
     private TreeSet<String> serverNames = new TreeSet<String>();
 
+    @Column(name="payment_deactivation_start_date")
     private Date paymentDeactivationStartDate;
+
+    @Column(name="payment_deactivation_end_date")
     private Date paymentDeactivationEndDate;
 
+    @Column(name="display_in_progress_payments", nullable=false)
     private boolean displayInProgressPayments;
 
     /** full constructor */
@@ -71,11 +89,6 @@ public class LocalAuthority implements Serializable {
         return localAuthority;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -84,12 +97,7 @@ public class LocalAuthority implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="name"
-     *  not-null="true"
-     *  length="32"
-     */
+
     public String getName() {
         return this.name;
     }
@@ -98,12 +106,6 @@ public class LocalAuthority implements Serializable {
         this.name = name;
     }
 
-    /**
-     * @hibernate.property
-     *  column="display_title"
-     *  not-null="true"
-     *  length="100"
-     */
     public String getDisplayTitle() {
         return this.displayTitle;
     }
@@ -112,12 +114,6 @@ public class LocalAuthority implements Serializable {
         this.displayTitle = displayTitle;
     }
 
-    /**
-     * @hibernate.property
-     *  column="postal_code"
-     *  not-null="true"
-     *  length="5"
-     */
     public String getPostalCode() {
         return this.postalCode;
     }
@@ -126,10 +122,6 @@ public class LocalAuthority implements Serializable {
         this.postalCode = postalCode;
     }
 
-    /**
-     * @hibernate.property
-     *  column="server_names"
-     */
     public TreeSet<String> getServerNames() {
         return serverNames;
     }
@@ -145,11 +137,6 @@ public class LocalAuthority implements Serializable {
             .toString();
     }
 
-    /**
-     * @hibernate.property
-     *  column="document_digitalization_enabled"
-     *  not-null="true"
-     */
     public boolean isDocumentDigitalizationEnabled() {
         return documentDigitalizationEnabled;
     }
@@ -158,10 +145,6 @@ public class LocalAuthority implements Serializable {
         this.documentDigitalizationEnabled = documentDigitalizationEnabled;
     }
 
-    /**
-     * @hibernate.property
-     *  column="token"
-     */
     public String getToken() {
         return token;
     }
@@ -170,10 +153,6 @@ public class LocalAuthority implements Serializable {
         this.token = token;
     }
 
-    /**
-     * @hibernate.property
-     *  column="admin_email"
-     */
     public String getAdminEmail() {
         return adminEmail;
     }
@@ -183,10 +162,6 @@ public class LocalAuthority implements Serializable {
     }
 
 
-    /**
-     * @hibernate.property
-     *  column="payment_deactivation_start_date"
-     */
     public Date getPaymentDeactivationStartDate() {
         return paymentDeactivationStartDate;
     }
@@ -195,10 +170,6 @@ public class LocalAuthority implements Serializable {
         this.paymentDeactivationStartDate = paymentDeactivationStartDate;
     }
 
-    /**
-     * @hibernate.property
-     *  column="payment_deactivation_end_date"
-     */
     public Date getPaymentDeactivationEndDate() {
         return paymentDeactivationEndDate;
     }
@@ -207,11 +178,6 @@ public class LocalAuthority implements Serializable {
         this.paymentDeactivationEndDate = paymentDeactivationEndDate;
     }
 
-    /**
-     * @hibernate.property
-     *  column="display_in_progress_payments"
-     *  not-null="true"
-     */
     public boolean isDisplayInProgressPayments() {
         return displayInProgressPayments;
     }

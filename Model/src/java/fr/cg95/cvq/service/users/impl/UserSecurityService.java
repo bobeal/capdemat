@@ -8,7 +8,7 @@ import java.util.Map;
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.users.UserSecurityProfile;
 import fr.cg95.cvq.business.users.UserSecurityRule;
-import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
@@ -36,10 +36,11 @@ public class UserSecurityService implements IUserSecurityService {
         return agents;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public Map<Long, UserSecurityProfile> mapRules() {
-        List<UserSecurityRule> rules = genericDAO.all(UserSecurityRule.class);
+        List<UserSecurityRule> rules = genericDAO.findAll(UserSecurityRule.class);
         Map<Long, UserSecurityProfile> mapRules = new HashMap<Long, UserSecurityProfile>();
         for (UserSecurityRule rule : rules) {
             mapRules.put(rule.getAgentId(), rule.getProfile());

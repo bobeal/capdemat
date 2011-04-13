@@ -1,51 +1,45 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class DhrPrincipalPensionPlanType extends PersistentStringEnum {
+public enum DhrPrincipalPensionPlanType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final DhrPrincipalPensionPlanType C_N_A_V = new DhrPrincipalPensionPlanType("CNAV");
-  
-    public static final DhrPrincipalPensionPlanType M_S_A = new DhrPrincipalPensionPlanType("MSA");
-  
-    public static final DhrPrincipalPensionPlanType C_R_A_M = new DhrPrincipalPensionPlanType("CRAM");
-  
-    public static final DhrPrincipalPensionPlanType M_G_E_N = new DhrPrincipalPensionPlanType("MGEN");
-  
-    public static final DhrPrincipalPensionPlanType S_N_C_F = new DhrPrincipalPensionPlanType("SNCF");
-  
-    public static final DhrPrincipalPensionPlanType OTHER = new DhrPrincipalPensionPlanType("Other");
-  
+    C_N_A_V("CNAV"),
+    M_S_A("MSA"),
+    C_R_A_M("CRAM"),
+    M_G_E_N("MGEN"),
+    S_N_C_F("SNCF"),
+    OTHER("Other");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use DhrPrincipalPensionPlanType.values() instead
+     * @deprecated only for backward
      */
-    private DhrPrincipalPensionPlanType(String value) {
-        super(value);
+    @Deprecated 
+    public static DhrPrincipalPensionPlanType[] allDhrPrincipalPensionPlanTypes = DhrPrincipalPensionPlanType.values();
+
+    private String legacyLabel;
+
+    private DhrPrincipalPensionPlanType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public DhrPrincipalPensionPlanType() {}
-
-    public static DhrPrincipalPensionPlanType[] allDhrPrincipalPensionPlanTypes = {
-        C_N_A_V,
-        M_S_A,
-        C_R_A_M,
-        M_G_E_N,
-        S_N_C_F,
-        OTHER
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static DhrPrincipalPensionPlanType getDefaultDhrPrincipalPensionPlanType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of DhrPrincipalPensionPlanType.something
+     * not the value of the name attribut.
+     */
     public static DhrPrincipalPensionPlanType forString(final String enumAsString) {
-        for (DhrPrincipalPensionPlanType value : allDhrPrincipalPensionPlanTypes)
+        for (DhrPrincipalPensionPlanType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultDhrPrincipalPensionPlanType();

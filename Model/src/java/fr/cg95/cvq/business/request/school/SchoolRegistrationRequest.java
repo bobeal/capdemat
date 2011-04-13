@@ -123,7 +123,7 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
         currentSchoolTypeCurrentSchool.setCurrentSchoolName(getCurrentSchoolName());
       
         if (getCurrentSection() != null)
-            currentSchoolTypeCurrentSchool.setCurrentSection(fr.cg95.cvq.xml.common.SectionType.Enum.forString(getCurrentSection().toString()));
+            currentSchoolTypeCurrentSchool.setCurrentSection(fr.cg95.cvq.xml.common.SectionType.Enum.forString(getCurrentSection().getLegacyLabel()));
       
         if (getRulesAndRegulationsAcceptance() != null)
             schoolRegistrationRequest.setRulesAndRegulationsAcceptance(getRulesAndRegulationsAcceptance().booleanValue());
@@ -132,7 +132,7 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
             schoolRegistrationRequest.setSchool(School.modelToXml(getSchool()));
       
         if (getSection() != null)
-            schoolRegistrationRequest.setSection(fr.cg95.cvq.xml.common.SectionType.Enum.forString(getSection().toString()));
+            schoolRegistrationRequest.setSection(fr.cg95.cvq.xml.common.SectionType.Enum.forString(getSection().getLegacyLabel()));
       
         schoolRegistrationRequest.setUrgencyPhone(getUrgencyPhone());
       

@@ -1,6 +1,5 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
 
@@ -8,36 +7,29 @@ import fr.cg95.cvq.xml.request.social.*;
  *
  * Generated class file, do not edit !
  */
-public final class TrusteeType extends PersistentStringEnum { 
+public enum TrusteeType {
+
+    REQUESTER("Requester"),
+    OTHER("Other");
 
     private static final long serialVersionUID = 1L;
-
-    public static final TrusteeType REQUESTER = new TrusteeType("Requester");
-    public static final TrusteeType OTHER = new TrusteeType("Other");
-
+    private String name;
 
     /**
      * Prevent instantiation and subclassing with a private constructor.
      */
     private TrusteeType(String value) {
-       super(value);
+        this.name = value;
     }
 
-
-    public TrusteeType() {}
-
-
-
-    public static TrusteeType[] allTrusteeTypes = {
-        REQUESTER,
-        OTHER
-    };
-
+    /**
+     * @deprecated only for backward, use values() instead
+     */
+    public static TrusteeType[] allTrusteeTypes = TrusteeType.values();
 
     public static TrusteeType getDefaultTrusteeType() {
         return null;
     }
-
 
     public static TrusteeType forString(final String enumAsString) {
         if (enumAsString == null || enumAsString.equals(""))
@@ -49,5 +41,10 @@ public final class TrusteeType extends PersistentStringEnum {
             return OTHER;
 
         return getDefaultTrusteeType();
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

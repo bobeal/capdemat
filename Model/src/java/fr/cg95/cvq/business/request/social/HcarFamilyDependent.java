@@ -20,14 +20,15 @@ import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="hcar_family_dependent"
- *  lazy="false"
  */
+@Entity
+@Table(name="hcar_family_dependent")
 public class HcarFamilyDependent implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -134,11 +135,8 @@ public class HcarFamilyDependent implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -154,18 +152,15 @@ public class HcarFamilyDependent implements Serializable {
     
     private fr.cg95.cvq.business.request.social.HcarFamilyDependentActualSituationType familyDependentActualSituation;
 
-    public final void setFamilyDependentActualSituation(final fr.cg95.cvq.business.request.social.HcarFamilyDependentActualSituationType familyDependentActualSituation) {
+    public void setFamilyDependentActualSituation(final fr.cg95.cvq.business.request.social.HcarFamilyDependentActualSituationType familyDependentActualSituation) {
         this.familyDependentActualSituation = familyDependentActualSituation;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="family_dependent_actual_situation"
-        
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="family_dependent_actual_situation"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.HcarFamilyDependentActualSituationType getFamilyDependentActualSituation() {
+    public fr.cg95.cvq.business.request.social.HcarFamilyDependentActualSituationType getFamilyDependentActualSituation() {
         return this.familyDependentActualSituation;
     }
   
@@ -195,18 +190,14 @@ public class HcarFamilyDependent implements Serializable {
     
     private String familyDependentLastName;
 
-    public final void setFamilyDependentLastName(final String familyDependentLastName) {
+    public void setFamilyDependentLastName(final String familyDependentLastName) {
         this.familyDependentLastName = familyDependentLastName;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="family_dependent_last_name"
-        *  length="38"
+
+    @Column(name="family_dependent_last_name" , length=38 )
       
-    */
-    public final String getFamilyDependentLastName() {
+    public String getFamilyDependentLastName() {
         return this.familyDependentLastName;
     }
   
@@ -236,18 +227,14 @@ public class HcarFamilyDependent implements Serializable {
     
     private String familyDependentFirstName;
 
-    public final void setFamilyDependentFirstName(final String familyDependentFirstName) {
+    public void setFamilyDependentFirstName(final String familyDependentFirstName) {
         this.familyDependentFirstName = familyDependentFirstName;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="family_dependent_first_name"
-        *  length="38"
+
+    @Column(name="family_dependent_first_name" , length=38 )
       
-    */
-    public final String getFamilyDependentFirstName() {
+    public String getFamilyDependentFirstName() {
         return this.familyDependentFirstName;
     }
   
@@ -261,18 +248,14 @@ public class HcarFamilyDependent implements Serializable {
     
     private java.util.Date familyDependentBirthDate;
 
-    public final void setFamilyDependentBirthDate(final java.util.Date familyDependentBirthDate) {
+    public void setFamilyDependentBirthDate(final java.util.Date familyDependentBirthDate) {
         this.familyDependentBirthDate = familyDependentBirthDate;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="family_dependent_birth_date"
-        
+
+    @Column(name="family_dependent_birth_date"  )
       
-    */
-    public final java.util.Date getFamilyDependentBirthDate() {
+    public java.util.Date getFamilyDependentBirthDate() {
         return this.familyDependentBirthDate;
     }
   

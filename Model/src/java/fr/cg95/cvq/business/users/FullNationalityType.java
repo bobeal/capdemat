@@ -1,236 +1,232 @@
 package fr.cg95.cvq.business.users;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Enumeration of all nationalities.
  *
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public final class FullNationalityType extends PersistentStringEnum { 
+public enum FullNationalityType { 
 
-    private static final long serialVersionUID = 1L;
 
-    public static final FullNationalityType NONE = new FullNationalityType("None");
-    public static final FullNationalityType AF = new FullNationalityType("af");
-    public static final FullNationalityType ZA = new FullNationalityType("za");
-    public static final FullNationalityType AL = new FullNationalityType("al");
-    public static final FullNationalityType DZ = new FullNationalityType("dz");
-    public static final FullNationalityType DE = new FullNationalityType("de");
-    public static final FullNationalityType AD = new FullNationalityType("ad");
-    public static final FullNationalityType AO = new FullNationalityType("ao");
-    public static final FullNationalityType AI = new FullNationalityType("ai");
-    public static final FullNationalityType AQ = new FullNationalityType("aq");
-    public static final FullNationalityType AG = new FullNationalityType("ag");
-    public static final FullNationalityType AN = new FullNationalityType("an");
-    public static final FullNationalityType SA = new FullNationalityType("sa");
-    public static final FullNationalityType AR = new FullNationalityType("ar");
-    public static final FullNationalityType AM = new FullNationalityType("am");
-    public static final FullNationalityType AW = new FullNationalityType("aw");
-    public static final FullNationalityType AU = new FullNationalityType("au");
-    public static final FullNationalityType AT = new FullNationalityType("at");
-    public static final FullNationalityType AZ = new FullNationalityType("az");
-    public static final FullNationalityType BS = new FullNationalityType("bs");
-    public static final FullNationalityType BH = new FullNationalityType("bh");
-    public static final FullNationalityType BD = new FullNationalityType("bd");
-    public static final FullNationalityType BB = new FullNationalityType("bb");
-    public static final FullNationalityType BE = new FullNationalityType("be");
-    public static final FullNationalityType BZ = new FullNationalityType("bz");
-    public static final FullNationalityType BJ = new FullNationalityType("bj");
-    public static final FullNationalityType BM = new FullNationalityType("bm");
-    public static final FullNationalityType BT = new FullNationalityType("bt");
-    public static final FullNationalityType BY = new FullNationalityType("by");
-    public static final FullNationalityType MM = new FullNationalityType("mm");
-    public static final FullNationalityType BO = new FullNationalityType("bo");
-    public static final FullNationalityType BA = new FullNationalityType("ba");
-    public static final FullNationalityType BW = new FullNationalityType("bw");
-    public static final FullNationalityType BR = new FullNationalityType("br");
-    public static final FullNationalityType BN = new FullNationalityType("bn");
-    public static final FullNationalityType BG = new FullNationalityType("bg");
-    public static final FullNationalityType BF = new FullNationalityType("bf");
-    public static final FullNationalityType BI = new FullNationalityType("bi");
-    public static final FullNationalityType KH = new FullNationalityType("kh");
-    public static final FullNationalityType CM = new FullNationalityType("cm");
-    public static final FullNationalityType CA = new FullNationalityType("ca");
-    public static final FullNationalityType CV = new FullNationalityType("cv");
-    public static final FullNationalityType CL = new FullNationalityType("cl");
-    public static final FullNationalityType CN = new FullNationalityType("cn");
-    public static final FullNationalityType CY = new FullNationalityType("cy");
-    public static final FullNationalityType CO = new FullNationalityType("co");
-    public static final FullNationalityType KM = new FullNationalityType("km");
-    public static final FullNationalityType CG = new FullNationalityType("cg");
-    public static final FullNationalityType KP = new FullNationalityType("kp");
-    public static final FullNationalityType KR = new FullNationalityType("kr");
-    public static final FullNationalityType CR = new FullNationalityType("cr");
-    public static final FullNationalityType HR = new FullNationalityType("hr");
-    public static final FullNationalityType CU = new FullNationalityType("cu");
-    public static final FullNationalityType DK = new FullNationalityType("dk");
-    public static final FullNationalityType DJ = new FullNationalityType("dj");
-    public static final FullNationalityType DM = new FullNationalityType("dm");
-    public static final FullNationalityType EG = new FullNationalityType("eg");
-    public static final FullNationalityType AE = new FullNationalityType("ae");
-    public static final FullNationalityType EC = new FullNationalityType("ec");
-    public static final FullNationalityType ER = new FullNationalityType("er");
-    public static final FullNationalityType ES = new FullNationalityType("es");
-    public static final FullNationalityType EE = new FullNationalityType("ee");
-    public static final FullNationalityType US = new FullNationalityType("us");
-    public static final FullNationalityType ET = new FullNationalityType("et");
-    public static final FullNationalityType FI = new FullNationalityType("fi");
-    public static final FullNationalityType FR = new FullNationalityType("fr");
-    public static final FullNationalityType GE = new FullNationalityType("ge");
-    public static final FullNationalityType GA = new FullNationalityType("ga");
-    public static final FullNationalityType GM = new FullNationalityType("gm");
-    public static final FullNationalityType GH = new FullNationalityType("gh");
-    public static final FullNationalityType GI = new FullNationalityType("gi");
-    public static final FullNationalityType GR = new FullNationalityType("gr");
-    public static final FullNationalityType GD = new FullNationalityType("gd");
-    public static final FullNationalityType GL = new FullNationalityType("gl");
-    public static final FullNationalityType GU = new FullNationalityType("gu");
-    public static final FullNationalityType GT = new FullNationalityType("gt");
-    public static final FullNationalityType GN = new FullNationalityType("gn");
-    public static final FullNationalityType GQ = new FullNationalityType("gq");
-    public static final FullNationalityType GW = new FullNationalityType("gw");
-    public static final FullNationalityType HT = new FullNationalityType("ht");
-    public static final FullNationalityType HN = new FullNationalityType("hn");
-    public static final FullNationalityType HK = new FullNationalityType("hk");
-    public static final FullNationalityType HU = new FullNationalityType("hu");
-    public static final FullNationalityType CK = new FullNationalityType("ck");
-    public static final FullNationalityType FJ = new FullNationalityType("fj");
-    public static final FullNationalityType MH = new FullNationalityType("mh");
-    public static final FullNationalityType SB = new FullNationalityType("sb");
-    public static final FullNationalityType IN = new FullNationalityType("in");
-    public static final FullNationalityType ID = new FullNationalityType("id");
-    public static final FullNationalityType IR = new FullNationalityType("ir");
-    public static final FullNationalityType IQ = new FullNationalityType("iq");
-    public static final FullNationalityType IE = new FullNationalityType("ie");
-    public static final FullNationalityType IS = new FullNationalityType("is");
-    public static final FullNationalityType IL = new FullNationalityType("il");
-    public static final FullNationalityType IT = new FullNationalityType("it");
-    public static final FullNationalityType CI = new FullNationalityType("ci");
-    public static final FullNationalityType JM = new FullNationalityType("jm");
-    public static final FullNationalityType JP = new FullNationalityType("jp");
-    public static final FullNationalityType JO = new FullNationalityType("jo");
-    public static final FullNationalityType KZ = new FullNationalityType("kz");
-    public static final FullNationalityType KE = new FullNationalityType("ke");
-    public static final FullNationalityType KG = new FullNationalityType("kg");
-    public static final FullNationalityType KI = new FullNationalityType("ki");
-    public static final FullNationalityType KW = new FullNationalityType("kw");
-    public static final FullNationalityType LA = new FullNationalityType("la");
-    public static final FullNationalityType LS = new FullNationalityType("ls");
-    public static final FullNationalityType LV = new FullNationalityType("lv");
-    public static final FullNationalityType LB = new FullNationalityType("lb");
-    public static final FullNationalityType LR = new FullNationalityType("lr");
-    public static final FullNationalityType LY = new FullNationalityType("ly");
-    public static final FullNationalityType LI = new FullNationalityType("li");
-    public static final FullNationalityType LT = new FullNationalityType("lt");
-    public static final FullNationalityType LU = new FullNationalityType("lu");
-    public static final FullNationalityType MG = new FullNationalityType("mg");
-    public static final FullNationalityType MY = new FullNationalityType("my");
-    public static final FullNationalityType MW = new FullNationalityType("mw");
-    public static final FullNationalityType MV = new FullNationalityType("mv");
-    public static final FullNationalityType ML = new FullNationalityType("ml");
-    public static final FullNationalityType MT = new FullNationalityType("mt");
-    public static final FullNationalityType MA = new FullNationalityType("ma");
-    public static final FullNationalityType MU = new FullNationalityType("mu");
-    public static final FullNationalityType MR = new FullNationalityType("mr");
-    public static final FullNationalityType MX = new FullNationalityType("mx");
-    public static final FullNationalityType FM = new FullNationalityType("fm");
-    public static final FullNationalityType MD = new FullNationalityType("md");
-    public static final FullNationalityType MC = new FullNationalityType("mc");
-    public static final FullNationalityType MN = new FullNationalityType("mn");
-    public static final FullNationalityType MZ = new FullNationalityType("mz");
-    public static final FullNationalityType NP = new FullNationalityType("np");
-    public static final FullNationalityType NA = new FullNationalityType("na");
-    public static final FullNationalityType NR = new FullNationalityType("nr");
-    public static final FullNationalityType NI = new FullNationalityType("ni");
-    public static final FullNationalityType NE = new FullNationalityType("ne");
-    public static final FullNationalityType NG = new FullNationalityType("ng");
-    public static final FullNationalityType NU = new FullNationalityType("nu");
-    public static final FullNationalityType NO = new FullNationalityType("no");
-    public static final FullNationalityType NZ = new FullNationalityType("nz");
-    public static final FullNationalityType OM = new FullNationalityType("om");
-    public static final FullNationalityType UG = new FullNationalityType("ug");
-    public static final FullNationalityType UZ = new FullNationalityType("uz");
-    public static final FullNationalityType PE = new FullNationalityType("pe");
-    public static final FullNationalityType PK = new FullNationalityType("pk");
-    public static final FullNationalityType PA = new FullNationalityType("pa");
-    public static final FullNationalityType PG = new FullNationalityType("pg");
-    public static final FullNationalityType PY = new FullNationalityType("py");
-    public static final FullNationalityType NL = new FullNationalityType("nl");
-    public static final FullNationalityType PH = new FullNationalityType("ph");
-    public static final FullNationalityType PL = new FullNationalityType("pl");
-    public static final FullNationalityType PT = new FullNationalityType("pt");
-    public static final FullNationalityType QA = new FullNationalityType("qa");
-    public static final FullNationalityType CF = new FullNationalityType("cf");
-    public static final FullNationalityType CD = new FullNationalityType("cd");
-    public static final FullNationalityType DO = new FullNationalityType("do");
-    public static final FullNationalityType CZ = new FullNationalityType("cz");
-    public static final FullNationalityType RO = new FullNationalityType("ro");
-    public static final FullNationalityType GB = new FullNationalityType("gb");
-    public static final FullNationalityType RU = new FullNationalityType("ru");
-    public static final FullNationalityType RW = new FullNationalityType("rw");
-    public static final FullNationalityType SN = new FullNationalityType("sn");
-    public static final FullNationalityType KN = new FullNationalityType("kn");
-    public static final FullNationalityType SM = new FullNationalityType("sm");
-    public static final FullNationalityType VA = new FullNationalityType("va");
-    public static final FullNationalityType VC = new FullNationalityType("vc");
-    public static final FullNationalityType LC = new FullNationalityType("lc");
-    public static final FullNationalityType SV = new FullNationalityType("sv");
-    public static final FullNationalityType WS = new FullNationalityType("ws");
-    public static final FullNationalityType ST = new FullNationalityType("st");
-    public static final FullNationalityType SC = new FullNationalityType("sc");
-    public static final FullNationalityType SL = new FullNationalityType("sl");
-    public static final FullNationalityType SG = new FullNationalityType("sg");
-    public static final FullNationalityType SI = new FullNationalityType("si");
-    public static final FullNationalityType SK = new FullNationalityType("sk");
-    public static final FullNationalityType SO = new FullNationalityType("so");
-    public static final FullNationalityType SD = new FullNationalityType("sd");
-    public static final FullNationalityType LK = new FullNationalityType("lk");
-    public static final FullNationalityType SE = new FullNationalityType("se");
-    public static final FullNationalityType CH = new FullNationalityType("ch");
-    public static final FullNationalityType SR = new FullNationalityType("sr");
-    public static final FullNationalityType SZ = new FullNationalityType("sz");
-    public static final FullNationalityType SY = new FullNationalityType("sy");
-    public static final FullNationalityType TW = new FullNationalityType("tw");
-    public static final FullNationalityType TJ = new FullNationalityType("tj");
-    public static final FullNationalityType TZ = new FullNationalityType("tz");
-    public static final FullNationalityType TD = new FullNationalityType("td");
-    public static final FullNationalityType TH = new FullNationalityType("th");
-    public static final FullNationalityType TL = new FullNationalityType("tl");
-    public static final FullNationalityType TG = new FullNationalityType("tg");
-    public static final FullNationalityType TO = new FullNationalityType("to");
-    public static final FullNationalityType VT = new FullNationalityType("vt");
-    public static final FullNationalityType TN = new FullNationalityType("tn");
-    public static final FullNationalityType TM = new FullNationalityType("tm");
-    public static final FullNationalityType TR = new FullNationalityType("tr");
-    public static final FullNationalityType TV = new FullNationalityType("tv");
-    public static final FullNationalityType UA = new FullNationalityType("ua");
-    public static final FullNationalityType UY = new FullNationalityType("uy");
-    public static final FullNationalityType VU = new FullNationalityType("vu");
-    public static final FullNationalityType VE = new FullNationalityType("ve");
-    public static final FullNationalityType VN = new FullNationalityType("vn");
-    public static final FullNationalityType YE = new FullNationalityType("ye");
-    public static final FullNationalityType ZM = new FullNationalityType("zm");
-    public static final FullNationalityType ZW = new FullNationalityType("zw");
-    public static final FullNationalityType MK = new FullNationalityType("mk");
+    NONE("None"),
+    AF("af"),
+    ZA("za"),
+    AL("al"),
+    DZ("dz"),
+    DE("de"),
+    AD("ad"),
+    AO("ao"),
+    AI("ai"),
+    AQ("aq"),
+    AG("ag"),
+    AN("an"),
+    SA("sa"),
+    AR("ar"),
+    AM("am"),
+    AW("aw"),
+    AU("au"),
+    AT("at"),
+    AZ("az"),
+    BS("bs"),
+    BH("bh"),
+    BD("bd"),
+    BB("bb"),
+    BE("be"),
+    BZ("bz"),
+    BJ("bj"),
+    BM("bm"),
+    BT("bt"),
+    BY("by"),
+    MM("mm"),
+    BO("bo"),
+    BA("ba"),
+    BW("bw"),
+    BR("br"),
+    BN("bn"),
+    BG("bg"),
+    BF("bf"),
+    BI("bi"),
+    KH("kh"),
+    CM("cm"),
+    CA("ca"),
+    CV("cv"),
+    CL("cl"),
+    CN("cn"),
+    CY("cy"),
+    CO("co"),
+    KM("km"),
+    CG("cg"),
+    KP("kp"),
+    KR("kr"),
+    CR("cr"),
+    HR("hr"),
+    CU("cu"),
+    DK("dk"),
+    DJ("dj"),
+    DM("dm"),
+    EG("eg"),
+    AE("ae"),
+    EC("ec"),
+    ER("er"),
+    ES("es"),
+    EE("ee"),
+    US("us"),
+    ET("et"),
+    FI("fi"),
+    FR("fr"),
+    GE("ge"),
+    GA("ga"),
+    GM("gm"),
+    GH("gh"),
+    GI("gi"),
+    GR("gr"),
+    GD("gd"),
+    GL("gl"),
+    GU("gu"),
+    GT("gt"),
+    GN("gn"),
+    GQ("gq"),
+    GW("gw"),
+    HT("ht"),
+    HN("hn"),
+    HK("hk"),
+    HU("hu"),
+    CK("ck"),
+    FJ("fj"),
+    MH("mh"),
+    SB("sb"),
+    IN("in"),
+    ID("id"),
+    IR("ir"),
+    IQ("iq"),
+    IE("ie"),
+    IS("is"),
+    IL("il"),
+    IT("it"),
+    CI("ci"),
+    JM("jm"),
+    JP("jp"),
+    JO("jo"),
+    KZ("kz"),
+    KE("ke"),
+    KG("kg"),
+    KI("ki"),
+    KW("kw"),
+    LA("la"),
+    LS("ls"),
+    LV("lv"),
+    LB("lb"),
+    LR("lr"),
+    LY("ly"),
+    LI("li"),
+    LT("lt"),
+    LU("lu"),
+    MG("mg"),
+    MY("my"),
+    MW("mw"),
+    MV("mv"),
+    ML("ml"),
+    MT("mt"),
+    MA("ma"),
+    MU("mu"),
+    MR("mr"),
+    MX("mx"),
+    FM("fm"),
+    MD("md"),
+    MC("mc"),
+    MN("mn"),
+    MZ("mz"),
+    NP("np"),
+    NA("na"),
+    NR("nr"),
+    NI("ni"),
+    NE("ne"),
+    NG("ng"),
+    NU("nu"),
+    NO("no"),
+    NZ("nz"),
+    OM("om"),
+    UG("ug"),
+    UZ("uz"),
+    PE("pe"),
+    PK("pk"),
+    PA("pa"),
+    PG("pg"),
+    PY("py"),
+    NL("nl"),
+    PH("ph"),
+    PL("pl"),
+    PT("pt"),
+    QA("qa"),
+    CF("cf"),
+    CD("cd"),
+    DO("do"),
+    CZ("cz"),
+    RO("ro"),
+    GB("gb"),
+    RU("ru"),
+    RW("rw"),
+    SN("sn"),
+    KN("kn"),
+    SM("sm"),
+    VA("va"),
+    VC("vc"),
+    LC("lc"),
+    SV("sv"),
+    WS("ws"),
+    ST("st"),
+    SC("sc"),
+    SL("sl"),
+    SG("sg"),
+    SI("si"),
+    SK("sk"),
+    SO("so"),
+    SD("sd"),
+    LK("lk"),
+    SE("se"),
+    CH("ch"),
+    SR("sr"),
+    SZ("sz"),
+    SY("sy"),
+    TW("tw"),
+    TJ("tj"),
+    TZ("tz"),
+    TD("td"),
+    TH("th"),
+    TL("tl"),
+    TG("tg"),
+    TO("to"),
+    VT("vt"),
+    TN("tn"),
+    TM("tm"),
+    TR("tr"),
+    TV("tv"),
+    UA("ua"),
+    UY("uy"),
+    VU("vu"),
+    VE("ve"),
+    VN("vn"),
+    YE("ye"),
+    ZM("zm"),
+    ZW("zw"),
+    MK("mk");
 
+    private String legacyLabel;
+
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     /**
      * Prevent instantiation and subclassing with a private constructor.
      */
-    private FullNationalityType(String value) {
-       super(value);
+    private FullNationalityType(String legacyLabel) {
+        this.legacyLabel = legacyLabel;
     }
-
-
-    public FullNationalityType() {}
-
-
 
     public static FullNationalityType getDefaultFullNationalityType() {
         return NONE;
     }
-
 
     public static FullNationalityType forString(final String enumAsString) {
         if (enumAsString == null || enumAsString.equals(""))
@@ -642,5 +638,10 @@ public final class FullNationalityType extends PersistentStringEnum {
             return MK;
 
         return getDefaultFullNationalityType();
+    }
+
+    @Override
+    public String toString() {
+        return legacyLabel;
     }
 }

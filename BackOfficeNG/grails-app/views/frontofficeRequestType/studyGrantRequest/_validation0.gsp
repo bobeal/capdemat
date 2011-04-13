@@ -323,12 +323,3 @@
   
 
 
-<h3><g:message code="sgr.step.calculationElements.label" /></h3>
-<dl>
-  <dt><g:message code="sgr.property.distance.label" /></dt>
-  <dd>
-    <g:if test="${rqt.distance}">
-      <g:capdematEnumToField var="${rqt.distance}" i18nKeyPrefix="sgr.property.distance" />
-    </g:if>
-  </dd>
-</dl>

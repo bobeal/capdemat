@@ -1,42 +1,42 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class HcarLegalAccessKindType extends PersistentStringEnum {
+public enum HcarLegalAccessKindType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final HcarLegalAccessKindType SAFEGUARDING_JUSTICE = new HcarLegalAccessKindType("safeguardingJustice");
-  
-    public static final HcarLegalAccessKindType GUARDIANSHIP = new HcarLegalAccessKindType("guardianship");
-  
-    public static final HcarLegalAccessKindType CURATORSHIP = new HcarLegalAccessKindType("curatorship");
-  
+    SAFEGUARDING_JUSTICE("safeguardingJustice"),
+    GUARDIANSHIP("guardianship"),
+    CURATORSHIP("curatorship");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use HcarLegalAccessKindType.values() instead
+     * @deprecated only for backward
      */
-    private HcarLegalAccessKindType(String value) {
-        super(value);
+    @Deprecated 
+    public static HcarLegalAccessKindType[] allHcarLegalAccessKindTypes = HcarLegalAccessKindType.values();
+
+    private String legacyLabel;
+
+    private HcarLegalAccessKindType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public HcarLegalAccessKindType() {}
-
-    public static HcarLegalAccessKindType[] allHcarLegalAccessKindTypes = {
-        SAFEGUARDING_JUSTICE,
-        GUARDIANSHIP,
-        CURATORSHIP
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static HcarLegalAccessKindType getDefaultHcarLegalAccessKindType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of HcarLegalAccessKindType.something
+     * not the value of the name attribut.
+     */
     public static HcarLegalAccessKindType forString(final String enumAsString) {
-        for (HcarLegalAccessKindType value : allHcarLegalAccessKindTypes)
+        for (HcarLegalAccessKindType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultHcarLegalAccessKindType();

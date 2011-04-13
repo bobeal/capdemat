@@ -1,19 +1,18 @@
 package fr.cg95.cvq.business.payment;
 
-/**
- * Represent an item that is entirely managed by the application.
- * 
- * @hibernate.subclass
- *  discriminator-value="INTERNAL_INVOICE_ITEM"
- *  lazy="false"
- * 
- * @author bor@zenexity.fr
- */
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue(value="INTERNAL_INVOICE_ITEM")
 public class InternalInvoiceItem extends PurchaseItem {
 
     private static final long serialVersionUID = 1L;
 
     private Integer quantity;
+
+    @Column(name="unit_price")
     private Double unitPrice;
 
     /**
@@ -24,6 +23,7 @@ public class InternalInvoiceItem extends PurchaseItem {
     /**
      * Owner of the key, typically an application, eg CapDemat.
      */    
+    @Column(name="key_owner")
     private String keyOwner;
     
     public InternalInvoiceItem() {
@@ -41,10 +41,6 @@ public class InternalInvoiceItem extends PurchaseItem {
         this.unitPrice = unitPrice;
     }
 
-    /**
-     * @hibernate.property
-     *  column="quantity"
-     */
     public final Integer getQuantity() {
         return quantity;
     }
@@ -53,10 +49,6 @@ public class InternalInvoiceItem extends PurchaseItem {
         this.quantity = quantity;
     }
 
-    /**
-     * @hibernate.property
-     *  column="unit_price"
-     */
     public final Double getUnitPrice() {
         return unitPrice;
     }
@@ -65,10 +57,6 @@ public class InternalInvoiceItem extends PurchaseItem {
         this.unitPrice = unitPrice;
     }
 
-    /**
-     * @hibernate.property
-     *  column="key"
-     */
     public String getKey() {
         return key;
     }
@@ -77,10 +65,6 @@ public class InternalInvoiceItem extends PurchaseItem {
         this.key = key;
     }
 
-    /**
-     * @hibernate.property
-     *  column="key_owner"
-     */
     public String getKeyOwner() {
         return keyOwner;
     }

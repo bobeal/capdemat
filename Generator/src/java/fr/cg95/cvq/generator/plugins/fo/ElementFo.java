@@ -13,6 +13,7 @@ import fr.cg95.cvq.generator.common.ElementSpecific;
 import fr.cg95.cvq.generator.common.Step;
 import fr.cg95.cvq.generator.common.Autofill.AutofillType;
 import fr.cg95.cvq.generator.common.Condition.RoleType;
+import fr.cg95.cvq.generator.plugins.tool.GeneratorUtils;
 
 /**
  * @author rdj@zenexity.fr
@@ -109,7 +110,13 @@ public class ElementFo extends ElementSpecific<ElementFo> {
     }
 
     public void setEnumValues(String[] enumValues) {
-        this.enumValues = enumValues;
+        String[] enums = new String[enumValues.length];
+        int i = 0;
+        for (String enumValue : enumValues){
+            enums[i] = GeneratorUtils.getEnumStaticName(enumValue);
+            i++;
+        }
+        this.enumValues = enums;
     }
 
     public String getQualifiedType() {

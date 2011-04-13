@@ -20,14 +20,15 @@ import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="hcar_professional"
- *  lazy="false"
  */
+@Entity
+@Table(name="hcar_professional")
 public class HcarProfessional implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -113,11 +114,8 @@ public class HcarProfessional implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -149,18 +147,14 @@ public class HcarProfessional implements Serializable {
     
     private String professionalLastName;
 
-    public final void setProfessionalLastName(final String professionalLastName) {
+    public void setProfessionalLastName(final String professionalLastName) {
         this.professionalLastName = professionalLastName;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="professional_last_name"
-        *  length="38"
+
+    @Column(name="professional_last_name" , length=38 )
       
-    */
-    public final String getProfessionalLastName() {
+    public String getProfessionalLastName() {
         return this.professionalLastName;
     }
   
@@ -190,18 +184,14 @@ public class HcarProfessional implements Serializable {
     
     private String professionalFirstName;
 
-    public final void setProfessionalFirstName(final String professionalFirstName) {
+    public void setProfessionalFirstName(final String professionalFirstName) {
         this.professionalFirstName = professionalFirstName;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="professional_first_name"
-        *  length="38"
+
+    @Column(name="professional_first_name" , length=38 )
       
-    */
-    public final String getProfessionalFirstName() {
+    public String getProfessionalFirstName() {
         return this.professionalFirstName;
     }
   
@@ -222,19 +212,15 @@ public class HcarProfessional implements Serializable {
     
     private fr.cg95.cvq.business.users.Address professionalAddress;
 
-    public final void setProfessionalAddress(final fr.cg95.cvq.business.users.Address professionalAddress) {
+    public void setProfessionalAddress(final fr.cg95.cvq.business.users.Address professionalAddress) {
         this.professionalAddress = professionalAddress;
     }
 
-    /**
-  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="professional_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="professional_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getProfessionalAddress() {
+    public fr.cg95.cvq.business.users.Address getProfessionalAddress() {
         return this.professionalAddress;
     }
   

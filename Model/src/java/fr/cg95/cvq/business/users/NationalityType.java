@@ -1,27 +1,26 @@
 package fr.cg95.cvq.business.users;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
+public enum NationalityType {
 
-public final class NationalityType extends PersistentStringEnum {
+    FRENCH("French"),
+    EUROPEAN_UNION("EuropeanUnion"),
+    OUTSIDE_EUROPEAN_UNION("OutsideEuropeanUnion");
 
-    private static final long serialVersionUID = 1L;
+    private String legacyLabel;
 
-    public static final NationalityType FRENCH = new NationalityType("French");
-    public static final NationalityType EUROPEAN_UNION = new NationalityType("EuropeanUnion");
-    public static final NationalityType OUTSIDE_EUROPEAN_UNION = 
-        new NationalityType("OutsideEuropeanUnion");
-    
-    public NationalityType() {}
-    
-    public NationalityType(String name) {
-        super(name);
+    public String getLegacyLabel() {
+        return legacyLabel;
     }
-    
-    public static final NationalityType[] allNationalityTypes = {
-        FRENCH,
-        EUROPEAN_UNION,
-        OUTSIDE_EUROPEAN_UNION
-    };
+
+    private NationalityType(String legacyLabel) {
+        this.legacyLabel = legacyLabel;
+    }
+
+    /**
+     * @deprecated only for backward, use values()
+     */
+    @Deprecated
+    public static NationalityType[] allNationalityTypes = NationalityType.values();
     
     public static NationalityType getDefaultNationalityType() {
         return FRENCH;
@@ -39,5 +38,10 @@ public final class NationalityType extends PersistentStringEnum {
             return OUTSIDE_EUROPEAN_UNION;
         
         return FRENCH;
+    }
+
+    @Override
+    public String toString() {
+        return legacyLabel;
     }
 }

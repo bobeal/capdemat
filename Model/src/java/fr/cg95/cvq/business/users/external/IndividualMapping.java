@@ -3,21 +3,37 @@ package fr.cg95.cvq.business.users.external;
 import java.io.Serializable;
 import java.util.UUID;
 
-/**
- * @hibernate.class
- *  table="individual_mapping"
- *  lazy="false"
- */
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="individual_mapping")
 public class IndividualMapping implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /** identifier field */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(name="individual_id")
     private Long individualId;
+
+    @Column(name="external_capdemat_id")
     private String externalCapDematId;
+
+    @Column(name="external_id")
     private String externalId;
+
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="home_folder_mapping_id")
     private HomeFolderMapping homeFolderMapping;
 
     public IndividualMapping() {
@@ -30,11 +46,6 @@ public class IndividualMapping implements Serializable {
         this.homeFolderMapping = homeFolderMapping;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return id;
     }
@@ -43,10 +54,6 @@ public class IndividualMapping implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="individual_id"
-     */
     public Long getIndividualId() {
         return individualId;
     }
@@ -55,10 +62,6 @@ public class IndividualMapping implements Serializable {
         this.individualId = individualId != null ? individualId : 0L;
     }
 
-    /**
-     * @hibernate.property
-     *  column="external_capdemat_id"
-     */
     public String getExternalCapDematId() {
         return externalCapDematId;
     }
@@ -68,10 +71,6 @@ public class IndividualMapping implements Serializable {
             externalCapDematId != null ? externalCapDematId : "";
     }
 
-    /**
-     * @hibernate.property
-     *  column="external_id"
-     */
     public String getExternalId() {
         return externalId;
     }
@@ -80,11 +79,6 @@ public class IndividualMapping implements Serializable {
         this.externalId = externalId != null ? externalId : "";
     }
 
-    /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.users.external.HomeFolderMapping"
-     *  column="home_folder_mapping_id"
-     */
     public HomeFolderMapping getHomeFolderMapping() {
         return homeFolderMapping;
     }

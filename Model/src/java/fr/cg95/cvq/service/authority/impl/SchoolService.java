@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.dao.authority.ISchoolDAO;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
@@ -31,9 +30,8 @@ public class SchoolService implements ISchoolService {
     }
 
     @Override
-    public School getById(Long id)
-        throws CvqObjectNotFoundException {
-        return (School)schoolDAO.findById(School.class, id);
+    public School getById(Long id) {
+        return schoolDAO.findById(id);
     }
 
     @Override
@@ -51,7 +49,7 @@ public class SchoolService implements ISchoolService {
     public Long create(final School school) {
         Long schoolId = null;
         if (school != null)
-            schoolId = schoolDAO.create(school);
+            schoolId = schoolDAO.create(school).getId();
         logger.debug("Created school object with id : " + schoolId);
         return schoolId;
     }

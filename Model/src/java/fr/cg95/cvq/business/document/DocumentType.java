@@ -2,42 +2,50 @@ package fr.cg95.cvq.business.document;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-
-/**
- * Represent a type of document.
- *
- * @hibernate.class
- *  table="document_type"
- *  lazy="false"
- *
- * @author bor@zenexity.fr
- */
+@Entity
+@Table(name="document_type")
 public class DocumentType implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/** identifier field */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(name="name",nullable=false,unique=true)
     private String name;
+
+    @Column(name="type",nullable=false,unique=true)
     private Integer type;
+
     /** An expression of the validity duration */
+    @Column(name="validity_duration_type",length=16,nullable=false)
+    @Enumerated(EnumType.STRING)
     private DocumentTypeValidity validityDurationType;
+
     /** An optional validity duration, expressed in the units defined by validityDurationType */
+    @Column(name="validity_duration",nullable=false)
     private Integer validityDuration;
+
+    @Column(name="usage_type",length=16,nullable=false)
+    @Enumerated(EnumType.STRING)
     private DocumentUsageType usageType;
 
     /** default constructor */
     public DocumentType() {
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -46,12 +54,6 @@ public class DocumentType implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="name"
-     *  not-null="true"
-     *  unique="true"
-     */
     public String getName() {
         return this.name;
     }
@@ -60,12 +62,6 @@ public class DocumentType implements Serializable {
         this.name = name;
     }
 
-    /**
-     * @hibernate.property
-     *  column="type"
-     *  not-null="true"
-     *  unique="true"
-     */
     public Integer getType() {
         return this.type;
     }
@@ -74,12 +70,6 @@ public class DocumentType implements Serializable {
         this.type = type;
     }
 
-    /**
-     * @hibernate.property
-     *  column="validity_duration_type"
-     *  not-null="true"
-     *  length="16"
-     */
     public DocumentTypeValidity getValidityDurationType() {
         return this.validityDurationType;
     }
@@ -88,11 +78,6 @@ public class DocumentType implements Serializable {
         this.validityDurationType = validityDurationType;
     }
 
-    /**
-     * @hibernate.property
-     *  column="validity_duration"
-     *  not-null="true"
-     */
     public Integer getValidityDuration() {
         return this.validityDuration;
     }
@@ -101,12 +86,6 @@ public class DocumentType implements Serializable {
         this.validityDuration = validityDuration;
     }
 
-    /**
-     * @hibernate.property
-     *  column="usage_type"
-     *  not-null="true"
-     *  length="16"
-     */
     public DocumentUsageType getUsageType() {
         return this.usageType;
     }

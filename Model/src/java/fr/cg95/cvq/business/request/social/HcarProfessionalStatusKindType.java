@@ -1,48 +1,44 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class HcarProfessionalStatusKindType extends PersistentStringEnum {
+public enum HcarProfessionalStatusKindType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final HcarProfessionalStatusKindType EMPLOYEE = new HcarProfessionalStatusKindType("Employee");
-  
-    public static final HcarProfessionalStatusKindType UNEMPLOYED = new HcarProfessionalStatusKindType("Unemployed");
-  
-    public static final HcarProfessionalStatusKindType JOBLESS = new HcarProfessionalStatusKindType("Jobless");
-  
-    public static final HcarProfessionalStatusKindType STUDENT = new HcarProfessionalStatusKindType("Student");
-  
-    public static final HcarProfessionalStatusKindType RETIRED = new HcarProfessionalStatusKindType("Retired");
-  
+    EMPLOYEE("Employee"),
+    UNEMPLOYED("Unemployed"),
+    JOBLESS("Jobless"),
+    STUDENT("Student"),
+    RETIRED("Retired");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use HcarProfessionalStatusKindType.values() instead
+     * @deprecated only for backward
      */
-    private HcarProfessionalStatusKindType(String value) {
-        super(value);
+    @Deprecated 
+    public static HcarProfessionalStatusKindType[] allHcarProfessionalStatusKindTypes = HcarProfessionalStatusKindType.values();
+
+    private String legacyLabel;
+
+    private HcarProfessionalStatusKindType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public HcarProfessionalStatusKindType() {}
-
-    public static HcarProfessionalStatusKindType[] allHcarProfessionalStatusKindTypes = {
-        EMPLOYEE,
-        UNEMPLOYED,
-        JOBLESS,
-        STUDENT,
-        RETIRED
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static HcarProfessionalStatusKindType getDefaultHcarProfessionalStatusKindType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of HcarProfessionalStatusKindType.something
+     * not the value of the name attribut.
+     */
     public static HcarProfessionalStatusKindType forString(final String enumAsString) {
-        for (HcarProfessionalStatusKindType value : allHcarProfessionalStatusKindTypes)
+        for (HcarProfessionalStatusKindType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultHcarProfessionalStatusKindType();

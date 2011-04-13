@@ -117,6 +117,8 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="requestDAO" ref="requestDAO" />  
     <property name="requestTypeDAO" ref="requestTypeDAO" />
     <property name="categoryDAO" ref="categoryDAO" />
+    <property name="homeFolderDAO" ref="homeFolderDAO" />
+    <property name="individualDAO" ref="individualDAO" />
   </bean>
 
   <bean id="requestFilterAspect"
@@ -241,6 +243,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     parent="externalService">
     <property name="requestDAO" ref="requestDAO" />
     <property name="userSearchService" ref="userSearchService" />
+    <property name="genericDAO" ref="genericDAO" />
     <property name="externalHomeFolderService" ref="externalHomeFolderService" />
     <property name="requestExportService" ref="requestExportService" />
     <property name="translationService" ref="translationService" />
@@ -260,6 +263,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   
   <bean id="requestSearchService" class="fr.cg95.cvq.service.request.impl.RequestSearchService">
     <property name="requestDAO" ref="requestDAO" />
+    <property name="genericDAO" ref="genericDAO" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
   </bean>
 
@@ -275,7 +279,8 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   </bean>
   
   <bean id="requestLockService" class="fr.cg95.cvq.service.request.impl.RequestLockService">
-    <property name="requestDAO" ref="requestDAO" />  
+    <property name="requestDAO" ref="requestDAO" />
+    <property name="genericDAO" ref="genericDAO" />
     <property name="requestTypeService" ref="requestTypeService" />
   </bean>
   
@@ -293,6 +298,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 
    <bean id="ticketBookingService" class="fr.cg95.cvq.service.request.impl.TicketBookingService">
     <property name="ticketBookingDAO" ref="ticketBookingDAO" />
+    <property name="genericDAO" ref="genericDAO" />
     <property name="localReferentialService" ref="localReferentialService" />
   </bean>
 
@@ -302,13 +308,16 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 
   <bean id="documentContextCheckAspect" 
     class="fr.cg95.cvq.service.document.aspect.DocumentContextCheckAspect">
-    <property name="documentDAO" ref="documentDAO" />  
+    <property name="documentDAO" ref="documentDAO" />
+    <property name="homeFolderDAO" ref="homeFolderDAO" />
+    <property name="individualDAO" ref="individualDAO" />
   </bean>
 
   <bean id="documentService" class="fr.cg95.cvq.service.document.impl.DocumentService">
     <property name="documentDAO" ref="documentDAO"/>
     <property name="documentTypeDAO" ref="documentTypeDAO"/>
     <property name="userSearchService" ref="userSearchService"/>
+    <property name="genericDAO" ref="genericDAO" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="translationService" ref="translationService"/>
     <property name="maxDataSize" value="${document.upload.maxSize}" />
@@ -366,6 +375,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="userSearchService" ref="userSearchService" />
     <property name="homeFolderDAO" ref="homeFolderDAO" />
     <property name="individualDAO" ref="individualDAO" />
+    <property name="genericDAO" ref="genericDAO" />
   </bean>
 
   <bean id="userSearchService" class="fr.cg95.cvq.service.users.impl.UserSearchService">
@@ -543,6 +553,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="userSearchService" ref="userSearchService" />
     <property name="requestDAO" ref="requestDAO" />
     <property name="requestExternalActionDAO" ref="requestExternalActionDAO" />
+    <property name="genericDAO" ref="genericDAO" />
   </bean>
   
   <bean id="learningActivitiesDiscoveryRegistrationRequestService" 
@@ -806,49 +817,51 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   <!-- =================== DAO DEFINITION ==================== -->  
   <!-- ======================================================= -->
 
-  <bean id="genericDAO" class="fr.cg95.cvq.dao.hibernate.GenericDAO" />
+  <bean id="genericDAO" class="fr.cg95.cvq.dao.jpa.GenericDAO" />
 
-  <bean id="requestDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestDAO" parent="genericDAO"/>
+  <bean id="requestDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestDAO" >
+      <property name="genericDAO" ref="genericDAO" />
+  </bean>
 
-  <bean id="requestStatisticsDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestStatisticsDAO" parent="genericDAO"/>
+  <bean id="requestStatisticsDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestStatisticsDAO" />
 
-  <bean id="requestTypeDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestTypeDAO" parent="genericDAO"/>
+  <bean id="requestTypeDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestTypeDAO" />
 
-  <bean id="requestFormDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestFormDAO" parent="genericDAO"/>
+  <bean id="requestFormDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestFormDAO" />
 
-  <bean id="documentTypeDAO" class="fr.cg95.cvq.dao.document.hibernate.DocumentTypeDAO" parent="genericDAO"/>
+  <bean id="documentTypeDAO" class="fr.cg95.cvq.dao.document.hibernate.DocumentTypeDAO" />
 
-  <bean id="requestActionDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestActionDAO" parent="genericDAO"/>
+  <bean id="requestActionDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestActionDAO" />
 
-  <bean id="requestNoteDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestNoteDAO" parent="genericDAO"/>
+  <bean id="requestNoteDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestNoteDAO" />
 
-  <bean id="localAuthorityDAO" class="fr.cg95.cvq.dao.authority.hibernate.LocalAuthorityDAO" parent="genericDAO"/>
+  <bean id="localAuthorityDAO" class="fr.cg95.cvq.dao.authority.hibernate.LocalAuthorityDAO" />
 
-  <bean id="categoryDAO" class="fr.cg95.cvq.dao.request.hibernate.CategoryDAO" parent="genericDAO"/>
+  <bean id="categoryDAO" class="fr.cg95.cvq.dao.request.hibernate.CategoryDAO" />
 
-  <bean id="agentDAO" class="fr.cg95.cvq.dao.authority.hibernate.AgentDAO" parent="genericDAO"/>
+  <bean id="agentDAO" class="fr.cg95.cvq.dao.authority.hibernate.AgentDAO" />
 
-  <bean id="schoolDAO" class="fr.cg95.cvq.dao.authority.hibernate.SchoolDAO" parent="genericDAO"/>
+  <bean id="schoolDAO" class="fr.cg95.cvq.dao.authority.hibernate.SchoolDAO" />
 
-  <bean id="recreationCenterDAO" class="fr.cg95.cvq.dao.authority.hibernate.RecreationCenterDAO" parent="genericDAO"/>
+  <bean id="recreationCenterDAO" class="fr.cg95.cvq.dao.authority.hibernate.RecreationCenterDAO" />
 
-  <bean id="individualDAO" class="fr.cg95.cvq.dao.users.hibernate.IndividualDAO" parent="genericDAO"/>
+  <bean id="individualDAO" class="fr.cg95.cvq.dao.users.hibernate.IndividualDAO" />
 
-  <bean id="adultDAO" class="fr.cg95.cvq.dao.users.hibernate.AdultDAO" parent="genericDAO"/>
+  <bean id="adultDAO" class="fr.cg95.cvq.dao.users.hibernate.AdultDAO" parent="individualDAO"/>
 
-  <bean id="childDAO" class="fr.cg95.cvq.dao.users.hibernate.ChildDAO" parent="genericDAO"/>
+  <bean id="childDAO" class="fr.cg95.cvq.dao.users.hibernate.ChildDAO" parent="individualDAO"/>
 
-  <bean id="homeFolderDAO" class="fr.cg95.cvq.dao.users.hibernate.HomeFolderDAO" parent="genericDAO"/>
+  <bean id="homeFolderDAO" class="fr.cg95.cvq.dao.users.hibernate.HomeFolderDAO" />
 
-  <bean id="documentDAO" class="fr.cg95.cvq.dao.document.hibernate.DocumentDAO" parent="genericDAO"/>
+  <bean id="documentDAO" class="fr.cg95.cvq.dao.document.hibernate.DocumentDAO" />
 
-  <bean id="paymentDAO" class="fr.cg95.cvq.dao.payment.hibernate.PaymentDAO" parent="genericDAO"/>
+  <bean id="paymentDAO" class="fr.cg95.cvq.dao.payment.hibernate.PaymentDAO" />
 
-  <bean id="meansOfContactDAO" class="fr.cg95.cvq.dao.users.hibernate.MeansOfContactDAO" parent="genericDAO"/>
+  <bean id="meansOfContactDAO" class="fr.cg95.cvq.dao.users.hibernate.MeansOfContactDAO" />
 
-  <bean id="requestExternalActionDAO" class="fr.cg95.cvq.dao.request.external.hibernate.RequestExternalActionDAO" parent="genericDAO" />
+  <bean id="requestExternalActionDAO" class="fr.cg95.cvq.dao.request.external.hibernate.RequestExternalActionDAO"  />
   
-  <bean id="ticketBookingDAO" class="fr.cg95.cvq.dao.request.hibernate.TicketBookingDAO" parent="genericDAO" />
+  <bean id="ticketBookingDAO" class="fr.cg95.cvq.dao.request.hibernate.TicketBookingDAO" />
   
   <bean id="localReferentialDAO" class="fr.cg95.cvq.dao.request.xml.LocalReferentialDAO">
       <property name="requestServiceRegistry" ref="requestServiceRegistry" />

@@ -21,42 +21,42 @@ public interface ITicketBookingService {
 
     void updateEntertainment(Entertainment entertainment);
 
-    void deleteEntertainment(Long id) throws CvqObjectNotFoundException;
+    void deleteEntertainment(Long id);
 
-    Entertainment getEntertainmentById(final Long id) throws CvqObjectNotFoundException;
+    Entertainment getEntertainmentById(final Long id);
 
     List<Entertainment> getEntertainments(Set<Critere> criteriaSet, final String sort,
             final String dir, final int recordsReturned, final int startIndex) throws CvqException;
 
     List<Entertainment> getAllEntertainments() throws CvqException;
 
-    Event getEventById(final Long id) throws CvqObjectNotFoundException;
+    Event getEventById(final Long id);
 
     List<Event> getEvents(Set<Critere> criteriaSet, final String sort,
             final String dir, final int recordsReturned, final int startIndex) throws CvqException;
 
     void updateEvent(Event event);
 
-    void deleteEvent(Long id) throws CvqObjectNotFoundException;
+    void deleteEvent(Long id);
 
-    PlaceCategory getPlaceCategoryById(final Long id) throws CvqObjectNotFoundException;
+    PlaceCategory getPlaceCategoryById(final Long id);
 
-    void deletePlaceCategory(Long id, Long eventId) throws CvqObjectNotFoundException;
+    void deletePlaceCategory(Long id, Long eventId);
 
-    Fare getFareById(final Long id) throws CvqObjectNotFoundException;
+    Fare getFareById(final Long id);
 
     void updateFare(Fare fare) throws CvqObjectNotFoundException;
 
-    void deleteFare(Long id, Long eventId) throws CvqObjectNotFoundException;
+    void deleteFare(Long id, Long eventId);
 
-    Subscriber getSubscriberById(final Long id) throws CvqObjectNotFoundException;
+    Subscriber getSubscriberById(final Long id);
 
     List<Subscriber> getSubscribers(Set<Critere> criteriaSet, final String sort,
             final String dir, final int recordsReturned, final int startIndex) throws CvqException;
 
     void updateSubscriber(Subscriber subscriber);
 
-    void deleteSubscriber(Long id) throws CvqObjectNotFoundException;
+    void deleteSubscriber(Long id);
 
     Map<String,Integer> importEntertainments(byte[] entertainments) throws CvqTicketBookingException;
 

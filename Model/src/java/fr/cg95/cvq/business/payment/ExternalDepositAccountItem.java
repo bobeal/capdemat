@@ -4,26 +4,31 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+
 import fr.cg95.cvq.service.payment.PaymentUtils;
 import fr.cg95.cvq.util.DateUtils;
 
-/**
- * 
- * @hibernate.subclass
- *  discriminator-value="EXTERNAL_DEPOSIT_ACCOUNT_ITEM"
- *  lazy="false"
- * 
- * @author bor@zenexity.fr
- */
+@Entity
+@DiscriminatorValue(value="EXTERNAL_DEPOSIT_ACCOUNT_ITEM")
 public class ExternalDepositAccountItem extends ExternalAccountItem {
 
     private static final long serialVersionUID = 1L;
 
     public static final String SEARCH_BY_EXTERNAL_DEPOSIT_ACCOUNT_ID = "externalDepositAccountId";
 
+    @Column(name="old_value")
     private Double oldValue;
+
+    @Column(name="old_value_date")
     private Date oldValueDate;
 
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY,mappedBy="externalDepositAccountItem")
     private Set<ExternalDepositAccountItemDetail> accountDetails;
 
     public ExternalDepositAccountItem(final String label, final Double amount,
@@ -34,31 +39,23 @@ public class ExternalDepositAccountItem extends ExternalAccountItem {
         this.oldValue = oldValue;
         this.oldValueDate = oldValueDate;
     }
-    
+
     public ExternalDepositAccountItem() {
         super();
     }
-    
-    /**
-     * @hibernate.property
-     *  column="old_value"
-     */
+
     public final Double getOldValue() {
         return oldValue;
     }
-    
+
     public final void setOldValue(Double oldValue) {
         this.oldValue = oldValue;
     }
-    
-    /**
-     * @hibernate.property
-     *  column="old_value_date"
-     */
+
     public final Date getOldValueDate() {
         return oldValueDate;
     }
-    
+
     public final void setOldValueDate(Date oldValueDate) {
         this.oldValueDate = oldValueDate;
     }
@@ -78,16 +75,6 @@ public class ExternalDepositAccountItem extends ExternalAccountItem {
      * loaded from external services, you have to call 
      * {@link IHomeFolderService#loadExternalDepositAccountDetails(ExternalDepositAccountItem)}
      * to load them into this object.
-     */
-    /**
-     * @hibernate.set
-     *  lazy="true"
-     *  cascade="all"
-     *  inverse="true"
-     * @hibernate.key
-     *  column="external_deposit_account_item_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.payment.ExternalDepositAccountItemDetail"
      */
     public final Set<ExternalDepositAccountItemDetail> getAccountDetails() {
         if (accountDetails == null)

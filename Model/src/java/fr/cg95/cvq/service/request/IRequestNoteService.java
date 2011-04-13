@@ -5,7 +5,6 @@ import java.util.List;
 import fr.cg95.cvq.business.request.RequestNote;
 import fr.cg95.cvq.business.request.RequestNoteType;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 
 public interface IRequestNoteService {
@@ -40,7 +39,6 @@ public interface IRequestNoteService {
      * @param rnt the type of the note
      * @param note the body of the note itself
      */
-    void addNote(@IsRequest final Long requestId, final RequestNoteType rnt, final String note)
-        throws CvqException, CvqObjectNotFoundException;
+    void addNote(@IsRequest final Long requestId, final RequestNoteType rnt, final String note);
 
 }

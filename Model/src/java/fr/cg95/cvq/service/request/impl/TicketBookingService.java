@@ -23,10 +23,12 @@ import fr.cg95.cvq.business.request.ticket.FareType;
 import fr.cg95.cvq.business.request.ticket.PlaceCategory;
 import fr.cg95.cvq.business.request.ticket.Subscriber;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.dao.request.ITicketBookingDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.exception.CvqTicketBookingException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.request.ILocalReferentialService;
 import fr.cg95.cvq.service.request.ITicketBookingService;
@@ -39,28 +41,30 @@ public class TicketBookingService implements ITicketBookingService , ILocalAutho
     private static Logger logger = Logger.getLogger(TicketBookingService.class);
 
     private ITicketBookingDAO ticketBookingDAO;
+    private IGenericDAO genericDAO;
     private ILocalReferentialService localReferentialService;
 
     @Override
     public Long createEntertainment(Entertainment entertainment) throws CvqException {
+    // FIXME return Entertainment
         if (entertainment == null)
             throw new CvqException("No entertainment provided");
-        return ticketBookingDAO.create(entertainment);
+        return ((Entertainment)genericDAO.create(entertainment)).getId();
     }
 
     @Override
     public void updateEntertainment(Entertainment entertainment) {
-        ticketBookingDAO.update(entertainment);
+        genericDAO.update(entertainment);
     }
     
     @Override
-    public void deleteEntertainment(Long id) throws CvqObjectNotFoundException {
-        ticketBookingDAO.delete(getEntertainmentById(id));
+    public void deleteEntertainment(Long id) {
+        genericDAO.delete(getEntertainmentById(id));
     }
 
     @Override
-    public Entertainment getEntertainmentById(Long id) throws CvqObjectNotFoundException {
-        return (Entertainment)ticketBookingDAO.findById(Entertainment.class, id);
+    public Entertainment getEntertainmentById(Long id) {
+        return (Entertainment)genericDAO.findById(Entertainment.class, id);
     }
 
     @Override
@@ -75,8 +79,8 @@ public class TicketBookingService implements ITicketBookingService , ILocalAutho
     }
 
     @Override
-    public Event getEventById(final Long id) throws CvqObjectNotFoundException {
-        return (Event)ticketBookingDAO.findById(Event.class, id);
+    public Event getEventById(final Long id) {
+        return (Event)genericDAO.findById(Event.class, id);
     }
 
     @Override
@@ -90,56 +94,56 @@ public class TicketBookingService implements ITicketBookingService , ILocalAutho
 
     @Override
     public void updateEvent(Event event) {
-        ticketBookingDAO.saveOrUpdate(event);
+        genericDAO.saveOrUpdate(event);
     }
 
     @Override
-    public void deleteEvent(Long id) throws CvqObjectNotFoundException {
+    public void deleteEvent(Long id) {
         Event event = getEventById(id);
         event.getEntertainment().getEvents().remove(event);
-        ticketBookingDAO.delete(event);
+        genericDAO.delete(event);
     }
 
     @Override
-    public PlaceCategory getPlaceCategoryById(final Long id) throws CvqObjectNotFoundException {
-        return (PlaceCategory)ticketBookingDAO.findById(PlaceCategory.class, id);
+    public PlaceCategory getPlaceCategoryById(final Long id) {
+        return (PlaceCategory)genericDAO.findById(PlaceCategory.class, id);
     }
 
     @Override
-    public void deletePlaceCategory(Long placeCategoryId, Long eventId) throws CvqObjectNotFoundException {
+    public void deletePlaceCategory(Long placeCategoryId, Long eventId) {
         Iterator<PlaceCategory> it = getEventById(eventId).getPlaceCategories().iterator();
         while (it.hasNext()) {
             PlaceCategory pc = it.next();
             if (pc.getId().equals(placeCategoryId))
                 it.remove();
         }
-        ticketBookingDAO.delete(getPlaceCategoryById(placeCategoryId));
+        genericDAO.delete(getPlaceCategoryById(placeCategoryId));
     }
 
     @Override
-    public Fare getFareById(final Long id) throws CvqObjectNotFoundException {
-        return (Fare)ticketBookingDAO.findById(Fare.class, id);
+    public Fare getFareById(final Long id) {
+        return (Fare)genericDAO.findById(Fare.class, id);
     }
 
     @Override
     public void updateFare(Fare fare) throws CvqObjectNotFoundException {
-        ticketBookingDAO.saveOrUpdate(fare);
+        genericDAO.saveOrUpdate(fare);
     }
 
     @Override
-    public void deleteFare(Long id, Long placeCategoryId) throws CvqObjectNotFoundException {
+    public void deleteFare(Long id, Long placeCategoryId) {
         Iterator<Fare> it = getPlaceCategoryById(placeCategoryId).getFares().iterator();
         while (it.hasNext()) {
             Fare f = it.next();
             if (f.getId().equals(id))
                 it.remove();
         }
-        ticketBookingDAO.delete(getFareById(id));
+        genericDAO.delete(getFareById(id));
     }
 
     @Override
-    public Subscriber getSubscriberById(Long id) throws CvqObjectNotFoundException {
-        return (Subscriber)ticketBookingDAO.findById(Subscriber.class, id);
+    public Subscriber getSubscriberById(Long id) {
+        return (Subscriber)genericDAO.findById(Subscriber.class, id);
     }
 
     @Override
@@ -149,13 +153,13 @@ public class TicketBookingService implements ITicketBookingService , ILocalAutho
     }
 
     @Override
-    public void deleteSubscriber(Long id) throws CvqObjectNotFoundException {
-        ticketBookingDAO.delete(getSubscriberById(id));
+    public void deleteSubscriber(Long id) {
+        genericDAO.delete(getSubscriberById(id));
     }
 
     @Override
     public void updateSubscriber(Subscriber subscriber) {
-        ticketBookingDAO.saveOrUpdate(subscriber);
+        genericDAO.saveOrUpdate(subscriber);
     }
 
     /*
@@ -260,7 +264,7 @@ public class TicketBookingService implements ITicketBookingService , ILocalAutho
                 subscriber = ticketBookingDAO.findSubscriberByNumber(line[0]);
                 if (subscriber == null) {
                     subscriber = new Subscriber(line[0],line[1],line[2],line[3],line[4]);
-                    ticketBookingDAO.create(subscriber);
+                    genericDAO.create(subscriber);
                     report.put("subscriber",report.get("subscriber") + 1);
                 }
                 HibernateUtil.getSession().flush();
@@ -333,6 +337,10 @@ public class TicketBookingService implements ITicketBookingService , ILocalAutho
 
     public void setTicketBookingDAO(ITicketBookingDAO ticketBookingDAO) {
         this.ticketBookingDAO = ticketBookingDAO;
+    }
+
+    public void setGenericDAO(IGenericDAO genericDAO) {
+        this.genericDAO = genericDAO;
     }
 
     public void setLocalReferentialService(ILocalReferentialService localReferentialService) {

@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.leisure;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="sms_notification_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="sms_notification_request")
 public class SmsNotificationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -79,11 +82,8 @@ public class SmsNotificationRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -106,18 +106,14 @@ public class SmsNotificationRequestData implements Serializable {
     
     private String cleverSmsContactId;
 
-    public final void setCleverSmsContactId(final String cleverSmsContactId) {
+    public void setCleverSmsContactId(final String cleverSmsContactId) {
         this.cleverSmsContactId = cleverSmsContactId;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="clever_sms_contact_id"
-        
+    @Column(name="clever_sms_contact_id"  )
       
-    */
-    public final String getCleverSmsContactId() {
+    public String getCleverSmsContactId() {
         return this.cleverSmsContactId;
     }
   
@@ -140,27 +136,20 @@ public class SmsNotificationRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.LocalReferentialData> interests;
 
-    public final void setInterests(final List<fr.cg95.cvq.business.request.LocalReferentialData> interests) {
+    public void setInterests(final List<fr.cg95.cvq.business.request.LocalReferentialData> interests) {
         this.interests = interests;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="sms_notification_request_interests"
-        * @hibernate.key
-        *  column="sms_notification_request_id"
-        * @hibernate.list-index
-        *  column="interests_index"
-        * @hibernate.many-to-many
-        *  column="interests_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+    @ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="sms_notification_request_interests",
+            joinColumns=
+                @JoinColumn(name="sms_notification_request_id"),
+            inverseJoinColumns=
+                @JoinColumn(name="interests_id"))
+    @OrderColumn(name="interests_index")
       
-    */
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getInterests() {
+    public List<fr.cg95.cvq.business.request.LocalReferentialData> getInterests() {
         return this.interests;
     }
   
@@ -176,18 +165,14 @@ public class SmsNotificationRequestData implements Serializable {
     
     private String mobilePhone;
 
-    public final void setMobilePhone(final String mobilePhone) {
+    public void setMobilePhone(final String mobilePhone) {
         this.mobilePhone = mobilePhone;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="mobile_phone"
-        *  length="10"
+    @Column(name="mobile_phone" , length=10 )
       
-    */
-    public final String getMobilePhone() {
+    public String getMobilePhone() {
         return this.mobilePhone;
     }
   
@@ -201,18 +186,14 @@ public class SmsNotificationRequestData implements Serializable {
     
     private Boolean subscription;
 
-    public final void setSubscription(final Boolean subscription) {
+    public void setSubscription(final Boolean subscription) {
         this.subscription = subscription;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subscription"
-        
+    @Column(name="subscription"  )
       
-    */
-    public final Boolean getSubscription() {
+    public Boolean getSubscription() {
         return this.subscription;
     }
   

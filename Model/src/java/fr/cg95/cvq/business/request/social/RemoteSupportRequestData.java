@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.social;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="remote_support_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="remote_support_request")
 public class RemoteSupportRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -224,11 +227,8 @@ public class RemoteSupportRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -287,18 +287,14 @@ public class RemoteSupportRequestData implements Serializable {
     
     private String contactFirstName;
 
-    public final void setContactFirstName(final String contactFirstName) {
+    public void setContactFirstName(final String contactFirstName) {
         this.contactFirstName = contactFirstName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="contact_first_name"
-        *  length="38"
+    @Column(name="contact_first_name" , length=38 )
       
-    */
-    public final String getContactFirstName() {
+    public String getContactFirstName() {
         return this.contactFirstName;
     }
   
@@ -312,18 +308,15 @@ public class RemoteSupportRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.social.RsrContactKindType contactKind;
 
-    public final void setContactKind(final fr.cg95.cvq.business.request.social.RsrContactKindType contactKind) {
+    public void setContactKind(final fr.cg95.cvq.business.request.social.RsrContactKindType contactKind) {
         this.contactKind = contactKind;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="contact_kind"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="contact_kind"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.RsrContactKindType getContactKind() {
+    public fr.cg95.cvq.business.request.social.RsrContactKindType getContactKind() {
         return this.contactKind;
     }
   
@@ -380,18 +373,14 @@ public class RemoteSupportRequestData implements Serializable {
     
     private String contactLastName;
 
-    public final void setContactLastName(final String contactLastName) {
+    public void setContactLastName(final String contactLastName) {
         this.contactLastName = contactLastName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="contact_last_name"
-        *  length="38"
+    @Column(name="contact_last_name" , length=38 )
       
-    */
-    public final String getContactLastName() {
+    public String getContactLastName() {
         return this.contactLastName;
     }
   
@@ -448,18 +437,14 @@ public class RemoteSupportRequestData implements Serializable {
     
     private String contactPhone;
 
-    public final void setContactPhone(final String contactPhone) {
+    public void setContactPhone(final String contactPhone) {
         this.contactPhone = contactPhone;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="contact_phone"
-        *  length="10"
+    @Column(name="contact_phone" , length=10 )
       
-    */
-    public final String getContactPhone() {
+    public String getContactPhone() {
         return this.contactPhone;
     }
   
@@ -473,18 +458,14 @@ public class RemoteSupportRequestData implements Serializable {
     
     private Boolean requestInformationEmergency;
 
-    public final void setRequestInformationEmergency(final Boolean requestInformationEmergency) {
+    public void setRequestInformationEmergency(final Boolean requestInformationEmergency) {
         this.requestInformationEmergency = requestInformationEmergency;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="request_information_emergency"
-        
+    @Column(name="request_information_emergency"  )
       
-    */
-    public final Boolean getRequestInformationEmergency() {
+    public Boolean getRequestInformationEmergency() {
         return this.requestInformationEmergency;
     }
   
@@ -541,18 +522,14 @@ public class RemoteSupportRequestData implements Serializable {
     
     private String requestInformationEmergencyMotive;
 
-    public final void setRequestInformationEmergencyMotive(final String requestInformationEmergencyMotive) {
+    public void setRequestInformationEmergencyMotive(final String requestInformationEmergencyMotive) {
         this.requestInformationEmergencyMotive = requestInformationEmergencyMotive;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="request_information_emergency_motive"
-        *  length="180"
+    @Column(name="request_information_emergency_motive" , length=180 )
       
-    */
-    public final String getRequestInformationEmergencyMotive() {
+    public String getRequestInformationEmergencyMotive() {
         return this.requestInformationEmergencyMotive;
     }
   
@@ -566,18 +543,15 @@ public class RemoteSupportRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.social.RsrRequestInformationRequestKindType requestInformationRequestKind;
 
-    public final void setRequestInformationRequestKind(final fr.cg95.cvq.business.request.social.RsrRequestInformationRequestKindType requestInformationRequestKind) {
+    public void setRequestInformationRequestKind(final fr.cg95.cvq.business.request.social.RsrRequestInformationRequestKindType requestInformationRequestKind) {
         this.requestInformationRequestKind = requestInformationRequestKind;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="request_information_request_kind"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="request_information_request_kind"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.RsrRequestInformationRequestKindType getRequestInformationRequestKind() {
+    public fr.cg95.cvq.business.request.social.RsrRequestInformationRequestKindType getRequestInformationRequestKind() {
         return this.requestInformationRequestKind;
     }
   
@@ -602,18 +576,14 @@ public class RemoteSupportRequestData implements Serializable {
     
     private String secondContactFirstName;
 
-    public final void setSecondContactFirstName(final String secondContactFirstName) {
+    public void setSecondContactFirstName(final String secondContactFirstName) {
         this.secondContactFirstName = secondContactFirstName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="second_contact_first_name"
-        *  length="38"
+    @Column(name="second_contact_first_name" , length=38 )
       
-    */
-    public final String getSecondContactFirstName() {
+    public String getSecondContactFirstName() {
         return this.secondContactFirstName;
     }
   
@@ -638,18 +608,14 @@ public class RemoteSupportRequestData implements Serializable {
     
     private String secondContactLastName;
 
-    public final void setSecondContactLastName(final String secondContactLastName) {
+    public void setSecondContactLastName(final String secondContactLastName) {
         this.secondContactLastName = secondContactLastName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="second_contact_last_name"
-        *  length="38"
+    @Column(name="second_contact_last_name" , length=38 )
       
-    */
-    public final String getSecondContactLastName() {
+    public String getSecondContactLastName() {
         return this.secondContactLastName;
     }
   
@@ -674,18 +640,14 @@ public class RemoteSupportRequestData implements Serializable {
     
     private String secondContactPhone;
 
-    public final void setSecondContactPhone(final String secondContactPhone) {
+    public void setSecondContactPhone(final String secondContactPhone) {
         this.secondContactPhone = secondContactPhone;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="second_contact_phone"
-        *  length="10"
+    @Column(name="second_contact_phone" , length=10 )
       
-    */
-    public final String getSecondContactPhone() {
+    public String getSecondContactPhone() {
         return this.secondContactPhone;
     }
   
@@ -708,18 +670,14 @@ public class RemoteSupportRequestData implements Serializable {
     
     private java.util.Date spouseBirthDate;
 
-    public final void setSpouseBirthDate(final java.util.Date spouseBirthDate) {
+    public void setSpouseBirthDate(final java.util.Date spouseBirthDate) {
         this.spouseBirthDate = spouseBirthDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="spouse_birth_date"
-        
+    @Column(name="spouse_birth_date"  )
       
-    */
-    public final java.util.Date getSpouseBirthDate() {
+    public java.util.Date getSpouseBirthDate() {
         return this.spouseBirthDate;
     }
   
@@ -776,18 +734,14 @@ public class RemoteSupportRequestData implements Serializable {
     
     private String spouseFirstName;
 
-    public final void setSpouseFirstName(final String spouseFirstName) {
+    public void setSpouseFirstName(final String spouseFirstName) {
         this.spouseFirstName = spouseFirstName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="spouse_first_name"
-        *  length="38"
+    @Column(name="spouse_first_name" , length=38 )
       
-    */
-    public final String getSpouseFirstName() {
+    public String getSpouseFirstName() {
         return this.spouseFirstName;
     }
   
@@ -810,18 +764,14 @@ public class RemoteSupportRequestData implements Serializable {
     
     private Boolean spouseIsDisabledPerson;
 
-    public final void setSpouseIsDisabledPerson(final Boolean spouseIsDisabledPerson) {
+    public void setSpouseIsDisabledPerson(final Boolean spouseIsDisabledPerson) {
         this.spouseIsDisabledPerson = spouseIsDisabledPerson;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="spouse_is_disabled_person"
-        
+    @Column(name="spouse_is_disabled_person"  )
       
-    */
-    public final Boolean getSpouseIsDisabledPerson() {
+    public Boolean getSpouseIsDisabledPerson() {
         return this.spouseIsDisabledPerson;
     }
   
@@ -878,18 +828,14 @@ public class RemoteSupportRequestData implements Serializable {
     
     private String spouseLastName;
 
-    public final void setSpouseLastName(final String spouseLastName) {
+    public void setSpouseLastName(final String spouseLastName) {
         this.spouseLastName = spouseLastName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="spouse_last_name"
-        *  length="38"
+    @Column(name="spouse_last_name" , length=38 )
       
-    */
-    public final String getSpouseLastName() {
+    public String getSpouseLastName() {
         return this.spouseLastName;
     }
   
@@ -912,18 +858,15 @@ public class RemoteSupportRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.TitleType spouseTitle;
 
-    public final void setSpouseTitle(final fr.cg95.cvq.business.users.TitleType spouseTitle) {
+    public void setSpouseTitle(final fr.cg95.cvq.business.users.TitleType spouseTitle) {
         this.spouseTitle = spouseTitle;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="spouse_title"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="spouse_title"  )
       
-    */
-    public final fr.cg95.cvq.business.users.TitleType getSpouseTitle() {
+    public fr.cg95.cvq.business.users.TitleType getSpouseTitle() {
         return this.spouseTitle;
     }
   
@@ -937,18 +880,14 @@ public class RemoteSupportRequestData implements Serializable {
     
     private java.util.Date subjectBirthDate;
 
-    public final void setSubjectBirthDate(final java.util.Date subjectBirthDate) {
+    public void setSubjectBirthDate(final java.util.Date subjectBirthDate) {
         this.subjectBirthDate = subjectBirthDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subject_birth_date"
-        
+    @Column(name="subject_birth_date"  )
       
-    */
-    public final java.util.Date getSubjectBirthDate() {
+    public java.util.Date getSubjectBirthDate() {
         return this.subjectBirthDate;
     }
   
@@ -962,18 +901,14 @@ public class RemoteSupportRequestData implements Serializable {
     
     private Boolean subjectIsAPABeneficiary;
 
-    public final void setSubjectIsAPABeneficiary(final Boolean subjectIsAPABeneficiary) {
+    public void setSubjectIsAPABeneficiary(final Boolean subjectIsAPABeneficiary) {
         this.subjectIsAPABeneficiary = subjectIsAPABeneficiary;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subject_is_a_p_a_beneficiary"
-        
+    @Column(name="subject_is_a_p_a_beneficiary"  )
       
-    */
-    public final Boolean getSubjectIsAPABeneficiary() {
+    public Boolean getSubjectIsAPABeneficiary() {
         return this.subjectIsAPABeneficiary;
     }
   
@@ -987,18 +922,14 @@ public class RemoteSupportRequestData implements Serializable {
     
     private Boolean subjectIsDisabledPerson;
 
-    public final void setSubjectIsDisabledPerson(final Boolean subjectIsDisabledPerson) {
+    public void setSubjectIsDisabledPerson(final Boolean subjectIsDisabledPerson) {
         this.subjectIsDisabledPerson = subjectIsDisabledPerson;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subject_is_disabled_person"
-        
+    @Column(name="subject_is_disabled_person"  )
       
-    */
-    public final Boolean getSubjectIsDisabledPerson() {
+    public Boolean getSubjectIsDisabledPerson() {
         return this.subjectIsDisabledPerson;
     }
   
@@ -1012,18 +943,14 @@ public class RemoteSupportRequestData implements Serializable {
     
     private Boolean subjectIsTaxable;
 
-    public final void setSubjectIsTaxable(final Boolean subjectIsTaxable) {
+    public void setSubjectIsTaxable(final Boolean subjectIsTaxable) {
         this.subjectIsTaxable = subjectIsTaxable;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subject_is_taxable"
-        
+    @Column(name="subject_is_taxable"  )
       
-    */
-    public final Boolean getSubjectIsTaxable() {
+    public Boolean getSubjectIsTaxable() {
         return this.subjectIsTaxable;
     }
   
@@ -1037,18 +964,15 @@ public class RemoteSupportRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.social.RsrSubjectResideWithType subjectResideWith;
 
-    public final void setSubjectResideWith(final fr.cg95.cvq.business.request.social.RsrSubjectResideWithType subjectResideWith) {
+    public void setSubjectResideWith(final fr.cg95.cvq.business.request.social.RsrSubjectResideWithType subjectResideWith) {
         this.subjectResideWith = subjectResideWith;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subject_reside_with"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="subject_reside_with"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.RsrSubjectResideWithType getSubjectResideWith() {
+    public fr.cg95.cvq.business.request.social.RsrSubjectResideWithType getSubjectResideWith() {
         return this.subjectResideWith;
     }
   
@@ -1062,18 +986,15 @@ public class RemoteSupportRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.TitleType subjectTitle;
 
-    public final void setSubjectTitle(final fr.cg95.cvq.business.users.TitleType subjectTitle) {
+    public void setSubjectTitle(final fr.cg95.cvq.business.users.TitleType subjectTitle) {
         this.subjectTitle = subjectTitle;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subject_title"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="subject_title"  )
       
-    */
-    public final fr.cg95.cvq.business.users.TitleType getSubjectTitle() {
+    public fr.cg95.cvq.business.users.TitleType getSubjectTitle() {
         return this.subjectTitle;
     }
   
@@ -1089,18 +1010,14 @@ public class RemoteSupportRequestData implements Serializable {
     
     private String trusteeFirstName;
 
-    public final void setTrusteeFirstName(final String trusteeFirstName) {
+    public void setTrusteeFirstName(final String trusteeFirstName) {
         this.trusteeFirstName = trusteeFirstName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="trustee_first_name"
-        *  length="38"
+    @Column(name="trustee_first_name" , length=38 )
       
-    */
-    public final String getTrusteeFirstName() {
+    public String getTrusteeFirstName() {
         return this.trusteeFirstName;
     }
   
@@ -1116,18 +1033,14 @@ public class RemoteSupportRequestData implements Serializable {
     
     private String trusteeLastName;
 
-    public final void setTrusteeLastName(final String trusteeLastName) {
+    public void setTrusteeLastName(final String trusteeLastName) {
         this.trusteeLastName = trusteeLastName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="trustee_last_name"
-        *  length="38"
+    @Column(name="trustee_last_name" , length=38 )
       
-    */
-    public final String getTrusteeLastName() {
+    public String getTrusteeLastName() {
         return this.trusteeLastName;
     }
   
@@ -1143,18 +1056,14 @@ public class RemoteSupportRequestData implements Serializable {
     
     private String trusteePhone;
 
-    public final void setTrusteePhone(final String trusteePhone) {
+    public void setTrusteePhone(final String trusteePhone) {
         this.trusteePhone = trusteePhone;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="trustee_phone"
-        *  length="10"
+    @Column(name="trustee_phone" , length=10 )
       
-    */
-    public final String getTrusteePhone() {
+    public String getTrusteePhone() {
         return this.trusteePhone;
     }
   

@@ -153,7 +153,7 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
             schoolCanteenRegistrationRequest.setSchool(School.modelToXml(getSchool()));
       
         if (getSection() != null)
-            schoolCanteenRegistrationRequest.setSection(fr.cg95.cvq.xml.common.SectionType.Enum.forString(getSection().toString()));
+            schoolCanteenRegistrationRequest.setSection(fr.cg95.cvq.xml.common.SectionType.Enum.forString(getSection().getLegacyLabel()));
       
         schoolCanteenRegistrationRequest.setUrgencyPhone(getUrgencyPhone());
       

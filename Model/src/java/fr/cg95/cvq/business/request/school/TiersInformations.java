@@ -20,14 +20,15 @@ import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.school.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="tiers_informations"
- *  lazy="false"
  */
+@Entity
+@Table(name="tiers_informations")
 public class TiersInformations implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -110,11 +111,8 @@ public class TiersInformations implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -146,18 +144,14 @@ public class TiersInformations implements Serializable {
     
     private String tiersNom;
 
-    public final void setTiersNom(final String tiersNom) {
+    public void setTiersNom(final String tiersNom) {
         this.tiersNom = tiersNom;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="tiers_nom"
-        *  length="38"
+
+    @Column(name="tiers_nom" , length=38 )
       
-    */
-    public final String getTiersNom() {
+    public String getTiersNom() {
         return this.tiersNom;
     }
   
@@ -187,18 +181,14 @@ public class TiersInformations implements Serializable {
     
     private String tiersPrenom;
 
-    public final void setTiersPrenom(final String tiersPrenom) {
+    public void setTiersPrenom(final String tiersPrenom) {
         this.tiersPrenom = tiersPrenom;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="tiers_prenom"
-        *  length="38"
+
+    @Column(name="tiers_prenom" , length=38 )
       
-    */
-    public final String getTiersPrenom() {
+    public String getTiersPrenom() {
         return this.tiersPrenom;
     }
   
@@ -228,18 +218,14 @@ public class TiersInformations implements Serializable {
     
     private String tiersTelephone;
 
-    public final void setTiersTelephone(final String tiersTelephone) {
+    public void setTiersTelephone(final String tiersTelephone) {
         this.tiersTelephone = tiersTelephone;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="tiers_telephone"
-        *  length="10"
+
+    @Column(name="tiers_telephone" , length=10 )
       
-    */
-    public final String getTiersTelephone() {
+    public String getTiersTelephone() {
         return this.tiersTelephone;
     }
   

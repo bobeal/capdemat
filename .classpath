@@ -53,10 +53,7 @@
 	<classpathentry kind="lib" path="Model/lib/xdoclet/xdoclet-2.0.4.jar"/>
 	<classpathentry kind="lib" path="Model/lib/xdoclet/xdoclet-plugin-hibernate-1.0.2.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.hibernate/antlr-2.7.6.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.hibernate/c3p0-0.9.1-pre10.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.hibernate/cglib-nodep-2.1_3.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.hibernate/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.hibernate/ehcache-1.2.3.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.hibernate/hibernate3.jar"/>
 	<classpathentry kind="lib" path="Model/lib/cobertura/asm-tree-2.2.1.jar"/>
 	<classpathentry kind="lib" path="Libraries/cleversms/cleversms-ws-client-axis-1.0.0.jar"/>
@@ -65,8 +62,6 @@
 	<classpathentry kind="lib" path="Model/lib/org.jmock/hamcrest-core-1.1.jar"/>
 	<classpathentry kind="lib" path="Model/lib/org.jmock/hamcrest-library-1.1.jar"/>
 	<classpathentry kind="lib" path="Model/lib/jsmtpd/mina-core-1.1.4.jar"/>
-	<classpathentry kind="lib" path="Model/lib/jsmtpd/slf4j-api-1.4.3.jar"/>
-	<classpathentry kind="lib" path="Model/lib/jsmtpd/slf4j-log4j12-1.0.1.jar"/>
 	<classpathentry kind="lib" path="Libraries/com.sun/saaj-impl.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.aspectj/aspectjrt-1.6.jar"/>
 	<classpathentry kind="lib" path="Libraries/javax.servlet/servlet-api.jar"/>
@@ -107,5 +102,6 @@
 	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.4.2.jar"/>
 	<classpathentry kind="lib" path="Libraries/gson/gson-1.6.jar"/>
 	<classpathentry kind="lib" path="Libraries/com.zenexity/ZDB.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.hibernate/hibernate-jpa-2.0-api-1.0.0.Final.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

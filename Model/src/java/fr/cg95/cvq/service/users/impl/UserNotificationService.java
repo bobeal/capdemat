@@ -12,7 +12,6 @@ import fr.cg95.cvq.business.users.UserEvent;
 import fr.cg95.cvq.dao.users.IHomeFolderDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
@@ -83,8 +82,8 @@ public class UserNotificationService implements IUserNotificationService, Applic
         if ((UserAction.Type.CREATION.equals(event.getAction().getType())
             && SecurityContext.isFrontOfficeContext())
             || UserAction.Type.MODIFICATION.equals(event.getAction().getType())) {
-            try {
-                Adult adult = userSearchService.getAdultById(event.getAction().getTargetId());
+            Adult adult = userSearchService.getAdultById(event.getAction().getTargetId());
+            if (adult != null) {
                 JsonObject payload = JSONUtils.deserialize(event.getAction().getData());
                 if (!StringUtils.isEmpty(adult.getLogin())
                     && (UserAction.Type.CREATION.equals(event.getAction().getType())
@@ -108,9 +107,6 @@ public class UserNotificationService implements IUserNotificationService, Applic
                         throw new RuntimeException(e);
                     }
                 }
-            } catch (CvqObjectNotFoundException e) {
-                // nothing to do for home folder or child events
-                return;
             }
         }
     }

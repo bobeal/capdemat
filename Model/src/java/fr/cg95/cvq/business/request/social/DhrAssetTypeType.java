@@ -1,42 +1,42 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class DhrAssetTypeType extends PersistentStringEnum {
+public enum DhrAssetTypeType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final DhrAssetTypeType SHARE = new DhrAssetTypeType("Share");
-  
-    public static final DhrAssetTypeType GIFT = new DhrAssetTypeType("Gift");
-  
-    public static final DhrAssetTypeType SALE = new DhrAssetTypeType("Sale");
-  
+    SHARE("Share"),
+    GIFT("Gift"),
+    SALE("Sale");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use DhrAssetTypeType.values() instead
+     * @deprecated only for backward
      */
-    private DhrAssetTypeType(String value) {
-        super(value);
+    @Deprecated 
+    public static DhrAssetTypeType[] allDhrAssetTypeTypes = DhrAssetTypeType.values();
+
+    private String legacyLabel;
+
+    private DhrAssetTypeType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public DhrAssetTypeType() {}
-
-    public static DhrAssetTypeType[] allDhrAssetTypeTypes = {
-        SHARE,
-        GIFT,
-        SALE
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static DhrAssetTypeType getDefaultDhrAssetTypeType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of DhrAssetTypeType.something
+     * not the value of the name attribut.
+     */
     public static DhrAssetTypeType forString(final String enumAsString) {
-        for (DhrAssetTypeType value : allDhrAssetTypeTypes)
+        for (DhrAssetTypeType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultDhrAssetTypeType();

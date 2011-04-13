@@ -1,16 +1,15 @@
 package fr.cg95.cvq.dao.document;
 
-import java.util.List;
 import java.util.Hashtable;
+import java.util.List;
 
 import fr.cg95.cvq.business.document.Document;
-import fr.cg95.cvq.business.document.DocumentState;
-import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.IJpaTemplate;
 
 /**
  * @author bor@zenexity.fr
  */
-public interface IDocumentDAO extends IGenericDAO {
+public interface IDocumentDAO extends IJpaTemplate<Document, Long> {
 
     /**
      * Return the documents who belong to the given home folder with the specified type.

@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.localpolice;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="holiday_security_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="holiday_security_request")
 public class HolidaySecurityRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -124,11 +127,8 @@ public class HolidaySecurityRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -144,18 +144,14 @@ public class HolidaySecurityRequestData implements Serializable {
     
     private java.util.Date absenceEndDate;
 
-    public final void setAbsenceEndDate(final java.util.Date absenceEndDate) {
+    public void setAbsenceEndDate(final java.util.Date absenceEndDate) {
         this.absenceEndDate = absenceEndDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="absence_end_date"
-        
+    @Column(name="absence_end_date"  )
       
-    */
-    public final java.util.Date getAbsenceEndDate() {
+    public java.util.Date getAbsenceEndDate() {
         return this.absenceEndDate;
     }
   
@@ -169,18 +165,14 @@ public class HolidaySecurityRequestData implements Serializable {
     
     private java.util.Date absenceStartDate;
 
-    public final void setAbsenceStartDate(final java.util.Date absenceStartDate) {
+    public void setAbsenceStartDate(final java.util.Date absenceStartDate) {
         this.absenceStartDate = absenceStartDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="absence_start_date"
-        
+    @Column(name="absence_start_date"  )
       
-    */
-    public final java.util.Date getAbsenceStartDate() {
+    public java.util.Date getAbsenceStartDate() {
         return this.absenceStartDate;
     }
   
@@ -194,18 +186,14 @@ public class HolidaySecurityRequestData implements Serializable {
     
     private Boolean alarm;
 
-    public final void setAlarm(final Boolean alarm) {
+    public void setAlarm(final Boolean alarm) {
         this.alarm = alarm;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="alarm"
-        
+    @Column(name="alarm"  )
       
-    */
-    public final Boolean getAlarm() {
+    public Boolean getAlarm() {
         return this.alarm;
     }
   
@@ -235,18 +223,14 @@ public class HolidaySecurityRequestData implements Serializable {
     
     private String alertPhone;
 
-    public final void setAlertPhone(final String alertPhone) {
+    public void setAlertPhone(final String alertPhone) {
         this.alertPhone = alertPhone;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="alert_phone"
-        *  length="10"
+    @Column(name="alert_phone" , length=10 )
       
-    */
-    public final String getAlertPhone() {
+    public String getAlertPhone() {
         return this.alertPhone;
     }
   
@@ -260,18 +244,14 @@ public class HolidaySecurityRequestData implements Serializable {
     
     private Boolean light;
 
-    public final void setLight(final Boolean light) {
+    public void setLight(final Boolean light) {
         this.light = light;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="light"
-        
+    @Column(name="light"  )
       
-    */
-    public final Boolean getLight() {
+    public Boolean getLight() {
         return this.light;
     }
   
@@ -285,18 +265,14 @@ public class HolidaySecurityRequestData implements Serializable {
     
     private Boolean otherContact;
 
-    public final void setOtherContact(final Boolean otherContact) {
+    public void setOtherContact(final Boolean otherContact) {
         this.otherContact = otherContact;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="other_contact"
-        
+    @Column(name="other_contact"  )
       
-    */
-    public final Boolean getOtherContact() {
+    public Boolean getOtherContact() {
         return this.otherContact;
     }
   
@@ -335,19 +311,15 @@ public class HolidaySecurityRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.Address otherContactAddress;
 
-    public final void setOtherContactAddress(final fr.cg95.cvq.business.users.Address otherContactAddress) {
+    public void setOtherContactAddress(final fr.cg95.cvq.business.users.Address otherContactAddress) {
         this.otherContactAddress = otherContactAddress;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="other_contact_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="other_contact_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getOtherContactAddress() {
+    public fr.cg95.cvq.business.users.Address getOtherContactAddress() {
         return this.otherContactAddress;
     }
   
@@ -404,18 +376,14 @@ public class HolidaySecurityRequestData implements Serializable {
     
     private String otherContactFirstName;
 
-    public final void setOtherContactFirstName(final String otherContactFirstName) {
+    public void setOtherContactFirstName(final String otherContactFirstName) {
         this.otherContactFirstName = otherContactFirstName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="other_contact_first_name"
-        *  length="38"
+    @Column(name="other_contact_first_name" , length=38 )
       
-    */
-    public final String getOtherContactFirstName() {
+    public String getOtherContactFirstName() {
         return this.otherContactFirstName;
     }
   
@@ -472,18 +440,14 @@ public class HolidaySecurityRequestData implements Serializable {
     
     private String otherContactLastName;
 
-    public final void setOtherContactLastName(final String otherContactLastName) {
+    public void setOtherContactLastName(final String otherContactLastName) {
         this.otherContactLastName = otherContactLastName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="other_contact_last_name"
-        *  length="38"
+    @Column(name="other_contact_last_name" , length=38 )
       
-    */
-    public final String getOtherContactLastName() {
+    public String getOtherContactLastName() {
         return this.otherContactLastName;
     }
   
@@ -540,18 +504,14 @@ public class HolidaySecurityRequestData implements Serializable {
     
     private String otherContactPhone;
 
-    public final void setOtherContactPhone(final String otherContactPhone) {
+    public void setOtherContactPhone(final String otherContactPhone) {
         this.otherContactPhone = otherContactPhone;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="other_contact_phone"
-        *  length="10"
+    @Column(name="other_contact_phone" , length=10 )
       
-    */
-    public final String getOtherContactPhone() {
+    public String getOtherContactPhone() {
         return this.otherContactPhone;
     }
   
@@ -565,18 +525,14 @@ public class HolidaySecurityRequestData implements Serializable {
     
     private Boolean rulesAndRegulationsAcceptance;
 
-    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
+    public void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
         this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="rules_and_regulations_acceptance"
-        
+    @Column(name="rules_and_regulations_acceptance"  )
       
-    */
-    public final Boolean getRulesAndRegulationsAcceptance() {
+    public Boolean getRulesAndRegulationsAcceptance() {
         return this.rulesAndRegulationsAcceptance;
     }
   

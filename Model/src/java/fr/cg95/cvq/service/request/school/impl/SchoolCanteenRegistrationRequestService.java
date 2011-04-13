@@ -8,9 +8,7 @@ import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestEvent;
 import fr.cg95.cvq.business.request.school.SchoolCanteenRegistrationRequest;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.impl.RequestService;
 
@@ -30,8 +28,7 @@ public final class SchoolCanteenRegistrationRequestService extends RequestServic
     }
 
     @Override
-    public void onRequestIssued(final Request request)
-        throws CvqException, CvqObjectNotFoundException {
+    public void onRequestIssued(final Request request) {
 
         SchoolCanteenRegistrationRequest scrr = (SchoolCanteenRegistrationRequest) request;
         School school = scrr.getSchool();

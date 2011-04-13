@@ -20,14 +20,15 @@ import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="hccr_home_intervenant"
- *  lazy="false"
  */
+@Entity
+@Table(name="hccr_home_intervenant")
 public class HccrHomeIntervenant implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -107,11 +108,8 @@ public class HccrHomeIntervenant implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -127,18 +125,15 @@ public class HccrHomeIntervenant implements Serializable {
     
     private fr.cg95.cvq.business.request.social.HccrHomeIntervenantKindType homeIntervenantKind;
 
-    public final void setHomeIntervenantKind(final fr.cg95.cvq.business.request.social.HccrHomeIntervenantKindType homeIntervenantKind) {
+    public void setHomeIntervenantKind(final fr.cg95.cvq.business.request.social.HccrHomeIntervenantKindType homeIntervenantKind) {
         this.homeIntervenantKind = homeIntervenantKind;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="home_intervenant_kind"
-        
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="home_intervenant_kind"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.HccrHomeIntervenantKindType getHomeIntervenantKind() {
+    public fr.cg95.cvq.business.request.social.HccrHomeIntervenantKindType getHomeIntervenantKind() {
         return this.homeIntervenantKind;
     }
   
@@ -195,18 +190,14 @@ public class HccrHomeIntervenant implements Serializable {
     
     private String homeIntervenantDetails;
 
-    public final void setHomeIntervenantDetails(final String homeIntervenantDetails) {
+    public void setHomeIntervenantDetails(final String homeIntervenantDetails) {
         this.homeIntervenantDetails = homeIntervenantDetails;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="home_intervenant_details"
-        *  length="60"
+
+    @Column(name="home_intervenant_details" , length=60 )
       
-    */
-    public final String getHomeIntervenantDetails() {
+    public String getHomeIntervenantDetails() {
         return this.homeIntervenantDetails;
     }
   

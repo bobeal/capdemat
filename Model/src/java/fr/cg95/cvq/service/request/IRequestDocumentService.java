@@ -28,8 +28,7 @@ public interface IRequestDocumentService {
      *        the creation method provided by the
      *        {@link fr.cg95.cvq.service.document.IDocumentService} service
      */
-    void addDocuments(@IsRequest final Long requestId, final Set<Long> documentsId)
-        throws CvqException, CvqObjectNotFoundException;
+    void addDocuments(@IsRequest final Long requestId, final Set<Long> documentsId);
 
     /**
      * Add a single document to a request.
@@ -68,13 +67,13 @@ public interface IRequestDocumentService {
      * As they are not automatically loaded from DB, they have to be explicitely
      * asked for.
      */
-    Set<RequestDocument> getAssociatedDocuments(@IsRequest final Long requestId) throws CvqException;
+    Set<RequestDocument> getAssociatedDocuments(@IsRequest final Long requestId);
     
     GetDocumentListResponseDocument getAssociatedFullDocuments(@IsRequest final Long requestId)
-        throws CvqException, CvqObjectNotFoundException, PermissionException;
+        throws CvqException, PermissionException;
     
     GetDocumentResponseDocument getAssociatedDocument(@IsRequest final Long requestId, final Long documentId,
-            final boolean mergeDocument) throws CvqException, CvqObjectNotFoundException, PermissionException;
+            final boolean mergeDocument) throws CvqException, PermissionException;
 
     List<Document> getProvidedNotAssociatedDocumentsByType(@IsRequest final Long requestId, final Long documentTypeId)
         throws CvqException;

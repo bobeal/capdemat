@@ -37,8 +37,8 @@
       <label for="subjectTitle" class="required"><g:message code="hcar.property.subjectTitle.label" /> *  <span><g:message code="hcar.property.subjectTitle.help" /></span></label>
             <select id="subjectTitle" name="subjectTitle" class="required condition-isMadam-trigger  validate-not-first ${rqt.stepStates['subject'].invalidFields.contains('subjectTitle') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.subjectTitle.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
-                <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == rqt.subjectTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.subjectTitle" /></option>
+              <g:each in="${['MISTER','MADAM','MISS','AGENCY','UNKNOWN']}">
+                <option value="${it}" ${it == rqt.subjectTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.subjectTitle" /></option>
               </g:each>
             </select>
             
@@ -124,8 +124,8 @@
       <label for="legalAccessKind" class="required condition-isLegalAccessPresence-filled"><g:message code="hcar.property.legalAccessKind.label" /> *  <span><g:message code="hcar.property.legalAccessKind.help" /></span></label>
             <select id="legalAccessKind" name="legalAccessKind" class="required condition-isLegalAccessPresence-filled  validate-not-first ${rqt.stepStates['subject'].invalidFields.contains('legalAccessKind') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.legalAccessKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['safeguardingJustice','guardianship','curatorship']}">
-                <option value="fr.cg95.cvq.business.request.social.HcarLegalAccessKindType_${it}" ${it == rqt.legalAccessKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.legalAccessKind" /></option>
+              <g:each in="${['SAFEGUARDING_JUSTICE','GUARDIANSHIP','CURATORSHIP']}">
+                <option value="${it}" ${it == rqt.legalAccessKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.legalAccessKind" /></option>
               </g:each>
             </select>
             
@@ -134,8 +134,8 @@
       <label for="legalAccessRepresentativeKind" class="required condition-isLegalAccessPresence-filled"><g:message code="hcar.property.legalAccessRepresentativeKind.label" /> *  <span><g:message code="hcar.property.legalAccessRepresentativeKind.help" /></span></label>
             <select id="legalAccessRepresentativeKind" name="legalAccessRepresentativeKind" class="required condition-isLegalAccessPresence-filled condition-isOtherLegalAccessRepresentative-trigger  validate-not-first ${rqt.stepStates['subject'].invalidFields.contains('legalAccessRepresentativeKind') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.legalAccessRepresentativeKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['FamilyMember','Agency','Other']}">
-                <option value="fr.cg95.cvq.business.request.social.HcarLegalAccessRepresentativeKindType_${it}" ${it == rqt.legalAccessRepresentativeKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.legalAccessRepresentativeKind" /></option>
+              <g:each in="${['FAMILY_MEMBER','AGENCY','OTHER']}">
+                <option value="${it}" ${it == rqt.legalAccessRepresentativeKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.legalAccessRepresentativeKind" /></option>
               </g:each>
             </select>
             
@@ -169,8 +169,8 @@
       <label for="familyStatus" class="required"><g:message code="hcar.property.familyStatus.label" /> *  <span><g:message code="hcar.property.familyStatus.help" /></span></label>
             <select id="familyStatus" name="familyStatus" class="required  validate-not-first ${rqt.stepStates['subject'].invalidFields.contains('familyStatus') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyStatus.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','Separated','PACS','Other']}">
-                <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == rqt.familyStatus?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.familyStatus" /></option>
+              <g:each in="${['MARRIED','SINGLE','DIVORCED','WIDOW','COMMON_LAW_MARRIAGE','SEPARATED','P_A_C_S','OTHER']}">
+                <option value="${it}" ${it == rqt.familyStatus?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.familyStatus" /></option>
               </g:each>
             </select>
             

@@ -26,7 +26,7 @@
         <select name="sex">
           <option value="">${message(code:'message.select.defaultOption')}</option>
           <g:each in="${fr.cg95.cvq.business.users.SexType.allSexTypes}">
-            <option value="fr.cg95.cvq.business.users.SexType_${it}"
+            <option value="${it.name()}"
               ${it == child.sex ? 'selected="selected"': ''}>
               ${g.capdematEnumToText(var:it, i18nKeyPrefix:'homeFolder.child.property.sex')}
             </option>
@@ -50,7 +50,7 @@
           <select name="roles.${index}.type">
             <option value="">${message(code:'homeFolder.role.message.none')}</option>
             <g:each var="roleType" in="${fr.cg95.cvq.business.users.RoleType.childRoleTypes}">
-              <option value="${roleType}">
+              <option value="${roleType.name()}">
                 ${g.capdematEnumToText(var:roleType, i18nKeyPrefix:'homeFolder.role.withParticle')}
               </option>
             </g:each>

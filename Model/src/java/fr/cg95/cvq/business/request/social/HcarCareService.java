@@ -20,14 +20,15 @@ import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="hcar_care_service"
- *  lazy="false"
  */
+@Entity
+@Table(name="hcar_care_service")
 public class HcarCareService implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -126,11 +127,8 @@ public class HcarCareService implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -146,18 +144,14 @@ public class HcarCareService implements Serializable {
     
     private Boolean careServiceCareServiceEmployer;
 
-    public final void setCareServiceCareServiceEmployer(final Boolean careServiceCareServiceEmployer) {
+    public void setCareServiceCareServiceEmployer(final Boolean careServiceCareServiceEmployer) {
         this.careServiceCareServiceEmployer = careServiceCareServiceEmployer;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="care_service_care_service_employer"
-        
+
+    @Column(name="care_service_care_service_employer"  )
       
-    */
-    public final Boolean getCareServiceCareServiceEmployer() {
+    public Boolean getCareServiceCareServiceEmployer() {
         return this.careServiceCareServiceEmployer;
     }
   
@@ -178,18 +172,14 @@ public class HcarCareService implements Serializable {
     
     private String careServiceKind;
 
-    public final void setCareServiceKind(final String careServiceKind) {
+    public void setCareServiceKind(final String careServiceKind) {
         this.careServiceKind = careServiceKind;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="care_service_kind"
-        
+
+    @Column(name="care_service_kind"  )
       
-    */
-    public final String getCareServiceKind() {
+    public String getCareServiceKind() {
         return this.careServiceKind;
     }
   
@@ -246,18 +236,14 @@ public class HcarCareService implements Serializable {
     
     private String careServiceProviderName;
 
-    public final void setCareServiceProviderName(final String careServiceProviderName) {
+    public void setCareServiceProviderName(final String careServiceProviderName) {
         this.careServiceProviderName = careServiceProviderName;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="care_service_provider_name"
-        *  length="38"
+
+    @Column(name="care_service_provider_name" , length=38 )
       
-    */
-    public final String getCareServiceProviderName() {
+    public String getCareServiceProviderName() {
         return this.careServiceProviderName;
     }
   
@@ -280,19 +266,15 @@ public class HcarCareService implements Serializable {
     
     private fr.cg95.cvq.business.users.Address careServiceProviderAddress;
 
-    public final void setCareServiceProviderAddress(final fr.cg95.cvq.business.users.Address careServiceProviderAddress) {
+    public void setCareServiceProviderAddress(final fr.cg95.cvq.business.users.Address careServiceProviderAddress) {
         this.careServiceProviderAddress = careServiceProviderAddress;
     }
 
-    /**
-  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="care_service_provider_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="care_service_provider_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getCareServiceProviderAddress() {
+    public fr.cg95.cvq.business.users.Address getCareServiceProviderAddress() {
         return this.careServiceProviderAddress;
     }
   

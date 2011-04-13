@@ -1,39 +1,41 @@
 package fr.cg95.cvq.business.request.urbanism;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class AcrRequesterQualityType extends PersistentStringEnum {
+public enum AcrRequesterQualityType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final AcrRequesterQualityType OWNER = new AcrRequesterQualityType("Owner");
-  
-    public static final AcrRequesterQualityType TENANT = new AcrRequesterQualityType("Tenant");
-  
+    OWNER("Owner"),
+    TENANT("Tenant");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use AcrRequesterQualityType.values() instead
+     * @deprecated only for backward
      */
-    private AcrRequesterQualityType(String value) {
-        super(value);
+    @Deprecated 
+    public static AcrRequesterQualityType[] allAcrRequesterQualityTypes = AcrRequesterQualityType.values();
+
+    private String legacyLabel;
+
+    private AcrRequesterQualityType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public AcrRequesterQualityType() {}
-
-    public static AcrRequesterQualityType[] allAcrRequesterQualityTypes = {
-        OWNER,
-        TENANT
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static AcrRequesterQualityType getDefaultAcrRequesterQualityType() {
         return OWNER;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of AcrRequesterQualityType.something
+     * not the value of the name attribut.
+     */
     public static AcrRequesterQualityType forString(final String enumAsString) {
-        for (AcrRequesterQualityType value : allAcrRequesterQualityTypes)
+        for (AcrRequesterQualityType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultAcrRequesterQualityType();

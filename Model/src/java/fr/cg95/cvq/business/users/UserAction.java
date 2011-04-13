@@ -2,38 +2,59 @@ package fr.cg95.cvq.business.users;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.util.UserUtils;
 
-/**
- * @hibernate.class
- *  table="user_action"
- *  lazy="false"
- */
+@Entity
+@Table(name="user_action")
 public class UserAction {
 
-    public static final class Type extends PersistentStringEnum {
-        private static final long serialVersionUID = 1L;
-        public static final Type CREATION = new Type("Creation");
-        public static final Type MODIFICATION = new Type("Modification");
-        public static final Type STATE_CHANGE = new Type("StateChange");
-        public static final Type QoS = new Type("QoS");
-        public static final Type CONTACT = new Type("Contact");
-        public static final Type DELETION = new Type("Deletion");
-        public Type() { /* empty constructor for Hibernate */ }
-        private Type(String type) { super(type); }
+    public enum Type {
+
+        CREATION("Creation"),
+        MODIFICATION("Modification"),
+        STATE_CHANGE("StateChange"),
+        QoS("QoS"),
+        CONTACT("Contact"),
+        DELETION("Deletion");
+
+        private String name;
+        private Type(String type) { this.name = type; }
     }
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
+
+    @Column(nullable=false)
     private Date date;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable=false)
     private Type type;
+
+    @Column(name="user_id",nullable=false)
     private Long userId;
+
+    @Column(name="target_id",nullable=false)
     private Long targetId;
+
+    @Column(name="note",length=1024)
     private String note;
+
+    @Column(columnDefinition="TEXT")
     private String data;
 
     protected UserAction() { /* empty constructor for Hibernate */ }
@@ -58,11 +79,6 @@ public class UserAction {
         data = new Gson().toJson(payload);
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return id;
     }
@@ -71,11 +87,6 @@ public class UserAction {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="date"
-     *  not-null="true"
-     */
     public Date getDate() {
         return date;
     }
@@ -84,11 +95,6 @@ public class UserAction {
         this.date = date;
     }
 
-    /**
-     * @hibernate.property
-     *  column="user_id"
-     *  not-null="true"
-     */
     public Long getUserId() {
         return userId;
     }
@@ -97,11 +103,6 @@ public class UserAction {
         this.userId = userId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="target_id"
-     *  not-null="true"
-     */
     public Long getTargetId() {
         return targetId;
     }
@@ -110,11 +111,6 @@ public class UserAction {
         this.targetId = targetId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="type"
-     *  not-null="true"
-     */
     public Type getType() {
         return type;
     }
@@ -123,11 +119,6 @@ public class UserAction {
         this.type = type;
     }
 
-    /**
-     * @hibernate.property
-     *  column="note"
-     *  length="1024"
-     */
     public String getNote() {
         return note;
     }
@@ -136,11 +127,6 @@ public class UserAction {
         this.note = note;
     }
 
-    /**
-     * @hibernate.property
-     *  column="data"
-     *  type="text"
-     */
     public String getData() {
         return data;
     }

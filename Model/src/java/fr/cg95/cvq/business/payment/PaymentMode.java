@@ -1,27 +1,26 @@
 package fr.cg95.cvq.business.payment;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
-/** 
+/**
  * @author bor@zenexity.fr
  */
-public final class PaymentMode extends PersistentStringEnum {
+public enum PaymentMode {
 
-	private static final long serialVersionUID = 1L;
+    INTERNET("Internet"),
+    CARD("Card");
 
-    public static final PaymentMode INTERNET = new PaymentMode("Internet");
-    public static final PaymentMode CARD = new PaymentMode("Card");
+    private String name;
 
     /**
      * Prevent instantiation and subclassing with a private constructor.
      */
     private PaymentMode(String mode) {
-        super(mode);
+        this.name = mode;
     }
 
-    public PaymentMode() {}
-    
-    public static final PaymentMode[] allPaymentModes = { CARD, INTERNET };
+    /**
+     * @deprecated, only for backward, use values() instead
+     */
+    public static final PaymentMode[] allPaymentModes = values();
 
     public static PaymentMode forString(String enumAsString) {
         if (enumAsString == null || enumAsString.equals(""))
@@ -33,5 +32,10 @@ public final class PaymentMode extends PersistentStringEnum {
             return CARD;
 
         return CARD;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

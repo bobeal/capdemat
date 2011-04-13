@@ -4,37 +4,58 @@ import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Set;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * @hibernate.class
- *  table="agent"
- *  lazy="false"
- *
  * @author bor@zenexity.fr
  */
+@Entity
+@Table(name="agent")
 public class Agent implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /** identifier field */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(name="login")
     private String login;
+
+    @Column(name="last_name")
     private String lastName;
+
+    @Column(name="first_name")
     private String firstName;
+
+    @Column(name="active")
     private Boolean active = true;
+
+    @Column(name="email")
     private String email;
 
+    @ElementCollection(fetch=FetchType.LAZY)
+    @CollectionTable(
+          name="agent_site_roles",
+          joinColumns=@JoinColumn(name="agent_id")
+    )
     private Set<SiteRoles> sitesRoles;
+
+    @Column(name="preferences")
     private Hashtable<String, Hashtable<String, String>> preferences; 
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -43,10 +64,6 @@ public class Agent implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="login"
-     */
     public String getLogin() {
         return this.login;
     }
@@ -55,10 +72,6 @@ public class Agent implements Serializable {
         this.login = login;
     }
 
-    /**
-     * @hibernate.property
-     *  column="last_name"
-     */
     public String getLastName() {
         return this.lastName;
     }
@@ -67,10 +80,6 @@ public class Agent implements Serializable {
         this.lastName = lastName;
     }
 
-    /**
-     * @hibernate.property
-     *  column="first_name"
-     */
     public String getFirstName() {
         return this.firstName;
     }
@@ -79,16 +88,6 @@ public class Agent implements Serializable {
         this.firstName = firstName;
     }
 
-    /**
-     * @hibernate.set
-     *  lazy="true"
-     *  table="agent_site_roles"
-     *  cascade="all"
-     * @hibernate.key
-     *  column="agent_id"
-     * @hibernate.composite-element
-     *  class="fr.cg95.cvq.business.authority.SiteRoles"
-     */
     public Set<SiteRoles> getSitesRoles() {
         return this.sitesRoles;
     }
@@ -97,10 +96,6 @@ public class Agent implements Serializable {
         this.sitesRoles = sitesRoles;
     }
 
-    /**
-     * @hibernate.property
-     *  column="active"
-     */
     public Boolean getActive() {
         return active;
     }
@@ -109,11 +104,6 @@ public class Agent implements Serializable {
         this.active = active;
     }
 
-    /**
-     * @hibernate.property
-     *  column="preferences"
-     *  type="serializable"
-     */
     public Hashtable<String, Hashtable<String, String>> getPreferences() {
         return this.preferences;
     }
@@ -122,9 +112,6 @@ public class Agent implements Serializable {
         this.preferences = preferences;
     }
 
-    /**
-     * @hibernate.property
-     */
     public String getEmail() {
         return email;
     }

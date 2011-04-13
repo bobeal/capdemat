@@ -28,10 +28,12 @@ import fr.cg95.cvq.business.request.RequestEvent.EVENT_TYPE;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.business.request.school.DistanceType;
+import fr.cg95.cvq.business.request.school.CurrentStudiesType;
 import fr.cg95.cvq.business.request.school.StudyGrantRequest;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.UserAction;
 import fr.cg95.cvq.business.users.UserEvent;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.external.IRequestExternalActionDAO;
 import fr.cg95.cvq.exception.CvqException;
@@ -73,6 +75,8 @@ public class StudyGrantRequestService extends RequestService implements ILocalAu
     private IUserSearchService userSearchService;
 
     private IRequestDAO requestDAO;
+    
+    private IGenericDAO genericDAO;
 
     private IRequestExternalActionDAO requestExternalActionDAO;
 
@@ -82,7 +86,7 @@ public class StudyGrantRequestService extends RequestService implements ILocalAu
     public void init() {
         StudyGrantRequest.conditions.put("abroadInternship", new EqualityChecker("true"));
         StudyGrantRequest.conditions.put("currentStudiesDiploma",
-            new EqualityChecker("otherStudies"));
+            new EqualityChecker(CurrentStudiesType.OTHER_STUDIES.name()));
         StudyGrantRequest.conditions.put("taxHouseholdCity", new EqualityChecker("573"));
         StudyGrantRequest.conditions.put("currentSchoolName", new EqualityChecker("autre"));
         StudyGrantRequest.conditions.put("isSubjectAccountHolder", new EqualityChecker("true"));
@@ -245,12 +249,12 @@ public class StudyGrantRequestService extends RequestService implements ILocalAu
             currentSchool = request.getCurrentSchoolAddress().format();
         }
         String currentUser = null;
-        try {
-            Individual subject = userSearchService.getById(request.getSubjectId());
-            if (subject != null && subject.getAddress() != null)
-                currentUser = subject.getAddress().format();
-        } catch (CvqObjectNotFoundException e) {
-            throw new RuntimeException(e);
+        Individual subject = userSearchService.getById(request.getSubjectId());
+        if (subject != null && subject.getAddress() != null) {
+            currentUser = subject.getAddress().format();
+        } else {
+            throw new RuntimeException("subject with id " + request.getSubjectId() + " of request "
+                    + request.getId() + " is null");
         }
         DistanceType distance = request.getDistance();
         if (request.getAbroadInternship()) {
@@ -287,7 +291,7 @@ public class StudyGrantRequestService extends RequestService implements ILocalAu
         }
         request.setDistance(distance);
         if (request.getCurrentSchoolAddress() != null)
-            requestDAO.saveOrUpdate(request.getCurrentSchoolAddress());
+            genericDAO.saveOrUpdate(request.getCurrentSchoolAddress());
         requestDAO.saveOrUpdate(request);
     }
 

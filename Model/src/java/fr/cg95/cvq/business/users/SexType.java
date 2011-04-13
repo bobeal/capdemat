@@ -1,29 +1,28 @@
 package fr.cg95.cvq.business.users;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * @author bor@zenexity.fr
  */
-public final class SexType extends PersistentStringEnum {
+public enum SexType {
 
-    private static final long serialVersionUID = 1L;
+    MALE("Male"),
+    FEMALE("Female"),
+    UNKNOWN("Unknown");
 
-    public static final SexType MALE = new SexType("Male");
-    public static final SexType FEMALE = new SexType("Female");
-    public static final SexType UNKNOWN = new SexType("Unknown");
+    private String legacyLabel;
+
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
+
+    private SexType(String legacyLabel) {
+        this.legacyLabel = legacyLabel;
+    }
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * @deprecated only for backward, use values instead
      */
-    private SexType(String type) {
-        super(type);
-    }
-
-    public SexType() {
-    }
-
-    public static final SexType[] allSexTypes = { MALE, FEMALE, UNKNOWN };
+    public static final SexType[] allSexTypes = SexType.values();
 
     public static SexType getDefaultSexType() {
         return UNKNOWN;
@@ -39,5 +38,10 @@ public final class SexType extends PersistentStringEnum {
             return FEMALE;
 
         return UNKNOWN;
+    }
+
+    @Override
+    public String toString() {
+        return legacyLabel;
     }
 }

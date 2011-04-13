@@ -1,39 +1,41 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class RsrRequestInformationRequestKindType extends PersistentStringEnum {
+public enum RsrRequestInformationRequestKindType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final RsrRequestInformationRequestKindType INDIVIDUAL = new RsrRequestInformationRequestKindType("Individual");
-  
-    public static final RsrRequestInformationRequestKindType COUPLE = new RsrRequestInformationRequestKindType("Couple");
-  
+    INDIVIDUAL("Individual"),
+    COUPLE("Couple");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use RsrRequestInformationRequestKindType.values() instead
+     * @deprecated only for backward
      */
-    private RsrRequestInformationRequestKindType(String value) {
-        super(value);
+    @Deprecated 
+    public static RsrRequestInformationRequestKindType[] allRsrRequestInformationRequestKindTypes = RsrRequestInformationRequestKindType.values();
+
+    private String legacyLabel;
+
+    private RsrRequestInformationRequestKindType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public RsrRequestInformationRequestKindType() {}
-
-    public static RsrRequestInformationRequestKindType[] allRsrRequestInformationRequestKindTypes = {
-        INDIVIDUAL,
-        COUPLE
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static RsrRequestInformationRequestKindType getDefaultRsrRequestInformationRequestKindType() {
         return INDIVIDUAL;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of RsrRequestInformationRequestKindType.something
+     * not the value of the name attribut.
+     */
     public static RsrRequestInformationRequestKindType forString(final String enumAsString) {
-        for (RsrRequestInformationRequestKindType value : allRsrRequestInformationRequestKindTypes)
+        for (RsrRequestInformationRequestKindType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultRsrRequestInformationRequestKindType();

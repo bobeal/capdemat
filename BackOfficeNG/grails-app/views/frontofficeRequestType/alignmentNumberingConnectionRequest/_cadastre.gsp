@@ -5,8 +5,8 @@
     <label for="requesterQuality" class="required"><g:message code="ancr.property.requesterQuality.label" /> *  <span><g:message code="ancr.property.requesterQuality.help" /></span></label>
             <select id="requesterQuality" name="requesterQuality" class="required condition-isOwner-trigger  validate-not-first ${rqt.stepStates['cadastre'].invalidFields.contains('requesterQuality') ? 'validation-failed' : ''}" title="<g:message code="ancr.property.requesterQuality.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Owner','Tenant','Cabinet']}">
-                <option value="fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType_${it}" ${it == rqt.requesterQuality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="ancr.property.requesterQuality" /></option>
+              <g:each in="${['OWNER','TENANT','CABINET']}">
+                <option value="${it}" ${it == rqt.requesterQuality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="ancr.property.requesterQuality" /></option>
               </g:each>
             </select>
             

@@ -19,8 +19,8 @@
     <label for="accountHolderTitle" class="required condition-isSubjectAccountHolder-unfilled"><g:message code="sgr.property.accountHolderTitle.label" /> *  <span><g:message code="sgr.property.accountHolderTitle.help" /></span></label>
             <select id="accountHolderTitle" name="accountHolderTitle" class="required condition-isSubjectAccountHolder-unfilled  validate-not-first ${rqt.stepStates['bankReference'].invalidFields.contains('accountHolderTitle') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.accountHolderTitle.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
-                <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == rqt.accountHolderTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="sgr.property.accountHolderTitle" /></option>
+              <g:each in="${['MISTER','MADAM','MISS','AGENCY','UNKNOWN']}">
+                <option value="${it}" ${it == rqt.accountHolderTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="sgr.property.accountHolderTitle" /></option>
               </g:each>
             </select>
             

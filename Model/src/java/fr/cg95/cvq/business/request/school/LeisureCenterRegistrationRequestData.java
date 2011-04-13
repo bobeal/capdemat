@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.school;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="leisure_center_registration_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="leisure_center_registration_request")
 public class LeisureCenterRegistrationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -119,11 +122,8 @@ public class LeisureCenterRegistrationRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -139,18 +139,14 @@ public class LeisureCenterRegistrationRequestData implements Serializable {
     
     private Boolean acceptationReglementInterieur;
 
-    public final void setAcceptationReglementInterieur(final Boolean acceptationReglementInterieur) {
+    public void setAcceptationReglementInterieur(final Boolean acceptationReglementInterieur) {
         this.acceptationReglementInterieur = acceptationReglementInterieur;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="acceptation_reglement_interieur"
-        
+    @Column(name="acceptation_reglement_interieur"  )
       
-    */
-    public final Boolean getAcceptationReglementInterieur() {
+    public Boolean getAcceptationReglementInterieur() {
         return this.acceptationReglementInterieur;
     }
   
@@ -164,18 +160,14 @@ public class LeisureCenterRegistrationRequestData implements Serializable {
     
     private Boolean estDerogation;
 
-    public final void setEstDerogation(final Boolean estDerogation) {
+    public void setEstDerogation(final Boolean estDerogation) {
         this.estDerogation = estDerogation;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="est_derogation"
-        
+    @Column(name="est_derogation"  )
       
-    */
-    public final Boolean getEstDerogation() {
+    public Boolean getEstDerogation() {
         return this.estDerogation;
     }
   
@@ -189,18 +181,14 @@ public class LeisureCenterRegistrationRequestData implements Serializable {
     
     private Boolean estTransport;
 
-    public final void setEstTransport(final Boolean estTransport) {
+    public void setEstTransport(final Boolean estTransport) {
         this.estTransport = estTransport;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="est_transport"
-        
+    @Column(name="est_transport"  )
       
-    */
-    public final Boolean getEstTransport() {
+    public Boolean getEstTransport() {
         return this.estTransport;
     }
   
@@ -239,18 +227,14 @@ public class LeisureCenterRegistrationRequestData implements Serializable {
     
     private String idArret;
 
-    public final void setIdArret(final String idArret) {
+    public void setIdArret(final String idArret) {
         this.idArret = idArret;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="id_arret"
-        
+    @Column(name="id_arret"  )
       
-    */
-    public final String getIdArret() {
+    public String getIdArret() {
         return this.idArret;
     }
   
@@ -271,18 +255,14 @@ public class LeisureCenterRegistrationRequestData implements Serializable {
     
     private String idCentreLoisirs;
 
-    public final void setIdCentreLoisirs(final String idCentreLoisirs) {
+    public void setIdCentreLoisirs(final String idCentreLoisirs) {
         this.idCentreLoisirs = idCentreLoisirs;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="id_centre_loisirs"
-        
+    @Column(name="id_centre_loisirs"  )
       
-    */
-    public final String getIdCentreLoisirs() {
+    public String getIdCentreLoisirs() {
         return this.idCentreLoisirs;
     }
   
@@ -321,18 +301,14 @@ public class LeisureCenterRegistrationRequestData implements Serializable {
     
     private String idLigne;
 
-    public final void setIdLigne(final String idLigne) {
+    public void setIdLigne(final String idLigne) {
         this.idLigne = idLigne;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="id_ligne"
-        
+    @Column(name="id_ligne"  )
       
-    */
-    public final String getIdLigne() {
+    public String getIdLigne() {
         return this.idLigne;
     }
   
@@ -371,18 +347,14 @@ public class LeisureCenterRegistrationRequestData implements Serializable {
     
     private String labelArret;
 
-    public final void setLabelArret(final String labelArret) {
+    public void setLabelArret(final String labelArret) {
         this.labelArret = labelArret;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="label_arret"
-        
+    @Column(name="label_arret"  )
       
-    */
-    public final String getLabelArret() {
+    public String getLabelArret() {
         return this.labelArret;
     }
   
@@ -403,18 +375,14 @@ public class LeisureCenterRegistrationRequestData implements Serializable {
     
     private String labelCentreLoisirs;
 
-    public final void setLabelCentreLoisirs(final String labelCentreLoisirs) {
+    public void setLabelCentreLoisirs(final String labelCentreLoisirs) {
         this.labelCentreLoisirs = labelCentreLoisirs;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="label_centre_loisirs"
-        
+    @Column(name="label_centre_loisirs"  )
       
-    */
-    public final String getLabelCentreLoisirs() {
+    public String getLabelCentreLoisirs() {
         return this.labelCentreLoisirs;
     }
   
@@ -453,18 +421,14 @@ public class LeisureCenterRegistrationRequestData implements Serializable {
     
     private String labelLigne;
 
-    public final void setLabelLigne(final String labelLigne) {
+    public void setLabelLigne(final String labelLigne) {
         this.labelLigne = labelLigne;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="label_ligne"
-        
+    @Column(name="label_ligne"  )
       
-    */
-    public final String getLabelLigne() {
+    public String getLabelLigne() {
         return this.labelLigne;
     }
   
@@ -505,27 +469,20 @@ public class LeisureCenterRegistrationRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.LocalReferentialData> motifsDerogationCentreLoisirs;
 
-    public final void setMotifsDerogationCentreLoisirs(final List<fr.cg95.cvq.business.request.LocalReferentialData> motifsDerogationCentreLoisirs) {
+    public void setMotifsDerogationCentreLoisirs(final List<fr.cg95.cvq.business.request.LocalReferentialData> motifsDerogationCentreLoisirs) {
         this.motifsDerogationCentreLoisirs = motifsDerogationCentreLoisirs;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="leisure_center_registration_request_motifs_derogation_centre_loisirs"
-        * @hibernate.key
-        *  column="leisure_center_registration_request_id"
-        * @hibernate.list-index
-        *  column="motifs_derogation_centre_loisirs_index"
-        * @hibernate.many-to-many
-        *  column="motifs_derogation_centre_loisirs_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+    @ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="leisure_center_registration_request_motifs_derogation_centre_loisirs",
+            joinColumns=
+                @JoinColumn(name="leisure_center_registration_request_id"),
+            inverseJoinColumns=
+                @JoinColumn(name="motifs_derogation_centre_loisirs_id"))
+    @OrderColumn(name="motifs_derogation_centre_loisirs_index")
       
-    */
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getMotifsDerogationCentreLoisirs() {
+    public List<fr.cg95.cvq.business.request.LocalReferentialData> getMotifsDerogationCentreLoisirs() {
         return this.motifsDerogationCentreLoisirs;
     }
   

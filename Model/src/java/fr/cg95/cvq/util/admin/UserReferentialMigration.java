@@ -157,11 +157,11 @@ public class UserReferentialMigration {
             states.put(id, UserState.ARCHIVED);
         }
         for (Map.Entry<Long, UserState> state : states.entrySet()) {
-            try {
-                Individual i = userSearchService.getById(state.getKey());
+            Individual i = userSearchService.getById(state.getKey());
+            if (i != null) {
                 i.setState(state.getValue());
                 customDAO.update(i);
-            } catch (CvqObjectNotFoundException e) {
+            } else {
                 HomeFolder homeFolder = userSearchService.getHomeFolderById(state.getKey());
                 homeFolder.setState(state.getValue());
                 customDAO.update(homeFolder);
@@ -173,17 +173,9 @@ public class UserReferentialMigration {
                 .createSQLQuery("select * from individual_role where owner_id = :id")
                 .addEntity(IndividualRole.class).setLong("id", external.getId()).list()) {
                 if (role.getHomeFolderId() != null) {
-                    try {
                         homeFolder = userSearchService.getHomeFolderById(role.getHomeFolderId());
-                    } catch (CvqObjectNotFoundException e) {
-                        // what a wonderful model
-                    }
                 } else if (role.getIndividualId() != null) {
-                    try {
                         homeFolder = userSearchService.getById(role.getIndividualId()).getHomeFolder();
-                    } catch (CvqObjectNotFoundException e) {
-                        // what a wonderful model
-                    }
                 }
                 if (homeFolder != null) {
                     createFakeCreationAction(homeFolder, external.getId());

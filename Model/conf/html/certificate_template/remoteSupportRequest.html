@@ -3,6 +3,7 @@
 <%
 
   import org.apache.commons.lang.StringUtils
+  import fr.cg95.cvq.util.EnumTool
   def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -102,7 +103,7 @@
           <p class="label">${esc(i18n.translate('rsr.property.subjectTitle.label'))}</p>
           <div class="response">
             <% if(rqt.subjectTitle) { %>
-              ${esc(i18n.translate('rsr.property.subjectTitle.' + StringUtils.uncapitalize(rqt.subjectTitle.toString())))}
+              ${esc(i18n.translate('rsr.property.subjectTitle.' + EnumTool.toLowerCamelCase(rqt.subjectTitle.toString())))}
             <% } %>
           </div>
           
@@ -116,7 +117,7 @@
           <p class="label">${esc(i18n.translate('rsr.property.subjectResideWith.label'))}</p>
           <div class="response">
             <% if(rqt.subjectResideWith) { %>
-              ${esc(i18n.translate('rsr.property.subjectResideWith.' + StringUtils.uncapitalize(rqt.subjectResideWith.toString())))}
+              ${esc(i18n.translate('rsr.property.subjectResideWith.' + EnumTool.toLowerCamelCase(rqt.subjectResideWith.toString())))}
             <% } %>
           </div>
           
@@ -168,7 +169,7 @@
           <p class="label">${esc(i18n.translate('rsr.property.requestInformationRequestKind.label'))}</p>
           <div class="response">
             <% if(rqt.requestInformationRequestKind) { %>
-              ${esc(i18n.translate('rsr.property.requestInformationRequestKind.' + StringUtils.uncapitalize(rqt.requestInformationRequestKind.toString())))}
+              ${esc(i18n.translate('rsr.property.requestInformationRequestKind.' + EnumTool.toLowerCamelCase(rqt.requestInformationRequestKind.toString())))}
             <% } %>
           </div>
           
@@ -205,7 +206,7 @@
           <p class="label">${esc(i18n.translate('rsr.property.spouseTitle.label'))}</p>
           <div class="response">
             <% if(rqt.spouseTitle) { %>
-              ${esc(i18n.translate('rsr.property.spouseTitle.' + StringUtils.uncapitalize(rqt.spouseTitle.toString())))}
+              ${esc(i18n.translate('rsr.property.spouseTitle.' + EnumTool.toLowerCamelCase(rqt.spouseTitle.toString())))}
             <% } %>
           </div>
           
@@ -239,7 +240,7 @@
       <p class="label">${esc(i18n.translate('rsr.property.contactKind.label'))}</p>
           <div class="response">
             <% if(rqt.contactKind) { %>
-              ${esc(i18n.translate('rsr.property.contactKind.' + StringUtils.uncapitalize(rqt.contactKind.toString())))}
+              ${esc(i18n.translate('rsr.property.contactKind.' + EnumTool.toLowerCamelCase(rqt.contactKind.toString())))}
             <% } %>
           </div>
           
@@ -300,7 +301,7 @@
     <% if (rqt.meansOfContact) { %>
       <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
         <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
-          ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+          ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.name))}
         </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
       <% } %>
     <% } else { %>

@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.civil;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="death_details_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="death_details_request")
 public class DeathDetailsRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -111,11 +114,8 @@ public class DeathDetailsRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -142,18 +142,14 @@ public class DeathDetailsRequestData implements Serializable {
     
     private String comment;
 
-    public final void setComment(final String comment) {
+    public void setComment(final String comment) {
         this.comment = comment;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="comment"
-        *  length="255"
+    @Column(name="comment" , length=255 )
       
-    */
-    public final String getComment() {
+    public String getComment() {
         return this.comment;
     }
   
@@ -167,19 +163,15 @@ public class DeathDetailsRequestData implements Serializable {
     
     private java.math.BigInteger copies;
 
-    public final void setCopies(final java.math.BigInteger copies) {
+    public void setCopies(final java.math.BigInteger copies) {
         this.copies = copies;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="copies"
-        *  type="serializable"
-        
+    @Column(name="copies" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
-    */
-    public final java.math.BigInteger getCopies() {
+    public java.math.BigInteger getCopies() {
         return this.copies;
     }
   
@@ -209,18 +201,14 @@ public class DeathDetailsRequestData implements Serializable {
     
     private String deathCity;
 
-    public final void setDeathCity(final String deathCity) {
+    public void setDeathCity(final String deathCity) {
         this.deathCity = deathCity;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="death_city"
-        *  length="32"
+    @Column(name="death_city" , length=32 )
       
-    */
-    public final String getDeathCity() {
+    public String getDeathCity() {
         return this.deathCity;
     }
   
@@ -234,18 +222,14 @@ public class DeathDetailsRequestData implements Serializable {
     
     private java.util.Date deathDate;
 
-    public final void setDeathDate(final java.util.Date deathDate) {
+    public void setDeathDate(final java.util.Date deathDate) {
         this.deathDate = deathDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="death_date"
-        
+    @Column(name="death_date"  )
       
-    */
-    public final java.util.Date getDeathDate() {
+    public java.util.Date getDeathDate() {
         return this.deathDate;
     }
   
@@ -266,18 +250,14 @@ public class DeathDetailsRequestData implements Serializable {
     
     private String deathFirstNames;
 
-    public final void setDeathFirstNames(final String deathFirstNames) {
+    public void setDeathFirstNames(final String deathFirstNames) {
         this.deathFirstNames = deathFirstNames;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="death_first_names"
-        
+    @Column(name="death_first_names"  )
       
-    */
-    public final String getDeathFirstNames() {
+    public String getDeathFirstNames() {
         return this.deathFirstNames;
     }
   
@@ -307,18 +287,14 @@ public class DeathDetailsRequestData implements Serializable {
     
     private String deathLastName;
 
-    public final void setDeathLastName(final String deathLastName) {
+    public void setDeathLastName(final String deathLastName) {
         this.deathLastName = deathLastName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="death_last_name"
-        *  length="38"
+    @Column(name="death_last_name" , length=38 )
       
-    */
-    public final String getDeathLastName() {
+    public String getDeathLastName() {
         return this.deathLastName;
     }
   
@@ -348,18 +324,14 @@ public class DeathDetailsRequestData implements Serializable {
     
     private String deathPostalCode;
 
-    public final void setDeathPostalCode(final String deathPostalCode) {
+    public void setDeathPostalCode(final String deathPostalCode) {
         this.deathPostalCode = deathPostalCode;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="death_postal_code"
-        *  length="2"
+    @Column(name="death_postal_code" , length=2 )
       
-    */
-    public final String getDeathPostalCode() {
+    public String getDeathPostalCode() {
         return this.deathPostalCode;
     }
   
@@ -373,36 +345,30 @@ public class DeathDetailsRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.civil.DeathCertificateFormatType format;
 
-    public final void setFormat(final fr.cg95.cvq.business.request.civil.DeathCertificateFormatType format) {
+    public void setFormat(final fr.cg95.cvq.business.request.civil.DeathCertificateFormatType format) {
         this.format = format;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="format"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="format"  )
       
-    */
-    public final fr.cg95.cvq.business.request.civil.DeathCertificateFormatType getFormat() {
+    public fr.cg95.cvq.business.request.civil.DeathCertificateFormatType getFormat() {
         return this.format;
     }
   
     
     private fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType motive;
 
-    public final void setMotive(final fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType motive) {
+    public void setMotive(final fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType motive) {
         this.motive = motive;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="motive"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="motive"  )
       
-    */
-    public final fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType getMotive() {
+    public fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType getMotive() {
         return this.motive;
     }
   

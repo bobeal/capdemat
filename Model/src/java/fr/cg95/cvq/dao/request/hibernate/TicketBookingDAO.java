@@ -13,12 +13,14 @@ import fr.cg95.cvq.business.request.ticket.Event;
 import fr.cg95.cvq.business.request.ticket.Fare;
 import fr.cg95.cvq.business.request.ticket.PlaceCategory;
 import fr.cg95.cvq.business.request.ticket.Subscriber;
-import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.ITicketBookingDAO;
 import fr.cg95.cvq.util.Critere;
 
-public class TicketBookingDAO extends GenericDAO implements ITicketBookingDAO {
+/**
+ * As it isn't related to one particular type, doesn't extend JpaTemplate.
+ */
+public class TicketBookingDAO implements ITicketBookingDAO {
 
     public List<Entertainment> searchEntertainment(final Set<Critere> criteria, String sort, String dir, 
             int recordsReturned, int startIndex) {

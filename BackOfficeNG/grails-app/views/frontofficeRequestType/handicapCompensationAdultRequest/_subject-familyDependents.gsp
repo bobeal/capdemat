@@ -67,8 +67,8 @@
     <label for="familyDependents.${collectionIndex}.familyDependentActualSituation" class="required"><g:message code="hcar.property.familyDependentActualSituation.label" /> *  <span><g:message code="hcar.property.familyDependentActualSituation.help" /></span></label>
             <select id="familyDependents.${collectionIndex}.familyDependentActualSituation" name="familyDependents[${collectionIndex}].familyDependentActualSituation" class="required  validate-not-first ${rqt.stepStates['subject'].invalidFields.contains('familyDependents['+collectionIndex+'].familyDependentActualSituation') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyDependentActualSituation.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Schooling','Learning','MedicoSocial']}">
-                <option value="fr.cg95.cvq.business.request.social.HcarFamilyDependentActualSituationType_${it}" ${it == currentCollectionItem?.familyDependentActualSituation?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.familyDependentActualSituation" /></option>
+              <g:each in="${['SCHOOLING','LEARNING','MEDICO_SOCIAL']}">
+                <option value="${it}" ${it == currentCollectionItem?.familyDependentActualSituation?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.familyDependentActualSituation" /></option>
               </g:each>
             </select>
             

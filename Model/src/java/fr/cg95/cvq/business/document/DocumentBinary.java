@@ -18,23 +18,31 @@ import zdb.exceptions.DocumentDoesNotExistException;
 import zdb.exceptions.LockedException;
 import zdb.ZDB;
 
-/** 
- * @hibernate.class
- *  table="document_binary"
- *  lazy="false"
- *
- * @author bor@zenexity.fr
- */
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="document_binary")
 public class DocumentBinary implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-
+    private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(DocumentBinary.class);
 
-	/** identifier field */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
+
+    @Column(name="zdb_id", unique=true, nullable=false)
     private String zdbId;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="content_type")
     private ContentType contentType;
 
     protected DocumentBinary() { /* empty constructor for Hibernate */ }
@@ -96,11 +104,6 @@ public class DocumentBinary implements Serializable {
         }
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -109,13 +112,6 @@ public class DocumentBinary implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  type="string"
-     *  column="zdb_id"
-     *  not-null="true"
-     *  unique="true"
-     */
     public String getZdbId() {
         return zdbId;
     }
@@ -131,11 +127,7 @@ public class DocumentBinary implements Serializable {
     public void setData(byte[] data) {
         storeData("documents", data);
     }
-    
-    /**
-     * @hibernate.property
-     * column="content_type"
-     */
+
     public ContentType getContentType() {
         return this.contentType;
     }

@@ -23,9 +23,9 @@ invoice : paid, no_paid
 
 
 /* deposit type */
-.tag-pc, .tag-terminal, .tag-mailed_paper, .tag-brought_paper,
+.tag-p_c, .tag-terminal, .tag-mailed_paper, .tag-brought_paper,
 /* deposit origin */
-.tag-agent, .tag-eCitizen, .tag-ecitizen,
+.tag-agent, .tag-e_citizen,
 /* request, document and data state */
 .tag-pending, .tag-complete, .tag-uncomplete, .tag-validated, .tag-notified,
 .tag-closed, .tag-rejected, .tag-cancelled, .tag-archived,
@@ -141,7 +141,7 @@ invoice : paid, no_paid
 .tag-qos,
 .tag-passwordreset,
 .tag-required,
-.tag-eCitizen, .tag-ecitizen,
+.tag-e_citizen,
 .tag-creationnotification,
 .tag-manager       { background: #aa00ff; border-color:#aa00ff; }
 
@@ -160,7 +160,7 @@ invoice : paid, no_paid
 /* gray black */
 .tag-note,
 .tag-ignored,
-.tag-pc,
+.tag-p_c,
 .tag-terminal,
 .tag-mailed_paper,
 .tag-brought_paper { background: #333333; border-color:#cccccc; color:#ffffff; }

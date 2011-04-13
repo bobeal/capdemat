@@ -1,30 +1,34 @@
 package fr.cg95.cvq.business.users.external;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
- 
-public final class MappingState extends PersistentStringEnum {
+public enum MappingState {
 
-    private static final long serialVersionUID = 1L;
+    FREE("Free"),
+    BINDED("Binded"),
+    IGNORED("Ignored");
 
-    public static final MappingState FREE = new MappingState("Free");
-    public static final MappingState BINDED = new MappingState("Binded");
-    public static final MappingState IGNORED = new MappingState("Ignored");
+    private String name;
 
     /**
      * Prevent instantiation and subclassing with a private constructor.
      */
     private MappingState(final String state) {
-        super(state);
+        this.name = state;
     }
 
-    public MappingState() {}
-
-    public static final MappingState[] allMappingStates = { FREE, BINDED, IGNORED };
+    /**
+     * @deprecated only for backward, use MappingState.values() instead
+     */
+    public static final MappingState[] allMappingStates = MappingState.values();
 
     public static MappingState forString(final String enumAsString) {
-        for (MappingState type : allMappingStates) {
+        for (MappingState type : values()) {
             if (type.toString().equals(enumAsString)) return type;
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return  name;
     }
 }

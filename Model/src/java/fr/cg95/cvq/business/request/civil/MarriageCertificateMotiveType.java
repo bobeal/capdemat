@@ -1,57 +1,47 @@
 package fr.cg95.cvq.business.request.civil;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class MarriageCertificateMotiveType extends PersistentStringEnum {
+public enum MarriageCertificateMotiveType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final MarriageCertificateMotiveType NOTARY_ACT = new MarriageCertificateMotiveType("NotaryAct");
-  
-    public static final MarriageCertificateMotiveType FRENCH_NATIONALITY_CERTIFICATE = new MarriageCertificateMotiveType("FrenchNationalityCertificate");
-  
-    public static final MarriageCertificateMotiveType MARITAL_REGIME_CHANGE = new MarriageCertificateMotiveType("MaritalRegimeChange");
-  
-    public static final MarriageCertificateMotiveType FRENCH_NATIONALITY_ACQUISITION_DECLARATION = new MarriageCertificateMotiveType("FrenchNationalityAcquisitionDeclaration");
-  
-    public static final MarriageCertificateMotiveType DIVORCE_SEPARATION = new MarriageCertificateMotiveType("DivorceSeparation");
-  
-    public static final MarriageCertificateMotiveType PASSPORT = new MarriageCertificateMotiveType("Passport");
-  
-    public static final MarriageCertificateMotiveType PENSION = new MarriageCertificateMotiveType("Pension");
-  
-    public static final MarriageCertificateMotiveType OTHER = new MarriageCertificateMotiveType("Other");
-  
+    NOTARY_ACT("NotaryAct"),
+    FRENCH_NATIONALITY_CERTIFICATE("FrenchNationalityCertificate"),
+    MARITAL_REGIME_CHANGE("MaritalRegimeChange"),
+    FRENCH_NATIONALITY_ACQUISITION_DECLARATION("FrenchNationalityAcquisitionDeclaration"),
+    DIVORCE_SEPARATION("DivorceSeparation"),
+    PASSPORT("Passport"),
+    PENSION("Pension"),
+    OTHER("Other");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use MarriageCertificateMotiveType.values() instead
+     * @deprecated only for backward
      */
-    private MarriageCertificateMotiveType(String value) {
-        super(value);
+    @Deprecated 
+    public static MarriageCertificateMotiveType[] allMarriageCertificateMotiveTypes = MarriageCertificateMotiveType.values();
+
+    private String legacyLabel;
+
+    private MarriageCertificateMotiveType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public MarriageCertificateMotiveType() {}
-
-    public static MarriageCertificateMotiveType[] allMarriageCertificateMotiveTypes = {
-        NOTARY_ACT,
-        FRENCH_NATIONALITY_CERTIFICATE,
-        MARITAL_REGIME_CHANGE,
-        FRENCH_NATIONALITY_ACQUISITION_DECLARATION,
-        DIVORCE_SEPARATION,
-        PASSPORT,
-        PENSION,
-        OTHER
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static MarriageCertificateMotiveType getDefaultMarriageCertificateMotiveType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of MarriageCertificateMotiveType.something
+     * not the value of the name attribut.
+     */
     public static MarriageCertificateMotiveType forString(final String enumAsString) {
-        for (MarriageCertificateMotiveType value : allMarriageCertificateMotiveTypes)
+        for (MarriageCertificateMotiveType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultMarriageCertificateMotiveType();

@@ -6,13 +6,14 @@ import java.util.Set;
 import fr.cg95.cvq.business.request.GlobalRequestTypeConfiguration;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.DisplayGroup;
-import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.IJpaTemplate;
 import fr.cg95.cvq.util.Critere;
 
 /**
  * @author bor@zenexity.fr
  */
-public interface IRequestTypeDAO extends IGenericDAO {
+public interface IRequestTypeDAO extends IJpaTemplate<RequestType, Long> {
 
     /**
      * Look up a request type by label.

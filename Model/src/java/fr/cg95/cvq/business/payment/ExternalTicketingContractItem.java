@@ -2,30 +2,40 @@ package fr.cg95.cvq.business.payment;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
 import fr.cg95.cvq.util.DateUtils;
 
-/**
- * 
- * @hibernate.subclass
- *  discriminator-value="EXTERNAL_TICKETING_CONTRACT_ITEM"
- *  lazy="false"
- * 
- * @author bor@zenexity.fr
- */
+@Entity
+@DiscriminatorValue(value="EXTERNAL_TICKETING_CONTRACT_ITEM")
 public class ExternalTicketingContractItem extends ExternalAccountItem {
 
     private static final long serialVersionUID = 1L;
 
     public static final String SEARCH_BY_EXTERNAL_TICKETING_CONTRACT_ID = "externalTicketingContractId";
 
+    @Column(name="subject_id")
     private Long subjectId;
+
+    @Column(name="unit_price")
     private Double unitPrice;
+
+    @Column(name="min_buy")
     private Integer minBuy;
+
+    @Column(name="max_buy")
     private Integer maxBuy;
+
     private Integer quantity;
-    private Integer oldQuantity;
-    private Date creationDate;
     
+    @Column(name="old_quantity")
+    private Integer oldQuantity;
+
+    @Column(name="creation_date")
+    private Date creationDate;
+
     public ExternalTicketingContractItem(final String label, final Double amount,
             final String externalServiceLabel, final String externalItemId,
             final Long subjectId, final Double unitPrice, final Integer minBuy,
@@ -59,13 +69,7 @@ public class ExternalTicketingContractItem extends ExternalAccountItem {
     public ExternalTicketingContractItem() {
         super();
     }
-    
-    /**
-     * @hibernate.property
-     *  column="creation_date"
-     *  
-     * @fixme is this the contract creation date or the contract state date ??
-     */
+
     public final Date getCreationDate() {
         return creationDate;
     }
@@ -74,10 +78,6 @@ public class ExternalTicketingContractItem extends ExternalAccountItem {
         this.creationDate = creationDate;
     }
 
-    /**
-     * @hibernate.property
-     *  column="max_buy"
-     */
     public final Integer getMaxBuy() {
         return maxBuy;
     }
@@ -86,10 +86,6 @@ public class ExternalTicketingContractItem extends ExternalAccountItem {
         this.maxBuy = maxBuy;
     }
 
-    /**
-     * @hibernate.property
-     *  column="min_buy"
-     */
     public final Integer getMinBuy() {
         return minBuy;
     }
@@ -98,10 +94,6 @@ public class ExternalTicketingContractItem extends ExternalAccountItem {
         this.minBuy = minBuy;
     }
 
-    /**
-     * @hibernate.property
-     *  column="quantity"
-     */
     public final Integer getQuantity() {
         return quantity;
     }
@@ -110,10 +102,6 @@ public class ExternalTicketingContractItem extends ExternalAccountItem {
         this.quantity = quantity;
     }
 
-    /**
-     * @hibernate.property
-     *  column="subject_id"
-     */
     public final Long getSubjectId() {
         return subjectId;
     }
@@ -122,10 +110,6 @@ public class ExternalTicketingContractItem extends ExternalAccountItem {
         this.subjectId = subjectId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="unit_price"
-     */
     public final Double getUnitPrice() {
         return unitPrice;
     }
@@ -134,10 +118,6 @@ public class ExternalTicketingContractItem extends ExternalAccountItem {
         this.unitPrice = unitPrice;
     }
 
-    /**
-     * @hibernate.property
-     *  column="old_quantity"
-     */
     public final Integer getOldQuantity() {
         return oldQuantity;
     }

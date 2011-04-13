@@ -2,6 +2,13 @@ package fr.cg95.cvq.business.users;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.apache.commons.lang.StringUtils;
 
 import net.sf.oval.constraint.MatchPattern;
@@ -12,13 +19,8 @@ import net.sf.oval.constraint.NotNull;
 import fr.cg95.cvq.service.users.IsFrenchRIB;
 import fr.cg95.cvq.xml.common.FrenchRIBType;
 
-/**
- * @hibernate.class
- *  table="french_r_i_b"
- *  lazy="false"
- *
- * @author jsb@zenexity.fr
- */
+@Entity
+@Table(name="french_r_i_b")
 @IsFrenchRIB
 public class FrenchRIB implements Serializable, Cloneable {
 
@@ -55,25 +57,31 @@ public class FrenchRIB implements Serializable, Cloneable {
         return result;
     }
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
     @NotNull(message = "bankCode")
     @Min(value = 1, message = "bankCode")
     @Max(value = 99999, message = "bankCode")
+    @Column(name="bank_code",nullable=false)
     private Integer bankCode;
 
     @NotNull(message = "counterCode")
     @Min(value = 0, message = "counterCode")
     @Max(value = 99999, message = "counterCode")
+    @Column(name="counter_code",nullable=false)
     private Integer counterCode;
 
     @NotNull(message = "accountNumber")
     @MatchPattern(pattern = {"^[a-zA-Z0-9]{1,11}$"}, message = "accountNumber")
+    @Column(name="account_number",length=11, nullable=false)
     private String accountNumber;
 
     @NotNull(message = "accountKey")
     @Min(value = 1, message = "accountKey")
     @Max(value = 97, message = "accountKey")
+    @Column(name="account_key",nullable=false)
     private Integer accountKey;
 
     public String format(String separator) {
@@ -85,11 +93,6 @@ public class FrenchRIB implements Serializable, Cloneable {
         }, separator);
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return id;
     }
@@ -98,11 +101,6 @@ public class FrenchRIB implements Serializable, Cloneable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="bank_code"
-     *  not-null="true"
-     */
     public Integer getBankCode() {
         return bankCode;
     }
@@ -111,11 +109,6 @@ public class FrenchRIB implements Serializable, Cloneable {
         this.bankCode = bankCode;
     }
 
-    /**
-     * @hibernate.property
-     *  column="counter_code"
-     *  not-null="true"
-     */
     public Integer getCounterCode() {
         return counterCode;
     }
@@ -124,12 +117,6 @@ public class FrenchRIB implements Serializable, Cloneable {
         this.counterCode = counterCode;
     }
 
-    /**
-     * @hibernate.property
-     *  column="account_number"
-     *  length="11"
-     *  not-null="true"
-     */
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -138,11 +125,6 @@ public class FrenchRIB implements Serializable, Cloneable {
         this.accountNumber = StringUtils.leftPad(accountNumber, 11, '0').toUpperCase();
     }
 
-    /**
-     * @hibernate.property
-     *  column="account_key"
-     *  not-null="true"
-     */
     public Integer getAccountKey() {
         return accountKey;
     }

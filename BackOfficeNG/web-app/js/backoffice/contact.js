@@ -10,19 +10,19 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
   zcb.Contact = function() {
     var panel = undefined;
     var widgets = {
-      "Mail" :
+      "MAIL" :
         { recipient : undefined, message : "template", validation : "trace"},
-      "Email" :
+      "EMAIL" :
         { recipient : "email", message : "template", validation : "send"},
-      "HomePhone" :
+      "HOME_PHONE" :
         { recipient : "homePhone", message : undefined, validation : "trace"},
-      "OfficePhone" :
+      "OFFICE_PHONE" :
         { recipient : "officePhone", message : undefined, validation : "trace"},
-      "MobilePhone" :
+      "MOBILE_PHONE" :
         { recipient : "mobilePhone", message : undefined, validation : "trace"},
-      "Sms" :
+      "SMS" :
         { recipient : "mobilePhone", message : "sms", validation : "send"},
-      "LocalAuthorityOffice" :
+      "LOCAL_AUTHORITY_OFFICE" :
         { recipient : undefined, message : "template", validation : "trace"}
     };
     return {

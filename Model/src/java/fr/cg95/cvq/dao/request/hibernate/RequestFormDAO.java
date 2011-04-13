@@ -7,7 +7,7 @@ import org.hibernate.criterion.Order;
 
 import fr.cg95.cvq.business.request.RequestForm;
 import fr.cg95.cvq.business.request.RequestFormType;
-import fr.cg95.cvq.dao.hibernate.GenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaTemplate;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestFormDAO;
 import fr.cg95.cvq.util.Critere;
@@ -17,7 +17,7 @@ import fr.cg95.cvq.util.Critere;
  *
  * @author bor@zenexity.fr
  */
-public class RequestFormDAO extends GenericDAO implements IRequestFormDAO {
+public class RequestFormDAO extends JpaTemplate<RequestForm,Long> implements IRequestFormDAO {
 
     public RequestFormDAO() {
         super();

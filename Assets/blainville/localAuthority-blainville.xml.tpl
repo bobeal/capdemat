@@ -8,8 +8,21 @@
     init-method="init">
     <property name="name" value="blainville"/>
     <property name="defaultServerName" value="localhost"/>
-    <property name="sessionFactory">
-      <ref bean="sessionFactory_blainville" />
+    <property name="jpaConfigurations">
+        <props>
+            <prop key="hibernate.show_sql">false</prop>
+            <prop key="hibernate.format_sql">false</prop>
+            <prop key="hibernate.connection.driver_class">org.postgresql.Driver</prop>
+            <prop key="hibernate.connection.url">jdbc:postgresql://localhost:5432/capdemat_blainville_${branch}</prop>
+            <prop key="hibernate.connection.username">capdemat</prop>
+            <prop key="hibernate.connection.password">capdematpass</prop>
+            <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+            <prop key="acquireIncrement">3</prop>
+            <prop key="initialPoolSize">0</prop>
+            <prop key="minPoolSize">0</prop>
+            <prop key="maxStatements">24</prop>
+            <prop key="maxIdleTime">300</prop>
+        </props>
     </property>
     <property name="paymentServices">
       <map>
@@ -125,36 +138,6 @@
         </entry>
       </map>
     </property>
-  </bean>
-
-  <bean id="sessionFactory_blainville"
-    class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
-    parent="abstractSessionFactory">
-    <property name="dataSource">
-      <ref bean="pgDataSource_blainville" />
-    </property>
-  </bean>
-
-  <bean id="pgDataSource_blainville"
-    class="com.mchange.v2.c3p0.ComboPooledDataSource">
-    <property name="driverClass">
-      <value>org.postgresql.Driver</value>
-    </property>
-    <property name="jdbcUrl">
-      <value>jdbc:postgresql://localhost:5432/capdemat_blainville_${branch}</value>
-    </property>
-    <property name="user">
-      <value>capdemat</value>
-    </property>
-    <property name="password">
-      <value>capdematpass</value>
-    </property>
-    <property name="acquireIncrement" value="3" />
-    <property name="initialPoolSize" value="0" />
-    <property name="minPoolSize" value="0" />
-    <property name="maxPoolSize" value="24" />
-    <property name="maxStatements" value="0"/>
-    <property name="maxIdleTime" value="300" />
   </bean>
 
 </beans>

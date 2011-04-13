@@ -8,7 +8,7 @@ import org.hibernate.type.Type;
 
 import fr.cg95.cvq.business.request.RequestNote;
 import fr.cg95.cvq.business.request.RequestNoteType;
-import fr.cg95.cvq.dao.hibernate.GenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaTemplate;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestNoteDAO;
 
@@ -17,7 +17,7 @@ import fr.cg95.cvq.dao.request.IRequestNoteDAO;
  * 
  * @author bor@zenexity.fr
  */
-public class RequestNoteDAO extends GenericDAO implements IRequestNoteDAO {
+public class RequestNoteDAO extends JpaTemplate<RequestNote, Long> implements IRequestNoteDAO {
 
     public List<RequestNote> listByRequestAndType(final Long requestId, RequestNoteType type) {
 

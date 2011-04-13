@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.urbanism;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="alignment_numbering_connection_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="alignment_numbering_connection_request")
 public class AlignmentNumberingConnectionRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -148,11 +151,8 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -161,19 +161,15 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
     
     private java.math.BigInteger area;
 
-    public final void setArea(final java.math.BigInteger area) {
+    public void setArea(final java.math.BigInteger area) {
         this.area = area;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="area"
-        *  type="serializable"
-        
+    @Column(name="area" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
-    */
-    public final java.math.BigInteger getArea() {
+    public java.math.BigInteger getArea() {
         return this.area;
     }
   
@@ -187,18 +183,14 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
     
     private Boolean isAccountAddress;
 
-    public final void setIsAccountAddress(final Boolean isAccountAddress) {
+    public void setIsAccountAddress(final Boolean isAccountAddress) {
         this.isAccountAddress = isAccountAddress;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="is_account_address"
-        
+    @Column(name="is_account_address"  )
       
-    */
-    public final Boolean getIsAccountAddress() {
+    public Boolean getIsAccountAddress() {
         return this.isAccountAddress;
     }
   
@@ -212,18 +204,14 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
     
     private Boolean isAlignment;
 
-    public final void setIsAlignment(final Boolean isAlignment) {
+    public void setIsAlignment(final Boolean isAlignment) {
         this.isAlignment = isAlignment;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="is_alignment"
-        
+    @Column(name="is_alignment"  )
       
-    */
-    public final Boolean getIsAlignment() {
+    public Boolean getIsAlignment() {
         return this.isAlignment;
     }
   
@@ -237,18 +225,14 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
     
     private Boolean isConnection;
 
-    public final void setIsConnection(final Boolean isConnection) {
+    public void setIsConnection(final Boolean isConnection) {
         this.isConnection = isConnection;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="is_connection"
-        
+    @Column(name="is_connection"  )
       
-    */
-    public final Boolean getIsConnection() {
+    public Boolean getIsConnection() {
         return this.isConnection;
     }
   
@@ -262,36 +246,28 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
     
     private Boolean isNumbering;
 
-    public final void setIsNumbering(final Boolean isNumbering) {
+    public void setIsNumbering(final Boolean isNumbering) {
         this.isNumbering = isNumbering;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="is_numbering"
-        
+    @Column(name="is_numbering"  )
       
-    */
-    public final Boolean getIsNumbering() {
+    public Boolean getIsNumbering() {
         return this.isNumbering;
     }
   
     
     private String locality;
 
-    public final void setLocality(final String locality) {
+    public void setLocality(final String locality) {
         this.locality = locality;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="locality"
-        
+    @Column(name="locality"  )
       
-    */
-    public final String getLocality() {
+    public String getLocality() {
         return this.locality;
     }
   
@@ -305,18 +281,14 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
     
     private Boolean moreThanTwoYears;
 
-    public final void setMoreThanTwoYears(final Boolean moreThanTwoYears) {
+    public void setMoreThanTwoYears(final Boolean moreThanTwoYears) {
         this.moreThanTwoYears = moreThanTwoYears;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="more_than_two_years"
-        
+    @Column(name="more_than_two_years"  )
       
-    */
-    public final Boolean getMoreThanTwoYears() {
+    public Boolean getMoreThanTwoYears() {
         return this.moreThanTwoYears;
     }
   
@@ -330,19 +302,15 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
     
     private java.math.BigInteger number;
 
-    public final void setNumber(final java.math.BigInteger number) {
+    public void setNumber(final java.math.BigInteger number) {
         this.number = number;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="number"
-        *  type="serializable"
-        
+    @Column(name="number" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
-    */
-    public final java.math.BigInteger getNumber() {
+    public java.math.BigInteger getNumber() {
         return this.number;
     }
   
@@ -381,19 +349,15 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.Address otherAddress;
 
-    public final void setOtherAddress(final fr.cg95.cvq.business.users.Address otherAddress) {
+    public void setOtherAddress(final fr.cg95.cvq.business.users.Address otherAddress) {
         this.otherAddress = otherAddress;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="other_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="other_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getOtherAddress() {
+    public fr.cg95.cvq.business.users.Address getOtherAddress() {
         return this.otherAddress;
     }
   
@@ -432,19 +396,15 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.Address ownerAddress;
 
-    public final void setOwnerAddress(final fr.cg95.cvq.business.users.Address ownerAddress) {
+    public void setOwnerAddress(final fr.cg95.cvq.business.users.Address ownerAddress) {
         this.ownerAddress = ownerAddress;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="owner_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="owner_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getOwnerAddress() {
+    public fr.cg95.cvq.business.users.Address getOwnerAddress() {
         return this.ownerAddress;
     }
   
@@ -483,18 +443,14 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
     
     private String ownerFirstNames;
 
-    public final void setOwnerFirstNames(final String ownerFirstNames) {
+    public void setOwnerFirstNames(final String ownerFirstNames) {
         this.ownerFirstNames = ownerFirstNames;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="owner_first_names"
-        
+    @Column(name="owner_first_names"  )
       
-    */
-    public final String getOwnerFirstNames() {
+    public String getOwnerFirstNames() {
         return this.ownerFirstNames;
     }
   
@@ -551,18 +507,14 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
     
     private String ownerLastName;
 
-    public final void setOwnerLastName(final String ownerLastName) {
+    public void setOwnerLastName(final String ownerLastName) {
         this.ownerLastName = ownerLastName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="owner_last_name"
-        *  length="38"
+    @Column(name="owner_last_name" , length=38 )
       
-    */
-    public final String getOwnerLastName() {
+    public String getOwnerLastName() {
         return this.ownerLastName;
     }
   
@@ -576,18 +528,15 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType requesterQuality;
 
-    public final void setRequesterQuality(final fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType requesterQuality) {
+    public void setRequesterQuality(final fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType requesterQuality) {
         this.requesterQuality = requesterQuality;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="requester_quality"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="requester_quality"  )
       
-    */
-    public final fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType getRequesterQuality() {
+    public fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType getRequesterQuality() {
         return this.requesterQuality;
     }
   
@@ -608,36 +557,28 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
     
     private String section;
 
-    public final void setSection(final String section) {
+    public void setSection(final String section) {
         this.section = section;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="section"
-        
+    @Column(name="section"  )
       
-    */
-    public final String getSection() {
+    public String getSection() {
         return this.section;
     }
   
     
     private String transportationRoute;
 
-    public final void setTransportationRoute(final String transportationRoute) {
+    public void setTransportationRoute(final String transportationRoute) {
         this.transportationRoute = transportationRoute;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="transportation_route"
-        
+    @Column(name="transportation_route"  )
       
-    */
-    public final String getTransportationRoute() {
+    public String getTransportationRoute() {
         return this.transportationRoute;
     }
   

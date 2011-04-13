@@ -1,46 +1,29 @@
 package fr.cg95.cvq.dao.hibernate;
 
-import org.apache.log4j.Logger;
-import org.hibernate.FlushMode;
-import org.hibernate.HibernateException;
+import java.util.List;
+import java.util.Map;
+
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.ejb.HibernateEntityManager;
+import org.hibernate.type.Type;
+
+import fr.cg95.cvq.dao.jpa.JpaUtil;
 
 /**
- * Basic Hibernate helper class, handles SessionFactory, Session and
- * Transaction.
- * <p>
- * Uses a static initializer for the initial SessionFactory creation and holds
- * Session and Transactions in thread local variables. All exceptions are
- * wrapped in an unchecked InfrastructureException.
- * 
- * @author christian@hibernate.org
- * @author Benoit Orihuela (bor@zenexity.fr)
+ * Only kept for backward compatibility, use JpaUtil instead.
+ * @author aca
  */
 public class HibernateUtil {
-
-    private static Logger logger = Logger.getLogger(HibernateUtil.class);
-
-    private static final ThreadLocal<SessionFactory> threadSessionFactory = new InheritableThreadLocal<SessionFactory>();
-    private static final ThreadLocal<Session> threadSession = new ThreadLocal<Session>();
-    private static final ThreadLocal<Transaction> threadTransaction = new ThreadLocal<Transaction>();
-
     /**
      * Returns the SessionFactory used for this static class.
      * 
+     * @deprecated use JpaUtil instead
      * @return SessionFactory
      */
     public static SessionFactory getSessionFactory() {
-        return threadSessionFactory.get();        
-    }
-
-    public static void setSessionFactory(SessionFactory sessionFactory) {
-        // FIXME : this a hack added to handle session closing problem
-        // TODO : identify the real cause and fix it properly
-        rollbackTransaction();
-        closeSession();
-        threadSessionFactory.set(sessionFactory);
+        return getSession().getSessionFactory();
     }
 
     /**
@@ -48,73 +31,97 @@ public class HibernateUtil {
      * <p/>
      * If no Session is open, opens a new Session for the running thread.
      * 
+     * @deprecated
      * @return Session
      */
     public static Session getSession() {
-        Session s = threadSession.get();
-        if (s == null) {
-            s = getSessionFactory().openSession();
-            threadSession.set(s);
-        }
-        return s;
+        HibernateEntityManager hem = (HibernateEntityManager) JpaUtil.getEntityManager();
+        return hem.getSession();
     }
 
     /**
      * Closes the Session local to the thread.
+     * @deprecated use JpaUtil instead
      */
     public static void closeSession() {
-        final Session s = threadSession.get();
-        threadSession.set(null);
-        if (s != null && s.isOpen()) {
-            s.close();
-        }
+        JpaUtil.close();
     }
 
     /**
      * Start a new database transaction.
+     * @deprecated use JpaUtil instead
      */
     public static void beginTransaction() {
-        Transaction tx = threadTransaction.get();
-        if (tx == null) {
-            logger.debug("Starting new database transaction in this thread.");
-            tx = getSession().beginTransaction();
-            getSession().setFlushMode(FlushMode.COMMIT);
-            threadTransaction.set(tx);
-        }
+        JpaUtil.beginTransaction();
     }
 
     /**
      * Commit the database transaction.
+     * @deprecated use JpaUtil instead
      */
     public static void commitTransaction() {
-        final Transaction tx = threadTransaction.get();
-        try {
-            if (tx != null && !tx.wasCommitted() && !tx.wasRolledBack()) {
-                logger.debug("Committing database transaction of this thread.");
-                tx.commit();
-            }
-            threadTransaction.set(null);
-        } catch (final HibernateException ex) {
-            rollbackTransaction();
-            throw ex;
-        }
+        JpaUtil.commitTransaction();
     }
 
     /**
      * Rollback the database transaction.
+     * @deprecated use JpaUtil instead
      */
     public static void rollbackTransaction() {
-        final Transaction tx = threadTransaction.get();
-        try {
-            threadTransaction.set(null);
-            if (tx != null && !tx.wasCommitted() && !tx.wasRolledBack()) {
-                logger.debug("Trying to rollback database transaction of this thread.");
-                tx.rollback();
-            }
-        } catch (final HibernateException ex) {
-            throw ex;
-        } finally {
-            closeSession();
+        JpaUtil.rollbackTransaction();
+    }
+
+    /**
+     * Builds sort hql statement, must be called after main(select) statement created
+     *
+     * @param sortParams Parameters map where key is fileld name (ex: [Alias].[FiledName]) and value is order direction (DESC/ASC), default ASC
+     * @param sb Buffer that contains first part of statement
+     * @deprecated
+     */
+    @Deprecated
+    public void buildSort(Map<String,String> sortParams, StringBuffer sb) {
+        String query = "";
+        if(sortParams == null) return;
+        for(String key : sortParams.keySet()) {
+            query += String.format(" %1$s %2$s ,",key,
+                sortParams.get(key)!=null ? sortParams.get(key) : "asc");
         }
+        if(query.length()>0) {
+            query = "order by "+query;
+            sb.append(query.substring(0,query.length()-2));
+        }
+    }
+
+    /**
+     * @deprecated
+     */
+    @Deprecated
+    public <T extends List> T execute(String hql, List<Type> typeList, List<Object> valueList,
+                                         Integer max, Integer offset) {
+        Type[] types = typeList.toArray(new Type[typeList.size()]);
+        Object[] values = valueList.toArray(new Object[valueList.size()]);
+
+        Query query = HibernateUtil.getSession().createQuery(hql);
+        if(max != null) {
+            query.setMaxResults(max);
+            query.setFirstResult(offset != null ? offset : 0);
+        }
+
+        //noinspection unchecked
+        return (T) query.setParameters(values, types).list();
+    }
+
+    /**
+     * @deprecated
+     */
+    @Deprecated
+    public <T extends Number> T execute(String hql, List<Type> typeList, List<Object> valueList) {
+        Type[] types = typeList.toArray(new Type[typeList.size()]);
+        Object[] values = valueList.toArray(new Object[valueList.size()]);
+
+        Query query = HibernateUtil.getSession().createQuery(hql).setParameters(values, types);
+
+        //noinspection unchecked
+        return (T)query.iterate().next();
     }
 }

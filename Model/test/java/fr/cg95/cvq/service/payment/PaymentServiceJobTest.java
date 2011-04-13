@@ -68,9 +68,9 @@ public class PaymentServiceJobTest extends PaymentTestCase {
     	assertEquals(3, listPayment.size());
     	
     	// Drop testing datas
-    	paymentDAO.delete(paymentDAO.findById(Payment.class, payment.getId()));
-    	paymentDAO.delete(paymentDAO.findById(Payment.class, payment2.getId()));
-    	paymentDAO.delete(paymentDAO.findById(Payment.class, payment3.getId()));
+        paymentDAO.delete(paymentDAO.findById(payment.getId()));
+        paymentDAO.delete(paymentDAO.findById(payment2.getId()));
+        paymentDAO.delete(paymentDAO.findById(payment3.getId()));
     	
         continueWithNewTransaction();
 
@@ -110,12 +110,12 @@ public class PaymentServiceJobTest extends PaymentTestCase {
     	assertTrue(listPayment.isEmpty());
     	
     	// Drop testing datas
-    	paymentDAO.delete(paymentDAO.findById(Payment.class, payment.getId()));
-    	paymentDAO.delete(paymentDAO.findById(Payment.class, payment2.getId()));
-    	paymentDAO.delete(paymentDAO.findById(Payment.class, payment3.getId()));
-    	paymentDAO.delete(paymentDAO.findById(Payment.class, payment4.getId()));
-    	paymentDAO.delete(paymentDAO.findById(Payment.class, payment5.getId()));
-    	paymentDAO.delete(paymentDAO.findById(Payment.class, payment6.getId()));
+        paymentDAO.delete(paymentDAO.findById(payment.getId()));
+        paymentDAO.delete(paymentDAO.findById(payment2.getId()));
+        paymentDAO.delete(paymentDAO.findById(payment3.getId()));
+        paymentDAO.delete(paymentDAO.findById(payment4.getId()));
+        paymentDAO.delete(paymentDAO.findById(payment5.getId()));
+        paymentDAO.delete(paymentDAO.findById(payment6.getId()));
     	
         continueWithNewTransaction();
 

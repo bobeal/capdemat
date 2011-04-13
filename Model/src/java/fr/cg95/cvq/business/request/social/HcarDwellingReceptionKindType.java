@@ -1,39 +1,41 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class HcarDwellingReceptionKindType extends PersistentStringEnum {
+public enum HcarDwellingReceptionKindType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final HcarDwellingReceptionKindType INTERNSHIP = new HcarDwellingReceptionKindType("Internship");
-  
-    public static final HcarDwellingReceptionKindType CLERKSHIP = new HcarDwellingReceptionKindType("Clerkship");
-  
+    INTERNSHIP("Internship"),
+    CLERKSHIP("Clerkship");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use HcarDwellingReceptionKindType.values() instead
+     * @deprecated only for backward
      */
-    private HcarDwellingReceptionKindType(String value) {
-        super(value);
+    @Deprecated 
+    public static HcarDwellingReceptionKindType[] allHcarDwellingReceptionKindTypes = HcarDwellingReceptionKindType.values();
+
+    private String legacyLabel;
+
+    private HcarDwellingReceptionKindType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public HcarDwellingReceptionKindType() {}
-
-    public static HcarDwellingReceptionKindType[] allHcarDwellingReceptionKindTypes = {
-        INTERNSHIP,
-        CLERKSHIP
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static HcarDwellingReceptionKindType getDefaultHcarDwellingReceptionKindType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of HcarDwellingReceptionKindType.something
+     * not the value of the name attribut.
+     */
     public static HcarDwellingReceptionKindType forString(final String enumAsString) {
-        for (HcarDwellingReceptionKindType value : allHcarDwellingReceptionKindTypes)
+        for (HcarDwellingReceptionKindType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultHcarDwellingReceptionKindType();

@@ -298,9 +298,8 @@ public final class PaymentService implements IPaymentService,
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
-    public final Payment getById(final Long id)
-        throws CvqObjectNotFoundException {
-        return (Payment) paymentDAO.findById(Payment.class, id);
+    public final Payment getById(final Long id) {
+        return paymentDAO.findById(id);
     }
 
     @Override
@@ -414,7 +413,7 @@ public final class PaymentService implements IPaymentService,
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void delete(Long id) throws CvqObjectNotFoundException {
+    public void delete(Long id) {
         Payment payment = getById(id);
         delete(payment);
     }
@@ -511,14 +510,13 @@ public final class PaymentService implements IPaymentService,
     public void onApplicationEvent(UserEvent event) {
         logger.debug("onApplicationEvent() got a user event of type " + event.getAction().getType());
         if (UserAction.Type.DELETION.equals(event.getAction().getType())) {
-            try {
-                userSearchService.getById(event.getAction().getTargetId());
+            if (userSearchService.getById(event.getAction().getTargetId()) != null) {
                 logger.debug("onApplicationEvent() nothing to delete for individual "
                     + event.getAction().getTargetId());
-            } catch (CvqObjectNotFoundException e) {
+            } else {
                 logger.debug("onApplicationEvent() deleting payments of home folder "
                     + event.getAction().getTargetId());
-                    deleteHomeFolderPayments(event.getAction().getTargetId());
+                deleteHomeFolderPayments(event.getAction().getTargetId());
             }
         }
     }

@@ -4,12 +4,12 @@ import java.util.List;
 
 import fr.cg95.cvq.business.request.Category;
 import fr.cg95.cvq.business.request.CategoryProfile;
-import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.IJpaTemplate;
 
 /**
  * @author bor@zenexity.fr
  */
-public interface ICategoryDAO extends IGenericDAO {
+public interface ICategoryDAO extends IJpaTemplate<Category,Long> {
 
     /**
      * Return the list of all known categories.

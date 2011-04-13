@@ -27,8 +27,9 @@ import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.ICategoryDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.IRequestTypeDAO;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.ExternalServiceBean;
+import fr.cg95.cvq.dao.users.IHomeFolderDAO;
+import fr.cg95.cvq.dao.users.IIndividualDAO;
 import fr.cg95.cvq.security.GenericAccessManager;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -52,6 +53,8 @@ public class RequestContextCheckAspect implements Ordered {
     private IRequestDAO requestDAO;
     private IRequestTypeDAO requestTypeDAO;
     private ICategoryDAO categoryDAO;
+    private IHomeFolderDAO homeFolderDAO;
+    private IIndividualDAO individualDAO;
 
     @Before("fr.cg95.cvq.SystemArchitecture.businessService() && @annotation(context) && within(fr.cg95.cvq.service.request..*)")
     public void contextAnnotatedMethod(JoinPoint joinPoint, Context context) {
@@ -88,16 +91,11 @@ public class RequestContextCheckAspect implements Ordered {
                 if (parameterAnnotation.annotationType().equals(IsUser.class)) {
                     if (argument instanceof Long) {
                         Long id = (Long) argument;
-                        try {
-                            requestDAO.findById(Individual.class, id);
-                            individualId = id;
-                        } catch (CvqObjectNotFoundException e1) {
-                            try {
-                                requestDAO.findById(HomeFolder.class, id);
+                        if (individualDAO.findById(id) == null) {
+                            if (homeFolderDAO.findById(id) != null)
                                 homeFolderId = id;
-                            } catch (CvqObjectNotFoundException e2) {
-                                // no user with this id
-                            }
+                        } else {
+                            individualId = id;
                         }
                     } else if (argument instanceof Individual) {
                         individualId = ((Individual)argument).getId();
@@ -109,19 +107,12 @@ public class RequestContextCheckAspect implements Ordered {
                 } else if (parameterAnnotation.annotationType().equals(IsRequester.class)) {
                     individualId = (Long) argument;
                 } else if (parameterAnnotation.annotationType().equals(IsRequest.class)) {
-                    try {
-                        request = findRequestByArgument(argument);
-                    } catch (CvqObjectNotFoundException confe) {
-                        // Handled in finally
-                        // FIXME Shouldn't be converted
-                    } finally {
-                        if (request == null) {
-                            throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
-                                    joinPoint.getSignature().getName(), context.types(),
-                                    context.privilege(),
-                                    "request not found using argument " + (i + 1) + ": "
-                                    + argument.getClass().getSimpleName());
-                        }
+                    request = findRequestByArgument(argument);
+                    if (request == null) {
+                        throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
+                                joinPoint.getSignature().getName(), context.types(), context
+                                        .privilege(), "request not found using argument " + (i + 1)
+                                        + ": " + argument.getClass().getSimpleName());
                     }
                     if (SecurityContext.isBackOfficeContext()) {
                         if (request.getRequestType() != null 
@@ -145,13 +136,11 @@ public class RequestContextCheckAspect implements Ordered {
                         return;
 
                     if (argument instanceof Long) {
-                        try {
-                            requestType = (RequestType) requestTypeDAO.findById(RequestType.class, (Long) argument);
-                        } catch (CvqObjectNotFoundException confe) {
+                        requestType = requestTypeDAO.findById((Long) argument);
+                        if (requestType == null)
                             throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
                                     joinPoint.getSignature().getName(), context.types(), context.privilege(),
                                     "unknown resource type : " + argument);
-                        }
                     } else if (argument instanceof RequestType) {
                         requestType = (RequestType) argument;
                     } else if (argument instanceof String) {
@@ -170,14 +159,11 @@ public class RequestContextCheckAspect implements Ordered {
                 } else if (parameterAnnotation.annotationType().equals(IsCategory.class)) {
                     Category categoryToCheck = null;
                     if (argument instanceof Long) {
-                        try {
-                            categoryToCheck =
-                                (Category) categoryDAO.findById(Category.class, (Long) argument);
-                        } catch (CvqObjectNotFoundException confe) {
+                        categoryToCheck = categoryDAO.findById((Long) argument);
+                        if (categoryToCheck == null)
                             throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
                                     joinPoint.getSignature().getName(), context.types(),
                                     context.privilege(), "unknown resource type : " + argument);
-                        }
                     } else if (argument instanceof Category) {
                         categoryToCheck = (Category) argument;
                     }
@@ -226,12 +212,7 @@ public class RequestContextCheckAspect implements Ordered {
                 }
             }
 
-            Category categoryToCheck = null;
-            try {
-                categoryToCheck = (Category) categoryDAO.findById(Category.class, categoryId);
-            } catch (CvqObjectNotFoundException confe) {
-                // this has been checked before
-            }
+            Category categoryToCheck = categoryDAO.findById(categoryId);
 
             // retrieve agent's profile on category
             CategoryProfile agentCategoryProfile = null;
@@ -308,7 +289,7 @@ public class RequestContextCheckAspect implements Ordered {
     }
 
     @SuppressWarnings(value="unchecked")
-    private Request findRequestByArgument(Object argument) throws CvqObjectNotFoundException {
+    private Request findRequestByArgument(Object argument) {
         Request request = null;
 
         if (argument instanceof Request) {
@@ -334,5 +315,13 @@ public class RequestContextCheckAspect implements Ordered {
         }
 
         return request;
+    }
+
+    public void setHomeFolderDAO(IHomeFolderDAO homeFolderDAO) {
+        this.homeFolderDAO = homeFolderDAO;
+    }
+
+    public void setIndividualDAO(IIndividualDAO individualDAO) {
+        this.individualDAO = individualDAO;
     }
 }

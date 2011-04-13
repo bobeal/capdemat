@@ -1,48 +1,44 @@
 package fr.cg95.cvq.business.request.civil;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class DeathCertificateMotiveType extends PersistentStringEnum {
+public enum DeathCertificateMotiveType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final DeathCertificateMotiveType NOTARY_ACT = new DeathCertificateMotiveType("NotaryAct");
-  
-    public static final DeathCertificateMotiveType MARRIAGE = new DeathCertificateMotiveType("Marriage");
-  
-    public static final DeathCertificateMotiveType PASSPORT = new DeathCertificateMotiveType("Passport");
-  
-    public static final DeathCertificateMotiveType PENSION = new DeathCertificateMotiveType("Pension");
-  
-    public static final DeathCertificateMotiveType OTHER = new DeathCertificateMotiveType("Other");
-  
+    NOTARY_ACT("NotaryAct"),
+    MARRIAGE("Marriage"),
+    PASSPORT("Passport"),
+    PENSION("Pension"),
+    OTHER("Other");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use DeathCertificateMotiveType.values() instead
+     * @deprecated only for backward
      */
-    private DeathCertificateMotiveType(String value) {
-        super(value);
+    @Deprecated 
+    public static DeathCertificateMotiveType[] allDeathCertificateMotiveTypes = DeathCertificateMotiveType.values();
+
+    private String legacyLabel;
+
+    private DeathCertificateMotiveType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public DeathCertificateMotiveType() {}
-
-    public static DeathCertificateMotiveType[] allDeathCertificateMotiveTypes = {
-        NOTARY_ACT,
-        MARRIAGE,
-        PASSPORT,
-        PENSION,
-        OTHER
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static DeathCertificateMotiveType getDefaultDeathCertificateMotiveType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of DeathCertificateMotiveType.something
+     * not the value of the name attribut.
+     */
     public static DeathCertificateMotiveType forString(final String enumAsString) {
-        for (DeathCertificateMotiveType value : allDeathCertificateMotiveTypes)
+        for (DeathCertificateMotiveType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultDeathCertificateMotiveType();

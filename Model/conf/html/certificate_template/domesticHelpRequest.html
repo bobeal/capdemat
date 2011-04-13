@@ -3,6 +3,7 @@
 <%
 
   import org.apache.commons.lang.StringUtils
+  import fr.cg95.cvq.util.EnumTool
   def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -110,7 +111,7 @@
           <p class="label">${esc(i18n.translate('dhr.property.dhrRequesterNationality.label'))}</p>
           <div class="response">
             <% if(rqt.dhrRequesterNationality) { %>
-              ${esc(i18n.translate('dhr.property.dhrRequesterNationality.' + StringUtils.uncapitalize(rqt.dhrRequesterNationality.toString())))}
+              ${esc(i18n.translate('dhr.property.dhrRequesterNationality.' + EnumTool.toLowerCamelCase(rqt.dhrRequesterNationality.toString())))}
             <% } %>
           </div>
           
@@ -143,7 +144,7 @@
           <p class="label">${esc(i18n.translate('dhr.property.dhrPrincipalPensionPlan.label'))}</p>
           <div class="response">
             <% if(rqt.dhrPrincipalPensionPlan) { %>
-              ${esc(i18n.translate('dhr.property.dhrPrincipalPensionPlan.' + StringUtils.uncapitalize(rqt.dhrPrincipalPensionPlan.toString())))}
+              ${esc(i18n.translate('dhr.property.dhrPrincipalPensionPlan.' + EnumTool.toLowerCamelCase(rqt.dhrPrincipalPensionPlan.toString())))}
             <% } %>
           </div>
           
@@ -177,7 +178,7 @@
           <p class="label">${esc(i18n.translate('dhr.property.dhrGuardianMeasure.label'))}</p>
           <div class="response">
             <% if(rqt.dhrGuardianMeasure) { %>
-              ${esc(i18n.translate('dhr.property.dhrGuardianMeasure.' + StringUtils.uncapitalize(rqt.dhrGuardianMeasure.toString())))}
+              ${esc(i18n.translate('dhr.property.dhrGuardianMeasure.' + EnumTool.toLowerCamelCase(rqt.dhrGuardianMeasure.toString())))}
             <% } %>
           </div>
           
@@ -257,7 +258,7 @@
           <p class="label">${esc(i18n.translate('dhr.property.dhrRequestKind.label'))}</p>
           <div class="response">
             <% if(rqt.dhrRequestKind) { %>
-              ${esc(i18n.translate('dhr.property.dhrRequestKind.' + StringUtils.uncapitalize(rqt.dhrRequestKind.toString())))}
+              ${esc(i18n.translate('dhr.property.dhrRequestKind.' + EnumTool.toLowerCamelCase(rqt.dhrRequestKind.toString())))}
             <% } %>
           </div>
           
@@ -266,7 +267,7 @@
           <p class="label">${esc(i18n.translate('dhr.property.dhrSpouseTitle.label'))}</p>
           <div class="response">
             <% if(rqt.dhrSpouseTitle) { %>
-              ${esc(i18n.translate('dhr.property.dhrSpouseTitle.' + StringUtils.uncapitalize(rqt.dhrSpouseTitle.toString())))}
+              ${esc(i18n.translate('dhr.property.dhrSpouseTitle.' + EnumTool.toLowerCamelCase(rqt.dhrSpouseTitle.toString())))}
             <% } %>
           </div>
           
@@ -275,7 +276,7 @@
           <p class="label">${esc(i18n.translate('dhr.property.dhrSpouseFamilyStatus.label'))}</p>
           <div class="response">
             <% if(rqt.dhrSpouseFamilyStatus) { %>
-              ${esc(i18n.translate('dhr.property.dhrSpouseFamilyStatus.' + StringUtils.uncapitalize(rqt.dhrSpouseFamilyStatus.toString())))}
+              ${esc(i18n.translate('dhr.property.dhrSpouseFamilyStatus.' + EnumTool.toLowerCamelCase(rqt.dhrSpouseFamilyStatus.toString())))}
             <% } %>
           </div>
           
@@ -301,7 +302,7 @@
           <p class="label">${esc(i18n.translate('dhr.property.dhrSpouseNationality.label'))}</p>
           <div class="response">
             <% if(rqt.dhrSpouseNationality) { %>
-              ${esc(i18n.translate('dhr.property.dhrSpouseNationality.' + StringUtils.uncapitalize(rqt.dhrSpouseNationality.toString())))}
+              ${esc(i18n.translate('dhr.property.dhrSpouseNationality.' + EnumTool.toLowerCamelCase(rqt.dhrSpouseNationality.toString())))}
             <% } %>
           </div>
           
@@ -346,7 +347,7 @@
           <p class="label">${esc(i18n.translate('dhr.property.dhrSpousePrincipalPensionPlan.label'))}</p>
           <div class="response">
             <% if(rqt.dhrSpousePrincipalPensionPlan) { %>
-              ${esc(i18n.translate('dhr.property.dhrSpousePrincipalPensionPlan.' + StringUtils.uncapitalize(rqt.dhrSpousePrincipalPensionPlan.toString())))}
+              ${esc(i18n.translate('dhr.property.dhrSpousePrincipalPensionPlan.' + EnumTool.toLowerCamelCase(rqt.dhrSpousePrincipalPensionPlan.toString())))}
             <% } %>
           </div>
           
@@ -434,7 +435,7 @@
           <p class="label">${esc(i18n.translate('dhr.property.dhrCurrentDwellingKind.label'))}</p>
           <div class="response">
             <% if(rqt.dhrCurrentDwellingKind) { %>
-              ${esc(i18n.translate('dhr.property.dhrCurrentDwellingKind.' + StringUtils.uncapitalize(rqt.dhrCurrentDwellingKind.toString())))}
+              ${esc(i18n.translate('dhr.property.dhrCurrentDwellingKind.' + EnumTool.toLowerCamelCase(rqt.dhrCurrentDwellingKind.toString())))}
             <% } %>
           </div>
           
@@ -448,7 +449,7 @@
           <p class="label">${esc(i18n.translate('dhr.property.dhrCurrentDwellingStatus.label'))}</p>
           <div class="response">
             <% if(rqt.dhrCurrentDwellingStatus) { %>
-              ${esc(i18n.translate('dhr.property.dhrCurrentDwellingStatus.' + StringUtils.uncapitalize(rqt.dhrCurrentDwellingStatus.toString())))}
+              ${esc(i18n.translate('dhr.property.dhrCurrentDwellingStatus.' + EnumTool.toLowerCamelCase(rqt.dhrCurrentDwellingStatus.toString())))}
             <% } %>
           </div>
           
@@ -485,7 +486,7 @@
         <p class="label">${esc(i18n.translate('dhr.property.dhrPreviousDwellingKind.label'))}</p>
           <div class="response">
             <% if(collectionIt.dhrPreviousDwellingKind) { %>
-              ${esc(i18n.translate('dhr.property.dhrPreviousDwellingKind.' + StringUtils.uncapitalize(collectionIt.dhrPreviousDwellingKind.toString())))}
+              ${esc(i18n.translate('dhr.property.dhrPreviousDwellingKind.' + EnumTool.toLowerCamelCase(collectionIt.dhrPreviousDwellingKind.toString())))}
             <% } %>
           </div>
           
@@ -494,7 +495,7 @@
         <p class="label">${esc(i18n.translate('dhr.property.dhrPreviousDwellingStatus.label'))}</p>
           <div class="response">
             <% if(collectionIt.dhrPreviousDwellingStatus) { %>
-              ${esc(i18n.translate('dhr.property.dhrPreviousDwellingStatus.' + StringUtils.uncapitalize(collectionIt.dhrPreviousDwellingStatus.toString())))}
+              ${esc(i18n.translate('dhr.property.dhrPreviousDwellingStatus.' + EnumTool.toLowerCamelCase(collectionIt.dhrPreviousDwellingStatus.toString())))}
             <% } %>
           </div>
           
@@ -583,7 +584,7 @@
         <p class="label">${esc(i18n.translate('dhr.property.dhrNotRealAssetType.label'))}</p>
           <div class="response">
             <% if(collectionIt.dhrNotRealAssetType) { %>
-              ${esc(i18n.translate('dhr.property.dhrNotRealAssetType.' + StringUtils.uncapitalize(collectionIt.dhrNotRealAssetType.toString())))}
+              ${esc(i18n.translate('dhr.property.dhrNotRealAssetType.' + EnumTool.toLowerCamelCase(collectionIt.dhrNotRealAssetType.toString())))}
             <% } %>
           </div>
           
@@ -592,7 +593,7 @@
         <p class="label">${esc(i18n.translate('dhr.property.dhrNotRealAssetKind.label'))}</p>
           <div class="response">
             <% if(collectionIt.dhrNotRealAssetKind) { %>
-              ${esc(i18n.translate('dhr.property.dhrNotRealAssetKind.' + StringUtils.uncapitalize(collectionIt.dhrNotRealAssetKind.toString())))}
+              ${esc(i18n.translate('dhr.property.dhrNotRealAssetKind.' + EnumTool.toLowerCamelCase(collectionIt.dhrNotRealAssetKind.toString())))}
             <% } %>
           </div>
           
@@ -690,7 +691,7 @@
     <% if (rqt.meansOfContact) { %>
       <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
         <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
-          ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+          ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.name))}
         </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
       <% } %>
     <% } else { %>

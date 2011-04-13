@@ -1,39 +1,41 @@
 package fr.cg95.cvq.business.request.school;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class ChoixDatePlacement extends PersistentStringEnum {
+public enum ChoixDatePlacement {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final ChoixDatePlacement CONNUE = new ChoixDatePlacement("Connue");
-  
-    public static final ChoixDatePlacement POSSIBLE = new ChoixDatePlacement("Possible");
-  
+    CONNUE("Connue"),
+    POSSIBLE("Possible");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use ChoixDatePlacement.values() instead
+     * @deprecated only for backward
      */
-    private ChoixDatePlacement(String value) {
-        super(value);
+    @Deprecated 
+    public static ChoixDatePlacement[] allChoixDatePlacements = ChoixDatePlacement.values();
+
+    private String legacyLabel;
+
+    private ChoixDatePlacement(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public ChoixDatePlacement() {}
-
-    public static ChoixDatePlacement[] allChoixDatePlacements = {
-        CONNUE,
-        POSSIBLE
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static ChoixDatePlacement getDefaultChoixDatePlacement() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of ChoixDatePlacement.something
+     * not the value of the name attribut.
+     */
     public static ChoixDatePlacement forString(final String enumAsString) {
-        for (ChoixDatePlacement value : allChoixDatePlacements)
+        for (ChoixDatePlacement value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultChoixDatePlacement();

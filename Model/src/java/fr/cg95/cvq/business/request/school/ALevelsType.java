@@ -1,66 +1,50 @@
 package fr.cg95.cvq.business.request.school;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class ALevelsType extends PersistentStringEnum {
+public enum ALevelsType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final ALevelsType ES = new ALevelsType("es");
-  
-    public static final ALevelsType L = new ALevelsType("l");
-  
-    public static final ALevelsType S = new ALevelsType("s");
-  
-    public static final ALevelsType STG = new ALevelsType("stg");
-  
-    public static final ALevelsType STI = new ALevelsType("sti");
-  
-    public static final ALevelsType STL = new ALevelsType("stl");
-  
-    public static final ALevelsType ST2S = new ALevelsType("st2s");
-  
-    public static final ALevelsType STAV = new ALevelsType("stav");
-  
-    public static final ALevelsType TMD = new ALevelsType("tmd");
-  
-    public static final ALevelsType H = new ALevelsType("h");
-  
-    public static final ALevelsType P = new ALevelsType("p");
-  
+    ES("es"),
+    L("l"),
+    S("s"),
+    STG("stg"),
+    STI("sti"),
+    STL("stl"),
+    ST2S("st2s"),
+    STAV("stav"),
+    TMD("tmd"),
+    H("h"),
+    P("p");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use ALevelsType.values() instead
+     * @deprecated only for backward
      */
-    private ALevelsType(String value) {
-        super(value);
+    @Deprecated 
+    public static ALevelsType[] allALevelsTypes = ALevelsType.values();
+
+    private String legacyLabel;
+
+    private ALevelsType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public ALevelsType() {}
-
-    public static ALevelsType[] allALevelsTypes = {
-        ES,
-        L,
-        S,
-        STG,
-        STI,
-        STL,
-        ST2S,
-        STAV,
-        TMD,
-        H,
-        P
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static ALevelsType getDefaultALevelsType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of ALevelsType.something
+     * not the value of the name attribut.
+     */
     public static ALevelsType forString(final String enumAsString) {
-        for (ALevelsType value : allALevelsTypes)
+        for (ALevelsType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultALevelsType();

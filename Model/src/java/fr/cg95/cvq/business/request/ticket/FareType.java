@@ -1,24 +1,24 @@
 package fr.cg95.cvq.business.request.ticket;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
+public enum FareType {
 
-public class FareType extends PersistentStringEnum {
+    PLEIN("Plein","Plein"),
+    REDUIT("Reduit", "Réduit");
+
+    /**
+     * @deprecated only for backward, use FareType.values() instead
+     */
+    public static final FareType[] allFareTypes = FareType.values();
 
     private static final long serialVersionUID = 1L;
-
-    public static final FareType PLEIN = new FareType("Plein","Plein");
-    public static final FareType REDUIT = new FareType("Reduit", "Réduit");
-
-    public static final FareType[] allFareTypes = { PLEIN, REDUIT };
+    private String name;
 
     private String label;
 
     private FareType(String type, String label) {
-        super(type);
+        this.name = type;
         this.label = label;
     }
-
-    public FareType() { /* Empty constructor for Hibernate */ }
 
     public String getLabel(){
         return label;
@@ -32,10 +32,15 @@ public class FareType extends PersistentStringEnum {
     }
 
     public static FareType forLabel(String enumAsLabel) {
-        for (FareType type : allFareTypes) {
+        for (FareType type : values()) {
             if (type.label.equals(enumAsLabel)) return type;
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
 

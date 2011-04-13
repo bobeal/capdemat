@@ -1,42 +1,42 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class HcarDwellingKindType extends PersistentStringEnum {
+public enum HcarDwellingKindType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final HcarDwellingKindType PLACE_OF_RESIDENCE = new HcarDwellingKindType("PlaceOfResidence");
-  
-    public static final HcarDwellingKindType THIRD_PARTY_PLACE_OF_RESIDENCE = new HcarDwellingKindType("ThirdPartyPlaceOfResidence");
-  
-    public static final HcarDwellingKindType OTHER = new HcarDwellingKindType("Other");
-  
+    PLACE_OF_RESIDENCE("PlaceOfResidence"),
+    THIRD_PARTY_PLACE_OF_RESIDENCE("ThirdPartyPlaceOfResidence"),
+    OTHER("Other");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use HcarDwellingKindType.values() instead
+     * @deprecated only for backward
      */
-    private HcarDwellingKindType(String value) {
-        super(value);
+    @Deprecated 
+    public static HcarDwellingKindType[] allHcarDwellingKindTypes = HcarDwellingKindType.values();
+
+    private String legacyLabel;
+
+    private HcarDwellingKindType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public HcarDwellingKindType() {}
-
-    public static HcarDwellingKindType[] allHcarDwellingKindTypes = {
-        PLACE_OF_RESIDENCE,
-        THIRD_PARTY_PLACE_OF_RESIDENCE,
-        OTHER
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static HcarDwellingKindType getDefaultHcarDwellingKindType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of HcarDwellingKindType.something
+     * not the value of the name attribut.
+     */
     public static HcarDwellingKindType forString(final String enumAsString) {
-        for (HcarDwellingKindType value : allHcarDwellingKindTypes)
+        for (HcarDwellingKindType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultHcarDwellingKindType();

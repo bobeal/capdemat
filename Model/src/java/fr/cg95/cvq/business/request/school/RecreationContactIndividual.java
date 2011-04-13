@@ -20,14 +20,15 @@ import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.school.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="recreation_contact_individual"
- *  lazy="false"
  */
+@Entity
+@Table(name="recreation_contact_individual")
 public class RecreationContactIndividual implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -133,11 +134,8 @@ public class RecreationContactIndividual implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -155,18 +153,14 @@ public class RecreationContactIndividual implements Serializable {
     
     private String officePhone;
 
-    public final void setOfficePhone(final String officePhone) {
+    public void setOfficePhone(final String officePhone) {
         this.officePhone = officePhone;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="office_phone"
-        *  length="10"
+
+    @Column(name="office_phone" , length=10 )
       
-    */
-    public final String getOfficePhone() {
+    public String getOfficePhone() {
         return this.officePhone;
     }
   
@@ -187,19 +181,15 @@ public class RecreationContactIndividual implements Serializable {
     
     private fr.cg95.cvq.business.users.Address address;
 
-    public final void setAddress(final fr.cg95.cvq.business.users.Address address) {
+    public void setAddress(final fr.cg95.cvq.business.users.Address address) {
         this.address = address;
     }
 
-    /**
-  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getAddress() {
+    public fr.cg95.cvq.business.users.Address getAddress() {
         return this.address;
     }
   
@@ -229,18 +219,14 @@ public class RecreationContactIndividual implements Serializable {
     
     private String firstName;
 
-    public final void setFirstName(final String firstName) {
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="first_name"
-        *  length="38"
+
+    @Column(name="first_name" , length=38 )
       
-    */
-    public final String getFirstName() {
+    public String getFirstName() {
         return this.firstName;
     }
   
@@ -270,18 +256,14 @@ public class RecreationContactIndividual implements Serializable {
     
     private String lastName;
 
-    public final void setLastName(final String lastName) {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="last_name"
-        *  length="38"
+
+    @Column(name="last_name" , length=38 )
       
-    */
-    public final String getLastName() {
+    public String getLastName() {
         return this.lastName;
     }
   
@@ -297,18 +279,14 @@ public class RecreationContactIndividual implements Serializable {
     
     private String homePhone;
 
-    public final void setHomePhone(final String homePhone) {
+    public void setHomePhone(final String homePhone) {
         this.homePhone = homePhone;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="home_phone"
-        *  length="10"
+
+    @Column(name="home_phone" , length=10 )
       
-    */
-    public final String getHomePhone() {
+    public String getHomePhone() {
         return this.homePhone;
     }
   

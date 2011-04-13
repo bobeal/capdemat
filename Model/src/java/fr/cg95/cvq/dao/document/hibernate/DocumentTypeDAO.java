@@ -6,7 +6,7 @@ import org.hibernate.Criteria;
 
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
-import fr.cg95.cvq.dao.hibernate.GenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaTemplate;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.util.Critere;
 
@@ -15,7 +15,7 @@ import fr.cg95.cvq.util.Critere;
  * 
  * @author bor@zenexity.fr
  */
-public class DocumentTypeDAO extends GenericDAO implements IDocumentTypeDAO {
+public class DocumentTypeDAO extends JpaTemplate<DocumentType,Long> implements IDocumentTypeDAO {
 
     public DocumentType findByType(final Integer typeId) {
         Criteria crit = HibernateUtil.getSession().createCriteria(DocumentType.class);

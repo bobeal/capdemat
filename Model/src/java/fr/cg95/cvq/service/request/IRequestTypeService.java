@@ -12,8 +12,6 @@ import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.Requirement;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.request.annotation.IsRequestType;
 import fr.cg95.cvq.util.Critere;
 
@@ -46,8 +44,7 @@ public interface IRequestTypeService {
     /**
      * Get a request type by id.
      */
-    RequestType getRequestTypeById(final Long requestTypeId)
-        throws CvqException;
+    RequestType getRequestTypeById(final Long requestTypeId);
 
     /**
      * Get a request type by label.
@@ -66,30 +63,26 @@ public interface IRequestTypeService {
      * Modify a requirement associated to a request type.
      */
     void modifyRequestTypeRequirement(@IsRequestType final Long requestTypeId,
-            Requirement requirement)
-        throws CvqException;
+            Requirement requirement);
 
     /**
      * Add a new requirement to the given request type.
      */
     void addRequestTypeRequirement(@IsRequestType final Long requestTypeId,
-            Long documentTypeId)
-        throws CvqException;
+            Long documentTypeId);
 
     /**
      * Remove the requirement between the given request type and document type.
      */
     void removeRequestTypeRequirement(@IsRequestType final Long requestTypeId,
-            Long documentTypeId)
-        throws CvqException;
+            Long documentTypeId);
 
     /**
      * Get the list of documents types allowed for the given request type.
      */
-    Set<DocumentType> getAllowedDocuments(final Long requestTypeId)
-        throws CvqException;
+    Set<DocumentType> getAllowedDocuments(final Long requestTypeId);
 
-    String getSubjectPolicy(final Long requestTypeId) throws CvqException;
+    String getSubjectPolicy(final Long requestTypeId);
     
     //////////////////////////////////////////////////////////
     // Seasons related methods
@@ -97,7 +90,7 @@ public interface IRequestTypeService {
 
     boolean isRegistrationOpen(final Long requestTypeId) throws CvqException;
 
-    boolean isOfRegistrationKind(final Long requestTypeId) throws CvqException;
+    boolean isOfRegistrationKind(final Long requestTypeId);
     
     /**
      * Associate a new season to the given request type.
@@ -159,8 +152,7 @@ public interface IRequestTypeService {
     Set<RequestSeason> getRequestSeasons(Long requestTypeId)
         throws CvqException;
 
-    RequestSeason getRequestSeason(@IsRequestType Long requestTypeId, Long id)
-        throws CvqException;
+    RequestSeason getRequestSeason(@IsRequestType Long requestTypeId, Long id);
 
     Set<RequestSeason> getOpenSeasons(RequestType requestType)
         throws CvqModelException;
@@ -172,7 +164,7 @@ public interface IRequestTypeService {
     /**
      * TODO ACMF
      */
-    RequestForm getRequestFormById(Long id) throws CvqException;
+    RequestForm getRequestFormById(Long id);
 
     /**
      * Method that process request form update/creation.
@@ -189,15 +181,14 @@ public interface IRequestTypeService {
      *
      * TODO : unused currently but should be
      */
-    void removeRequestTypeForm(@IsRequestType final Long requestTypeId, final Long requestFormId)
-        throws CvqException;
+    void removeRequestTypeForm(@IsRequestType final Long requestTypeId, final Long requestFormId);
 
     /**
      * Remove a request form.
      *
      * @deprecated use {@link #removeRequestTypeForm(Long, Long)} instead
      */
-    void removeRequestTypeForm(final Long requestFormId) throws CvqException;
+    void removeRequestTypeForm(final Long requestFormId);
 
     /**
      * Get request forms by request type and type of request form.
@@ -213,5 +204,5 @@ public interface IRequestTypeService {
     boolean checkArchivesPassword(String password)
         throws CvqException;
 
-    public List<String> getRulesAcceptanceFieldNames(Long requestTypeId) throws CvqException;
+    public List<String> getRulesAcceptanceFieldNames(Long requestTypeId);
 }

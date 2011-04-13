@@ -3,36 +3,43 @@ package fr.cg95.cvq.business.request;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-
-/** 
- * @hibernate.class
- *  table="request_note"
- *  lazy="false"
- *
- * @author bor@zenexity.fr
- */
+@Entity
+@Table(name="request_note")
 public class RequestNote implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/** identifier field */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
+
+    @Column(name="user_id")
     private Long userId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length=32)
     private RequestNoteType type;
+
+    @Column(length=1024)
     private String note;
+
     private Date date;
 
     /** default constructor */
     public RequestNote() {
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -41,10 +48,6 @@ public class RequestNote implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="user_id"
-     */
     public Long getUserId() {
         return this.userId;
     }
@@ -53,11 +56,6 @@ public class RequestNote implements Serializable {
         this.userId = userId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="type"
-     *  length="32"
-     */
     public RequestNoteType getType() {
         return this.type;
     }
@@ -66,11 +64,6 @@ public class RequestNote implements Serializable {
         this.type = type;
     }
 
-    /**
-     * @hibernate.property
-     *  column="note"
-     *  length="1024"
-     */
     public String getNote() {
         return this.note;
     }
@@ -86,10 +79,6 @@ public class RequestNote implements Serializable {
             .toString();
     }
 
-    /**
-     * @hibernate.property
-     *  column="date"
-     */
     public Date getDate() {
         return date;
     }

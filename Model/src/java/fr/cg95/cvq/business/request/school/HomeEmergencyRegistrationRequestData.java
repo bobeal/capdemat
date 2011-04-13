@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.school;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="home_emergency_registration_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="home_emergency_registration_request")
 public class HomeEmergencyRegistrationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -67,11 +70,8 @@ public class HomeEmergencyRegistrationRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -87,18 +87,14 @@ public class HomeEmergencyRegistrationRequestData implements Serializable {
     
     private java.util.Date dateDepart;
 
-    public final void setDateDepart(final java.util.Date dateDepart) {
+    public void setDateDepart(final java.util.Date dateDepart) {
         this.dateDepart = dateDepart;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="date_depart"
-        
+    @Column(name="date_depart"  )
       
-    */
-    public final java.util.Date getDateDepart() {
+    public java.util.Date getDateDepart() {
         return this.dateDepart;
     }
   
@@ -137,18 +133,14 @@ public class HomeEmergencyRegistrationRequestData implements Serializable {
     
     private String duree;
 
-    public final void setDuree(final String duree) {
+    public void setDuree(final String duree) {
         this.duree = duree;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="duree"
-        *  length="2"
+    @Column(name="duree" , length=2 )
       
-    */
-    public final String getDuree() {
+    public String getDuree() {
         return this.duree;
     }
   
@@ -178,18 +170,14 @@ public class HomeEmergencyRegistrationRequestData implements Serializable {
     
     private String telephone;
 
-    public final void setTelephone(final String telephone) {
+    public void setTelephone(final String telephone) {
         this.telephone = telephone;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="telephone"
-        *  length="10"
+    @Column(name="telephone" , length=10 )
       
-    */
-    public final String getTelephone() {
+    public String getTelephone() {
         return this.telephone;
     }
   

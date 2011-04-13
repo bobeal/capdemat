@@ -20,8 +20,7 @@ public interface IRequestActionService {
     /**
      * Get a specific action by ID.
      */
-    RequestAction getAction(@IsRequest final Long requestId, final Long id)
-        throws CvqObjectNotFoundException;
+    RequestAction getAction(@IsRequest final Long requestId, final Long id) throws CvqObjectNotFoundException;
 
     /**
      * Return whether the given request has an action trace with the given type.
@@ -29,38 +28,33 @@ public interface IRequestActionService {
     boolean hasAction(@IsRequest final Long requestId, final RequestActionType type)
         throws CvqException;
 
-    void addDraftCreationAction(@IsRequest Long requestId, Date date)
-        throws CvqException;
+    void addDraftCreationAction(@IsRequest Long requestId, Date date);
 
     /**
      * Add a creation action for the given request.
      *
      * Separated from other workflow actions because of authorizations concerns.
      */
-    void addCreationAction(final Long requestId, final Date date, final byte[] pdfData, final String note)
-        throws CvqException;
+    void addCreationAction(final Long requestId, final Date date, final byte[] pdfData, final String note);
 
     /**
      * Add a workflow action for the given request.
      */
     void addWorfklowAction(@IsRequest final Long requestId, final String note, final Date date,
-            final RequestState resultingState, final byte[] pdfData)
-        throws CvqException;
+            final RequestState resultingState, final byte[] pdfData);
 
     /**
      * Add an (non-workflow) action trace for the given request.
      * @param filename TODO
      */
     void addAction(@IsRequest final Long requestId, final RequestActionType type,
-        final String message, final String note, final byte[] pdfData, String filename)
-        throws CvqException;
+        final String message, final String note, final byte[] pdfData, String filename);
 
     /**
      * Add a system action trace for the given request.
      */
     void addSystemAction(@IsRequest final Long requestId,
-        final RequestActionType type)
-        throws CvqException;
+        final RequestActionType type);
 
     List<RequestAdminAction> getAdminActions();
 }

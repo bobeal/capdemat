@@ -17,7 +17,6 @@ import fr.cg95.cvq.dao.users.IAdultDAO;
 import fr.cg95.cvq.dao.users.IChildDAO;
 import fr.cg95.cvq.dao.users.IHomeFolderDAO;
 import fr.cg95.cvq.dao.users.IIndividualDAO;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
@@ -46,24 +45,23 @@ public class UserSearchService implements IUserSearchService {
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.READ)
-    public Individual getById(Long id)
-        throws CvqObjectNotFoundException {
-        return (Individual) individualDAO.findById(Individual.class, id);
-    }
-
-    @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.READ)
-    public Adult getAdultById(Long id)
-        throws CvqObjectNotFoundException {
-        return (Adult) adultDAO.findById(Adult.class, id);
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public Individual getById(Long id) {
+        return individualDAO.findById(id);
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public Child getChildById(Long id)
-        throws CvqObjectNotFoundException {
-        return (Child) childDAO.findById(Child.class, id);
+    public Adult getAdultById(Long id) {
+        Individual individual = adultDAO.findById(id);
+        return (individual instanceof Adult) ? (Adult) individual : null;
+    }
+
+    @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public Child getChildById(Long id) {
+        Individual individual = childDAO.findById(id);
+        return (individual instanceof Child) ? (Child) individual : null;
     }
 
     @Override
@@ -96,9 +94,8 @@ public class UserSearchService implements IUserSearchService {
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.READ)
-    public final HomeFolder getHomeFolderById(final Long id)
-        throws CvqObjectNotFoundException {
-        return (HomeFolder) homeFolderDAO.findById(HomeFolder.class, id);
+    public final HomeFolder getHomeFolderById(final Long id) {
+        return homeFolderDAO.findById(id);
     }
 
     @Override

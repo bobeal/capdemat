@@ -4,19 +4,21 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Inheritance;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
 import fr.cg95.cvq.service.payment.PaymentUtils;
 import fr.cg95.cvq.util.DateUtils;
 
-/**
- * Represent an invoice managed by an external service. This invoice can be already paid
- * or to be paid.
- * 
- * @hibernate.subclass
- *  discriminator-value="EXTERNAL_INVOICE_ITEM"
- *  lazy="false"
- * 
- * @author bor@zenexity.fr
- */
+@Entity
+@Inheritance
+@DiscriminatorValue(value="EXTERNAL_INVOICE_ITEM")
 public class ExternalInvoiceItem extends ExternalAccountItem {
 
     private static final long serialVersionUID = 1L;
@@ -25,15 +27,24 @@ public class ExternalInvoiceItem extends ExternalAccountItem {
     public static final String SEARCH_BY_EXPIRATION_DATE = "expirationDate";
     public static final String SEARCH_BY_INVOICE_STATE = "isPaid";
 
+    @Column(name="issue_date")
     private Date issueDate;
-    private Date expirationDate;
-    /** only available for already paid invoices */
-    private Date paymentDate;
-    private Boolean isPaid;
-    private Double totalValue;
 
+    @Column(name="expiration_date")
+    private Date expirationDate;
+
+    /** only available for already paid invoices */
+    @Column(name="payment_date")
+    private Date paymentDate;
+
+    @Column(name="is_paid")
+    private Boolean isPaid;
+
+    @Transient private Double totalValue;
+
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="externalInvoiceItem")
     private Set<ExternalInvoiceItemDetail> invoiceDetails;
-    
+
     public ExternalInvoiceItem(final String label, final Double amount, final Double totalValue,
             final String externalServiceLabel, final String externalItemId,
             final Date issueDate, final Date expirationDate, final Date paymentDate,
@@ -49,11 +60,7 @@ public class ExternalInvoiceItem extends ExternalAccountItem {
     public ExternalInvoiceItem() {
         super();
     }
-    
-    /**
-     * @hibernate.property
-     *  column="issue_date"
-     */
+
     public final Date getIssueDate() {
         return issueDate;
     }
@@ -62,10 +69,6 @@ public class ExternalInvoiceItem extends ExternalAccountItem {
         this.issueDate = issueDate;
     }
 
-    /**
-     * @hibernate.property
-     *  column="is_paid"
-     */
     public final Boolean getIsPaid() {
         return isPaid;
     }
@@ -90,16 +93,6 @@ public class ExternalInvoiceItem extends ExternalAccountItem {
      * {@link IHomeFolderService#loadExternalInvoiceDetails(ExternalInvoiceItem)}
      * to load them into this object.
      */
-    /**
-     * @hibernate.set
-     *  lazy="true"
-     *  cascade="all"
-     *  inverse="true"
-     * @hibernate.key
-     *  column="external_invoice_item_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.payment.ExternalInvoiceItemDetail"
-     */
     public final Set<ExternalInvoiceItemDetail> getInvoiceDetails() {
         if (this.invoiceDetails == null)
             return new HashSet<ExternalInvoiceItemDetail>();
@@ -117,10 +110,6 @@ public class ExternalInvoiceItem extends ExternalAccountItem {
         invoiceDetail.setExternalInvoiceItem(this);
     }
 
-    /**
-     * @hibernate.property
-     *  column="expiration_date"
-     */
     public final Date getExpirationDate() {
         return expirationDate;
     }
@@ -129,10 +118,6 @@ public class ExternalInvoiceItem extends ExternalAccountItem {
         this.expirationDate = expirationDate;
     }
 
-    /**
-     * @hibernate.property
-     *  column="payment_date"
-     */
     public final Date getPaymentDate() {
         return paymentDate;
     }

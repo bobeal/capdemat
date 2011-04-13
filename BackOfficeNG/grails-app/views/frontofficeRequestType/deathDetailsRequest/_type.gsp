@@ -4,9 +4,9 @@
   
     <label class="required"><g:message code="ddr.property.format.label" /> *  <span><g:message code="ddr.property.format.help" /></span></label>
             <ul class="required ${rqt.stepStates['type'].invalidFields.contains('format') ? 'validation-failed' : ''}">
-              <g:each in="${['FullCopy','MultilingualExtract']}">
+              <g:each in="${['FULL_COPY','MULTILINGUAL_EXTRACT']}">
               <li>
-                <input type="radio" id="format_${it}" class="required  validate-one-required" value="fr.cg95.cvq.business.request.civil.DeathCertificateFormatType_${it}" name="format" ${it == rqt.format.toString() ? 'checked="checked"': ''} title="<g:message code="ddr.property.format.validationError" />" />
+                <input type="radio" id="format_${it}" class="required  validate-one-required" value="${it}" name="format" ${it == rqt.format.toString() ? 'checked="checked"': ''} title="<g:message code="ddr.property.format.validationError" />" />
                 <label for="format_${it}"><g:capdematEnumToText var="${it}" i18nKeyPrefix="ddr.property.format" /></label>
               </li>
               </g:each>
@@ -27,8 +27,8 @@
     <label for="motive" class=""><g:message code="ddr.property.motive.label" />   <span><g:message code="ddr.property.motive.help" /></span></label>
             <select id="motive" name="motive" class="  validate-select ${rqt.stepStates['type'].invalidFields.contains('motive') ? 'validation-failed' : ''}" title="<g:message code="ddr.property.motive.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['NotaryAct','Marriage','Passport','Pension','Other']}">
-                <option value="fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType_${it}" ${it == rqt.motive?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="ddr.property.motive" /></option>
+              <g:each in="${['NOTARY_ACT','MARRIAGE','PASSPORT','PENSION','OTHER']}">
+                <option value="${it}" ${it == rqt.motive?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="ddr.property.motive" /></option>
               </g:each>
             </select>
             

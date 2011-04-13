@@ -1,47 +1,43 @@
 package fr.cg95.cvq.business.users;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * @author bor@zenexity.fr
  */
-public final class FamilyStatusType extends PersistentStringEnum {
+public enum FamilyStatusType {
 
-	private static final long serialVersionUID = 1L;
 
-	public static final FamilyStatusType SINGLE = new FamilyStatusType("Single");
-    public static final FamilyStatusType DIVORCED = new FamilyStatusType("Divorced");
-    public static final FamilyStatusType WIDOW = new FamilyStatusType("Widow");
-    public static final FamilyStatusType MARRIED = new FamilyStatusType("Married");
-    public static final FamilyStatusType COMMON_LAW_MARRIAGE = new FamilyStatusType("CommonLawMarriage");
-    public static final FamilyStatusType SEPARATED = new FamilyStatusType("Separated");
-    public static final FamilyStatusType PACS = new FamilyStatusType("PACS");
-    public static final FamilyStatusType OTHER = new FamilyStatusType("Other");
+    SINGLE("Single"),
+    DIVORCED("Divorced"),
+    WIDOW("Widow"),
+    MARRIED("Married"),
+    COMMON_LAW_MARRIAGE("CommonLawMarriage"),
+    SEPARATED("Separated"),
+    PACS("PACS"),
+    OTHER("Other");
+
+    private String legacyLabel;
+
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     /**
      * Prevent instantiation and subclassing with a private constructor.
      */
-    private FamilyStatusType(String status) {
-        super(status);
+    private FamilyStatusType(String legacyLabel) {
+        this.legacyLabel = legacyLabel;
     }
 
-    public FamilyStatusType() {}
 
-    public static final FamilyStatusType[] allFamilyStatusTypes = {
-        SINGLE,
-        DIVORCED,
-        WIDOW,
-        MARRIED,
-        COMMON_LAW_MARRIAGE,
-        SEPARATED,
-        PACS,
-        OTHER,
-    };
+    /**
+     * @deprecated only for backward, use FamilyStatusType.values() instead
+     */
+    public static final FamilyStatusType[] allFamilyStatusTypes = FamilyStatusType.values();
 
     public static FamilyStatusType getDefaultFamilyStatusType() {
         return OTHER;
     }
-    
+
     public static FamilyStatusType forString(String enumAsString) {
         if (enumAsString == null || enumAsString.equals(""))
             return OTHER;
@@ -64,5 +60,10 @@ public final class FamilyStatusType extends PersistentStringEnum {
             return OTHER;
 
         return OTHER;
+    }
+
+    @Override
+    public String toString() {
+        return legacyLabel;
     }
 }

@@ -7,7 +7,7 @@ import org.hibernate.Query;
 import fr.cg95.cvq.business.request.Category;
 import fr.cg95.cvq.business.request.CategoryProfile;
 import fr.cg95.cvq.dao.request.ICategoryDAO;
-import fr.cg95.cvq.dao.hibernate.GenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaTemplate;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 
 /**
@@ -15,7 +15,7 @@ import fr.cg95.cvq.dao.hibernate.HibernateUtil;
  * 
  * @author bor@zenexity.fr
  */
-public class CategoryDAO extends GenericDAO implements ICategoryDAO {
+public class CategoryDAO extends JpaTemplate<Category,Long> implements ICategoryDAO {
 
     @SuppressWarnings("unchecked")
     public List<Category> listAll() {
@@ -42,7 +42,7 @@ public class CategoryDAO extends GenericDAO implements ICategoryDAO {
             .append("join category.categoriesRoles categoriesRoles where categoriesRoles.agentId = :agentId ");
 
         if (categoryProfile != null)
-            sb.append("and categoriesRoles.profile = '").append(categoryProfile.toString())
+            sb.append("and categoriesRoles.profile = '").append(categoryProfile.name())
                 .append("'");
 
         Query query = HibernateUtil.getSession()

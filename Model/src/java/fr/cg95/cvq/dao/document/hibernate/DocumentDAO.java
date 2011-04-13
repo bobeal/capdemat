@@ -20,7 +20,7 @@ import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.document.DocumentState;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
-import fr.cg95.cvq.dao.hibernate.GenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaTemplate;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.util.Critere;
 
@@ -32,7 +32,7 @@ import fr.cg95.cvq.util.Critere;
  * 
  * TODO; refactor to conform to simple search DAO method pattern in CapDemat
  */
-public class DocumentDAO extends GenericDAO implements IDocumentDAO, PostDeleteEventListener {
+public class DocumentDAO extends JpaTemplate<Document, Long> implements IDocumentDAO, PostDeleteEventListener {
 
     @SuppressWarnings("unchecked")
     public List<Document> listProvidedDocuments(final Long docTypeId,
@@ -74,7 +74,7 @@ public class DocumentDAO extends GenericDAO implements IDocumentDAO, PostDeleteE
     public Integer searchCount(Hashtable<String,Object> searchParams) {
         Criteria criteria = this.buildSearchCriteria(searchParams);
         criteria.setProjection(Projections.rowCount());
-        return ((Integer)criteria.list().get(0)).intValue();
+        return ((Long)criteria.list().get(0)).intValue();
     }
 
     @SuppressWarnings("unchecked")
@@ -105,9 +105,9 @@ public class DocumentDAO extends GenericDAO implements IDocumentDAO, PostDeleteE
     public List<Long> listOutdated() {
         return HibernateUtil.getSession()
             .createQuery("select id from Document where state in (?, ?, ?) and endValidityDate < ?")
-            .setString(0, DocumentState.PENDING.toString())
-            .setString(1, DocumentState.CHECKED.toString())
-            .setString(2, DocumentState.VALIDATED.toString())
+            .setString(0, DocumentState.PENDING.name())
+            .setString(1, DocumentState.CHECKED.name())
+            .setString(2, DocumentState.VALIDATED.name())
             .setDate(3, new Date())
             .list();
     }

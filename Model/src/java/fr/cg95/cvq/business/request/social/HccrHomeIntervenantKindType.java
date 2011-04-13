@@ -1,42 +1,42 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class HccrHomeIntervenantKindType extends PersistentStringEnum {
+public enum HccrHomeIntervenantKindType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final HccrHomeIntervenantKindType CARER = new HccrHomeIntervenantKindType("Carer");
-  
-    public static final HccrHomeIntervenantKindType HOME_HELP = new HccrHomeIntervenantKindType("HomeHelp");
-  
-    public static final HccrHomeIntervenantKindType OTHER = new HccrHomeIntervenantKindType("Other");
-  
+    CARER("Carer"),
+    HOME_HELP("HomeHelp"),
+    OTHER("Other");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use HccrHomeIntervenantKindType.values() instead
+     * @deprecated only for backward
      */
-    private HccrHomeIntervenantKindType(String value) {
-        super(value);
+    @Deprecated 
+    public static HccrHomeIntervenantKindType[] allHccrHomeIntervenantKindTypes = HccrHomeIntervenantKindType.values();
+
+    private String legacyLabel;
+
+    private HccrHomeIntervenantKindType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public HccrHomeIntervenantKindType() {}
-
-    public static HccrHomeIntervenantKindType[] allHccrHomeIntervenantKindTypes = {
-        CARER,
-        HOME_HELP,
-        OTHER
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static HccrHomeIntervenantKindType getDefaultHccrHomeIntervenantKindType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of HccrHomeIntervenantKindType.something
+     * not the value of the name attribut.
+     */
     public static HccrHomeIntervenantKindType forString(final String enumAsString) {
-        for (HccrHomeIntervenantKindType value : allHccrHomeIntervenantKindTypes)
+        for (HccrHomeIntervenantKindType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultHccrHomeIntervenantKindType();

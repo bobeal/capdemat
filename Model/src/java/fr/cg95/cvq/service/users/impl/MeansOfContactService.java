@@ -11,7 +11,6 @@ import fr.cg95.cvq.business.users.MeansOfContact;
 import fr.cg95.cvq.business.users.MeansOfContactEnum;
 import fr.cg95.cvq.dao.users.IMeansOfContactDAO;
 import fr.cg95.cvq.exception.CvqModelException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextType;
@@ -30,8 +29,8 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
     private IMeansOfContactDAO meansOfContactDAO;
 
     @Override
-    public MeansOfContact getById(Long id) throws CvqObjectNotFoundException {
-        return (MeansOfContact) meansOfContactDAO.findById(MeansOfContact.class, id);
+    public MeansOfContact getById(Long id) {
+        return meansOfContactDAO.findById(id);
     }
 
     /* BE CAREFUL :
@@ -79,7 +78,7 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
 
     @Override
     public void disableMeansOfContact(Long mocId)
-        throws CvqModelException, CvqObjectNotFoundException {
+        throws CvqModelException {
         disableMeansOfContact(getById(mocId));
     }
 

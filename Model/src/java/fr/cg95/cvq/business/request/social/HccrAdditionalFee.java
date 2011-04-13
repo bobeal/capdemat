@@ -20,14 +20,15 @@ import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="hccr_additional_fee"
- *  lazy="false"
  */
+@Entity
+@Table(name="hccr_additional_fee")
 public class HccrAdditionalFee implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -110,11 +111,8 @@ public class HccrAdditionalFee implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -146,18 +144,14 @@ public class HccrAdditionalFee implements Serializable {
     
     private String additionalFeeKind;
 
-    public final void setAdditionalFeeKind(final String additionalFeeKind) {
+    public void setAdditionalFeeKind(final String additionalFeeKind) {
         this.additionalFeeKind = additionalFeeKind;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="additional_fee_kind"
-        *  length="30"
+
+    @Column(name="additional_fee_kind" , length=30 )
       
-    */
-    public final String getAdditionalFeeKind() {
+    public String getAdditionalFeeKind() {
         return this.additionalFeeKind;
     }
   
@@ -187,18 +181,14 @@ public class HccrAdditionalFee implements Serializable {
     
     private String additionalFeePeriodicity;
 
-    public final void setAdditionalFeePeriodicity(final String additionalFeePeriodicity) {
+    public void setAdditionalFeePeriodicity(final String additionalFeePeriodicity) {
         this.additionalFeePeriodicity = additionalFeePeriodicity;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="additional_fee_periodicity"
-        *  length="30"
+
+    @Column(name="additional_fee_periodicity" , length=30 )
       
-    */
-    public final String getAdditionalFeePeriodicity() {
+    public String getAdditionalFeePeriodicity() {
         return this.additionalFeePeriodicity;
     }
   
@@ -219,18 +209,14 @@ public class HccrAdditionalFee implements Serializable {
     
     private String additionalFeeCost;
 
-    public final void setAdditionalFeeCost(final String additionalFeeCost) {
+    public void setAdditionalFeeCost(final String additionalFeeCost) {
         this.additionalFeeCost = additionalFeeCost;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="additional_fee_cost"
-        *  length="6"
+
+    @Column(name="additional_fee_cost" , length=6 )
       
-    */
-    public final String getAdditionalFeeCost() {
+    public String getAdditionalFeeCost() {
         return this.additionalFeeCost;
     }
   

@@ -1,40 +1,41 @@
 package fr.cg95.cvq.business.users;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
+public enum RoleType {
 
-public final class RoleType extends PersistentStringEnum{
+    HOME_FOLDER_RESPONSIBLE("HomeFolderResponsible"),
+    CLR_MOTHER("ClrMother"),
+    CLR_FATHER("ClrFather"),
+    CLR_TUTOR("ClrTutor"),
+    TUTOR("Tutor");
 
-    public static final RoleType HOME_FOLDER_RESPONSIBLE = new RoleType("HomeFolderResponsible");
-    public static final RoleType CLR_MOTHER = new RoleType("ClrMother");
-    public static final RoleType CLR_FATHER = new RoleType("ClrFather");
-    public static final RoleType CLR_TUTOR = new RoleType("ClrTutor");
-    public static final RoleType TUTOR = new RoleType("Tutor");
-    
-    private static final long serialVersionUID = 1L;
+    private String legacyLabel;
+
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     /**
      * Prevent instantiation and subclassing with a private constructor.
      */
-    private RoleType(final String role) {
-        super(role);
-    }
-    
-    public RoleType() {
+    private RoleType(final String legacyLabel) {
+        this.legacyLabel = legacyLabel;
     }
 
-    public static final RoleType[] allRoleTypes = { HOME_FOLDER_RESPONSIBLE, CLR_MOTHER,
-        CLR_FATHER, CLR_TUTOR, TUTOR };
-    
+    /**
+     * @deprecated only for backward, use values() instead
+     */
+    public static final RoleType[] allRoleTypes = RoleType.values();
+
     public static final RoleType[] childRoleTypes = { CLR_MOTHER, CLR_FATHER, CLR_TUTOR };
-    
+
     public static final RoleType[] adultRoleTypes = { TUTOR };
-    
+
     public static final RoleType[] homeFolderRoleTypes = { HOME_FOLDER_RESPONSIBLE, TUTOR };
-    
+
     public static RoleType forString(String role) {
         if (role == null || role.length() == 0)
             return null;
-        
+
         if (role.equals(HOME_FOLDER_RESPONSIBLE.toString()))
             return HOME_FOLDER_RESPONSIBLE;
         else if (role.equals(CLR_MOTHER.toString()))
@@ -45,7 +46,12 @@ public final class RoleType extends PersistentStringEnum{
             return CLR_TUTOR;
         else if (role.equals(TUTOR.toString()))
             return TUTOR;
-        
+
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return legacyLabel;
     }
 }

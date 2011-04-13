@@ -4,17 +4,21 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import fr.cg95.cvq.business.request.RequestData;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
- * @hibernate.class
- *  table="home_folder_modification_request"
- *  lazy="false"
- *
  * @author bor@zenexity.fr
  */
 @Deprecated
+@Entity
+@Table(name="home_folder_modification_request")
 public class HomeFolderModificationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,11 +32,8 @@ public class HomeFolderModificationRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }

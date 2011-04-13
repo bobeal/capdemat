@@ -8,7 +8,7 @@ class CapdematUtils {
     public static adaptCapdematEnum(capdematState, i18nKeyPrefix) {
         return [
             "cssClass": "tag-" + capdematState.toString().toLowerCase(), 
-            "i18nKey": i18nKeyPrefix + "." + StringUtils.pascalToCamelCase(capdematState.toString()),
+            "i18nKey": i18nKeyPrefix + "." + StringUtils.toLowerCamelCase(capdematState.toString()),
             "enumString": capdematState.toString()
         ]
     }

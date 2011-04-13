@@ -1,36 +1,37 @@
 package fr.cg95.cvq.business.users;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * @author bor@zenexity.fr
  */
-public final class TitleType extends PersistentStringEnum {
+public enum TitleType {
+    MISTER("Mister"),
+    MADAM("Madam"),
+    MISS("Miss"),
+    AGENCY("Agency"),
+    UNKNOWN("Unknown");
 
-    private static final long serialVersionUID = 1L;
+    private String legacyLabel;
 
-    public static final TitleType MISTER = new TitleType("Mister");
-    public static final TitleType MADAM = new TitleType("Madam");
-    public static final TitleType MISS = new TitleType("Miss");
-    public static final TitleType AGENCY = new TitleType("Agency");
-    public static final TitleType UNKNOWN = new TitleType("Unknown");
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     /**
      * Prevent instantiation and subclassing with a private constructor.
      */
-    private TitleType(String type) {
-        super(type);
+    private TitleType(String legacyLabel) {
+        this.legacyLabel = legacyLabel;
     }
 
-    public TitleType() {
-    }
-
-    public static final TitleType[] allTitleTypes = { MISTER, MADAM, MISS, AGENCY, UNKNOWN };
+    /**
+     * @deprecated only for backward, use values() instead
+     */
+    public static final TitleType[] allTitleTypes = TitleType.values();
 
     public static TitleType getDefaultTitleType() {
         return UNKNOWN;
     }
-    
+
     public static TitleType forString(String enumAsString) {
         if (enumAsString == null || enumAsString.equals(""))
             return UNKNOWN;
@@ -45,5 +46,10 @@ public final class TitleType extends PersistentStringEnum {
             return AGENCY;
 
         return UNKNOWN;
+    }
+
+    @Override
+    public String toString() {
+        return legacyLabel;
     }
 }

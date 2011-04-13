@@ -137,17 +137,17 @@ public class BirthDetailsRequest extends Request implements Serializable {
         fatherInformationTypeFatherInformation.setFatherLastName(getFatherLastName());
       
         if (getFormat() != null)
-            birthDetailsRequest.setFormat(fr.cg95.cvq.xml.request.civil.BirthCertificateFormatType.Enum.forString(getFormat().toString()));
+            birthDetailsRequest.setFormat(fr.cg95.cvq.xml.request.civil.BirthCertificateFormatType.Enum.forString(getFormat().getLegacyLabel()));
         MotherInformationType motherInformationTypeMotherInformation = birthDetailsRequest.addNewMotherInformation();
         motherInformationTypeMotherInformation.setMotherFirstNames(getMotherFirstNames());
       
         motherInformationTypeMotherInformation.setMotherMaidenName(getMotherMaidenName());
       
         if (getMotive() != null)
-            birthDetailsRequest.setMotive(fr.cg95.cvq.xml.request.civil.BirthCertificateMotiveType.Enum.forString(getMotive().toString()));
+            birthDetailsRequest.setMotive(fr.cg95.cvq.xml.request.civil.BirthCertificateMotiveType.Enum.forString(getMotive().getLegacyLabel()));
       
         if (getRequesterQuality() != null)
-            birthDetailsRequest.setRequesterQuality(fr.cg95.cvq.xml.request.civil.BirthRequesterQualityType.Enum.forString(getRequesterQuality().toString()));
+            birthDetailsRequest.setRequesterQuality(fr.cg95.cvq.xml.request.civil.BirthRequesterQualityType.Enum.forString(getRequesterQuality().getLegacyLabel()));
       
         birthDetailsRequest.setRequesterQualityPrecision(getRequesterQualityPrecision());
       

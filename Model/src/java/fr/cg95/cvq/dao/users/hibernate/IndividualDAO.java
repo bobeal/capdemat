@@ -17,7 +17,8 @@ import fr.cg95.cvq.business.QoS;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.UserState;
-import fr.cg95.cvq.dao.hibernate.GenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaTemplate;
+import fr.cg95.cvq.dao.jpa.JpaUtil;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.users.IIndividualDAO;
 import fr.cg95.cvq.util.Critere;
@@ -28,9 +29,11 @@ import fr.cg95.cvq.util.Critere;
  * 
  * @author bor@zenexity.fr
  */
-public class IndividualDAO extends GenericDAO implements IIndividualDAO {
+public class IndividualDAO extends JpaTemplate<Individual,Long> implements IIndividualDAO {
 
     private static Logger logger = Logger.getLogger(IndividualDAO.class);
+
+    private static HibernateUtil hUtil = new HibernateUtil();
 
     public Individual findByFederationKey(final String federationKey) {
         Criteria crit = HibernateUtil.getSession().createCriteria(Individual.class);
@@ -76,12 +79,10 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
 
     public List<String> getSimilarLogins(final String baseLogin) {
 
-        StringBuffer sb = new StringBuffer().append("select individual.login ")
-            .append(" from Individual as individual").append(" where individual.login like ?");
+        return JpaUtil.getEntityManager()
+                      .createQuery("select adult.login from Adult as adult where adult.login like ?")
+                      .setParameter(1, baseLogin + "%").getResultList();
 
-        Query query = HibernateUtil.getSession().createQuery(sb.toString());
-        query.setString(0, baseLogin + "%");
-        return query.list();
     }
 
     @Override
@@ -98,7 +99,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
             .createQuery(sb.toString())
             .setLong(0, homeFolderId);
         if (role != null)
-            query.setString(1, role.toString());
+            query.setString(1, role.name());
         
         return query.list();
     }
@@ -129,7 +130,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
             .setLong(0, homeFolderId);
 
         for (int i = 0; i < roles.length; i++) {
-            query.setString(i + 1, roles[i].toString());
+            query.setString(i + 1, roles[i].name());
         }
         
         return query.list();
@@ -148,7 +149,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
             .createQuery(sb.toString())
             .setLong(0, subjectId);
         if (role != null)
-            query.setString(1, role.toString());
+            query.setString(1, role.name());
         
         return query.list();
     }
@@ -172,7 +173,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
             .addEntity(Individual.class).setLong(0, subjectId);
 
         for (int i = 0; i < roles.length; i++) {
-            query.setString(i + 1, roles[i].toString());
+            query.setString(i + 1, roles[i].name());
         }
 
         return query.list();
@@ -184,8 +185,8 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
         List<Object> values = new ArrayList<Object>();
         
         StringBuffer sb = this.buildStatement(criterias,types,values,"select distinct individual ");
-        this.buildSort(sortParams,sb);
-        return this.execute(sb.toString(),types,values,max,offset);
+        hUtil.buildSort(sortParams,sb);
+        return hUtil.execute(sb.toString(),types,values,max,offset);
     }
     
     public Integer searchCount(Set<Critere> criterias) {
@@ -193,7 +194,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
         List<Object> values = new ArrayList<Object>();
         
         StringBuffer sb = this.buildStatement(criterias,types,values,"select count(distinct individual.id) ");
-        return  (this.<Long>execute(sb.toString(),types,values)).intValue();
+        return  (hUtil.execute(sb.toString(),types,values)).intValue();
     }
     
     protected StringBuffer buildStatement(Set<Critere> criterias,List<Type> typeList,
@@ -252,7 +253,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
         // exclude archived individual if no UserState filter is used
         if (!searchByUserState) {
             sb.append(" and individual.state != ?");
-            objectList.add(UserState.ARCHIVED.toString());
+            objectList.add(UserState.ARCHIVED.name());
             typeList.add(Hibernate.STRING);
         }
 
@@ -263,7 +264,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
     public List<Individual> listTasks(QoS qoS, int max) {
         Query query = HibernateUtil.getSession()
             .createQuery("from Individual i where i.qoS = :qoS and homeFolder != null order by i.lastModificationDate")
-            .setString("qoS", qoS.toString());
+            .setString("qoS", qoS.name());
         if (max > 0)
             query.setMaxResults(max);
         return query.list();
@@ -273,7 +274,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
     public Long countTasks(QoS qoS) {
         return (Long)HibernateUtil.getSession()
             .createQuery("select count(*) from Individual i where i.qoS = :qoS and homeFolder != null")
-            .setString("qoS", qoS.toString())
+            .setString("qoS", qoS.name())
             .iterate().next();
     }
 
@@ -281,9 +282,9 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
     public List<Individual> searchTasks(Date date) {
         return HibernateUtil.getSession()
             .createQuery("from Individual i where i.state in (:new, :modified, :invalid) and (i.lastModificationDate is null or i.lastModificationDate <= :limitDate) and homeFolder != null order by i.lastModificationDate")
-            .setString("new", UserState.NEW.toString())
-            .setString("modified", UserState.MODIFIED.toString())
-            .setString("invalid", UserState.INVALID.toString())
+            .setString("new", UserState.NEW.name())
+            .setString("modified", UserState.MODIFIED.name())
+            .setString("invalid", UserState.INVALID.name())
             .setTimestamp("limitDate", date)
             .list();
     }

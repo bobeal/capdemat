@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.social;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="domestic_help_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="domestic_help_request")
 public class DomesticHelpRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -431,11 +434,8 @@ public class DomesticHelpRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -444,19 +444,15 @@ public class DomesticHelpRequestData implements Serializable {
     
     private java.math.BigInteger dhrAllowances;
 
-    public final void setDhrAllowances(final java.math.BigInteger dhrAllowances) {
+    public void setDhrAllowances(final java.math.BigInteger dhrAllowances) {
         this.dhrAllowances = dhrAllowances;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_allowances"
-        *  type="serializable"
-        
+    @Column(name="dhr_allowances" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
-    */
-    public final java.math.BigInteger getDhrAllowances() {
+    public java.math.BigInteger getDhrAllowances() {
         return this.dhrAllowances;
     }
   
@@ -477,18 +473,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private String dhrComplementaryPensionPlan;
 
-    public final void setDhrComplementaryPensionPlan(final String dhrComplementaryPensionPlan) {
+    public void setDhrComplementaryPensionPlan(final String dhrComplementaryPensionPlan) {
         this.dhrComplementaryPensionPlan = dhrComplementaryPensionPlan;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_complementary_pension_plan"
-        
+    @Column(name="dhr_complementary_pension_plan"  )
       
-    */
-    public final String getDhrComplementaryPensionPlan() {
+    public String getDhrComplementaryPensionPlan() {
         return this.dhrComplementaryPensionPlan;
     }
   
@@ -509,19 +501,15 @@ public class DomesticHelpRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.Address dhrCurrentDwellingAddress;
 
-    public final void setDhrCurrentDwellingAddress(final fr.cg95.cvq.business.users.Address dhrCurrentDwellingAddress) {
+    public void setDhrCurrentDwellingAddress(final fr.cg95.cvq.business.users.Address dhrCurrentDwellingAddress) {
         this.dhrCurrentDwellingAddress = dhrCurrentDwellingAddress;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="dhr_current_dwelling_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="dhr_current_dwelling_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getDhrCurrentDwellingAddress() {
+    public fr.cg95.cvq.business.users.Address getDhrCurrentDwellingAddress() {
         return this.dhrCurrentDwellingAddress;
     }
   
@@ -544,18 +532,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private java.util.Date dhrCurrentDwellingArrivalDate;
 
-    public final void setDhrCurrentDwellingArrivalDate(final java.util.Date dhrCurrentDwellingArrivalDate) {
+    public void setDhrCurrentDwellingArrivalDate(final java.util.Date dhrCurrentDwellingArrivalDate) {
         this.dhrCurrentDwellingArrivalDate = dhrCurrentDwellingArrivalDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_current_dwelling_arrival_date"
-        
+    @Column(name="dhr_current_dwelling_arrival_date"  )
       
-    */
-    public final java.util.Date getDhrCurrentDwellingArrivalDate() {
+    public java.util.Date getDhrCurrentDwellingArrivalDate() {
         return this.dhrCurrentDwellingArrivalDate;
     }
   
@@ -569,18 +553,15 @@ public class DomesticHelpRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.social.DhrDwellingKindType dhrCurrentDwellingKind;
 
-    public final void setDhrCurrentDwellingKind(final fr.cg95.cvq.business.request.social.DhrDwellingKindType dhrCurrentDwellingKind) {
+    public void setDhrCurrentDwellingKind(final fr.cg95.cvq.business.request.social.DhrDwellingKindType dhrCurrentDwellingKind) {
         this.dhrCurrentDwellingKind = dhrCurrentDwellingKind;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_current_dwelling_kind"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="dhr_current_dwelling_kind"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.DhrDwellingKindType getDhrCurrentDwellingKind() {
+    public fr.cg95.cvq.business.request.social.DhrDwellingKindType getDhrCurrentDwellingKind() {
         return this.dhrCurrentDwellingKind;
     }
   
@@ -621,18 +602,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private java.math.BigDecimal dhrCurrentDwellingNetArea;
 
-    public final void setDhrCurrentDwellingNetArea(final java.math.BigDecimal dhrCurrentDwellingNetArea) {
+    public void setDhrCurrentDwellingNetArea(final java.math.BigDecimal dhrCurrentDwellingNetArea) {
         this.dhrCurrentDwellingNetArea = dhrCurrentDwellingNetArea;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_current_dwelling_net_area"
-        
+    @Column(name="dhr_current_dwelling_net_area"  )
       
-    */
-    public final java.math.BigDecimal getDhrCurrentDwellingNetArea() {
+    public java.math.BigDecimal getDhrCurrentDwellingNetArea() {
         return this.dhrCurrentDwellingNetArea;
     }
   
@@ -655,18 +632,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private java.math.BigDecimal dhrCurrentDwellingNumberOfRoom;
 
-    public final void setDhrCurrentDwellingNumberOfRoom(final java.math.BigDecimal dhrCurrentDwellingNumberOfRoom) {
+    public void setDhrCurrentDwellingNumberOfRoom(final java.math.BigDecimal dhrCurrentDwellingNumberOfRoom) {
         this.dhrCurrentDwellingNumberOfRoom = dhrCurrentDwellingNumberOfRoom;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_current_dwelling_number_of_room"
-        
+    @Column(name="dhr_current_dwelling_number_of_room"  )
       
-    */
-    public final java.math.BigDecimal getDhrCurrentDwellingNumberOfRoom() {
+    public java.math.BigDecimal getDhrCurrentDwellingNumberOfRoom() {
         return this.dhrCurrentDwellingNumberOfRoom;
     }
   
@@ -682,18 +655,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private String dhrCurrentDwellingPhone;
 
-    public final void setDhrCurrentDwellingPhone(final String dhrCurrentDwellingPhone) {
+    public void setDhrCurrentDwellingPhone(final String dhrCurrentDwellingPhone) {
         this.dhrCurrentDwellingPhone = dhrCurrentDwellingPhone;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_current_dwelling_phone"
-        *  length="10"
+    @Column(name="dhr_current_dwelling_phone" , length=10 )
       
-    */
-    public final String getDhrCurrentDwellingPhone() {
+    public String getDhrCurrentDwellingPhone() {
         return this.dhrCurrentDwellingPhone;
     }
   
@@ -716,37 +685,30 @@ public class DomesticHelpRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.social.DhrDwellingStatusType dhrCurrentDwellingStatus;
 
-    public final void setDhrCurrentDwellingStatus(final fr.cg95.cvq.business.request.social.DhrDwellingStatusType dhrCurrentDwellingStatus) {
+    public void setDhrCurrentDwellingStatus(final fr.cg95.cvq.business.request.social.DhrDwellingStatusType dhrCurrentDwellingStatus) {
         this.dhrCurrentDwellingStatus = dhrCurrentDwellingStatus;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_current_dwelling_status"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="dhr_current_dwelling_status"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.DhrDwellingStatusType getDhrCurrentDwellingStatus() {
+    public fr.cg95.cvq.business.request.social.DhrDwellingStatusType getDhrCurrentDwellingStatus() {
         return this.dhrCurrentDwellingStatus;
     }
   
     
     private java.math.BigInteger dhrFurnitureInvestmentIncome;
 
-    public final void setDhrFurnitureInvestmentIncome(final java.math.BigInteger dhrFurnitureInvestmentIncome) {
+    public void setDhrFurnitureInvestmentIncome(final java.math.BigInteger dhrFurnitureInvestmentIncome) {
         this.dhrFurnitureInvestmentIncome = dhrFurnitureInvestmentIncome;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_furniture_investment_income"
-        *  type="serializable"
-        
+    @Column(name="dhr_furniture_investment_income" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
-    */
-    public final java.math.BigInteger getDhrFurnitureInvestmentIncome() {
+    public java.math.BigInteger getDhrFurnitureInvestmentIncome() {
         return this.dhrFurnitureInvestmentIncome;
     }
   
@@ -785,19 +747,15 @@ public class DomesticHelpRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.Address dhrGuardianAddress;
 
-    public final void setDhrGuardianAddress(final fr.cg95.cvq.business.users.Address dhrGuardianAddress) {
+    public void setDhrGuardianAddress(final fr.cg95.cvq.business.users.Address dhrGuardianAddress) {
         this.dhrGuardianAddress = dhrGuardianAddress;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="dhr_guardian_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="dhr_guardian_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getDhrGuardianAddress() {
+    public fr.cg95.cvq.business.users.Address getDhrGuardianAddress() {
         return this.dhrGuardianAddress;
     }
   
@@ -820,18 +778,15 @@ public class DomesticHelpRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.social.DhrGuardianMeasureType dhrGuardianMeasure;
 
-    public final void setDhrGuardianMeasure(final fr.cg95.cvq.business.request.social.DhrGuardianMeasureType dhrGuardianMeasure) {
+    public void setDhrGuardianMeasure(final fr.cg95.cvq.business.request.social.DhrGuardianMeasureType dhrGuardianMeasure) {
         this.dhrGuardianMeasure = dhrGuardianMeasure;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_guardian_measure"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="dhr_guardian_measure"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.DhrGuardianMeasureType getDhrGuardianMeasure() {
+    public fr.cg95.cvq.business.request.social.DhrGuardianMeasureType getDhrGuardianMeasure() {
         return this.dhrGuardianMeasure;
     }
   
@@ -888,18 +843,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private String dhrGuardianName;
 
-    public final void setDhrGuardianName(final String dhrGuardianName) {
+    public void setDhrGuardianName(final String dhrGuardianName) {
         this.dhrGuardianName = dhrGuardianName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_guardian_name"
-        *  length="38"
+    @Column(name="dhr_guardian_name" , length=38 )
       
-    */
-    public final String getDhrGuardianName() {
+    public String getDhrGuardianName() {
         return this.dhrGuardianName;
     }
   
@@ -913,37 +864,29 @@ public class DomesticHelpRequestData implements Serializable {
     
     private Boolean dhrHaveFamilyReferent;
 
-    public final void setDhrHaveFamilyReferent(final Boolean dhrHaveFamilyReferent) {
+    public void setDhrHaveFamilyReferent(final Boolean dhrHaveFamilyReferent) {
         this.dhrHaveFamilyReferent = dhrHaveFamilyReferent;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_have_family_referent"
-        
+    @Column(name="dhr_have_family_referent"  )
       
-    */
-    public final Boolean getDhrHaveFamilyReferent() {
+    public Boolean getDhrHaveFamilyReferent() {
         return this.dhrHaveFamilyReferent;
     }
   
     
     private java.math.BigInteger dhrIncomeTax;
 
-    public final void setDhrIncomeTax(final java.math.BigInteger dhrIncomeTax) {
+    public void setDhrIncomeTax(final java.math.BigInteger dhrIncomeTax) {
         this.dhrIncomeTax = dhrIncomeTax;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_income_tax"
-        *  type="serializable"
-        
+    @Column(name="dhr_income_tax" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
-    */
-    public final java.math.BigInteger getDhrIncomeTax() {
+    public java.math.BigInteger getDhrIncomeTax() {
         return this.dhrIncomeTax;
     }
   
@@ -957,19 +900,15 @@ public class DomesticHelpRequestData implements Serializable {
     
     private java.math.BigInteger dhrIncomesAnnualTotal;
 
-    public final void setDhrIncomesAnnualTotal(final java.math.BigInteger dhrIncomesAnnualTotal) {
+    public void setDhrIncomesAnnualTotal(final java.math.BigInteger dhrIncomesAnnualTotal) {
         this.dhrIncomesAnnualTotal = dhrIncomesAnnualTotal;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_incomes_annual_total"
-        *  type="serializable"
-        
+    @Column(name="dhr_incomes_annual_total" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
-    */
-    public final java.math.BigInteger getDhrIncomesAnnualTotal() {
+    public java.math.BigInteger getDhrIncomesAnnualTotal() {
         return this.dhrIncomesAnnualTotal;
     }
   
@@ -992,37 +931,29 @@ public class DomesticHelpRequestData implements Serializable {
     
     private Boolean dhrIsSpouseRetired;
 
-    public final void setDhrIsSpouseRetired(final Boolean dhrIsSpouseRetired) {
+    public void setDhrIsSpouseRetired(final Boolean dhrIsSpouseRetired) {
         this.dhrIsSpouseRetired = dhrIsSpouseRetired;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_is_spouse_retired"
-        
+    @Column(name="dhr_is_spouse_retired"  )
       
-    */
-    public final Boolean getDhrIsSpouseRetired() {
+    public Boolean getDhrIsSpouseRetired() {
         return this.dhrIsSpouseRetired;
     }
   
     
     private java.math.BigInteger dhrNetIncome;
 
-    public final void setDhrNetIncome(final java.math.BigInteger dhrNetIncome) {
+    public void setDhrNetIncome(final java.math.BigInteger dhrNetIncome) {
         this.dhrNetIncome = dhrNetIncome;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_net_income"
-        *  type="serializable"
-        
+    @Column(name="dhr_net_income" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
-    */
-    public final java.math.BigInteger getDhrNetIncome() {
+    public java.math.BigInteger getDhrNetIncome() {
         return this.dhrNetIncome;
     }
   
@@ -1045,25 +976,16 @@ public class DomesticHelpRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.social.DhrNotRealAsset> dhrNotRealAsset;
 
-    public final void setDhrNotRealAsset(final List<fr.cg95.cvq.business.request.social.DhrNotRealAsset> dhrNotRealAsset) {
+    public void setDhrNotRealAsset(final List<fr.cg95.cvq.business.request.social.DhrNotRealAsset> dhrNotRealAsset) {
         this.dhrNotRealAsset = dhrNotRealAsset;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="domestic_help_request_id"
-        * @hibernate.list-index
-        *  column="dhr_not_real_asset_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.social.DhrNotRealAsset"
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @OrderColumn(name="dhr_not_real_asset_index")
+    @JoinColumn(name="domestic_help_request_id")
       
-    */
-    public final List<fr.cg95.cvq.business.request.social.DhrNotRealAsset> getDhrNotRealAsset() {
+    public List<fr.cg95.cvq.business.request.social.DhrNotRealAsset> getDhrNotRealAsset() {
         return this.dhrNotRealAsset;
     }
   
@@ -1102,18 +1024,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private String dhrPensionPlanDetail;
 
-    public final void setDhrPensionPlanDetail(final String dhrPensionPlanDetail) {
+    public void setDhrPensionPlanDetail(final String dhrPensionPlanDetail) {
         this.dhrPensionPlanDetail = dhrPensionPlanDetail;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_pension_plan_detail"
-        
+    @Column(name="dhr_pension_plan_detail"  )
       
-    */
-    public final String getDhrPensionPlanDetail() {
+    public String getDhrPensionPlanDetail() {
         return this.dhrPensionPlanDetail;
     }
   
@@ -1136,25 +1054,16 @@ public class DomesticHelpRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.social.DhrPreviousDwelling> dhrPreviousDwelling;
 
-    public final void setDhrPreviousDwelling(final List<fr.cg95.cvq.business.request.social.DhrPreviousDwelling> dhrPreviousDwelling) {
+    public void setDhrPreviousDwelling(final List<fr.cg95.cvq.business.request.social.DhrPreviousDwelling> dhrPreviousDwelling) {
         this.dhrPreviousDwelling = dhrPreviousDwelling;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="domestic_help_request_id"
-        * @hibernate.list-index
-        *  column="dhr_previous_dwelling_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.social.DhrPreviousDwelling"
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @OrderColumn(name="dhr_previous_dwelling_index")
+    @JoinColumn(name="domestic_help_request_id")
       
-    */
-    public final List<fr.cg95.cvq.business.request.social.DhrPreviousDwelling> getDhrPreviousDwelling() {
+    public List<fr.cg95.cvq.business.request.social.DhrPreviousDwelling> getDhrPreviousDwelling() {
         return this.dhrPreviousDwelling;
     }
   
@@ -1168,18 +1077,15 @@ public class DomesticHelpRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType dhrPrincipalPensionPlan;
 
-    public final void setDhrPrincipalPensionPlan(final fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType dhrPrincipalPensionPlan) {
+    public void setDhrPrincipalPensionPlan(final fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType dhrPrincipalPensionPlan) {
         this.dhrPrincipalPensionPlan = dhrPrincipalPensionPlan;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_principal_pension_plan"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="dhr_principal_pension_plan"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType getDhrPrincipalPensionPlan() {
+    public fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType getDhrPrincipalPensionPlan() {
         return this.dhrPrincipalPensionPlan;
     }
   
@@ -1202,44 +1108,31 @@ public class DomesticHelpRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.social.DhrRealAsset> dhrRealAsset;
 
-    public final void setDhrRealAsset(final List<fr.cg95.cvq.business.request.social.DhrRealAsset> dhrRealAsset) {
+    public void setDhrRealAsset(final List<fr.cg95.cvq.business.request.social.DhrRealAsset> dhrRealAsset) {
         this.dhrRealAsset = dhrRealAsset;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="domestic_help_request_id"
-        * @hibernate.list-index
-        *  column="dhr_real_asset_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.social.DhrRealAsset"
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @OrderColumn(name="dhr_real_asset_index")
+    @JoinColumn(name="domestic_help_request_id")
       
-    */
-    public final List<fr.cg95.cvq.business.request.social.DhrRealAsset> getDhrRealAsset() {
+    public List<fr.cg95.cvq.business.request.social.DhrRealAsset> getDhrRealAsset() {
         return this.dhrRealAsset;
     }
   
     
     private java.math.BigInteger dhrRealEstateInvestmentIncome;
 
-    public final void setDhrRealEstateInvestmentIncome(final java.math.BigInteger dhrRealEstateInvestmentIncome) {
+    public void setDhrRealEstateInvestmentIncome(final java.math.BigInteger dhrRealEstateInvestmentIncome) {
         this.dhrRealEstateInvestmentIncome = dhrRealEstateInvestmentIncome;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_real_estate_investment_income"
-        *  type="serializable"
-        
+    @Column(name="dhr_real_estate_investment_income" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
-    */
-    public final java.math.BigInteger getDhrRealEstateInvestmentIncome() {
+    public java.math.BigInteger getDhrRealEstateInvestmentIncome() {
         return this.dhrRealEstateInvestmentIncome;
     }
   
@@ -1278,19 +1171,15 @@ public class DomesticHelpRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.Address dhrReferentAddress;
 
-    public final void setDhrReferentAddress(final fr.cg95.cvq.business.users.Address dhrReferentAddress) {
+    public void setDhrReferentAddress(final fr.cg95.cvq.business.users.Address dhrReferentAddress) {
         this.dhrReferentAddress = dhrReferentAddress;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="dhr_referent_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="dhr_referent_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getDhrReferentAddress() {
+    public fr.cg95.cvq.business.users.Address getDhrReferentAddress() {
         return this.dhrReferentAddress;
     }
   
@@ -1347,18 +1236,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private String dhrReferentFirstName;
 
-    public final void setDhrReferentFirstName(final String dhrReferentFirstName) {
+    public void setDhrReferentFirstName(final String dhrReferentFirstName) {
         this.dhrReferentFirstName = dhrReferentFirstName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_referent_first_name"
-        *  length="38"
+    @Column(name="dhr_referent_first_name" , length=38 )
       
-    */
-    public final String getDhrReferentFirstName() {
+    public String getDhrReferentFirstName() {
         return this.dhrReferentFirstName;
     }
   
@@ -1415,18 +1300,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private String dhrReferentName;
 
-    public final void setDhrReferentName(final String dhrReferentName) {
+    public void setDhrReferentName(final String dhrReferentName) {
         this.dhrReferentName = dhrReferentName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_referent_name"
-        *  length="38"
+    @Column(name="dhr_referent_name" , length=38 )
       
-    */
-    public final String getDhrReferentName() {
+    public String getDhrReferentName() {
         return this.dhrReferentName;
     }
   
@@ -1440,18 +1321,15 @@ public class DomesticHelpRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.social.DhrRequestKindType dhrRequestKind;
 
-    public final void setDhrRequestKind(final fr.cg95.cvq.business.request.social.DhrRequestKindType dhrRequestKind) {
+    public void setDhrRequestKind(final fr.cg95.cvq.business.request.social.DhrRequestKindType dhrRequestKind) {
         this.dhrRequestKind = dhrRequestKind;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_request_kind"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="dhr_request_kind"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.DhrRequestKindType getDhrRequestKind() {
+    public fr.cg95.cvq.business.request.social.DhrRequestKindType getDhrRequestKind() {
         return this.dhrRequestKind;
     }
   
@@ -1465,18 +1343,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private java.util.Date dhrRequesterBirthDate;
 
-    public final void setDhrRequesterBirthDate(final java.util.Date dhrRequesterBirthDate) {
+    public void setDhrRequesterBirthDate(final java.util.Date dhrRequesterBirthDate) {
         this.dhrRequesterBirthDate = dhrRequesterBirthDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_requester_birth_date"
-        
+    @Column(name="dhr_requester_birth_date"  )
       
-    */
-    public final java.util.Date getDhrRequesterBirthDate() {
+    public java.util.Date getDhrRequesterBirthDate() {
         return this.dhrRequesterBirthDate;
     }
   
@@ -1497,18 +1371,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private String dhrRequesterBirthPlace;
 
-    public final void setDhrRequesterBirthPlace(final String dhrRequesterBirthPlace) {
+    public void setDhrRequesterBirthPlace(final String dhrRequesterBirthPlace) {
         this.dhrRequesterBirthPlace = dhrRequesterBirthPlace;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_requester_birth_place"
-        
+    @Column(name="dhr_requester_birth_place"  )
       
-    */
-    public final String getDhrRequesterBirthPlace() {
+    public String getDhrRequesterBirthPlace() {
         return this.dhrRequesterBirthPlace;
     }
   
@@ -1531,18 +1401,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private java.util.Date dhrRequesterFranceArrivalDate;
 
-    public final void setDhrRequesterFranceArrivalDate(final java.util.Date dhrRequesterFranceArrivalDate) {
+    public void setDhrRequesterFranceArrivalDate(final java.util.Date dhrRequesterFranceArrivalDate) {
         this.dhrRequesterFranceArrivalDate = dhrRequesterFranceArrivalDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_requester_france_arrival_date"
-        
+    @Column(name="dhr_requester_france_arrival_date"  )
       
-    */
-    public final java.util.Date getDhrRequesterFranceArrivalDate() {
+    public java.util.Date getDhrRequesterFranceArrivalDate() {
         return this.dhrRequesterFranceArrivalDate;
     }
   
@@ -1556,18 +1422,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private Boolean dhrRequesterHaveGuardian;
 
-    public final void setDhrRequesterHaveGuardian(final Boolean dhrRequesterHaveGuardian) {
+    public void setDhrRequesterHaveGuardian(final Boolean dhrRequesterHaveGuardian) {
         this.dhrRequesterHaveGuardian = dhrRequesterHaveGuardian;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_requester_have_guardian"
-        
+    @Column(name="dhr_requester_have_guardian"  )
       
-    */
-    public final Boolean getDhrRequesterHaveGuardian() {
+    public Boolean getDhrRequesterHaveGuardian() {
         return this.dhrRequesterHaveGuardian;
     }
   
@@ -1590,18 +1452,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private Boolean dhrRequesterIsFrenchResident;
 
-    public final void setDhrRequesterIsFrenchResident(final Boolean dhrRequesterIsFrenchResident) {
+    public void setDhrRequesterIsFrenchResident(final Boolean dhrRequesterIsFrenchResident) {
         this.dhrRequesterIsFrenchResident = dhrRequesterIsFrenchResident;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_requester_is_french_resident"
-        
+    @Column(name="dhr_requester_is_french_resident"  )
       
-    */
-    public final Boolean getDhrRequesterIsFrenchResident() {
+    public Boolean getDhrRequesterIsFrenchResident() {
         return this.dhrRequesterIsFrenchResident;
     }
   
@@ -1615,18 +1473,15 @@ public class DomesticHelpRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.NationalityType dhrRequesterNationality;
 
-    public final void setDhrRequesterNationality(final fr.cg95.cvq.business.users.NationalityType dhrRequesterNationality) {
+    public void setDhrRequesterNationality(final fr.cg95.cvq.business.users.NationalityType dhrRequesterNationality) {
         this.dhrRequesterNationality = dhrRequesterNationality;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_requester_nationality"
-        *  length="32"
+    @Enumerated(EnumType.STRING)
+    @Column(name="dhr_requester_nationality" , length=32 )
       
-    */
-    public final fr.cg95.cvq.business.users.NationalityType getDhrRequesterNationality() {
+    public fr.cg95.cvq.business.users.NationalityType getDhrRequesterNationality() {
         return this.dhrRequesterNationality;
     }
   
@@ -1671,19 +1526,15 @@ public class DomesticHelpRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.Address dhrSpouseAddress;
 
-    public final void setDhrSpouseAddress(final fr.cg95.cvq.business.users.Address dhrSpouseAddress) {
+    public void setDhrSpouseAddress(final fr.cg95.cvq.business.users.Address dhrSpouseAddress) {
         this.dhrSpouseAddress = dhrSpouseAddress;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="dhr_spouse_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="dhr_spouse_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getDhrSpouseAddress() {
+    public fr.cg95.cvq.business.users.Address getDhrSpouseAddress() {
         return this.dhrSpouseAddress;
     }
   
@@ -1706,18 +1557,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private java.util.Date dhrSpouseBirthDate;
 
-    public final void setDhrSpouseBirthDate(final java.util.Date dhrSpouseBirthDate) {
+    public void setDhrSpouseBirthDate(final java.util.Date dhrSpouseBirthDate) {
         this.dhrSpouseBirthDate = dhrSpouseBirthDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_spouse_birth_date"
-        
+    @Column(name="dhr_spouse_birth_date"  )
       
-    */
-    public final java.util.Date getDhrSpouseBirthDate() {
+    public java.util.Date getDhrSpouseBirthDate() {
         return this.dhrSpouseBirthDate;
     }
   
@@ -1756,18 +1603,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private String dhrSpouseBirthPlace;
 
-    public final void setDhrSpouseBirthPlace(final String dhrSpouseBirthPlace) {
+    public void setDhrSpouseBirthPlace(final String dhrSpouseBirthPlace) {
         this.dhrSpouseBirthPlace = dhrSpouseBirthPlace;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_spouse_birth_place"
-        
+    @Column(name="dhr_spouse_birth_place"  )
       
-    */
-    public final String getDhrSpouseBirthPlace() {
+    public String getDhrSpouseBirthPlace() {
         return this.dhrSpouseBirthPlace;
     }
   
@@ -1812,18 +1655,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private String dhrSpouseComplementaryPensionPlan;
 
-    public final void setDhrSpouseComplementaryPensionPlan(final String dhrSpouseComplementaryPensionPlan) {
+    public void setDhrSpouseComplementaryPensionPlan(final String dhrSpouseComplementaryPensionPlan) {
         this.dhrSpouseComplementaryPensionPlan = dhrSpouseComplementaryPensionPlan;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_spouse_complementary_pension_plan"
-        
+    @Column(name="dhr_spouse_complementary_pension_plan"  )
       
-    */
-    public final String getDhrSpouseComplementaryPensionPlan() {
+    public String getDhrSpouseComplementaryPensionPlan() {
         return this.dhrSpouseComplementaryPensionPlan;
     }
   
@@ -1868,18 +1707,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private String dhrSpouseEmployer;
 
-    public final void setDhrSpouseEmployer(final String dhrSpouseEmployer) {
+    public void setDhrSpouseEmployer(final String dhrSpouseEmployer) {
         this.dhrSpouseEmployer = dhrSpouseEmployer;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_spouse_employer"
-        
+    @Column(name="dhr_spouse_employer"  )
       
-    */
-    public final String getDhrSpouseEmployer() {
+    public String getDhrSpouseEmployer() {
         return this.dhrSpouseEmployer;
     }
   
@@ -1902,18 +1737,15 @@ public class DomesticHelpRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.FamilyStatusType dhrSpouseFamilyStatus;
 
-    public final void setDhrSpouseFamilyStatus(final fr.cg95.cvq.business.users.FamilyStatusType dhrSpouseFamilyStatus) {
+    public void setDhrSpouseFamilyStatus(final fr.cg95.cvq.business.users.FamilyStatusType dhrSpouseFamilyStatus) {
         this.dhrSpouseFamilyStatus = dhrSpouseFamilyStatus;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_spouse_family_status"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="dhr_spouse_family_status"  )
       
-    */
-    public final fr.cg95.cvq.business.users.FamilyStatusType getDhrSpouseFamilyStatus() {
+    public fr.cg95.cvq.business.users.FamilyStatusType getDhrSpouseFamilyStatus() {
         return this.dhrSpouseFamilyStatus;
     }
   
@@ -1970,18 +1802,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private String dhrSpouseFirstName;
 
-    public final void setDhrSpouseFirstName(final String dhrSpouseFirstName) {
+    public void setDhrSpouseFirstName(final String dhrSpouseFirstName) {
         this.dhrSpouseFirstName = dhrSpouseFirstName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_spouse_first_name"
-        *  length="38"
+    @Column(name="dhr_spouse_first_name" , length=38 )
       
-    */
-    public final String getDhrSpouseFirstName() {
+    public String getDhrSpouseFirstName() {
         return this.dhrSpouseFirstName;
     }
   
@@ -2004,18 +1832,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private java.util.Date dhrSpouseFranceArrivalDate;
 
-    public final void setDhrSpouseFranceArrivalDate(final java.util.Date dhrSpouseFranceArrivalDate) {
+    public void setDhrSpouseFranceArrivalDate(final java.util.Date dhrSpouseFranceArrivalDate) {
         this.dhrSpouseFranceArrivalDate = dhrSpouseFranceArrivalDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_spouse_france_arrival_date"
-        
+    @Column(name="dhr_spouse_france_arrival_date"  )
       
-    */
-    public final java.util.Date getDhrSpouseFranceArrivalDate() {
+    public java.util.Date getDhrSpouseFranceArrivalDate() {
         return this.dhrSpouseFranceArrivalDate;
     }
   
@@ -2038,18 +1862,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private Boolean dhrSpouseIsFrenchResident;
 
-    public final void setDhrSpouseIsFrenchResident(final Boolean dhrSpouseIsFrenchResident) {
+    public void setDhrSpouseIsFrenchResident(final Boolean dhrSpouseIsFrenchResident) {
         this.dhrSpouseIsFrenchResident = dhrSpouseIsFrenchResident;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_spouse_is_french_resident"
-        
+    @Column(name="dhr_spouse_is_french_resident"  )
       
-    */
-    public final Boolean getDhrSpouseIsFrenchResident() {
+    public Boolean getDhrSpouseIsFrenchResident() {
         return this.dhrSpouseIsFrenchResident;
     }
   
@@ -2106,18 +1926,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private String dhrSpouseMaidenName;
 
-    public final void setDhrSpouseMaidenName(final String dhrSpouseMaidenName) {
+    public void setDhrSpouseMaidenName(final String dhrSpouseMaidenName) {
         this.dhrSpouseMaidenName = dhrSpouseMaidenName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_spouse_maiden_name"
-        *  length="38"
+    @Column(name="dhr_spouse_maiden_name" , length=38 )
       
-    */
-    public final String getDhrSpouseMaidenName() {
+    public String getDhrSpouseMaidenName() {
         return this.dhrSpouseMaidenName;
     }
   
@@ -2174,18 +1990,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private String dhrSpouseName;
 
-    public final void setDhrSpouseName(final String dhrSpouseName) {
+    public void setDhrSpouseName(final String dhrSpouseName) {
         this.dhrSpouseName = dhrSpouseName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_spouse_name"
-        *  length="38"
+    @Column(name="dhr_spouse_name" , length=38 )
       
-    */
-    public final String getDhrSpouseName() {
+    public String getDhrSpouseName() {
         return this.dhrSpouseName;
     }
   
@@ -2208,18 +2020,15 @@ public class DomesticHelpRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.NationalityType dhrSpouseNationality;
 
-    public final void setDhrSpouseNationality(final fr.cg95.cvq.business.users.NationalityType dhrSpouseNationality) {
+    public void setDhrSpouseNationality(final fr.cg95.cvq.business.users.NationalityType dhrSpouseNationality) {
         this.dhrSpouseNationality = dhrSpouseNationality;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_spouse_nationality"
-        *  length="32"
+    @Enumerated(EnumType.STRING)
+    @Column(name="dhr_spouse_nationality" , length=32 )
       
-    */
-    public final fr.cg95.cvq.business.users.NationalityType getDhrSpouseNationality() {
+    public fr.cg95.cvq.business.users.NationalityType getDhrSpouseNationality() {
         return this.dhrSpouseNationality;
     }
   
@@ -2264,18 +2073,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private String dhrSpousePensionPlanDetail;
 
-    public final void setDhrSpousePensionPlanDetail(final String dhrSpousePensionPlanDetail) {
+    public void setDhrSpousePensionPlanDetail(final String dhrSpousePensionPlanDetail) {
         this.dhrSpousePensionPlanDetail = dhrSpousePensionPlanDetail;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_spouse_pension_plan_detail"
-        
+    @Column(name="dhr_spouse_pension_plan_detail"  )
       
-    */
-    public final String getDhrSpousePensionPlanDetail() {
+    public String getDhrSpousePensionPlanDetail() {
         return this.dhrSpousePensionPlanDetail;
     }
   
@@ -2301,18 +2106,15 @@ public class DomesticHelpRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType dhrSpousePrincipalPensionPlan;
 
-    public final void setDhrSpousePrincipalPensionPlan(final fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType dhrSpousePrincipalPensionPlan) {
+    public void setDhrSpousePrincipalPensionPlan(final fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType dhrSpousePrincipalPensionPlan) {
         this.dhrSpousePrincipalPensionPlan = dhrSpousePrincipalPensionPlan;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_spouse_principal_pension_plan"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="dhr_spouse_principal_pension_plan"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType getDhrSpousePrincipalPensionPlan() {
+    public fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType getDhrSpousePrincipalPensionPlan() {
         return this.dhrSpousePrincipalPensionPlan;
     }
   
@@ -2357,18 +2159,14 @@ public class DomesticHelpRequestData implements Serializable {
     
     private String dhrSpouseProfession;
 
-    public final void setDhrSpouseProfession(final String dhrSpouseProfession) {
+    public void setDhrSpouseProfession(final String dhrSpouseProfession) {
         this.dhrSpouseProfession = dhrSpouseProfession;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_spouse_profession"
-        
+    @Column(name="dhr_spouse_profession"  )
       
-    */
-    public final String getDhrSpouseProfession() {
+    public String getDhrSpouseProfession() {
         return this.dhrSpouseProfession;
     }
   
@@ -2391,94 +2189,75 @@ public class DomesticHelpRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.TitleType dhrSpouseTitle;
 
-    public final void setDhrSpouseTitle(final fr.cg95.cvq.business.users.TitleType dhrSpouseTitle) {
+    public void setDhrSpouseTitle(final fr.cg95.cvq.business.users.TitleType dhrSpouseTitle) {
         this.dhrSpouseTitle = dhrSpouseTitle;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dhr_spouse_title"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="dhr_spouse_title"  )
       
-    */
-    public final fr.cg95.cvq.business.users.TitleType getDhrSpouseTitle() {
+    public fr.cg95.cvq.business.users.TitleType getDhrSpouseTitle() {
         return this.dhrSpouseTitle;
     }
   
     
     private java.math.BigInteger localRate;
 
-    public final void setLocalRate(final java.math.BigInteger localRate) {
+    public void setLocalRate(final java.math.BigInteger localRate) {
         this.localRate = localRate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="local_rate"
-        *  type="serializable"
-        
+    @Column(name="local_rate" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
-    */
-    public final java.math.BigInteger getLocalRate() {
+    public java.math.BigInteger getLocalRate() {
         return this.localRate;
     }
   
     
     private java.math.BigInteger pensions;
 
-    public final void setPensions(final java.math.BigInteger pensions) {
+    public void setPensions(final java.math.BigInteger pensions) {
         this.pensions = pensions;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="pensions"
-        *  type="serializable"
-        
+    @Column(name="pensions" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
-    */
-    public final java.math.BigInteger getPensions() {
+    public java.math.BigInteger getPensions() {
         return this.pensions;
     }
   
     
     private java.math.BigInteger professionalTaxes;
 
-    public final void setProfessionalTaxes(final java.math.BigInteger professionalTaxes) {
+    public void setProfessionalTaxes(final java.math.BigInteger professionalTaxes) {
         this.professionalTaxes = professionalTaxes;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="professional_taxes"
-        *  type="serializable"
-        
+    @Column(name="professional_taxes" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
-    */
-    public final java.math.BigInteger getProfessionalTaxes() {
+    public java.math.BigInteger getProfessionalTaxes() {
         return this.professionalTaxes;
     }
   
     
     private java.math.BigInteger propertyTaxes;
 
-    public final void setPropertyTaxes(final java.math.BigInteger propertyTaxes) {
+    public void setPropertyTaxes(final java.math.BigInteger propertyTaxes) {
         this.propertyTaxes = propertyTaxes;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="property_taxes"
-        *  type="serializable"
-        
+    @Column(name="property_taxes" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
-    */
-    public final java.math.BigInteger getPropertyTaxes() {
+    public java.math.BigInteger getPropertyTaxes() {
         return this.propertyTaxes;
     }
   

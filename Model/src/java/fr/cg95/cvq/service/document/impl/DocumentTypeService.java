@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextType;
@@ -46,9 +45,8 @@ public class DocumentTypeService
     }
 
     @Override
-    public DocumentType getDocumentTypeById(Long id)
-        throws CvqObjectNotFoundException {
-        return (DocumentType) documentTypeDAO.findById(DocumentType.class, id);
+    public DocumentType getDocumentTypeById(Long id) {
+        return documentTypeDAO.findById(id);
     }
 
     @Override

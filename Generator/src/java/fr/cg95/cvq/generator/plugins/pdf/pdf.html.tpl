@@ -29,7 +29,7 @@
           """
           <div class="response">
             ${toGT("if(${wrapper}.${element.javaFieldName}) {")}
-              \${esc(i18n.translate('${element.i18nPrefixCode}.' + StringUtils.uncapitalize(${wrapper}.${element.javaFieldName}.toString())))}
+              \${esc(i18n.translate('${element.i18nPrefixCode}.' + EnumTool.toLowerCamelCase(${wrapper}.${element.javaFieldName}.toString())))}
             ${toGT('}')}
           </div>
           """
@@ -37,7 +37,7 @@
           """
           <div class="response choice">
             ${toGT(element.enumValuesAsString + '.eachWithIndex {it, i ->')}
-              <span \${it == ${wrapper}.${element.javaFieldName}.toString() ? 'class="checked"': ''}>
+              <span \${it == ${wrapper}.${element.javaFieldName}.legacyLabel ? 'class="checked"': ''}>
                 \${esc(i18n.translate('${element.i18nPrefixCode}.' + StringUtils.uncapitalize(it)))}
               </span>\${i + 1 < ${element.enumValuesAsString}?.size() ? ', ' : ''}
             ${toGT('}')}
@@ -169,6 +169,7 @@
 
 ${beginGT()}
   import org.apache.commons.lang.StringUtils
+  import fr.cg95.cvq.util.EnumTool
   def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -248,7 +249,7 @@ ${endGT()}
     ${toGT('if (rqt.meansOfContact) {')}
       ${toGT('rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i ->')}
         <span \${it == rqt.meansOfContact.type ? 'class=\"checked\"': ''}>
-          \${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+          \${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.name))}
         </span>\${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
       ${toGT('}')}
     ${toGT('} else {')}

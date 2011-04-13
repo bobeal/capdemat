@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.school;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="learning_activities_discovery_registration_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="learning_activities_discovery_registration_request")
 public class LearningActivitiesDiscoveryRegistrationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -59,11 +62,8 @@ public class LearningActivitiesDiscoveryRegistrationRequestData implements Seria
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -88,27 +88,20 @@ public class LearningActivitiesDiscoveryRegistrationRequestData implements Seria
     
     private List<fr.cg95.cvq.business.request.LocalReferentialData> atelierEveil;
 
-    public final void setAtelierEveil(final List<fr.cg95.cvq.business.request.LocalReferentialData> atelierEveil) {
+    public void setAtelierEveil(final List<fr.cg95.cvq.business.request.LocalReferentialData> atelierEveil) {
         this.atelierEveil = atelierEveil;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="learning_activities_discovery_registration_request_atelier_eveil"
-        * @hibernate.key
-        *  column="learning_activities_discovery_registration_request_id"
-        * @hibernate.list-index
-        *  column="atelier_eveil_index"
-        * @hibernate.many-to-many
-        *  column="atelier_eveil_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+    @ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="learning_activities_discovery_registration_request_atelier_eveil",
+            joinColumns=
+                @JoinColumn(name="learning_activities_discovery_registration_request_id"),
+            inverseJoinColumns=
+                @JoinColumn(name="atelier_eveil_id"))
+    @OrderColumn(name="atelier_eveil_index")
       
-    */
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getAtelierEveil() {
+    public List<fr.cg95.cvq.business.request.LocalReferentialData> getAtelierEveil() {
         return this.atelierEveil;
     }
   

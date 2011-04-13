@@ -36,8 +36,8 @@
     <label for="section" class="required"><g:message code="srr.property.section.label" /> *  <span><g:message code="srr.property.section.help" /></span></label>
             <select id="section" name="section" class="required  validate-not-first ${rqt.stepStates['registration'].invalidFields.contains('section') ? 'validation-failed' : ''}" title="<g:message code="srr.property.section.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['BeforeFirstSection','FirstSection','SecondSection','ThirdSection','CP','CE1','CE2','CM1','CM2','CLISS','Unknown']}">
-                <option value="fr.cg95.cvq.business.users.SectionType_${it}" ${it == rqt.section?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="srr.property.section" /></option>
+              <g:each in="${['BEFORE_FIRST_SECTION','FIRST_SECTION','SECOND_SECTION','THIRD_SECTION','C_P','C_E1','C_E2','C_M1','C_M2','C_L_I_S_S','UNKNOWN']}">
+                <option value="${it}" ${it == rqt.section?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="srr.property.section" /></option>
               </g:each>
             </select>
             
@@ -70,8 +70,8 @@
       <label for="currentSection" class=""><g:message code="srr.property.currentSection.label" />   <span><g:message code="srr.property.currentSection.help" /></span></label>
             <select id="currentSection" name="currentSection" class="  validate-select ${rqt.stepStates['registration'].invalidFields.contains('currentSection') ? 'validation-failed' : ''}" title="<g:message code="srr.property.currentSection.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['BeforeFirstSection','FirstSection','SecondSection','ThirdSection','CP','CE1','CE2','CM1','CM2','CLISS','Unknown']}">
-                <option value="fr.cg95.cvq.business.users.SectionType_${it}" ${it == rqt.currentSection?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="srr.property.currentSection" /></option>
+              <g:each in="${['BEFORE_FIRST_SECTION','FIRST_SECTION','SECOND_SECTION','THIRD_SECTION','C_P','C_E1','C_E2','C_M1','C_M2','C_L_I_S_S','UNKNOWN']}">
+                <option value="${it}" ${it == rqt.currentSection?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="srr.property.currentSection" /></option>
               </g:each>
             </select>
             

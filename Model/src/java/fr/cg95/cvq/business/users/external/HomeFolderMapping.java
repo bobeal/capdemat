@@ -5,23 +5,43 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
+import javax.persistence.Table;
 
-/**
- * @hibernate.class
- *  table="home_folder_mapping"
- *
- * @author bor@zenexity.fr
- */
+@Entity
+@Table(name="home_folder_mapping")
 public class HomeFolderMapping implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
     
+    @Column(name="external_service_label")
     private String externalServiceLabel;
+
+    @Column(name="home_folder_id")
     private Long homeFolderId;
+
+    @Column(name="external_capdemat_id")
     private String externalCapDematId;
+
+    @Column(name="external_id")
     private String externalId;
+
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+    @JoinColumn(name="home_folder_mapping_id")
+    @OrderColumn(name="home_folder_mapping_index")
     private List<IndividualMapping> individualsMappings;
 
     
@@ -35,11 +55,6 @@ public class HomeFolderMapping implements Serializable {
         this.externalId = externalId;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return id;
     }
@@ -48,10 +63,6 @@ public class HomeFolderMapping implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="external_service_label"
-     */
     public String getExternalServiceLabel() {
         return externalServiceLabel;
     }
@@ -60,10 +71,6 @@ public class HomeFolderMapping implements Serializable {
         this.externalServiceLabel = externalServiceLabel;
     }
 
-    /**
-     * @hibernate.property
-     *  column="home_folder_id"
-     */
     public Long getHomeFolderId() {
         return homeFolderId;
     }
@@ -72,10 +79,6 @@ public class HomeFolderMapping implements Serializable {
         this.homeFolderId = homeFolderId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="external_capdemat_id"
-     */
     public String getExternalCapDematId() {
         return externalCapDematId;
     }
@@ -84,10 +87,6 @@ public class HomeFolderMapping implements Serializable {
         this.externalCapDematId = externalCapDematId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="external_id"
-     */
     public String getExternalId() {
         return externalId;
     }
@@ -96,18 +95,6 @@ public class HomeFolderMapping implements Serializable {
         this.externalId = externalId;
     }
 
-    /**
-     * @hibernate.list
-     *  inverse="false"
-     *  table="individual_mapping"
-     *  cascade="all"
-     * @hibernate.key
-     *  column="home_folder_mapping_id"
-     * @hibernate.list-index
-     *  column="home_folder_mapping_index"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.users.external.IndividualMapping"
-     */
     public List<IndividualMapping> getIndividualsMappings() {
         if (individualsMappings == null)
             individualsMappings = new ArrayList<IndividualMapping>();

@@ -8,6 +8,24 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import net.sf.oval.constraint.AssertValid;
 import net.sf.oval.constraint.Future;
 import net.sf.oval.constraint.NotEmpty;
@@ -24,12 +42,11 @@ import fr.cg95.cvq.xml.common.IndividualRoleType;
 import fr.cg95.cvq.xml.common.IndividualType;
 
 /**
- * @hibernate.class
- *  table="individual"
- *  lazy="false"
- *
  * @author bor@zenexity.fr
  */
+@Entity
+@Inheritance(strategy=InheritanceType.JOINED)
+@Table(name="individual")
 public abstract class Individual implements Serializable {
 
     // Search fields used in DAO and Service Layer
@@ -44,63 +61,90 @@ public abstract class Individual implements Serializable {
     public static final String SEARCH_BY_HOME_FOLDER_STATE = "homeFolderState";
     public static final String SEARCH_IS_HOME_FOLDER_RESPONSIBLE = "isHomeFolderResponsible";
     
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/** identifier field */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
     
     /**
      * the external identifier that is dynamically set for each external service
      * that provide us this information. It is not persisted.
      */
+    @Transient
     private String externalId;
     
     /**
      * the external CapDemat identifier that is dynamically set before
      * talking to an external service.
      */
+    @Transient
     private String externalCapDematId;
 
     /** Liberty Alliance federation key */
+    @Column(name="federation_key",length=64,unique=true)
     private String federationKey;
 
     @NotNull(message = "lastName")
     @NotEmpty(message = "lastName")
+    @Column(name="last_name",length=38)
     private String lastName;
 
     @NotNull(message = "firstName", when = "groovy:(_this instanceof fr.cg95.cvq.business.users.Child && _this.born) || _this instanceof fr.cg95.cvq.business.users.Adult")
     @NotEmpty(message = "firstName", when = "groovy:(_this instanceof fr.cg95.cvq.business.users.Child && _this.born) || _this instanceof fr.cg95.cvq.business.users.Adult")
+    @Column(name="first_name", length=38)
     private String firstName;
 
     @NotEmpty(message = "firstName2")
+    @Column(name="first_name_2",length=38)
     private String firstName2;
 
     @NotEmpty(message = "firstName3")
+    @Column(name="first_name_3",length=38)
     private String firstName3;
 
     @NotNull(message = "birthDate", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child")
     @Past(message = "birthDate", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child && _this.born")
     @Future(message = "birthDate", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child && !_this.born")
+    @Column(name="birth_date")
     private Date birthDate;
 
+    @Column(name="birth_country")
     private String birthCountry;
+
+    @Column(name="birth_city",length=32)
     private String birthCity;
+
+    @Column(name="birth_postal_code",length=5)
     private String birthPostalCode;
 
-
+    @Column(name="creation_date")
     private Date creationDate;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length=16,nullable=false)
     private UserState state;
+
+    @Column(name="last_modification_date")
     private Date lastModificationDate;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="q_o_s",length=16)
     private QoS qoS;
 
     @NotNull(message = "address", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Adult")
     @AssertValid(message = "address", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Adult")
+    @ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+    @JoinColumn(name="address_id")
     private Address address;
 
+    @ManyToOne
+    @JoinColumn(name="home_folder_id")
     private HomeFolder homeFolder;
 
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+    @OrderBy("id asc")
+    @JoinColumn(name="owner_id")
     private Set<IndividualRole> individualRoles;
 
     public Individual() {
@@ -181,11 +225,6 @@ public abstract class Individual implements Serializable {
         setIndividualRoles(roles);
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -210,12 +249,6 @@ public abstract class Individual implements Serializable {
         this.externalCapDematId = externalCapDematId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="federation_key"
-     *  unique="true"
-     *  length="64"
-     */
     public String getFederationKey() {
         return this.federationKey;
     }
@@ -224,11 +257,6 @@ public abstract class Individual implements Serializable {
         this.federationKey = federationKey;
     }
 
-    /**
-     * @hibernate.property
-     *  column="last_name"
-     *  length="38"
-     */
     public String getLastName() {
         return this.lastName;
     }
@@ -237,11 +265,6 @@ public abstract class Individual implements Serializable {
         this.lastName = StringUtils.upperCase(lastName);
     }
 
-    /**
-     * @hibernate.property
-     *  column="first_name"
-     *  length="38"
-     */
     public String getFirstName() {
         return this.firstName;
     }
@@ -250,11 +273,6 @@ public abstract class Individual implements Serializable {
         this.firstName = WordUtils.capitalizeFully(firstName, new char[]{' ','-','\''});
     }
 
-    /**
-     * @hibernate.property
-     *  column="first_name_2"
-     *  length="38"
-     */
     public String getFirstName2() {
         return this.firstName2;
     }
@@ -263,11 +281,6 @@ public abstract class Individual implements Serializable {
         this.firstName2 = firstName2;
     }
 
-    /**
-     * @hibernate.property
-     *  column="first_name_3"
-     *  length="38"
-     */
     public String getFirstName3() {
         return this.firstName3;
     }
@@ -276,10 +289,6 @@ public abstract class Individual implements Serializable {
         this.firstName3 = firstName3;
     }
 
-    /**
-     * @hibernate.property
-     *  column="birth_date"
-     */
     public Date getBirthDate() {
         return this.birthDate;
     }
@@ -301,10 +310,6 @@ public abstract class Individual implements Serializable {
         }
     }
 
-    /**
-     * @hibernate.property
-     *  column="birth_country"
-     */
     public String getBirthCountry() {
         return this.birthCountry;
     }
@@ -313,11 +318,6 @@ public abstract class Individual implements Serializable {
         this.birthCountry = birthCountry;
     }
 
-    /**
-     * @hibernate.property
-     *  column="birth_city"
-     *  length="32"
-     */
     public String getBirthCity() {
         return this.birthCity;
     }
@@ -326,11 +326,6 @@ public abstract class Individual implements Serializable {
         this.birthCity = StringUtils.upperCase(birthCity);
     }
 
-    /**
-     * @hibernate.property
-     *  column="birth_postal_code"
-     *  length="5"
-     */
     public String getBirthPostalCode() {
         return this.birthPostalCode;
     }
@@ -339,10 +334,6 @@ public abstract class Individual implements Serializable {
         this.birthPostalCode = birthPostalCode;
     }
 
-    /**
-     * @hibernate.property
-     *  column="creation_date"
-     */
     public Date getCreationDate() {
         return this.creationDate;
     }
@@ -366,10 +357,6 @@ public abstract class Individual implements Serializable {
         }
     }
 
-    /**
-     * @hibernate.property
-     *  column="last_modification_date"
-     */
     public Date getLastModificationDate() {
         return this.lastModificationDate;
     }
@@ -391,12 +378,6 @@ public abstract class Individual implements Serializable {
         }
     }
 
-    /**
-     * @hibernate.property
-     *  column="state"
-     *  length="16"
-     *  not-null="true"
-     */
     public UserState getState() {
         return this.state;
     }
@@ -408,13 +389,7 @@ public abstract class Individual implements Serializable {
     public void setState(String state) {
         this.state = UserState.forString(state);
     }
-    
-    /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.users.Address"
-     *  column="address_id"
-     *  cascade="all"
-     */
+
     public Address getAddress() {
         return this.address;
     }
@@ -423,11 +398,6 @@ public abstract class Individual implements Serializable {
         this.address = address;
     }
 
-    /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.users.HomeFolder"
-     *  column="home_folder_id"
-     */
     public HomeFolder getHomeFolder() {
         return this.homeFolder;
     }
@@ -436,16 +406,6 @@ public abstract class Individual implements Serializable {
         this.homeFolder = homeFolder;
     }
 
-    /**
-     * @hibernate.set
-     *  lazy="false"
-     *  cascade="all"
-     *  order-by="id asc"
-     * @hibernate.key
-     *  column="owner_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.users.IndividualRole"
-     */
     public Set<IndividualRole> getIndividualRoles() {
         return individualRoles;
     }
@@ -475,11 +435,6 @@ public abstract class Individual implements Serializable {
         this.individualRoles = individualRoles;
     }
 
-    /**
-     * @hibernate.property
-     *  column="q_o_s"
-     *  length="16"
-     */
     public QoS getQoS() {
         return qoS;
     }

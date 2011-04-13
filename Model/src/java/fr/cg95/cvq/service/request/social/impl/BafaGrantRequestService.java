@@ -6,7 +6,6 @@ import fr.cg95.cvq.business.request.RequestEvent;
 import fr.cg95.cvq.business.request.social.BafaGrantRequest;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 
@@ -32,7 +31,7 @@ public class BafaGrantRequestService extends RequestService {
     }
 
     @Override
-    public void onRequestCompleted(Request request) throws CvqException {
+    public void onRequestCompleted(Request request) {
         BafaGrantRequest bgr = (BafaGrantRequest) request;
         Individual subject = (Individual) genericDAO.findById(Individual.class, bgr.getSubjectId());
         subject.setAddress(bgr.getSubjectAddress());

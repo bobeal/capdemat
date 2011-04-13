@@ -40,7 +40,7 @@ public final class AgentService implements IAgentService {
             throw new CvqException("No agent object provided");
         if (agentDAO.findByLogin(agent.getLogin()) != null)
             throw new CvqModelException("");
-        Long agentId = agentDAO.create(agent);
+        Long agentId = agentDAO.create(agent).getId();
         logger.debug("Created agent object with id : " + agentId);
         return agentId;
     }
@@ -73,12 +73,11 @@ public final class AgentService implements IAgentService {
     }
 
     @Override
-    public Agent getById(final Long id)
-        throws CvqObjectNotFoundException {
+    public Agent getById(final Long id) {
         if (id.longValue() == -1) {
             return null;
         }
-        return (Agent)agentDAO.findById(Agent.class, id);
+        return agentDAO.findById(id);
     }
 
     // Since this function is used before an agent logs in,

@@ -195,14 +195,12 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         if (requestTypeId != null) {
             requestTypeIds.add(requestTypeId);
         } else if (categoryId != null) {
-            try {
-                Category category = categoryService.getById(categoryId);
+            Category category = categoryService.getById(categoryId);
+            if (category != null) {
                 for (RequestType requestType : category.getRequestTypes()) {
                     requestTypeIds.add(requestType.getId());
                 }
-            } catch (CvqException ex) {
             }
-
         } else {
             List<Category> agentCategories = categoryService.getManaged();
             for (Category category : agentCategories) {

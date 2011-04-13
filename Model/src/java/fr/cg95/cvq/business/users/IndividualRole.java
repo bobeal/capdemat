@@ -2,36 +2,48 @@ package fr.cg95.cvq.business.users;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import fr.cg95.cvq.xml.common.IndividualRoleType;
 
 /**
- * @hibernate.class
- *  table="individual_role"
- *  lazy="false"
- *
  * @author bor@zenexity.fr
  */
+@Entity
+@Table(name="individual_role")
 public class IndividualRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
     
     /**
      * Role kind.
      */
+    @Enumerated(EnumType.STRING)
     private RoleType role;
 
     /**
      * Eventual home folder that is the subject of the role.
      */
+    @Column(name="home_folder_id")
     private Long homeFolderId;
 
     /**
      * Eventual individual that is the subject of the role.
      */
+    @Column(name="individual_id")
     private Long individualId;
 
     /**
@@ -42,6 +54,7 @@ public class IndividualRole implements Serializable {
      * 
      * It is peristent field, just to enable field's value consistent merge.
      */
+    @Column(name="individual_name")
     private String individualName;
 
     public static IndividualRoleType modelToXml(IndividualRole individualRole) {
@@ -56,11 +69,6 @@ public class IndividualRole implements Serializable {
         return individualRoleType;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return id;
     }
@@ -69,10 +77,6 @@ public class IndividualRole implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property 
-     *  column="role"
-     */
     public RoleType getRole() {
         return role;
     }
@@ -81,10 +85,6 @@ public class IndividualRole implements Serializable {
         this.role = role;
     }
 
-    /**
-     * @hibernate.property 
-     *  column="home_folder_id"
-     */
     public Long getHomeFolderId() {
         return homeFolderId;
     }
@@ -93,10 +93,6 @@ public class IndividualRole implements Serializable {
         this.homeFolderId = homeFolderId;
     }
 
-    /**
-     * @hibernate.property 
-     *  column="individual_id"
-     */
     public Long getIndividualId() {
         return individualId;
     }
@@ -109,10 +105,6 @@ public class IndividualRole implements Serializable {
         this.individualName = individualName;
     }
 
-    /**
-     * @hibernate.property 
-     *  column="individual_name"
-     */
     public String getIndividualName() {
         return individualName;
     }

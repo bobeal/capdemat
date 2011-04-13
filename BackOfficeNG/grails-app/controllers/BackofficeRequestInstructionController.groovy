@@ -214,8 +214,7 @@ class BackofficeRequestInstructionController {
         } 
         else if (propertyType == "capdematEnum") {
             def propertyJavaType = propertyTypes.javatype.tokenize(".")
-            def allPropertyValue = Class.forName(propertyTypes.javatype)
-                    .getField("all" + propertyJavaType[propertyJavaType.size() -1] + "s").get()
+            def allPropertyValue = Class.forName(propertyTypes.javatype).values()
             model["allPropertyValue"] = allPropertyValue
             
             // FIXME - normalize propertyValue class like class="value<MY_VAL> i18n-<MY_I18n>)"

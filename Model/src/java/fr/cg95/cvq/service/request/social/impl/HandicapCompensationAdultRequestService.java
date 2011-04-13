@@ -6,6 +6,13 @@ import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.social.HandicapCompensationAdultRequest;
+import fr.cg95.cvq.business.request.social.HcarDwellingKindType;
+import fr.cg95.cvq.business.request.social.HcarHomeIntervenantKindType;
+import fr.cg95.cvq.business.request.social.HcarLegalAccessRepresentativeKindType;
+import fr.cg95.cvq.business.request.social.HcarPaymentAgencyBeneficiaryType;
+import fr.cg95.cvq.business.request.social.HcarProfessionalStatusKindType;
+import fr.cg95.cvq.business.request.social.HcarSocialSecurityMemberShipKindType;
+import fr.cg95.cvq.business.request.social.HcarPaymentAgencyBeneficiaryType;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.condition.EqualityListChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
@@ -26,25 +33,25 @@ public class HandicapCompensationAdultRequestService extends RequestService {
         HandicapCompensationAdultRequest.conditions.put("legalAccessPresence",
             new EqualityChecker("true"));
         HandicapCompensationAdultRequest.conditions.put("legalAccessRepresentativeKind",
-            new EqualityChecker("Other"));
+            new EqualityChecker(HcarLegalAccessRepresentativeKindType.OTHER.name()));
         HandicapCompensationAdultRequest.conditions.put("familyFamilyDependents",
             new EqualityChecker("true"));
         HandicapCompensationAdultRequest.conditions.put("dwellingKind",
-            new EqualityListChecker(Arrays.asList("Other", "ThirdPartyPlaceOfResidence")));
+            new EqualityListChecker(Arrays.asList(HcarDwellingKindType.OTHER.name(),HcarDwellingKindType.THIRD_PARTY_PLACE_OF_RESIDENCE.name())));
         HandicapCompensationAdultRequest.conditions.put("dwellingEstablishmentReception",
             new EqualityChecker("true"));
         HandicapCompensationAdultRequest.conditions.put("dwellingSocialReception",
             new EqualityChecker("true"));
         HandicapCompensationAdultRequest.conditions.put("socialSecurityMemberShipKind",
-            new EqualityListChecker(Arrays.asList("Insured", "Claimant")));
+            new EqualityListChecker(Arrays.asList(HcarSocialSecurityMemberShipKindType.INSURED.name(),HcarSocialSecurityMemberShipKindType.CLAIMANT.name())));
         HandicapCompensationAdultRequest.conditions.put("paymentAgencyBeneficiary",
-            new EqualityListChecker(Arrays.asList("CAF", "MSA", "Other")));
+            new EqualityListChecker(Arrays.asList(HcarPaymentAgencyBeneficiaryType.C_A_F.name(), HcarPaymentAgencyBeneficiaryType.M_S_A.name(),HcarPaymentAgencyBeneficiaryType.OTHER.name())));
         HandicapCompensationAdultRequest.conditions.put("studiesHighSchool",
             new EqualityChecker("true"));
         HandicapCompensationAdultRequest.conditions.put("studiesAssistanceUnderDisability",
             new EqualityChecker("true"));
         HandicapCompensationAdultRequest.conditions.put("professionalStatusKind",
-            new EqualityChecker("Employee"));
+            new EqualityChecker(HcarProfessionalStatusKindType.EMPLOYEE.name()));
         HandicapCompensationAdultRequest.conditions.put("professionalStatusRegisterAsUnemployed",
             new EqualityChecker("true"));
         HandicapCompensationAdultRequest.conditions.put("professionalStatusIndemnified",
@@ -76,7 +83,7 @@ public class HandicapCompensationAdultRequestService extends RequestService {
         HandicapCompensationAdultRequest.conditions.put("homeInterventionHomeIntervenant",
             new EqualityChecker("true"));
         HandicapCompensationAdultRequest.conditions.put("homeIntervenants[0].homeIntervenantKind",
-            new EqualityChecker("Other"));
+            new EqualityChecker(HcarHomeIntervenantKindType.OTHER.name()));
         HandicapCompensationAdultRequest.conditions.put("careCareServices",
             new EqualityChecker("true"));
         HandicapCompensationAdultRequest.conditions.put(

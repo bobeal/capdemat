@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.environment;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="bulky_waste_collection_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="bulky_waste_collection_request")
 public class BulkyWasteCollectionRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -72,11 +75,8 @@ public class BulkyWasteCollectionRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -101,27 +101,20 @@ public class BulkyWasteCollectionRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.LocalReferentialData> bulkyWasteType;
 
-    public final void setBulkyWasteType(final List<fr.cg95.cvq.business.request.LocalReferentialData> bulkyWasteType) {
+    public void setBulkyWasteType(final List<fr.cg95.cvq.business.request.LocalReferentialData> bulkyWasteType) {
         this.bulkyWasteType = bulkyWasteType;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="bulky_waste_collection_request_bulky_waste_type"
-        * @hibernate.key
-        *  column="bulky_waste_collection_request_id"
-        * @hibernate.list-index
-        *  column="bulky_waste_type_index"
-        * @hibernate.many-to-many
-        *  column="bulky_waste_type_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+    @ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="bulky_waste_collection_request_bulky_waste_type",
+            joinColumns=
+                @JoinColumn(name="bulky_waste_collection_request_id"),
+            inverseJoinColumns=
+                @JoinColumn(name="bulky_waste_type_id"))
+    @OrderColumn(name="bulky_waste_type_index")
       
-    */
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getBulkyWasteType() {
+    public List<fr.cg95.cvq.business.request.LocalReferentialData> getBulkyWasteType() {
         return this.bulkyWasteType;
     }
   
@@ -135,37 +128,29 @@ public class BulkyWasteCollectionRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.Address collectionAddress;
 
-    public final void setCollectionAddress(final fr.cg95.cvq.business.users.Address collectionAddress) {
+    public void setCollectionAddress(final fr.cg95.cvq.business.users.Address collectionAddress) {
         this.collectionAddress = collectionAddress;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="collection_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="collection_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getCollectionAddress() {
+    public fr.cg95.cvq.business.users.Address getCollectionAddress() {
         return this.collectionAddress;
     }
   
     
     private String otherWaste;
 
-    public final void setOtherWaste(final String otherWaste) {
+    public void setOtherWaste(final String otherWaste) {
         this.otherWaste = otherWaste;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="other_waste"
-        
+    @Column(name="other_waste"  )
       
-    */
-    public final String getOtherWaste() {
+    public String getOtherWaste() {
         return this.otherWaste;
     }
   

@@ -3,6 +3,7 @@
 <%
 
   import org.apache.commons.lang.StringUtils
+  import fr.cg95.cvq.util.EnumTool
   def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -101,7 +102,7 @@
       <p class="label">${esc(i18n.translate('mcr.property.childTitle.label'))}</p>
           <div class="response">
             <% if(rqt.childTitle) { %>
-              ${esc(i18n.translate('mcr.property.childTitle.' + StringUtils.uncapitalize(rqt.childTitle.toString())))}
+              ${esc(i18n.translate('mcr.property.childTitle.' + EnumTool.toLowerCamelCase(rqt.childTitle.toString())))}
             <% } %>
           </div>
           
@@ -117,7 +118,7 @@
       <p class="label">${esc(i18n.translate('mcr.property.childBirthCountry.label'))}</p>
           <div class="response">
             <% if(rqt.childBirthCountry) { %>
-              ${esc(i18n.translate('mcr.property.childBirthCountry.' + StringUtils.uncapitalize(rqt.childBirthCountry.toString())))}
+              ${esc(i18n.translate('mcr.property.childBirthCountry.' + EnumTool.toLowerCamelCase(rqt.childBirthCountry.toString())))}
             <% } %>
           </div>
           
@@ -128,7 +129,7 @@
       <p class="label">${esc(i18n.translate('mcr.property.childResidenceCountry.label'))}</p>
           <div class="response">
             <% if(rqt.childResidenceCountry) { %>
-              ${esc(i18n.translate('mcr.property.childResidenceCountry.' + StringUtils.uncapitalize(rqt.childResidenceCountry.toString())))}
+              ${esc(i18n.translate('mcr.property.childResidenceCountry.' + EnumTool.toLowerCamelCase(rqt.childResidenceCountry.toString())))}
             <% } %>
           </div>
           
@@ -149,7 +150,7 @@
       <p class="label">${esc(i18n.translate('mcr.property.childCountry.label'))}</p>
           <div class="response">
             <% if(rqt.childCountry) { %>
-              ${esc(i18n.translate('mcr.property.childCountry.' + StringUtils.uncapitalize(rqt.childCountry.toString())))}
+              ${esc(i18n.translate('mcr.property.childCountry.' + EnumTool.toLowerCamelCase(rqt.childCountry.toString())))}
             <% } %>
           </div>
           
@@ -160,7 +161,7 @@
       <p class="label">${esc(i18n.translate('mcr.property.childOtherCountry.label'))}</p>
           <div class="response">
             <% if(rqt.childOtherCountry) { %>
-              ${esc(i18n.translate('mcr.property.childOtherCountry.' + StringUtils.uncapitalize(rqt.childOtherCountry.toString())))}
+              ${esc(i18n.translate('mcr.property.childOtherCountry.' + EnumTool.toLowerCamelCase(rqt.childOtherCountry.toString())))}
             <% } %>
           </div>
           
@@ -197,7 +198,7 @@
           <p class="label">${esc(i18n.translate('mcr.property.fatherBirthDepartment.label'))}</p>
           <div class="response">
             <% if(rqt.fatherBirthDepartment) { %>
-              ${esc(i18n.translate('mcr.property.fatherBirthDepartment.' + StringUtils.uncapitalize(rqt.fatherBirthDepartment.toString())))}
+              ${esc(i18n.translate('mcr.property.fatherBirthDepartment.' + EnumTool.toLowerCamelCase(rqt.fatherBirthDepartment.toString())))}
             <% } %>
           </div>
           
@@ -206,7 +207,7 @@
           <p class="label">${esc(i18n.translate('mcr.property.fatherBirthCountry.label'))}</p>
           <div class="response">
             <% if(rqt.fatherBirthCountry) { %>
-              ${esc(i18n.translate('mcr.property.fatherBirthCountry.' + StringUtils.uncapitalize(rqt.fatherBirthCountry.toString())))}
+              ${esc(i18n.translate('mcr.property.fatherBirthCountry.' + EnumTool.toLowerCamelCase(rqt.fatherBirthCountry.toString())))}
             <% } %>
           </div>
           
@@ -215,7 +216,7 @@
           <p class="label">${esc(i18n.translate('mcr.property.fatherNationality.label'))}</p>
           <div class="response">
             <% if(rqt.fatherNationality) { %>
-              ${esc(i18n.translate('mcr.property.fatherNationality.' + StringUtils.uncapitalize(rqt.fatherNationality.toString())))}
+              ${esc(i18n.translate('mcr.property.fatherNationality.' + EnumTool.toLowerCamelCase(rqt.fatherNationality.toString())))}
             <% } %>
           </div>
           
@@ -245,7 +246,7 @@
           <p class="label">${esc(i18n.translate('mcr.property.motherBirthDepartment.label'))}</p>
           <div class="response">
             <% if(rqt.motherBirthDepartment) { %>
-              ${esc(i18n.translate('mcr.property.motherBirthDepartment.' + StringUtils.uncapitalize(rqt.motherBirthDepartment.toString())))}
+              ${esc(i18n.translate('mcr.property.motherBirthDepartment.' + EnumTool.toLowerCamelCase(rqt.motherBirthDepartment.toString())))}
             <% } %>
           </div>
           
@@ -254,7 +255,7 @@
           <p class="label">${esc(i18n.translate('mcr.property.motherBirthCountry.label'))}</p>
           <div class="response">
             <% if(rqt.motherBirthCountry) { %>
-              ${esc(i18n.translate('mcr.property.motherBirthCountry.' + StringUtils.uncapitalize(rqt.motherBirthCountry.toString())))}
+              ${esc(i18n.translate('mcr.property.motherBirthCountry.' + EnumTool.toLowerCamelCase(rqt.motherBirthCountry.toString())))}
             <% } %>
           </div>
           
@@ -263,7 +264,7 @@
           <p class="label">${esc(i18n.translate('mcr.property.motherNationality.label'))}</p>
           <div class="response">
             <% if(rqt.motherNationality) { %>
-              ${esc(i18n.translate('mcr.property.motherNationality.' + StringUtils.uncapitalize(rqt.motherNationality.toString())))}
+              ${esc(i18n.translate('mcr.property.motherNationality.' + EnumTool.toLowerCamelCase(rqt.motherNationality.toString())))}
             <% } %>
           </div>
           
@@ -286,7 +287,7 @@
           <p class="label">${esc(i18n.translate('mcr.property.childStatus.label'))}</p>
           <div class="response">
             <% if(rqt.childStatus) { %>
-              ${esc(i18n.translate('mcr.property.childStatus.' + StringUtils.uncapitalize(rqt.childStatus.toString())))}
+              ${esc(i18n.translate('mcr.property.childStatus.' + EnumTool.toLowerCamelCase(rqt.childStatus.toString())))}
             <% } %>
           </div>
           
@@ -325,7 +326,7 @@
           <p class="label">${esc(i18n.translate('mcr.property.prefectPupilDepartment.label'))}</p>
           <div class="response">
             <% if(rqt.prefectPupilDepartment) { %>
-              ${esc(i18n.translate('mcr.property.prefectPupilDepartment.' + StringUtils.uncapitalize(rqt.prefectPupilDepartment.toString())))}
+              ${esc(i18n.translate('mcr.property.prefectPupilDepartment.' + EnumTool.toLowerCamelCase(rqt.prefectPupilDepartment.toString())))}
             <% } %>
           </div>
           
@@ -341,7 +342,7 @@
           <p class="label">${esc(i18n.translate('mcr.property.childSituation.label'))}</p>
           <div class="response">
             <% if(rqt.childSituation) { %>
-              ${esc(i18n.translate('mcr.property.childSituation.' + StringUtils.uncapitalize(rqt.childSituation.toString())))}
+              ${esc(i18n.translate('mcr.property.childSituation.' + EnumTool.toLowerCamelCase(rqt.childSituation.toString())))}
             <% } %>
           </div>
           
@@ -350,7 +351,7 @@
           <p class="label">${esc(i18n.translate('mcr.property.childDiploma.label'))}</p>
           <div class="response">
             <% if(rqt.childDiploma) { %>
-              ${esc(i18n.translate('mcr.property.childDiploma.' + StringUtils.uncapitalize(rqt.childDiploma.toString())))}
+              ${esc(i18n.translate('mcr.property.childDiploma.' + EnumTool.toLowerCamelCase(rqt.childDiploma.toString())))}
             <% } %>
           </div>
           
@@ -417,7 +418,7 @@
     <% if (rqt.meansOfContact) { %>
       <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
         <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
-          ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+          ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.name))}
         </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
       <% } %>
     <% } else { %>

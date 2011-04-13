@@ -2,7 +2,6 @@ package fr.cg95.cvq.util;
 
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.util.translation.ITranslationService;
@@ -30,20 +29,18 @@ public class UserUtils {
         } else if (id == -1) {
             return new UserDetails("system", translationService.translate("system"));
         } else {
-            try {
-                Agent agent = agentService.getById(id);
+            Agent agent = agentService.getById(id);
+            if (agent != null) {
                 return new UserDetails("agent", agent.getFirstName() + ' ' + agent.getLastName());
-            } catch (CvqObjectNotFoundException e1) {
-                try {
-                    Individual individual = userSearchService.getById(id);
+            } else {
+                Individual individual = userSearchService.getById(id);
+                if (individual != null) {
                     return new UserDetails("eCitizen", individual.getFirstName() + ' ' + individual.getLastName());
-                } catch (CvqObjectNotFoundException e2) {
-                    try {
-                        userSearchService.getHomeFolderById(id);
+                } else {
+                    if (userSearchService.getHomeFolderById(id) != null)
                         return new UserDetails("eCitizen", translationService.translate("homeFolder.header"));
-                    } catch (CvqObjectNotFoundException e3) {
+                    else
                         return new UserDetails("", "");
-                    }
                 }
             }
         }

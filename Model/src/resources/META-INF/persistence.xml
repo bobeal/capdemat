@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+    <persistence-unit name="capdematPersistenceUnit" 
+                      transaction-type="RESOURCE_LOCAL">
+        <properties>
+            <property name="hibernate.show_sql" value="false" />
+            <property name="hibernate.format_sql" value="false" />
+ 
+            <property name="hibernate.connection.driver_class" 
+                      value="org.postgresql.Driver" />
+            <property name="hibernate.connection.url" 
+                      value="jdbc:postgresql://localhost:5432/capdemat_dummy" />
+            <property name="hibernate.connection.username" value="capdemat" />
+            <property name="hibernate.connection.password" value="capdematpass"/>
+ 
+            <property name="hibernate.dialect" 
+                      value="org.hibernate.dialect.PostgreSQLDialect" />
+        </properties>
+    </persistence-unit>
+</persistence>

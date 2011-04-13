@@ -1,45 +1,43 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class HccrPaymentAgencyBeneficiaryType extends PersistentStringEnum {
+public enum HccrPaymentAgencyBeneficiaryType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final HccrPaymentAgencyBeneficiaryType C_A_F = new HccrPaymentAgencyBeneficiaryType("CAF");
-  
-    public static final HccrPaymentAgencyBeneficiaryType M_S_A = new HccrPaymentAgencyBeneficiaryType("MSA");
-  
-    public static final HccrPaymentAgencyBeneficiaryType OTHER = new HccrPaymentAgencyBeneficiaryType("Other");
-  
-    public static final HccrPaymentAgencyBeneficiaryType NO_MEMBER_SHIP = new HccrPaymentAgencyBeneficiaryType("NoMemberShip");
-  
+    C_A_F("CAF"),
+    M_S_A("MSA"),
+    OTHER("Other"),
+    NO_MEMBER_SHIP("NoMemberShip");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use HccrPaymentAgencyBeneficiaryType.values() instead
+     * @deprecated only for backward
      */
-    private HccrPaymentAgencyBeneficiaryType(String value) {
-        super(value);
+    @Deprecated 
+    public static HccrPaymentAgencyBeneficiaryType[] allHccrPaymentAgencyBeneficiaryTypes = HccrPaymentAgencyBeneficiaryType.values();
+
+    private String legacyLabel;
+
+    private HccrPaymentAgencyBeneficiaryType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public HccrPaymentAgencyBeneficiaryType() {}
-
-    public static HccrPaymentAgencyBeneficiaryType[] allHccrPaymentAgencyBeneficiaryTypes = {
-        C_A_F,
-        M_S_A,
-        OTHER,
-        NO_MEMBER_SHIP
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static HccrPaymentAgencyBeneficiaryType getDefaultHccrPaymentAgencyBeneficiaryType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of HccrPaymentAgencyBeneficiaryType.something
+     * not the value of the name attribut.
+     */
     public static HccrPaymentAgencyBeneficiaryType forString(final String enumAsString) {
-        for (HccrPaymentAgencyBeneficiaryType value : allHccrPaymentAgencyBeneficiaryTypes)
+        for (HccrPaymentAgencyBeneficiaryType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultHccrPaymentAgencyBeneficiaryType();

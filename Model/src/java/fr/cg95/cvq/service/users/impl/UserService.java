@@ -13,7 +13,6 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.IndividualRole;
 import fr.cg95.cvq.business.users.RoleType;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
@@ -27,8 +26,7 @@ public class UserService implements IUserService {
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.READ)
-    public boolean hasHomeFolderRole(Long ownerId, Long homeFolderId, RoleType role)
-        throws CvqObjectNotFoundException {
+    public boolean hasHomeFolderRole(Long ownerId, Long homeFolderId, RoleType role) {
         for (IndividualRole individualRole : userSearchService.getById(ownerId).getIndividualRoles()) {
             if (individualRole.getRole().equals(role)
                 && homeFolderId.equals(individualRole.getHomeFolderId()))

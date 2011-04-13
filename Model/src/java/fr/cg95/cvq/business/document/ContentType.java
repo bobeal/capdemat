@@ -2,38 +2,38 @@ package fr.cg95.cvq.business.document;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
 
-public final class ContentType extends PersistentStringEnum {
+public enum ContentType {
+
+    BMP("image/x-ms-bmp", "bmp"),
+    GIF("image/gif", "gif"),
+    JPEG("image/jpeg", "jpg"),
+    OCTET_STREAM("application/octet-stream", ""),
+    PDF("application/pdf", "pdf"),
+    PNG("image/png", "png"),
+    TIFF("image/tiff", "tiff");
 
     private static final long serialVersionUID = 1L;
-
-    public static final ContentType BMP = new ContentType("image/x-ms-bmp", "bmp");
-    public static final ContentType GIF = new ContentType("image/gif", "gif");
-    public static final ContentType JPEG = new ContentType("image/jpeg", "jpg");
-    public static final ContentType OCTET_STREAM = new ContentType("application/octet-stream", "");
-    public static final ContentType PDF = new ContentType("application/pdf", "pdf");
-    public static final ContentType PNG = new ContentType("image/png", "png");
-    public static final ContentType TIFF = new ContentType("image/tiff", "tiff");
 
     public static final ContentType[] allowedContentTypes = {
         BMP, GIF, JPEG, PDF, PNG, TIFF
     };
 
-    public static final ContentType[] allContentTypes =
-        ArrayUtils.add(allowedContentTypes, OCTET_STREAM);
+    /**
+     * @deprecated only for backward, use values() instead
+     */
+    public static final ContentType[] allContentTypes = ContentType.values();
 
+    private String name;
     private String extension;
 
     /**
      * Prevent instantiation and subclassing with a private constructor.
      */
     private ContentType(final String type, final String extension) {
-        super(type);
+        this.name = type;
         this.extension = extension;
     }
-
-    public ContentType() { /* public constructor for Hibernate */ }
 
     public static ContentType forString(String mimeType) {
         for (ContentType contentType : allowedContentTypes) {
@@ -50,5 +50,10 @@ public final class ContentType extends PersistentStringEnum {
 
     public String getExtension() {
         return extension;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

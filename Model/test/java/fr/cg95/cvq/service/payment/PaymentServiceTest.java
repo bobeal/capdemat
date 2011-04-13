@@ -168,12 +168,9 @@ public class PaymentServiceTest extends PaymentTestCase {
         
         continueWithNewTransaction();
         
-        try {
-            paymentService.getById(payment.getId());
+        if (paymentService.getById(payment.getId()) != null)
             fail("should have thrown an exception");
-        } catch (CvqObjectNotFoundException confe) {
-            // that was expected
-        }
+        // Else that was expected
 
         assertEquals(0, paymentService.getByHomeFolder(fake.id).size());
     }

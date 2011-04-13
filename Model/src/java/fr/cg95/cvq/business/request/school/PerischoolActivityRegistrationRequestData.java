@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.school;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="perischool_activity_registration_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="perischool_activity_registration_request")
 public class PerischoolActivityRegistrationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -132,11 +135,8 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -152,25 +152,16 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.school.PerischoolAuthorizedIndividual> authorizedIndividuals;
 
-    public final void setAuthorizedIndividuals(final List<fr.cg95.cvq.business.request.school.PerischoolAuthorizedIndividual> authorizedIndividuals) {
+    public void setAuthorizedIndividuals(final List<fr.cg95.cvq.business.request.school.PerischoolAuthorizedIndividual> authorizedIndividuals) {
         this.authorizedIndividuals = authorizedIndividuals;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="perischool_activity_registration_request_id"
-        * @hibernate.list-index
-        *  column="authorized_individuals_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.school.PerischoolAuthorizedIndividual"
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @OrderColumn(name="authorized_individuals_index")
+    @JoinColumn(name="perischool_activity_registration_request_id")
       
-    */
-    public final List<fr.cg95.cvq.business.request.school.PerischoolAuthorizedIndividual> getAuthorizedIndividuals() {
+    public List<fr.cg95.cvq.business.request.school.PerischoolAuthorizedIndividual> getAuthorizedIndividuals() {
         return this.authorizedIndividuals;
     }
   
@@ -184,18 +175,14 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
     
     private Boolean childPhotoExploitationPermission;
 
-    public final void setChildPhotoExploitationPermission(final Boolean childPhotoExploitationPermission) {
+    public void setChildPhotoExploitationPermission(final Boolean childPhotoExploitationPermission) {
         this.childPhotoExploitationPermission = childPhotoExploitationPermission;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="child_photo_exploitation_permission"
-        
+    @Column(name="child_photo_exploitation_permission"  )
       
-    */
-    public final Boolean getChildPhotoExploitationPermission() {
+    public Boolean getChildPhotoExploitationPermission() {
         return this.childPhotoExploitationPermission;
     }
   
@@ -209,18 +196,14 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
     
     private Boolean classTripPermission;
 
-    public final void setClassTripPermission(final Boolean classTripPermission) {
+    public void setClassTripPermission(final Boolean classTripPermission) {
         this.classTripPermission = classTripPermission;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="class_trip_permission"
-        
+    @Column(name="class_trip_permission"  )
       
-    */
-    public final Boolean getClassTripPermission() {
+    public Boolean getClassTripPermission() {
         return this.classTripPermission;
     }
   
@@ -234,25 +217,16 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> contactIndividuals;
 
-    public final void setContactIndividuals(final List<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> contactIndividuals) {
+    public void setContactIndividuals(final List<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> contactIndividuals) {
         this.contactIndividuals = contactIndividuals;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="perischool_activity_registration_request_id"
-        * @hibernate.list-index
-        *  column="contact_individuals_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.school.PerischoolContactIndividual"
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @OrderColumn(name="contact_individuals_index")
+    @JoinColumn(name="perischool_activity_registration_request_id")
       
-    */
-    public final List<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> getContactIndividuals() {
+    public List<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> getContactIndividuals() {
         return this.contactIndividuals;
     }
   
@@ -266,18 +240,14 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
     
     private Boolean hospitalizationPermission;
 
-    public final void setHospitalizationPermission(final Boolean hospitalizationPermission) {
+    public void setHospitalizationPermission(final Boolean hospitalizationPermission) {
         this.hospitalizationPermission = hospitalizationPermission;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="hospitalization_permission"
-        
+    @Column(name="hospitalization_permission"  )
       
-    */
-    public final Boolean getHospitalizationPermission() {
+    public Boolean getHospitalizationPermission() {
         return this.hospitalizationPermission;
     }
   
@@ -300,27 +270,20 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.LocalReferentialData> perischoolActivity;
 
-    public final void setPerischoolActivity(final List<fr.cg95.cvq.business.request.LocalReferentialData> perischoolActivity) {
+    public void setPerischoolActivity(final List<fr.cg95.cvq.business.request.LocalReferentialData> perischoolActivity) {
         this.perischoolActivity = perischoolActivity;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="perischool_activity_registration_request_perischool_activity"
-        * @hibernate.key
-        *  column="perischool_activity_registration_request_id"
-        * @hibernate.list-index
-        *  column="perischool_activity_index"
-        * @hibernate.many-to-many
-        *  column="perischool_activity_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+    @ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="perischool_activity_registration_request_perischool_activity",
+            joinColumns=
+                @JoinColumn(name="perischool_activity_registration_request_id"),
+            inverseJoinColumns=
+                @JoinColumn(name="perischool_activity_id"))
+    @OrderColumn(name="perischool_activity_index")
       
-    */
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getPerischoolActivity() {
+    public List<fr.cg95.cvq.business.request.LocalReferentialData> getPerischoolActivity() {
         return this.perischoolActivity;
     }
   
@@ -334,18 +297,14 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
     
     private Boolean rulesAndRegulationsAcceptance;
 
-    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
+    public void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
         this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="rules_and_regulations_acceptance"
-        
+    @Column(name="rules_and_regulations_acceptance"  )
       
-    */
-    public final Boolean getRulesAndRegulationsAcceptance() {
+    public Boolean getRulesAndRegulationsAcceptance() {
         return this.rulesAndRegulationsAcceptance;
     }
   
@@ -359,19 +318,15 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
     
     private fr.cg95.cvq.business.authority.School school;
 
-    public final void setSchool(final fr.cg95.cvq.business.authority.School school) {
+    public void setSchool(final fr.cg95.cvq.business.authority.School school) {
         this.school = school;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        
-        *  column="school_id"
-        *  class="fr.cg95.cvq.business.authority.School"
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="school_id")
       
-    */
-    public final fr.cg95.cvq.business.authority.School getSchool() {
+    public fr.cg95.cvq.business.authority.School getSchool() {
         return this.school;
     }
   
@@ -385,18 +340,15 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.SectionType section;
 
-    public final void setSection(final fr.cg95.cvq.business.users.SectionType section) {
+    public void setSection(final fr.cg95.cvq.business.users.SectionType section) {
         this.section = section;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="section"
-        *  length="32"
+    @Enumerated(EnumType.STRING)
+    @Column(name="section" , length=32 )
       
-    */
-    public final fr.cg95.cvq.business.users.SectionType getSection() {
+    public fr.cg95.cvq.business.users.SectionType getSection() {
         return this.section;
     }
   
@@ -426,18 +378,14 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
     
     private String urgencyPhone;
 
-    public final void setUrgencyPhone(final String urgencyPhone) {
+    public void setUrgencyPhone(final String urgencyPhone) {
         this.urgencyPhone = urgencyPhone;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="urgency_phone"
-        *  length="10"
+    @Column(name="urgency_phone" , length=10 )
       
-    */
-    public final String getUrgencyPhone() {
+    public String getUrgencyPhone() {
         return this.urgencyPhone;
     }
   

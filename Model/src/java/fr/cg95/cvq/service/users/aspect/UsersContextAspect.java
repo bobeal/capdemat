@@ -14,10 +14,9 @@ import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.UserSecurityProfile;
 import fr.cg95.cvq.business.users.UserSecurityRule;
-import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.dao.users.IHomeFolderDAO;
 import fr.cg95.cvq.dao.users.IIndividualDAO;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.GenericAccessManager;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -63,16 +62,13 @@ public class UsersContextAspect implements Ordered {
                 if (parameterAnnotation.annotationType().equals(IsUser.class)) {
                     if (argument instanceof Long) {
                         Long id = (Long)argument;
-                        try {
-                            individual = (Individual)individualDAO.findById(Individual.class, id);
-                            individualId = id;
-                        } catch (CvqObjectNotFoundException e1) {
-                            try {
-                                homeFolder = (HomeFolder)homeFolderDAO.findById(HomeFolder.class, id);
+                        individual = individualDAO.findById(id);
+                        if (individual == null) {
+                            homeFolder = homeFolderDAO.findById(id);
+                            if (homeFolder != null)
                                 homeFolderId = id;
-                            } catch (CvqObjectNotFoundException e2) {
-                                // no user with this id
-                            }
+                        } else {
+                            individualId = id;
                         }
                     } else if (argument instanceof Individual) {
                         individual = (Individual)argument;

@@ -14,6 +14,7 @@ import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.request.GlobalRequestTypeConfiguration;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.UserAction;
+import fr.cg95.cvq.dao.users.IHomeFolderDAO;
 import fr.cg95.cvq.dao.users.IIndividualDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -33,6 +34,8 @@ public class UserInstructionDurationCheckerJob {
     private IMailService mailService;
 
     private IIndividualDAO individualDAO;
+
+    private IHomeFolderDAO homeFolderDAO;
 
     private IRequestTypeService requestTypeService;
 
@@ -109,7 +112,7 @@ public class UserInstructionDurationCheckerJob {
             payload.addProperty("quality", i.getQoS().toString());
             payload.addProperty("notified", notified);
             i.getHomeFolder().getActions().add(new UserAction(UserAction.Type.QoS, i.getId(), payload));
-            individualDAO.update(i.getHomeFolder());
+            homeFolderDAO.update(i.getHomeFolder());
         }
     }
 
@@ -123,6 +126,10 @@ public class UserInstructionDurationCheckerJob {
 
     public void setIndividualDAO(IIndividualDAO individualDAO) {
         this.individualDAO = individualDAO;
+    }
+
+    public void setHomeFolderDAO(IHomeFolderDAO homeFolderDAO) {
+        this.homeFolderDAO = homeFolderDAO;
     }
 
     public void setRequestTypeService(IRequestTypeService requestTypeService) {

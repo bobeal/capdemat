@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.military;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="military_census_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="military_census_request")
 public class MilitaryCensusRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -336,11 +339,8 @@ public class MilitaryCensusRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -349,18 +349,14 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private Boolean affectionOrDisease;
 
-    public final void setAffectionOrDisease(final Boolean affectionOrDisease) {
+    public void setAffectionOrDisease(final Boolean affectionOrDisease) {
         this.affectionOrDisease = affectionOrDisease;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="affection_or_disease"
-        
+    @Column(name="affection_or_disease"  )
       
-    */
-    public final Boolean getAffectionOrDisease() {
+    public Boolean getAffectionOrDisease() {
         return this.affectionOrDisease;
     }
   
@@ -374,19 +370,15 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private java.math.BigInteger aliveChildren;
 
-    public final void setAliveChildren(final java.math.BigInteger aliveChildren) {
+    public void setAliveChildren(final java.math.BigInteger aliveChildren) {
         this.aliveChildren = aliveChildren;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="alive_children"
-        *  type="serializable"
-        
+    @Column(name="alive_children" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
-    */
-    public final java.math.BigInteger getAliveChildren() {
+    public java.math.BigInteger getAliveChildren() {
         return this.aliveChildren;
     }
   
@@ -400,18 +392,15 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.CountryType childBirthCountry;
 
-    public final void setChildBirthCountry(final fr.cg95.cvq.business.users.CountryType childBirthCountry) {
+    public void setChildBirthCountry(final fr.cg95.cvq.business.users.CountryType childBirthCountry) {
         this.childBirthCountry = childBirthCountry;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="child_birth_country"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="child_birth_country"  )
       
-    */
-    public final fr.cg95.cvq.business.users.CountryType getChildBirthCountry() {
+    public fr.cg95.cvq.business.users.CountryType getChildBirthCountry() {
         return this.childBirthCountry;
     }
   
@@ -436,18 +425,14 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private String childConvention;
 
-    public final void setChildConvention(final String childConvention) {
+    public void setChildConvention(final String childConvention) {
         this.childConvention = childConvention;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="child_convention"
-        *  length="255"
+    @Column(name="child_convention" , length=255 )
       
-    */
-    public final String getChildConvention() {
+    public String getChildConvention() {
         return this.childConvention;
     }
   
@@ -461,18 +446,15 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.FullNationalityType childCountry;
 
-    public final void setChildCountry(final fr.cg95.cvq.business.users.FullNationalityType childCountry) {
+    public void setChildCountry(final fr.cg95.cvq.business.users.FullNationalityType childCountry) {
         this.childCountry = childCountry;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="child_country"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="child_country"  )
       
-    */
-    public final fr.cg95.cvq.business.users.FullNationalityType getChildCountry() {
+    public fr.cg95.cvq.business.users.FullNationalityType getChildCountry() {
         return this.childCountry;
     }
   
@@ -486,54 +468,44 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.military.ChildDiplomaType childDiploma;
 
-    public final void setChildDiploma(final fr.cg95.cvq.business.request.military.ChildDiplomaType childDiploma) {
+    public void setChildDiploma(final fr.cg95.cvq.business.request.military.ChildDiplomaType childDiploma) {
         this.childDiploma = childDiploma;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="child_diploma"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="child_diploma"  )
       
-    */
-    public final fr.cg95.cvq.business.request.military.ChildDiplomaType getChildDiploma() {
+    public fr.cg95.cvq.business.request.military.ChildDiplomaType getChildDiploma() {
         return this.childDiploma;
     }
   
     
     private String childMail;
 
-    public final void setChildMail(final String childMail) {
+    public void setChildMail(final String childMail) {
         this.childMail = childMail;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="child_mail"
-        
+    @Column(name="child_mail"  )
       
-    */
-    public final String getChildMail() {
+    public String getChildMail() {
         return this.childMail;
     }
   
     
     private fr.cg95.cvq.business.users.FullNationalityType childOtherCountry;
 
-    public final void setChildOtherCountry(final fr.cg95.cvq.business.users.FullNationalityType childOtherCountry) {
+    public void setChildOtherCountry(final fr.cg95.cvq.business.users.FullNationalityType childOtherCountry) {
         this.childOtherCountry = childOtherCountry;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="child_other_country"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="child_other_country"  )
       
-    */
-    public final fr.cg95.cvq.business.users.FullNationalityType getChildOtherCountry() {
+    public fr.cg95.cvq.business.users.FullNationalityType getChildOtherCountry() {
         return this.childOtherCountry;
     }
   
@@ -563,54 +535,43 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private String childPhone;
 
-    public final void setChildPhone(final String childPhone) {
+    public void setChildPhone(final String childPhone) {
         this.childPhone = childPhone;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="child_phone"
-        *  length="10"
+    @Column(name="child_phone" , length=10 )
       
-    */
-    public final String getChildPhone() {
+    public String getChildPhone() {
         return this.childPhone;
     }
   
     
     private String childProfession;
 
-    public final void setChildProfession(final String childProfession) {
+    public void setChildProfession(final String childProfession) {
         this.childProfession = childProfession;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="child_profession"
-        
+    @Column(name="child_profession"  )
       
-    */
-    public final String getChildProfession() {
+    public String getChildProfession() {
         return this.childProfession;
     }
   
     
     private fr.cg95.cvq.business.users.CountryType childResidenceCountry;
 
-    public final void setChildResidenceCountry(final fr.cg95.cvq.business.users.CountryType childResidenceCountry) {
+    public void setChildResidenceCountry(final fr.cg95.cvq.business.users.CountryType childResidenceCountry) {
         this.childResidenceCountry = childResidenceCountry;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="child_residence_country"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="child_residence_country"  )
       
-    */
-    public final fr.cg95.cvq.business.users.CountryType getChildResidenceCountry() {
+    public fr.cg95.cvq.business.users.CountryType getChildResidenceCountry() {
         return this.childResidenceCountry;
     }
   
@@ -624,36 +585,29 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.military.ChildSituationType childSituation;
 
-    public final void setChildSituation(final fr.cg95.cvq.business.request.military.ChildSituationType childSituation) {
+    public void setChildSituation(final fr.cg95.cvq.business.request.military.ChildSituationType childSituation) {
         this.childSituation = childSituation;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="child_situation"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="child_situation"  )
       
-    */
-    public final fr.cg95.cvq.business.request.military.ChildSituationType getChildSituation() {
+    public fr.cg95.cvq.business.request.military.ChildSituationType getChildSituation() {
         return this.childSituation;
     }
   
     
     private String childSpeciality;
 
-    public final void setChildSpeciality(final String childSpeciality) {
+    public void setChildSpeciality(final String childSpeciality) {
         this.childSpeciality = childSpeciality;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="child_speciality"
-        
+    @Column(name="child_speciality"  )
       
-    */
-    public final String getChildSpeciality() {
+    public String getChildSpeciality() {
         return this.childSpeciality;
     }
   
@@ -667,18 +621,15 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.FamilyStatusType childStatus;
 
-    public final void setChildStatus(final fr.cg95.cvq.business.users.FamilyStatusType childStatus) {
+    public void setChildStatus(final fr.cg95.cvq.business.users.FamilyStatusType childStatus) {
         this.childStatus = childStatus;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="child_status"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="child_status"  )
       
-    */
-    public final fr.cg95.cvq.business.users.FamilyStatusType getChildStatus() {
+    public fr.cg95.cvq.business.users.FamilyStatusType getChildStatus() {
         return this.childStatus;
     }
   
@@ -692,18 +643,15 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.TitleType childTitle;
 
-    public final void setChildTitle(final fr.cg95.cvq.business.users.TitleType childTitle) {
+    public void setChildTitle(final fr.cg95.cvq.business.users.TitleType childTitle) {
         this.childTitle = childTitle;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="child_title"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="child_title"  )
       
-    */
-    public final fr.cg95.cvq.business.users.TitleType getChildTitle() {
+    public fr.cg95.cvq.business.users.TitleType getChildTitle() {
         return this.childTitle;
     }
   
@@ -717,91 +665,73 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private java.math.BigInteger childrenInCharge;
 
-    public final void setChildrenInCharge(final java.math.BigInteger childrenInCharge) {
+    public void setChildrenInCharge(final java.math.BigInteger childrenInCharge) {
         this.childrenInCharge = childrenInCharge;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="children_in_charge"
-        *  type="serializable"
-        
+    @Column(name="children_in_charge" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
-    */
-    public final java.math.BigInteger getChildrenInCharge() {
+    public java.math.BigInteger getChildrenInCharge() {
         return this.childrenInCharge;
     }
   
     
     private String fatherBirthCity;
 
-    public final void setFatherBirthCity(final String fatherBirthCity) {
+    public void setFatherBirthCity(final String fatherBirthCity) {
         this.fatherBirthCity = fatherBirthCity;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="father_birth_city"
-        
+    @Column(name="father_birth_city"  )
       
-    */
-    public final String getFatherBirthCity() {
+    public String getFatherBirthCity() {
         return this.fatherBirthCity;
     }
   
     
     private fr.cg95.cvq.business.users.CountryType fatherBirthCountry;
 
-    public final void setFatherBirthCountry(final fr.cg95.cvq.business.users.CountryType fatherBirthCountry) {
+    public void setFatherBirthCountry(final fr.cg95.cvq.business.users.CountryType fatherBirthCountry) {
         this.fatherBirthCountry = fatherBirthCountry;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="father_birth_country"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="father_birth_country"  )
       
-    */
-    public final fr.cg95.cvq.business.users.CountryType getFatherBirthCountry() {
+    public fr.cg95.cvq.business.users.CountryType getFatherBirthCountry() {
         return this.fatherBirthCountry;
     }
   
     
     private java.util.Date fatherBirthDate;
 
-    public final void setFatherBirthDate(final java.util.Date fatherBirthDate) {
+    public void setFatherBirthDate(final java.util.Date fatherBirthDate) {
         this.fatherBirthDate = fatherBirthDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="father_birth_date"
-        
+    @Column(name="father_birth_date"  )
       
-    */
-    public final java.util.Date getFatherBirthDate() {
+    public java.util.Date getFatherBirthDate() {
         return this.fatherBirthDate;
     }
   
     
     private fr.cg95.cvq.business.users.InseeDepartementCodeType fatherBirthDepartment;
 
-    public final void setFatherBirthDepartment(final fr.cg95.cvq.business.users.InseeDepartementCodeType fatherBirthDepartment) {
+    public void setFatherBirthDepartment(final fr.cg95.cvq.business.users.InseeDepartementCodeType fatherBirthDepartment) {
         this.fatherBirthDepartment = fatherBirthDepartment;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="father_birth_department"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="father_birth_department"  )
       
-    */
-    public final fr.cg95.cvq.business.users.InseeDepartementCodeType getFatherBirthDepartment() {
+    public fr.cg95.cvq.business.users.InseeDepartementCodeType getFatherBirthDepartment() {
         return this.fatherBirthDepartment;
     }
   
@@ -817,18 +747,14 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private String fatherFirstName;
 
-    public final void setFatherFirstName(final String fatherFirstName) {
+    public void setFatherFirstName(final String fatherFirstName) {
         this.fatherFirstName = fatherFirstName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="father_first_name"
-        *  length="38"
+    @Column(name="father_first_name" , length=38 )
       
-    */
-    public final String getFatherFirstName() {
+    public String getFatherFirstName() {
         return this.fatherFirstName;
     }
   
@@ -844,54 +770,43 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private String fatherLastName;
 
-    public final void setFatherLastName(final String fatherLastName) {
+    public void setFatherLastName(final String fatherLastName) {
         this.fatherLastName = fatherLastName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="father_last_name"
-        *  length="38"
+    @Column(name="father_last_name" , length=38 )
       
-    */
-    public final String getFatherLastName() {
+    public String getFatherLastName() {
         return this.fatherLastName;
     }
   
     
     private fr.cg95.cvq.business.users.FullNationalityType fatherNationality;
 
-    public final void setFatherNationality(final fr.cg95.cvq.business.users.FullNationalityType fatherNationality) {
+    public void setFatherNationality(final fr.cg95.cvq.business.users.FullNationalityType fatherNationality) {
         this.fatherNationality = fatherNationality;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="father_nationality"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="father_nationality"  )
       
-    */
-    public final fr.cg95.cvq.business.users.FullNationalityType getFatherNationality() {
+    public fr.cg95.cvq.business.users.FullNationalityType getFatherNationality() {
         return this.fatherNationality;
     }
   
     
     private Boolean highlyInfirm;
 
-    public final void setHighlyInfirm(final Boolean highlyInfirm) {
+    public void setHighlyInfirm(final Boolean highlyInfirm) {
         this.highlyInfirm = highlyInfirm;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="highly_infirm"
-        
+    @Column(name="highly_infirm"  )
       
-    */
-    public final Boolean getHighlyInfirm() {
+    public Boolean getHighlyInfirm() {
         return this.highlyInfirm;
     }
   
@@ -905,18 +820,14 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private Boolean japdExemption;
 
-    public final void setJapdExemption(final Boolean japdExemption) {
+    public void setJapdExemption(final Boolean japdExemption) {
         this.japdExemption = japdExemption;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="japd_exemption"
-        
+    @Column(name="japd_exemption"  )
       
-    */
-    public final Boolean getJapdExemption() {
+    public Boolean getJapdExemption() {
         return this.japdExemption;
     }
   
@@ -932,18 +843,14 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private String maidenName;
 
-    public final void setMaidenName(final String maidenName) {
+    public void setMaidenName(final String maidenName) {
         this.maidenName = maidenName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="maiden_name"
-        *  length="38"
+    @Column(name="maiden_name" , length=38 )
       
-    */
-    public final String getMaidenName() {
+    public String getMaidenName() {
         return this.maidenName;
     }
   
@@ -964,36 +871,29 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private String motherBirthCity;
 
-    public final void setMotherBirthCity(final String motherBirthCity) {
+    public void setMotherBirthCity(final String motherBirthCity) {
         this.motherBirthCity = motherBirthCity;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="mother_birth_city"
-        
+    @Column(name="mother_birth_city"  )
       
-    */
-    public final String getMotherBirthCity() {
+    public String getMotherBirthCity() {
         return this.motherBirthCity;
     }
   
     
     private fr.cg95.cvq.business.users.CountryType motherBirthCountry;
 
-    public final void setMotherBirthCountry(final fr.cg95.cvq.business.users.CountryType motherBirthCountry) {
+    public void setMotherBirthCountry(final fr.cg95.cvq.business.users.CountryType motherBirthCountry) {
         this.motherBirthCountry = motherBirthCountry;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="mother_birth_country"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="mother_birth_country"  )
       
-    */
-    public final fr.cg95.cvq.business.users.CountryType getMotherBirthCountry() {
+    public fr.cg95.cvq.business.users.CountryType getMotherBirthCountry() {
         return this.motherBirthCountry;
     }
   
@@ -1007,36 +907,29 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private java.util.Date motherBirthDate;
 
-    public final void setMotherBirthDate(final java.util.Date motherBirthDate) {
+    public void setMotherBirthDate(final java.util.Date motherBirthDate) {
         this.motherBirthDate = motherBirthDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="mother_birth_date"
-        
+    @Column(name="mother_birth_date"  )
       
-    */
-    public final java.util.Date getMotherBirthDate() {
+    public java.util.Date getMotherBirthDate() {
         return this.motherBirthDate;
     }
   
     
     private fr.cg95.cvq.business.users.InseeDepartementCodeType motherBirthDepartment;
 
-    public final void setMotherBirthDepartment(final fr.cg95.cvq.business.users.InseeDepartementCodeType motherBirthDepartment) {
+    public void setMotherBirthDepartment(final fr.cg95.cvq.business.users.InseeDepartementCodeType motherBirthDepartment) {
         this.motherBirthDepartment = motherBirthDepartment;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="mother_birth_department"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="mother_birth_department"  )
       
-    */
-    public final fr.cg95.cvq.business.users.InseeDepartementCodeType getMotherBirthDepartment() {
+    public fr.cg95.cvq.business.users.InseeDepartementCodeType getMotherBirthDepartment() {
         return this.motherBirthDepartment;
     }
   
@@ -1066,18 +959,14 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private String motherFirstName;
 
-    public final void setMotherFirstName(final String motherFirstName) {
+    public void setMotherFirstName(final String motherFirstName) {
         this.motherFirstName = motherFirstName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="mother_first_name"
-        *  length="38"
+    @Column(name="mother_first_name" , length=38 )
       
-    */
-    public final String getMotherFirstName() {
+    public String getMotherFirstName() {
         return this.motherFirstName;
     }
   
@@ -1107,18 +996,14 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private String motherLastName;
 
-    public final void setMotherLastName(final String motherLastName) {
+    public void setMotherLastName(final String motherLastName) {
         this.motherLastName = motherLastName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="mother_last_name"
-        *  length="38"
+    @Column(name="mother_last_name" , length=38 )
       
-    */
-    public final String getMotherLastName() {
+    public String getMotherLastName() {
         return this.motherLastName;
     }
   
@@ -1132,36 +1017,29 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.FullNationalityType motherNationality;
 
-    public final void setMotherNationality(final fr.cg95.cvq.business.users.FullNationalityType motherNationality) {
+    public void setMotherNationality(final fr.cg95.cvq.business.users.FullNationalityType motherNationality) {
         this.motherNationality = motherNationality;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="mother_nationality"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="mother_nationality"  )
       
-    */
-    public final fr.cg95.cvq.business.users.FullNationalityType getMotherNationality() {
+    public fr.cg95.cvq.business.users.FullNationalityType getMotherNationality() {
         return this.motherNationality;
     }
   
     
     private String otherSituation;
 
-    public final void setOtherSituation(final String otherSituation) {
+    public void setOtherSituation(final String otherSituation) {
         this.otherSituation = otherSituation;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="other_situation"
-        
+    @Column(name="other_situation"  )
       
-    */
-    public final String getOtherSituation() {
+    public String getOtherSituation() {
         return this.otherSituation;
     }
   
@@ -1175,18 +1053,14 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private Boolean prefectPupil;
 
-    public final void setPrefectPupil(final Boolean prefectPupil) {
+    public void setPrefectPupil(final Boolean prefectPupil) {
         this.prefectPupil = prefectPupil;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="prefect_pupil"
-        
+    @Column(name="prefect_pupil"  )
       
-    */
-    public final Boolean getPrefectPupil() {
+    public Boolean getPrefectPupil() {
         return this.prefectPupil;
     }
   
@@ -1209,18 +1083,15 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.InseeDepartementCodeType prefectPupilDepartment;
 
-    public final void setPrefectPupilDepartment(final fr.cg95.cvq.business.users.InseeDepartementCodeType prefectPupilDepartment) {
+    public void setPrefectPupilDepartment(final fr.cg95.cvq.business.users.InseeDepartementCodeType prefectPupilDepartment) {
         this.prefectPupilDepartment = prefectPupilDepartment;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="prefect_pupil_department"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="prefect_pupil_department"  )
       
-    */
-    public final fr.cg95.cvq.business.users.InseeDepartementCodeType getPrefectPupilDepartment() {
+    public fr.cg95.cvq.business.users.InseeDepartementCodeType getPrefectPupilDepartment() {
         return this.prefectPupilDepartment;
     }
   
@@ -1234,18 +1105,14 @@ public class MilitaryCensusRequestData implements Serializable {
     
     private Boolean statePupil;
 
-    public final void setStatePupil(final Boolean statePupil) {
+    public void setStatePupil(final Boolean statePupil) {
         this.statePupil = statePupil;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="state_pupil"
-        
+    @Column(name="state_pupil"  )
       
-    */
-    public final Boolean getStatePupil() {
+    public Boolean getStatePupil() {
         return this.statePupil;
     }
   

@@ -2,6 +2,13 @@ package fr.cg95.cvq.business.users;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import net.sf.oval.constraint.MatchPattern;
 import net.sf.oval.constraint.MaxLength;
 import net.sf.oval.constraint.NotNull;
@@ -13,50 +20,60 @@ import fr.cg95.cvq.xml.common.AddressType;
 
 
 /**
- * @hibernate.class
- *  table="address"
- *  lazy="false"
- *
  * @author bor@zenexity.fr
  */
+@Entity
+@Table(name="address")
 public class Address implements Serializable,Cloneable {
 
     private static final long serialVersionUID = 1L;
 
-    /** identifier field */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
     @MaxLength(value = 38, message = "additionalDeliveryInformation")
+    @Column(name="additional_delivery_information",length=38)
     private String additionalDeliveryInformation;
 
     @MaxLength(value = 38, message = "additionalGeographicalInformation")
+    @Column(name="additional_geographical_information",length=38)
     private String additionalGeographicalInformation;
 
     @MaxLength(value = 5, message = "streetNumber")
+    @Column(name="street_number",length=5)
     private String streetNumber;
 
     @NotNull(message = "streetName")
     @MaxLength(value = 32, message = "streetName")
+    @Column(name="street_name",length=32)
     private String streetName;
 
+    @Column(name="street_matriculation",length=8)
     private String streetMatriculation;
 
+    @Column(name="street_rivoli_code",length=10)
     private String streetRivoliCode;
 
     @MaxLength(value = 38, message = "placeNameOrService")
+    @Column(name="place_name_or_service",length=38)
     private String placeNameOrService;
 
     @NotNull(message = "postalCode")
     @MatchPattern(pattern = "[0-9]{5}", message = "postalCode")
+    @Column(name="postal_code",length=5)
     private String postalCode;
 
     @NotNull(message = "city")
     @MaxLength(value = 32, message = "city")
+    @Column(length=32)
     private String city;
 
+    @Column(name="city_insee_code",length=5)
     private String cityInseeCode;
 
     @MaxLength(value = 38, message = "countryName")
+    @Column(name="country_name",length=38)
     private String countryName;
 
     public Address() {
@@ -110,11 +127,6 @@ public class Address implements Serializable,Cloneable {
         }
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -123,11 +135,6 @@ public class Address implements Serializable,Cloneable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="additional_delivery_information"
-     *  length="38"
-     */
     public String getAdditionalDeliveryInformation() {
         return additionalDeliveryInformation;
     }
@@ -136,11 +143,6 @@ public class Address implements Serializable,Cloneable {
         this.additionalDeliveryInformation = additionalDeliveryInformation;
     }
 
-    /**
-     * @hibernate.property
-     *  column="additional_geographical_information"
-     *  length="38"
-     */
     public String getAdditionalGeographicalInformation() {
         return additionalGeographicalInformation;
     }
@@ -149,11 +151,6 @@ public class Address implements Serializable,Cloneable {
         this.additionalGeographicalInformation = additionalGeographicalInformation;
     }
 
-    /**
-     * @hibernate.property
-     *  column="street_number"
-     *  length="5"
-     */
     public String getStreetNumber() {
         return streetNumber;
     }
@@ -162,11 +159,6 @@ public class Address implements Serializable,Cloneable {
         this.streetNumber = StringUtils.upperCase(streetNumber);
     }
 
-    /**
-     * @hibernate.property
-     *  column="street_name"
-     *  length="32"
-     */
     public String getStreetName() {
         return streetName;
     }
@@ -175,11 +167,6 @@ public class Address implements Serializable,Cloneable {
         this.streetName = StringUtils.upperCase(streetName);
     }
 
-    /**
-     * @hibernate.property
-     *  column="street_matriculation"
-     *  length="8"
-     */
     public String getStreetMatriculation() {
         return streetMatriculation;
     }
@@ -188,11 +175,6 @@ public class Address implements Serializable,Cloneable {
         this.streetMatriculation = streetMatriculation;
     }
 
-    /**
-     * @hibernate.property
-     *  column="street_rivoli_code"
-     *  length="10"
-     */
     public String getStreetRivoliCode() {
         return streetRivoliCode;
     }
@@ -201,11 +183,6 @@ public class Address implements Serializable,Cloneable {
         this.streetRivoliCode = streetRivoliCode;
     }
 
-    /**
-     * @hibernate.property
-     *  column="place_name_or_service"
-     *  length="38"
-     */
     public String getPlaceNameOrService() {
         return placeNameOrService;
     }
@@ -214,11 +191,6 @@ public class Address implements Serializable,Cloneable {
         this.placeNameOrService = StringUtils.upperCase(placeNameOrService);
     }
 
-    /**
-     * @hibernate.property
-     *  column="postal_code"
-     *  length="5"
-     */
     public String getPostalCode() {
         return this.postalCode;
     }
@@ -227,11 +199,6 @@ public class Address implements Serializable,Cloneable {
         this.postalCode = postalCode;
     }
 
-    /**
-     * @hibernate.property
-     *  column="city_insee_code"
-     *  length="5"
-     */
     public String getCityInseeCode() {
         return this.cityInseeCode;
     }
@@ -240,11 +207,6 @@ public class Address implements Serializable,Cloneable {
         this.cityInseeCode = cityInseeCode;
     }
 
-    /**
-     * @hibernate.property
-     *  column="city"
-     *  length="32"
-     */
     public String getCity() {
         return this.city;
     }
@@ -253,11 +215,6 @@ public class Address implements Serializable,Cloneable {
         this.city = StringUtils.upperCase(city);
     }
 
-    /**
-     * @hibernate.property
-     *  column="country_name"
-     *  length="38"
-     */
     public String getCountryName() {
         return countryName;
     }

@@ -3,7 +3,7 @@
   <dd class="required">
     <select name="title">
       <g:each var="title" in="${fr.cg95.cvq.business.users.TitleType.allTitleTypes}">
-        <option value="fr.cg95.cvq.business.users.TitleType_${title}" ${title == individual.title ? 'selected="selected"' : ''}>
+        <option value="${title.name()}" ${title == individual.title ? 'selected="selected"' : ''}>
           ${g.capdematEnumToText(var:title, i18nKeyPrefix:'homeFolder.adult.title')}
         </option>
       </g:each>
@@ -14,7 +14,7 @@
     <select name="familyStatus">
       <option value="">${message(code:'homeFolder.adult.familyStatus.null')}</option>
       <g:each var="familyStatus" in="${fr.cg95.cvq.business.users.FamilyStatusType.allFamilyStatusTypes}">
-        <option value="fr.cg95.cvq.business.users.FamilyStatusType_${familyStatus}" ${familyStatus == individual.familyStatus ? 'selected="selected"' : ''}>
+        <option value="${familyStatus.name()}" ${familyStatus == individual.familyStatus ? 'selected="selected"' : ''}>
           ${g.capdematEnumToText(var:familyStatus, i18nKeyPrefix:'homeFolder.adult.familyStatus')}
         </option>
       </g:each>

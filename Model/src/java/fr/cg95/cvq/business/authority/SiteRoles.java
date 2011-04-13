@@ -2,17 +2,28 @@ package fr.cg95.cvq.business.authority;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.hibernate.annotations.Parent;
 
 
 /** 
  * @author bor@zenexity.fr
  */
+@Embeddable
 public class SiteRoles implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="profile", length=16)
     private SiteProfile profile;
+
+    @Parent
     private Agent agent;
 
     /** full constructor */
@@ -25,9 +36,7 @@ public class SiteRoles implements Serializable {
     public SiteRoles() {
     }
 
-    /**
-     * @hibernate.parent
-     */
+
     public Agent getAgent() {
         return this.agent;
     }
@@ -36,11 +45,6 @@ public class SiteRoles implements Serializable {
         this.agent = agent;
     }
 
-    /**
-     * @hibernate.property
-     *  column="profile"
-     *  length="16"
-     */
     public SiteProfile getProfile() {
         return this.profile;
     }

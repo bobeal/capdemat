@@ -8,8 +8,8 @@
       <label for="dwellingKind" class="required"><g:message code="hcar.property.dwellingKind.label" /> *  <span><g:message code="hcar.property.dwellingKind.help" /></span></label>
             <select id="dwellingKind" name="dwellingKind" class="required condition-isNotPlaceOfResidence-trigger  validate-not-first ${rqt.stepStates['dwelling'].invalidFields.contains('dwellingKind') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.dwellingKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['PlaceOfResidence','ThirdPartyPlaceOfResidence','Other']}">
-                <option value="fr.cg95.cvq.business.request.social.HcarDwellingKindType_${it}" ${it == rqt.dwellingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.dwellingKind" /></option>
+              <g:each in="${['PLACE_OF_RESIDENCE','THIRD_PARTY_PLACE_OF_RESIDENCE','OTHER']}">
+                <option value="${it}" ${it == rqt.dwellingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.dwellingKind" /></option>
               </g:each>
             </select>
             
@@ -35,8 +35,8 @@
       <label for="dwellingReceptionType" class="required condition-isInEstablishmentReception-filled"><g:message code="hcar.property.dwellingReceptionType.label" /> *  <span><g:message code="hcar.property.dwellingReceptionType.help" /></span></label>
             <select id="dwellingReceptionType" name="dwellingReceptionType" class="required condition-isInEstablishmentReception-filled  validate-not-first ${rqt.stepStates['dwelling'].invalidFields.contains('dwellingReceptionType') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.dwellingReceptionType.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Internship','Clerkship']}">
-                <option value="fr.cg95.cvq.business.request.social.HcarDwellingReceptionKindType_${it}" ${it == rqt.dwellingReceptionType?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.dwellingReceptionType" /></option>
+              <g:each in="${['INTERNSHIP','CLERKSHIP']}">
+                <option value="${it}" ${it == rqt.dwellingReceptionType?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.dwellingReceptionType" /></option>
               </g:each>
             </select>
             

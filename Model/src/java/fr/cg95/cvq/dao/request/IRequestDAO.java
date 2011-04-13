@@ -8,15 +8,14 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestActionType;
 import fr.cg95.cvq.business.request.RequestLock;
 import fr.cg95.cvq.business.request.RequestState;
-import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.IJpaTemplate;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.util.Critere;
 
 /**
  * @author bor@zenexity.fr
  */
-public interface IRequestDAO extends IGenericDAO {
+public interface IRequestDAO extends IJpaTemplate<Request, Long> {
 
     /**
      * Look up requests given a set of search criteria.
@@ -104,8 +103,7 @@ public interface IRequestDAO extends IGenericDAO {
 
     void cleanRequestLocks(int maxDelay);
 
-    Request findById(Long id, final boolean full)
-        throws CvqObjectNotFoundException;
+    Request findById(Long id, final boolean full);
 
     /**
      * Delete specific data

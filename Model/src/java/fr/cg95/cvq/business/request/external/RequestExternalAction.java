@@ -6,41 +6,52 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.OrderColumn;
+import javax.persistence.Table;
 
-
-/**
- * @hibernate.class
- *  table="request_external_action"
- *
- * @author vba@zenexity.fr
- */
+@Entity
+@Table(name="request_external_action")
 public class RequestExternalAction implements Serializable {
 
-    public final static class Status extends PersistentStringEnum {
-        private static final long serialVersionUID = 1L;
-        public static final Status SENT = new Status("Sent");
-        public static final Status IN_PROGRESS = new Status("InProgress");
-        public static final Status NOT_SENT = new Status("NotSent");
-        public static final Status ACKNOWLEDGED = new Status("Acknowledged");
-        public static final Status ERROR = new Status("Error");
-        public static final Status ACCEPTED = new Status("Accepted");
-        public static final Status REJECTED = new Status("Rejected");
-        private Status(final String state) { super(state); }
-        public Status() { /* empty constructor for Hibernate */ }
-        public static final Status[] all = {
-            IN_PROGRESS,
-            NOT_SENT,
-            SENT,
-            ACKNOWLEDGED,
-            ACCEPTED,
-            REJECTED,
-            ERROR
-        };
+    public enum Status {
+        SENT("Sent"),
+        IN_PROGRESS("InProgress"),
+        NOT_SENT("NotSent"),
+        ACKNOWLEDGED("Acknowledged"),
+        ERROR("Error"),
+        ACCEPTED("Accepted"),
+        REJECTED("Rejected");
+
+        private String legacyLabel;
+
+        private Status(final String state) { this.legacyLabel = state; }
+
+        /**
+         * @depreacated for backward only, use values() instead
+         */
+        public static final Status[] all = Status.values();
+
         public static Status forString(final String enumAsString) {
-            for (Status t : all)
-                if (t.name.equals(enumAsString)) return t;
+            for (Status t : values())
+                if (t.legacyLabel.equals(enumAsString)) return t;
             return null;
+        }
+
+        @Override
+        public String toString() {
+            return legacyLabel;
         }
     }
 
@@ -57,16 +68,20 @@ public class RequestExternalAction implements Serializable {
     public static String SEARCH_BY_REQUEST_STATE = "state";
     public static String SEARCH_BY_COMPLEMENTARY_DATA = "SEARCH_BY_COMPLEMENTARY_DATA";
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
     /**
      * Identifier used by the key owner to retrieve data.
      */
+    @Column(name="key")
     private Long key;
 
     /**
      * Owner of the key, typically an application, eg CapDemat.
      */
+    @Column(name="key_owner")
     private String keyOwner;
 
     /**
@@ -74,17 +89,27 @@ public class RequestExternalAction implements Serializable {
      * 
      * TODO : rename to make it more explicit.
      */
+    @Column(name="name")
     private String name;
 
     /**
      * An eventual message received from an external service, eg in case of an error.
      */
+    @Column(name="message")
     private String message;
 
+    @Column
     private Date date;
 
+    @Enumerated(EnumType.STRING)
+    @Column
     private Status status;
 
+    @ElementCollection(fetch=FetchType.EAGER)
+    @CollectionTable(name="request_external_action_complementary_data", joinColumns=@JoinColumn(name="id"))
+    @MapKeyColumn(name="key")
+    @Column(name="value")
+    @OrderColumn(name="key")
     private Map<String, Serializable> complementaryData;
 
     public RequestExternalAction() {
@@ -110,59 +135,30 @@ public class RequestExternalAction implements Serializable {
             Collections.<String, Serializable>emptyMap());
     }
 
-    /**
-     * @hibernate.property
-     *  column="date"
-     */
     public Date getDate() {
         return date;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="key"
-     */
     public Long getKey() {
         return key;
     }
 
-    /**
-     * @hibernate.property
-     *  column="key_owner"
-     */
     public String getKeyOwner() {
         return keyOwner;
     }
 
-    /**
-     * @hibernate.property
-     *  column="message"
-     */
     public String getMessage() {
         return message;
     }
 
-    /**
-     * @hibernate.property
-     *  column="name"
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * @hibernate.property
-     *  column="status"
-     */
     public Status getStatus() {
         return status;
     }
@@ -195,20 +191,6 @@ public class RequestExternalAction implements Serializable {
         this.status = status;
     }
 
-    /**
-     * @hibernate.map
-     *  lazy="false"
-     *  cascade="all"
-     *  table="request_external_action_complementary_data"
-     * @hibernate.key
-     *  column="id"
-     * @hibernate.index
-     *  column="key"
-     *  type="string"
-     * @hibernate.element
-     *  column="value"
-     *  type="serializable"
-     */
     public Map<String, Serializable> getComplementaryData() {
         return complementaryData;
     }

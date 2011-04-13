@@ -1,45 +1,43 @@
 package fr.cg95.cvq.business.request.school;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class PlageHoraireContactType extends PersistentStringEnum {
+public enum PlageHoraireContactType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final PlageHoraireContactType MATIN = new PlageHoraireContactType("Matin");
-  
-    public static final PlageHoraireContactType APREM = new PlageHoraireContactType("Aprem");
-  
-    public static final PlageHoraireContactType SOIR = new PlageHoraireContactType("Soir");
-  
-    public static final PlageHoraireContactType INDIFFERENT = new PlageHoraireContactType("Indifferent");
-  
+    MATIN("Matin"),
+    APREM("Aprem"),
+    SOIR("Soir"),
+    INDIFFERENT("Indifferent");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use PlageHoraireContactType.values() instead
+     * @deprecated only for backward
      */
-    private PlageHoraireContactType(String value) {
-        super(value);
+    @Deprecated 
+    public static PlageHoraireContactType[] allPlageHoraireContactTypes = PlageHoraireContactType.values();
+
+    private String legacyLabel;
+
+    private PlageHoraireContactType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public PlageHoraireContactType() {}
-
-    public static PlageHoraireContactType[] allPlageHoraireContactTypes = {
-        MATIN,
-        APREM,
-        SOIR,
-        INDIFFERENT
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static PlageHoraireContactType getDefaultPlageHoraireContactType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of PlageHoraireContactType.something
+     * not the value of the name attribut.
+     */
     public static PlageHoraireContactType forString(final String enumAsString) {
-        for (PlageHoraireContactType value : allPlageHoraireContactTypes)
+        for (PlageHoraireContactType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultPlageHoraireContactType();

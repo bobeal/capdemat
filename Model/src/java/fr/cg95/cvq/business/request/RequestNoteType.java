@@ -1,32 +1,26 @@
 package fr.cg95.cvq.business.request;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * @author bor@zenexity.fr
  */
-public final class RequestNoteType extends PersistentStringEnum {
+public enum RequestNoteType {
+
+    INTERNAL("Internal"),
+    PUBLIC("Public");
 
     private static final long serialVersionUID = 1L;
+    private String name;
 
-    public static final RequestNoteType INTERNAL =
-        new RequestNoteType("Internal");
-    public static final RequestNoteType PUBLIC =
-        new RequestNoteType("Public");
-
-    public static final RequestNoteType[] allRequestNoteTypes = {
-        PUBLIC,
-        INTERNAL
-    };
+    /**
+     * @deprecated only for backward, use values() instead
+     */
+    public static final RequestNoteType[] allRequestNoteTypes = RequestNoteType.values();
 
     /**
      * Prevent instantiation and subclassing with a private constructor.
      */
     private RequestNoteType(String type) {
-        super(type);
-    }
-
-    public RequestNoteType() {
+        this.name = type;
     }
 
     public static RequestNoteType forString(String enumAsString) {
@@ -37,5 +31,10 @@ public final class RequestNoteType extends PersistentStringEnum {
         if (PUBLIC.toString().equals(enumAsString))
             return PUBLIC;
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

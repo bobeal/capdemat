@@ -1,9 +1,9 @@
-package fr.cg95.cvq.dao;
+package fr.cg95.cvq.dao.hibernate;
 
 import java.util.List;
 import java.util.Map;
 
-import fr.cg95.cvq.dao.hibernate.GenericDAO.SimpleQuery;
+import fr.cg95.cvq.dao.hibernate.SimpleQuery;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 
 /**

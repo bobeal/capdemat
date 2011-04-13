@@ -7,7 +7,6 @@ import fr.cg95.cvq.business.request.Category;
 import fr.cg95.cvq.business.request.CategoryProfile;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.annotation.IsCategory;
 import fr.cg95.cvq.service.request.annotation.IsRequestType;
 
@@ -19,35 +18,31 @@ public interface ICategoryService {
     /**
      * Return agents that have a right (read or write) for the given category.
      */
-    List<Agent> getAuthorizedForCategory(@IsCategory final Long categoryId)
-        throws CvqObjectNotFoundException;
+    List<Agent> getAuthorizedForCategory(@IsCategory final Long categoryId);
 
     /**
      * Return whether the given agent has at least a
      * {@link CategoryProfile#READ_ONLY} profile on the given category.
      */
-    boolean hasProfileOnCategory(final Agent agent, @IsCategory final Long categoryId) 
-        throws CvqObjectNotFoundException;
+    boolean hasProfileOnCategory(final Agent agent, @IsCategory final Long categoryId);
 
     /**
      * Return whether the given agent has at least a
      * {@link CategoryProfile#READ_WRITE} profile on the given category.
      */
-    boolean hasWriteProfileOnCategory(Agent agent, @IsCategory Long categoryId) 
-        throws CvqObjectNotFoundException;
+    boolean hasWriteProfileOnCategory(Agent agent, @IsCategory Long categoryId);
 
     boolean hasManagerProfile(Agent agent);
 
     /**
      * Get current agent's profile for this category.
      */
-    CategoryProfile getProfileForCategory(final Long categoryId) throws CvqObjectNotFoundException;
+    CategoryProfile getProfileForCategory(final Long categoryId);
 
     /**
      * Get agent's profile for this category.
      */
-    CategoryProfile getProfileForCategory(final Long agentId, final Long categoryId) 
-        throws CvqObjectNotFoundException;
+    CategoryProfile getProfileForCategory(final Long agentId, final Long categoryId);
 
     /**
      * Return the categories for which the current agent has a
@@ -71,8 +66,7 @@ public interface ICategoryService {
      */
     List<Category> getAll();
 
-    Category getById(@IsCategory final Long id)
-        throws CvqObjectNotFoundException;
+    Category getById(@IsCategory final Long id);
 
     List<Category> getAgentCategories(final Long agentId);
 
@@ -80,15 +74,13 @@ public interface ICategoryService {
      * Add a request type to the given category.
      */
     Category addRequestType(@IsCategory final Long categoryId,
-        @IsRequestType final Long requestTypeId)
-        throws CvqException;
+        @IsRequestType final Long requestTypeId);
     
     /**
      * Remove a request type from the given category.
      */
     Category removeRequestType(@IsCategory final Long categoryId,
-        @IsRequestType final Long requestTypeId)
-        throws CvqException;
+        @IsRequestType final Long requestTypeId);
 
     /**
      * Give an agent a role on a category.
@@ -118,6 +110,5 @@ public interface ICategoryService {
 
     void modify(@IsCategory final Category category);
 
-    void delete(@IsCategory final Long id)
-        throws CvqObjectNotFoundException;
+    void delete(@IsCategory final Long id);
 }

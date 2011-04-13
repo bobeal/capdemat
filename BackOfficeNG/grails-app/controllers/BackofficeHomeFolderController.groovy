@@ -181,7 +181,7 @@ class BackofficeHomeFolderController {
                 if (it.value instanceof GrailsParameterMap && it.value.owner != '' && it.value.type != '') {
                     userWorkflowService.link(
                         userSearchService.getById(Long.valueOf(it.value.owner)),
-                        child, [RoleType.forString(it.value.type)])
+                        child, [RoleType.valueOf(it.value.type)])
                 }
             }
             def invalidFields = userService.validate(child)

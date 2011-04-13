@@ -1,42 +1,37 @@
 package fr.cg95.cvq.business.request.school;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class AutorisationType extends PersistentStringEnum {
+public enum AutorisationType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final AutorisationType SEUL = new AutorisationType("Seul");
-  
-    public static final AutorisationType AVEC_FRERE_SOEUR = new AutorisationType("AvecFrereSoeur");
-  
-    public static final AutorisationType AVEC_TIERS = new AutorisationType("AvecTiers");
-  
+    SEUL("Seul"),
+    AVEC_FRERE_SOEUR("AvecFrereSoeur"),
+    AVEC_TIERS("AvecTiers");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use AutorisationType.values() instead
+     * @deprecated only for backward
      */
-    private AutorisationType(String value) {
-        super(value);
+    @Deprecated 
+    public static AutorisationType[] allAutorisationTypes = AutorisationType.values();
+
+    private String name;
+    private AutorisationType(String name){
+        this.name = name;
     }
-
-    public AutorisationType() {}
-
-    public static AutorisationType[] allAutorisationTypes = {
-        SEUL,
-        AVEC_FRERE_SOEUR,
-        AVEC_TIERS
-    };
 
     public static AutorisationType getDefaultAutorisationType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of AutorisationType.something
+     * not the value of the name attribut.
+     */
     public static AutorisationType forString(final String enumAsString) {
-        for (AutorisationType value : allAutorisationTypes)
+        for (AutorisationType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultAutorisationType();

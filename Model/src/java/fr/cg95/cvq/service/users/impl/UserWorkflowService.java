@@ -48,6 +48,7 @@ import fr.cg95.cvq.business.users.UserWorkflow;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.business.users.external.IndividualMapping;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.dao.users.IHomeFolderDAO;
 import fr.cg95.cvq.dao.users.IIndividualDAO;
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException;
@@ -106,6 +107,8 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
     private IHomeFolderDAO homeFolderDAO;
 
     private IIndividualDAO individualDAO;
+
+    private IGenericDAO genericDAO;
 
     private Map<String, UserWorkflow> workflows = new HashMap<String, UserWorkflow>();
 
@@ -219,8 +222,8 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
             adult.setHomeFolder(homeFolder);
             SecurityContext.setCurrentEcitizen(adult);
         }
-        homeFolder.getActions().add(new UserAction(UserAction.Type.CREATION, homeFolder.getId()));
         add(homeFolder, adult, !temporary);
+        homeFolder.getActions().add(new UserAction(UserAction.Type.CREATION, homeFolder.getId()));
         if (SecurityContext.isFrontOfficeContext()) {
             // FIXME attribute all previous actions to the newly created responsible which had no ID
             Gson gson = new Gson();
@@ -265,7 +268,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         individual.setQoS(SecurityContext.isFrontOfficeContext() ? QoS.GOOD : null);
         individual.setLastModificationDate(new Date());
         if (individual.getAddress() == null) individual.setAddress(homeFolder.getAddress());
-        Long id = individualDAO.create(individual);
+        Long id = individualDAO.create(individual).getId();
         UserAction action = new UserAction(UserAction.Type.CREATION, id);
         individual.getHomeFolder().getActions().add(action);
         if (SecurityContext.isFrontOfficeContext()
@@ -342,7 +345,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
             }
         }
         individual.getHomeFolder().getActions().add(action);
-        individualDAO.update(individual.getHomeFolder());
+        homeFolderDAO.update(individual.getHomeFolder());
         applicationEventPublisher.publishEvent(new UserEvent(this, action));
     }
 
@@ -557,7 +560,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
     
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void validateHomeFolder(@IsUser HomeFolder homeFolder) throws CvqModelException, CvqInvalidTransitionException, CvqObjectNotFoundException {
+    public void validateHomeFolder(@IsUser HomeFolder homeFolder) throws CvqModelException, CvqInvalidTransitionException {
         //collect individuals ids
         List<Long> ids=new ArrayList<Long>();
         for (Individual i : homeFolder.getIndividuals()) {
@@ -626,8 +629,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void delete(Long id)
-        throws CvqObjectNotFoundException {
+    public void delete(Long id) {
         delete(userSearchService.getHomeFolderById(id));
     }
 
@@ -791,7 +793,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
                             if (c.getFullName().equals(role.getIndividualName())) {
                                 roles.add(role.getRole());
                                 it.remove();
-                                homeFolderDAO.delete(role);
+                                genericDAO.delete(role);
                             }
                         }
                         if (!roles.isEmpty()) {
@@ -826,7 +828,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
                         homeFolderMapping.getIndividualsMappings().get(i).setIndividualId(
                             individuals.get(i).getId());
                     }
-                    homeFolderDAO.create(homeFolderMapping);
+                    genericDAO.create(homeFolderMapping);
                     // FIXME attribute all actions to the external service
                     Gson gson = new Gson();
                     for (UserAction action : result.getActions()) {
@@ -913,5 +915,13 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
 
     public void setIndividualDAO(IIndividualDAO individualDAO) {
         this.individualDAO = individualDAO;
+    }
+
+    public IGenericDAO getGenericDAO() {
+        return genericDAO;
+    }
+
+    public void setGenericDAO(IGenericDAO genericDAO) {
+        this.genericDAO = genericDAO;
     }
 }

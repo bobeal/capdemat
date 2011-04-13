@@ -51,7 +51,7 @@ public interface IRequestWorkflowService {
      * Dispatcher method to update request data  state.
      */
     void updateRequestDataState(@IsRequest final Long id, final DataState rs)
-        throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
+        throws CvqException, CvqInvalidTransitionException;
 
     /**
      * Dispatcher method to update request state.
@@ -96,7 +96,7 @@ public interface IRequestWorkflowService {
      * Currently, a request is editable if it is in pending or uncomplete state
      * and is not a account creation or modification request.
      */
-    boolean isEditable(@IsRequest final Long requestId) throws CvqObjectNotFoundException;
+    boolean isEditable(@IsRequest final Long requestId);
     
     /**
      * Get the list of states for which instruction is done.
@@ -178,13 +178,12 @@ public interface IRequestWorkflowService {
      */
     void modify(@IsRequest Request request) throws CvqException;
 
-    void delete(@IsRequest Request request)
-        throws CvqException, CvqObjectNotFoundException;
+    void delete(@IsRequest Request request);
 
     /**
      * Remove permanently a request.
      */
-    void delete(@IsRequest Long id) throws CvqException, CvqObjectNotFoundException;
+    void delete(@IsRequest Long id);
 
     /**
      * Perform checks wrt subject policies :

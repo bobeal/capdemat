@@ -3,24 +3,49 @@ package fr.cg95.cvq.business.payment.external;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
+import javax.persistence.Table;
+
 import org.apache.commons.lang.StringUtils;
 
 import fr.cg95.cvq.business.users.external.MappingState;
 
-/**
- * @hibernate.class
- *  table="external_home_folder"
- *  lazy="false"
- */
+@Entity
+@Table(name="external_home_folder")
 public class ExternalHomeFolder {
 
-    /** identifier field */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(name="mapping_state",nullable=false)
+    @Enumerated(EnumType.STRING)
     private MappingState mappingState;
+
+    @Column(name="external_id")
     private String externalId;
+
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="external_application_id")
     private ExternalApplication externalApplication;
+
     private String address;
+
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+    @JoinColumn(name="external_home_folder_id")
+    @OrderColumn(name="external_home_folder_index")
     private List<ExternalIndividual> individuals = new ArrayList<ExternalIndividual>();
 
     public ExternalHomeFolder() {
@@ -34,11 +59,6 @@ public class ExternalHomeFolder {
         this.mappingState = MappingState.FREE;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return id;
     }
@@ -47,11 +67,6 @@ public class ExternalHomeFolder {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="mapping_state"
-     *  not-null="true"
-     */
     public MappingState getMappingState() {
         return mappingState;
     }
@@ -60,10 +75,6 @@ public class ExternalHomeFolder {
         this.mappingState = mappingState;
     }
 
-    /**
-     * @hibernate.property
-     *  column="external_id"
-     */
     public String getExternalId() {
         return externalId;
     }
@@ -72,11 +83,6 @@ public class ExternalHomeFolder {
         this.externalId = externalId;
     }
 
-    /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.payment.external.ExternalApplication"
-     *  column="external_application_id"
-     */
     public ExternalApplication getExternalApplication() {
         return externalApplication;
     }
@@ -85,10 +91,6 @@ public class ExternalHomeFolder {
         this.externalApplication = externalApplication;
     }
 
-    /**
-     * @hibernate.property
-     *  column="address"
-     */
     public String getAddress() {
         return address;
     }
@@ -97,18 +99,6 @@ public class ExternalHomeFolder {
         this.address = StringUtils.upperCase(address);
     }
 
-    /**
-     * @hibernate.list
-     *  inverse="false"
-     *  cascade="all"
-     *  table="external_individual"
-     * @hibernate.key
-     *  column="external_home_folder_id"
-     * @hibernate.list-index
-     *  column="external_home_folder_index"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.payment.external.ExternalIndividual"
-     */
     public List<ExternalIndividual> getIndividuals() {
         return individuals;
     }

@@ -1,39 +1,41 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class DhrAssetKindType extends PersistentStringEnum {
+public enum DhrAssetKindType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final DhrAssetKindType REAL_ESTATE = new DhrAssetKindType("RealEstate");
-  
-    public static final DhrAssetKindType OTHER = new DhrAssetKindType("Other");
-  
+    REAL_ESTATE("RealEstate"),
+    OTHER("Other");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use DhrAssetKindType.values() instead
+     * @deprecated only for backward
      */
-    private DhrAssetKindType(String value) {
-        super(value);
+    @Deprecated 
+    public static DhrAssetKindType[] allDhrAssetKindTypes = DhrAssetKindType.values();
+
+    private String legacyLabel;
+
+    private DhrAssetKindType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public DhrAssetKindType() {}
-
-    public static DhrAssetKindType[] allDhrAssetKindTypes = {
-        REAL_ESTATE,
-        OTHER
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static DhrAssetKindType getDefaultDhrAssetKindType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of DhrAssetKindType.something
+     * not the value of the name attribut.
+     */
     public static DhrAssetKindType forString(final String enumAsString) {
-        for (DhrAssetKindType value : allDhrAssetKindTypes)
+        for (DhrAssetKindType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultDhrAssetKindType();

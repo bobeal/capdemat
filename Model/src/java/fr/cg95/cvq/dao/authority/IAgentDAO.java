@@ -3,12 +3,12 @@ package fr.cg95.cvq.dao.authority;
 import java.util.List;
 
 import fr.cg95.cvq.business.authority.Agent;
-import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.IJpaTemplate;
 
 /**
  * @author bor@zenexity.fr
  */
-public interface IAgentDAO extends IGenericDAO {
+public interface IAgentDAO extends IJpaTemplate<Agent,Long> {
 
     /**
      * Return whether there exists an agent with the given id.

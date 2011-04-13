@@ -4,6 +4,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import net.sf.oval.constraint.AssertValid;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotNull;
@@ -16,46 +32,61 @@ import fr.cg95.cvq.xml.common.HomeFolderType;
 import fr.cg95.cvq.xml.common.IndividualType;
 
 /**
- * @hibernate.class
- *  table="home_folder"
- *  lazy="false"
- *
  * @author bor@zenexity.fr
  */
+@Entity
+@Table(name="home_folder")
 public class HomeFolder implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/** identifier field */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
     
     /**
      * the external identifier that is dynamically set for external services
      * that provide us this information.
      */
+    @Transient
     private String externalId;
     
     /**
      * the external CapDemat identifier that is dynamically set before
      * talking to an external service.
      */
+    @Transient
     private String externalCapDematId;
     
+    @Enumerated(EnumType.STRING)
+    @Column(length=16,nullable=false)
     private UserState state;
 
     @NotNull(message = "address")
     @AssertValid(message = "address")
+    @ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+    @JoinColumn(name="address_id")
     private Address address;
 
     private Boolean enabled;
+
     /** home folders created along a request are considered to be temporary */
+    @Column(name="is_temporary")
     private boolean temporary = false;
+
+    @Column(name="family_quotient")
     private String familyQuotient;
 
     @AssertValid(message = "individuals")
     @MinSize(value = 1, message = "individuals")
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+    @JoinColumn(name="home_folder_id")
+    @OrderColumn(name="home_folder_index")
     private List<Individual> individuals;
 
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+    @JoinColumn(name="home_folder_id")
+    @OrderColumn(name="home_folder_index")
     private List<UserAction> actions;
 
     /** default constructor */
@@ -116,11 +147,6 @@ public class HomeFolder implements Serializable {
         return homeFolder;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -145,12 +171,6 @@ public class HomeFolder implements Serializable {
         this.externalCapDematId = externalCapDematId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="state"
-     *  length="16"
-     *  not-null="true"
-     */
     public UserState getState() {
         return this.state;
     }
@@ -163,11 +183,6 @@ public class HomeFolder implements Serializable {
         this.state = UserState.forString(state);
     }
 
-    /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.users.Address"
-     *  column="address_id"
-     */
     public Address getAddress() {
         return this.address;
     }
@@ -176,18 +191,6 @@ public class HomeFolder implements Serializable {
         this.address = address;
     }
 
-    /**
-     * @hibernate.list
-     *  inverse="false"
-     *  cascade="all"
-     *  table="individual"
-     * @hibernate.key
-     *  column="home_folder_id"
-     * @hibernate.list-index
-     *  column="home_folder_index"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.users.Individual"
-     */
     public List<Individual> getIndividuals() {
         return this.individuals;
     }
@@ -196,10 +199,6 @@ public class HomeFolder implements Serializable {
         this.individuals = individuals;
     }
 
-    /**
-     * @hibernate.property
-     *  column="enabled"
-     */
     public Boolean getEnabled() {
         return enabled;
     }
@@ -208,10 +207,6 @@ public class HomeFolder implements Serializable {
         this.enabled = enabled;
     }
 
-    /**
-     * @hibernate.property
-     *  column="is_temporary"
-     */
     public boolean isTemporary() {
         return temporary;
     }
@@ -220,10 +215,6 @@ public class HomeFolder implements Serializable {
         this.temporary = temporary;
     }
 
-    /**
-     * @hibernate.property
-     *  column="family_quotient"
-     */
     public final String getFamilyQuotient() {
         return familyQuotient;
     }
@@ -239,18 +230,6 @@ public class HomeFolder implements Serializable {
             .toString();
     }
 
-    /**
-     * @hibernate.list
-     *  inverse="false"
-     *  cascade="all"
-     *  table="user_action"
-     * @hibernate.key
-     *  column="home_folder_id"
-     * @hibernate.list-index
-     *  column="home_folder_index"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.users.UserAction"
-     */
     public List<UserAction> getActions() {
         return actions;
     }

@@ -1,32 +1,31 @@
 package fr.cg95.cvq.business.authority;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Represents a access profile at the site level.
- * 
+ *
  * @author bor@zenexity.fr
  */
-public final class SiteProfile extends PersistentStringEnum {
-
-    private static final long serialVersionUID = 1L;
+public enum SiteProfile {
 
     /** An user that can access the site but has no specific right */
-    public static final SiteProfile AGENT = new SiteProfile("Agent");
+    AGENT("Agent"),
     /** A site administrator, can manage agents, categories, ... */
-    public static final SiteProfile ADMIN = new SiteProfile("Admin");
+    ADMIN("Admin");
 
-    public SiteProfile() {}
+    private String name;
 
     private SiteProfile(String name) {
-        super(name);
+        this.name = name;
     }
 
     /**
      * A vector of all possible {@link SiteProfile site profiles}.
+     * @deprecated only for backward, use values() instead
      */
-    public static final SiteProfile[] allSiteProfiles = {
-        AGENT,
-        ADMIN
-    };
+    public static final SiteProfile[] allSiteProfiles = values();
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

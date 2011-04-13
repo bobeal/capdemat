@@ -3,6 +3,7 @@
 <%
 
   import org.apache.commons.lang.StringUtils
+  import fr.cg95.cvq.util.EnumTool
   def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -196,7 +197,7 @@
       <p class="label">${esc(i18n.translate('bgr.property.accountHolderTitle.label'))}</p>
           <div class="response">
             <% if(rqt.accountHolderTitle) { %>
-              ${esc(i18n.translate('bgr.property.accountHolderTitle.' + StringUtils.uncapitalize(rqt.accountHolderTitle.toString())))}
+              ${esc(i18n.translate('bgr.property.accountHolderTitle.' + EnumTool.toLowerCamelCase(rqt.accountHolderTitle.toString())))}
             <% } %>
           </div>
           
@@ -241,7 +242,7 @@
     <% if (rqt.meansOfContact) { %>
       <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
         <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
-          ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+          ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.name))}
         </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
       <% } %>
     <% } else { %>

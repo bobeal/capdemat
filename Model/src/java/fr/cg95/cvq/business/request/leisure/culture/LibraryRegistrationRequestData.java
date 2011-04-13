@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.leisure.culture;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="library_registration_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="library_registration_request")
 public class LibraryRegistrationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -95,11 +98,8 @@ public class LibraryRegistrationRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -115,18 +115,14 @@ public class LibraryRegistrationRequestData implements Serializable {
     
     private Boolean adultContentAuthorization;
 
-    public final void setAdultContentAuthorization(final Boolean adultContentAuthorization) {
+    public void setAdultContentAuthorization(final Boolean adultContentAuthorization) {
         this.adultContentAuthorization = adultContentAuthorization;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="adult_content_authorization"
-        
+    @Column(name="adult_content_authorization"  )
       
-    */
-    public final Boolean getAdultContentAuthorization() {
+    public Boolean getAdultContentAuthorization() {
         return this.adultContentAuthorization;
     }
   
@@ -140,36 +136,28 @@ public class LibraryRegistrationRequestData implements Serializable {
     
     private Boolean parentalAuthorization;
 
-    public final void setParentalAuthorization(final Boolean parentalAuthorization) {
+    public void setParentalAuthorization(final Boolean parentalAuthorization) {
         this.parentalAuthorization = parentalAuthorization;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="parental_authorization"
-        
+    @Column(name="parental_authorization"  )
       
-    */
-    public final Boolean getParentalAuthorization() {
+    public Boolean getParentalAuthorization() {
         return this.parentalAuthorization;
     }
   
     
     private String registrationNumber;
 
-    public final void setRegistrationNumber(final String registrationNumber) {
+    public void setRegistrationNumber(final String registrationNumber) {
         this.registrationNumber = registrationNumber;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="registration_number"
-        
+    @Column(name="registration_number"  )
       
-    */
-    public final String getRegistrationNumber() {
+    public String getRegistrationNumber() {
         return this.registrationNumber;
     }
   
@@ -183,18 +171,14 @@ public class LibraryRegistrationRequestData implements Serializable {
     
     private Boolean rulesAndRegulationsAcceptance;
 
-    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
+    public void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
         this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="rules_and_regulations_acceptance"
-        
+    @Column(name="rules_and_regulations_acceptance"  )
       
-    */
-    public final Boolean getRulesAndRegulationsAcceptance() {
+    public Boolean getRulesAndRegulationsAcceptance() {
         return this.rulesAndRegulationsAcceptance;
     }
   
@@ -217,27 +201,20 @@ public class LibraryRegistrationRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.LocalReferentialData> subscription;
 
-    public final void setSubscription(final List<fr.cg95.cvq.business.request.LocalReferentialData> subscription) {
+    public void setSubscription(final List<fr.cg95.cvq.business.request.LocalReferentialData> subscription) {
         this.subscription = subscription;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="library_registration_request_subscription"
-        * @hibernate.key
-        *  column="library_registration_request_id"
-        * @hibernate.list-index
-        *  column="subscription_index"
-        * @hibernate.many-to-many
-        *  column="subscription_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+    @ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="library_registration_request_subscription",
+            joinColumns=
+                @JoinColumn(name="library_registration_request_id"),
+            inverseJoinColumns=
+                @JoinColumn(name="subscription_id"))
+    @OrderColumn(name="subscription_index")
       
-    */
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getSubscription() {
+    public List<fr.cg95.cvq.business.request.LocalReferentialData> getSubscription() {
         return this.subscription;
     }
   
@@ -251,18 +228,14 @@ public class LibraryRegistrationRequestData implements Serializable {
     
     private java.math.BigDecimal subscriptionPrice;
 
-    public final void setSubscriptionPrice(final java.math.BigDecimal subscriptionPrice) {
+    public void setSubscriptionPrice(final java.math.BigDecimal subscriptionPrice) {
         this.subscriptionPrice = subscriptionPrice;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subscription_price"
-        
+    @Column(name="subscription_price"  )
       
-    */
-    public final java.math.BigDecimal getSubscriptionPrice() {
+    public java.math.BigDecimal getSubscriptionPrice() {
         return this.subscriptionPrice;
     }
   

@@ -62,7 +62,6 @@ import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
 import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.exception.CvqRemoteException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.ExternalServiceUtils;
@@ -507,10 +506,8 @@ public class HoranetServiceV3 implements IExternalProviderService {
                     childCsn = nodeAttrs.getNamedItem("child-csn").getNodeValue();
                 String childId = nodeAttrs.getNamedItem("child-id").getNodeValue();
 
-                Child child = null;
-                try {
-                    child = userSearchService.getChildById(new Long(childId));
-                } catch (CvqObjectNotFoundException confe) {
+                Child child = userSearchService.getChildById(new Long(childId));
+                if (child == null) {
                     logger.error("getHomeFolderAccounts() could not find child with id : " + childId);
                     continue;
                 }
@@ -582,10 +579,8 @@ public class HoranetServiceV3 implements IExternalProviderService {
                     childCsn = nodeAttrs.getNamedItem("child-csn").getNodeValue();
                 String childId = nodeAttrs.getNamedItem("child-id").getNodeValue();
 
-                Child child = null;
-                try {
-                    child = userSearchService.getChildById(new Long(childId));
-                } catch (CvqObjectNotFoundException confe) {
+                Child child = userSearchService.getChildById(new Long(childId));
+                if (child == null) {
                     logger.error("getIndividualAccountsInformation() could not find child : " 
                             + childId);
                     continue;

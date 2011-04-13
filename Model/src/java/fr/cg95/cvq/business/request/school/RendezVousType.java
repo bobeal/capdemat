@@ -1,39 +1,41 @@
 package fr.cg95.cvq.business.request.school;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class RendezVousType extends PersistentStringEnum {
+public enum RendezVousType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final RendezVousType PHYSIQUE = new RendezVousType("Physique");
-  
-    public static final RendezVousType TELEPHONIQUE = new RendezVousType("Telephonique");
-  
+    PHYSIQUE("Physique"),
+    TELEPHONIQUE("Telephonique");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use RendezVousType.values() instead
+     * @deprecated only for backward
      */
-    private RendezVousType(String value) {
-        super(value);
+    @Deprecated 
+    public static RendezVousType[] allRendezVousTypes = RendezVousType.values();
+
+    private String legacyLabel;
+
+    private RendezVousType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public RendezVousType() {}
-
-    public static RendezVousType[] allRendezVousTypes = {
-        PHYSIQUE,
-        TELEPHONIQUE
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static RendezVousType getDefaultRendezVousType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of RendezVousType.something
+     * not the value of the name attribut.
+     */
     public static RendezVousType forString(final String enumAsString) {
-        for (RendezVousType value : allRendezVousTypes)
+        for (RendezVousType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultRendezVousType();

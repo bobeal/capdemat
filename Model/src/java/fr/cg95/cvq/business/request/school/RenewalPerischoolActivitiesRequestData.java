@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.school;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="renewal_perischool_activities_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="renewal_perischool_activities_request")
 public class RenewalPerischoolActivitiesRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -83,11 +86,8 @@ public class RenewalPerischoolActivitiesRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -103,18 +103,14 @@ public class RenewalPerischoolActivitiesRequestData implements Serializable {
     
     private Boolean acceptationReglementInterieur;
 
-    public final void setAcceptationReglementInterieur(final Boolean acceptationReglementInterieur) {
+    public void setAcceptationReglementInterieur(final Boolean acceptationReglementInterieur) {
         this.acceptationReglementInterieur = acceptationReglementInterieur;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="acceptation_reglement_interieur"
-        
+    @Column(name="acceptation_reglement_interieur"  )
       
-    */
-    public final Boolean getAcceptationReglementInterieur() {
+    public Boolean getAcceptationReglementInterieur() {
         return this.acceptationReglementInterieur;
     }
   
@@ -128,18 +124,14 @@ public class RenewalPerischoolActivitiesRequestData implements Serializable {
     
     private Boolean estPeriscolaire;
 
-    public final void setEstPeriscolaire(final Boolean estPeriscolaire) {
+    public void setEstPeriscolaire(final Boolean estPeriscolaire) {
         this.estPeriscolaire = estPeriscolaire;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="est_periscolaire"
-        
+    @Column(name="est_periscolaire"  )
       
-    */
-    public final Boolean getEstPeriscolaire() {
+    public Boolean getEstPeriscolaire() {
         return this.estPeriscolaire;
     }
   
@@ -153,18 +145,14 @@ public class RenewalPerischoolActivitiesRequestData implements Serializable {
     
     private Boolean estRestauration;
 
-    public final void setEstRestauration(final Boolean estRestauration) {
+    public void setEstRestauration(final Boolean estRestauration) {
         this.estRestauration = estRestauration;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="est_restauration"
-        
+    @Column(name="est_restauration"  )
       
-    */
-    public final Boolean getEstRestauration() {
+    public Boolean getEstRestauration() {
         return this.estRestauration;
     }
   
@@ -205,27 +193,20 @@ public class RenewalPerischoolActivitiesRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.LocalReferentialData> regimeAlimentaireRenouvellement;
 
-    public final void setRegimeAlimentaireRenouvellement(final List<fr.cg95.cvq.business.request.LocalReferentialData> regimeAlimentaireRenouvellement) {
+    public void setRegimeAlimentaireRenouvellement(final List<fr.cg95.cvq.business.request.LocalReferentialData> regimeAlimentaireRenouvellement) {
         this.regimeAlimentaireRenouvellement = regimeAlimentaireRenouvellement;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="renewal_perischool_activities_request_regime_alimentaire_renouvellement"
-        * @hibernate.key
-        *  column="renewal_perischool_activities_request_id"
-        * @hibernate.list-index
-        *  column="regime_alimentaire_renouvellement_index"
-        * @hibernate.many-to-many
-        *  column="regime_alimentaire_renouvellement_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+    @ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="renewal_perischool_activities_request_regime_alimentaire_renouvellement",
+            joinColumns=
+                @JoinColumn(name="renewal_perischool_activities_request_id"),
+            inverseJoinColumns=
+                @JoinColumn(name="regime_alimentaire_renouvellement_id"))
+    @OrderColumn(name="regime_alimentaire_renouvellement_index")
       
-    */
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getRegimeAlimentaireRenouvellement() {
+    public List<fr.cg95.cvq.business.request.LocalReferentialData> getRegimeAlimentaireRenouvellement() {
         return this.regimeAlimentaireRenouvellement;
     }
   

@@ -87,7 +87,7 @@ public class RequestNotificationService implements ApplicationListener<CapDematE
 
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
 
-        Request request = (Request) requestDAO.findById(Request.class, requestId);
+        Request request = requestDAO.findById(requestId);
         String requestTypeLabel = request.getRequestType().getLabel();
 
         // send notification to ecitizen if enabled
@@ -130,7 +130,7 @@ public class RequestNotificationService implements ApplicationListener<CapDematE
     private void notifyAgentNote(Long requestId, RequestNote note)
         throws CvqException {
         if (note.getType().equals(RequestNoteType.PUBLIC)) {
-            Request request = (Request) requestDAO.findById(Request.class, requestId);
+            Request request = requestDAO.findById(requestId);
             Agent agent = agentService.getById(note.getUserId());
             Adult requester = userSearchService.getAdultById(request.getRequesterId());
             if (requester.getEmail() != null) {

@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.school;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="school_canteen_registration_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="school_canteen_registration_request")
 public class SchoolCanteenRegistrationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -132,11 +135,8 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -161,45 +161,34 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.LocalReferentialData> canteenAttendingDays;
 
-    public final void setCanteenAttendingDays(final List<fr.cg95.cvq.business.request.LocalReferentialData> canteenAttendingDays) {
+    public void setCanteenAttendingDays(final List<fr.cg95.cvq.business.request.LocalReferentialData> canteenAttendingDays) {
         this.canteenAttendingDays = canteenAttendingDays;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="school_canteen_registration_request_canteen_attending_days"
-        * @hibernate.key
-        *  column="school_canteen_registration_request_id"
-        * @hibernate.list-index
-        *  column="canteen_attending_days_index"
-        * @hibernate.many-to-many
-        *  column="canteen_attending_days_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+    @ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="school_canteen_registration_request_canteen_attending_days",
+            joinColumns=
+                @JoinColumn(name="school_canteen_registration_request_id"),
+            inverseJoinColumns=
+                @JoinColumn(name="canteen_attending_days_id"))
+    @OrderColumn(name="canteen_attending_days_index")
       
-    */
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getCanteenAttendingDays() {
+    public List<fr.cg95.cvq.business.request.LocalReferentialData> getCanteenAttendingDays() {
         return this.canteenAttendingDays;
     }
   
     
     private String doctorName;
 
-    public final void setDoctorName(final String doctorName) {
+    public void setDoctorName(final String doctorName) {
         this.doctorName = doctorName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="doctor_name"
-        
+    @Column(name="doctor_name"  )
       
-    */
-    public final String getDoctorName() {
+    public String getDoctorName() {
         return this.doctorName;
     }
   
@@ -215,18 +204,14 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
     
     private String doctorPhone;
 
-    public final void setDoctorPhone(final String doctorPhone) {
+    public void setDoctorPhone(final String doctorPhone) {
         this.doctorPhone = doctorPhone;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="doctor_phone"
-        *  length="10"
+    @Column(name="doctor_phone" , length=10 )
       
-    */
-    public final String getDoctorPhone() {
+    public String getDoctorPhone() {
         return this.doctorPhone;
     }
   
@@ -240,18 +225,14 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
     
     private Boolean foodAllergy;
 
-    public final void setFoodAllergy(final Boolean foodAllergy) {
+    public void setFoodAllergy(final Boolean foodAllergy) {
         this.foodAllergy = foodAllergy;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="food_allergy"
-        
+    @Column(name="food_allergy"  )
       
-    */
-    public final Boolean getFoodAllergy() {
+    public Boolean getFoodAllergy() {
         return this.foodAllergy;
     }
   
@@ -274,27 +255,20 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.LocalReferentialData> foodDiet;
 
-    public final void setFoodDiet(final List<fr.cg95.cvq.business.request.LocalReferentialData> foodDiet) {
+    public void setFoodDiet(final List<fr.cg95.cvq.business.request.LocalReferentialData> foodDiet) {
         this.foodDiet = foodDiet;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="school_canteen_registration_request_food_diet"
-        * @hibernate.key
-        *  column="school_canteen_registration_request_id"
-        * @hibernate.list-index
-        *  column="food_diet_index"
-        * @hibernate.many-to-many
-        *  column="food_diet_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+    @ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="school_canteen_registration_request_food_diet",
+            joinColumns=
+                @JoinColumn(name="school_canteen_registration_request_id"),
+            inverseJoinColumns=
+                @JoinColumn(name="food_diet_id"))
+    @OrderColumn(name="food_diet_index")
       
-    */
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getFoodDiet() {
+    public List<fr.cg95.cvq.business.request.LocalReferentialData> getFoodDiet() {
         return this.foodDiet;
     }
   
@@ -308,18 +282,14 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
     
     private Boolean hospitalizationPermission;
 
-    public final void setHospitalizationPermission(final Boolean hospitalizationPermission) {
+    public void setHospitalizationPermission(final Boolean hospitalizationPermission) {
         this.hospitalizationPermission = hospitalizationPermission;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="hospitalization_permission"
-        
+    @Column(name="hospitalization_permission"  )
       
-    */
-    public final Boolean getHospitalizationPermission() {
+    public Boolean getHospitalizationPermission() {
         return this.hospitalizationPermission;
     }
   
@@ -333,18 +303,14 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
     
     private Boolean rulesAndRegulationsAcceptance;
 
-    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
+    public void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
         this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="rules_and_regulations_acceptance"
-        
+    @Column(name="rules_and_regulations_acceptance"  )
       
-    */
-    public final Boolean getRulesAndRegulationsAcceptance() {
+    public Boolean getRulesAndRegulationsAcceptance() {
         return this.rulesAndRegulationsAcceptance;
     }
   
@@ -358,19 +324,15 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
     
     private fr.cg95.cvq.business.authority.School school;
 
-    public final void setSchool(final fr.cg95.cvq.business.authority.School school) {
+    public void setSchool(final fr.cg95.cvq.business.authority.School school) {
         this.school = school;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        
-        *  column="school_id"
-        *  class="fr.cg95.cvq.business.authority.School"
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="school_id")
       
-    */
-    public final fr.cg95.cvq.business.authority.School getSchool() {
+    public fr.cg95.cvq.business.authority.School getSchool() {
         return this.school;
     }
   
@@ -384,18 +346,15 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.SectionType section;
 
-    public final void setSection(final fr.cg95.cvq.business.users.SectionType section) {
+    public void setSection(final fr.cg95.cvq.business.users.SectionType section) {
         this.section = section;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="section"
-        *  length="32"
+    @Enumerated(EnumType.STRING)
+    @Column(name="section" , length=32 )
       
-    */
-    public final fr.cg95.cvq.business.users.SectionType getSection() {
+    public fr.cg95.cvq.business.users.SectionType getSection() {
         return this.section;
     }
   
@@ -425,18 +384,14 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
     
     private String urgencyPhone;
 
-    public final void setUrgencyPhone(final String urgencyPhone) {
+    public void setUrgencyPhone(final String urgencyPhone) {
         this.urgencyPhone = urgencyPhone;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="urgency_phone"
-        *  length="10"
+    @Column(name="urgency_phone" , length=10 )
       
-    */
-    public final String getUrgencyPhone() {
+    public String getUrgencyPhone() {
         return this.urgencyPhone;
     }
   
@@ -475,18 +430,14 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
     
     private String whichFoodAllergy;
 
-    public final void setWhichFoodAllergy(final String whichFoodAllergy) {
+    public void setWhichFoodAllergy(final String whichFoodAllergy) {
         this.whichFoodAllergy = whichFoodAllergy;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="which_food_allergy"
-        
+    @Column(name="which_food_allergy"  )
       
-    */
-    public final String getWhichFoodAllergy() {
+    public String getWhichFoodAllergy() {
         return this.whichFoodAllergy;
     }
   

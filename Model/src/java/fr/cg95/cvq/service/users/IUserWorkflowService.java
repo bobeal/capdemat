@@ -15,7 +15,6 @@ import fr.cg95.cvq.exception.CvqBadPasswordException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.schema.ximport.HomeFolderImportDocument;
 import fr.cg95.cvq.security.annotation.IsUser;
 
@@ -75,8 +74,7 @@ public interface IUserWorkflowService {
 
     void delete(@IsUser HomeFolder homeFolder);
 
-    void delete(@IsUser Long id)
-        throws CvqObjectNotFoundException;
+    void delete(@IsUser Long id);
 
     void delete(@IsUser Individual individual);
 
@@ -87,6 +85,6 @@ public interface IUserWorkflowService {
      * Only possible if current homeFolder state is New or Modify
      */
     void validateHomeFolder(@IsUser HomeFolder homeFolder)
-        throws CvqModelException, CvqInvalidTransitionException, CvqObjectNotFoundException;
+        throws CvqModelException, CvqInvalidTransitionException;
     
 }

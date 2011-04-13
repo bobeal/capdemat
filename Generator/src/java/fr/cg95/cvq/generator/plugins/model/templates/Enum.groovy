@@ -1,36 +1,44 @@
 package ${baseNS}.request.${lastParticle};
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class ${name} extends PersistentStringEnum {
+public enum ${name} {
 
-    private static final long serialVersionUID = 1L;
-  <% values.each { %>
-    public static final ${name} ${it.key} = new ${name}("${it.value}");
-  <% } %>
+    <% for (Iterator iterator = values.entrySet().iterator(); iterator.hasNext();) {
+           Map.Entry pairs = (Map.Entry) iterator.next();
+           print  pairs.getKey() + "(\"" + pairs.getValue() + "\")"
+           if(iterator.hasNext()){print  ",\n    " }else{ println ";" }
+       }
+    %>
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use ${name}.values() instead
+     * @deprecated only for backward
      */
-    private ${name}(String value) {
-        super(value);
+    @Deprecated 
+    public static ${name}[] all${name}s = ${name}.values();
+
+    private String legacyLabel;
+
+    private ${name}(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public ${name}() {}
-
-    public static ${name}[] all${name}s = {
-        <% print org.apache.commons.lang.StringUtils.join(values.collect{ it.key }.iterator(), ",\n        ") %>
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static ${name} getDefault${name}() {
         return ${defaultValue};
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of ${name}.something
+     * not the value of the name attribut.
+     */
     public static ${name} forString(final String enumAsString) {
-        for (${name} value : all${name}s)
+        for (${name} value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefault${name}();

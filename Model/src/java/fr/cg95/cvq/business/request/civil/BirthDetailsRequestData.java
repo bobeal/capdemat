@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.civil;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="birth_details_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="birth_details_request")
 public class BirthDetailsRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -156,11 +159,8 @@ public class BirthDetailsRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -192,18 +192,14 @@ public class BirthDetailsRequestData implements Serializable {
     
     private String birthCity;
 
-    public final void setBirthCity(final String birthCity) {
+    public void setBirthCity(final String birthCity) {
         this.birthCity = birthCity;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="birth_city"
-        *  length="32"
+    @Column(name="birth_city" , length=32 )
       
-    */
-    public final String getBirthCity() {
+    public String getBirthCity() {
         return this.birthCity;
     }
   
@@ -217,18 +213,14 @@ public class BirthDetailsRequestData implements Serializable {
     
     private java.util.Date birthDate;
 
-    public final void setBirthDate(final java.util.Date birthDate) {
+    public void setBirthDate(final java.util.Date birthDate) {
         this.birthDate = birthDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="birth_date"
-        
+    @Column(name="birth_date"  )
       
-    */
-    public final java.util.Date getBirthDate() {
+    public java.util.Date getBirthDate() {
         return this.birthDate;
     }
   
@@ -249,18 +241,14 @@ public class BirthDetailsRequestData implements Serializable {
     
     private String birthFirstNames;
 
-    public final void setBirthFirstNames(final String birthFirstNames) {
+    public void setBirthFirstNames(final String birthFirstNames) {
         this.birthFirstNames = birthFirstNames;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="birth_first_names"
-        
+    @Column(name="birth_first_names"  )
       
-    */
-    public final String getBirthFirstNames() {
+    public String getBirthFirstNames() {
         return this.birthFirstNames;
     }
   
@@ -290,18 +278,14 @@ public class BirthDetailsRequestData implements Serializable {
     
     private String birthLastName;
 
-    public final void setBirthLastName(final String birthLastName) {
+    public void setBirthLastName(final String birthLastName) {
         this.birthLastName = birthLastName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="birth_last_name"
-        *  length="38"
+    @Column(name="birth_last_name" , length=38 )
       
-    */
-    public final String getBirthLastName() {
+    public String getBirthLastName() {
         return this.birthLastName;
     }
   
@@ -317,18 +301,14 @@ public class BirthDetailsRequestData implements Serializable {
     
     private String birthMarriageName;
 
-    public final void setBirthMarriageName(final String birthMarriageName) {
+    public void setBirthMarriageName(final String birthMarriageName) {
         this.birthMarriageName = birthMarriageName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="birth_marriage_name"
-        *  length="38"
+    @Column(name="birth_marriage_name" , length=38 )
       
-    */
-    public final String getBirthMarriageName() {
+    public String getBirthMarriageName() {
         return this.birthMarriageName;
     }
   
@@ -358,18 +338,14 @@ public class BirthDetailsRequestData implements Serializable {
     
     private String birthPostalCode;
 
-    public final void setBirthPostalCode(final String birthPostalCode) {
+    public void setBirthPostalCode(final String birthPostalCode) {
         this.birthPostalCode = birthPostalCode;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="birth_postal_code"
-        *  length="2"
+    @Column(name="birth_postal_code" , length=2 )
       
-    */
-    public final String getBirthPostalCode() {
+    public String getBirthPostalCode() {
         return this.birthPostalCode;
     }
   
@@ -394,18 +370,14 @@ public class BirthDetailsRequestData implements Serializable {
     
     private String comment;
 
-    public final void setComment(final String comment) {
+    public void setComment(final String comment) {
         this.comment = comment;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="comment"
-        *  length="255"
+    @Column(name="comment" , length=255 )
       
-    */
-    public final String getComment() {
+    public String getComment() {
         return this.comment;
     }
   
@@ -419,19 +391,15 @@ public class BirthDetailsRequestData implements Serializable {
     
     private java.math.BigInteger copies;
 
-    public final void setCopies(final java.math.BigInteger copies) {
+    public void setCopies(final java.math.BigInteger copies) {
         this.copies = copies;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="copies"
-        *  type="serializable"
-        
+    @Column(name="copies" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
-    */
-    public final java.math.BigInteger getCopies() {
+    public java.math.BigInteger getCopies() {
         return this.copies;
     }
   
@@ -470,18 +438,14 @@ public class BirthDetailsRequestData implements Serializable {
     
     private String fatherFirstNames;
 
-    public final void setFatherFirstNames(final String fatherFirstNames) {
+    public void setFatherFirstNames(final String fatherFirstNames) {
         this.fatherFirstNames = fatherFirstNames;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="father_first_names"
-        
+    @Column(name="father_first_names"  )
       
-    */
-    public final String getFatherFirstNames() {
+    public String getFatherFirstNames() {
         return this.fatherFirstNames;
     }
   
@@ -538,18 +502,14 @@ public class BirthDetailsRequestData implements Serializable {
     
     private String fatherLastName;
 
-    public final void setFatherLastName(final String fatherLastName) {
+    public void setFatherLastName(final String fatherLastName) {
         this.fatherLastName = fatherLastName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="father_last_name"
-        *  length="38"
+    @Column(name="father_last_name" , length=38 )
       
-    */
-    public final String getFatherLastName() {
+    public String getFatherLastName() {
         return this.fatherLastName;
     }
   
@@ -563,18 +523,15 @@ public class BirthDetailsRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.civil.BirthCertificateFormatType format;
 
-    public final void setFormat(final fr.cg95.cvq.business.request.civil.BirthCertificateFormatType format) {
+    public void setFormat(final fr.cg95.cvq.business.request.civil.BirthCertificateFormatType format) {
         this.format = format;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="format"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="format"  )
       
-    */
-    public final fr.cg95.cvq.business.request.civil.BirthCertificateFormatType getFormat() {
+    public fr.cg95.cvq.business.request.civil.BirthCertificateFormatType getFormat() {
         return this.format;
     }
   
@@ -613,18 +570,14 @@ public class BirthDetailsRequestData implements Serializable {
     
     private String motherFirstNames;
 
-    public final void setMotherFirstNames(final String motherFirstNames) {
+    public void setMotherFirstNames(final String motherFirstNames) {
         this.motherFirstNames = motherFirstNames;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="mother_first_names"
-        
+    @Column(name="mother_first_names"  )
       
-    */
-    public final String getMotherFirstNames() {
+    public String getMotherFirstNames() {
         return this.motherFirstNames;
     }
   
@@ -681,18 +634,14 @@ public class BirthDetailsRequestData implements Serializable {
     
     private String motherMaidenName;
 
-    public final void setMotherMaidenName(final String motherMaidenName) {
+    public void setMotherMaidenName(final String motherMaidenName) {
         this.motherMaidenName = motherMaidenName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="mother_maiden_name"
-        *  length="38"
+    @Column(name="mother_maiden_name" , length=38 )
       
-    */
-    public final String getMotherMaidenName() {
+    public String getMotherMaidenName() {
         return this.motherMaidenName;
     }
   
@@ -706,18 +655,15 @@ public class BirthDetailsRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.civil.BirthCertificateMotiveType motive;
 
-    public final void setMotive(final fr.cg95.cvq.business.request.civil.BirthCertificateMotiveType motive) {
+    public void setMotive(final fr.cg95.cvq.business.request.civil.BirthCertificateMotiveType motive) {
         this.motive = motive;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="motive"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="motive"  )
       
-    */
-    public final fr.cg95.cvq.business.request.civil.BirthCertificateMotiveType getMotive() {
+    public fr.cg95.cvq.business.request.civil.BirthCertificateMotiveType getMotive() {
         return this.motive;
     }
   
@@ -731,36 +677,29 @@ public class BirthDetailsRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.civil.BirthRequesterQualityType requesterQuality;
 
-    public final void setRequesterQuality(final fr.cg95.cvq.business.request.civil.BirthRequesterQualityType requesterQuality) {
+    public void setRequesterQuality(final fr.cg95.cvq.business.request.civil.BirthRequesterQualityType requesterQuality) {
         this.requesterQuality = requesterQuality;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="requester_quality"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="requester_quality"  )
       
-    */
-    public final fr.cg95.cvq.business.request.civil.BirthRequesterQualityType getRequesterQuality() {
+    public fr.cg95.cvq.business.request.civil.BirthRequesterQualityType getRequesterQuality() {
         return this.requesterQuality;
     }
   
     
     private String requesterQualityPrecision;
 
-    public final void setRequesterQualityPrecision(final String requesterQualityPrecision) {
+    public void setRequesterQualityPrecision(final String requesterQualityPrecision) {
         this.requesterQualityPrecision = requesterQualityPrecision;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="requester_quality_precision"
-        
+    @Column(name="requester_quality_precision"  )
       
-    */
-    public final String getRequesterQualityPrecision() {
+    public String getRequesterQualityPrecision() {
         return this.requesterQualityPrecision;
     }
   

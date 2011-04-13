@@ -1,69 +1,51 @@
 package fr.cg95.cvq.business.request.military;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class ChildDiplomaType extends PersistentStringEnum {
+public enum ChildDiplomaType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final ChildDiplomaType B_A_C = new ChildDiplomaType("BAC");
-  
-    public static final ChildDiplomaType B_E_P = new ChildDiplomaType("BEP");
-  
-    public static final ChildDiplomaType B_E_P_C = new ChildDiplomaType("BEPC");
-  
-    public static final ChildDiplomaType BREVET = new ChildDiplomaType("Brevet");
-  
-    public static final ChildDiplomaType C_F_G = new ChildDiplomaType("CFG");
-  
-    public static final ChildDiplomaType C_A_P = new ChildDiplomaType("CAP");
-  
-    public static final ChildDiplomaType D_A_E_U = new ChildDiplomaType("DAEU");
-  
-    public static final ChildDiplomaType D_E_A = new ChildDiplomaType("DEA");
-  
-    public static final ChildDiplomaType D_E_U_G = new ChildDiplomaType("DEUG");
-  
-    public static final ChildDiplomaType LICENCE = new ChildDiplomaType("Licence");
-  
-    public static final ChildDiplomaType MAITRISE = new ChildDiplomaType("Maitrise");
-  
-    public static final ChildDiplomaType UNKNOWN = new ChildDiplomaType("Unknown");
-  
+    B_A_C("BAC"),
+    B_E_P("BEP"),
+    B_E_P_C("BEPC"),
+    BREVET("Brevet"),
+    C_F_G("CFG"),
+    C_A_P("CAP"),
+    D_A_E_U("DAEU"),
+    D_E_A("DEA"),
+    D_E_U_G("DEUG"),
+    LICENCE("Licence"),
+    MAITRISE("Maitrise"),
+    UNKNOWN("Unknown");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use ChildDiplomaType.values() instead
+     * @deprecated only for backward
      */
-    private ChildDiplomaType(String value) {
-        super(value);
+    @Deprecated 
+    public static ChildDiplomaType[] allChildDiplomaTypes = ChildDiplomaType.values();
+
+    private String legacyLabel;
+
+    private ChildDiplomaType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public ChildDiplomaType() {}
-
-    public static ChildDiplomaType[] allChildDiplomaTypes = {
-        B_A_C,
-        B_E_P,
-        B_E_P_C,
-        BREVET,
-        C_F_G,
-        C_A_P,
-        D_A_E_U,
-        D_E_A,
-        D_E_U_G,
-        LICENCE,
-        MAITRISE,
-        UNKNOWN
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static ChildDiplomaType getDefaultChildDiplomaType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of ChildDiplomaType.something
+     * not the value of the name attribut.
+     */
     public static ChildDiplomaType forString(final String enumAsString) {
-        for (ChildDiplomaType value : allChildDiplomaTypes)
+        for (ChildDiplomaType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultChildDiplomaType();

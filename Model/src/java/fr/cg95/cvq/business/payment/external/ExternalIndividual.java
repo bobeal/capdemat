@@ -1,22 +1,42 @@
 package fr.cg95.cvq.business.payment.external;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-/**
- * @hibernate.class
- *  table="external_individual"
- *  lazy="false"
- */
+@Entity
+@Table(name="external_individual")
 public class ExternalIndividual {
 
-    /** identifier field */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(name="external_id")
     private String externalId;
+
+    @Column(name="last_name")
     private String lastName;
+
+    @Column(name="first_name")
     private String firstName;
+
     private String email;
+
+    @Column(name="home_phone")
     private String homePhone;
+
+    @Column(name="responsible")
     private boolean responsible;
+
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="external_home_folder_id", insertable=false, updatable=false)
     private ExternalHomeFolder externalHomeFolder;
 
     public ExternalIndividual() {
@@ -33,11 +53,6 @@ public class ExternalIndividual {
         this.responsible = responsible;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return id;
     }
@@ -46,10 +61,6 @@ public class ExternalIndividual {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="first_name"
-     */
     public String getFirstName() {
         return firstName;
     }
@@ -58,10 +69,6 @@ public class ExternalIndividual {
         this.firstName = firstName;
     }
 
-    /**
-     * @hibernate.property
-     *  column="external_id"
-     */
     public String getExternalId() {
         return externalId;
     }
@@ -70,10 +77,6 @@ public class ExternalIndividual {
         this.externalId = externalId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="last_name"
-     */
     public String getLastName() {
         return lastName;
     }
@@ -82,10 +85,6 @@ public class ExternalIndividual {
         this.lastName = lastName;
     }
 
-    /**
-     * @hibernate.property
-     *  column="email"
-     */
     public String getEmail() {
         return email;
     }
@@ -94,10 +93,6 @@ public class ExternalIndividual {
         this.email = email;
     }
 
-    /**
-     * @hibernate.property
-     *  column="home_phone"
-     */
     public String getHomePhone() {
         return homePhone;
     }
@@ -106,10 +101,6 @@ public class ExternalIndividual {
         this.homePhone = homePhone;
     }
 
-    /**
-     * @hibernate.property
-     *  column="responsible"
-     */
     public boolean isResponsible() {
         return responsible;
     }
@@ -118,11 +109,6 @@ public class ExternalIndividual {
         this.responsible = responsible;
     }
 
-    /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.payment.external.ExternalHomeFolder"
-     *  column="external_home_folder_id"
-     */
     public ExternalHomeFolder getExternalHomeFolder() {
         return externalHomeFolder;
     }

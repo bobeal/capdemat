@@ -20,14 +20,15 @@ import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="hcar_other_folder"
- *  lazy="false"
  */
+@Entity
+@Table(name="hcar_other_folder")
 public class HcarOtherFolder implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -110,11 +111,8 @@ public class HcarOtherFolder implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -132,18 +130,14 @@ public class HcarOtherFolder implements Serializable {
     
     private String otherFolderDepartment;
 
-    public final void setOtherFolderDepartment(final String otherFolderDepartment) {
+    public void setOtherFolderDepartment(final String otherFolderDepartment) {
         this.otherFolderDepartment = otherFolderDepartment;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="other_folder_department"
-        *  length="2"
+
+    @Column(name="other_folder_department" , length=2 )
       
-    */
-    public final String getOtherFolderDepartment() {
+    public String getOtherFolderDepartment() {
         return this.otherFolderDepartment;
     }
   
@@ -173,18 +167,14 @@ public class HcarOtherFolder implements Serializable {
     
     private String otherFolderName;
 
-    public final void setOtherFolderName(final String otherFolderName) {
+    public void setOtherFolderName(final String otherFolderName) {
         this.otherFolderName = otherFolderName;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="other_folder_name"
-        *  length="60"
+
+    @Column(name="other_folder_name" , length=60 )
       
-    */
-    public final String getOtherFolderName() {
+    public String getOtherFolderName() {
         return this.otherFolderName;
     }
   
@@ -200,18 +190,14 @@ public class HcarOtherFolder implements Serializable {
     
     private String otherFolderNumber;
 
-    public final void setOtherFolderNumber(final String otherFolderNumber) {
+    public void setOtherFolderNumber(final String otherFolderNumber) {
         this.otherFolderNumber = otherFolderNumber;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="other_folder_number"
-        *  length="30"
+
+    @Column(name="other_folder_number" , length=30 )
       
-    */
-    public final String getOtherFolderNumber() {
+    public String getOtherFolderNumber() {
         return this.otherFolderNumber;
     }
   

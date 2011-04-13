@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.school;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="holiday_camp_registration_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="holiday_camp_registration_request")
 public class HolidayCampRegistrationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -69,11 +72,8 @@ public class HolidayCampRegistrationRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -89,18 +89,14 @@ public class HolidayCampRegistrationRequestData implements Serializable {
     
     private Boolean acceptationReglementInterieur;
 
-    public final void setAcceptationReglementInterieur(final Boolean acceptationReglementInterieur) {
+    public void setAcceptationReglementInterieur(final Boolean acceptationReglementInterieur) {
         this.acceptationReglementInterieur = acceptationReglementInterieur;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="acceptation_reglement_interieur"
-        
+    @Column(name="acceptation_reglement_interieur"  )
       
-    */
-    public final Boolean getAcceptationReglementInterieur() {
+    public Boolean getAcceptationReglementInterieur() {
         return this.acceptationReglementInterieur;
     }
   
@@ -121,18 +117,14 @@ public class HolidayCampRegistrationRequestData implements Serializable {
     
     private String idCentreSejours;
 
-    public final void setIdCentreSejours(final String idCentreSejours) {
+    public void setIdCentreSejours(final String idCentreSejours) {
         this.idCentreSejours = idCentreSejours;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="id_centre_sejours"
-        
+    @Column(name="id_centre_sejours"  )
       
-    */
-    public final String getIdCentreSejours() {
+    public String getIdCentreSejours() {
         return this.idCentreSejours;
     }
   
@@ -153,18 +145,14 @@ public class HolidayCampRegistrationRequestData implements Serializable {
     
     private String labelCentreSejours;
 
-    public final void setLabelCentreSejours(final String labelCentreSejours) {
+    public void setLabelCentreSejours(final String labelCentreSejours) {
         this.labelCentreSejours = labelCentreSejours;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="label_centre_sejours"
-        
+    @Column(name="label_centre_sejours"  )
       
-    */
-    public final String getLabelCentreSejours() {
+    public String getLabelCentreSejours() {
         return this.labelCentreSejours;
     }
   

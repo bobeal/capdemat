@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.school;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="global_school_registration_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="global_school_registration_request")
 public class GlobalSchoolRegistrationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -131,11 +134,8 @@ public class GlobalSchoolRegistrationRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -151,18 +151,14 @@ public class GlobalSchoolRegistrationRequestData implements Serializable {
     
     private Boolean acceptationReglementInterieur;
 
-    public final void setAcceptationReglementInterieur(final Boolean acceptationReglementInterieur) {
+    public void setAcceptationReglementInterieur(final Boolean acceptationReglementInterieur) {
         this.acceptationReglementInterieur = acceptationReglementInterieur;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="acceptation_reglement_interieur"
-        
+    @Column(name="acceptation_reglement_interieur"  )
       
-    */
-    public final Boolean getAcceptationReglementInterieur() {
+    public Boolean getAcceptationReglementInterieur() {
         return this.acceptationReglementInterieur;
     }
   
@@ -176,18 +172,14 @@ public class GlobalSchoolRegistrationRequestData implements Serializable {
     
     private Boolean estDerogation;
 
-    public final void setEstDerogation(final Boolean estDerogation) {
+    public void setEstDerogation(final Boolean estDerogation) {
         this.estDerogation = estDerogation;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="est_derogation"
-        
+    @Column(name="est_derogation"  )
       
-    */
-    public final Boolean getEstDerogation() {
+    public Boolean getEstDerogation() {
         return this.estDerogation;
     }
   
@@ -201,18 +193,14 @@ public class GlobalSchoolRegistrationRequestData implements Serializable {
     
     private Boolean estPeriscolaire;
 
-    public final void setEstPeriscolaire(final Boolean estPeriscolaire) {
+    public void setEstPeriscolaire(final Boolean estPeriscolaire) {
         this.estPeriscolaire = estPeriscolaire;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="est_periscolaire"
-        
+    @Column(name="est_periscolaire"  )
       
-    */
-    public final Boolean getEstPeriscolaire() {
+    public Boolean getEstPeriscolaire() {
         return this.estPeriscolaire;
     }
   
@@ -226,18 +214,14 @@ public class GlobalSchoolRegistrationRequestData implements Serializable {
     
     private Boolean estRestauration;
 
-    public final void setEstRestauration(final Boolean estRestauration) {
+    public void setEstRestauration(final Boolean estRestauration) {
         this.estRestauration = estRestauration;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="est_restauration"
-        
+    @Column(name="est_restauration"  )
       
-    */
-    public final Boolean getEstRestauration() {
+    public Boolean getEstRestauration() {
         return this.estRestauration;
     }
   
@@ -276,18 +260,14 @@ public class GlobalSchoolRegistrationRequestData implements Serializable {
     
     private String idEcoleDerog;
 
-    public final void setIdEcoleDerog(final String idEcoleDerog) {
+    public void setIdEcoleDerog(final String idEcoleDerog) {
         this.idEcoleDerog = idEcoleDerog;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="id_ecole_derog"
-        
+    @Column(name="id_ecole_derog"  )
       
-    */
-    public final String getIdEcoleDerog() {
+    public String getIdEcoleDerog() {
         return this.idEcoleDerog;
     }
   
@@ -326,18 +306,14 @@ public class GlobalSchoolRegistrationRequestData implements Serializable {
     
     private String idEcoleSecteur;
 
-    public final void setIdEcoleSecteur(final String idEcoleSecteur) {
+    public void setIdEcoleSecteur(final String idEcoleSecteur) {
         this.idEcoleSecteur = idEcoleSecteur;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="id_ecole_secteur"
-        
+    @Column(name="id_ecole_secteur"  )
       
-    */
-    public final String getIdEcoleSecteur() {
+    public String getIdEcoleSecteur() {
         return this.idEcoleSecteur;
     }
   
@@ -380,18 +356,14 @@ public class GlobalSchoolRegistrationRequestData implements Serializable {
     
     private String informationsComplementairesDerogation;
 
-    public final void setInformationsComplementairesDerogation(final String informationsComplementairesDerogation) {
+    public void setInformationsComplementairesDerogation(final String informationsComplementairesDerogation) {
         this.informationsComplementairesDerogation = informationsComplementairesDerogation;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="informations_complementaires_derogation"
-        *  length="1024"
+    @Column(name="informations_complementaires_derogation" , length=1024 )
       
-    */
-    public final String getInformationsComplementairesDerogation() {
+    public String getInformationsComplementairesDerogation() {
         return this.informationsComplementairesDerogation;
     }
   
@@ -430,18 +402,14 @@ public class GlobalSchoolRegistrationRequestData implements Serializable {
     
     private String labelEcoleDerog;
 
-    public final void setLabelEcoleDerog(final String labelEcoleDerog) {
+    public void setLabelEcoleDerog(final String labelEcoleDerog) {
         this.labelEcoleDerog = labelEcoleDerog;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="label_ecole_derog"
-        
+    @Column(name="label_ecole_derog"  )
       
-    */
-    public final String getLabelEcoleDerog() {
+    public String getLabelEcoleDerog() {
         return this.labelEcoleDerog;
     }
   
@@ -480,18 +448,14 @@ public class GlobalSchoolRegistrationRequestData implements Serializable {
     
     private String labelEcoleSecteur;
 
-    public final void setLabelEcoleSecteur(final String labelEcoleSecteur) {
+    public void setLabelEcoleSecteur(final String labelEcoleSecteur) {
         this.labelEcoleSecteur = labelEcoleSecteur;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="label_ecole_secteur"
-        
+    @Column(name="label_ecole_secteur"  )
       
-    */
-    public final String getLabelEcoleSecteur() {
+    public String getLabelEcoleSecteur() {
         return this.labelEcoleSecteur;
     }
   
@@ -532,27 +496,20 @@ public class GlobalSchoolRegistrationRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.LocalReferentialData> motifsDerogationEcole;
 
-    public final void setMotifsDerogationEcole(final List<fr.cg95.cvq.business.request.LocalReferentialData> motifsDerogationEcole) {
+    public void setMotifsDerogationEcole(final List<fr.cg95.cvq.business.request.LocalReferentialData> motifsDerogationEcole) {
         this.motifsDerogationEcole = motifsDerogationEcole;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="global_school_registration_request_motifs_derogation_ecole"
-        * @hibernate.key
-        *  column="global_school_registration_request_id"
-        * @hibernate.list-index
-        *  column="motifs_derogation_ecole_index"
-        * @hibernate.many-to-many
-        *  column="motifs_derogation_ecole_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+    @ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="global_school_registration_request_motifs_derogation_ecole",
+            joinColumns=
+                @JoinColumn(name="global_school_registration_request_id"),
+            inverseJoinColumns=
+                @JoinColumn(name="motifs_derogation_ecole_id"))
+    @OrderColumn(name="motifs_derogation_ecole_index")
       
-    */
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getMotifsDerogationEcole() {
+    public List<fr.cg95.cvq.business.request.LocalReferentialData> getMotifsDerogationEcole() {
         return this.motifsDerogationEcole;
     }
   
@@ -593,27 +550,20 @@ public class GlobalSchoolRegistrationRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.LocalReferentialData> regimeAlimentaire;
 
-    public final void setRegimeAlimentaire(final List<fr.cg95.cvq.business.request.LocalReferentialData> regimeAlimentaire) {
+    public void setRegimeAlimentaire(final List<fr.cg95.cvq.business.request.LocalReferentialData> regimeAlimentaire) {
         this.regimeAlimentaire = regimeAlimentaire;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="global_school_registration_request_regime_alimentaire"
-        * @hibernate.key
-        *  column="global_school_registration_request_id"
-        * @hibernate.list-index
-        *  column="regime_alimentaire_index"
-        * @hibernate.many-to-many
-        *  column="regime_alimentaire_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+    @ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="global_school_registration_request_regime_alimentaire",
+            joinColumns=
+                @JoinColumn(name="global_school_registration_request_id"),
+            inverseJoinColumns=
+                @JoinColumn(name="regime_alimentaire_id"))
+    @OrderColumn(name="regime_alimentaire_index")
       
-    */
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getRegimeAlimentaire() {
+    public List<fr.cg95.cvq.business.request.LocalReferentialData> getRegimeAlimentaire() {
         return this.regimeAlimentaire;
     }
   

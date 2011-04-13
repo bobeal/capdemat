@@ -1,42 +1,42 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class HcarFamilyDependentActualSituationType extends PersistentStringEnum {
+public enum HcarFamilyDependentActualSituationType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final HcarFamilyDependentActualSituationType SCHOOLING = new HcarFamilyDependentActualSituationType("Schooling");
-  
-    public static final HcarFamilyDependentActualSituationType LEARNING = new HcarFamilyDependentActualSituationType("Learning");
-  
-    public static final HcarFamilyDependentActualSituationType MEDICO_SOCIAL = new HcarFamilyDependentActualSituationType("MedicoSocial");
-  
+    SCHOOLING("Schooling"),
+    LEARNING("Learning"),
+    MEDICO_SOCIAL("MedicoSocial");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use HcarFamilyDependentActualSituationType.values() instead
+     * @deprecated only for backward
      */
-    private HcarFamilyDependentActualSituationType(String value) {
-        super(value);
+    @Deprecated 
+    public static HcarFamilyDependentActualSituationType[] allHcarFamilyDependentActualSituationTypes = HcarFamilyDependentActualSituationType.values();
+
+    private String legacyLabel;
+
+    private HcarFamilyDependentActualSituationType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public HcarFamilyDependentActualSituationType() {}
-
-    public static HcarFamilyDependentActualSituationType[] allHcarFamilyDependentActualSituationTypes = {
-        SCHOOLING,
-        LEARNING,
-        MEDICO_SOCIAL
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static HcarFamilyDependentActualSituationType getDefaultHcarFamilyDependentActualSituationType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of HcarFamilyDependentActualSituationType.something
+     * not the value of the name attribut.
+     */
     public static HcarFamilyDependentActualSituationType forString(final String enumAsString) {
-        for (HcarFamilyDependentActualSituationType value : allHcarFamilyDependentActualSituationTypes)
+        for (HcarFamilyDependentActualSituationType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultHcarFamilyDependentActualSituationType();

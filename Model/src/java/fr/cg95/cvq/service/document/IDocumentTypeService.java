@@ -3,7 +3,6 @@ package fr.cg95.cvq.service.document;
 import java.util.List;
 
 import fr.cg95.cvq.business.document.DocumentType;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 
 public interface IDocumentTypeService {
 
@@ -60,8 +59,7 @@ public interface IDocumentTypeService {
      */
     DocumentType getDocumentTypeByType(final Integer type);
 
-    DocumentType getDocumentTypeById(final Long id)
-        throws CvqObjectNotFoundException;
+    DocumentType getDocumentTypeById(final Long id);
 
     /**
      * Get all known document types.

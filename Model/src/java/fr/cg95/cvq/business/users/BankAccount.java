@@ -2,6 +2,13 @@ package fr.cg95.cvq.business.users;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import net.sf.oval.constraint.MatchPattern;
 import net.sf.oval.constraint.NotNull;
 
@@ -11,11 +18,8 @@ import org.apache.commons.lang3.StringUtils;
 import fr.cg95.cvq.service.users.IsIBAN;
 import fr.cg95.cvq.xml.common.BankAccountType;
 
-/**
- * @hibernate.class
- *  table="bank_account"
- *  lazy="false"
- */
+@Entity
+@Table(name="bank_account")
 public class BankAccount implements Cloneable, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,22 +41,21 @@ public class BankAccount implements Cloneable, Serializable {
         return bankAccount;
     }
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
     @NotNull(message = "BIC")
     @MatchPattern(pattern = {"^[a-zA-Z]{6}[a-zA-Z0-9]{2,5}$"}, message = "BIC")
+    @Column(name="bic")
     private String BIC;
 
     @NotNull(message = "IBAN")
     @MatchPattern(pattern = {"^[a-zA-Z0-9]{14,34}$"}, message = "IBAN")
     @IsIBAN(message = "IBAN")
+    @Column(name="iban")
     private String IBAN;
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return id;
     }
@@ -61,11 +64,6 @@ public class BankAccount implements Cloneable, Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="bic"
-     *  not-null="true"
-     */
     public String getBIC() {
         return BIC;
     }
@@ -74,11 +72,6 @@ public class BankAccount implements Cloneable, Serializable {
         BIC = StringUtils.upperCase(StringUtils.deleteWhitespace(bIC));
     }
 
-    /**
-     * @hibernate.property
-     *  column="iban"
-     *  not-null="true"
-     */
     public String getIBAN() {
         return IBAN;
     }

@@ -89,8 +89,8 @@
       <label for="subjectParentalAuthorityHolder" class="required condition-isLessThan18-filled"><g:message code="hccr.property.subjectParentalAuthorityHolder.label" /> *  <span><g:message code="hccr.property.subjectParentalAuthorityHolder.help" /></span></label>
             <select id="subjectParentalAuthorityHolder" name="subjectParentalAuthorityHolder" class="required condition-isLessThan18-filled  validate-not-first ${rqt.stepStates['subject'].invalidFields.contains('subjectParentalAuthorityHolder') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.subjectParentalAuthorityHolder.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Father','Mother','Other']}">
-                <option value="fr.cg95.cvq.business.request.social.HccrSubjectParentalAuthorityHolderType_${it}" ${it == rqt.subjectParentalAuthorityHolder?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.subjectParentalAuthorityHolder" /></option>
+              <g:each in="${['FATHER','MOTHER','OTHER']}">
+                <option value="${it}" ${it == rqt.subjectParentalAuthorityHolder?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.subjectParentalAuthorityHolder" /></option>
               </g:each>
             </select>
             
@@ -223,8 +223,8 @@
       <label for="referentTitle" class="required"><g:message code="hccr.property.referentTitle.label" /> *  <span><g:message code="hccr.property.referentTitle.help" /></span></label>
             <select id="referentTitle" name="referentTitle" class="required condition-isReferentMadam-trigger  validate-not-first ${rqt.stepStates['subject'].invalidFields.contains('referentTitle') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.referentTitle.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
-                <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == rqt.referentTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.referentTitle" /></option>
+              <g:each in="${['MISTER','MADAM','MISS','AGENCY','UNKNOWN']}">
+                <option value="${it}" ${it == rqt.referentTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.referentTitle" /></option>
               </g:each>
             </select>
             
@@ -291,8 +291,8 @@
       <label for="referentFamilyStatus" class="required"><g:message code="hccr.property.referentFamilyStatus.label" /> *  <span><g:message code="hccr.property.referentFamilyStatus.help" /></span></label>
             <select id="referentFamilyStatus" name="referentFamilyStatus" class="required  validate-not-first ${rqt.stepStates['subject'].invalidFields.contains('referentFamilyStatus') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.referentFamilyStatus.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','Separated','PACS','Other']}">
-                <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == rqt.referentFamilyStatus?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.referentFamilyStatus" /></option>
+              <g:each in="${['MARRIED','SINGLE','DIVORCED','WIDOW','COMMON_LAW_MARRIAGE','SEPARATED','P_A_C_S','OTHER']}">
+                <option value="${it}" ${it == rqt.referentFamilyStatus?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.referentFamilyStatus" /></option>
               </g:each>
             </select>
             

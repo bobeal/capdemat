@@ -6,7 +6,6 @@ import fr.capwebct.capdemat.GetDocumentResponseDocument.GetDocumentResponse;
 import fr.capwebct.capdemat.GetDocumentRequestDocument.GetDocumentRequest;
 import fr.capwebct.capdemat.GetDocumentRequestDocument;
 import fr.capwebct.capdemat.GetDocumentResponseDocument;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.service.request.IRequestDocumentService;
 
@@ -33,17 +32,17 @@ public class DocumentServiceEndpoint extends SecuredServiceEndpoint {
                 requestDocumentService.getAssociatedDocument(getDocumentRequest.getRequestId(), 
                     getDocumentRequest.isSetDocumentId() ? getDocumentRequest.getDocumentId() : null, 
                     getDocumentRequest.getMergeDocument());
+            if (getDocumentResponseDocument != null) {
+                return getDocumentResponseDocument.getGetDocumentResponse();
+            } else {
+                getDocumentResponseDocument =
+                    GetDocumentResponseDocument.Factory.newInstance();
+                GetDocumentResponse getDocumentResponse =
+                    getDocumentResponseDocument.addNewGetDocumentResponse();
+                  getDocumentResponse.setError(notFound);
 
-            return getDocumentResponseDocument.getGetDocumentResponse();
-
-        } catch (CvqObjectNotFoundException confe) {
-            GetDocumentResponseDocument getDocumentResponseDocument =
-                GetDocumentResponseDocument.Factory.newInstance();
-            GetDocumentResponse getDocumentResponse = 
-                getDocumentResponseDocument.addNewGetDocumentResponse();
-              getDocumentResponse.setError(notFound);
-              
-              return getDocumentResponse;
+                  return getDocumentResponse;
+            }
         } catch (PermissionException pe) {
           GetDocumentResponseDocument getDocumentResponseDocument =
               GetDocumentResponseDocument.Factory.newInstance();

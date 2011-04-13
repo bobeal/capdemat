@@ -3,6 +3,7 @@
 <%
 
   import org.apache.commons.lang.StringUtils
+  import fr.cg95.cvq.util.EnumTool
   def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -104,7 +105,7 @@
           <p class="label">${esc(i18n.translate('dccrr.property.situationActuelleMere.label'))}</p>
           <div class="response">
             <% if(rqt.situationActuelleMere) { %>
-              ${esc(i18n.translate('dccrr.property.situationActuelleMere.' + StringUtils.uncapitalize(rqt.situationActuelleMere.toString())))}
+              ${esc(i18n.translate('dccrr.property.situationActuelleMere.' + EnumTool.toLowerCamelCase(rqt.situationActuelleMere.toString())))}
             <% } %>
           </div>
           
@@ -159,7 +160,7 @@
           <p class="label">${esc(i18n.translate('dccrr.property.situationActuellePere.label'))}</p>
           <div class="response">
             <% if(rqt.situationActuellePere) { %>
-              ${esc(i18n.translate('dccrr.property.situationActuellePere.' + StringUtils.uncapitalize(rqt.situationActuellePere.toString())))}
+              ${esc(i18n.translate('dccrr.property.situationActuellePere.' + EnumTool.toLowerCamelCase(rqt.situationActuellePere.toString())))}
             <% } %>
           </div>
           
@@ -229,7 +230,7 @@
       <p class="label">${esc(i18n.translate('dccrr.property.modeAccueilChoixUn.label'))}</p>
           <div class="response">
             <% if(rqt.modeAccueilChoixUn) { %>
-              ${esc(i18n.translate('dccrr.property.modeAccueilChoixUn.' + StringUtils.uncapitalize(rqt.modeAccueilChoixUn.toString())))}
+              ${esc(i18n.translate('dccrr.property.modeAccueilChoixUn.' + EnumTool.toLowerCamelCase(rqt.modeAccueilChoixUn.toString())))}
             <% } %>
           </div>
           
@@ -240,7 +241,7 @@
       <p class="label">${esc(i18n.translate('dccrr.property.modeAccueilChoixDeux.label'))}</p>
           <div class="response">
             <% if(rqt.modeAccueilChoixDeux) { %>
-              ${esc(i18n.translate('dccrr.property.modeAccueilChoixDeux.' + StringUtils.uncapitalize(rqt.modeAccueilChoixDeux.toString())))}
+              ${esc(i18n.translate('dccrr.property.modeAccueilChoixDeux.' + EnumTool.toLowerCamelCase(rqt.modeAccueilChoixDeux.toString())))}
             <% } %>
           </div>
           
@@ -259,7 +260,7 @@
           <p class="label">${esc(i18n.translate('dccrr.property.choixTypeDatePlacementAccueilRegulier.label'))}</p>
           <div class="response">
             <% if(rqt.choixTypeDatePlacementAccueilRegulier) { %>
-              ${esc(i18n.translate('dccrr.property.choixTypeDatePlacementAccueilRegulier.' + StringUtils.uncapitalize(rqt.choixTypeDatePlacementAccueilRegulier.toString())))}
+              ${esc(i18n.translate('dccrr.property.choixTypeDatePlacementAccueilRegulier.' + EnumTool.toLowerCamelCase(rqt.choixTypeDatePlacementAccueilRegulier.toString())))}
             <% } %>
           </div>
           
@@ -282,7 +283,7 @@
       <p class="label">${esc(i18n.translate('dccrr.property.choixHorairesAccueil.label'))}</p>
           <div class="response">
             <% if(rqt.choixHorairesAccueil) { %>
-              ${esc(i18n.translate('dccrr.property.choixHorairesAccueil.' + StringUtils.uncapitalize(rqt.choixHorairesAccueil.toString())))}
+              ${esc(i18n.translate('dccrr.property.choixHorairesAccueil.' + EnumTool.toLowerCamelCase(rqt.choixHorairesAccueil.toString())))}
             <% } %>
           </div>
           
@@ -531,7 +532,7 @@
       <p class="label">${esc(i18n.translate('dccrr.property.choixTypeRendezVous.label'))}</p>
           <div class="response">
             <% if(rqt.choixTypeRendezVous) { %>
-              ${esc(i18n.translate('dccrr.property.choixTypeRendezVous.' + StringUtils.uncapitalize(rqt.choixTypeRendezVous.toString())))}
+              ${esc(i18n.translate('dccrr.property.choixTypeRendezVous.' + EnumTool.toLowerCamelCase(rqt.choixTypeRendezVous.toString())))}
             <% } %>
           </div>
           
@@ -547,7 +548,7 @@
       <p class="label">${esc(i18n.translate('dccrr.property.plageHoraireContact.label'))}</p>
           <div class="response">
             <% if(rqt.plageHoraireContact) { %>
-              ${esc(i18n.translate('dccrr.property.plageHoraireContact.' + StringUtils.uncapitalize(rqt.plageHoraireContact.toString())))}
+              ${esc(i18n.translate('dccrr.property.plageHoraireContact.' + EnumTool.toLowerCamelCase(rqt.plageHoraireContact.toString())))}
             <% } %>
           </div>
           
@@ -565,7 +566,7 @@
     <% if (rqt.meansOfContact) { %>
       <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
         <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
-          ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+          ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.name))}
         </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
       <% } %>
     <% } else { %>

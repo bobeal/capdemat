@@ -1,42 +1,42 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class DhrGuardianMeasureType extends PersistentStringEnum {
+public enum DhrGuardianMeasureType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final DhrGuardianMeasureType SAFEGUARDING_JUSTICE = new DhrGuardianMeasureType("safeguardingJustice");
-  
-    public static final DhrGuardianMeasureType GUARDIANSHIP = new DhrGuardianMeasureType("guardianship");
-  
-    public static final DhrGuardianMeasureType CURATORSHIP = new DhrGuardianMeasureType("curatorship");
-  
+    SAFEGUARDING_JUSTICE("safeguardingJustice"),
+    GUARDIANSHIP("guardianship"),
+    CURATORSHIP("curatorship");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use DhrGuardianMeasureType.values() instead
+     * @deprecated only for backward
      */
-    private DhrGuardianMeasureType(String value) {
-        super(value);
+    @Deprecated 
+    public static DhrGuardianMeasureType[] allDhrGuardianMeasureTypes = DhrGuardianMeasureType.values();
+
+    private String legacyLabel;
+
+    private DhrGuardianMeasureType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public DhrGuardianMeasureType() {}
-
-    public static DhrGuardianMeasureType[] allDhrGuardianMeasureTypes = {
-        SAFEGUARDING_JUSTICE,
-        GUARDIANSHIP,
-        CURATORSHIP
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static DhrGuardianMeasureType getDefaultDhrGuardianMeasureType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of DhrGuardianMeasureType.something
+     * not the value of the name attribut.
+     */
     public static DhrGuardianMeasureType forString(final String enumAsString) {
-        for (DhrGuardianMeasureType value : allDhrGuardianMeasureTypes)
+        for (DhrGuardianMeasureType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultDhrGuardianMeasureType();

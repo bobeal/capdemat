@@ -1,33 +1,32 @@
 package fr.cg95.cvq.business.document;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
-/** 
+/**
  * @author bor@zenexity.fr
  */
-public final class DocumentState extends PersistentStringEnum {
+public enum DocumentState {
 
-    private static final long serialVersionUID = 1L;
+    DRAFT("Draft"),
+    PENDING("Pending"),
+    VALIDATED("Validated"),
+    CHECKED("Checked"),
+    REFUSED("Refused"),
+    OUTDATED("Outdated");
 
-    public static final DocumentState DRAFT = new DocumentState("Draft");
-    public static final DocumentState PENDING = new DocumentState("Pending");
-    public static final DocumentState VALIDATED = new DocumentState("Validated");
-    public static final DocumentState CHECKED = new DocumentState("Checked");
-    public static final DocumentState REFUSED = new DocumentState("Refused");
-    public static final DocumentState OUTDATED = new DocumentState("Outdated");
+    private String name;
 
     /**
      * Prevent instantiation and subclassing with a private constructor.
      */
     private DocumentState(String state) {
-        super(state);
+        this.name = state;
     }
 
-    public DocumentState() {}
-    
-    public static final DocumentState[] allDocumentStates = 
-            { DRAFT, PENDING, VALIDATED, CHECKED, REFUSED, OUTDATED };
-    
+    /**
+     * only for retro-compatibility use DocumentState.values() instead
+     * @deprecated only for retro-compatibility
+     */
+    public static final DocumentState[] allDocumentStates = DocumentState.values();
+
     public static DocumentState forString(String enumAsString) {
         if (enumAsString == null || enumAsString.equals(""))
             return DRAFT;
@@ -46,5 +45,10 @@ public final class DocumentState extends PersistentStringEnum {
             return OUTDATED;
 
         return PENDING;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

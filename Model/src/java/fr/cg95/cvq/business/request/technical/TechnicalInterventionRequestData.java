@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.technical;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="technical_intervention_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="technical_intervention_request")
 public class TechnicalInterventionRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -78,11 +81,8 @@ public class TechnicalInterventionRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -105,18 +105,14 @@ public class TechnicalInterventionRequestData implements Serializable {
     
     private String interventionDescription;
 
-    public final void setInterventionDescription(final String interventionDescription) {
+    public void setInterventionDescription(final String interventionDescription) {
         this.interventionDescription = interventionDescription;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="intervention_description"
-        
+    @Column(name="intervention_description"  )
       
-    */
-    public final String getInterventionDescription() {
+    public String getInterventionDescription() {
         return this.interventionDescription;
     }
   
@@ -137,19 +133,15 @@ public class TechnicalInterventionRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.Address interventionPlace;
 
-    public final void setInterventionPlace(final fr.cg95.cvq.business.users.Address interventionPlace) {
+    public void setInterventionPlace(final fr.cg95.cvq.business.users.Address interventionPlace) {
         this.interventionPlace = interventionPlace;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="intervention_place_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="intervention_place_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getInterventionPlace() {
+    public fr.cg95.cvq.business.users.Address getInterventionPlace() {
         return this.interventionPlace;
     }
   
@@ -172,27 +164,20 @@ public class TechnicalInterventionRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.LocalReferentialData> interventionType;
 
-    public final void setInterventionType(final List<fr.cg95.cvq.business.request.LocalReferentialData> interventionType) {
+    public void setInterventionType(final List<fr.cg95.cvq.business.request.LocalReferentialData> interventionType) {
         this.interventionType = interventionType;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="technical_intervention_request_intervention_type"
-        * @hibernate.key
-        *  column="technical_intervention_request_id"
-        * @hibernate.list-index
-        *  column="intervention_type_index"
-        * @hibernate.many-to-many
-        *  column="intervention_type_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+    @ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="technical_intervention_request_intervention_type",
+            joinColumns=
+                @JoinColumn(name="technical_intervention_request_id"),
+            inverseJoinColumns=
+                @JoinColumn(name="intervention_type_id"))
+    @OrderColumn(name="intervention_type_index")
       
-    */
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getInterventionType() {
+    public List<fr.cg95.cvq.business.request.LocalReferentialData> getInterventionType() {
         return this.interventionType;
     }
   
@@ -231,18 +216,14 @@ public class TechnicalInterventionRequestData implements Serializable {
     
     private String otherInterventionLabel;
 
-    public final void setOtherInterventionLabel(final String otherInterventionLabel) {
+    public void setOtherInterventionLabel(final String otherInterventionLabel) {
         this.otherInterventionLabel = otherInterventionLabel;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="other_intervention_label"
-        
+    @Column(name="other_intervention_label"  )
       
-    */
-    public final String getOtherInterventionLabel() {
+    public String getOtherInterventionLabel() {
         return this.otherInterventionLabel;
     }
   

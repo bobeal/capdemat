@@ -2,28 +2,36 @@ package fr.cg95.cvq.business.authority;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import fr.cg95.cvq.xml.common.SchoolType;
 
-/**
- * @hibernate.class
- *  table="school"
- *  lazy="false"
- *
- * @author bor@zenexity.fr
- */
+@Entity
+@Table(name="school")
 public class School implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/** identifier field */
+    /** identifier field */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(name="name")
     private String name;
-    private String address;
-    private Boolean active;
 
+    @Column(name="address")
+    private String address;
+
+    @Column(name="active")
+    private Boolean active;
 
     /** full constructor */
     public School(String name, String address) {
@@ -52,11 +60,6 @@ public class School implements Serializable {
         return school;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -65,10 +68,6 @@ public class School implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="name"
-     */
     public String getName() {
         return this.name;
     }
@@ -77,10 +76,6 @@ public class School implements Serializable {
         this.name = name;
     }
 
-    /**
-     * @hibernate.property
-     *  column="address"
-     */
     public String getAddress() {
         return this.address;
     }
@@ -89,10 +84,6 @@ public class School implements Serializable {
         this.address = address;
     }
 
-    /**
-     * @hibernate.property
-     *  column="active"
-     */
     public Boolean getActive() {
         return active;
     }

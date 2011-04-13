@@ -29,7 +29,7 @@
       if (yud.hasClass(ddEl,'data-localReferentialData'))
         return formEl[ddEl.id + "[0].name"].value || '';
       if (yud.hasClass(ddEl,'validate-capdematEnum'))
-        return formEl[ddEl.id].value.split('_')[1] || '';
+        return formEl[ddEl.id].value || '';
       else if (yud.hasClass(ddEl,'validate-boolean')) {
         var value;
         zct.each(formEl[ddEl.id], function(){

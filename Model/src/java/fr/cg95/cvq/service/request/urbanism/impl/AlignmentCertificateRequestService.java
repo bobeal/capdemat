@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.request.urbanism.impl;
 
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.urbanism.AcrRequesterQualityType;
 import fr.cg95.cvq.business.request.urbanism.AlignmentCertificateRequest;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
@@ -14,7 +15,7 @@ public final class AlignmentCertificateRequestService extends RequestService {
 
     @Override
     public void init() {
-        AlignmentCertificateRequest.conditions.put("requesterQuality", new EqualityChecker("Tenant"));
+        AlignmentCertificateRequest.conditions.put("requesterQuality", new EqualityChecker(AcrRequesterQualityType.TENANT.name()));
     }
 
     @Override

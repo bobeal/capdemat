@@ -2,25 +2,33 @@ package fr.cg95.cvq.business.users;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import fr.cg95.cvq.xml.common.MeansOfContactEnumType;
 import fr.cg95.cvq.xml.common.MeansOfContactType;
 
 /**
- * @hibernate.class
- *  table="means_of_contact"
- *  lazy="false"
- *
  * @author rdj@zenexity.fr
- *
  */
-public class MeansOfContact implements Serializable, Comparable<MeansOfContact> {
+@Entity
+@Table(name="means_of_contact")
+public class MeansOfContact implements Serializable, Comparable<MeansOfContact>  {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     private MeansOfContactEnum type;
 
     private boolean enabled;
@@ -51,7 +59,7 @@ public class MeansOfContact implements Serializable, Comparable<MeansOfContact> 
             meansOfContactType.setId(meansOfContact.getId().longValue());
         if (meansOfContact.getType() != null)
             meansOfContactType.setType(
-                    MeansOfContactEnumType.Enum.forString(meansOfContact.getType().toString()));
+                    MeansOfContactEnumType.Enum.forString(meansOfContact.getType().getLegacyLabel()));
         if (meansOfContact.isEnabled())
             meansOfContactType.setEnabled(true);
         else
@@ -59,11 +67,6 @@ public class MeansOfContact implements Serializable, Comparable<MeansOfContact> 
         return meansOfContactType;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return id;
     }
@@ -72,10 +75,6 @@ public class MeansOfContact implements Serializable, Comparable<MeansOfContact> 
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="type"
-     */
     public MeansOfContactEnum getType() {
         return type;
     }
@@ -84,10 +83,6 @@ public class MeansOfContact implements Serializable, Comparable<MeansOfContact> 
         this.type = type;
     }
 
-    /**
-     * @hibernate.property
-     *  column="enabled"
-     */
     public boolean isEnabled() {
         return enabled;
     }

@@ -12,7 +12,7 @@
         ${message(code:'message.select.defaultOption')}
       </option>
       <g:each in="${fr.cg95.cvq.business.users.TitleType.allTitleTypes}">
-        <option value="fr.cg95.cvq.business.users.TitleType_${it}"
+        <option value="${it.name()}"
             ${it == adult?.title ? 'selected="selected"' : ''}>
           <g:capdematEnumToText var="${it}" i18nKeyPrefix="homeFolder.adult.title" />
         </option>

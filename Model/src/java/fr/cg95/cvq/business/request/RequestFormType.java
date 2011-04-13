@@ -1,7 +1,5 @@
 package fr.cg95.cvq.business.request;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * A list of all types of forms associated to requests.
  * 
@@ -10,27 +8,28 @@ import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
  * 
  * @author bor@zenexity.fr
  */
-public class RequestFormType extends PersistentStringEnum {
+public enum RequestFormType {
+
+
+    REQUEST_CERTIFICAT("Request Certificate"),
+    REQUEST_MAIL_TEMPLATE("Request Mail Template");
 
     private static final long serialVersionUID = 1L;
+    private String name;
 
-    public static final RequestFormType REQUEST_CERTIFICAT = 
-        new RequestFormType("Request Certificate");
-    public static final RequestFormType REQUEST_MAIL_TEMPLATE =
-        new RequestFormType("Request Mail Template");
-
-    public RequestFormType() {
-    }
 
     private RequestFormType(String name) {
-        super(name);
+        this.name = name;
     }
 
     /**
      * A vector of all possible {@link RequestFormType requests forms types}.
+     * @deprecated only for backward, use values() instead
      */
-    public static final RequestFormType[] allRequestFormType = { 
-        REQUEST_CERTIFICAT,
-        REQUEST_MAIL_TEMPLATE
-    };
+    static RequestFormType[] allRequestFormType = RequestFormType.values();
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

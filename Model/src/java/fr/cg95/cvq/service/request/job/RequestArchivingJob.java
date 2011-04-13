@@ -21,8 +21,10 @@ import fr.cg95.cvq.business.request.RequestAdminEvent;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.dao.request.IRequestActionDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
+import fr.cg95.cvq.dao.request.external.IRequestExternalActionDAO;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
@@ -55,12 +57,14 @@ public class RequestArchivingJob implements ApplicationContextAware, ILocalAutho
     private IRequestExternalActionService requestExternalActionService;
     private ILocalAuthorityRegistry localAuthorityRegistry;
     private IRequestDAO requestDAO;
+    private IRequestExternalActionDAO requestExternalActionDAO;
+    private IGenericDAO genericDAO;
     private IRequestPdfService requestPdfService;
     private IRequestServiceRegistry requestServiceRegistry;
     private IRequestWorkflowService requestWorkflowService;
     private ITranslationService translationService;
     private IRequestActionDAO requestActionDAO;
-
+    
     @Context(types = {ContextType.SUPER_ADMIN})
     public void launch() {
         localAuthorityRegistry.browseAndCallback(this, "archive", null);
@@ -91,7 +95,7 @@ public class RequestArchivingJob implements ApplicationContextAware, ILocalAutho
                         request.getId().toString(), Critere.EQUALS));
                     for (RequestExternalAction trace :
                         requestExternalActionService.getTraces(criteriaSet, null, null, 0, 0)) {
-                        requestDAO.delete(trace);
+                        requestExternalActionDAO.delete(trace);
                     }
                     String filename = translationService.translate("requestArchive.filename",
                         new Object[] {
@@ -122,7 +126,7 @@ public class RequestArchivingJob implements ApplicationContextAware, ILocalAutho
         action.getComplementaryData().put(RequestAdminAction.Data.ARCHIVING_RESULT, result);
         HibernateUtil.beginTransaction();
         if (result.numberOfSuccesses > 0 || result.failures.size() > 0) {
-            requestDAO.saveOrUpdate(action);
+            genericDAO.saveOrUpdate(action);
         }
         RequestAdminEvent event = new RequestAdminEvent(this, action);
         applicationContext.publishEvent(event);
@@ -144,7 +148,7 @@ public class RequestArchivingJob implements ApplicationContextAware, ILocalAutho
                     request.getId().toString(), Critere.EQUALS));
                 for (RequestExternalAction trace :
                     requestExternalActionService.getTraces(criteriaSet, null, null, 0, 0)) {
-                    requestDAO.delete(trace);
+                    requestExternalActionDAO.delete(trace);
                 }
                 String filename = translationService.translate("requestArchive.filename",
                     new Object[] {
@@ -173,7 +177,7 @@ public class RequestArchivingJob implements ApplicationContextAware, ILocalAutho
             new RequestAdminAction(RequestAdminAction.Type.ARCHIVES_MIGRATED);
         action.getComplementaryData().put(RequestAdminAction.Data.ARCHIVING_RESULT, result);
         HibernateUtil.beginTransaction();
-        requestDAO.saveOrUpdate(action);
+        genericDAO.saveOrUpdate(action);
         RequestAdminEvent event = new RequestAdminEvent(this, action);
         applicationContext.publishEvent(event);
     }
@@ -209,8 +213,12 @@ public class RequestArchivingJob implements ApplicationContextAware, ILocalAutho
         this.requestDAO = requestDAO;
     }
 
-    public void setRequestActionDAO(IRequestActionDAO requestActionDAO) {
-        this.requestActionDAO = requestActionDAO;
+    public void setRequestExternalActionDAO(IRequestExternalActionDAO requestExternalActionDAO) {
+        this.requestExternalActionDAO = requestExternalActionDAO;
+    }
+
+    public void setGenericDAO(IGenericDAO genericDAO) {
+        this.genericDAO = genericDAO;
     }
 
     public void setRequestPdfService(IRequestPdfService requestPdfService) {
@@ -227,5 +235,13 @@ public class RequestArchivingJob implements ApplicationContextAware, ILocalAutho
 
     public void setTranslationService(ITranslationService translationService) {
         this.translationService = translationService;
+    }
+
+    public IRequestActionDAO getRequestActionDAO() {
+        return requestActionDAO;
+    }
+
+    public void setRequestActionDAO(IRequestActionDAO requestActionDAO) {
+        this.requestActionDAO = requestActionDAO;
     }
 }

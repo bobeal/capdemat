@@ -22,7 +22,7 @@ public class RequestExternalActionService implements IRequestExternalActionServi
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
     public Long addTrace(RequestExternalAction trace) {
         trace.setDate(new Date());
-        return requestExternalActionDAO.create(trace);
+        return ((RequestExternalAction)requestExternalActionDAO.create(trace)).getId();
     }
 
     @Override

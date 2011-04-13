@@ -6,7 +6,7 @@ import org.hibernate.Query;
 
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.dao.authority.IAgentDAO;
-import fr.cg95.cvq.dao.hibernate.GenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaTemplate;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 
 
@@ -15,7 +15,7 @@ import fr.cg95.cvq.dao.hibernate.HibernateUtil;
  *
  * @author bor@zenexity.fr
  */
-public class AgentDAO extends GenericDAO implements IAgentDAO {
+public class AgentDAO extends JpaTemplate<Agent,Long> implements IAgentDAO {
 
     public boolean exists(Long id) {
         Query query = HibernateUtil.getSession()

@@ -114,7 +114,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         rsrContactTypeFirstContact.setContactFirstName(getContactFirstName());
       
         if (getContactKind() != null)
-            remoteSupportRequest.setContactKind(fr.cg95.cvq.xml.request.social.RsrContactKindType.Enum.forString(getContactKind().toString()));
+            remoteSupportRequest.setContactKind(fr.cg95.cvq.xml.request.social.RsrContactKindType.Enum.forString(getContactKind().getLegacyLabel()));
       
         rsrContactTypeFirstContact.setContactLastName(getContactLastName());
       
@@ -126,7 +126,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         rsrRequestInformationTypeRequestInformation.setRequestInformationEmergencyMotive(getRequestInformationEmergencyMotive());
       
         if (getRequestInformationRequestKind() != null)
-            rsrRequestInformationTypeRequestInformation.setRequestInformationRequestKind(fr.cg95.cvq.xml.request.social.RsrRequestInformationRequestKindType.Enum.forString(getRequestInformationRequestKind().toString()));
+            rsrRequestInformationTypeRequestInformation.setRequestInformationRequestKind(fr.cg95.cvq.xml.request.social.RsrRequestInformationRequestKindType.Enum.forString(getRequestInformationRequestKind().getLegacyLabel()));
         RsrSecondContactType rsrSecondContactTypeSecondContact = remoteSupportRequest.addNewSecondContact();
         rsrSecondContactTypeSecondContact.setSecondContactFirstName(getSecondContactFirstName());
       
@@ -148,7 +148,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         rsrSpouseTypeSpouse.setSpouseLastName(getSpouseLastName());
       
         if (getSpouseTitle() != null)
-            rsrSpouseTypeSpouse.setSpouseTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getSpouseTitle().toString()));
+            rsrSpouseTypeSpouse.setSpouseTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getSpouseTitle().getLegacyLabel()));
         RsrSubjectType rsrSubjectTypeRsrSubject = remoteSupportRequest.addNewRsrSubject();
         date = getSubjectBirthDate();
         if (date != null) {
@@ -166,10 +166,10 @@ public class RemoteSupportRequest extends Request implements Serializable {
             rsrSubjectTypeRsrSubject.setSubjectIsTaxable(getSubjectIsTaxable().booleanValue());
       
         if (getSubjectResideWith() != null)
-            rsrSubjectTypeRsrSubject.setSubjectResideWith(fr.cg95.cvq.xml.request.social.RsrSubjectResideWithType.Enum.forString(getSubjectResideWith().toString()));
+            rsrSubjectTypeRsrSubject.setSubjectResideWith(fr.cg95.cvq.xml.request.social.RsrSubjectResideWithType.Enum.forString(getSubjectResideWith().getLegacyLabel()));
       
         if (getSubjectTitle() != null)
-            rsrSubjectTypeRsrSubject.setSubjectTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getSubjectTitle().toString()));
+            rsrSubjectTypeRsrSubject.setSubjectTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getSubjectTitle().getLegacyLabel()));
         RsrTrusteeType rsrTrusteeTypeTrustee = remoteSupportRequest.addNewTrustee();
         rsrTrusteeTypeTrustee.setTrusteeFirstName(getTrusteeFirstName());
       

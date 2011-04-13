@@ -1,39 +1,41 @@
 package fr.cg95.cvq.business.request.civil;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class MarriageRelationshipType extends PersistentStringEnum {
+public enum MarriageRelationshipType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final MarriageRelationshipType HUSBAND = new MarriageRelationshipType("Husband");
-  
-    public static final MarriageRelationshipType WIFE = new MarriageRelationshipType("Wife");
-  
+    HUSBAND("Husband"),
+    WIFE("Wife");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use MarriageRelationshipType.values() instead
+     * @deprecated only for backward
      */
-    private MarriageRelationshipType(String value) {
-        super(value);
+    @Deprecated 
+    public static MarriageRelationshipType[] allMarriageRelationshipTypes = MarriageRelationshipType.values();
+
+    private String legacyLabel;
+
+    private MarriageRelationshipType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public MarriageRelationshipType() {}
-
-    public static MarriageRelationshipType[] allMarriageRelationshipTypes = {
-        HUSBAND,
-        WIFE
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static MarriageRelationshipType getDefaultMarriageRelationshipType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of MarriageRelationshipType.something
+     * not the value of the name attribut.
+     */
     public static MarriageRelationshipType forString(final String enumAsString) {
-        for (MarriageRelationshipType value : allMarriageRelationshipTypes)
+        for (MarriageRelationshipType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultMarriageRelationshipType();

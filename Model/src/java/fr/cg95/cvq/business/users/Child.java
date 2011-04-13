@@ -1,19 +1,20 @@
 package fr.cg95.cvq.business.users;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+
 import net.sf.oval.constraint.NotNull;
 import fr.cg95.cvq.service.users.HasLegalResponsibles;
 import fr.cg95.cvq.xml.common.ChildType;
 
-/**
- * @hibernate.joined-subclass
- *  table="child"
- *  lazy="false"
- * @hibernate.joined-subclass-key
- *  column="id"
- *
- * @author bor@zenexity.fr
- */
 @HasLegalResponsibles
+@Entity
+@Table(name="child")
 public class Child extends Individual {
 
     private static final long serialVersionUID = 1L;
@@ -29,9 +30,11 @@ public class Child extends Individual {
         return child;
     }
 
+    @Column(name="born")
     private boolean born = true;
 
     @NotNull(message = "sex", when = "groovy:_this.born")
+    @Enumerated(EnumType.STRING)
     private SexType sex;
 
     public ChildType modelToXml() {
@@ -43,10 +46,6 @@ public class Child extends Individual {
         return childType;
     }
 
-    /**
-     * @hibernate.property
-     *  column="born"
-     */
     public boolean isBorn() {
         return born;
     }
@@ -55,11 +54,6 @@ public class Child extends Individual {
         this.born = born;
     }
 
-    /**
-     * @hibernate.property
-     *  column="sex"
-     *  length="8"
-     */
     public SexType getSex() {
         return this.sex;
     }

@@ -2,53 +2,70 @@ package fr.cg95.cvq.business.request;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Type;
 import org.joda.time.DateMidnight;
 
 import fr.cg95.cvq.xml.common.RequestSeasonType;
 
-/**
- * @hibernate.class
- *  table="request_season"
- *  lazy="false"
- *
- * @author Benoit Orihuela (bor@zenexity.fr)
- */
+@Entity
+@Table(name="request_season")
 public class RequestSeason implements Serializable, Comparable<RequestSeason> {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
     /** the associated (parent) request type */
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="request_type_id",nullable=false)
     private RequestType requestType;
 
     /** display purposes only */
+    @Column(nullable=false)
     private String label;
 
     /** date from which users can issue new requests */
+    @Column(name="registration_start", nullable=false)
+    @Type(type="fr.cg95.cvq.dao.hibernate.PersistentDateMidnight")
     private DateMidnight registrationStart;
 
     /** date until which users can issue new requests */
+    @Column(name="registration_end",nullable=false)
+    @Type(type="fr.cg95.cvq.dao.hibernate.PersistentDateMidnight")
     private DateMidnight registrationEnd;
 
     /**
      * can block validations for a given season
      * until associated external services are ready to deal with them.
      */
+    @Column(name="validation_authorization_start")
+    @Type(type="fr.cg95.cvq.dao.hibernate.PersistentDateMidnight")
     private DateMidnight validationAuthorizationStart;
 
     /** date from which registration will be considered as active */
+    @Column(name="effect_start", nullable=false)
+    @Type(type="fr.cg95.cvq.dao.hibernate.PersistentDateMidnight")
     private DateMidnight effectStart;
 
     /** date to which registration will be considered as active */
+    @Column(name="effect_end", nullable=false)
+    @Type(type="fr.cg95.cvq.dao.hibernate.PersistentDateMidnight")
     private DateMidnight effectEnd;
 
-    /**
-     * @hibernate.many-to-one
-     *  column="request_type_id"
-     *  class="fr.cg95.cvq.business.request.RequestType"
-     *  not-null="true"
-     */
     public final RequestType getRequestType() {
         return requestType;
     }
@@ -57,12 +74,6 @@ public class RequestSeason implements Serializable, Comparable<RequestSeason> {
         this.requestType = requestType;
     }
 
-    /**
-     * @hibernate.property
-     *  column="effect_end"
-     *  type="fr.cg95.cvq.dao.hibernate.PersistentDateMidnight"
-     *  not-null="true"
-     */
     public final DateMidnight getEffectEnd() {
         return effectEnd;
     }
@@ -71,12 +82,6 @@ public class RequestSeason implements Serializable, Comparable<RequestSeason> {
         this.effectEnd = effectEnd;
     }
 
-    /**
-     * @hibernate.property
-     *  column="effect_start"
-     *  type="fr.cg95.cvq.dao.hibernate.PersistentDateMidnight"
-     *  not-null="true"
-     */
     public final DateMidnight getEffectStart() {
         return effectStart;
     }
@@ -85,11 +90,6 @@ public class RequestSeason implements Serializable, Comparable<RequestSeason> {
         this.effectStart = effectStart;
     }
 
-    /**
-     * @hibernate.property
-     *  column="label"
-     *  not-null="true"
-     */
     public final String getLabel() {
         return label;
     }
@@ -98,12 +98,6 @@ public class RequestSeason implements Serializable, Comparable<RequestSeason> {
         this.label = label;
     }
 
-    /**
-     * @hibernate.property
-     *  column="registration_end"
-     *  type="fr.cg95.cvq.dao.hibernate.PersistentDateMidnight"
-     *  not-null="true"
-     */
     public final DateMidnight getRegistrationEnd() {
         return registrationEnd;
     }
@@ -112,12 +106,6 @@ public class RequestSeason implements Serializable, Comparable<RequestSeason> {
         this.registrationEnd = registrationEnd;
     }
 
-    /**
-     * @hibernate.property
-     *  column="registration_start"
-     *  type="fr.cg95.cvq.dao.hibernate.PersistentDateMidnight"
-     *  not-null="true"
-     */
     public final DateMidnight getRegistrationStart() {
         return registrationStart;
     }
@@ -126,11 +114,6 @@ public class RequestSeason implements Serializable, Comparable<RequestSeason> {
         this.registrationStart = registrationStart;
     }
 
-    /**
-     * @hibernate.property
-     *  column="validation_authorization_start"
-     *  type="fr.cg95.cvq.dao.hibernate.PersistentDateMidnight"
-     */
     public final DateMidnight getValidationAuthorizationStart() {
         return validationAuthorizationStart;
     }
@@ -139,11 +122,6 @@ public class RequestSeason implements Serializable, Comparable<RequestSeason> {
         this.validationAuthorizationStart = validationAuthorizationStart;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return id;
     }

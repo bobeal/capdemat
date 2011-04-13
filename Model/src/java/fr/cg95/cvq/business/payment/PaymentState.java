@@ -1,38 +1,42 @@
 package fr.cg95.cvq.business.payment;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
-/** 
+/**
  * @author bor@zenexity.fr
  */
-public class PaymentState extends PersistentStringEnum {
+public enum PaymentState {
 
-    private static final long serialVersionUID = 1L;
+    INITIALIZED("Initialized"),
+    VALIDATED("Validated"),
+    REFUSED("Refused"),
+    CANCELLED("Cancelled");
 
-    public static final PaymentState INITIALIZED = new PaymentState("Initialized");
-    public static final PaymentState VALIDATED = new PaymentState("Validated");
-    public static final PaymentState REFUSED = new PaymentState("Refused");
-    public static final PaymentState CANCELLED = new PaymentState("Cancelled");
+    private String name;
 
     /**
      * Prevent instantiation and subclassing with a private constructor.
      */
     private PaymentState(String state) {
-        super(state);
+        this.name = state;
     }
 
-    public PaymentState() {}
-    
-    public static final PaymentState[] allPaymentStates = { INITIALIZED, VALIDATED, REFUSED, CANCELLED };
-    
+    /**
+     * @deprecated only for backward, use values() instead
+     */
+    public static final PaymentState[] allPaymentStates = values();
+
     public static PaymentState forString(String enumAsString) {
         if (enumAsString == null || enumAsString.equals("")) return INITIALIZED;
-        
+
         if (enumAsString.equals(INITIALIZED.toString()))  return INITIALIZED;
         else if (enumAsString.equals(VALIDATED.toString())) return VALIDATED;
         else if (enumAsString.equals(CANCELLED.toString())) return CANCELLED;
         else if (enumAsString.equals(REFUSED.toString())) return REFUSED;
-        
+
         return INITIALIZED;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

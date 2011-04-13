@@ -3,10 +3,13 @@ package fr.cg95.cvq.service.authority;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import org.apache.log4j.Logger;
-import org.hibernate.SessionFactory;
 
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.external.ExternalServiceBean;
@@ -17,7 +20,7 @@ import fr.cg95.cvq.service.payment.PaymentServiceBean;
 
 /**
  * A bean used to store configuration specific to a local authority.
- * 
+ *
  * This bean can be retrieved via the local authority registry.
  *
  * @author Benoit Orihuela (bor@zenexity.fr)
@@ -29,9 +32,7 @@ public final class LocalAuthorityConfigurationBean {
 
     private String name;
     private String defaultServerName;
-    
-    private SessionFactory sessionFactory;
-    
+
     private Map<IPaymentProviderService, PaymentServiceBean> paymentServices;
     private ExternalServiceConfigurationBean escb;
 
@@ -39,6 +40,8 @@ public final class LocalAuthorityConfigurationBean {
     private Map<String, Map<String, String>> ecitizenValidationNotifications;
     private Map<String, Map<String, String>> agentNotifications;
     private Map<String, Map<String, String>> paymentNotifications;
+    private Properties jpaConfigurations;
+    private EntityManagerFactory entityManagerFactory;
 
     public LocalAuthorityConfigurationBean() {
         paymentServices =
@@ -58,7 +61,7 @@ public final class LocalAuthorityConfigurationBean {
 
         return paymentServices.keySet();
     }
-    
+
     /**
      * Return whether the given request type has ecitizen notification enabled for the local
      * authority associated to this bean.
@@ -70,10 +73,10 @@ public final class LocalAuthorityConfigurationBean {
             return true;
         if (ecitizenValidationNotifications.get(requestTypeLabel) != null)
             return true;
-        
+
         return false;
     }
-    
+
     /**
      * Return configuration data associated to the given data key for the given request type
      * label.
@@ -104,17 +107,17 @@ public final class LocalAuthorityConfigurationBean {
      * Return whether the given key has agent notification enabled for the local
      * authority associated to this bean.
      */
-    
+
     public boolean hasAgentNotification(final String agentNotificationKey) {
         if (agentNotifications== null)
             return false;
-        
+
         if (agentNotifications.get(agentNotificationKey) != null)
             return true;
-        
+
         return false;
     }
-    
+
     /**
      * Return configuration data associated to the given data key for the given 
      * agent's notification key
@@ -128,7 +131,7 @@ public final class LocalAuthorityConfigurationBean {
             return null;
         return data.get(dataKey);
     }
-    
+
     /**
      * Return whether the given key has agent notification enabled for the local
      * authority associated to this bean.
@@ -136,13 +139,13 @@ public final class LocalAuthorityConfigurationBean {
     public boolean hasPaymentNotification(final String paymentNotificationKey) {
         if (paymentNotifications == null)
             return false;
-        
+
         if (paymentNotifications.get(paymentNotificationKey) != null)
             return true;
-        
+
         return false;
     }
-    
+
     /**
      * Return configuration data associated to the given data key for the given 
      * agent's notification key
@@ -168,18 +171,18 @@ public final class LocalAuthorityConfigurationBean {
             }
         }
     }
-    
+
     /**
      * Extract email information ("Send to", "Subject", "Body") from the notifications properties
      * of the current local authority.
-     * 
+     *
      * @param hasNotificationMethodName name of method that check email existence
      * @param getNotificationDataMethodName name of method that get email field
      * @param mailKey key of the email to extract
      */
     public Map<String, String> getMailAsMap(String hasNotificationMethodName, 
             String getNotificationDataMethodName, String mailKey) {
-        
+
 		try {
 			Method hasNotificationMethod = 
 				getClass().getDeclaredMethod(hasNotificationMethodName, 
@@ -187,10 +190,10 @@ public final class LocalAuthorityConfigurationBean {
 			Method getNotificationDataMethod = 
 				getClass().getDeclaredMethod(getNotificationDataMethodName, 
                         new Class[] { String.class, String.class });
-			
+
 			if ((Boolean) hasNotificationMethod.invoke(this, new Object[] {mailKey}))  {
                 Map<String, String> mailMap = new HashMap<String, String>();
-                
+
 				String mailSubject = 
                     (String) getNotificationDataMethod.invoke(this, new Object[] {mailKey, "mailSubject"});
 				mailMap.put("mailSubject", mailSubject);
@@ -200,7 +203,7 @@ public final class LocalAuthorityConfigurationBean {
 				String mailData = 
                     (String) getNotificationDataMethod.invoke(this, new Object[] {mailKey, "mailData"});
 				mailMap.put("mailData", mailData);
-                
+
                 return mailMap;
 			}
 
@@ -236,12 +239,12 @@ public final class LocalAuthorityConfigurationBean {
         this.defaultServerName = defaultServerName;
     }
 
-    public void setSessionFactory(final SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    public Properties getJpaConfigurations() {
+        return jpaConfigurations;
     }
 
-    public SessionFactory getSessionFactory() {
-        return this.sessionFactory;
+    public void setJpaConfigurations(Properties jpaConfigurations) {
+        this.jpaConfigurations = jpaConfigurations;
     }
 
     public void setPaymentServices(final Map<IPaymentProviderService, PaymentServiceBean> paymentServices) {
@@ -273,20 +276,31 @@ public final class LocalAuthorityConfigurationBean {
     public ExternalServiceBean getBeanForExternalService(String externalServiceLabel) {
         return escb.getBeanForExternalService(externalServiceLabel);
     }
-    
+
     public void unregisterExternalService(IExternalProviderService service) {
         escb.unregisterExternalService(service);
     }
-    
+
     public void setEcitizenValidationNotifications(Map<String, Map<String, String>> ecitizenValidationNotifications) {
         this.ecitizenValidationNotifications = ecitizenValidationNotifications;
     }
-    
+
 	public void setAgentNotifications(Map<String, Map<String, String>> agentNotifications) {
 		this.agentNotifications = agentNotifications;
 	}
-	
+
 	public void setPaymentNotifications(Map<String, Map<String, String>> paymentNotifications) {
 		this.paymentNotifications = paymentNotifications;
 	}
+
+    public synchronized EntityManagerFactory getEntityManagerFactory() {
+        if (entityManagerFactory == null){
+            entityManagerFactory = Persistence.createEntityManagerFactory("capdematPersistenceUnit", getJpaConfigurations());
+        }
+        return entityManagerFactory;
+    }
+
+    public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
+    }
 }

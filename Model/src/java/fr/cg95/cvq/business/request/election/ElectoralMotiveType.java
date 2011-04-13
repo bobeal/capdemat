@@ -1,45 +1,43 @@
 package fr.cg95.cvq.business.request.election;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class ElectoralMotiveType extends PersistentStringEnum {
+public enum ElectoralMotiveType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final ElectoralMotiveType NEW_CITY_RESIDENT = new ElectoralMotiveType("NewCityResident");
-  
-    public static final ElectoralMotiveType DIRECT_CITY_CONTRIBUTION = new ElectoralMotiveType("DirectCityContribution");
-  
-    public static final ElectoralMotiveType CIVIL_SERVANT_OBLIGATORY_RESIDENT = new ElectoralMotiveType("CivilServantObligatoryResident");
-  
-    public static final ElectoralMotiveType FUTURE_AUTHORIZED_CITIZEN = new ElectoralMotiveType("FutureAuthorizedCitizen");
-  
+    NEW_CITY_RESIDENT("NewCityResident"),
+    DIRECT_CITY_CONTRIBUTION("DirectCityContribution"),
+    CIVIL_SERVANT_OBLIGATORY_RESIDENT("CivilServantObligatoryResident"),
+    FUTURE_AUTHORIZED_CITIZEN("FutureAuthorizedCitizen");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use ElectoralMotiveType.values() instead
+     * @deprecated only for backward
      */
-    private ElectoralMotiveType(String value) {
-        super(value);
+    @Deprecated 
+    public static ElectoralMotiveType[] allElectoralMotiveTypes = ElectoralMotiveType.values();
+
+    private String legacyLabel;
+
+    private ElectoralMotiveType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public ElectoralMotiveType() {}
-
-    public static ElectoralMotiveType[] allElectoralMotiveTypes = {
-        NEW_CITY_RESIDENT,
-        DIRECT_CITY_CONTRIBUTION,
-        CIVIL_SERVANT_OBLIGATORY_RESIDENT,
-        FUTURE_AUTHORIZED_CITIZEN
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static ElectoralMotiveType getDefaultElectoralMotiveType() {
         return NEW_CITY_RESIDENT;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of ElectoralMotiveType.something
+     * not the value of the name attribut.
+     */
     public static ElectoralMotiveType forString(final String enumAsString) {
-        for (ElectoralMotiveType value : allElectoralMotiveTypes)
+        for (ElectoralMotiveType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultElectoralMotiveType();

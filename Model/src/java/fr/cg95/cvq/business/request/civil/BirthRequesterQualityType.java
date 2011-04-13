@@ -1,69 +1,51 @@
 package fr.cg95.cvq.business.request.civil;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class BirthRequesterQualityType extends PersistentStringEnum {
+public enum BirthRequesterQualityType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final BirthRequesterQualityType REQUESTER = new BirthRequesterQualityType("Requester");
-  
-    public static final BirthRequesterQualityType SPOUSE = new BirthRequesterQualityType("Spouse");
-  
-    public static final BirthRequesterQualityType PARENT = new BirthRequesterQualityType("Parent");
-  
-    public static final BirthRequesterQualityType GRAND_PARENT = new BirthRequesterQualityType("GrandParent");
-  
-    public static final BirthRequesterQualityType CHILD = new BirthRequesterQualityType("Child");
-  
-    public static final BirthRequesterQualityType LEGAL_REPRESENTANT = new BirthRequesterQualityType("LegalRepresentant");
-  
-    public static final BirthRequesterQualityType AGENT = new BirthRequesterQualityType("Agent");
-  
-    public static final BirthRequesterQualityType HEIR_FAMILY = new BirthRequesterQualityType("HeirFamily");
-  
-    public static final BirthRequesterQualityType HEIR = new BirthRequesterQualityType("Heir");
-  
-    public static final BirthRequesterQualityType AUTHORIZED = new BirthRequesterQualityType("Authorized");
-  
-    public static final BirthRequesterQualityType LAWYER_NOTARY = new BirthRequesterQualityType("LawyerNotary");
-  
-    public static final BirthRequesterQualityType OTHER = new BirthRequesterQualityType("Other");
-  
+    REQUESTER("Requester"),
+    SPOUSE("Spouse"),
+    PARENT("Parent"),
+    GRAND_PARENT("GrandParent"),
+    CHILD("Child"),
+    LEGAL_REPRESENTANT("LegalRepresentant"),
+    AGENT("Agent"),
+    HEIR_FAMILY("HeirFamily"),
+    HEIR("Heir"),
+    AUTHORIZED("Authorized"),
+    LAWYER_NOTARY("LawyerNotary"),
+    OTHER("Other");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use BirthRequesterQualityType.values() instead
+     * @deprecated only for backward
      */
-    private BirthRequesterQualityType(String value) {
-        super(value);
+    @Deprecated 
+    public static BirthRequesterQualityType[] allBirthRequesterQualityTypes = BirthRequesterQualityType.values();
+
+    private String legacyLabel;
+
+    private BirthRequesterQualityType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public BirthRequesterQualityType() {}
-
-    public static BirthRequesterQualityType[] allBirthRequesterQualityTypes = {
-        REQUESTER,
-        SPOUSE,
-        PARENT,
-        GRAND_PARENT,
-        CHILD,
-        LEGAL_REPRESENTANT,
-        AGENT,
-        HEIR_FAMILY,
-        HEIR,
-        AUTHORIZED,
-        LAWYER_NOTARY,
-        OTHER
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static BirthRequesterQualityType getDefaultBirthRequesterQualityType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of BirthRequesterQualityType.something
+     * not the value of the name attribut.
+     */
     public static BirthRequesterQualityType forString(final String enumAsString) {
-        for (BirthRequesterQualityType value : allBirthRequesterQualityTypes)
+        for (BirthRequesterQualityType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultBirthRequesterQualityType();

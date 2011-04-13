@@ -5,14 +5,14 @@ import java.util.Set;
 
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.Payment;
-import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.IJpaTemplate;
 import fr.cg95.cvq.util.Critere;
 
 /**
  * @author bor@zenexity.fr
  * @author rdj@zenexity.fr
  */
-public interface IPaymentDAO extends IGenericDAO {
+public interface IPaymentDAO extends IJpaTemplate<Payment,Long> {
 
     /**
      * Find all payments associated to the given home folder.

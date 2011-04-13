@@ -131,10 +131,10 @@ public class DeathDetailsRequest extends Request implements Serializable {
         deathDetailsRequest.setDeathPostalCode(getDeathPostalCode());
       
         if (getFormat() != null)
-            deathDetailsRequest.setFormat(fr.cg95.cvq.xml.request.civil.DeathCertificateFormatType.Enum.forString(getFormat().toString()));
+            deathDetailsRequest.setFormat(fr.cg95.cvq.xml.request.civil.DeathCertificateFormatType.Enum.forString(getFormat().getLegacyLabel()));
       
         if (getMotive() != null)
-            deathDetailsRequest.setMotive(fr.cg95.cvq.xml.request.civil.DeathCertificateMotiveType.Enum.forString(getMotive().toString()));
+            deathDetailsRequest.setMotive(fr.cg95.cvq.xml.request.civil.DeathCertificateMotiveType.Enum.forString(getMotive().getLegacyLabel()));
       
         return deathDetailsRequestDoc;
     }

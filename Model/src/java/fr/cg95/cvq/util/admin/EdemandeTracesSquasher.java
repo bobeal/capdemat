@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
-import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.IExternalProviderService;

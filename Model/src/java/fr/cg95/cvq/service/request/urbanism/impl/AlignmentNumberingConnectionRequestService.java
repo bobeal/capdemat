@@ -2,6 +2,7 @@ package fr.cg95.cvq.service.request.urbanism.impl;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.urbanism.AlignmentNumberingConnectionRequest;
+import fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 
@@ -15,7 +16,7 @@ public class AlignmentNumberingConnectionRequestService extends RequestService {
         AlignmentNumberingConnectionRequest.conditions.put("isAccountAddress",
             new EqualityChecker("true"));
         AlignmentNumberingConnectionRequest.conditions.put("requesterQuality",
-            new EqualityChecker("Owner"));
+            new EqualityChecker(AncrRequesterQualityType.OWNER.name()));
     }
 
     @Override

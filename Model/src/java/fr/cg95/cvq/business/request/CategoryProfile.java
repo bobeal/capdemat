@@ -1,27 +1,21 @@
 package fr.cg95.cvq.business.request;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
 
-public final class CategoryProfile extends PersistentStringEnum {
+public enum CategoryProfile {
 
-    private static final long serialVersionUID = 1L;
+    READ_ONLY("R/O"),
+    READ_WRITE("R/W"),
+    MANAGER("Manager");
 
-    public static final CategoryProfile READ_ONLY = new CategoryProfile("R/O");
-    public static final CategoryProfile READ_WRITE = new CategoryProfile("R/W");
-    public static final CategoryProfile MANAGER = new CategoryProfile("Manager");
-
-    public CategoryProfile() {}
+    private String name;
 
     private CategoryProfile(String name) {
-        super(name);
+        this.name = name;
     }
 
     /**
      * A vector of all possible {@link CategoryProfile categoryProfiles}.
+     * @deprecated only for backward, use values() instead
      */
-    public static final CategoryProfile[] allCategoryProfiles = {
-        READ_ONLY,
-        READ_WRITE,
-        MANAGER
-    };
+    public static final CategoryProfile[] allCategoryProfiles = CategoryProfile.values();
 }

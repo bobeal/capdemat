@@ -15,8 +15,8 @@
     <label for="homeIntervenants.${collectionIndex}.homeIntervenantKind" class="required"><g:message code="hcar.property.homeIntervenantKind.label" /> *  <span><g:message code="hcar.property.homeIntervenantKind.help" /></span></label>
             <select id="homeIntervenants.${collectionIndex}.homeIntervenantKind" name="homeIntervenants[${collectionIndex}].homeIntervenantKind" class="required condition-isOtherHomeIntervant-trigger  validate-not-first ${rqt.stepStates['aid'].invalidFields.contains('homeIntervenants['+collectionIndex+'].homeIntervenantKind') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.homeIntervenantKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Carer','HomeHelp','Other']}">
-                <option value="fr.cg95.cvq.business.request.social.HcarHomeIntervenantKindType_${it}" ${it == currentCollectionItem?.homeIntervenantKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.homeIntervenantKind" /></option>
+              <g:each in="${['CARER','HOME_HELP','OTHER']}">
+                <option value="${it}" ${it == currentCollectionItem?.homeIntervenantKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.homeIntervenantKind" /></option>
               </g:each>
             </select>
             

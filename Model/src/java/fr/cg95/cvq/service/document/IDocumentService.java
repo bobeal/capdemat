@@ -14,6 +14,7 @@ import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.document.DocumentState;
 import fr.cg95.cvq.business.document.DocumentType;
+import fr.cg95.cvq.exception.CvqDisabledFunctionalityException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -46,11 +47,9 @@ public interface IDocumentService {
 	/**
      * Delete an existing document.
      */
-    void delete(@IsDocument final Long id)
-        throws CvqException, CvqObjectNotFoundException;
+    void delete(@IsDocument final Long id);
 
-    Document getById(@IsDocument final Long documentId)
-        throws CvqObjectNotFoundException;
+    Document getById(@IsDocument final Long documentId);
 
     /**
      * Add a page to an existing document.
@@ -70,13 +69,12 @@ public interface IDocumentService {
      * Remove a page from an existing document.
      */
     void deletePage(@IsDocument final Long documentId, final Integer pageId)
-        throws CvqException, CvqObjectNotFoundException;
+        throws CvqDisabledFunctionalityException;
 
     /**
      * Get all binary data associated to a document.
      */
-    Set<DocumentBinary> getAllPages(@IsDocument final Long documentId)
-        throws CvqException;
+    Set<DocumentBinary> getAllPages(@IsDocument final Long documentId);
 
     /**
      * Get already provided documents for the given
@@ -115,7 +113,7 @@ public interface IDocumentService {
      */
     void updateDocumentState(final Long id, final DocumentState ds, final String message, 
             final Date validityDate)
-        throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
+        throws CvqException, CvqInvalidTransitionException;
 
     /**
      * Set the previously draft document to pending state
@@ -124,10 +122,10 @@ public interface IDocumentService {
      * @throws CvqInvalidTransitionException if the document is not in draft state
      */
     void pending(@IsDocument final Long id)
-        throws CvqObjectNotFoundException, CvqInvalidTransitionException;
+        throws CvqInvalidTransitionException;
 
     void rePending(Long id)
-        throws CvqObjectNotFoundException, CvqInvalidTransitionException;
+        throws CvqInvalidTransitionException;
     /**
      * Validate a document.
      *
@@ -147,8 +145,7 @@ public interface IDocumentService {
      * @param message a mandatory message associated with the refusal
      */
     void refuse(final Long id, final String message)
-        throws CvqException, CvqObjectNotFoundException,
-               CvqInvalidTransitionException;
+        throws CvqInvalidTransitionException;
 
     /**
      * Notify that the document has been checked.
@@ -157,8 +154,7 @@ public interface IDocumentService {
      * @param message a optional message (eg 'bring the original ones')
      */
     void check(final Long id, final String message)
-        throws CvqException, CvqObjectNotFoundException,
-               CvqInvalidTransitionException;
+        throws CvqInvalidTransitionException;
 
     /**
      * Get possible state transitions from the given document state.

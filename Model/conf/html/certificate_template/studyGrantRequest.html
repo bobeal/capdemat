@@ -3,6 +3,7 @@
 <%
 
   import org.apache.commons.lang.StringUtils
+  import fr.cg95.cvq.util.EnumTool
   def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -257,7 +258,7 @@
           <p class="label">${esc(i18n.translate('sgr.property.alevels.label'))}</p>
           <div class="response">
             <% if(rqt.alevels) { %>
-              ${esc(i18n.translate('sgr.property.alevels.' + StringUtils.uncapitalize(rqt.alevels.toString())))}
+              ${esc(i18n.translate('sgr.property.alevels.' + EnumTool.toLowerCamelCase(rqt.alevels.toString())))}
             <% } %>
           </div>
           
@@ -273,7 +274,7 @@
           <p class="label">${esc(i18n.translate('sgr.property.currentStudiesDiploma.label'))}</p>
           <div class="response">
             <% if(rqt.currentStudiesDiploma) { %>
-              ${esc(i18n.translate('sgr.property.currentStudiesDiploma.' + StringUtils.uncapitalize(rqt.currentStudiesDiploma.toString())))}
+              ${esc(i18n.translate('sgr.property.currentStudiesDiploma.' + EnumTool.toLowerCamelCase(rqt.currentStudiesDiploma.toString())))}
             <% } %>
           </div>
           
@@ -285,7 +286,7 @@
           <p class="label">${esc(i18n.translate('sgr.property.currentStudiesLevel.label'))}</p>
           <div class="response">
             <% if(rqt.currentStudiesLevel) { %>
-              ${esc(i18n.translate('sgr.property.currentStudiesLevel.' + StringUtils.uncapitalize(rqt.currentStudiesLevel.toString())))}
+              ${esc(i18n.translate('sgr.property.currentStudiesLevel.' + EnumTool.toLowerCamelCase(rqt.currentStudiesLevel.toString())))}
             <% } %>
           </div>
           
@@ -331,7 +332,7 @@
           <p class="label">${esc(i18n.translate('sgr.property.abroadInternshipSchoolCountry.label'))}</p>
           <div class="response">
             <% if(rqt.abroadInternshipSchoolCountry) { %>
-              ${esc(i18n.translate('sgr.property.abroadInternshipSchoolCountry.' + StringUtils.uncapitalize(rqt.abroadInternshipSchoolCountry.toString())))}
+              ${esc(i18n.translate('sgr.property.abroadInternshipSchoolCountry.' + EnumTool.toLowerCamelCase(rqt.abroadInternshipSchoolCountry.toString())))}
             <% } %>
           </div>
           
@@ -362,7 +363,7 @@
       <p class="label">${esc(i18n.translate('sgr.property.accountHolderTitle.label'))}</p>
           <div class="response">
             <% if(rqt.accountHolderTitle) { %>
-              ${esc(i18n.translate('sgr.property.accountHolderTitle.' + StringUtils.uncapitalize(rqt.accountHolderTitle.toString())))}
+              ${esc(i18n.translate('sgr.property.accountHolderTitle.' + EnumTool.toLowerCamelCase(rqt.accountHolderTitle.toString())))}
             <% } %>
           </div>
           
@@ -408,7 +409,7 @@
       <p class="label">${esc(i18n.translate('sgr.property.distance.label'))}</p>
           <div class="response">
             <% if(rqt.distance) { %>
-              ${esc(i18n.translate('sgr.property.distance.' + StringUtils.uncapitalize(rqt.distance.toString())))}
+              ${esc(i18n.translate('sgr.property.distance.' + EnumTool.toLowerCamelCase(rqt.distance.toString())))}
             <% } %>
           </div>
           
@@ -421,7 +422,7 @@
     <% if (rqt.meansOfContact) { %>
       <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
         <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
-          ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+          ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.name))}
         </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
       <% } %>
     <% } else { %>

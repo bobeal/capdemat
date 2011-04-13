@@ -35,15 +35,14 @@ import fr.cg95.cvq.business.request.Requirement;
 import fr.cg95.cvq.business.request.RequestAdminAction.Data;
 import fr.cg95.cvq.business.request.RequestAdminAction.Type;
 import fr.cg95.cvq.business.request.annotation.IsRulesAcceptance;
-import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.IRequestFormDAO;
 import fr.cg95.cvq.dao.request.IRequestTypeDAO;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
@@ -246,10 +245,9 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Override
-    public RequestType getRequestTypeById(final Long requestTypeId)
-        throws CvqException {
+    public RequestType getRequestTypeById(final Long requestTypeId) {
 
-        return (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
+        return (RequestType) requestTypeDAO.findById(requestTypeId);
     }
 
     @Override
@@ -266,8 +264,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Override
-    public Set<DocumentType> getAllowedDocuments(final Long requestTypeId)
-        throws CvqException {
+    public Set<DocumentType> getAllowedDocuments(final Long requestTypeId) {
 
         RequestType requestType = getRequestTypeById(requestTypeId);
         Set<Requirement> requirements = requestType.getRequirements();
@@ -283,7 +280,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Override
-    public String getSubjectPolicy(final Long requestTypeId) throws CvqException {
+    public String getSubjectPolicy(final Long requestTypeId) {
         RequestType requestType = getRequestTypeById(requestTypeId);
         IRequestService service = requestServiceRegistry.getRequestService(requestType.getLabel());
         return service.getSubjectPolicy();
@@ -291,8 +288,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     
     @Override
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
-    public void modifyRequestTypeRequirement(Long requestTypeId, Requirement requirement)
-        throws CvqException {
+    public void modifyRequestTypeRequirement(Long requestTypeId, Requirement requirement) {
 
         RequestType requestType = getRequestTypeById(requestTypeId);
         if (requestType.getRequirements() == null)
@@ -303,8 +299,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
 
     @Override
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
-    public void addRequestTypeRequirement(Long requestTypeId, Long documentTypeId)
-        throws CvqException {
+    public void addRequestTypeRequirement(Long requestTypeId, Long documentTypeId) {
 
         RequestType requestType = getRequestTypeById(requestTypeId);
         if (requestType.getRequirements() == null)
@@ -324,8 +319,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
 
     @Override
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
-    public void removeRequestTypeRequirement(Long requestTypeId, Long documentTypeId)
-        throws CvqException {
+    public void removeRequestTypeRequirement(Long requestTypeId, Long documentTypeId) {
 
         RequestType requestType = getRequestTypeById(requestTypeId);
         if (requestType.getRequirements() == null)
@@ -486,8 +480,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public RequestSeason getRequestSeason(Long requestTypeId, Long id)
-        throws CvqException {
+    public RequestSeason getRequestSeason(Long requestTypeId, Long id) {
 
         for (RequestSeason season :
             getRequestTypeById(requestTypeId).getSeasons()) {
@@ -539,7 +532,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Override
-    public boolean isOfRegistrationKind(final Long requestTypeId) throws CvqException {
+    public boolean isOfRegistrationKind(final Long requestTypeId) {
         RequestType requestType = getRequestTypeById(requestTypeId);
         IRequestService service = requestServiceRegistry.getRequestService(requestType.getLabel());
         return service.isOfRegistrationKind();
@@ -591,7 +584,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
             requestTypesSet.add(requestType);
             requestForm.setRequestTypes(requestTypesSet);
             requestType.getForms().add(requestForm);
-            result = requestFormDAO.create(requestForm);
+            result = ((RequestForm) requestFormDAO.create(requestForm)).getId();
         }
 
         return result;
@@ -605,20 +598,16 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
         return false;
     }
 
-    public void removeRequestTypeForm(final Long requestTypeId, final Long requestFormId)
-        throws CvqException {
+    public void removeRequestTypeForm(final Long requestTypeId, final Long requestFormId) {
         RequestType requestType = getRequestTypeById(requestTypeId);
-        RequestForm requestForm =
-            (RequestForm) requestFormDAO.findById(RequestForm.class, requestFormId);
+        RequestForm requestForm = requestFormDAO.findById(requestFormId);
         requestType.getForms().remove(requestForm);
 
         requestFormDAO.delete(requestForm);
     }
 
-    public void removeRequestTypeForm(final Long requestFormId)
-        throws CvqException {
-        RequestForm requestForm =
-            (RequestForm) requestFormDAO.findById(RequestForm.class, requestFormId);
+    public void removeRequestTypeForm(final Long requestFormId) {
+        RequestForm requestForm = requestFormDAO.findById(requestFormId);
 
         for(RequestType t : requestForm.getRequestTypes())
             t.getForms().remove(requestForm);
@@ -637,8 +626,8 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
 
     }
 
-    public RequestForm getRequestFormById(Long id) throws CvqException {
-        return (RequestForm)requestFormDAO.findById(RequestForm.class, id);
+    public RequestForm getRequestFormById(Long id) {
+        return requestFormDAO.findById(id);
     }
 
     public void setRequestTypeDAO(IRequestTypeDAO requestTypeDAO) {
@@ -714,7 +703,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Override
-    public List<String> getRulesAcceptanceFieldNames(Long requestTypeId) throws CvqException {
+    public List<String> getRulesAcceptanceFieldNames(Long requestTypeId) {
         IRequestService service = 
             requestServiceRegistry.getRequestService(getRequestTypeById(requestTypeId).getLabel());
         List <String> names = new ArrayList<String>();

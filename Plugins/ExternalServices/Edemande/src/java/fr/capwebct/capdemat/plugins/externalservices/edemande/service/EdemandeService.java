@@ -121,11 +121,7 @@ public class EdemandeService implements IExternalProviderService {
                     return null;
                 } else {
                     request.setAccountHolderEdemandeId(psCodeTiersAH);
-                    try {
-                        setAccountHolderEdemandeId(request, psCodeTiersAH);
-                    } catch (CvqObjectNotFoundException e) {
-                        // TODO
-                    }
+                    setAccountHolderEdemandeId(request, psCodeTiersAH);
                 }
             }
         }
@@ -172,11 +168,7 @@ public class EdemandeService implements IExternalProviderService {
             psCodeDemande = searchRequest(request, psCodeTiersS);
             if (psCodeDemande != null && !psCodeDemande.trim().isEmpty() && !"-1".equals(psCodeDemande)) {
                 request.setEdemandeId(psCodeDemande);
-                try {
-                    setEdemandeId(request, psCodeDemande);
-                } catch (CvqObjectNotFoundException e) {
-                    // TODO
-                }
+                setEdemandeId(request, psCodeDemande);
             }
         }
         // (Re)send request if needed
@@ -855,8 +847,7 @@ public class EdemandeService implements IExternalProviderService {
         }
     }
 
-    private void setEdemandeId(EdemandeRequest request, String psCodeDemande)
-        throws CvqObjectNotFoundException {
+    private void setEdemandeId(EdemandeRequest request, String psCodeDemande) {
         Request rqt = requestSearchService.getById(request.getId(), true);
         if (request instanceof StudyGrantEdemandeRequest) {
             ((StudyGrantRequest)rqt).setEdemandeId(psCodeDemande);
@@ -867,8 +858,7 @@ public class EdemandeService implements IExternalProviderService {
         }
     }
 
-    private void setAccountHolderEdemandeId(EdemandeRequest request, String psCodeTiersAH)
-        throws CvqObjectNotFoundException {
+    private void setAccountHolderEdemandeId(EdemandeRequest request, String psCodeTiersAH) {
         Request rqt = requestSearchService.getById(request.getId(), true);
         if (request instanceof StudyGrantEdemandeRequest) {
             ((StudyGrantRequest)rqt).setAccountHolderEdemandeId(psCodeTiersAH);

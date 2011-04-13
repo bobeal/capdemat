@@ -3,41 +3,90 @@ package fr.cg95.cvq.business.document;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
 import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.OrderColumn;
+import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-/**
- * @hibernate.class
- *  table="document"
- *  lazy="false"
- *
- * @author bor@zenexity.fr
- */
+@Entity
+@Table(name="document")
 public class Document implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
+
     /** creation date of the document in the system, set by the model */
+    @Column(name="creation_date")
     private Date creationDate;
+
+    @Column(name="validation_date")
     private Date validationDate;
+
     /** end validity date of the document, set by the agent at validation time */
+    @Column(name="end_validity_date")
     private Date endValidityDate;
+
+    @Column(name="ecitizen_note")
     private String ecitizenNote;
+
+    @Column(name="agent_note")
     private String agentNote;
+
+    @Column(name="state", length=16)
+    @Enumerated(EnumType.STRING)
     private DocumentState state = DocumentState.PENDING;
-    private DepositType depositType = DepositType.PC;
-    private DepositOrigin depositOrigin = DepositOrigin.ECITIZEN;
+
+    @Column(name="deposit_type",length=24)
+    @Enumerated(EnumType.STRING)
+    private DepositType depositType = DepositType.P_C;
+
+    @Column(name="deposit_origin",length=10)
+    @Enumerated(EnumType.STRING)
+    private DepositOrigin depositOrigin = DepositOrigin.E_CITIZEN;
+
+    @Column(name="deposit_id")
     private Long depositId;
+
+    @Column(name="home_folder_id")
     private Long homeFolderId;
+
+    @Column(name="individual_id")
     private Long individualId;
+
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="document_type_id")
     private DocumentType documentType;
+
+    @Column(name="certified")
     private boolean certified = false;
 
-
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+    @JoinColumn(name="document_id")
+    @OrderColumn(name="document_binary_index")
     private List<DocumentBinary> datas = new ArrayList<DocumentBinary>();
+
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+    @JoinColumn(name="document_id")
+    @OrderBy("id")
     private Set<DocumentAction> actions;
 
     /** default constructor */
@@ -52,11 +101,6 @@ public class Document implements Serializable {
         this.state = state;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -65,10 +109,6 @@ public class Document implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="creation_date"
-     */
     public Date getCreationDate() {
         return this.creationDate;
     }
@@ -77,10 +117,6 @@ public class Document implements Serializable {
         this.creationDate = creationDate;
     }
 
-    /**
-     * @hibernate.property
-     *  column="validation_date"
-     */
     public Date getValidationDate() {
         return this.validationDate;
     }
@@ -89,10 +125,6 @@ public class Document implements Serializable {
         this.validationDate = validationDate;
     }
 
-    /**
-     * @hibernate.property
-     *  column="end_validity_date"
-     */
     public Date getEndValidityDate() {
         return this.endValidityDate;
     }
@@ -101,10 +133,6 @@ public class Document implements Serializable {
         this.endValidityDate = endValidityDate;
     }
 
-    /**
-     * @hibernate.property
-     *  column="ecitizen_note"
-     */
     public String getEcitizenNote() {
         return this.ecitizenNote;
     }
@@ -113,10 +141,6 @@ public class Document implements Serializable {
         this.ecitizenNote = ecitizenNote;
     }
 
-    /**
-     * @hibernate.property
-     *  column="agent_note"
-     */
     public String getAgentNote() {
         return this.agentNote;
     }
@@ -125,11 +149,6 @@ public class Document implements Serializable {
         this.agentNote = agentNote;
     }
 
-    /**
-     * @hibernate.property
-     *  column="state"
-     *  length="16"
-     */
     public DocumentState getState() {
         return this.state;
     }
@@ -138,11 +157,6 @@ public class Document implements Serializable {
         this.state = state;
     }
 
-    /**
-     * @hibernate.property
-     *  column="deposit_type"
-     *  length="24"
-     */
     public DepositType getDepositType() {
         return this.depositType;
     }
@@ -151,11 +165,6 @@ public class Document implements Serializable {
         this.depositType = depositType;
     }
 
-    /**
-     * @hibernate.property
-     *  column="deposit_origin"
-     *  length="10"
-     */
     public DepositOrigin getDepositOrigin() {
         return this.depositOrigin;
     }
@@ -164,10 +173,6 @@ public class Document implements Serializable {
         this.depositOrigin = depositOrigin;
     }
 
-    /**
-     * @hibernate.property
-     *  column="deposit_id"
-     */
     public Long getDepositId() {
         return this.depositId;
     }
@@ -176,11 +181,7 @@ public class Document implements Serializable {
         this.depositId = depositId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="home_folder_id"
-     */
-    public Long getHomeFolderId() {
+   public Long getHomeFolderId() {
         return this.homeFolderId;
     }
 
@@ -188,10 +189,6 @@ public class Document implements Serializable {
         this.homeFolderId = homeFolderId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="individual_id"
-     */
     public Long getIndividualId() {
         return this.individualId;
     }
@@ -200,11 +197,6 @@ public class Document implements Serializable {
         this.individualId = individualId;
     }
 
-    /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.document.DocumentType"
-     *  column="document_type_id"
-     */
     public DocumentType getDocumentType() {
         return this.documentType;
     }
@@ -213,9 +205,6 @@ public class Document implements Serializable {
         this.documentType = documentType;
     }
 
-    /**
-     * @hibernate.property
-     */
     public boolean getCertified() {
         return certified;
     }
@@ -224,18 +213,6 @@ public class Document implements Serializable {
         this.certified = certified;
     }
 
-    /**
-     * @hibernate.list
-     *  inverse="false"
-     *  lazy="false"
-     *  cascade="all"
-     * @hibernate.key
-     *  column="document_id"
-     * @hibernate.list-index
-     *  column="document_binary_index"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.document.DocumentBinary"
-     */
     public List<DocumentBinary> getDatas() {
         return this.datas;
     }
@@ -244,16 +221,6 @@ public class Document implements Serializable {
         this.datas = datas;
     }
 
-    /**
-     * @hibernate.set
-     *  lazy="true"
-     *  cascade="all"
-     *  order-by="id"
-     * @hibernate.key
-     *  column="document_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.document.DocumentAction"
-     */
     public Set<DocumentAction> getActions() {
         return this.actions;
     }

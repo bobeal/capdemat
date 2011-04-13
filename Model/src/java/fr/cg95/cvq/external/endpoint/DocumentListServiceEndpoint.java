@@ -6,7 +6,6 @@ import fr.capwebct.capdemat.GetDocumentListRequestDocument;
 import fr.capwebct.capdemat.GetDocumentListResponseDocument;
 import fr.capwebct.capdemat.GetDocumentListRequestDocument.GetDocumentListRequest;
 import fr.capwebct.capdemat.GetDocumentListResponseDocument.GetDocumentListResponse;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.service.request.IRequestDocumentService;
 
@@ -28,19 +27,19 @@ public class DocumentListServiceEndpoint extends SecuredServiceEndpoint {
             ((GetDocumentListRequestDocument)request).getGetDocumentListRequest();
 
         try {
-            GetDocumentListResponseDocument getDocumentListResponseDocument = 
-                requestDocumentService.getAssociatedFullDocuments(getDocumentListRequest.getRequestId());
-
-            return getDocumentListResponseDocument.getGetDocumentListResponse();
-
-        } catch (CvqObjectNotFoundException confe) {
             GetDocumentListResponseDocument getDocumentListResponseDocument =
-                GetDocumentListResponseDocument.Factory.newInstance();
-            GetDocumentListResponse getDocumentListResponse =
-                getDocumentListResponseDocument.addNewGetDocumentListResponse();
-              getDocumentListResponse.setError(notFound);
+                requestDocumentService.getAssociatedFullDocuments(getDocumentListRequest.getRequestId());
+            if (getDocumentListResponseDocument != null) {
+                return getDocumentListResponseDocument.getGetDocumentListResponse();
+            } else {
+                getDocumentListResponseDocument =
+                    GetDocumentListResponseDocument.Factory.newInstance();
+                GetDocumentListResponse getDocumentListResponse =
+                    getDocumentListResponseDocument.addNewGetDocumentListResponse();
+                  getDocumentListResponse.setError(notFound);
 
-              return getDocumentListResponse;
+                  return getDocumentListResponse;
+            }
         } catch (PermissionException pe) {
           GetDocumentListResponseDocument getDocumentListResponseDocument =
               GetDocumentListResponseDocument.Factory.newInstance();

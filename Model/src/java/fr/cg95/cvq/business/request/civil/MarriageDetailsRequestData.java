@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.civil;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="marriage_details_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="marriage_details_request")
 public class MarriageDetailsRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -171,11 +174,8 @@ public class MarriageDetailsRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -202,18 +202,14 @@ public class MarriageDetailsRequestData implements Serializable {
     
     private String comment;
 
-    public final void setComment(final String comment) {
+    public void setComment(final String comment) {
         this.comment = comment;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="comment"
-        *  length="255"
+    @Column(name="comment" , length=255 )
       
-    */
-    public final String getComment() {
+    public String getComment() {
         return this.comment;
     }
   
@@ -227,19 +223,15 @@ public class MarriageDetailsRequestData implements Serializable {
     
     private java.math.BigInteger copies;
 
-    public final void setCopies(final java.math.BigInteger copies) {
+    public void setCopies(final java.math.BigInteger copies) {
         this.copies = copies;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="copies"
-        *  type="serializable"
-        
+    @Column(name="copies" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
-    */
-    public final java.math.BigInteger getCopies() {
+    public java.math.BigInteger getCopies() {
         return this.copies;
     }
   
@@ -278,18 +270,14 @@ public class MarriageDetailsRequestData implements Serializable {
     
     private String fatherFirstNames;
 
-    public final void setFatherFirstNames(final String fatherFirstNames) {
+    public void setFatherFirstNames(final String fatherFirstNames) {
         this.fatherFirstNames = fatherFirstNames;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="father_first_names"
-        
+    @Column(name="father_first_names"  )
       
-    */
-    public final String getFatherFirstNames() {
+    public String getFatherFirstNames() {
         return this.fatherFirstNames;
     }
   
@@ -346,18 +334,14 @@ public class MarriageDetailsRequestData implements Serializable {
     
     private String fatherLastName;
 
-    public final void setFatherLastName(final String fatherLastName) {
+    public void setFatherLastName(final String fatherLastName) {
         this.fatherLastName = fatherLastName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="father_last_name"
-        *  length="38"
+    @Column(name="father_last_name" , length=38 )
       
-    */
-    public final String getFatherLastName() {
+    public String getFatherLastName() {
         return this.fatherLastName;
     }
   
@@ -371,18 +355,15 @@ public class MarriageDetailsRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType format;
 
-    public final void setFormat(final fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType format) {
+    public void setFormat(final fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType format) {
         this.format = format;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="format"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="format"  )
       
-    */
-    public final fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType getFormat() {
+    public fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType getFormat() {
         return this.format;
     }
   
@@ -412,18 +393,14 @@ public class MarriageDetailsRequestData implements Serializable {
     
     private String marriageCity;
 
-    public final void setMarriageCity(final String marriageCity) {
+    public void setMarriageCity(final String marriageCity) {
         this.marriageCity = marriageCity;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="marriage_city"
-        *  length="32"
+    @Column(name="marriage_city" , length=32 )
       
-    */
-    public final String getMarriageCity() {
+    public String getMarriageCity() {
         return this.marriageCity;
     }
   
@@ -437,18 +414,14 @@ public class MarriageDetailsRequestData implements Serializable {
     
     private java.util.Date marriageDate;
 
-    public final void setMarriageDate(final java.util.Date marriageDate) {
+    public void setMarriageDate(final java.util.Date marriageDate) {
         this.marriageDate = marriageDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="marriage_date"
-        
+    @Column(name="marriage_date"  )
       
-    */
-    public final java.util.Date getMarriageDate() {
+    public java.util.Date getMarriageDate() {
         return this.marriageDate;
     }
   
@@ -469,18 +442,14 @@ public class MarriageDetailsRequestData implements Serializable {
     
     private String marriageHusbandFirstNames;
 
-    public final void setMarriageHusbandFirstNames(final String marriageHusbandFirstNames) {
+    public void setMarriageHusbandFirstNames(final String marriageHusbandFirstNames) {
         this.marriageHusbandFirstNames = marriageHusbandFirstNames;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="marriage_husband_first_names"
-        
+    @Column(name="marriage_husband_first_names"  )
       
-    */
-    public final String getMarriageHusbandFirstNames() {
+    public String getMarriageHusbandFirstNames() {
         return this.marriageHusbandFirstNames;
     }
   
@@ -510,18 +479,14 @@ public class MarriageDetailsRequestData implements Serializable {
     
     private String marriageHusbandLastName;
 
-    public final void setMarriageHusbandLastName(final String marriageHusbandLastName) {
+    public void setMarriageHusbandLastName(final String marriageHusbandLastName) {
         this.marriageHusbandLastName = marriageHusbandLastName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="marriage_husband_last_name"
-        *  length="38"
+    @Column(name="marriage_husband_last_name" , length=38 )
       
-    */
-    public final String getMarriageHusbandLastName() {
+    public String getMarriageHusbandLastName() {
         return this.marriageHusbandLastName;
     }
   
@@ -551,18 +516,14 @@ public class MarriageDetailsRequestData implements Serializable {
     
     private String marriagePostalCode;
 
-    public final void setMarriagePostalCode(final String marriagePostalCode) {
+    public void setMarriagePostalCode(final String marriagePostalCode) {
         this.marriagePostalCode = marriagePostalCode;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="marriage_postal_code"
-        *  length="2"
+    @Column(name="marriage_postal_code" , length=2 )
       
-    */
-    public final String getMarriagePostalCode() {
+    public String getMarriagePostalCode() {
         return this.marriagePostalCode;
     }
   
@@ -583,18 +544,14 @@ public class MarriageDetailsRequestData implements Serializable {
     
     private String marriageWifeFirstNames;
 
-    public final void setMarriageWifeFirstNames(final String marriageWifeFirstNames) {
+    public void setMarriageWifeFirstNames(final String marriageWifeFirstNames) {
         this.marriageWifeFirstNames = marriageWifeFirstNames;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="marriage_wife_first_names"
-        
+    @Column(name="marriage_wife_first_names"  )
       
-    */
-    public final String getMarriageWifeFirstNames() {
+    public String getMarriageWifeFirstNames() {
         return this.marriageWifeFirstNames;
     }
   
@@ -624,18 +581,14 @@ public class MarriageDetailsRequestData implements Serializable {
     
     private String marriageWifeLastName;
 
-    public final void setMarriageWifeLastName(final String marriageWifeLastName) {
+    public void setMarriageWifeLastName(final String marriageWifeLastName) {
         this.marriageWifeLastName = marriageWifeLastName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="marriage_wife_last_name"
-        *  length="38"
+    @Column(name="marriage_wife_last_name" , length=38 )
       
-    */
-    public final String getMarriageWifeLastName() {
+    public String getMarriageWifeLastName() {
         return this.marriageWifeLastName;
     }
   
@@ -674,18 +627,14 @@ public class MarriageDetailsRequestData implements Serializable {
     
     private String motherFirstNames;
 
-    public final void setMotherFirstNames(final String motherFirstNames) {
+    public void setMotherFirstNames(final String motherFirstNames) {
         this.motherFirstNames = motherFirstNames;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="mother_first_names"
-        
+    @Column(name="mother_first_names"  )
       
-    */
-    public final String getMotherFirstNames() {
+    public String getMotherFirstNames() {
         return this.motherFirstNames;
     }
   
@@ -742,36 +691,29 @@ public class MarriageDetailsRequestData implements Serializable {
     
     private String motherMaidenName;
 
-    public final void setMotherMaidenName(final String motherMaidenName) {
+    public void setMotherMaidenName(final String motherMaidenName) {
         this.motherMaidenName = motherMaidenName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="mother_maiden_name"
-        *  length="38"
+    @Column(name="mother_maiden_name" , length=38 )
       
-    */
-    public final String getMotherMaidenName() {
+    public String getMotherMaidenName() {
         return this.motherMaidenName;
     }
   
     
     private fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType motive;
 
-    public final void setMotive(final fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType motive) {
+    public void setMotive(final fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType motive) {
         this.motive = motive;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="motive"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="motive"  )
       
-    */
-    public final fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType getMotive() {
+    public fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType getMotive() {
         return this.motive;
     }
   
@@ -794,54 +736,44 @@ public class MarriageDetailsRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.civil.MarriageRelationshipType relationship;
 
-    public final void setRelationship(final fr.cg95.cvq.business.request.civil.MarriageRelationshipType relationship) {
+    public void setRelationship(final fr.cg95.cvq.business.request.civil.MarriageRelationshipType relationship) {
         this.relationship = relationship;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="relationship"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="relationship"  )
       
-    */
-    public final fr.cg95.cvq.business.request.civil.MarriageRelationshipType getRelationship() {
+    public fr.cg95.cvq.business.request.civil.MarriageRelationshipType getRelationship() {
         return this.relationship;
     }
   
     
     private fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType requesterQuality;
 
-    public final void setRequesterQuality(final fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType requesterQuality) {
+    public void setRequesterQuality(final fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType requesterQuality) {
         this.requesterQuality = requesterQuality;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="requester_quality"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="requester_quality"  )
       
-    */
-    public final fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType getRequesterQuality() {
+    public fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType getRequesterQuality() {
         return this.requesterQuality;
     }
   
     
     private String requesterQualityPrecision;
 
-    public final void setRequesterQualityPrecision(final String requesterQualityPrecision) {
+    public void setRequesterQualityPrecision(final String requesterQualityPrecision) {
         this.requesterQualityPrecision = requesterQualityPrecision;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="requester_quality_precision"
-        
+    @Column(name="requester_quality_precision"  )
       
-    */
-    public final String getRequesterQualityPrecision() {
+    public String getRequesterQualityPrecision() {
         return this.requesterQualityPrecision;
     }
   

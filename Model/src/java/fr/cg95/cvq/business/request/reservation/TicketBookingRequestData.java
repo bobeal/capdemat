@@ -18,13 +18,14 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="ticket_booking_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="ticket_booking_request")
 public class TicketBookingRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -105,11 +106,8 @@ public class TicketBookingRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -125,18 +123,14 @@ public class TicketBookingRequestData implements Serializable {
     
     private Boolean rulesAndRegulationsAcceptance;
 
-    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
+    public void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
         this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="rules_and_regulations_acceptance"
-        
+    @Column(name="rules_and_regulations_acceptance"  )
       
-    */
-    public final Boolean getRulesAndRegulationsAcceptance() {
+    public Boolean getRulesAndRegulationsAcceptance() {
         return this.rulesAndRegulationsAcceptance;
     }
   
@@ -175,18 +169,14 @@ public class TicketBookingRequestData implements Serializable {
     
     private String subscriberLastName;
 
-    public final void setSubscriberLastName(final String subscriberLastName) {
+    public void setSubscriberLastName(final String subscriberLastName) {
         this.subscriberLastName = subscriberLastName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subscriber_last_name"
-        
+    @Column(name="subscriber_last_name"  )
       
-    */
-    public final String getSubscriberLastName() {
+    public String getSubscriberLastName() {
         return this.subscriberLastName;
     }
   
@@ -209,25 +199,16 @@ public class TicketBookingRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.reservation.TbrTicket> tbrTicket;
 
-    public final void setTbrTicket(final List<fr.cg95.cvq.business.request.reservation.TbrTicket> tbrTicket) {
+    public void setTbrTicket(final List<fr.cg95.cvq.business.request.reservation.TbrTicket> tbrTicket) {
         this.tbrTicket = tbrTicket;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="ticket_booking_request_id"
-        * @hibernate.list-index
-        *  column="tbr_ticket_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.reservation.TbrTicket"
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @OrderColumn(name="tbr_ticket_index")
+    @JoinColumn(name="ticket_booking_request_id")
       
-    */
-    public final List<fr.cg95.cvq.business.request.reservation.TbrTicket> getTbrTicket() {
+    public List<fr.cg95.cvq.business.request.reservation.TbrTicket> getTbrTicket() {
         return this.tbrTicket;
     }
   
@@ -241,18 +222,14 @@ public class TicketBookingRequestData implements Serializable {
     
     private java.math.BigDecimal totalPrice;
 
-    public final void setTotalPrice(final java.math.BigDecimal totalPrice) {
+    public void setTotalPrice(final java.math.BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="total_price"
-        
+    @Column(name="total_price"  )
       
-    */
-    public final java.math.BigDecimal getTotalPrice() {
+    public java.math.BigDecimal getTotalPrice() {
         return this.totalPrice;
     }
   
@@ -291,18 +268,14 @@ public class TicketBookingRequestData implements Serializable {
     
     private String subscriberNumber;
 
-    public final void setSubscriberNumber(final String subscriberNumber) {
+    public void setSubscriberNumber(final String subscriberNumber) {
         this.subscriberNumber = subscriberNumber;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subscriber_number"
-        
+    @Column(name="subscriber_number"  )
       
-    */
-    public final String getSubscriberNumber() {
+    public String getSubscriberNumber() {
         return this.subscriberNumber;
     }
   
@@ -341,18 +314,14 @@ public class TicketBookingRequestData implements Serializable {
     
     private String subscriberFirstName;
 
-    public final void setSubscriberFirstName(final String subscriberFirstName) {
+    public void setSubscriberFirstName(final String subscriberFirstName) {
         this.subscriberFirstName = subscriberFirstName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subscriber_first_name"
-        
+    @Column(name="subscriber_first_name"  )
       
-    */
-    public final String getSubscriberFirstName() {
+    public String getSubscriberFirstName() {
         return this.subscriberFirstName;
     }
   
@@ -366,36 +335,28 @@ public class TicketBookingRequestData implements Serializable {
     
     private Boolean isSubscriber;
 
-    public final void setIsSubscriber(final Boolean isSubscriber) {
+    public void setIsSubscriber(final Boolean isSubscriber) {
         this.isSubscriber = isSubscriber;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="is_subscriber"
-        
+    @Column(name="is_subscriber"  )
       
-    */
-    public final Boolean getIsSubscriber() {
+    public Boolean getIsSubscriber() {
         return this.isSubscriber;
     }
   
     
     private String paymentReference;
 
-    public final void setPaymentReference(final String paymentReference) {
+    public void setPaymentReference(final String paymentReference) {
         this.paymentReference = paymentReference;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="payment_reference"
-        
+    @Column(name="payment_reference"  )
       
-    */
-    public final String getPaymentReference() {
+    public String getPaymentReference() {
         return this.paymentReference;
     }
   

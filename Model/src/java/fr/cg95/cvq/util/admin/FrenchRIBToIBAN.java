@@ -13,6 +13,7 @@ import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.BankAccount;
 import fr.cg95.cvq.business.users.FrenchRIB;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.jpa.GenericDAO;
 import fr.cg95.cvq.dao.request.hibernate.RequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry;
@@ -26,6 +27,7 @@ public class FrenchRIBToIBAN {
     private LocalAuthorityRegistry localAuthorityRegistry;
 
     private CustomDAO customDAO = new CustomDAO();
+    private GenericDAO genericDAO = new GenericDAO();
 
     public static void main(final String[] args) {
         ClassPathXmlApplicationContext context = SpringApplicationContextLoader.loadContext(null);
@@ -38,7 +40,7 @@ public class FrenchRIBToIBAN {
     public void migrate(String requestType)
         throws CvqException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         for (SpecificDTO s : customDAO.select(requestType)) {
-            Object requestData = customDAO.findById(s.clazz, s.id);
+            Object requestData = genericDAO.findById(s.clazz, s.id);
             FrenchRIB rib = customDAO.get(s);
             if (rib == null) continue;
             BankAccount ba = new BankAccount();
@@ -50,7 +52,7 @@ public class FrenchRIBToIBAN {
             }
             ba.setIBAN("FR" + c2.subtract(new BigDecimal(extendedIban.toString()).remainder(c1)) + rib.format(null));
             s.clazz.getMethod("setBankAccount", BankAccount.class).invoke(requestData, ba);
-            customDAO.saveOrUpdate(requestData);
+            genericDAO.saveOrUpdate(requestData);
         }
     }
 

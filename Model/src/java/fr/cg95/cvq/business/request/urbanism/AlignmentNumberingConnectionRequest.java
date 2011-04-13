@@ -138,7 +138,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
         alignmentNumberingConnectionRequest.setOwnerLastName(getOwnerLastName());
       
         if (getRequesterQuality() != null)
-            alignmentNumberingConnectionRequest.setRequesterQuality(fr.cg95.cvq.xml.request.urbanism.AncrRequesterQualityType.Enum.forString(getRequesterQuality().toString()));
+            alignmentNumberingConnectionRequest.setRequesterQuality(fr.cg95.cvq.xml.request.urbanism.AncrRequesterQualityType.Enum.forString(getRequesterQuality().getLegacyLabel()));
       
         alignmentNumberingConnectionRequest.setSection(getSection());
       

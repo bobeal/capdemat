@@ -21,6 +21,7 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.RequestAdminAction;
 import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -37,6 +38,7 @@ public class RequestSearchService implements IRequestSearchService, BeanFactoryA
     private BeanFactory beanFactory;
     private ILocalAuthorityRegistry localAuthorityRegistry;
     private IRequestDAO requestDAO;
+    private IGenericDAO genericDAO;
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.NONE)
@@ -59,8 +61,7 @@ public class RequestSearchService implements IRequestSearchService, BeanFactoryA
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE},
             privilege = ContextPrivilege.READ)
-    public Request getById(final Long id, final boolean full)
-        throws CvqObjectNotFoundException {
+    public Request getById(final Long id, final boolean full) {
         return requestDAO.findById(id, full);
     }
 
@@ -134,7 +135,7 @@ public class RequestSearchService implements IRequestSearchService, BeanFactoryA
             new RequestAdminAction(RequestAdminAction.Type.ARCHIVES_DOWNLOADED);
         action.getComplementaryData().put(RequestAdminAction.Data.ARCHIVE_NAMES,
             new ArrayList<String>(names));
-        requestDAO.saveOrUpdate(action);
+        genericDAO.saveOrUpdate(action);
         return result;
     }
 
@@ -155,13 +156,17 @@ public class RequestSearchService implements IRequestSearchService, BeanFactoryA
             RequestAdminAction action =
                 new RequestAdminAction(RequestAdminAction.Type.ARCHIVES_DELETED);
             action.getComplementaryData().put(RequestAdminAction.Data.ARCHIVE_NAMES, deleted);
-            requestDAO.saveOrUpdate(action);
+            genericDAO.saveOrUpdate(action);
         }
         return failures;
     }
 
     public void setRequestDAO(IRequestDAO requestDAO) {
         this.requestDAO = requestDAO;
+    }
+
+    public void setGenericDAO(IGenericDAO genericDAO) {
+        this.genericDAO = genericDAO;
     }
 
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {

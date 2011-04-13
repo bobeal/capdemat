@@ -4,9 +4,9 @@
   
     <label class="required"><g:message code="rsr.property.contactKind.label" /> *  <span><g:message code="rsr.property.contactKind.help" /></span></label>
             <ul class="required ${rqt.stepStates['contact'].invalidFields.contains('contactKind') ? 'validation-failed' : ''}">
-              <g:each in="${['Requester','Other']}">
+              <g:each in="${['REQUESTER','OTHER']}">
               <li>
-                <input type="radio" id="contactKind_${it}" class="required condition-isOtherContact-trigger  validate-one-required" value="fr.cg95.cvq.business.request.social.RsrContactKindType_${it}" name="contactKind" ${it == rqt.contactKind.toString() ? 'checked="checked"': ''} title="<g:message code="rsr.property.contactKind.validationError" />" />
+                <input type="radio" id="contactKind_${it}" class="required condition-isOtherContact-trigger  validate-one-required" value="${it}" name="contactKind" ${it == rqt.contactKind.toString() ? 'checked="checked"': ''} title="<g:message code="rsr.property.contactKind.validationError" />" />
                 <label for="contactKind_${it}"><g:capdematEnumToText var="${it}" i18nKeyPrefix="rsr.property.contactKind" /></label>
               </li>
               </g:each>

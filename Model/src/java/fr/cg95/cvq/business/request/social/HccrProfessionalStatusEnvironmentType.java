@@ -1,42 +1,42 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class HccrProfessionalStatusEnvironmentType extends PersistentStringEnum {
+public enum HccrProfessionalStatusEnvironmentType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final HccrProfessionalStatusEnvironmentType ORDINARY = new HccrProfessionalStatusEnvironmentType("Ordinary");
-  
-    public static final HccrProfessionalStatusEnvironmentType ADAPTED = new HccrProfessionalStatusEnvironmentType("Adapted");
-  
-    public static final HccrProfessionalStatusEnvironmentType PROTECTED = new HccrProfessionalStatusEnvironmentType("Protected");
-  
+    ORDINARY("Ordinary"),
+    ADAPTED("Adapted"),
+    PROTECTED("Protected");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use HccrProfessionalStatusEnvironmentType.values() instead
+     * @deprecated only for backward
      */
-    private HccrProfessionalStatusEnvironmentType(String value) {
-        super(value);
+    @Deprecated 
+    public static HccrProfessionalStatusEnvironmentType[] allHccrProfessionalStatusEnvironmentTypes = HccrProfessionalStatusEnvironmentType.values();
+
+    private String legacyLabel;
+
+    private HccrProfessionalStatusEnvironmentType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public HccrProfessionalStatusEnvironmentType() {}
-
-    public static HccrProfessionalStatusEnvironmentType[] allHccrProfessionalStatusEnvironmentTypes = {
-        ORDINARY,
-        ADAPTED,
-        PROTECTED
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static HccrProfessionalStatusEnvironmentType getDefaultHccrProfessionalStatusEnvironmentType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of HccrProfessionalStatusEnvironmentType.something
+     * not the value of the name attribut.
+     */
     public static HccrProfessionalStatusEnvironmentType forString(final String enumAsString) {
-        for (HccrProfessionalStatusEnvironmentType value : allHccrProfessionalStatusEnvironmentTypes)
+        for (HccrProfessionalStatusEnvironmentType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultHccrProfessionalStatusEnvironmentType();

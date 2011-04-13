@@ -4,13 +4,19 @@ import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-/**
- *
- * @hibernate.class
- *  table="ticket_entertainment"
- *  lazy="false"
- */
+@Entity
+@Table(name="ticket_entertainment")
 public class Entertainment implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -18,13 +24,25 @@ public class Entertainment implements Serializable {
     public static final String SEARCH_BY_NAME = "name";
     public static final String SEARCH_BY_CATEGORY = "category";
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
+
+    @Column(name="external_id")
     private String externalId;
+
     private String information;
+
     private String name;
+
     private String link;
+
     private String category;
+
     private byte[] logo;
+
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @JoinColumn(name="ticket_entertainment_id")
     private Set<Event> events = new LinkedHashSet<Event>();
 
     public Entertainment() {
@@ -37,11 +55,6 @@ public class Entertainment implements Serializable {
         this.category = category;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -49,10 +62,7 @@ public class Entertainment implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    /**
-     * @hibernate.property
-     *  column="external_id"
-     */
+
     public String getExternalId() {
         return externalId;
     }
@@ -61,10 +71,6 @@ public class Entertainment implements Serializable {
         this.externalId = externalId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="information"
-     */
     public String getInformation() {
         return this.information;
     }
@@ -73,10 +79,6 @@ public class Entertainment implements Serializable {
         this.information = information;
     }
 
-    /**
-     * @hibernate.property
-     *  column="name"
-     */
     public String getName() {
         return this.name;
     }
@@ -85,10 +87,6 @@ public class Entertainment implements Serializable {
         this.name = name;
     }
 
-    /**
-     * @hibernate.property
-     *  column="link"
-     */
     public String getLink() {
         return this.link;
     }
@@ -97,10 +95,6 @@ public class Entertainment implements Serializable {
         this.link = link;
     }
 
-    /**
-     * @hibernate.property
-     *  column="category"
-     */
     public String getCategory() {
         return this.category;
     }
@@ -109,10 +103,6 @@ public class Entertainment implements Serializable {
         this.category = category;
     }
 
-    /**
-     * @hibernate.property
-     *  column="logo"
-     */
     public byte[] getLogo() {
         return logo;
     }
@@ -121,16 +111,6 @@ public class Entertainment implements Serializable {
         this.logo = logo;
     }
 
-    /**
-     * @hibernate.set
-     *  lazy="false"
-     *  cascade="all"
-     *  inverse="true"
-     * @hibernate.key
-     *  column="ticket_entertainment_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.request.ticket.Event"
-     */
     public Set<Event> getEvents() {
         return events;
     }

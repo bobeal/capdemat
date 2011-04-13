@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.IAutofillService;
 import fr.cg95.cvq.service.request.IAutofillTriggerService;
@@ -61,7 +60,7 @@ public class AutofillService implements IAutofillService {
                     break;
                 }
             }
-            if (currentObject instanceof PersistentStringEnum) {
+            if (currentObject instanceof Enum) { // TODO aca : Warning : this can be a really bad fix... should go back to watch it seriously
                 values.put(listener.getKey(), currentObject.getClass().getName() + "_" + currentObject);
             } else if (currentObject instanceof Date) {
                 Calendar cal = Calendar.getInstance();

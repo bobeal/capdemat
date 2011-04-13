@@ -2,22 +2,34 @@ package fr.cg95.cvq.business.users.external;
 
 import java.util.Date;
 
-/**
- * @hibernate.class
- *  table="user_external_action"
- */
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="user_external_action")
 public class UserExternalAction {
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(nullable=false)
     private Date date;
 
+    @Column(nullable=false)
     private String key;
 
+    @Column(name="key_owner",nullable=false)
     private String keyOwner;
 
+    @Column(nullable=false)
     private String label;
 
+    @Column(nullable=false)
     private String status;
 
     private String message;
@@ -37,64 +49,30 @@ public class UserExternalAction {
         this.message = message;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="date"
-     *  not-null="true"
-     */
     public Date getDate() {
         return date;
     }
 
-    /**
-     * @hibernate.property
-     *  column="key"
-     *  not-null="true"
-     */
     public String getKey() {
         return key;
     }
 
-    /**
-     * @hibernate.property
-     *  column="key_owner"
-     *  not-null="true"
-     */
     public String getKeyOwner() {
         return keyOwner;
     }
 
-    /**
-     * @hibernate.property
-     *  column="label"
-     *  not-null="true"
-     */
     public String getLabel() {
         return label;
     }
 
-    /**
-     * @hibernate.property
-     *  column="status"
-     *  not-null="true"
-     */
     public String getStatus() {
         return status;
     }
 
-    /**
-     * @hibernate.property
-     *  column="message"
-     */
     public String getMessage() {
         return message;
     }

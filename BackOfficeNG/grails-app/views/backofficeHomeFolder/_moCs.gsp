@@ -15,7 +15,7 @@
         <input type="hidden" name="id" value="${moC.id}" />
         <input type="hidden" name="enabled" value="${moC.enabled}" />
       </form>
-      <span><g:message code="meansOfContact.${StringUtils.pascalToCamelCase(moC.type.toString())}"/></span>
+      <span><g:message code="meansOfContact.${StringUtils.toLowerCamelCase(moC.type.toString())}"/></span>
     </li>
   </g:each>
 </ul>

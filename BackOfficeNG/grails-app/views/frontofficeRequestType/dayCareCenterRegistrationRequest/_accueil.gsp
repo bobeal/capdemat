@@ -19,8 +19,8 @@
     <label for="modeAccueilChoixUn" class="required condition-estIndifferent-filled"><g:message code="dccrr.property.modeAccueilChoixUn.label" /> *  <span><g:message code="dccrr.property.modeAccueilChoixUn.help" /></span></label>
             <select id="modeAccueilChoixUn" name="modeAccueilChoixUn" class="required condition-estIndifferent-filled  validate-not-first ${rqt.stepStates['accueil'].invalidFields.contains('modeAccueilChoixUn') ? 'validation-failed' : ''}" title="<g:message code="dccrr.property.modeAccueilChoixUn.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Collectif','Familial']}">
-                <option value="fr.cg95.cvq.business.request.school.ModeAccueilType_${it}" ${it == rqt.modeAccueilChoixUn?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dccrr.property.modeAccueilChoixUn" /></option>
+              <g:each in="${['COLLECTIF','FAMILIAL']}">
+                <option value="${it}" ${it == rqt.modeAccueilChoixUn?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dccrr.property.modeAccueilChoixUn" /></option>
               </g:each>
             </select>
             
@@ -31,8 +31,8 @@
     <label for="modeAccueilChoixDeux" class="condition-estIndifferent-filled"><g:message code="dccrr.property.modeAccueilChoixDeux.label" />   <span><g:message code="dccrr.property.modeAccueilChoixDeux.help" /></span></label>
             <select id="modeAccueilChoixDeux" name="modeAccueilChoixDeux" class="condition-estIndifferent-filled  validate-select ${rqt.stepStates['accueil'].invalidFields.contains('modeAccueilChoixDeux') ? 'validation-failed' : ''}" title="<g:message code="dccrr.property.modeAccueilChoixDeux.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Collectif','Familial']}">
-                <option value="fr.cg95.cvq.business.request.school.ModeAccueilType_${it}" ${it == rqt.modeAccueilChoixDeux?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dccrr.property.modeAccueilChoixDeux" /></option>
+              <g:each in="${['COLLECTIF','FAMILIAL']}">
+                <option value="${it}" ${it == rqt.modeAccueilChoixDeux?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dccrr.property.modeAccueilChoixDeux" /></option>
               </g:each>
             </select>
             
@@ -54,8 +54,8 @@
       <label for="choixTypeDatePlacementAccueilRegulier" class="required"><g:message code="dccrr.property.choixTypeDatePlacementAccueilRegulier.label" /> *  <span><g:message code="dccrr.property.choixTypeDatePlacementAccueilRegulier.help" /></span></label>
             <select id="choixTypeDatePlacementAccueilRegulier" name="choixTypeDatePlacementAccueilRegulier" class="required condition-dateConnue-trigger  validate-not-first ${rqt.stepStates['accueil'].invalidFields.contains('choixTypeDatePlacementAccueilRegulier') ? 'validation-failed' : ''}" title="<g:message code="dccrr.property.choixTypeDatePlacementAccueilRegulier.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Connue','Possible']}">
-                <option value="fr.cg95.cvq.business.request.school.ChoixDatePlacement_${it}" ${it == rqt.choixTypeDatePlacementAccueilRegulier?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dccrr.property.choixTypeDatePlacementAccueilRegulier" /></option>
+              <g:each in="${['CONNUE','POSSIBLE']}">
+                <option value="${it}" ${it == rqt.choixTypeDatePlacementAccueilRegulier?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dccrr.property.choixTypeDatePlacementAccueilRegulier" /></option>
               </g:each>
             </select>
             
@@ -148,8 +148,8 @@
     <label for="choixHorairesAccueil" class="required"><g:message code="dccrr.property.choixHorairesAccueil.label" /> *  <span><g:message code="dccrr.property.choixHorairesAccueil.help" /></span></label>
             <select id="choixHorairesAccueil" name="choixHorairesAccueil" class="required condition-estHorairesAccueilRegulier-trigger condition-estHorairesAccueilIrregulier-trigger  validate-not-first ${rqt.stepStates['accueil'].invalidFields.contains('choixHorairesAccueil') ? 'validation-failed' : ''}" title="<g:message code="dccrr.property.choixHorairesAccueil.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Indifferent','Regulier','Irregulier']}">
-                <option value="fr.cg95.cvq.business.request.school.ChoixHorairesAccueilType_${it}" ${it == rqt.choixHorairesAccueil?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dccrr.property.choixHorairesAccueil" /></option>
+              <g:each in="${['INDIFFERENT','REGULIER','IRREGULIER']}">
+                <option value="${it}" ${it == rqt.choixHorairesAccueil?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dccrr.property.choixHorairesAccueil" /></option>
               </g:each>
             </select>
             

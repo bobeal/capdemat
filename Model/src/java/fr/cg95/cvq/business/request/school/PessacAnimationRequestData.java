@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.school;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="pessac_animation_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="pessac_animation_request")
 public class PessacAnimationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -69,11 +72,8 @@ public class PessacAnimationRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -89,36 +89,28 @@ public class PessacAnimationRequestData implements Serializable {
     
     private Boolean acceptationReglementInterieur;
 
-    public final void setAcceptationReglementInterieur(final Boolean acceptationReglementInterieur) {
+    public void setAcceptationReglementInterieur(final Boolean acceptationReglementInterieur) {
         this.acceptationReglementInterieur = acceptationReglementInterieur;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="acceptation_reglement_interieur"
-        
+    @Column(name="acceptation_reglement_interieur"  )
       
-    */
-    public final Boolean getAcceptationReglementInterieur() {
+    public Boolean getAcceptationReglementInterieur() {
         return this.acceptationReglementInterieur;
     }
   
     
     private String emailSujet;
 
-    public final void setEmailSujet(final String emailSujet) {
+    public void setEmailSujet(final String emailSujet) {
         this.emailSujet = emailSujet;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="email_sujet"
-        
+    @Column(name="email_sujet"  )
       
-    */
-    public final String getEmailSujet() {
+    public String getEmailSujet() {
         return this.emailSujet;
     }
   
@@ -134,18 +126,14 @@ public class PessacAnimationRequestData implements Serializable {
     
     private String telephoneSujet;
 
-    public final void setTelephoneSujet(final String telephoneSujet) {
+    public void setTelephoneSujet(final String telephoneSujet) {
         this.telephoneSujet = telephoneSujet;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="telephone_sujet"
-        *  length="10"
+    @Column(name="telephone_sujet" , length=10 )
       
-    */
-    public final String getTelephoneSujet() {
+    public String getTelephoneSujet() {
         return this.telephoneSujet;
     }
   

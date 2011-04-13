@@ -3,23 +3,46 @@ package fr.cg95.cvq.business.payment;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * @hibernate.class
- *  table="external_deposit_account_item_detail"
- *  lazy="false"
- */
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="external_deposit_account_item_detail")
 public class ExternalDepositAccountItemDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
+
     private Date date;
+
+    @Column(name="holder_name")
     private String holderName;
+
+    @Column(name="holder_surname")
     private String holderSurname;
     private Integer value;
+
+    @Column(name="payment_type")
     private String paymentType;
+
+    @Column(name="payment_id")
     private String paymentId;
+
+    @Column(name="bank_reference")
     private String bankReference;
+
+    @ManyToOne(optional=false,fetch=FetchType.EAGER)
+    @JoinColumn(name="external_deposit_account_item_id")
     private ExternalDepositAccountItem externalDepositAccountItem;
 
     public ExternalDepositAccountItemDetail() {
@@ -36,11 +59,6 @@ public class ExternalDepositAccountItemDetail implements Serializable {
         this.bankReference = bankReference;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return id;
     }
@@ -49,10 +67,6 @@ public class ExternalDepositAccountItemDetail implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="date"
-     */
     public final Date getDate() {
         return date;
     }
@@ -61,10 +75,6 @@ public class ExternalDepositAccountItemDetail implements Serializable {
         this.date = date;
     }
 
-    /**
-     * @hibernate.property
-     *  column="holder_name"
-     */
     public final String getHolderName() {
         return holderName;
     }
@@ -73,10 +83,6 @@ public class ExternalDepositAccountItemDetail implements Serializable {
         this.holderName = holderName;
     }
 
-    /**
-     * @hibernate.property
-     *  column="holder_surname"
-     */
     public final String getHolderSurname() {
         return holderSurname;
     }
@@ -85,10 +91,6 @@ public class ExternalDepositAccountItemDetail implements Serializable {
         this.holderSurname = holderSurname;
     }
 
-    /**
-     * @hibernate.property
-     *  column="payment_id"
-     */
     public final String getPaymentId() {
         return paymentId;
     }
@@ -97,10 +99,6 @@ public class ExternalDepositAccountItemDetail implements Serializable {
         this.paymentId = paymentId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="payment_type"
-     */
     public final String getPaymentType() {
         return paymentType;
     }
@@ -109,10 +107,6 @@ public class ExternalDepositAccountItemDetail implements Serializable {
         this.paymentType = paymentType;
     }
 
-    /**
-     * @hibernate.property
-     *  column="value"
-     */
     public final Integer getValue() {
         return value;
     }
@@ -121,10 +115,6 @@ public class ExternalDepositAccountItemDetail implements Serializable {
         this.value = value;
     }
 
-    /**
-     * @hibernate.property
-     *  column="bank_reference"
-     */
     public final String getBankReference() {
         return bankReference;
     }
@@ -133,12 +123,6 @@ public class ExternalDepositAccountItemDetail implements Serializable {
         this.bankReference = bankReference;
     }
 
-    /**
-     * @hibernate.many-to-one
-     *  column="external_deposit_account_item_id"
-     *  not-null="true"
-     *  class="fr.cg95.cvq.business.payment.ExternalDepositAccountItem"
-     */
     public ExternalDepositAccountItem getExternalDepositAccountItem() {
         return externalDepositAccountItem;
     }

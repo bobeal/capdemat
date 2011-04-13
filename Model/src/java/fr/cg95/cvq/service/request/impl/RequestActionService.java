@@ -51,8 +51,7 @@ public class RequestActionService implements IRequestActionService {
     @Override
     @Context(types = {ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
     public void addAction(final Long requestId, final RequestActionType type,
-        final String message, final String note, final byte[] pdfData, String filename)
-        throws CvqException {
+        final String message, final String note, final byte[] pdfData, String filename) {
 
         addActionTrace(type, message, note, new Date(), null, requestId, pdfData, filename);
     }
@@ -60,23 +59,20 @@ public class RequestActionService implements IRequestActionService {
     @Override
     @Context(types = {ContextType.SUPER_ADMIN}, privilege = ContextPrivilege.WRITE)
     public void addSystemAction(final Long requestId,
-        final RequestActionType type)
-        throws CvqException {
+        final RequestActionType type) {
 
         addActionTrace(type, null, null, new Date(), null, requestId, null, null);
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN}, privilege = ContextPrivilege.WRITE)
-    public void addDraftCreationAction(Long requestId, Date date)
-        throws CvqException {
+    public void addDraftCreationAction(Long requestId, Date date) {
         addActionTrace(RequestActionType.CREATION, null, null, date,
             RequestState.DRAFT, requestId, null, null);
     }
 
     @Override
-    public void addCreationAction(Long requestId, Date date, byte[] pdfData, String note)
-        throws CvqException {
+    public void addCreationAction(Long requestId, Date date, byte[] pdfData, String note) {
         addActionTrace(RequestActionType.CREATION, null, note, date,
             RequestState.PENDING, requestId, pdfData, null);
     }
@@ -85,8 +81,7 @@ public class RequestActionService implements IRequestActionService {
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE},
             privilege = ContextPrivilege.WRITE)
     public void addWorfklowAction(final Long requestId, final String note, final Date date,
-            final RequestState resultingState, final byte[] pdfData)
-        throws CvqException {
+            final RequestState resultingState, final byte[] pdfData) {
 
         addActionTrace(RequestActionType.STATE_CHANGE, null, note, date,
             resultingState, requestId, pdfData, null);
@@ -94,10 +89,9 @@ public class RequestActionService implements IRequestActionService {
 
     private void addActionTrace(final RequestActionType type, final String message,
         final String note, final Date date, final RequestState resultingState,
-        final Long requestId, final byte[] pdfData, String filename)
-        throws CvqException {
+        final Long requestId, final byte[] pdfData, String filename) {
 
-        Request request = (Request) requestDAO.findById(Request.class, requestId);
+        Request request = requestDAO.findById(requestId);
 
         // retrieve user or agent id according to context
         Long userId = SecurityContext.getCurrentUserId();

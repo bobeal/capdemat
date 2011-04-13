@@ -8,16 +8,17 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean
 import fr.cg95.cvq.service.request.ICategoryService
 import fr.cg95.cvq.service.request.IRequestTypeService
-import fr.cg95.cvq.dao.hibernate.HibernateUtil
+import fr.cg95.cvq.dao.jpa.JpaUtil;
 import fr.cg95.cvq.util.web.filter.CASFilter
 
 import edu.yale.its.tp.cas.client.CASReceipt
 import edu.yale.its.tp.cas.client.ProxyTicketValidator
 import edu.yale.its.tp.cas.client.CASAuthenticationException
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.ServletException
 
-import org.hibernate.SessionFactory
 import zdb.core.Store
 
 class SessionFilters {
@@ -93,10 +94,13 @@ class SessionFilters {
                     } else {
                         lacb = localAuthorityRegistry.getLocalAuthorityBeanByName(params.localAuthority)
                     }
-                    SessionFactory sessionFactory = lacb.getSessionFactory()
-                    HibernateUtil.setSessionFactory(sessionFactory)
-
-                    HibernateUtil.beginTransaction()
+                    EntityManagerFactory entityManagerFactory = lacb.getEntityManagerFactory()
+                    if(entityManagerFactory == null){
+                        entityManagerFactory = Persistence.createEntityManagerFactory("capdematPersistenceUnit", lacb.getJpaConfigurations())
+                        lacb.setEntityManagerFactory(entityManagerFactory)
+                    }
+                    JpaUtil.setEntityManagerFactory(entityManagerFactory)
+                    JpaUtil.beginTransaction()
 
                     if (controllerName == "serviceProvisioning") {
                         la = localAuthorityRegistry.getLocalAuthorityByName(lacb.name)
@@ -122,12 +126,12 @@ class SessionFilters {
             afterView = {
                 def doRollback = session.getAttribute("doRollback")
                 if (doRollback)
-                    HibernateUtil.rollbackTransaction();
+                    JpaUtil.rollbackTransaction()
                 else
-                    HibernateUtil.commitTransaction();
+                    JpaUtil.commitTransaction()
                 // No matter what happens, close the Session.
-                HibernateUtil.closeSession();
                 Store.release();
+                JpaUtil.close()
                 SecurityContext.resetCurrentSite();
             }
         }
@@ -287,7 +291,7 @@ class SessionFilters {
                     try {
                         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT)
                         agentService.updateUserProfiles(user, groups, userInformations)
-                        HibernateUtil.commitTransaction()
+                        JpaUtil.commitTransaction()
                         SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT)
                         SecurityContext.setCurrentAgent(user)
                         session.setAttribute("currentUser", user)
@@ -311,7 +315,7 @@ class SessionFilters {
                     	response.setStatus(500)
                     	render "Unexpected error while setting agent in security context"
                         e.printStackTrace()
-						HibernateUtil.rollbackTransaction()
+						JpaUtil.rollbackTransaction()
 						SecurityContext.resetCurrentSite()
     					return false
                     }

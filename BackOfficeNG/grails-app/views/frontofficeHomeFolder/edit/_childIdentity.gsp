@@ -35,7 +35,7 @@
       title="${message(code:'homeFolder.child.property.sex.validationError')}">
       <option value="">${message(code:'message.select.defaultOption')}</option>
       <g:each in="${fr.cg95.cvq.business.users.SexType.allSexTypes}">
-        <option value="fr.cg95.cvq.business.users.SexType_${it}"
+        <option value="${it.name()}"
           ${it == child.sex ? 'selected="selected"': ''}>
           ${g.capdematEnumToText(var:it, i18nKeyPrefix:'homeFolder.child.property.sex')}
         </option>

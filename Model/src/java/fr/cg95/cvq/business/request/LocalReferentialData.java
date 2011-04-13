@@ -5,28 +5,45 @@ import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import fr.cg95.cvq.xml.common.LocalReferentialDataType;
 
-
-/**
- * @hibernate.class
- *  table="local_referential_data"
- *  lazy="false"
- *
- * @author bor@zenexity.fr
- */
+@Entity
+@Table(name="local_referential_data")
 public class LocalReferentialData implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/** identifier field */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
     private String name;
     private Integer priority;
     private String additionalInformationLabel;
     private String additionalInformationValue;
+    
+    // FIXME how to removeOrphan on many2many?
+    @ManyToMany(cascade=CascadeType.REMOVE,fetch=FetchType.LAZY)
+    @JoinTable(name="local_referential_association",
+            joinColumns=@JoinColumn(name="local_referential_parent_data_id"),
+            inverseJoinColumns=@JoinColumn(name="local_referential_child_data_id"))
     private Set<LocalReferentialData> children;
+
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="local_referential_parent_data_id")
     private LocalReferentialData parent;
 
     public LocalReferentialData() {}
@@ -99,11 +116,6 @@ public class LocalReferentialData implements Serializable {
         return result;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -112,10 +124,6 @@ public class LocalReferentialData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="name"
-     */
     public String getName() {
         return this.name;
     }
@@ -124,10 +132,6 @@ public class LocalReferentialData implements Serializable {
         this.name = name;
     }
 
-    /**
-     * @hibernate.property
-     *  column="priority"
-     */
     public Integer getPriority() {
         return this.priority;
     }
@@ -136,10 +140,7 @@ public class LocalReferentialData implements Serializable {
         this.priority = priority;
     }
 
-    /**
-     * @hibernate.property
-     *  column="additional_information_label"
-     */
+    @Column(name="additional_information_label")
     public String getAdditionalInformationLabel() {
         return this.additionalInformationLabel;
     }
@@ -148,10 +149,7 @@ public class LocalReferentialData implements Serializable {
         this.additionalInformationLabel = additionalInformationLabel;
     }
 
-    /**
-     * @hibernate.property
-     *  column="additional_information_value"
-     */
+    @Column(name="additional_information_value")
     public String getAdditionalInformationValue() {
         return this.additionalInformationValue;
     }
@@ -160,18 +158,6 @@ public class LocalReferentialData implements Serializable {
         this.additionalInformationValue = additionalInformationValue;
     }
 
-    /**
-     * @hibernate.set
-     *  table="local_referential_association"
-     *  inverse="false"
-     *  lazy="true"
-     *  cascade="all-delete-orphan"
-     * @hibernate.key
-     *  column="local_referential_parent_data_id"
-     * @hibernate.many-to-many
-     *  class="fr.cg95.cvq.business.request.LocalReferentialData"
-     *  column="local_referential_child_data_id"
-     */
     public Set<LocalReferentialData> getChildren() {
         return this.children;
     }
@@ -180,11 +166,6 @@ public class LocalReferentialData implements Serializable {
         this.children = children;
     }
 
-    /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.request.LocalReferentialData"
-     *  column="local_referential_parent_data_id"
-     */
     public LocalReferentialData getParent() {
         return this.parent;
     }

@@ -1,42 +1,42 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class DhrDwellingKindType extends PersistentStringEnum {
+public enum DhrDwellingKindType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final DhrDwellingKindType PLACE_OF_RESIDENCE = new DhrDwellingKindType("placeOfResidence");
-  
-    public static final DhrDwellingKindType RETIREMENT_HOME = new DhrDwellingKindType("retirementHome");
-  
-    public static final DhrDwellingKindType OTHER = new DhrDwellingKindType("other");
-  
+    PLACE_OF_RESIDENCE("placeOfResidence"),
+    RETIREMENT_HOME("retirementHome"),
+    OTHER("other");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use DhrDwellingKindType.values() instead
+     * @deprecated only for backward
      */
-    private DhrDwellingKindType(String value) {
-        super(value);
+    @Deprecated 
+    public static DhrDwellingKindType[] allDhrDwellingKindTypes = DhrDwellingKindType.values();
+
+    private String legacyLabel;
+
+    private DhrDwellingKindType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public DhrDwellingKindType() {}
-
-    public static DhrDwellingKindType[] allDhrDwellingKindTypes = {
-        PLACE_OF_RESIDENCE,
-        RETIREMENT_HOME,
-        OTHER
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static DhrDwellingKindType getDefaultDhrDwellingKindType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of DhrDwellingKindType.something
+     * not the value of the name attribut.
+     */
     public static DhrDwellingKindType forString(final String enumAsString) {
-        for (DhrDwellingKindType value : allDhrDwellingKindTypes)
+        for (DhrDwellingKindType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultDhrDwellingKindType();

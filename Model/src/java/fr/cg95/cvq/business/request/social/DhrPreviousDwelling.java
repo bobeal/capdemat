@@ -20,14 +20,15 @@ import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="dhr_previous_dwelling"
- *  lazy="false"
  */
+@Entity
+@Table(name="dhr_previous_dwelling")
 public class DhrPreviousDwelling implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -171,11 +172,8 @@ public class DhrPreviousDwelling implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -200,18 +198,15 @@ public class DhrPreviousDwelling implements Serializable {
     
     private fr.cg95.cvq.business.request.social.DhrDwellingStatusType dhrPreviousDwellingStatus;
 
-    public final void setDhrPreviousDwellingStatus(final fr.cg95.cvq.business.request.social.DhrDwellingStatusType dhrPreviousDwellingStatus) {
+    public void setDhrPreviousDwellingStatus(final fr.cg95.cvq.business.request.social.DhrDwellingStatusType dhrPreviousDwellingStatus) {
         this.dhrPreviousDwellingStatus = dhrPreviousDwellingStatus;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="dhr_previous_dwelling_status"
-        
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="dhr_previous_dwelling_status"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.DhrDwellingStatusType getDhrPreviousDwellingStatus() {
+    public fr.cg95.cvq.business.request.social.DhrDwellingStatusType getDhrPreviousDwellingStatus() {
         return this.dhrPreviousDwellingStatus;
     }
   
@@ -225,18 +220,15 @@ public class DhrPreviousDwelling implements Serializable {
     
     private fr.cg95.cvq.business.request.social.DhrDwellingKindType dhrPreviousDwellingKind;
 
-    public final void setDhrPreviousDwellingKind(final fr.cg95.cvq.business.request.social.DhrDwellingKindType dhrPreviousDwellingKind) {
+    public void setDhrPreviousDwellingKind(final fr.cg95.cvq.business.request.social.DhrDwellingKindType dhrPreviousDwellingKind) {
         this.dhrPreviousDwellingKind = dhrPreviousDwellingKind;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="dhr_previous_dwelling_kind"
-        
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="dhr_previous_dwelling_kind"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.DhrDwellingKindType getDhrPreviousDwellingKind() {
+    public fr.cg95.cvq.business.request.social.DhrDwellingKindType getDhrPreviousDwellingKind() {
         return this.dhrPreviousDwellingKind;
     }
   
@@ -257,18 +249,14 @@ public class DhrPreviousDwelling implements Serializable {
     
     private String dhrPreviousDwellingComment;
 
-    public final void setDhrPreviousDwellingComment(final String dhrPreviousDwellingComment) {
+    public void setDhrPreviousDwellingComment(final String dhrPreviousDwellingComment) {
         this.dhrPreviousDwellingComment = dhrPreviousDwellingComment;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="dhr_previous_dwelling_comment"
-        
+
+    @Column(name="dhr_previous_dwelling_comment"  )
       
-    */
-    public final String getDhrPreviousDwellingComment() {
+    public String getDhrPreviousDwellingComment() {
         return this.dhrPreviousDwellingComment;
     }
   
@@ -282,18 +270,14 @@ public class DhrPreviousDwelling implements Serializable {
     
     private java.util.Date dhrPreviousDwellingDepartureDate;
 
-    public final void setDhrPreviousDwellingDepartureDate(final java.util.Date dhrPreviousDwellingDepartureDate) {
+    public void setDhrPreviousDwellingDepartureDate(final java.util.Date dhrPreviousDwellingDepartureDate) {
         this.dhrPreviousDwellingDepartureDate = dhrPreviousDwellingDepartureDate;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="dhr_previous_dwelling_departure_date"
-        
+
+    @Column(name="dhr_previous_dwelling_departure_date"  )
       
-    */
-    public final java.util.Date getDhrPreviousDwellingDepartureDate() {
+    public java.util.Date getDhrPreviousDwellingDepartureDate() {
         return this.dhrPreviousDwellingDepartureDate;
     }
   
@@ -314,19 +298,15 @@ public class DhrPreviousDwelling implements Serializable {
     
     private fr.cg95.cvq.business.users.Address dhrPreviousDwellingAddress;
 
-    public final void setDhrPreviousDwellingAddress(final fr.cg95.cvq.business.users.Address dhrPreviousDwellingAddress) {
+    public void setDhrPreviousDwellingAddress(final fr.cg95.cvq.business.users.Address dhrPreviousDwellingAddress) {
         this.dhrPreviousDwellingAddress = dhrPreviousDwellingAddress;
     }
 
-    /**
-  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="dhr_previous_dwelling_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="dhr_previous_dwelling_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getDhrPreviousDwellingAddress() {
+    public fr.cg95.cvq.business.users.Address getDhrPreviousDwellingAddress() {
         return this.dhrPreviousDwellingAddress;
     }
   
@@ -340,18 +320,14 @@ public class DhrPreviousDwelling implements Serializable {
     
     private java.util.Date dhrPreviousDwellingArrivalDate;
 
-    public final void setDhrPreviousDwellingArrivalDate(final java.util.Date dhrPreviousDwellingArrivalDate) {
+    public void setDhrPreviousDwellingArrivalDate(final java.util.Date dhrPreviousDwellingArrivalDate) {
         this.dhrPreviousDwellingArrivalDate = dhrPreviousDwellingArrivalDate;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="dhr_previous_dwelling_arrival_date"
-        
+
+    @Column(name="dhr_previous_dwelling_arrival_date"  )
       
-    */
-    public final java.util.Date getDhrPreviousDwellingArrivalDate() {
+    public java.util.Date getDhrPreviousDwellingArrivalDate() {
         return this.dhrPreviousDwellingArrivalDate;
     }
   

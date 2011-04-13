@@ -8,10 +8,9 @@ import fr.cg95.cvq.business.request.ticket.Event;
 import fr.cg95.cvq.business.request.ticket.Fare;
 import fr.cg95.cvq.business.request.ticket.PlaceCategory;
 import fr.cg95.cvq.business.request.ticket.Subscriber;
-import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.util.Critere;
 
-public interface ITicketBookingDAO extends IGenericDAO {
+public interface ITicketBookingDAO {
 
     List<Entertainment> searchEntertainment(final Set<Critere> criteria, final String sort, String dir, 
             int recordsReturned, int startIndex);

@@ -8,11 +8,10 @@ import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.request.DisplayGroup;
 import fr.cg95.cvq.business.request.RequestType;
-import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.dao.request.IRequestTypeDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
@@ -78,9 +77,9 @@ public class DisplayGroupService implements IDisplayGroupService, ILocalAuthorit
 
     @Override
     @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
-    public DisplayGroup addRequestType(Long displayGroupId, Long requestTypeId) throws CvqException {
+    public DisplayGroup addRequestType(Long displayGroupId, Long requestTypeId) {
         DisplayGroup displayGroup = getById(displayGroupId);
-        RequestType requestType = (RequestType)genericDAO.findById(RequestType.class, requestTypeId);
+        RequestType requestType = requestTypeDAO.findById(requestTypeId);
         
         requestType.setDisplayGroup(displayGroup);
         displayGroup.getRequestTypes().add(requestType);
@@ -92,10 +91,9 @@ public class DisplayGroupService implements IDisplayGroupService, ILocalAuthorit
     
     @Override
     @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
-    public DisplayGroup removeRequestType(Long displayGroupId, Long requestTypeId)
-            throws CvqException {
+    public DisplayGroup removeRequestType(Long displayGroupId, Long requestTypeId) {
         DisplayGroup displayGroup = getById(displayGroupId);
-        RequestType requestType = (RequestType)genericDAO.findById(RequestType.class, requestTypeId);
+        RequestType requestType = requestTypeDAO.findById(requestTypeId);
         
         requestType.setDisplayGroup(null);
         displayGroup.getRequestTypes().remove(requestType);
@@ -107,9 +105,9 @@ public class DisplayGroupService implements IDisplayGroupService, ILocalAuthorit
 
     @Override
     @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
-    public void delete(Long id) throws CvqObjectNotFoundException {
+    public void delete(Long id) {
         DisplayGroup displayGroup = 
-            (DisplayGroup) genericDAO.findById(DisplayGroup.class, id);
+            (DisplayGroup)genericDAO.findById(DisplayGroup.class, id);
         if (displayGroup.getRequestTypes() != null) {
             for (RequestType requestType : displayGroup.getRequestTypes())
                 requestType.setDisplayGroup(null);
@@ -125,7 +123,7 @@ public class DisplayGroupService implements IDisplayGroupService, ILocalAuthorit
 
     @Override
     @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
-    public DisplayGroup getById(Long id) throws CvqObjectNotFoundException {
+    public DisplayGroup getById(Long id) {
         return (DisplayGroup)genericDAO.findById(DisplayGroup.class, id);
     }
 
@@ -147,7 +145,7 @@ public class DisplayGroupService implements IDisplayGroupService, ILocalAuthorit
     @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public Long create(DisplayGroup displayGroup) throws CvqModelException {
         checkDisplayGroup(displayGroup);
-        return genericDAO.create(displayGroup);
+        return ((DisplayGroup)genericDAO.create(displayGroup)).getId();
     }
     
     @Override

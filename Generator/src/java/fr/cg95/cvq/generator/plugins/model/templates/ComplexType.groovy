@@ -153,60 +153,39 @@
     def sqlName = ModelPluginUtils.getSQLName(StringUtils.capitalize(element.nameAsParam))
     def widgets = [
       "simple" : """
-        * @hibernate.property
-        *  column="${sqlName}"
-        ${element.maxLength > 0 ? '*  length="' + element.maxLength + '"' : element.length > 0 ? '*  length="' + element.length + '"' : ""}
+    @Column(name="${sqlName}" ${element.maxLength > 0 ? ', length=' + element.maxLength : element.length > 0 ? ', length=' + element.length : ""} )
       """,
       "positiveInteger" : """
-        * @hibernate.property
-        *  column="${sqlName}"
-        *  type="serializable"
-        ${element.maxLength > 0 ? '*  length="' + element.maxLength + '"' : element.length > 0 ? '*  length="' + element.length + '"' : ""}
+    @Column(name="${sqlName}" ${element.maxLength > 0 ? ', length=' + element.maxLength : element.length > 0 ? ', length=' + element.length : ""}, columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
+      """,
+      "enum" : """
+    @Enumerated(EnumType.STRING)
+    @Column(name="${sqlName}" ${element.maxLength > 0 ? ', length=' + element.maxLength : element.length > 0 ? ', length=' + element.length : ""} )
       """,
       "localTime" : """
-        * @hibernate.property
-        *  column="${sqlName}"
-        *  type="serializable"
-        ${element.maxLength > 0 ? '*  length="' + element.maxLength + '"' : element.length > 0 ? '*  length="' + element.length + '"' : ""}
+    @Column(name="${sqlName}" ${element.maxLength > 0 ? ', length=' + element.maxLength : element.length > 0 ? ', length=' + element.length : ""} )
       """,
       "one-to-many" : """
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="${sqlName}_id"
-        * @hibernate.list-index
-        *  column="${sqlName}_index"
-        * @hibernate.one-to-many
-        *  class="${element.javaPackageName}${element.modelClassName}"
+    @OneToMany(cascade=CascadeType.ALL)
+    @OrderColumn(name="${sqlName}_index")
+    @JoinColumn(name="${sqlName}_id")
       """,
       "many-to-one" : """
-        * @hibernate.many-to-one
-        ${element.tiedToRequest ? '*  cascade="all"' : ""}
-        *  column="${sqlName}_id"
-        *  class="${element.javaPackageName}${element.modelClassName}"
+    @ManyToOne${element.tiedToRequest ? '(cascade=CascadeType.ALL)' : ""}
+    @JoinColumn(name="${sqlName}_id")
       """,
       "many-to-many" : """
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        ${element.tiedToRequest ? '*  cascade="all"' : ""}
-        *  table="${sqlName}"
-        * @hibernate.key
-        *  column="${sqlName}_id"
-        * @hibernate.list-index
-        *  column="${sqlName}_index"
-        * @hibernate.many-to-many
-        *  column="${sqlName}_id"
-        *  class="${element.javaPackageName}${element.modelClassName}"
+    @ManyToMany${element.tiedToRequest ? '(cascade=CascadeType.ALL)' : ""}
+    @JoinTable(name="${sqlName}")
+    @JoinColumn(name="${sqlName}_id")
+    @OrderColumn(name="${sqlName}_index")
       """
     ]
     widgets["long"] = widgets["simple"]
     widgets["double"] = widgets["simple"]
     widgets["short"] = widgets["simple"]
     widgets["string"] = widgets["simple"]
-    widgets["enum"] = widgets["simple"]
     widgets["date"] = widgets["simple"]
     widgets["time"] = widgets["localTime"]
     widgets["boolean"] = widgets["simple"]
@@ -275,14 +254,15 @@ import ${XMLBeansBaseNS}.common.*;
 import ${XMLBeansBaseNS}.request.${lastParticle}.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="${sqlName}"
- *  lazy="false"
  */
+@Entity
+@Table(name="${sqlName}")
 public class ${className} implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -367,11 +347,8 @@ public class ${className} implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -407,14 +384,12 @@ public class ${className} implements Serializable {
     <% } %>
     private ${element.type()} ${element.nameAsParam};
 
-    public final void set${StringUtils.capitalize(element.nameAsParam)}(final ${element.type()} ${element.nameAsParam}) {
+    public void set${StringUtils.capitalize(element.nameAsParam)}(final ${element.type()} ${element.nameAsParam}) {
         this.${element.nameAsParam} = ${element.nameAsParam};
     }
 
-    /**
-  <% displayAnnotation(element) %>
-    */
-    public final ${element.type()} get${StringUtils.capitalize(element.nameAsParam)}() {
+<% displayAnnotation(element) %>
+    public ${element.type()} get${StringUtils.capitalize(element.nameAsParam)}() {
         return this.${element.nameAsParam};
     }
   <% } %>

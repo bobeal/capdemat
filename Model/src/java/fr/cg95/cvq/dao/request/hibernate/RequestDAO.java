@@ -24,11 +24,11 @@ import fr.cg95.cvq.business.request.RequestData;
 import fr.cg95.cvq.business.request.RequestLock;
 import fr.cg95.cvq.business.request.RequestNote;
 import fr.cg95.cvq.business.request.RequestState;
-import fr.cg95.cvq.dao.hibernate.GenericDAO;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaTemplate;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 
@@ -37,7 +37,13 @@ import fr.cg95.cvq.util.DateUtils;
  * 
  * @author bor@zenexity.fr
  */
-public class RequestDAO extends GenericDAO implements IRequestDAO {
+public class RequestDAO extends JpaTemplate<Request, Long> implements IRequestDAO {
+
+    private IGenericDAO genericDAO;
+
+    public void setGenericDAO(IGenericDAO genericDAO) {
+        this.genericDAO = genericDAO;
+    }
 
     public List<Request> search(final Set<Critere> criteria, final String sort, String dir, 
         int recordsReturned, int startIndex, final boolean full) {
@@ -129,7 +135,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                     String[] values = new String[states.size()];
                     int i = 0;
                     for (RequestState state : states) {
-                        values[i++] = "'" + state.toString() + "'";
+                        values[i++] = "'" + state.name() + "'";
                     }
                     sb.append(" and request.state "+ searchCrit.getComparatif() +" (")
                         .append(StringUtils.join(values, ", ")).append(')');
@@ -138,7 +144,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                     // To ensure we put the good type in the object list
                     // FIXME : all states criteria should be sent as RequestState objects
                     if (searchCrit.getValue() instanceof RequestState)
-                        parametersValues.add(searchCrit.getValue().toString());
+                        parametersValues.add(((RequestState)searchCrit.getValue()).name());
                     else
                         parametersValues.add(searchCrit.getValue());
                     parametersTypes.add(Hibernate.STRING);
@@ -288,7 +294,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                     String[] values = new String[states.size()];
                     int i = 0;
                     for (RequestState state : states) {
-                        values[i++] = "'" + state.toString() + "'";
+                        values[i++] = "'" + state.name() + "'";
                     }
                     sb.append(" and request.state "+ searchCrit.getComparatif() +" (")
                         .append(StringUtils.join(values, ", ")).append(')');
@@ -298,7 +304,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                     // FIXME : all states criteria should be sent as
                     // RequestState objects
                     if (searchCrit.getValue() instanceof RequestState)
-                        objectList.add(searchCrit.getValue().toString());
+                        objectList.add(((RequestState)searchCrit.getValue()).name());
                     else
                         objectList.add(searchCrit.getValue());
                     typeList.add(Hibernate.STRING);
@@ -433,7 +439,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         if (excludedStates != null && excludedStates.length > 0) {
             for (int i = 0; i < excludedStates.length; i++) {
                 sb.append(" and request.state != ?");
-                objectList.add(excludedStates[i].toString());
+                objectList.add(excludedStates[i].name());
                 typeList.add(Hibernate.STRING);
             }
         }
@@ -448,7 +454,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         Query query = HibernateUtil.getSession()
             .createQuery("from RequestData as request where request.homeFolderId = :homeFolderId and request.state != :draft order by creationDate desc");
         query.setLong("homeFolderId", homeFolderId);
-        query.setString("draft", RequestState.DRAFT.toString());
+        query.setString("draft", RequestState.DRAFT.name());
         return transform(query.list(), full);
     }
 
@@ -471,7 +477,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         if (excludedStates != null && excludedStates.length > 0) {
             for (int i = 0; i < excludedStates.length; i++) {
                 sb.append(" and request.state != ?");
-                objectList.add(excludedStates[i].toString());
+                objectList.add(excludedStates[i].name());
                 typeList.add(Hibernate.STRING);
             }
         }
@@ -504,7 +510,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 sb.append("or request.state = ? ");
             }
 
-            objectList.add(requestState.toString());
+            objectList.add(requestState.name());
             typeList.add(Hibernate.STRING);
         }
 
@@ -524,7 +530,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         final boolean full) {
         Query query = HibernateUtil.getSession()
             .createQuery("from RequestData as request where request.id not in (select request.id from RequestData request join request.actions action  where action.type = :type)");
-        query.setString("type", type.toString());
+        query.setString("type", type.name());
         return transform(query.list(), full);
     }
 
@@ -548,7 +554,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         if (excludedStates != null && excludedStates.length > 0) {
             for (RequestState excludedState : excludedStates) {
                 sb.append(" and request.state != ?");
-                objectList.add(excludedState.toString());
+                objectList.add(excludedState.name());
                 typeList.add(Hibernate.STRING);
             }
         }
@@ -578,8 +584,8 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         typeList.add(Hibernate.STRING);
         typeList.add(Hibernate.TIMESTAMP);
         
-        objectList.add(RequestActionType.DRAFT_DELETE_NOTIFICATION.toString());
-        objectList.add(RequestState.DRAFT.toString());
+        objectList.add(RequestActionType.DRAFT_DELETE_NOTIFICATION.name());
+        objectList.add(RequestState.DRAFT.name());
         objectList.add(date);
         Query query = HibernateUtil.getSession().createQuery(sb.toString());
         Type[] typeTab = typeList.toArray(new Type[1]);
@@ -608,7 +614,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         }
 
         if (resultingState != null && !resultingState.equals("")) {
-            sb.append(" and request_action.resulting_state = '").append(resultingState).append("'");
+            sb.append(" and request_action.resulting_state = '").append(RequestState.forString(resultingState).name()).append("'");
         }
 
         if (requestTypesLabel != null) {
@@ -630,16 +636,13 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             if (resultSet.next()) {
                 do {
                     Long requestId = resultSet.getLong(1);
-                    result.add((Request) findById(Request.class, requestId));
+                    result.add(findById(requestId));
                 } while (resultSet.next());
                 return result;
             } else {
                 return result;
             }
         } catch (SQLException e) {
-            return result;
-        } catch (CvqObjectNotFoundException confe) {
-            // unlikely to happen
             return result;
         }
     }
@@ -658,14 +661,12 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
     }
 
     @Override
-    public <T> T saveOrUpdate(T object) {
-        if (Request.class.isAssignableFrom(object.getClass())) {
-            Request request = (Request)object;
+    public Request saveOrUpdate(Request request) {
             RequestData requestData = request.getRequestData();
             try {
                 Object specificData = request.getSpecificData();
                 requestData.setSpecificDataClass(specificData.getClass());
-                specificData = super.saveOrUpdate(specificData);
+                specificData = genericDAO.saveOrUpdate(specificData);
                 try {
                     requestData.setSpecificDataId((Long)specificData.getClass().getMethod("getId").invoke(specificData));
                 } catch (IllegalAccessException e) {
@@ -681,74 +682,51 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             } catch (CvqException e) {
                 // no specific data, we are handling a raw Request
             }
-            super.saveOrUpdate(requestData);
-            return object;
-        }
-        return super.saveOrUpdate(object);
+            genericDAO.saveOrUpdate(requestData);
+            return request;
     }
 
     @Override
-    public Object findById(Class<?> clazz, Long id)
-        throws CvqObjectNotFoundException {
-        if (Request.class.isAssignableFrom(clazz)) {
-            return findById(id, true);
-        }
-        return super.findById(clazz, id);
+    public Request findById(Long id) {
+        return findById(id, true);
     }
 
-    public Request findById(Long id, final boolean full)
-        throws CvqObjectNotFoundException {
-        RequestData requestData = (RequestData)findById(RequestData.class, id);
+    @Override
+    public Request findById(Long id, final boolean full) {
+        RequestData requestData = (RequestData)genericDAO.findById(RequestData.class, id);
         return full ? recompose(requestData) : new Request(requestData);
     }
 
     @Override
-    public Long create(Object object) {
-        if (Request.class.isAssignableFrom(object.getClass())) {
-            return saveOrUpdate((Request)object).getId();
-        }
-        return super.create(object);
+    public Request create(Request request) {
+        return saveOrUpdate(request);
     }
 
     @Override
-    public void delete(Object object) {
-        if (Request.class.isAssignableFrom(object.getClass())) {
-            Request request = (Request)object;
-            super.delete(request.getRequestData());
-            try {
-                super.delete(request.getSpecificData());
-            } catch (CvqException e) {
-                // no specific data, we were handling a raw Request
-            }
-            return;
+    public void delete(Request request) {
+        genericDAO.delete(request.getRequestData());
+        try {
+            genericDAO.delete(request.getSpecificData());
+        } catch (CvqException e) {
+            // no specific data, we were handling a raw Request
         }
-        super.delete(object);
     }
 
     @Override
-    public void update(Object object) {
-        if (Request.class.isAssignableFrom(object.getClass())) {
-            Request request = (Request)object;
-            super.update(request.getRequestData());
-            try {
-                super.update(request.getSpecificData());
-            } catch (CvqException e) {
-                // no specific data, we were handling a raw Request
-            }
-            return;
+    public void update(Request request) {
+        genericDAO.update(request.getRequestData());
+        try {
+            genericDAO.update(request.getSpecificData());
+        } catch (CvqException e) {
+            // no specific data, we were handling a raw Request
         }
-        super.update(object);
     }
 
     private Request recompose(RequestData requestData) {
-        Object specificData;
-        try {
-            specificData =
-                findById(requestData.getSpecificDataClass(), requestData.getSpecificDataId());
-        } catch (CvqObjectNotFoundException e) {
-            // handling a raw request
+        Object specificData =
+                genericDAO.findById(requestData.getSpecificDataClass(), requestData.getSpecificDataId());
+        if (specificData == null)
             return new Request(requestData);
-        }
         String specificDataClassName = requestData.getSpecificDataClass().getName();
         String specificClassName =
             specificDataClassName.substring(0, specificDataClassName.length() - 4);
@@ -796,11 +774,11 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         }
         Iterator<RequestNote> it = request.getNotes().iterator();
         while (it.hasNext()) {
-            delete(it.next());
+            genericDAO.delete(it.next());
             it.remove();
         }
         update(request);
-        delete(request.getSpecificData());
+        genericDAO.delete(request.getSpecificData());
         try {
             request.getClass()
                 .getMethod("setSpecificData", request.getRequestData().getSpecificDataClass())

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.ListableBeanFactory;
 
 import fr.cg95.cvq.business.request.RequestLock;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.PermissionException;
@@ -23,6 +24,7 @@ import fr.cg95.cvq.service.request.IRequestTypeService;
 public class RequestLockService implements IRequestLockService, BeanFactoryAware {
 
     private IRequestDAO requestDAO;
+    private IGenericDAO genericDAO;
     private IRequestTypeService requestTypeService;
     private ListableBeanFactory beanFactory;
 
@@ -67,7 +69,7 @@ public class RequestLockService implements IRequestLockService, BeanFactoryAware
             } else {
                 throw new CvqException("request.lock.error.alreadyLocked");
             }
-            requestDAO.saveOrUpdate(lock);
+            genericDAO.saveOrUpdate(lock);
             HibernateUtil.getSession().flush();
         }
     }
@@ -110,7 +112,7 @@ public class RequestLockService implements IRequestLockService, BeanFactoryAware
             if (lock == null || !lock.getUserId().equals(SecurityContext.getCurrentUserId())) {
                 return;
             }
-            requestDAO.delete(lock);
+            genericDAO.delete(lock);
             HibernateUtil.getSession().flush();
         }
     }
@@ -127,6 +129,10 @@ public class RequestLockService implements IRequestLockService, BeanFactoryAware
 
     public void setRequestDAO(IRequestDAO requestDAO) {
         this.requestDAO = requestDAO;
+    }
+
+    public void setGenericDAO(IGenericDAO genericDAO) {
+        this.genericDAO = genericDAO;
     }
 
     @Override

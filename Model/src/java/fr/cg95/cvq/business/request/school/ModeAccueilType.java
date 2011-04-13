@@ -1,39 +1,41 @@
 package fr.cg95.cvq.business.request.school;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class ModeAccueilType extends PersistentStringEnum {
+public enum ModeAccueilType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final ModeAccueilType COLLECTIF = new ModeAccueilType("Collectif");
-  
-    public static final ModeAccueilType FAMILIAL = new ModeAccueilType("Familial");
-  
+    COLLECTIF("Collectif"),
+    FAMILIAL("Familial");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use ModeAccueilType.values() instead
+     * @deprecated only for backward
      */
-    private ModeAccueilType(String value) {
-        super(value);
+    @Deprecated 
+    public static ModeAccueilType[] allModeAccueilTypes = ModeAccueilType.values();
+
+    private String legacyLabel;
+
+    private ModeAccueilType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public ModeAccueilType() {}
-
-    public static ModeAccueilType[] allModeAccueilTypes = {
-        COLLECTIF,
-        FAMILIAL
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static ModeAccueilType getDefaultModeAccueilType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of ModeAccueilType.something
+     * not the value of the name attribut.
+     */
     public static ModeAccueilType forString(final String enumAsString) {
-        for (ModeAccueilType value : allModeAccueilTypes)
+        for (ModeAccueilType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultModeAccueilType();

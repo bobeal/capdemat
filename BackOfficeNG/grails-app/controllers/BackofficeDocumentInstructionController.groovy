@@ -54,7 +54,7 @@ class BackofficeDocumentInstructionController {
             document.documentType.name = documentType.name
             document.state = DocumentState.PENDING
             document.depositOrigin = DepositOrigin.AGENT
-            document.depositType = DepositType.PC
+            document.depositType = DepositType.P_C
             document.datas = []
         } else {
             document = documentService.getById(params.long('id'))

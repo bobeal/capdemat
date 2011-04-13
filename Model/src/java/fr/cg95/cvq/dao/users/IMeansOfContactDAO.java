@@ -4,9 +4,9 @@ import java.util.List;
 
 import fr.cg95.cvq.business.users.MeansOfContact;
 import fr.cg95.cvq.business.users.MeansOfContactEnum;
-import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.IJpaTemplate;
 
-public interface IMeansOfContactDAO extends IGenericDAO {
+public interface IMeansOfContactDAO extends IJpaTemplate<MeansOfContact,Long> {
 
     MeansOfContact findByType(MeansOfContactEnum type);
 

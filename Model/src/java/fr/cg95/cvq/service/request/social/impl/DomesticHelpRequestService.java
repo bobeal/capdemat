@@ -3,11 +3,18 @@ package fr.cg95.cvq.service.request.social.impl;
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.social.DhrAssetKindType;
+import fr.cg95.cvq.business.request.social.DhrDwellingKindType;
+import fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType;
+import fr.cg95.cvq.business.request.social.DhrRequestKindType;
 import fr.cg95.cvq.business.request.social.DomesticHelpRequest;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
+import fr.cg95.cvq.xml.request.social.DhrCurrentDwellingType;
+import fr.cg95.cvq.xml.request.social.DhrSpouseStatusType;
+import fr.cg95.cvq.xml.request.social.DhrSpouseType;
 
 /**
  * Implementation of the domestic help request service.
@@ -20,11 +27,11 @@ public class DomesticHelpRequestService extends RequestService {
 
     @Override
     public void init() {
-        DomesticHelpRequest.conditions.put("dhrRequestKind", new EqualityChecker("Couple"));
+        DomesticHelpRequest.conditions.put("dhrRequestKind", new EqualityChecker(DhrRequestKindType.COUPLE.name()));
         DomesticHelpRequest.conditions.put("dhrHaveFamilyReferent", new EqualityChecker("true"));
         DomesticHelpRequest.conditions.put("dhrRequesterNationality",
             new EqualityChecker("OutsideEuropeanUnion"));
-        DomesticHelpRequest.conditions.put("dhrPrincipalPensionPlan", new EqualityChecker("Other"));
+        DomesticHelpRequest.conditions.put("dhrPrincipalPensionPlan", new EqualityChecker(DhrPrincipalPensionPlanType.OTHER.name()));
         DomesticHelpRequest.conditions.put("dhrRequesterHaveGuardian", new EqualityChecker("true"));
         DomesticHelpRequest.conditions.put("dhrSpouseTitle", new EqualityChecker("Madam"));
         DomesticHelpRequest.conditions.put("dhrSpouseNationality",
@@ -33,11 +40,11 @@ public class DomesticHelpRequestService extends RequestService {
         DomesticHelpRequest.conditions.put("dhrSpousePrincipalPensionPlan",
             new EqualityChecker("Other"));
         DomesticHelpRequest.conditions.put("dhrCurrentDwellingKind",
-            new EqualityChecker("placeOfResidence"));
+            new EqualityChecker(DhrDwellingKindType.PLACE_OF_RESIDENCE.name()));
         DomesticHelpRequest.conditions.put("dhrPreviousDwelling[0].dhrPreviousDwellingKind",
-            new EqualityChecker("placeOfResidence"));
+            new EqualityChecker(DhrDwellingKindType.PLACE_OF_RESIDENCE.name()));
         DomesticHelpRequest.conditions.put("dhrNotRealAsset[0].dhrNotRealAssetKind",
-            new EqualityChecker("RealEstate"));
+            new EqualityChecker(DhrAssetKindType.REAL_ESTATE.name()));
     }
 
     @Override

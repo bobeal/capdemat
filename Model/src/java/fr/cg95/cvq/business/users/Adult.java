@@ -1,5 +1,11 @@
 package fr.cg95.cvq.business.users;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
+
 import net.sf.oval.constraint.Email;
 import net.sf.oval.constraint.EqualToField;
 import net.sf.oval.constraint.MatchPattern;
@@ -9,66 +15,75 @@ import net.sf.oval.constraint.NotNull;
 import fr.cg95.cvq.authentication.IAuthenticationService;
 import fr.cg95.cvq.xml.common.AdultType;
 
-/**
- * @hibernate.joined-subclass
- *  table="adult"
- *  lazy="false"
- * @hibernate.joined-subclass-key
- *  column="id"
- *
- * @author bor@zenexity.fr
- */
+@Entity
+@Table(name="adult")
 public class Adult extends Individual {
 
     private static final long serialVersionUID = 1L;
 
     @NotNull(message = "title")
+    @Enumerated(EnumType.STRING)
+    @Column(name="title",length=16)
     private TitleType title;
 
     @NotEmpty(message = "maidenName")
+    @Column(name="maiden_name")
     private String maidenName;
 
     @NotEmpty(message = "nameOfUse")
+    @Column(name="name_of_use")
     private String nameOfUse;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="family_status",length=32)
     private FamilyStatusType familyStatus;
 
     @NotNull(message = "homePhone", when = "groovy:_this.mobilePhone == null && _this.officePhone == null")
     @NotEmpty(message = "homePhone")
     @MatchPattern(pattern = "^0[1-59][0-9]{8}$", message = "homePhone")
+    @Column(name="home_phone",length=32)
     private String homePhone;
 
     @NotNull(message = "mobilePhone", when = "groovy:_this.homePhone == null && _this.officePhone == null")
     @NotEmpty(message = "mobilePhone")
     @MatchPattern(pattern = "^0[67][0-9]{8}$", message = "mobilePhone")
+    @Column(name="mobile_phone",length=32)
     private String mobilePhone;
 
     @NotNull(message = "officePhone", when = "groovy:_this.homePhone == null && _this.mobilePhone == null")
     @NotEmpty(message = "officePhone")
     @MatchPattern(pattern = "^0[1-5679][0-9]{8}$", message = "officePhone")
+    @Column(name="office_phone",length=32)
     private String officePhone;
 
     @NotNull(message = "email")
     @Email(message = "email")
+    @Column(name="email",length=50)
     private String email;
 
     @MatchPattern(pattern = "^[0-9]{7}[A-Z]{0,1}$", message = "cfbn")
+    @Column(name="cfbn",length=8)
     private String cfbn;
 
+    @Column(name="profession")
     private String profession;
 
     @NotNull(message = "question", profiles = {"login"})
     @NotEmpty(message = "question")
+    @Column(name="question")
     private String question;
 
     @NotNull(message = "answer", profiles = {"login"})
     @NotEmpty(message = "answer")
+    @Column(name="answer")
     private String answer;
 
+    @Column(name="login")
     private String login;
 
     @NotNull(message = "password", profiles = {"login"})
     @MinLength(message = "password", value = IAuthenticationService.passwordMinLength)
+    @Column(name="password")
     private String password;
 
     @SuppressWarnings("unused")
@@ -141,11 +156,6 @@ public class Adult extends Individual {
         }
     }
 
-    /**
-     * @hibernate.property
-     *  column="title"
-     *  length="16"
-     */
     public TitleType getTitle() {
         return this.title;
     }
@@ -163,10 +173,6 @@ public class Adult extends Individual {
         }
     }
 
-    /**
-     * @hibernate.property
-     *  column="maiden_name"
-     */
     public String getMaidenName() {
         return this.maidenName;
     }
@@ -175,10 +181,6 @@ public class Adult extends Individual {
         this.maidenName = maidenName;
     }
 
-    /**
-     * @hibernate.property
-     *  column="name_of_use"
-     */
     public String getNameOfUse() {
         return this.nameOfUse;
     }
@@ -187,11 +189,6 @@ public class Adult extends Individual {
         this.nameOfUse = nameOfUse;
     }
 
-    /**
-     * @hibernate.property
-     *  column="family_status"
-     *  length="32"
-     */
     public FamilyStatusType getFamilyStatus() {
         return this.familyStatus;
     }
@@ -209,11 +206,6 @@ public class Adult extends Individual {
         }
     }
 
-    /**
-     * @hibernate.property
-     *  column="home_phone"
-     *  length="32"
-     */
     public String getHomePhone() {
         return this.homePhone;
     }
@@ -222,11 +214,6 @@ public class Adult extends Individual {
         this.homePhone = homePhone == null ? null : homePhone.replaceAll("[^\\d]", "");
     }
 
-    /**
-     * @hibernate.property
-     *  column="mobile_phone"
-     *  length="32"
-     */
     public String getMobilePhone() {
         return this.mobilePhone;
     }
@@ -235,11 +222,6 @@ public class Adult extends Individual {
         this.mobilePhone = mobilePhone == null ? null : mobilePhone.replaceAll("[^\\d]", "");
     }
 
-    /**
-     * @hibernate.property
-     *  column="office_phone"
-     *  length="32"
-     */
     public String getOfficePhone() {
         return this.officePhone;
     }
@@ -248,11 +230,6 @@ public class Adult extends Individual {
         this.officePhone = officePhone == null ? null : officePhone.replaceAll("[^\\d]", "");
     }
 
-    /**
-     * @hibernate.property
-     *  column="email"
-     *  length="50"
-     */
     public String getEmail() {
         return this.email;
     }
@@ -261,11 +238,6 @@ public class Adult extends Individual {
         this.email = email;
     }
 
-    /**
-     * @hibernate.property
-     *  column="cfbn"
-     *  length="8"
-     */
     public String getCfbn() {
         return this.cfbn;
     }
@@ -274,10 +246,6 @@ public class Adult extends Individual {
         this.cfbn = cfbn;
     }
 
-    /**
-     * @hibernate.property
-     *  column="profession"
-     */
     public String getProfession() {
         return this.profession;
     }
@@ -286,10 +254,6 @@ public class Adult extends Individual {
         this.profession = profession;
     }
 
-    /**
-     * @hibernate.property
-     *  column="question"
-     */
     public String getQuestion() {
         return this.question;
     }
@@ -298,10 +262,6 @@ public class Adult extends Individual {
         this.question = question;
     }
 
-    /**
-     * @hibernate.property
-     *  column="answer"
-     */
     public String getAnswer() {
         return this.answer;
     }
@@ -310,11 +270,6 @@ public class Adult extends Individual {
         this.answer = answer;
     }
 
-    /**
-     * @hibernate.property
-     *  column="login"
-     *  unique="true"
-     */
     public String getLogin() {
         return this.login;
     }
@@ -323,10 +278,6 @@ public class Adult extends Individual {
         this.login = login;
     }
 
-    /**
-     * @hibernate.property
-     *  column="password"
-     */
     public String getPassword() {
         return this.password;
     }

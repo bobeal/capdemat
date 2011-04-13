@@ -2,244 +2,235 @@ package fr.cg95.cvq.business.users;
 
 import org.apache.commons.lang.ArrayUtils;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Enumeration of all coutries.
- * 
+ *
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public final class CountryType extends PersistentStringEnum { 
+public enum CountryType {
 
-    private static final long serialVersionUID = 1L;
+     UNKNOWN("Unknown"),
+     AF("af"),
+     ZA("za"),
+     AL("al"),
+     DZ("dz"),
+     DE("de"),
+     AD("ad"),
+     AO("ao"),
+     AI("ai"),
+     AQ("aq"),
+     AG("ag"),
+     AN("an"),
+     SA("sa"),
+     AR("ar"),
+     AM("am"),
+     AW("aw"),
+     AU("au"),
+     AT("at"),
+     AZ("az"),
+     BJ("bj"),
+     BS("bs"),
+     BH("bh"),
+     BD("bd"),
+     BB("bb"),
+     PW("pw"),
+     BE("be"),
+     BZ("bz"),
+     BM("bm"),
+     BT("bt"),
+     BY("by"),
+     MM("mm"),
+     BO("bo"),
+     BA("ba"),
+     BW("bw"),
+     BR("br"),
+     BN("bn"),
+     BG("bg"),
+     BF("bf"),
+     BI("bi"),
+     CI("ci"),
+     KH("kh"),
+     CM("cm"),
+     CA("ca"),
+     CV("cv"),
+     CL("cl"),
+     CN("cn"),
+     CY("cy"),
+     CO("co"),
+     KM("km"),
+     CG("cg"),
+     KP("kp"),
+     KR("kr"),
+     CR("cr"),
+     HR("hr"),
+     CU("cu"),
+     DK("dk"),
+     DJ("dj"),
+     DM("dm"),
+     EG("eg"),
+     AE("ae"),
+     EC("ec"),
+     ER("er"),
+     ES("es"),
+     EE("ee"),
+     US("us"),
+     ET("et"),
+     FI("fi"),
+     FR("fr"),
+     GE("ge"),
+     GA("ga"),
+     GM("gm"),
+     GH("gh"),
+     GI("gi"),
+     GR("gr"),
+     GD("gd"),
+     GL("gl"),
+     GP("gp"),
+     GU("gu"),
+     GT("gt"),
+     GN("gn"),
+     GQ("gq"),
+     GW("gw"),
+     GY("gy"),
+     GF("gf"),
+     HT("ht"),
+     HN("hn"),
+     HK("hk"),
+     HU("hu"),
+     CK("ck"),
+     FJ("fj"),
+     MH("mh"),
+     SB("sb"),
+     IN("in"),
+     ID("id"),
+     IR("ir"),
+     IQ("iq"),
+     IE("ie"),
+     IS("is"),
+     IL("il"),
+     IT("it"),
+     JM("jm"),
+     JP("jp"),
+     JO("jo"),
+     KZ("kz"),
+     KE("ke"),
+     KG("kg"),
+     KI("ki"),
+     KW("kw"),
+     LA("la"),
+     LS("ls"),
+     LV("lv"),
+     LB("lb"),
+     LR("lr"),
+     LY("ly"),
+     LI("li"),
+     LT("lt"),
+     LU("lu"),
+     MG("mg"),
+     MY("my"),
+     MW("mw"),
+     MV("mv"),
+     ML("ml"),
+     MT("mt"),
+     MA("ma"),
+     MU("mu"),
+     MR("mr"),
+     MX("mx"),
+     FM("fm"),
+     MD("md"),
+     MC("mc"),
+     MN("mn"),
+     MZ("mz"),
+     NP("np"),
+     NA("na"),
+     NR("nr"),
+     NI("ni"),
+     NE("ne"),
+     NG("ng"),
+     NU("nu"),
+     NO("no"),
+     NZ("nz"),
+     OM("om"),
+     UG("ug"),
+     UZ("uz"),
+     PE("pe"),
+     PK("pk"),
+     PA("pa"),
+     PG("pg"),
+     PY("py"),
+     NL("nl"),
+     PH("ph"),
+     PL("pl"),
+     PT("pt"),
+     QA("qa"),
+     CF("cf"),
+     CD("cd"),
+     DO("do"),
+     CZ("cz"),
+     RO("ro"),
+     GB("gb"),
+     RU("ru"),
+     RW("rw"),
+     SN("sn"),
+     KN("kn"),
+     SM("sm"),
+     VA("va"),
+     VC("vc"),
+     LC("lc"),
+     SV("sv"),
+     WS("ws"),
+     ST("st"),
+     SC("sc"),
+     SL("sl"),
+     SG("sg"),
+     SI("si"),
+     SK("sk"),
+     SO("so"),
+     SD("sd"),
+     LK("lk"),
+     SE("se"),
+     CH("ch"),
+     SR("sr"),
+     SZ("sz"),
+     SY("sy"),
+     TW("tw"),
+     TJ("tj"),
+     TZ("tz"),
+     TD("td"),
+     TH("th"),
+     TL("tl"),
+     TG("tg"),
+     TO("to"),
+     VT("vt"),
+     TN("tn"),
+     TM("tm"),
+     TR("tr"),
+     TV("tv"),
+     UA("ua"),
+     UY("uy"),
+     VU("vu"),
+     VE("ve"),
+     VN("vn"),
+     YE("ye"),
+     ZM("zm"),
+     ZW("zw"),
+     MK("mk");
 
-    public static CountryType[] allCountryTypes = null;
+    public static CountryType[] allCountryTypes = CountryType.values();
 
-    public static final CountryType UNKNOWN = new CountryType("Unknown");
-    public static final CountryType AF = new CountryType("af");
-    public static final CountryType ZA = new CountryType("za");
-    public static final CountryType AL = new CountryType("al");
-    public static final CountryType DZ = new CountryType("dz");
-    public static final CountryType DE = new CountryType("de");
-    public static final CountryType AD = new CountryType("ad");
-    public static final CountryType AO = new CountryType("ao");
-    public static final CountryType AI = new CountryType("ai");
-    public static final CountryType AQ = new CountryType("aq");
-    public static final CountryType AG = new CountryType("ag");
-    public static final CountryType AN = new CountryType("an");
-    public static final CountryType SA = new CountryType("sa");
-    public static final CountryType AR = new CountryType("ar");
-    public static final CountryType AM = new CountryType("am");
-    public static final CountryType AW = new CountryType("aw");
-    public static final CountryType AU = new CountryType("au");
-    public static final CountryType AT = new CountryType("at");
-    public static final CountryType AZ = new CountryType("az");
-    public static final CountryType BJ = new CountryType("bj");
-    public static final CountryType BS = new CountryType("bs");
-    public static final CountryType BH = new CountryType("bh");
-    public static final CountryType BD = new CountryType("bd");
-    public static final CountryType BB = new CountryType("bb");
-    public static final CountryType PW = new CountryType("pw");
-    public static final CountryType BE = new CountryType("be");
-    public static final CountryType BZ = new CountryType("bz");
-    public static final CountryType BM = new CountryType("bm");
-    public static final CountryType BT = new CountryType("bt");
-    public static final CountryType BY = new CountryType("by");
-    public static final CountryType MM = new CountryType("mm");
-    public static final CountryType BO = new CountryType("bo");
-    public static final CountryType BA = new CountryType("ba");
-    public static final CountryType BW = new CountryType("bw");
-    public static final CountryType BR = new CountryType("br");
-    public static final CountryType BN = new CountryType("bn");
-    public static final CountryType BG = new CountryType("bg");
-    public static final CountryType BF = new CountryType("bf");
-    public static final CountryType BI = new CountryType("bi");
-    public static final CountryType CI = new CountryType("ci");
-    public static final CountryType KH = new CountryType("kh");
-    public static final CountryType CM = new CountryType("cm");
-    public static final CountryType CA = new CountryType("ca");
-    public static final CountryType CV = new CountryType("cv");
-    public static final CountryType CL = new CountryType("cl");
-    public static final CountryType CN = new CountryType("cn");
-    public static final CountryType CY = new CountryType("cy");
-    public static final CountryType CO = new CountryType("co");
-    public static final CountryType KM = new CountryType("km");
-    public static final CountryType CG = new CountryType("cg");
-    public static final CountryType KP = new CountryType("kp");
-    public static final CountryType KR = new CountryType("kr");
-    public static final CountryType CR = new CountryType("cr");
-    public static final CountryType HR = new CountryType("hr");
-    public static final CountryType CU = new CountryType("cu");
-    public static final CountryType DK = new CountryType("dk");
-    public static final CountryType DJ = new CountryType("dj");
-    public static final CountryType DM = new CountryType("dm");
-    public static final CountryType EG = new CountryType("eg");
-    public static final CountryType AE = new CountryType("ae");
-    public static final CountryType EC = new CountryType("ec");
-    public static final CountryType ER = new CountryType("er");
-    public static final CountryType ES = new CountryType("es");
-    public static final CountryType EE = new CountryType("ee");
-    public static final CountryType US = new CountryType("us");
-    public static final CountryType ET = new CountryType("et");
-    public static final CountryType FI = new CountryType("fi");
-    public static final CountryType FR = new CountryType("fr");
-    public static final CountryType GE = new CountryType("ge");
-    public static final CountryType GA = new CountryType("ga");
-    public static final CountryType GM = new CountryType("gm");
-    public static final CountryType GH = new CountryType("gh");
-    public static final CountryType GI = new CountryType("gi");
-    public static final CountryType GR = new CountryType("gr");
-    public static final CountryType GD = new CountryType("gd");
-    public static final CountryType GL = new CountryType("gl");
-    public static final CountryType GP = new CountryType("gp");
-    public static final CountryType GU = new CountryType("gu");
-    public static final CountryType GT = new CountryType("gt");
-    public static final CountryType GN = new CountryType("gn");
-    public static final CountryType GQ = new CountryType("gq");
-    public static final CountryType GW = new CountryType("gw");
-    public static final CountryType GY = new CountryType("gy");
-    public static final CountryType GF = new CountryType("gf");
-    public static final CountryType HT = new CountryType("ht");
-    public static final CountryType HN = new CountryType("hn");
-    public static final CountryType HK = new CountryType("hk");
-    public static final CountryType HU = new CountryType("hu");
-    public static final CountryType CK = new CountryType("ck");
-    public static final CountryType FJ = new CountryType("fj");
-    public static final CountryType MH = new CountryType("mh");
-    public static final CountryType SB = new CountryType("sb");
-    public static final CountryType IN = new CountryType("in");
-    public static final CountryType ID = new CountryType("id");
-    public static final CountryType IR = new CountryType("ir");
-    public static final CountryType IQ = new CountryType("iq");
-    public static final CountryType IE = new CountryType("ie");
-    public static final CountryType IS = new CountryType("is");
-    public static final CountryType IL = new CountryType("il");
-    public static final CountryType IT = new CountryType("it");
-    public static final CountryType JM = new CountryType("jm");
-    public static final CountryType JP = new CountryType("jp");
-    public static final CountryType JO = new CountryType("jo");
-    public static final CountryType KZ = new CountryType("kz");
-    public static final CountryType KE = new CountryType("ke");
-    public static final CountryType KG = new CountryType("kg");
-    public static final CountryType KI = new CountryType("ki");
-    public static final CountryType KW = new CountryType("kw");
-    public static final CountryType LA = new CountryType("la");
-    public static final CountryType LS = new CountryType("ls");
-    public static final CountryType LV = new CountryType("lv");
-    public static final CountryType LB = new CountryType("lb");
-    public static final CountryType LR = new CountryType("lr");
-    public static final CountryType LY = new CountryType("ly");
-    public static final CountryType LI = new CountryType("li");
-    public static final CountryType LT = new CountryType("lt");
-    public static final CountryType LU = new CountryType("lu");
-    public static final CountryType MG = new CountryType("mg");
-    public static final CountryType MY = new CountryType("my");
-    public static final CountryType MW = new CountryType("mw");
-    public static final CountryType MV = new CountryType("mv");
-    public static final CountryType ML = new CountryType("ml");
-    public static final CountryType MT = new CountryType("mt");
-    public static final CountryType MA = new CountryType("ma");
-    public static final CountryType MU = new CountryType("mu");
-    public static final CountryType MR = new CountryType("mr");
-    public static final CountryType MX = new CountryType("mx");
-    public static final CountryType FM = new CountryType("fm");
-    public static final CountryType MD = new CountryType("md");
-    public static final CountryType MC = new CountryType("mc");
-    public static final CountryType MN = new CountryType("mn");
-    public static final CountryType MZ = new CountryType("mz");
-    public static final CountryType NP = new CountryType("np");
-    public static final CountryType NA = new CountryType("na");
-    public static final CountryType NR = new CountryType("nr");
-    public static final CountryType NI = new CountryType("ni");
-    public static final CountryType NE = new CountryType("ne");
-    public static final CountryType NG = new CountryType("ng");
-    public static final CountryType NU = new CountryType("nu");
-    public static final CountryType NO = new CountryType("no");
-    public static final CountryType NZ = new CountryType("nz");
-    public static final CountryType OM = new CountryType("om");
-    public static final CountryType UG = new CountryType("ug");
-    public static final CountryType UZ = new CountryType("uz");
-    public static final CountryType PE = new CountryType("pe");
-    public static final CountryType PK = new CountryType("pk");
-    public static final CountryType PA = new CountryType("pa");
-    public static final CountryType PG = new CountryType("pg");
-    public static final CountryType PY = new CountryType("py");
-    public static final CountryType NL = new CountryType("nl");
-    public static final CountryType PH = new CountryType("ph");
-    public static final CountryType PL = new CountryType("pl");
-    public static final CountryType PT = new CountryType("pt");
-    public static final CountryType QA = new CountryType("qa");
-    public static final CountryType CF = new CountryType("cf");
-    public static final CountryType CD = new CountryType("cd");
-    public static final CountryType DO = new CountryType("do");
-    public static final CountryType CZ = new CountryType("cz");
-    public static final CountryType RO = new CountryType("ro");
-    public static final CountryType GB = new CountryType("gb");
-    public static final CountryType RU = new CountryType("ru");
-    public static final CountryType RW = new CountryType("rw");
-    public static final CountryType SN = new CountryType("sn");
-    public static final CountryType KN = new CountryType("kn");
-    public static final CountryType SM = new CountryType("sm");
-    public static final CountryType VA = new CountryType("va");
-    public static final CountryType VC = new CountryType("vc");
-    public static final CountryType LC = new CountryType("lc");
-    public static final CountryType SV = new CountryType("sv");
-    public static final CountryType WS = new CountryType("ws");
-    public static final CountryType ST = new CountryType("st");
-    public static final CountryType SC = new CountryType("sc");
-    public static final CountryType SL = new CountryType("sl");
-    public static final CountryType SG = new CountryType("sg");
-    public static final CountryType SI = new CountryType("si");
-    public static final CountryType SK = new CountryType("sk");
-    public static final CountryType SO = new CountryType("so");
-    public static final CountryType SD = new CountryType("sd");
-    public static final CountryType LK = new CountryType("lk");
-    public static final CountryType SE = new CountryType("se");
-    public static final CountryType CH = new CountryType("ch");
-    public static final CountryType SR = new CountryType("sr");
-    public static final CountryType SZ = new CountryType("sz");
-    public static final CountryType SY = new CountryType("sy");
-    public static final CountryType TW = new CountryType("tw");
-    public static final CountryType TJ = new CountryType("tj");
-    public static final CountryType TZ = new CountryType("tz");
-    public static final CountryType TD = new CountryType("td");
-    public static final CountryType TH = new CountryType("th");
-    public static final CountryType TL = new CountryType("tl");
-    public static final CountryType TG = new CountryType("tg");
-    public static final CountryType TO = new CountryType("to");
-    public static final CountryType VT = new CountryType("vt");
-    public static final CountryType TN = new CountryType("tn");
-    public static final CountryType TM = new CountryType("tm");
-    public static final CountryType TR = new CountryType("tr");
-    public static final CountryType TV = new CountryType("tv");
-    public static final CountryType UA = new CountryType("ua");
-    public static final CountryType UY = new CountryType("uy");
-    public static final CountryType VU = new CountryType("vu");
-    public static final CountryType VE = new CountryType("ve");
-    public static final CountryType VN = new CountryType("vn");
-    public static final CountryType YE = new CountryType("ye");
-    public static final CountryType ZM = new CountryType("zm");
-    public static final CountryType ZW = new CountryType("zw");
-    public static final CountryType MK = new CountryType("mk");
+    private String legacyLabel;
 
-
-    /**
-     * Prevent instantiation and subclassing with a private constructor.
-     */
-    private CountryType(String value) {
-       super(value);
-       allCountryTypes = (CountryType[])ArrayUtils.add(allCountryTypes, this);
+    public String getLegacyLabel() {
+        return legacyLabel;
     }
 
-
-    public CountryType() {}
-
-
+    private CountryType(String legacyLabel) {
+       this.legacyLabel = legacyLabel;
+    }
 
     public static CountryType getDefaultCountryType() {
         return UNKNOWN;
     }
-
 
     public static CountryType forString(final String enumAsString) {
         if (enumAsString == null || enumAsString.equals(""))
@@ -659,5 +650,10 @@ public final class CountryType extends PersistentStringEnum {
             return MK;
 
         return getDefaultCountryType();
+    }
+
+    @Override
+    public String toString() {
+        return legacyLabel;
     }
 }

@@ -63,8 +63,8 @@
       <label for="schoolingAttendedGrade" class="required condition-isSentToSchool-filled"><g:message code="hccr.property.schoolingAttendedGrade.label" /> *  <span><g:message code="hccr.property.schoolingAttendedGrade.help" /></span></label>
             <select id="schoolingAttendedGrade" name="schoolingAttendedGrade" class="required condition-isSentToSchool-filled  validate-not-first ${rqt.stepStates['occupationnalAndSchoolStatus'].invalidFields.contains('schoolingAttendedGrade') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.schoolingAttendedGrade.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['BeforeFirstSection','FirstSection','SecondSection','ThirdSection','CP','CE1','CE2','CM1','CM2','CLISS','Unknown']}">
-                <option value="fr.cg95.cvq.business.users.SectionType_${it}" ${it == rqt.schoolingAttendedGrade?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.schoolingAttendedGrade" /></option>
+              <g:each in="${['BEFORE_FIRST_SECTION','FIRST_SECTION','SECOND_SECTION','THIRD_SECTION','C_P','C_E1','C_E2','C_M1','C_M2','C_L_I_S_S','UNKNOWN']}">
+                <option value="${it}" ${it == rqt.schoolingAttendedGrade?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.schoolingAttendedGrade" /></option>
               </g:each>
             </select>
             
@@ -91,8 +91,8 @@
       <label for="schoolingSchoolingKind" class="required"><g:message code="hccr.property.schoolingSchoolingKind.label" /> *  <span><g:message code="hccr.property.schoolingSchoolingKind.help" /></span></label>
             <select id="schoolingSchoolingKind" name="schoolingSchoolingKind" class="required condition-isPartTimeSchooling-trigger  validate-not-first ${rqt.stepStates['occupationnalAndSchoolStatus'].invalidFields.contains('schoolingSchoolingKind') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.schoolingSchoolingKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['FullTime','PartTime']}">
-                <option value="fr.cg95.cvq.business.request.social.HccrSchoolingKindType_${it}" ${it == rqt.schoolingSchoolingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.schoolingSchoolingKind" /></option>
+              <g:each in="${['FULL_TIME','PART_TIME']}">
+                <option value="${it}" ${it == rqt.schoolingSchoolingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.schoolingSchoolingKind" /></option>
               </g:each>
             </select>
             
@@ -131,8 +131,8 @@
       <label for="schoolingHomeSchoolingKind" class="required"><g:message code="hccr.property.schoolingHomeSchoolingKind.label" /> *  <span><g:message code="hccr.property.schoolingHomeSchoolingKind.help" /></span></label>
             <select id="schoolingHomeSchoolingKind" name="schoolingHomeSchoolingKind" class="required condition-isAccompaniedHomeSchooling-trigger  validate-not-first ${rqt.stepStates['occupationnalAndSchoolStatus'].invalidFields.contains('schoolingHomeSchoolingKind') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.schoolingHomeSchoolingKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Alone','Accompanied']}">
-                <option value="fr.cg95.cvq.business.request.social.HccrHomeSchoolingKindType_${it}" ${it == rqt.schoolingHomeSchoolingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.schoolingHomeSchoolingKind" /></option>
+              <g:each in="${['ALONE','ACCOMPANIED']}">
+                <option value="${it}" ${it == rqt.schoolingHomeSchoolingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.schoolingHomeSchoolingKind" /></option>
               </g:each>
             </select>
             
@@ -305,8 +305,8 @@
       <label for="professionalStatusKind" class="required"><g:message code="hccr.property.professionalStatusKind.label" /> *  <span><g:message code="hccr.property.professionalStatusKind.help" /></span></label>
             <select id="professionalStatusKind" name="professionalStatusKind" class="required condition-isEmployed-trigger condition-isUnemployed-trigger  validate-not-first ${rqt.stepStates['occupationnalAndSchoolStatus'].invalidFields.contains('professionalStatusKind') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.professionalStatusKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Employee','Unemployed','Jobless','Student','Retired']}">
-                <option value="fr.cg95.cvq.business.request.social.HccrProfessionalStatusKindType_${it}" ${it == rqt.professionalStatusKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.professionalStatusKind" /></option>
+              <g:each in="${['EMPLOYEE','UNEMPLOYED','JOBLESS','STUDENT','RETIRED']}">
+                <option value="${it}" ${it == rqt.professionalStatusKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.professionalStatusKind" /></option>
               </g:each>
             </select>
             
@@ -355,8 +355,8 @@
       <label for="professionalStatusEnvironment" class="required condition-isEmployed-filled"><g:message code="hccr.property.professionalStatusEnvironment.label" /> *  <span><g:message code="hccr.property.professionalStatusEnvironment.help" /></span></label>
             <select id="professionalStatusEnvironment" name="professionalStatusEnvironment" class="required condition-isEmployed-filled  validate-not-first ${rqt.stepStates['occupationnalAndSchoolStatus'].invalidFields.contains('professionalStatusEnvironment') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.professionalStatusEnvironment.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Ordinary','Adapted','Protected']}">
-                <option value="fr.cg95.cvq.business.request.social.HccrProfessionalStatusEnvironmentType_${it}" ${it == rqt.professionalStatusEnvironment?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.professionalStatusEnvironment" /></option>
+              <g:each in="${['ORDINARY','ADAPTED','PROTECTED']}">
+                <option value="${it}" ${it == rqt.professionalStatusEnvironment?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.professionalStatusEnvironment" /></option>
               </g:each>
             </select>
             

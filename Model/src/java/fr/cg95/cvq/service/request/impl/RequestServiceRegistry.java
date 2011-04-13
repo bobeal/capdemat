@@ -49,10 +49,8 @@ public class RequestServiceRegistry implements IRequestServiceRegistry {
     }
 
     @Override
-    public IRequestService getRequestService(Long requestId)
-        throws CvqObjectNotFoundException {
-        Request request =
-            (Request) requestDAO.findById(Request.class, requestId);
+    public IRequestService getRequestService(Long requestId) {
+        Request request = requestDAO.findById(requestId);
         return getRequestService(request);
     }
 

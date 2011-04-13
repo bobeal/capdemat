@@ -4,35 +4,53 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-
-/**
- * @hibernate.class
- *  table="category"
- *  lazy="false"
- *
- * @author bor@zenexity.fr
- */
+@Entity
+@Table(name="category")
 public class Category implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /** identifier field */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
+
     private String name;
+
+    @Column(name="primary_email")
     private String primaryEmail;
 
     /** the request types that are handled by this category */
+    @OneToMany(fetch=FetchType.LAZY)
+    @JoinColumn(name="category_id")
     private Set<RequestType> requestTypes;
 
     /**
      * the agent roles for this category
      * TODO : rename
      */
+    @ElementCollection(fetch=FetchType.LAZY)
+    @CollectionTable(name="agent_category_roles", 
+            joinColumns=@JoinColumn(name="category_id"))
     private Set<CategoryRoles> categoriesRoles;
 
     /** emails of contact for this category */
+    @ElementCollection(fetch=FetchType.EAGER)
+    @Column(name="email")
+    @CollectionTable(name="category_emails",joinColumns=@JoinColumn(name="category_id"))
     private Set<String> emails;
     
     /** default constructor */
@@ -45,11 +63,6 @@ public class Category implements Serializable {
         this.requestTypes = new HashSet<RequestType>();
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -58,10 +71,6 @@ public class Category implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="name"
-     */
     public String getName() {
         return this.name;
     }
@@ -70,27 +79,14 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-    /**
-     * @hibernate.property
-     *  column="primary_email"
-     */  
     public String getPrimaryEmail() {
         return this.primaryEmail;
     }
-    
+
     public void setPrimaryEmail(String email) {
         this.primaryEmail = email;
     }
     
-    /**
-     * @hibernate.set
-     *  table="category_emails"
-     * @hibernate.key
-     *  column="category_id"
-     * @hibernate.element
-     *  column="email"
-     *  type="string"
-     */
     public Set<String> getEmails() {
         return emails;
     }
@@ -112,16 +108,7 @@ public class Category implements Serializable {
         else 
             this.emails.remove(email);
     }
-    
-    /**
-     * @hibernate.set
-     *  inverse="true"
-     *  lazy="true"
-     * @hibernate.key
-     *  column="category_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.request.RequestType"
-     */
+
     public Set<RequestType> getRequestTypes() {
         return this.requestTypes;
     }
@@ -130,15 +117,6 @@ public class Category implements Serializable {
         this.requestTypes = requestTypes;
     }
 
-    /**
-     * @hibernate.set
-     *  lazy="true"
-     *  table="agent_category_roles"
-     * @hibernate.key
-     *  column="category_id"
-     * @hibernate.composite-element
-     *  class="fr.cg95.cvq.business.request.CategoryRoles"
-     */
     public Set<CategoryRoles> getCategoriesRoles() {
         return this.categoriesRoles;
     }

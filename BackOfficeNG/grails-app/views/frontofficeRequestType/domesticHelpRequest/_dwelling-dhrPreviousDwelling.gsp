@@ -37,8 +37,8 @@
     <label for="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingKind" class="required"><g:message code="dhr.property.dhrPreviousDwellingKind.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingKind.help" /></span></label>
             <select id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingKind" name="dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingKind" class="required condition-isPreviousDwellingPlaceOfResidence-trigger  validate-not-first ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingKind') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrPreviousDwellingKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['placeOfResidence','retirementHome','other']}">
-                <option value="fr.cg95.cvq.business.request.social.DhrDwellingKindType_${it}" ${it == currentCollectionItem?.dhrPreviousDwellingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrPreviousDwellingKind" /></option>
+              <g:each in="${['PLACE_OF_RESIDENCE','RETIREMENT_HOME','OTHER']}">
+                <option value="${it}" ${it == currentCollectionItem?.dhrPreviousDwellingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrPreviousDwellingKind" /></option>
               </g:each>
             </select>
             
@@ -46,9 +46,9 @@
   
     <label class="required condition-isPreviousDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrPreviousDwellingStatus.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingStatus.help" /></span></label>
             <ul class="required condition-isPreviousDwellingPlaceOfResidence-filled ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingStatus') ? 'validation-failed' : ''}">
-              <g:each in="${['owner','tenant']}">
+              <g:each in="${['OWNER','TENANT']}">
               <li>
-                <input type="radio" id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingStatus_${it}" class="required condition-isPreviousDwellingPlaceOfResidence-filled  validate-one-required" value="fr.cg95.cvq.business.request.social.DhrDwellingStatusType_${it}" name="dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingStatus" ${it == currentCollectionItem?.dhrPreviousDwellingStatus.toString() ? 'checked="checked"': ''} title="<g:message code="dhr.property.dhrPreviousDwellingStatus.validationError" />" />
+                <input type="radio" id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingStatus_${it}" class="required condition-isPreviousDwellingPlaceOfResidence-filled  validate-one-required" value="${it}" name="dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingStatus" ${it == currentCollectionItem?.dhrPreviousDwellingStatus.toString() ? 'checked="checked"': ''} title="<g:message code="dhr.property.dhrPreviousDwellingStatus.validationError" />" />
                 <label for="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingStatus_${it}"><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrPreviousDwellingStatus" /></label>
               </li>
               </g:each>

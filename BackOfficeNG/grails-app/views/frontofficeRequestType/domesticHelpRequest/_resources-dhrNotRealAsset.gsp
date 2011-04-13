@@ -14,9 +14,9 @@
   
     <label class="required"><g:message code="dhr.property.dhrNotRealAssetType.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetType.help" /></span></label>
             <ul class="required ${rqt.stepStates['resources'].invalidFields.contains('dhrNotRealAsset['+collectionIndex+'].dhrNotRealAssetType') ? 'validation-failed' : ''}">
-              <g:each in="${['Share','Gift','Sale']}">
+              <g:each in="${['SHARE','GIFT','SALE']}">
               <li>
-                <input type="radio" id="dhrNotRealAsset.${collectionIndex}.dhrNotRealAssetType_${it}" class="required  validate-one-required" value="fr.cg95.cvq.business.request.social.DhrAssetTypeType_${it}" name="dhrNotRealAsset[${collectionIndex}].dhrNotRealAssetType" ${it == currentCollectionItem?.dhrNotRealAssetType.toString() ? 'checked="checked"': ''} title="<g:message code="dhr.property.dhrNotRealAssetType.validationError" />" />
+                <input type="radio" id="dhrNotRealAsset.${collectionIndex}.dhrNotRealAssetType_${it}" class="required  validate-one-required" value="${it}" name="dhrNotRealAsset[${collectionIndex}].dhrNotRealAssetType" ${it == currentCollectionItem?.dhrNotRealAssetType.toString() ? 'checked="checked"': ''} title="<g:message code="dhr.property.dhrNotRealAssetType.validationError" />" />
                 <label for="dhrNotRealAsset.${collectionIndex}.dhrNotRealAssetType_${it}"><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrNotRealAssetType" /></label>
               </li>
               </g:each>
@@ -26,9 +26,9 @@
   
     <label class="required"><g:message code="dhr.property.dhrNotRealAssetKind.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetKind.help" /></span></label>
             <ul class="required ${rqt.stepStates['resources'].invalidFields.contains('dhrNotRealAsset['+collectionIndex+'].dhrNotRealAssetKind') ? 'validation-failed' : ''}">
-              <g:each in="${['RealEstate','Other']}">
+              <g:each in="${['REAL_ESTATE','OTHER']}">
               <li>
-                <input type="radio" id="dhrNotRealAsset.${collectionIndex}.dhrNotRealAssetKind_${it}" class="required condition-isRealEstate-trigger  validate-one-required" value="fr.cg95.cvq.business.request.social.DhrAssetKindType_${it}" name="dhrNotRealAsset[${collectionIndex}].dhrNotRealAssetKind" ${it == currentCollectionItem?.dhrNotRealAssetKind.toString() ? 'checked="checked"': ''} title="<g:message code="dhr.property.dhrNotRealAssetKind.validationError" />" />
+                <input type="radio" id="dhrNotRealAsset.${collectionIndex}.dhrNotRealAssetKind_${it}" class="required condition-isRealEstate-trigger  validate-one-required" value="${it}" name="dhrNotRealAsset[${collectionIndex}].dhrNotRealAssetKind" ${it == currentCollectionItem?.dhrNotRealAssetKind.toString() ? 'checked="checked"': ''} title="<g:message code="dhr.property.dhrNotRealAssetKind.validationError" />" />
                 <label for="dhrNotRealAsset.${collectionIndex}.dhrNotRealAssetKind_${it}"><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrNotRealAssetKind" /></label>
               </li>
               </g:each>

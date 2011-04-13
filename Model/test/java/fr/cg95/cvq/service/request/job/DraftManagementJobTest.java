@@ -37,13 +37,8 @@ public class DraftManagementJobTest extends RequestTestCase {
         SecurityContext.setCurrentAgent(this.agentNameWithManageRoles);
 
         List<Request> requests = this.getDrafts(true);
-        try {
-            for (Request r : requests) 
-                requestWorkflowService.delete(r.getId());
-        } catch(CvqObjectNotFoundException e) {
-            e.printStackTrace();
-//            for(Request r : requests) this.requestDAO.delete(r);
-        }
+        for (Request r : requests)
+            requestWorkflowService.delete(r.getId());
         
         super.onTearDown();
     }

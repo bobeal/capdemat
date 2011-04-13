@@ -5,7 +5,7 @@ import java.util.List;
 import org.hibernate.Query;
 
 import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.dao.hibernate.GenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaTemplate;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.users.IHomeFolderDAO;
 
@@ -14,7 +14,7 @@ import fr.cg95.cvq.dao.users.IHomeFolderDAO;
  * 
  * @author bor@zenexity.fr
  */
-public class HomeFolderDAO extends GenericDAO implements IHomeFolderDAO {
+public class HomeFolderDAO extends JpaTemplate<HomeFolder,Long> implements IHomeFolderDAO {
 
     @SuppressWarnings("unchecked")
     public List<HomeFolder> listAll(boolean filterArchived, boolean filterTemporary) {

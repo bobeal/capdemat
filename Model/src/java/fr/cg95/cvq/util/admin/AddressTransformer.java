@@ -12,8 +12,9 @@ import org.apache.log4j.Logger;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import fr.cg95.cvq.business.users.Address;
-import fr.cg95.cvq.dao.IGenericDAO;
-import fr.cg95.cvq.dao.hibernate.GenericDAO;
+import fr.cg95.cvq.dao.jpa.GenericDAO;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaTemplate;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -186,7 +187,7 @@ public class AddressTransformer {
     /*
      * private Address DAO
      */
-    private static class AddressDAO extends GenericDAO  implements IGenericDAO {
+    private static class AddressDAO extends JpaTemplate<Address, Long>{
         public static List listAll(){
             return HibernateUtil.getSession().createQuery("from Address order by id").list();
         }

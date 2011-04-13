@@ -1,40 +1,35 @@
 package fr.cg95.cvq.business.users;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
+public enum MeansOfContactEnum {
 
-public class MeansOfContactEnum extends PersistentStringEnum {
+    MAIL("Mail"),
+    EMAIL("Email"),
+    HOME_PHONE("HomePhone"),
+    OFFICE_PHONE("OfficePhone"),
+    MOBILE_PHONE("MobilePhone"),
+    SMS("Sms"),
+    LOCAL_AUTHORITY_OFFICE("LocalAuthorityOffice");
 
-    private static final long serialVersionUID = 1L;
+    private String legacyLabel;
 
-    public static final MeansOfContactEnum MAIL = new MeansOfContactEnum("Mail");
-    public static final MeansOfContactEnum EMAIL = new MeansOfContactEnum("Email");
-    public static final MeansOfContactEnum HOME_PHONE = new MeansOfContactEnum("HomePhone");
-    public static final MeansOfContactEnum OFFICE_PHONE = new MeansOfContactEnum("OfficePhone");
-    public static final MeansOfContactEnum MOBILE_PHONE = new MeansOfContactEnum("MobilePhone");
-    public static final MeansOfContactEnum SMS = new MeansOfContactEnum("Sms");
-    public static final MeansOfContactEnum LOCAL_AUTHORITY_OFFICE = new MeansOfContactEnum("LocalAuthorityOffice");
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     /**
      * Prevent instantiation and subclassing with a private constructor.
      */
-    private MeansOfContactEnum(String meansOfContact) {
-        super(meansOfContact);
+    private MeansOfContactEnum(String legacyLabel) {
+        this.legacyLabel = legacyLabel;
     }
 
-    public MeansOfContactEnum() {}
-
-    public static final MeansOfContactEnum[] allMeansOfContactEnums = {
-        MAIL,
-        EMAIL,
-        HOME_PHONE,
-        OFFICE_PHONE,
-        MOBILE_PHONE,
-        SMS,
-        LOCAL_AUTHORITY_OFFICE
-    };
+    /**
+     * @deprecated only for backward, use MeansOfContactEnum.values() instead
+     */
+    public static final MeansOfContactEnum[] allMeansOfContactEnums = MeansOfContactEnum.values();
 
     public static MeansOfContactEnum forString(String enumAsString) {
-        for (MeansOfContactEnum moce : allMeansOfContactEnums) {
+        for (MeansOfContactEnum moce : values()) {
             if (moce.toString().equals(enumAsString))
                 return moce;
         }

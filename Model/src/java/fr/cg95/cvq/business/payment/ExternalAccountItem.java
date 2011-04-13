@@ -3,13 +3,17 @@ package fr.cg95.cvq.business.payment;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 
- * @hibernate.subclass
- * lazy="false"
- * 
- * @author bor@zenexity.fr
- */
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Inheritance;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapKeyColumn;
+
+@Entity
+@Inheritance
 public abstract class ExternalAccountItem extends PurchaseItem {
 
     private static final long serialVersionUID = 1L;
@@ -18,17 +22,29 @@ public abstract class ExternalAccountItem extends PurchaseItem {
     public static final String SEARCH_BY_EXTERNAL_HOME_FOLDER = "externalHomeFolderId";
     public static final String SEARCH_BY_EXTERNAL_APPLICATION = "externalApplication";
 
+    @Column(name="external_service_label")
     private String externalServiceLabel;
+
+    @Column(name="external_item_id")
     private String externalItemId;
 
+    @Column(name="external_application_id")
     private String externalApplicationId;
+
+    @Column(name="external_home_folder_id")
     private String externalHomeFolderId;
+
+    @Column(name="external_individual_id")
     private String externalIndividualId;
 
     /** 
      * Used to pass external service providers specific information, eg the child's card 
      * serial number for school canteen registrations. These informations are not persisted.
      */
+    @ElementCollection(fetch=FetchType.EAGER)
+    @CollectionTable(name="purchase_item_specific_data", joinColumns=@JoinColumn(name="id"))
+    @MapKeyColumn(name="key")
+    @Column(name="value")
     private Map<String, String> externalServiceSpecificData = new HashMap<String, String>();
     
     public ExternalAccountItem(final String label, final Double amount,
@@ -43,10 +59,6 @@ public abstract class ExternalAccountItem extends PurchaseItem {
         super();
     }
 
-    /**
-     * @hibernate.property
-     *  column="external_item_id"
-     */
     public final String getExternalItemId() {
         return externalItemId;
     }
@@ -55,10 +67,6 @@ public abstract class ExternalAccountItem extends PurchaseItem {
         this.externalItemId = externalItemId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="external_service_label"
-     */
     public final String getExternalServiceLabel() {
         return externalServiceLabel;
     }
@@ -67,10 +75,6 @@ public abstract class ExternalAccountItem extends PurchaseItem {
         this.externalServiceLabel = externalServiceLabel;
     }
 
-    /**
-     * @hibernate.property
-     *  column="external_application_id"
-     */
     public String getExternalApplicationId() {
         return externalApplicationId;
     }
@@ -79,10 +83,6 @@ public abstract class ExternalAccountItem extends PurchaseItem {
         this.externalApplicationId = externalApplicationId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="external_home_folder_id"
-     */
     public String getExternalHomeFolderId() {
         return externalHomeFolderId;
     }
@@ -91,10 +91,6 @@ public abstract class ExternalAccountItem extends PurchaseItem {
         this.externalHomeFolderId = externalHomeFolderId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="external_individual_id"
-     */
     public String getExternalIndividualId() {
         return externalIndividualId;
     }
@@ -115,20 +111,6 @@ public abstract class ExternalAccountItem extends PurchaseItem {
         this.externalServiceSpecificData.remove(key);
     }
 
-    /**
-     * @hibernate.map
-     *  lazy="false"
-     *  cascade="all"
-     *  table="purchase_item_specific_data"
-     * @hibernate.key
-     *  column="id"
-     * @hibernate.index
-     *  column="key"
-     *  type="string"
-     * @hibernate.element
-     *  column="value"
-     *  type="string"
-     */
     public Map<String, String> getExternalServiceSpecificData() {
         return this.externalServiceSpecificData;
     }

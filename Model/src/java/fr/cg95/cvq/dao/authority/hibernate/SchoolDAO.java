@@ -6,7 +6,7 @@ import org.hibernate.Criteria;
 
 import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.dao.authority.ISchoolDAO;
-import fr.cg95.cvq.dao.hibernate.GenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaTemplate;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.util.Critere;
 
@@ -16,7 +16,7 @@ import fr.cg95.cvq.util.Critere;
  * 
  * @author bor@zenexity.fr
  */
-public class SchoolDAO extends GenericDAO implements ISchoolDAO {
+public class SchoolDAO extends JpaTemplate<School,Long> implements ISchoolDAO {
 
     public School findByName(final String name) {
         Criteria crit = HibernateUtil.getSession().createCriteria(School.class);

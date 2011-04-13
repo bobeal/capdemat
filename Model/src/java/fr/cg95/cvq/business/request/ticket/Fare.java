@@ -2,21 +2,33 @@ package fr.cg95.cvq.business.request.ticket;
 
 import java.io.Serializable;
 
-/**
- *
- * @hibernate.class
- *  table="ticket_fare"
- *  lazy="false"
- */
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="ticket_fare")
 public class Fare implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
+
+    @Column(name="external_id")
     private String externalId;
+
+    @Column(name="name")
     private String name;
 
+    @Column(name="price")
     private float price;
+
+    @Column(name="with_subscriber")
     private boolean withSubscribtion;
 
     public Fare() {
@@ -29,11 +41,6 @@ public class Fare implements Serializable {
         this.withSubscribtion = Boolean.valueOf(withSubscribtion.toLowerCase());
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -42,10 +49,6 @@ public class Fare implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="external_id"
-     */
     public String getExternalId() {
         return externalId;
     }
@@ -54,10 +57,6 @@ public class Fare implements Serializable {
         this.externalId = externalId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="name"
-     */
     public String getName() {
         return name;
     }
@@ -66,10 +65,6 @@ public class Fare implements Serializable {
         this.name = name;
     }
 
-    /**
-     * @hibernate.property
-     *  column="price"
-     */
     public float getPrice() {
         return price;
     }
@@ -78,10 +73,6 @@ public class Fare implements Serializable {
         this.price = price;
     }
 
-    /**
-     * @hibernate.property
-     *  column="with_subscriber"
-     */
     public boolean isWithSubscribtion() {
         return withSubscribtion;
     }

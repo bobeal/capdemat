@@ -22,7 +22,6 @@ import fr.cg95.cvq.business.request.ticket.Fare;
 import fr.cg95.cvq.business.request.ticket.FareType;
 import fr.cg95.cvq.business.request.ticket.PlaceCategory;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.exception.CvqTicketBookingException;
 import fr.cg95.cvq.service.payment.IPaymentService;
 import fr.cg95.cvq.service.request.ITicketBookingService;
@@ -95,8 +94,6 @@ public class TicketBookingRequestService extends RequestService implements ITick
                 request.setTotalPrice(BigDecimal.valueOf(0));
             request.setTotalPrice(request.getTotalPrice().add(ticket.getPrice()));
 
-        } catch (CvqObjectNotFoundException e) {
-            throw new CvqTicketBookingException(e.getMessage(), "tbr.error.objectNotFound");
         } catch (NumberFormatException e) {
             throw new CvqTicketBookingException(e.getMessage(), "tbr.error.placeNumberMustBeANumber");
         }
@@ -121,7 +118,7 @@ public class TicketBookingRequestService extends RequestService implements ITick
     }
 
     @Override
-    public void free(TicketBookingRequest request, int ticketIndex) throws CvqObjectNotFoundException {
+    public void free(TicketBookingRequest request, int ticketIndex) {
         TbrTicket ticket = request.getTbrTicket().remove(ticketIndex);
         PlaceCategory placeCategory = ticketBookingService.getPlaceCategoryById(ticket.getPlaceCategoryId());
         placeCategory.setBookedPlaceNumber(placeCategory.getBookedPlaceNumber() - ticket.getPlaceNumber().intValue());
@@ -130,7 +127,7 @@ public class TicketBookingRequestService extends RequestService implements ITick
 
     @Override
     public void switchSubscriberMode(TicketBookingRequest request, boolean isSubscriber, String number, 
-            String firstName, String lastName) throws CvqTicketBookingException, CvqObjectNotFoundException {
+            String firstName, String lastName) throws CvqTicketBookingException {
         if (isSubscriber)
             if (!ticketBookingService.isSubscriber(number, firstName, lastName))
                 throw new CvqTicketBookingException("tbr.error.badSubscriberInformations");
@@ -150,8 +147,7 @@ public class TicketBookingRequestService extends RequestService implements ITick
 
     }
 
-    private TbrTicket createTicket(int placeNumber, Long fareId, Long placeCategoryId, Long eventId) 
-            throws CvqObjectNotFoundException {
+    private TbrTicket createTicket(int placeNumber, Long fareId, Long placeCategoryId, Long eventId) {
         TbrTicket ticket = new TbrTicket();
         Event event = ticketBookingService.getEventById(eventId);
         ticket.setEventName(event.getEntertainment().getName());
@@ -196,7 +192,7 @@ public class TicketBookingRequestService extends RequestService implements ITick
      *  - migrate after request creation full state less implementation
      */
     @Override
-    public void freeAllBookedPlaces(String placeCategoriesAndBookedPlaces) throws CvqObjectNotFoundException {
+    public void freeAllBookedPlaces(String placeCategoriesAndBookedPlaces) {
             Map<Long,Integer> toFreePlaces = new HashMap<Long, Integer>();
             String[] array = placeCategoriesAndBookedPlaces.split(",");
             for(int i = 0; i < array.length; i=i+2)
@@ -209,7 +205,7 @@ public class TicketBookingRequestService extends RequestService implements ITick
             }
     }
 
-    private void freeAllBookedPlaces(TicketBookingRequest request) throws CvqObjectNotFoundException  {
+    private void freeAllBookedPlaces(TicketBookingRequest request) {
         if (request.getTbrTicket() != null) {
             PlaceCategory placeCategory;
             for (TbrTicket ticket : request.getTbrTicket()) {
@@ -227,24 +223,14 @@ public class TicketBookingRequestService extends RequestService implements ITick
     }
 
     @Override
-    public boolean onPaymentRefused(Request request)
-        throws CvqException {
-        try {
-            freeAllBookedPlaces((TicketBookingRequest)request);
-        } catch (CvqObjectNotFoundException e) {
-            logger.warn(e.getMessage());
-        }
-            return true;
+    public boolean onPaymentRefused(Request request) {
+        freeAllBookedPlaces((TicketBookingRequest)request);
+        return true;
     }
 
     @Override
-    public boolean onPaymentCancelled(Request request)
-        throws CvqException {
-        try {
-            freeAllBookedPlaces((TicketBookingRequest)request);
-        } catch (CvqObjectNotFoundException e) {
-            logger.warn(e.getMessage());
-        }
+    public boolean onPaymentCancelled(Request request) {
+        freeAllBookedPlaces((TicketBookingRequest)request);
         return true;
     }
 

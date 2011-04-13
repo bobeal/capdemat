@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.school;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="school_transport_registration_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="school_transport_registration_request")
 public class SchoolTransportRegistrationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -132,11 +135,8 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -152,18 +152,14 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
     
     private Boolean acceptationReglementInterieur;
 
-    public final void setAcceptationReglementInterieur(final Boolean acceptationReglementInterieur) {
+    public void setAcceptationReglementInterieur(final Boolean acceptationReglementInterieur) {
         this.acceptationReglementInterieur = acceptationReglementInterieur;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="acceptation_reglement_interieur"
-        
+    @Column(name="acceptation_reglement_interieur"  )
       
-    */
-    public final Boolean getAcceptationReglementInterieur() {
+    public Boolean getAcceptationReglementInterieur() {
         return this.acceptationReglementInterieur;
     }
   
@@ -186,18 +182,15 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.school.AutorisationType autorisation;
 
-    public final void setAutorisation(final fr.cg95.cvq.business.request.school.AutorisationType autorisation) {
+    public void setAutorisation(final fr.cg95.cvq.business.request.school.AutorisationType autorisation) {
         this.autorisation = autorisation;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="autorisation"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="autorisation"  )
       
-    */
-    public final fr.cg95.cvq.business.request.school.AutorisationType getAutorisation() {
+    public fr.cg95.cvq.business.request.school.AutorisationType getAutorisation() {
         return this.autorisation;
     }
   
@@ -211,18 +204,14 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
     
     private Boolean estMaternelleElementaireAutorisations;
 
-    public final void setEstMaternelleElementaireAutorisations(final Boolean estMaternelleElementaireAutorisations) {
+    public void setEstMaternelleElementaireAutorisations(final Boolean estMaternelleElementaireAutorisations) {
         this.estMaternelleElementaireAutorisations = estMaternelleElementaireAutorisations;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="est_maternelle_elementaire_autorisations"
-        
+    @Column(name="est_maternelle_elementaire_autorisations"  )
       
-    */
-    public final Boolean getEstMaternelleElementaireAutorisations() {
+    public Boolean getEstMaternelleElementaireAutorisations() {
         return this.estMaternelleElementaireAutorisations;
     }
   
@@ -261,18 +250,14 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
     
     private String frereOuSoeurClasse;
 
-    public final void setFrereOuSoeurClasse(final String frereOuSoeurClasse) {
+    public void setFrereOuSoeurClasse(final String frereOuSoeurClasse) {
         this.frereOuSoeurClasse = frereOuSoeurClasse;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="frere_ou_soeur_classe"
-        
+    @Column(name="frere_ou_soeur_classe"  )
       
-    */
-    public final String getFrereOuSoeurClasse() {
+    public String getFrereOuSoeurClasse() {
         return this.frereOuSoeurClasse;
     }
   
@@ -311,18 +296,14 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
     
     private String frereOuSoeurEcole;
 
-    public final void setFrereOuSoeurEcole(final String frereOuSoeurEcole) {
+    public void setFrereOuSoeurEcole(final String frereOuSoeurEcole) {
         this.frereOuSoeurEcole = frereOuSoeurEcole;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="frere_ou_soeur_ecole"
-        
+    @Column(name="frere_ou_soeur_ecole"  )
       
-    */
-    public final String getFrereOuSoeurEcole() {
+    public String getFrereOuSoeurEcole() {
         return this.frereOuSoeurEcole;
     }
   
@@ -379,18 +360,14 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
     
     private String frereOuSoeurNom;
 
-    public final void setFrereOuSoeurNom(final String frereOuSoeurNom) {
+    public void setFrereOuSoeurNom(final String frereOuSoeurNom) {
         this.frereOuSoeurNom = frereOuSoeurNom;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="frere_ou_soeur_nom"
-        *  length="38"
+    @Column(name="frere_ou_soeur_nom" , length=38 )
       
-    */
-    public final String getFrereOuSoeurNom() {
+    public String getFrereOuSoeurNom() {
         return this.frereOuSoeurNom;
     }
   
@@ -447,18 +424,14 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
     
     private String frereOuSoeurPrenom;
 
-    public final void setFrereOuSoeurPrenom(final String frereOuSoeurPrenom) {
+    public void setFrereOuSoeurPrenom(final String frereOuSoeurPrenom) {
         this.frereOuSoeurPrenom = frereOuSoeurPrenom;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="frere_ou_soeur_prenom"
-        *  length="38"
+    @Column(name="frere_ou_soeur_prenom" , length=38 )
       
-    */
-    public final String getFrereOuSoeurPrenom() {
+    public String getFrereOuSoeurPrenom() {
         return this.frereOuSoeurPrenom;
     }
   
@@ -479,18 +452,14 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
     
     private String idArret;
 
-    public final void setIdArret(final String idArret) {
+    public void setIdArret(final String idArret) {
         this.idArret = idArret;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="id_arret"
-        
+    @Column(name="id_arret"  )
       
-    */
-    public final String getIdArret() {
+    public String getIdArret() {
         return this.idArret;
     }
   
@@ -511,18 +480,14 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
     
     private String idLigne;
 
-    public final void setIdLigne(final String idLigne) {
+    public void setIdLigne(final String idLigne) {
         this.idLigne = idLigne;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="id_ligne"
-        
+    @Column(name="id_ligne"  )
       
-    */
-    public final String getIdLigne() {
+    public String getIdLigne() {
         return this.idLigne;
     }
   
@@ -543,18 +508,14 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
     
     private String labelArret;
 
-    public final void setLabelArret(final String labelArret) {
+    public void setLabelArret(final String labelArret) {
         this.labelArret = labelArret;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="label_arret"
-        
+    @Column(name="label_arret"  )
       
-    */
-    public final String getLabelArret() {
+    public String getLabelArret() {
         return this.labelArret;
     }
   
@@ -575,18 +536,14 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
     
     private String labelLigne;
 
-    public final void setLabelLigne(final String labelLigne) {
+    public void setLabelLigne(final String labelLigne) {
         this.labelLigne = labelLigne;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="label_ligne"
-        
+    @Column(name="label_ligne"  )
       
-    */
-    public final String getLabelLigne() {
+    public String getLabelLigne() {
         return this.labelLigne;
     }
   
@@ -627,25 +584,16 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.school.TiersInformations> tiersAutorises;
 
-    public final void setTiersAutorises(final List<fr.cg95.cvq.business.request.school.TiersInformations> tiersAutorises) {
+    public void setTiersAutorises(final List<fr.cg95.cvq.business.request.school.TiersInformations> tiersAutorises) {
         this.tiersAutorises = tiersAutorises;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="school_transport_registration_request_id"
-        * @hibernate.list-index
-        *  column="tiers_autorises_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.school.TiersInformations"
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @OrderColumn(name="tiers_autorises_index")
+    @JoinColumn(name="school_transport_registration_request_id")
       
-    */
-    public final List<fr.cg95.cvq.business.request.school.TiersInformations> getTiersAutorises() {
+    public List<fr.cg95.cvq.business.request.school.TiersInformations> getTiersAutorises() {
         return this.tiersAutorises;
     }
   

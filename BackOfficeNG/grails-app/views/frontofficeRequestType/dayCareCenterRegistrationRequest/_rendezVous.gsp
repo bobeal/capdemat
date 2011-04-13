@@ -5,8 +5,8 @@
     <label for="choixTypeRendezVous" class="required"><g:message code="dccrr.property.choixTypeRendezVous.label" /> *  <span><g:message code="dccrr.property.choixTypeRendezVous.help" /></span></label>
             <select id="choixTypeRendezVous" name="choixTypeRendezVous" class="required  validate-not-first ${rqt.stepStates['rendezVous'].invalidFields.contains('choixTypeRendezVous') ? 'validation-failed' : ''}" title="<g:message code="dccrr.property.choixTypeRendezVous.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Physique','Telephonique']}">
-                <option value="fr.cg95.cvq.business.request.school.RendezVousType_${it}" ${it == rqt.choixTypeRendezVous?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dccrr.property.choixTypeRendezVous" /></option>
+              <g:each in="${['PHYSIQUE','TELEPHONIQUE']}">
+                <option value="${it}" ${it == rqt.choixTypeRendezVous?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dccrr.property.choixTypeRendezVous" /></option>
               </g:each>
             </select>
             
@@ -25,8 +25,8 @@
     <label for="plageHoraireContact" class="required"><g:message code="dccrr.property.plageHoraireContact.label" /> *  <span><g:message code="dccrr.property.plageHoraireContact.help" /></span></label>
             <select id="plageHoraireContact" name="plageHoraireContact" class="required  validate-not-first ${rqt.stepStates['rendezVous'].invalidFields.contains('plageHoraireContact') ? 'validation-failed' : ''}" title="<g:message code="dccrr.property.plageHoraireContact.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Matin','Aprem','Soir','Indifferent']}">
-                <option value="fr.cg95.cvq.business.request.school.PlageHoraireContactType_${it}" ${it == rqt.plageHoraireContact?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dccrr.property.plageHoraireContact" /></option>
+              <g:each in="${['MATIN','APREM','SOIR','INDIFFERENT']}">
+                <option value="${it}" ${it == rqt.plageHoraireContact?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dccrr.property.plageHoraireContact" /></option>
               </g:each>
             </select>
             

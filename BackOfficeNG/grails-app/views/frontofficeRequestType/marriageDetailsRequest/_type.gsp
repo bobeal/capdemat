@@ -4,9 +4,9 @@
   
     <label class="required"><g:message code="mdr.property.format.label" /> *  <span><g:message code="mdr.property.format.help" /></span></label>
             <ul class="required ${rqt.stepStates['type'].invalidFields.contains('format') ? 'validation-failed' : ''}">
-              <g:each in="${['FullCopy','ExtractWithRelationship','ExtractWithoutRelationship','MultilingualExtract']}">
+              <g:each in="${['FULL_COPY','EXTRACT_WITH_RELATIONSHIP','EXTRACT_WITHOUT_RELATIONSHIP','MULTILINGUAL_EXTRACT']}">
               <li>
-                <input type="radio" id="format_${it}" class="required condition-isWithRelationship-trigger  validate-one-required" value="fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType_${it}" name="format" ${it == rqt.format.toString() ? 'checked="checked"': ''} title="<g:message code="mdr.property.format.validationError" />" />
+                <input type="radio" id="format_${it}" class="required condition-isWithRelationship-trigger  validate-one-required" value="${it}" name="format" ${it == rqt.format.toString() ? 'checked="checked"': ''} title="<g:message code="mdr.property.format.validationError" />" />
                 <label for="format_${it}"><g:capdematEnumToText var="${it}" i18nKeyPrefix="mdr.property.format" /></label>
               </li>
               </g:each>
@@ -27,8 +27,8 @@
     <label for="motive" class=""><g:message code="mdr.property.motive.label" />   <span><g:message code="mdr.property.motive.help" /></span></label>
             <select id="motive" name="motive" class="  validate-select ${rqt.stepStates['type'].invalidFields.contains('motive') ? 'validation-failed' : ''}" title="<g:message code="mdr.property.motive.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['NotaryAct','FrenchNationalityCertificate','MaritalRegimeChange','FrenchNationalityAcquisitionDeclaration','DivorceSeparation','Passport','Pension','Other']}">
-                <option value="fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType_${it}" ${it == rqt.motive?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="mdr.property.motive" /></option>
+              <g:each in="${['NOTARY_ACT','FRENCH_NATIONALITY_CERTIFICATE','MARITAL_REGIME_CHANGE','FRENCH_NATIONALITY_ACQUISITION_DECLARATION','DIVORCE_SEPARATION','PASSPORT','PENSION','OTHER']}">
+                <option value="${it}" ${it == rqt.motive?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="mdr.property.motive" /></option>
               </g:each>
             </select>
             
@@ -46,8 +46,8 @@
     <label for="relationship" class="required condition-isWithRelationship-filled"><g:message code="mdr.property.relationship.label" /> *  <span><g:message code="mdr.property.relationship.help" /></span></label>
             <select id="relationship" name="relationship" class="required condition-isWithRelationship-filled  validate-not-first ${rqt.stepStates['type'].invalidFields.contains('relationship') ? 'validation-failed' : ''}" title="<g:message code="mdr.property.relationship.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Husband','Wife']}">
-                <option value="fr.cg95.cvq.business.request.civil.MarriageRelationshipType_${it}" ${it == rqt.relationship?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="mdr.property.relationship" /></option>
+              <g:each in="${['HUSBAND','WIFE']}">
+                <option value="${it}" ${it == rqt.relationship?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="mdr.property.relationship" /></option>
               </g:each>
             </select>
             

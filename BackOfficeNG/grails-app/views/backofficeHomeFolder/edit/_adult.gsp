@@ -6,7 +6,7 @@
       <dd class="required">
         <select name="title">
           <g:each var="title" in="${fr.cg95.cvq.business.users.TitleType.allTitleTypes}">
-            <option value="fr.cg95.cvq.business.users.TitleType_${title}" ${title == adult.title ? 'selected="selected"' : ''}>
+            <option value="${title.name()}" ${title == adult.title ? 'selected="selected"' : ''}>
               ${g.capdematEnumToText(var:title, i18nKeyPrefix:'homeFolder.adult.title')}
             </option>
           </g:each>

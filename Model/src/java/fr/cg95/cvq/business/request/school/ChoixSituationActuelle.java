@@ -1,66 +1,50 @@
 package fr.cg95.cvq.business.request.school;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class ChoixSituationActuelle extends PersistentStringEnum {
+public enum ChoixSituationActuelle {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final ChoixSituationActuelle PLEIN = new ChoixSituationActuelle("Plein");
-  
-    public static final ChoixSituationActuelle PARTIEL = new ChoixSituationActuelle("Partiel");
-  
-    public static final ChoixSituationActuelle INTERIM = new ChoixSituationActuelle("Interim");
-  
-    public static final ChoixSituationActuelle ETUDIANT = new ChoixSituationActuelle("Etudiant");
-  
-    public static final ChoixSituationActuelle STAGE = new ChoixSituationActuelle("Stage");
-  
-    public static final ChoixSituationActuelle RECHERCHE = new ChoixSituationActuelle("Recherche");
-  
-    public static final ChoixSituationActuelle PARENT = new ChoixSituationActuelle("Parent");
-  
-    public static final ChoixSituationActuelle LIBRE = new ChoixSituationActuelle("Libre");
-  
-    public static final ChoixSituationActuelle CONGE = new ChoixSituationActuelle("Conge");
-  
-    public static final ChoixSituationActuelle RETRAITE = new ChoixSituationActuelle("Retraite");
-  
-    public static final ChoixSituationActuelle AUTRE = new ChoixSituationActuelle("Autre");
-  
+    PLEIN("Plein"),
+    PARTIEL("Partiel"),
+    INTERIM("Interim"),
+    ETUDIANT("Etudiant"),
+    STAGE("Stage"),
+    RECHERCHE("Recherche"),
+    PARENT("Parent"),
+    LIBRE("Libre"),
+    CONGE("Conge"),
+    RETRAITE("Retraite"),
+    AUTRE("Autre");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use ChoixSituationActuelle.values() instead
+     * @deprecated only for backward
      */
-    private ChoixSituationActuelle(String value) {
-        super(value);
+    @Deprecated 
+    public static ChoixSituationActuelle[] allChoixSituationActuelles = ChoixSituationActuelle.values();
+
+    private String legacyLabel;
+
+    private ChoixSituationActuelle(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public ChoixSituationActuelle() {}
-
-    public static ChoixSituationActuelle[] allChoixSituationActuelles = {
-        PLEIN,
-        PARTIEL,
-        INTERIM,
-        ETUDIANT,
-        STAGE,
-        RECHERCHE,
-        PARENT,
-        LIBRE,
-        CONGE,
-        RETRAITE,
-        AUTRE
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static ChoixSituationActuelle getDefaultChoixSituationActuelle() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of ChoixSituationActuelle.something
+     * not the value of the name attribut.
+     */
     public static ChoixSituationActuelle forString(final String enumAsString) {
-        for (ChoixSituationActuelle value : allChoixSituationActuelles)
+        for (ChoixSituationActuelle value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultChoixSituationActuelle();

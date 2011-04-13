@@ -1,45 +1,43 @@
 package fr.cg95.cvq.business.request.civil;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class BirthCertificateFormatType extends PersistentStringEnum {
+public enum BirthCertificateFormatType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final BirthCertificateFormatType FULL_COPY = new BirthCertificateFormatType("FullCopy");
-  
-    public static final BirthCertificateFormatType EXTRACT_WITH_RELATIONSHIP = new BirthCertificateFormatType("ExtractWithRelationship");
-  
-    public static final BirthCertificateFormatType EXTRACT_WITHOUT_RELATIONSHIP = new BirthCertificateFormatType("ExtractWithoutRelationship");
-  
-    public static final BirthCertificateFormatType MULTILINGUAL_EXTRACT = new BirthCertificateFormatType("MultilingualExtract");
-  
+    FULL_COPY("FullCopy"),
+    EXTRACT_WITH_RELATIONSHIP("ExtractWithRelationship"),
+    EXTRACT_WITHOUT_RELATIONSHIP("ExtractWithoutRelationship"),
+    MULTILINGUAL_EXTRACT("MultilingualExtract");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use BirthCertificateFormatType.values() instead
+     * @deprecated only for backward
      */
-    private BirthCertificateFormatType(String value) {
-        super(value);
+    @Deprecated 
+    public static BirthCertificateFormatType[] allBirthCertificateFormatTypes = BirthCertificateFormatType.values();
+
+    private String legacyLabel;
+
+    private BirthCertificateFormatType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public BirthCertificateFormatType() {}
-
-    public static BirthCertificateFormatType[] allBirthCertificateFormatTypes = {
-        FULL_COPY,
-        EXTRACT_WITH_RELATIONSHIP,
-        EXTRACT_WITHOUT_RELATIONSHIP,
-        MULTILINGUAL_EXTRACT
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static BirthCertificateFormatType getDefaultBirthCertificateFormatType() {
         return FULL_COPY;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of BirthCertificateFormatType.something
+     * not the value of the name attribut.
+     */
     public static BirthCertificateFormatType forString(final String enumAsString) {
-        for (BirthCertificateFormatType value : allBirthCertificateFormatTypes)
+        for (BirthCertificateFormatType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultBirthCertificateFormatType();

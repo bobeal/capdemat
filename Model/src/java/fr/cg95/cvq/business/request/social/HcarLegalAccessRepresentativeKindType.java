@@ -1,42 +1,42 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class HcarLegalAccessRepresentativeKindType extends PersistentStringEnum {
+public enum HcarLegalAccessRepresentativeKindType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final HcarLegalAccessRepresentativeKindType FAMILY_MEMBER = new HcarLegalAccessRepresentativeKindType("FamilyMember");
-  
-    public static final HcarLegalAccessRepresentativeKindType AGENCY = new HcarLegalAccessRepresentativeKindType("Agency");
-  
-    public static final HcarLegalAccessRepresentativeKindType OTHER = new HcarLegalAccessRepresentativeKindType("Other");
-  
+    FAMILY_MEMBER("FamilyMember"),
+    AGENCY("Agency"),
+    OTHER("Other");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use HcarLegalAccessRepresentativeKindType.values() instead
+     * @deprecated only for backward
      */
-    private HcarLegalAccessRepresentativeKindType(String value) {
-        super(value);
+    @Deprecated 
+    public static HcarLegalAccessRepresentativeKindType[] allHcarLegalAccessRepresentativeKindTypes = HcarLegalAccessRepresentativeKindType.values();
+
+    private String legacyLabel;
+
+    private HcarLegalAccessRepresentativeKindType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public HcarLegalAccessRepresentativeKindType() {}
-
-    public static HcarLegalAccessRepresentativeKindType[] allHcarLegalAccessRepresentativeKindTypes = {
-        FAMILY_MEMBER,
-        AGENCY,
-        OTHER
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static HcarLegalAccessRepresentativeKindType getDefaultHcarLegalAccessRepresentativeKindType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of HcarLegalAccessRepresentativeKindType.something
+     * not the value of the name attribut.
+     */
     public static HcarLegalAccessRepresentativeKindType forString(final String enumAsString) {
-        for (HcarLegalAccessRepresentativeKindType value : allHcarLegalAccessRepresentativeKindTypes)
+        for (HcarLegalAccessRepresentativeKindType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultHcarLegalAccessRepresentativeKindType();

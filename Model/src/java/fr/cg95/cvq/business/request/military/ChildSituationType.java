@@ -1,54 +1,46 @@
 package fr.cg95.cvq.business.request.military;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class ChildSituationType extends PersistentStringEnum {
+public enum ChildSituationType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final ChildSituationType COLLEGE = new ChildSituationType("College");
-  
-    public static final ChildSituationType HIGHSCHOOL = new ChildSituationType("Highschool");
-  
-    public static final ChildSituationType STUDENT = new ChildSituationType("Student");
-  
-    public static final ChildSituationType EMPLOYEE = new ChildSituationType("Employee");
-  
-    public static final ChildSituationType APPRENTICE = new ChildSituationType("Apprentice");
-  
-    public static final ChildSituationType OTHER = new ChildSituationType("Other");
-  
-    public static final ChildSituationType UNKNOWN = new ChildSituationType("Unknown");
-  
+    COLLEGE("College"),
+    HIGHSCHOOL("Highschool"),
+    STUDENT("Student"),
+    EMPLOYEE("Employee"),
+    APPRENTICE("Apprentice"),
+    OTHER("Other"),
+    UNKNOWN("Unknown");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use ChildSituationType.values() instead
+     * @deprecated only for backward
      */
-    private ChildSituationType(String value) {
-        super(value);
+    @Deprecated 
+    public static ChildSituationType[] allChildSituationTypes = ChildSituationType.values();
+
+    private String legacyLabel;
+
+    private ChildSituationType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public ChildSituationType() {}
-
-    public static ChildSituationType[] allChildSituationTypes = {
-        COLLEGE,
-        HIGHSCHOOL,
-        STUDENT,
-        EMPLOYEE,
-        APPRENTICE,
-        OTHER,
-        UNKNOWN
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static ChildSituationType getDefaultChildSituationType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of ChildSituationType.something
+     * not the value of the name attribut.
+     */
     public static ChildSituationType forString(final String enumAsString) {
-        for (ChildSituationType value : allChildSituationTypes)
+        for (ChildSituationType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultChildSituationType();

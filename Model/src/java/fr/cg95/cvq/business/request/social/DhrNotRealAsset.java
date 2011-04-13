@@ -20,14 +20,15 @@ import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="dhr_not_real_asset"
- *  lazy="false"
  */
+@Entity
+@Table(name="dhr_not_real_asset")
 public class DhrNotRealAsset implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -211,11 +212,8 @@ public class DhrNotRealAsset implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -231,19 +229,15 @@ public class DhrNotRealAsset implements Serializable {
     
     private java.math.BigInteger dhrNotRealAssetValue;
 
-    public final void setDhrNotRealAssetValue(final java.math.BigInteger dhrNotRealAssetValue) {
+    public void setDhrNotRealAssetValue(final java.math.BigInteger dhrNotRealAssetValue) {
         this.dhrNotRealAssetValue = dhrNotRealAssetValue;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="dhr_not_real_asset_value"
-        *  type="serializable"
-        
+
+    @Column(name="dhr_not_real_asset_value" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
-    */
-    public final java.math.BigInteger getDhrNotRealAssetValue() {
+    public java.math.BigInteger getDhrNotRealAssetValue() {
         return this.dhrNotRealAssetValue;
     }
   
@@ -282,19 +276,15 @@ public class DhrNotRealAsset implements Serializable {
     
     private fr.cg95.cvq.business.users.Address dhrNotRealAssetAddress;
 
-    public final void setDhrNotRealAssetAddress(final fr.cg95.cvq.business.users.Address dhrNotRealAssetAddress) {
+    public void setDhrNotRealAssetAddress(final fr.cg95.cvq.business.users.Address dhrNotRealAssetAddress) {
         this.dhrNotRealAssetAddress = dhrNotRealAssetAddress;
     }
 
-    /**
-  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="dhr_not_real_asset_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="dhr_not_real_asset_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getDhrNotRealAssetAddress() {
+    public fr.cg95.cvq.business.users.Address getDhrNotRealAssetAddress() {
         return this.dhrNotRealAssetAddress;
     }
   
@@ -308,18 +298,14 @@ public class DhrNotRealAsset implements Serializable {
     
     private java.util.Date dhrNotRealAssetDate;
 
-    public final void setDhrNotRealAssetDate(final java.util.Date dhrNotRealAssetDate) {
+    public void setDhrNotRealAssetDate(final java.util.Date dhrNotRealAssetDate) {
         this.dhrNotRealAssetDate = dhrNotRealAssetDate;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="dhr_not_real_asset_date"
-        
+
+    @Column(name="dhr_not_real_asset_date"  )
       
-    */
-    public final java.util.Date getDhrNotRealAssetDate() {
+    public java.util.Date getDhrNotRealAssetDate() {
         return this.dhrNotRealAssetDate;
     }
   
@@ -349,18 +335,14 @@ public class DhrNotRealAsset implements Serializable {
     
     private String dhrNotRealAssetNotaryName;
 
-    public final void setDhrNotRealAssetNotaryName(final String dhrNotRealAssetNotaryName) {
+    public void setDhrNotRealAssetNotaryName(final String dhrNotRealAssetNotaryName) {
         this.dhrNotRealAssetNotaryName = dhrNotRealAssetNotaryName;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="dhr_not_real_asset_notary_name"
-        *  length="38"
+
+    @Column(name="dhr_not_real_asset_notary_name" , length=38 )
       
-    */
-    public final String getDhrNotRealAssetNotaryName() {
+    public String getDhrNotRealAssetNotaryName() {
         return this.dhrNotRealAssetNotaryName;
     }
   
@@ -390,18 +372,14 @@ public class DhrNotRealAsset implements Serializable {
     
     private String dhrNotRealAssetBeneficiaryName;
 
-    public final void setDhrNotRealAssetBeneficiaryName(final String dhrNotRealAssetBeneficiaryName) {
+    public void setDhrNotRealAssetBeneficiaryName(final String dhrNotRealAssetBeneficiaryName) {
         this.dhrNotRealAssetBeneficiaryName = dhrNotRealAssetBeneficiaryName;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="dhr_not_real_asset_beneficiary_name"
-        *  length="38"
+
+    @Column(name="dhr_not_real_asset_beneficiary_name" , length=38 )
       
-    */
-    public final String getDhrNotRealAssetBeneficiaryName() {
+    public String getDhrNotRealAssetBeneficiaryName() {
         return this.dhrNotRealAssetBeneficiaryName;
     }
   
@@ -431,18 +409,14 @@ public class DhrNotRealAsset implements Serializable {
     
     private String dhrNotRealAssetBeneficiaryFirstName;
 
-    public final void setDhrNotRealAssetBeneficiaryFirstName(final String dhrNotRealAssetBeneficiaryFirstName) {
+    public void setDhrNotRealAssetBeneficiaryFirstName(final String dhrNotRealAssetBeneficiaryFirstName) {
         this.dhrNotRealAssetBeneficiaryFirstName = dhrNotRealAssetBeneficiaryFirstName;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="dhr_not_real_asset_beneficiary_first_name"
-        *  length="38"
+
+    @Column(name="dhr_not_real_asset_beneficiary_first_name" , length=38 )
       
-    */
-    public final String getDhrNotRealAssetBeneficiaryFirstName() {
+    public String getDhrNotRealAssetBeneficiaryFirstName() {
         return this.dhrNotRealAssetBeneficiaryFirstName;
     }
   
@@ -456,18 +430,15 @@ public class DhrNotRealAsset implements Serializable {
     
     private fr.cg95.cvq.business.request.social.DhrAssetTypeType dhrNotRealAssetType;
 
-    public final void setDhrNotRealAssetType(final fr.cg95.cvq.business.request.social.DhrAssetTypeType dhrNotRealAssetType) {
+    public void setDhrNotRealAssetType(final fr.cg95.cvq.business.request.social.DhrAssetTypeType dhrNotRealAssetType) {
         this.dhrNotRealAssetType = dhrNotRealAssetType;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="dhr_not_real_asset_type"
-        
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="dhr_not_real_asset_type"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.DhrAssetTypeType getDhrNotRealAssetType() {
+    public fr.cg95.cvq.business.request.social.DhrAssetTypeType getDhrNotRealAssetType() {
         return this.dhrNotRealAssetType;
     }
   
@@ -488,19 +459,15 @@ public class DhrNotRealAsset implements Serializable {
     
     private fr.cg95.cvq.business.users.Address dhrNotRealAssetBeneficiaryAddress;
 
-    public final void setDhrNotRealAssetBeneficiaryAddress(final fr.cg95.cvq.business.users.Address dhrNotRealAssetBeneficiaryAddress) {
+    public void setDhrNotRealAssetBeneficiaryAddress(final fr.cg95.cvq.business.users.Address dhrNotRealAssetBeneficiaryAddress) {
         this.dhrNotRealAssetBeneficiaryAddress = dhrNotRealAssetBeneficiaryAddress;
     }
 
-    /**
-  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="dhr_not_real_asset_beneficiary_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="dhr_not_real_asset_beneficiary_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getDhrNotRealAssetBeneficiaryAddress() {
+    public fr.cg95.cvq.business.users.Address getDhrNotRealAssetBeneficiaryAddress() {
         return this.dhrNotRealAssetBeneficiaryAddress;
     }
   
@@ -521,19 +488,15 @@ public class DhrNotRealAsset implements Serializable {
     
     private fr.cg95.cvq.business.users.Address dhrNotRealAssetNotaryAddress;
 
-    public final void setDhrNotRealAssetNotaryAddress(final fr.cg95.cvq.business.users.Address dhrNotRealAssetNotaryAddress) {
+    public void setDhrNotRealAssetNotaryAddress(final fr.cg95.cvq.business.users.Address dhrNotRealAssetNotaryAddress) {
         this.dhrNotRealAssetNotaryAddress = dhrNotRealAssetNotaryAddress;
     }
 
-    /**
-  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="dhr_not_real_asset_notary_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="dhr_not_real_asset_notary_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getDhrNotRealAssetNotaryAddress() {
+    public fr.cg95.cvq.business.users.Address getDhrNotRealAssetNotaryAddress() {
         return this.dhrNotRealAssetNotaryAddress;
     }
   
@@ -547,18 +510,15 @@ public class DhrNotRealAsset implements Serializable {
     
     private fr.cg95.cvq.business.request.social.DhrAssetKindType dhrNotRealAssetKind;
 
-    public final void setDhrNotRealAssetKind(final fr.cg95.cvq.business.request.social.DhrAssetKindType dhrNotRealAssetKind) {
+    public void setDhrNotRealAssetKind(final fr.cg95.cvq.business.request.social.DhrAssetKindType dhrNotRealAssetKind) {
         this.dhrNotRealAssetKind = dhrNotRealAssetKind;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="dhr_not_real_asset_kind"
-        
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="dhr_not_real_asset_kind"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.DhrAssetKindType getDhrNotRealAssetKind() {
+    public fr.cg95.cvq.business.request.social.DhrAssetKindType getDhrNotRealAssetKind() {
         return this.dhrNotRealAssetKind;
     }
   

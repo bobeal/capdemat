@@ -42,6 +42,7 @@
                 <include name="antlr-*.jar" />
                 <include name="dom4j-*.jar" />
                 <include name="hibernate*.jar" />
+                <include name="javassist*.jar" />
             </fileset>
             <fileset dir="${xmlbean.lib.dir}" />
             <fileset dir="${mail.lib.dir}" />

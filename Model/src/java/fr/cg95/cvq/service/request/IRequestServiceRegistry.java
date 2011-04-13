@@ -26,8 +26,7 @@ public interface IRequestServiceRegistry {
     /**
      * Get the service responsible for the management of the given request id.
      */
-    IRequestService getRequestService(Long requestId)
-        throws CvqObjectNotFoundException;
+    IRequestService getRequestService(Long requestId);
 
     /**
      * Get the service responsible for the management of the request

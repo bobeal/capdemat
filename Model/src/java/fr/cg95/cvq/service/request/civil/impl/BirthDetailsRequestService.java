@@ -4,7 +4,9 @@ import java.util.Arrays;
 
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.civil.BirthCertificateFormatType;
 import fr.cg95.cvq.business.request.civil.BirthDetailsRequest;
+import fr.cg95.cvq.business.request.civil.BirthRequesterQualityType;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.condition.EqualityListChecker;
@@ -19,9 +21,9 @@ public final class BirthDetailsRequestService extends RequestService {
 
     @Override
     public void init() {
-        BirthDetailsRequest.conditions.put("requesterQuality", new EqualityChecker("Other"));
+        BirthDetailsRequest.conditions.put("requesterQuality", new EqualityChecker(BirthRequesterQualityType.OTHER.name()));
         BirthDetailsRequest.conditions.put("format",
-            new EqualityListChecker(Arrays.asList("FullCopy", "ExtractWithRelationship")));
+            new EqualityListChecker(Arrays.asList(BirthCertificateFormatType.FULL_COPY.name(), BirthCertificateFormatType.EXTRACT_WITH_RELATIONSHIP.name())));
     }
 
     @Override

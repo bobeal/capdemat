@@ -5,30 +5,42 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
+import javax.persistence.Table;
 
-/**
- * @hibernate.class
- *  table="external_application"
- *  lazy="false"
- */
+@Entity
+@Table(name="external_application")
 public class ExternalApplication {
 
-    /** identifier field */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
     private String label;
     private String description;
+
+    @ElementCollection(fetch=FetchType.EAGER)
+    @Column(name="broker")
+    @CollectionTable(name="external_application_broker",joinColumns=@JoinColumn(name="external_application_id"))
     private Set<String> brokers = new HashSet<String>();
+
+    @OneToMany(mappedBy="externalApplication",fetch=FetchType.EAGER)
     private List<ExternalHomeFolder> externalHomeFolders = new ArrayList<ExternalHomeFolder>();
 
     public ExternalApplication() {
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return id;
     }
@@ -37,10 +49,6 @@ public class ExternalApplication {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="label"
-     */
     public String getLabel() {
         return label;
     }
@@ -49,16 +57,6 @@ public class ExternalApplication {
         this.label = label;
     }
 
-    /**
-     * @hibernate.set
-     *  table="external_application_broker"
-     *  lazy="false"
-     * @hibernate.key
-     *  column="external_application_id"
-     * @hibernate.element
-     *  column="broker"
-     *  type="string"
-     */
     public Set<String> getBrokers() {
         return brokers;
     }
@@ -75,10 +73,6 @@ public class ExternalApplication {
         this.brokers = brokers;
     }
 
-    /**
-     * @hibernate.property
-     *  column="description"
-     */
     public String getDescription() {
         return description;
     }
@@ -87,18 +81,9 @@ public class ExternalApplication {
         this.description = description;
     }
 
-    /**
-     * @hibernate.list
-     *  inverse="false"
-     *  cascade="all"
-     *  table="external_home_folder"
-     * @hibernate.key
-     *  column="external_application_id"
-     * @hibernate.list-index
-     *  column="external_home_application_index"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.payment.external.ExternalHomeFolder"
-     */
+    @OneToMany(cascade=CascadeType.ALL)
+    @JoinColumn(name="external_application_id")
+    @OrderColumn(name="external_home_application_index")
     public List<ExternalHomeFolder> getExternalHomeFolders() {
         return externalHomeFolders;
     }

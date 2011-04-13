@@ -2,25 +2,28 @@ package fr.cg95.cvq.business.payment;
 
 import java.io.Serializable;
 
-/**
- * Generic representation of an item that can be bought.
- * 
- * @hibernate.class
- *  table="purchase_item"
- *  lazy="false"
- * @hibernate.discriminator
- *  column="item_type"
- *  type="string"
- *  length="64"
- *
- * @author bor@zenexity.fr
- */
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.Table;
+
+@Entity
+@Inheritance
+@Table(name="purchase_item")
+@DiscriminatorColumn(name="item_type",discriminatorType=DiscriminatorType.STRING,length=64)
 public abstract class PurchaseItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     public static final String SEARCH_BY_BROKER = "broker";
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
     private String label;
     private Double amount;
@@ -39,12 +42,7 @@ public abstract class PurchaseItem implements Serializable {
 
     public PurchaseItem() {
     }
-    
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
+
     public final Long getId() {
         return id;
     }
@@ -53,10 +51,6 @@ public abstract class PurchaseItem implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="label"
-     */
     public String getLabel() {
         return label;
     }
@@ -66,11 +60,7 @@ public abstract class PurchaseItem implements Serializable {
     }
 
     public abstract String getInformativeFriendlyLabel();
-    
-    /**
-     * @hibernate.property
-     *  column="amount"
-     */
+
     public final Double getAmount() {
         return amount;
     }
@@ -83,10 +73,7 @@ public abstract class PurchaseItem implements Serializable {
         return amount.floatValue() / 100;
     }
 
-    /**
-     * @hibernate.property
-     *  column="supported_broker"
-     */
+    @Column(name="supported_broker")
     public final String getSupportedBroker() {
         return supportedBroker;
     }

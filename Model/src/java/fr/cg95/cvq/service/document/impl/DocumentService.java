@@ -44,6 +44,7 @@ import fr.cg95.cvq.business.users.UserEvent;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.exception.CvqDisabledFunctionalityException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
@@ -71,6 +72,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
     protected IDocumentDAO documentDAO;
     protected IDocumentTypeDAO documentTypeDAO;
+    private IGenericDAO genericDAO;
     private ITranslationService translationService;
     private IUserSearchService userSearchService;
 
@@ -82,9 +84,8 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN,
             ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.READ)
-    public Document getById(final Long id)
-        throws CvqObjectNotFoundException {
-        return (Document) documentDAO.findById(Document.class, id);
+    public Document getById(final Long id) {
+        return documentDAO.findById(id);
     }
 
     /**
@@ -167,7 +168,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
         computeEndValidityDate(document);
 
-        Long documentId = documentDAO.create(document);
+        Long documentId = documentDAO.create(document).getId();
 
         logger.debug("Created document object with id : " + documentId);
 
@@ -189,8 +190,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     }
 
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
-    public void delete(final Long id)
-    throws CvqException, CvqObjectNotFoundException {
+    public void delete(final Long id) {
 
         Document document = getById(id);
         documentDAO.delete(document);
@@ -251,14 +251,14 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public void deletePage(final Long documentId, final Integer pageId)
-    throws CvqException, CvqObjectNotFoundException {
+        throws CvqDisabledFunctionalityException {
 
         checkDocumentDigitalizationIsEnabled();
 
         Document document = getById(documentId);
         DocumentBinary documentBinary = document.getDatas().get(pageId);
         document.getDatas().remove(documentBinary);
-        documentDAO.delete(documentBinary);
+        genericDAO.delete(documentBinary);
         documentDAO.update(document);
 
         addActionTrace(DocumentAction.Type.PAGE_DELETION, null, document);
@@ -298,8 +298,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     }
 
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.READ)
-    public Set<DocumentBinary> getAllPages(final Long documentId)
-        throws CvqException {
+    public Set<DocumentBinary> getAllPages(final Long documentId) {
 
         Document document = getById(documentId);
 
@@ -351,7 +350,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     }
 
     public List<Document> getBySessionUuid(final String sessionUuid) {
-        return documentDAO.findBySimpleProperty(Document.class, "sessionUuid", sessionUuid);
+        return documentDAO.findBy("bySessionUuid", sessionUuid);
     }
 
     @Context(types = {ContextType.ECITIZEN}, privilege = ContextPrivilege.NONE)
@@ -389,7 +388,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     @Context(types = {ContextType.AGENT})
     public void updateDocumentState(final Long id, final DocumentState ds, final String message,
             final Date validityDate)
-        throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
+        throws CvqException, CvqInvalidTransitionException {
         if (ds.equals(DocumentState.VALIDATED))
             validate(id, validityDate, message);
         else if (ds.equals(DocumentState.CHECKED))
@@ -410,7 +409,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     @Override
     @Context(types = {ContextType.ECITIZEN})
     public void pending(Long id)
-        throws CvqObjectNotFoundException, CvqInvalidTransitionException {
+        throws CvqInvalidTransitionException {
         Document document = getById(id);
         if (!DocumentState.DRAFT.equals(document.getState())) {
             throw new CvqInvalidTransitionException(
@@ -426,7 +425,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
     @Override
     @Context(types = {ContextType.AGENT})
-    public void rePending(Long id) throws CvqObjectNotFoundException, CvqInvalidTransitionException {
+    public void rePending(Long id) throws CvqInvalidTransitionException {
         Document document = getById(id);
         if (!document.getState().equals(DocumentState.OUTDATED)
                 && !document.getState().equals(DocumentState.REFUSED))
@@ -467,7 +466,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
     @Context(types = {ContextType.AGENT})
     public void check(final Long id, final String message)
-        throws CvqException, CvqObjectNotFoundException, CvqInvalidTransitionException {
+        throws CvqInvalidTransitionException {
 
         Document document = getById(id);
         if (document.getState().equals(DocumentState.CHECKED))
@@ -483,7 +482,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
     @Context(types = {ContextType.AGENT})
     public void refuse(final Long id, final String message)
-        throws CvqException, CvqObjectNotFoundException, CvqInvalidTransitionException {
+        throws CvqInvalidTransitionException {
 
         Document document = getById(id);
         if (document.getState().equals(DocumentState.REFUSED))
@@ -500,7 +499,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     }
 
     private void outDated(final Long id)
-        throws CvqException, CvqObjectNotFoundException, CvqInvalidTransitionException {
+        throws CvqInvalidTransitionException {
 
         Document document = getById(id);
         if (document.getState().equals(DocumentState.OUTDATED))
@@ -570,12 +569,11 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     public void onApplicationEvent(UserEvent event) {
         logger.debug("onApplicationEvent() got a user event of type " + event.getAction().getType());
         if (UserAction.Type.DELETION.equals(event.getAction().getType())) {
-            try {
-                userSearchService.getById(event.getAction().getTargetId());
+            if (userSearchService.getById(event.getAction().getTargetId()) != null) {
                 logger.debug("onApplicationEvent() deleting documents of individual "
                     + event.getAction().getTargetId());
                 deleteIndividualDocuments(event.getAction().getTargetId());
-            } catch (CvqObjectNotFoundException e) {
+            } else {
                 logger.debug("onApplicationEvent() deleting documents of home folder "
                     + event.getAction().getTargetId());
                 deleteHomeFolderDocuments(event.getAction().getTargetId());
@@ -705,7 +703,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
                 DocumentBinary docBin = new DocumentBinary(ContentType.PDF, baos.toByteArray());
                 createPreview(docBin);
                 for (DocumentBinary page : doc.getDatas()) {
-                    documentDAO.delete(page);
+                    genericDAO.delete(page);
                 }
                 doc.getDatas().clear();
                 doc.getDatas().add(docBin);
@@ -758,7 +756,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         DocumentBinary mergeImgToPdfDocBin = new DocumentBinary(ContentType.PDF, baos.toByteArray());
         createPreview(mergeImgToPdfDocBin);
         for (DocumentBinary page : doc.getDatas()) {
-            documentDAO.delete(page);
+            genericDAO.delete(page);
         }
         doc.getDatas().clear();
         doc.getDatas().add(mergeImgToPdfDocBin);
@@ -783,6 +781,10 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
     public void setDocumentTypeDAO(final IDocumentTypeDAO documentTypeDAO) {
         this.documentTypeDAO = documentTypeDAO;
+    }
+
+    public void setGenericDAO(IGenericDAO genericDAO) {
+        this.genericDAO = genericDAO;
     }
 
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {

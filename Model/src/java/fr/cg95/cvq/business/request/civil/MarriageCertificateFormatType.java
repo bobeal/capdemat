@@ -1,45 +1,43 @@
 package fr.cg95.cvq.business.request.civil;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class MarriageCertificateFormatType extends PersistentStringEnum {
+public enum MarriageCertificateFormatType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final MarriageCertificateFormatType FULL_COPY = new MarriageCertificateFormatType("FullCopy");
-  
-    public static final MarriageCertificateFormatType EXTRACT_WITH_RELATIONSHIP = new MarriageCertificateFormatType("ExtractWithRelationship");
-  
-    public static final MarriageCertificateFormatType EXTRACT_WITHOUT_RELATIONSHIP = new MarriageCertificateFormatType("ExtractWithoutRelationship");
-  
-    public static final MarriageCertificateFormatType MULTILINGUAL_EXTRACT = new MarriageCertificateFormatType("MultilingualExtract");
-  
+    FULL_COPY("FullCopy"),
+    EXTRACT_WITH_RELATIONSHIP("ExtractWithRelationship"),
+    EXTRACT_WITHOUT_RELATIONSHIP("ExtractWithoutRelationship"),
+    MULTILINGUAL_EXTRACT("MultilingualExtract");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use MarriageCertificateFormatType.values() instead
+     * @deprecated only for backward
      */
-    private MarriageCertificateFormatType(String value) {
-        super(value);
+    @Deprecated 
+    public static MarriageCertificateFormatType[] allMarriageCertificateFormatTypes = MarriageCertificateFormatType.values();
+
+    private String legacyLabel;
+
+    private MarriageCertificateFormatType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public MarriageCertificateFormatType() {}
-
-    public static MarriageCertificateFormatType[] allMarriageCertificateFormatTypes = {
-        FULL_COPY,
-        EXTRACT_WITH_RELATIONSHIP,
-        EXTRACT_WITHOUT_RELATIONSHIP,
-        MULTILINGUAL_EXTRACT
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static MarriageCertificateFormatType getDefaultMarriageCertificateFormatType() {
         return FULL_COPY;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of MarriageCertificateFormatType.something
+     * not the value of the name attribut.
+     */
     public static MarriageCertificateFormatType forString(final String enumAsString) {
-        for (MarriageCertificateFormatType value : allMarriageCertificateFormatTypes)
+        for (MarriageCertificateFormatType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultMarriageCertificateFormatType();

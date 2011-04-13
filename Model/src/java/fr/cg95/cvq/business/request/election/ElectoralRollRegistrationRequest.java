@@ -115,7 +115,7 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
             electoralRollRegistrationRequest.setElectoralNumber(getElectoralNumber().longValue());
       
         if (getMotive() != null)
-            electoralRollRegistrationRequest.setMotive(fr.cg95.cvq.xml.request.election.ElectoralMotiveType.Enum.forString(getMotive().toString()));
+            electoralRollRegistrationRequest.setMotive(fr.cg95.cvq.xml.request.election.ElectoralMotiveType.Enum.forString(getMotive().getLegacyLabel()));
       
         electoralRollRegistrationRequest.setPollingSchoolName(getPollingSchoolName());
       
@@ -126,7 +126,7 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
             electoralRollRegistrationRequest.setSubjectAddressOutsideCity(Address.modelToXml(getSubjectAddressOutsideCity()));
       
         if (getSubjectNationality() != null)
-            electoralRollRegistrationRequest.setSubjectNationality(fr.cg95.cvq.xml.common.NationalityType.Enum.forString(getSubjectNationality().toString()));
+            electoralRollRegistrationRequest.setSubjectNationality(fr.cg95.cvq.xml.common.NationalityType.Enum.forString(getSubjectNationality().getLegacyLabel()));
       
         electoralRollRegistrationRequest.setSubjectOldCity(getSubjectOldCity());
       

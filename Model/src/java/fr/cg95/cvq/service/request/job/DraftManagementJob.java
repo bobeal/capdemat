@@ -67,11 +67,7 @@ public class DraftManagementJob {
             requestTypeService.getGlobalRequestTypeConfiguration().getDraftLiveDuration());
         List<Request> requests = requestDAO.search(criterias,null,null,0,0, true);
         for (Request r : requests) {
-            try {
-                requestWorkflowService.delete(r);
-            } catch (CvqException e) {
-                logger.error("could not delete expired draft with id " + r.getId(), e);
-            }
+            requestWorkflowService.delete(r);
         }
     }
     
@@ -80,7 +76,7 @@ public class DraftManagementJob {
      * 
      * @return the number of email notifications sent.
      */
-    public Integer sendNotifications() throws CvqException {
+    public Integer sendNotifications() {
         Integer counter = 0; 
         GlobalRequestTypeConfiguration config = requestTypeService.getGlobalRequestTypeConfiguration();
         Integer limit = config.getDraftLiveDuration() - config.getDraftNotificationBeforeDelete();

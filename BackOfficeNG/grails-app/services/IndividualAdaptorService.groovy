@@ -52,7 +52,7 @@ class IndividualAdaptorService {
         meansOfContact.each {
             result.add([
                 key : it.type,
-                label : translationService.translate("meansOfContact." + StringUtils.pascalToCamelCase(it.type.toString()))
+                label : translationService.translate("meansOfContact." + StringUtils.pascalToCamelCase(StringUtils.toPascalCase(it.type.toString())))
             ])
         }
         return result.sort {it.label}

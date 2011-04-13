@@ -138,7 +138,7 @@ public class BafaGrantRequest extends Request implements Serializable {
         bafaGrantRequest.setAccountHolderLastName(getAccountHolderLastName());
       
         if (getAccountHolderTitle() != null)
-            bafaGrantRequest.setAccountHolderTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getAccountHolderTitle().toString()));
+            bafaGrantRequest.setAccountHolderTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getAccountHolderTitle().getLegacyLabel()));
       
         if (getBankAccount() != null)
             bafaGrantRequest.setBankAccount(BankAccount.modelToXml(getBankAccount()));

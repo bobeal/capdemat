@@ -19,8 +19,8 @@
     <label for="autorisation" class="required condition-estMaternelleElementaire-filled"><g:message code="strr.property.autorisation.label" /> *  <span><g:message code="strr.property.autorisation.help" /></span></label>
             <select id="autorisation" name="autorisation" class="required condition-estMaternelleElementaire-filled condition-autoriseTiers-trigger condition-autoriseFrereOuSoeur-trigger  validate-not-first ${rqt.stepStates['autorisations'].invalidFields.contains('autorisation') ? 'validation-failed' : ''}" title="<g:message code="strr.property.autorisation.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Seul','AvecFrereSoeur','AvecTiers']}">
-                <option value="fr.cg95.cvq.business.request.school.AutorisationType_${it}" ${it == rqt.autorisation?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="strr.property.autorisation" /></option>
+              <g:each in="${['SEUL','AVEC_FRERE_SOEUR','AVEC_TIERS']}">
+                <option value="${it}" ${it == rqt.autorisation?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="strr.property.autorisation" /></option>
               </g:each>
             </select>
             

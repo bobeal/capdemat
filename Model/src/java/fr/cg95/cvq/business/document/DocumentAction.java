@@ -3,39 +3,62 @@ package fr.cg95.cvq.business.document;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
 import fr.cg95.cvq.security.SecurityContext;
 
-/** 
- * @hibernate.class
- *  table="document_action"
- *  lazy="false"
- *
- * @author bor@zenexity.fr
- */
+@Entity
+@Table(name="document_action")
 public class DocumentAction implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static class Type extends PersistentStringEnum {
-        private static final long serialVersionUID = 1L;
-        public static final Type CREATION = new Type("Creation");
-        public static final Type STATE_CHANGE = new Type("StateChange");
-        public static final Type PAGE_ADDITION = new Type("PageAddition");
-        public static final Type PAGE_EDITION = new Type("PageEdition");
-        public static final Type PAGE_DELETION = new Type("PageDeletion");
-        public static final Type MERGE = new Type("Merge");
-        public Type() { /* public constructor for Hibernate */ }
-        private Type(String type) { super(type); }
+    public enum Type {
+        CREATION("Creation"),
+        STATE_CHANGE("StateChange"),
+        PAGE_ADDITION("PageAddition"),
+        PAGE_EDITION("PageEdition"),
+        PAGE_DELETION("PageDeletion"),
+        MERGE("Merge");
+
+        private String name;
+
+        private Type(String type) { this.name = type; }
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
+
+    @Column(name="user_id")
     private Long userId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="type", nullable=false)
     private Type type;
+
+    @Column(name="note")
     private String note;
+
+    @Column(name="date")
     private Date date;
+
+    @Column(name="resulting_state",length=16)
+    @Enumerated(EnumType.STRING)
     private DocumentState resultingState;
 
     @SuppressWarnings("unused")
@@ -53,11 +76,6 @@ public class DocumentAction implements Serializable {
         this.note = note;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -66,10 +84,6 @@ public class DocumentAction implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="user_id"
-     */
     public Long getUserId() {
         return this.userId;
     }
@@ -78,11 +92,6 @@ public class DocumentAction implements Serializable {
         this.userId = userId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="type"
-     *  not-null="true"
-     */
     public Type getType() {
         return this.type;
     }
@@ -91,10 +100,6 @@ public class DocumentAction implements Serializable {
         this.type = type;
     }
 
-    /**
-     * @hibernate.property
-     *  column="note"
-     */
     public String getNote() {
         return this.note;
     }
@@ -103,10 +108,6 @@ public class DocumentAction implements Serializable {
         this.note = note;
     }
 
-    /**
-     * @hibernate.property
-     *  column="date"
-     */
     public Date getDate() {
         return this.date;
     }
@@ -115,12 +116,6 @@ public class DocumentAction implements Serializable {
         this.date = date;
     }
 
-    /**
-     * @hibernate.property
-     *  column="resulting_state"
-     *  not-null="false"
-     *  length="16"
-     */
     public DocumentState getResultingState() {
         return this.resultingState;
     }

@@ -3,6 +3,7 @@
 <%
 
   import org.apache.commons.lang.StringUtils
+  import fr.cg95.cvq.util.EnumTool
   def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -101,7 +102,7 @@
       <p class="label">${esc(i18n.translate('errr.property.subjectNationality.label'))}</p>
           <div class="response">
             <% if(rqt.subjectNationality) { %>
-              ${esc(i18n.translate('errr.property.subjectNationality.' + StringUtils.uncapitalize(rqt.subjectNationality.toString())))}
+              ${esc(i18n.translate('errr.property.subjectNationality.' + EnumTool.toLowerCamelCase(rqt.subjectNationality.toString())))}
             <% } %>
           </div>
           
@@ -112,7 +113,7 @@
       <p class="label">${esc(i18n.translate('errr.property.motive.label'))}</p>
           <div class="response">
             <% if(rqt.motive) { %>
-              ${esc(i18n.translate('errr.property.motive.' + StringUtils.uncapitalize(rqt.motive.toString())))}
+              ${esc(i18n.translate('errr.property.motive.' + EnumTool.toLowerCamelCase(rqt.motive.toString())))}
             <% } %>
           </div>
           
@@ -165,7 +166,7 @@
     <% if (rqt.meansOfContact) { %>
       <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
         <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
-          ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+          ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.name))}
         </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
       <% } %>
     <% } else { %>

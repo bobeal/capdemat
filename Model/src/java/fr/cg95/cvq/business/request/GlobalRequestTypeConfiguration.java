@@ -1,53 +1,61 @@
 package fr.cg95.cvq.business.request;
 
-/**
- * @hibernate.class
- *  table="global_request_type_configuration"
- *  lazy="false"
- *
- * @author Benoit Orihuela (bor@zenexity.fr)
- */
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="global_request_type_configuration")
 public class GlobalRequestTypeConfiguration {
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(name="draft_live_duration",nullable=false)
     private int draftLiveDuration = 20;
 
+    @Column(name="draft_notification_before_delete",nullable=false)
     private int draftNotificationBeforeDelete = 7;
 
     /**
      * Whether an email alert is sent to notify of requests whose instruction is late,
      * defaults to false.
      */
+    @Column(name="instruction_alerts_enabled",nullable=false)
     private boolean instructionAlertsEnabled = false;
 
     /**
      * Whether, if instruction alerts are enabled, the email sent displays a detailed resume of
      * requests to instruct, defaults to false.
      */
+    @Column(name="instruction_alerts_detailed",nullable=false)
     private boolean instructionAlertsDetailed = false;
 
+    @Column(name="instruction_alert_delay",nullable=false)
     private int instructionAlertDelay = 3;
 
+    @Column(name="instruction_max_delay",nullable=false)
     private int instructionMaxDelay = 10;
 
     /**
      * The max lifetime of a request modification lock before it can be discarded (in minutes)
      */
+    @Column(name="request_lock_max_delay",nullable=false)
     private int requestLockMaxDelay = 30;
 
     /**
      * Whether an email alert is sent to notify of newly created requests, defaults to false.
      */
+    @Column(name="requests_creation_notification_enabled",nullable=false)
     private boolean requestsCreationNotificationEnabled = false;
 
+    @Column(name="archives_password")
     private String archivesPassword;
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return id;
     }
@@ -56,11 +64,6 @@ public class GlobalRequestTypeConfiguration {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="draft_live_duration"
-     *  not-null="true"
-     */
     public int getDraftLiveDuration() {
         return draftLiveDuration;
     }
@@ -69,11 +72,6 @@ public class GlobalRequestTypeConfiguration {
         this.draftLiveDuration = draftLiveDuration;
     }
 
-    /**
-     * @hibernate.property
-     *  column="draft_notification_before_delete"
-     *  not-null="true"
-     */
     public int getDraftNotificationBeforeDelete() {
         return draftNotificationBeforeDelete;
     }
@@ -82,11 +80,6 @@ public class GlobalRequestTypeConfiguration {
         this.draftNotificationBeforeDelete = draftNotificationBeforeDelete;
     }
 
-    /**
-     * @hibernate.property
-     *  column="requests_creation_notification_enabled"
-     *  not-null="true"
-     */
     public boolean isRequestsCreationNotificationEnabled() {
         return requestsCreationNotificationEnabled;
     }
@@ -95,11 +88,6 @@ public class GlobalRequestTypeConfiguration {
         this.requestsCreationNotificationEnabled = requestsCreationNotificationEnabled;
     }
 
-    /**
-     * @hibernate.property
-     *  column="instruction_alerts_enabled"
-     *  not-null="true"
-     */
     public boolean isInstructionAlertsEnabled() {
         return instructionAlertsEnabled;
     }
@@ -108,11 +96,6 @@ public class GlobalRequestTypeConfiguration {
         this.instructionAlertsEnabled = instructionAlertsEnabled;
     }
 
-    /**
-     * @hibernate.property
-     *  column="instruction_alerts_detailed"
-     *  not-null="true"
-     */
     public boolean isInstructionAlertsDetailed() {
         return instructionAlertsDetailed;
     }
@@ -121,11 +104,6 @@ public class GlobalRequestTypeConfiguration {
         this.instructionAlertsDetailed = instructionAlertsDetailed;
     }
 
-    /**
-     * @hibernate.property
-     *  column="instruction_max_delay"
-     *  not-null="true"
-     */
     public int getInstructionMaxDelay() {
         return instructionMaxDelay;
     }
@@ -134,11 +112,6 @@ public class GlobalRequestTypeConfiguration {
         this.instructionMaxDelay = instructionMaxDelay;
     }
 
-    /**
-     * @hibernate.property
-     *  column="instruction_alert_delay"
-     *  not-null="true"
-     */
     public int getInstructionAlertDelay() {
         return instructionAlertDelay;
     }
@@ -147,11 +120,6 @@ public class GlobalRequestTypeConfiguration {
         this.instructionAlertDelay = instructionAlertDelay;
     }
 
-    /**
-     * @hibernate.property
-     *  column="request_lock_max_delay"
-     *  not-null="true"
-     */
     public int getRequestLockMaxDelay() {
         return requestLockMaxDelay;
     }
@@ -160,10 +128,6 @@ public class GlobalRequestTypeConfiguration {
         this.requestLockMaxDelay = requestLockMaxDelay;
     }
 
-    /**
-     * @hibernate.property
-     *  column="archives_password"
-     */
     public String getArchivesPassword() {
         return archivesPassword;
     }

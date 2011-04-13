@@ -4,22 +4,43 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
+import javax.persistence.Table;
 
-/**
- *
- * @hibernate.class
- *  table="ticket_place_category"
- *  lazy="false"
- */
+@Entity
+@Table(name="ticket_place_category")
 public class PlaceCategory implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
+
+    @Column(name="external_id")
     private String externalId;
+
+    @Column(name="name")
     private String name;
+
+    @Column(name="place_number")
     private int placeNumber;
+
+    @Column(name="booked_place_number")
     private int bookedPlaceNumber;
+
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+    @JoinColumn(name="ticket_place_category_id")
+    @OrderColumn(name="fares_index")
     private List<Fare> fares = new ArrayList<Fare>();
 
     public PlaceCategory() {
@@ -35,11 +56,6 @@ public class PlaceCategory implements Serializable {
         this.name = name;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -48,10 +64,6 @@ public class PlaceCategory implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="external_id"
-     */
     public String getExternalId() {
         return externalId;
     }
@@ -60,10 +72,6 @@ public class PlaceCategory implements Serializable {
         this.externalId = externalId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="name"
-     */
     public String getName() {
         return name;
     }
@@ -72,10 +80,6 @@ public class PlaceCategory implements Serializable {
         this.name = name;
     }
 
-    /**
-     * @hibernate.property
-     *  column="place_number"
-     */
     public int getPlaceNumber() {
         return placeNumber;
     }
@@ -84,10 +88,6 @@ public class PlaceCategory implements Serializable {
         this.placeNumber = placeNumber;
     }
 
-    /**
-     * @hibernate.property
-     *  column="booked_place_number"
-     */
     public int getBookedPlaceNumber() {
         return bookedPlaceNumber;
     }
@@ -96,18 +96,6 @@ public class PlaceCategory implements Serializable {
         this.bookedPlaceNumber = bookedPlaceNumber;
     }
 
-    /**
-     * @hibernate.list
-     *  inverse="false"
-     *  lazy="false"
-     *  cascade="all"
-     * @hibernate.key
-     *  column="ticket_place_category_id"
-     * @hibernate.list-index
-     *  column="fares_index"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.request.ticket.Fare"
-     */
     public List<Fare> getFares() {
         return fares;
     }

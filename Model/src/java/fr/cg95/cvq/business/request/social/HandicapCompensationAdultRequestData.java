@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.social;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="handicap_compensation_adult_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="handicap_compensation_adult_request")
 public class HandicapCompensationAdultRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -1176,11 +1179,8 @@ public class HandicapCompensationAdultRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -1196,25 +1196,16 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.social.HcarAdditionalFee> additionalFee;
 
-    public final void setAdditionalFee(final List<fr.cg95.cvq.business.request.social.HcarAdditionalFee> additionalFee) {
+    public void setAdditionalFee(final List<fr.cg95.cvq.business.request.social.HcarAdditionalFee> additionalFee) {
         this.additionalFee = additionalFee;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="handicap_compensation_adult_request_id"
-        * @hibernate.list-index
-        *  column="additional_fee_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.social.HcarAdditionalFee"
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @OrderColumn(name="additional_fee_index")
+    @JoinColumn(name="handicap_compensation_adult_request_id")
       
-    */
-    public final List<fr.cg95.cvq.business.request.social.HcarAdditionalFee> getAdditionalFee() {
+    public List<fr.cg95.cvq.business.request.social.HcarAdditionalFee> getAdditionalFee() {
         return this.additionalFee;
     }
   
@@ -1228,18 +1219,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsCompensatoryAllowanceForExpenses;
 
-    public final void setBenefitsCompensatoryAllowanceForExpenses(final Boolean benefitsCompensatoryAllowanceForExpenses) {
+    public void setBenefitsCompensatoryAllowanceForExpenses(final Boolean benefitsCompensatoryAllowanceForExpenses) {
         this.benefitsCompensatoryAllowanceForExpenses = benefitsCompensatoryAllowanceForExpenses;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_compensatory_allowance_for_expenses"
-        
+    @Column(name="benefits_compensatory_allowance_for_expenses"  )
       
-    */
-    public final Boolean getBenefitsCompensatoryAllowanceForExpenses() {
+    public Boolean getBenefitsCompensatoryAllowanceForExpenses() {
         return this.benefitsCompensatoryAllowanceForExpenses;
     }
   
@@ -1253,18 +1240,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsDailyAllowances;
 
-    public final void setBenefitsDailyAllowances(final Boolean benefitsDailyAllowances) {
+    public void setBenefitsDailyAllowances(final Boolean benefitsDailyAllowances) {
         this.benefitsDailyAllowances = benefitsDailyAllowances;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_daily_allowances"
-        
+    @Column(name="benefits_daily_allowances"  )
       
-    */
-    public final Boolean getBenefitsDailyAllowances() {
+    public Boolean getBenefitsDailyAllowances() {
         return this.benefitsDailyAllowances;
     }
   
@@ -1278,18 +1261,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsDisabilityCard;
 
-    public final void setBenefitsDisabilityCard(final Boolean benefitsDisabilityCard) {
+    public void setBenefitsDisabilityCard(final Boolean benefitsDisabilityCard) {
         this.benefitsDisabilityCard = benefitsDisabilityCard;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_disability_card"
-        
+    @Column(name="benefits_disability_card"  )
       
-    */
-    public final Boolean getBenefitsDisabilityCard() {
+    public Boolean getBenefitsDisabilityCard() {
         return this.benefitsDisabilityCard;
     }
   
@@ -1303,18 +1282,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsDisabilityCompensation;
 
-    public final void setBenefitsDisabilityCompensation(final Boolean benefitsDisabilityCompensation) {
+    public void setBenefitsDisabilityCompensation(final Boolean benefitsDisabilityCompensation) {
         this.benefitsDisabilityCompensation = benefitsDisabilityCompensation;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_disability_compensation"
-        
+    @Column(name="benefits_disability_compensation"  )
       
-    */
-    public final Boolean getBenefitsDisabilityCompensation() {
+    public Boolean getBenefitsDisabilityCompensation() {
         return this.benefitsDisabilityCompensation;
     }
   
@@ -1328,18 +1303,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsDisabilityPension;
 
-    public final void setBenefitsDisabilityPension(final Boolean benefitsDisabilityPension) {
+    public void setBenefitsDisabilityPension(final Boolean benefitsDisabilityPension) {
         this.benefitsDisabilityPension = benefitsDisabilityPension;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_disability_pension"
-        
+    @Column(name="benefits_disability_pension"  )
       
-    */
-    public final Boolean getBenefitsDisabilityPension() {
+    public Boolean getBenefitsDisabilityPension() {
         return this.benefitsDisabilityPension;
     }
   
@@ -1396,18 +1367,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String benefitsDisabilityPensionCategory;
 
-    public final void setBenefitsDisabilityPensionCategory(final String benefitsDisabilityPensionCategory) {
+    public void setBenefitsDisabilityPensionCategory(final String benefitsDisabilityPensionCategory) {
         this.benefitsDisabilityPensionCategory = benefitsDisabilityPensionCategory;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_disability_pension_category"
-        *  length="60"
+    @Column(name="benefits_disability_pension_category" , length=60 )
       
-    */
-    public final String getBenefitsDisabilityPensionCategory() {
+    public String getBenefitsDisabilityPensionCategory() {
         return this.benefitsDisabilityPensionCategory;
     }
   
@@ -1464,18 +1431,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String benefitsDisabilityRatio;
 
-    public final void setBenefitsDisabilityRatio(final String benefitsDisabilityRatio) {
+    public void setBenefitsDisabilityRatio(final String benefitsDisabilityRatio) {
         this.benefitsDisabilityRatio = benefitsDisabilityRatio;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_disability_ratio"
-        *  length="3"
+    @Column(name="benefits_disability_ratio" , length=3 )
       
-    */
-    public final String getBenefitsDisabilityRatio() {
+    public String getBenefitsDisabilityRatio() {
         return this.benefitsDisabilityRatio;
     }
   
@@ -1489,18 +1452,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsDisabilityRecognition;
 
-    public final void setBenefitsDisabilityRecognition(final Boolean benefitsDisabilityRecognition) {
+    public void setBenefitsDisabilityRecognition(final Boolean benefitsDisabilityRecognition) {
         this.benefitsDisabilityRecognition = benefitsDisabilityRecognition;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_disability_recognition"
-        
+    @Column(name="benefits_disability_recognition"  )
       
-    */
-    public final Boolean getBenefitsDisabilityRecognition() {
+    public Boolean getBenefitsDisabilityRecognition() {
         return this.benefitsDisabilityRecognition;
     }
   
@@ -1514,18 +1473,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsDisabledAdultAllocation;
 
-    public final void setBenefitsDisabledAdultAllocation(final Boolean benefitsDisabledAdultAllocation) {
+    public void setBenefitsDisabledAdultAllocation(final Boolean benefitsDisabledAdultAllocation) {
         this.benefitsDisabledAdultAllocation = benefitsDisabledAdultAllocation;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_disabled_adult_allocation"
-        
+    @Column(name="benefits_disabled_adult_allocation"  )
       
-    */
-    public final Boolean getBenefitsDisabledAdultAllocation() {
+    public Boolean getBenefitsDisabledAdultAllocation() {
         return this.benefitsDisabledAdultAllocation;
     }
   
@@ -1539,18 +1494,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsDisabledWorkerRecognition;
 
-    public final void setBenefitsDisabledWorkerRecognition(final Boolean benefitsDisabledWorkerRecognition) {
+    public void setBenefitsDisabledWorkerRecognition(final Boolean benefitsDisabledWorkerRecognition) {
         this.benefitsDisabledWorkerRecognition = benefitsDisabledWorkerRecognition;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_disabled_worker_recognition"
-        
+    @Column(name="benefits_disabled_worker_recognition"  )
       
-    */
-    public final Boolean getBenefitsDisabledWorkerRecognition() {
+    public Boolean getBenefitsDisabledWorkerRecognition() {
         return this.benefitsDisabledWorkerRecognition;
     }
   
@@ -1564,18 +1515,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsEducationAllocationOfDisabledChildren;
 
-    public final void setBenefitsEducationAllocationOfDisabledChildren(final Boolean benefitsEducationAllocationOfDisabledChildren) {
+    public void setBenefitsEducationAllocationOfDisabledChildren(final Boolean benefitsEducationAllocationOfDisabledChildren) {
         this.benefitsEducationAllocationOfDisabledChildren = benefitsEducationAllocationOfDisabledChildren;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_education_allocation_of_disabled_children"
-        
+    @Column(name="benefits_education_allocation_of_disabled_children"  )
       
-    */
-    public final Boolean getBenefitsEducationAllocationOfDisabledChildren() {
+    public Boolean getBenefitsEducationAllocationOfDisabledChildren() {
         return this.benefitsEducationAllocationOfDisabledChildren;
     }
   
@@ -1589,18 +1536,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsEducationOfDisabledChildren;
 
-    public final void setBenefitsEducationOfDisabledChildren(final Boolean benefitsEducationOfDisabledChildren) {
+    public void setBenefitsEducationOfDisabledChildren(final Boolean benefitsEducationOfDisabledChildren) {
         this.benefitsEducationOfDisabledChildren = benefitsEducationOfDisabledChildren;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_education_of_disabled_children"
-        
+    @Column(name="benefits_education_of_disabled_children"  )
       
-    */
-    public final Boolean getBenefitsEducationOfDisabledChildren() {
+    public Boolean getBenefitsEducationOfDisabledChildren() {
         return this.benefitsEducationOfDisabledChildren;
     }
   
@@ -1657,18 +1600,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String benefitsEducationOfDisabledChildrenDetails;
 
-    public final void setBenefitsEducationOfDisabledChildrenDetails(final String benefitsEducationOfDisabledChildrenDetails) {
+    public void setBenefitsEducationOfDisabledChildrenDetails(final String benefitsEducationOfDisabledChildrenDetails) {
         this.benefitsEducationOfDisabledChildrenDetails = benefitsEducationOfDisabledChildrenDetails;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_education_of_disabled_children_details"
-        *  length="60"
+    @Column(name="benefits_education_of_disabled_children_details" , length=60 )
       
-    */
-    public final String getBenefitsEducationOfDisabledChildrenDetails() {
+    public String getBenefitsEducationOfDisabledChildrenDetails() {
         return this.benefitsEducationOfDisabledChildrenDetails;
     }
   
@@ -1682,18 +1621,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsIncreaseForIndependentLiving;
 
-    public final void setBenefitsIncreaseForIndependentLiving(final Boolean benefitsIncreaseForIndependentLiving) {
+    public void setBenefitsIncreaseForIndependentLiving(final Boolean benefitsIncreaseForIndependentLiving) {
         this.benefitsIncreaseForIndependentLiving = benefitsIncreaseForIndependentLiving;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_increase_for_independent_living"
-        
+    @Column(name="benefits_increase_for_independent_living"  )
       
-    */
-    public final Boolean getBenefitsIncreaseForIndependentLiving() {
+    public Boolean getBenefitsIncreaseForIndependentLiving() {
         return this.benefitsIncreaseForIndependentLiving;
     }
   
@@ -1707,18 +1642,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsOtherBenefits;
 
-    public final void setBenefitsOtherBenefits(final Boolean benefitsOtherBenefits) {
+    public void setBenefitsOtherBenefits(final Boolean benefitsOtherBenefits) {
         this.benefitsOtherBenefits = benefitsOtherBenefits;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_other_benefits"
-        
+    @Column(name="benefits_other_benefits"  )
       
-    */
-    public final Boolean getBenefitsOtherBenefits() {
+    public Boolean getBenefitsOtherBenefits() {
         return this.benefitsOtherBenefits;
     }
   
@@ -1732,18 +1663,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsPainfulStandingCard;
 
-    public final void setBenefitsPainfulStandingCard(final Boolean benefitsPainfulStandingCard) {
+    public void setBenefitsPainfulStandingCard(final Boolean benefitsPainfulStandingCard) {
         this.benefitsPainfulStandingCard = benefitsPainfulStandingCard;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_painful_standing_card"
-        
+    @Column(name="benefits_painful_standing_card"  )
       
-    */
-    public final Boolean getBenefitsPainfulStandingCard() {
+    public Boolean getBenefitsPainfulStandingCard() {
         return this.benefitsPainfulStandingCard;
     }
   
@@ -1757,18 +1684,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsParkingCard;
 
-    public final void setBenefitsParkingCard(final Boolean benefitsParkingCard) {
+    public void setBenefitsParkingCard(final Boolean benefitsParkingCard) {
         this.benefitsParkingCard = benefitsParkingCard;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_parking_card"
-        
+    @Column(name="benefits_parking_card"  )
       
-    */
-    public final Boolean getBenefitsParkingCard() {
+    public Boolean getBenefitsParkingCard() {
         return this.benefitsParkingCard;
     }
   
@@ -1782,18 +1705,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsProfessionalOrientation;
 
-    public final void setBenefitsProfessionalOrientation(final Boolean benefitsProfessionalOrientation) {
+    public void setBenefitsProfessionalOrientation(final Boolean benefitsProfessionalOrientation) {
         this.benefitsProfessionalOrientation = benefitsProfessionalOrientation;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_professional_orientation"
-        
+    @Column(name="benefits_professional_orientation"  )
       
-    */
-    public final Boolean getBenefitsProfessionalOrientation() {
+    public Boolean getBenefitsProfessionalOrientation() {
         return this.benefitsProfessionalOrientation;
     }
   
@@ -1850,18 +1769,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String benefitsProfessionalOrientationDetails;
 
-    public final void setBenefitsProfessionalOrientationDetails(final String benefitsProfessionalOrientationDetails) {
+    public void setBenefitsProfessionalOrientationDetails(final String benefitsProfessionalOrientationDetails) {
         this.benefitsProfessionalOrientationDetails = benefitsProfessionalOrientationDetails;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_professional_orientation_details"
-        *  length="60"
+    @Column(name="benefits_professional_orientation_details" , length=60 )
       
-    */
-    public final String getBenefitsProfessionalOrientationDetails() {
+    public String getBenefitsProfessionalOrientationDetails() {
         return this.benefitsProfessionalOrientationDetails;
     }
   
@@ -1875,18 +1790,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsSocialWelfare;
 
-    public final void setBenefitsSocialWelfare(final Boolean benefitsSocialWelfare) {
+    public void setBenefitsSocialWelfare(final Boolean benefitsSocialWelfare) {
         this.benefitsSocialWelfare = benefitsSocialWelfare;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_social_welfare"
-        
+    @Column(name="benefits_social_welfare"  )
       
-    */
-    public final Boolean getBenefitsSocialWelfare() {
+    public Boolean getBenefitsSocialWelfare() {
         return this.benefitsSocialWelfare;
     }
   
@@ -1900,18 +1811,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsSupplementForSingleParents;
 
-    public final void setBenefitsSupplementForSingleParents(final Boolean benefitsSupplementForSingleParents) {
+    public void setBenefitsSupplementForSingleParents(final Boolean benefitsSupplementForSingleParents) {
         this.benefitsSupplementForSingleParents = benefitsSupplementForSingleParents;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_supplement_for_single_parents"
-        
+    @Column(name="benefits_supplement_for_single_parents"  )
       
-    */
-    public final Boolean getBenefitsSupplementForSingleParents() {
+    public Boolean getBenefitsSupplementForSingleParents() {
         return this.benefitsSupplementForSingleParents;
     }
   
@@ -1925,18 +1832,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsSupportedByAnInstitution;
 
-    public final void setBenefitsSupportedByAnInstitution(final Boolean benefitsSupportedByAnInstitution) {
+    public void setBenefitsSupportedByAnInstitution(final Boolean benefitsSupportedByAnInstitution) {
         this.benefitsSupportedByAnInstitution = benefitsSupportedByAnInstitution;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_supported_by_an_institution"
-        
+    @Column(name="benefits_supported_by_an_institution"  )
       
-    */
-    public final Boolean getBenefitsSupportedByAnInstitution() {
+    public Boolean getBenefitsSupportedByAnInstitution() {
         return this.benefitsSupportedByAnInstitution;
     }
   
@@ -1993,18 +1896,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String benefitsSupportedByAnInstitutionDetails;
 
-    public final void setBenefitsSupportedByAnInstitutionDetails(final String benefitsSupportedByAnInstitutionDetails) {
+    public void setBenefitsSupportedByAnInstitutionDetails(final String benefitsSupportedByAnInstitutionDetails) {
         this.benefitsSupportedByAnInstitutionDetails = benefitsSupportedByAnInstitutionDetails;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_supported_by_an_institution_details"
-        *  length="60"
+    @Column(name="benefits_supported_by_an_institution_details" , length=60 )
       
-    */
-    public final String getBenefitsSupportedByAnInstitutionDetails() {
+    public String getBenefitsSupportedByAnInstitutionDetails() {
         return this.benefitsSupportedByAnInstitutionDetails;
     }
   
@@ -2018,18 +1917,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsThirdPartyCompensatoryAllowance;
 
-    public final void setBenefitsThirdPartyCompensatoryAllowance(final Boolean benefitsThirdPartyCompensatoryAllowance) {
+    public void setBenefitsThirdPartyCompensatoryAllowance(final Boolean benefitsThirdPartyCompensatoryAllowance) {
         this.benefitsThirdPartyCompensatoryAllowance = benefitsThirdPartyCompensatoryAllowance;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_third_party_compensatory_allowance"
-        
+    @Column(name="benefits_third_party_compensatory_allowance"  )
       
-    */
-    public final Boolean getBenefitsThirdPartyCompensatoryAllowance() {
+    public Boolean getBenefitsThirdPartyCompensatoryAllowance() {
         return this.benefitsThirdPartyCompensatoryAllowance;
     }
   
@@ -2043,18 +1938,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsThirdPartySupplement;
 
-    public final void setBenefitsThirdPartySupplement(final Boolean benefitsThirdPartySupplement) {
+    public void setBenefitsThirdPartySupplement(final Boolean benefitsThirdPartySupplement) {
         this.benefitsThirdPartySupplement = benefitsThirdPartySupplement;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_third_party_supplement"
-        
+    @Column(name="benefits_third_party_supplement"  )
       
-    */
-    public final Boolean getBenefitsThirdPartySupplement() {
+    public Boolean getBenefitsThirdPartySupplement() {
         return this.benefitsThirdPartySupplement;
     }
   
@@ -2068,18 +1959,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsThirdPersonCompensatoryAllowance;
 
-    public final void setBenefitsThirdPersonCompensatoryAllowance(final Boolean benefitsThirdPersonCompensatoryAllowance) {
+    public void setBenefitsThirdPersonCompensatoryAllowance(final Boolean benefitsThirdPersonCompensatoryAllowance) {
         this.benefitsThirdPersonCompensatoryAllowance = benefitsThirdPersonCompensatoryAllowance;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_third_person_compensatory_allowance"
-        
+    @Column(name="benefits_third_person_compensatory_allowance"  )
       
-    */
-    public final Boolean getBenefitsThirdPersonCompensatoryAllowance() {
+    public Boolean getBenefitsThirdPersonCompensatoryAllowance() {
         return this.benefitsThirdPersonCompensatoryAllowance;
     }
   
@@ -2093,18 +1980,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsUnemploymentBenefits;
 
-    public final void setBenefitsUnemploymentBenefits(final Boolean benefitsUnemploymentBenefits) {
+    public void setBenefitsUnemploymentBenefits(final Boolean benefitsUnemploymentBenefits) {
         this.benefitsUnemploymentBenefits = benefitsUnemploymentBenefits;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_unemployment_benefits"
-        
+    @Column(name="benefits_unemployment_benefits"  )
       
-    */
-    public final Boolean getBenefitsUnemploymentBenefits() {
+    public Boolean getBenefitsUnemploymentBenefits() {
         return this.benefitsUnemploymentBenefits;
     }
   
@@ -2118,18 +2001,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean benefitsWorkAccidentAnnuity;
 
-    public final void setBenefitsWorkAccidentAnnuity(final Boolean benefitsWorkAccidentAnnuity) {
+    public void setBenefitsWorkAccidentAnnuity(final Boolean benefitsWorkAccidentAnnuity) {
         this.benefitsWorkAccidentAnnuity = benefitsWorkAccidentAnnuity;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_work_accident_annuity"
-        
+    @Column(name="benefits_work_accident_annuity"  )
       
-    */
-    public final Boolean getBenefitsWorkAccidentAnnuity() {
+    public Boolean getBenefitsWorkAccidentAnnuity() {
         return this.benefitsWorkAccidentAnnuity;
     }
   
@@ -2186,18 +2065,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String benefitsWorkAccidentAnnuityRatio;
 
-    public final void setBenefitsWorkAccidentAnnuityRatio(final String benefitsWorkAccidentAnnuityRatio) {
+    public void setBenefitsWorkAccidentAnnuityRatio(final String benefitsWorkAccidentAnnuityRatio) {
         this.benefitsWorkAccidentAnnuityRatio = benefitsWorkAccidentAnnuityRatio;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="benefits_work_accident_annuity_ratio"
-        *  length="3"
+    @Column(name="benefits_work_accident_annuity_ratio" , length=3 )
       
-    */
-    public final String getBenefitsWorkAccidentAnnuityRatio() {
+    public String getBenefitsWorkAccidentAnnuityRatio() {
         return this.benefitsWorkAccidentAnnuityRatio;
     }
   
@@ -2211,18 +2086,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean careCareServices;
 
-    public final void setCareCareServices(final Boolean careCareServices) {
+    public void setCareCareServices(final Boolean careCareServices) {
         this.careCareServices = careCareServices;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="care_care_services"
-        
+    @Column(name="care_care_services"  )
       
-    */
-    public final Boolean getCareCareServices() {
+    public Boolean getCareCareServices() {
         return this.careCareServices;
     }
   
@@ -2261,25 +2132,16 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.social.HcarCareService> careServices;
 
-    public final void setCareServices(final List<fr.cg95.cvq.business.request.social.HcarCareService> careServices) {
+    public void setCareServices(final List<fr.cg95.cvq.business.request.social.HcarCareService> careServices) {
         this.careServices = careServices;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="handicap_compensation_adult_request_id"
-        * @hibernate.list-index
-        *  column="care_services_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.social.HcarCareService"
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @OrderColumn(name="care_services_index")
+    @JoinColumn(name="handicap_compensation_adult_request_id")
       
-    */
-    public final List<fr.cg95.cvq.business.request.social.HcarCareService> getCareServices() {
+    public List<fr.cg95.cvq.business.request.social.HcarCareService> getCareServices() {
         return this.careServices;
     }
   
@@ -2293,18 +2155,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean dwellingEstablishmentReception;
 
-    public final void setDwellingEstablishmentReception(final Boolean dwellingEstablishmentReception) {
+    public void setDwellingEstablishmentReception(final Boolean dwellingEstablishmentReception) {
         this.dwellingEstablishmentReception = dwellingEstablishmentReception;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dwelling_establishment_reception"
-        
+    @Column(name="dwelling_establishment_reception"  )
       
-    */
-    public final Boolean getDwellingEstablishmentReception() {
+    public Boolean getDwellingEstablishmentReception() {
         return this.dwellingEstablishmentReception;
     }
   
@@ -2318,18 +2176,15 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.social.HcarDwellingKindType dwellingKind;
 
-    public final void setDwellingKind(final fr.cg95.cvq.business.request.social.HcarDwellingKindType dwellingKind) {
+    public void setDwellingKind(final fr.cg95.cvq.business.request.social.HcarDwellingKindType dwellingKind) {
         this.dwellingKind = dwellingKind;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dwelling_kind"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="dwelling_kind"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.HcarDwellingKindType getDwellingKind() {
+    public fr.cg95.cvq.business.request.social.HcarDwellingKindType getDwellingKind() {
         return this.dwellingKind;
     }
   
@@ -2386,18 +2241,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String dwellingPrecision;
 
-    public final void setDwellingPrecision(final String dwellingPrecision) {
+    public void setDwellingPrecision(final String dwellingPrecision) {
         this.dwellingPrecision = dwellingPrecision;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dwelling_precision"
-        *  length="120"
+    @Column(name="dwelling_precision" , length=120 )
       
-    */
-    public final String getDwellingPrecision() {
+    public String getDwellingPrecision() {
         return this.dwellingPrecision;
     }
   
@@ -2436,19 +2287,15 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.Address dwellingReceptionAddress;
 
-    public final void setDwellingReceptionAddress(final fr.cg95.cvq.business.users.Address dwellingReceptionAddress) {
+    public void setDwellingReceptionAddress(final fr.cg95.cvq.business.users.Address dwellingReceptionAddress) {
         this.dwellingReceptionAddress = dwellingReceptionAddress;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="dwelling_reception_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="dwelling_reception_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getDwellingReceptionAddress() {
+    public fr.cg95.cvq.business.users.Address getDwellingReceptionAddress() {
         return this.dwellingReceptionAddress;
     }
   
@@ -2505,18 +2352,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String dwellingReceptionNaming;
 
-    public final void setDwellingReceptionNaming(final String dwellingReceptionNaming) {
+    public void setDwellingReceptionNaming(final String dwellingReceptionNaming) {
         this.dwellingReceptionNaming = dwellingReceptionNaming;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dwelling_reception_naming"
-        *  length="80"
+    @Column(name="dwelling_reception_naming" , length=80 )
       
-    */
-    public final String getDwellingReceptionNaming() {
+    public String getDwellingReceptionNaming() {
         return this.dwellingReceptionNaming;
     }
   
@@ -2539,18 +2382,15 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.social.HcarDwellingReceptionKindType dwellingReceptionType;
 
-    public final void setDwellingReceptionType(final fr.cg95.cvq.business.request.social.HcarDwellingReceptionKindType dwellingReceptionType) {
+    public void setDwellingReceptionType(final fr.cg95.cvq.business.request.social.HcarDwellingReceptionKindType dwellingReceptionType) {
         this.dwellingReceptionType = dwellingReceptionType;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dwelling_reception_type"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="dwelling_reception_type"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.HcarDwellingReceptionKindType getDwellingReceptionType() {
+    public fr.cg95.cvq.business.request.social.HcarDwellingReceptionKindType getDwellingReceptionType() {
         return this.dwellingReceptionType;
     }
   
@@ -2564,18 +2404,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean dwellingSocialReception;
 
-    public final void setDwellingSocialReception(final Boolean dwellingSocialReception) {
+    public void setDwellingSocialReception(final Boolean dwellingSocialReception) {
         this.dwellingSocialReception = dwellingSocialReception;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dwelling_social_reception"
-        
+    @Column(name="dwelling_social_reception"  )
       
-    */
-    public final Boolean getDwellingSocialReception() {
+    public Boolean getDwellingSocialReception() {
         return this.dwellingSocialReception;
     }
   
@@ -2614,19 +2450,15 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.Address dwellingSocialReceptionAddress;
 
-    public final void setDwellingSocialReceptionAddress(final fr.cg95.cvq.business.users.Address dwellingSocialReceptionAddress) {
+    public void setDwellingSocialReceptionAddress(final fr.cg95.cvq.business.users.Address dwellingSocialReceptionAddress) {
         this.dwellingSocialReceptionAddress = dwellingSocialReceptionAddress;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="dwelling_social_reception_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="dwelling_social_reception_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getDwellingSocialReceptionAddress() {
+    public fr.cg95.cvq.business.users.Address getDwellingSocialReceptionAddress() {
         return this.dwellingSocialReceptionAddress;
     }
   
@@ -2683,18 +2515,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String dwellingSocialReceptionNaming;
 
-    public final void setDwellingSocialReceptionNaming(final String dwellingSocialReceptionNaming) {
+    public void setDwellingSocialReceptionNaming(final String dwellingSocialReceptionNaming) {
         this.dwellingSocialReceptionNaming = dwellingSocialReceptionNaming;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="dwelling_social_reception_naming"
-        *  length="80"
+    @Column(name="dwelling_social_reception_naming" , length=80 )
       
-    */
-    public final String getDwellingSocialReceptionNaming() {
+    public String getDwellingSocialReceptionNaming() {
         return this.dwellingSocialReceptionNaming;
     }
   
@@ -2708,18 +2536,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean facilitiesAnimalAid;
 
-    public final void setFacilitiesAnimalAid(final Boolean facilitiesAnimalAid) {
+    public void setFacilitiesAnimalAid(final Boolean facilitiesAnimalAid) {
         this.facilitiesAnimalAid = facilitiesAnimalAid;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="facilities_animal_aid"
-        
+    @Column(name="facilities_animal_aid"  )
       
-    */
-    public final Boolean getFacilitiesAnimalAid() {
+    public Boolean getFacilitiesAnimalAid() {
         return this.facilitiesAnimalAid;
     }
   
@@ -2776,18 +2600,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String facilitiesAnimalAidDetails;
 
-    public final void setFacilitiesAnimalAidDetails(final String facilitiesAnimalAidDetails) {
+    public void setFacilitiesAnimalAidDetails(final String facilitiesAnimalAidDetails) {
         this.facilitiesAnimalAidDetails = facilitiesAnimalAidDetails;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="facilities_animal_aid_details"
-        *  length="60"
+    @Column(name="facilities_animal_aid_details" , length=60 )
       
-    */
-    public final String getFacilitiesAnimalAidDetails() {
+    public String getFacilitiesAnimalAidDetails() {
         return this.facilitiesAnimalAidDetails;
     }
   
@@ -2801,18 +2621,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean facilitiesCustomCar;
 
-    public final void setFacilitiesCustomCar(final Boolean facilitiesCustomCar) {
+    public void setFacilitiesCustomCar(final Boolean facilitiesCustomCar) {
         this.facilitiesCustomCar = facilitiesCustomCar;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="facilities_custom_car"
-        
+    @Column(name="facilities_custom_car"  )
       
-    */
-    public final Boolean getFacilitiesCustomCar() {
+    public Boolean getFacilitiesCustomCar() {
         return this.facilitiesCustomCar;
     }
   
@@ -2869,18 +2685,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String facilitiesCustomCarDetails;
 
-    public final void setFacilitiesCustomCarDetails(final String facilitiesCustomCarDetails) {
+    public void setFacilitiesCustomCarDetails(final String facilitiesCustomCarDetails) {
         this.facilitiesCustomCarDetails = facilitiesCustomCarDetails;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="facilities_custom_car_details"
-        *  length="60"
+    @Column(name="facilities_custom_car_details" , length=60 )
       
-    */
-    public final String getFacilitiesCustomCarDetails() {
+    public String getFacilitiesCustomCarDetails() {
         return this.facilitiesCustomCarDetails;
     }
   
@@ -2894,18 +2706,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean facilitiesHousing;
 
-    public final void setFacilitiesHousing(final Boolean facilitiesHousing) {
+    public void setFacilitiesHousing(final Boolean facilitiesHousing) {
         this.facilitiesHousing = facilitiesHousing;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="facilities_housing"
-        
+    @Column(name="facilities_housing"  )
       
-    */
-    public final Boolean getFacilitiesHousing() {
+    public Boolean getFacilitiesHousing() {
         return this.facilitiesHousing;
     }
   
@@ -2962,18 +2770,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String facilitiesHousingDetails;
 
-    public final void setFacilitiesHousingDetails(final String facilitiesHousingDetails) {
+    public void setFacilitiesHousingDetails(final String facilitiesHousingDetails) {
         this.facilitiesHousingDetails = facilitiesHousingDetails;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="facilities_housing_details"
-        *  length="60"
+    @Column(name="facilities_housing_details" , length=60 )
       
-    */
-    public final String getFacilitiesHousingDetails() {
+    public String getFacilitiesHousingDetails() {
         return this.facilitiesHousingDetails;
     }
   
@@ -2987,18 +2791,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean facilitiesSpecializedTransport;
 
-    public final void setFacilitiesSpecializedTransport(final Boolean facilitiesSpecializedTransport) {
+    public void setFacilitiesSpecializedTransport(final Boolean facilitiesSpecializedTransport) {
         this.facilitiesSpecializedTransport = facilitiesSpecializedTransport;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="facilities_specialized_transport"
-        
+    @Column(name="facilities_specialized_transport"  )
       
-    */
-    public final Boolean getFacilitiesSpecializedTransport() {
+    public Boolean getFacilitiesSpecializedTransport() {
         return this.facilitiesSpecializedTransport;
     }
   
@@ -3055,18 +2855,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String facilitiesSpecializedTransportDetails;
 
-    public final void setFacilitiesSpecializedTransportDetails(final String facilitiesSpecializedTransportDetails) {
+    public void setFacilitiesSpecializedTransportDetails(final String facilitiesSpecializedTransportDetails) {
         this.facilitiesSpecializedTransportDetails = facilitiesSpecializedTransportDetails;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="facilities_specialized_transport_details"
-        *  length="60"
+    @Column(name="facilities_specialized_transport_details" , length=60 )
       
-    */
-    public final String getFacilitiesSpecializedTransportDetails() {
+    public String getFacilitiesSpecializedTransportDetails() {
         return this.facilitiesSpecializedTransportDetails;
     }
   
@@ -3080,18 +2876,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean facilitiesTechnicalAssistance;
 
-    public final void setFacilitiesTechnicalAssistance(final Boolean facilitiesTechnicalAssistance) {
+    public void setFacilitiesTechnicalAssistance(final Boolean facilitiesTechnicalAssistance) {
         this.facilitiesTechnicalAssistance = facilitiesTechnicalAssistance;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="facilities_technical_assistance"
-        
+    @Column(name="facilities_technical_assistance"  )
       
-    */
-    public final Boolean getFacilitiesTechnicalAssistance() {
+    public Boolean getFacilitiesTechnicalAssistance() {
         return this.facilitiesTechnicalAssistance;
     }
   
@@ -3148,18 +2940,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String facilitiesTechnicalAssistanceDetails;
 
-    public final void setFacilitiesTechnicalAssistanceDetails(final String facilitiesTechnicalAssistanceDetails) {
+    public void setFacilitiesTechnicalAssistanceDetails(final String facilitiesTechnicalAssistanceDetails) {
         this.facilitiesTechnicalAssistanceDetails = facilitiesTechnicalAssistanceDetails;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="facilities_technical_assistance_details"
-        *  length="60"
+    @Column(name="facilities_technical_assistance_details" , length=60 )
       
-    */
-    public final String getFacilitiesTechnicalAssistanceDetails() {
+    public String getFacilitiesTechnicalAssistanceDetails() {
         return this.facilitiesTechnicalAssistanceDetails;
     }
   
@@ -3198,25 +2986,16 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.social.HcarFamilyAssistanceMember> familyAssistanceMembers;
 
-    public final void setFamilyAssistanceMembers(final List<fr.cg95.cvq.business.request.social.HcarFamilyAssistanceMember> familyAssistanceMembers) {
+    public void setFamilyAssistanceMembers(final List<fr.cg95.cvq.business.request.social.HcarFamilyAssistanceMember> familyAssistanceMembers) {
         this.familyAssistanceMembers = familyAssistanceMembers;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="handicap_compensation_adult_request_id"
-        * @hibernate.list-index
-        *  column="family_assistance_members_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.social.HcarFamilyAssistanceMember"
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @OrderColumn(name="family_assistance_members_index")
+    @JoinColumn(name="handicap_compensation_adult_request_id")
       
-    */
-    public final List<fr.cg95.cvq.business.request.social.HcarFamilyAssistanceMember> getFamilyAssistanceMembers() {
+    public List<fr.cg95.cvq.business.request.social.HcarFamilyAssistanceMember> getFamilyAssistanceMembers() {
         return this.familyAssistanceMembers;
     }
   
@@ -3255,25 +3034,16 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.social.HcarFamilyDependent> familyDependents;
 
-    public final void setFamilyDependents(final List<fr.cg95.cvq.business.request.social.HcarFamilyDependent> familyDependents) {
+    public void setFamilyDependents(final List<fr.cg95.cvq.business.request.social.HcarFamilyDependent> familyDependents) {
         this.familyDependents = familyDependents;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="handicap_compensation_adult_request_id"
-        * @hibernate.list-index
-        *  column="family_dependents_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.social.HcarFamilyDependent"
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @OrderColumn(name="family_dependents_index")
+    @JoinColumn(name="handicap_compensation_adult_request_id")
       
-    */
-    public final List<fr.cg95.cvq.business.request.social.HcarFamilyDependent> getFamilyDependents() {
+    public List<fr.cg95.cvq.business.request.social.HcarFamilyDependent> getFamilyDependents() {
         return this.familyDependents;
     }
   
@@ -3287,18 +3057,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean familyFamilyDependents;
 
-    public final void setFamilyFamilyDependents(final Boolean familyFamilyDependents) {
+    public void setFamilyFamilyDependents(final Boolean familyFamilyDependents) {
         this.familyFamilyDependents = familyFamilyDependents;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="family_family_dependents"
-        
+    @Column(name="family_family_dependents"  )
       
-    */
-    public final Boolean getFamilyFamilyDependents() {
+    public Boolean getFamilyFamilyDependents() {
         return this.familyFamilyDependents;
     }
   
@@ -3312,18 +3078,15 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.FamilyStatusType familyStatus;
 
-    public final void setFamilyStatus(final fr.cg95.cvq.business.users.FamilyStatusType familyStatus) {
+    public void setFamilyStatus(final fr.cg95.cvq.business.users.FamilyStatusType familyStatus) {
         this.familyStatus = familyStatus;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="family_status"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="family_status"  )
       
-    */
-    public final fr.cg95.cvq.business.users.FamilyStatusType getFamilyStatus() {
+    public fr.cg95.cvq.business.users.FamilyStatusType getFamilyStatus() {
         return this.familyStatus;
     }
   
@@ -3337,18 +3100,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean foldersCdes;
 
-    public final void setFoldersCdes(final Boolean foldersCdes) {
+    public void setFoldersCdes(final Boolean foldersCdes) {
         this.foldersCdes = foldersCdes;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="folders_cdes"
-        
+    @Column(name="folders_cdes"  )
       
-    */
-    public final Boolean getFoldersCdes() {
+    public Boolean getFoldersCdes() {
         return this.foldersCdes;
     }
   
@@ -3373,18 +3132,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String foldersCdesDepartment;
 
-    public final void setFoldersCdesDepartment(final String foldersCdesDepartment) {
+    public void setFoldersCdesDepartment(final String foldersCdesDepartment) {
         this.foldersCdesDepartment = foldersCdesDepartment;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="folders_cdes_department"
-        *  length="2"
+    @Column(name="folders_cdes_department" , length=2 )
       
-    */
-    public final String getFoldersCdesDepartment() {
+    public String getFoldersCdesDepartment() {
         return this.foldersCdesDepartment;
     }
   
@@ -3409,18 +3164,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String foldersCdesNumber;
 
-    public final void setFoldersCdesNumber(final String foldersCdesNumber) {
+    public void setFoldersCdesNumber(final String foldersCdesNumber) {
         this.foldersCdesNumber = foldersCdesNumber;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="folders_cdes_number"
-        *  length="30"
+    @Column(name="folders_cdes_number" , length=30 )
       
-    */
-    public final String getFoldersCdesNumber() {
+    public String getFoldersCdesNumber() {
         return this.foldersCdesNumber;
     }
   
@@ -3434,18 +3185,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean foldersCotorep;
 
-    public final void setFoldersCotorep(final Boolean foldersCotorep) {
+    public void setFoldersCotorep(final Boolean foldersCotorep) {
         this.foldersCotorep = foldersCotorep;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="folders_cotorep"
-        
+    @Column(name="folders_cotorep"  )
       
-    */
-    public final Boolean getFoldersCotorep() {
+    public Boolean getFoldersCotorep() {
         return this.foldersCotorep;
     }
   
@@ -3470,18 +3217,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String foldersCotorepDepartment;
 
-    public final void setFoldersCotorepDepartment(final String foldersCotorepDepartment) {
+    public void setFoldersCotorepDepartment(final String foldersCotorepDepartment) {
         this.foldersCotorepDepartment = foldersCotorepDepartment;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="folders_cotorep_department"
-        *  length="2"
+    @Column(name="folders_cotorep_department" , length=2 )
       
-    */
-    public final String getFoldersCotorepDepartment() {
+    public String getFoldersCotorepDepartment() {
         return this.foldersCotorepDepartment;
     }
   
@@ -3506,18 +3249,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String foldersCotorepNumber;
 
-    public final void setFoldersCotorepNumber(final String foldersCotorepNumber) {
+    public void setFoldersCotorepNumber(final String foldersCotorepNumber) {
         this.foldersCotorepNumber = foldersCotorepNumber;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="folders_cotorep_number"
-        *  length="30"
+    @Column(name="folders_cotorep_number" , length=30 )
       
-    */
-    public final String getFoldersCotorepNumber() {
+    public String getFoldersCotorepNumber() {
         return this.foldersCotorepNumber;
     }
   
@@ -3531,18 +3270,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean foldersMdph;
 
-    public final void setFoldersMdph(final Boolean foldersMdph) {
+    public void setFoldersMdph(final Boolean foldersMdph) {
         this.foldersMdph = foldersMdph;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="folders_mdph"
-        
+    @Column(name="folders_mdph"  )
       
-    */
-    public final Boolean getFoldersMdph() {
+    public Boolean getFoldersMdph() {
         return this.foldersMdph;
     }
   
@@ -3567,18 +3302,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String foldersMdphDepartment;
 
-    public final void setFoldersMdphDepartment(final String foldersMdphDepartment) {
+    public void setFoldersMdphDepartment(final String foldersMdphDepartment) {
         this.foldersMdphDepartment = foldersMdphDepartment;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="folders_mdph_department"
-        *  length="2"
+    @Column(name="folders_mdph_department" , length=2 )
       
-    */
-    public final String getFoldersMdphDepartment() {
+    public String getFoldersMdphDepartment() {
         return this.foldersMdphDepartment;
     }
   
@@ -3603,18 +3334,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String foldersMdphNumber;
 
-    public final void setFoldersMdphNumber(final String foldersMdphNumber) {
+    public void setFoldersMdphNumber(final String foldersMdphNumber) {
         this.foldersMdphNumber = foldersMdphNumber;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="folders_mdph_number"
-        *  length="30"
+    @Column(name="folders_mdph_number" , length=30 )
       
-    */
-    public final String getFoldersMdphNumber() {
+    public String getFoldersMdphNumber() {
         return this.foldersMdphNumber;
     }
   
@@ -3628,18 +3355,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean foldersOtherFolders;
 
-    public final void setFoldersOtherFolders(final Boolean foldersOtherFolders) {
+    public void setFoldersOtherFolders(final Boolean foldersOtherFolders) {
         this.foldersOtherFolders = foldersOtherFolders;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="folders_other_folders"
-        
+    @Column(name="folders_other_folders"  )
       
-    */
-    public final Boolean getFoldersOtherFolders() {
+    public Boolean getFoldersOtherFolders() {
         return this.foldersOtherFolders;
     }
   
@@ -3655,18 +3378,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String formationCurrentFormation;
 
-    public final void setFormationCurrentFormation(final String formationCurrentFormation) {
+    public void setFormationCurrentFormation(final String formationCurrentFormation) {
         this.formationCurrentFormation = formationCurrentFormation;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="formation_current_formation"
-        *  length="120"
+    @Column(name="formation_current_formation" , length=120 )
       
-    */
-    public final String getFormationCurrentFormation() {
+    public String getFormationCurrentFormation() {
         return this.formationCurrentFormation;
     }
   
@@ -3682,18 +3401,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String formationDiploma;
 
-    public final void setFormationDiploma(final String formationDiploma) {
+    public void setFormationDiploma(final String formationDiploma) {
         this.formationDiploma = formationDiploma;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="formation_diploma"
-        *  length="120"
+    @Column(name="formation_diploma" , length=120 )
       
-    */
-    public final String getFormationDiploma() {
+    public String getFormationDiploma() {
         return this.formationDiploma;
     }
   
@@ -3709,18 +3424,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String formationPreviousFormation;
 
-    public final void setFormationPreviousFormation(final String formationPreviousFormation) {
+    public void setFormationPreviousFormation(final String formationPreviousFormation) {
         this.formationPreviousFormation = formationPreviousFormation;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="formation_previous_formation"
-        *  length="180"
+    @Column(name="formation_previous_formation" , length=180 )
       
-    */
-    public final String getFormationPreviousFormation() {
+    public String getFormationPreviousFormation() {
         return this.formationPreviousFormation;
     }
   
@@ -3736,18 +3447,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String formationStudiesLevel;
 
-    public final void setFormationStudiesLevel(final String formationStudiesLevel) {
+    public void setFormationStudiesLevel(final String formationStudiesLevel) {
         this.formationStudiesLevel = formationStudiesLevel;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="formation_studies_level"
-        *  length="30"
+    @Column(name="formation_studies_level" , length=30 )
       
-    */
-    public final String getFormationStudiesLevel() {
+    public String getFormationStudiesLevel() {
         return this.formationStudiesLevel;
     }
   
@@ -3804,18 +3511,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String healthDoctorFirstName;
 
-    public final void setHealthDoctorFirstName(final String healthDoctorFirstName) {
+    public void setHealthDoctorFirstName(final String healthDoctorFirstName) {
         this.healthDoctorFirstName = healthDoctorFirstName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="health_doctor_first_name"
-        *  length="38"
+    @Column(name="health_doctor_first_name" , length=38 )
       
-    */
-    public final String getHealthDoctorFirstName() {
+    public String getHealthDoctorFirstName() {
         return this.healthDoctorFirstName;
     }
   
@@ -3872,18 +3575,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String healthDoctorLastName;
 
-    public final void setHealthDoctorLastName(final String healthDoctorLastName) {
+    public void setHealthDoctorLastName(final String healthDoctorLastName) {
         this.healthDoctorLastName = healthDoctorLastName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="health_doctor_last_name"
-        *  length="38"
+    @Column(name="health_doctor_last_name" , length=38 )
       
-    */
-    public final String getHealthDoctorLastName() {
+    public String getHealthDoctorLastName() {
         return this.healthDoctorLastName;
     }
   
@@ -3897,18 +3596,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean healthFollowedByDoctor;
 
-    public final void setHealthFollowedByDoctor(final Boolean healthFollowedByDoctor) {
+    public void setHealthFollowedByDoctor(final Boolean healthFollowedByDoctor) {
         this.healthFollowedByDoctor = healthFollowedByDoctor;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="health_followed_by_doctor"
-        
+    @Column(name="health_followed_by_doctor"  )
       
-    */
-    public final Boolean getHealthFollowedByDoctor() {
+    public Boolean getHealthFollowedByDoctor() {
         return this.healthFollowedByDoctor;
     }
   
@@ -3922,18 +3617,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean healthFollowedByHospital;
 
-    public final void setHealthFollowedByHospital(final Boolean healthFollowedByHospital) {
+    public void setHealthFollowedByHospital(final Boolean healthFollowedByHospital) {
         this.healthFollowedByHospital = healthFollowedByHospital;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="health_followed_by_hospital"
-        
+    @Column(name="health_followed_by_hospital"  )
       
-    */
-    public final Boolean getHealthFollowedByHospital() {
+    public Boolean getHealthFollowedByHospital() {
         return this.healthFollowedByHospital;
     }
   
@@ -3947,18 +3638,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean healthFollowedByProfessional;
 
-    public final void setHealthFollowedByProfessional(final Boolean healthFollowedByProfessional) {
+    public void setHealthFollowedByProfessional(final Boolean healthFollowedByProfessional) {
         this.healthFollowedByProfessional = healthFollowedByProfessional;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="health_followed_by_professional"
-        
+    @Column(name="health_followed_by_professional"  )
       
-    */
-    public final Boolean getHealthFollowedByProfessional() {
+    public Boolean getHealthFollowedByProfessional() {
         return this.healthFollowedByProfessional;
     }
   
@@ -4015,18 +3702,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String healthHospitalName;
 
-    public final void setHealthHospitalName(final String healthHospitalName) {
+    public void setHealthHospitalName(final String healthHospitalName) {
         this.healthHospitalName = healthHospitalName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="health_hospital_name"
-        *  length="60"
+    @Column(name="health_hospital_name" , length=60 )
       
-    */
-    public final String getHealthHospitalName() {
+    public String getHealthHospitalName() {
         return this.healthHospitalName;
     }
   
@@ -4083,18 +3766,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String healthProfessionalFirstName;
 
-    public final void setHealthProfessionalFirstName(final String healthProfessionalFirstName) {
+    public void setHealthProfessionalFirstName(final String healthProfessionalFirstName) {
         this.healthProfessionalFirstName = healthProfessionalFirstName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="health_professional_first_name"
-        *  length="38"
+    @Column(name="health_professional_first_name" , length=38 )
       
-    */
-    public final String getHealthProfessionalFirstName() {
+    public String getHealthProfessionalFirstName() {
         return this.healthProfessionalFirstName;
     }
   
@@ -4151,18 +3830,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String healthProfessionalLastName;
 
-    public final void setHealthProfessionalLastName(final String healthProfessionalLastName) {
+    public void setHealthProfessionalLastName(final String healthProfessionalLastName) {
         this.healthProfessionalLastName = healthProfessionalLastName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="health_professional_last_name"
-        *  length="38"
+    @Column(name="health_professional_last_name" , length=38 )
       
-    */
-    public final String getHealthProfessionalLastName() {
+    public String getHealthProfessionalLastName() {
         return this.healthProfessionalLastName;
     }
   
@@ -4185,25 +3860,16 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.social.HcarHomeIntervenant> homeIntervenants;
 
-    public final void setHomeIntervenants(final List<fr.cg95.cvq.business.request.social.HcarHomeIntervenant> homeIntervenants) {
+    public void setHomeIntervenants(final List<fr.cg95.cvq.business.request.social.HcarHomeIntervenant> homeIntervenants) {
         this.homeIntervenants = homeIntervenants;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="handicap_compensation_adult_request_id"
-        * @hibernate.list-index
-        *  column="home_intervenants_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.social.HcarHomeIntervenant"
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @OrderColumn(name="home_intervenants_index")
+    @JoinColumn(name="handicap_compensation_adult_request_id")
       
-    */
-    public final List<fr.cg95.cvq.business.request.social.HcarHomeIntervenant> getHomeIntervenants() {
+    public List<fr.cg95.cvq.business.request.social.HcarHomeIntervenant> getHomeIntervenants() {
         return this.homeIntervenants;
     }
   
@@ -4217,18 +3883,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean homeInterventionHomeIntervenant;
 
-    public final void setHomeInterventionHomeIntervenant(final Boolean homeInterventionHomeIntervenant) {
+    public void setHomeInterventionHomeIntervenant(final Boolean homeInterventionHomeIntervenant) {
         this.homeInterventionHomeIntervenant = homeInterventionHomeIntervenant;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="home_intervention_home_intervenant"
-        
+    @Column(name="home_intervention_home_intervenant"  )
       
-    */
-    public final Boolean getHomeInterventionHomeIntervenant() {
+    public Boolean getHomeInterventionHomeIntervenant() {
         return this.homeInterventionHomeIntervenant;
     }
   
@@ -4242,18 +3904,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean isFamilyAssistance;
 
-    public final void setIsFamilyAssistance(final Boolean isFamilyAssistance) {
+    public void setIsFamilyAssistance(final Boolean isFamilyAssistance) {
         this.isFamilyAssistance = isFamilyAssistance;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="is_family_assistance"
-        
+    @Column(name="is_family_assistance"  )
       
-    */
-    public final Boolean getIsFamilyAssistance() {
+    public Boolean getIsFamilyAssistance() {
         return this.isFamilyAssistance;
     }
   
@@ -4276,18 +3934,15 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.social.HcarLegalAccessKindType legalAccessKind;
 
-    public final void setLegalAccessKind(final fr.cg95.cvq.business.request.social.HcarLegalAccessKindType legalAccessKind) {
+    public void setLegalAccessKind(final fr.cg95.cvq.business.request.social.HcarLegalAccessKindType legalAccessKind) {
         this.legalAccessKind = legalAccessKind;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="legal_access_kind"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="legal_access_kind"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.HcarLegalAccessKindType getLegalAccessKind() {
+    public fr.cg95.cvq.business.request.social.HcarLegalAccessKindType getLegalAccessKind() {
         return this.legalAccessKind;
     }
   
@@ -4301,18 +3956,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean legalAccessPresence;
 
-    public final void setLegalAccessPresence(final Boolean legalAccessPresence) {
+    public void setLegalAccessPresence(final Boolean legalAccessPresence) {
         this.legalAccessPresence = legalAccessPresence;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="legal_access_presence"
-        
+    @Column(name="legal_access_presence"  )
       
-    */
-    public final Boolean getLegalAccessPresence() {
+    public Boolean getLegalAccessPresence() {
         return this.legalAccessPresence;
     }
   
@@ -4369,18 +4020,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String legalAccessRepresentativeFirstName;
 
-    public final void setLegalAccessRepresentativeFirstName(final String legalAccessRepresentativeFirstName) {
+    public void setLegalAccessRepresentativeFirstName(final String legalAccessRepresentativeFirstName) {
         this.legalAccessRepresentativeFirstName = legalAccessRepresentativeFirstName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="legal_access_representative_first_name"
-        *  length="38"
+    @Column(name="legal_access_representative_first_name" , length=38 )
       
-    */
-    public final String getLegalAccessRepresentativeFirstName() {
+    public String getLegalAccessRepresentativeFirstName() {
         return this.legalAccessRepresentativeFirstName;
     }
   
@@ -4403,18 +4050,15 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.social.HcarLegalAccessRepresentativeKindType legalAccessRepresentativeKind;
 
-    public final void setLegalAccessRepresentativeKind(final fr.cg95.cvq.business.request.social.HcarLegalAccessRepresentativeKindType legalAccessRepresentativeKind) {
+    public void setLegalAccessRepresentativeKind(final fr.cg95.cvq.business.request.social.HcarLegalAccessRepresentativeKindType legalAccessRepresentativeKind) {
         this.legalAccessRepresentativeKind = legalAccessRepresentativeKind;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="legal_access_representative_kind"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="legal_access_representative_kind"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.HcarLegalAccessRepresentativeKindType getLegalAccessRepresentativeKind() {
+    public fr.cg95.cvq.business.request.social.HcarLegalAccessRepresentativeKindType getLegalAccessRepresentativeKind() {
         return this.legalAccessRepresentativeKind;
     }
   
@@ -4471,18 +4115,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String legalAccessRepresentativeKindDetail;
 
-    public final void setLegalAccessRepresentativeKindDetail(final String legalAccessRepresentativeKindDetail) {
+    public void setLegalAccessRepresentativeKindDetail(final String legalAccessRepresentativeKindDetail) {
         this.legalAccessRepresentativeKindDetail = legalAccessRepresentativeKindDetail;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="legal_access_representative_kind_detail"
-        *  length="80"
+    @Column(name="legal_access_representative_kind_detail" , length=80 )
       
-    */
-    public final String getLegalAccessRepresentativeKindDetail() {
+    public String getLegalAccessRepresentativeKindDetail() {
         return this.legalAccessRepresentativeKindDetail;
     }
   
@@ -4539,18 +4179,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String legalAccessRepresentativeName;
 
-    public final void setLegalAccessRepresentativeName(final String legalAccessRepresentativeName) {
+    public void setLegalAccessRepresentativeName(final String legalAccessRepresentativeName) {
         this.legalAccessRepresentativeName = legalAccessRepresentativeName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="legal_access_representative_name"
-        *  length="38"
+    @Column(name="legal_access_representative_name" , length=38 )
       
-    */
-    public final String getLegalAccessRepresentativeName() {
+    public String getLegalAccessRepresentativeName() {
         return this.legalAccessRepresentativeName;
     }
   
@@ -4573,25 +4209,16 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.social.HcarOtherBenefit> otherBenefits;
 
-    public final void setOtherBenefits(final List<fr.cg95.cvq.business.request.social.HcarOtherBenefit> otherBenefits) {
+    public void setOtherBenefits(final List<fr.cg95.cvq.business.request.social.HcarOtherBenefit> otherBenefits) {
         this.otherBenefits = otherBenefits;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="handicap_compensation_adult_request_id"
-        * @hibernate.list-index
-        *  column="other_benefits_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.social.HcarOtherBenefit"
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @OrderColumn(name="other_benefits_index")
+    @JoinColumn(name="handicap_compensation_adult_request_id")
       
-    */
-    public final List<fr.cg95.cvq.business.request.social.HcarOtherBenefit> getOtherBenefits() {
+    public List<fr.cg95.cvq.business.request.social.HcarOtherBenefit> getOtherBenefits() {
         return this.otherBenefits;
     }
   
@@ -4614,25 +4241,16 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.social.HcarOtherFolder> otherFolders;
 
-    public final void setOtherFolders(final List<fr.cg95.cvq.business.request.social.HcarOtherFolder> otherFolders) {
+    public void setOtherFolders(final List<fr.cg95.cvq.business.request.social.HcarOtherFolder> otherFolders) {
         this.otherFolders = otherFolders;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="handicap_compensation_adult_request_id"
-        * @hibernate.list-index
-        *  column="other_folders_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.social.HcarOtherFolder"
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @OrderColumn(name="other_folders_index")
+    @JoinColumn(name="handicap_compensation_adult_request_id")
       
-    */
-    public final List<fr.cg95.cvq.business.request.social.HcarOtherFolder> getOtherFolders() {
+    public List<fr.cg95.cvq.business.request.social.HcarOtherFolder> getOtherFolders() {
         return this.otherFolders;
     }
   
@@ -4671,19 +4289,15 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.Address paymentAgencyAddress;
 
-    public final void setPaymentAgencyAddress(final fr.cg95.cvq.business.users.Address paymentAgencyAddress) {
+    public void setPaymentAgencyAddress(final fr.cg95.cvq.business.users.Address paymentAgencyAddress) {
         this.paymentAgencyAddress = paymentAgencyAddress;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="payment_agency_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="payment_agency_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getPaymentAgencyAddress() {
+    public fr.cg95.cvq.business.users.Address getPaymentAgencyAddress() {
         return this.paymentAgencyAddress;
     }
   
@@ -4697,18 +4311,15 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.social.HcarPaymentAgencyBeneficiaryType paymentAgencyBeneficiary;
 
-    public final void setPaymentAgencyBeneficiary(final fr.cg95.cvq.business.request.social.HcarPaymentAgencyBeneficiaryType paymentAgencyBeneficiary) {
+    public void setPaymentAgencyBeneficiary(final fr.cg95.cvq.business.request.social.HcarPaymentAgencyBeneficiaryType paymentAgencyBeneficiary) {
         this.paymentAgencyBeneficiary = paymentAgencyBeneficiary;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="payment_agency_beneficiary"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="payment_agency_beneficiary"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.HcarPaymentAgencyBeneficiaryType getPaymentAgencyBeneficiary() {
+    public fr.cg95.cvq.business.request.social.HcarPaymentAgencyBeneficiaryType getPaymentAgencyBeneficiary() {
         return this.paymentAgencyBeneficiary;
     }
   
@@ -4765,18 +4376,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String paymentAgencyBeneficiaryNumber;
 
-    public final void setPaymentAgencyBeneficiaryNumber(final String paymentAgencyBeneficiaryNumber) {
+    public void setPaymentAgencyBeneficiaryNumber(final String paymentAgencyBeneficiaryNumber) {
         this.paymentAgencyBeneficiaryNumber = paymentAgencyBeneficiaryNumber;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="payment_agency_beneficiary_number"
-        *  length="20"
+    @Column(name="payment_agency_beneficiary_number" , length=20 )
       
-    */
-    public final String getPaymentAgencyBeneficiaryNumber() {
+    public String getPaymentAgencyBeneficiaryNumber() {
         return this.paymentAgencyBeneficiaryNumber;
     }
   
@@ -4833,18 +4440,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String paymentAgencyName;
 
-    public final void setPaymentAgencyName(final String paymentAgencyName) {
+    public void setPaymentAgencyName(final String paymentAgencyName) {
         this.paymentAgencyName = paymentAgencyName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="payment_agency_name"
-        *  length="50"
+    @Column(name="payment_agency_name" , length=50 )
       
-    */
-    public final String getPaymentAgencyName() {
+    public String getPaymentAgencyName() {
         return this.paymentAgencyName;
     }
   
@@ -4867,19 +4470,15 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.Address professionalStatusAddress;
 
-    public final void setProfessionalStatusAddress(final fr.cg95.cvq.business.users.Address professionalStatusAddress) {
+    public void setProfessionalStatusAddress(final fr.cg95.cvq.business.users.Address professionalStatusAddress) {
         this.professionalStatusAddress = professionalStatusAddress;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="professional_status_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="professional_status_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getProfessionalStatusAddress() {
+    public fr.cg95.cvq.business.users.Address getProfessionalStatusAddress() {
         return this.professionalStatusAddress;
     }
   
@@ -4893,18 +4492,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private java.util.Date professionalStatusDate;
 
-    public final void setProfessionalStatusDate(final java.util.Date professionalStatusDate) {
+    public void setProfessionalStatusDate(final java.util.Date professionalStatusDate) {
         this.professionalStatusDate = professionalStatusDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="professional_status_date"
-        
+    @Column(name="professional_status_date"  )
       
-    */
-    public final java.util.Date getProfessionalStatusDate() {
+    public java.util.Date getProfessionalStatusDate() {
         return this.professionalStatusDate;
     }
   
@@ -4918,18 +4513,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean professionalStatusElectiveFunction;
 
-    public final void setProfessionalStatusElectiveFunction(final Boolean professionalStatusElectiveFunction) {
+    public void setProfessionalStatusElectiveFunction(final Boolean professionalStatusElectiveFunction) {
         this.professionalStatusElectiveFunction = professionalStatusElectiveFunction;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="professional_status_elective_function"
-        
+    @Column(name="professional_status_elective_function"  )
       
-    */
-    public final Boolean getProfessionalStatusElectiveFunction() {
+    public Boolean getProfessionalStatusElectiveFunction() {
         return this.professionalStatusElectiveFunction;
     }
   
@@ -4986,18 +4577,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String professionalStatusElectiveFunctionDetails;
 
-    public final void setProfessionalStatusElectiveFunctionDetails(final String professionalStatusElectiveFunctionDetails) {
+    public void setProfessionalStatusElectiveFunctionDetails(final String professionalStatusElectiveFunctionDetails) {
         this.professionalStatusElectiveFunctionDetails = professionalStatusElectiveFunctionDetails;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="professional_status_elective_function_details"
-        *  length="60"
+    @Column(name="professional_status_elective_function_details" , length=60 )
       
-    */
-    public final String getProfessionalStatusElectiveFunctionDetails() {
+    public String getProfessionalStatusElectiveFunctionDetails() {
         return this.professionalStatusElectiveFunctionDetails;
     }
   
@@ -5054,18 +4641,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String professionalStatusEmployerName;
 
-    public final void setProfessionalStatusEmployerName(final String professionalStatusEmployerName) {
+    public void setProfessionalStatusEmployerName(final String professionalStatusEmployerName) {
         this.professionalStatusEmployerName = professionalStatusEmployerName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="professional_status_employer_name"
-        *  length="38"
+    @Column(name="professional_status_employer_name" , length=38 )
       
-    */
-    public final String getProfessionalStatusEmployerName() {
+    public String getProfessionalStatusEmployerName() {
         return this.professionalStatusEmployerName;
     }
   
@@ -5088,18 +4671,15 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.social.HcarProfessionalStatusEnvironmentType professionalStatusEnvironment;
 
-    public final void setProfessionalStatusEnvironment(final fr.cg95.cvq.business.request.social.HcarProfessionalStatusEnvironmentType professionalStatusEnvironment) {
+    public void setProfessionalStatusEnvironment(final fr.cg95.cvq.business.request.social.HcarProfessionalStatusEnvironmentType professionalStatusEnvironment) {
         this.professionalStatusEnvironment = professionalStatusEnvironment;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="professional_status_environment"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="professional_status_environment"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.HcarProfessionalStatusEnvironmentType getProfessionalStatusEnvironment() {
+    public fr.cg95.cvq.business.request.social.HcarProfessionalStatusEnvironmentType getProfessionalStatusEnvironment() {
         return this.professionalStatusEnvironment;
     }
   
@@ -5122,18 +4702,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean professionalStatusIndemnified;
 
-    public final void setProfessionalStatusIndemnified(final Boolean professionalStatusIndemnified) {
+    public void setProfessionalStatusIndemnified(final Boolean professionalStatusIndemnified) {
         this.professionalStatusIndemnified = professionalStatusIndemnified;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="professional_status_indemnified"
-        
+    @Column(name="professional_status_indemnified"  )
       
-    */
-    public final Boolean getProfessionalStatusIndemnified() {
+    public Boolean getProfessionalStatusIndemnified() {
         return this.professionalStatusIndemnified;
     }
   
@@ -5156,18 +4732,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private java.util.Date professionalStatusIndemnifiedDate;
 
-    public final void setProfessionalStatusIndemnifiedDate(final java.util.Date professionalStatusIndemnifiedDate) {
+    public void setProfessionalStatusIndemnifiedDate(final java.util.Date professionalStatusIndemnifiedDate) {
         this.professionalStatusIndemnifiedDate = professionalStatusIndemnifiedDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="professional_status_indemnified_date"
-        
+    @Column(name="professional_status_indemnified_date"  )
       
-    */
-    public final java.util.Date getProfessionalStatusIndemnifiedDate() {
+    public java.util.Date getProfessionalStatusIndemnifiedDate() {
         return this.professionalStatusIndemnifiedDate;
     }
   
@@ -5181,18 +4753,15 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.social.HcarProfessionalStatusKindType professionalStatusKind;
 
-    public final void setProfessionalStatusKind(final fr.cg95.cvq.business.request.social.HcarProfessionalStatusKindType professionalStatusKind) {
+    public void setProfessionalStatusKind(final fr.cg95.cvq.business.request.social.HcarProfessionalStatusKindType professionalStatusKind) {
         this.professionalStatusKind = professionalStatusKind;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="professional_status_kind"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="professional_status_kind"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.HcarProfessionalStatusKindType getProfessionalStatusKind() {
+    public fr.cg95.cvq.business.request.social.HcarProfessionalStatusKindType getProfessionalStatusKind() {
         return this.professionalStatusKind;
     }
   
@@ -5249,18 +4818,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String professionalStatusProfession;
 
-    public final void setProfessionalStatusProfession(final String professionalStatusProfession) {
+    public void setProfessionalStatusProfession(final String professionalStatusProfession) {
         this.professionalStatusProfession = professionalStatusProfession;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="professional_status_profession"
-        *  length="60"
+    @Column(name="professional_status_profession" , length=60 )
       
-    */
-    public final String getProfessionalStatusProfession() {
+    public String getProfessionalStatusProfession() {
         return this.professionalStatusProfession;
     }
   
@@ -5283,18 +4848,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean professionalStatusRegisterAsUnemployed;
 
-    public final void setProfessionalStatusRegisterAsUnemployed(final Boolean professionalStatusRegisterAsUnemployed) {
+    public void setProfessionalStatusRegisterAsUnemployed(final Boolean professionalStatusRegisterAsUnemployed) {
         this.professionalStatusRegisterAsUnemployed = professionalStatusRegisterAsUnemployed;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="professional_status_register_as_unemployed"
-        
+    @Column(name="professional_status_register_as_unemployed"  )
       
-    */
-    public final Boolean getProfessionalStatusRegisterAsUnemployed() {
+    public Boolean getProfessionalStatusRegisterAsUnemployed() {
         return this.professionalStatusRegisterAsUnemployed;
     }
   
@@ -5317,18 +4878,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private java.util.Date professionalStatusRegisterAsUnemployedDate;
 
-    public final void setProfessionalStatusRegisterAsUnemployedDate(final java.util.Date professionalStatusRegisterAsUnemployedDate) {
+    public void setProfessionalStatusRegisterAsUnemployedDate(final java.util.Date professionalStatusRegisterAsUnemployedDate) {
         this.professionalStatusRegisterAsUnemployedDate = professionalStatusRegisterAsUnemployedDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="professional_status_register_as_unemployed_date"
-        
+    @Column(name="professional_status_register_as_unemployed_date"  )
       
-    */
-    public final java.util.Date getProfessionalStatusRegisterAsUnemployedDate() {
+    public java.util.Date getProfessionalStatusRegisterAsUnemployedDate() {
         return this.professionalStatusRegisterAsUnemployedDate;
     }
   
@@ -5351,18 +4908,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean professionalSupportDealsWithSameProfessional;
 
-    public final void setProfessionalSupportDealsWithSameProfessional(final Boolean professionalSupportDealsWithSameProfessional) {
+    public void setProfessionalSupportDealsWithSameProfessional(final Boolean professionalSupportDealsWithSameProfessional) {
         this.professionalSupportDealsWithSameProfessional = professionalSupportDealsWithSameProfessional;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="professional_support_deals_with_same_professional"
-        
+    @Column(name="professional_support_deals_with_same_professional"  )
       
-    */
-    public final Boolean getProfessionalSupportDealsWithSameProfessional() {
+    public Boolean getProfessionalSupportDealsWithSameProfessional() {
         return this.professionalSupportDealsWithSameProfessional;
     }
   
@@ -5376,18 +4929,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean professionalSupportProfessionals;
 
-    public final void setProfessionalSupportProfessionals(final Boolean professionalSupportProfessionals) {
+    public void setProfessionalSupportProfessionals(final Boolean professionalSupportProfessionals) {
         this.professionalSupportProfessionals = professionalSupportProfessionals;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="professional_support_professionals"
-        
+    @Column(name="professional_support_professionals"  )
       
-    */
-    public final Boolean getProfessionalSupportProfessionals() {
+    public Boolean getProfessionalSupportProfessionals() {
         return this.professionalSupportProfessionals;
     }
   
@@ -5426,19 +4975,15 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.Address professionalSupportSocialServiceAddress;
 
-    public final void setProfessionalSupportSocialServiceAddress(final fr.cg95.cvq.business.users.Address professionalSupportSocialServiceAddress) {
+    public void setProfessionalSupportSocialServiceAddress(final fr.cg95.cvq.business.users.Address professionalSupportSocialServiceAddress) {
         this.professionalSupportSocialServiceAddress = professionalSupportSocialServiceAddress;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="professional_support_social_service_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="professional_support_social_service_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getProfessionalSupportSocialServiceAddress() {
+    public fr.cg95.cvq.business.users.Address getProfessionalSupportSocialServiceAddress() {
         return this.professionalSupportSocialServiceAddress;
     }
   
@@ -5495,18 +5040,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String professionalSupportSocialServiceName;
 
-    public final void setProfessionalSupportSocialServiceName(final String professionalSupportSocialServiceName) {
+    public void setProfessionalSupportSocialServiceName(final String professionalSupportSocialServiceName) {
         this.professionalSupportSocialServiceName = professionalSupportSocialServiceName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="professional_support_social_service_name"
-        *  length="60"
+    @Column(name="professional_support_social_service_name" , length=60 )
       
-    */
-    public final String getProfessionalSupportSocialServiceName() {
+    public String getProfessionalSupportSocialServiceName() {
         return this.professionalSupportSocialServiceName;
     }
   
@@ -5520,18 +5061,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean professionalSupportSocialServiceSupport;
 
-    public final void setProfessionalSupportSocialServiceSupport(final Boolean professionalSupportSocialServiceSupport) {
+    public void setProfessionalSupportSocialServiceSupport(final Boolean professionalSupportSocialServiceSupport) {
         this.professionalSupportSocialServiceSupport = professionalSupportSocialServiceSupport;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="professional_support_social_service_support"
-        
+    @Column(name="professional_support_social_service_support"  )
       
-    */
-    public final Boolean getProfessionalSupportSocialServiceSupport() {
+    public Boolean getProfessionalSupportSocialServiceSupport() {
         return this.professionalSupportSocialServiceSupport;
     }
   
@@ -5554,25 +5091,16 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.social.HcarProfessional> professionals;
 
-    public final void setProfessionals(final List<fr.cg95.cvq.business.request.social.HcarProfessional> professionals) {
+    public void setProfessionals(final List<fr.cg95.cvq.business.request.social.HcarProfessional> professionals) {
         this.professionals = professionals;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="handicap_compensation_adult_request_id"
-        * @hibernate.list-index
-        *  column="professionals_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.social.HcarProfessional"
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @OrderColumn(name="professionals_index")
+    @JoinColumn(name="handicap_compensation_adult_request_id")
       
-    */
-    public final List<fr.cg95.cvq.business.request.social.HcarProfessional> getProfessionals() {
+    public List<fr.cg95.cvq.business.request.social.HcarProfessional> getProfessionals() {
         return this.professionals;
     }
   
@@ -5588,18 +5116,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String projectComments;
 
-    public final void setProjectComments(final String projectComments) {
+    public void setProjectComments(final String projectComments) {
         this.projectComments = projectComments;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_comments"
-        *  length="600"
+    @Column(name="project_comments" , length=600 )
       
-    */
-    public final String getProjectComments() {
+    public String getProjectComments() {
         return this.projectComments;
     }
   
@@ -5615,324 +5139,252 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String projectNeeds;
 
-    public final void setProjectNeeds(final String projectNeeds) {
+    public void setProjectNeeds(final String projectNeeds) {
         this.projectNeeds = projectNeeds;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_needs"
-        *  length="600"
+    @Column(name="project_needs" , length=600 )
       
-    */
-    public final String getProjectNeeds() {
+    public String getProjectNeeds() {
         return this.projectNeeds;
     }
   
     
     private Boolean projectRequestsACTPRenewal;
 
-    public final void setProjectRequestsACTPRenewal(final Boolean projectRequestsACTPRenewal) {
+    public void setProjectRequestsACTPRenewal(final Boolean projectRequestsACTPRenewal) {
         this.projectRequestsACTPRenewal = projectRequestsACTPRenewal;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_a_c_t_p_renewal"
-        
+    @Column(name="project_requests_a_c_t_p_renewal"  )
       
-    */
-    public final Boolean getProjectRequestsACTPRenewal() {
+    public Boolean getProjectRequestsACTPRenewal() {
         return this.projectRequestsACTPRenewal;
     }
   
     
     private Boolean projectRequestsAssistance;
 
-    public final void setProjectRequestsAssistance(final Boolean projectRequestsAssistance) {
+    public void setProjectRequestsAssistance(final Boolean projectRequestsAssistance) {
         this.projectRequestsAssistance = projectRequestsAssistance;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_assistance"
-        
+    @Column(name="project_requests_assistance"  )
       
-    */
-    public final Boolean getProjectRequestsAssistance() {
+    public Boolean getProjectRequestsAssistance() {
         return this.projectRequestsAssistance;
     }
   
     
     private Boolean projectRequestsCustomCar;
 
-    public final void setProjectRequestsCustomCar(final Boolean projectRequestsCustomCar) {
+    public void setProjectRequestsCustomCar(final Boolean projectRequestsCustomCar) {
         this.projectRequestsCustomCar = projectRequestsCustomCar;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_custom_car"
-        
+    @Column(name="project_requests_custom_car"  )
       
-    */
-    public final Boolean getProjectRequestsCustomCar() {
+    public Boolean getProjectRequestsCustomCar() {
         return this.projectRequestsCustomCar;
     }
   
     
     private Boolean projectRequestsDisabilityCard;
 
-    public final void setProjectRequestsDisabilityCard(final Boolean projectRequestsDisabilityCard) {
+    public void setProjectRequestsDisabilityCard(final Boolean projectRequestsDisabilityCard) {
         this.projectRequestsDisabilityCard = projectRequestsDisabilityCard;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_disability_card"
-        
+    @Column(name="project_requests_disability_card"  )
       
-    */
-    public final Boolean getProjectRequestsDisabilityCard() {
+    public Boolean getProjectRequestsDisabilityCard() {
         return this.projectRequestsDisabilityCard;
     }
   
     
     private Boolean projectRequestsDisabilityCostAllocation;
 
-    public final void setProjectRequestsDisabilityCostAllocation(final Boolean projectRequestsDisabilityCostAllocation) {
+    public void setProjectRequestsDisabilityCostAllocation(final Boolean projectRequestsDisabilityCostAllocation) {
         this.projectRequestsDisabilityCostAllocation = projectRequestsDisabilityCostAllocation;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_disability_cost_allocation"
-        
+    @Column(name="project_requests_disability_cost_allocation"  )
       
-    */
-    public final Boolean getProjectRequestsDisabilityCostAllocation() {
+    public Boolean getProjectRequestsDisabilityCostAllocation() {
         return this.projectRequestsDisabilityCostAllocation;
     }
   
     
     private Boolean projectRequestsDisabledAdultAllowance;
 
-    public final void setProjectRequestsDisabledAdultAllowance(final Boolean projectRequestsDisabledAdultAllowance) {
+    public void setProjectRequestsDisabledAdultAllowance(final Boolean projectRequestsDisabledAdultAllowance) {
         this.projectRequestsDisabledAdultAllowance = projectRequestsDisabledAdultAllowance;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_disabled_adult_allowance"
-        
+    @Column(name="project_requests_disabled_adult_allowance"  )
       
-    */
-    public final Boolean getProjectRequestsDisabledAdultAllowance() {
+    public Boolean getProjectRequestsDisabledAdultAllowance() {
         return this.projectRequestsDisabledAdultAllowance;
     }
   
     
     private Boolean projectRequestsDisabledPriorityCard;
 
-    public final void setProjectRequestsDisabledPriorityCard(final Boolean projectRequestsDisabledPriorityCard) {
+    public void setProjectRequestsDisabledPriorityCard(final Boolean projectRequestsDisabledPriorityCard) {
         this.projectRequestsDisabledPriorityCard = projectRequestsDisabledPriorityCard;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_disabled_priority_card"
-        
+    @Column(name="project_requests_disabled_priority_card"  )
       
-    */
-    public final Boolean getProjectRequestsDisabledPriorityCard() {
+    public Boolean getProjectRequestsDisabledPriorityCard() {
         return this.projectRequestsDisabledPriorityCard;
     }
   
     
     private Boolean projectRequestsDisabledWorkerRecognition;
 
-    public final void setProjectRequestsDisabledWorkerRecognition(final Boolean projectRequestsDisabledWorkerRecognition) {
+    public void setProjectRequestsDisabledWorkerRecognition(final Boolean projectRequestsDisabledWorkerRecognition) {
         this.projectRequestsDisabledWorkerRecognition = projectRequestsDisabledWorkerRecognition;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_disabled_worker_recognition"
-        
+    @Column(name="project_requests_disabled_worker_recognition"  )
       
-    */
-    public final Boolean getProjectRequestsDisabledWorkerRecognition() {
+    public Boolean getProjectRequestsDisabledWorkerRecognition() {
         return this.projectRequestsDisabledWorkerRecognition;
     }
   
     
     private Boolean projectRequestsEducationAllocationOfDisabledChildren;
 
-    public final void setProjectRequestsEducationAllocationOfDisabledChildren(final Boolean projectRequestsEducationAllocationOfDisabledChildren) {
+    public void setProjectRequestsEducationAllocationOfDisabledChildren(final Boolean projectRequestsEducationAllocationOfDisabledChildren) {
         this.projectRequestsEducationAllocationOfDisabledChildren = projectRequestsEducationAllocationOfDisabledChildren;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_education_allocation_of_disabled_children"
-        
+    @Column(name="project_requests_education_allocation_of_disabled_children"  )
       
-    */
-    public final Boolean getProjectRequestsEducationAllocationOfDisabledChildren() {
+    public Boolean getProjectRequestsEducationAllocationOfDisabledChildren() {
         return this.projectRequestsEducationAllocationOfDisabledChildren;
     }
   
     
     private Boolean projectRequestsEuropeanParkingCard;
 
-    public final void setProjectRequestsEuropeanParkingCard(final Boolean projectRequestsEuropeanParkingCard) {
+    public void setProjectRequestsEuropeanParkingCard(final Boolean projectRequestsEuropeanParkingCard) {
         this.projectRequestsEuropeanParkingCard = projectRequestsEuropeanParkingCard;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_european_parking_card"
-        
+    @Column(name="project_requests_european_parking_card"  )
       
-    */
-    public final Boolean getProjectRequestsEuropeanParkingCard() {
+    public Boolean getProjectRequestsEuropeanParkingCard() {
         return this.projectRequestsEuropeanParkingCard;
     }
   
     
     private Boolean projectRequestsFreePensionMembership;
 
-    public final void setProjectRequestsFreePensionMembership(final Boolean projectRequestsFreePensionMembership) {
+    public void setProjectRequestsFreePensionMembership(final Boolean projectRequestsFreePensionMembership) {
         this.projectRequestsFreePensionMembership = projectRequestsFreePensionMembership;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_free_pension_membership"
-        
+    @Column(name="project_requests_free_pension_membership"  )
       
-    */
-    public final Boolean getProjectRequestsFreePensionMembership() {
+    public Boolean getProjectRequestsFreePensionMembership() {
         return this.projectRequestsFreePensionMembership;
     }
   
     
     private Boolean projectRequestsHandicapRecognition;
 
-    public final void setProjectRequestsHandicapRecognition(final Boolean projectRequestsHandicapRecognition) {
+    public void setProjectRequestsHandicapRecognition(final Boolean projectRequestsHandicapRecognition) {
         this.projectRequestsHandicapRecognition = projectRequestsHandicapRecognition;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_handicap_recognition"
-        
+    @Column(name="project_requests_handicap_recognition"  )
       
-    */
-    public final Boolean getProjectRequestsHandicapRecognition() {
+    public Boolean getProjectRequestsHandicapRecognition() {
         return this.projectRequestsHandicapRecognition;
     }
   
     
     private Boolean projectRequestsHousingFacilities;
 
-    public final void setProjectRequestsHousingFacilities(final Boolean projectRequestsHousingFacilities) {
+    public void setProjectRequestsHousingFacilities(final Boolean projectRequestsHousingFacilities) {
         this.projectRequestsHousingFacilities = projectRequestsHousingFacilities;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_housing_facilities"
-        
+    @Column(name="project_requests_housing_facilities"  )
       
-    */
-    public final Boolean getProjectRequestsHousingFacilities() {
+    public Boolean getProjectRequestsHousingFacilities() {
         return this.projectRequestsHousingFacilities;
     }
   
     
     private Boolean projectRequestsIncreaseForIndependentLiving;
 
-    public final void setProjectRequestsIncreaseForIndependentLiving(final Boolean projectRequestsIncreaseForIndependentLiving) {
+    public void setProjectRequestsIncreaseForIndependentLiving(final Boolean projectRequestsIncreaseForIndependentLiving) {
         this.projectRequestsIncreaseForIndependentLiving = projectRequestsIncreaseForIndependentLiving;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_increase_for_independent_living"
-        
+    @Column(name="project_requests_increase_for_independent_living"  )
       
-    */
-    public final Boolean getProjectRequestsIncreaseForIndependentLiving() {
+    public Boolean getProjectRequestsIncreaseForIndependentLiving() {
         return this.projectRequestsIncreaseForIndependentLiving;
     }
   
     
     private Boolean projectRequestsInstitutionSupport;
 
-    public final void setProjectRequestsInstitutionSupport(final Boolean projectRequestsInstitutionSupport) {
+    public void setProjectRequestsInstitutionSupport(final Boolean projectRequestsInstitutionSupport) {
         this.projectRequestsInstitutionSupport = projectRequestsInstitutionSupport;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_institution_support"
-        
+    @Column(name="project_requests_institution_support"  )
       
-    */
-    public final Boolean getProjectRequestsInstitutionSupport() {
+    public Boolean getProjectRequestsInstitutionSupport() {
         return this.projectRequestsInstitutionSupport;
     }
   
     
     private Boolean projectRequestsOrdinaryWorking;
 
-    public final void setProjectRequestsOrdinaryWorking(final Boolean projectRequestsOrdinaryWorking) {
+    public void setProjectRequestsOrdinaryWorking(final Boolean projectRequestsOrdinaryWorking) {
         this.projectRequestsOrdinaryWorking = projectRequestsOrdinaryWorking;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_ordinary_working"
-        
+    @Column(name="project_requests_ordinary_working"  )
       
-    */
-    public final Boolean getProjectRequestsOrdinaryWorking() {
+    public Boolean getProjectRequestsOrdinaryWorking() {
         return this.projectRequestsOrdinaryWorking;
     }
   
     
     private Boolean projectRequestsOther;
 
-    public final void setProjectRequestsOther(final Boolean projectRequestsOther) {
+    public void setProjectRequestsOther(final Boolean projectRequestsOther) {
         this.projectRequestsOther = projectRequestsOther;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_other"
-        
+    @Column(name="project_requests_other"  )
       
-    */
-    public final Boolean getProjectRequestsOther() {
+    public Boolean getProjectRequestsOther() {
         return this.projectRequestsOther;
     }
   
@@ -5989,126 +5441,98 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String projectRequestsOtherDetails;
 
-    public final void setProjectRequestsOtherDetails(final String projectRequestsOtherDetails) {
+    public void setProjectRequestsOtherDetails(final String projectRequestsOtherDetails) {
         this.projectRequestsOtherDetails = projectRequestsOtherDetails;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_other_details"
-        *  length="60"
+    @Column(name="project_requests_other_details" , length=60 )
       
-    */
-    public final String getProjectRequestsOtherDetails() {
+    public String getProjectRequestsOtherDetails() {
         return this.projectRequestsOtherDetails;
     }
   
     
     private Boolean projectRequestsProfessionalOrientation;
 
-    public final void setProjectRequestsProfessionalOrientation(final Boolean projectRequestsProfessionalOrientation) {
+    public void setProjectRequestsProfessionalOrientation(final Boolean projectRequestsProfessionalOrientation) {
         this.projectRequestsProfessionalOrientation = projectRequestsProfessionalOrientation;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_professional_orientation"
-        
+    @Column(name="project_requests_professional_orientation"  )
       
-    */
-    public final Boolean getProjectRequestsProfessionalOrientation() {
+    public Boolean getProjectRequestsProfessionalOrientation() {
         return this.projectRequestsProfessionalOrientation;
     }
   
     
     private Boolean projectRequestsShelteredWork;
 
-    public final void setProjectRequestsShelteredWork(final Boolean projectRequestsShelteredWork) {
+    public void setProjectRequestsShelteredWork(final Boolean projectRequestsShelteredWork) {
         this.projectRequestsShelteredWork = projectRequestsShelteredWork;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_sheltered_work"
-        
+    @Column(name="project_requests_sheltered_work"  )
       
-    */
-    public final Boolean getProjectRequestsShelteredWork() {
+    public Boolean getProjectRequestsShelteredWork() {
         return this.projectRequestsShelteredWork;
     }
   
     
     private Boolean projectRequestsTechnicalHelp;
 
-    public final void setProjectRequestsTechnicalHelp(final Boolean projectRequestsTechnicalHelp) {
+    public void setProjectRequestsTechnicalHelp(final Boolean projectRequestsTechnicalHelp) {
         this.projectRequestsTechnicalHelp = projectRequestsTechnicalHelp;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_technical_help"
-        
+    @Column(name="project_requests_technical_help"  )
       
-    */
-    public final Boolean getProjectRequestsTechnicalHelp() {
+    public Boolean getProjectRequestsTechnicalHelp() {
         return this.projectRequestsTechnicalHelp;
     }
   
     
     private Boolean projectRequestsThirdPartyHelp;
 
-    public final void setProjectRequestsThirdPartyHelp(final Boolean projectRequestsThirdPartyHelp) {
+    public void setProjectRequestsThirdPartyHelp(final Boolean projectRequestsThirdPartyHelp) {
         this.projectRequestsThirdPartyHelp = projectRequestsThirdPartyHelp;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_third_party_help"
-        
+    @Column(name="project_requests_third_party_help"  )
       
-    */
-    public final Boolean getProjectRequestsThirdPartyHelp() {
+    public Boolean getProjectRequestsThirdPartyHelp() {
         return this.projectRequestsThirdPartyHelp;
     }
   
     
     private Boolean projectRequestsTransportCostAllocation;
 
-    public final void setProjectRequestsTransportCostAllocation(final Boolean projectRequestsTransportCostAllocation) {
+    public void setProjectRequestsTransportCostAllocation(final Boolean projectRequestsTransportCostAllocation) {
         this.projectRequestsTransportCostAllocation = projectRequestsTransportCostAllocation;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_transport_cost_allocation"
-        
+    @Column(name="project_requests_transport_cost_allocation"  )
       
-    */
-    public final Boolean getProjectRequestsTransportCostAllocation() {
+    public Boolean getProjectRequestsTransportCostAllocation() {
         return this.projectRequestsTransportCostAllocation;
     }
   
     
     private Boolean projectRequestsVocationalTraining;
 
-    public final void setProjectRequestsVocationalTraining(final Boolean projectRequestsVocationalTraining) {
+    public void setProjectRequestsVocationalTraining(final Boolean projectRequestsVocationalTraining) {
         this.projectRequestsVocationalTraining = projectRequestsVocationalTraining;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_requests_vocational_training"
-        
+    @Column(name="project_requests_vocational_training"  )
       
-    */
-    public final Boolean getProjectRequestsVocationalTraining() {
+    public Boolean getProjectRequestsVocationalTraining() {
         return this.projectRequestsVocationalTraining;
     }
   
@@ -6124,18 +5548,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String projectWish;
 
-    public final void setProjectWish(final String projectWish) {
+    public void setProjectWish(final String projectWish) {
         this.projectWish = projectWish;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="project_wish"
-        *  length="600"
+    @Column(name="project_wish" , length=600 )
       
-    */
-    public final String getProjectWish() {
+    public String getProjectWish() {
         return this.projectWish;
     }
   
@@ -6174,19 +5594,15 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.Address socialSecurityAgencyAddress;
 
-    public final void setSocialSecurityAgencyAddress(final fr.cg95.cvq.business.users.Address socialSecurityAgencyAddress) {
+    public void setSocialSecurityAgencyAddress(final fr.cg95.cvq.business.users.Address socialSecurityAgencyAddress) {
         this.socialSecurityAgencyAddress = socialSecurityAgencyAddress;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="social_security_agency_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="social_security_agency_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getSocialSecurityAgencyAddress() {
+    public fr.cg95.cvq.business.users.Address getSocialSecurityAgencyAddress() {
         return this.socialSecurityAgencyAddress;
     }
   
@@ -6243,18 +5659,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String socialSecurityAgencyName;
 
-    public final void setSocialSecurityAgencyName(final String socialSecurityAgencyName) {
+    public void setSocialSecurityAgencyName(final String socialSecurityAgencyName) {
         this.socialSecurityAgencyName = socialSecurityAgencyName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="social_security_agency_name"
-        *  length="50"
+    @Column(name="social_security_agency_name" , length=50 )
       
-    */
-    public final String getSocialSecurityAgencyName() {
+    public String getSocialSecurityAgencyName() {
         return this.socialSecurityAgencyName;
     }
   
@@ -6268,18 +5680,15 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.social.HcarSocialSecurityMemberShipKindType socialSecurityMemberShipKind;
 
-    public final void setSocialSecurityMemberShipKind(final fr.cg95.cvq.business.request.social.HcarSocialSecurityMemberShipKindType socialSecurityMemberShipKind) {
+    public void setSocialSecurityMemberShipKind(final fr.cg95.cvq.business.request.social.HcarSocialSecurityMemberShipKindType socialSecurityMemberShipKind) {
         this.socialSecurityMemberShipKind = socialSecurityMemberShipKind;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="social_security_member_ship_kind"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="social_security_member_ship_kind"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.HcarSocialSecurityMemberShipKindType getSocialSecurityMemberShipKind() {
+    public fr.cg95.cvq.business.request.social.HcarSocialSecurityMemberShipKindType getSocialSecurityMemberShipKind() {
         return this.socialSecurityMemberShipKind;
     }
   
@@ -6318,18 +5727,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String socialSecurityNumber;
 
-    public final void setSocialSecurityNumber(final String socialSecurityNumber) {
+    public void setSocialSecurityNumber(final String socialSecurityNumber) {
         this.socialSecurityNumber = socialSecurityNumber;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="social_security_number"
-        *  length="13"
+    @Column(name="social_security_number" , length=13 )
       
-    */
-    public final String getSocialSecurityNumber() {
+    public String getSocialSecurityNumber() {
         return this.socialSecurityNumber;
     }
   
@@ -6352,18 +5757,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean studiesAssistanceUnderDisability;
 
-    public final void setStudiesAssistanceUnderDisability(final Boolean studiesAssistanceUnderDisability) {
+    public void setStudiesAssistanceUnderDisability(final Boolean studiesAssistanceUnderDisability) {
         this.studiesAssistanceUnderDisability = studiesAssistanceUnderDisability;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="studies_assistance_under_disability"
-        
+    @Column(name="studies_assistance_under_disability"  )
       
-    */
-    public final Boolean getStudiesAssistanceUnderDisability() {
+    public Boolean getStudiesAssistanceUnderDisability() {
         return this.studiesAssistanceUnderDisability;
     }
   
@@ -6420,18 +5821,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String studiesAssistanceUnderDisabilityDetails;
 
-    public final void setStudiesAssistanceUnderDisabilityDetails(final String studiesAssistanceUnderDisabilityDetails) {
+    public void setStudiesAssistanceUnderDisabilityDetails(final String studiesAssistanceUnderDisabilityDetails) {
         this.studiesAssistanceUnderDisabilityDetails = studiesAssistanceUnderDisabilityDetails;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="studies_assistance_under_disability_details"
-        *  length="60"
+    @Column(name="studies_assistance_under_disability_details" , length=60 )
       
-    */
-    public final String getStudiesAssistanceUnderDisabilityDetails() {
+    public String getStudiesAssistanceUnderDisabilityDetails() {
         return this.studiesAssistanceUnderDisabilityDetails;
     }
   
@@ -6445,18 +5842,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private Boolean studiesHighSchool;
 
-    public final void setStudiesHighSchool(final Boolean studiesHighSchool) {
+    public void setStudiesHighSchool(final Boolean studiesHighSchool) {
         this.studiesHighSchool = studiesHighSchool;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="studies_high_school"
-        
+    @Column(name="studies_high_school"  )
       
-    */
-    public final Boolean getStudiesHighSchool() {
+    public Boolean getStudiesHighSchool() {
         return this.studiesHighSchool;
     }
   
@@ -6495,19 +5888,15 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.Address studiesHighSchoolAddress;
 
-    public final void setStudiesHighSchoolAddress(final fr.cg95.cvq.business.users.Address studiesHighSchoolAddress) {
+    public void setStudiesHighSchoolAddress(final fr.cg95.cvq.business.users.Address studiesHighSchoolAddress) {
         this.studiesHighSchoolAddress = studiesHighSchoolAddress;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="studies_high_school_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="studies_high_school_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getStudiesHighSchoolAddress() {
+    public fr.cg95.cvq.business.users.Address getStudiesHighSchoolAddress() {
         return this.studiesHighSchoolAddress;
     }
   
@@ -6564,18 +5953,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String studiesHighSchoolGrade;
 
-    public final void setStudiesHighSchoolGrade(final String studiesHighSchoolGrade) {
+    public void setStudiesHighSchoolGrade(final String studiesHighSchoolGrade) {
         this.studiesHighSchoolGrade = studiesHighSchoolGrade;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="studies_high_school_grade"
-        *  length="60"
+    @Column(name="studies_high_school_grade" , length=60 )
       
-    */
-    public final String getStudiesHighSchoolGrade() {
+    public String getStudiesHighSchoolGrade() {
         return this.studiesHighSchoolGrade;
     }
   
@@ -6632,18 +6017,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String studiesHighSchoolName;
 
-    public final void setStudiesHighSchoolName(final String studiesHighSchoolName) {
+    public void setStudiesHighSchoolName(final String studiesHighSchoolName) {
         this.studiesHighSchoolName = studiesHighSchoolName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="studies_high_school_name"
-        *  length="60"
+    @Column(name="studies_high_school_name" , length=60 )
       
-    */
-    public final String getStudiesHighSchoolName() {
+    public String getStudiesHighSchoolName() {
         return this.studiesHighSchoolName;
     }
   
@@ -6673,18 +6054,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String subjectBirthCity;
 
-    public final void setSubjectBirthCity(final String subjectBirthCity) {
+    public void setSubjectBirthCity(final String subjectBirthCity) {
         this.subjectBirthCity = subjectBirthCity;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subject_birth_city"
-        *  length="32"
+    @Column(name="subject_birth_city" , length=32 )
       
-    */
-    public final String getSubjectBirthCity() {
+    public String getSubjectBirthCity() {
         return this.subjectBirthCity;
     }
   
@@ -6714,18 +6091,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String subjectBirthCountry;
 
-    public final void setSubjectBirthCountry(final String subjectBirthCountry) {
+    public void setSubjectBirthCountry(final String subjectBirthCountry) {
         this.subjectBirthCountry = subjectBirthCountry;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subject_birth_country"
-        *  length="50"
+    @Column(name="subject_birth_country" , length=50 )
       
-    */
-    public final String getSubjectBirthCountry() {
+    public String getSubjectBirthCountry() {
         return this.subjectBirthCountry;
     }
   
@@ -6739,18 +6112,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private java.util.Date subjectBirthDate;
 
-    public final void setSubjectBirthDate(final java.util.Date subjectBirthDate) {
+    public void setSubjectBirthDate(final java.util.Date subjectBirthDate) {
         this.subjectBirthDate = subjectBirthDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subject_birth_date"
-        
+    @Column(name="subject_birth_date"  )
       
-    */
-    public final java.util.Date getSubjectBirthDate() {
+    public java.util.Date getSubjectBirthDate() {
         return this.subjectBirthDate;
     }
   
@@ -6807,18 +6176,14 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private String subjectMaidenName;
 
-    public final void setSubjectMaidenName(final String subjectMaidenName) {
+    public void setSubjectMaidenName(final String subjectMaidenName) {
         this.subjectMaidenName = subjectMaidenName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subject_maiden_name"
-        *  length="38"
+    @Column(name="subject_maiden_name" , length=38 )
       
-    */
-    public final String getSubjectMaidenName() {
+    public String getSubjectMaidenName() {
         return this.subjectMaidenName;
     }
   
@@ -6832,18 +6197,15 @@ public class HandicapCompensationAdultRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.TitleType subjectTitle;
 
-    public final void setSubjectTitle(final fr.cg95.cvq.business.users.TitleType subjectTitle) {
+    public void setSubjectTitle(final fr.cg95.cvq.business.users.TitleType subjectTitle) {
         this.subjectTitle = subjectTitle;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subject_title"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="subject_title"  )
       
-    */
-    public final fr.cg95.cvq.business.users.TitleType getSubjectTitle() {
+    public fr.cg95.cvq.business.users.TitleType getSubjectTitle() {
         return this.subjectTitle;
     }
   

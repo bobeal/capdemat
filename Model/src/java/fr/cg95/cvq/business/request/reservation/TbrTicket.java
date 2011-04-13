@@ -20,14 +20,14 @@ import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.reservation.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="tbr_ticket"
- *  lazy="false"
  */
+@Entity
+@Table(name="tbr_ticket")
 public class TbrTicket implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -172,11 +172,8 @@ public class TbrTicket implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -185,54 +182,42 @@ public class TbrTicket implements Serializable {
     
     private String eventName;
 
-    public final void setEventName(final String eventName) {
+    public void setEventName(final String eventName) {
         this.eventName = eventName;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="event_name"
-        
+
+    @Column(name="event_name"  )
       
-    */
-    public final String getEventName() {
+    public String getEventName() {
         return this.eventName;
     }
   
     
     private String eventPlace;
 
-    public final void setEventPlace(final String eventPlace) {
+    public void setEventPlace(final String eventPlace) {
         this.eventPlace = eventPlace;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="event_place"
-        
+
+    @Column(name="event_place"  )
       
-    */
-    public final String getEventPlace() {
+    public String getEventPlace() {
         return this.eventPlace;
     }
   
     
     private Long placeCategoryId;
 
-    public final void setPlaceCategoryId(final Long placeCategoryId) {
+    public void setPlaceCategoryId(final Long placeCategoryId) {
         this.placeCategoryId = placeCategoryId;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="place_category_id"
-        
+
+    @Column(name="place_category_id"  )
       
-    */
-    public final Long getPlaceCategoryId() {
+    public Long getPlaceCategoryId() {
         return this.placeCategoryId;
     }
   
@@ -246,19 +231,14 @@ public class TbrTicket implements Serializable {
     
     private java.math.BigInteger placeNumber;
 
-    public final void setPlaceNumber(final java.math.BigInteger placeNumber) {
+    public void setPlaceNumber(final java.math.BigInteger placeNumber) {
         this.placeNumber = placeNumber;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="place_number"
-        *  type="serializable"
-        
+
+    @Column(name="place_number" , columnDefinition="bytea" )
       
-    */
-    public final java.math.BigInteger getPlaceNumber() {
+    public java.math.BigInteger getPlaceNumber() {
         return this.placeNumber;
     }
   
@@ -272,72 +252,56 @@ public class TbrTicket implements Serializable {
     
     private java.math.BigDecimal price;
 
-    public final void setPrice(final java.math.BigDecimal price) {
+    public void setPrice(final java.math.BigDecimal price) {
         this.price = price;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="price"
-        
+
+    @Column(name="price"  )
       
-    */
-    public final java.math.BigDecimal getPrice() {
+    public java.math.BigDecimal getPrice() {
         return this.price;
     }
   
     
     private String fareType;
 
-    public final void setFareType(final String fareType) {
+    public void setFareType(final String fareType) {
         this.fareType = fareType;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="fare_type"
-        
+
+    @Column(name="fare_type"  )
       
-    */
-    public final String getFareType() {
+    public String getFareType() {
         return this.fareType;
     }
   
     
     private String placeCategory;
 
-    public final void setPlaceCategory(final String placeCategory) {
+    public void setPlaceCategory(final String placeCategory) {
         this.placeCategory = placeCategory;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="place_category"
-        
+
+    @Column(name="place_category"  )
       
-    */
-    public final String getPlaceCategory() {
+    public String getPlaceCategory() {
         return this.placeCategory;
     }
   
     
     private java.util.Date eventDate;
 
-    public final void setEventDate(final java.util.Date eventDate) {
+    public void setEventDate(final java.util.Date eventDate) {
         this.eventDate = eventDate;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="event_date"
-        
+
+    @Column(name="event_date"  )
       
-    */
-    public final java.util.Date getEventDate() {
+    public java.util.Date getEventDate() {
         return this.eventDate;
     }
   

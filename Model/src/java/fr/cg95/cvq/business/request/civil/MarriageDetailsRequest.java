@@ -121,7 +121,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         marriageFatherInformationTypeFatherInformation.setFatherLastName(getFatherLastName());
       
         if (getFormat() != null)
-            marriageDetailsRequest.setFormat(fr.cg95.cvq.xml.request.civil.MarriageCertificateFormatType.Enum.forString(getFormat().toString()));
+            marriageDetailsRequest.setFormat(fr.cg95.cvq.xml.request.civil.MarriageCertificateFormatType.Enum.forString(getFormat().getLegacyLabel()));
         MarriageInformationType marriageInformationTypeMarriage = marriageDetailsRequest.addNewMarriage();
         marriageInformationTypeMarriage.setMarriageCity(getMarriageCity());
       
@@ -146,13 +146,13 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         marriageMotherInformationTypeMotherInformation.setMotherMaidenName(getMotherMaidenName());
       
         if (getMotive() != null)
-            marriageDetailsRequest.setMotive(fr.cg95.cvq.xml.request.civil.MarriageCertificateMotiveType.Enum.forString(getMotive().toString()));
+            marriageDetailsRequest.setMotive(fr.cg95.cvq.xml.request.civil.MarriageCertificateMotiveType.Enum.forString(getMotive().getLegacyLabel()));
       
         if (getRelationship() != null)
-            marriageDetailsRequest.setRelationship(fr.cg95.cvq.xml.request.civil.MarriageRelationshipType.Enum.forString(getRelationship().toString()));
+            marriageDetailsRequest.setRelationship(fr.cg95.cvq.xml.request.civil.MarriageRelationshipType.Enum.forString(getRelationship().getLegacyLabel()));
       
         if (getRequesterQuality() != null)
-            marriageDetailsRequest.setRequesterQuality(fr.cg95.cvq.xml.request.civil.MarriageRequesterQualityType.Enum.forString(getRequesterQuality().toString()));
+            marriageDetailsRequest.setRequesterQuality(fr.cg95.cvq.xml.request.civil.MarriageRequesterQualityType.Enum.forString(getRequesterQuality().getLegacyLabel()));
       
         marriageDetailsRequest.setRequesterQualityPrecision(getRequesterQualityPrecision());
       

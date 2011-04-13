@@ -5,13 +5,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
+import javax.persistence.Table;
 
-/**
- *
- * @hibernate.class
- *  table="ticket_event"
- *  lazy="false"
- */
+@Entity
+@Table(name="ticket_event")
 public class Event implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,15 +28,38 @@ public class Event implements Serializable {
     public static final String SEARCH_BY_BOOKING_START = "bookingStart";
     public static final String SEARCH_BY_BOOKING_END = "bookingEnd";
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
+
+    @Column(name="external_id")
     private String externalId;
+
+    @Column(name="date")
     private Date date;
+
+    @Column(name="booking_start")
     private Date bookingStart;
+
+    @Column(name="booking_end")
     private Date bookingEnd;
+
+    @Column(name="place")
     private String place;
+
+    @Column(name="link")
     private String link;
+
+    @Column(name="address")
     private String address;
+
+    @ManyToOne(optional=false, fetch=FetchType.EAGER)
+    @JoinColumn(name="ticket_entertainment_id")
     private Entertainment entertainment;
+
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @JoinColumn(name="ticket_event_id")
+    @OrderColumn(name="place_categories_index")
     private List<PlaceCategory> placeCategories = new ArrayList<PlaceCategory>();
 
     public Event() {
@@ -40,11 +71,6 @@ public class Event implements Serializable {
         this.place = place;
     }
 
-    /**
-     * @hibernate.id
-     *  generator-class="sequence"
-     *  column="id"
-     */
     public Long getId() {
         return this.id;
     }
@@ -53,10 +79,6 @@ public class Event implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.property
-     *  column="external_id"
-     */
     public String getExternalId() {
         return externalId;
     }
@@ -65,10 +87,6 @@ public class Event implements Serializable {
         this.externalId = externalId;
     }
 
-    /**
-     * @hibernate.property
-     *  column="date"
-     */
     public Date getDate() {
         return date;
     }
@@ -77,10 +95,6 @@ public class Event implements Serializable {
         this.date = date;
     }
 
-    /**
-     * @hibernate.property
-     *  column="booking_start"
-     */
     public Date getBookingStart() {
         return bookingStart;
     }
@@ -89,10 +103,6 @@ public class Event implements Serializable {
         this.bookingStart = bookingStart;
     }
 
-    /**
-     * @hibernate.property
-     *  column="booking_end"
-     */
     public Date getBookingEnd() {
         return bookingEnd;
     }
@@ -101,10 +111,6 @@ public class Event implements Serializable {
         this.bookingEnd = bookingEnd;
     }
 
-    /**
-     * @hibernate.property
-     *  column="place"
-     */
     public String getPlace() {
         return place;
     }
@@ -113,10 +119,6 @@ public class Event implements Serializable {
         this.place = place;
     }
 
-    /**
-     * @hibernate.property
-     *  column="link"
-     */
     public String getLink() {
         return link;
     }
@@ -125,10 +127,6 @@ public class Event implements Serializable {
         this.link = link;
     }
 
-    /**
-     * @hibernate.property
-     *  column="address"
-     */
     public String getAddress() {
         return address;
     }
@@ -137,12 +135,6 @@ public class Event implements Serializable {
         this.address = address;
     }
 
-    /**
-     * @hibernate.many-to-one
-     *  column="ticket_entertainment_id"
-     *  not-null="true"
-     *  class="fr.cg95.cvq.business.request.ticket.Entertainment"
-     */
     public Entertainment getEntertainment() {
         return entertainment;
     }
@@ -151,18 +143,6 @@ public class Event implements Serializable {
         this.entertainment = entertainment;
     }
 
-    /**
-     * @hibernate.list
-     *  inverse="false"
-     *  lazy="false"
-     *  cascade="all"
-     * @hibernate.key
-     *  column="ticket_event_id"
-     * @hibernate.list-index
-     *  column="place_categories_index"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.request.ticket.PlaceCategory"
-     */
     public List<PlaceCategory> getPlaceCategories() {
         return placeCategories;
     }
@@ -171,4 +151,3 @@ public class Event implements Serializable {
         this.placeCategories = placeCategories;
     }
 }
-

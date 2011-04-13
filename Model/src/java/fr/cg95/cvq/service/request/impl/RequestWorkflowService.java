@@ -135,7 +135,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
     
     private HomeFolder performBusinessChecks(Request request, Adult requester)
-        throws CvqException, CvqObjectNotFoundException {
+        throws CvqException {
         
         HomeFolder homeFolder = createOrSynchronizeHomeFolder(request, requester);
         
@@ -662,30 +662,30 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void delete(Request request)
-        throws CvqException, CvqObjectNotFoundException {
+    public void delete(Request request) {
         requestDAO.delete(request);
-        applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.REQUEST_DELETED, request));
-        HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
-        if (homeFolder.isTemporary()) {
-            HibernateUtil.getSession().flush();
-            userWorkflowService.delete(homeFolder);
+        if (request != null) {
+            applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.REQUEST_DELETED, request));
+            HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
+            if (homeFolder.isTemporary()) {
+                HibernateUtil.getSession().flush();
+                userWorkflowService.delete(homeFolder);
+            }
         }
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void delete(final Long id)
-        throws CvqException, CvqObjectNotFoundException {
+    public void delete(final Long id) {
         delete(requestDAO.findById(id, true));
     }
 
     @Override
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void updateRequestDataState(final Long id, final DataState rs)
-        throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
+        throws CvqException, CvqInvalidTransitionException {
 
-        Request request = (Request) requestDAO.findById(Request.class, id);
+        Request request = requestDAO.findById(id);
         if (rs.equals(DataState.VALID))
             validData(request);
         else if (rs.equals(DataState.INVALID))
@@ -721,11 +721,11 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
-    @Context(types = {ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void updateRequestState(final Long id, final RequestState rs, final String note)
-            throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
+            throws CvqException, CvqInvalidTransitionException {
 
-        Request request = (Request) requestDAO.findById(Request.class, id);
+        Request request = requestDAO.findById(id);
         if (rs.equals(RequestState.COMPLETE))
             complete(request, note);
         else if (rs.equals(RequestState.UNCOMPLETE))
@@ -745,7 +745,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     private void complete(Request request, final String note)
-        throws CvqException, CvqInvalidTransitionException {
+        throws CvqException {
 
         // if no state change asked, just return silently
         if (request.getState().equals(RequestState.COMPLETE))
@@ -776,7 +776,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
     
     private void specify(final Request request, final String motive)
-        throws CvqException, CvqInvalidTransitionException {
+        throws CvqInvalidTransitionException {
 
         if (request.getState().equals(RequestState.UNCOMPLETE))
             return;
@@ -827,8 +827,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 	 *            {@link IRequestPdfService})
 	 */
     private void validate(final Request request, final String note)
-        throws CvqException, CvqInvalidTransitionException, CvqModelException,
-            CvqObjectNotFoundException {
+        throws CvqException, CvqInvalidTransitionException, CvqModelException {
 
         // if no state change asked, just return silently
         if (request.getState().equals(RequestState.VALIDATED))
@@ -872,7 +871,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     private void notify(Request request, final String note)
-        throws CvqException, CvqInvalidTransitionException {
+        throws CvqInvalidTransitionException {
 
         // if no state change asked, just return silently
         if (request.getState().equals(RequestState.NOTIFIED))
@@ -960,7 +959,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
     
     private void close(Request request, final String note)
-        throws CvqException, CvqInvalidTransitionException {
+        throws CvqInvalidTransitionException {
 
         // if no state change asked, just return silently
         if (request.getState().equals(RequestState.CLOSED))
@@ -1009,8 +1008,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    private void archiveHomeFolderRequests(Long homeFolderId)
-        throws CvqException {
+    private void archiveHomeFolderRequests(Long homeFolderId) {
 
         List<Request> requests = requestDAO.listByHomeFolder(homeFolderId, false);
         if (requests == null || requests.isEmpty()) {
@@ -1182,8 +1180,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         return result;
     }
 
-    public boolean isEditable(final Long requestId) throws CvqObjectNotFoundException {
-        Request request = (Request) requestDAO.findById(Request.class, requestId);
+    public boolean isEditable(final Long requestId) {
+        Request request = requestDAO.findById(requestId);
         String requestTypeLabel = request.getRequestType().getLabel();
         if (RequestState.DRAFT.equals(request.getState())
                 || RequestState.PENDING.equals(request.getState())
@@ -1227,36 +1225,26 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     public void onApplicationEvent(UserEvent event) {
         logger.debug("onApplicationEvent() got a user event of type " + event.getAction().getType());
         if (UserAction.Type.STATE_CHANGE.equals(event.getAction().getType())) {
-            try {
-                HomeFolder homeFolder = userSearchService.getHomeFolderById(event.getAction().getTargetId());
+            HomeFolder homeFolder = userSearchService.getHomeFolderById(event.getAction().getTargetId());
+            if (homeFolder != null) {
                 if (UserState.ARCHIVED.equals(homeFolder.getState())) {
                     logger.debug("onApplicationEvent() archiving requests for home folder "
                         + homeFolder.getId());
-                    try {
-                        archiveHomeFolderRequests(homeFolder.getId());
-                    } catch (CvqException e) {
-                        // FIXME : something better to do ?
-                        e.printStackTrace();
-                        throw new RuntimeException();
-                    }
+                    archiveHomeFolderRequests(homeFolder.getId());
                 }
-            } catch (CvqObjectNotFoundException e) {
+            } else {
                 logger.debug("onApplicationEvent() nothing to do for individual "
                     + event.getAction().getTargetId());
             }
         } else if (UserAction.Type.DELETION.equals(event.getAction().getType())) {
-            try {
-                HomeFolder homeFolder = userSearchService.getHomeFolderById(event.getAction().getTargetId());
+            HomeFolder homeFolder = userSearchService.getHomeFolderById(event.getAction().getTargetId());
+            if (homeFolder != null) {
                 logger.debug("onApplicationEvent() deleting requests for home folder "
                     + homeFolder.getId());
                 for (Request request : requestDAO.listByHomeFolder(homeFolder.getId(), false)) {
-                    try {
-                        delete(request);
-                    } catch (CvqException e) {
-                        throw new RuntimeException(e);
-                    }
+                    delete(request);
                 }
-            } catch (CvqObjectNotFoundException e) {
+            } else {
                 logger.debug("onApplicationEvent() nothing to do for individual "
                     + event.getAction().getTargetId());
             }

@@ -1,42 +1,42 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class RsrSubjectResideWithType extends PersistentStringEnum {
+public enum RsrSubjectResideWithType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final RsrSubjectResideWithType ALONE = new RsrSubjectResideWithType("Alone");
-  
-    public static final RsrSubjectResideWithType COUPLE = new RsrSubjectResideWithType("Couple");
-  
-    public static final RsrSubjectResideWithType FAMILY = new RsrSubjectResideWithType("Family");
-  
+    ALONE("Alone"),
+    COUPLE("Couple"),
+    FAMILY("Family");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use RsrSubjectResideWithType.values() instead
+     * @deprecated only for backward
      */
-    private RsrSubjectResideWithType(String value) {
-        super(value);
+    @Deprecated 
+    public static RsrSubjectResideWithType[] allRsrSubjectResideWithTypes = RsrSubjectResideWithType.values();
+
+    private String legacyLabel;
+
+    private RsrSubjectResideWithType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public RsrSubjectResideWithType() {}
-
-    public static RsrSubjectResideWithType[] allRsrSubjectResideWithTypes = {
-        ALONE,
-        COUPLE,
-        FAMILY
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static RsrSubjectResideWithType getDefaultRsrSubjectResideWithType() {
         return ALONE;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of RsrSubjectResideWithType.something
+     * not the value of the name attribut.
+     */
     public static RsrSubjectResideWithType forString(final String enumAsString) {
-        for (RsrSubjectResideWithType value : allRsrSubjectResideWithTypes)
+        for (RsrSubjectResideWithType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultRsrSubjectResideWithType();

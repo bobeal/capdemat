@@ -36,8 +36,8 @@
     <label for="subjectNationality" class="required"><g:message code="errr.property.subjectNationality.label" /> *  <span><g:message code="errr.property.subjectNationality.help" /></span></label>
             <select id="subjectNationality" name="subjectNationality" class="required  validate-not-first ${rqt.stepStates['registration'].invalidFields.contains('subjectNationality') ? 'validation-failed' : ''}" title="<g:message code="errr.property.subjectNationality.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['French','EuropeanUnion','OutsideEuropeanUnion']}">
-                <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == rqt.subjectNationality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="errr.property.subjectNationality" /></option>
+              <g:each in="${['FRENCH','EUROPEAN_UNION','OUTSIDE_EUROPEAN_UNION']}">
+                <option value="${it}" ${it == rqt.subjectNationality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="errr.property.subjectNationality" /></option>
               </g:each>
             </select>
             
@@ -47,9 +47,9 @@
   
     <label class="required"><g:message code="errr.property.motive.label" /> *  <span><g:message code="errr.property.motive.help" /></span></label>
             <ul class="required ${rqt.stepStates['registration'].invalidFields.contains('motive') ? 'validation-failed' : ''}">
-              <g:each in="${['NewCityResident','DirectCityContribution','CivilServantObligatoryResident','FutureAuthorizedCitizen']}">
+              <g:each in="${['NEW_CITY_RESIDENT','DIRECT_CITY_CONTRIBUTION','CIVIL_SERVANT_OBLIGATORY_RESIDENT','FUTURE_AUTHORIZED_CITIZEN']}">
               <li>
-                <input type="radio" id="motive_${it}" class="required condition-isDirect-trigger  validate-one-required" value="fr.cg95.cvq.business.request.election.ElectoralMotiveType_${it}" name="motive" ${it == rqt.motive.toString() ? 'checked="checked"': ''} title="<g:message code="errr.property.motive.validationError" />" />
+                <input type="radio" id="motive_${it}" class="required condition-isDirect-trigger  validate-one-required" value="${it}" name="motive" ${it == rqt.motive.toString() ? 'checked="checked"': ''} title="<g:message code="errr.property.motive.validationError" />" />
                 <label for="motive_${it}"><g:capdematEnumToText var="${it}" i18nKeyPrefix="errr.property.motive" /></label>
               </li>
               </g:each>

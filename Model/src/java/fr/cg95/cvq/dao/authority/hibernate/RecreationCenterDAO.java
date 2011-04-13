@@ -6,7 +6,7 @@ import org.hibernate.Criteria;
 
 import fr.cg95.cvq.business.authority.RecreationCenter;
 import fr.cg95.cvq.dao.authority.IRecreationCenterDAO;
-import fr.cg95.cvq.dao.hibernate.GenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaTemplate;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.util.Critere;
 
@@ -16,7 +16,7 @@ import fr.cg95.cvq.util.Critere;
  * 
  * @author bor@zenexity.fr
  */
-public class RecreationCenterDAO extends GenericDAO implements IRecreationCenterDAO {
+public class RecreationCenterDAO extends JpaTemplate<RecreationCenter,Long> implements IRecreationCenterDAO {
 
     public RecreationCenter findByName(final String name) {
         Criteria crit = HibernateUtil.getSession()

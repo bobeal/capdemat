@@ -58,7 +58,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         Individual anIndividual = userSearchService.getAdults(fake.id).get(0);
 
         // create a document
-        Document doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.ECITIZEN, DepositType.PC, 
+        Document doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.E_CITIZEN, DepositType.P_C, 
                     documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         doc.setDepositId(anIndividual.getId());
         doc.setHomeFolderId(fake.id);
@@ -130,7 +130,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         // based on example data from $BASE_DIR/db/init_ref_data.sql
 
         // ... a permanently durable
-        doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.ECITIZEN, DepositType.PC, 
+        doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.E_CITIZEN, DepositType.P_C, 
                 documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         doc.setDepositId(anIndividual.getId());
         doc.setHomeFolderId(fake.id);
@@ -138,14 +138,14 @@ public class DocumentServiceTest extends DocumentTestCase {
         documentService.create(doc);
 
         // ... a 3-year valid
-        doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.ECITIZEN, DepositType.PC, 
+        doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.E_CITIZEN, DepositType.P_C, 
                 documentTypeService.getDocumentTypeByType(IDocumentTypeService.DOMICILE_RECEIPT_TYPE));
         doc.setDepositId(anIndividual.getId());
         doc.setHomeFolderId(fake.id);
         documentService.create(doc);
 
         // ... a 2-month valid
-        doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.ECITIZEN, DepositType.PC, 
+        doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.E_CITIZEN, DepositType.P_C, 
                 documentTypeService.getDocumentTypeByType(IDocumentTypeService.ID_CARD_LOSS_DECLARATION_TYPE));
         doc.setDepositId(anIndividual.getId());
         doc.setHomeFolderId(fake.id);
@@ -154,14 +154,14 @@ public class DocumentServiceTest extends DocumentTestCase {
         // ... an end-of-the-year valid
         doc = new Document();
         doc.setDepositId(anIndividual.getId());
-        doc.setDepositOrigin(DepositOrigin.ECITIZEN);
-        doc.setDepositType(DepositType.PC);
+        doc.setDepositOrigin(DepositOrigin.E_CITIZEN);
+        doc.setDepositType(DepositType.P_C);
         doc.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.TAXES_NOTIFICATION_TYPE));
         doc.setHomeFolderId(fake.id);
         Long docId4 = documentService.create(doc);
 
         // ... an end-of-the-school-year valid
-        doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.ECITIZEN, DepositType.PC, 
+        doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.E_CITIZEN, DepositType.P_C, 
                 documentTypeService.getDocumentTypeByType(IDocumentTypeService.VACATING_CERTIFICATE_TYPE));
         doc.setDepositId(anIndividual.getId());
         doc.setHomeFolderId(fake.id);

@@ -1,39 +1,41 @@
 package fr.cg95.cvq.business.request.social;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class RsrContactKindType extends PersistentStringEnum {
+public enum RsrContactKindType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final RsrContactKindType REQUESTER = new RsrContactKindType("Requester");
-  
-    public static final RsrContactKindType OTHER = new RsrContactKindType("Other");
-  
+    REQUESTER("Requester"),
+    OTHER("Other");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use RsrContactKindType.values() instead
+     * @deprecated only for backward
      */
-    private RsrContactKindType(String value) {
-        super(value);
+    @Deprecated 
+    public static RsrContactKindType[] allRsrContactKindTypes = RsrContactKindType.values();
+
+    private String legacyLabel;
+
+    private RsrContactKindType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public RsrContactKindType() {}
-
-    public static RsrContactKindType[] allRsrContactKindTypes = {
-        REQUESTER,
-        OTHER
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static RsrContactKindType getDefaultRsrContactKindType() {
         return REQUESTER;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of RsrContactKindType.something
+     * not the value of the name attribut.
+     */
     public static RsrContactKindType forString(final String enumAsString) {
-        for (RsrContactKindType value : allRsrContactKindTypes)
+        for (RsrContactKindType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultRsrContactKindType();

@@ -3,6 +3,7 @@
 <%
 
   import org.apache.commons.lang.StringUtils
+  import fr.cg95.cvq.util.EnumTool
   def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -94,7 +95,7 @@
       <p class="label">${esc(i18n.translate('mdr.property.requesterQuality.label'))}</p>
           <div class="response">
             <% if(rqt.requesterQuality) { %>
-              ${esc(i18n.translate('mdr.property.requesterQuality.' + StringUtils.uncapitalize(rqt.requesterQuality.toString())))}
+              ${esc(i18n.translate('mdr.property.requesterQuality.' + EnumTool.toLowerCamelCase(rqt.requesterQuality.toString())))}
             <% } %>
           </div>
           
@@ -158,7 +159,7 @@
       <p class="label">${esc(i18n.translate('mdr.property.format.label'))}</p>
           <div class="response">
             <% if(rqt.format) { %>
-              ${esc(i18n.translate('mdr.property.format.' + StringUtils.uncapitalize(rqt.format.toString())))}
+              ${esc(i18n.translate('mdr.property.format.' + EnumTool.toLowerCamelCase(rqt.format.toString())))}
             <% } %>
           </div>
           
@@ -174,7 +175,7 @@
       <p class="label">${esc(i18n.translate('mdr.property.motive.label'))}</p>
           <div class="response">
             <% if(rqt.motive) { %>
-              ${esc(i18n.translate('mdr.property.motive.' + StringUtils.uncapitalize(rqt.motive.toString())))}
+              ${esc(i18n.translate('mdr.property.motive.' + EnumTool.toLowerCamelCase(rqt.motive.toString())))}
             <% } %>
           </div>
           
@@ -190,7 +191,7 @@
       <p class="label">${esc(i18n.translate('mdr.property.relationship.label'))}</p>
           <div class="response">
             <% if(rqt.relationship) { %>
-              ${esc(i18n.translate('mdr.property.relationship.' + StringUtils.uncapitalize(rqt.relationship.toString())))}
+              ${esc(i18n.translate('mdr.property.relationship.' + EnumTool.toLowerCamelCase(rqt.relationship.toString())))}
             <% } %>
           </div>
           
@@ -229,7 +230,7 @@
     <% if (rqt.meansOfContact) { %>
       <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
         <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
-          ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+          ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.name))}
         </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
       <% } %>
     <% } else { %>

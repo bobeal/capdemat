@@ -14,6 +14,7 @@ import fr.cg95.cvq.business.document.ContentType;
 import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
@@ -27,6 +28,7 @@ public class DocumentToZDBExtractor {
 
     public IDocumentService documentService;
     public IDocumentDAO documentDAO;
+    public IGenericDAO genericDAO;
 
     public static void main(final String[] args) {
         Logger.getRootLogger().setLevel(Level.OFF);
@@ -35,6 +37,7 @@ public class DocumentToZDBExtractor {
         extractor.localAuthorityRegistry = cpxa.getBean("localAuthorityRegistry", ILocalAuthorityRegistry.class);
         extractor.documentService = cpxa.getBean("documentService", IDocumentService.class);
         extractor.documentDAO = cpxa.getBean("documentDAO", IDocumentDAO.class);
+        extractor.genericDAO = cpxa.getBean("genericDAO", IGenericDAO.class);
         extractor.localAuthorityRegistry.browseAndCallback(extractor, "extract", null);
         System.exit(0);
     }
@@ -48,12 +51,7 @@ public class DocumentToZDBExtractor {
         byte[] data;
         for (Long id : (List<Long>)HibernateUtil.getSession().createQuery("select id from DocumentBinary").list()) {
             HibernateUtil.beginTransaction();
-            try {
-                docBin = (DocumentBinary)documentDAO.findById(DocumentBinary.class, id.longValue());
-            } catch (CvqObjectNotFoundException e) {
-                // srsly?
-                continue;
-            }
+            docBin = (DocumentBinary) genericDAO.findById(DocumentBinary.class, id.longValue());
             data = (byte[])HibernateUtil.getSession()
                 .createSQLQuery("select data from document_binary where id = :id")
                     .setLong("id", id).uniqueResult();
@@ -69,7 +67,7 @@ public class DocumentToZDBExtractor {
             } catch (Exception e) {
                 // whatever...
             }
-            documentDAO.update(docBin);
+            genericDAO.update(docBin);
             HibernateUtil.commitTransaction();
             HibernateUtil.closeSession();
         }

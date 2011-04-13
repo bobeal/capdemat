@@ -37,8 +37,8 @@
       <label for="subjectTitle" class="required"><g:message code="rsr.property.subjectTitle.label" /> *  <span><g:message code="rsr.property.subjectTitle.help" /></span></label>
             <select id="subjectTitle" name="subjectTitle" class="required autofill-subjectFilling-listener-Title validate-not-first ${rqt.stepStates['subject'].invalidFields.contains('subjectTitle') ? 'validation-failed' : ''}" title="<g:message code="rsr.property.subjectTitle.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
-                <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == rqt.subjectTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="rsr.property.subjectTitle" /></option>
+              <g:each in="${['MISTER','MADAM','MISS','AGENCY','UNKNOWN']}">
+                <option value="${it}" ${it == rqt.subjectTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="rsr.property.subjectTitle" /></option>
               </g:each>
             </select>
             
@@ -86,9 +86,9 @@
     
       <label class="required"><g:message code="rsr.property.subjectResideWith.label" /> *  <span><g:message code="rsr.property.subjectResideWith.help" /></span></label>
             <ul class="required ${rqt.stepStates['subject'].invalidFields.contains('subjectResideWith') ? 'validation-failed' : ''}">
-              <g:each in="${['Alone','Couple','Family']}">
+              <g:each in="${['ALONE','COUPLE','FAMILY']}">
               <li>
-                <input type="radio" id="subjectResideWith_${it}" class="required  validate-one-required" value="fr.cg95.cvq.business.request.social.RsrSubjectResideWithType_${it}" name="subjectResideWith" ${it == rqt.subjectResideWith.toString() ? 'checked="checked"': ''} title="<g:message code="rsr.property.subjectResideWith.validationError" />" />
+                <input type="radio" id="subjectResideWith_${it}" class="required  validate-one-required" value="${it}" name="subjectResideWith" ${it == rqt.subjectResideWith.toString() ? 'checked="checked"': ''} title="<g:message code="rsr.property.subjectResideWith.validationError" />" />
                 <label for="subjectResideWith_${it}"><g:capdematEnumToText var="${it}" i18nKeyPrefix="rsr.property.subjectResideWith" /></label>
               </li>
               </g:each>
@@ -141,9 +141,9 @@
     
       <label class="required"><g:message code="rsr.property.requestInformationRequestKind.label" /> *  <span><g:message code="rsr.property.requestInformationRequestKind.help" /></span></label>
             <ul class="required ${rqt.stepStates['subject'].invalidFields.contains('requestInformationRequestKind') ? 'validation-failed' : ''}">
-              <g:each in="${['Individual','Couple']}">
+              <g:each in="${['INDIVIDUAL','COUPLE']}">
               <li>
-                <input type="radio" id="requestInformationRequestKind_${it}" class="required condition-isCoupleRequest-trigger  validate-one-required" value="fr.cg95.cvq.business.request.social.RsrRequestInformationRequestKindType_${it}" name="requestInformationRequestKind" ${it == rqt.requestInformationRequestKind.toString() ? 'checked="checked"': ''} title="<g:message code="rsr.property.requestInformationRequestKind.validationError" />" />
+                <input type="radio" id="requestInformationRequestKind_${it}" class="required condition-isCoupleRequest-trigger  validate-one-required" value="${it}" name="requestInformationRequestKind" ${it == rqt.requestInformationRequestKind.toString() ? 'checked="checked"': ''} title="<g:message code="rsr.property.requestInformationRequestKind.validationError" />" />
                 <label for="requestInformationRequestKind_${it}"><g:capdematEnumToText var="${it}" i18nKeyPrefix="rsr.property.requestInformationRequestKind" /></label>
               </li>
               </g:each>
@@ -190,8 +190,8 @@
       <label for="spouseTitle" class="required"><g:message code="rsr.property.spouseTitle.label" /> *  <span><g:message code="rsr.property.spouseTitle.help" /></span></label>
             <select id="spouseTitle" name="spouseTitle" class="required  validate-not-first ${rqt.stepStates['subject'].invalidFields.contains('spouseTitle') ? 'validation-failed' : ''}" title="<g:message code="rsr.property.spouseTitle.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
-                <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == rqt.spouseTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="rsr.property.spouseTitle" /></option>
+              <g:each in="${['MISTER','MADAM','MISS','AGENCY','UNKNOWN']}">
+                <option value="${it}" ${it == rqt.spouseTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="rsr.property.spouseTitle" /></option>
               </g:each>
             </select>
             

@@ -20,14 +20,15 @@ import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="dhr_real_asset"
- *  lazy="false"
  */
+@Entity
+@Table(name="dhr_real_asset")
 public class DhrRealAsset implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -115,11 +116,8 @@ public class DhrRealAsset implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -135,19 +133,15 @@ public class DhrRealAsset implements Serializable {
     
     private java.math.BigInteger realAssetNetFloorArea;
 
-    public final void setRealAssetNetFloorArea(final java.math.BigInteger realAssetNetFloorArea) {
+    public void setRealAssetNetFloorArea(final java.math.BigInteger realAssetNetFloorArea) {
         this.realAssetNetFloorArea = realAssetNetFloorArea;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="real_asset_net_floor_area"
-        *  type="serializable"
-        
+
+    @Column(name="real_asset_net_floor_area" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
-    */
-    public final java.math.BigInteger getRealAssetNetFloorArea() {
+    public java.math.BigInteger getRealAssetNetFloorArea() {
         return this.realAssetNetFloorArea;
     }
   
@@ -168,19 +162,15 @@ public class DhrRealAsset implements Serializable {
     
     private fr.cg95.cvq.business.users.Address dhrRealAssetAddress;
 
-    public final void setDhrRealAssetAddress(final fr.cg95.cvq.business.users.Address dhrRealAssetAddress) {
+    public void setDhrRealAssetAddress(final fr.cg95.cvq.business.users.Address dhrRealAssetAddress) {
         this.dhrRealAssetAddress = dhrRealAssetAddress;
     }
 
-    /**
-  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="dhr_real_asset_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="dhr_real_asset_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getDhrRealAssetAddress() {
+    public fr.cg95.cvq.business.users.Address getDhrRealAssetAddress() {
         return this.dhrRealAssetAddress;
     }
   
@@ -194,19 +184,15 @@ public class DhrRealAsset implements Serializable {
     
     private java.math.BigInteger dhrRealAssetValue;
 
-    public final void setDhrRealAssetValue(final java.math.BigInteger dhrRealAssetValue) {
+    public void setDhrRealAssetValue(final java.math.BigInteger dhrRealAssetValue) {
         this.dhrRealAssetValue = dhrRealAssetValue;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="dhr_real_asset_value"
-        *  type="serializable"
-        
+
+    @Column(name="dhr_real_asset_value" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
-    */
-    public final java.math.BigInteger getDhrRealAssetValue() {
+    public java.math.BigInteger getDhrRealAssetValue() {
         return this.dhrRealAssetValue;
     }
   

@@ -4,11 +4,11 @@ import java.util.List;
 
 import fr.cg95.cvq.business.users.MeansOfContact;
 import fr.cg95.cvq.business.users.MeansOfContactEnum;
-import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.jpa.JpaTemplate;
 import fr.cg95.cvq.dao.users.IMeansOfContactDAO;
 
-public class MeansOfContactDAO extends GenericDAO implements IMeansOfContactDAO {
+public class MeansOfContactDAO extends JpaTemplate<MeansOfContact,Long> implements IMeansOfContactDAO {
 
     @Override
     public MeansOfContact findByType(MeansOfContactEnum type) {

@@ -1,42 +1,42 @@
 package fr.cg95.cvq.business.request.school;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class ChoixHorairesAccueilType extends PersistentStringEnum {
+public enum ChoixHorairesAccueilType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final ChoixHorairesAccueilType INDIFFERENT = new ChoixHorairesAccueilType("Indifferent");
-  
-    public static final ChoixHorairesAccueilType REGULIER = new ChoixHorairesAccueilType("Regulier");
-  
-    public static final ChoixHorairesAccueilType IRREGULIER = new ChoixHorairesAccueilType("Irregulier");
-  
+    INDIFFERENT("Indifferent"),
+    REGULIER("Regulier"),
+    IRREGULIER("Irregulier");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use ChoixHorairesAccueilType.values() instead
+     * @deprecated only for backward
      */
-    private ChoixHorairesAccueilType(String value) {
-        super(value);
+    @Deprecated 
+    public static ChoixHorairesAccueilType[] allChoixHorairesAccueilTypes = ChoixHorairesAccueilType.values();
+
+    private String legacyLabel;
+
+    private ChoixHorairesAccueilType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public ChoixHorairesAccueilType() {}
-
-    public static ChoixHorairesAccueilType[] allChoixHorairesAccueilTypes = {
-        INDIFFERENT,
-        REGULIER,
-        IRREGULIER
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static ChoixHorairesAccueilType getDefaultChoixHorairesAccueilType() {
         return null;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of ChoixHorairesAccueilType.something
+     * not the value of the name attribut.
+     */
     public static ChoixHorairesAccueilType forString(final String enumAsString) {
-        for (ChoixHorairesAccueilType value : allChoixHorairesAccueilTypes)
+        for (ChoixHorairesAccueilType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultChoixHorairesAccueilType();

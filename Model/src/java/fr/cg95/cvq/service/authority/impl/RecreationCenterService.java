@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.authority.RecreationCenter;
 import fr.cg95.cvq.dao.authority.IRecreationCenterDAO;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
@@ -29,10 +28,8 @@ public final class RecreationCenterService implements IRecreationCenterService {
     }
 
     @Override
-    public RecreationCenter getById(final Long id)
-        throws CvqObjectNotFoundException {
-        return (RecreationCenter)recreationCenterDAO.findById(
-            RecreationCenter.class, id);
+    public RecreationCenter getById(final Long id) {
+        return recreationCenterDAO.findById(id);
     }
 
     @Override
@@ -50,7 +47,7 @@ public final class RecreationCenterService implements IRecreationCenterService {
     public Long create(final RecreationCenter recreationCenter) {
         Long recreationCenterId = null;
         if (recreationCenter != null)
-            recreationCenterId = recreationCenterDAO.create(recreationCenter);
+            recreationCenterId = recreationCenterDAO.create(recreationCenter).getId();
         logger.debug("Created recreation center object with id : "
             + recreationCenterId);
         return recreationCenterId;

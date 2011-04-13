@@ -1,39 +1,41 @@
 package fr.cg95.cvq.business.request.civil;
 
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-
 /**
  * Generated class file, do not edit !
  */
-public final class DeathCertificateFormatType extends PersistentStringEnum {
+public enum DeathCertificateFormatType {
 
-    private static final long serialVersionUID = 1L;
-  
-    public static final DeathCertificateFormatType FULL_COPY = new DeathCertificateFormatType("FullCopy");
-  
-    public static final DeathCertificateFormatType MULTILINGUAL_EXTRACT = new DeathCertificateFormatType("MultilingualExtract");
-  
+    FULL_COPY("FullCopy"),
+    MULTILINGUAL_EXTRACT("MultilingualExtract");
+
 
     /**
-     * Prevent instantiation and subclassing with a private constructor.
+     * only for backward use DeathCertificateFormatType.values() instead
+     * @deprecated only for backward
      */
-    private DeathCertificateFormatType(String value) {
-        super(value);
+    @Deprecated 
+    public static DeathCertificateFormatType[] allDeathCertificateFormatTypes = DeathCertificateFormatType.values();
+
+    private String legacyLabel;
+
+    private DeathCertificateFormatType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
     }
 
-    public DeathCertificateFormatType() {}
-
-    public static DeathCertificateFormatType[] allDeathCertificateFormatTypes = {
-        FULL_COPY,
-        MULTILINGUAL_EXTRACT
-    };
+    public String getLegacyLabel() {
+        return legacyLabel;
+    }
 
     public static DeathCertificateFormatType getDefaultDeathCertificateFormatType() {
         return FULL_COPY;
     }
 
+    /**
+     * @deprecated use valueOf instead. Watchout! you must provid something of DeathCertificateFormatType.something
+     * not the value of the name attribut.
+     */
     public static DeathCertificateFormatType forString(final String enumAsString) {
-        for (DeathCertificateFormatType value : allDeathCertificateFormatTypes)
+        for (DeathCertificateFormatType value : values())
             if (value.toString().equals(enumAsString))
                 return value;
         return getDefaultDeathCertificateFormatType();

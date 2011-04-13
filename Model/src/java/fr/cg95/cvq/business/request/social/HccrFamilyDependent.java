@@ -20,14 +20,15 @@ import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="hccr_family_dependent"
- *  lazy="false"
  */
+@Entity
+@Table(name="hccr_family_dependent")
 public class HccrFamilyDependent implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -134,11 +135,8 @@ public class HccrFamilyDependent implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -170,18 +168,14 @@ public class HccrFamilyDependent implements Serializable {
     
     private String referentFamilyDependentFirstName;
 
-    public final void setReferentFamilyDependentFirstName(final String referentFamilyDependentFirstName) {
+    public void setReferentFamilyDependentFirstName(final String referentFamilyDependentFirstName) {
         this.referentFamilyDependentFirstName = referentFamilyDependentFirstName;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="referent_family_dependent_first_name"
-        *  length="38"
+
+    @Column(name="referent_family_dependent_first_name" , length=38 )
       
-    */
-    public final String getReferentFamilyDependentFirstName() {
+    public String getReferentFamilyDependentFirstName() {
         return this.referentFamilyDependentFirstName;
     }
   
@@ -195,18 +189,14 @@ public class HccrFamilyDependent implements Serializable {
     
     private java.util.Date referentFamilyDependentBirthDate;
 
-    public final void setReferentFamilyDependentBirthDate(final java.util.Date referentFamilyDependentBirthDate) {
+    public void setReferentFamilyDependentBirthDate(final java.util.Date referentFamilyDependentBirthDate) {
         this.referentFamilyDependentBirthDate = referentFamilyDependentBirthDate;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="referent_family_dependent_birth_date"
-        
+
+    @Column(name="referent_family_dependent_birth_date"  )
       
-    */
-    public final java.util.Date getReferentFamilyDependentBirthDate() {
+    public java.util.Date getReferentFamilyDependentBirthDate() {
         return this.referentFamilyDependentBirthDate;
     }
   
@@ -220,18 +210,15 @@ public class HccrFamilyDependent implements Serializable {
     
     private fr.cg95.cvq.business.request.social.HccrReferentFamilyDependentActualSituationType referentFamilyDependentActualSituation;
 
-    public final void setReferentFamilyDependentActualSituation(final fr.cg95.cvq.business.request.social.HccrReferentFamilyDependentActualSituationType referentFamilyDependentActualSituation) {
+    public void setReferentFamilyDependentActualSituation(final fr.cg95.cvq.business.request.social.HccrReferentFamilyDependentActualSituationType referentFamilyDependentActualSituation) {
         this.referentFamilyDependentActualSituation = referentFamilyDependentActualSituation;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="referent_family_dependent_actual_situation"
-        
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="referent_family_dependent_actual_situation"  )
       
-    */
-    public final fr.cg95.cvq.business.request.social.HccrReferentFamilyDependentActualSituationType getReferentFamilyDependentActualSituation() {
+    public fr.cg95.cvq.business.request.social.HccrReferentFamilyDependentActualSituationType getReferentFamilyDependentActualSituation() {
         return this.referentFamilyDependentActualSituation;
     }
   
@@ -261,18 +248,14 @@ public class HccrFamilyDependent implements Serializable {
     
     private String referentFamilyDependentLastName;
 
-    public final void setReferentFamilyDependentLastName(final String referentFamilyDependentLastName) {
+    public void setReferentFamilyDependentLastName(final String referentFamilyDependentLastName) {
         this.referentFamilyDependentLastName = referentFamilyDependentLastName;
     }
 
-    /**
-  
-        * @hibernate.property
-        *  column="referent_family_dependent_last_name"
-        *  length="38"
+
+    @Column(name="referent_family_dependent_last_name" , length=38 )
       
-    */
-    public final String getReferentFamilyDependentLastName() {
+    public String getReferentFamilyDependentLastName() {
         return this.referentFamilyDependentLastName;
     }
   

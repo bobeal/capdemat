@@ -9,13 +9,13 @@ import fr.cg95.cvq.business.QoS;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.UserState;
-import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.IJpaTemplate;
 import fr.cg95.cvq.util.Critere;
 
 /**
  * @author bor@zenexity.fr
  */
-public interface IIndividualDAO extends IGenericDAO {
+public interface IIndividualDAO extends IJpaTemplate<Individual,Long>{
 
     /**
      * Look up an Individual by its Liberty Alliance federation key.

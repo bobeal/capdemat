@@ -14,8 +14,8 @@
       <label for="childStatus" class="required"><g:message code="mcr.property.childStatus.label" /> *  <span><g:message code="mcr.property.childStatus.help" /></span></label>
             <select id="childStatus" name="childStatus" class="required  validate-not-first ${rqt.stepStates['situation'].invalidFields.contains('childStatus') ? 'validation-failed' : ''}" title="<g:message code="mcr.property.childStatus.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','Separated','PACS','Other']}">
-                <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == rqt.childStatus?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="mcr.property.childStatus" /></option>
+              <g:each in="${['MARRIED','SINGLE','DIVORCED','WIDOW','COMMON_LAW_MARRIAGE','SEPARATED','P_A_C_S','OTHER']}">
+                <option value="${it}" ${it == rqt.childStatus?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="mcr.property.childStatus" /></option>
               </g:each>
             </select>
             
@@ -60,8 +60,8 @@
       <label for="prefectPupilDepartment" class="required condition-isPrefectPupil-filled"><g:message code="mcr.property.prefectPupilDepartment.label" /> *  <span><g:message code="mcr.property.prefectPupilDepartment.help" /></span></label>
             <select id="prefectPupilDepartment" name="prefectPupilDepartment" class="required condition-isPrefectPupil-filled  validate-not-first ${rqt.stepStates['situation'].invalidFields.contains('prefectPupilDepartment') ? 'validation-failed' : ''}" title="<g:message code="mcr.property.prefectPupilDepartment.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['None','DEP_01','DEP_02','DEP_03','DEP_04','DEP_05','DEP_06','DEP_07','DEP_08','DEP_09','DEP_10','DEP_11','DEP_12','DEP_13','DEP_14','DEP_15','DEP_16','DEP_17','DEP_18','DEP_19','DEP_2A','DEP_2B','DEP_21','DEP_22','DEP_23','DEP_24','DEP_25','DEP_26','DEP_27','DEP_28','DEP_29','DEP_30','DEP_31','DEP_32','DEP_33','DEP_34','DEP_35','DEP_36','DEP_37','DEP_38','DEP_39','DEP_40','DEP_41','DEP_42','DEP_43','DEP_44','DEP_45','DEP_46','DEP_47','DEP_48','DEP_49','DEP_50','DEP_51','DEP_52','DEP_53','DEP_54','DEP_55','DEP_56','DEP_57','DEP_58','DEP_59','DEP_60','DEP_61','DEP_62','DEP_63','DEP_64','DEP_65','DEP_66','DEP_67','DEP_68','DEP_69','DEP_70','DEP_71','DEP_72','DEP_73','DEP_74','DEP_75','DEP_76','DEP_77','DEP_78','DEP_79','DEP_80','DEP_81','DEP_82','DEP_83','DEP_84','DEP_85','DEP_86','DEP_87','DEP_88','DEP_89','DEP_90','DEP_91','DEP_92','DEP_93','DEP_94','DEP_95','DEP_971','DEP_972','DEP_973','DEP_974']}">
-                <option value="fr.cg95.cvq.business.users.InseeDepartementCodeType_${it}" ${it == rqt.prefectPupilDepartment?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="mcr.property.prefectPupilDepartment" /></option>
+              <g:each in="${['NONE','D_E_P_01','D_E_P_02','D_E_P_03','D_E_P_04','D_E_P_05','D_E_P_06','D_E_P_07','D_E_P_08','D_E_P_09','D_E_P_10','D_E_P_11','D_E_P_12','D_E_P_13','D_E_P_14','D_E_P_15','D_E_P_16','D_E_P_17','D_E_P_18','D_E_P_19','D_E_P_2_A','D_E_P_2_B','D_E_P_21','D_E_P_22','D_E_P_23','D_E_P_24','D_E_P_25','D_E_P_26','D_E_P_27','D_E_P_28','D_E_P_29','D_E_P_30','D_E_P_31','D_E_P_32','D_E_P_33','D_E_P_34','D_E_P_35','D_E_P_36','D_E_P_37','D_E_P_38','D_E_P_39','D_E_P_40','D_E_P_41','D_E_P_42','D_E_P_43','D_E_P_44','D_E_P_45','D_E_P_46','D_E_P_47','D_E_P_48','D_E_P_49','D_E_P_50','D_E_P_51','D_E_P_52','D_E_P_53','D_E_P_54','D_E_P_55','D_E_P_56','D_E_P_57','D_E_P_58','D_E_P_59','D_E_P_60','D_E_P_61','D_E_P_62','D_E_P_63','D_E_P_64','D_E_P_65','D_E_P_66','D_E_P_67','D_E_P_68','D_E_P_69','D_E_P_70','D_E_P_71','D_E_P_72','D_E_P_73','D_E_P_74','D_E_P_75','D_E_P_76','D_E_P_77','D_E_P_78','D_E_P_79','D_E_P_80','D_E_P_81','D_E_P_82','D_E_P_83','D_E_P_84','D_E_P_85','D_E_P_86','D_E_P_87','D_E_P_88','D_E_P_89','D_E_P_90','D_E_P_91','D_E_P_92','D_E_P_93','D_E_P_94','D_E_P_95','D_E_P_971','D_E_P_972','D_E_P_973','D_E_P_974']}">
+                <option value="${it}" ${it == rqt.prefectPupilDepartment?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="mcr.property.prefectPupilDepartment" /></option>
               </g:each>
             </select>
             
@@ -77,8 +77,8 @@
       <label for="childSituation" class="required"><g:message code="mcr.property.childSituation.label" /> *  <span><g:message code="mcr.property.childSituation.help" /></span></label>
             <select id="childSituation" name="childSituation" class="required  validate-not-first ${rqt.stepStates['situation'].invalidFields.contains('childSituation') ? 'validation-failed' : ''}" title="<g:message code="mcr.property.childSituation.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['College','Highschool','Student','Employee','Apprentice','Other','Unknown']}">
-                <option value="fr.cg95.cvq.business.request.military.ChildSituationType_${it}" ${it == rqt.childSituation?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="mcr.property.childSituation" /></option>
+              <g:each in="${['COLLEGE','HIGHSCHOOL','STUDENT','EMPLOYEE','APPRENTICE','OTHER','UNKNOWN']}">
+                <option value="${it}" ${it == rqt.childSituation?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="mcr.property.childSituation" /></option>
               </g:each>
             </select>
             
@@ -87,8 +87,8 @@
       <label for="childDiploma" class="required"><g:message code="mcr.property.childDiploma.label" /> *  <span><g:message code="mcr.property.childDiploma.help" /></span></label>
             <select id="childDiploma" name="childDiploma" class="required  validate-not-first ${rqt.stepStates['situation'].invalidFields.contains('childDiploma') ? 'validation-failed' : ''}" title="<g:message code="mcr.property.childDiploma.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['BAC','BEP','BEPC','Brevet','CFG','CAP','DAEU','DEA','DEUG','Licence','Maitrise','Unknown']}">
-                <option value="fr.cg95.cvq.business.request.military.ChildDiplomaType_${it}" ${it == rqt.childDiploma?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="mcr.property.childDiploma" /></option>
+              <g:each in="${['B_A_C','B_E_P','B_E_P_C','BREVET','C_F_G','C_A_P','D_A_E_U','D_E_A','D_E_U_G','LICENCE','MAITRISE','UNKNOWN']}">
+                <option value="${it}" ${it == rqt.childDiploma?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="mcr.property.childDiploma" /></option>
               </g:each>
             </select>
             

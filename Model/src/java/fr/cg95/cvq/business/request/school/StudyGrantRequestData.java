@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.school;
 
 import java.io.Serializable;
@@ -18,13 +19,15 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
+import javax.persistence.*;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
+
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.class
- *  table="study_grant_request"
- *  lazy="false"
  */
+@Entity
+@Table(name="study_grant_request")
 public class StudyGrantRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -291,11 +294,8 @@ public class StudyGrantRequestData implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @hibernate.id
-     *  column="id"
-     *  generator-class="sequence"
-     */
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     public final Long getId() {
         return this.id;
     }
@@ -311,18 +311,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private Boolean abroadInternship;
 
-    public final void setAbroadInternship(final Boolean abroadInternship) {
+    public void setAbroadInternship(final Boolean abroadInternship) {
         this.abroadInternship = abroadInternship;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="abroad_internship"
-        
+    @Column(name="abroad_internship"  )
       
-    */
-    public final Boolean getAbroadInternship() {
+    public Boolean getAbroadInternship() {
         return this.abroadInternship;
     }
   
@@ -345,18 +341,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private java.util.Date abroadInternshipEndDate;
 
-    public final void setAbroadInternshipEndDate(final java.util.Date abroadInternshipEndDate) {
+    public void setAbroadInternshipEndDate(final java.util.Date abroadInternshipEndDate) {
         this.abroadInternshipEndDate = abroadInternshipEndDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="abroad_internship_end_date"
-        
+    @Column(name="abroad_internship_end_date"  )
       
-    */
-    public final java.util.Date getAbroadInternshipEndDate() {
+    public java.util.Date getAbroadInternshipEndDate() {
         return this.abroadInternshipEndDate;
     }
   
@@ -379,18 +371,15 @@ public class StudyGrantRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.CountryType abroadInternshipSchoolCountry;
 
-    public final void setAbroadInternshipSchoolCountry(final fr.cg95.cvq.business.users.CountryType abroadInternshipSchoolCountry) {
+    public void setAbroadInternshipSchoolCountry(final fr.cg95.cvq.business.users.CountryType abroadInternshipSchoolCountry) {
         this.abroadInternshipSchoolCountry = abroadInternshipSchoolCountry;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="abroad_internship_school_country"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="abroad_internship_school_country"  )
       
-    */
-    public final fr.cg95.cvq.business.users.CountryType getAbroadInternshipSchoolCountry() {
+    public fr.cg95.cvq.business.users.CountryType getAbroadInternshipSchoolCountry() {
         return this.abroadInternshipSchoolCountry;
     }
   
@@ -429,18 +418,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private String abroadInternshipSchoolName;
 
-    public final void setAbroadInternshipSchoolName(final String abroadInternshipSchoolName) {
+    public void setAbroadInternshipSchoolName(final String abroadInternshipSchoolName) {
         this.abroadInternshipSchoolName = abroadInternshipSchoolName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="abroad_internship_school_name"
-        
+    @Column(name="abroad_internship_school_name"  )
       
-    */
-    public final String getAbroadInternshipSchoolName() {
+    public String getAbroadInternshipSchoolName() {
         return this.abroadInternshipSchoolName;
     }
   
@@ -463,18 +448,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private java.util.Date abroadInternshipStartDate;
 
-    public final void setAbroadInternshipStartDate(final java.util.Date abroadInternshipStartDate) {
+    public void setAbroadInternshipStartDate(final java.util.Date abroadInternshipStartDate) {
         this.abroadInternshipStartDate = abroadInternshipStartDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="abroad_internship_start_date"
-        
+    @Column(name="abroad_internship_start_date"  )
       
-    */
-    public final java.util.Date getAbroadInternshipStartDate() {
+    public java.util.Date getAbroadInternshipStartDate() {
         return this.abroadInternshipStartDate;
     }
   
@@ -497,18 +478,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private java.util.Date accountHolderBirthDate;
 
-    public final void setAccountHolderBirthDate(final java.util.Date accountHolderBirthDate) {
+    public void setAccountHolderBirthDate(final java.util.Date accountHolderBirthDate) {
         this.accountHolderBirthDate = accountHolderBirthDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="account_holder_birth_date"
-        
+    @Column(name="account_holder_birth_date"  )
       
-    */
-    public final java.util.Date getAccountHolderBirthDate() {
+    public java.util.Date getAccountHolderBirthDate() {
         return this.accountHolderBirthDate;
     }
   
@@ -529,18 +506,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private String accountHolderEdemandeId;
 
-    public final void setAccountHolderEdemandeId(final String accountHolderEdemandeId) {
+    public void setAccountHolderEdemandeId(final String accountHolderEdemandeId) {
         this.accountHolderEdemandeId = accountHolderEdemandeId;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="account_holder_edemande_id"
-        
+    @Column(name="account_holder_edemande_id"  )
       
-    */
-    public final String getAccountHolderEdemandeId() {
+    public String getAccountHolderEdemandeId() {
         return this.accountHolderEdemandeId;
     }
   
@@ -597,18 +570,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private String accountHolderFirstName;
 
-    public final void setAccountHolderFirstName(final String accountHolderFirstName) {
+    public void setAccountHolderFirstName(final String accountHolderFirstName) {
         this.accountHolderFirstName = accountHolderFirstName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="account_holder_first_name"
-        *  length="38"
+    @Column(name="account_holder_first_name" , length=38 )
       
-    */
-    public final String getAccountHolderFirstName() {
+    public String getAccountHolderFirstName() {
         return this.accountHolderFirstName;
     }
   
@@ -665,18 +634,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private String accountHolderLastName;
 
-    public final void setAccountHolderLastName(final String accountHolderLastName) {
+    public void setAccountHolderLastName(final String accountHolderLastName) {
         this.accountHolderLastName = accountHolderLastName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="account_holder_last_name"
-        *  length="38"
+    @Column(name="account_holder_last_name" , length=38 )
       
-    */
-    public final String getAccountHolderLastName() {
+    public String getAccountHolderLastName() {
         return this.accountHolderLastName;
     }
   
@@ -699,18 +664,15 @@ public class StudyGrantRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.TitleType accountHolderTitle;
 
-    public final void setAccountHolderTitle(final fr.cg95.cvq.business.users.TitleType accountHolderTitle) {
+    public void setAccountHolderTitle(final fr.cg95.cvq.business.users.TitleType accountHolderTitle) {
         this.accountHolderTitle = accountHolderTitle;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="account_holder_title"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="account_holder_title"  )
       
-    */
-    public final fr.cg95.cvq.business.users.TitleType getAccountHolderTitle() {
+    public fr.cg95.cvq.business.users.TitleType getAccountHolderTitle() {
         return this.accountHolderTitle;
     }
   
@@ -724,18 +686,15 @@ public class StudyGrantRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.school.ALevelsType alevels;
 
-    public final void setAlevels(final fr.cg95.cvq.business.request.school.ALevelsType alevels) {
+    public void setAlevels(final fr.cg95.cvq.business.request.school.ALevelsType alevels) {
         this.alevels = alevels;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="alevels"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="alevels"  )
       
-    */
-    public final fr.cg95.cvq.business.request.school.ALevelsType getAlevels() {
+    public fr.cg95.cvq.business.request.school.ALevelsType getAlevels() {
         return this.alevels;
     }
   
@@ -774,18 +733,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private String alevelsDate;
 
-    public final void setAlevelsDate(final String alevelsDate) {
+    public void setAlevelsDate(final String alevelsDate) {
         this.alevelsDate = alevelsDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="alevels_date"
-        *  length="4"
+    @Column(name="alevels_date" , length=4 )
       
-    */
-    public final String getAlevelsDate() {
+    public String getAlevelsDate() {
         return this.alevelsDate;
     }
   
@@ -806,19 +761,15 @@ public class StudyGrantRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.BankAccount bankAccount;
 
-    public final void setBankAccount(final fr.cg95.cvq.business.users.BankAccount bankAccount) {
+    public void setBankAccount(final fr.cg95.cvq.business.users.BankAccount bankAccount) {
         this.bankAccount = bankAccount;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="bank_account_id"
-        *  class="fr.cg95.cvq.business.users.BankAccount"
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="bank_account_id")
       
-    */
-    public final fr.cg95.cvq.business.users.BankAccount getBankAccount() {
+    public fr.cg95.cvq.business.users.BankAccount getBankAccount() {
         return this.bankAccount;
     }
   
@@ -857,19 +808,15 @@ public class StudyGrantRequestData implements Serializable {
     
     private fr.cg95.cvq.business.users.Address currentSchoolAddress;
 
-    public final void setCurrentSchoolAddress(final fr.cg95.cvq.business.users.Address currentSchoolAddress) {
+    public void setCurrentSchoolAddress(final fr.cg95.cvq.business.users.Address currentSchoolAddress) {
         this.currentSchoolAddress = currentSchoolAddress;
     }
 
-    /**
  
-        * @hibernate.many-to-one
-        
-        *  column="current_school_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="current_school_address_id")
       
-    */
-    public final fr.cg95.cvq.business.users.Address getCurrentSchoolAddress() {
+    public fr.cg95.cvq.business.users.Address getCurrentSchoolAddress() {
         return this.currentSchoolAddress;
     }
   
@@ -892,27 +839,20 @@ public class StudyGrantRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.LocalReferentialData> currentSchoolName;
 
-    public final void setCurrentSchoolName(final List<fr.cg95.cvq.business.request.LocalReferentialData> currentSchoolName) {
+    public void setCurrentSchoolName(final List<fr.cg95.cvq.business.request.LocalReferentialData> currentSchoolName) {
         this.currentSchoolName = currentSchoolName;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="study_grant_request_current_school_name"
-        * @hibernate.key
-        *  column="study_grant_request_id"
-        * @hibernate.list-index
-        *  column="current_school_name_index"
-        * @hibernate.many-to-many
-        *  column="current_school_name_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+    @ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="study_grant_request_current_school_name",
+            joinColumns=
+                @JoinColumn(name="study_grant_request_id"),
+            inverseJoinColumns=
+                @JoinColumn(name="current_school_name_id"))
+    @OrderColumn(name="current_school_name_index")
       
-    */
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getCurrentSchoolName() {
+    public List<fr.cg95.cvq.business.request.LocalReferentialData> getCurrentSchoolName() {
         return this.currentSchoolName;
     }
   
@@ -951,18 +891,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private String currentSchoolNamePrecision;
 
-    public final void setCurrentSchoolNamePrecision(final String currentSchoolNamePrecision) {
+    public void setCurrentSchoolNamePrecision(final String currentSchoolNamePrecision) {
         this.currentSchoolNamePrecision = currentSchoolNamePrecision;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="current_school_name_precision"
-        
+    @Column(name="current_school_name_precision"  )
       
-    */
-    public final String getCurrentSchoolNamePrecision() {
+    public String getCurrentSchoolNamePrecision() {
         return this.currentSchoolNamePrecision;
     }
   
@@ -976,18 +912,15 @@ public class StudyGrantRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.school.CurrentStudiesType currentStudiesDiploma;
 
-    public final void setCurrentStudiesDiploma(final fr.cg95.cvq.business.request.school.CurrentStudiesType currentStudiesDiploma) {
+    public void setCurrentStudiesDiploma(final fr.cg95.cvq.business.request.school.CurrentStudiesType currentStudiesDiploma) {
         this.currentStudiesDiploma = currentStudiesDiploma;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="current_studies_diploma"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="current_studies_diploma"  )
       
-    */
-    public final fr.cg95.cvq.business.request.school.CurrentStudiesType getCurrentStudiesDiploma() {
+    public fr.cg95.cvq.business.request.school.CurrentStudiesType getCurrentStudiesDiploma() {
         return this.currentStudiesDiploma;
     }
   
@@ -1001,18 +934,15 @@ public class StudyGrantRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.school.CurrentStudiesLevelType currentStudiesLevel;
 
-    public final void setCurrentStudiesLevel(final fr.cg95.cvq.business.request.school.CurrentStudiesLevelType currentStudiesLevel) {
+    public void setCurrentStudiesLevel(final fr.cg95.cvq.business.request.school.CurrentStudiesLevelType currentStudiesLevel) {
         this.currentStudiesLevel = currentStudiesLevel;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="current_studies_level"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="current_studies_level"  )
       
-    */
-    public final fr.cg95.cvq.business.request.school.CurrentStudiesLevelType getCurrentStudiesLevel() {
+    public fr.cg95.cvq.business.request.school.CurrentStudiesLevelType getCurrentStudiesLevel() {
         return this.currentStudiesLevel;
     }
   
@@ -1026,18 +956,15 @@ public class StudyGrantRequestData implements Serializable {
     
     private fr.cg95.cvq.business.request.school.DistanceType distance;
 
-    public final void setDistance(final fr.cg95.cvq.business.request.school.DistanceType distance) {
+    public void setDistance(final fr.cg95.cvq.business.request.school.DistanceType distance) {
         this.distance = distance;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="distance"
-        
+    @Enumerated(EnumType.STRING)
+    @Column(name="distance"  )
       
-    */
-    public final fr.cg95.cvq.business.request.school.DistanceType getDistance() {
+    public fr.cg95.cvq.business.request.school.DistanceType getDistance() {
         return this.distance;
     }
   
@@ -1058,18 +985,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private String edemandeId;
 
-    public final void setEdemandeId(final String edemandeId) {
+    public void setEdemandeId(final String edemandeId) {
         this.edemandeId = edemandeId;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="edemande_id"
-        
+    @Column(name="edemande_id"  )
       
-    */
-    public final String getEdemandeId() {
+    public String getEdemandeId() {
         return this.edemandeId;
     }
   
@@ -1083,18 +1006,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private Boolean hasCROUSHelp;
 
-    public final void setHasCROUSHelp(final Boolean hasCROUSHelp) {
+    public void setHasCROUSHelp(final Boolean hasCROUSHelp) {
         this.hasCROUSHelp = hasCROUSHelp;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="has_c_r_o_u_s_help"
-        
+    @Column(name="has_c_r_o_u_s_help"  )
       
-    */
-    public final Boolean getHasCROUSHelp() {
+    public Boolean getHasCROUSHelp() {
         return this.hasCROUSHelp;
     }
   
@@ -1108,18 +1027,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private Boolean hasEuropeHelp;
 
-    public final void setHasEuropeHelp(final Boolean hasEuropeHelp) {
+    public void setHasEuropeHelp(final Boolean hasEuropeHelp) {
         this.hasEuropeHelp = hasEuropeHelp;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="has_europe_help"
-        
+    @Column(name="has_europe_help"  )
       
-    */
-    public final Boolean getHasEuropeHelp() {
+    public Boolean getHasEuropeHelp() {
         return this.hasEuropeHelp;
     }
   
@@ -1133,18 +1048,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private Boolean hasOtherHelp;
 
-    public final void setHasOtherHelp(final Boolean hasOtherHelp) {
+    public void setHasOtherHelp(final Boolean hasOtherHelp) {
         this.hasOtherHelp = hasOtherHelp;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="has_other_help"
-        
+    @Column(name="has_other_help"  )
       
-    */
-    public final Boolean getHasOtherHelp() {
+    public Boolean getHasOtherHelp() {
         return this.hasOtherHelp;
     }
   
@@ -1158,18 +1069,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private Boolean hasRegionalCouncilHelp;
 
-    public final void setHasRegionalCouncilHelp(final Boolean hasRegionalCouncilHelp) {
+    public void setHasRegionalCouncilHelp(final Boolean hasRegionalCouncilHelp) {
         this.hasRegionalCouncilHelp = hasRegionalCouncilHelp;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="has_regional_council_help"
-        
+    @Column(name="has_regional_council_help"  )
       
-    */
-    public final Boolean getHasRegionalCouncilHelp() {
+    public Boolean getHasRegionalCouncilHelp() {
         return this.hasRegionalCouncilHelp;
     }
   
@@ -1183,18 +1090,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private Boolean isSubjectAccountHolder;
 
-    public final void setIsSubjectAccountHolder(final Boolean isSubjectAccountHolder) {
+    public void setIsSubjectAccountHolder(final Boolean isSubjectAccountHolder) {
         this.isSubjectAccountHolder = isSubjectAccountHolder;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="is_subject_account_holder"
-        
+    @Column(name="is_subject_account_holder"  )
       
-    */
-    public final Boolean getIsSubjectAccountHolder() {
+    public Boolean getIsSubjectAccountHolder() {
         return this.isSubjectAccountHolder;
     }
   
@@ -1233,18 +1136,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private String otherStudiesLabel;
 
-    public final void setOtherStudiesLabel(final String otherStudiesLabel) {
+    public void setOtherStudiesLabel(final String otherStudiesLabel) {
         this.otherStudiesLabel = otherStudiesLabel;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="other_studies_label"
-        
+    @Column(name="other_studies_label"  )
       
-    */
-    public final String getOtherStudiesLabel() {
+    public String getOtherStudiesLabel() {
         return this.otherStudiesLabel;
     }
   
@@ -1258,18 +1157,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private Boolean sandwichCourses;
 
-    public final void setSandwichCourses(final Boolean sandwichCourses) {
+    public void setSandwichCourses(final Boolean sandwichCourses) {
         this.sandwichCourses = sandwichCourses;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="sandwich_courses"
-        
+    @Column(name="sandwich_courses"  )
       
-    */
-    public final Boolean getSandwichCourses() {
+    public Boolean getSandwichCourses() {
         return this.sandwichCourses;
     }
   
@@ -1283,18 +1178,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private java.util.Date subjectBirthDate;
 
-    public final void setSubjectBirthDate(final java.util.Date subjectBirthDate) {
+    public void setSubjectBirthDate(final java.util.Date subjectBirthDate) {
         this.subjectBirthDate = subjectBirthDate;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subject_birth_date"
-        
+    @Column(name="subject_birth_date"  )
       
-    */
-    public final java.util.Date getSubjectBirthDate() {
+    public java.util.Date getSubjectBirthDate() {
         return this.subjectBirthDate;
     }
   
@@ -1308,18 +1199,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private Boolean subjectFirstRequest;
 
-    public final void setSubjectFirstRequest(final Boolean subjectFirstRequest) {
+    public void setSubjectFirstRequest(final Boolean subjectFirstRequest) {
         this.subjectFirstRequest = subjectFirstRequest;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="subject_first_request"
-        
+    @Column(name="subject_first_request"  )
       
-    */
-    public final Boolean getSubjectFirstRequest() {
+    public Boolean getSubjectFirstRequest() {
         return this.subjectFirstRequest;
     }
   
@@ -1342,27 +1229,20 @@ public class StudyGrantRequestData implements Serializable {
     
     private List<fr.cg95.cvq.business.request.LocalReferentialData> taxHouseholdCity;
 
-    public final void setTaxHouseholdCity(final List<fr.cg95.cvq.business.request.LocalReferentialData> taxHouseholdCity) {
+    public void setTaxHouseholdCity(final List<fr.cg95.cvq.business.request.LocalReferentialData> taxHouseholdCity) {
         this.taxHouseholdCity = taxHouseholdCity;
     }
 
-    /**
  
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="study_grant_request_tax_household_city"
-        * @hibernate.key
-        *  column="study_grant_request_id"
-        * @hibernate.list-index
-        *  column="tax_household_city_index"
-        * @hibernate.many-to-many
-        *  column="tax_household_city_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+    @ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="study_grant_request_tax_household_city",
+            joinColumns=
+                @JoinColumn(name="study_grant_request_id"),
+            inverseJoinColumns=
+                @JoinColumn(name="tax_household_city_id"))
+    @OrderColumn(name="tax_household_city_index")
       
-    */
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getTaxHouseholdCity() {
+    public List<fr.cg95.cvq.business.request.LocalReferentialData> getTaxHouseholdCity() {
         return this.taxHouseholdCity;
     }
   
@@ -1401,18 +1281,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private String taxHouseholdCityPrecision;
 
-    public final void setTaxHouseholdCityPrecision(final String taxHouseholdCityPrecision) {
+    public void setTaxHouseholdCityPrecision(final String taxHouseholdCityPrecision) {
         this.taxHouseholdCityPrecision = taxHouseholdCityPrecision;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="tax_household_city_precision"
-        
+    @Column(name="tax_household_city_precision"  )
       
-    */
-    public final String getTaxHouseholdCityPrecision() {
+    public String getTaxHouseholdCityPrecision() {
         return this.taxHouseholdCityPrecision;
     }
   
@@ -1442,18 +1318,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private String taxHouseholdFirstName;
 
-    public final void setTaxHouseholdFirstName(final String taxHouseholdFirstName) {
+    public void setTaxHouseholdFirstName(final String taxHouseholdFirstName) {
         this.taxHouseholdFirstName = taxHouseholdFirstName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="tax_household_first_name"
-        *  length="38"
+    @Column(name="tax_household_first_name" , length=38 )
       
-    */
-    public final String getTaxHouseholdFirstName() {
+    public String getTaxHouseholdFirstName() {
         return this.taxHouseholdFirstName;
     }
   
@@ -1476,18 +1348,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private Double taxHouseholdIncome;
 
-    public final void setTaxHouseholdIncome(final Double taxHouseholdIncome) {
+    public void setTaxHouseholdIncome(final Double taxHouseholdIncome) {
         this.taxHouseholdIncome = taxHouseholdIncome;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="tax_household_income"
-        
+    @Column(name="tax_household_income"  )
       
-    */
-    public final Double getTaxHouseholdIncome() {
+    public Double getTaxHouseholdIncome() {
         return this.taxHouseholdIncome;
     }
   
@@ -1517,18 +1385,14 @@ public class StudyGrantRequestData implements Serializable {
     
     private String taxHouseholdLastName;
 
-    public final void setTaxHouseholdLastName(final String taxHouseholdLastName) {
+    public void setTaxHouseholdLastName(final String taxHouseholdLastName) {
         this.taxHouseholdLastName = taxHouseholdLastName;
     }
 
-    /**
  
-        * @hibernate.property
-        *  column="tax_household_last_name"
-        *  length="38"
+    @Column(name="tax_household_last_name" , length=38 )
       
-    */
-    public final String getTaxHouseholdLastName() {
+    public String getTaxHouseholdLastName() {
         return this.taxHouseholdLastName;
     }
   

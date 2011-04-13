@@ -84,7 +84,7 @@ public class UsersContextAspect implements Ordered {
             }
             i++;
         }
-        if (homeFolder == null && individual != null) {
+        if (homeFolder == null && individual != null && individual.getHomeFolder() != null) {
             homeFolder = individual.getHomeFolder();
             homeFolderId = homeFolder.getId();
         }

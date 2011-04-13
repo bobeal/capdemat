@@ -125,9 +125,9 @@ update individual set state = 'Modified' where state = 'Pending' and
     (select count(*) from home_folder_modification_request where id in
         (select specific_data_id from request r where r.home_folder_id = home_folder_id)) > 0;
 update individual set state = 'New' where state = 'Pending';
-update home_folder set state = 'Modified' where state = 'Pending' and
-    (select count(*) from home_folder_modification_request where id in
-        (select specific_data_id from request r where r.home_folder_id = id)) > 0;
+update home_folder set state = 'Modified' where state = 'Pending' and id in
+    (select r.home_folder_id from request r where
+        (select count(*) from home_folder_modification_request hfmr where hfmr.id = r.specific_data_id) > 0);
 update home_folder set state = 'New' where state = 'Pending';
 
 create table user_external_action (

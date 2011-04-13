@@ -91,8 +91,8 @@ create or replace function migrate_individual_model() returns void as $$
     r record;
   begin
     for r in select * from individual loop
-      update adult a set login = r.login where a.id = r.id;
-      update child c set sex = r.sex where c.id = r.id;
+      update adult set login = r.login where id = r.id;
+      update child set sex = r.sex where id = r.id;
     end loop;
   end;
 $$ LANGUAGE plpgsql;
@@ -121,13 +121,13 @@ alter table user_action
     foreign key (home_folder_id)
     references home_folder;
 
-update individual i set state = 'Modified' where state = 'Pending' and
+update individual set state = 'Modified' where state = 'Pending' and
     (select count(*) from home_folder_modification_request where id in
-        (select specific_data_id from request r where r.home_folder_id = i.home_folder_id)) > 0;
+        (select specific_data_id from request r where r.home_folder_id = home_folder_id)) > 0;
 update individual set state = 'New' where state = 'Pending';
-update home_folder hf set state = 'Modified' where state = 'Pending' and
+update home_folder set state = 'Modified' where state = 'Pending' and
     (select count(*) from home_folder_modification_request where id in
-        (select specific_data_id from request r where r.home_folder_id = hf.id)) > 0;
+        (select specific_data_id from request r where r.home_folder_id = id)) > 0;
 update home_folder set state = 'New' where state = 'Pending';
 
 create table user_external_action (
@@ -162,7 +162,7 @@ create or replace function migrate_individual_lastmodificationdate() returns voi
     r record;
   begin
     for r in select * from individual loop
-      update individual i set last_modification_date = r.creation_date where i.id = r.id;
+      update individual set last_modification_date = r.creation_date where id = r.id;
     end loop;
   end;
 $$ LANGUAGE plpgsql;
@@ -191,7 +191,7 @@ delete from request where home_folder_id in
     (select id from home_folder hf where
         (select count(*) from individual where home_folder_id = hf.id) = 0);
 
-delete from home_folder hf where (select count(*) from individual where home_folder_id = hf.id) = 0;
+delete from home_folder where id not in (select distinct home_folder_id from individual);
 
 -- User referential security
 

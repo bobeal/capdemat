@@ -18,7 +18,6 @@ import org.apache.xmlbeans.XmlObject;
 
 import javax.xml.parsers.*;
 import org.xml.sax.InputSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.*;
 import java.io.*;
 import org.apache.soap.*;
@@ -53,7 +52,6 @@ public class TechnocarteService implements IExternalProviderService, IScholarBus
     private String label;
     private String urlkiosque;
 
-    @Autowired
     private IExternalHomeFolderService externalHomeFolderService;
 
     public String sendRequest(XmlObject requestXml) throws CvqException {
@@ -662,4 +660,7 @@ public class TechnocarteService implements IExternalProviderService, IScholarBus
         return stops;
     }
 
+    public void setExternalHomeFolderService(IExternalHomeFolderService externalHomeFolderService) {
+        this.externalHomeFolderService = externalHomeFolderService;
+    }
 }

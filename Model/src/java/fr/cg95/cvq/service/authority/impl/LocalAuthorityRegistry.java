@@ -52,17 +52,9 @@ import fr.cg95.cvq.business.authority.SiteProfile;
 import fr.cg95.cvq.business.authority.SiteRoles;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Version;
-import fr.cg95.cvq.business.users.Address;
-import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.Child;
-import fr.cg95.cvq.business.users.FamilyStatusType;
-import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.RoleType;
-import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.business.users.UserSecurityProfile;
 import fr.cg95.cvq.dao.authority.ILocalAuthorityDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
-import fr.cg95.cvq.dao.request.IRequestActionDAO;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -74,9 +66,7 @@ import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
-import fr.cg95.cvq.service.request.job.RequestArchivingJob;
 import fr.cg95.cvq.service.users.IUserSecurityService;
-import fr.cg95.cvq.service.users.IUserWorkflowService;
 import fr.cg95.cvq.util.development.BusinessObjectsFactory;
 
 /**
@@ -111,12 +101,10 @@ public class LocalAuthorityRegistry
     /** Keep a map of all services interested in local authorities lifecycle */
     protected Collection<ILocalAuthorityLifecycleAware> allListenerServices;
 
-    private RequestArchivingJob requestArchivingJob;
+
     private ILocalAuthorityDAO localAuthorityDAO;
     private IAgentService agentService;
     private IUserSecurityService userSecurityService;
-    private IUserWorkflowService userWorkflowService;
-    private IRequestActionDAO requestActionDAO;
 
     private ListableBeanFactory beanFactory;
 
@@ -734,19 +722,6 @@ public class LocalAuthorityRegistry
                         BusinessObjectsFactory.gimmeSchool("École Jean Jaurès"));
                     localAuthorityDAO.create(BusinessObjectsFactory
                         .gimmeRecreationCenter("Centre de loisirs Louise Michel"));
-                    Address address = BusinessObjectsFactory.gimmeAddress(
-                        "12", "Rue d'Aligre", "Paris", "75012");
-                    Adult homeFolderResponsible =
-                        BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "Dupont", "Jean",
-                            address, FamilyStatusType.SINGLE);
-                    homeFolderResponsible.setPassword("aaaaaaaa");
-                    HomeFolder homeFolder = userWorkflowService.create(homeFolderResponsible, false);
-                    Adult other = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "Durand",
-                        "Jacques", address, FamilyStatusType.SINGLE);
-                    userWorkflowService.add(homeFolder, other, false);
-                    Child child = BusinessObjectsFactory.gimmeChild("Moreau", "Émilie");
-                    userWorkflowService.add(homeFolder, child);
-                    userWorkflowService.link(homeFolderResponsible, child, Collections.singleton(RoleType.CLR_FATHER));
                 }
                 // set current site to be able to generateJPEGFiles (which uses getCurrentSite) ...
                 SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
@@ -776,10 +751,6 @@ public class LocalAuthorityRegistry
                 + type.getFolder());
             if (!resourceDir.exists())
                 resourceDir.mkdir();
-        }
-        if (!requestActionDAO.hasArchivesMigrationAction()) {
-            requestArchivingJob.migrate();
-            requestArchivingJob.archive();
         }
         generateJPEGFiles();
     }
@@ -983,19 +954,7 @@ public class LocalAuthorityRegistry
         this.agentService = agentService;
     }
 
-    public void setUserWorkflowService(IUserWorkflowService userWorkflowService) {
-        this.userWorkflowService = userWorkflowService;
-    }
-
     public void setUserSecurityService(IUserSecurityService userSecurityService) {
         this.userSecurityService = userSecurityService;
-    }
-
-    public void setRequestActionDAO(IRequestActionDAO requestActionDAO) {
-        this.requestActionDAO = requestActionDAO;
-    }
-
-    public void setRequestArchivingJob(RequestArchivingJob requestArchivingJob) {
-        this.requestArchivingJob = requestArchivingJob;
     }
 }

@@ -21,10 +21,11 @@ import fr.cg95.cvq.business.request.RequestAdminEvent;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.request.IRequestActionDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
-import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextType;
+import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IRequestPdfService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
@@ -33,7 +34,7 @@ import fr.cg95.cvq.service.request.external.IRequestExternalActionService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.translation.ITranslationService;
 
-public class RequestArchivingJob implements ApplicationContextAware {
+public class RequestArchivingJob implements ApplicationContextAware, ILocalAuthorityLifecycleAware {
 
     public static class Result implements Serializable {
         private static final long serialVersionUID = 1L;
@@ -58,6 +59,7 @@ public class RequestArchivingJob implements ApplicationContextAware {
     private IRequestServiceRegistry requestServiceRegistry;
     private IRequestWorkflowService requestWorkflowService;
     private ITranslationService translationService;
+    private IRequestActionDAO requestActionDAO;
 
     @Context(types = {ContextType.SUPER_ADMIN})
     public void launch() {
@@ -177,6 +179,18 @@ public class RequestArchivingJob implements ApplicationContextAware {
     }
 
     @Override
+    public void addLocalAuthority(String localAuthorityName) {
+        if (!requestActionDAO.hasArchivesMigrationAction()) {
+            migrate();
+            archive();
+        }
+    }
+
+    @Override
+    public void removeLocalAuthority(String localAuthorityName) {
+    }
+
+    @Override
     public void setApplicationContext(ApplicationContext applicationContext)
         throws BeansException {
         this.applicationContext = applicationContext;
@@ -193,6 +207,10 @@ public class RequestArchivingJob implements ApplicationContextAware {
 
     public void setRequestDAO(IRequestDAO requestDAO) {
         this.requestDAO = requestDAO;
+    }
+
+    public void setRequestActionDAO(IRequestActionDAO requestActionDAO) {
+        this.requestActionDAO = requestActionDAO;
     }
 
     public void setRequestPdfService(IRequestPdfService requestPdfService) {

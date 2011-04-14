@@ -9,7 +9,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 
 import fr.cg95.cvq.business.payment.Payment;
@@ -30,7 +29,6 @@ public class PaymentContextAspect implements Ordered {
 
     private Logger logger = Logger.getLogger(PaymentContextAspect.class);
 
-    @Autowired
     private IPaymentDAO paymentDAO;
 
     @Before("fr.cg95.cvq.SystemArchitecture.businessService() && @annotation(context) && within(fr.cg95.cvq.service.payment..*)")
@@ -105,5 +103,9 @@ public class PaymentContextAspect implements Ordered {
     @Override
     public int getOrder() {
         return 1;
+    }
+
+    public void setPaymentDAO(IPaymentDAO paymentDAO) {
+        this.paymentDAO = paymentDAO;
     }
 }

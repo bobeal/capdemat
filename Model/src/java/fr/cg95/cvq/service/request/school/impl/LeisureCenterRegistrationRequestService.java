@@ -3,8 +3,6 @@ package fr.cg95.cvq.service.request.school.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.LeisureCenterRegistrationRequest;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -23,9 +21,7 @@ import fr.cg95.cvq.service.users.IUserSearchService;
  */
 public class LeisureCenterRegistrationRequestService extends RequestService implements ILeisureCenterRegistrationRequestService {
 
-    @Autowired
     private IRequestExternalService requestExternalService;
-    @Autowired
     private IUserSearchService userSearchService;
 
     @Override
@@ -72,5 +68,13 @@ public class LeisureCenterRegistrationRequestService extends RequestService impl
         } else {
             return new HashMap<String,String>();
         }
+    }
+
+    public void setRequestExternalService(IRequestExternalService requestExternalService) {
+        this.requestExternalService = requestExternalService;
+    }
+
+    public void setUserSearchService(IUserSearchService userSearchService) {
+        this.userSearchService = userSearchService;
     }
 }

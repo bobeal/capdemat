@@ -2,7 +2,6 @@ package fr.cg95.cvq.service.request.school.impl;
 
 import java.util.Arrays;
 import java.util.Calendar;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.DayCareCenterRegistrationRequest;
@@ -20,7 +19,6 @@ import fr.cg95.cvq.service.users.IUserSearchService;
  */
 public final class DayCareCenterRegistrationRequestService extends RequestService {
 
-    @Autowired
     IUserSearchService userSearchService;
     
     @Override

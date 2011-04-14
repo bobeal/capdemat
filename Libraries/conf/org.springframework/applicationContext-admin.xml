@@ -290,6 +290,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="requestExternalActionService" ref="requestExternalActionService" />
     <property name="requestDAO" ref="requestDAO" />
+    <property name="requestActionDAO" ref="requestActionDAO" />
     <property name="requestPdfService" ref="requestPdfService" />
     <property name="translationService" ref="translationService" />
     <property name="requestWorkflowService"  ref="requestWorkflowService" />

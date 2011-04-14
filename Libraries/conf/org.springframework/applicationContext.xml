@@ -431,6 +431,8 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="isOfRegistrationKind" value="true"/>
     <property name="defaultDisplayGroup" value="school" />
     <property name="filingDelay" value="12"/>
+    <property name="userSearchService" ref="userSearchService" />
+    <property name="requestExternalService" ref="requestExternalService" />
   </bean>
 
   <bean id="globalSchoolRegistrationRequestService" 
@@ -442,6 +444,8 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="isOfRegistrationKind" value="true"/>
     <property name="defaultDisplayGroup" value="school" />
     <property name="filingDelay" value="12"/>
+    <property name="userSearchService" ref="userSearchService" />
+    <property name="requestExternalService" ref="requestExternalService" />
   </bean>
 
   <bean id="renewalPerischoolActivitiesRequestService" 
@@ -464,6 +468,8 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="isOfRegistrationKind" value="true"/>
     <property name="defaultDisplayGroup" value="school" />
     <property name="filingDelay" value="12"/>
+    <property name="userSearchService" ref="userSearchService" />
+    <property name="requestExternalService" ref="requestExternalService" />
   </bean>
 
   <bean id="holidayCampRegistrationRequestService"
@@ -475,6 +481,8 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="defaultDisplayGroup" value="school" />
     <property name="supportMultiple" value="true" />
     <property name="filingDelay" value="12"/>
+    <property name="userSearchService" ref="userSearchService" />
+    <property name="requestExternalService" ref="requestExternalService" />
   </bean>
 
   <bean id="perischoolActivityRegistrationRequestService" 
@@ -553,6 +561,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="isOfRegistrationKind" value="true"/>
     <property name="defaultDisplayGroup" value="school" />
     <property name="filingDelay" value="12"/>
+    <property name="userSearchService" ref="userSearchService" />
   </bean>
 
   <bean id="bafaGrantRequestService"
@@ -752,13 +761,17 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     class="fr.cg95.cvq.service.payment.aspect.PaymentFilterAspect" />
 
   <bean id="paymentContextCheckAspect" 
-    class="fr.cg95.cvq.service.payment.aspect.PaymentContextAspect" />
+    class="fr.cg95.cvq.service.payment.aspect.PaymentContextAspect">
+    <property name="paymentDAO" ref="paymentDAO" />
+  </bean>
 
   <bean id="paymentService" class="fr.cg95.cvq.service.payment.impl.PaymentService">
     <property name="paymentDAO" ref="paymentDAO" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
     <property name="mailService" ref="mailService" />
     <property name="userSearchService" ref="userSearchService" />
+    <property name="externalHomeFolderService" ref="externalHomeFolderService" />
+    <property name="paymentExternalService" ref="paymentExternalService" />
   </bean>
 
   <bean id="externalApplicationProviderService"

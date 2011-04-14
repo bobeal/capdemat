@@ -11,7 +11,6 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
@@ -61,9 +60,7 @@ public final class PaymentService implements IPaymentService,
     private ILocalAuthorityRegistry localAuthorityRegistry;
     private IMailService mailService;
     private IUserSearchService userSearchService;
-    @Autowired
     private IExternalHomeFolderService externalHomeFolderService;
-    @Autowired
     private IPaymentExternalService paymentExternalService;
 
     private ApplicationContext applicationContext;
@@ -545,5 +542,13 @@ public final class PaymentService implements IPaymentService,
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+    }
+
+    public void setExternalHomeFolderService(IExternalHomeFolderService externalHomeFolderService) {
+        this.externalHomeFolderService = externalHomeFolderService;
+    }
+
+    public void setPaymentExternalService(IPaymentExternalService paymentExternalService) {
+        this.paymentExternalService = paymentExternalService;
     }
 }

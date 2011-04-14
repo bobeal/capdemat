@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.SchoolTransportRegistrationRequest;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -20,9 +18,7 @@ import fr.cg95.cvq.service.users.IUserSearchService;
 
 public class SchoolTransportRegistrationRequestService extends RequestService implements ISchoolTransportRegistrationRequestService {
 
-    @Autowired
     private IRequestExternalService requestExternalService;
-    @Autowired
     private IUserSearchService userSearchService;
 
     @Override
@@ -60,5 +56,13 @@ public class SchoolTransportRegistrationRequestService extends RequestService im
         } else {
             return new HashMap<String,String>();
         }
+    }
+
+    public void setRequestExternalService(IRequestExternalService requestExternalService) {
+        this.requestExternalService = requestExternalService;
+    }
+
+    public void setUserSearchService(IUserSearchService userSearchService) {
+        this.userSearchService = userSearchService;
     }
 }

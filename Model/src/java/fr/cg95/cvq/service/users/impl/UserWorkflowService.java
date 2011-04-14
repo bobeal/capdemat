@@ -35,10 +35,12 @@ import fr.cg95.cvq.business.authority.LocalAuthorityResource;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
+import fr.cg95.cvq.business.users.FamilyStatusType;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.IndividualRole;
 import fr.cg95.cvq.business.users.RoleType;
+import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.business.users.UserAction;
 import fr.cg95.cvq.business.users.UserEvent;
 import fr.cg95.cvq.business.users.UserState;
@@ -61,13 +63,16 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
+import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
+import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry;
 import fr.cg95.cvq.service.users.IUserNotificationService;
 import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.service.users.IUserService;
 import fr.cg95.cvq.service.users.IUserWorkflowService;
 import fr.cg95.cvq.util.JSONUtils;
 import fr.cg95.cvq.util.UserUtils;
+import fr.cg95.cvq.util.development.BusinessObjectsFactory;
 import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.util.translation.ITranslationService;
 import fr.cg95.cvq.xml.common.AddressType;
@@ -76,7 +81,8 @@ import fr.cg95.cvq.xml.common.ChildType;
 import fr.cg95.cvq.xml.common.HomeFolderType;
 import fr.cg95.cvq.xml.common.IndividualType;
 
-public class UserWorkflowService implements IUserWorkflowService, ApplicationEventPublisherAware {
+public class UserWorkflowService implements IUserWorkflowService, ApplicationEventPublisherAware,
+    ILocalAuthorityLifecycleAware {
 
     private static Logger logger = Logger.getLogger(UserWorkflowService.class);
 
@@ -95,12 +101,41 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
     private IUserNotificationService userNotificationService;
 
     private IUserSearchService userSearchService;
-
+    
     private IHomeFolderDAO homeFolderDAO;
 
     private IIndividualDAO individualDAO;
 
     private Map<String, UserWorkflow> workflows = new HashMap<String, UserWorkflow>();
+
+    @Override
+    public void addLocalAuthority(String localAuthorityName) {
+        try {
+            if (LocalAuthorityRegistry.DEVELOPMENT_LOCAL_AUTHORITY.equals(localAuthorityName)
+                && userSearchService.getByLogin("jean.dupont") == null) {
+                Address address = BusinessObjectsFactory.gimmeAddress(
+                    "12", "Rue d'Aligre", "Paris", "75012");
+                Adult homeFolderResponsible =
+                    BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "Dupont", "Jean",
+                        address, FamilyStatusType.SINGLE);
+                homeFolderResponsible.setPassword("aaaaaaaa");
+                HomeFolder homeFolder = create(homeFolderResponsible, false);
+                Adult other = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "Durand",
+                    "Jacques", address, FamilyStatusType.SINGLE);
+                add(homeFolder, other, false);
+                Child child = BusinessObjectsFactory.gimmeChild("Moreau", "Émilie");
+                add(homeFolder, child);
+                link(homeFolderResponsible, child, Collections.singleton(RoleType.CLR_FATHER));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("addLocalAuthority() Unable to create test home folder");
+        }
+    }
+
+    @Override
+    public void removeLocalAuthority(String localAuthorityName) {
+    }
 
     @Override
     public UserState[] getPossibleTransitions(UserState state) {

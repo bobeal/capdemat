@@ -201,10 +201,6 @@
               </g:each>
             </select>
             """
-         ,'requester' :
-            """
-              <g:render template="/frontofficeRequestType/widget/requester" model="['requester':requester, 'hasHomeFolder':hasHomeFolder]" />
-            """
          ,'label' :
             """<label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> ${element.mandatory ? '*' : ''}  <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>"""
          ,'labelWithFor' :
@@ -230,7 +226,7 @@
       ]
       
       def output
-      if (['requester','subject', 'acceptance', 'time'].contains(element.widget))
+      if (['subject', 'acceptance', 'time'].contains(element.widget))
         output = ''
       else if (['radio', 'boolean', 'localReferentialData', 'address', 'date'].contains(element.widget))
         output = widgets['label']

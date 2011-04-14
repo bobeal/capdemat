@@ -22,7 +22,7 @@
     lrHtml += "</ul>"
     } else { 
       lrEntries.each { entry -> 
-        lrHtml += "${currentLrDatas?.contains(entry.key) ? entry.labelsMap.fr: ''}"
+        lrHtml += "${currentLrDatas?.contains(entry.key) ? esc(entry.labelsMap.fr): ''}"
       } 
     }
     println lrHtml
@@ -51,12 +51,8 @@
       <li>${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
     </ul>
   </div>
-
+  <h2>${i18n.translate('request.property.requester')}</h2>
   
-  <h2>${i18n.translate('mdr.step.requester.label')}</h2>
-  
-    
-      
           <p class="label">
             ${i18n.translate('homeFolder.adult.property.title')}
             ${i18n.translate('homeFolder.individual.property.firstName')}
@@ -86,8 +82,6 @@
           <div class="response">${esc(requester?.homePhone)}</div>
           
 
-    
-  
 
   
   <h2>${i18n.translate('mdr.step.nature.label')}</h2>

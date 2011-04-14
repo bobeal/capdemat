@@ -2,16 +2,7 @@
 
 
   
-    <h3><g:message code="ancr.step.requester.label" /></h3>
-    
-      
-      <dl>
-        
-          <g:render template="/frontofficeRequestType/widget/requesterSummary" model="['requester':requester]" />
-          
-
-      </dl>
-      
+    <h3><g:message code="ancr.step.address.label" /></h3>
     
       
       <dl>

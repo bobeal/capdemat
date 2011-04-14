@@ -91,22 +91,22 @@
       <ul>
 
   
-        <li class="${currentStep == 'requester' ? 'current ' : ''}
+        <li class="${currentStep == 'address' ? 'current ' : ''}
           
-            ${individual ? rqt.stepStates['requester-' + params.type].state : rqt.stepStates['requester'].state}
+            ${individual ? rqt.stepStates['address-' + params.type].state : rqt.stepStates['address'].state}
           
           ">
           <span class="number">1</span>
           <a
-            <g:if test="${currentStep != 'requester' && rqt.stepStates['requester'].state != 'unavailable'}">
-              href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'requester'])}"
+            <g:if test="${currentStep != 'address' && rqt.stepStates['address'].state != 'unavailable'}">
+              href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'address'])}"
             </g:if>
           >
             
-              <g:message code="${individual ? 'homeFolder.action.add' + org.apache.commons.lang.StringUtils.capitalize(params.type) : 'ancr.step.requester.label'}" />
+              <g:message code="${individual ? 'homeFolder.action.add' + org.apache.commons.lang.StringUtils.capitalize(params.type) : 'ancr.step.address.label'}" />
               ${individual ? '' : '*'}
               <span class="help">
-                <g:message code="request.step.message.${rqt.stepStates['requester' + (individual ? '-' + params.type : '')].state}" />
+                <g:message code="request.step.message.${rqt.stepStates['address' + (individual ? '-' + params.type : '')].state}" />
               </span>
             
           </a>

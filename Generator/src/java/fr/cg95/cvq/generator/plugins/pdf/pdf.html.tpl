@@ -201,6 +201,8 @@ ${endGT()}
       <li>\${i18n.translate('pdf.agentId')} : <strong>\${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
     </ul>
   </div>
+  <h2>\${i18n.translate('request.property.requester')}</h2>
+  <% displayWidget(['widget':'requester'], "rqt") %>
 <% requestPdf.steps.each { step -> %>
   <% if (requestPdf.getElementsByStep(step).isEmpty()) return %>
   <h2>\${i18n.translate('${step.i18nPrefix()}.step.${step.name}.label')}</h2>

@@ -5,7 +5,7 @@
   <ul class="yui-nav">
   
     <li class="selected ">
-      <a href="#page0"><em><g:message code="ancr.step.requester.label" /></em></a>
+      <a href="#page0"><em><g:message code="ancr.step.address.label" /></em></a>
     </li>
   
     <li class="">
@@ -20,19 +20,13 @@
       <!-- step start -->
       <div id="page0">
         <h2><g:message code="property.form" />
-          <span><g:message code="ancr.step.requester.label" /></span>
+          <span><g:message code="ancr.step.address.label" /></span>
         </h2>
         <div class="yui-g">
           
           
           <!-- column start -->
           <div class="yui-u first">
-            
-              
-              <dl>
-                <g:render template="/backofficeRequestInstruction/requestType/requester" model="['requester':requester]" />
-              </dl>
-              
             
           </div>
           <!-- column end -->

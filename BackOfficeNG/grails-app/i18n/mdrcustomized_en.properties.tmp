@@ -1,8 +1,5 @@
 mdr.duration.value =
 
-mdr.step.requester.label =
-mdr.step.requester.desc =
-
 mdr.step.nature.label =
 mdr.step.nature.desc =
 
@@ -66,12 +63,12 @@ mdr.property.copies.help =
 mdr.property.copies.validationError =
 
 
-mdr.property.comment.help =
-mdr.property.comment.validationError =
-
-
 mdr.property.motive.help =
 mdr.property.motive.validationError =
+
+
+mdr.property.comment.help =
+mdr.property.comment.validationError =
 
 
 mdr.property.relationship.help =

@@ -13,7 +13,6 @@ import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.common.CommonStep;
 import fr.cg95.cvq.generator.common.Step;
 import fr.cg95.cvq.generator.common.Widget;
-import fr.cg95.cvq.generator.plugins.bo.ElementBo;
 
 /**
  * @author rdj@zenexity.fr

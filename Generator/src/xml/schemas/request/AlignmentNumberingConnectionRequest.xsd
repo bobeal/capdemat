@@ -28,10 +28,7 @@
         <common>
           <namespace name="urbanism" />
           <steps>
-            <step index="0" name="requester">
-              <widgets>
-                <requester />
-              </widgets>
+            <step index="0" name="address">
               <conditions>
                 <condition name="isSameAddress" />
               </conditions>
@@ -57,7 +54,7 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="requester" />
+                    <step name="address" />
                     <conditions>
                       <condition name="isSameAddress" type="trigger" />
                     </conditions>
@@ -84,7 +81,7 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="requester" />
+                    <step name="address" />
                     <conditions>
                       <condition name="isSameAddress" type="unfilled" required="true" />
                     </conditions>

@@ -28,18 +28,13 @@
         <common>
           <namespace name="reservation" />
           <steps>
-            <step index="0" name="requester">
-              <widgets>
-                <requester />
-              </widgets>
-            </step>
-            <step index="1" name="entertainments" required="false">
+            <step index="0" name="entertainments" required="false">
               <conditions>
                 <condition name="hasSubscriberNumber" />
               </conditions>
             </step>
-            <step index="2" name="rules" />
-            <step index="3" ref="validation" />
+            <step index="1" name="rules" />
+            <step index="2" ref="validation" />
           </steps>
         </common>
       </xs:appinfo>

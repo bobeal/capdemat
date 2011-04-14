@@ -28,15 +28,10 @@
         <common>
           <namespace name="civil" />
           <steps>
-            <step index="0" name="requester">
-              <widgets>
-                <requester />
-              </widgets>
-            </step>
-            <step index="1" name="nature" />
-            <step index="2" name="type" />
-            <step index="3" ref="document" />
-            <step index="4" ref="validation" />
+            <step index="0" name="nature" />
+            <step index="1" name="type" />
+            <step index="2" ref="document" />
+            <step index="3" ref="validation" />
           </steps>
         </common>
       </xs:appinfo>

@@ -425,6 +425,7 @@ class BackofficeRequestInstructionController {
             'temporary': homeFolder.temporary,
             'state' : homeFolder.state,
             'enabled' : homeFolder.enabled,
+            'temporary' : homeFolder.temporary,
             'addressDetails' :   "${homeFolder.address.streetNumber ?: ''} "+
                                  "${homeFolder.address.streetName} " +
                                  "${homeFolder.address.postalCode} " +

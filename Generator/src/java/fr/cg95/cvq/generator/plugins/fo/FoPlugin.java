@@ -22,7 +22,6 @@ import fr.cg95.cvq.generator.common.CommonStep;
 import fr.cg95.cvq.generator.common.ElementStack;
 import fr.cg95.cvq.generator.common.RequestCommon;
 import fr.cg95.cvq.generator.common.Step;
-import fr.cg95.cvq.generator.plugins.bo.ElementBo;
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
 

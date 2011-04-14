@@ -91,46 +91,22 @@
       <ul>
 
   
-        <li class="${currentStep == 'requester' ? 'current ' : ''}
+        <li class="${currentStep == 'cadastre' ? 'current ' : ''}
           
-            ${individual ? rqt.stepStates['requester-' + params.type].state : rqt.stepStates['requester'].state}
+            ${individual ? rqt.stepStates['cadastre-' + params.type].state : rqt.stepStates['cadastre'].state}
           
           ">
           <span class="number">1</span>
-          <a
-            <g:if test="${currentStep != 'requester' && rqt.stepStates['requester'].state != 'unavailable'}">
-              href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'requester'])}"
-            </g:if>
-          >
-            
-              <g:message code="${individual ? 'homeFolder.action.add' + org.apache.commons.lang.StringUtils.capitalize(params.type) : 'acr.step.requester.label'}" />
-              ${individual ? '' : '*'}
-              <span class="help">
-                <g:message code="request.step.message.${rqt.stepStates['requester' + (individual ? '-' + params.type : '')].state}" />
-              </span>
-            
-          </a>
-        </li>    
-  
-
-  
-        <li class="${currentStep == 'cadastre' ? 'current ' : ''}
-          
-            ${rqt.stepStates['cadastre'].state}
-          
-          ">
-          <span class="number">2</span>
           <a
             <g:if test="${currentStep != 'cadastre' && rqt.stepStates['cadastre'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'cadastre'])}"
             </g:if>
           >
             
-              <g:message code="acr.step.cadastre.label" /> *
+              <g:message code="${individual ? 'homeFolder.action.add' + org.apache.commons.lang.StringUtils.capitalize(params.type) : 'acr.step.cadastre.label'}" />
+              ${individual ? '' : '*'}
               <span class="help">
-                
-                  <g:message code="request.step.message.${rqt.stepStates['cadastre'].state}" />
-                
+                <g:message code="request.step.message.${rqt.stepStates['cadastre' + (individual ? '-' + params.type : '')].state}" />
               </span>
             
           </a>
@@ -145,7 +121,7 @@
             ${rqt.stepStates['document'].state}
           
           ">
-          <span class="number">3</span>
+          <span class="number">2</span>
           <a
             <g:if test="${currentStep != 'document' && rqt.stepStates['document'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'document'])}"

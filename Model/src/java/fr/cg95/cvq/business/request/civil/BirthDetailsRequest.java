@@ -49,13 +49,6 @@ public class BirthDetailsRequest extends Request implements Serializable {
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
-          getStepStates().put("requester", stepState);
-        
-          stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "unavailable");
-          stepState.put("required", true);
-          stepState.put("errorMsg", null);
-          stepState.put("invalidFields", new ArrayList<String>());
           getStepStates().put("nature", stepState);
         
           stepState = new HashMap<String, Object>(4);
@@ -228,13 +221,6 @@ public class BirthDetailsRequest extends Request implements Serializable {
         
           stepState = new HashMap<String, Object>(4);
           stepState.put("state", "uncomplete");
-          stepState.put("required", true);
-          stepState.put("errorMsg", null);
-          stepState.put("invalidFields", new ArrayList<String>());
-          clone.getStepStates().put("requester", stepState);
-        
-          stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "unavailable");
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());

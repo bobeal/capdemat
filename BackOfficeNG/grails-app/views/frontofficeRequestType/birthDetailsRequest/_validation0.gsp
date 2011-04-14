@@ -2,20 +2,6 @@
 
 
   
-    <h3><g:message code="bdr.step.requester.label" /></h3>
-    
-      
-      <dl>
-        
-          <g:render template="/frontofficeRequestType/widget/requesterSummary" model="['requester':requester]" />
-          
-
-      </dl>
-      
-    
-  
-
-  
     <h3><g:message code="bdr.step.nature.label" /></h3>
     
       

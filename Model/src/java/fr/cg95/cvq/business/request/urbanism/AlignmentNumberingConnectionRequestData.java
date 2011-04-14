@@ -196,7 +196,7 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
             
             "return active",
         
-        profiles = {"requester"},
+        profiles = {"address"},
         message = "otherAddress"
       )
     
@@ -212,7 +212,7 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
             
             "return active",
         
-        profiles = {"requester"},
+        profiles = {"address"},
         message = "otherAddress"
       )
     
@@ -527,7 +527,7 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
       @NotNull(
         
         
-        profiles = {"requester"},
+        profiles = {"address"},
         message = "isAccountAddress"
       )
     

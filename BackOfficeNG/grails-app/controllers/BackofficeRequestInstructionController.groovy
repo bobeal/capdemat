@@ -123,6 +123,10 @@ class BackofficeRequestInstructionController {
 
         def subject = rqt.subjectId != null ? userSearchService.getById(rqt.subjectId) : null
 
+        def subMenuEntries = ["request.search"]
+        if (categoryService.hasManagerProfile(SecurityContext.currentAgent))
+            subMenuEntries.add("requestType.list")
+
         return ([
             "rqt": rqt,
             "requestTypeLabel": rqt.requestType.label,
@@ -142,7 +146,7 @@ class BackofficeRequestInstructionController {
             "lastTraceStatus" : lastTraceStatus,
             "subject" : subject,
             "subjectIsChild" : subject != null && subject instanceof Child ? true : false,
-            "subMenuEntries" : BackofficeRequestController.subMenuEntries
+            "subMenuEntries" : subMenuEntries
         ])
     }
     

@@ -7,6 +7,7 @@ import fr.cg95.cvq.business.request.Requirement
 import fr.cg95.cvq.business.request.RequestForm
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Version
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.service.request.ICategoryService
@@ -45,7 +46,10 @@ class BackofficeRequestTypeController {
     }
 
     def afterInterceptor = { model ->
-        model["subMenuEntries"] = BackofficeRequestController.subMenuEntries
+        def subMenuEntries = ["request.search"]
+        if (categoryService.hasManagerProfile(SecurityContext.currentAgent))
+            subMenuEntries.add("requestType.list")
+        model["subMenuEntries"] = subMenuEntries
     }
 
     def list = {

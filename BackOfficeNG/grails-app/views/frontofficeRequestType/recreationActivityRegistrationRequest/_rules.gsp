@@ -6,7 +6,7 @@
               <label class="required">
                 <g:message code="rarr.property.rulesAndRegulationsAcceptance.label" /> *
                 <g:if test="${availableRules.contains('rulesAndRegulationsAcceptance')}">
-                  <p><a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'rulesAndRegulationsAcceptance']).encodeAsXML()}"><span><g:message code="request.action.consult.rules" /></span></a></p>
+                  <p><a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':rqt.requestType.label, 'filename':'rulesAndRegulationsAcceptance']).encodeAsXML()}"><span><g:message code="request.action.consult.rules" /></span></a></p>
                 </g:if>
                 <span><g:message code="rarr.property.rulesAndRegulationsAcceptance.help" /></span>
               </label>
@@ -27,7 +27,7 @@
               <label class="required">
                 <g:message code="rarr.property.classTripPermission.label" /> *
                 <g:if test="${availableRules.contains('classTripPermission')}">
-                  <p><a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'classTripPermission']).encodeAsXML()}"><span><g:message code="request.action.consult.rules" /></span></a></p>
+                  <p><a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':rqt.requestType.label, 'filename':'classTripPermission']).encodeAsXML()}"><span><g:message code="request.action.consult.rules" /></span></a></p>
                 </g:if>
                 <span><g:message code="rarr.property.classTripPermission.help" /></span>
               </label>
@@ -48,7 +48,7 @@
               <label class="required">
                 <g:message code="rarr.property.childPhotoExploitationPermission.label" /> *
                 <g:if test="${availableRules.contains('childPhotoExploitationPermission')}">
-                  <p><a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'childPhotoExploitationPermission']).encodeAsXML()}"><span><g:message code="request.action.consult.rules" /></span></a></p>
+                  <p><a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':rqt.requestType.label, 'filename':'childPhotoExploitationPermission']).encodeAsXML()}"><span><g:message code="request.action.consult.rules" /></span></a></p>
                 </g:if>
                 <span><g:message code="rarr.property.childPhotoExploitationPermission.help" /></span>
               </label>
@@ -69,7 +69,7 @@
               <label class="required">
                 <g:message code="rarr.property.hospitalizationPermission.label" /> *
                 <g:if test="${availableRules.contains('hospitalizationPermission')}">
-                  <p><a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'hospitalizationPermission']).encodeAsXML()}"><span><g:message code="request.action.consult.rules" /></span></a></p>
+                  <p><a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':rqt.requestType.label, 'filename':'hospitalizationPermission']).encodeAsXML()}"><span><g:message code="request.action.consult.rules" /></span></a></p>
                 </g:if>
                 <span><g:message code="rarr.property.hospitalizationPermission.help" /></span>
               </label>

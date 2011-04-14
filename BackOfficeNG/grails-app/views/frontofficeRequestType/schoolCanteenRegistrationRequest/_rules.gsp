@@ -6,7 +6,7 @@
               <label class="required">
                 <g:message code="scrr.property.hospitalizationPermission.label" /> *
                 <g:if test="${availableRules.contains('hospitalizationPermission')}">
-                  <p><a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'hospitalizationPermission']).encodeAsXML()}"><span><g:message code="request.action.consult.rules" /></span></a></p>
+                  <p><a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':rqt.requestType.label, 'filename':'hospitalizationPermission']).encodeAsXML()}"><span><g:message code="request.action.consult.rules" /></span></a></p>
                 </g:if>
                 <span><g:message code="scrr.property.hospitalizationPermission.help" /></span>
               </label>
@@ -27,7 +27,7 @@
               <label class="required">
                 <g:message code="scrr.property.rulesAndRegulationsAcceptance.label" /> *
                 <g:if test="${availableRules.contains('rulesAndRegulationsAcceptance')}">
-                  <p><a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'rulesAndRegulationsAcceptance']).encodeAsXML()}"><span><g:message code="request.action.consult.rules" /></span></a></p>
+                  <p><a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':rqt.requestType.label, 'filename':'rulesAndRegulationsAcceptance']).encodeAsXML()}"><span><g:message code="request.action.consult.rules" /></span></a></p>
                 </g:if>
                 <span><g:message code="scrr.property.rulesAndRegulationsAcceptance.help" /></span>
               </label>

@@ -129,7 +129,7 @@ public class UserReferentialMigration {
         } else if (RequestState.CLOSED.equals(state)) {
             return null;
         } else if (RequestState.COMPLETE.equals(state)) {
-            return UserState.VALID;
+            return null;
         } else if (RequestState.DRAFT.equals(state)) {
             return null;
         } else if (RequestState.NOTIFIED.equals(state)) {

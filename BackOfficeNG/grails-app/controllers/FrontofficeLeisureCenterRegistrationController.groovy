@@ -7,19 +7,19 @@ class FrontofficeLeisureCenterRegistrationController {
 
     def leisureCenters = {
         render(
-            leisureCenterRegistrationRequestService.getLeisureCenters(Long.valueOf(params.childId))
+            leisureCenterRegistrationRequestService.getLeisureCenters(Long.valueOf(params.requestId), Long.valueOf(params.childId))
         as JSON)
     }
 
     def lines = {
         render(
-            leisureCenterRegistrationRequestService.getTransportLines(Long.valueOf(params.childId))
+            leisureCenterRegistrationRequestService.getTransportLines(Long.valueOf(params.requestId), Long.valueOf(params.childId))
         as JSON)
     }
 
     def stops = {
         render(
-            leisureCenterRegistrationRequestService.getTransportStops(Long.valueOf(params.childId),params.lineId)
+            leisureCenterRegistrationRequestService.getTransportStops(Long.valueOf(params.requestId), Long.valueOf(params.childId), params.lineId)
         as JSON)
     }
 }

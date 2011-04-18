@@ -5,8 +5,10 @@ import java.util.Map;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.HolidayCampRegistrationRequest;
+import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.IExternalProviderService;
+import fr.cg95.cvq.service.request.IRequestSearchService;
 import fr.cg95.cvq.service.request.external.IRequestExternalService;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.school.IHolidayCampRegistrationRequestService;
@@ -17,6 +19,7 @@ public final class HolidayCampRegistrationRequestService extends RequestService 
 
     private IRequestExternalService requestExternalService;
     private IUserSearchService userSearchService;
+    private IRequestSearchService requestSearchService;
 
     @Override
     public boolean accept(Request request) {
@@ -29,10 +32,12 @@ public final class HolidayCampRegistrationRequestService extends RequestService 
     }
 
     @Override
-    public Map<String, String> getHolidayCamps(Long childId) throws CvqObjectNotFoundException {
+    public Map<String, String> getHolidayCamps(Long requestId, Long childId) throws CvqObjectNotFoundException {
         IExternalProviderService service = requestExternalService.getExternalServiceByRequestType(getLabel());
+        Request request = requestSearchService.getById(requestId, false);
+        Child child = userSearchService.getChildById(childId);
         if (service instanceof IScholarBusinessProviderService) {
-            return ((IScholarBusinessProviderService) service).getHolidayCamps(userSearchService.getChildById(childId));
+            return ((IScholarBusinessProviderService) service).getHolidayCamps(request, child);
         } else {
             return new HashMap<String,String>();
         }
@@ -44,5 +49,9 @@ public final class HolidayCampRegistrationRequestService extends RequestService 
 
     public void setUserSearchService(IUserSearchService userSearchService) {
         this.userSearchService = userSearchService;
+    }
+
+    public void setRequestSearchService(IRequestSearchService requestSearchService) {
+        this.requestSearchService = requestSearchService;
     }
 }

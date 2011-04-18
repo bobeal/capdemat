@@ -6,8 +6,10 @@ import java.util.Map;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.SchoolTransportRegistrationRequest;
+import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.IExternalProviderService;
+import fr.cg95.cvq.service.request.IRequestSearchService;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.condition.EqualityListChecker;
 import fr.cg95.cvq.service.request.external.IRequestExternalService;
@@ -20,6 +22,7 @@ public class SchoolTransportRegistrationRequestService extends RequestService im
 
     private IRequestExternalService requestExternalService;
     private IUserSearchService userSearchService;
+    private IRequestSearchService requestSearchService;
 
     @Override
     public void init() {
@@ -39,20 +42,24 @@ public class SchoolTransportRegistrationRequestService extends RequestService im
     }
 
     @Override
-    public Map<String, String> transportLines(Long childId) throws CvqObjectNotFoundException {
+    public Map<String, String> transportLines(Long requestId, Long childId) throws CvqObjectNotFoundException {
         IExternalProviderService service = requestExternalService.getExternalServiceByRequestType(getLabel());
+        Request request = requestSearchService.getById(requestId, false);
+        Child child = userSearchService.getChildById(childId);
         if (service instanceof IScholarBusinessProviderService) {
-            return ((IScholarBusinessProviderService) service).getTransportLines(userSearchService.getChildById(childId));
+            return ((IScholarBusinessProviderService) service).getTransportLines(request, child);
         } else {
             return new HashMap<String,String>();
         }
     }
 
     @Override
-    public Map<String, String> stops(Long childId, String lineId) throws CvqObjectNotFoundException {
+    public Map<String, String> stops(Long requestId, Long childId, String lineId) throws CvqObjectNotFoundException {
         IExternalProviderService service = requestExternalService.getExternalServiceByRequestType(getLabel());
+        Request request = requestSearchService.getById(requestId, false);
+        Child child = userSearchService.getChildById(childId);
         if (service instanceof IScholarBusinessProviderService) {
-            return ((IScholarBusinessProviderService) service).getTransportStops(userSearchService.getChildById(childId), lineId);
+            return ((IScholarBusinessProviderService) service).getTransportStops(request, child, lineId);
         } else {
             return new HashMap<String,String>();
         }
@@ -64,5 +71,9 @@ public class SchoolTransportRegistrationRequestService extends RequestService im
 
     public void setUserSearchService(IUserSearchService userSearchService) {
         this.userSearchService = userSearchService;
+    }
+
+    public void setRequestSearchService(IRequestSearchService requestSearchService) {
+        this.requestSearchService = requestSearchService;
     }
 }

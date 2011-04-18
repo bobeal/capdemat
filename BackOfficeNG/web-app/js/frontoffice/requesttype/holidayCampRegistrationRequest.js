@@ -85,8 +85,9 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
         var camps = createSelect('idCentreSejours');
 
         var childId = yud.get('subjectId').value;
+        var requestId = yud.get("stepForm").id.value;
         if (childId !== '') {
-          zct.doAjaxCall(zenexity.capdemat.contextPath + '/frontoffice/holidayCampRegistration/holidayCamps/?childId=' + childId, null, function(o){
+          zct.doAjaxCall(zenexity.capdemat.contextPath + '/frontoffice/holidayCampRegistration/holidayCamps/?requestId=' + requestId + '&childId=' + childId, null, function(o){
             camps.initOptions(o.responseText);
             camps.select(camps.previousValue);
           }, true);

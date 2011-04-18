@@ -7,7 +7,7 @@ import fr.cg95.cvq.service.request.IRequestService;
 
 public interface ISchoolTransportRegistrationRequestService extends IRequestService {
 
-    public Map<String, String> transportLines(Long childId) throws CvqObjectNotFoundException;
+    public Map<String, String> transportLines(Long requestId, Long childId) throws CvqObjectNotFoundException;
 
-    public Map<String, String> stops(Long childId, String lineId) throws CvqObjectNotFoundException;
+    public Map<String, String> stops(Long requestId, Long childId, String lineId) throws CvqObjectNotFoundException;
 }

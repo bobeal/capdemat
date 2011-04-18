@@ -369,7 +369,7 @@ public class FakeExternalService implements IExternalProviderService, IScholarBu
     }
 
     @Override
-    public Map<String, String> getHolidayCamps(Child child) {
+    public Map<String, String> getHolidayCamps(Request request, Child child) {
         Map<String, String> result = new HashMap<String, String>();
         
         result.put("0001", "Centre de séjours Cévennes");
@@ -380,7 +380,7 @@ public class FakeExternalService implements IExternalProviderService, IScholarBu
     }
 
     @Override
-    public Map<String, String> getLeisureCenters(Child child) {
+    public Map<String, String> getLeisureCenters(Request request, Child child) {
         Map<String, String> result = new HashMap<String, String>();
         
         result.put("0001", "Centre de loisirs Le Relais des Enfants");
@@ -391,7 +391,7 @@ public class FakeExternalService implements IExternalProviderService, IScholarBu
     }
 
     @Override
-    public Map<String, String> getTransportLines(Child child) {
+    public Map<String, String> getTransportLines(Request request, Child child) {
         Map<String, String> result = new HashMap<String, String>();
         
         result.put("0001", "Baillargues");
@@ -403,13 +403,34 @@ public class FakeExternalService implements IExternalProviderService, IScholarBu
     }
 
     @Override
-    public Map<String, String> getTransportStops(Child child, String lineId) {
+    public Map<String, String> getTransportStops(Request request, Child child, String lineId) {
         Map<String, String> result = new HashMap<String, String>();
         
         result.put("0001", "Antigone");
         result.put("0004", "Port Marianne");
         result.put("0002", "Beaux Arts");
         result.put("0003", "Hopitaux Facultés");
+
+        return result;
+    }
+
+    @Override
+    public Map<String, String> getLeisureCenterTransportLines(Request request, Child child) {
+        Map<String, String> result = new HashMap<String, String>();
+        
+        result.put("0001", "Romainville");
+        result.put("0004", "Magonty");
+        
+        return result;
+    }
+
+    @Override
+    public Map<String, String> getLeisureCenterTransportStops(Request request, Child child, String lineId) {
+        Map<String, String> result = new HashMap<String, String>();
+        
+        result.put("0001", "Maison de la nature");
+        result.put("0004", "Palavas");
+        result.put("0002", "Camargues");
 
         return result;
     }

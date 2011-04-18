@@ -7,6 +7,6 @@ import fr.cg95.cvq.service.request.IRequestService;
 
 public interface IHolidayCampRegistrationRequestService extends IRequestService {
 
-    public Map<String, String> getHolidayCamps(Long childId) throws CvqObjectNotFoundException;
+    public Map<String, String> getHolidayCamps(Long requestId, Long childId) throws CvqObjectNotFoundException;
 
 }

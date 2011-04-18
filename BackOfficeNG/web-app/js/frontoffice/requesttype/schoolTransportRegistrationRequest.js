@@ -87,6 +87,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
     return {
       init: function() {
         var subject = yud.get('subjectId');
+        var requestId = yud.get("stepForm").id.value;
 
         // Return if we aren't on step 1
         if (subject == undefined)
@@ -111,15 +112,15 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
 
         // Then refill selectors and reselect last values
         if (subject.value !== '') {
-          yud.get('idLigne').fill(linesCallUrlPrefix + '/?childId=' + subject.value,
+          yud.get('idLigne').fill(linesCallUrlPrefix + '/?requestId=' + requestId + '&childId=' + subject.value,
               select, [lastLineValue]);
-          yud.get('idArret').fill(stopsCallUrlPrefix + '/?childId=' + subject.value + '&lineId=' + lastLineValue,
+          yud.get('idArret').fill(stopsCallUrlPrefix + '/?requestId=' + requestId + '&childId=' + subject.value + '&lineId=' + lastLineValue,
               select, [lastStopValue]);
         }
 
         yue.on('subjectId', 'change', function(event) {
           if (this.value !== '') {
-            yud.get('idLigne').fill(linesCallUrlPrefix + '/?childId=' + this.value);
+            yud.get('idLigne').fill(linesCallUrlPrefix + '/?requestId=' + requestId + '&childId=' + subject.value);
           } else {
             yud.get('idLigne').empty();
             yud.get('idArret').empty();
@@ -128,7 +129,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
 
         yue.on('idLigne', 'change', function(event) {
           if (this.value !== '') {
-            yud.get('idArret').fill(stopsCallUrlPrefix + '/?childId=' + subject.value + '&lineId=' + this.value);
+            yud.get('idArret').fill(stopsCallUrlPrefix + '/?requestId=' + requestId + '&childId=' + subject.value + '&lineId=' + this.value);
           } else {
             yud.get('idArret').empty();
           }

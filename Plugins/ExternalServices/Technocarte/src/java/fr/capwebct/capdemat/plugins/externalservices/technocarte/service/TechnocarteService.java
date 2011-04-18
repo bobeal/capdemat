@@ -1,8 +1,11 @@
 package fr.capwebct.capdemat.plugins.externalservices.technocarte.service;
 
+import java.io.StringReader;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -11,19 +14,23 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
-import java.util.Calendar;
-import java.math.BigDecimal;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.log4j.Logger;
+import org.apache.soap.Fault;
+import org.apache.soap.rpc.Call;
+import org.apache.soap.rpc.Parameter;
+import org.apache.soap.rpc.Response;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
-
-import javax.xml.parsers.*;
+import org.w3c.dom.CharacterData;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-import org.w3c.dom.*;
-import java.io.*;
-import org.apache.soap.*;
-import org.apache.soap.rpc.*;
 
 import fr.capwebct.capdemat.Activite;
 import fr.capwebct.capdemat.ArretAller;
@@ -37,6 +44,7 @@ import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItemDetail;
 import fr.cg95.cvq.business.payment.PurchaseItem;
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqConfigurationException;
@@ -536,7 +544,7 @@ public class TechnocarteService implements IExternalProviderService, IScholarBus
         return schools;
     }
 
-    private ListeActiviteDocument getActivities(Child child, String labelActivity) throws CvqObjectNotFoundException {
+    private ListeActiviteDocument getActivities(String labelActivity, Request request, Child child) throws CvqObjectNotFoundException {
         String method = "DetailActivites";
         ListeActiviteDocument activities = null;
 
@@ -544,16 +552,25 @@ public class TechnocarteService implements IExternalProviderService, IScholarBus
         if (externalHomeFolderService.getIndividualMapping(child, label) != null)
             externalChildId = externalHomeFolderService.getIndividualMapping(child, label).getExternalCapDematId();
         logger.debug("Get externalCapDematId for " + child.getFullName() + " - " + externalChildId);
+        String birthDayDate = "";
+        if (child.getBirthDate() != null) {
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            logger.debug("getActivities() sending : " + df.format(child.getBirthDate()));
+            birthDayDate = df.format(child.getBirthDate());
+        }
+        String requestSeasonId= "";
+        if (request.getRequestSeason() != null) {
+            requestSeasonId = request.getRequestSeason().getId().toString();
+        }
 
         Vector<Parameter> parameters = new Vector<Parameter>();
         parameters.addElement(new Parameter("idenfantexterne", String.class, externalChildId, null));
         parameters.addElement(new Parameter("typeactivite", String.class, labelActivity, null));
         parameters.addElement(new Parameter("codeappli", String.class, "Capdemat", null));
-        if (child.getBirthDate() != null) {
-            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-            logger.debug("getActivities() sending : " + df.format(child.getBirthDate()));
-            parameters.addElement(new Parameter("datenai", String.class, df.format(child.getBirthDate()), null));
-        }
+        parameters.addElement(new Parameter("datenai", String.class, birthDayDate, null));
+        parameters.addElement(new Parameter("requestType", String.class, request.getRequestType().getLabel(), null));
+        parameters.addElement(new Parameter("codsaison", String.class, requestSeasonId, null));
+
         try {
             Call call = new Call();
             String encodingStyleURI = org.apache.soap.Constants.NS_URI_SOAP_ENC;
@@ -589,12 +606,12 @@ public class TechnocarteService implements IExternalProviderService, IScholarBus
     }
 
     @Override
-    public Map<String, String> getHolidayCamps(Child child) {
+    public Map<String, String> getHolidayCamps(Request request, Child child) {
 
         Map<String, String> camps = new HashMap<String, String>();
         ListeActiviteDocument document = null;
         try {
-            document = getActivities(child, "SEJ");
+            document = getActivities("SEJ", request, child);
         } catch (CvqObjectNotFoundException e) {
             e.printStackTrace();
             return camps;
@@ -608,11 +625,11 @@ public class TechnocarteService implements IExternalProviderService, IScholarBus
     }
 
     @Override
-    public Map<String, String> getLeisureCenters(Child child) {
+    public Map<String, String> getLeisureCenters(Request request, Child child) {
         Map<String, String> centers = new HashMap<String, String>();
         ListeActiviteDocument activities;
         try {
-            activities = getActivities(child, "LOI");
+            activities = getActivities("LOI", request, child);
         } catch (CvqObjectNotFoundException e) {
             e.printStackTrace();
             return centers;
@@ -624,12 +641,12 @@ public class TechnocarteService implements IExternalProviderService, IScholarBus
     }
 
     @Override
-    public Map<String, String> getTransportLines(Child child) {
+    public Map<String, String> getTransportLines(Request request, Child child) {
         Map<String, String> lines = new HashMap<String, String>();
 
         ListeActiviteDocument activities;
         try {
-            activities = getActivities(child, "TRANS");
+            activities = getActivities("TRANS", request, child);
         } catch (Exception e) {
             logger.warn(e.getMessage());
             return lines;
@@ -647,11 +664,11 @@ public class TechnocarteService implements IExternalProviderService, IScholarBus
     }
 
     @Override
-    public Map<String, String> getTransportStops(Child child, String lineId) {
+    public Map<String, String> getTransportStops(Request request, Child child, String lineId) {
         Map<String, String> stops = new HashMap<String, String>();
         ListeActiviteDocument activities;
         try {
-            activities = getActivities(child, "TRANS");
+            activities = getActivities("TRANS", request, child);
         } catch (Exception e) {
             logger.warn(e.getMessage());
             return stops;

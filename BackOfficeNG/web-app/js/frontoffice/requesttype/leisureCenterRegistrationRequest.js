@@ -88,8 +88,9 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
         var centers = createSelect('idCentreLoisirs');
 
         var childId = yud.get('subjectId').value;
+        var requestId = yud.get("stepForm").id.value;
         if (childId !== '') {
-          zct.doAjaxCall(zenexity.capdemat.contextPath + '/frontoffice/leisureCenterRegistration/leisureCenters/?childId=' + childId, null, function(o){
+          zct.doAjaxCall(zenexity.capdemat.contextPath + '/frontoffice/leisureCenterRegistration/leisureCenters/?requestId=' + requestId + '&childId=' + childId, null, function(o){
             centers.initOptions(o.responseText);
             centers.select(centers.previousValue);
           }, true);
@@ -102,8 +103,9 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
         var lines = createSelect('idLigne');
         yue.on('idLigne', 'change', zcfr.LeisureCenterRegistrationRequest.initStops);
         var childId = yud.get('subjectId').value;
+        var requestId = yud.get("stepForm").id.value;
         if (childId !== '') {
-          zct.doAjaxCall(zenexity.capdemat.contextPath + '/frontoffice/leisureCenterRegistration/lines/?childId=' + childId, null, function(o){
+          zct.doAjaxCall(zenexity.capdemat.contextPath + '/frontoffice/leisureCenterRegistration/lines/?requestId=' + requestId + '&childId=' + childId, null, function(o){
             lines.initOptions(o.responseText);
             lines.select(lines.previousValue);
           }, true);
@@ -116,9 +118,10 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
         var stops = createSelect('idArret');
 
         var childId = yud.get('subjectId').value;
+        var requestId = yud.get("stepForm").id.value;
         var lineId = yud.get('idLigne').value;
         if (lineId !== '') {
-          zct.doAjaxCall(zenexity.capdemat.contextPath + '/frontoffice/leisureCenterRegistration/stops/?childId=' + childId
+          zct.doAjaxCall(zenexity.capdemat.contextPath + '/frontoffice/leisureCenterRegistration/stops/?requestId=' + requestId + '&childId=' + childId
                   + '&lineId=' + lineId, null, function(o){
             stops.initOptions(o.responseText);
             stops.select(stops.previousValue);

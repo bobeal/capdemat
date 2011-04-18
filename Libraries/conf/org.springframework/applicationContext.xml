@@ -432,6 +432,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="defaultDisplayGroup" value="school" />
     <property name="filingDelay" value="12"/>
     <property name="userSearchService" ref="userSearchService" />
+    <property name="requestSearchService" ref="requestSearchService" />
     <property name="requestExternalService" ref="requestExternalService" />
   </bean>
 
@@ -469,6 +470,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="defaultDisplayGroup" value="school" />
     <property name="filingDelay" value="12"/>
     <property name="userSearchService" ref="userSearchService" />
+    <property name="requestSearchService" ref="requestSearchService" />
     <property name="requestExternalService" ref="requestExternalService" />
   </bean>
 
@@ -482,6 +484,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="supportMultiple" value="true" />
     <property name="filingDelay" value="12"/>
     <property name="userSearchService" ref="userSearchService" />
+    <property name="requestSearchService" ref="requestSearchService" />
     <property name="requestExternalService" ref="requestExternalService" />
   </bean>
 

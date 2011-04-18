@@ -7,13 +7,13 @@ class FrontofficeSchoolTransportRegistrationController {
 
     def transportLines = {
         render(
-            schoolTransportRegistrationRequestService.transportLines(params.long('childId'))
+            schoolTransportRegistrationRequestService.transportLines(params.long('requestId'), params.long('childId'))
         as JSON)
     }
 
     def stops = {
         render(
-            schoolTransportRegistrationRequestService.stops(params.long('childId'), params.lineId)
+            schoolTransportRegistrationRequestService.stops(params.long('requestId'), params.long('childId'), params.lineId)
         as JSON)
     }
 }

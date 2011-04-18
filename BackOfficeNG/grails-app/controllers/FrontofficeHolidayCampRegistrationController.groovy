@@ -7,7 +7,7 @@ class FrontofficeHolidayCampRegistrationController {
 
     def holidayCamps = {
         render(
-            holidayCampRegistrationRequestService.getHolidayCamps(Long.valueOf(params.childId))
+            holidayCampRegistrationRequestService.getHolidayCamps(Long.valueOf(params.requestId), Long.valueOf(params.childId))
         as JSON)
     }
 }

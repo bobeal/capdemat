@@ -26,8 +26,10 @@ import fr.cg95.cvq.business.request.RequestActionType;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequestData;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequestData;
+import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.IndividualRole;
 import fr.cg95.cvq.business.users.UserAction;
 import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
@@ -147,6 +149,30 @@ public class UserReferentialMigration {
                 HomeFolder homeFolder = userSearchService.getHomeFolderById(state.getKey());
                 homeFolder.setState(state.getValue());
                 customDAO.update(homeFolder);
+            }
+        }
+        for (Adult external : customDAO.findBySimpleProperty(Adult.class, "homeFolder", null)) {
+            HomeFolder homeFolder = null;
+            for (IndividualRole role : (List<IndividualRole>) HibernateUtil.getSession()
+                .createSQLQuery("select * from individual_role where owner_id = :id")
+                .addEntity(IndividualRole.class).setLong("id", external.getId()).list()) {
+                if (role.getHomeFolderId() != null) {
+                    try {
+                        homeFolder = userSearchService.getHomeFolderById(role.getHomeFolderId());
+                    } catch (CvqObjectNotFoundException e) {
+                        // what a wonderful model
+                    }
+                } else if (role.getIndividualId() != null) {
+                    try {
+                        homeFolder = userSearchService.getById(role.getIndividualId()).getHomeFolder();
+                    } catch (CvqObjectNotFoundException e) {
+                        // what a wonderful model
+                    }
+                }
+                if (homeFolder != null) {
+                    createFakeCreationAction(homeFolder, external.getId());
+                    break;
+                }
             }
         }
     }

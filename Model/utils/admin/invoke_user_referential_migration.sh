@@ -11,4 +11,4 @@ else
   exit;
 fi
 
-java -Xms512m -Xmx512m -cp $CLASSPATH  fr.cg95.cvq.util.admin.UserReferentialMigration
+java -Xms512m -Xmx2000m -cp $CLASSPATH fr.cg95.cvq.util.admin.UserReferentialMigration

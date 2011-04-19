@@ -95,7 +95,7 @@ class RequestAdaptorService {
         def user = UserUtils.getUserDetails(requestNote.userId)
         return [
             'id':requestNote.id,
-            'user_name':user.displayName,
+            'user_name':user.name,
             'nature':user.nature,
             'type':requestNote.type,
             'note':requestNote.note,

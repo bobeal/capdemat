@@ -6,6 +6,7 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.util.*;
 
@@ -23,6 +24,7 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.PdfWriter;
 
 import eu.medsea.mimeutil.MimeUtil2;
+import eu.medsea.mimeutil.detector.OpendesktopMimeDetector;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.document.ContentType;
 import fr.cg95.cvq.business.document.Document;
@@ -58,6 +60,26 @@ import fr.cg95.cvq.util.translation.ITranslationService;
  * @author bor@zenexity.fr
  */
 public class DocumentService implements IDocumentService, ApplicationListener<UserEvent> {
+
+    private class MimeUtil extends MimeUtil2 {
+
+        public MimeUtil() {
+            super();
+            registerMimeDetector("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
+            registerMimeDetector("eu.medsea.mimeutil.detector.OpendesktopMimeDetector");
+        }
+
+        @Override
+        protected void finalize()
+            throws Throwable {
+            unregisterMimeDetector("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
+            Object detector =
+                unregisterMimeDetector("eu.medsea.mimeutil.detector.OpendesktopMimeDetector");
+            Field timerField = OpendesktopMimeDetector.class.getDeclaredField("timer");
+            ((Timer)timerField.get(detector)).purge();
+            timerField.set(detector, null);
+        }
+    }
 
     static Logger logger = Logger.getLogger(DocumentService.class);
 
@@ -149,9 +171,6 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
     @Context(types = {ContextType.SUPER_ADMIN})
     public void computeMissingValues() {
-        MimeUtil2 util = new MimeUtil2();
-        util.registerMimeDetector("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
-        util.registerMimeDetector("eu.medsea.mimeutil.detector.OpendesktopMimeDetector");
         for (Long docId : documentDAO.listByMissingComputedValues()) {
             HibernateUtil.beginTransaction();
             Document document;
@@ -167,7 +186,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
                     || page.getContentType().equals(ContentType.OCTET_STREAM)) {
                     try {
                         page.setContentType(ContentType.forString(
-                            MimeUtil2.getMostSpecificMimeType(util.getMimeTypes(page.getData()))
+                            MimeUtil2.getMostSpecificMimeType(new MimeUtil().getMimeTypes(page.getData()))
                                 .toString()));
                         modified = true;
                     } catch (Exception e) {
@@ -306,11 +325,8 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     }
 
     private ContentType mimeTypeFromBytes(final byte[] data) {
-        MimeUtil2 util = new MimeUtil2();
-        util.registerMimeDetector("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
-        util.registerMimeDetector("eu.medsea.mimeutil.detector.OpendesktopMimeDetector");
         return ContentType.forString(
-            MimeUtil2.getMostSpecificMimeType(util.getMimeTypes(data)).toString());
+            MimeUtil2.getMostSpecificMimeType(new MimeUtil().getMimeTypes(data)).toString());
     }
 
     private void checkMimeType(final Document document, final int index, final byte[] data)

@@ -93,7 +93,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
             .append(" where individualRole.homeFolderId = ?");
         if (role != null)
             sb.append(" and individualRole.role = ?");
-        
+        sb.append(" and individual.homeFolder != null");
         Query query = HibernateUtil.getSession()
             .createQuery(sb.toString())
             .setLong(0, homeFolderId);
@@ -122,7 +122,8 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
         
         if (onlyExternals)
             sb.append(" and individual.homeFolder = null");
-        
+        else
+            sb.append(" and individual.homeFolder != null");
         Query query = HibernateUtil.getSession()
             .createQuery(sb.toString())
             .setLong(0, homeFolderId);
@@ -142,7 +143,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
             .append(" where individualRole.individualId = ?");
         if (role != null)
             sb.append(" and individualRole.role = ?");
-        
+        sb.append(" and individual.homeFolder != null");
         Query query = HibernateUtil.getSession()
             .createQuery(sb.toString())
             .setLong(0, subjectId);
@@ -165,7 +166,8 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
 
         if (onlyExternals)
             sb.append(" and home_folder_id is null");
-
+        else
+            sb.append(" and home_folder_id is not null");
         Query query = HibernateUtil.getSession().createSQLQuery(sb.toString())
             .addEntity(Individual.class).setLong(0, subjectId);
 
@@ -260,7 +262,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
     @Override
     public List<Individual> listTasks(QoS qoS, int max) {
         Query query = HibernateUtil.getSession()
-            .createQuery("from Individual i where i.qoS = :qoS order by i.lastModificationDate")
+            .createQuery("from Individual i where i.qoS = :qoS and homeFolder != null order by i.lastModificationDate")
             .setString("qoS", qoS.toString());
         if (max > 0)
             query.setMaxResults(max);
@@ -270,7 +272,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
     @Override
     public Long countTasks(QoS qoS) {
         return (Long)HibernateUtil.getSession()
-            .createQuery("select count(*) from Individual i where i.qoS = :qoS")
+            .createQuery("select count(*) from Individual i where i.qoS = :qoS and homeFolder != null")
             .setString("qoS", qoS.toString())
             .iterate().next();
     }
@@ -278,7 +280,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
     @Override
     public List<Individual> searchTasks(Date date) {
         return HibernateUtil.getSession()
-            .createQuery("from Individual i where i.state in (:new, :modified, :invalid) and (i.lastModificationDate is null or i.lastModificationDate <= :limitDate) order by i.lastModificationDate")
+            .createQuery("from Individual i where i.state in (:new, :modified, :invalid) and (i.lastModificationDate is null or i.lastModificationDate <= :limitDate) and homeFolder != null order by i.lastModificationDate")
             .setString("new", UserState.NEW.toString())
             .setString("modified", UserState.MODIFIED.toString())
             .setString("invalid", UserState.INVALID.toString())

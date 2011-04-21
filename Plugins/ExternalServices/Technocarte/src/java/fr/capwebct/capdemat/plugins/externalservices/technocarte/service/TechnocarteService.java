@@ -641,6 +641,54 @@ public class TechnocarteService implements IExternalProviderService, IScholarBus
     }
 
     @Override
+    public Map<String, String> getLeisureCenterTransportLines(Request request, Child child) {
+        Map<String, String> lines = new HashMap<String, String>();
+
+        ListeActiviteDocument activities;
+        try {
+            activities = getActivities("LOI", request, child);
+        } catch (Exception e) {
+            logger.warn(e.getMessage());
+            return lines;
+        }
+        for (Activite center : activities.getListeActivite().getActiviteArray()) {
+            if (center.getCircuitSpecifique()) {
+                for (CircuitAller line : center.getListeCircuitAller().getCircuitAllerArray()) {
+                    lines.put(line.getIdCircuitAller(), line.getNomCircuitAller());
+                }
+            }
+        }
+
+        return lines;
+    }
+
+    @Override
+    public Map<String, String> getLeisureCenterTransportStops(Request request, Child child, String lineId) {
+        Map<String, String> stops = new HashMap<String, String>();
+        ListeActiviteDocument activities;
+        try {
+            activities = getActivities("LOI", request, child);
+        } catch (Exception e) {
+            logger.warn(e.getMessage());
+            return stops;
+        }
+        for (Activite center : activities.getListeActivite().getActiviteArray()) {
+            if (center.getCircuitSpecifique()) {
+                for (CircuitAller line : center.getListeCircuitAller().getCircuitAllerArray()) {
+                    if (line.getIdCircuitAller().equals(lineId)) {
+                        for (ArretAller stop : line.getListeArretAller().getArretAllerArray()) {
+                            stops.put(stop.getIdArretAller(), stop.getNomArretAller());
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
+        return stops;
+    }
+
+    @Override
     public Map<String, String> getTransportLines(Request request, Child child) {
         Map<String, String> lines = new HashMap<String, String>();
 

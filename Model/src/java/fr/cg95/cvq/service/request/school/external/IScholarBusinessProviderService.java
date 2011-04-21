@@ -16,4 +16,8 @@ public interface IScholarBusinessProviderService {
     Map<String, String> getTransportLines(Request request, Child child);
 
     Map<String, String> getTransportStops(Request request, Child child, String lineId);
+
+    Map<String, String> getLeisureCenterTransportLines(Request request, Child child);
+
+    Map<String, String> getLeisureCenterTransportStops(Request request, Child child, String lineId);
 }

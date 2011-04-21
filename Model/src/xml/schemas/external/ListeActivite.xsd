@@ -21,6 +21,7 @@
       <xs:element name="ListeCentre" type="cap:ListeCentre"/>
       <xs:element name="ListeCircuitAller" type="cap:ListeCircuitAller"/>
       <xs:element name="ListeCircuitRetour" type="cap:CircuitRetour"/>
+      <xs:element name="CircuitSpecifique" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 

@@ -9,8 +9,8 @@ public interface ILeisureCenterRegistrationRequestService extends IRequestServic
 
     public Map<String, String> getLeisureCenters(Long requestId, Long childId) throws CvqObjectNotFoundException;
 
-    public Map<String, String> getTransportLines(Long requestId, Long childId) throws CvqObjectNotFoundException;
+    public Map<String, String> getLeisureCenterTransportLines(Long requestId, Long childId) throws CvqObjectNotFoundException;
 
-    public Map<String, String> getTransportStops(Long requestId, Long childId, String lineId) throws CvqObjectNotFoundException;
+    public Map<String, String> getLeisureCenterTransportStops(Long requestId, Long childId, String lineId) throws CvqObjectNotFoundException;
 
 }

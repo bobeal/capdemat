@@ -56,24 +56,24 @@ public class LeisureCenterRegistrationRequestService extends RequestService impl
     }
 
     @Override
-    public Map<String, String> getTransportLines(Long requestId, Long childId) throws CvqObjectNotFoundException {
+    public Map<String, String> getLeisureCenterTransportLines(Long requestId, Long childId) throws CvqObjectNotFoundException {
         IExternalProviderService service = requestExternalService.getExternalServiceByRequestType(getLabel());
         Request request = requestSearchService.getById(requestId, false);
         Child child = userSearchService.getChildById(childId);
         if (service instanceof IScholarBusinessProviderService) {
-            return ((IScholarBusinessProviderService) service).getTransportLines(request, child);
+            return ((IScholarBusinessProviderService) service).getLeisureCenterTransportLines(request, child);
         } else {
             return new HashMap<String,String>();
         }
     }
 
     @Override
-    public Map<String, String> getTransportStops(Long requestId, Long childId, String lineId) throws CvqObjectNotFoundException {
+    public Map<String, String> getLeisureCenterTransportStops(Long requestId, Long childId, String lineId) throws CvqObjectNotFoundException {
         IExternalProviderService service = requestExternalService.getExternalServiceByRequestType(getLabel());
         Request request = requestSearchService.getById(requestId, false);
         Child child = userSearchService.getChildById(childId);
         if (service instanceof IScholarBusinessProviderService) {
-            return ((IScholarBusinessProviderService) service).getTransportStops(request, child, lineId);
+            return ((IScholarBusinessProviderService) service).getLeisureCenterTransportStops(request, child, lineId);
         } else {
             return new HashMap<String,String>();
         }

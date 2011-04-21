@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/par"
+  xmlns:par="http://www.cg95.fr/cvq/schema/par"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common" 
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
+    schemaLocation="../common/CVQCommonElements.xsd" />
+
+  <xs:element name="PessacAnimationRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Demande d'adhésion aux animations sportives et culturelles
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Adhésion aux animations sportives et culturelles
+      </xs:documentation>
+      <xs:appinfo>
+        <model namespace="school" />
+        <common>
+          <namespace name="school" />
+          <steps>
+            <step index="0" name="enfant" >
+              <widgets>
+                <subject />
+              </widgets>
+            </step>
+            <step index="1" ref="document" />
+            <step index="2" ref="validation" />
+          </steps>
+        </common>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="cvq:RequestType">
+          <xs:sequence>
+            <xs:element name="TelephoneSujet" type="cvq:MobilePhoneType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Téléphone portable de l'adolescent
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Téléphone portable de l'adolescent
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="enfant" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="EmailSujet" type="cvq:EmailType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Email de l'adolescent
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Email de l'adolescent
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="enfant" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AcceptationReglementInterieur" type="cvq:AcceptanceType" default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  J'accepte et je m'engage à respecter le règlement
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  J'accepte et je m'engage à respecter le règlement
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="enfant" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

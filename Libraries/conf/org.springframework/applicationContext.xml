@@ -488,6 +488,16 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="requestExternalService" ref="requestExternalService" />
   </bean>
 
+  <bean id="pessacAnimationRequestService" 
+    class="fr.cg95.cvq.service.request.school.impl.PessacAnimationRequestService" 
+    parent="requestService">
+    <property name="label" value="Pessac Animation"/>
+    <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
+    <property name="isOfRegistrationKind" value="true"/>
+    <property name="defaultDisplayGroup" value="school" />
+    <property name="filingDelay" value="12"/>
+  </bean>
+
   <bean id="perischoolActivityRegistrationRequestService" 
     class="fr.cg95.cvq.service.request.school.impl.PerischoolActivityRegistrationRequestService" 
     parent="requestService">

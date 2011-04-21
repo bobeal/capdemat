@@ -627,6 +627,8 @@
 
     drop table perischool_contact_individual;
 
+    drop table pessac_animation_request;
+
     drop table purchase_item;
 
     drop table purchase_item_specific_data;
@@ -2074,6 +2076,14 @@
         home_phone varchar(10),
         perischool_activity_registration_request_id int8,
         contact_individuals_index int4,
+        primary key (id)
+    );
+
+    create table pessac_animation_request (
+        id int8 not null,
+        acceptation_reglement_interieur bool,
+        email_sujet varchar(255),
+        telephone_sujet varchar(10),
         primary key (id)
     );
 

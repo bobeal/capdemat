@@ -150,3 +150,11 @@ create table holiday_camp_registration_request (
     label_centre_sejours varchar(255),
     primary key (id)
 );
+
+create table pessac_animation_request (
+    id int8 not null,
+    acceptation_reglement_interieur bool,
+    email_sujet varchar(255),
+    telephone_sujet varchar(10),
+    primary key (id)
+);

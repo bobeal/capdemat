@@ -57,6 +57,7 @@
       <include name="MilitaryCensusRequest.xsd" />
       <include name="MusicSchoolRegistrationRequest.xsd" />
       <include name="PerischoolActivityRegistrationRequest.xsd" />
+      <include name="PessacAnimationRequest.xsd" />
       <include name="RecreationActivityRegistrationRequest.xsd" />
       <include name="RemoteSupportRequest.xsd" />
       <include name="RenewalPerischoolActivitiesRequest.xsd" />

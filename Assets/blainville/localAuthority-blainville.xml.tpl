@@ -54,6 +54,7 @@
             <property name="requestTypes">
               <list>
                 <value>Technical Intervention</value>
+                <value>School Canteen Registration</value>
               </list>
             </property>
            <property name="password" value="abcd"/>

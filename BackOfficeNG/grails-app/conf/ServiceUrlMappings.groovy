@@ -8,5 +8,6 @@ class ServiceUrlMappings {
     "/service/request/$requestId/document/$documentId?" (controller: "serviceRequestExternal", action: "requestDocument")
     "/service/paylineV4/$action?/$id?" (controller : "servicePaylineV4")
     "/service/provisioning/$localAuthority/$action?/$id?" (controller : "serviceProvisioning")
+    "/service/requestType/$requestTypeLabel/localReferential" (controller : "serviceRequestExternal"){action = [POST : "localReferential"]}
   }
 }

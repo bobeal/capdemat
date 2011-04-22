@@ -5,6 +5,7 @@ import java.util.Set;
 import fr.cg95.cvq.business.request.LocalReferentialType;
 import fr.cg95.cvq.business.request.LocalReferentialEntryData;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.service.request.annotation.IsRequestType;
 
 public interface ILocalReferentialService {
 
@@ -85,6 +86,14 @@ public interface ILocalReferentialService {
      *  Otherwise return true.
      */
     public boolean isLocalReferentialConfigured(final String requestTypeLabel) throws CvqException;
+
+    /**
+     * @param requestTypeLabel Label of the request type the local referential type belongs to
+     * @param newLrt New local referential type
+     * @throws CvqException
+     */
+    public void saveLocalReferentialType(@IsRequestType final String requestTypeLabel, LocalReferentialType newLrt)
+            throws CvqException;
 
     /**
      * Get a list of all known local referential data.

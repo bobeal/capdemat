@@ -33,6 +33,7 @@
             </xs:sequence>
             <xs:attribute name="name" type="xs:NMTOKEN" />
             <xs:attribute name="allowMultipleChoices" type="xs:boolean" />
+            <xs:attribute name="manager" type="xs:string" default="CapDémat"/>
           </xs:complexType>
           <xs:unique name="localEntryKey">
             <xs:selector xpath="./ref:entries/ref:entry" />

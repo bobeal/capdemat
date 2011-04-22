@@ -1,6 +1,8 @@
 package fr.cg95.cvq.dao.request;
 
 import fr.cg95.cvq.business.request.LocalReferentialType;
+import fr.cg95.cvq.exception.CvqException;
+
 import java.util.Set;
 
 /**
@@ -28,5 +30,5 @@ public interface ILocalReferentialDAO {
      * @param requestTypeLabel
      * @param lrt 
      */
-    void save(String requestTypeLabel, LocalReferentialType lrt);
+    void save(String requestTypeLabel, LocalReferentialType lrt) throws CvqException;
 }

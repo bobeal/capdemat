@@ -97,6 +97,13 @@ public class LocalReferentialService
     }
 
     @Override
+    @Context(types = {ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.MANAGE)
+    public void saveLocalReferentialType(final String requestTypeLabel, LocalReferentialType newLrt)
+        throws CvqException {
+        localReferentialDAO.save(requestTypeLabel, newLrt);
+    }
+
+    @Override
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
     public void removeLocalReferentialEntry(String requestTypeLabel, String typeName,
         String entryKey)

@@ -50,6 +50,19 @@ public class LocalReferentialType {
         this.multiple = multiple;
     }
 
+    /**
+     * Who manages this local referential type. Can be "CapDémat" or an external service label.
+     */
+    private String manager;
+
+    public final String getManager() {
+        return manager;
+    }
+
+    public final void setManager(String externalService) {
+        this.manager = externalService;
+    }
+
     public final String getLabel() {
         return label;
     }

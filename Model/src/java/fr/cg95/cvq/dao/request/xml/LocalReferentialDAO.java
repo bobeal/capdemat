@@ -68,14 +68,10 @@ public class LocalReferentialDAO implements ILocalReferentialDAO {
     }
 
     @Override
-    public void save(final String requestTypeLabel, final LocalReferentialType lrt) {
-        try {
-            File file = getOrCreateLocalReferentialFile(requestTypeLabel);
-            if (file != null) {
-                LocalReferentialXml.modelToXml(lrt, file);
-            }
-        } catch (CvqException ex) {
-            // What am I supposed to do?
+    public void save(final String requestTypeLabel, final LocalReferentialType lrt) throws CvqException {
+        File file = getOrCreateLocalReferentialFile(requestTypeLabel);
+        if (file != null) {
+            LocalReferentialXml.modelToXml(lrt, file);
         }
     }
     

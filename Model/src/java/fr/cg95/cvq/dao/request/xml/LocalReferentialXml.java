@@ -138,6 +138,8 @@ public class LocalReferentialXml {
         
         data.setAllowMultipleChoices(lrt.isMultiple());
 
+        data.setManager(lrt.getManager());
+
         if (!lrt.getEntries().isEmpty()) {
             LocalReferentialEntryType lret = data.addNewEntries();
 
@@ -178,7 +180,7 @@ public class LocalReferentialXml {
      * Transform a local referential data type from an XML Beans object
      * to a Model object
      */
-    private static LocalReferentialType xmlToModel(final Data refData) {
+    public static LocalReferentialType xmlToModel(final Data refData) {
 
         logger.debug("xmlToModel()");
 
@@ -189,6 +191,8 @@ public class LocalReferentialXml {
         lrt.setLabel(refData.getLabel());
         
         lrt.setMultiple(refData.getAllowMultipleChoices());
+
+        lrt.setManager(refData.getManager());
 
         if (refData.getEntries() != null) {
             logger.debug("xmlToModel() parsing data entries");

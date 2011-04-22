@@ -854,9 +854,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         validateAssociatedDocuments(request.getDocuments());
 
         HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
-        // those two request types are special ones
+        Individual individual = userSearchService.getAdultById(request.getRequesterId());
         if (homeFolder.isTemporary())
-            userWorkflowService.changeState(homeFolder, UserState.VALID);
+            userWorkflowService.changeState(individual, UserState.VALID);
 
 		// send request data to interested external services
         // TODO DECOUPLING
@@ -917,8 +917,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         }
 
         HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
+        Individual individual = userSearchService.getAdultById(request.getRequesterId());
         if (homeFolder.isTemporary())
-            userWorkflowService.changeState(homeFolder, UserState.INVALID);
+            userWorkflowService.changeState(individual, UserState.INVALID);
     }
 
     private void reject(final Request request, final String motive)
@@ -951,8 +952,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         }
 
         HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
+        Individual individual = userSearchService.getAdultById(request.getRequesterId());
         if (homeFolder.isTemporary())
-            userWorkflowService.changeState(homeFolder, UserState.INVALID);
+            userWorkflowService.changeState(individual, UserState.INVALID);
     }
     
     private void close(Request request)
@@ -999,8 +1001,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             throw new CvqInvalidTransitionException();
         }
         HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
+        Individual individual = userSearchService.getAdultById(request.getRequesterId());
         if (homeFolder.isTemporary())
-            userWorkflowService.changeState(homeFolder, UserState.ARCHIVED);
+            userWorkflowService.changeState(individual, UserState.ARCHIVED);
     }
 
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)

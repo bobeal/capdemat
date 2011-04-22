@@ -80,6 +80,7 @@ public class RequestContextCheckAspect implements Ordered {
         Long individualId = null;
         Long categoryId = null;
         Request request = null;
+        RequestType requestType = null;
         int i = 0;
         for (Object argument : arguments) {
             if (parametersAnnotations[i] != null && parametersAnnotations[i].length > 0) {
@@ -142,7 +143,6 @@ public class RequestContextCheckAspect implements Ordered {
                     if (SecurityContext.isFrontOfficeContext())
                         return;
 
-                    RequestType requestType = null;
                     if (argument instanceof Long) {
                         try {
                             requestType = (RequestType) requestTypeDAO.findById(RequestType.class, (Long) argument);
@@ -153,6 +153,8 @@ public class RequestContextCheckAspect implements Ordered {
                         }
                     } else if (argument instanceof RequestType) {
                         requestType = (RequestType) argument;
+                    } else if (argument instanceof String) {
+                        requestType = requestTypeDAO.findByLabel((String)argument);
                     }
 
 //                    if (requestType == null) {
@@ -259,7 +261,17 @@ public class RequestContextCheckAspect implements Ordered {
         }
 
         if (SecurityContext.isExternalServiceContext()) {
-            if (request != null) {
+            if (requestType == null)
+                try {
+                    requestType = request.getRequestType();
+                } catch (NullPointerException npe) {
+                    // Handled below
+                }
+            if (requestType == null) {
+                throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
+                        joinPoint.getSignature().getName(), context.types(), context.privilege(),
+                        "no request type specified");
+            } else {
                 LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
                 String externalServiceLabel = SecurityContext.getCurrentExternalService();
 
@@ -268,11 +280,12 @@ public class RequestContextCheckAspect implements Ordered {
                 Collection<String> authorizedRequestTypesLabels =
                     (esb != null) ? esb.getRequestTypes() : Collections.<String>emptyList();
 
-                if (!authorizedRequestTypesLabels.contains(request.getRequestType().getLabel())) {
+                if (!authorizedRequestTypesLabels.contains(requestType.getLabel())) {
                     throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
-                        joinPoint.getSignature().getName(), context.types(), context.privilege(), "unauthorized request");
+                        joinPoint.getSignature().getName(), context.types(), context.privilege(),
+                        "unauthorized request type");
                 }
-            } 
+            }
         }
     }
 
@@ -293,6 +306,7 @@ public class RequestContextCheckAspect implements Ordered {
         this.categoryDAO = categoryDAO;
     }
 
+    @SuppressWarnings(value="unchecked")
     private Request findRequestByArgument(Object argument) throws CvqObjectNotFoundException {
         Request request = null;
 

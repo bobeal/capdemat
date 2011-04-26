@@ -36,6 +36,9 @@ public class RequestAction implements Serializable {
     @Column
     private RequestActionType type;
 
+    @Column(name="external_service")
+    private String externalService;
+
     @Column(name="note",length=1024)
     private String note;
 
@@ -69,6 +72,14 @@ public class RequestAction implements Serializable {
 
     public void setAgentId(Long agentId) {
         this.agentId = agentId;
+    }
+
+    public String getExternalService() {
+        return this.externalService;
+    }
+
+    public void setExternalService(String externalService) {
+        this.externalService = externalService;
     }
 
     public String getNote() {

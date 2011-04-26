@@ -33,6 +33,7 @@ import fr.cg95.cvq.service.request.external.IRequestExternalActionService
 import fr.cg95.cvq.service.users.IUserSearchService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.util.UserUtils
+import fr.cg95.cvq.util.UserUtils.UserDetails
 
 import grails.converters.JSON
 

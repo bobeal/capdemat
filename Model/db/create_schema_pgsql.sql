@@ -2260,6 +2260,7 @@
     create table request_action (
         id int8 not null,
         agent_id int8,
+        external_service varchar(255),
         note varchar(1024),
         date timestamp,
         resulting_state varchar(16),

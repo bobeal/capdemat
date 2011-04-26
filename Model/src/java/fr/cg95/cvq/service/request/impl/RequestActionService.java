@@ -97,6 +97,7 @@ public class RequestActionService implements IRequestActionService {
         Long userId = SecurityContext.getCurrentUserId();
         RequestAction requestAction = new RequestAction();
         requestAction.setAgentId(userId);
+        requestAction.setExternalService(SecurityContext.getCurrentExternalService());
         requestAction.setType(type);
         requestAction.setMessage(message);
         requestAction.setNote(note);

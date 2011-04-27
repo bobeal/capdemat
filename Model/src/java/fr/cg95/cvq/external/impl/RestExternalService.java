@@ -66,13 +66,16 @@ public class RestExternalService extends ExternalProviderServiceAdapter {
 
     @Override
     public List<String> checkExternalReferential(XmlObject requestXml) {
-        HttpResponse response = WS.url(urls.get("checkExternalReferential")).body(requestXml.xmlText()).post();
         CheckExternalReferentialResponseDocument responseDoc;
         try {
+            String body = ExternalServiceUtils.getRequestFromFragment(requestXml);
+            HttpResponse response = WS.url(urls.get("checkExternalReferential")).body(body).post();
             responseDoc = CheckExternalReferentialResponseDocument.Factory.parse(response.getString());
-        } catch (XmlException e) {
+        } catch (Exception e) {
             logger.error("checkExternalReferential() got an exception : " + e.getMessage());
-            return Collections.emptyList();
+            List<String> errorList = new ArrayList<String>();
+            errorList.add(e.getMessage());
+            return errorList;
         }
         return Arrays.asList(responseDoc.getCheckExternalReferentialResponse().getMessageArray());
     }
@@ -307,29 +310,34 @@ public class RestExternalService extends ExternalProviderServiceAdapter {
             requestType.getId(), "capdemat", null, getLabel(), null);
         String body = ExternalServiceUtils.getRequestFromFragment(requestXml);
         logger.debug("sendRequest() sending : " + body);
-        HttpResponse response = WS.url(urls.get("sendRequest")).body(body).post();
-        int status = response.getStatus();
-        logger.debug("sendRequest() got response : " + response.getString());
         String id = null;
-        String message = null;
-        if (status == 200 || status == 201) {
-            est.setStatus(RequestExternalAction.Status.SENT);
-            id = response.getString();
-        } else {
-            message = response.getString();
-            if (status == 500) {
-                est.setStatus(RequestExternalAction.Status.ERROR);
-            } else if (status == 404 || status == 403 || status == 401) {
-                est.setStatus(RequestExternalAction.Status.NOT_SENT);
-                est.setMessage("Le service distant a répondu avec le code : " + status);
+        try {
+            HttpResponse response = WS.url(urls.get("sendRequest")).body(body).post();
+            int status = response.getStatus();
+            logger.debug("sendRequest() got response : " + response.getString());
+            String message = null;
+            if (status == 200 || status == 201) {
+                est.setStatus(RequestExternalAction.Status.SENT);
+                id = response.getString();
             } else {
-                est.setStatus(RequestExternalAction.Status.ERROR);
+                message = response.getString();
+                if (status == 500) {
+                    est.setStatus(RequestExternalAction.Status.ERROR);
+                } else if (status == 404 || status == 403 || status == 401) {
+                    est.setStatus(RequestExternalAction.Status.NOT_SENT);
+                    est.setMessage("Le service distant a répondu avec le code : " + status);
+                } else {
+                    est.setStatus(RequestExternalAction.Status.ERROR);
+                }
             }
+            if (message != null) {
+                message = StringEscapeUtils.escapeHtml(message);
+                est.setMessage(message.substring(0, Math.min(message.length(), 254)));
+            }
+        } catch (Exception e) {
+            est.setStatus(RequestExternalAction.Status.ERROR);
+            est.setMessage(e.getMessage().substring(0, Math.min(e.getMessage().length(), 254)));
         }
-        if (message != null) {
-            est.setMessage(StringEscapeUtils.escapeHtml(message.substring(0, Math.min(message.length(), 254))));
-        }
-
         requestExternalActionDAO.create(est);
 
         return id;

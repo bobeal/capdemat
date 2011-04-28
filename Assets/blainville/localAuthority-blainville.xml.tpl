@@ -83,6 +83,19 @@
         </entry>
         <entry>
           <key>
+            <ref bean="restExternalService" />
+          </key>
+          <bean class="fr.cg95.cvq.external.ExternalServiceBean">
+            <property name="requestTypes">
+              <list>
+                <value>Compostable Waste Collection</value>
+              </list>
+            </property>
+           <property name="password" value="abcd"/>
+          </bean>
+        </entry>
+        <entry>
+          <key>
             <ref bean="externalApplicationProviderService" />
           </key>
           <bean class="fr.cg95.cvq.external.ExternalServiceBean">

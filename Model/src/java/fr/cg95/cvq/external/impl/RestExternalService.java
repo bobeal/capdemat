@@ -37,7 +37,13 @@ import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
 import fr.cg95.cvq.business.payment.PurchaseItem;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
+import fr.cg95.cvq.business.request.workflow.event.IWorkflowPostAction;
+import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowCompleteEvent;
+import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowExtInProgressEvent;
+import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowPendingEvent;
+import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowRectifiedEvent;
 import fr.cg95.cvq.dao.request.external.IRequestExternalActionDAO;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
@@ -45,6 +51,7 @@ import fr.cg95.cvq.exception.CvqRemoteException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.ExternalServiceUtils;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.util.web.WS;
 import fr.cg95.cvq.util.web.WS.HttpResponse;
 import fr.cg95.cvq.xml.common.RequestType;
@@ -356,4 +363,53 @@ public class RestExternalService extends ExternalProviderServiceAdapter {
         this.requestExternalActionDAO = requestExternalActionDAO;
     }
 
+    @Override
+    public void visit(final WorkflowPendingEvent wfEvent) throws CvqException {
+        wfEvent.setWorkflowPostAction(new IWorkflowPostAction() {
+            @Override
+            public String getExecutor() {
+                return getLabel();
+            }
+
+            @Override
+            public void execute(IRequestWorkflowService requestWorkflowService) {
+                try {
+                    requestWorkflowService.updateRequestState(wfEvent.getRequest().getId(),
+                            RequestState.EXTINPROGRESS, null);
+                } catch (CvqException e) {
+                    logger.error(e.getMessage());
+                }
+            }
+        });
+    }
+
+    // Send on WorkflowExtInProgressEvent.
+    @Override
+    public void visit(final WorkflowExtInProgressEvent wfEvent) throws CvqException {
+        checkExtReferentialAndSendRequest(wfEvent.getRequest());
+    }
+
+    // Default is to send on WorkflowCompleteEvent, hence this overriding.
+    @Override
+    public void visit(final WorkflowCompleteEvent wfEvent) throws CvqException {}
+
+    @Override
+    public void visit(final WorkflowRectifiedEvent wfEvent) throws CvqException {
+        wfEvent.setWorkflowPostAction(new IWorkflowPostAction() {
+            @Override
+            public String getExecutor() {
+                return getLabel();
+            }
+
+            @Override
+            public void execute(IRequestWorkflowService requestWorkflowService) {
+                try {
+                    requestWorkflowService.updateRequestState(wfEvent.getRequest().getId(),
+                            RequestState.EXTINPROGRESS, null);
+                } catch (CvqException e) {
+                    logger.error(e.getMessage());
+                }
+            }
+        });
+    }
 }

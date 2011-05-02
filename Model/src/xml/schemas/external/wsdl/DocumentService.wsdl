@@ -9,14 +9,10 @@
    <wsdl:types>
       <xs:schema xmlns:capdemat="http://www.capwebct.fr/capdemat"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:common="http://www.cg95.fr/cvq/schema/common"
                  targetNamespace="http://www.capwebct.fr/capdemat"
                  elementFormDefault="qualified"
                  attributeFormDefault="unqualified">
 
-         <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
-                    schemaLocation="http://people.zenexity.fr/~bor/capdemat/V4_2/common/CVQCommonElements.xsd"/>
-    
          <xs:element name="GetDocumentListRequest">
             <xs:complexType>
                <xs:sequence>
@@ -64,7 +60,7 @@
                   <xs:element name="RequestId" type="xs:long">
                      <xs:annotation>
                         <xs:documentation>
-              The request id for wich we want the document.
+              The request id for wich we want the document or the pdf.
             </xs:documentation>
                      </xs:annotation>
                   </xs:element>

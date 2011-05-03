@@ -60,8 +60,11 @@ class FrontofficePaymentController {
     
     def index = {
         def result = [:]
-        if (!isPaymentEnabled())
+        if (!localAuthorityRegistry.isPaymentEnabled()) {
+            result.displayedMessage = localAuthorityRegistry.getLocalAuthorityResourceFile(
+                Type.HTML, "paymentlackmessage", false)?.getText()
             return result
+        }
 
         result.invoices = this.invoices
         result.depositAccounts = this.depositAccounts
@@ -86,7 +89,7 @@ class FrontofficePaymentController {
     }
     
     def status = {
-        if (!isPaymentEnabled()) {
+        if (!localAuthorityRegistry.isPaymentEnabled()) {
             redirect(action:'index')
             return false
         }
@@ -94,7 +97,7 @@ class FrontofficePaymentController {
     }
     
     def addToCart = {
-        if (!isPaymentEnabled()) {
+        if (!localAuthorityRegistry.isPaymentEnabled()) {
             redirect(action:'index')
             return false
         }
@@ -137,7 +140,7 @@ class FrontofficePaymentController {
     }
     
     def removeCartItem = {
-        if (!isPaymentEnabled()) {
+        if (!localAuthorityRegistry.isPaymentEnabled()) {
             redirect(action:'index')
             return false
         }
@@ -158,7 +161,7 @@ class FrontofficePaymentController {
     }
     
     def cartDetails = {
-        if (!isPaymentEnabled()) {
+        if (!localAuthorityRegistry.isPaymentEnabled()) {
             redirect(action:'index')
             return false
         }
@@ -190,7 +193,7 @@ class FrontofficePaymentController {
     }
     
     def details = {
-        if (!isPaymentEnabled()) {
+        if (!localAuthorityRegistry.isPaymentEnabled()) {
             redirect(action:'index')
             return false
         }
@@ -427,14 +430,5 @@ class FrontofficePaymentController {
         factor = dec >= min && dec <= max && factor
         
         return factor
-    }
-
-    protected Boolean isPaymentEnabled() {
-        if (params.action != "history" && !localAuthorityRegistry.isPaymentEnabled()) {
-            render(view : "index", model : ["displayedMessage" : localAuthorityRegistry.getLocalAuthorityResourceFile(
-                Type.HTML, "paymentlackmessage", false)?.getText()])
-            return false
-        }
-        return true
     }
 }

@@ -13,26 +13,30 @@ public class ExternalService implements IExternalService {
     private static Logger logger = Logger.getLogger(ExternalService.class);
 
     @Override
-    public boolean authenticate(String externalServiceLabel, String password) {
+    public boolean authenticate(String login, String password) {
         ExternalServiceConfigurationBean escb = 
             SecurityContext.getCurrentConfigurationBean().getExternalServiceConfigurationBean();
-        IExternalProviderService externalProviderService =
-            escb.getExternalServiceByLabel(externalServiceLabel);
-        if (externalProviderService == null) {
-            logger.warn("authenticate() unable to find a matching service for " + externalServiceLabel);
+
+        ExternalServiceBean esb = escb.getExternalServiceBeanByLogin(login);
+        if (esb == null){
+            logger.warn("authenticate() unable to find a matching service for with login " + login);
             return false;
         }
 
-        ExternalServiceBean esb = escb.getBeanForExternalService(externalProviderService.getLabel());
         if (esb.getPassword().equals(password))
             return true;
 
-        logger.warn("authenticate() authentication failed for service " + externalServiceLabel);
+        logger.warn("authenticate() authentication failed for service with login " + login);
         return false;
     }
     
     @Override
     public IExternalProviderService getExternalServiceByLabel(String externalServiceLabel) {
         return SecurityContext.getCurrentConfigurationBean().getExternalServiceConfigurationBean().getExternalServiceByLabel(externalServiceLabel);
+    }
+
+    @Override
+    public IExternalProviderService getExternalServiceByLogin(String login) {
+        return SecurityContext.getCurrentConfigurationBean().getExternalServiceConfigurationBean().getExternalServiceByLogin(login);
     }
 }

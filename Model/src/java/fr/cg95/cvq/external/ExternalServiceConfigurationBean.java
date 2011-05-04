@@ -88,4 +88,24 @@ public class ExternalServiceConfigurationBean {
 
         return null;
     }
+
+    public ExternalServiceBean getExternalServiceBeanByLogin(final String login) {
+        if (externalProviderServices != null && !externalProviderServices.isEmpty() && login != null) {
+            for (ExternalServiceBean externalServiceBean : externalProviderServices.values()) {
+                if (login.equals(externalServiceBean.login))
+                    return externalServiceBean;
+            }
+        }
+        return null;
+    }
+
+    public IExternalProviderService getExternalServiceByLogin(final String login) {
+        if (externalProviderServices != null && !externalProviderServices.isEmpty() && login != null) {
+            for (Map.Entry<IExternalProviderService, ExternalServiceBean> externalService : externalProviderServices.entrySet()) {
+                if (login.equals(externalService.getValue().login))
+                    return externalService.getKey();
+            }
+        }
+        return null;
+    }
 }

@@ -91,6 +91,7 @@
                 <value>Compostable Waste Collection</value>
               </list>
             </property>
+           <property name="login" value="BlainVilleRest"/>
            <property name="password" value="abcd"/>
           </bean>
         </entry>

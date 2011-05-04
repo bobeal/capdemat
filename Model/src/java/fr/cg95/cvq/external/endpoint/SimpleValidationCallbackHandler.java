@@ -53,14 +53,14 @@ public class SimpleValidationCallbackHandler extends AbstractCallbackHandler imp
             
             PasswordValidationCallback.PlainTextPasswordRequest plainTextPasswordRequest =
                     (PasswordValidationCallback.PlainTextPasswordRequest) request;
-            String label = plainTextPasswordRequest.getUsername();
+            String login = plainTextPasswordRequest.getUsername();
             String password = plainTextPasswordRequest.getPassword();
             
-            boolean authStatus = externalService.authenticate(label, password);
+            boolean authStatus = externalService.authenticate(login, password);
             if (authStatus)
                 try {
                     SecurityContext.setCurrentContext(SecurityContext.EXTERNAL_SERVICE_CONTEXT);
-                    SecurityContext.setCurrentExternalService(label);
+                    SecurityContext.setCurrentExternalService(externalService.getExternalServiceByLogin(login).getLabel());
                 } catch (CvqException e) {
                     e.printStackTrace();
                     // FIXME : can we do better than that ?

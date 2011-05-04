@@ -17,6 +17,8 @@ public class ExternalServiceBean {
      */
     protected String password = "";
 
+    protected String login;
+
     /** a map of service specific properties */
     protected Map<String, Object> serviceProperties;
 
@@ -67,5 +69,13 @@ public class ExternalServiceBean {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 }

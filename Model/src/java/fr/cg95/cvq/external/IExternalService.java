@@ -9,4 +9,6 @@ public interface IExternalService {
     boolean authenticate(final String externalServiceLabel, final String password);
     
     IExternalProviderService getExternalServiceByLabel(String externalServiceLabel);
+
+    IExternalProviderService getExternalServiceByLogin(String login);
 }

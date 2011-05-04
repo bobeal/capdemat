@@ -42,6 +42,7 @@ public class ExternalServiceTestCase extends RequestTestCase {
         ExternalServiceBean esb = new ExternalServiceBean();
         List<String> requestTypes = new ArrayList<String>();
         requestTypes.add(tirLabel);
+        esb.setLogin(fakeExternalService.getLabel());
         esb.setRequestTypes(requestTypes);
         esb.setPassword("12345678");
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();

@@ -83,9 +83,9 @@
 	<classpathentry kind="lib" path="Libraries/com.sun/xws-security.jar"/>
 	<classpathentry kind="lib" path="Libraries/groovy/groovy-all-1.6.7.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.beans-3.0.1.RELEASE.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.context-3.0.1.RELEASE.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/org.springframework/org.springframework.context-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.context.support-3.0.1.RELEASE.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.core-3.0.1.RELEASE.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/org.springframework/org.springframework.core-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.oxm-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.web-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.web.servlet-3.0.1.RELEASE.jar"/>

@@ -62,7 +62,7 @@ class SessionFilters {
                     return false
                 }
             }
-            after = {
+            afterView = {
                 SecurityContext.resetCurrentSite();
             }
         }
@@ -117,7 +117,7 @@ class SessionFilters {
 					return false
                 }
             }
-            after = {
+            afterView = {
                 def doRollback = session.getAttribute("doRollback")
                 if (doRollback)
                     HibernateUtil.rollbackTransaction();

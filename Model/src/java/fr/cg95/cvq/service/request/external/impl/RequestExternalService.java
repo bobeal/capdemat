@@ -1,9 +1,11 @@
 package fr.cg95.cvq.service.request.external.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -55,6 +57,7 @@ import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.util.translation.ITranslationService;
 import fr.cg95.cvq.xml.common.HomeFolderType;
 import fr.cg95.cvq.xml.common.IndividualType;
+import fr.cg95.cvq.xml.common.RequestStateType;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.request.ecitizen.HomeFolderModificationRequestDocument;
 import fr.cg95.cvq.xml.request.ecitizen.HomeFolderModificationRequestDocument.HomeFolderModificationRequest;
@@ -458,17 +461,28 @@ public class RequestExternalService extends ExternalService implements IRequestE
                 try {
                     for (HomeFolderMapping mapping :
                         externalHomeFolderService.getHomeFolderMappings(homeFolder.getId())) {
-                        HomeFolderModificationRequestDocument doc =
-                            HomeFolderModificationRequestDocument.Factory.newInstance();
-                        HomeFolderModificationRequest xmlRequest =
-                            doc.addNewHomeFolderModificationRequest();
-                        xmlRequest.addNewHomeFolder().set(homeFolder.modelToXml());
-                        xmlRequest.addNewRequester().set(userSearchService.getHomeFolderResponsible(homeFolder.getId()).modelToXml());
+
                         String externalServiceLabel = mapping.getExternalServiceLabel();
                         IExternalProviderService externalProviderService =
                             getExternalServiceByLabel(externalServiceLabel);
                         if (externalProviderService instanceof ExternalApplicationProviderService)
                             continue;
+
+                        HomeFolderModificationRequestDocument doc =
+                            HomeFolderModificationRequestDocument.Factory.newInstance();
+                        HomeFolderModificationRequest xmlRequest =
+                            doc.addNewHomeFolderModificationRequest();
+                        Calendar calendar = new GregorianCalendar();
+                        calendar.setTime(event.getAction().getDate());
+                        xmlRequest.setCreationDate(calendar);
+                        // set request id to the trigerring action's id to ensure uniqueness and a minimum of coherence
+                        xmlRequest.setId(event.getAction().getId());
+                        xmlRequest.setLastModificationDate(calendar);
+                        xmlRequest.setRequestTypeLabel("Home Folder Modification");
+                        xmlRequest.setState(RequestStateType.Enum.forString(RequestState.VALIDATED.toString()));
+                        xmlRequest.setValidationDate(calendar);
+                        xmlRequest.addNewHomeFolder().set(homeFolder.modelToXml());
+                        xmlRequest.addNewRequester().set(userSearchService.getHomeFolderResponsible(homeFolder.getId()).modelToXml());
                         fillRequestWithMapping(xmlRequest, mapping);
                         String externalId = externalProviderService.sendRequest(xmlRequest);
                         if (externalId != null && !externalId.equals("")) {

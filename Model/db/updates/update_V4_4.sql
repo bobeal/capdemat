@@ -122,12 +122,13 @@ alter table user_action
     references home_folder;
 
 update individual set state = 'Modified' where state = 'Pending' and
-    (select count(*) from home_folder_modification_request where id in
-        (select specific_data_id from request r where r.home_folder_id = home_folder_id)) > 0;
+    (select count(*) from home_folder_modification_request where
+        state in ('Pending', 'Complete', 'Uncomplete') and id in
+            (select specific_data_id from request r where r.home_folder_id = home_folder_id)) > 0;
 update individual set state = 'New' where state = 'Pending';
-update home_folder set state = 'Modified' where state = 'Pending' and
-    (select count(*) from home_folder_modification_request where id in
-        (select specific_data_id from request r where r.home_folder_id = id)) > 0;
+update home_folder set state = 'Modified' where state = 'Pending' and id in
+    (select r.home_folder_id from request r where
+        (select count(*) from home_folder_modification_request hfmr where hfmr.id = r.specific_data_id) > 0);
 update home_folder set state = 'New' where state = 'Pending';
 
 create table user_external_action (
@@ -152,6 +153,52 @@ delete from request_external_action where key in
         (select id from request_type where label = 'VO Card' or label = 'Home Folder Modification'));
 
 alter table individual add column q_o_s varchar(16);
+
+update individual set q_o_s = 'Late' where state in ('New', 'Modified') and
+    (select count(*) from home_folder_modification_request where id in
+        (select specific_data_id from request r where
+            r.home_folder_id = home_folder_id and
+            state in ('Pending', 'Complete', 'Uncomplete') and
+            red_alert = true)) > 0;
+
+update individual set q_o_s = 'Urgent' where state in ('New', 'Modified') and
+    (select count(*) from home_folder_modification_request where id in
+        (select specific_data_id from request r where
+            r.home_folder_id = home_folder_id and
+            state in ('Pending', 'Complete', 'Uncomplete') and
+            orange_alert = true and
+            (red_alert is null or red_alert = false))) > 0;
+
+update individual set q_o_s = 'Good' where state in ('New', 'Modified') and
+    (select count(*) from home_folder_modification_request where id in
+        (select specific_data_id from request r where
+            r.home_folder_id = home_folder_id and
+            state in ('Pending', 'Complete', 'Uncomplete') and
+            (orange_alert is null or orange_alert = false) and
+            (red_alert is null or red_alert = false))) > 0;
+
+update individual set q_o_s = 'Late' where state in ('New', 'Modified') and
+    (select count(*) from vo_card_request where id in
+        (select specific_data_id from request r where
+            r.home_folder_id = home_folder_id and
+            state in ('Pending', 'Complete', 'Uncomplete') and
+            red_alert = true)) > 0;
+
+update individual set q_o_s = 'Urgent' where state in ('New', 'Modified') and
+    (select count(*) from vo_card_request where id in
+        (select specific_data_id from request r where
+            r.home_folder_id = home_folder_id and
+            state in ('Pending', 'Complete', 'Uncomplete') and
+            orange_alert = true and
+            (red_alert is null or red_alert = false))) > 0;
+
+update individual set q_o_s = 'Good' where state in ('New', 'Modified') and
+    (select count(*) from vo_card_request where id in
+        (select specific_data_id from request r where
+            r.home_folder_id = home_folder_id and
+            state in ('Pending', 'Complete', 'Uncomplete') and
+            (orange_alert is null or orange_alert = false) and
+            (red_alert is null or red_alert = false))) > 0;
 
 -- task board related updates
 
@@ -201,7 +248,3 @@ create table user_security_rule (
     profile varchar(16),
     primary key (id)
 );
-
--- Remove table used for old modification requests
-
-drop table history_entry;

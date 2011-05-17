@@ -600,6 +600,9 @@ public class HoranetService implements IExternalProviderService {
                             dateTo
                         });
 
+            if (call.getResponseMessage() == null || call.getResponseMessage().getAttachments() == null
+                    || !call.getResponseMessage().getAttachments().hasNext())
+                return;
             Iterator attachements = call.getResponseMessage().getAttachments();
             AttachmentPart attachmentPart = (AttachmentPart) attachements.next();
             byte[] data = new byte[attachmentPart.getSize()];
@@ -692,6 +695,9 @@ public class HoranetService implements IExternalProviderService {
                     eii.getExternalItemId()
             });
 
+            if (call.getResponseMessage() == null || call.getResponseMessage().getAttachments() == null
+                    || !call.getResponseMessage().getAttachments().hasNext())
+                return;
             Iterator attachements = call.getResponseMessage().getAttachments();
             AttachmentPart attachmentPart = (AttachmentPart) attachements.next();
             byte[] data = new byte[attachmentPart.getSize()];

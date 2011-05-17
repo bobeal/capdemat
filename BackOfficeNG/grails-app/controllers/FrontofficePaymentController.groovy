@@ -35,10 +35,6 @@ class FrontofficePaymentController {
     def state = [:]
 
     def beforeInterceptor = {
-        if (params.action != "history" && !localAuthorityRegistry.isPaymentEnabled()) {
-            render(view : "index", model : ["displayedMessage" : localAuthorityRegistry.getLocalAuthorityResourceFile(
-                Type.HTML, "paymentlackmessage", false)?.getText()])
-        }
         this.ecitizen = SecurityContext.getCurrentEcitizen();
         
         if (params.ps) state = JSON.parse(params.ps)
@@ -64,6 +60,12 @@ class FrontofficePaymentController {
     
     def index = {
         def result = [:]
+        if (!localAuthorityRegistry.isPaymentEnabled()) {
+            result.displayedMessage = localAuthorityRegistry.getLocalAuthorityResourceFile(
+                Type.HTML, "paymentlackmessage", false)?.getText()
+            return result
+        }
+
         result.invoices = this.invoices
         result.depositAccounts = this.depositAccounts
         result.ticketingContracts = this.ticketingContracts
@@ -87,10 +89,19 @@ class FrontofficePaymentController {
     }
     
     def status = {
+        if (!localAuthorityRegistry.isPaymentEnabled()) {
+            redirect(action:'index')
+            return false
+        }
         session.payment = null
     }
     
     def addToCart = {
+        if (!localAuthorityRegistry.isPaymentEnabled()) {
+            redirect(action:'index')
+            return false
+        }
+
         ExternalAccountItem item = 
             (ExternalAccountItem) session[params.type].find {it.externalItemId.equals(params.externalItemId)}
         
@@ -129,6 +140,11 @@ class FrontofficePaymentController {
     }
     
     def removeCartItem = {
+        if (!localAuthorityRegistry.isPaymentEnabled()) {
+            redirect(action:'index')
+            return false
+        }
+
         PurchaseItem item = session.payment?.purchaseItems?.find {
             it.externalItemId.equals(params.externalItemId) && 
                 this.buildPurchaseItemMap(it).type.equals(params.type) 
@@ -145,6 +161,11 @@ class FrontofficePaymentController {
     }
     
     def cartDetails = {
+        if (!localAuthorityRegistry.isPaymentEnabled()) {
+            redirect(action:'index')
+            return false
+        }
+
         def result = [items:[],paymentUrl:'']
         if(!session.payment) {
             redirect(action:'index')
@@ -172,6 +193,11 @@ class FrontofficePaymentController {
     }
     
     def details = {
+        if (!localAuthorityRegistry.isPaymentEnabled()) {
+            redirect(action:'index')
+            return false
+        }
+
         def result = [items:[],cart:[]]
         def list = params.type == 'invoice' ? session.invoices : session.depositAccounts
         def item = list.find {it.externalItemId == params.externalItemId}
@@ -201,7 +227,7 @@ class FrontofficePaymentController {
                 entry.bankReference = detail.bankReference
                 result.items.add(entry)
             }
-		
+        
             result.items = result.items.sort({ it.date}).reverse()
         }
         

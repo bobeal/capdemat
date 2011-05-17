@@ -468,6 +468,9 @@ public class RequestExternalService extends ExternalService implements IRequestE
                         if (externalProviderService instanceof ExternalApplicationProviderService)
                             continue;
 
+                        // to force user action's saving (which implies it will have an id we can use below)
+                        HibernateUtil.getSession().flush();
+
                         HomeFolderModificationRequestDocument doc =
                             HomeFolderModificationRequestDocument.Factory.newInstance();
                         HomeFolderModificationRequest xmlRequest =

@@ -307,8 +307,6 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         }
         individual.getHomeFolder().getActions().add(action);
         individualDAO.update(individual.getHomeFolder());
-        // to make action fully available to event's listeners
-        HibernateUtil.getSession().flush();
         applicationEventPublisher.publishEvent(new UserEvent(this, action));
     }
 

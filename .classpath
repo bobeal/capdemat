@@ -102,9 +102,9 @@
 	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.aop-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="Plugins/ExternalServices/Technocarte/lib/soap.jar"/>
 	<classpathentry kind="lib" path="Libraries/fr.cg95/admin/CapDemat-OldLocalReferentialSchemas-4.3.jar"/>
-	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.4.jar"/>
-	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-Model-4.4.jar"/>
-	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.4.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.4.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-Model-4.4.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.4.1.jar"/>
 	<classpathentry kind="lib" path="Libraries/gson/gson-1.6.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

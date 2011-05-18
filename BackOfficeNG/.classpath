@@ -97,9 +97,9 @@
 			<attribute name="com.springsource.sts.grails.core.SOURCE_FOLDER" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.4.jar"/>
-	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-Model-4.4.jar"/>
-	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.4.jar"/>
+	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.4.1.jar"/>
+	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-Model-4.4.1.jar"/>
+	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.4.1.jar"/>
 	<classpathentry kind="lib" path="/CapDemat/Libraries/gson/gson-1.6.jar"/>
 	<classpathentry kind="output" path="web-app/WEB-INF/classes"/>
 </classpath>

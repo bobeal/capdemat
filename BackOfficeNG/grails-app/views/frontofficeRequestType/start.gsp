@@ -17,7 +17,7 @@
       <h2>
         <g:translateRequestTypeLabel label="${params.id}" />
       </h2>
-      <p><g:message code="request.duration.label" /><strong> : <g:message code="sgr.duration.value" /></strong></p>
+      <p><g:message code="request.duration.label" /><strong> : <g:message code="${acronym}.duration.value" /></strong></p>
       <p>
         <g:message code="request.requiredDocuments.header" /> :
         <g:if test="${!documentTypes.isEmpty()}">

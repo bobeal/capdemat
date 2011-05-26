@@ -129,6 +129,10 @@
           <div class="response">\${esc(requester?.email)}</div>
           <p class="label">\${i18n.translate('homeFolder.adult.property.homePhone')}</p>
           <div class="response">\${esc(requester?.homePhone)}</div>
+          <p class="label">\${i18n.translate('homeFolder.adult.property.mobilePhone')}</p>
+          <div class="response">\${esc(requester?.mobilePhone)}</div>
+          <p class="label">\${i18n.translate('homeFolder.adult.property.officePhone')}</p>
+          <div class="response">\${esc(requester?.officePhone)}</div>
           """
       ,'label' :
           """<p class="label">\${esc(i18n.translate('${element.i18nPrefixCode}.label'))}</p>"""

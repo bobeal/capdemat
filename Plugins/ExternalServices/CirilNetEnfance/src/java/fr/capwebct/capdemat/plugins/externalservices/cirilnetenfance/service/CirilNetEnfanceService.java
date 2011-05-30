@@ -23,8 +23,7 @@ import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.external.ExternalServiceBean;
-import fr.cg95.cvq.external.IExternalProviderService;
-import fr.cg95.cvq.external.IExternalService;
+import fr.cg95.cvq.external.impl.ExternalProviderServiceAdapter;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 import fr.cg95.cvq.xml.common.RequestType;
@@ -35,7 +34,7 @@ import fr.cg95.cvq.xml.request.school.RecreationActivityRegistrationRequestDocum
 import fr.cg95.cvq.xml.request.school.SchoolCanteenRegistrationRequestDocument.SchoolCanteenRegistrationRequest;
 import fr.cg95.cvq.xml.request.school.SchoolRegistrationRequestDocument.SchoolRegistrationRequest;
 
-public class CirilNetEnfanceService implements IExternalProviderService {
+public class CirilNetEnfanceService extends ExternalProviderServiceAdapter {
 
     private static Logger logger = Logger.getLogger(CirilNetEnfanceService.class);
 

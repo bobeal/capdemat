@@ -55,7 +55,6 @@ import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.ExternalServiceUtils;
-import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.request.civil.BirthDetailsRequestDocument.BirthDetailsRequest;
@@ -64,7 +63,7 @@ import fr.cg95.cvq.xml.request.school.RecreationActivityRegistrationRequestDocum
 import fr.cg95.cvq.xml.request.school.SchoolCanteenRegistrationRequestDocument.SchoolCanteenRegistrationRequest;
 import fr.cg95.cvq.xml.request.school.SchoolRegistrationRequestDocument.SchoolRegistrationRequest;
 
-public class SoapExternalService implements IExternalProviderService {
+public class SoapExternalService extends ExternalProviderServiceAdapter {
 
     private static Logger logger = Logger.getLogger(SoapExternalService.class);
     

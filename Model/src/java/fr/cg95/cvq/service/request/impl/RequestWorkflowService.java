@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request.impl;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,13 +17,13 @@ import java.util.Set;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
 
+import fr.cg95.cvq.business.authority.LocalAuthorityResource;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.business.request.Request;
@@ -35,6 +36,20 @@ import fr.cg95.cvq.business.request.RequestStep;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.RequestEvent.COMP_DATA;
 import fr.cg95.cvq.business.request.RequestEvent.EVENT_TYPE;
+import fr.cg95.cvq.business.request.workflow.RequestWorkflow;
+import fr.cg95.cvq.business.request.workflow.event.IWorkflowPostAction;
+import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowArchivedEvent;
+import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowCancelledEvent;
+import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowClosedEvent;
+import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowCompleteEvent;
+import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowExtInProgressEvent;
+import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowInProgressEvent;
+import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowNotifiedEvent;
+import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowPendingEvent;
+import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowRectifiedEvent;
+import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowRejectedEvent;
+import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowUncompleteEvent;
+import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowValidatedEvent;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
@@ -47,12 +62,12 @@ import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.exception.CvqValidationException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.service.request.IRequestDocumentService;
@@ -74,14 +89,14 @@ import fr.cg95.cvq.util.ValidationUtils;
  *  <li>Updating requests state and workflow information</li>
  *  <li>Creating and managing workflow action traces</li>
  * </ul>
- * 
+ *
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
 public class RequestWorkflowService implements IRequestWorkflowService, ApplicationListener<UserEvent>,
     ApplicationContextAware {
 
     private static Logger logger = Logger.getLogger(RequestWorkflowService.class);
-    
+
     private IRequestPdfService requestPdfService;
     private IDocumentService documentService;
     private IUserSearchService userSearchService;
@@ -93,8 +108,34 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     private IRequestDocumentService requestDocumentService;
 
     private IRequestDAO requestDAO;
-    
+
     private ApplicationContext applicationContext;
+
+    private ILocalAuthorityRegistry localAuthorityRegistry;
+
+    private Map<String, RequestWorkflow> workflows = new HashMap<String, RequestWorkflow>();
+
+    private RequestWorkflow getWorkflow() {
+        String name = SecurityContext.getCurrentSite().getName();
+        RequestWorkflow workflow = workflows.get(name);
+        if (workflow == null) {
+            File file = localAuthorityRegistry.getLocalAuthorityResourceFileForLocalAuthority(name,
+                LocalAuthorityResource.Type.XML, "requestWorkflow", false);
+            if (file.exists()) {
+                workflow = RequestWorkflow.load(file);
+                workflows.put(name, workflow);
+            } else {
+                workflow = workflows.get("default");
+                if (workflow == null) {
+                    file = localAuthorityRegistry.getReferentialResource(
+                        LocalAuthorityResource.Type.XML, "requestWorkflow");
+                    workflow = RequestWorkflow.load(file);
+                    workflows.put("default", workflow);
+                }
+            }
+        }
+        return workflow;
+    }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
@@ -115,15 +156,15 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         requestService.onRequestIssued(request);
         return finalizeAndPersist(request, homeFolder, note);
     }
-    
+
     @Deprecated
     @Override
     @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
-    public Long create(Request request, Adult requester, List<Document> documents, String note) 
+    public Long create(Request request, Adult requester, List<Document> documents, String note)
         throws CvqException {
-        
+
         HomeFolder homeFolder = performBusinessChecks(request, requester);
-        
+
         HibernateUtil.getSession().flush();
         SecurityContext.setCurrentEcitizen(
                 userSearchService.getHomeFolderResponsible(homeFolder.getId()));
@@ -133,12 +174,12 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         requestDocumentService.addDocuments(request, documents);
         return finalizeAndPersist(request, homeFolder, note);
     }
-    
+
     private HomeFolder performBusinessChecks(Request request, Adult requester)
         throws CvqException {
-        
+
         HomeFolder homeFolder = createOrSynchronizeHomeFolder(request, requester);
-        
+
         if (!RequestState.DRAFT.equals(request.getState())) {
             IRequestService requestService = 
                 requestServiceRegistry.getRequestService(request);
@@ -146,17 +187,17 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                 requestTypeService.getRequestTypeByLabel(requestService.getLabel());
             request.setRequestType(requestType);
         }
-        
+
         if (request.getSubjectId() != null) {
             Individual individual = userSearchService.getById(request.getSubjectId());
             request.setSubjectId(individual.getId());
             request.setSubjectLastName(individual.getLastName());
             request.setSubjectFirstName(individual.getFirstName());
         }
-        
+
         return homeFolder;
     }
-    
+
     /**
      * Create or synchronize informations from home folder :
      * <ul>
@@ -174,9 +215,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         throws CvqException, CvqModelException {
 
         // in case requester id is not filled, feed it with currently logged in ecitizen
-        if (request.getRequesterId() == null && SecurityContext.getCurrentEcitizen() != null) 
+        if (request.getRequesterId() == null && SecurityContext.getCurrentEcitizen() != null)
             request.setRequesterId(SecurityContext.getCurrentEcitizen().getId());
-        
+
         if (request.getRequesterId() == null) {
             IRequestService requestService = requestServiceRegistry.getRequestService(request);
             if (requestService.supportUnregisteredCreation()) {
@@ -186,7 +227,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                 request.setRequesterId(requester.getId());
                 request.setRequesterLastName(requester.getLastName());
                 request.setRequesterFirstName(requester.getFirstName());
-                
+
                 SecurityContext.setCurrentEcitizen(requester);
 
                 return homeFolder;
@@ -213,7 +254,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     @Context(types = {ContextType.UNAUTH_ECITIZEN, ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void checkSubjectPolicy(final Long subjectId, Long homeFolderId, final String policy,
             final RequestType requestType) 
-        throws CvqException, CvqModelException {
+        throws CvqModelException {
 
         // first, check general subject policy
         if (!policy.equals(IRequestWorkflowService.SUBJECT_POLICY_NONE)) {
@@ -237,7 +278,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             if (subjectId != null)
                 throw new CvqModelException("model.request.subject_not_supported");
         }
-        
+
         // then check that request's subject is allowed to issue this request
         // ie that it is authorized to issue it (no current one, an open season, ...)
         if (!policy.equals(IRequestWorkflowService.SUBJECT_POLICY_NONE)) {
@@ -274,7 +315,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public boolean validateSeason(RequestType requestType, RequestSeason requestSeason)
-        throws CvqException {
+        throws CvqModelException {
         if (requestTypeService.isOfRegistrationKind(requestType.getId())) {
             Set<RequestSeason> seasons = requestTypeService.getOpenSeasons(requestType);
             return (requestSeason == null && seasons.isEmpty())
@@ -354,8 +395,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
      * Get the list of eligible subjects for the current request service. Does
      * not make any control on already existing requests.
      */
-    private Set<Long> getEligibleSubjects(final Long homeFolderId, final String policy) 
-        throws CvqException {
+    private Set<Long> getEligibleSubjects(final Long homeFolderId, final String policy) {
 
         if (policy.equals(IRequestWorkflowService.SUBJECT_POLICY_NONE)) {
             Set<Long> result = new HashSet<Long>();
@@ -384,7 +424,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Map<Long, Set<RequestSeason>> getAuthorizedSubjects(final RequestType requestType,
             final Long homeFolderId)
-            throws CvqException, CvqObjectNotFoundException {
+            throws CvqModelException {
 
         logger.debug("getAuthorizedSubjects() searching authorized subjects for : "
                 + requestType.getLabel());
@@ -476,7 +516,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<Long> getAuthorizedSubjects(final Request request)
-        throws CvqException, CvqObjectNotFoundException {
+        throws CvqModelException {
         List<Long> subjects = new ArrayList<Long>();
         if (SecurityContext.getCurrentEcitizen() != null
             && !requestTypeService.getSubjectPolicy(request.getRequestType().getId())
@@ -517,7 +557,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     private void setAdministrativeInformation(Request request) throws CvqException {
-        
+
         IRequestService requestService = requestServiceRegistry.getRequestService(request);
         RequestType requestType = 
             requestTypeService.getRequestTypeByLabel(requestService.getLabel());
@@ -531,13 +571,15 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         request.setRedAlert(Boolean.FALSE);
 
     }
-    
+
+    /**
+     * Finalize the setting of request properties (creation date, state, ...) and persist it in BD.
+     */
     private Long finalizeAndPersist(Request request, HomeFolder homeFolder, String note)
         throws CvqException {
 
         setAdministrativeInformation(request);
 
-        
         Long requestId = requestDAO.saveOrUpdate(request).getId();
 
         if (!RequestState.DRAFT.equals(request.getState())) {
@@ -547,7 +589,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             byte[] pdfData = requestPdfService.generateCertificate(request);
             
             requestActionService.addCreationAction(requestId, new Date(), pdfData, note);
-    
+
             RequestEvent requestEvent = 
                 new RequestEvent(this, EVENT_TYPE.REQUEST_CREATED, request);
             if (pdfData != null)
@@ -560,10 +602,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         return requestId;
     }
-    
+
     /**
      * Finalize the setting of request properties (creation date, state, ...) and persist it in BD.
-     * @param note TODO
      */
     private Long finalizeAndPersist(final Request request, String note)
         throws CvqException {
@@ -575,7 +616,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     public Map<Individual, Request> getRenewableRequests(final String label)
         throws CvqException {
         Map<Individual, Request> result = new HashMap<Individual, Request>();
-        RequestState[] excludedStates = getStatesExcludedForRequestsCloning();
+        RequestState[] excludedStates = getStatesExcludedForRequestCloning();
         Map<Long, Set<RequestSeason>> subjectsMap = getAuthorizedSubjects(
             requestTypeService.getRequestTypeByLabel(label),
             SecurityContext.getCurrentEcitizen().getHomeFolder().getId());
@@ -656,7 +697,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         IRequestService requestService = requestServiceRegistry.getRequestService(request);
         requestService.onRequestModified(request);
-        
+
         updateLastModificationInformation(request, null);
     }
 
@@ -683,7 +724,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     @Override
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void updateRequestDataState(final Long id, final DataState rs)
-        throws CvqException, CvqInvalidTransitionException {
+        throws CvqInvalidTransitionException {
 
         Request request = requestDAO.findById(id);
         if (rs.equals(DataState.VALID))
@@ -692,28 +733,27 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             invalidData(request);
     }
 
-    // TODO : must we trace as request action 
+    // TODO : must we trace as request action
     private void validData(Request request)
-        throws CvqException, CvqInvalidTransitionException {
-    
+        throws CvqInvalidTransitionException {
+
         // if no state change asked, just return silently
         if (request.getDataState().equals(DataState.VALID))
             return;
-    
+
         if (request.getDataState().equals(DataState.PENDING))
             request.setDataState(DataState.VALID);
         else
             throw new CvqInvalidTransitionException();
     }
-    
-    // TODO : must we trace as request action 
+
+    // TODO : must we trace as request action
     private void invalidData(Request request)
-            throws CvqException, CvqInvalidTransitionException {
-    
-        // if no state change asked, just return silently
+            throws CvqInvalidTransitionException {
+
         if (request.getDataState().equals(DataState.INVALID))
             return;
-    
+
         if (request.getDataState().equals(DataState.PENDING))
             request.setDataState(DataState.INVALID);
         else
@@ -721,15 +761,27 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
-    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE},
+            privilege = ContextPrivilege.WRITE)
     public void updateRequestState(final Long id, final RequestState rs, final String note)
-            throws CvqException, CvqInvalidTransitionException {
+            throws CvqException, CvqModelException, CvqInvalidTransitionException {
 
         Request request = requestDAO.findById(id);
-        if (rs.equals(RequestState.COMPLETE))
+        if (!getWorkflow().isValidTransition(request.getState(), rs)) {
+            throw new CvqInvalidTransitionException(request.getState().toString(), rs.toString());
+        }
+        if (rs.equals(RequestState.PENDING))
+            pending(request, note);
+        else if (rs.equals(RequestState.INPROGRESS))
+            inProgress(request, note);
+        else if (rs.equals(RequestState.EXTINPROGRESS))
+            extInProgress(request, note);
+        else if (rs.equals(RequestState.COMPLETE))
             complete(request, note);
         else if (rs.equals(RequestState.UNCOMPLETE))
-            specify(request, note);
+            uncomplete(request, note);
+        else if (rs.equals(RequestState.RECTIFIED))
+            rectify(request, note);
         else if (rs.equals(RequestState.REJECTED))
             reject(request, note);
         else if (rs.equals(RequestState.CANCELLED))
@@ -744,55 +796,119 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             archive(request, note);
     }
 
-    private void complete(Request request, final String note)
-        throws CvqException {
+    private void pending(Request request, final String note) throws CvqException {
+        Date date = new Date();
+        updateLastModificationInformation(request, date);
 
-        // if no state change asked, just return silently
+        request.setState(RequestState.PENDING);
+
+        WorkflowPendingEvent wfEvent = new WorkflowPendingEvent(request);
+        requestExternalService.publish(wfEvent);
+
+        requestActionService.addCreationAction(request.getId(), date, null, note);
+        postActionsProcess(wfEvent.getWorkflowPostActions());
+    }
+
+    private void inProgress(Request request, final String note) throws CvqException {
+        Date date = new Date();
+        updateLastModificationInformation(request, date);
+        request.setState(RequestState.INPROGRESS);
+
+        WorkflowInProgressEvent wfEvent = new WorkflowInProgressEvent(request);
+        requestExternalService.publish(wfEvent);
+
+        requestActionService.addWorfklowAction(request.getId(), note, date,
+            RequestState.INPROGRESS, null);
+        postActionsProcess(wfEvent.getWorkflowPostActions());
+    }
+
+    private void extInProgress(Request request, final String note) throws CvqException {
+        Date date = new Date();
+        updateLastModificationInformation(request, date);
+        request.setState(RequestState.EXTINPROGRESS);
+
+        WorkflowExtInProgressEvent wfEvent = new WorkflowExtInProgressEvent(request);
+        requestExternalService.publish(wfEvent);
+
+        requestActionService.addWorfklowAction(request.getId(), note, date,
+            RequestState.EXTINPROGRESS, null);
+        postActionsProcess(wfEvent.getWorkflowPostActions());
+    }
+
+    private void complete(Request request, final String note) throws CvqException {
         if (request.getState().equals(RequestState.COMPLETE))
             return;
 
-        if (request.getState().equals(RequestState.PENDING)
-                || request.getState().equals(RequestState.UNCOMPLETE)) {
-            
-            request.setState(RequestState.COMPLETE);
-            Date date = new Date();
-            updateLastModificationInformation(request, date);
+        Date date = new Date();
+        updateLastModificationInformation(request, date);
+        request.setState(RequestState.COMPLETE);
 
-            requestActionService.addWorfklowAction(request.getId(), note, date,
-                RequestState.COMPLETE, null);
-            
-            List<String> externalCheckErrors = requestExternalService.checkExternalReferential(request);
-            if (!externalCheckErrors.isEmpty()) {
-                throw new CvqException(StringUtils.join(externalCheckErrors.iterator(), '\n'));
-            }
+        WorkflowCompleteEvent wfEvent = new WorkflowCompleteEvent(request);
+        requestExternalService.publish(wfEvent);
 
-            // send request data to interested external services
-            // TODO DECOUPLING
-            requestExternalService.sendRequest(request);
-
-        } else {
-            throw new CvqInvalidTransitionException();
-        }
+        requestActionService.addWorfklowAction(request.getId(), note, date,
+            RequestState.COMPLETE, null);
+        postActionsProcess(wfEvent.getWorkflowPostActions());
     }
-    
-    private void specify(final Request request, final String motive)
-        throws CvqInvalidTransitionException {
 
+    private void uncomplete(Request request, final String note) throws CvqException {
         if (request.getState().equals(RequestState.UNCOMPLETE))
             return;
         
-        if (request.getState().equals(RequestState.PENDING)
-            || request.getState().equals(RequestState.VALIDATED)) {
+        Date date = new Date();
+        updateLastModificationInformation(request, date);
+        request.setState(RequestState.UNCOMPLETE);
 
-            request.setState(RequestState.UNCOMPLETE);
-            Date date = new Date();
-            updateLastModificationInformation(request, date);
-            
-            requestActionService.addWorfklowAction(request.getId(), motive, date,
-                RequestState.UNCOMPLETE, null);
-        } else {
-            throw new CvqInvalidTransitionException();
+        WorkflowUncompleteEvent wfEvent = new WorkflowUncompleteEvent(request);
+        requestExternalService.publish(wfEvent);
+
+        requestActionService.addWorfklowAction(request.getId(), note, date,
+            RequestState.UNCOMPLETE, null);
+        postActionsProcess(wfEvent.getWorkflowPostActions());
+    }
+
+    private void rectify(Request request, final String note) throws CvqException {
+        Date date = new Date();
+        updateLastModificationInformation(request, date);
+        request.setState(RequestState.RECTIFIED);
+
+        WorkflowRectifiedEvent wfEvent = new WorkflowRectifiedEvent(request);
+        requestExternalService.publish(wfEvent);
+
+        requestActionService.addWorfklowAction(request.getId(), note, date,
+            RequestState.RECTIFIED, null);
+        postActionsProcess(wfEvent.getWorkflowPostActions());
+    }
+
+    private void reject(final Request request, final String note)
+        throws CvqException, CvqModelException, CvqInvalidTransitionException {
+
+        IRequestService requestService = requestServiceRegistry.getRequestService(request.getId());
+        requestService.onRequestRejected(request);
+
+        if (request.getState().equals(RequestState.REJECTED))
+            return;
+
+        Date date = new Date();
+        updateLastModificationInformation(request, date);
+        request.setState(RequestState.REJECTED);
+
+        WorkflowRejectedEvent wfEvent = new WorkflowRejectedEvent(request);
+        requestExternalService.publish(wfEvent);
+
+        byte[] pdfData = requestPdfService.generateCertificate(request);
+        if (requestServiceRegistry.getRequestService(request).isArchiveDocuments()) {
+            request.setDocumentsArchive(
+                requestPdfService.generateDocumentsArchive(request.getDocuments()));
         }
+
+        requestActionService.addWorfklowAction(request.getId(), note, date,
+            RequestState.REJECTED, pdfData);
+        postActionsProcess(wfEvent.getWorkflowPostActions());
+
+        HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
+        if (homeFolder.isTemporary())
+            userWorkflowService.changeState(homeFolder, UserState.INVALID);
     }
 
     protected void validateAssociatedDocuments(final Set<RequestDocument> documentSet)
@@ -807,37 +923,54 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         }
     }
 
-    /**
-	 * Do the real work of validating a request.
-     *
-     * <ul>
-     *   <li>change request's state and step</li>
-     *   <li>generate a PDF certificate is asked for</li>
-     *   <li>validate home folder if created along the request</li>
-	 *   <li>validate associated documents</li>
-     *   <li>notify associated external services</li>
-     *   <li>send notification email to e-citizen if notification enabled for this request</li>
-     * </ul>
-	 *
-	 * @param request the request to be validated
-	 * @param generateCertificate
-	 *            whether or not we want the request's certificate to be
-	 *            generated (some requests have to add extra information in the
-	 *            certificate and so they call directly the
-	 *            {@link IRequestPdfService})
-	 */
-    private void validate(final Request request, final String note)
-        throws CvqException, CvqInvalidTransitionException, CvqModelException {
+    private void cancel(final Request request, final String note)
+        throws CvqException, CvqModelException, CvqInvalidTransitionException {
 
-        // if no state change asked, just return silently
+        IRequestService requestService = requestServiceRegistry.getRequestService(request.getId());
+        requestService.onRequestCancelled(request);
+
+        if (request.getState().equals(RequestState.CANCELLED))
+             return;
+
+        Date date = new Date();
+        updateLastModificationInformation(request, date);
+        request.setState(RequestState.CANCELLED);
+
+        WorkflowCancelledEvent wfEvent = new WorkflowCancelledEvent(request);
+        requestExternalService.publish(wfEvent);
+
+        byte[] pdfData = requestPdfService.generateCertificate(request);
+        if (requestServiceRegistry.getRequestService(request).isArchiveDocuments()) {
+            request.setDocumentsArchive(
+                requestPdfService.generateDocumentsArchive(request.getDocuments()));
+         }
+
+        requestActionService.addWorfklowAction(request.getId(), note, date,
+            RequestState.CANCELLED, pdfData);
+        postActionsProcess(wfEvent.getWorkflowPostActions());
+
+        HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
+        if (homeFolder.isTemporary())
+            userWorkflowService.changeState(homeFolder, UserState.INVALID);
+     }
+
+    private void validate(Request request, final String note)
+        throws CvqException, CvqInvalidTransitionException, CvqModelException {
         if (request.getState().equals(RequestState.VALIDATED))
             return;
 
-        if (!request.getState().equals(RequestState.COMPLETE))
-            throw new CvqInvalidTransitionException();
-
         IRequestService requestService = requestServiceRegistry.getRequestService(request.getId());
         requestService.onRequestValidated(request);
+
+        Date date = new Date();
+        request.setValidationDate(date);
+        updateLastModificationInformation(request, date);
+        request.setState(RequestState.VALIDATED);
+        request.setDataState(DataState.VALID);
+        request.setStep(RequestStep.DELIVERY);
+
+        WorkflowValidatedEvent wfEvent = new WorkflowValidatedEvent(request);
+        requestExternalService.publish(wfEvent);
 
         // TODO Decoupling
         byte[] pdfData = requestPdfService.generateCertificate(request);
@@ -846,13 +979,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                 requestPdfService.generateDocumentsArchive(request.getDocuments()));
         }
 
-        request.setState(RequestState.VALIDATED);
-        request.setDataState(DataState.VALID);
-        request.setStep(RequestStep.DELIVERY);
-        Date date = new Date();
-        request.setValidationDate(date);
-        updateLastModificationInformation(request, date);
-       
         requestActionService.addWorfklowAction(request.getId(), note, date,
             RequestState.VALIDATED, pdfData);
 
@@ -868,143 +994,90 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         if (pdfData != null)
             requestEvent.addComplementaryData(COMP_DATA.PDF_FILE, pdfData);
         applicationContext.publishEvent(requestEvent);
+        postActionsProcess(wfEvent.getWorkflowPostActions());
     }
 
-    private void notify(Request request, final String note)
-        throws CvqInvalidTransitionException {
-
-        // if no state change asked, just return silently
+    private void notify(Request request, final String note) throws CvqException {
         if (request.getState().equals(RequestState.NOTIFIED))
             return;
 
-        if (!request.getState().equals(RequestState.VALIDATED))
-            throw new CvqInvalidTransitionException();
-
-        request.setState(RequestState.NOTIFIED);
         Date date = new Date();
         updateLastModificationInformation(request, date);
+        request.setState(RequestState.NOTIFIED);
+
+        WorkflowNotifiedEvent wfEvent = new WorkflowNotifiedEvent(request);
+        requestExternalService.publish(wfEvent);
 
         requestActionService.addWorfklowAction(request.getId(), note, date,
             RequestState.NOTIFIED, null);
+        postActionsProcess(wfEvent.getWorkflowPostActions());
     }
 
-    private void cancel(final Request request, final String note)
-        throws CvqException, CvqInvalidTransitionException {
-
-        IRequestService requestService = requestServiceRegistry.getRequestService(request.getId());
-        requestService.onRequestCancelled(request);
-
-        // if no state change asked, just return silently
-        if (request.getState().equals(RequestState.CANCELLED))
-            return;
-
-        if (request.getState().equals(RequestState.COMPLETE)
-                || request.getState().equals(RequestState.UNCOMPLETE)
-                || request.getState().equals(RequestState.PENDING)) {
-            request.setState(RequestState.CANCELLED);
-            Date date = new Date();
-            updateLastModificationInformation(request, date);
-            
-            byte[] pdfData = requestPdfService.generateCertificate(request);
-            if (requestServiceRegistry.getRequestService(request).isArchiveDocuments()) {
-                request.setDocumentsArchive(
-                    requestPdfService.generateDocumentsArchive(request.getDocuments()));
-            }
-
-            requestActionService.addWorfklowAction(request.getId(), note, date,
-                RequestState.CANCELLED, pdfData);
-        } else {
-            throw new CvqInvalidTransitionException();
-        }
-
-        HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
-        Individual individual = userSearchService.getAdultById(request.getRequesterId());
-        if (homeFolder.isTemporary())
-            userWorkflowService.changeState(individual, UserState.INVALID);
-    }
-
-    private void reject(final Request request, final String note)
-        throws CvqException, CvqInvalidTransitionException {
-
-        IRequestService requestService = requestServiceRegistry.getRequestService(request.getId());
-        requestService.onRequestRejected(request);
-
-        // if no state change asked, just return silently
-        if (request.getState().equals(RequestState.REJECTED))
-            return;
-
-        if (request.getState().equals(RequestState.COMPLETE)
-                || request.getState().equals(RequestState.UNCOMPLETE)
-                || request.getState().equals(RequestState.PENDING)) {
-            request.setState(RequestState.REJECTED);
-            Date date = new Date();
-            updateLastModificationInformation(request, date);
-
-            byte[] pdfData = requestPdfService.generateCertificate(request);
-            if (requestServiceRegistry.getRequestService(request).isArchiveDocuments()) {
-                request.setDocumentsArchive(
-                    requestPdfService.generateDocumentsArchive(request.getDocuments()));
-            }
-
-            requestActionService.addWorfklowAction(request.getId(), note, date,
-                RequestState.REJECTED, pdfData);
-        } else {
-            throw new CvqInvalidTransitionException();
-        }
-
-        HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
-        Individual individual = userSearchService.getAdultById(request.getRequesterId());
-        if (homeFolder.isTemporary())
-            userWorkflowService.changeState(individual, UserState.INVALID);
-    }
-    
-    private void close(Request request, final String note)
-        throws CvqInvalidTransitionException {
-
-        // if no state change asked, just return silently
+    private void close(Request request, final String note) throws CvqException {
         if (request.getState().equals(RequestState.CLOSED))
             return;
 
-        if (request.getState().equals(RequestState.NOTIFIED)) {
-            request.setState(RequestState.CLOSED);
-            Date date = new Date();
-            updateLastModificationInformation(request, date);
+        Date date = new Date();
+        updateLastModificationInformation(request, date);
+        request.setState(RequestState.CLOSED);
 
-            requestActionService.addWorfklowAction(request.getId(), note, date,
-                RequestState.CLOSED, null);
-        } else {
-            throw new CvqInvalidTransitionException();
-        }
+        WorkflowClosedEvent wfEvent = new WorkflowClosedEvent(request);
+        requestExternalService.publish(wfEvent);
+
+        requestActionService.addWorfklowAction(request.getId(), note, date,
+            RequestState.CLOSED, null);
+        postActionsProcess(wfEvent.getWorkflowPostActions());
     }
 
-    private void archive(final Request request, final String note)
-        throws CvqException, CvqInvalidTransitionException {
-
-        if (!SecurityContext.isAdminContext()) {
-            throw new CvqModelException("request.error.archiveForbidden");
-        }
-        // if no state change asked, just return silently
+    private void archive(Request request, final String note)
+        throws CvqException, CvqInvalidTransitionException, CvqModelException {
         if (request.getState().equals(RequestState.ARCHIVED))
             return;
 
-        if (request.getState().equals(RequestState.CANCELLED)
-                || request.getState().equals(RequestState.REJECTED)
-                || request.getState().equals(RequestState.NOTIFIED)
-                || request.getState().equals(RequestState.CLOSED)) {
+        Date date = new Date();
+        updateLastModificationInformation(request, date);
+        request.setState(RequestState.ARCHIVED);
 
-            request.setState(RequestState.ARCHIVED);
-            Date date = new Date();
-            updateLastModificationInformation(request, date);
+        WorkflowArchivedEvent wfEvent = new WorkflowArchivedEvent(request);
+        requestExternalService.publish(wfEvent);
 
-            requestActionService.addWorfklowAction(request.getId(), note, date,
-                RequestState.ARCHIVED, null);
-        } else {
-            throw new CvqInvalidTransitionException();
-        }
+        requestActionService.addWorfklowAction(request.getId(), note, date,
+            RequestState.ARCHIVED, null);
+        postActionsProcess(wfEvent.getWorkflowPostActions());
+
         HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
         Individual individual = userSearchService.getAdultById(request.getRequesterId());
         if (homeFolder.isTemporary())
-            userWorkflowService.changeState(individual, UserState.ARCHIVED);
+            userWorkflowService.changeState(homeFolder, UserState.ARCHIVED);
+    }
+
+    private void postActionsProcess(List<IWorkflowPostAction> workflowPostActions) {
+        for(IWorkflowPostAction workflowPostAction : workflowPostActions) {
+            try {
+                // Save current context
+                String externalService = null;
+                String context = null;
+                if (SecurityContext.isExternalServiceContext())
+                    externalService = SecurityContext.getCurrentExternalService();
+                else
+                    context = SecurityContext.getCurrentContext();
+
+                // Switch to ES context
+                SecurityContext.setCurrentContext(SecurityContext.EXTERNAL_SERVICE_CONTEXT);
+                SecurityContext.setCurrentExternalService(workflowPostAction.getExecutor());
+
+                workflowPostAction.execute(this);
+
+                // Reset saved context
+                if (externalService != null)
+                    SecurityContext.setCurrentExternalService(externalService);
+                else
+                    SecurityContext.setCurrentContext(context);
+            } catch (CvqException e) {
+                // Harmless error
+                logger.debug(e.getMessage());
+            }
+        }
     }
 
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
@@ -1027,20 +1100,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         }
     }
 
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void rewindWorkflow(Request request, String note)
-        throws CvqException, CvqInvalidTransitionException {
-        if (request.getState().equals(RequestState.UNCOMPLETE)) {
-            request.setState(RequestState.PENDING);
-            Date date = new Date();
-            updateLastModificationInformation(request, date);
-            requestActionService.addWorfklowAction(request.getId(), note, date,
-                RequestState.PENDING, requestPdfService.generateCertificate(request));
-        } else {
-            throw new CvqInvalidTransitionException();
-        }
-    }
-
+    @Override
     public DataState[] getPossibleTransitions(DataState ds) {
         List<DataState> dataStateList = new ArrayList<DataState>();
 
@@ -1051,159 +1111,54 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         return dataStateList.toArray(new DataState[dataStateList.size()]);
     }
 
-
+    @Override
     public RequestState[] getPossibleTransitions(RequestState rs) {
-
-        List<RequestState> requestStateList = new ArrayList<RequestState>();
-
-        if (rs.equals(RequestState.DRAFT)) {
-            requestStateList.add(RequestState.PENDING);
-        } else if (rs.equals(RequestState.PENDING)) {
-            requestStateList.add(RequestState.COMPLETE);
-            requestStateList.add(RequestState.UNCOMPLETE);
-            requestStateList.add(RequestState.REJECTED);
-            requestStateList.add(RequestState.CANCELLED);
-        } else if (rs.equals(RequestState.COMPLETE)) {
-            requestStateList.add(RequestState.VALIDATED);
-            requestStateList.add(RequestState.REJECTED);
-            requestStateList.add(RequestState.CANCELLED);
-        } else if (rs.equals(RequestState.UNCOMPLETE)) {
-            requestStateList.add(RequestState.COMPLETE);
-            requestStateList.add(RequestState.UNCOMPLETE);
-            requestStateList.add(RequestState.CANCELLED);
-            requestStateList.add(RequestState.REJECTED);
-        } else if (rs.equals(RequestState.REJECTED)) {
-            if (SecurityContext.isAdminContext())
-                requestStateList.add(RequestState.ARCHIVED);
-        } else if (rs.equals(RequestState.CANCELLED)) {
-            if (SecurityContext.isAdminContext())
-                requestStateList.add(RequestState.ARCHIVED);
-        } else if (rs.equals(RequestState.ARCHIVED)) {
-            // no more state transitions available from there
-        } else if (rs.equals(RequestState.VALIDATED)) {
-            requestStateList.add(RequestState.UNCOMPLETE);
-            requestStateList.add(RequestState.NOTIFIED);
-        } else if (rs.equals(RequestState.NOTIFIED)) {
-            requestStateList.add(RequestState.CLOSED);
-            if (SecurityContext.isAdminContext())
-                requestStateList.add(RequestState.ARCHIVED);
-        } else if (rs.equals(RequestState.CLOSED)) {
-            if (SecurityContext.isAdminContext())
-                requestStateList.add(RequestState.ARCHIVED);
-        }
-
-        return requestStateList.toArray(new RequestState[requestStateList.size()]);
+        return getWorkflow().getPossibleTransitions(rs);
     }
 
-    public Set<RequestState> getStatesBefore(RequestState rs) {
-
-        Set<RequestState> requestStateSet = new HashSet<RequestState>();
-
-        if (rs.equals(RequestState.DRAFT)) {
-            // no state available before draft
-        } else if (rs.equals(RequestState.PENDING)) {
-            requestStateSet.add(RequestState.DRAFT);
-        } else if (rs.equals(RequestState.COMPLETE)) {
-            requestStateSet.add(RequestState.PENDING);
-            requestStateSet.add(RequestState.UNCOMPLETE);
-            requestStateSet.addAll(getStatesBefore(RequestState.UNCOMPLETE));
-        } else if (rs.equals(RequestState.UNCOMPLETE)) {
-            requestStateSet.add(RequestState.PENDING);
-            requestStateSet.add(RequestState.VALIDATED);
-        } else if (rs.equals(RequestState.REJECTED)) {
-            requestStateSet.add(RequestState.PENDING);
-            requestStateSet.add(RequestState.UNCOMPLETE);
-            requestStateSet.addAll(getStatesBefore(RequestState.UNCOMPLETE));
-            requestStateSet.add(RequestState.COMPLETE);
-            requestStateSet.addAll(getStatesBefore(RequestState.COMPLETE));
-        } else if (rs.equals(RequestState.CANCELLED)) {
-            requestStateSet.add(RequestState.PENDING);
-            requestStateSet.add(RequestState.UNCOMPLETE);
-            requestStateSet.addAll(getStatesBefore(RequestState.UNCOMPLETE));
-            requestStateSet.add(RequestState.COMPLETE);
-            requestStateSet.addAll(getStatesBefore(RequestState.COMPLETE));            
-        } else if (rs.equals(RequestState.ARCHIVED)) {
-            requestStateSet.add(RequestState.NOTIFIED);
-            requestStateSet.addAll(getStatesBefore(RequestState.NOTIFIED));
-            requestStateSet.add(RequestState.CLOSED);
-            requestStateSet.addAll(getStatesBefore(RequestState.CLOSED));
-            requestStateSet.add(RequestState.REJECTED);
-            requestStateSet.addAll(getStatesBefore(RequestState.REJECTED));
-            requestStateSet.add(RequestState.CANCELLED);
-            requestStateSet.addAll(getStatesBefore(RequestState.CANCELLED));
-        } else if (rs.equals(RequestState.VALIDATED)) {
-            requestStateSet.add(RequestState.COMPLETE);
-            requestStateSet.addAll(getStatesBefore(RequestState.COMPLETE));
-        } else if (rs.equals(RequestState.NOTIFIED)) {
-            requestStateSet.add(RequestState.VALIDATED);
-            requestStateSet.addAll(getStatesBefore(RequestState.VALIDATED));
-        } else if (rs.equals(RequestState.CLOSED)) {
-            requestStateSet.add(RequestState.NOTIFIED);
-            requestStateSet.addAll(getStatesBefore(RequestState.NOTIFIED));
-        }
-
-        return requestStateSet;
+    @Override
+    public Boolean isValidTransition(RequestState from, RequestState to) {
+        return getWorkflow().isValidTransition(from, to);
     }
 
-    private RequestState[] getStatesExcludedForInProgressRequest() {
-        RequestState[] excludedStates = 
-            new RequestState[] { RequestState.ARCHIVED, RequestState.REJECTED,
-                RequestState.CANCELLED, RequestState.CLOSED, RequestState.NOTIFIED,
-                RequestState.VALIDATED };
-        return excludedStates;        
+    @Override
+    public RequestState[] getStatesBefore(RequestState rs) {
+        return getWorkflow().getStatesBefore(rs);
     }
-    
+
+    @Override
     public RequestState[] getStatesExcludedForRunningRequests() {
-        RequestState[] excludedStates = 
-            new RequestState[] { RequestState.ARCHIVED, RequestState.REJECTED,
-                RequestState.CANCELLED, RequestState.CLOSED };
-        return excludedStates;
-    }
-    
-    /**
-     * Actually the opposite of the {@link #getStatesExcludedForRunningRequests()}, except for the
-     * {@link RequestState#ARCHIVED} state which is excluded from everything
-     */
-    public RequestState[] getStatesExcludedForRequestsCloning() {
-        RequestState[] excludedStates = 
-            new RequestState[] { RequestState.PENDING, RequestState.COMPLETE, 
-                RequestState.UNCOMPLETE, RequestState.VALIDATED, RequestState.ARCHIVED };
-        return excludedStates;
+        return getWorkflow().getStatesWithProperty("!runnable");
     }
 
-    public List<RequestState> getEditableStates() {
-        List<RequestState> result = new ArrayList<RequestState>();
-
-        result.add(RequestState.PENDING);
-        result.add(RequestState.UNCOMPLETE);
-
-        return result;
+    @Override
+    public RequestState[] getStatesExcludedForRequestCloning() {
+        return getWorkflow().getStatesWithProperty("!cloneable");
     }
 
+    @Override
+    public RequestState[] getEditableStates() {
+        return getWorkflow().getStatesWithProperty("editableBO");
+    }
+
+    @Override
     public boolean isEditable(final Long requestId) {
         Request request = requestDAO.findById(requestId);
-        String requestTypeLabel = request.getRequestType().getLabel();
-        if (RequestState.DRAFT.equals(request.getState())
-                || RequestState.PENDING.equals(request.getState())
-                || RequestState.UNCOMPLETE.equals(request.getState()))
+        if (Arrays.asList(getWorkflow().getStatesWithProperty("editableFO")).contains(request.getState()))
             return true;
-        
+
         return false;
     }
-    
+
     @Override
-    public boolean isSupportMultiple(final String requestLabel) 
-        throws CvqException {
+    public boolean isSupportMultiple(final String requestLabel) {
         IRequestService requestService = requestServiceRegistry.getRequestService(requestLabel);
         return requestService.getSupportMultiple();
     }
-    
+
+    @Override
     public List<RequestState> getInstructionDoneStates() {
-        List<RequestState> result = new ArrayList<RequestState>();
-        result.add(RequestState.REJECTED);
-        result.add(RequestState.CANCELLED);
-        result.add(RequestState.NOTIFIED);
-        return result;
+        return Arrays.asList(getWorkflow().getStatesWithProperty("done"));
     }
 
     private void updateLastModificationInformation(Request request,
@@ -1289,6 +1244,10 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
     public void setRequestPdfService(IRequestPdfService requestPdfService) {
         this.requestPdfService = requestPdfService;
+    }
+
+    public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
+        this.localAuthorityRegistry = localAuthorityRegistry;
     }
 
     @Override

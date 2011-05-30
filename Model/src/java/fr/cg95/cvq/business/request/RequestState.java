@@ -7,8 +7,11 @@ public enum RequestState {
 
     DRAFT("Draft"),
     PENDING("Pending"),
+    INPROGRESS("Inprogress"),
+    EXTINPROGRESS("Extinprogress"),
     COMPLETE("Complete"),
     UNCOMPLETE("Uncomplete"),
+    RECTIFIED("Rectified"),
     VALIDATED("Validated"),
     NOTIFIED("Notified"),
     CLOSED("Closed"),

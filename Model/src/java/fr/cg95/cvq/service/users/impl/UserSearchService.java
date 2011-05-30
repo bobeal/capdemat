@@ -45,13 +45,15 @@ public class UserSearchService implements IUserSearchService {
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE},
+            privilege = ContextPrivilege.READ)
     public Individual getById(Long id) {
         return individualDAO.findById(id);
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE},
+            privilege = ContextPrivilege.READ)
     public Adult getAdultById(Long id) {
         Individual individual = adultDAO.findById(id);
         return (individual instanceof Adult) ? (Adult) individual : null;

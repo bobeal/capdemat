@@ -22,11 +22,11 @@ import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;
-import fr.cg95.cvq.external.IExternalProviderService;
+import fr.cg95.cvq.external.impl.ExternalProviderServiceAdapter;
 import fr.cg95.cvq.service.payment.IPaymentService;
 import fr.cg95.cvq.util.Critere;
 
-public class ExternalApplicationProviderService implements IExternalProviderService {
+public class ExternalApplicationProviderService extends ExternalProviderServiceAdapter {
 
     private IPaymentService paymentService;
 

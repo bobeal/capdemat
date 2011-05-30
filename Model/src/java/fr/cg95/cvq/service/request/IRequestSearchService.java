@@ -83,8 +83,11 @@ public interface IRequestSearchService {
     List<String> deleteArchives(List<String> names);
 
     /**
-     * Return {@link Request requests} in state {@link RequestState#PENDING Pending},
-     * {@link RequestState#COMPLETE Complete} or {@link RequestState#UNCOMPLETE Uncomplete}.
+     * Return {@link Request requests} in state
+     * {@link RequestState#PENDING Pending},
+     * {@link RequestState#COMPLETE Complete},
+     * {@link RequestState#UNCOMPLETE Uncomplete}
+     * or {@link RequestState#RECTIFIED Rectified}.
      *
      * @param qoS Quality of service to filter by. Value is one of the {@link Request Request}.QUALITY_TYPE_*
      * @param sortBy one of the {@link Request Request}.SEARCH_BY_*

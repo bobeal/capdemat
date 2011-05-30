@@ -62,7 +62,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.ExternalServiceBean;
-import fr.cg95.cvq.external.IExternalProviderService;
+import fr.cg95.cvq.external.impl.ExternalProviderServiceAdapter;
 import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.request.IRequestDocumentService;
 import fr.cg95.cvq.service.request.IRequestSearchService;
@@ -78,7 +78,14 @@ import fr.cg95.cvq.xml.request.school.impl.StudyGrantRequestDocumentImpl.StudyGr
 import fr.cg95.cvq.xml.request.social.BafaGrantRequestDocument;
 import fr.cg95.cvq.xml.request.social.impl.BafaGrantRequestDocumentImpl.BafaGrantRequestImpl;
 
-public class EdemandeService implements IExternalProviderService {
+/**
+ * @deprecated 'til updated to fit the new request workflow.
+ *
+ * The main problem is with updateRequestState() which should only be called from a
+ * {@link IWorkflowPostAction workflow post action}.
+ * As it, this service can't be mixed with an other external service for managing a request workflow.
+ */
+public class EdemandeService extends ExternalProviderServiceAdapter {
 
     private static Logger logger = Logger.getLogger(EdemandeService.class);
     

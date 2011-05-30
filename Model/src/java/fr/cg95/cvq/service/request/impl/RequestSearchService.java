@@ -186,6 +186,7 @@ public class RequestSearchService implements IRequestSearchService, BeanFactoryA
         states.add(RequestState.PENDING);
         states.add(RequestState.COMPLETE);
         states.add(RequestState.UNCOMPLETE);
+        states.add(RequestState.RECTIFIED);
         criterion.setValue(states);
 
         criteria.add(criterion);
@@ -212,6 +213,7 @@ public class RequestSearchService implements IRequestSearchService, BeanFactoryA
         states.add(RequestState.PENDING);
         states.add(RequestState.COMPLETE);
         states.add(RequestState.UNCOMPLETE);
+        states.add(RequestState.RECTIFIED);
         criterion.setValue(states);
 
         criteria.add(criterion);

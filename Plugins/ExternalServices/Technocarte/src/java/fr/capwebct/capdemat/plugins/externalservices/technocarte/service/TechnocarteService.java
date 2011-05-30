@@ -51,12 +51,22 @@ import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.ExternalServiceBean;
-import fr.cg95.cvq.external.IExternalProviderService;
-import fr.cg95.cvq.service.payment.IPaymentService;
-import fr.cg95.cvq.service.request.school.external.IScholarBusinessProviderService;
-import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
+import fr.cg95.cvq.external.impl.ExternalProviderServiceAdapter;
+import fr.cg95.cvq.service.request.ILocalReferentialService;
+import fr.cg95.cvq.xml.common.LocalReferentialDataType;
+import fr.cg95.cvq.xml.common.RequestType;
+import fr.cg95.cvq.xml.request.school.SchoolCanteenRegistrationRequestDocument.SchoolCanteenRegistrationRequest;
+import fr.cg95.cvq.xml.request.school.PerischoolActivityRegistrationRequestDocument.PerischoolActivityRegistrationRequest;
+import fr.cg95.cvq.xml.request.school.RecreationActivityRegistrationRequestDocument.RecreationActivityRegistrationRequest;
+import fr.cg95.cvq.xml.request.school.SchoolRegistrationRequestDocument.SchoolRegistrationRequest;
+import fr.cg95.cvq.xml.request.ecitizen.HomeFolderModificationRequestDocument.HomeFolderModificationRequest;
+import fr.cg95.cvq.xml.request.school.DayCareCenterRegistrationRequestDocument.DayCareCenterRegistrationRequest;
+import fr.cg95.cvq.xml.request.school.LearningActivitiesDiscoveryRegistrationRequestDocument.LearningActivitiesDiscoveryRegistrationRequest;
 
-public class TechnocarteService implements IExternalProviderService, IScholarBusinessProviderService {
+
+
+public class TechnocarteService extends ExternalProviderServiceAdapter {
+    private static Logger logger = Logger.getLogger(TechnocarteService.class);
     
     private static Logger logger = Logger.getLogger(TechnocarteService.class);
 

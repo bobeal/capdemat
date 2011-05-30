@@ -2,7 +2,14 @@
 class CapdematEnumTagLib {
     
     def capdematEnumToFlag = { attrs, body ->
-        def capdematEnum = CapdematUtils.adaptCapdematEnum(attrs.var, attrs.i18nKeyPrefix)
+        def capdematEnum
+        if (request.requestURI.contains("frontoffice"))
+        {
+            capdematEnum = CapdematUtils.adaptCapdematEnum(attrs.var, attrs.i18nKeyPrefix,"frontoffice")
+        }else
+        {
+            capdematEnum = CapdematUtils.adaptCapdematEnum(attrs.var, attrs.i18nKeyPrefix)
+        }
         
         def sb = new StringBuffer()
         sb << "<span class=\"" 

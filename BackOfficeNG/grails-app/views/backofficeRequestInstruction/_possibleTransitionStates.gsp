@@ -13,6 +13,11 @@
             <span class="${state.cssClass}">${message(code:state.i18nKey)}</span>
           </li>
         </g:each>
+        <li>
+            <p id="changeStateNote">
+            ${message(code:'request.message.changeStateMotivation')} : <input type="text" name="note" value="">
+            </p>
+        </li>
       </ul>
       <input type="hidden" name="stateType" value="${stateType}" />
       <input type="hidden" name="id" value="${id}" />

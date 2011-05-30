@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.request.job;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -76,7 +77,7 @@ public class RequestInstructionDurationCheckerJob {
         // calculate the list of states that are "before" retrieved states
         Set<RequestState> statesToLookFor = new HashSet<RequestState>();
         for (RequestState state : instructionDoneStates) {
-            statesToLookFor.addAll(requestWorkflowService.getStatesBefore(state));
+            statesToLookFor.addAll(Arrays.asList(requestWorkflowService.getStatesBefore(state)));
         }
     
         // retrieve all requests currently in instruction

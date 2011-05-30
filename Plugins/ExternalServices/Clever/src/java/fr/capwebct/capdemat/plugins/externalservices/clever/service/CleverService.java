@@ -29,14 +29,14 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;
-import fr.cg95.cvq.external.IExternalProviderService;
+import fr.cg95.cvq.external.impl.ExternalProviderServiceAdapter;
 import fr.cg95.cvq.service.request.ILocalReferentialService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.xml.common.LocalReferentialDataType;
 import fr.cg95.cvq.xml.request.leisure.SmsNotificationRequestDocument;
 
-public class CleverService implements IExternalProviderService {
+public class CleverService extends ExternalProviderServiceAdapter {
     private static Logger logger = Logger.getLogger(CleverService.class);
     
     private static final String YES_LABEL = "oui";

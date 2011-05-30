@@ -25,7 +25,7 @@ import fr.cg95.cvq.external.IExternalProviderService;
  * CapDemat (instead of waiting for CapDemat to send them).
  *  
  */
-public class EntryPointExternalService implements IExternalProviderService {
+public class EntryPointExternalService extends ExternalProviderServiceAdapter {
     private String label;
     
     public void checkConfiguration(ExternalServiceBean externalServiceBean, String localAuthorityName)

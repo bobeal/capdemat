@@ -17,7 +17,6 @@ import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.exception.CvqValidationException;
 import fr.cg95.cvq.security.annotation.IsRequester;
 import fr.cg95.cvq.security.annotation.IsSubject;
@@ -48,73 +47,81 @@ public interface IRequestWorkflowService {
     String SUBJECT_POLICY_CHILD = "SUBJECT_POLICY_CHILD";
 
     /**
-     * Dispatcher method to update request data  state.
+     * Dispatcher method to update request data state.
      */
     void updateRequestDataState(@IsRequest final Long id, final DataState rs)
-        throws CvqException, CvqInvalidTransitionException;
+        throws CvqInvalidTransitionException;
 
     /**
      * Dispatcher method to update request state.
      */
     void updateRequestState(@IsRequest final Long id, RequestState rs, String note)
-        throws CvqException, CvqInvalidTransitionException,
-            CvqObjectNotFoundException;
+        throws CvqException, CvqModelException, CvqInvalidTransitionException;
 
     /**
-     * Set a request in pending state after edition by an ecitizen
-     */
-    void rewindWorkflow(@IsRequest Request request, String note)
-        throws CvqException, CvqInvalidTransitionException;
-
-    /**
-     * Get possible data state transitions from the given data state
-     * (see {@link fr.cg95.cvq.business.request.DataState}).
+     * Get possible data state transitions from the given data state.
+     * (see {@link DataState}).
      */
     DataState[] getPossibleTransitions(DataState ds);
 
     /**
-     * Get possible state transitions from the given request state
-     * (see {@link fr.cg95.cvq.business.request.RequestState}).
+     * Get possible state transitions from the given request state.
+     * (see {@link RequestState})
      *
-     * @return an array of {@link fr.cg95.cvq.business.request.RequestState} objects
+     * @return an array of {@link RequestState} objects
      */
     RequestState[] getPossibleTransitions(RequestState rs);
 
-    /**
-     * Return the list of states that precede the given state.
-     */
-    Set<RequestState> getStatesBefore(RequestState rs);
+    Boolean isValidTransition(RequestState from, RequestState to);
 
     /**
-     * Get the list of states for which request edition in BO is authorized.
+     * Get states that can precede the given state.
+     *
+     * @return an array of {@link RequestState} objects
      */
-    List<RequestState> getEditableStates();
+    RequestState[] getStatesBefore(RequestState rs);
+
+    /**
+     * Get states for which request edition in BO is authorized.
+     *
+     * @return an array of {@link RequestState} objects
+          */
+    RequestState[] getEditableStates();
 
     /**
      * Return whether the given request is editable in FO.
-     * 
-     * Currently, a request is editable if it is in pending or uncomplete state
-     * and is not a account creation or modification request.
      */
     boolean isEditable(@IsRequest final Long requestId);
-    
+
     /**
-     * Get the list of states for which instruction is done.
+     * Get states for which instruction is done.
+     *
+     * @return an array of {@link RequestState} objects
      */
     List<RequestState> getInstructionDoneStates();
 
-    RequestState[] getStatesExcludedForRequestsCloning();
+    /**
+     * Get non cloneable states.
+     *
+     * @return an array of {@link RequestState} objects
+     */
+    RequestState[] getStatesExcludedForRequestCloning();
 
+    /**
+     * Get non runnable states.
+     *
+     * @return an array of {@link RequestState} objects
+     */
     RequestState[] getStatesExcludedForRunningRequests();
 
     /**
      * Create a new request from given data.
-     * 
-     * It is meant to be used <strong>only</strong> by requests who require an home folder, 
+     *
+     * It is meant to be used <strong>only</strong> by requests who require an home folder,
      * requester will be the currently logged in ecitizen, eventual subject id must be set
      * directly on request object.
-     * 
-     * A default implementation suitable for requests types that do not have any specific stuff 
+     *
+     * A default implementation suitable for requests types that do not have any specific stuff
      * to perform upon creation is provided. For others, the default implementation will have to
      * be overrided.
      */
@@ -122,7 +129,7 @@ public interface IRequestWorkflowService {
 
     /**
      * Create a new request from given data.
-     * 
+     *
      * It is meant to be used by requests issued outside an home folder. An home folder
      * containing at least the requester will be created. The subject is optional.
      */
@@ -147,16 +154,16 @@ public interface IRequestWorkflowService {
      */
     Map<Long, Set<RequestSeason>> getAuthorizedSubjects(RequestType requestType, 
         @IsUser Long homeFolderId)
-        throws CvqException, CvqObjectNotFoundException;
+        throws CvqModelException;
 
     List<Long> getAuthorizedSubjects(@IsRequest final Request request)
-        throws CvqException, CvqObjectNotFoundException;
+        throws CvqModelException;
 
     List<String> getMissingSteps(@IsRequest final Request request);
 
     /**
-     * Get a clone of a request with the given request id
-     * 
+     * Get a clone of a request with the given request id.
+     *
      * @return a new request without administrative and persistence information.
      */
     Request getRequestClone(@IsRequest Long requestId)
@@ -196,15 +203,15 @@ public interface IRequestWorkflowService {
      */
     void checkSubjectPolicy(@IsSubject final Long subjectId, @IsUser Long homeFolderId,
         final String policy, @IsRequestType final RequestType requestType)
-        throws CvqException, CvqModelException;
+        throws CvqModelException;
 
     boolean validateSeason(@IsRequestType RequestType requestType, RequestSeason requestSeason)
-        throws CvqException;
+        throws CvqModelException;
 
     void checkRequestTypePolicy(@IsRequestType RequestType requestType, HomeFolder homeFolder)
         throws CvqException;
 
-    boolean isSupportMultiple(String requestLabel) throws CvqException;
+    boolean isSupportMultiple(String requestLabel); // throws CvqException;
 
     void validate(@IsRequest Request request, List<String> steps)
         throws ClassNotFoundException, IllegalAccessException, CvqValidationException,

@@ -3,6 +3,7 @@ package fr.cg95.cvq.util.admin;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -78,7 +79,7 @@ public class RequestWorkflowNavigator {
             (IRequestSearchService)cpxa.getBean("requestSearchService");
         requestWorkflowService =
             (IRequestWorkflowService)cpxa.getBean("requestWorkflowService");
-        if (!requestWorkflowService.getStatesBefore(targetState)
+        if (!Arrays.asList(requestWorkflowService.getStatesBefore(targetState))
             .contains(initialState)) {
             System.out.println("FAILED : Target state " + targetState +
                 " isn't one transition away from initial state "

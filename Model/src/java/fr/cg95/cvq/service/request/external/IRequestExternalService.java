@@ -7,10 +7,13 @@ import java.util.Map;
 import java.util.Set;
 
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowGenericEvent;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.util.Critere;
+import fr.cg95.cvq.xml.common.RequestType;
 
 public interface IRequestExternalService {
 
@@ -37,7 +40,10 @@ public interface IRequestExternalService {
 
     /**
      * Get all the requests that are sendable to this external service
+     *
+     * @deprecated Only used by Edemande, for its own, incompatible workflow.
      */
+    @Deprecated
     List<Request> getSendableRequests(String externalServiceLabel);
 
     /**
@@ -46,12 +52,18 @@ public interface IRequestExternalService {
      * 
      * @return a list of reasons for failed tests.
      */
-    List<String> checkExternalReferential(@IsRequest Request request) throws CvqException;
+    List<String> checkExternalReferential(@IsRequest Request request) throws CvqException; // FIXME rename it checkExternalReferentials()
+
+    /**
+     * Send a request to one particular external service.
+     */
+    public void sendRequestTo(@IsRequest Request request, IExternalProviderService externalProviderService)
+        throws CvqException, CvqModelException;
 
     /**
      * Ask to send a request to its associated external services.
      */
-    void sendRequest(@IsRequest final Request request)
+    void sendRequest(@IsRequest Request request)
         throws CvqException;
 
     /**
@@ -81,4 +93,8 @@ public interface IRequestExternalService {
     Map<Date, String> getConsumptions(@IsRequest final Long requestId,
         final Date dateFrom, final Date dateTo)
         throws CvqException;
+
+    void publish(WorkflowGenericEvent wfEvent)throws CvqException;
+
+    public RequestType getRequestType(@IsRequest Request request) throws CvqException;
 }

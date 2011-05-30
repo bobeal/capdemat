@@ -140,11 +140,11 @@ class FrontofficeRequestController {
                     if (!RequestState.DRAFT.equals(rqt.state)) {
                         parameters.isEdition = true
                         if (RequestState.UNCOMPLETE.equals(rqt.state)) {
-                            requestWorkflowService.rewindWorkflow(rqt, params.requestNote && !params.requestNote.trim().isEmpty() ? params.requestNote : null)
+                            requestWorkflowService.updateRequestState(rqt.id, RequestState.RECTIFIED,
+                                params.requestNote && !params.requestNote.trim().isEmpty() ? params.requestNote : null)
                         }
                     } else {
-                        rqt.state = RequestState.PENDING
-                        requestWorkflowService.create(rqt,
+                        requestWorkflowService.updateRequestState(rqt.id, RequestState.PENDING,
                             params.requestNote && !params.requestNote.trim().isEmpty() ? params.requestNote : null)
                     }
                     parameters.id = rqt.id

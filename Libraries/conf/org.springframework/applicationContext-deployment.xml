@@ -189,6 +189,15 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   </bean>
 
   <!-- ================================================================ -->
+  <!-- ================== SERVICES ADAPTER DEFINITION ==================== -->
+  <!-- ================================================================ -->
+  <bean id="externalProviderServiceAdapter" abstract="true">
+    <property name="requestExternalService" ref="requestExternalService" />
+  </bean>
+
+
+
+  <!-- ================================================================ -->
   <!-- ================== FAKE SERVICES DEFINITION ==================== -->
   <!-- ================================================================ -->
 
@@ -198,7 +207,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="callbackUrl" value="${fake_payment.callbackUrl}" />  
   </bean>
 
-  <bean id="fakeExternalService" class="fr.cg95.cvq.external.impl.FakeExternalService">
+  <bean id="fakeExternalService" parent="externalProviderServiceAdapter" class="fr.cg95.cvq.external.impl.FakeExternalService">
     <property name="label" value="Fake External Service" />
     <property name="paymentService" ref="paymentService" />
     <property name="xmlDirectory" value="external_service"/>
@@ -215,15 +224,15 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <!-- ================= XSARNET SERVICES DEFINITION ================== -->
   <!-- ================================================================ -->
   
-  <bean id="xsarnetExternalService" class="fr.cg95.cvq.external.impl.EntryPointExternalService">
+  <bean id="xsarnetExternalService" parent="externalProviderServiceAdapter" class="fr.cg95.cvq.external.impl.EntryPointExternalService">
     <property name="label" value="Xsarnet External Service" />
   </bean>
   
-  <bean id="fakePointExternalService" class="fr.cg95.cvq.external.impl.EntryPointExternalService">
+  <bean id="fakePointExternalService" parent="externalProviderServiceAdapter" class="fr.cg95.cvq.external.impl.EntryPointExternalService">
     <property name="label" value="Fake Point External Service" />
   </bean>
 
-  <bean id="restExternalService"
+  <bean id="restExternalService" parent="externalProviderServiceAdapter"
     class="fr.cg95.cvq.external.impl.RestExternalService">
     <property name="label" value="Generic Rest External Service" />
     <property name="requestExternalActionDAO" ref="requestExternalActionDAO" />
@@ -249,7 +258,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     </property>
   </bean>
 
-  <bean id="soapExternalService"
+  <bean id="soapExternalService" parent="externalProviderServiceAdapter"
     class="fr.cg95.cvq.external.impl.SoapExternalService">
     <property name="label" value="Generic Soap External Service" />
     <property name="soapExternalServiceClient" ref="soapExternalServiceClient" />

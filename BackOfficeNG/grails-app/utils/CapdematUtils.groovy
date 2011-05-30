@@ -1,3 +1,6 @@
+import fr.cg95.cvq.business.request.RequestState;
+
+
 class CapdematUtils {
 
     def translationService
@@ -11,6 +14,14 @@ class CapdematUtils {
             "i18nKey": i18nKeyPrefix + "." + StringUtils.toLowerCamelCase(capdematState.toString()),
             "enumString": capdematState.toString()
         ]
+    }
+
+    public static adaptCapdematEnum(capdematState, i18nKeyPrefix, String context) {
+        if(capdematState == RequestState.EXTINPROGRESS.toString() && context != null && context.equals("frontoffice"))
+        {
+            return adaptCapdematEnum(RequestState.INPROGRESS.toString(), i18nKeyPrefix) // do not show internal complexity to client
+        }
+        return adaptCapdematEnum(capdematState,i18nKeyPrefix)
     }
 
     // TODO : check how one can inject the translation service in this class

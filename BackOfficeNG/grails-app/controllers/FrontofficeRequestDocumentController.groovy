@@ -26,7 +26,7 @@ class FrontofficeRequestDocumentController {
         if (params.action != "edit" || request.post) {
             def rqt = requestSearchService.getById(Long.valueOf(params.requestId), true)
             if (RequestState.UNCOMPLETE.equals(rqt.state)) {
-                requestWorkflowService.rewindWorkflow(rqt, null)
+                requestWorkflowService.updateRequestState(requestId, RequestState.RECTIFIED, null)
             }
         }
     }

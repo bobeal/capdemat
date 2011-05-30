@@ -11,6 +11,7 @@ import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.PurchaseItem;
+import fr.cg95.cvq.business.request.workflow.event.IWorkflowEventVisitor;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.payment.IPaymentService;
@@ -20,10 +21,10 @@ import fr.cg95.cvq.service.payment.IPaymentService;
  *
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public interface IExternalProviderService {
+public interface IExternalProviderService extends IWorkflowEventVisitor{
 
     /**
-     * Send a new (validated) request to an external service.
+     * Send a request to an external service.
      * 
      * @param the xml of the request we want to send
      * @return business id coming from the plugged application

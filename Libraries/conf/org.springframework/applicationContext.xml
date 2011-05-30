@@ -172,6 +172,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   </bean>
 
   <bean id="requestWorkflowService" class="fr.cg95.cvq.service.request.impl.RequestWorkflowService">
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
     <property name="requestDAO" ref="requestDAO" />
     <property name="requestActionService" ref="requestActionService" />
     <property name="requestServiceRegistry" ref="requestServiceRegistry" />

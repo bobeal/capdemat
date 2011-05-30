@@ -65,7 +65,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqRemoteException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.ExternalServiceUtils;
-import fr.cg95.cvq.external.IExternalProviderService;
+import fr.cg95.cvq.external.impl.ExternalProviderServiceAdapter;
 import fr.cg95.cvq.service.payment.IPaymentService;
 import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.security.SecurityContext;
@@ -75,7 +75,7 @@ import fr.cg95.cvq.xml.common.SchoolType;
 /**
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public class HoranetServiceV3 implements IExternalProviderService {
+public class HoranetServiceV3 extends ExternalProviderServiceAdapter {
 
     private static Logger logger = Logger.getLogger(HoranetService.class);
 

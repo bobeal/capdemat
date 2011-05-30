@@ -60,7 +60,7 @@ import fr.cg95.cvq.service.request.school.external.IScholarBusinessProviderServi
  * 
  * @author bor@zenexity.fr
  */
-public class FakeExternalService implements IExternalProviderService, IScholarBusinessProviderService {
+public class FakeExternalService extends ExternalProviderServiceAdapter implements IScholarBusinessProviderService{
 
     private static Logger logger = Logger.getLogger(FakeExternalService.class);
 

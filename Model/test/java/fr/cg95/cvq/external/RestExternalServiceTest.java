@@ -72,7 +72,7 @@ public class RestExternalServiceTest extends ExternalServiceTestCase {
         throws CvqException {
         TechnicalInterventionRequest request = (TechnicalInterventionRequest) super.request;
         request.setInterventionDescription("error");
-        requestWorkflowService.rewindWorkflow(request, null);
+        requestWorkflowService.updateRequestState(request.getId(), RequestState.PENDING, null);
         continueWithNewTransaction();
         SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);

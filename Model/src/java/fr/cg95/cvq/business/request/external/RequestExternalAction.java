@@ -32,7 +32,8 @@ public class RequestExternalAction implements Serializable {
         ACKNOWLEDGED("Acknowledged"),
         ERROR("Error"),
         ACCEPTED("Accepted"),
-        REJECTED("Rejected");
+        REJECTED("Rejected"),
+        RETURNED("Returned");
 
         private String legacyLabel;
 

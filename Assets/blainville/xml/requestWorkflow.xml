@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+properties: see "Paramétrage du Workflow" in googledoc
+- editableBO: state editable in BackOffice
+- editableFO: state editable in FrontOffice
+- !cloneable: state non cloneable
+- !runnable: state non runnable
+- done: state where the instruction is done
+-->
+<workflow>
+<state name="Draft">
+	<properties>
+		<property>editableFO</property>
+		<property>!cloneable</property>
+	</properties>
+</state>
+<state name="Pending">
+	<properties>
+		<property>editableFO</property>
+		<property>!cloneable</property>
+	</properties>
+</state>
+<state name="Inprogress">
+	<properties>
+		<property>editableBO</property>
+		<property>!cloneable</property>
+	</properties>
+</state>
+<state name="Extinprogress">
+	<properties>
+		<property>!cloneable</property>
+	</properties>
+</state>
+<state name="Complete">
+	<properties>
+<!--		<property>editableBO</property>-->
+		<property>!cloneable</property>
+	</properties>
+</state>
+<state name="Uncomplete">
+	<properties>
+		<property>editableFO</property>
+		<property>editableBO</property>
+		<property>!cloneable</property>
+	</properties>
+</state>
+<state name="Rejected">
+	<properties>
+		<property>done</property>
+		<property>!runnable</property>
+	</properties>
+</state>
+<state name="Cancelled">
+	<properties>
+		<property>done</property>
+		<property>!runnable</property>
+	</properties>
+</state>
+<state name="Validated">
+	<properties>
+		<property>done</property>
+	</properties>
+</state>
+<state name="Rectified">
+	<properties>
+		<property>!cloneable</property>
+	</properties>
+</state>
+<state name="Closed">
+	<properties>
+		<property>!runnable</property>
+	</properties>
+</state>
+<state name="Archived">
+	<properties>
+		<property>!cloneable</property>
+		<property>!runnable</property>
+	</properties>
+</state>
+<!-- will be delete soon-->
+<state name="Notified">
+</state>
+
+
+<transition from="Draft" to="Pending" />
+<transition from="Pending" to="Inprogress"/>
+<transition from="Pending" to="Extinprogress">
+	<context>externalServiceContext</context>
+</transition>
+<transition from="Pending" to="Complete"/>
+<transition from="Pending" to="Uncomplete"/>
+<transition from="Pending" to="Rejected"/>
+<transition from="Pending" to="Cancelled"/>
+<transition from="Inprogress" to="Complete"/>
+<transition from="Inprogress" to="Uncomplete"/>
+<transition from="Inprogress" to="Rejected"/>
+<transition from="Inprogress" to="Cancelled"/>
+<transition from="Extinprogress" to="Uncomplete">
+	<context>externalServiceContext</context>
+</transition>
+<transition from="Extinprogress" to="Rejected">
+	<context>externalServiceContext</context>
+</transition>
+<transition from="Extinprogress" to="Cancelled">
+	<context>externalServiceContext</context>
+</transition>
+<transition from="Extinprogress" to="Validated">
+	<context>externalServiceContext</context>
+</transition>
+<transition from="Complete" to="Uncomplete"/>
+<transition from="Complete" to="Rejected"/>
+<transition from="Complete" to="Validated"/>
+<transition from="Complete" to="Cancelled"/>
+<transition from="Uncomplete" to="Rectified"/>
+<transition from="Rejected" to="Archived">
+	<context>adminContext</context>
+</transition>
+<transition from="Cancelled" to="Archived">
+	<context>adminContext</context>
+</transition>
+<transition from="Validated" to="Closed"/>
+<transition from="Rectified" to="Uncomplete"/>
+<transition from="Rectified" to="Complete"/>
+<transition from="Rectified" to="Extinprogress">
+	<context>externalServiceContext</context>
+</transition>
+<transition from="Closed" to="Archived">
+	<context>adminContext</context>
+</transition>
+</workflow>

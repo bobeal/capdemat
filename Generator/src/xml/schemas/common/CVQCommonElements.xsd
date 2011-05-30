@@ -2183,27 +2183,35 @@
         Etat
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
-        <enum key="Validated" value="Validé" />
-        <enum key="Closed" value="Fermé" />
-        <enum key="Archived" value="Archivé" />
-        <enum key="Rejected" value="Refusé" />
-        <enum key="Uncomplete" value="Incomplet" />
-        <enum key="Complete" value="Complet" />
-        <enum key="Cancelled" value="Annulé" />
+        <enum key="Draft" value="Brouillon" />
         <enum key="Pending" value="En attente" />
+        <enum key="Inprogress" value="En traitement" />
+        <enum key="Extinprogress" value="Externalisé" />
+        <enum key="Complete" value="Complet" />
+        <enum key="Uncomplete" value="Incomplet" />
+        <enum key="Rectified" value="Rectifié" />
+        <enum key="Validated" value="Validé" />
         <enum key="Notified" value="Notifié" />
+        <enum key="Closed" value="Fermé" />
+        <enum key="Rejected" value="Refusé" />
+        <enum key="Cancelled" value="Annulé" />
+        <enum key="Archived" value="Archivé" />
       </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
-      <xs:enumeration value="Validated" />
-      <xs:enumeration value="Closed" />
-      <xs:enumeration value="Archived" />
-      <xs:enumeration value="Rejected" />
-      <xs:enumeration value="Uncomplete" />
-      <xs:enumeration value="Complete" />
-      <xs:enumeration value="Cancelled" />
+      <xs:enumeration value="Draft" />
       <xs:enumeration value="Pending" />
+      <xs:enumeration value="Inprogress" />
+      <xs:enumeration value="Extinprogress" />
+      <xs:enumeration value="Complete" />
+      <xs:enumeration value="Uncomplete" />
+      <xs:enumeration value="Rectified" />
+      <xs:enumeration value="Validated" />
       <xs:enumeration value="Notified" />
+      <xs:enumeration value="Closed" />
+      <xs:enumeration value="Rejected" />
+      <xs:enumeration value="Cancelled" />
+      <xs:enumeration value="Archived" />
     </xs:restriction>
   </xs:simpleType>
 

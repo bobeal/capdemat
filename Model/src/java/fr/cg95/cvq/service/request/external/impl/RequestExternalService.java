@@ -24,6 +24,7 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
+import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowGenericEvent;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.UserAction;
 import fr.cg95.cvq.business.users.UserEvent;
@@ -148,6 +149,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
         return esb == null ? Collections.<String>emptyList() : esb.getRequestTypes();
     }
 
+    @Deprecated
     @Context(types = {ContextType.SUPER_ADMIN}, privilege = ContextPrivilege.NONE)
     public List<Request> getSendableRequests(String externalServiceLabel) {
         Set<RequestState> set = new HashSet<RequestState>(1);
@@ -190,64 +192,49 @@ public class RequestExternalService extends ExternalService implements IRequestE
 
     @Override
     @Context(types = {ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
-    public void sendRequest(Request request) throws CvqException {
+    public void sendRequestTo(Request request, IExternalProviderService externalProviderService)
+        throws CvqException, CvqModelException {
+        RequestType xmlRequest = getRequestType(request);
+        HomeFolderMapping mapping = getOrCreateHomeFolderMapping(xmlRequest, externalProviderService);
+        fillRequestWithMapping(xmlRequest, mapping);
 
+        RequestExternalAction rea = new RequestExternalAction(new Date(),
+            xmlRequest.getId(),
+            "capdemat",
+            null,
+            externalProviderService.getLabel(),
+            RequestExternalAction.Status.SENT
+        );
+
+        String externalId = null;
+        try {
+            logger.debug("sendRequest() routing request to external service " + externalProviderService.getLabel());
+            externalId = externalProviderService.sendRequest(xmlRequest);
+        } catch (Exception e) {
+            logger.error("sendRequest() error while sending request to " + externalProviderService.getLabel());
+            rea.setStatus(RequestExternalAction.Status.ERROR);
+        }
+
+        if (!externalProviderService.handlesTraces())
+            requestExternalActionService.addTrace(rea);
+
+        if (externalId != null && !externalId.equals("")) {
+            mapping.setExternalId(externalId);
+            externalHomeFolderService.modifyHomeFolderMapping(mapping);
+        }
+    }
+
+    @Override
+    @Context(types = {ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
+    public void sendRequest(Request request) throws CvqException {
         if (!hasMatchingExternalService(request.getRequestType().getLabel()))
             return;
 
-        RequestType xmlRequest = ExternalServiceUtils.getRequestTypeFromXmlObject(
-                requestExportService.fillRequestXml(request));
-        HomeFolderType xmlHomeFolder = xmlRequest.getHomeFolder();
         for (IExternalProviderService externalProviderService :
                 getExternalServicesByRequestType(request.getRequestType().getLabel())) {
             if (externalProviderService instanceof ExternalApplicationProviderService)
                 continue;
-            // before sending the request to the external service, eventually set 
-            // the external identifiers if they are known ...
-            String externalServiceLabel = externalProviderService.getLabel();
-            HomeFolderMapping mapping = 
-                externalHomeFolderService.getHomeFolderMapping(externalServiceLabel, xmlHomeFolder.getId());
-            if (mapping != null) {
-                fillRequestWithMapping(xmlRequest, mapping);
-            } else {
-                // no existing external service mapping : create a new one to store
-                // the CapDemat external identifier
-                mapping = new HomeFolderMapping(externalServiceLabel, xmlHomeFolder.getId(), null);
-                for (IndividualType xmlIndividual : xmlHomeFolder.getIndividualsArray()) {
-                    mapping.getIndividualsMappings()
-                            .add(new IndividualMapping(xmlIndividual.getId(), null, mapping));
-                }
-                externalHomeFolderService.createHomeFolderMapping(mapping);
-                fillRequestWithMapping(xmlRequest, mapping);
-            }
-
-            RequestExternalAction trace = null;
-            if (!externalProviderService.handlesTraces()) {
-                trace = new RequestExternalAction(new Date(), xmlRequest.getId(),
-                    "capdemat", null, externalServiceLabel, null);
-            }
-            try {
-                logger.debug("sendRequest() routing request to external service " 
-                        + externalServiceLabel);
-                String externalId = externalProviderService.sendRequest(xmlRequest);
-                if (externalId != null && !externalId.equals("")) {
-                    mapping.setExternalId(externalId);
-                    externalHomeFolderService.modifyHomeFolderMapping(mapping);
-                }
-                if (!externalProviderService.handlesTraces()) {
-                    trace.setStatus(RequestExternalAction.Status.SENT);
-                }
-            } catch (CvqException ce) {
-                logger.error("sendRequest() error while sending request to " 
-                        + externalServiceLabel + " (" + ce.getMessage() + ")");
-                if (!externalProviderService.handlesTraces()) {
-                    trace.setStatus(RequestExternalAction.Status.NOT_SENT);
-                    trace.setMessage(ce.getMessage());
-                }
-            }
-            if (!externalProviderService.handlesTraces()) {
-                requestExternalActionService.addTrace(trace);
-            }
+            sendRequestTo(request, externalProviderService);
         }
     }
 
@@ -294,6 +281,31 @@ public class RequestExternalService extends ExternalService implements IRequestE
     @RequestFilter(privilege = ContextPrivilege.MANAGE)
     public List<String> getKeys(Set<Critere> criterias) {
         return requestExternalActionService.getKeys(criterias);
+    }
+
+    @Override
+    @Context(types = {ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
+    public RequestType getRequestType(Request request) throws CvqException {
+        return ExternalServiceUtils.getRequestTypeFromXmlObject(
+                requestExportService.fillRequestXml(request));
+    }
+
+    private HomeFolderMapping getOrCreateHomeFolderMapping(
+            RequestType xmlRequest, IExternalProviderService externalProviderService) throws CvqModelException {
+        HomeFolderType xmlHomeFolder = xmlRequest.getHomeFolder();
+        HomeFolderMapping mapping = externalHomeFolderService.getHomeFolderMapping(
+                externalProviderService.getLabel(), xmlHomeFolder.getId());
+        if (mapping == null) {
+            // no existing external service mapping : create a new one to store
+            // the CapDemat external identifier
+            mapping = new HomeFolderMapping(externalProviderService.getLabel(), xmlHomeFolder.getId(), null);
+            for (IndividualType xmlIndividual : xmlHomeFolder.getIndividualsArray()) {
+                mapping.getIndividualsMappings()
+                        .add(new IndividualMapping(xmlIndividual.getId(), null, mapping));
+            }
+            externalHomeFolderService.createHomeFolderMapping(mapping);
+        }
+        return mapping;
     }
 
     private void fillRequestWithMapping(RequestType xmlRequest, HomeFolderMapping mapping) throws CvqModelException {
@@ -359,8 +371,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
         if (!hasMatchingExternalService(request.getRequestType().getLabel()))
             return Collections.emptyMap();
 
-        RequestType xmlRequest = ExternalServiceUtils.getRequestTypeFromXmlObject(
-                requestExportService.fillRequestXml(request));
+        RequestType xmlRequest = getRequestType(request);
         List<HomeFolderMapping> mappings = 
             externalHomeFolderService.getHomeFolderMappings(xmlRequest.getHomeFolder().getId());
         if (mappings == null || mappings.isEmpty())
@@ -555,5 +566,11 @@ public class RequestExternalService extends ExternalService implements IRequestE
 
     public void setRequestTypeService(IRequestTypeService requestTypeService) {
         this.requestTypeService = requestTypeService;
+    }
+
+    public void publish(WorkflowGenericEvent wfEvent) throws CvqException {
+        for (IExternalProviderService extProviderService : getExternalServicesByRequestType(wfEvent.getRequest().getRequestType().getLabel())) {
+            wfEvent.accept(extProviderService);
+        }
     }
 }

@@ -3,6 +3,7 @@ import java.util.Collections;
 import fr.cg95.cvq.business.request.external.RequestExternalAction
 import fr.cg95.cvq.business.document.ContentType
 import fr.cg95.cvq.business.request.DataState
+import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestAction
 import fr.cg95.cvq.business.request.RequestActionType
 import fr.cg95.cvq.business.request.RequestNoteType
@@ -396,7 +397,7 @@ class BackofficeRequestInstructionController {
                 requestWorkflowService.updateRequestState(
                         Long.valueOf(params.id),
                         RequestState.forString(params.newState),
-                        null)
+                        params.note)
                break
         }
         render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
@@ -553,7 +554,10 @@ class BackofficeRequestInstructionController {
 
     def external = {
         if (request.post) {
-            requestExternalService.sendRequest(requestSearchService.getById(Long.valueOf(params.id), true))
+            Request rqt = requestSearchService.getById(Long.valueOf(params.id), true)
+            if (!rqt.getState().equals(RequestState.VALIDATED))
+                throw new CvqException("plugins.externalservices.error.requestMustBeValidated");
+            requestExternalService.sendRequest(rqt)
             def criteriaSet = new HashSet<Critere>(2)
             criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_KEY,
                 params.id, Critere.EQUALS))

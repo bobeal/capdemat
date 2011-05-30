@@ -44,13 +44,12 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqRemoteException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.ExternalServiceUtils;
-import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.util.web.WS;
 import fr.cg95.cvq.util.web.WS.HttpResponse;
 import fr.cg95.cvq.xml.common.RequestType;
 
-public class RestExternalService implements IExternalProviderService {
+public class RestExternalService extends ExternalProviderServiceAdapter {
 
     private static Logger logger = Logger.getLogger(RestExternalService.class);
     

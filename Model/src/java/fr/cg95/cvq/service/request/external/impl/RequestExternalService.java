@@ -568,9 +568,29 @@ public class RequestExternalService extends ExternalService implements IRequestE
         this.requestTypeService = requestTypeService;
     }
 
+    // TODO : Review security rules
     public void publish(WorkflowGenericEvent wfEvent) throws CvqException {
+        // Save current context
+        String externalService = null;
+        String context = null;
+        if (SecurityContext.isExternalServiceContext())
+            externalService = SecurityContext.getCurrentExternalService();
+        else
+            context = SecurityContext.getCurrentContext();
+
+        // Switch to ES context
+        SecurityContext.setCurrentContext(SecurityContext.EXTERNAL_SERVICE_CONTEXT);
+
         for (IExternalProviderService extProviderService : getExternalServicesByRequestType(wfEvent.getRequest().getRequestType().getLabel())) {
+            SecurityContext.setCurrentExternalService(extProviderService.getLabel());
             wfEvent.accept(extProviderService);
         }
+
+        // Reset saved context
+        if (externalService != null)
+            SecurityContext.setCurrentExternalService(externalService);
+        else
+            SecurityContext.setCurrentContext(context);
+
     }
 }

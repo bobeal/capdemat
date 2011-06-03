@@ -1051,6 +1051,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             userWorkflowService.changeState(homeFolder, UserState.ARCHIVED);
     }
 
+    // TODO : Review security rules
     private void postActionsProcess(List<IWorkflowPostAction> workflowPostActions) {
         for(IWorkflowPostAction workflowPostAction : workflowPostActions) {
             try {

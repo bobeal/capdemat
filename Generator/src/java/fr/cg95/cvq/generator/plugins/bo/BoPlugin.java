@@ -1,8 +1,9 @@
 package fr.cg95.cvq.generator.plugins.bo;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
@@ -77,7 +78,7 @@ public class BoPlugin implements IPluginGenerator {
             Template template = templateEngine.createTemplate(new File(editTemplate));
             Map<String, Object> bindingMap = new HashMap<String, Object>();
             bindingMap.put("requestBo", requestBo);
-            template.make(bindingMap).writeTo(new FileWriter(output + "_edit.gsp"));
+            template.make(bindingMap).writeTo(new OutputStreamWriter(new FileOutputStream(output + "_edit.gsp"), "UTF-8"));
             logger.warn("endRequest() - edit.gsp.tpl OK");
             
             // _steps.gsp template
@@ -86,7 +87,7 @@ public class BoPlugin implements IPluginGenerator {
             if (requestBo.getStepBundles().size() > 1 ) {
                 for (List<Step> stepBundle : requestBo.getStepBundles()) {
                     bindingMap.put("stepBundle", stepBundle);
-                    template.make(bindingMap).writeTo(new FileWriter(output + "_steps"+ bundleIndex++ +".gsp" ));
+                    template.make(bindingMap).writeTo(new OutputStreamWriter(new FileOutputStream(output + "_steps"+ bundleIndex++ +".gsp" ), "UTF-8"));
                 }
             }
             logger.warn("endRequest() - steps.gsp.tpl OK");
@@ -96,7 +97,7 @@ public class BoPlugin implements IPluginGenerator {
             bindingMap = new HashMap<String, Object>();
             for (ElementBo element: requestBo.getElementsByTypeClass(ElementTypeClass.COLLECTION)) {
                 bindingMap.put("element", element);
-                template.make(bindingMap).writeTo(new FileWriter(output + "_" + element.getJavaFieldName() + ".gsp"));
+                template.make(bindingMap).writeTo(new OutputStreamWriter(new FileOutputStream(output + "_" + element.getJavaFieldName() + ".gsp"), "UTF-8"));
             }
             logger.warn("endRequest() - collection.gsp.tpl OK");
             

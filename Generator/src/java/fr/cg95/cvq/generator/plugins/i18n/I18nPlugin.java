@@ -1,8 +1,9 @@
 package fr.cg95.cvq.generator.plugins.i18n;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -85,8 +86,8 @@ public class I18nPlugin implements IPluginGenerator {
                 bindingMap.put("steps", requestI18n.getSteps());
                 bindingMap.put("elements", elementI18ns);
                 
-                template.make(bindingMap).writeTo(new FileWriter(output));
-                template2.make(bindingMap).writeTo(new FileWriter(templateOutput + ".tmp"));
+                template.make(bindingMap).writeTo(new OutputStreamWriter(new FileOutputStream(output), "UTF-8"));
+                template2.make(bindingMap).writeTo(new OutputStreamWriter(new FileOutputStream(templateOutput + ".tmp"), "UTF-8"));
             }
         } catch (CompilationFailedException cfe) {
             logger.error(cfe.getMessage()); 

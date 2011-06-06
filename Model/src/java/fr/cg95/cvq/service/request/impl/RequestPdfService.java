@@ -3,10 +3,10 @@ package fr.cg95.cvq.service.request.impl;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -112,7 +112,7 @@ public class RequestPdfService implements IRequestPdfService {
             bindings.put("logoPath", logoFile.getAbsolutePath());
             bindings.put("i18n", translationService);
             File htmlCertificateFile = File.createTempFile(htmlFilename, ".html");
-            template.make(bindings).writeTo(new FileWriter(htmlCertificateFile));
+            template.make(bindings).writeTo(new OutputStreamWriter(new FileOutputStream(htmlCertificateFile), "UTF-8"));
             
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ITextRenderer renderer = new ITextRenderer();
@@ -180,7 +180,7 @@ public class RequestPdfService implements IRequestPdfService {
         bindings.put("i18n", translationService);
         bindings.put("agentService", agentService);
         File htmlCertificateFile = File.createTempFile("history", ".html");
-        template.make(bindings).writeTo(new FileWriter(htmlCertificateFile));
+        template.make(bindings).writeTo(new OutputStreamWriter(new FileOutputStream(htmlCertificateFile), "UTF-8"));
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ITextRenderer renderer = new ITextRenderer();
         renderer.setDocument(htmlCertificateFile);
@@ -209,7 +209,7 @@ public class RequestPdfService implements IRequestPdfService {
             bindings.put("tagCSSPath", tagCSSFile.getAbsolutePath());
             bindings.put("i18n", translationService);
             File htmlFile = File.createTempFile("mails", ".html");
-            template.make(bindings).writeTo(new FileWriter(htmlFile));
+            template.make(bindings).writeTo(new OutputStreamWriter(new FileOutputStream(htmlFile), "UTF-8"));
             baos = new ByteArrayOutputStream();
             renderer.setDocument(htmlFile);
             renderer.layout();
@@ -298,7 +298,7 @@ public class RequestPdfService implements IRequestPdfService {
             bindings.put("tagCSSPath", tagCSSFile.getAbsolutePath());
             bindings.put("i18n", translationService);
             File htmlFile = File.createTempFile("documents", ".html");
-            template.make(bindings).writeTo(new FileWriter(htmlFile));
+            template.make(bindings).writeTo(new OutputStreamWriter(new FileOutputStream(htmlFile), "UTF-8"));
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ITextRenderer renderer = new ITextRenderer();
             renderer.setDocument(htmlFile);

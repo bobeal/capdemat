@@ -17,6 +17,7 @@ import fr.cg95.cvq.business.request.LocalReferentialType
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestActionType
 import fr.cg95.cvq.business.request.RequestSeason
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.dao.request.xml.LocalReferentialXml

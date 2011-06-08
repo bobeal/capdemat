@@ -96,7 +96,7 @@
 #request h3 span.error { margin: 0; padding: 0; text-align: right; }
 #request h3 .tag-state { float: right; }
 
-#request h4      { margin: 1em 0 ; font-size: 1.15em; font-style: italic; }
+#request h4      { margin: 1em 0 ; font-size: 1.2em; }
 #request h4 span { display: block; font-size: .8em; }
 
 #request div.form div label {
@@ -142,14 +142,14 @@
 /* list
 -------------------------------------------------------------- */
 #request div.form ul       { width: 80%; margin: .2em 0 .5em 0; }
-#request div.form li label { display: inline; font-size: .95em; }
+#request div.form li label { display: inline; font-size: 1em; }
 
 #request div.form ul.yes-no li { display: inline; margin: 0 .5em 0 0; }
 
-#request div.form div fieldset { margin: 0 0 .5em 0; padding: 1em 0 0 1em; }
+#request div.form div fieldset { margin: 0.5em 0 .5em 0; padding: 1em 0 1em 1em;  border: 1px solid #DB4366;}
 
 #request legend {
-  margin-top: .5em !important; 
+  margin-top: 1em !important; 
   font-size: 1.3em; font-weight: bold;
   color: #DB4366;
 }

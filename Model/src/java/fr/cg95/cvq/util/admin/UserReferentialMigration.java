@@ -101,8 +101,9 @@ public class UserReferentialMigration {
         for (HomeFolder homeFolder : customDAO.all(HomeFolder.class)) {
             Set<Critere> criterias = new HashSet<Critere>();
             criterias.add(new Critere(Request.SEARCH_BY_HOME_FOLDER_ID, homeFolder.getId(), Critere.EQUALS));
-            List<Request> requests = requestSearchService.get(criterias, null, null, 0, 0, true);
-            Request first = requests.get(requests.size() - 1);
+            List<Request> requests = requestSearchService.get(criterias, Request.SEARCH_BY_CREATION_DATE, null, 0, 0, true);
+            if (requests.isEmpty()) continue;
+            Request first = requests.get(0);
             if (homeFolder.isTemporary()) {
                 List<RequestAction> actions = new ArrayList<RequestAction>(first.getActions());
                 Collections.reverse(actions);

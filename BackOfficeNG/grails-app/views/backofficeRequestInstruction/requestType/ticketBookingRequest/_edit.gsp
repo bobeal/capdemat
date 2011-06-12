@@ -4,16 +4,12 @@
 <div id="requestData" class="yellow-yui-tabview">
   <ul class="yui-nav">
   
-    <li class="selected ">
-      <a href="#page0"><em><g:message code="tbr.step.requester.label" /></em></a>
+    <li  class="selected ">
+      <a href="#page0"><em><g:message code="tbr.step.entertainments.label" /></em></a>
     </li>
   
     <li class="">
-      <a href="#page1"><em><g:message code="tbr.step.entertainments.label" /></em></a>
-    </li>
-  
-    <li class="">
-      <a href="#page2"><em><g:message code="tbr.step.rules.label" /></em></a>
+      <a href="#page1"><em><g:message code="tbr.step.rules.label" /></em></a>
     </li>
   
   </ul>
@@ -23,37 +19,6 @@
       
       <!-- step start -->
       <div id="page0">
-        <h2><g:message code="property.form" />
-          <span><g:message code="tbr.step.requester.label" /></span>
-        </h2>
-        <div class="yui-g">
-          
-          
-          <!-- column start -->
-          <div class="yui-u first">
-            
-              
-              <dl>
-                <g:render template="/backofficeRequestInstruction/requestType/requester" model="['requester':requester]" />
-              </dl>
-              
-            
-          </div>
-          <!-- column end -->
-          
-          <!-- column start -->
-          <div class="yui-u">
-            
-          </div>
-          <!-- column end -->
-          
-        </div>
-        <!-- data step  end -->
-      </div>
-      <!-- step end -->
-      
-      <!-- step start -->
-      <div id="page1">
         <h2><g:message code="property.form" />
           <span><g:message code="tbr.step.entertainments.label" /></span>
         </h2>
@@ -120,7 +85,7 @@
       <!-- step end -->
       
       <!-- step start -->
-      <div id="page2">
+      <div id="page1">
         <h2><g:message code="property.form" />
           <span><g:message code="tbr.step.rules.label" /></span>
         </h2>

@@ -2,20 +2,6 @@
 
 
   
-    <h3><g:message code="tbr.step.requester.label" /></h3>
-    
-      
-      <dl>
-        
-          <g:render template="/frontofficeRequestType/widget/requesterSummary" model="['requester':requester]" />
-          
-
-      </dl>
-      
-    
-  
-
-  
     <h3><g:message code="tbr.step.entertainments.label" /></h3>
     
       

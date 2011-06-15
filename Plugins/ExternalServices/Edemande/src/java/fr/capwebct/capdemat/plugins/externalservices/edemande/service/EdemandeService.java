@@ -5,6 +5,7 @@ import java.io.StringReader;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -245,7 +246,7 @@ public class EdemandeService implements IExternalProviderService {
     private String searchIndividual(EdemandeRequest request, String firstName, String lastName,
         Calendar birthDate, String subkey) {
         Map<String, Object> model = new HashMap<String, Object>();
-        model.put("lastName", StringUtils.upperCase(lastName));
+        model.put("lastName", escapeLastName(lastName));
         model.put("frenchRIB", FrenchRIB.xmlToModel(request.getFrenchRIB()).format(" "));
         String searchResults;
         int resultsNumber;
@@ -283,8 +284,7 @@ public class EdemandeService implements IExternalProviderService {
                     .getInitialiserFormulaireResponse().getReturn();
                 if (parseData(informations,
                     "/CBdosInitFormulaireBean/moTierInit/msPrenom")
-                    .equalsIgnoreCase(WordUtils.capitalizeFully(
-                        firstName, new char[]{' ', '-'}))
+                    .equalsIgnoreCase(escapeFirstName(firstName))
                     && parseData(informations,
                         "/CBdosInitFormulaireBean/moTierInit/mdtDateNaissance")
                         .equals(new SimpleDateFormat("yyyy-MM-dd")
@@ -311,7 +311,7 @@ public class EdemandeService implements IExternalProviderService {
 
     private void createSubject(EdemandeRequest request) {
         Map<String, Object> model = new HashMap<String, Object>();
-        model.put("lastName", StringUtils.upperCase(request.getSubjectLastName()));
+        model.put("lastName", escapeLastName(request.getSubjectLastName()));
         model.put("address", request.getSubjectAddress());
         if (!StringUtils.isBlank(request.getSubjectPhone())) {
             model.put("phone", request.getSubjectPhone());
@@ -319,8 +319,7 @@ public class EdemandeService implements IExternalProviderService {
         model.put("title",
             translationService.translate("homeFolder.adult.title."
                 + request.getSubjectTitle().toString().toLowerCase(), Locale.FRANCE));
-        model.put("firstName", WordUtils.capitalizeFully(
-            request.getSubjectFirstName(), new char[]{' ', '-'}));
+        model.put("firstName", escapeFirstName(request.getSubjectFirstName()));
         model.put("birthPlace", StringUtils.defaultString(request.getSubjectBirthCity()));
         model.put("birthDate", formatDate(request.getSubjectBirthDate()));
         model.put("frenchRIB", FrenchRIB.xmlToModel(request.getFrenchRIB()).format(" "));
@@ -348,14 +347,13 @@ public class EdemandeService implements IExternalProviderService {
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("title", translationService.translate("homeFolder.adult.title."
             + request.getAccountHolderTitle().toString().toLowerCase(), Locale.FRANCE));
-        model.put("lastName", StringUtils.upperCase(request.getAccountHolderLastName()));
+        model.put("lastName", escapeLastName(request.getAccountHolderLastName()));
         //FIXME placeholders; are these really needed ?
         model.put("address", request.getSubjectAddress());
         model.put("phone", "");
         model.put("birthPlace", "");
         //ENDFIXME
-        model.put("firstName", WordUtils.capitalizeFully(
-            request.getAccountHolderFirstName(), new char[]{' ', '-'}));
+        model.put("firstName", escapeFirstName(request.getAccountHolderFirstName()));
         model.put("birthDate", formatDate(request.getAccountHolderBirthDate()));
         model.put("frenchRIB", FrenchRIB.xmlToModel(request.getFrenchRIB()).format(" "));
         try {
@@ -397,9 +395,8 @@ public class EdemandeService implements IExternalProviderService {
         model.put("psCodeDemande",
             StringUtils.defaultIfEmpty(request.getEdemandeId(), "-1"));
         model.put("etatCourant", firstSending ? 2 : 1);
-        model.put("firstName",
-            WordUtils.capitalizeFully(request.getSubjectFirstName(), new char[]{' ', '-'}));
-        model.put("lastName", StringUtils.upperCase(request.getSubjectLastName()));
+        model.put("firstName", escapeFirstName(request.getSubjectFirstName()));
+        model.put("lastName", escapeLastName(request.getSubjectLastName()));
         model.put("address", request.getSubjectAddress());
         if (!StringUtils.isBlank(request.getSubjectPhone())) {
             model.put("phone", request.getSubjectPhone());
@@ -783,6 +780,19 @@ public class EdemandeService implements IExternalProviderService {
             }
         }
         return model;
+    }
+
+    private String escapeName(String name) {
+        return Normalizer.normalize(name.replaceAll("-", " ").replaceAll("'", ""),
+            Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]","");
+    }
+
+    private String escapeFirstName(String firstName) {
+        return escapeName(WordUtils.capitalizeFully(firstName, new char[]{' ', '-'}));
+    }
+
+    private String escapeLastName(String lastName) {
+        return StringUtils.upperCase(escapeName(lastName));
     }
 
     private EdemandeRequest adapt(XmlObject requestXml) {

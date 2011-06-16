@@ -6,6 +6,7 @@
     <style type="text/css">
       .main-box ul    { padding: 0 1em 1em 1.5em; font-size: 1.1em; font-style: italic; }
       .main-box ul li { list-style-type: disc; }
+      .warning { font-size: 1.2em; color: #FF4907; margin: 5px 0;}
     </style>
   </head>
   <body>
@@ -59,6 +60,7 @@
             <li>${message(code:'homeFolder.message.accountAdvantage2')}</li>
             <li>${message(code:'homeFolder.message.accountAdvantage3')}</li>
           </ul>
+          <p class="warning">${message(code:'homeFolder.message.createAccount.warning')}</p>
           <p>
             <a style="font-size: 1.5em;" href="${createLink(controller : 'frontofficeHomeFolder', action : 'create',
               params : ['requestTypeLabel' : params.requestTypeLabel])}">

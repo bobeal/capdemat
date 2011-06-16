@@ -3,6 +3,8 @@ package fr.cg95.cvq.service.document.impl;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -21,6 +23,11 @@ import org.apache.pdfbox.util.PDFMergerUtility;
 import org.springframework.context.ApplicationListener;
 
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.pdf.PdfDictionary;
+import com.lowagie.text.pdf.PdfName;
+import com.lowagie.text.pdf.PdfNumber;
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.PdfStamper;
 import com.lowagie.text.pdf.PdfWriter;
 
 import eu.medsea.mimeutil.MimeUtil2;
@@ -690,6 +697,52 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         g.drawImage(source, 0, 0, width, height, null);
         g.dispose();
         return buf;
+    }
+
+    @Override
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    public void rotate(Long id, int index, boolean trigonometric)
+        throws CvqException, DocumentException, IOException {
+        Document document = getById(id);
+        DocumentBinary page = document.getDatas().get(index);
+        byte[] result;
+        byte[] pdfPreview = null;
+        if (ContentType.PDF.equals(page.getContentType())) {
+            pdfPreview = page.getPreview();
+            PdfReader reader = new PdfReader(page.getData());
+            for (int k = 1; k <= reader.getNumberOfPages(); ++k) {
+                PdfDictionary d = reader.getPageN(k);
+                PdfNumber angle = d.getAsNumber(PdfName.ROTATE);
+                int degrees = angle == null ? 0 : angle.intValue();
+                d.put(PdfName.ROTATE, new PdfNumber(degrees + (trigonometric ? -90 : 90)));
+            }
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PdfStamper stp = new PdfStamper(reader, baos);
+            stp.close();
+            result = baos.toByteArray();
+        } else {
+            result = rotate(page.getData(), trigonometric);
+        }
+        modifyPage(id, index, result);
+        if (ContentType.PDF.equals(page.getContentType())) {
+            page.setPreview(rotate(pdfPreview, trigonometric));
+        }
+    }
+
+    private byte[] rotate(byte[] data, boolean trigonometric)
+        throws IOException {
+        BufferedImage source = ImageIO.read(new ByteArrayInputStream(data));
+        AffineTransform transformation = AffineTransform.getTranslateInstance(
+            (source.getHeight() - source.getWidth()) / 2.0,
+            (source.getWidth() - source.getHeight()) / 2.0);
+        transformation.concatenate(AffineTransform.getQuadrantRotateInstance(
+            trigonometric ? -1 : 1, source.getWidth() / 2.0, source.getHeight() / 2.0));
+        BufferedImage result =
+            new AffineTransformOp(transformation, AffineTransformOp.TYPE_BICUBIC)
+                .filter(source, null);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(result, mimeTypeFromBytes(data).getExtension(), baos);
+        return baos.toByteArray();
     }
 
     /**

@@ -146,7 +146,12 @@ class BackofficeDocumentInstructionController {
         response.contentType = 'text/html; charset=utf-8'
         render((new JSON(result)).toString())
     }
-    
+
+    def rotate = {
+        documentService.rotate(params.long("id"), params.int("index"), params.boolean("trigonometric"))
+        render ([status : "success", message : message(code : "message.updateDone")] as JSON)
+    }
+
     def documentPage = {
         def document = documentService.getById(params.long('id'))
         def page = document.datas[Integer.valueOf(params.pageNumber)]

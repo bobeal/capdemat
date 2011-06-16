@@ -235,6 +235,15 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
             });
             zenexity.capdemat.baseUrl = currentBaseUrl;
           }).show(e);
+      },
+      rotate : function(e) {
+        var params = yue.getTarget(e).parentNode.id.split('_');
+        zenexity.capdemat.baseUrl = zc["contextPath"] + "/backoffice/documentInstruction";
+        zct.doAjaxCall("/rotate/" + params[1] + "?index=" + params[2] + "&trigonometric=" + params[3], null, function(o) {
+          var json = ylj.parse(o.responseText);
+          if (!json.pageNumber) json.pageNumber = zcbd.Instruction.tabView.get("activeIndex");
+          zcbd.Instruction.displayDocPanel(undefined, json);
+        });
       }
     };
   }();

@@ -1,11 +1,14 @@
 package fr.cg95.cvq.service.document;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
+
+import com.lowagie.text.DocumentException;
 
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentBinary;
@@ -194,4 +197,7 @@ public interface IDocumentService {
     void launchDocumentMissingValuesComputing();
 
     void computeMissingValues();
+
+    void rotate(Long id, int index, boolean trigonometric)
+        throws CvqException, DocumentException, IOException;
 }

@@ -1,6 +1,16 @@
 <div id="page${pageNumber}">
   <g:if test="${document.editable}">
     <div class="button-panel">
+      <a id="rotate_${document.id}_${pageNumber}_true" href="javascript:;">
+        <img src="${resource(dir:'images/icons',file:'upper-left-arrow.png')}"
+          alt="${message(code:'document.action.rotateLeft')}"
+          title="${message(code:'document.action.rotateLeft')}">
+      </a>
+      <a id="rotate_${document.id}_${pageNumber}_false" href="javascript:;">
+        <img src="${resource(dir:'images/icons',file:'upper-right-arrow.png')}"
+          alt="${message(code:'document.action.rotateRight')}"
+          title="${message(code:'document.action.rotateRight')}">
+      </a>
       <a id="displayEditPanel_${pageNumber}" href="javascript:;">
         <img src="${resource(dir:'images/icons',file:'16-edit.png')}" alt="${message(code:'action.edit')}">
       </a>

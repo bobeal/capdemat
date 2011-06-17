@@ -46,7 +46,7 @@
             </entry>
         </entries>
     </data>
-    <data name="rateTypes" allowMultipleChoices="false">
+    <data name="rateTypes" allowMultipleChoices="false" manager="CapDémat">
         <label>Types de tarif</label>
         <entries>
             <entry key="Etudiant---Cho-meur">

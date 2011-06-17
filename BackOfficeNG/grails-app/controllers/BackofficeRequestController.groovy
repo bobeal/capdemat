@@ -8,6 +8,7 @@ import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.request.ICategoryService
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestStatisticsService
+import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.security.SecurityContext
 
@@ -17,6 +18,7 @@ class BackofficeRequestController {
     ICategoryService categoryService
     IRequestSearchService requestSearchService
     IRequestStatisticsService requestStatisticsService
+    IRequestTypeService requestTypeService
     
     def translationService
     def requestAdaptorService
@@ -83,6 +85,7 @@ class BackofficeRequestController {
         
         // deal with dynamic filters
         def hasStateFilter = false
+        def requestSeasons
         def parsedFilters = SearchUtils.parseFilters(params.filterBy)
         parsedFilters.filters.each { key, value ->
             Critere critere = new Critere()
@@ -98,6 +101,9 @@ class BackofficeRequestController {
             } else
                 critere.value = Long.valueOf(value)
             criteria.add(critere)
+
+            if (key == 'requestTypeIdFilter')
+                requestSeasons = requestTypeService.getRequestSeasons(Long.valueOf(value))
         }
         if (!hasStateFilter) {
             Critere critere = new Critere()
@@ -143,6 +149,7 @@ class BackofficeRequestController {
                    'sortBy':sortBy,
                    'dir':sortDir,
                    'inSearch':true,
+                   'allRequestSeasons':requestSeasons,
                    'results':results].plus(initSearchReferential()))
     }
 

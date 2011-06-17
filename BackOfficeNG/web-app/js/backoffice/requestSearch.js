@@ -60,6 +60,10 @@
     var filterSearchRequest = function(filterType) {
       yud.get('filterBy').value = [yud.get('filterBy').value, 
         '@', filterType, '=', yud.get(filterType).value].join('');
+      // hack to reset request season filter when we change request type
+      if (filterType === "requestTypeIdFilter") {
+        yud.get("filterBy").value += "@requestSeasonIdFilter=";
+      }
       yud.get('requestForm').submit();
     };
 

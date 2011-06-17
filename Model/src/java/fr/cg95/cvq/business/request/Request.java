@@ -32,7 +32,7 @@ public class Request implements Serializable {
     public static final String SEARCH_BY_CATEGORY_ID = "categoryId";
     public static final String SEARCH_BY_REQUEST_TYPE_ID = "requestTypeId";
     public static final String SEARCH_BY_REQUEST_TYPE_LABEL = "requestTypeLabel";
-    public static final String SEARCH_BY_SEASON_ID = "requestSeason.id";
+    public static final String SEARCH_BY_SEASON_ID = "requestSeasonId";
     public static final String SEARCH_BY_STATE = "state";    
     public static final String SEARCH_BY_CREATION_DATE = "creationDate";
     public static final String SEARCH_BY_VALIDATION_DATE = "validationDate";

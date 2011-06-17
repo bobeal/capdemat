@@ -78,6 +78,16 @@
               </g:each>
             </select>
             
+            <label for="requestSeasonIdFilter"><g:message code="property.requestSeason" /> :</label>
+            <select id="requestSeasonIdFilter" ${filters['requestTypeIdFilter'] == null || allRequestSeasons.isEmpty() ? 'disabled="disabled"' : ''}>
+              <option value=""><g:message code="search.filter.defaultValue"/></option>
+              <g:each in="${allRequestSeasons}" var="requestSeason">
+                <option value="${requestSeason.id}" ${filters['requestSeasonIdFilter'] == requestSeason.id.toString() ? 'selected="selected"' : ''}>
+                  ${requestSeason.label}
+                </option>
+              </g:each>
+            </select>
+
             <label for="stateFilter"><g:message code="property.state" /> :</label>
             <select id="stateFilter">
               <option value=""><g:message code="search.filter.defaultValue"/></option>

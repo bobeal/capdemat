@@ -156,7 +156,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="bgr.property.frenchRIB.label" /> * : </dt><dd id="frenchRIB" class="action-editField validate-frenchRIB required-true i18n-bgr.property.frenchRIB" ><div><p class="bankCode">${rqt?.frenchRIB?.bankCode}</p><p class="counterCode">${rqt?.frenchRIB?.counterCode}</p><p class="accountNumber">${rqt?.frenchRIB?.accountNumber}</p><p class="accountKey">${rqt?.frenchRIB?.accountKey}</p></div></dd>
+                <dt class="required"><g:message code="bgr.property.bankAccount.label" /> * : </dt><dd id="bankAccount" class="action-editField validate-bankAccount required-true i18n-bgr.property.bankAccount" ><div><p>${rqt?.bankAccount?.BIC}</p><p>${rqt?.bankAccount?.IBAN}</p></div></dd>
               </dl>
               
             

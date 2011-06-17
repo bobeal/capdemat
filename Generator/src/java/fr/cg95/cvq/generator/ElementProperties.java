@@ -19,6 +19,7 @@ public class ElementProperties {
         complexTypesAsSimple.add("RecreationCenterType");
         complexTypesAsSimple.add("AddressType");
         complexTypesAsSimple.add("FrenchRIBType");
+        complexTypesAsSimple.add("BankAccountType");
     }
 
     /** minimum element's occurences */

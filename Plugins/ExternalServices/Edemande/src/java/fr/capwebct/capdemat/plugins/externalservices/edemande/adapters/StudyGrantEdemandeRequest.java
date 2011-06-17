@@ -7,6 +7,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 import fr.capwebct.capdemat.plugins.externalservices.edemande.service.EdemandeService;
+import fr.cg95.cvq.business.users.BankAccount;
+import fr.cg95.cvq.business.users.FrenchRIB;
 import fr.cg95.cvq.xml.common.AddressType;
 import fr.cg95.cvq.xml.common.FrenchRIBType;
 import fr.cg95.cvq.xml.common.TitleType;
@@ -57,7 +59,10 @@ public class StudyGrantEdemandeRequest implements EdemandeRequest {
 
     @Override
     public FrenchRIBType getFrenchRIB() {
-        return request.getFrenchRIB();
+        if (request.getBankAccount() == null) return null;
+        BankAccount bankAccount = BankAccount.xmlToModel(request.getBankAccount());
+        if (bankAccount == null) return null;
+        return FrenchRIB.modelToXml(bankAccount.toFrenchRIB());
     }
 
     @Override

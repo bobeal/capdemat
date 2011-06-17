@@ -33,6 +33,12 @@
           ,"<p class=\"accountKey\">\${${wrapper}?.${element.javaFieldName}?.accountKey}</p>"
           ,"</div>"
           ].join()
+      ,'bankAccount' :
+          ["<div>"
+          ,"<p>\${${wrapper}?.${element.javaFieldName}?.BIC}</p>"
+          ,"<p>\${${wrapper}?.${element.javaFieldName}?.IBAN}</p>"
+          ,"</div>"
+          ].join()
       ,'boolean' :
           "<span class=\"value-\${${wrapper}?.${element.javaFieldName}}\"><g:message code=\"message.\${${wrapper}?.${element.javaFieldName} ? 'yes' : 'no'}\" /></span>"
       ,'text' :

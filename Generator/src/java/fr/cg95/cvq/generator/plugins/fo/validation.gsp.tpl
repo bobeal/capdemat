@@ -48,6 +48,17 @@
           </g:if>
           </dd>
           """
+      ,'bankAccount' :
+          """
+          <dd>
+          <g:if test="\${${wrapper}.${element.javaFieldName}}">
+            <p>
+              \${${wrapper}.${element.javaFieldName}?.BIC}
+              \${${wrapper}.${element.javaFieldName}?.IBAN}
+            </p>
+          </g:if>
+          </dd>
+          """
       ,'localReferentialData' :
           """
           <dd>

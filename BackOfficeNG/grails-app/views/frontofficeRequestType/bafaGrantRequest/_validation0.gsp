@@ -159,14 +159,12 @@
     
       
       <dl>
-        <dt><g:message code="bgr.property.frenchRIB.label" /></dt>
+        <dt><g:message code="bgr.property.bankAccount.label" /></dt>
           <dd>
-          <g:if test="${rqt.frenchRIB}">
+          <g:if test="${rqt.bankAccount}">
             <p>
-              ${rqt.frenchRIB?.bankCode}
-              ${rqt.frenchRIB?.counterCode}
-              ${rqt.frenchRIB?.accountNumber}
-              ${rqt.frenchRIB?.accountKey}
+              ${rqt.bankAccount?.BIC}
+              ${rqt.bankAccount?.IBAN}
             </p>
           </g:if>
           </dd>

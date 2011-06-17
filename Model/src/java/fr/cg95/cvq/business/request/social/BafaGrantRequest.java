@@ -140,10 +140,10 @@ public class BafaGrantRequest extends Request implements Serializable {
         if (getAccountHolderTitle() != null)
             bafaGrantRequest.setAccountHolderTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getAccountHolderTitle().toString()));
       
-        bafaGrantRequest.setEdemandeId(getEdemandeId());
+        if (getBankAccount() != null)
+            bafaGrantRequest.setBankAccount(BankAccount.modelToXml(getBankAccount()));
       
-        if (getFrenchRIB() != null)
-            bafaGrantRequest.setFrenchRIB(FrenchRIB.modelToXml(getFrenchRIB()));
+        bafaGrantRequest.setEdemandeId(getEdemandeId());
       
         date = getInternshipEndDate();
         if (date != null) {
@@ -212,10 +212,10 @@ public class BafaGrantRequest extends Request implements Serializable {
         else
             bafaGrantRequest.setAccountHolderTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
       
-        bafaGrantRequest.setEdemandeId(bafaGrantRequestXml.getEdemandeId());
+        if (bafaGrantRequestXml.getBankAccount() != null)
+            bafaGrantRequest.setBankAccount(BankAccount.xmlToModel(bafaGrantRequestXml.getBankAccount()));
       
-        if (bafaGrantRequestXml.getFrenchRIB() != null)
-            bafaGrantRequest.setFrenchRIB(FrenchRIB.xmlToModel(bafaGrantRequestXml.getFrenchRIB()));
+        bafaGrantRequest.setEdemandeId(bafaGrantRequestXml.getEdemandeId());
       
         calendar = bafaGrantRequestXml.getInternshipEndDate();
         if (calendar != null) {
@@ -347,6 +347,15 @@ public class BafaGrantRequest extends Request implements Serializable {
         return bafaGrantRequestData.getAccountHolderTitle();
     }
   
+    public final void setBankAccount(final fr.cg95.cvq.business.users.BankAccount bankAccount) {
+        bafaGrantRequestData.setBankAccount(bankAccount);
+    }
+
+    
+    public final fr.cg95.cvq.business.users.BankAccount getBankAccount() {
+        return bafaGrantRequestData.getBankAccount();
+    }
+  
     public final void setEdemandeId(final String edemandeId) {
         bafaGrantRequestData.setEdemandeId(edemandeId);
     }
@@ -354,15 +363,6 @@ public class BafaGrantRequest extends Request implements Serializable {
     
     public final String getEdemandeId() {
         return bafaGrantRequestData.getEdemandeId();
-    }
-  
-    public final void setFrenchRIB(final fr.cg95.cvq.business.users.FrenchRIB frenchRIB) {
-        bafaGrantRequestData.setFrenchRIB(frenchRIB);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.FrenchRIB getFrenchRIB() {
-        return bafaGrantRequestData.getFrenchRIB();
     }
   
     public final void setInternshipEndDate(final java.util.Date internshipEndDate) {

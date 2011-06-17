@@ -71,6 +71,15 @@
             <input type="text" class="\${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}.accountKey') ? 'validation-failed' : ''}" value="\${${valuePrefix}.${element.javaFieldName}?.accountKey}" maxlength="2" id="${IdRefNamePrefix}${element.javaFieldName}.accountKey" name="${namePrefix}${element.javaFieldName}.accountKey" />
             </div>
             """
+         ,'bankAccount' :
+            """
+            <div class="address ${element.listenerConditionsClass} ${element.autofillClass} \${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}">
+            <label for="${IdRefNamePrefix}${element.javaFieldName}.BIC"><g:message code="bankAccount.property.BIC" /></label>
+            <input type="text" class="required \${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}.BIC') ? 'validation-failed' : ''}" value="\${${valuePrefix}.${element.javaFieldName}?.BIC}" maxlength="11" id="${IdRefNamePrefix}${element.javaFieldName}.BIC" name="${namePrefix}${element.javaFieldName}.BIC" />
+            <label for="${IdRefNamePrefix}${element.javaFieldName}.IBAN"><g:message code="bankAccount.property.IBAN" /></label>
+            <input type="text" class="required validate-IBAN \${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}.IBAN') ? 'validation-failed' : ''}" value="\${${valuePrefix}.${element.javaFieldName}?.IBAN}" maxlength="34" id="${IdRefNamePrefix}${element.javaFieldName}.IBAN" name="${namePrefix}${element.javaFieldName}.IBAN" />
+            </div>
+            """
          ,'textarea' :
             """
             <textarea id="${IdRefNamePrefix}${element.javaFieldName}" name="${namePrefix}${element.javaFieldName}" class="${element.htmlClass} \${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" rows="${element.rows}" cols="" ${element.jsRegexp} ${element.lengthLimits}>\${${valuePrefix}.${element.javaFieldName}}</textarea>

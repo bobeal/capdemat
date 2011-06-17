@@ -24,7 +24,7 @@
         drop constraint FK50AFA82787B85F15;
 
     alter table bafa_grant_request 
-        drop constraint FK50AFA8271EE1CD99;
+        drop constraint FK50AFA827A4AB2F89;
 
     alter table bulky_waste_collection_request 
         drop constraint FK1F104ECB1AE70A63;
@@ -411,7 +411,7 @@
         drop constraint FKCE60DA2B10A7E028;
 
     alter table study_grant_request 
-        drop constraint FK7D2F0A761EE1CD99;
+        drop constraint FK7D2F0A76A4AB2F89;
 
     alter table study_grant_request_current_school_name 
         drop constraint FK49484F6719BB0CC1;
@@ -470,6 +470,8 @@
     drop table alignment_numbering_connection_request;
 
     drop table bafa_grant_request;
+
+    drop table bank_account;
 
     drop table birth_details_request;
 
@@ -828,8 +830,8 @@
         account_holder_first_name varchar(38),
         account_holder_last_name varchar(38),
         account_holder_title varchar(255),
+        bank_account_id int8,
         edemande_id varchar(255),
-        french_r_i_b_id int8,
         internship_end_date timestamp,
         internship_institute_address_id int8,
         internship_institute_name varchar(255),
@@ -840,6 +842,13 @@
         subject_birth_date timestamp,
         subject_email varchar(255),
         subject_phone varchar(10),
+        primary key (id)
+    );
+
+    create table bank_account (
+        id int8 not null,
+        bic varchar(255) not null,
+        iban varchar(255) not null,
         primary key (id)
     );
 
@@ -2467,6 +2476,7 @@
         account_holder_title varchar(255),
         alevels varchar(255),
         alevels_date varchar(4),
+        bank_account_id int8,
         current_school_city varchar(32),
         current_school_country varchar(255),
         current_school_name_precision varchar(255),
@@ -2475,7 +2485,6 @@
         current_studies_level varchar(255),
         distance varchar(255),
         edemande_id varchar(255),
-        french_r_i_b_id int8,
         has_c_r_o_u_s_help bool,
         has_europe_help bool,
         has_other_help bool,
@@ -2696,9 +2705,9 @@
         references address;
 
     alter table bafa_grant_request 
-        add constraint FK50AFA8271EE1CD99 
-        foreign key (french_r_i_b_id) 
-        references french_r_i_b;
+        add constraint FK50AFA827A4AB2F89 
+        foreign key (bank_account_id) 
+        references bank_account;
 
     alter table bulky_waste_collection_request 
         add constraint FK1F104ECB1AE70A63 
@@ -3341,9 +3350,9 @@
         references sms_notification_request;
 
     alter table study_grant_request 
-        add constraint FK7D2F0A761EE1CD99 
-        foreign key (french_r_i_b_id) 
-        references french_r_i_b;
+        add constraint FK7D2F0A76A4AB2F89 
+        foreign key (bank_account_id) 
+        references bank_account;
 
     alter table study_grant_request_current_school_name 
         add constraint FK49484F6719BB0CC1 

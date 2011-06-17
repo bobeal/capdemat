@@ -185,6 +185,9 @@ public class StudyGrantRequest extends Request implements Serializable {
             aLevelsInformationsTypeALevelsInformations.setAlevels(fr.cg95.cvq.xml.request.school.ALevelsType.Enum.forString(getAlevels().toString()));
       
         aLevelsInformationsTypeALevelsInformations.setAlevelsDate(getAlevelsDate());
+      
+        if (getBankAccount() != null)
+            studyGrantRequest.setBankAccount(BankAccount.modelToXml(getBankAccount()));
         SgrCurrentSchoolType sgrCurrentSchoolTypeCurrentSchool = studyGrantRequest.addNewCurrentSchool();
         sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolCity(getCurrentSchoolCity());
       
@@ -214,9 +217,6 @@ public class StudyGrantRequest extends Request implements Serializable {
             studyGrantRequest.setDistance(fr.cg95.cvq.xml.request.school.DistanceType.Enum.forString(getDistance().toString()));
       
         studyGrantRequest.setEdemandeId(getEdemandeId());
-      
-        if (getFrenchRIB() != null)
-            studyGrantRequest.setFrenchRIB(FrenchRIB.modelToXml(getFrenchRIB()));
       
         if (getHasCROUSHelp() != null)
             studyGrantRequest.setHasCROUSHelp(getHasCROUSHelp().booleanValue());
@@ -323,6 +323,9 @@ public class StudyGrantRequest extends Request implements Serializable {
       
         studyGrantRequest.setAlevelsDate(studyGrantRequestXml.getALevelsInformations().getAlevelsDate());
       
+        if (studyGrantRequestXml.getBankAccount() != null)
+            studyGrantRequest.setBankAccount(BankAccount.xmlToModel(studyGrantRequestXml.getBankAccount()));
+      
         studyGrantRequest.setCurrentSchoolCity(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolCity());
       
         if (studyGrantRequestXml.getCurrentSchool().getCurrentSchoolCountry() != null)
@@ -356,9 +359,6 @@ public class StudyGrantRequest extends Request implements Serializable {
             studyGrantRequest.setDistance(fr.cg95.cvq.business.request.school.DistanceType.getDefaultDistanceType());
       
         studyGrantRequest.setEdemandeId(studyGrantRequestXml.getEdemandeId());
-      
-        if (studyGrantRequestXml.getFrenchRIB() != null)
-            studyGrantRequest.setFrenchRIB(FrenchRIB.xmlToModel(studyGrantRequestXml.getFrenchRIB()));
       
         studyGrantRequest.setHasCROUSHelp(Boolean.valueOf(studyGrantRequestXml.getHasCROUSHelp()));
       
@@ -578,6 +578,15 @@ public class StudyGrantRequest extends Request implements Serializable {
         return studyGrantRequestData.getAlevelsDate();
     }
   
+    public final void setBankAccount(final fr.cg95.cvq.business.users.BankAccount bankAccount) {
+        studyGrantRequestData.setBankAccount(bankAccount);
+    }
+
+    
+    public final fr.cg95.cvq.business.users.BankAccount getBankAccount() {
+        return studyGrantRequestData.getBankAccount();
+    }
+  
     public final void setCurrentSchoolCity(final String currentSchoolCity) {
         studyGrantRequestData.setCurrentSchoolCity(currentSchoolCity);
     }
@@ -657,15 +666,6 @@ public class StudyGrantRequest extends Request implements Serializable {
     
     public final String getEdemandeId() {
         return studyGrantRequestData.getEdemandeId();
-    }
-  
-    public final void setFrenchRIB(final fr.cg95.cvq.business.users.FrenchRIB frenchRIB) {
-        studyGrantRequestData.setFrenchRIB(frenchRIB);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.FrenchRIB getFrenchRIB() {
-        return studyGrantRequestData.getFrenchRIB();
     }
   
     public final void setHasCROUSHelp(final Boolean hasCROUSHelp) {

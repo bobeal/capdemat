@@ -171,8 +171,8 @@ sgr.property.accountHolderEdemandeId.help =
 sgr.property.accountHolderEdemandeId.validationError =
 
 
-sgr.property.frenchRIB.help =
-sgr.property.frenchRIB.validationError =
+sgr.property.bankAccount.help =
+sgr.property.bankAccount.validationError =
 
 
 sgr.property.edemandeId.help =

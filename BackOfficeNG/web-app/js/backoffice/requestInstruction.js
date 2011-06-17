@@ -246,7 +246,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           }
         });
       }
-      else if (isSubmit && yud.hasClass(ddEl, 'validate-frenchRIB')) {
+      else if (isSubmit && (yud.hasClass(ddEl, 'validate-bankAccount') || yud.hasClass(ddEl, 'validate-frenchRIB'))) {
         var staticFields = yud.getChildren(propertyWrapperEl);
         var newFields = yus.query('fieldset input', formEl);
         zct.each (newFields, function(i) {
@@ -353,6 +353,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
                 json[this.className] = this.innerHTML;
             });
             propertyValue = ylj.stringify(json);
+          }
+          else if (jsonPropertyType['validate'] ===  'bankAccount') {
+            var fields = yud.getChildren(propertyWrapperEl);
+            propertyValue = ylj.stringify({"BIC" : fields[0].innerHTML, "IBAN" : fields[1].innerHTML});
           }
           else if (jsonPropertyType['validate'] ===  'capdematEnum') {
             propertyValue = propertyWrapperEl.className;

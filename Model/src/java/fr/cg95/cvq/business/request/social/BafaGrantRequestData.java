@@ -79,14 +79,14 @@ public class BafaGrantRequestData implements Serializable {
         
           
             
-        result.setEdemandeId(edemandeId);
+        if (bankAccount != null)
+            result.setBankAccount(bankAccount.clone());
       
           
         
           
             
-        if (frenchRIB != null)
-            result.setFrenchRIB(frenchRIB.clone());
+        result.setEdemandeId(edemandeId);
       
           
         
@@ -409,6 +409,39 @@ public class BafaGrantRequestData implements Serializable {
       @NotNull(
         
         
+        profiles = {"bankReference"},
+        message = "bankAccount"
+      )
+    
+      @AssertValid(
+        
+        
+        profiles = {"bankReference"},
+        message = "bankAccount"
+      )
+    
+    private fr.cg95.cvq.business.users.BankAccount bankAccount;
+
+    public final void setBankAccount(final fr.cg95.cvq.business.users.BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
+    }
+
+    /**
+ 
+        * @hibernate.many-to-one
+        *  cascade="all"
+        *  column="bank_account_id"
+        *  class="fr.cg95.cvq.business.users.BankAccount"
+      
+    */
+    public final fr.cg95.cvq.business.users.BankAccount getBankAccount() {
+        return this.bankAccount;
+    }
+  
+    
+      @NotNull(
+        
+        
         profiles = {"administration"},
         message = "edemandeId"
       )
@@ -435,39 +468,6 @@ public class BafaGrantRequestData implements Serializable {
     */
     public final String getEdemandeId() {
         return this.edemandeId;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"bankReference"},
-        message = "frenchRIB"
-      )
-    
-      @AssertValid(
-        
-        
-        profiles = {"bankReference"},
-        message = "frenchRIB"
-      )
-    
-    private fr.cg95.cvq.business.users.FrenchRIB frenchRIB;
-
-    public final void setFrenchRIB(final fr.cg95.cvq.business.users.FrenchRIB frenchRIB) {
-        this.frenchRIB = frenchRIB;
-    }
-
-    /**
- 
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="french_r_i_b_id"
-        *  class="fr.cg95.cvq.business.users.FrenchRIB"
-      
-    */
-    public final fr.cg95.cvq.business.users.FrenchRIB getFrenchRIB() {
-        return this.frenchRIB;
     }
   
     

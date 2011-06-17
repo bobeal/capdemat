@@ -70,8 +70,8 @@ bgr.property.accountHolderEdemandeId.help =
 bgr.property.accountHolderEdemandeId.validationError =
 
 
-bgr.property.frenchRIB.help =
-bgr.property.frenchRIB.validationError =
+bgr.property.bankAccount.help =
+bgr.property.bankAccount.validationError =
 
 
 bgr.property.edemandeId.help =

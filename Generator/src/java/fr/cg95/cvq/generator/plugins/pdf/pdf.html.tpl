@@ -69,6 +69,17 @@
             ${toGT('}')}
           </div>
           """
+      ,'bankAccount' :
+          """
+          <div class="response">
+            ${toGT("if(${wrapper}.${element.javaFieldName}) {")}
+              <p>
+                \${${wrapper}.${element.javaFieldName}?.BIC}
+                \${${wrapper}.${element.javaFieldName}?.IBAN}
+              </p>
+            ${toGT('}')}
+          </div>
+          """
       ,'localReferentialData' :
           """
           <div class="response choice">

@@ -86,16 +86,12 @@
   
 
   
-    <label for="frenchRIB" class="required"><g:message code="bgr.property.frenchRIB.label" /> *  <span><g:message code="bgr.property.frenchRIB.help" /></span></label>
-            <div class="address required   ${rqt.stepStates['bankReference'].invalidFields.contains('frenchRIB') ? 'validation-failed' : ''}">
-            <label for="frenchRIB.bankCode"><g:message code="frenchRIB.property.bankCode" /></label>
-            <input type="text" class="${rqt.stepStates['bankReference'].invalidFields.contains('frenchRIB.bankCode') ? 'validation-failed' : ''}" value="${rqt.frenchRIB?.bankCode}" maxlength="5" id="frenchRIB.bankCode" name="frenchRIB.bankCode" />
-            <label for="frenchRIB.counterCode"><g:message code="frenchRIB.property.counterCode" /></label>
-            <input type="text" class="${rqt.stepStates['bankReference'].invalidFields.contains('frenchRIB.counterCode') ? 'validation-failed' : ''}" value="${rqt.frenchRIB?.counterCode}" maxlength="5" id="frenchRIB.counterCode" name="frenchRIB.counterCode" />
-            <label for="frenchRIB.accountNumber"><g:message code="frenchRIB.property.accountNumber" /></label>
-            <input type="text" class="${rqt.stepStates['bankReference'].invalidFields.contains('frenchRIB.accountNumber') ? 'validation-failed' : ''}" value="${rqt.frenchRIB?.accountNumber}" maxlength="11" id="frenchRIB.accountNumber" name="frenchRIB.accountNumber" />
-            <label for="frenchRIB.accountKey"><g:message code="frenchRIB.property.accountKey" /></label>
-            <input type="text" class="${rqt.stepStates['bankReference'].invalidFields.contains('frenchRIB.accountKey') ? 'validation-failed' : ''}" value="${rqt.frenchRIB?.accountKey}" maxlength="2" id="frenchRIB.accountKey" name="frenchRIB.accountKey" />
+    <label for="bankAccount" class="required"><g:message code="bgr.property.bankAccount.label" /> *  <span><g:message code="bgr.property.bankAccount.help" /></span></label>
+            <div class="address required  ${rqt.stepStates['bankReference'].invalidFields.contains('bankAccount') ? 'validation-failed' : ''}">
+            <label for="bankAccount.BIC"><g:message code="bankAccount.property.BIC" /></label>
+            <input type="text" class="required ${rqt.stepStates['bankReference'].invalidFields.contains('bankAccount.BIC') ? 'validation-failed' : ''}" value="${rqt.bankAccount?.BIC}" maxlength="11" id="bankAccount.BIC" name="bankAccount.BIC" />
+            <label for="bankAccount.IBAN"><g:message code="bankAccount.property.IBAN" /></label>
+            <input type="text" class="required validate-IBAN ${rqt.stepStates['bankReference'].invalidFields.contains('bankAccount.IBAN') ? 'validation-failed' : ''}" value="${rqt.bankAccount?.IBAN}" maxlength="34" id="bankAccount.IBAN" name="bankAccount.IBAN" />
             </div>
             
 

@@ -525,11 +525,8 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="FrenchRIB" type="cvq:FrenchRIBType">
+            <xs:element name="BankAccount" type="cvq:BankAccountType">
               <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Relevé d'identité bancaire
-                </xs:documentation>
                 <xs:appinfo>
                   <model namespace="users" isTiedToRequest="true" />
                   <common>

@@ -403,14 +403,12 @@
     
   
     
-      <p class="label">${esc(i18n.translate('sgr.property.frenchRIB.label'))}</p>
+      <p class="label">${esc(i18n.translate('sgr.property.bankAccount.label'))}</p>
           <div class="response">
-            <% if(rqt.frenchRIB) { %>
+            <% if(rqt.bankAccount) { %>
               <p>
-                ${rqt.frenchRIB?.bankCode}
-                ${rqt.frenchRIB?.counterCode}
-                ${rqt.frenchRIB?.accountNumber}
-                ${rqt.frenchRIB?.accountKey}
+                ${rqt.bankAccount?.BIC}
+                ${rqt.bankAccount?.IBAN}
               </p>
             <% } %>
           </div>

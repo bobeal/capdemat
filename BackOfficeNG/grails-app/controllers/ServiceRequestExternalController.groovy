@@ -218,7 +218,7 @@ class ServiceRequestExternalController {
     def requestTypeSeason = {
             try {
                 RequestType requestType = requestTypeService.getRequestTypeByLabel(params.requestTypeLabel)
-                Set<RequestSeason> openSeasons = requestTypeService.getOpenSeasons(requestType)
+                Set<RequestSeason> openSeasons = requestTypeService.getRequestSeasons(requestType.id)
                 RequestTypeSeasonResponseDocument rtsrDocument =
                     RequestTypeSeasonResponseDocument.Factory.newInstance();
                 RequestTypeSeasonResponse rtsr = rtsrDocument.addNewRequestTypeSeasonResponse();

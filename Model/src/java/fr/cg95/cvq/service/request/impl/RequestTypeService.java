@@ -499,7 +499,6 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Set<RequestSeason> getRequestSeasons(Long requestTypeId)
         throws CvqException {
         return getRequestTypeById(requestTypeId).getSeasons();

@@ -156,13 +156,13 @@ public interface IRequestTypeService {
         final Long requestSeasonId)
         throws CvqException;
 
-    Set<RequestSeason> getRequestSeasons(@IsRequestType Long requestTypeId)
+    Set<RequestSeason> getRequestSeasons(Long requestTypeId)
         throws CvqException;
 
     RequestSeason getRequestSeason(@IsRequestType Long requestTypeId, Long id)
         throws CvqException;
 
-    Set<RequestSeason> getOpenSeasons(@IsRequestType RequestType requestType)
+    Set<RequestSeason> getOpenSeasons(RequestType requestType)
         throws CvqModelException;
 
     //////////////////////////////////////////////////////////

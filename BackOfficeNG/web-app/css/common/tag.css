@@ -46,7 +46,7 @@ invoice : paid, no_paid
 /*  request creation */
 .tag-required,
 /* external services traces */
-.tag-sent, .tag-inprogress, .tag-notsent, .tag-acknowledged, .tag-error, .tag-accepted, .tag-rejected,
+.tag-external, .tag-sent, .tag-inprogress, .tag-notsent, .tag-acknowledged, .tag-error, .tag-accepted, .tag-rejected,
 /* request note type */
 .tag-internal, .tag-public,
 /* request lock */
@@ -146,6 +146,7 @@ invoice : paid, no_paid
 .tag-manager       { background: #aa00ff; border-color:#aa00ff; }
 
 /* pink */
+.tag-external,
 .tag-clrmother    { background: #ff00aa; border-color:#ff0088; }
 
 /* gray */

@@ -465,20 +465,19 @@ class BackofficeRequestInstructionController {
         render(template:'homeFolderRequests', model: ['records': records])
     }
 
-    def requestActions = {
-        def requestActionList = []
+    def history = {
+        def actions = []
         requestSearchService.getById(Long.valueOf(params.id), false).actions.each {
             if (RequestState.DRAFT.equals(it.resultingState))
                 return
-            def user = UserUtils.getUserDetails(it.agentId)
             def resultingState = null
             if (it.type.equals(RequestActionType.STATE_CHANGE)) {
                 resultingState = CapdematUtils.adaptCapdematEnum(it.resultingState, "request.state")
             }
             def requestAction = [
                 'id':it.id,
-                'agent_name':user.name,
-                'userNature':user.nature,
+                "requestId" : params.id,
+                "user" : UserUtils.getUserDetails(it.agentId),
                 "type" : CapdematUtils.adaptCapdematEnum(it.type, "requestAction.type"),
                 'note':it.note,
                 "message" : it.message,
@@ -489,14 +488,38 @@ class BackofficeRequestInstructionController {
                     [RequestActionType.CREATION, RequestActionType.STATE_CHANGE]
                         .contains(it.type) ?
                         "requestAction.property.requestCertificate" : "requestAction.property.file",
-                "filename" : it.filename
-                
+                "filename" : it.filename,
+                "template" : "requestAction"
             ]
-            requestActionList.add(requestAction)
+            actions.add(requestAction)
+        }
+        def customTemplates = [:]
+        Set criteriaSet = new HashSet<Critere>(1)
+        criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_KEY, params.id, Critere.EQUALS))
+        requestExternalActionService.getTraces(criteriaSet, null, null, 0, 0).each {
+            if (!customTemplates.containsKey(it.name)) {
+                def customTemplate = groovyPagesTemplateEngine.getResourceForUri(
+                    ["/backofficeRequestInstruction/external", it.name,
+                        "_requestExternalActionComplementaryData"].join('/'))
+                if (customTemplate && customTemplate.file && customTemplate.exists())
+                    customTemplates[it.name] = ["/backofficeRequestInstruction/external", it.name,
+                        "requestExternalActionComplementaryData"].join('/')
+                else
+                    customTemplates[it.name] = null
+            }
+            actions.add([
+                "date" : it.date,
+                "label" : it.name,
+                "status" : CapdematUtils.adaptCapdematEnum(it.status, "externalservice.trace.status"),
+                "message" : it.message,
+                "complementaryData" : it.complementaryData,
+                "template" : "requestExternalAction",
+                "customTemplate" : customTemplates[it.name]
+            ])
         }
         render(template : "requestHistory", model : [
             "requestId" : params.id,
-            "requestActionList" : requestActionList
+            "actions" : actions.sort { it.date }.reverse()
         ])
     }
 

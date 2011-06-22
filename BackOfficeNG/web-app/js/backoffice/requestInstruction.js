@@ -460,7 +460,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       init: function() {
           infoTabView = new yw.TabView();
           infoTabView.addTab( new yw.Tab({
-              label: 'Historique', dataSrc: zenexity.capdemat.baseUrl + '/requestActions/' + zcb.requestId,
+              label: 'Historique', dataSrc: zenexity.capdemat.baseUrl + '/history/' + zcb.requestId,
               cacheData: true, active: true }));
           var notesTab = new yw.Tab({
             label: 'Notes', dataSrc: zenexity.capdemat.baseUrl + '/requestNotes/' + zcb.requestId
@@ -472,11 +472,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           infoTabView.addTab( new yw.Tab({
               label: 'Demandes', dataSrc: zenexity.capdemat.baseUrl + '/homeFolderRequests/' + zcb.requestId,
               cacheData: true }));
-          if (!!(zcbr.External.label)) {
-            infoTabView.addTab( new yw.Tab({
-              label: zcbr.External.label, dataSrc: zenexity.capdemat.baseUrl + '/externalHistory?label=' + zcbr.External.label + '&id=' + zcb.requestId,
-              cacheData: true }));
-          }
 
           infoTabView.appendTo('requestInformation');
           
@@ -595,7 +590,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         var label = yue.getTarget(e).id.split('_')[1];
         sending = true;
         zct.doAjaxFormSubmitCall("sendRequestForm", null, function(o) {
-          zcbr.Information.refreshTab(label);
+          zcbr.Information.refreshTab("Historique");
           yud.get("externalStatusContainer").innerHTML = o.responseText;
           sending = false;
         });

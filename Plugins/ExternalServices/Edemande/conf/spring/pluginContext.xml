@@ -15,6 +15,7 @@
     <property name="requestWorkflowService" ref="requestWorkflowService" />
     <property name="translationService" ref="translationService" />
     <property name="userSearchService" ref="userSearchService" />
+    <property name="genericDAO" ref="genericDAO" />
     <property name="uploader">
       <bean class="fr.capwebct.capdemat.plugins.externalservices.edemande.service.EdemandeUploader">
         <constructor-arg index="0" value="${plugins.externalservices.edemande.ssh.username}"/>

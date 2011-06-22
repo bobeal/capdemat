@@ -55,6 +55,7 @@ import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.business.request.school.StudyGrantRequest;
 import fr.cg95.cvq.business.request.social.BafaGrantRequest;
 import fr.cg95.cvq.business.users.FrenchRIB;
+import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
@@ -88,6 +89,7 @@ public class EdemandeService implements IExternalProviderService {
     private IRequestWorkflowService requestWorkflowService;
     private ITranslationService translationService;
     private IExternalHomeFolderService externalHomeFolderService;
+    private IGenericDAO genericDAO;
     private EdemandeUploader uploader;
 
     private static final String SUBJECT_TRACE_SUBKEY = "subject";
@@ -213,16 +215,33 @@ public class EdemandeService implements IExternalProviderService {
 
     private void addTrace(Long requestId, String subkey, RequestExternalAction.Status status,
         String message) {
-        RequestExternalAction est = new RequestExternalAction();
-        est.setDate(new Date());
-        est.setKey(String.valueOf(requestId));
-        
-        est.setKeyOwner("capdemat");
-        est.setMessage(message);
-        est.setName(label);
-        est.setStatus(status);
-        est.getComplementaryData().put("individual", subkey);
-        requestExternalActionService.addTrace(est);
+        Set<Critere> criteriaSet = new HashSet<Critere>(4);
+        criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_KEY,
+            String.valueOf(requestId), Critere.EQUALS));
+        criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_NAME,
+            label, Critere.EQUALS));
+        List<RequestExternalAction> actions = requestExternalActionService.getTraces(
+            criteriaSet, RequestExternalAction.SEARCH_BY_DATE, "desc", 1, 0);
+        RequestExternalAction est = actions.size() > 0 ? actions.get(0) : null;
+        if (est != null && est.getStatus().equals(status)
+            && StringUtils.equals(subkey, (String)est.getComplementaryData().get("individual"))) {
+            est.setDate(new Date());
+            est.setMessage(message);
+            Integer count = (Integer)est.getComplementaryData().get("count");
+            if (count == null) count = 2; else count++;
+            est.getComplementaryData().put("count", count);
+            genericDAO.update(est);
+        } else {
+            est = new RequestExternalAction();
+            est.setDate(new Date());
+            est.setKey(String.valueOf(requestId));
+            est.setKeyOwner("capdemat");
+            est.setMessage(message);
+            est.setName(label);
+            est.setStatus(status);
+            est.getComplementaryData().put("individual", subkey);
+            requestExternalActionService.addTrace(est);
+        }
         if (RequestExternalAction.Status.ERROR.equals(status)) {
             try {
                 requestWorkflowService.updateRequestState(requestId, RequestState.UNCOMPLETE,
@@ -919,5 +938,9 @@ public class EdemandeService implements IExternalProviderService {
 
     public void setUploader(EdemandeUploader uploader) {
         this.uploader = uploader;
+    }
+
+    public void setGenericDAO(IGenericDAO genericDAO) {
+        this.genericDAO = genericDAO;
     }
 }

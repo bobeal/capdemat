@@ -42,6 +42,7 @@
     <delete file="${bong.dir}/grails-app/views/backofficeRequestInstruction/external/Edemande/_externalReferentialChecks.gsp" />
     <delete file="${bong.dir}/grails-app/views/backofficeRequestInstruction/external/Edemande/_block.gsp" />
     <delete file="${bong.dir}/grails-app/views/backofficeRequestInstruction/external/Edemande/_externalStatus.gsp" />
+    <delete file="${bong.dir}/grails-app/views/backofficeRequestInstruction/external/Edemande/_requestExternalActionComplementaryData.gsp" />
   </target>
 
   <target name="compile" depends="init">
@@ -103,6 +104,8 @@
       file="${basedir}/src/gsp/_externalReferentialChecks.gsp"/>
     <copy todir="${bong.dir}/grails-app/views/backofficeRequestInstruction/external/Edemande/"
       file="${basedir}/src/gsp/_externalStatus.gsp"/>
+    <copy todir="${bong.dir}/grails-app/views/backofficeRequestInstruction/external/Edemande/"
+      file="${basedir}/src/gsp/_requestExternalActionComplementaryData.gsp"/>
   </target>
       
   <!-- =================================================================== -->

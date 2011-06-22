@@ -547,10 +547,20 @@ class BackofficeRequestInstructionController {
             params.label, Critere.EQUALS))
         requestExternalActionService.getTraces(criteriaSet, null, null, 0, 0).each {
             traces.add(["date" : it.date,
-                        "status" : CapdematUtils.adaptCapdematEnum(it.status, "externalservice.trace.status").i18nKey,
-                        "message" : it.message])
+                        "status" : CapdematUtils.adaptCapdematEnum(it.status, "externalservice.trace.status"),
+                        "message" : it.message,
+                        "complementaryData" : it.complementaryData])
         }
-        render(template : "externalHistory", model : ["traces" : traces])
+        def customTemplate = ["/backofficeRequestInstruction/external", params.label,
+            "_requestExternalActionComplementaryData"].join('/')
+        def customTemplateFile = groovyPagesTemplateEngine.getResourceForUri(customTemplate)
+        if (!customTemplateFile || !customTemplateFile.file || !customTemplateFile.exists())
+            customTemplate = null
+        else
+            customTemplate = ["/backofficeRequestInstruction/external", params.label,
+                "requestExternalActionComplementaryData"].join('/')
+        render(template : "externalHistory", model :
+            ["traces" : traces, "customTemplate" : customTemplate])
     }
 
     def externalReferentialChecks = {

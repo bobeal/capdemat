@@ -95,14 +95,13 @@ class RequestAdaptorService {
 
     public prepareNote(requestNote) {
         if (!requestNote) return null
-        def user = UserUtils.getUserDetails(requestNote.userId)
         return [
             'id':requestNote.id,
-            'user_name':user.name,
-            'nature':user.nature,
-            'type':requestNote.type,
+            'user':UserUtils.getUserDetails(requestNote.userId),
+            'type':CapdematUtils.adaptCapdematEnum(requestNote.type, "request.note.type"),
             'note':requestNote.note,
-            'date':requestNote.date
+            'date':requestNote.date,
+            'template' : 'requestNote'
         ]
     }
 

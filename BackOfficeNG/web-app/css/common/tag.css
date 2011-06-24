@@ -48,14 +48,14 @@ invoice : paid, no_paid
 /* external services traces */
 .tag-external, .tag-sent, .tag-inprogress, .tag-notsent, .tag-acknowledged, .tag-error, .tag-accepted, .tag-rejected,
 /* request note type */
-.tag-internal, .tag-public,
+.tag-note, .tag-internal, .tag-public,
 /* request lock */
 .tag-free, .tag-lockacquired, .tag-locked,
 /* request action types */
 .tag-draftdeletenotification, .tag-creationnotification,
 .tag-qos, .tag-urgent, .tag-late,
 .tag-orangealertnotification, .tag-redalertnotification, .tag-creation, .tag-modification, .tag-modified,
-.tag-statechange, .tag-contact, .tag-contactcitizen,
+.tag-statechange, .tag-contact, .tag-contactcitizen, .tag-comment,
 /* document (request creation) */
 .tag-new, .tag-pageaddition, .tag-pageedition, .tag-pagedeletion, .tag-merge,
 /* request admin actions */
@@ -125,7 +125,7 @@ invoice : paid, no_paid
 .tag-pageaddition,
 .tag-clrfather,
 .tag-checked,
-.tag-contact, .tag-contactcitizen,
+.tag-contact, .tag-contactcitizen, .tag-comment,
 .tag-read_only     { background: #2020cc; border-color:#2020aa; }
 
 /* orange*/
@@ -158,6 +158,7 @@ invoice : paid, no_paid
 .tag-no_right      { background: #aaaaaa; border-color:#cccccc; color:#ffffff; }
 
 /* gray black */
+.tag-note,
 .tag-ignored,
 .tag-pc,
 .tag-terminal,

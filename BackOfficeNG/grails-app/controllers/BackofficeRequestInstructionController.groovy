@@ -466,8 +466,9 @@ class BackofficeRequestInstructionController {
     }
 
     def history = {
+        def id = params.long("id")
         def actions = []
-        requestSearchService.getById(Long.valueOf(params.id), false).actions.each {
+        requestSearchService.getById(id, false).actions.each {
             if (RequestState.DRAFT.equals(it.resultingState))
                 return
             def resultingState = null
@@ -476,7 +477,7 @@ class BackofficeRequestInstructionController {
             }
             def requestAction = [
                 'id':it.id,
-                "requestId" : params.id,
+                "requestId" : id,
                 "user" : UserUtils.getUserDetails(it.agentId),
                 "type" : CapdematUtils.adaptCapdematEnum(it.type, "requestAction.type"),
                 'note':it.note,
@@ -517,6 +518,7 @@ class BackofficeRequestInstructionController {
                 "customTemplate" : customTemplates[it.name]
             ])
         }
+        actions.addAll(requestAdaptorService.prepareNotes(requestNoteService.getNotes(id, null)))
         render(template : "requestHistory", model : [
             "requestId" : params.id,
             "actions" : actions.sort { it.date }.reverse()

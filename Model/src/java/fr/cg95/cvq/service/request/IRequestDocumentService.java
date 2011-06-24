@@ -84,4 +84,7 @@ public interface IRequestDocumentService {
      */
     Set<Document> getAssociatedDocumentsByType(@IsRequest final Long requestId, final Long documentTypeId)
         throws CvqException;
+
+    Boolean hasAllDocuments(@IsRequest Request request)
+        throws CvqException;
 }

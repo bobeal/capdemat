@@ -35,6 +35,16 @@
   </p>
 
   <p class="third-line">
+    <g:if test="${record.hasAllDocuments !=  null}">
+      <g:message code="property.documents" /> :
+      <g:if test="${record.hasAllDocuments}">
+        <img src="${resource(dir : 'images/icons', file : '12-check-green.png')}"/>
+      </g:if>
+      <g:else>
+        <img style="height : 12px;" src="${resource(dir : 'images/icons', file : '24-warning.png')}"/>
+      </g:else>
+      -
+    </g:if>
     <g:message code="request.property.withAccount"/> : 
     <g:if test="${record.temporary}">
       <img src="${resource(dir:'images/icons',file:'HorsFoyerListe.gif')}"/>

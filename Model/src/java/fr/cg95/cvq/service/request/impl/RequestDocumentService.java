@@ -36,6 +36,7 @@ import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestDocumentService;
+import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.external.IRequestExternalService;
 import fr.cg95.cvq.service.request.external.IRequestExternalActionService;
 import fr.cg95.cvq.service.request.IRequestSearchService;
@@ -49,6 +50,7 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
 
     private IRequestExternalService requestExternalService;
     private IRequestSearchService requestSearchService;
+    private IRequestTypeService requestTypeService;
     private IRequestExternalActionService requestExternalActionService;
     private IDocumentService documentService;
     private ITranslationService translationService;
@@ -285,6 +287,18 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
         return result;
     }
 
+    @Override
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public Boolean hasAllDocuments(Request request)
+        throws CvqException {
+        Set<fr.cg95.cvq.business.document.DocumentType> docs = requestTypeService.getAllowedDocuments(request.getRequestType().getId());
+        if (docs == null || docs.isEmpty()) return null;
+        for (fr.cg95.cvq.business.document.DocumentType type : docs) {
+            if (getAssociatedDocumentsByType(request.getId(), type.getId()).isEmpty()) return false;
+        }
+        return true;
+    }
+
     private void updateLastModificationInformation(Request request) {
         request.setLastModificationDate(new Date());
         request.setLastInterveningUserId(SecurityContext.getCurrentUserId());
@@ -363,5 +377,9 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
 
     public void setDocumentTypeService(IDocumentTypeService documentTypeService) {
         this.documentTypeService = documentTypeService;
+    }
+
+    public void setRequestTypeService(IRequestTypeService requestTypeService) {
+        this.requestTypeService = requestTypeService;
     }
 }

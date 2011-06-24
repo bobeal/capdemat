@@ -1,6 +1,7 @@
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.request.ICategoryService
+import fr.cg95.cvq.service.request.IRequestDocumentService
 import fr.cg95.cvq.service.request.IRequestLockService
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestTypeService
@@ -13,6 +14,7 @@ import org.joda.time.Minutes;
 
 class RequestAdaptorService {
 
+    IRequestDocumentService requestDocumentService
     IRequestLockService requestLockService
     IRequestSearchService requestSearchService
     IRequestTypeService requestTypeService
@@ -84,7 +86,8 @@ class RequestAdaptorService {
               'quality':quality,
               'isViewable' : !RequestState.ARCHIVED.equals(request.state)
                   && categoryService.hasProfileOnCategory(SecurityContext.currentAgent,
-                      request.requestType.category?.id)
+                      request.requestType.category?.id),
+              'hasAllDocuments' : requestDocumentService.hasAllDocuments(request)
         ]
 
         return record

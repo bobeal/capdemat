@@ -536,11 +536,16 @@ class BackofficeRequestInstructionController {
     }
 
     def requestNote = {
+        if (request.get) {
+            def rqt = requestSearchService.getById(params.long("id"), false)
+            render(template : "requestNotePanel", model : ["rqt" : rqt])
+            return false
+        }
         if (params.requestId != null && params.note != null && params.requestNoteType != null) {
             requestNoteService.addNote(
                 Long.valueOf(params.requestId),
                 RequestNoteType.forString(params.requestNoteType), params.note)
-            render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+            render([status:"ok", success_msg:message(code:"request.note.message.added")] as JSON)
         } else
             render ([status: "error", error_msg:message(code:"error.missingParmeter")] as JSON)
         

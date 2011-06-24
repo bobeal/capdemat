@@ -30,7 +30,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
       init : function(link, container, url) {
         panel = new yw.Panel(
           container,
-          { width: "650px",
+          { width: "650px", zindex : 1000,
             visible: false,
             constraintoviewport: true, draggable: true,
             underlay: "shadow", close: true
@@ -65,10 +65,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
             }
           });
           zct.style(yud.get("templatePreview"), { display : "none" });
-          yue.addListener(link, "click", function(e) {
-            yue.preventDefault(e);
-            panel.show();
-          });
+          if (!!link) zcb.Contact.show({"target" : link, "event" : "click"});
         }, true);
         zcb.Contact.clickEv = new zct.Event(zcb.Contact, zcb.Contact.processClick);
         yue.on(container, "click", zcb.Contact.clickEv.dispatch, zcb.Contact.clickEv, true);
@@ -126,6 +123,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
       notify : function(o) {
         zct.Notifier.processMessage("success",
           ylj.parse(o.responseText).success_msg, null, o.argument);
+      },
+      show : function(on) {
+        yue.addListener(on.target, on.event, function(e) {
+          yue.preventDefault(e);
+          panel.show();
+        });
       }
     };
   }();

@@ -347,3 +347,40 @@ dl.account a { float: none !important; }
   margin-right: 1em;
   overflow:auto;
 }
+
+#noteLink {
+  cursor : pointer;
+}
+
+#notePanel {
+  border: 6px solid #636e80;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em;
+  border-radius : .5em;
+  text-align: left;
+  background: #ffffff;
+}
+
+#notePanel .hd {
+  height: 2.5em;
+  background: #636e80;
+  border: 0;
+}
+
+#notePanel .bd {
+  padding: 1em 2em;
+  background: transparent;
+  border: 0;
+}
+
+#notePanel .bd h1 {
+  margin: 0 0 1em 0;
+  padding: .5em 0;
+  border-bottom: 1px dashed #000000;
+}
+
+#noteLimit {
+  margin : 3px 0 5px 1%;
+  color : #333;
+  font-size : 0.85em;
+}

@@ -123,17 +123,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           underlay: 'none', close: false
         });
       zcb.instructionStatePanel.render();
-
-      /* contact module */
-      zcb.Contact.init(yud.get("contactLink"),
-        yud.get("contactPanel"), zcb.contactPanelUrl);
-      zca.advise(
-        "notify",
-        new zca.Advice("afterReturn",
-          zcbr.Information.refreshHistory),
-        zcb.Contact
-      );
-
     }
 
     /*
@@ -454,6 +443,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
   
   zcbr.Information = function() {
     var infoTabView = undefined;
+    var notePanel = undefined;
     return {
       clickEvent : undefined,
       
@@ -472,45 +462,63 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
 
           infoTabView.appendTo('requestInformation');
           
-          // TODO - disable 'enter' key event in 'note' input
-//          yue.onAvailable('note', function() {
-//            var noteKl = new yu.KeyListener ('note', {key: 13}, null);
-//            noteKl.disable();
-//          });
-          
           zcbr.Information.clickEvent = new zct.Event(zcbr.Information, zcbr.Information.getHandler);
           yue.on('requestInformation','click', zcbr.Information.clickEvent.dispatch,
             zcbr.Information.clickEvent, true
           );
-          historyTab.addListener('contentChange', zcbr.Information.limitNote);
-      },
-      
-      getHandler : function(e) {
-          var target = yue.getTarget(e);
-          if (/filterNotes_.*/.test(target.id)) return "filterNotes";
-          return target.id;
-      },
-      limitNote : function(e) {
-        yue.on(yud.get("note"), 'keyup', function(e) {
-          zct.limitArea("note",
-            yud.get("note").getAttribute('maxlength'), "noteLimit");
-        });
-        zct.limitArea("note",
-          yud.get("note").getAttribute('maxlength'), "noteLimit");
-      },
-      submitNote : function(e) {
-          var formEl = yud.getAncestorByTagName(yue.getTarget(e), 'form');
           
-          zct.doAjaxFormSubmitCall(formEl.id, null, function(o) {
-              var json = ylj.parse(o.responseText);
-              if (json.status === 'ok') {
-                zcbr.Information.refreshHistory();
-              }
-              else {
-                //
-                // zct.Notifier.processMessage('error',json.error_msg,'noteMsg');
-              }
+          zca.advise(
+            "notify",
+            new zca.Advice("before", function(o) {
+              zcb.Contact.hide();
+              zcbr.Information.refreshHistory();
+              o.argument = yud.get("requestHistory");
+            }),
+            zcb.Contact
+          );
+          zcb.Contact.init(null, yud.get("contactPanel"), zcb.contactPanelUrl);
+          notePanel = new yw.Panel(yud.get("notePanel"), {
+            width : "650px", zindex : "2000", visible : false,
+            constraintoviewport : true, draggable : true,
+            underlay : "shadow", close : true
           });
+          notePanel.render();
+          zct.doAjaxCall("/requestNote/" + zcb.requestId, null, function(o) {
+            notePanel.setBody(o.responseText);
+            yue.on(yud.get("note"), "keyup", function(e) {
+              zct.limitArea("note", yud.get("note").getAttribute("maxlength"), "noteLimit");
+            });
+            zct.limitArea("note", yud.get("note").getAttribute("maxlength"), "noteLimit");
+            yue.addListener(yud.get("hideNote"), "click", function(e) {
+              yue.preventDefault(e);
+              notePanel.hide();
+            });
+            yue.addListener(yud.get("submitNote"), "click", function(e) {
+              yue.preventDefault(e);
+              var cont = yud.get("noteFormErrors");
+              cont.innerHTML = "";
+              if (zcv.check(yud.get("noteForm"), cont)) {
+                zct.doAjaxFormSubmitCall("noteForm", null, function(o) {
+                  var json = ylj.parse(o.responseText);
+                  if (json.status === "ok") {
+                    notePanel.hide();
+                    zcbr.Information.refreshHistory();
+                    zct.Notifier.processMessage("success", json.success_msg, null, yud.get("requestHistory"));
+                  }
+                });
+              }
+            });
+          });
+          historyTab.addListener("contentChange", function() {
+            zcb.Contact.show({"target" : yud.get("contactLink"), "event" : "click"});
+            yue.addListener(yud.get("noteLink"), "click", function(e) {
+              yue.preventDefault(e);
+              notePanel.show();
+            });
+          });
+      },
+      getHandler : function(e) {
+          return yue.getTarget(e).id;
       },
       refreshTab : function(label) {
         zct.each(infoTabView.get("tabs"), function() {
@@ -527,9 +535,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       },
       refreshHistory : function(e) {
         zcbr.Information.refreshTab("Historique");
-      },
-      filterNotes : function(e) {
-        zcbr.Information.refreshNotes(yud.getAncestorBy(yud.getAncestorBy(yue.getTarget(e))), null);
       },
       addTab : function(label, url, cacheData, active) {
         infoTabView.addTab( new yw.Tab({

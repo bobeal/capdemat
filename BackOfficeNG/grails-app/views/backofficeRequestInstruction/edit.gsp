@@ -37,11 +37,14 @@
       <div class="yui-b">
         <div class="head">
           <div id="contactContainer" class="txt-right">
-            <a id="contactLink">
-              <g:message code="contact.header.contactEcitizen" />
-            </a>
             <!-- ecitizen contact panel [default display = none] -->
             <div id="contactPanel">
+              <div class="hd"></div>
+              <div class="bd">
+              </div>
+            </div>
+            <!-- internal note panel [default display = none] -->
+            <div id="notePanel">
               <div class="hd"></div>
               <div class="bd">
               </div>

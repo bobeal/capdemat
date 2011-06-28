@@ -597,7 +597,19 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="subjectPolicy" value="SUBJECT_POLICY_NONE" />
     <property name="defaultDisplayGroup" value="technical" />
   </bean>
-
+ <!-- school registration simplify request-->
+  
+  <bean id="schoolRegistrationSimplifyRequestService" 
+    class="fr.cg95.cvq.service.request.school.impl.SchoolRegistrationSimplifyRequestService" 
+    parent="requestService">
+    <property name="label" value="School Registration Simplify"/>
+    <property name="localReferentialFilename" value="local_referential_srsr"/>
+    <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
+    <property name="isOfRegistrationKind" value="true"/>
+    <property name="defaultDisplayGroup" value="school" />
+    <property name="filingDelay" value="12"/>
+  </bean>
+  
   <bean id="paymentFilterAspect"
     class="fr.cg95.cvq.service.payment.aspect.PaymentFilterAspect" />
 

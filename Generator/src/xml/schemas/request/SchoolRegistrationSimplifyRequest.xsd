@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/srsr"
+  xmlns:srsr="http://www.cg95.fr/cvq/schema/srsr" 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common" 
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
+    schemaLocation="../common/CVQCommonElements.xsd" />
+  
+  <xs:element name="SchoolRegistrationSimplifyRequest">
+  	
+  	<xs:annotation>
+  		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+  			Demande de pré inscription scolaire
+  		</xs:documentation>
+  		<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+  			School registration request
+  		</xs:documentation>
+  		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+  			Pré inscription scolaire
+  		</xs:documentation>
+  		<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+  			Schoo registration
+  		</xs:documentation>
+  		<xs:appinfo>
+  			<model namespace="school" />
+  			<common>
+  				<namespace name="school" />
+  				<steps>
+  					<step index="0" name="registration">
+  						<widgets>
+	            			<subject />
+	          			</widgets>
+	          			<conditions>
+	          				<condition name="isExistRegistration" />
+	          			</conditions>
+  					</step>
+
+  					<step index="1" ref="document" />
+	        		<step index="2" ref="validation" />
+  				</steps>
+  			</common>
+  			
+  		</xs:appinfo>
+  	</xs:annotation>
+  	
+  	<xs:complexType>
+  		<xs:complexContent>
+  			<xs:extension base="cvq:RequestType">
+  				<xs:sequence>
+  					
+  					<!-- ************** registration step ********************* -->
+  					<!-- Section choice -->
+  					<xs:element name="Section" type="cvq:LocalReferentialDataType" maxOccurs="unbounded">
+  						<xs:annotation>
+  							<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+  								Choisir le niveau d'inscription de l'enfant
+  							</xs:documentation>
+  							<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+  								Choose registration level of child
+  							</xs:documentation>
+  							<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+  								Niveau d'inscription
+  							</xs:documentation>
+  							<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+  								Registration level
+  							</xs:documentation>
+  							<xs:appinfo>
+  								<model namespace="request" isTiedToRequest="true" />
+  								<common>
+  									<step name="registration" />
+  								</common>
+  								<fo />
+  								<bo column="1" />
+  								<pdf />
+  								 
+  							</xs:appinfo>
+  						</xs:annotation>
+  					</xs:element>
+  					
+  					<!-- Current school choice -->
+  					<xs:element name="ExistRegistration" type="xs:boolean" default="false">
+  						<xs:annotation>
+  							<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+  								Demande d'existance d'un inscription à l'école
+  							</xs:documentation>
+  							<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+  								School regitration before this request
+  							</xs:documentation>
+  							<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+  								L'enfant a-t-il déjà été inscrit à l'école ?
+  							</xs:documentation>
+  							<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+  								First school registration
+  							</xs:documentation>
+  							<xs:appinfo>
+  								<common>
+  									<step name="registration" />
+  									<conditions>
+  										<condition name="isExistRegistration" type="trigger"/>
+  									</conditions>
+  								</common>
+  								<fo />
+                  				<bo column="1" />
+                  		<pdf />
+  							</xs:appinfo>
+  						</xs:annotation>
+  					</xs:element>
+  					<!-- Current school -->
+  					
+  					<xs:element name="CurrentSchoolName" type="xs:string" minOccurs="1" default="">
+			  			<xs:annotation>
+			  				<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+					  		Nom de l'école actuelle de l'enfant
+					  		</xs:documentation>
+					  		<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+					  		Name of current school child
+					  		</xs:documentation>
+					  		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+					  		Nom de l'école
+					  		</xs:documentation>
+					  		<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+					  		Current school Name
+					  		</xs:documentation>
+					  		<xs:appinfo>
+					  			<common>
+					  				<step name="registration" />
+					  				<conditions>
+  									<condition name="isExistRegistration" type="filled" required="true" />
+  								</conditions>
+					  			</common>
+					  			
+					  			<fo />
+					  			<bo column="2"/>
+					  			<pdf />
+					  		</xs:appinfo>
+			  			</xs:annotation>
+			  		</xs:element>
+			  		<xs:element name="CurrentSchoolAddress" type="xs:string" minOccurs="1" default="">
+			  			<xs:annotation>
+			  				<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+					  		Adresse de l'école actuelle de l'enfant
+					  		</xs:documentation>
+					  		<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+					  		Address of current school child
+					  		</xs:documentation>
+					  		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+					  		Adresse de l'école
+					  		</xs:documentation>
+					  		<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+					  		Current school address
+					  		</xs:documentation>
+					  		<xs:appinfo>
+					  			<common>
+					  				<step name="registration" />
+					  				<conditions>
+  									<condition name="isExistRegistration" type="filled" required="true" />
+  								</conditions>
+					  			</common>
+								
+					  			<fo>
+			              			<textarea rows="3" />
+			            		</fo>
+					  			<bo column="2"/>
+					  			<pdf />
+					  		</xs:appinfo>
+			  			</xs:annotation>
+			  		</xs:element>
+			  		<xs:element name="CurrentSchoolLevel" type="xs:string" minOccurs="1">
+			  			<xs:annotation>
+			  		 		<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+			  					Choisir le niveau d'inscription de l'enfant
+			  				</xs:documentation>
+			  				<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+			  					Choose registration level of child
+			  				</xs:documentation>
+			  				<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+			  					Niveau d'inscription
+			  				</xs:documentation>
+			  				<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+			  					Registration level
+			  				</xs:documentation>
+			  				<xs:appinfo>
+			  					<common>
+			  						<step name="registration" />
+			  						<conditions>
+  									<condition name="isExistRegistration" type="filled" required="true" />
+  								</conditions>
+			  					</common>
+			  					
+			  					<fo />
+			  					<bo column="2" />
+			  					<pdf />
+			  				</xs:appinfo>
+			  			</xs:annotation>
+			  		</xs:element>
+  					
+  					<!-- emergency contact -->
+  					<xs:element name="EmergencyContactName" type="xs:string" minOccurs="1">
+  						<xs:annotation>
+  							<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+  								Nom de la personne de contacte d'urgence
+  							</xs:documentation>
+  							<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+  								Emergency contact name
+  							</xs:documentation>
+  							<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+  								Nom personne urgence
+  							</xs:documentation>
+  							<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+  								Emergency contact name
+  							</xs:documentation>
+  							<xs:appinfo>
+  								<common>
+  									<step name="registration" />
+  								</common>
+  								<fo />
+  								<bo column="2"/>
+  								<pdf />
+  							</xs:appinfo>
+  						</xs:annotation>
+  					</xs:element>
+  					<!-- Emergency phone -->
+  					<xs:element name="EmergencyPhone" type="xs:string" minOccurs="1">
+  						<xs:annotation>
+  							<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+  								Téléphone de la personne de contacte d'urgence
+  							</xs:documentation>
+  							<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+  								Emergency contact phone
+  							</xs:documentation>
+  							<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+  								Téléphone urgence
+  							</xs:documentation>
+  							<xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+  								Emergency phone
+  							</xs:documentation>
+  							<xs:appinfo>
+  								<common>
+  									<step name="registration" />
+  								</common>
+  								<fo />
+  								<bo column="2"/>
+  								<pdf />
+  							</xs:appinfo>
+  						</xs:annotation>
+  					</xs:element>
+  					
+  					
+  					
+  				</xs:sequence>
+  			</xs:extension>
+  		</xs:complexContent>
+  	</xs:complexType>	
+  </xs:element>  
+  
+</xs:schema>

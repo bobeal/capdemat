@@ -25,6 +25,16 @@
           </a>
         </div>
       </div>
+      <div class="narrow-box">
+        <h3>
+          <g:message code="header.display"/>
+        </h3>
+        <div class="body">
+          <a class="top-link" href="${createLink(action: 'invoicesWasPaid')}">
+            <g:message code="payment.header.invoices.paid"/>
+          </a>
+        </div>
+      </div>
     </div>
   </body>
 </html>

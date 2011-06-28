@@ -33,7 +33,7 @@
               <div id="page1">
                 <h2><g:message code="property.form" /><span> - <g:message code="homeFolder.property.adults" /></span></h2>
                 <g:each in="${adults}" var="adult">
-                  <g:render template="adult" model="['adult':adult]" />
+                  <g:render template="adult" model="['adult':adult,'responsible':responsibleId]" />
                 </g:each>
               </div>
                <!-- Page 2 -->

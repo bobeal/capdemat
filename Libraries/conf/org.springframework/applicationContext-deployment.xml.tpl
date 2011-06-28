@@ -110,6 +110,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
          <!-- inexine ts -->
         <value>fr/cg95/cvq/business/request/school/SchoolRegistrationSimplifyRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/election/MultiCerfaElectoralRollRegistrationRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/school/ChildCareCenterRegistrationRequestData.hbm.xml</value>
       </list>
     </property>
 

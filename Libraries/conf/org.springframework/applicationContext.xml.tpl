@@ -621,6 +621,20 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="defaultDisplayGroup" value="election" />
     <property name="filingDelay" value="12"/>
   </bean> 
+	
+	<!-- Child Care Center Registration Request -->
+	<bean id="childCareCenterRegistrationRequestService"
+	  class="fr.cg95.cvq.service.request.school.impl.ChildCareCenterRegistrationRequestService" 
+	  parent="requestService">
+	<property name="homeFolderService" ref="homeFolderService" />
+    <property name="individualService" ref="individualService" />
+	  <property name="localReferentialFilename" value="local_referential_cccrr"/>
+    	<property name="label" value="Child Care Center Registration"/>
+    	<property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
+  	  <property name="defaultDisplayGroup" value="childCare" />
+    	<property name="filingDelay" value="12"/>
+	</bean>
+  
   
   <bean id="paymentFilterAspect"
     class="fr.cg95.cvq.service.payment.aspect.PaymentFilterAspect" />

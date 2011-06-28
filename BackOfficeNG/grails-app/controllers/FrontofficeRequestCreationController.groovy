@@ -1,11 +1,20 @@
+
+
+import java.util.Map;
+
+import fr.cg95.cvq.business.users.Individual;
+
 import fr.cg95.cvq.business.document.Document
 import fr.cg95.cvq.business.document.DocumentBinary
 import fr.cg95.cvq.business.request.MeansOfContactEnum
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestNoteType
 import fr.cg95.cvq.business.request.RequestState
+import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.business.users.Adult
+import fr.cg95.cvq.business.users.Child
 import fr.cg95.cvq.business.users.RoleType
+import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.payment.Payment
 import fr.cg95.cvq.business.payment.InternalInvoiceItem
 import fr.cg95.cvq.business.payment.PaymentMode
@@ -176,6 +185,7 @@ class FrontofficeRequestCreationController {
         }
 
         def uuidString = params.uuidString
+        println(uuidString)
         def requestTypeInfo = JSON.parse(params.requestTypeInfo)
 
         def submitAction = (params.keySet().find { it.startsWith('submit-') }).tokenize('-')
@@ -213,6 +223,22 @@ class FrontofficeRequestCreationController {
                 askConfirmCancel = true
             }
             else if (submitAction[1] == 'confirmCancelRequest') {
+                
+                // hack inexine about Child Care center registration
+                // remove abstract individual needed in this request if this is canceled
+                if(cRequest.requestType.label.equals("Child Care Center Registration")) {
+                    def isToBornExist = 0
+                    def childId
+                    for(Individual child: homeFolderService.getChildren(cRequest.homeFolderId)){
+                      if(child.lastName.equals("NOUVEL ENFANT") && child.firstName.equals("A NAITRE")){
+                        child.setHomeFolder(null)
+                        individualService.modify(child)
+                        childId = child.getId()
+                        isToBornExist = 1
+                        break
+                      }
+                    }
+                }
                 if (cRequest.id) requestLockService.release(cRequest.id)
                 session.removeAttribute(uuidString)
                 if (params.returnUrl != '')
@@ -757,6 +783,26 @@ class FrontofficeRequestCreationController {
         def result = [:]
         if (SecurityContext.currentEcitizen != null) {
             def authorizedSubjects = requestWorkflowService.getAuthorizedSubjects(cRequest)
+
+            // Child Care Center Hack on creation
+    	    if(cRequest.requestType.label.equals("Child Care Center Registration")) {
+        		def isToBornExist = 0
+        		for(Individual child: homeFolderService.getChildren(cRequest.homeFolderId)){
+        		  if(child.lastName.equals("NOUVEL ENFANT") && child.firstName.equals("A NAITRE")){
+        		    isToBornExist = 1
+        		    break
+        		  } 
+        		}
+        		if(isToBornExist != 1){
+        	          Child childToBorn = new Child()
+                      childToBorn.setLastName("NOUVEL ENFANT")
+                      childToBorn.setFirstName("A NAITRE")
+                      childToBorn.setBirthDate(new Date())                      
+                      individualService.create(childToBorn, homeFolderService.getById(cRequest.homeFolderId), homeFolderService.getById(cRequest.homeFolderId).getAdress(),false )
+                      authorizedSubjects << childToBorn.id
+                } 
+    	    }
+            
             authorizedSubjects.each {
                 def subject = individualService.getById(it)
                 result[it] = subject.lastName + ' ' + subject.firstName

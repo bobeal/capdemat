@@ -91,6 +91,12 @@
               <g:message code="homeFolder.header.createHomeFolderModificationRequest"/>
             </a>
           </p>
+          <p>
+          	 <a href="#" class="resetPass" id="confirmResetPass_${params.id}" target="_self">
+              <g:message code="homeFolder.header.resetPassword"/>
+            </a>
+          </p>
+           
         </div>
       </div>
       

@@ -2,6 +2,7 @@ import grails.converters.JSON
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.util.Critere
+import fr.cg95.cvq.authentication.IAuthenticationService;
 import fr.cg95.cvq.business.users.Individual
 import fr.cg95.cvq.business.users.ActorState
 import fr.cg95.cvq.security.SecurityContext
@@ -18,6 +19,7 @@ class BackofficeHomeFolderController {
     IHomeFolderService homeFolderService
     IIndividualService individualService
     IRequestSearchService requestSearchService
+    IAuthenticationService authenticationService
     IPaymentService paymentService
     
     def instructionService
@@ -29,6 +31,19 @@ class BackofficeHomeFolderController {
     def defaultMax = 15
     
     def help = {}
+    
+    /**
+	* Hack inexine to reset password to "bienvenue"
+	*/
+    def reset = {
+        def password="bienvenue"
+        String encryptedPassword =  authenticationService.encryptPassword(password)
+        Adult adult=homeFolderService.getHomeFolderResponsible(params.homefolderid.toLong())
+        adult.setPassword(encryptedPassword)       
+        
+        redirect(action:'details' ,id:params.homefolderid)
+    }
+    
     
     def search = {
         def state = [:], records = [], count = 0

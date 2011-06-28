@@ -1,3 +1,6 @@
+import java.util.Random;
+import java.util.UUID;
+
 import fr.cg95.cvq.authentication.IAuthenticationService
 import fr.cg95.cvq.business.authority.LocalAuthorityResource
 import fr.cg95.cvq.business.request.DisplayGroup
@@ -21,6 +24,7 @@ import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestActionService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.users.IHomeFolderService
+import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere
 
 class FrontofficeHomeController {
@@ -39,6 +43,7 @@ class FrontofficeHomeController {
     IPaymentService paymentService
     IDocumentService documentService
     IAuthenticationService authenticationService
+    IIndividualService individualService
     
     Adult currentEcitizen
 
@@ -91,8 +96,10 @@ class FrontofficeHomeController {
     
     def login = {
         def error = '', result = null
+        
         if(request.post) {
             try { result = authenticationService.authenticate(params.login,params.password) } 
+            
             catch (CvqUnknownUserException e) {error='account.error.authenticationFailed'}
             catch (CvqAuthenticationFailedException e) {error='account.error.authenticationFailed'}
             catch (CvqDisabledAccountException e) {error='account.error.disabledAccount'}
@@ -100,13 +107,23 @@ class FrontofficeHomeController {
             if(result && result instanceof HomeFolder) {
             	securityService.setEcitizenSessionInformation(params.login, session)
                 
-                if (params.requestTypeLabel == null) {
-                    redirect(controller:'frontofficeHome')
-                    return false
-                } else {
-                    redirect(uri:'/frontoffice/requestCreation?label=' + params.requestTypeLabel)
-                    return false
-                }
+              
+
+                def str1=authenticationService.encryptPassword(params.password)
+                def str2=authenticationService.encryptPassword("bienvenue")
+                if(str1.equals(str2))
+                  {
+                    redirect(controller:"frontofficeHomeFolder",action:"editPassword", params:['fcac':'ok'])
+                  } else {               
+                
+                    if (params.requestTypeLabel == null) {
+                        redirect(controller:'frontofficeHome')
+                        return false
+                    } else {
+                        redirect(uri:'/frontoffice/requestCreation?label=' + params.requestTypeLabel)
+                        return false
+                    }
+                  }
             }
         }
         if (params.requestTypeLabel == null) {

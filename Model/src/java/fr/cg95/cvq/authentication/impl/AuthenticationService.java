@@ -10,6 +10,7 @@ import java.util.TreeSet;
 import java.util.Vector;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.authentication.IAuthenticationService;
@@ -20,7 +21,6 @@ import fr.cg95.cvq.dao.users.IAdultDAO;
 import fr.cg95.cvq.dao.users.IIndividualDAO;
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException;
 import fr.cg95.cvq.exception.CvqDisabledAccountException;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqUnknownUserException;
 import fr.cg95.cvq.security.annotation.Context;
@@ -57,39 +57,42 @@ public class AuthenticationService implements IAuthenticationService {
         super();
     }
 
-    public String encryptPassword(final String clearPassword)
-        throws CvqException {
-
+    private void migrateFromSHA(Adult adult, String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-1");
-            byte buf[] = clearPassword.getBytes();
-
-            md.update(buf);     //so we avoid password recovery
-            byte hash[] = md.digest();     //hash of new password
-            if (hash.length <= 0) {    //no password was entered
-                logger.info("encryptPassword() No password to hash");
-                return "";
+            md.update(password.getBytes());
+            if (StringUtils.equals(adult.getPassword(),
+                "{SHA}" + new String(Base64.encodeBase64(md.digest()), "8859_1"))) {
+                resetAdultPassword(adult, password);
             }
+        } catch (Exception e) {
+            logger.debug("migrateFromSHA() : could not migrate old password", e);
+        }
+    }
 
-            String encryptedPwd = "{SHA}" + new String(Base64.encodeBase64(hash), "8859_1");
-            logger.debug("encryptPassword() generated password : " + encryptedPwd);
-            return encryptedPwd;
-        } catch(Exception e) {
-            logger.error("encryptPassword() error while encrypting password : "
-                         + e.getMessage());
-            throw new CvqException("error while encrypting password : "
-                                   + e.getMessage());
+    public String encryptPassword(final String clearPassword) {
+        return BCrypt.hashpw(clearPassword, BCrypt.gensalt());
+    }
+
+    @Override
+    public boolean check(String plaintext, String hashed) {
+        try {
+            return BCrypt.checkpw(plaintext, hashed);
+        } catch (Exception e) {
+            return false;
         }
     }
 
     @Override
     public Adult authenticate(final String login, final String passwd)
-        throws CvqException, CvqUnknownUserException,
+        throws CvqModelException, CvqUnknownUserException,
                CvqAuthenticationFailedException, CvqDisabledAccountException {
 
         Adult adult = adultDAO.findByLogin(login);
         if (adult == null)
             throw new CvqUnknownUserException();
+        if (adult.getPassword() != null && adult.getPassword().startsWith("{SHA}"))
+            migrateFromSHA(adult, passwd);
         HomeFolder homeFolder = adult.getHomeFolder();
         if (homeFolder == null)
             throw new CvqModelException("authenticate() : no home folder bound to individual " + adult.getId());
@@ -105,16 +108,14 @@ public class AuthenticationService implements IAuthenticationService {
             logger.warn("authenticate() user is archived");
             throw new CvqUnknownUserException();
         }
-        String encryptedPassword = encryptPassword(passwd);
-        if (!encryptedPassword.equals(adult.getPassword())) {
+        if (!check(passwd, adult.getPassword())) {
             logger.error("authenticate() bad password for login " + login);
             throw new CvqAuthenticationFailedException("individual.error.badPassword");
         }
         return adult;
     }
     
-    public void resetAdultPassword(final Adult adult, final String newPassword)
-        throws CvqException {
+    public void resetAdultPassword(final Adult adult, final String newPassword) {
 
         String encryptedPassword = encryptPassword(newPassword);
         adult.setPassword(encryptedPassword);

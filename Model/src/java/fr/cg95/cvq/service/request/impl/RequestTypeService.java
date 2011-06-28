@@ -692,8 +692,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     @Override
     public boolean checkArchivesPassword(String password)
         throws CvqException {
-        return authenticationService.encryptPassword(password)
-            .equals(getGlobalRequestTypeConfiguration().getArchivesPassword());
+        return authenticationService.check(password, getGlobalRequestTypeConfiguration().getArchivesPassword());
     }
 
     @Override

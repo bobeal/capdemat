@@ -3,7 +3,7 @@ package fr.cg95.cvq.authentication;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException;
 import fr.cg95.cvq.exception.CvqDisabledAccountException;
-import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqUnknownUserException;
 
 /**
@@ -16,12 +16,13 @@ public interface IAuthenticationService {
     /** default minimal password length for all account types **/
     int passwordMinLength = 8;
 
+    boolean check(String plaintext, String hashed);
+
     Adult authenticate(final String login, final String passwd)
-        throws CvqException, CvqUnknownUserException,
+        throws CvqModelException, CvqUnknownUserException,
                CvqAuthenticationFailedException, CvqDisabledAccountException;
 
-    String encryptPassword(final String clearPassword)
-        throws CvqException;
+    String encryptPassword(final String clearPassword);
 
     String generateLogin(Adult adult);
 
@@ -33,6 +34,5 @@ public interface IAuthenticationService {
     /**
      * Set a new password for the given adult.
      */
-    void resetAdultPassword(final Adult adult, final String newPassword)
-        throws CvqException;
+    void resetAdultPassword(final Adult adult, final String newPassword);
 }

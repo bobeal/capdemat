@@ -2,7 +2,11 @@
 <!-- yui -->
 <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/yui/reset-fonts-grids', file:'reset-fonts-grids.css')}" />
 <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/yui/tabview', file:'tabview.css')}" />
-<link rel="stylesheet" type="text/css" href="${resource(dir:'css/backoffice/yui/container',file:'container.css')}" />
+<link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/yui/container',file:'container.css')}" />
+  <!-- Calendar CSS -->
+  <link rel="stylesheet" type="text/css" href="${resource(dir:'css/backoffice/yui/calendar',file:'calendar.css')}" />
+  <link rel="stylesheet" type="text/css" href="${resource(dir:'css/backoffice/newCalendar',file:'calendar_back.css')}" />
+<link rel="stylesheet" type="text/css" href="${resource(dir:'css/backoffice/yui/button',file:'button.css')}" /> 
 <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/common/yui-skin', file:'tabview.css')}" />
 <link rel="stylesheet" type="text/css" href="${resource(dir:'css/common',file:'tag.css')}" />
 <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/common', file:'layout.css')}" />
@@ -18,8 +22,13 @@
 <script type="text/javascript" src="${resource(dir:'js/yui/utilities',file:'utilities.js')}"></script>
 <!-- Dependency for tools / FIXME : should not be required for FO -->
 <script type="text/javascript" src="${resource(dir:'js/yui/container',file:'container-min.js')}"></script>
+<script type="text/javascript" src="${resource(dir:'js/yui/container',file:'container_core-min.js')}"></script>
 <!-- Selector -->
 <script type="text/javascript" src="${resource(dir:'js/yui/selector',file:'selector-min.js')}"></script>
+<!-- Calendar -->
+<script type="text/javascript" src="${resource(dir:'js/yui/calendar',file:'calendar-min.js')}"></script>
+<!-- button -->
+<script type="text/javascript" src="${resource(dir:'js/yui/button',file:'button-min.js')}"></script>
 <!-- Json -->
 <script type="text/javascript" src="${resource(dir:'js/yui/json',file:'json-min.js')}"></script>
 <!-- Directly used scripts -->

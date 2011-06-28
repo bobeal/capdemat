@@ -610,6 +610,18 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="filingDelay" value="12"/>
   </bean>
   
+  	<!-- Multi Cerfa Electoral Roll Registration Request -->
+
+	<bean id="multiCerfaElectoralRollRegistrationRequestService" 
+    class="fr.cg95.cvq.service.request.election.impl.MultiCerfaElectoralRollRegistrationRequestService" 
+    parent="requestService">
+    <property name="label" value="Multi Cerfa Electoral Roll Registration"/>
+    <property name="subjectPolicy" value="SUBJECT_POLICY_INDIVIDUAL" />
+    <property name="isOfRegistrationKind" value="true"/>
+    <property name="defaultDisplayGroup" value="election" />
+    <property name="filingDelay" value="12"/>
+  </bean> 
+  
   <bean id="paymentFilterAspect"
     class="fr.cg95.cvq.service.payment.aspect.PaymentFilterAspect" />
 

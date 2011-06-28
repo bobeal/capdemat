@@ -1,0 +1,594 @@
+
+
+<%
+
+  import org.apache.commons.lang.StringUtils
+  
+  def localReferentialWidget(rqt, javaName, lrEntries, depth) {
+    def lrHtml = ''
+    def currentLrDatas = rqt[javaName].collect{it.name}
+    if (lrTypes[javaName].entriesSupportMultiple) { 
+      lrHtml += "<ul ${depth==0 ? 'class="dataTree"' : ''}>"
+      lrEntries.eachWithIndex { entry, i -> 
+      if (entry.entries) { 
+        lrHtml += "<li>"
+        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
+        lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
+        lrHtml += "</li>"
+      } else {
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
+      } 
+    } 
+    lrHtml += "</ul>"
+    } else { 
+      lrEntries.each { entry -> 
+        lrHtml += "${currentLrDatas?.contains(entry.key) ? entry.labelsMap.fr: ''}"
+      } 
+    }
+    println lrHtml
+  }
+
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>${i18n.translate('mcerrr.label')}</title>
+  <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
+  <style type="text/css" media="print" >
+  	@page {
+		/*size: 21cm 29cm;*/
+		margin: 0;	
+	}
+	
+	div#intro {
+		height:25.57cm;
+		margin:0;
+  		padding: 2cm 2.5cm 2cm 2.5cm;
+  		
+	}
+	
+	div#cerfa {
+		position: relative;
+  		height: 29.55cm;
+  		margin:0;
+  		padding:0;
+  		
+  	}
+  	
+	div#cerfa .national .maiden-national{position: absolute;top:3.68cm;left:2.3cm;z-index: 10;}
+	div#cerfa .national .female-lastname-national{position: absolute;top:4.7cm;left:5.25cm;z-index: 10;}
+	div#cerfa .national .male-lastname-national{position: absolute;top:3.68cm;left:2.3cm;z-index: 10;}
+	div#cerfa .national .firstname-national{position: absolute;top:5.3cm;left:3.2cm;z-index: 10;}
+	div#cerfa .national .male-national{position: absolute;top:6.03cm;left:2.85cm;z-index: 10;}
+	div#cerfa .national .female-national{position: absolute;top:6.03cm;left:3.78cm;z-index: 10;}
+	div#cerfa .national .day-national{position: absolute;top:6.6cm;left:3.2cm;z-index: 10;}
+	div#cerfa .national .month-national{position: absolute;top:6.6cm;left:4.3cm;z-index: 10;}
+	div#cerfa .national .year-national{position: absolute;top:6.6cm;left:5.3cm;z-index: 10;}
+	div#cerfa .national .birth-city-national{position: absolute;top:6.6cm;left:9.15cm;z-index: 10;}
+	div#cerfa .national .birth-cp-national{position: absolute;top:7.85cm;left:3.9cm;z-index: 10;}
+	div#cerfa .national .birth-country-national{position: absolute;top:8.52cm;left:2.3cm;z-index: 10;}
+	
+	div#cerfa .national .city-registration-national{position: absolute;top:10cm;left:0.9cm;z-index: 10;}
+	div#cerfa .national .cp-registration-national{position: absolute;top:10.71cm;left:3.9cm;z-index: 10;}
+	
+	div#cerfa .national .fisrt-sub-national{position: absolute;top:12.3cm;left:18.3cm;z-index: 10;}
+	div#cerfa .national .move-sub-national{position: absolute;top:13.2cm;left:18.3cm;z-index: 10;}
+	div#cerfa .national .other-sub-national{position: absolute;top:14.1cm;left:18.3cm;z-index: 10;}
+	div#cerfa .national .old-city-national{position: absolute;top:15.3cm;left:5.8cm;z-index: 10;}
+	div#cerfa .national .old-cp-national{position: absolute;top:16.4cm;left:6.2cm;z-index: 10;}
+	div#cerfa .national .old-dom-national{position: absolute;top:16.4cm;left:10cm;z-index: 10;}	
+	
+	div#cerfa .national .address-line1-national{position: absolute;top:21.1cm;left:2.7cm;z-index: 10;}
+	div#cerfa .national .address-line2-national{position: absolute;top:21.6cm;left:2.7cm;z-index: 10;}
+	div#cerfa .national .address-cp-national{position: absolute;top:22.5cm;left:3.2cm;z-index: 10;}
+	div#cerfa .national .address-city-national{position: absolute;top:22.5cm;left:7.5cm;z-index: 10;}
+	div#cerfa .national .home-phone-national{position: absolute;top:23.2cm;left:3.1cm;z-index: 10;}
+	div#cerfa .national .mobile-phone-national{position: absolute;top:23.2cm;left:3.1cm;z-index: 10;}
+	div#cerfa .national .office-phone-national{position: absolute;top:23.2cm;left:3.1cm;z-index: 10;}
+	div#cerfa .national .email-national{position: absolute;top:23.9cm;left:6.4cm;z-index: 10;}
+	
+	div#cerfa .national .day-create-national{position: absolute;top:25.8cm;left:6.85cm;z-index: 10;}
+	div#cerfa .national .month-create-national{position: absolute;top:25.8cm;left:7.9cm;z-index: 10;}
+	div#cerfa .national .year-create-national{position: absolute;top:25.8cm;left:8.9cm;z-index: 10;}
+	
+	div#cerfa .european .aect-country{position: absolute;top:19.1cm;left:2.8cm;z-index: 10;}
+	div#cerfa .european .aect-district{position: absolute;top:19.75cm;left:5.6cm;z-index: 10;}
+	div#cerfa .european .aect-city{position: absolute;top:20.3cm;left:4.9cm;z-index: 10;}
+	
+	div#cerfa .national .afct-ambassy{position: absolute;top:19.2cm;left:2.8cm;z-index: 10;}
+	div#cerfa .national .afct-country{position: absolute;top:18.5cm;left:6.6cm;z-index: 10;}
+	
+	
+	div#cerfa .municipal .maiden-municipal{position: absolute;top:4.38cm;left:2.3cm;z-index: 10;}
+	div#cerfa .municipal .female-lastname-municipal{position: absolute;top:5.35cm;left:5.25cm;z-index: 10;}
+	div#cerfa .municipal .male-lastname-municipal{position: absolute;top:4.38cm;left:2.3cm;z-index: 10;}
+	div#cerfa .municipal .firstname-municipal{position: absolute;top:6.2cm;left:3.2cm;z-index: 10;}
+	div#cerfa .municipal .male-municipal{position: absolute;top:6.9cm;left:2.85cm;z-index: 10;}
+	div#cerfa .municipal .female-municipal{position: absolute;top:6.9cm;left:3.78cm;z-index: 10;}
+	div#cerfa .municipal .day-municipal{position: absolute;top:8.3cm;left:3.2cm;z-index: 10;}
+	div#cerfa .municipal .month-municipal{position: absolute;top:8.3cm;left:4.3cm;z-index: 10;}
+	div#cerfa .municipal .year-municipal{position: absolute;top:8.3cm;left:5.3cm;z-index: 10;}
+	div#cerfa .municipal .birth-city-municipal{position: absolute;top:8.3cm;left:9.15cm;z-index: 10;}
+	div#cerfa .municipal .birth-cp-municipal{position: absolute;top:9.2cm;left:3.7cm;z-index: 10;}
+	div#cerfa .municipal .birth-country-municipal{position: absolute;top:10.25cm;left:2.3cm;z-index: 10;}
+	div#cerfa .municipal .nationality-municipal{position: absolute;top:7.5cm;left:3.7cm;z-index: 10;}
+	
+	div#cerfa .municipal .city-registration-municipal{position: absolute;top:11.8cm;left:0.9cm;z-index: 10;}
+	div#cerfa .municipal .cp-registration-municipal{position: absolute;top:12.51cm;left:3.9cm;z-index: 10;}
+	
+	div#cerfa .municipal .fisrt-sub-municipal{position: absolute;top:14.4cm;left:18.3cm;z-index: 10;}
+	div#cerfa .municipal .move-sub-municipal{position: absolute;top:15.3cm;left:18.3cm;z-index: 10;}
+	div#cerfa .municipal .other-sub-municipal{position: absolute;top:16.2cm;left:18.3cm;z-index: 10;}
+	div#cerfa .municipal .old-city-municipal{position: absolute;top:17.45cm;left:5.8cm;z-index: 10;}
+	div#cerfa .municipal .old-cp-municipal{position: absolute;top:18.45cm;left:6.2cm;z-index: 10;}
+	div#cerfa .municipal .old-dom-municipal{position: absolute;top:18.45cm;left:10cm;z-index: 10;}	
+	
+	div#cerfa .municipal .address-line1-municipal{position: absolute;top:20.3cm;left:2.7cm;z-index: 10;}
+	div#cerfa .municipal .address-line2-municipal{position: absolute;top:20.9cm;left:2.7cm;z-index: 10;}
+	div#cerfa .municipal .address-cp-municipal{position: absolute;top:21.65cm;left:3.2cm;z-index: 10;}
+	div#cerfa .municipal .address-city-municipal{position: absolute;top:21.65cm;left:7.5cm;z-index: 10;}
+	div#cerfa .municipal .home-phone-municipal{position: absolute;top:22.35cm;left:3.1cm;z-index: 10;}
+	div#cerfa .municipal .mobile-phone-municipal{position: absolute;top:22.35cm;left:3.1cm;z-index: 10;}
+	div#cerfa .municipal .office-phone-municipal{position: absolute;top:22.35cm;left:3.1cm;z-index: 10;}
+	div#cerfa .municipal .email-municipal{position: absolute;top:22.95cm;left:6.4cm;z-index: 10;}
+	
+	div#cerfa .municipal .day-create-municipal{position: absolute;top:25.5cm;left:6.85cm;z-index: 10;}
+	div#cerfa .municipal .month-create-municipal{position: absolute;top:25.5cm;left:7.9cm;z-index: 10;}
+	div#cerfa .municipal .year-create-municipal{position: absolute;top:25.5cm;left:8.9cm;z-index: 10;}
+	
+	
+	div#cerfa .european .maiden-european{position: absolute;top:4.33cm;left:2.3cm;z-index: 10;}
+	div#cerfa .european .female-lastname-european{position: absolute;top:5.35cm;left:5.25cm;z-index: 10;}
+	div#cerfa .european .male-lastname-european{position: absolute;top:4.33cm;left:2.3cm;z-index: 10;}
+	div#cerfa .european .firstname-european{position: absolute;top:5.95cm;left:3.2cm;z-index: 10;}
+	div#cerfa .european .male-european{position: absolute;top:6.73cm;left:2.85cm;z-index: 10;}
+	div#cerfa .european .female-european{position: absolute;top:6.73cm;left:3.78cm;z-index: 10;}
+	div#cerfa .european .day-european{position: absolute;top:8.05cm;left:3.2cm;z-index: 10;}
+	div#cerfa .european .month-european{position: absolute;top:8.05cm;left:4.3cm;z-index: 10;}
+	div#cerfa .european .year-european{position: absolute;top:8.05cm;left:5.3cm;z-index: 10;}
+	div#cerfa .european .birth-city-european{position: absolute;top:8.05cm;left:9.15cm;z-index: 10;}
+	div#cerfa .european .birth-cp-european{position: absolute;top:8.97cm;left:3.7cm;z-index: 10;}
+	div#cerfa .european .birth-country-european{position: absolute;top:10.1cm;left:2.3cm;z-index: 10;}
+	div#cerfa .european .nationality-european{position: absolute;top:7.35cm;left:3.7cm;z-index: 10;}
+	
+	div#cerfa .european .city-registration-european{position: absolute;top:11.35cm;left:0.9cm;z-index: 10;}
+	div#cerfa .european .cp-registration-european{position: absolute;top:12.06cm;left:3.9cm;z-index: 10;}
+	
+	div#cerfa .european .fisrt-sub-european{position: absolute;top:13.5cm;left:18.3cm;z-index: 10;}
+	div#cerfa .european .move-sub-european{position: absolute;top:14.4cm;left:18.3cm;z-index: 10;}
+	div#cerfa .european .other-sub-european{position: absolute;top:15.3cm;left:18.3cm;z-index: 10;}
+	div#cerfa .european .old-city-european{position: absolute;top:16.9cm;left:5.8cm;z-index: 10;}
+	div#cerfa .european .old-cp-european{position: absolute;top:17.9cm;left:6.2cm;z-index: 10;}
+	div#cerfa .european .old-dom-european{position: absolute;top:17.9cm;left:10cm;z-index: 10;}	
+	
+	div#cerfa .european .address-line1-european{position: absolute;top:21.65cm;left:2.7cm;z-index: 10;}
+	div#cerfa .european .address-line2-european{position: absolute;top:22.2cm;left:2.7cm;z-index: 10;}
+	div#cerfa .european .address-cp-european{position: absolute;top:22.9cm;left:3.2cm;z-index: 10;}
+	div#cerfa .european .address-city-european{position: absolute;top:22.9cm;left:7.5cm;z-index: 10;}
+	div#cerfa .european .home-phone-european{position: absolute;top:23.6cm;left:3.1cm;z-index: 10;}
+	div#cerfa .european .mobile-phone-european{position: absolute;top:23.6cm;left:3.1cm;z-index: 10;}
+	div#cerfa .european .office-phone-european{position: absolute;top:23.6cm;left:3.1cm;z-index: 10;}
+	div#cerfa .european .email-european{position: absolute;top:24.3cm;left:6.4cm;z-index: 10;}
+	
+	div#cerfa .european .day-create-european{position: absolute;top:26.4cm;left:6.85cm;z-index: 10;}
+	div#cerfa .european .month-create-european{position: absolute;top:26.4cm;left:7.9cm;z-index: 10;}
+	div#cerfa .european .year-create-european{position: absolute;top:26.4cm;left:8.9cm;z-index: 10;}
+	
+	div#intro div.first{
+		margin-top: 20px;
+	}
+	
+	div#intro div.para-info{
+		text-align: justify;
+		text-indent:1.5em;
+		padding-bottom: 20px;
+		
+	}
+	
+  </style>
+</head>
+<body>
+<div id="intro">
+	<div id="hd">	
+	   <p>${localAuthority.displayTitle}</p>
+	   <img src="file://${logoPath}" alt="mairie2424" />
+	</div>
+	<h1>${i18n.translate('mcerrr.label')}</h1>
+	<div class="localAuthority">
+	    <h2>${i18n.translate('pdf.localAutorityReservedSection')}</h2>
+	    <ul>
+	      <li>${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
+	      <li>${i18n.translate('property.requester')} : <strong>${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong></li>
+	      <li>${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong></li>
+	      <li>${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
+	    </ul>
+	 </div>
+	 
+	 				<div class="para-info first">
+							Afin de faciliter votre inscription sur les listes électorales de la
+							commune, vous pouvez compléter en lettre majuscule de façon
+							lisible le formulaire d'inscription.
+							Une fois rempli, ce document devra être imprimé et signé par vos
+							soins.
+					</div>
+					<div class="para-info">
+							Ensuite vous le rapporterez au service élection accompagné de la
+							photocopie recto-verso d'un titre d'identité (carte nationale
+							d'identité ou passeport en cours de validité) et d'un
+							justificatif de domicile établit à vos nom et prénom (ex :facture
+							d'électricité, de gaz oude téléphone fixe de moins de 3 mois).
+					</div>
+					<div class="para-info">
+							Pour les cas particuliers, veuillez prendre contact avec le service
+							élection.
+					</div>
+	 
+	 	  
+</div>
+<div id="cerfa">
+	<%
+	def caseChoice
+		
+	if(rqt.choiceNationality.toString() ==  'FrenchNationality') {
+		caseChoice = 'national'
+	} else {
+		if(rqt.electionChoice.toString() == 'EuropeanElectoral') {
+			caseChoice = 'european'
+		} else {
+			caseChoice = 'municipal'
+		}
+	}
+	%>
+	<div class="${caseChoice}">
+		<!-- Civil state -->
+		<%
+			if(StringUtils.uncapitalize(rqt.subjectChoiceTitle.toString()) == 'madam' || StringUtils.uncapitalize(rqt.subjectChoiceTitle.toString()) == 'miss'){
+			  if(rqt.subjectChoiceMaidenName != ''){ 
+			%>
+				<div class="maiden-${caseChoice}">${StringUtils.defaultString(rqt.subjectChoiceMaidenName?.toString())}</div>
+				<% 
+					if(StringUtils.defaultString(rqt.subjectChoiceLastName?.toString()) != StringUtils.defaultString(rqt.subjectChoiceMaidenName?.toString())){
+				%>
+				<div class="female-lastname-${caseChoice}">${StringUtils.defaultString(rqt.subjectChoiceLastName?.toString())}</div>
+			<%
+					}
+				} else {
+				%>
+					<div class="male-lastname-${caseChoice}">${StringUtils.defaultString(rqt.subjectChoiceLastName?.toString())}</div>
+				<%
+				}
+			} else {
+		%>
+				<div class="male-lastname-${caseChoice}">${StringUtils.defaultString(rqt.subjectChoiceLastName?.toString())}</div>		
+		<%
+			}
+		%>
+		<div class="firstname-${caseChoice}">${StringUtils.defaultString(rqt.subjectChoiceFirstName?.toString())}</div>
+		<%
+			if(StringUtils.uncapitalize(rqt.subjectChoiceTitle.toString()) == 'madam' || StringUtils.uncapitalize(rqt.subjectChoiceTitle.toString()) == 'miss'){
+		%>	
+				<div class="female-${caseChoice}">X</div>
+		<%
+			} else {
+		%>
+				<div class="male-${caseChoice}">X</div>
+		<%
+			}
+			
+			def birth = String.format('%td/%<tm/%<tY',rqt.subjectChoiceBirthDate)
+			def day = birth.tokenize('/')[0]
+			def month =  birth.tokenize('/')[1]
+			def year =  birth.tokenize('/')[2]
+		%>
+		<div class="nationality-${caseChoice}">
+            <% if(rqt.europeanNationality) { %>
+              ${i18n.translate('mcerrr.property.europeanNationality.' + StringUtils.uncapitalize(rqt.europeanNationality.toString()))}
+            <% } %>
+          </div>
+		
+		<div class="day-${caseChoice}">${day}</div>
+		<div class="month-${caseChoice}">${month}</div>
+		<div class="year-${caseChoice}">${year}</div>
+		<div class="birth-city-${caseChoice}">${StringUtils.defaultString(rqt.subjectChoiceBirthCity?.toString())}</div>
+		<div class="birth-cp-${caseChoice}">${StringUtils.substring(StringUtils.defaultString(rqt.subjectChoiceBirthPostalCode?.toString()),0,2)}</div>
+		<div class="birth-country-${caseChoice}">
+			<% if(rqt.subjectChoiceBirthCountry) { %>
+              ${i18n.translate('mcerrr.property.subjectChoiceBirthCountry.' + StringUtils.uncapitalize(rqt.subjectChoiceBirthCountry.toString()))}
+            <% } %>
+		</div>
+		
+		<!-- locality registration -->
+		<div class="city-registration-${caseChoice}">${StringUtils.defaultString(rqt.registrationCity?.toString())}</div>
+		<div class="cp-registration-${caseChoice}">${StringUtils.substring(StringUtils.defaultString(rqt.registrationPostalCode?.toString()),0,2)}</div>
+		
+		<!-- Subject situation -->
+			<% 
+			if(rqt.motive) { 	
+              if(rqt.motive.toString() == 'FirstSubscription') {
+              	%>
+              		<div class="fisrt-sub-${caseChoice}">X</div>
+              	<%
+              } else if(rqt.motive.toString() == 'MoveSubscription'){
+              	%>
+              		<div class="move-sub-${caseChoice}">X</div>
+              	<%
+              } else {
+              	%>
+              		<div class="other-sub-${caseChoice}">X</div>
+              		<div class="old-city-${caseChoice}">${StringUtils.defaultString(rqt.oldCity?.toString())}</div>
+              		<div class="old-cp-${caseChoice}">${StringUtils.substring(StringUtils.defaultString(rqt.oldDepartment?.toString()),0,2)}</div>
+              		<div class="old-dom-${caseChoice}">${StringUtils.defaultString(rqt.oldOverseas?.toString())}</div>              		
+              	<%
+              }
+            } %>
+             
+          
+            <% if(rqt.externalCountryAECT) { %>
+              <div class="aect-country">${i18n.translate('mcerrr.property.externalCountryAECT.' + StringUtils.uncapitalize(rqt.externalCountryAECT.toString()))}</div>
+            <% } %>
+          	<div class="aect-district">${StringUtils.defaultString(rqt.externalDistrictAECT?.toString())}</div>   
+  			<div class="aect-city">${StringUtils.defaultString(rqt.externalCityAECT?.toString())}</div>
+
+    		<div class="afct-ambassy">${StringUtils.defaultString(rqt.ambassyOrConsulateAFCT?.toString())}</div>
+          	<div class="afct-country">
+            <% if(rqt.externalCountryAFCT) { %>
+              ${i18n.translate('mcerrr.property.externalCountryAFCT.' + StringUtils.uncapitalize(rqt.externalCountryAFCT.toString()))}
+            <% } %>
+          	</div>
+      
+      		<!-- Subject address -->
+			<% if(rqt.subjectChoiceAddress) { %>
+              <div class="address-line1-${caseChoice}">${StringUtils.defaultString(rqt.subjectChoiceAddress?.streetNumber)} ${StringUtils.defaultString(rqt.subjectChoiceAddress?.streetName)}</div>
+              <div class="address-line2-${caseChoice}">${StringUtils.defaultString(rqt.subjectChoiceAddress?.additionalDeliveryInformation)} ${StringUtils.defaultString(rqt.subjectChoiceAddress?.additionalGeographicalInformation)}</div>
+              <div class="address-cp-${caseChoice}">${StringUtils.defaultString(rqt.subjectChoiceAddress?.postalCode)}</div>
+              <div class="address-city-${caseChoice}">${StringUtils.defaultString(rqt.subjectChoiceAddress?.city)}</div>
+              
+              
+            <% } %>
+             
+             <%
+             if(rqt.subjectChoiceHomePhone) {
+             %>
+             <div class="home-phone-${caseChoice}">${StringUtils.defaultString(rqt.subjectChoiceHomePhone?.toString())}</div>
+			<%
+			} else if(rqt.subjectChoiceMobilPhone){
+             %>        
+             <div class="mobile-phone-${caseChoice}">${StringUtils.defaultString(rqt.subjectChoiceMobilPhone?.toString())}</div>
+			<%
+			} else if(rqt.subjectChoiceProPhone){
+             %>        
+          	<div class="office-phone-${caseChoice}">${StringUtils.defaultString(rqt.subjectChoiceProPhone?.toString())}</div>
+			<%
+			} else {
+			}
+             %>
+        
+          	<div class="email-${caseChoice}">${StringUtils.defaultString(rqt.subjectChoiceEmail?.toString())}</div>
+
+        	<!-- Date creation -->
+        	<%
+        	 def dc = String.format('%td/%<tm/%<tY', rqt.creationDate)
+        	 def dcday = dc.tokenize("/")[0]
+        	 def dcmonth = dc.tokenize("/")[1]
+        	 def dcyear = dc.tokenize("/")[2]
+        	%>
+        	<div class="day-create-${caseChoice}">${dcday}</div>
+        	<div class="month-create-${caseChoice}">${dcmonth}</div>
+        	<div class="year-create-${caseChoice}">${dcyear}</div>
+            
+	</div>
+</div>
+<!--   
+  <h2>${i18n.translate('mcerrr.step.registration.label')}</h2>
+  
+    
+      <h3>${i18n.translate('mcerrr.property.subjectSheet.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('request.property.subject.label')}</p>
+           <div class="response">${subject?.fullName}</div>
+          
+
+        
+          <p class="label">${i18n.translate('mcerrr.property.subjectChoiceTitle.label')}</p>
+          <div class="response">
+            <% if(rqt.subjectChoiceTitle) { %>
+              ${i18n.translate('mcerrr.property.subjectChoiceTitle.' + StringUtils.uncapitalize(rqt.subjectChoiceTitle.toString()))}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('mcerrr.property.subjectChoiceLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectChoiceLastName?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('mcerrr.property.subjectChoiceMaidenName.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectChoiceMaidenName?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('mcerrr.property.subjectChoiceFirstName.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectChoiceFirstName?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('mcerrr.property.subjectChoiceAddress.label')}</p>
+          <div class="response">
+            <% if(rqt.subjectChoiceAddress) { %>
+              <p>${StringUtils.defaultString(rqt.subjectChoiceAddress?.additionalDeliveryInformation)}</p>
+              <p>${StringUtils.defaultString(rqt.subjectChoiceAddress?.additionalGeographicalInformation)}</p>
+              <p>${StringUtils.defaultString(rqt.subjectChoiceAddress?.streetNumber)} ${StringUtils.defaultString(rqt.subjectChoiceAddress?.streetName)}</p>
+              <p>${StringUtils.defaultString(rqt.subjectChoiceAddress?.placeNameOrService)}</p>
+              <p>${StringUtils.defaultString(rqt.subjectChoiceAddress?.postalCode)} ${StringUtils.defaultString(rqt.subjectChoiceAddress?.city)}</p>
+              <p>${StringUtils.defaultString(rqt.subjectChoiceAddress?.countryName)}</p>
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('mcerrr.property.subjectChoiceHomePhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectChoiceHomePhone?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('mcerrr.property.subjectChoiceMobilPhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectChoiceMobilPhone?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('mcerrr.property.subjectChoiceProPhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectChoiceProPhone?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('mcerrr.property.subjectChoiceEmail.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectChoiceEmail?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('mcerrr.property.subjectChoiceBirthDate.label')}</p>
+          <div class="response">${rqt.subjectChoiceBirthDate ? String.format('%td/%<tm/%<tY',rqt.subjectChoiceBirthDate) : ''}</div>
+          
+
+        
+          <p class="label">${i18n.translate('mcerrr.property.subjectChoiceBirthCity.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectChoiceBirthCity?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('mcerrr.property.subjectChoiceBirthPostalCode.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectChoiceBirthPostalCode?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('mcerrr.property.subjectChoiceBirthCountry.label')}</p>
+          <div class="response">
+            <% if(rqt.subjectChoiceBirthCountry) { %>
+              ${i18n.translate('mcerrr.property.subjectChoiceBirthCountry.' + StringUtils.uncapitalize(rqt.subjectChoiceBirthCountry.toString()))}
+            <% } %>
+          </div>
+          
+
+        
+      </div>
+    
+  
+    
+      <h3>${i18n.translate('mcerrr.property.subjectPlaceToRegister.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('mcerrr.property.registrationCity.label')}</p><div class="response">${StringUtils.defaultString(rqt.registrationCity?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('mcerrr.property.registrationPostalCode.label')}</p><div class="response">${StringUtils.defaultString(rqt.registrationPostalCode?.toString())}</div>
+
+        
+      </div>
+    
+  
+
+  
+  <h2>${i18n.translate('mcerrr.step.situation.label')}</h2>
+  
+    
+      <p class="label">${i18n.translate('mcerrr.property.choiceNationality.label')}</p>
+          <div class="response">
+            <% if(rqt.choiceNationality) { %>
+              ${i18n.translate('mcerrr.property.choiceNationality.' + StringUtils.uncapitalize(rqt.choiceNationality.toString()))}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('mcerrr.property.europeanNationality.label')}</p>
+          <div class="response">
+            <% if(rqt.europeanNationality) { %>
+              ${i18n.translate('mcerrr.property.europeanNationality.' + StringUtils.uncapitalize(rqt.europeanNationality.toString()))}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('mcerrr.property.electionChoice.label')}</p>
+          <div class="response">
+            <% if(rqt.electionChoice) { %>
+              ${i18n.translate('mcerrr.property.electionChoice.' + StringUtils.uncapitalize(rqt.electionChoice.toString()))}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('mcerrr.property.motive.label')}</p>
+          <div class="response">
+            <% if(rqt.motive) { %>
+              ${i18n.translate('mcerrr.property.motive.' + StringUtils.uncapitalize(rqt.motive.toString()))}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <h3>${i18n.translate('mcerrr.property.oldAddressInformation.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('mcerrr.property.oldCity.label')}</p><div class="response">${StringUtils.defaultString(rqt.oldCity?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('mcerrr.property.oldDepartment.label')}</p><div class="response">${StringUtils.defaultString(rqt.oldDepartment?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('mcerrr.property.oldOverseas.label')}</p><div class="response">${StringUtils.defaultString(rqt.oldOverseas?.toString())}</div>
+
+        
+      </div>
+    
+  
+    
+      <p class="label">${i18n.translate('mcerrr.property.externalCountryAECT.label')}</p>
+          <div class="response">
+            <% if(rqt.externalCountryAECT) { %>
+              ${i18n.translate('mcerrr.property.externalCountryAECT.' + StringUtils.uncapitalize(rqt.externalCountryAECT.toString()))}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('mcerrr.property.externalDistrictAECT.label')}</p><div class="response">${StringUtils.defaultString(rqt.externalDistrictAECT?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('mcerrr.property.externalCityAECT.label')}</p><div class="response">${StringUtils.defaultString(rqt.externalCityAECT?.toString())}</div>
+
+    
+  
+    
+      <h3>${i18n.translate('mcerrr.property.additionInformationFrenchCerfa.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('mcerrr.property.ambassyOrConsulateAFCT.label')}</p><div class="response">${StringUtils.defaultString(rqt.ambassyOrConsulateAFCT?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('mcerrr.property.externalCountryAFCT.label')}</p>
+          <div class="response">
+            <% if(rqt.externalCountryAFCT) { %>
+              ${i18n.translate('mcerrr.property.externalCountryAFCT.' + StringUtils.uncapitalize(rqt.externalCountryAFCT.toString()))}
+            <% } %>
+          </div>
+          
+
+        
+      </div>
+    
+  
+
+  <h2>${i18n.translate('contact.property.meansOfContact')}</h2>
+  <div class="response choice">
+    <% if (rqt.meansOfContact) { %>
+      <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
+        <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
+          ${i18n.translate('request.meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+        </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
+      <% } %>
+    <% } else { %>
+      <span class="checked">${i18n.translate('request.meansOfContact.none')}</span>
+    <% } %>
+  </div>
+   -->
+</body>
+</html>
+

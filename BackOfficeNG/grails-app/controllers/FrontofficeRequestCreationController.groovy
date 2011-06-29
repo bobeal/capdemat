@@ -44,6 +44,8 @@ import fr.cg95.cvq.util.translation.ITranslationService
 import fr.cg95.cvq.service.payment.IPaymentService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.util.DateUtils
+import fr.cg95.cvq.xml.request.school.RecreationActivityPolyRegistrationRequestDocument
+import fr.cg95.cvq.business.request.school.RecreationActivityPolyRegistrationRequest
 
 import grails.converters.JSON
 import net.sf.oval.Validator
@@ -102,6 +104,7 @@ class FrontofficeRequestCreationController {
         } else {
             cRequest = requestWorkflowService.getSkeletonRequest(params.label)
         }
+        
         if (cRequest == null) {
             redirect(uri: '/frontoffice/requestType')
             return false
@@ -155,6 +158,7 @@ class FrontofficeRequestCreationController {
         session[uuidString].individuals = individuals
         session[uuidString].draftVisible = false
         fillTicketBookingSession(uuidString, params.label)
+       
 
         def viewPath = "/frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestType.label)}/edit"
         render(view: viewPath, model: [
@@ -599,6 +603,7 @@ class FrontofficeRequestCreationController {
                     } else if (requestTypeInfo.label == 'Home Folder Modification') {
                         // Hack to reset SecrityContext.currentEcitizen set by login
                         SecurityContext.setCurrentEcitizen((Adult)objectToBind.homeFolderResponsible)
+                        
                         requestWorkflowService.createAccountModificationRequest(cRequest, 
                                 objectToBind.individuals.adults, 
                                 objectToBind.individuals.children, 
@@ -615,6 +620,7 @@ class FrontofficeRequestCreationController {
                     } else {
                         cRequest.state = RequestState.PENDING
                         if (SecurityContext.currentEcitizen == null)
+                            
                             requestWorkflowService.create(cRequest, objectToBind.requester, docs)
                         else
                             requestWorkflowService.create(cRequest, docs)
@@ -897,7 +903,9 @@ class FrontofficeRequestCreationController {
                 invalidFields["validation"] = []
             invalidFields["validation"].add("useAcceptance")
         }
+            
         if (!invalidFields.isEmpty()) throw new CvqValidationException(invalidFields)
+        
     }
 
     private collectInvalidFields(violation, fields, prefix, stepName) {
@@ -1056,5 +1064,40 @@ class FrontofficeRequestCreationController {
         }
         return result
     }
-
+    
+    /**
+    * search about activity registered
+    */
+   
+   def getActivyRegistered = {
+       def numChild
+       (!params.par)?(numChild = 'no'):(numChild=params.par)
+       
+       Individual child = individualService.getById(numChild.toLong())
+       
+       def nomActivityDansLocalRef = []
+       List<RecreationActivityPolyRegistrationRequest> listRequestBySubject = requestSearchService.getByHomeFolderIdAndRequestLabel(child.getHomeFolder().getId(), "Recreation Activity Poly Registration", true)
+ 
+     
+       listRequestBySubject.each{ taz->
+           Request req = (Request) taz
+           if(taz.getSubjectId().equals(child.getId())){
+               req.getRecreationPolyActivity().name.each{
+                   if(it != null)
+                       nomActivityDansLocalRef<< it
+               }
+                
+           }
+       }
+       render(contentType:'text/xml') {
+          activities(){
+              nomActivityDansLocalRef.each{nom->
+                  if(nom != null)
+                      label(nom)
+              }
+          }
+       }
+      
+    }
+    
 }

@@ -162,4 +162,10 @@
   <xb:namespace uri="http://www.cg95.fr/cvq/schema/cccrr">
     <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
   </xb:namespace>
+  
+   <!-- Recreation Activity Poly Registration Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/raprr">
+    <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
+  </xb:namespace>
+  
 </xb:config>

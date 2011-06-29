@@ -621,7 +621,21 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="defaultDisplayGroup" value="election" />
     <property name="filingDelay" value="12"/>
   </bean> 
-	
+
+	<!-- Recreation Center Poly Registration Request -->
+
+	<bean id="recreationActivityPolyRegistrationRequestService" 
+    class="fr.cg95.cvq.service.request.school.impl.RecreationActivityPolyRegistrationRequestService" 
+    parent="requestService">
+    <property name="localReferentialFilename" value="local_referential_raprr"/>
+    <property name="label" value="Recreation Activity Poly Registration"/>
+    <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
+    <property name="defaultDisplayGroup" value="school" />
+    <property name="isOfRegistrationKind" value="true"/>
+    <property name="filingDelay" value="12"/>
+  </bean>
+  
+
 	<!-- Child Care Center Registration Request -->
 	<bean id="childCareCenterRegistrationRequestService"
 	  class="fr.cg95.cvq.service.request.school.impl.ChildCareCenterRegistrationRequestService" 

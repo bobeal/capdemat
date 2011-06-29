@@ -531,8 +531,18 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                     return result;
                 }
             } else {
-                for (Long subjectId : homeFolderSubjectIds)
-                    result.remove(subjectId);
+                for (Long subjectId : homeFolderSubjectIds){
+                    
+                    if(requestType.getLabel().equals("Recreation Activity Poly Registration")){
+			logger.debug("we keep all subject ");
+		    } else if(requestType.getLabel().equals("Child Care Center Registration")){
+			logger.debug("we keep all subject");
+		    } else {
+            
+                        result.remove(subjectId); // hack for poly registration     
+                    }
+                }
+		logger.debug(" final result " + result.size());
                 return result;
             }
         }

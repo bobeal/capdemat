@@ -276,6 +276,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         propertyWrapperEl.innerHTML = selectedEl.innerHTML;
         propertyWrapperEl.className = 'value-' + selectedEl.value;
       }
+      else if (isSubmit && yud.hasClass(ddEl, 'validate-recreationPolyCenter')) {
+          var selectedEl = formEl.recreationPolyCenterId.options[formEl.recreationPolyCenterId.selectedIndex];
+          propertyWrapperEl.innerHTML = selectedEl.innerHTML;
+          propertyWrapperEl.className = 'value-' + selectedEl.value;
+        }
+      
       else if (isSubmit) {
         var elName = formEl.id.replace('_Form', '') + '_Field';
         propertyValue = yud.get(elName).value;
@@ -357,6 +363,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           }
           else if (jsonPropertyType['validate'] ===  'recreationCenter') {
             propertyValue = (propertyWrapperEl.className.split('-')[1])||null;
+          }
+          else if (jsonPropertyType['validate'] ===  'recreationPolyCenter') {
+              propertyValue = (propertyWrapperEl.className.split('-')[1])||null;
           }
           else {
             propertyValue = propertyWrapperEl.innerHTML;

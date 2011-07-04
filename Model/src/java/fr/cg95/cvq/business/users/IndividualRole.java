@@ -105,15 +105,6 @@ public class IndividualRole implements Serializable {
         this.individualId = individualId;
     }
 
-    public void setIndividualId(String individualId) {
-        try {
-            this.individualId = Long.valueOf(individualId);
-        } catch (NumberFormatException nfe) {
-            // called by HFMR service while restoring properties after a cancel
-            // so we can be pretty sure it is correct
-        }
-    }
-    
     public void setIndividualName(String individualName) {
         this.individualName = individualName;
     }

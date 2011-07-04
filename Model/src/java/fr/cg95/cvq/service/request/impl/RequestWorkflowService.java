@@ -2,6 +2,7 @@ package fr.cg95.cvq.service.request.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -417,6 +418,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                     homeFolderId, Critere.EQUALS));
                 criterias.add(new Critere(Request.SEARCH_BY_SEASON_ID,
                     season.getId(), Critere.EQUALS));
+                criterias.add(new Critere(Request.SEARCH_BY_STATE,Arrays.asList(getStatesExcludedForRunningRequests()) ,Critere.NIN));
                 List<Request> seasonRequests = 
                     requestDAO.search(criterias, null, null, 0, 0, false);
                 for (Request request : seasonRequests) {

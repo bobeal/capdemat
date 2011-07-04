@@ -51,7 +51,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         // go through all the criteria and create the query
         for (Critere searchCrit : criteria) {
             if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUEST_ID)) {
-                if (Critere.IN.equals(searchCrit.getComparatif())) {
+                if (Critere.IN.equals(searchCrit.getComparatif()) || Critere.NIN.equals(searchCrit.getComparatif())) {
                     Collection<Long> requestIds =
                         (Collection<Long>)searchCrit.getValue();
                     String[] values = new String[requestIds.size()];
@@ -59,7 +59,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                     for (Long requestId : requestIds) {
                         values[i++] = requestId.toString();
                     }
-                    sb.append(" and request.id in (")
+                    sb.append(" and request.id "+searchCrit.getComparatif()+"(")
                         .append(StringUtils.join(values, ", ")).append(')');
                 } else {
                     sb.append(" and request.id " + searchCrit.getComparatif() + " ?");
@@ -106,7 +106,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 parametersTypes.add(Hibernate.LONG);
 
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUEST_TYPE_LABEL)) {
-                if (Critere.IN.equals(searchCrit.getComparatif())) {
+                if (Critere.IN.equals(searchCrit.getComparatif()) || Critere.NIN.equals(searchCrit.getComparatif())) {
                     Collection<String> requestTypes =
                         (Collection<String>)searchCrit.getValue();
                     String[] values = new String[requestTypes.size()];
@@ -114,7 +114,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                     for (String requestType : requestTypes) {
                         values[i++] = "'" + requestType + "'";
                     }
-                    sb.append(" and request.requestType.label in (")
+                    sb.append(" and request.requestType.label "+ searchCrit.getComparatif() +" (")
                         .append(StringUtils.join(values, ", ")).append(')');
                 } else {
                     sb.append(" and request.requestType.label " + searchCrit.getComparatif() + " ?");
@@ -123,7 +123,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 }
 
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_STATE)) {
-                if (Critere.IN.equals(searchCrit.getComparatif())) {
+                if (Critere.IN.equals(searchCrit.getComparatif()) || Critere.NIN.equals(searchCrit.getComparatif())) {
                     Collection<RequestState> states =
                         (Collection<RequestState>) searchCrit.getValue();
                     String[] values = new String[states.size()];
@@ -131,7 +131,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                     for (RequestState state : states) {
                         values[i++] = "'" + state.toString() + "'";
                     }
-                    sb.append(" and request.state in (")
+                    sb.append(" and request.state "+ searchCrit.getComparatif() +" (")
                         .append(StringUtils.join(values, ", ")).append(')');
                 } else {
                     sb.append(" and request.state " + searchCrit.getComparatif() + " ?");
@@ -244,7 +244,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         // go through all the criteria and create the query
         for (Critere searchCrit : criteria) {
             if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUEST_ID)) {
-                if (Critere.IN.equals(searchCrit.getComparatif())) {
+                if (Critere.IN.equals(searchCrit.getComparatif()) || Critere.NIN.equals(searchCrit.getComparatif())) {
                     Collection<Long> requestIds =
                         (Collection<Long>)searchCrit.getValue();
                     String[] values = new String[requestIds.size()];
@@ -252,7 +252,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                     for (Long requestId : requestIds) {
                         values[i++] = requestId.toString();
                     }
-                    sb.append(" and request.id in (")
+                    sb.append(" and request.id "+searchCrit.getComparatif()+" (")
                         .append(StringUtils.join(values, ", ")).append(')');
                 } else {
                     sb.append(" and request.id " + searchCrit.getComparatif() + " ?");
@@ -282,7 +282,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 typeList.add(Hibernate.LONG);
                 
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_STATE)) {
-                if (Critere.IN.equals(searchCrit.getComparatif())) {
+                if (Critere.IN.equals(searchCrit.getComparatif()) || Critere.NIN.equals(searchCrit.getComparatif())) {
                     Collection<RequestState> states =
                         (Collection<RequestState>) searchCrit.getValue();
                     String[] values = new String[states.size()];
@@ -290,7 +290,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                     for (RequestState state : states) {
                         values[i++] = "'" + state.toString() + "'";
                     }
-                    sb.append(" and request.state in (")
+                    sb.append(" and request.state "+ searchCrit.getComparatif() +" (")
                         .append(StringUtils.join(values, ", ")).append(')');
                 } else {
                     sb.append(" and state " + searchCrit.getComparatif() + " ?");

@@ -24,6 +24,7 @@ public class Critere {
     public static final String GTE = ">="; /* only for dates */
     public static final String LTE = "<="; /* only for dates */
     public static final String IN = "in"; /* value must be an instanceof Collection */
+    public static final String NIN = "not in"; /* value must be an instanceof Collection  */
 
     /** Search criteria */
     private String attribut;
@@ -69,6 +70,8 @@ public class Critere {
             return Restrictions.le(attribute,value);
         else if (IN.equals(comparator))
             return Restrictions.in(attribute, (Collection<?>)value);
+        else if (NIN.equals(comparator))
+            return Restrictions.not(Restrictions.in(attribute, (Collection<?>)value));
 
         // default comparator
         return Restrictions.eq(attribute,value);

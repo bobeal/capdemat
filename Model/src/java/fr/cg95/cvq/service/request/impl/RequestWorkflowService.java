@@ -805,7 +805,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         WorkflowPendingEvent wfEvent = new WorkflowPendingEvent(request);
         requestExternalService.publish(wfEvent);
 
-        requestActionService.addCreationAction(request.getId(), date, null, note);
+        byte[] pdfData = requestPdfService.generateCertificate(request);
+        requestActionService.addCreationAction(request.getId(), date, pdfData, note);
         postActionsProcess(wfEvent.getWorkflowPostActions());
     }
 

@@ -282,4 +282,14 @@ public class Address implements Serializable,Cloneable {
         clone.placeNameOrService = placeNameOrService;
         return clone;
     }
+
+    public String format() {
+        return StringUtils.join(new String[] {
+            StringUtils.defaultString(streetNumber),
+            StringUtils.defaultString(streetName),
+            StringUtils.defaultString(postalCode),
+            StringUtils.defaultString(city),
+            StringUtils.defaultString(countryName)
+        }, ' ');
+    }
 }

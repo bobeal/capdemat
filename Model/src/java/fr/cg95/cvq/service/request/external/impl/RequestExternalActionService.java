@@ -18,7 +18,7 @@ public class RequestExternalActionService implements IRequestExternalActionServi
     private IRequestExternalActionDAO requestExternalActionDAO;
 
     @Override
-    @Context(types = {ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
     public Long addTrace(RequestExternalAction trace) {
         trace.setDate(new Date());
         return requestExternalActionDAO.create(trace);

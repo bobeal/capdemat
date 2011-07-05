@@ -295,6 +295,7 @@ class BackofficeRequestInstructionController {
             DataBindingUtils.initBind(rqt, params)
             bind(rqt)
         }
+        requestWorkflowService.modify(rqt)
 //        log.debug("Binder custum editor PersistentStringEnum = " + getBinder(rqt).propertyEditorRegistry.findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class, null))
         render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }

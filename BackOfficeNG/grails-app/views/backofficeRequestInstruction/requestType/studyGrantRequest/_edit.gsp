@@ -21,15 +21,11 @@
     </li>
   
     <li class="">
-      <a href="#page4"><em><g:message code="sgr.step.calculationElements.label" /></em></a>
-    </li>
-  
-    <li class="">
-      <a href="#page5"><em><g:message code="sgr.step.bankReference.label" /></em></a>
+      <a href="#page4"><em><g:message code="sgr.step.bankReference.label" /></em></a>
     </li>
   
     <li class="administration ">
-      <a href="#page8"><em><g:message code="request.step.administration.label" /></em></a>
+      <a href="#page7"><em><g:message code="request.step.administration.label" /></em></a>
     </li>
   
   </ul>
@@ -210,11 +206,7 @@
                 
                   <dt class="required condition-isCurrentSchoolNameOther-filled"><g:message code="sgr.property.currentSchoolNamePrecision.label" /> * : </dt><dd id="currentSchoolNamePrecision" class="action-editField validate-string required-true i18n-sgr.property.currentSchoolNamePrecision" ><span>${rqt?.currentSchoolNamePrecision}</span></dd>
                 
-                  <dt class="required"><g:message code="sgr.property.currentSchoolPostalCode.label" /> * : </dt><dd id="currentSchoolPostalCode" class="action-editField validate-postalCode required-true i18n-sgr.property.currentSchoolPostalCode maxLength-5" ><span>${rqt?.currentSchoolPostalCode}</span></dd>
-                
-                  <dt class="required"><g:message code="sgr.property.currentSchoolCity.label" /> * : </dt><dd id="currentSchoolCity" class="action-editField validate-city required-true i18n-sgr.property.currentSchoolCity maxLength-32" ><span>${rqt?.currentSchoolCity}</span></dd>
-                
-                  <dt class="required"><g:message code="sgr.property.currentSchoolCountry.label" /> * : </dt><dd id="currentSchoolCountry" class="action-editField validate-capdematEnum required-true i18n-sgr.property.currentSchoolCountry javatype-fr.cg95.cvq.business.users.CountryType" ><g:capdematEnumToField var="${rqt?.currentSchoolCountry}" i18nKeyPrefix="sgr.property.currentSchoolCountry" /></dd>
+                  <dt class="required condition-isCurrentSchoolNameOther-filled"><g:message code="sgr.property.currentSchoolAddress.label" /> * : </dt><dd id="currentSchoolAddress" class="action-editField validate-address required-true i18n-sgr.property.currentSchoolAddress" ><div><p class="additionalDeliveryInformation">${rqt?.currentSchoolAddress?.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${rqt?.currentSchoolAddress?.additionalGeographicalInformation}</p><span class="streetNumber">${rqt?.currentSchoolAddress?.streetNumber}</span> <span class="streetName">${rqt?.currentSchoolAddress?.streetName}</span><g:if test="${!!rqt?.currentSchoolAddress?.streetMatriculation}"><br /><em><g:message code="address.property.streetMatriculation" /></em><span class="streetMatriculation">${rqt?.currentSchoolAddress?.streetMatriculation}</span></g:if><g:if test="${!!rqt?.currentSchoolAddress?.streetRivoliCode}"><br /><em><g:message code="address.property.streetRivoliCode" /></em><span class="streetRivoliCode">${rqt?.currentSchoolAddress?.streetRivoliCode}</span></g:if><p class="placeNameOrService">${rqt?.currentSchoolAddress?.placeNameOrService}</p><span class="postalCode">${rqt?.currentSchoolAddress?.postalCode}</span> <span class="city">${rqt?.currentSchoolAddress?.city}</span><p class="countryName">${rqt?.currentSchoolAddress?.countryName}</p><g:if test="${!!rqt?.currentSchoolAddress?.cityInseeCode}"><em><g:message code="address.property.cityInseeCode" /></em><span class="cityInseeCode">${rqt?.currentSchoolAddress?.cityInseeCode}</span></g:if></div></dd>
                 
               </dl>
               
@@ -271,37 +263,6 @@
       
       <!-- step start -->
       <div id="page4">
-        <h2><g:message code="property.form" />
-          <span><g:message code="sgr.step.calculationElements.label" /></span>
-        </h2>
-        <div class="yui-g">
-          
-          
-          <!-- column start -->
-          <div class="yui-u first">
-            
-              
-              <dl>
-                <dt class="required"><g:message code="sgr.property.distance.label" /> * : </dt><dd id="distance" class="action-editField validate-capdematEnum required-true i18n-sgr.property.distance javatype-fr.cg95.cvq.business.request.school.DistanceType" ><g:capdematEnumToField var="${rqt?.distance}" i18nKeyPrefix="sgr.property.distance" /></dd>
-              </dl>
-              
-            
-          </div>
-          <!-- column end -->
-          
-          <!-- column start -->
-          <div class="yui-u">
-            
-          </div>
-          <!-- column end -->
-          
-        </div>
-        <!-- data step  end -->
-      </div>
-      <!-- step end -->
-      
-      <!-- step start -->
-      <div id="page5">
         <h2><g:message code="property.form" />
           <span><g:message code="sgr.step.bankReference.label" /></span>
         </h2>
@@ -362,7 +323,7 @@
       <!-- step end -->
       
       <!-- step start -->
-      <div id="page8">
+      <div id="page7">
         <h2><g:message code="property.form" />
           <span><g:message code="request.step.administration.label" /></span>
         </h2>
@@ -375,6 +336,12 @@
           
           <!-- column start -->
           <div class="yui-u first">
+            
+              
+              <dl>
+                <dt class="required"><g:message code="sgr.property.distance.label" /> * : </dt><dd id="distance" class="action-editField validate-capdematEnum required-true i18n-sgr.property.distance javatype-fr.cg95.cvq.business.request.school.DistanceType" ><g:capdematEnumToField var="${rqt?.distance}" i18nKeyPrefix="sgr.property.distance" /></dd>
+              </dl>
+              
             
               
               <dl>

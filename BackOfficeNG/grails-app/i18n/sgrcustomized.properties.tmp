@@ -12,9 +12,6 @@ sgr.step.otherHelps.desc =
 sgr.step.currentStudies.label =
 sgr.step.currentStudies.desc =
 
-sgr.step.calculationElements.label =
-sgr.step.calculationElements.desc =
-
 sgr.step.bankReference.label =
 sgr.step.bankReference.desc =
 
@@ -79,16 +76,8 @@ sgr.property.currentSchoolNamePrecision.help =
 sgr.property.currentSchoolNamePrecision.validationError =
 
 
-sgr.property.currentSchoolPostalCode.help =
-sgr.property.currentSchoolPostalCode.validationError =
-
-
-sgr.property.currentSchoolCity.help =
-sgr.property.currentSchoolCity.validationError =
-
-
-sgr.property.currentSchoolCountry.help =
-sgr.property.currentSchoolCountry.validationError =
+sgr.property.currentSchoolAddress.help =
+sgr.property.currentSchoolAddress.validationError =
 
 
 sgr.property.aLevelsInformations.help =

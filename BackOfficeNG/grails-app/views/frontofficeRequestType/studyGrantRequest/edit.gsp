@@ -186,36 +186,12 @@
   
 
   
-        <li class="${currentStep == 'calculationElements' ? 'current ' : ''}
-          
-            ${rqt.stepStates['calculationElements'].state}
-          
-          ">
-          <span class="number">5</span>
-          <a
-            <g:if test="${currentStep != 'calculationElements' && rqt.stepStates['calculationElements'].state != 'unavailable'}">
-              href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'calculationElements'])}"
-            </g:if>
-          >
-            
-              <g:message code="sgr.step.calculationElements.label" /> *
-              <span class="help">
-                
-                  <g:message code="request.step.message.${rqt.stepStates['calculationElements'].state}" />
-                
-              </span>
-            
-          </a>
-        </li>    
-  
-
-  
         <li class="${currentStep == 'bankReference' ? 'current ' : ''}
           
             ${rqt.stepStates['bankReference'].state}
           
           ">
-          <span class="number">6</span>
+          <span class="number">5</span>
           <a
             <g:if test="${currentStep != 'bankReference' && rqt.stepStates['bankReference'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'bankReference'])}"
@@ -241,7 +217,7 @@
             ${rqt.stepStates['document'].state}
           
           ">
-          <span class="number">7</span>
+          <span class="number">6</span>
           <a
             <g:if test="${currentStep != 'document' && rqt.stepStates['document'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'document'])}"

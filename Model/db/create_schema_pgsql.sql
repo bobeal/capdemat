@@ -411,6 +411,9 @@
         drop constraint FKCE60DA2B10A7E028;
 
     alter table study_grant_request 
+        drop constraint FK7D2F0A766A39B687;
+
+    alter table study_grant_request 
         drop constraint FK7D2F0A76A4AB2F89;
 
     alter table study_grant_request_current_school_name 
@@ -2476,10 +2479,8 @@
         alevels varchar(255),
         alevels_date varchar(4),
         bank_account_id int8,
-        current_school_city varchar(32),
-        current_school_country varchar(255),
+        current_school_address_id int8,
         current_school_name_precision varchar(255),
-        current_school_postal_code varchar(5),
         current_studies_diploma varchar(255),
         current_studies_level varchar(255),
         distance varchar(255),
@@ -3347,6 +3348,11 @@
         add constraint FKCE60DA2B10A7E028 
         foreign key (sms_notification_request_id) 
         references sms_notification_request;
+
+    alter table study_grant_request 
+        add constraint FK7D2F0A766A39B687 
+        foreign key (current_school_address_id) 
+        references address;
 
     alter table study_grant_request 
         add constraint FK7D2F0A76A4AB2F89 

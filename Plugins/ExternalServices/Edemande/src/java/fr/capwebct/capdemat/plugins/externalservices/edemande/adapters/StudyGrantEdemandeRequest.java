@@ -185,14 +185,7 @@ public class StudyGrantEdemandeRequest implements EdemandeRequest {
             StringUtils.defaultIfEmpty(request.getCurrentSchool().getCurrentSchoolNamePrecision(),
                 request.getCurrentSchool().getCurrentSchoolNameArray().length == 0 ? "" :
                     request.getCurrentSchool().getCurrentSchoolNameArray(0).getName()));
-        result.put("currentSchoolPostalCode",
-            StringUtils.defaultString(request.getCurrentSchool().getCurrentSchoolPostalCode()));
-        result.put("currentSchoolCity",
-            StringUtils.defaultString(request.getCurrentSchool().getCurrentSchoolCity()));
-        result.put("currentSchoolCountry",
-            request.getCurrentSchool().getCurrentSchoolCountry() != null ?
-                service.translate("sgr.property.currentSchoolCountry."
-                    + request.getCurrentSchool().getCurrentSchoolCountry()) : "");
+        result.put("currentSchoolAddress", request.getCurrentSchool().getCurrentSchoolAddress());
         result.put("abroadInternshipSchoolName",
             request.getCurrentStudiesInformations().getAbroadInternship() ?
                 request.getCurrentStudiesInformations().getAbroadInternshipSchoolName() : "");

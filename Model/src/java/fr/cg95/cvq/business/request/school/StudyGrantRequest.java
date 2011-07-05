@@ -77,13 +77,6 @@ public class StudyGrantRequest extends Request implements Serializable {
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
-          getStepStates().put("calculationElements", stepState);
-        
-          stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "unavailable");
-          stepState.put("required", true);
-          stepState.put("errorMsg", null);
-          stepState.put("invalidFields", new ArrayList<String>());
           getStepStates().put("bankReference", stepState);
         
           stepState = new HashMap<String, Object>(4);
@@ -189,10 +182,8 @@ public class StudyGrantRequest extends Request implements Serializable {
         if (getBankAccount() != null)
             studyGrantRequest.setBankAccount(BankAccount.modelToXml(getBankAccount()));
         SgrCurrentSchoolType sgrCurrentSchoolTypeCurrentSchool = studyGrantRequest.addNewCurrentSchool();
-        sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolCity(getCurrentSchoolCity());
-      
-        if (getCurrentSchoolCountry() != null)
-            sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getCurrentSchoolCountry().toString()));
+        if (getCurrentSchoolAddress() != null)
+            sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolAddress(Address.modelToXml(getCurrentSchoolAddress()));
       
         i = 0;
         if (getCurrentSchoolName() != null) {
@@ -204,8 +195,6 @@ public class StudyGrantRequest extends Request implements Serializable {
         }
       
         sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolNamePrecision(getCurrentSchoolNamePrecision());
-      
-        sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolPostalCode(getCurrentSchoolPostalCode());
       
         if (getCurrentStudiesDiploma() != null)
             currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudiesDiploma(fr.cg95.cvq.xml.request.school.CurrentStudiesType.Enum.forString(getCurrentStudiesDiploma().toString()));
@@ -326,12 +315,8 @@ public class StudyGrantRequest extends Request implements Serializable {
         if (studyGrantRequestXml.getBankAccount() != null)
             studyGrantRequest.setBankAccount(BankAccount.xmlToModel(studyGrantRequestXml.getBankAccount()));
       
-        studyGrantRequest.setCurrentSchoolCity(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolCity());
-      
-        if (studyGrantRequestXml.getCurrentSchool().getCurrentSchoolCountry() != null)
-            studyGrantRequest.setCurrentSchoolCountry(fr.cg95.cvq.business.users.CountryType.forString(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolCountry().toString()));
-        else
-            studyGrantRequest.setCurrentSchoolCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
+        if (studyGrantRequestXml.getCurrentSchool().getCurrentSchoolAddress() != null)
+            studyGrantRequest.setCurrentSchoolAddress(Address.xmlToModel(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolAddress()));
       
         List<fr.cg95.cvq.business.request.LocalReferentialData> currentSchoolNameList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(studyGrantRequestXml.getCurrentSchool().sizeOfCurrentSchoolNameArray());
         for (LocalReferentialDataType object : studyGrantRequestXml.getCurrentSchool().getCurrentSchoolNameArray()) {
@@ -340,8 +325,6 @@ public class StudyGrantRequest extends Request implements Serializable {
         studyGrantRequest.setCurrentSchoolName(currentSchoolNameList);
       
         studyGrantRequest.setCurrentSchoolNamePrecision(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolNamePrecision());
-      
-        studyGrantRequest.setCurrentSchoolPostalCode(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolPostalCode());
       
         if (studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudiesDiploma() != null)
             studyGrantRequest.setCurrentStudiesDiploma(fr.cg95.cvq.business.request.school.CurrentStudiesType.forString(studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudiesDiploma().toString()));
@@ -430,13 +413,6 @@ public class StudyGrantRequest extends Request implements Serializable {
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
           clone.getStepStates().put("currentStudies", stepState);
-        
-          stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "unavailable");
-          stepState.put("required", true);
-          stepState.put("errorMsg", null);
-          stepState.put("invalidFields", new ArrayList<String>());
-          clone.getStepStates().put("calculationElements", stepState);
         
           stepState = new HashMap<String, Object>(4);
           stepState.put("state", "unavailable");
@@ -587,22 +563,13 @@ public class StudyGrantRequest extends Request implements Serializable {
         return studyGrantRequestData.getBankAccount();
     }
   
-    public final void setCurrentSchoolCity(final String currentSchoolCity) {
-        studyGrantRequestData.setCurrentSchoolCity(currentSchoolCity);
+    public final void setCurrentSchoolAddress(final fr.cg95.cvq.business.users.Address currentSchoolAddress) {
+        studyGrantRequestData.setCurrentSchoolAddress(currentSchoolAddress);
     }
 
     
-    public final String getCurrentSchoolCity() {
-        return studyGrantRequestData.getCurrentSchoolCity();
-    }
-  
-    public final void setCurrentSchoolCountry(final fr.cg95.cvq.business.users.CountryType currentSchoolCountry) {
-        studyGrantRequestData.setCurrentSchoolCountry(currentSchoolCountry);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.CountryType getCurrentSchoolCountry() {
-        return studyGrantRequestData.getCurrentSchoolCountry();
+    public final fr.cg95.cvq.business.users.Address getCurrentSchoolAddress() {
+        return studyGrantRequestData.getCurrentSchoolAddress();
     }
   
     public final void setCurrentSchoolName(final List<fr.cg95.cvq.business.request.LocalReferentialData> currentSchoolName) {
@@ -621,15 +588,6 @@ public class StudyGrantRequest extends Request implements Serializable {
     
     public final String getCurrentSchoolNamePrecision() {
         return studyGrantRequestData.getCurrentSchoolNamePrecision();
-    }
-  
-    public final void setCurrentSchoolPostalCode(final String currentSchoolPostalCode) {
-        studyGrantRequestData.setCurrentSchoolPostalCode(currentSchoolPostalCode);
-    }
-
-    
-    public final String getCurrentSchoolPostalCode() {
-        return studyGrantRequestData.getCurrentSchoolPostalCode();
     }
   
     public final void setCurrentStudiesDiploma(final fr.cg95.cvq.business.request.school.CurrentStudiesType currentStudiesDiploma) {

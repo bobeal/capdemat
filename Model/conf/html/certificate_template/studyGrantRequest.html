@@ -230,16 +230,15 @@
           <p class="label">${esc(i18n.translate('sgr.property.currentSchoolNamePrecision.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.currentSchoolNamePrecision?.toString()))}</div>
 
         
-          <p class="label">${esc(i18n.translate('sgr.property.currentSchoolPostalCode.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.currentSchoolPostalCode?.toString()))}</div>
-
-        
-          <p class="label">${esc(i18n.translate('sgr.property.currentSchoolCity.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.currentSchoolCity?.toString()))}</div>
-
-        
-          <p class="label">${esc(i18n.translate('sgr.property.currentSchoolCountry.label'))}</p>
+          <p class="label">${esc(i18n.translate('sgr.property.currentSchoolAddress.label'))}</p>
           <div class="response">
-            <% if(rqt.currentSchoolCountry) { %>
-              ${esc(i18n.translate('sgr.property.currentSchoolCountry.' + StringUtils.uncapitalize(rqt.currentSchoolCountry.toString())))}
+            <% if(rqt.currentSchoolAddress) { %>
+              <p>${esc(StringUtils.defaultString(rqt.currentSchoolAddress?.additionalDeliveryInformation))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.currentSchoolAddress?.additionalGeographicalInformation))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.currentSchoolAddress?.streetNumber))} ${esc(StringUtils.defaultString(rqt.currentSchoolAddress?.streetName))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.currentSchoolAddress?.placeNameOrService))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.currentSchoolAddress?.postalCode))} ${esc(StringUtils.defaultString(rqt.currentSchoolAddress?.city))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.currentSchoolAddress?.countryName))}</p>
             <% } %>
           </div>
           
@@ -343,21 +342,6 @@
   
 
   
-  <h2>${i18n.translate('sgr.step.calculationElements.label')}</h2>
-  
-    
-      <p class="label">${esc(i18n.translate('sgr.property.distance.label'))}</p>
-          <div class="response">
-            <% if(rqt.distance) { %>
-              ${esc(i18n.translate('sgr.property.distance.' + StringUtils.uncapitalize(rqt.distance.toString())))}
-            <% } %>
-          </div>
-          
-
-    
-  
-
-  
   <h2>${i18n.translate('sgr.step.bankReference.label')}</h2>
   
     
@@ -418,6 +402,20 @@
   
 
   
+  <h2>${i18n.translate('request.step.administration.label')}</h2>
+  
+    
+      <p class="label">${esc(i18n.translate('sgr.property.distance.label'))}</p>
+          <div class="response">
+            <% if(rqt.distance) { %>
+              ${esc(i18n.translate('sgr.property.distance.' + StringUtils.uncapitalize(rqt.distance.toString())))}
+            <% } %>
+          </div>
+          
+
+    
+  
+
   <h2>${i18n.translate('contact.property.meansOfContact')}</h2>
   <div class="response choice">
     <% if (rqt.meansOfContact) { %>

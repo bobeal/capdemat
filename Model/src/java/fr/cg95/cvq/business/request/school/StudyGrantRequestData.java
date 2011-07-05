@@ -38,7 +38,7 @@ public class StudyGrantRequestData implements Serializable {
       
         abroadInternship = Boolean.valueOf(false);
       
-        currentSchoolCountry = fr.cg95.cvq.business.users.CountryType.FR;
+        distance = fr.cg95.cvq.business.request.school.DistanceType.UNDETERMINED;
       
         isSubjectAccountHolder = Boolean.valueOf(true);
       
@@ -142,16 +142,8 @@ public class StudyGrantRequestData implements Serializable {
         
           
             
-        result.setCurrentSchoolCity(currentSchoolCity);
-      
-          
-        
-          
-            
-        if (currentSchoolCountry != null)
-            result.setCurrentSchoolCountry(currentSchoolCountry);
-        else
-            result.setCurrentSchoolCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
+        if (currentSchoolAddress != null)
+            result.setCurrentSchoolAddress(currentSchoolAddress.clone());
       
           
         
@@ -168,12 +160,6 @@ public class StudyGrantRequestData implements Serializable {
           
             
         result.setCurrentSchoolNamePrecision(currentSchoolNamePrecision);
-      
-          
-        
-          
-            
-        result.setCurrentSchoolPostalCode(currentSchoolPostalCode);
       
           
         
@@ -837,69 +823,54 @@ public class StudyGrantRequestData implements Serializable {
     }
   
     
-      @MaxLength(
-        
-          value = 32,
-        
-        
-        profiles = {"currentStudies"},
-        message = "currentSchoolCity"
-      )
-    
       @NotNull(
         
         
+          when = "groovy:def active = true;" +
+          
+            "if (_this.currentSchoolName == null || _this.currentSchoolName.isEmpty()) return false; _this.currentSchoolName.each { active &= _this.conditions['currentSchoolName'].test(it.name) };" +
+                
+              
+            
+            
+            "return active",
+        
         profiles = {"currentStudies"},
-        message = "currentSchoolCity"
+        message = "currentSchoolAddress"
       )
     
-      @NotBlank(
+      @AssertValid(
         
+        
+          when = "groovy:def active = true;" +
+          
+            "if (_this.currentSchoolName == null || _this.currentSchoolName.isEmpty()) return false; _this.currentSchoolName.each { active &= _this.conditions['currentSchoolName'].test(it.name) };" +
+                
+              
+            
+            
+            "return active",
         
         profiles = {"currentStudies"},
-        message = "currentSchoolCity"
+        message = "currentSchoolAddress"
       )
     
-    private String currentSchoolCity;
+    private fr.cg95.cvq.business.users.Address currentSchoolAddress;
 
-    public final void setCurrentSchoolCity(final String currentSchoolCity) {
-        this.currentSchoolCity = currentSchoolCity;
+    public final void setCurrentSchoolAddress(final fr.cg95.cvq.business.users.Address currentSchoolAddress) {
+        this.currentSchoolAddress = currentSchoolAddress;
     }
 
     /**
  
-        * @hibernate.property
-        *  column="current_school_city"
-        *  length="32"
+        * @hibernate.many-to-one
+        
+        *  column="current_school_address_id"
+        *  class="fr.cg95.cvq.business.users.Address"
       
     */
-    public final String getCurrentSchoolCity() {
-        return this.currentSchoolCity;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"currentStudies"},
-        message = "currentSchoolCountry"
-      )
-    
-    private fr.cg95.cvq.business.users.CountryType currentSchoolCountry;
-
-    public final void setCurrentSchoolCountry(final fr.cg95.cvq.business.users.CountryType currentSchoolCountry) {
-        this.currentSchoolCountry = currentSchoolCountry;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="current_school_country"
-        
-      
-    */
-    public final fr.cg95.cvq.business.users.CountryType getCurrentSchoolCountry() {
-        return this.currentSchoolCountry;
+    public final fr.cg95.cvq.business.users.Address getCurrentSchoolAddress() {
+        return this.currentSchoolAddress;
     }
   
     
@@ -996,47 +967,6 @@ public class StudyGrantRequestData implements Serializable {
     }
   
     
-      @MaxLength(
-        
-          value = 5,
-        
-        
-        profiles = {"currentStudies"},
-        message = "currentSchoolPostalCode"
-      )
-    
-      @NotNull(
-        
-        
-        profiles = {"currentStudies"},
-        message = "currentSchoolPostalCode"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"currentStudies"},
-        message = "currentSchoolPostalCode"
-      )
-    
-    private String currentSchoolPostalCode;
-
-    public final void setCurrentSchoolPostalCode(final String currentSchoolPostalCode) {
-        this.currentSchoolPostalCode = currentSchoolPostalCode;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="current_school_postal_code"
-        *  length="5"
-      
-    */
-    public final String getCurrentSchoolPostalCode() {
-        return this.currentSchoolPostalCode;
-    }
-  
-    
       @NotNull(
         
         
@@ -1090,7 +1020,7 @@ public class StudyGrantRequestData implements Serializable {
       @NotNull(
         
         
-        profiles = {"calculationElements"},
+        profiles = {"administration"},
         message = "distance"
       )
     

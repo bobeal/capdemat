@@ -19,25 +19,28 @@
             
 
     
-      <label for="currentSchoolPostalCode" class="required"><g:message code="sgr.property.currentSchoolPostalCode.label" /> *  <span><g:message code="sgr.property.currentSchoolPostalCode.help" /></span></label>
-            <input type="text" id="currentSchoolPostalCode" name="currentSchoolPostalCode" value="${rqt.currentSchoolPostalCode?.toString()}" 
-                    class="required  validate-postalCode ${rqt.stepStates['currentStudies'].invalidFields.contains('currentSchoolPostalCode') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.currentSchoolPostalCode.validationError" />"  maxlength="5" />
-            
-
-    
-      <label for="currentSchoolCity" class="required"><g:message code="sgr.property.currentSchoolCity.label" /> *  <span><g:message code="sgr.property.currentSchoolCity.help" /></span></label>
-            <input type="text" id="currentSchoolCity" name="currentSchoolCity" value="${rqt.currentSchoolCity?.toString()}" 
-                    class="required  validate-city ${rqt.stepStates['currentStudies'].invalidFields.contains('currentSchoolCity') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.currentSchoolCity.validationError" />"  maxlength="32" />
-            
-
-    
-      <label for="currentSchoolCountry" class="required"><g:message code="sgr.property.currentSchoolCountry.label" /> *  <span><g:message code="sgr.property.currentSchoolCountry.help" /></span></label>
-            <select id="currentSchoolCountry" name="currentSchoolCountry" class="required  validate-not-first ${rqt.stepStates['currentStudies'].invalidFields.contains('currentSchoolCountry') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.currentSchoolCountry.validationError" />">
-              <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Unknown','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bj','bs','bh','bd','bb','pw','be','bz','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','ci','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gp','gu','gt','gn','gq','gw','gy','gf','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk']}">
-                <option value="fr.cg95.cvq.business.users.CountryType_${it}" ${it == rqt.currentSchoolCountry?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="sgr.property.currentSchoolCountry" /></option>
-              </g:each>
-            </select>
+      <label class="required condition-isCurrentSchoolNameOther-filled"><g:message code="sgr.property.currentSchoolAddress.label" /> *  <span><g:message code="sgr.property.currentSchoolAddress.help" /></span></label>
+            <div id="currentSchoolAddress" class="address required condition-isCurrentSchoolNameOther-filled  ${rqt.stepStates['currentStudies'].invalidFields.contains('currentSchoolAddress') ? 'validation-failed' : ''}">
+            <label for="currentSchoolAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
+            <input type="text" class="validate-addressLine38 ${rqt.stepStates['currentStudies'].invalidFields.contains('currentSchoolAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.currentSchoolAddress?.additionalDeliveryInformation}" maxlength="38" id="currentSchoolAddress.additionalDeliveryInformation" name="currentSchoolAddress.additionalDeliveryInformation" />  
+            <label for="currentSchoolAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
+            <input type="text" class="validate-addressLine38 ${rqt.stepStates['currentStudies'].invalidFields.contains('currentSchoolAddress.additionalGeographicalInformation') ? 'validation-failed' : ''}" value="${rqt.currentSchoolAddress?.additionalGeographicalInformation}" maxlength="38" id="currentSchoolAddress.additionalGeographicalInformation" name="currentSchoolAddress.additionalGeographicalInformation" />
+            <label for="currentSchoolAddress_streetNumber"><g:message code="address.property.streetNumber" /></label> - 
+            <label for="currentSchoolAddress_streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
+            <input type="text" class="line1 validate-streetNumber ${rqt.stepStates['currentStudies'].invalidFields.contains('currentSchoolAddress.streetNumber') ? 'validation-failed' : ''}" value="${rqt.currentSchoolAddress?.streetNumber}" size="5" maxlength="5" id="currentSchoolAddress_streetNumber" name="currentSchoolAddress.streetNumber" />
+            <input type="text" class="line2 required validate-streetName ${rqt.stepStates['currentStudies'].invalidFields.contains('currentSchoolAddress.streetName') ? 'validation-failed' : ''}" value="${rqt.currentSchoolAddress?.streetName}" maxlength="32" id="currentSchoolAddress_streetName" name="currentSchoolAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
+            <input type="hidden" value="${rqt.currentSchoolAddress?.streetMatriculation}" id="currentSchoolAddress_streetMatriculation" name="currentSchoolAddress.streetMatriculation" />
+            <input type="hidden" value="${rqt.currentSchoolAddress?.streetRivoliCode}" id="currentSchoolAddress_streetRivoliCode" name="currentSchoolAddress.streetRivoliCode" />
+            <label for="currentSchoolAddress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
+            <input type="text" class="validate-addressLine38 ${rqt.stepStates['currentStudies'].invalidFields.contains('currentSchoolAddress.placeNameOrService') ? 'validation-failed' : ''}" value="${rqt.currentSchoolAddress?.placeNameOrService}" maxlength="38" id="currentSchoolAddress.placeNameOrService" name="currentSchoolAddress.placeNameOrService" />
+            <label for="currentSchoolAddress_postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
+            <label for="currentSchoolAddress_city" class="required"><g:message code="address.property.city" /> *</label><br />
+            <input type="text" class="line1 required validate-postalCode ${rqt.stepStates['currentStudies'].invalidFields.contains('currentSchoolAddress.postalCode') ? 'validation-failed' : ''}" value="${rqt.currentSchoolAddress?.postalCode}" size="5" maxlength="5" id="currentSchoolAddress_postalCode" name="currentSchoolAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line2 required validate-city ${rqt.stepStates['currentStudies'].invalidFields.contains('currentSchoolAddress.city') ? 'validation-failed' : ''}" value="${rqt.currentSchoolAddress?.city}" maxlength="32" id="currentSchoolAddress_city" name="currentSchoolAddress.city" title="<g:message code="address.property.city.validationError" />" />
+            <input type="hidden" value="${rqt.currentSchoolAddress?.cityInseeCode}" id="currentSchoolAddress_cityInseeCode" name="currentSchoolAddress.cityInseeCode" />
+            <label for="currentSchoolAddress.countryName"><g:message code="address.property.countryName" /></label>
+            <input type="text" class="validate-addressLine38 ${rqt.stepStates['currentStudies'].invalidFields.contains('currentSchoolAddress.countryName') ? 'validation-failed' : ''}" value="${rqt.currentSchoolAddress?.countryName}" maxlength="38" id="currentSchoolAddress.countryName" name="currentSchoolAddress.countryName" />
+            </div>
             
 
     

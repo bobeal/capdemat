@@ -48,15 +48,14 @@
                 <condition name="makesAbroadInternship" />
               </conditions>
             </step>
-            <step index="4" name="calculationElements" />
-            <step index="5" name="bankReference">
+            <step index="4" name="bankReference">
               <conditions>
                 <condition name="isSubjectAccountHolder" />
               </conditions>
             </step>
-            <step index="6" ref="document" />
-            <step index="7" ref="validation" />
-            <step index="8" ref="administration" />
+            <step index="5" ref="document" />
+            <step index="6" ref="validation" />
+            <step index="7" ref="administration" />
           </steps>
         </common>
       </xs:appinfo>
@@ -341,7 +340,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="Distance" type="sgr:DistanceType">
+            <xs:element name="Distance" type="sgr:DistanceType" default="undetermined">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Lieu d'études ou de stage situé à
@@ -357,10 +356,9 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="calculationElements" />
+                    <step ref="administration" />
                   </common>
                   <pdf />
-                  <fo />
                   <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
@@ -569,17 +567,20 @@
   <xs:simpleType name="DistanceType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="undetermined" value="La distance entre votre lieu de résidence et votre lieu d'études ou de stage n'a pas pu être déterminée. L'agent qui traitera votre demande pourra être amené à vous demander de préciser les informations nécessaires avant de traiter votre dossier." />
         <enum key="lessThan30kms" value="Moins de 30 kms du domicile" />
         <enum key="between30and250kms" value="Entre 30 et 250 kms du domicile" />
         <enum key="moreThan250kmsAndAbroad" value="Plus de 250 kms du domicile et à l'international" />
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="undetermined" value="The distance bewteen home and school or internship could not be determined. The agent who will process your request may ask you required information." />
         <enum key="lessThan30kms" value="Less than 30 kms from home" />
         <enum key="between30and250kms" value="Between 30 and 250 kms from home" />
         <enum key="moreThan250kmsAndAbroad" value="More than 250 kms from home and abroad" />
       </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
+      <xs:enumeration value="undetermined"></xs:enumeration>
       <xs:enumeration value="lessThan30kms"></xs:enumeration>
       <xs:enumeration value="between30and250kms"></xs:enumeration>
       <xs:enumeration value="moreThan250kmsAndAbroad"></xs:enumeration>
@@ -1148,74 +1149,21 @@
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CurrentSchoolPostalCode" type="cvq:PostalCodeType">
+      <xs:element name="CurrentSchoolAddress" type="cvq:AddressType">
         <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Code postal
-          </xs:documentation>
-          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Postal code
-          </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Code postal
+            Adresse de l'établissement
           </xs:documentation>
           <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Postal code
+            School address
           </xs:documentation>
           <xs:appinfo>
             <model namespace="users" />
             <common>
               <step name="currentStudies" />
-            </common>
-            <pdf />
-            <fo />
-            <bo column="1" />
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="CurrentSchoolCity" type="cvq:CityType">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Ville
-          </xs:documentation>
-          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-            City
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Ville
-          </xs:documentation>
-          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            City
-          </xs:documentation>
-          <xs:appinfo>
-            <model namespace="users" />
-            <common>
-              <step name="currentStudies" />
-            </common>
-            <pdf />
-            <fo />
-            <bo column="1" />
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="CurrentSchoolCountry" type="cvq:CountryType" default="fr">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Pays
-          </xs:documentation>
-          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Country
-          </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Pays
-          </xs:documentation>
-          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Country
-          </xs:documentation>
-          <xs:appinfo>
-            <model namespace="users" />
-            <common>
-              <step name="currentStudies" />
+              <conditions>
+                <condition name="isCurrentSchoolNameOther" type="filled" required="true" />
+              </conditions>
             </common>
             <pdf />
             <fo />

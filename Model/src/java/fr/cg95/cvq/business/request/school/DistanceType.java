@@ -9,6 +9,8 @@ public final class DistanceType extends PersistentStringEnum {
 
     private static final long serialVersionUID = 1L;
   
+    public static final DistanceType UNDETERMINED = new DistanceType("undetermined");
+  
     public static final DistanceType LESS_THAN30KMS = new DistanceType("lessThan30kms");
   
     public static final DistanceType BETWEEN30AND250KMS = new DistanceType("between30and250kms");
@@ -26,13 +28,14 @@ public final class DistanceType extends PersistentStringEnum {
     public DistanceType() {}
 
     public static DistanceType[] allDistanceTypes = {
+        UNDETERMINED,
         LESS_THAN30KMS,
         BETWEEN30AND250KMS,
         MORE_THAN250KMS_AND_ABROAD
     };
 
     public static DistanceType getDefaultDistanceType() {
-        return null;
+        return UNDETERMINED;
     }
 
     public static DistanceType forString(final String enumAsString) {

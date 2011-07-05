@@ -168,6 +168,7 @@ class FrontofficeRequestController {
                     }
                     return
                 } else {
+                    requestWorkflowService.modify(rqt)
                     requestWorkflowService.validate(rqt, [params.currentStep])
                     if (params.currentCollection != null) {
                         // hack : reset step to uncomplete,

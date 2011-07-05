@@ -17,3 +17,7 @@ alter table study_grant_request drop column french_r_i_b_id;
 alter table document_binary drop column data;
 alter table document_binary drop column preview;
 alter table document_binary alter column zdb_id set not null;
+
+alter table study_grant_request drop column current_school_postal_code;
+alter table study_grant_request drop column current_school_city;
+alter table study_grant_request drop column current_school_country;

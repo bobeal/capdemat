@@ -536,6 +536,12 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="isOfRegistrationKind" value="true"/>
     <property name="defaultDisplayGroup" value="school" />
     <property name="filingDelay" value="12"/>
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
+    <property name="localReferentialService" ref="localReferentialService" />
+    <property name="requestExternalActionService" ref="requestExternalActionService" />
+    <property name="requestSearchService" ref="requestSearchService" />
+    <property name="userSearchService" ref="userSearchService" />
+    <property name="requestDAO" ref="requestDAO" />
   </bean>
   
   <bean id="learningActivitiesDiscoveryRegistrationRequestService" 

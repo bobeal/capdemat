@@ -130,17 +130,16 @@
           <dt><g:message code="sgr.property.currentSchoolNamePrecision.label" /></dt><dd>${rqt.currentSchoolNamePrecision?.toString()}</dd>
 
         
-          <dt><g:message code="sgr.property.currentSchoolPostalCode.label" /></dt><dd>${rqt.currentSchoolPostalCode?.toString()}</dd>
-
-        
-          <dt><g:message code="sgr.property.currentSchoolCity.label" /></dt><dd>${rqt.currentSchoolCity?.toString()}</dd>
-
-        
-          <dt><g:message code="sgr.property.currentSchoolCountry.label" /></dt>
+          <dt><g:message code="sgr.property.currentSchoolAddress.label" /></dt>
           <dd>
-            <g:if test="${rqt.currentSchoolCountry}">
-              <g:capdematEnumToField var="${rqt.currentSchoolCountry}" i18nKeyPrefix="sgr.property.currentSchoolCountry" />
-            </g:if>
+          <g:if test="${rqt.currentSchoolAddress}">
+              <p>${rqt.currentSchoolAddress?.additionalDeliveryInformation}</p>
+              <p>${rqt.currentSchoolAddress?.additionalGeographicalInformation}</p>
+              <p>${rqt.currentSchoolAddress?.streetNumber} ${rqt.currentSchoolAddress?.streetName}</p>
+              <p>${rqt.currentSchoolAddress?.placeNameOrService}</p>
+              <p>${rqt.currentSchoolAddress?.postalCode} ${rqt.currentSchoolAddress?.city}</p>
+              <p>${rqt.currentSchoolAddress?.countryName}</p>
+          </g:if>
           </dd>
           
 
@@ -224,24 +223,6 @@
           
 
         
-      </dl>
-      
-    
-  
-
-  
-    <h3><g:message code="sgr.step.calculationElements.label" /></h3>
-    
-      
-      <dl>
-        <dt><g:message code="sgr.property.distance.label" /></dt>
-          <dd>
-            <g:if test="${rqt.distance}">
-              <g:capdematEnumToField var="${rqt.distance}" i18nKeyPrefix="sgr.property.distance" />
-            </g:if>
-          </dd>
-          
-
       </dl>
       
     
@@ -342,3 +323,12 @@
   
 
 
+<h3><g:message code="sgr.step.calculationElements.label" /></h3>
+<dl>
+  <dt><g:message code="sgr.property.distance.label" /></dt>
+  <dd>
+    <g:if test="${rqt.distance}">
+      <g:capdematEnumToField var="${rqt.distance}" i18nKeyPrefix="sgr.property.distance" />
+    </g:if>
+  </dd>
+</dl>

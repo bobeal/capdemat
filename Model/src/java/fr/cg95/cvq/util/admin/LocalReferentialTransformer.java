@@ -57,6 +57,11 @@ public class LocalReferentialTransformer {
                 logger.info("Migrating " + service.getLabel() + " local referential…");
                 File file = laRegistry.getLocalAuthorityResourceFileForLocalAuthority(siteName, Type.LOCAL_REFERENTIAL, serviceFileName, true);
                 
+                if (file == null) {
+                    logger.warn("No existing local referential for " + service.getLabel() + ", going to the next");
+                    continue;
+                }
+
                 // Parse the old XML file
                 Set<LocalReferentialType> lr = LocalReferentialOldXml.oldXmlToModel(file);
                 

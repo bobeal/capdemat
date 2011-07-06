@@ -4,7 +4,7 @@
   <g:each status="i" var="entry" in="${lrEntries}">
     <g:if test="${entry.entries}">
     <li>
-      <em>${entry.labelsMap.fr} :</em>
+      <em>${entry.labelsMap.fr}</em>
       <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
           model="['javaName':javaName, 'lrEntries': entry.entries, 'rqt':rqt, 'isMultiple':isMultiple, 'depth':++depth]" />
     </li>

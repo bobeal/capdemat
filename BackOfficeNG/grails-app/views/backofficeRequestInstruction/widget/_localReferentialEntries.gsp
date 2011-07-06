@@ -1,9 +1,9 @@
 <g:if test="${isMultiple}">
-  <ul "${depth==0 ? 'class="dataTree"' : ''}>
+  <ul ${depth==0 ? 'class="dataTree"' : ''}>
   <g:each var="entry" in="${lrEntries}">
     <li>
       <g:if test="${entry.entries}">
-        <em>${entry.labelsMap.fr} :</em>
+        <em>${entry.labelsMap.fr}</em>
         <g:render template="/backofficeRequestInstruction/widget/localReferentialEntries"
             model="['javaName':javaName, 'htmlClass':htmlClass, 
                     'lrDatas':lrDatas, 'isMultiple':isMultiple,

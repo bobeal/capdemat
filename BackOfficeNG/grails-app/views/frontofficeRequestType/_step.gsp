@@ -24,10 +24,10 @@
        <div class="summary-box">
       <g:render template="/frontofficeRequestType/${requestTypeLabelAsDir}/summary" />
       </div>
-      <h3>${message(code:'request.step.note.label')}</h3>
-      <label for="requestNote">${message(code:'request.step.note.desc')}</label>
-      <textarea id="requestNote" name="requestNote" rows="" cols="">${params.requestNote}</textarea>
-      <label><span id="requestNoteLimit"></span></label>
+      <h3 class="form-requestNote">${message(code:'request.step.note.label')}</h3>
+      <label for="requestNote" class="form-requestNote">${message(code:'request.step.note.desc')}</label>
+      <textarea id="requestNote" name="requestNote" rows="" cols="" class="form-requestNote">${params.requestNote}</textarea>
+      <label class="form-requestNote"><span id="requestNoteLimit"></span></label>
       <h3>${message(code:'request.step.validation.label')}</h3>
       <div id="useAcceptance" class="${rqt.stepStates['validation'].invalidFields.contains('useAcceptance') ? 'validation-failed' : ''}">
         <input type="checkbox" name="useAcceptance" class="required validate-one-required"

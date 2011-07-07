@@ -1,37 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-    <request>GlobalSchoolRegistrationRequest</request>
-    <data name="MotifsDerogationEcole">
-        <label lang="fr">Le ou les motif(s) de votre demande de dérogation</label>
-        <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
+    <data name="MotifsDerogationEcole" allowMultipleChoices="true" manager="CapDémat">
+        <label>Le ou les motif(s) de votre demande de dérogation</label>
+        <entries>
             <entry key="Rassemblement-de-fratrie">
-                <label lang="fr">Rassemblement de fratrie</label>
-                <message lang="fr"/>
+                <label>Rassemblement de fratrie</label>
+                <message/>
             </entry>
             <entry key="Poursuite-de-scolarite-">
-                <label lang="fr">Poursuite de scolarité</label>
-                <message lang="fr"/>
+                <label>Poursuite de scolarité</label>
+                <message/>
             </entry>
             <entry key="Assistante-maternelle-a--proximite-">
-                <label lang="fr">Assistante maternelle à proximité</label>
-                <message lang="fr"/>
+                <label>Assistante maternelle à proximité</label>
+                <message/>
             </entry>
         </entries>
     </data>
-    <data name="RegimeAlimentaire">
-        <label lang="fr">Régime alimentaire de votre enfant</label>
-        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+    <data name="RegimeAlimentaire" allowMultipleChoices="false" manager="CapDémat">
+        <label>Régime alimentaire de votre enfant</label>
+        <entries>
             <entry key="Sans-viande">
-                <label lang="fr">Sans viande</label>
-                <message lang="fr"/>
+                <label>Sans viande</label>
+                <message/>
             </entry>
             <entry key="Sans-lactose">
-                <label lang="fr">Sans lactose</label>
-                <message lang="fr"/>
+                <label>Sans lactose</label>
+                <message/>
             </entry>
             <entry key="Sans-re-gime-particulier">
-                <label lang="fr">Sans régime particulier</label>
-                <message lang="fr"/>
+                <label>Sans régime particulier</label>
+                <message/>
             </entry>
         </entries>
     </data>

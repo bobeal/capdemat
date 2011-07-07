@@ -1,45 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-    <request>LeisureCenterRegistrationRequest</request>
-    <data name="MotifsDerogationCentreLoisirs">
-        <label lang="fr">Motifs</label>
-        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+    <data name="MotifsDerogationCentreLoisirs" allowMultipleChoices="false" manager="CapDémat">
+        <label>Motifs</label>
+        <entries>
             <entry key="Grands-parents-habitant-a--Montpellier">
-                <label lang="fr">Grands parents habitant à Montpellier</label>
-                <message lang="fr"/>
+                <label>Grands parents habitant à Montpellier</label>
+                <message/>
             </entry>
             <entry key="Parents-travaillant-a--Montpellier">
-                <label lang="fr">Parents travaillant à Montpellier</label>
-                <message lang="fr"/>
+                <label>Parents travaillant à Montpellier</label>
+                <message/>
             </entry>
             <entry key="Autre-motif">
-                <label lang="fr">Autre motif</label>
-                <message lang="fr"/>
+                <label>Autre motif</label>
+                <message/>
             </entry>
         </entries>
     </data>
-    <data name="ModeAccueil">
-        <label lang="fr">Mode d'accueil</label>
-        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+    <data name="ModeAccueil" allowMultipleChoices="false" manager="CapDémat">
+        <label>Mode d'accueil</label>
+        <entries>
             <entry key="Matin">
-                <label lang="fr">Matin</label>
-                <message lang="fr"/>
+                <label>Matin</label>
+                <message/>
             </entry>
             <entry key="Apre-s-midi">
-                <label lang="fr">Après midi</label>
-                <message lang="fr"/>
+                <label>Après midi</label>
+                <message/>
             </entry>
             <entry key="Repas">
-                <label lang="fr">Repas</label>
-                <message lang="fr"/>
+                <label>Repas</label>
+                <message/>
             </entry>
             <entry key="Temps-plus-matin">
-                <label lang="fr">Temps plus matin</label>
-                <message lang="fr"/>
+                <label>Temps plus matin</label>
+                <message/>
             </entry>
             <entry key="Temps-plus-soir">
-                <label lang="fr">Temps plus soir</label>
-                <message lang="fr"/>
+                <label>Temps plus soir</label>
+                <message/>
             </entry>
         </entries>
     </data>

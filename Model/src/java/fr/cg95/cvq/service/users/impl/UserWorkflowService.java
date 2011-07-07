@@ -581,6 +581,12 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         payload.addProperty("state", state.toString());
         UserAction action = new UserAction(UserAction.Type.STATE_CHANGE, individual.getId(), payload);
         individual.getHomeFolder().getActions().add(action);
+        if (UserState.ARCHIVED.equals(state)) {
+            for (Individual responsible : homeFolder.getIndividuals()) {
+                unlink(responsible, individual);
+                unlink(individual, responsible);
+            }
+        }
         homeFolderDAO.update(individual.getHomeFolder());
         applicationEventPublisher.publishEvent(new UserEvent(this, action));
         if (UserState.INVALID.equals(state) && !UserState.INVALID.equals(homeFolder.getState()))

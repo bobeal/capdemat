@@ -225,6 +225,7 @@ dl.action .tag { font-size : 1.1em; }
 #requestInformation li:hover dl.action {
   border-color : black;
   border-width : 2px;
+  padding : 4px;
 }
 dl.action dt.title,
 dl.action dd.title,

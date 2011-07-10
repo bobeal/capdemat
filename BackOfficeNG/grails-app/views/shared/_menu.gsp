@@ -34,9 +34,11 @@
     <a id="usersMenuItem" href="${createLink(controller:'backofficeUserSecurity', action:'index')}">
       <g:message code="menu.users" />
     </a>
-    <a id="paymentMenuItem" href="${createLink(controller:'backofficePayment')}">
-      <g:message code="menu.payments" />
-    </a>
+    <g:if test="${session.supportsPaymentsTab}">
+      <a id="paymentMenuItem" href="${createLink(controller:'backofficePayment')}/>">
+        <g:message code="menu.payments" />
+      </a>
+    </g:if>
   </g:if>
 </div>
 

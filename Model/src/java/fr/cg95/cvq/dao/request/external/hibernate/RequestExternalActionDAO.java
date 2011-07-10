@@ -55,6 +55,11 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
                 sb.append(
                     " and (select category_id from request_type rt where rt.id = (select request_type_id from request r where cast(r.id as varchar) = key)) in ( "
                     + searchCrit.getValue() + ")");
+            } else if ("homeFolderId".equals(searchCrit.getAttribut())) {
+                sb.append(" and (select home_folder_id from request where cast(id as varchar) = key) ")
+                    .append(searchCrit.getSqlComparatif()).append(" ?");
+                parametersValues.add(searchCrit.getLongValue());
+                parametersTypes.add(Hibernate.LONG);
             } else if (RequestExternalAction.SEARCH_BY_REQUEST_TYPE.equals(searchCrit.getAttribut())) {
                 sb.append(" and (select request_type_id from request where cast(id as varchar) = key) ")
                     .append(searchCrit.getSqlComparatif()).append(" ?");
@@ -205,6 +210,11 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
                 sb.append(
                     " and (select category_id from request_type rt where rt.id = (select request_type_id from request r where cast(r.id as varchar) = key)) in ( "
                     + searchCrit.getValue() + ")");
+            } else if ("homeFolderId".equals(searchCrit.getAttribut())) {
+                sb.append(" and (select home_folder_id from request where cast(id as varchar) = key) ")
+                    .append(searchCrit.getSqlComparatif()).append(" ?");
+                parametersValues.add(searchCrit.getLongValue());
+                parametersTypes.add(Hibernate.LONG);
             } else if (RequestExternalAction.SEARCH_BY_REQUEST_TYPE.equals(searchCrit.getAttribut())) {
                 sb.append(" and (select request_type_id from request where cast(id as varchar) = key) ")
                     .append(searchCrit.getSqlComparatif()).append(" ?");

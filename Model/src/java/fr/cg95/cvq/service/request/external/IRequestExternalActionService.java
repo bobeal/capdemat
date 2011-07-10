@@ -11,15 +11,15 @@ public interface IRequestExternalActionService {
 
     Long addTrace(@IsRequest RequestExternalAction trace);
 
-    List<RequestExternalAction> getTraces(Set<Critere> criteriaSet, String sort,
+    List<RequestExternalAction> getTraces(@IsRequest Set<Critere> criteriaSet, String sort,
         String dir, int count, int offset);
 
-    Long getTracesCount(Set<Critere> criteriaSet);
+    Long getTracesCount(@IsRequest Set<Critere> criteriaSet);
 
-    List<RequestExternalAction> getLastTraces(Set<Critere> criteriaSet, String sort,
+    List<RequestExternalAction> getLastTraces(@IsRequest Set<Critere> criteriaSet, String sort,
             String dir, int count, int offset);
 
-    Long getLastTracesCount(Set<Critere> criteriaSet);
+    Long getLastTracesCount(@IsRequest Set<Critere> criteriaSet);
 
     List<Long> getRequestsWithoutExternalAction(Long requestTypeId, String externalServiceLabel);
 

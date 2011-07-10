@@ -1,19 +1,19 @@
 package fr.cg95.cvq.service.request;
 
+import java.math.BigInteger;
+
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.OValException;
-import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestData;
 import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqException;
 
 public class SubjectIdCheck extends AbstractAnnotationCheck<LocalReferential> {
 
     private static final long serialVersionUID = 1L;
-
-    private static IRequestSearchService requestSearchService;
 
     private static IRequestServiceRegistry requestServiceRegistry;
 
@@ -24,18 +24,15 @@ public class SubjectIdCheck extends AbstractAnnotationCheck<LocalReferential> {
         Validator validator) throws OValException {
         RequestData requestData = (RequestData)validatedObject;
         if (requestData.getId() != null) {
-            Request requestFromDb;
-            try {
-                requestFromDb = requestSearchService.getById(requestData.getId(), false);
-                if (requestFromDb.getSubjectId() != null) {
-                    if (requestFromDb.getSubjectId().equals(valueToValidate)) {
-                        return true;
-                    } else if (!RequestState.DRAFT.equals(requestData.getState())) {
-                        return false;
-                    }
+            BigInteger subjectId = (BigInteger)HibernateUtil.getSession()
+                .createSQLQuery("select subject_id from request where id = :id")
+                    .setLong("id", requestData.getId()).uniqueResult();
+            if (subjectId != null) {
+                if (Long.valueOf(subjectId.longValue()).equals(valueToValidate)) {
+                    return true;
+                } else if (!RequestState.DRAFT.equals(requestData.getState())) {
+                    return false;
                 }
-            } catch (CvqException e) {
-                return false;
             }
         }
         try {
@@ -50,10 +47,6 @@ public class SubjectIdCheck extends AbstractAnnotationCheck<LocalReferential> {
         } catch (CvqException e) {
             return false;
         }
-    }
-
-    public static void setRequestSearchService(IRequestSearchService requestSearchService) {
-        SubjectIdCheck.requestSearchService = requestSearchService;
     }
 
     public static void setRequestServiceRegistry(IRequestServiceRegistry requestServiceRegistry) {

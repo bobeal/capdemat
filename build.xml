@@ -50,6 +50,35 @@
     <ant dir="${plugins.externalservices.ciril.dir}" target="clean" />
     <ant dir="${plugins.externalservices.technocarte.dir}" target="clean" />
   </target>
+    
+  <target name="prepare-configfiles-model" depends="init">
+    <ant dir="${model.dir}" target="prepare-configfiles" />
+  </target>
+    
+  <target name="prepare-configfile-asset" depends="init">
+    <exec executable = "git" outputproperty="git.branches" failonerror="true">
+      <arg value = "branch" />
+    </exec>
+    <taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy"
+      classpath="${libraries.dir}/groovy/groovy-all-1.6.7.jar" />
+    <groovy>
+      def branch
+      properties."git.branches".eachLine {
+        def current = it =~ /\* (.*)/
+        if (current.matches()) {
+          branch = current[0][1]
+        }
+      }
+      def engine = new groovy.text.SimpleTemplateEngine()
+      def templateFile = new File('Assets/blainville/localAuthority-blainville.xml.tpl')
+      def resultFile = new File('Assets/blainville/localAuthority-blainville.xml')
+      def template = engine.createTemplate(templateFile)
+      def binding = [
+        "branch" : branch
+      ]
+      resultFile.write(template.make(binding).toString())
+    </groovy>
+  </target>
 
   <!-- ================================================================================= -->
   <!-- ============================= GENERATION TARGET ================================= -->
@@ -153,7 +182,7 @@
 
   <target name="prepare-webapp-fobo"
           description="Create the FO/BO webapp"
-          depends="deploy-model, update-conf-fobo">
+          depends="deploy-model, update-conf-fobo, prepare-configfile-asset">
     <ant dir="${libraries.dir}" target="bong-runtime-libs" />
     <copy file="${libraries.springconf.dir}/applicationContext.xml"
           todir="BackOfficeNG/grails-app/conf/spring"
@@ -167,28 +196,6 @@
           todir="BackOfficeNG/grails-app/conf/spring"
           overwrite="true">
     </copy>
-    <exec executable = "git" outputproperty="git.branches" failonerror="true">
-      <arg value = "branch" />
-    </exec>
-    <taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy"
-      classpath="${libraries.dir}/groovy/groovy-all-1.6.7.jar" />
-    <groovy>
-      def branch
-      properties."git.branches".eachLine {
-          def current = it =~ /\* (.*)/
-          if (current.matches()) {
-              branch = current[0][1]
-          }
-      }
-      def engine = new groovy.text.SimpleTemplateEngine()
-      def templateFile = new File('Assets/blainville/localAuthority-blainville.xml.tpl')
-      def resultFile = new File('Assets/blainville/localAuthority-blainville.xml')
-      def template = engine.createTemplate(templateFile)
-      def binding = [
-          "branch" : branch
-      ]
-      resultFile.write(template.make(binding).toString())
-    </groovy>
   </target>
   
   <target name="update-conf-fobo"

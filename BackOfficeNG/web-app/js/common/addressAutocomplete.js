@@ -52,6 +52,14 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
       reorderAddressFields(fieldsetId);
       var streetNameAutocomplete;
       if(document.getElementById(fieldsetId + "_streetName")) {
+        //HACK tdu ;-)
+        //Reset hidden fields if street name is null to avoid wrong data when submit
+        yue.on(fieldsetId + "_streetName", "change", function () {
+            if(this.value=="") {
+                resetHiddenInformations(fieldsetId,"street");
+            }
+        });
+        //END HACK
         autocompletes[fieldsetId].streetName = new zcc.AutoComplete({
           inputId: fieldsetId + "_streetName",
           modalId: fieldsetId + "_streetName_autocomplete",
@@ -62,6 +70,10 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
             city : yus.query("#"+fieldsetId + "_cityInseeCode")[0].value
           },
           resultText: function(result) {
+            //HACK tdu
+            //Reset hidden fields when user change a char and trigger the autocomplete 
+            resetHiddenInformations(fieldsetId,"street");
+            //END HACK
             return result.name;
           },
           inputValue: function(result) {
@@ -74,12 +86,24 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
         });
       }
       if(document.getElementById(fieldsetId + "_city")) {
+        //HACK tdu ;-)
+        //Reset hidden fields if city is null to avoid wrong data when submit
+        yue.on(fieldsetId + "_city", "change", function () {
+            if(this.value=="") {
+                resetHiddenInformations(fieldsetId,"city");
+            }
+        });
+        //END HACK
         autocompletes[fieldsetId].city = new zcc.AutoComplete({
           inputId: fieldsetId + "_city",
           modalId: fieldsetId + "_city_autocomplete",
           url: zc.contextPath + "/autocomplete/cities",
           idField: "inseeCode",
           resultText: function(result) {
+            //HACK tdu
+            //Reset hidden fields when user change a char and trigger the autocomplete 
+            resetHiddenInformations(fieldsetId,"city");
+            //END HACK
             return result.postalCode + " " + result.name;
           },
           inputValue: function(result) {
@@ -97,6 +121,14 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
         });
       }
       if(document.getElementById(fieldsetId + "_postalCode")) {
+        //HACK tdu ;-)
+        //Reset hidden fields if city is null to avoid wrong data when submit
+        yue.on(fieldsetId + "_postalCode", "change", function () {
+            if(this.value=="") {
+                resetHiddenInformations(fieldsetId,"postalCode");
+            }
+        });
+        //END HACK
         autocompletes[fieldsetId].postalCode = new zcc.AutoComplete({
           inputId: fieldsetId + "_postalCode",
           modalId: fieldsetId + "_postalCode_autocomplete",
@@ -105,6 +137,10 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
           idField: "inseeCode",
           minimumChars: 2,
           resultText: function(result) {
+            //HACK tdu
+            //Reset hidden fields when user change a char and trigger the autocomplete 
+            resetHiddenInformations(fieldsetId,"postalCode");
+            //END HACK
             return result.postalCode + " " + result.name;
           },
           inputValue: function(result) {
@@ -153,6 +189,13 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
         });
       }
     };
+    var resetHiddenInformations = function(fieldsetId,autocompleteType) {
+        if(autocompleteType!='street') {
+            document.getElementById(fieldsetId + "_cityInseeCode").value = "";
+        }
+        document.getElementById(fieldsetId + "_streetMatriculation").value = "";
+        document.getElementById(fieldsetId + "_streetRivoliCode").value = "";
+    }
 
     return {
       bind: autocompleteBind,

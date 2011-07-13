@@ -101,6 +101,7 @@ public class EdemandeService implements IExternalProviderService {
     @Override
     public String sendRequest(XmlObject requestXml) {
         EdemandeRequest request = adapt(requestXml);
+        if (request == null) return null;
         String psCodeTiersAH = null;
         if (!request.isSubjectAccountHolder()) {
             psCodeTiersAH = request.getAccountHolderEdemandeId();
@@ -824,7 +825,7 @@ public class EdemandeService implements IExternalProviderService {
         } else if (requestXml instanceof BafaGrantRequestImpl) {
             return new BafaGrantEdemandeRequest((BafaGrantRequestImpl) requestXml);
         } else {
-            throw new IllegalArgumentException();
+            return null;
         }
     }
 

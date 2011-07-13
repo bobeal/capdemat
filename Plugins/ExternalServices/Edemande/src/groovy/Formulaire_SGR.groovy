@@ -4,7 +4,7 @@
  <msRIB type="texte" nom="RIB">${frenchRIB}</msRIB>
 </moGeneral>
 <moFoyerFiscal type="noeud" nom="FOYER FISCAL">
- <mdMtRevenuBrutGlobal type="montant" nom="Revenu brut global pour l'année 2008 et inférieur à 32 000 euros">${taxHouseholdIncome}</mdMtRevenuBrutGlobal>
+ <mdMtRevenuBrutGlobal type="montant" nom="Revenu brut global pour l'année 2009 et inférieur à 32 000 euros">${taxHouseholdIncome}</mdMtRevenuBrutGlobal>
  <msSecto type="texte" nom="Sectorisation hors 77">${taxHouseholdCityPrecision}</msSecto>
 </moFoyerFiscal>
 <moAutresAides type="noeud" nom="AUTRES AIDES">

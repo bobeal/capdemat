@@ -492,8 +492,10 @@ public class RequestExternalService extends ExternalService implements IRequestE
                             mapping.setExternalId(externalId);
                             externalHomeFolderService.modifyHomeFolderMapping(mapping);
                         }
-                        requestDAO.create(new UserExternalAction(
-                            homeFolder.getId().toString(), externalServiceLabel, "Sent"));
+                        if (!externalProviderService.handlesTraces()) {
+                            requestDAO.create(new UserExternalAction(
+                                homeFolder.getId().toString(), externalServiceLabel, "Sent"));
+                        }
                     }
                 } catch (CvqException ex) {
                     throw new RuntimeException(ex);

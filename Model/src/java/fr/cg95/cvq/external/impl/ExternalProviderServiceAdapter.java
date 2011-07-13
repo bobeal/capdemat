@@ -1,11 +1,13 @@
 package fr.cg95.cvq.external.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowDraftEvent;
 import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowPendingEvent;
 import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowInProgressEvent;
@@ -19,18 +21,36 @@ import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowValidatedEvent;
 import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowNotifiedEvent;
 import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowClosedEvent;
 import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowArchivedEvent;
+import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.IExternalProviderService;
+import fr.cg95.cvq.security.annotation.Context;
+import fr.cg95.cvq.security.annotation.ContextPrivilege;
+import fr.cg95.cvq.security.annotation.ContextType;
+import fr.cg95.cvq.service.request.external.IRequestExternalActionService;
 import fr.cg95.cvq.service.request.external.IRequestExternalService;
+import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
+import fr.cg95.cvq.xml.common.RequestType;
 
 public abstract class ExternalProviderServiceAdapter implements IExternalProviderService {
 
     private static Logger logger = Logger.getLogger(ExternalProviderServiceAdapter.class);
 
-    private IRequestExternalService requestExternalService;
+    protected IRequestExternalService requestExternalService;
+    protected IRequestExternalActionService requestExternalActionService;
+    private IExternalHomeFolderService externalHomeFolderService;
 
     public void setRequestExternalService(IRequestExternalService requestExternalService) {
         this.requestExternalService = requestExternalService;
+    }
+
+    public void setRequestExternalActionService(
+            IRequestExternalActionService requestExternalActionService) {
+        this.requestExternalActionService = requestExternalActionService;
+    }
+
+    public void setExternalHomeFolderService(IExternalHomeFolderService externalHomeFolderService) {
+        this.externalHomeFolderService = externalHomeFolderService;
     }
 
     @Override
@@ -101,6 +121,40 @@ public abstract class ExternalProviderServiceAdapter implements IExternalProvide
             //
             // Conclusion: is checkExternalReferential worth it?
         }
-        requestExternalService.sendRequestTo(request, this);
+        sendRequest(request);
+    }
+
+    @Override
+    @Context(types = {ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
+    public void sendRequest(Request request) throws CvqException {
+        // First of all get the payload
+        RequestType payload = requestExternalService.getRequestPayload(request, this);
+
+        //add trace for sending the request
+        RequestExternalAction rea = new RequestExternalAction(new Date(),
+                payload.getId(),
+                "capdemat",
+                null,
+                getLabel(),
+                RequestExternalAction.Status.SENT
+            );
+
+        String externalId = null;
+        try {
+            logger.debug("sendRequest() routing request to external service " + getLabel());
+            externalId = sendRequest(payload);
+        } catch (Exception e) {
+            logger.error("sendRequest() error while sending request to " + getLabel());
+            rea.setStatus(RequestExternalAction.Status.ERROR);
+        }
+
+        if (!handlesTraces())
+            requestExternalActionService.addTrace(rea);
+
+        if (externalId != null && !externalId.equals("")) {
+            HomeFolderMapping mapping = externalHomeFolderService.getHomeFolderMapping(getLabel(),payload.getHomeFolder().getId());
+            mapping.setExternalId(externalId);
+            externalHomeFolderService.modifyHomeFolderMapping(mapping);
+        }
     }
 }

@@ -192,40 +192,6 @@ public class RequestExternalService extends ExternalService implements IRequestE
 
     @Override
     @Context(types = {ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
-    public void sendRequestTo(Request request, IExternalProviderService externalProviderService)
-        throws CvqException, CvqModelException {
-        RequestType xmlRequest = getRequestType(request);
-        HomeFolderMapping mapping = getOrCreateHomeFolderMapping(xmlRequest, externalProviderService);
-        fillRequestWithMapping(xmlRequest, mapping);
-
-        RequestExternalAction rea = new RequestExternalAction(new Date(),
-            xmlRequest.getId(),
-            "capdemat",
-            null,
-            externalProviderService.getLabel(),
-            RequestExternalAction.Status.SENT
-        );
-
-        String externalId = null;
-        try {
-            logger.debug("sendRequest() routing request to external service " + externalProviderService.getLabel());
-            externalId = externalProviderService.sendRequest(xmlRequest);
-        } catch (Exception e) {
-            logger.error("sendRequest() error while sending request to " + externalProviderService.getLabel());
-            rea.setStatus(RequestExternalAction.Status.ERROR);
-        }
-
-        if (!externalProviderService.handlesTraces())
-            requestExternalActionService.addTrace(rea);
-
-        if (externalId != null && !externalId.equals("")) {
-            mapping.setExternalId(externalId);
-            externalHomeFolderService.modifyHomeFolderMapping(mapping);
-        }
-    }
-
-    @Override
-    @Context(types = {ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.WRITE)
     public void sendRequest(Request request) throws CvqException {
         if (!hasMatchingExternalService(request.getRequestType().getLabel()))
             return;
@@ -234,7 +200,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
                 getExternalServicesByRequestType(request.getRequestType().getLabel())) {
             if (externalProviderService instanceof ExternalApplicationProviderService)
                 continue;
-            sendRequestTo(request, externalProviderService);
+            externalProviderService.sendRequest(request);
         }
     }
 
@@ -274,6 +240,14 @@ public class RequestExternalService extends ExternalService implements IRequestE
             translationService.translate("externalService.batchRequestResend.notification.subject"),
             body);
         HibernateUtil.commitTransaction();
+    }
+
+    @Override
+    public RequestType getRequestPayload(Request request, IExternalProviderService externalProviderService) throws CvqException {
+        RequestType xmlRequest = getRequestType(request);
+        HomeFolderMapping mapping = getOrCreateHomeFolderMapping(xmlRequest, externalProviderService);
+        fillRequestWithMapping(xmlRequest, mapping);
+        return xmlRequest;
     }
 
     @Override

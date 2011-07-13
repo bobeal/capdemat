@@ -193,6 +193,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <!-- ================================================================ -->
   <bean id="externalProviderServiceAdapter" abstract="true">
     <property name="requestExternalService" ref="requestExternalService" />
+    <property name="requestExternalActionService" ref="requestExternalActionService"/>
+    <property name="externalHomeFolderService" ref="externalHomeFolderService"/>
   </bean>
 
 

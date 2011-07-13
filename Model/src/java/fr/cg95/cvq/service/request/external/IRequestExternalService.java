@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.xmlbeans.XmlObject;
+
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowGenericEvent;
 import fr.cg95.cvq.exception.CvqException;
@@ -55,12 +57,6 @@ public interface IRequestExternalService {
     List<String> checkExternalReferential(@IsRequest Request request) throws CvqException; // FIXME rename it checkExternalReferentials()
 
     /**
-     * Send a request to one particular external service.
-     */
-    public void sendRequestTo(@IsRequest Request request, IExternalProviderService externalProviderService)
-        throws CvqException, CvqModelException;
-
-    /**
      * Ask to send a request to its associated external services.
      */
     void sendRequest(@IsRequest Request request)
@@ -97,4 +93,14 @@ public interface IRequestExternalService {
     void publish(WorkflowGenericEvent wfEvent)throws CvqException;
 
     public RequestType getRequestType(@IsRequest Request request) throws CvqException;
+
+    /**
+     * Get the payload to send.
+     * 
+     * @param request
+     * @param externalProviderService
+     * @return the payload to send
+     * @throws CvqException
+     */
+    public RequestType getRequestPayload(@IsRequest Request request, IExternalProviderService externalProviderService) throws CvqException;
 }

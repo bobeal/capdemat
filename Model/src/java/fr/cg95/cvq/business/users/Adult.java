@@ -52,7 +52,9 @@ public class Adult extends Individual {
     @Email(message = "email")
     private String email;
 
+    @MatchPattern(pattern = "^[0-9]{7}[A-Z]{0,1}$", message = "cfbn")
     private String cfbn;
+
     private String profession;
 
     @NotNull(message = "question", profiles = {"login"})

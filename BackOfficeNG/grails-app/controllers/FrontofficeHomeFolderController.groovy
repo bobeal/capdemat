@@ -228,7 +228,7 @@ class FrontofficeHomeFolderController {
         if (fragment == 'identity') {
             dto = individual instanceof Adult ? new Adult() : new Child()
             fields = individual instanceof Adult ?
-                ["title", "familyStatus", "lastName", "maidenName", "nameOfUse", "firstName", "firstName2", "firstName3", "profession"] :
+                ["title", "familyStatus", "lastName", "maidenName", "nameOfUse", "firstName", "firstName2", "firstName3", "profession", "cfbn"] :
                 ["born", "lastName", "firstName", "firstName2", "firstName3", "sex", "birthDate", "birthPostalCode", "birthCity", "birthCountry"]
         }
         if (fragment == 'contact') {

@@ -53,6 +53,11 @@
   <label for="profession">${message(code:'homeFolder.adult.property.profession')}</label>
   <input type="text" name="profession" value="${adult.profession}" />
 
+  <label for="cfbn">${message(code:'homeFolder.adult.property.cfbn')}</label>
+  <input type="text" id="cfbn" name="cfbn" value="${adult.cfbn}"
+      class="validate-cfbn ${invalidFields?.contains('cfbn') ? 'validation-failed' : ''}"
+      title="${message(code:'homeFolder.adult.property.cfbn.validationError')}" />
+
 %{--  <label >${message(code:'homeFolder.individual.property.birthDate')}</label>--}%
 %{--  <div class="date validate-date">--}%
 %{--    <select id="birthDate_day" name="birthDate_day" class="day ${invalidFields?.contains('birthDate') ? 'validation-failed' : ''}">--}%

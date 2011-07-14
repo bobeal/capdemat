@@ -273,7 +273,7 @@ class BackofficeHomeFolderController {
                 individualAdaptorService.historize(
                     individual, individual, temp, "identity",
                     individual instanceof Adult ?
-                        ["title", "familyStatus", "lastName", "maidenName", "nameOfUse", "firstName", "firstName2", "firstName3", "profession"] :
+                        ["title", "familyStatus", "lastName", "maidenName", "nameOfUse", "firstName", "firstName2", "firstName3", "profession", "cfbn"] :
                         ["born", "lastName", "firstName", "firstName2", "firstName3", "sex", "birthDate", "birthPostalCode", "birthCity", "birthCountry"])
             } catch (CvqValidationException e) {
                 session.doRollback = true 

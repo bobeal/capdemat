@@ -1,5 +1,3 @@
-<dt>${message(code:'homeFolder.adult.property.cfbn')}</dt>
-<dd>${adult.cfbn}</dd>
 <dt class="required">${message(code:'homeFolder.adult.property.login')}</dt>
 <dd class="required">${adult.login}</dd>
 <dt>${message(code:'homeFolder.adult.property.question')}</dt>

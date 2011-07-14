@@ -4,6 +4,7 @@
 
     <target name="init">
         <property file="build.properties" />
+        <mkdir dir="${deploy.plugins.dir}"/>
     </target>
 
     <fileset id="capdemat-core-libs" dir="${deploy.model.dir}">

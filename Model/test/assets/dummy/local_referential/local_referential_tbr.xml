@@ -1,15 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-    <request>TicketOfficeRequest</request>
-    <data name="entertainmentCategories">
-        <label>Catégories de spectacles</label>
-    </data>
-    <data name="placeCategories">
-        <label>Catégories de places</label>
-    </data>
-    <data name="rateTypes" allowMultipleChoices="false">
-        <label>Type de tarif</label>
+    <data name="entertainmentCategories" allowMultipleChoices="false">
+        <label>Catégories de spéctacles</label>
         <entries>
+            <entry key="Musique">
+                <label>Musique</label>
+                <message/>
+            </entry>
+            <entry key="The-atre">
+                <label>Théatre</label>
+                <message/>
+            </entry>
+            <entry key="Confe-rence">
+                <label>Conférence</label>
+                <message/>
+            </entry>
+            <entry key="Sport">
+                <label>Sport</label>
+                <message/>
+            </entry>
+        </entries>
+    </data>
+    <data name="placeCategories" allowMultipleChoices="false">
+        <label>Catégories de places</label>
+        <entries>
+            <entry key="A">
+                <label>A</label>
+                <message/>
+            </entry>
+            <entry key="B">
+                <label>B</label>
+                <message/>
+            </entry>
+            <entry key="C">
+                <label>C</label>
+                <message/>
+            </entry>
+            <entry key="GRE">
+                <label>GRE</label>
+                <message/>
+            </entry>
+            <entry key="chere">
+                <label>chere</label>
+                <message/>
+            </entry>
+        </entries>
+    </data>
+    <data name="rateTypes" allowMultipleChoices="false" manager="CapDémat">
+        <label>Types de tarif</label>
+        <entries>
+            <entry key="Etudiant---Cho-meur">
+                <label>Etudiant / Chômeur</label>
+                <message/>
+            </entry>
+            <entry key="Vermeil">
+                <label>Vermeil</label>
+                <message/>
+            </entry>
+            <entry key="Re-duit">
+                <label>Réduit</label>
+            </entry>
             <entry key="Plein">
                 <label>Plein</label>
             </entry>
@@ -18,7 +68,13 @@
             </entry>
         </entries>
     </data>
-    <data name="ticketBookingConfiguration">
+    <data name="ticketBookingConfiguration" allowMultipleChoices="false">
         <label>Configuration</label>
+        <entries>
+            <entry key="Taille-du-panier">
+                <label>Taille du panier</label>
+                <message>20</message>
+            </entry>
+        </entries>
     </data>
 </LocalReferential>

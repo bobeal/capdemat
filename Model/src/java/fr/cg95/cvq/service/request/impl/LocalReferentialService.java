@@ -1,7 +1,6 @@
 package fr.cg95.cvq.service.request.impl;
 
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -192,41 +191,6 @@ public class LocalReferentialService
         localReferentialDAO.save(requestTypeLabel, lrt);
     }
     
-    /**
-     * @deprecated only used in unit tests
-     */
-    @Override
-    @Deprecated
-    public final Set<LocalReferentialType> getAllLocalReferentialData()
-        throws CvqException {
-
-        logger.debug("getAllLocalReferentialData()");
-
-        Set<LocalReferentialType> resultSet = new LinkedHashSet<LocalReferentialType>();
-        
-        synchronized (this) {
-            for (IRequestService request : requestServices) {
-                resultSet.addAll(localReferentialDAO.listByRequestType(request.getLabel()));
-            }
-        }
-
-        return resultSet;
-    }
-
-
-    @Override
-    @Deprecated
-    public Set<String> getAllLocalReferentialRequestTypeLabels() throws CvqException {
-        Set<String> labels = new LinkedHashSet<String>();
-        
-        Set<LocalReferentialType> lrts = getAllLocalReferentialData();
-        for (LocalReferentialType lrt : lrts) {
-            labels.add(lrt.getLabel());
-        }
-        
-        return labels;
-    }
-
     public void setLocalReferentialDAO(ILocalReferentialDAO localReferentialDAO) {
         this.localReferentialDAO = localReferentialDAO;
     }

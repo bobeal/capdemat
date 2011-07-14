@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-    <request>CompostableWasteCollectionRequest</request>
     <data name="CompostableWasteType" allowMultipleChoices="false">
         <label>Type de végétaux</label>
         <entries>

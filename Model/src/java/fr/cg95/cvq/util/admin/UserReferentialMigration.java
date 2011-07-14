@@ -1,5 +1,8 @@
 package fr.cg95.cvq.util.admin;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,6 +15,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.NonUniqueResultException;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -61,6 +66,8 @@ public class UserReferentialMigration {
 
     private Map<Long, Date> creationNotifications = new HashMap<Long, Date>();
 
+    private List<Long> duplicates = new ArrayList<Long>();
+
     private Comparator<UserAction> comparator = new Comparator<UserAction>() {
         @Override
         public int compare(UserAction o1, UserAction o2) {
@@ -68,18 +75,26 @@ public class UserReferentialMigration {
         }
     };
 
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws IOException {
         ClassPathXmlApplicationContext context = SpringApplicationContextLoader.loadContext(null);
         UserReferentialMigration userReferentialMigration = new UserReferentialMigration();
         userReferentialMigration.localAuthorityRegistry = (LocalAuthorityRegistry)context.getBean("localAuthorityRegistry");
         userReferentialMigration.requestSearchService = (IRequestSearchService)context.getBean("requestSearchService");
         userReferentialMigration.userSearchService = (IUserSearchService)context.getBean("userSearchService");
         userReferentialMigration.localAuthorityRegistry.browseAndCallback(userReferentialMigration, "migrate", new Object[0]);
+        
         System.exit(0);
     }
 
     public void migrate()
-        throws CvqException {
+        throws CvqException, IOException {
+        
+        archived.clear();
+        states.clear();
+        creationActions.clear();
+        creationNotifications.clear();
+        duplicates.clear();
+        
         for (DTO dto : (List<DTO>)HibernateUtil.getSession().createSQLQuery(
             "select r.requester_id as requesterId, r.home_folder_id as homeFolderId, r.creation_date as date, i.id as individualId from individual i, request r, history_entry he where r.id = he.request_id and i.id = he.object_id and property = 'homeFolder' and old_value is not null and new_value is null")
                 .addScalar("requesterId").addScalar("homeFolderId").addScalar("date")
@@ -176,6 +191,10 @@ public class UserReferentialMigration {
                 }
             }
         }
+        FileWriter w = new FileWriter(File.createTempFile("dup", ".txt", new File("/tmp")));
+        w.write(StringUtils.join(duplicates, "\n"));
+        w.flush();
+        w.close();
     }
 
     private void convert(RequestAction requestAction)
@@ -320,9 +339,14 @@ public class UserReferentialMigration {
 
     private class CustomDAO extends GenericDAO {
         public boolean hasCreationAction(Long targetId) {
+            try {
             return HibernateUtil.getSession().createCriteria(UserAction.class)
                 .add(Restrictions.eq("targetId", targetId))
                 .add(Restrictions.eq("type", UserAction.Type.CREATION)).uniqueResult() != null;
+            } catch (NonUniqueResultException e) {
+                duplicates.add(targetId);
+                return true;
+            }
         }
     }
 

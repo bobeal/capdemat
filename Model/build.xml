@@ -17,6 +17,7 @@
 				<include name="**/*.jar" />
 				<!-- do not include our own production -->
 				<exclude name="**/${application.name}-${module.name}-${application.version}.jar" />
+			    <exclude name="fr.cg95/plugins/${application.name}*.jar" />
 			</fileset>
 
 			<fileset dir="${basedir}/${lib.dir}">
@@ -36,6 +37,7 @@
 				<include name="**/jmock-*.jar" />
                 <include name="**/hamcrest-*.jar" />
 				<include name="**/aspectjtools.jar" />
+				<include name="**/soap.jar" />
 			</fileset>
 
 			<pathelement path="${basedir}/${build.classes.dir}" />

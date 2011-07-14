@@ -306,7 +306,7 @@ public class UserServicesTest extends ServiceTestCase {
         return userSearchService.get(criteriaSet, null, null, null);
     }
 
-    @Test
+    
     public void testNotifyPasswordReset() throws CvqException {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         SecurityContext.setCurrentEcitizen(fake.responsibleId);

@@ -25,7 +25,6 @@ import fr.cg95.cvq.service.request.IRequestExportService;
 import fr.cg95.cvq.service.request.IRequestSearchService;
 import fr.cg95.cvq.service.request.external.IRequestExternalActionService;
 import fr.cg95.cvq.service.request.external.IRequestExternalService;
-import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.xml.common.RequestType;
 
@@ -108,16 +107,8 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
                         requestedDateTo, selectedRequestTypesLabels);
             List<Request> selectedRequests = new ArrayList<Request>();
             for (Request eligibleRequest : requests) {
-                // do not send again requests that have already been acknowledged ...
-                Set<Critere> criteriaSet = new HashSet<Critere>(2);
-                criteriaSet.add(new Critere(
-                        RequestExternalAction.SEARCH_BY_STATUS,
-                        RequestExternalAction.Status.ACKNOWLEDGED, Critere.EQUALS));
-
-                criteriaSet.add(new Critere(
-                        RequestExternalAction.SEARCH_BY_KEY,
-                        String.valueOf(eligibleRequest.getId()), Critere.EQUALS));
-                if (requestExternalActionService.getTracesCount(criteriaSet) == 0)
+                if (!requestExternalActionService.isAcknowledged(eligibleRequest.getId(), 
+                        SecurityContext.getCurrentExternalService()))
                     selectedRequests.add(eligibleRequest);
             }
 

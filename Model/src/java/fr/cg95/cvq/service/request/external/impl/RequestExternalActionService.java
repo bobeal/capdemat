@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.request.external.impl;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -69,8 +70,24 @@ public class RequestExternalActionService implements IRequestExternalActionServi
         return requestExternalActionDAO.getKeys(criterias);
     }
 
+    @Override
+    @Context(types = {ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.READ)
+    public boolean isAcknowledged(Long requestId, String externalServiceLabel) {
+        Set<Critere> criteriaSet = new HashSet<Critere>(2);
+        criteriaSet.add(new Critere(
+                RequestExternalAction.SEARCH_BY_STATUS,
+                RequestExternalAction.Status.ACKNOWLEDGED, Critere.EQUALS));
+        criteriaSet.add(new Critere(
+                RequestExternalAction.SEARCH_BY_KEY,
+                String.valueOf(requestId), Critere.EQUALS));
+        criteriaSet.add(new Critere(
+                RequestExternalAction.SEARCH_BY_NAME,
+                externalServiceLabel, Critere.EQUALS));
+
+        return requestExternalActionDAO.getCount(criteriaSet, false) == 0 ? false : true;
+    }
+
     public void setRequestExternalActionDAO(IRequestExternalActionDAO requestExternalActionDAO) {
         this.requestExternalActionDAO = requestExternalActionDAO;
     }
-
 }

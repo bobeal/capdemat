@@ -106,12 +106,6 @@ alter table renewal_perischool_activities_request_regime_alimentaire_renouvellem
     foreign key (regime_alimentaire_renouvellement_id)
     references local_referential_data;
 
-insert into document_type (id, name, type,  validity_duration_type,  validity_duration, usage_type)
-    values (nextval('hibernate_sequence'), 'School Assignment Certificate', 40, 'Unlimited', 0, 'Reusable');
-
-insert into document_type (id, name, type,  validity_duration_type,  validity_duration, usage_type)
-    values (nextval('hibernate_sequence'), 'Medical Form', 41, 'Year', 1, 'Reusable');
-
 create table leisure_center_registration_request (
     id int8 not null,
     acceptation_reglement_interieur bool,

@@ -323,6 +323,13 @@ class BackofficeHomeFolderController {
         Collections.reverse(list)
         return ["actions" : homeFolderAdaptorService.prepareActions(list)]
     }
+    
+    def currentHomeFolderState = {
+        def result = [:];
+        def homeFolder = userSearchService.getHomeFolderById(Long.parseLong(params.id));
+        result.homeFolderState = homeFolder.state.toString().toLowerCase();
+        return result;
+    }
 
     def mapping = {
         def mapping =

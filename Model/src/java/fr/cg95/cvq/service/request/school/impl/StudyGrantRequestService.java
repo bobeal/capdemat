@@ -33,6 +33,7 @@ import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.UserAction;
 import fr.cg95.cvq.business.users.UserEvent;
 import fr.cg95.cvq.dao.request.IRequestDAO;
+import fr.cg95.cvq.dao.request.external.IRequestExternalActionDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -72,6 +73,8 @@ public class StudyGrantRequestService extends RequestService implements ILocalAu
     private IUserSearchService userSearchService;
 
     private IRequestDAO requestDAO;
+
+    private IRequestExternalActionDAO requestExternalActionDAO;
 
     private static Map<String, String> schoolAddresses = new HashMap<String, String>();
 
@@ -229,7 +232,7 @@ public class StudyGrantRequestService extends RequestService implements ILocalAu
         criterias.add(new Critere(RequestExternalAction.SEARCH_BY_NAME, GOOGLE_MAPS, Critere.EQUALS));
         criterias.add(new Critere(RequestExternalAction.SEARCH_BY_STATUS, RequestExternalAction.Status.SENT, Critere.EQUALS));
         List<RequestExternalAction> lastCheck =
-            requestExternalActionService.getTraces(criterias, RequestExternalAction.SEARCH_BY_DATE, "desc", 1, 0);
+            requestExternalActionDAO.get(criterias, RequestExternalAction.SEARCH_BY_DATE, "desc", 1, 0, true);
         if (lastCheck.size() > 0) {
             oldSchool = (String)lastCheck.get(0).getComplementaryData().get("schoolAddress");
             oldUser = (String)lastCheck.get(0).getComplementaryData().get("userAddress");
@@ -312,5 +315,9 @@ public class StudyGrantRequestService extends RequestService implements ILocalAu
 
     public void setRequestDAO(IRequestDAO requestDAO) {
         this.requestDAO = requestDAO;
+    }
+
+    public void setRequestExternalActionDAO(IRequestExternalActionDAO requestExternalActionDAO) {
+        this.requestExternalActionDAO = requestExternalActionDAO;
     }
 }

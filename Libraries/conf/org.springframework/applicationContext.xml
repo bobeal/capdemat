@@ -542,6 +542,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="requestSearchService" ref="requestSearchService" />
     <property name="userSearchService" ref="userSearchService" />
     <property name="requestDAO" ref="requestDAO" />
+    <property name="requestExternalActionDAO" ref="requestExternalActionDAO" />
   </bean>
   
   <bean id="learningActivitiesDiscoveryRegistrationRequestService" 

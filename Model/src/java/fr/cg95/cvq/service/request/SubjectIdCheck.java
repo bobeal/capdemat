@@ -35,6 +35,7 @@ public class SubjectIdCheck extends AbstractAnnotationCheck<LocalReferential> {
                 }
             }
         }
+        HibernateUtil.getSession().evict(requestData);
         try {
             requestWorkflowService.checkSubjectPolicy(
                 (Long)valueToValidate,
@@ -46,6 +47,8 @@ public class SubjectIdCheck extends AbstractAnnotationCheck<LocalReferential> {
             return true;
         } catch (CvqException e) {
             return false;
+        } finally {
+            HibernateUtil.getSession().merge(requestData);
         }
     }
 

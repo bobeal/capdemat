@@ -32,7 +32,7 @@ public class AckRequestServiceEndpoint extends SecuredServiceEndpoint {
                 AckRequestType type = request.getAckElementsArray()[i];
 
                 RequestExternalAction trace = new RequestExternalAction();
-                trace.setKey(String.valueOf(type.getRequestId()));
+                trace.setKey(type.getRequestId());
                 trace.setKeyOwner("capdemat");
 
                 if (type.getErroneous())

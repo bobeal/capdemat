@@ -44,7 +44,7 @@ public class RequestExternalActionTest extends ExternalServiceTestCase {
         /* Tests entity creation */
         RequestExternalAction trace = new RequestExternalAction();
 
-        trace.setKey(request.getId().toString());
+        trace.setKey(request.getId());
         trace.setKeyOwner("MyOwner");
         trace.setMessage("No message");
         trace.setName("MyName");
@@ -109,7 +109,7 @@ public class RequestExternalActionTest extends ExternalServiceTestCase {
         SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
 
         RequestExternalAction rea = new RequestExternalAction();
-        rea.setKey(request.getId().toString());
+        rea.setKey(request.getId());
         rea.setKeyOwner("capdemat");
 
         requestExternalActionService.addTrace(rea);

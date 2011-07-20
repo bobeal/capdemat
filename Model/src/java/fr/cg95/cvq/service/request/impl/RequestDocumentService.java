@@ -212,7 +212,7 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
         GetDocumentResponse getDocumentResponse = 
             getDocumentResponseDocument.addNewGetDocumentResponse();
 
-        RequestExternalAction est = new RequestExternalAction(new Date(), String.valueOf(requestId), "capdemat", 
+        RequestExternalAction est = new RequestExternalAction(new Date(), requestId, "capdemat", 
                 null, SecurityContext.getCurrentExternalService(), RequestExternalAction.Status.SENT);
 
         if (documentId != null) {

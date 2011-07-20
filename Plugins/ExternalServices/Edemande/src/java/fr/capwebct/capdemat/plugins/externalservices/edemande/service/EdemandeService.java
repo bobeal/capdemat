@@ -235,7 +235,7 @@ public class EdemandeService implements IExternalProviderService {
         } else {
             est = new RequestExternalAction();
             est.setDate(new Date());
-            est.setKey(String.valueOf(requestId));
+            est.setKey(requestId);
             est.setKeyOwner("capdemat");
             est.setMessage(message);
             est.setName(label);

@@ -305,7 +305,7 @@ public class RestExternalService implements IExternalProviderService {
     public String sendRequest(XmlObject requestXml) throws CvqException {
         RequestType requestType = (RequestType) requestXml;
         RequestExternalAction est = new RequestExternalAction(new Date(),
-            String.valueOf(requestType.getId()), "capdemat", null, getLabel(), null);
+            requestType.getId(), "capdemat", null, getLabel(), null);
         String body = ExternalServiceUtils.getRequestFromFragment(requestXml);
         logger.debug("sendRequest() sending : " + body);
         HttpResponse response = WS.url(urls.get("sendRequest")).body(body).post();

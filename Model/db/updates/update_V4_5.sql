@@ -37,3 +37,5 @@ $$ LANGUAGE plpgsql;
 select * from migrate_sgr_school_address();
 
 drop function migrate_sgr_school_address();
+
+alter table request_external_action alter key type bigint using key::text::bigint;

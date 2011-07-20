@@ -62,7 +62,7 @@ public class RequestExternalAction implements Serializable {
     /**
      * Identifier used by the key owner to retrieve data.
      */
-    private String key;
+    private Long key;
 
     /**
      * Owner of the key, typically an application, eg CapDemat.
@@ -91,7 +91,7 @@ public class RequestExternalAction implements Serializable {
         this(null, null, null, null, null, null);
     }
 
-    public RequestExternalAction(Date date, String key, String keyOwner, String message,
+    public RequestExternalAction(Date date, Long key, String keyOwner, String message,
         String name, Status status,
         Map<String, Serializable> complementaryData) {
         super();
@@ -104,7 +104,7 @@ public class RequestExternalAction implements Serializable {
         this.complementaryData = new HashMap<String, Serializable>(complementaryData);
     }
 
-    public RequestExternalAction(Date date, String key, String keyOwner, String message,
+    public RequestExternalAction(Date date, Long key, String keyOwner, String message,
         String name, Status status) {
         this(date, key, keyOwner, message, name, status,
             Collections.<String, Serializable>emptyMap());
@@ -131,7 +131,7 @@ public class RequestExternalAction implements Serializable {
      * @hibernate.property
      *  column="key"
      */
-    public String getKey() {
+    public Long getKey() {
         return key;
     }
 
@@ -175,7 +175,7 @@ public class RequestExternalAction implements Serializable {
         this.id = id;
     }
 
-    public void setKey(String key) {
+    public void setKey(Long key) {
         this.key = key;
     }
 

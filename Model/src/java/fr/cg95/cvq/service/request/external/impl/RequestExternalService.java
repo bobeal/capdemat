@@ -227,7 +227,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
 
             RequestExternalAction trace = null;
             if (!externalProviderService.handlesTraces()) {
-                trace = new RequestExternalAction(new Date(), String.valueOf(xmlRequest.getId()),
+                trace = new RequestExternalAction(new Date(), xmlRequest.getId(),
                     "capdemat", null, externalServiceLabel, null);
             }
             try {
@@ -427,7 +427,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
                 for (Long id : requestExternalActionService.getRequestsWithoutExternalAction(
                         rt.getId(), service.getLabel())) {
                     requestExternalActionService.addTrace(new RequestExternalAction(
-                        new Date(), id.toString(), "capdemat",
+                        new Date(), id, "capdemat",
                         translationService.translate("requestExternalAction.message.addTraceOnStartup"),
                         service.getLabel(), RequestExternalAction.Status.NOT_SENT));
                 }

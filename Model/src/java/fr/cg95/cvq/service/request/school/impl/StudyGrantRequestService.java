@@ -257,7 +257,7 @@ public class StudyGrantRequestService extends RequestService implements ILocalAu
         if (request.getAbroadInternship()) {
             distance = DistanceType.MORE_THAN250KMS_AND_ABROAD;
             requestExternalActionService.addTrace(new RequestExternalAction(new Date(),
-                String.valueOf(request.getId()), "capdemat", "Stage à l'étranger",
+                request.getId(), "capdemat", "Stage à l'étranger",
                 GOOGLE_MAPS, RequestExternalAction.Status.SENT));
         } else if (currentSchool == null || currentUser == null) {
             distance = DistanceType.UNDETERMINED;
@@ -274,14 +274,14 @@ public class StudyGrantRequestService extends RequestService implements ILocalAu
                 data.put("schoolAddress", currentSchool);
                 data.put("userAddress", currentUser);
                 requestExternalActionService.addTrace(new RequestExternalAction(new Date(),
-                    String.valueOf(request.getId()), "capdemat", "Distance : " + km + "km",
+                    request.getId(), "capdemat", "Distance : " + km + "km",
                     GOOGLE_MAPS, RequestExternalAction.Status.SENT, data));
                 if (km > 250) distance = DistanceType.MORE_THAN250KMS_AND_ABROAD;
                 else if (km >= 30) distance = DistanceType.BETWEEN30AND250KMS;
                 else distance = DistanceType.LESS_THAN30KMS;
             } catch (Exception e) {
                 requestExternalActionService.addTrace(new RequestExternalAction(new Date(),
-                    String.valueOf(request.getId()), "capdemat", null, GOOGLE_MAPS,
+                    request.getId(), "capdemat", null, GOOGLE_MAPS,
                     RequestExternalAction.Status.ERROR));
                 distance = DistanceType.UNDETERMINED;
             }

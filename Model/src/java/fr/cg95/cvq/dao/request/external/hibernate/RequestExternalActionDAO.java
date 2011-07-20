@@ -53,20 +53,20 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
         for (Critere searchCrit : criteriaSet) {
             if (searchCrit.getAttribut().equals("belongsToCategory")) {
                 sb.append(
-                    " and (select category_id from request_type rt where rt.id = (select request_type_id from request r where cast(r.id as varchar) = key)) in ( "
+                    " and (select category_id from request_type rt where rt.id = (select request_type_id from request r where r.id = key)) in ( "
                     + searchCrit.getValue() + ")");
             } else if ("homeFolderId".equals(searchCrit.getAttribut())) {
-                sb.append(" and (select home_folder_id from request where cast(id as varchar) = key) ")
+                sb.append(" and (select home_folder_id from request where id = key) ")
                     .append(searchCrit.getSqlComparatif()).append(" ?");
                 parametersValues.add(searchCrit.getLongValue());
                 parametersTypes.add(Hibernate.LONG);
             } else if (RequestExternalAction.SEARCH_BY_REQUEST_TYPE.equals(searchCrit.getAttribut())) {
-                sb.append(" and (select request_type_id from request where cast(id as varchar) = key) ")
+                sb.append(" and (select request_type_id from request where id = key) ")
                     .append(searchCrit.getSqlComparatif()).append(" ?");
                 parametersValues.add(searchCrit.getLongValue());
                 parametersTypes.add(Hibernate.LONG);
             } else if (RequestExternalAction.SEARCH_BY_REQUEST_STATE.equals(searchCrit.getAttribut())) {
-                sb.append(" and (select state from request where cast(id as varchar) = key) ")
+                sb.append(" and (select state from request where id = key) ")
                     .append(searchCrit.getSqlComparatif()).append(" ?");
                 parametersValues.add(searchCrit.getSqlStringValue());
                 parametersTypes.add(Hibernate.STRING);
@@ -87,8 +87,8 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
                     parametersValues.add(searchCrit.getLongValue());
                     parametersTypes.add(Hibernate.LONG);
                 } else if (RequestExternalAction.SEARCH_BY_KEY.equals(searchCrit.getAttribut())) {
-                    parametersValues.add(searchCrit.getSqlStringValue());
-                    parametersTypes.add(Hibernate.STRING);
+                    parametersValues.add(searchCrit.getLongValue());
+                    parametersTypes.add(Hibernate.LONG);
                 } else if (RequestExternalAction.SEARCH_BY_KEY_OWNER.equals(searchCrit.getAttribut())) {
                     parametersValues.add(searchCrit.getSqlStringValue());
                     parametersTypes.add(Hibernate.STRING);
@@ -131,18 +131,18 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
         List<Type> parametersTypes = new ArrayList<Type>();
         for (Critere searchCrit : criterias) {
             if (RequestExternalAction.SEARCH_BY_REQUEST_TYPE.equals(searchCrit.getAttribut())) {
-                sb.append(" and (select request_type_id from request where cast(id as varchar) = key) ")
+                sb.append(" and (select request_type_id from request where id = key) ")
                     .append(searchCrit.getSqlComparatif()).append(" ?");
                 parametersValues.add(searchCrit.getLongValue());
                 parametersTypes.add(Hibernate.LONG);
             } else if (RequestExternalAction.SEARCH_BY_REQUEST_STATE.equals(searchCrit.getAttribut())) {
-                sb.append(" and (select state from request where cast(id as varchar) = key) ")
+                sb.append(" and (select state from request where id = key) ")
                     .append(searchCrit.getSqlComparatif()).append(" ?");
                 parametersValues.add(searchCrit.getSqlStringValue());
                 parametersTypes.add(Hibernate.STRING);
             } else if (searchCrit.getAttribut().equals("belongsToCategory")) {
                 sb.append(
-                    " and (select category_id from request_type rt where rt.id = (select request_type_id from request r where cast(r.id as varchar) = key)) in ( "
+                    " and (select category_id from request_type rt where rt.id = (select request_type_id from request r where r.id = key)) in ( "
                     + searchCrit.getValue() + ")");
             } else if (RequestExternalAction.SEARCH_BY_COMPLEMENTARY_DATA.equals(searchCrit.getAttribut())) {
                 sb.append(" and id in (select id from request_external_action_complementary_data where key = ? and value ")
@@ -161,8 +161,8 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
                     parametersValues.add(searchCrit.getLongValue());
                     parametersTypes.add(Hibernate.LONG);
                 } else if (RequestExternalAction.SEARCH_BY_KEY.equals(searchCrit.getAttribut())) {
-                    parametersValues.add(searchCrit.getSqlStringValue());
-                    parametersTypes.add(Hibernate.STRING);
+                    parametersValues.add(searchCrit.getLongValue());
+                    parametersTypes.add(Hibernate.LONG);
                 } else if (RequestExternalAction.SEARCH_BY_KEY_OWNER.equals(searchCrit.getAttribut())) {
                     parametersValues.add(searchCrit.getSqlStringValue());
                     parametersTypes.add(Hibernate.STRING);
@@ -208,20 +208,20 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
         for (Critere searchCrit : criteriaSet) {
             if (searchCrit.getAttribut().equals("belongsToCategory")) {
                 sb.append(
-                    " and (select category_id from request_type rt where rt.id = (select request_type_id from request r where cast(r.id as varchar) = key)) in ( "
+                    " and (select category_id from request_type rt where rt.id = (select request_type_id from request r where r.id = key)) in ( "
                     + searchCrit.getValue() + ")");
             } else if ("homeFolderId".equals(searchCrit.getAttribut())) {
-                sb.append(" and (select home_folder_id from request where cast(id as varchar) = key) ")
+                sb.append(" and (select home_folder_id from request where id = key) ")
                     .append(searchCrit.getSqlComparatif()).append(" ?");
                 parametersValues.add(searchCrit.getLongValue());
                 parametersTypes.add(Hibernate.LONG);
             } else if (RequestExternalAction.SEARCH_BY_REQUEST_TYPE.equals(searchCrit.getAttribut())) {
-                sb.append(" and (select request_type_id from request where cast(id as varchar) = key) ")
+                sb.append(" and (select request_type_id from request where id = key) ")
                     .append(searchCrit.getSqlComparatif()).append(" ?");
                 parametersValues.add(searchCrit.getLongValue());
                 parametersTypes.add(Hibernate.LONG);
             } else if (RequestExternalAction.SEARCH_BY_REQUEST_STATE.equals(searchCrit.getAttribut())) {
-                sb.append(" and (select state from request where cast(id as varchar) = key) ")
+                sb.append(" and (select state from request where id = key) ")
                     .append(searchCrit.getSqlComparatif()).append(" ?");
                 parametersValues.add(searchCrit.getSqlStringValue());
                 parametersTypes.add(Hibernate.STRING);
@@ -243,8 +243,8 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
                     parametersValues.add(searchCrit.getLongValue());
                     parametersTypes.add(Hibernate.LONG);
                 } else if (RequestExternalAction.SEARCH_BY_KEY.equals(searchCrit.getAttribut())) {
-                    parametersValues.add(searchCrit.getSqlStringValue());
-                    parametersTypes.add(Hibernate.STRING);
+                    parametersValues.add(searchCrit.getLongValue());
+                    parametersTypes.add(Hibernate.LONG);
                 } else if (RequestExternalAction.SEARCH_BY_KEY_OWNER.equals(searchCrit.getAttribut())) {
                     parametersValues.add(searchCrit.getSqlStringValue());
                     parametersTypes.add(Hibernate.STRING);
@@ -268,7 +268,7 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
     @Override
     public List<Long> getRequestsWithoutExternalAction(Long requestTypeId, String externalServiceLabel) {
         return HibernateUtil.getSession().createQuery(
-            "select id from RequestData r where r.requestType.id = :rt and state in (:validated, :notified) and (select count(*) from RequestExternalAction where name = :name and cast(r.id, string) = key) = 0")
+            "select id from RequestData r where r.requestType.id = :rt and state in (:validated, :notified) and (select count(*) from RequestExternalAction where name = :name and r.id = key) = 0")
                 .setLong("rt", requestTypeId)
                 .setString("validated", RequestState.VALIDATED.toString())
                 .setString("notified", RequestState.NOTIFIED.toString())

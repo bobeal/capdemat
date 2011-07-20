@@ -1,23 +1,21 @@
-<g:set var="currentLrDatas" value="${rqt[javaName].collect{it.name}}" />
-<g:if test="${lrTypes[javaName].isMultiple()}">
-  <ul ${depth==0 ? 'class="dataTree"' : ''}>
+<g:set var="lrDatas" value="${rqt[javaName].collect{it.name}}" />
+<ul ${depth==0 ? 'class="dataTree"' : ''}>
   <g:each status="i" var="entry" in="${lrEntries}">
     <g:if test="${entry.entries}">
       <li>
-      <em>${entry.label} :</em>
-      <g:render template="/frontofficeRequestType/widget/localReferentialDataSummary" model="['javaName':javaName, 'lrEntries': entry.entries, 'depth':++depth]" />
+        <g:render template="/frontofficeRequestType/widget/localReferentialDataSummary"
+          model="['javaName':javaName, 'lrEntries': entry.entries, 'rqt':rqt, 'depth':1+depth,
+            'prefix' : (prefix != null ? prefix + ' - ' : '') + entry.label]" />
       </li>
     </g:if>
     <g:else>
-       <li>
-      ${currentLrDatas?.contains(entry.key) ? entry.label : ''}
-      </li>
+      <g:if test="${lrDatas?.contains(entry.key)}">
+        <li>
+          <span class="entry:${entry.key}">
+            ${(prefix!= null ? prefix + ' - ' : '') + entry.label}
+          </span>
+        </li>
+      </g:if>
     </g:else>
   </g:each>
-  </ul>
-</g:if>
-<g:else>
-  <g:each var="entry" in="${lrEntries}">
-  ${currentLrDatas?.contains(entry.key) ? entry.label: ''}
-  </g:each>
-</g:else>
+</ul>

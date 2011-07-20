@@ -25,9 +25,9 @@
 </moEtudes>
 <moEtablissement type="noeud" nom="ETABLISSEMENT SCOLAIRE">
  <msNomEtab type="texte" nom="Nom de l'établissement">${currentSchoolName}</msNomEtab>
- <miCPEtab type="entier" nom="Code postal de l'établissement">${currentSchoolAddress.postalCode}</miCPEtab>
- <msVilleEtab type="texte" nom="Ville de l'établissement">${currentSchoolAddress.city}</msVilleEtab>
- <msPaysEtab type="texte" nom="Pays de l'établissement">${currentSchoolAddress.countryName}</msPaysEtab>
+ <miCPEtab type="entier" nom="Code postal de l'établissement">${currentSchoolAddress?.postalCode}</miCPEtab>
+ <msVilleEtab type="texte" nom="Ville de l'établissement">${currentSchoolAddress?.city}</msVilleEtab>
+ <msPaysEtab type="texte" nom="Pays de l'établissement">${currentSchoolAddress?.countryName}</msPaysEtab>
  <msNomEtabAccueil type="texte" nom="Nom de l'établissement d'accueil à l'étranger">${abroadInternshipSchoolName}</msNomEtabAccueil>
  <msPaysEtabAccueil type="texte" nom="Pays de l'établissement d'accueil à l'étranger">${abroadInternshipSchoolCountry}</msPaysEtabAccueil>
 </moEtablissement>

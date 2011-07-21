@@ -268,8 +268,9 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
     @Override
     public List<Long> getRequestsWithoutExternalAction(Long requestTypeId, String externalServiceLabel) {
         return HibernateUtil.getSession().createQuery(
-            "select id from RequestData r where r.requestType.id = :rt and state in (:validated, :notified) and (select count(*) from RequestExternalAction where name = :name and cast(r.id, string) = key) = 0")
+            "select id from RequestData r where r.requestType.id = :rt and state in (:complete, :validated, :notified) and (select count(*) from RequestExternalAction where name = :name and cast(r.id, string) = key) = 0")
                 .setLong("rt", requestTypeId)
+                .setString("complete", RequestState.COMPLETE.toString())
                 .setString("validated", RequestState.VALIDATED.toString())
                 .setString("notified", RequestState.NOTIFIED.toString())
                 .setString("name", externalServiceLabel).list();

@@ -148,7 +148,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
     @Context(types = {ContextType.SUPER_ADMIN}, privilege = ContextPrivilege.NONE)
     public List<Request> getSendableRequests(String externalServiceLabel) {
         Set<RequestState> set = new HashSet<RequestState>(1);
-        set.add(RequestState.VALIDATED);
+        set.add(RequestState.COMPLETE);
         List<Request> result = new ArrayList<Request>();
         for (String rt : getRequestTypesForExternalService(externalServiceLabel)) {
             for (Request req : requestDAO.listByStatesAndType(set, rt, true)) {

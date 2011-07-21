@@ -230,7 +230,6 @@ public class StudyGrantRequestService extends RequestService implements ILocalAu
         Set<Critere> criterias = new HashSet<Critere>();
         criterias.add(new Critere(RequestExternalAction.SEARCH_BY_KEY, request.getId().toString(), Critere.EQUALS));
         criterias.add(new Critere(RequestExternalAction.SEARCH_BY_NAME, GOOGLE_MAPS, Critere.EQUALS));
-        criterias.add(new Critere(RequestExternalAction.SEARCH_BY_STATUS, RequestExternalAction.Status.SENT, Critere.EQUALS));
         List<RequestExternalAction> lastCheck =
             requestExternalActionDAO.get(criterias, RequestExternalAction.SEARCH_BY_DATE, "desc", 1, 0, true);
         if (lastCheck.size() > 0) {
@@ -262,6 +261,9 @@ public class StudyGrantRequestService extends RequestService implements ILocalAu
         } else if (currentSchool == null || currentUser == null) {
             distance = DistanceType.UNDETERMINED;
         } else if (!currentSchool.equals(oldSchool) || !currentUser.equals(oldUser)) {
+            Map<String, Serializable> data = new HashMap<String, Serializable>();
+            data.put("schoolAddress", currentSchool);
+            data.put("userAddress", currentUser);
             try {
                 int km = Integer.valueOf(
                     new DOMXPath("/DistanceMatrixResponse//distance/value").stringValueOf(
@@ -270,9 +272,6 @@ public class StudyGrantRequestService extends RequestService implements ILocalAu
                             .setParameter("destinations", currentSchool)
                             .setParameter("sensor", Boolean.FALSE.toString())
                             .get().getXml())) / 1000;
-                Map<String, Serializable> data = new HashMap<String, Serializable>();
-                data.put("schoolAddress", currentSchool);
-                data.put("userAddress", currentUser);
                 requestExternalActionService.addTrace(new RequestExternalAction(new Date(),
                     request.getId(), "capdemat", "Distance : " + km + "km",
                     GOOGLE_MAPS, RequestExternalAction.Status.SENT, data));
@@ -282,7 +281,7 @@ public class StudyGrantRequestService extends RequestService implements ILocalAu
             } catch (Exception e) {
                 requestExternalActionService.addTrace(new RequestExternalAction(new Date(),
                     request.getId(), "capdemat", null, GOOGLE_MAPS,
-                    RequestExternalAction.Status.ERROR));
+                    RequestExternalAction.Status.ERROR, data));
                 distance = DistanceType.UNDETERMINED;
             }
         }

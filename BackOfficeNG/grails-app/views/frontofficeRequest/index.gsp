@@ -55,10 +55,14 @@
             <label for="stateFilter">
               <g:message code="property.state" /> :
             </label>
-            <g:select id="stateFilter" name="stateFilter"
-              from="${requestStates}" 
-              valueMessagePrefix="request.state" value="${state.stateFilter}"
-              noSelection="['':message(code:'search.filter.defaultValue')]" />
+            <select id="stateFilter" name="stateFilter">
+              <option value=""><g:message code="search.filter.defaultValue"/></option>
+              <g:each in="${requestStates}" var="requestState">
+                <option value="${requestState}" ${state.stateFilter == requestState.toString() ? 'selected' : ''}>
+                  <g:message code="request.state.${requestState.toString().toLowerCase()}" />
+                </option>
+              </g:each>
+            </select>
                             
             <input type="submit" value="${message(code:'action.filter')}"/>
           </div>

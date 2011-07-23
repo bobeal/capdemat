@@ -90,7 +90,7 @@ class FrontofficeRequestController {
             'individuals': currentEcitizen.homeFolder.individuals.sort { it.fullName },
             'allRequestTypes' : requestAdaptorService.translateAndSortRequestTypes(),
             'requests': requests,
-            'requestStates' : RequestState.allRequestStates.collect{ it.toString().toLowerCase()}
+            'requestStates' : RequestState.allRequestStates
         ]);
     }
 
@@ -483,7 +483,7 @@ class FrontofficeRequestController {
             critere = new Critere()
             critere.attribut = Request.SEARCH_BY_STATE
             critere.comparatif = critere.EQUALS
-            critere.value = StringUtils.firstCase(state.stateFilter,'')
+            critere.value = RequestState.forString(state.stateFilter)
             criteriaSet.add(critere)
         }
         if(state.typeFilter) {

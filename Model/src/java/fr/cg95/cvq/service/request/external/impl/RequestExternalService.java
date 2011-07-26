@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -25,8 +26,8 @@ import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.UserAction;
-import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.business.users.UserEvent;
+import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.business.users.external.IndividualMapping;
 import fr.cg95.cvq.business.users.external.UserExternalAction;
@@ -61,7 +62,7 @@ import fr.cg95.cvq.xml.common.IndividualType;
 import fr.cg95.cvq.xml.common.RequestStateType;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.request.ecitizen.HomeFolderModificationRequestDocument;
-import fr.cg95.cvq.xml.request.ecitizen.HomeFolderModificationRequestDocument.HomeFolderModificationRequest;
+import fr.cg95.cvq.xml.request.ecitizen.VoCardRequestDocument;
 
 public class RequestExternalService extends ExternalService implements IRequestExternalService,
     ILocalAuthorityLifecycleAware, ApplicationListener<UserEvent> {
@@ -436,21 +437,35 @@ public class RequestExternalService extends ExternalService implements IRequestE
 
     @Override
     public void onApplicationEvent(UserEvent event) {
+
+        HomeFolder homeFolder;
+        try {
+            homeFolder = userSearchService.getHomeFolderById(event.getAction().getTargetId());
+        } catch (CvqObjectNotFoundException e1) {
+            try {
+                homeFolder = userSearchService.getById(event.getAction().getTargetId()).getHomeFolder();
+            } catch (CvqObjectNotFoundException e2) {
+                logger.debug("onApplicationEvent() got an event for a non-existent user ID : "
+                    + event.getAction().getTargetId());
+                return;
+            }
+        }
+
         if (UserAction.Type.MODIFICATION.equals(event.getAction().getType())
             || UserAction.Type.STATE_CHANGE.equals(event.getAction().getType())) {
-            HomeFolder homeFolder;
-            try {
-                homeFolder = userSearchService.getHomeFolderById(event.getAction().getTargetId());
-            } catch (CvqObjectNotFoundException e1) {
-                try {
-                    homeFolder = userSearchService.getById(event.getAction().getTargetId()).getHomeFolder();
-                } catch (CvqObjectNotFoundException e2) {
-                    logger.debug("onApplicationEvent() got an event for a non-existent user ID : "
-                        + event.getAction().getTargetId());
-                    return;
-                }
-            }
             if (UserState.VALID.equals(homeFolder.getState())) {
+
+                List<String> newMappings = new ArrayList<String>();
+                for (Entry<IExternalProviderService, ExternalServiceBean> entry : 
+                    SecurityContext.getCurrentConfigurationBean().getExternalServices().entrySet()) {
+                    if (entry.getValue().getProperty("sendHomeFolderCreation") != null
+                            && externalHomeFolderService.getHomeFolderMapping(entry.getKey().getLabel(), homeFolder.getId()) == null) {
+                        externalHomeFolderService.addHomeFolderMapping(
+                                entry.getKey().getLabel(), homeFolder.getId(), null);
+                        newMappings.add(entry.getKey().getLabel());
+                        HibernateUtil.getSession().flush();
+                    }
+                }
                 try {
                     for (HomeFolderMapping mapping :
                         externalHomeFolderService.getHomeFolderMappings(homeFolder.getId())) {
@@ -464,17 +479,23 @@ public class RequestExternalService extends ExternalService implements IRequestE
                         // to force user action's saving (which implies it will have an id we can use below)
                         HibernateUtil.getSession().flush();
 
-                        HomeFolderModificationRequestDocument doc =
-                            HomeFolderModificationRequestDocument.Factory.newInstance();
-                        HomeFolderModificationRequest xmlRequest =
-                            doc.addNewHomeFolderModificationRequest();
+                        RequestType xmlRequest = null;
+                        if (newMappings.contains(externalServiceLabel)) {
+                            VoCardRequestDocument doc = VoCardRequestDocument.Factory.newInstance();
+                            xmlRequest = doc.addNewVoCardRequest();
+                            xmlRequest.setRequestTypeLabel("VO Card");
+                        } else {
+                            HomeFolderModificationRequestDocument doc =
+                                HomeFolderModificationRequestDocument.Factory.newInstance();
+                            xmlRequest = doc.addNewHomeFolderModificationRequest();
+                            xmlRequest.setRequestTypeLabel("Home Folder Modification");
+                        }
                         Calendar calendar = new GregorianCalendar();
                         calendar.setTime(event.getAction().getDate());
                         xmlRequest.setCreationDate(calendar);
                         // set request id to the trigerring action's id to ensure uniqueness and a minimum of coherence
                         xmlRequest.setId(event.getAction().getId());
                         xmlRequest.setLastModificationDate(calendar);
-                        xmlRequest.setRequestTypeLabel("Home Folder Modification");
                         xmlRequest.setState(RequestStateType.Enum.forString(RequestState.VALIDATED.toString()));
                         xmlRequest.setValidationDate(calendar);
                         xmlRequest.addNewHomeFolder().set(homeFolder.modelToXml());

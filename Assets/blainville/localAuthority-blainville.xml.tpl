@@ -44,6 +44,14 @@
                 <value>Recreation Activity Registration</value>
               </list>
             </property>
+            <property name="serviceProperties">
+              <map>
+                <entry>
+                  <key><value>sendHomeFolderCreation</value></key>
+                  <value>true</value>
+                </entry>
+              </map>
+            </property>
           </bean>
         </entry>
         <entry>

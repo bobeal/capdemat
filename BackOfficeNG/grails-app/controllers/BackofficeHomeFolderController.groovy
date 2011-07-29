@@ -94,6 +94,11 @@ class BackofficeHomeFolderController {
         result.children = children
         result.homeFolderState = homeFolder.state.toString().toLowerCase()
         result.homeFolderStatus = homeFolder.enabled ? 'enable' : 'disable'
+        def isValidable=false
+        if(homeFolder.state.equals(UserState.NEW) || homeFolder.state.equals(UserState.MODIFIED)) {
+            isValidable=true
+        }
+        result.isValidable=isValidable
 
         result.responsibles = [:]
         for(Child child : result.children)
@@ -221,6 +226,12 @@ class BackofficeHomeFolderController {
         render(template : mode + "/state", model : [
             "user" : user, "states" : userWorkflowService.getPossibleTransitions(user)])
     }
+    
+    def validateHomeFolder = {
+            def homeFolder = userSearchService.getHomeFolderById(Long.parseLong(params.id));
+            userWorkflowService.validateHomeFolder(homeFolder);
+            redirect(action: 'details',id: params.id)
+    }
 
     def address = {
         def adult = userSearchService.getAdultById(params.long("id"))
@@ -328,6 +339,12 @@ class BackofficeHomeFolderController {
         def result = [:];
         def homeFolder = userSearchService.getHomeFolderById(Long.parseLong(params.id));
         result.homeFolderState = homeFolder.state.toString().toLowerCase();
+        def isValidable=false;
+        if(homeFolder.state.equals(UserState.NEW) || homeFolder.state.equals(UserState.MODIFIED)) {
+            isValidable=true;
+        }
+        result.isValidable=isValidable;
+        result.homeFolder=homeFolder;
         return result;
     }
 

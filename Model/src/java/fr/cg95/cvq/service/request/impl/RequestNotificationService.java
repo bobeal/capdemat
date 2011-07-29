@@ -1,7 +1,14 @@
 package fr.cg95.cvq.service.request.impl;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
+import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationListener;
 
@@ -22,13 +29,13 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.job.RequestArchivingJob;
 import fr.cg95.cvq.service.request.job.RequestArchivingJob.Result;
 import fr.cg95.cvq.service.users.IUserSearchService;
-import fr.cg95.cvq.util.logging.impl.Log;
 import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.util.translation.ITranslationService;
+import groovy.text.SimpleTemplateEngine;
+import groovy.text.Template;
 
 /**
  *
@@ -46,91 +53,71 @@ public class RequestNotificationService implements ApplicationListener<CapDematE
 
     private IRequestDAO requestDAO;
 
-    private void notifyRequestCreation(Request request, byte[] pdfData)
-        throws CvqException {
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        Adult requester = (Adult) userSearchService.getById(request.getRequesterId());
-        if (requester.getEmail() != null && !requester.getEmail().equals("")) {
-            Map<String, String> ecitizenCreationNotifications =
-                lacb.getEcitizenCreationNotifications();
-            if (ecitizenCreationNotifications == null) {
-                logger.warn("notifyRequestCreation() ecitizen creation notifications not configured !");
-                return;
-            }
-            String mailData = ecitizenCreationNotifications.get("mailData");
-            Boolean attachPdf =
-                Boolean.valueOf(ecitizenCreationNotifications.get("attachPdf"));
-            String mailDataBody =
-                localAuthorityRegistry.getBufferedLocalAuthorityResource(
-                        Type.TXT, mailData, false);
+    private String createStateChangedNotificationMailBody (Request request, String requestTypeLabelAsDir){
+        File mailTemplate = localAuthorityRegistry.getLocalAuthorityResourceFile(
+            Type.TXT, "notification/" + requestTypeLabelAsDir + "/" + request.getState().name(), false);
 
-            if (mailDataBody == null) {
-                logger.warn("notifyRequestCreation() no mail data for ecitizen request creation notification");
-            } else {
-                mailDataBody = mailDataBody.replaceAll("__ecitizenLogin__", requester.getLogin());
-                StringBuffer mailSubject = new StringBuffer();
-                mailSubject.append("[").append(SecurityContext.getCurrentSite().getDisplayTitle()).append("] ")
-                .append(ecitizenCreationNotifications.get("mailSubject"));
-
-                if (attachPdf) {
-                    mailService.send(request.getRequestType().getCategory().getPrimaryEmail(), requester.getEmail(), null,
-                            mailSubject.toString(), mailDataBody, pdfData, "Recu_Demande.pdf");
-                } else {
-                    mailService.send(request.getRequestType().getCategory().getPrimaryEmail(), requester.getEmail(), null,
-                            mailSubject.toString(), mailDataBody);
-                }
-            }
-            
-            Log.logger(SecurityContext.getCurrentSite().getName()).info("NOTIFY REQUEST CHANGE STATE: " 
-                    + "[" + request.getId() + "]" 
-                    + " {" + request.getState().name() + "}" 
-                    + " " + request.getRequestType().getLabel()
-                    + " by " + requester.getFullName() + " <" + requester.getEmail() + ">");
+        if (!mailTemplate.exists()){
+            mailTemplate = localAuthorityRegistry.getLocalAuthorityResourceFile(
+                Type.TXT, "notification/" + request.getState().name(), false);
         }
+
+        if(!mailTemplate.exists()){
+            return null;
+        }
+
+        StringWriter sw = new StringWriter();
+        SimpleTemplateEngine templateEngine = new SimpleTemplateEngine();
+        Template template;
+        try {
+            template = templateEngine.createTemplate(
+                new InputStreamReader( new FileInputStream(mailTemplate), "UTF-8") );
+            Map<String, Object> bindingMap = new HashMap<String, Object>();
+            bindingMap.put("request", request);
+            Adult requester = (Adult) userSearchService.getById(request.getRequesterId());
+            bindingMap.put("requester", requester);
+            bindingMap.put("serveurName", SecurityContext.getCurrentConfigurationBean().getDefaultServerName());
+            bindingMap.put("i18n", translationService);
+            template.make(bindingMap).writeTo(sw);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sw.toString();
     }
 
-    private void notifyRequestValidation(Long requestId, final byte[] pdfData)
+    private void notifyStateChanged(Long requestId, final byte[] pdfData)
         throws CvqException {
-
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-
         Request request = requestDAO.findById(requestId);
         String requestTypeLabel = request.getRequestType().getLabel();
+        String requestTypeLabelAsDir = StringUtils.uncapitalize(request.getRequestType().getLabel().replace(" ", "")) + "Request";
+        String mailBody = createStateChangedNotificationMailBody(request, requestTypeLabelAsDir);
+        if (mailBody == null)
+            return;
 
-        // send notification to ecitizen if enabled
-        Adult requester = (Adult) userSearchService.getById(request.getRequesterId());
-        if (lacb.hasEcitizenValidationNotification(requestTypeLabel)
-                && (requester.getEmail() != null && !requester.getEmail().equals(""))) {
-            String mailData = lacb.getEcitizenValidationNotificationData(requestTypeLabel,
-                    "mailData");
-            Boolean attachPdf =
-                Boolean.valueOf(lacb.getEcitizenValidationNotificationData(requestTypeLabel,
-                        "attachPdf"));
-            String mailDataBody =
-                localAuthorityRegistry.getBufferedLocalAuthorityResource(
-                        Type.TXT, mailData, false);
-
-            if (mailDataBody == null) {
-                logger.warn("notifyRequestValidation() local authority has activated ecitizen "
-                    + " notification for request type " + requestTypeLabel
-                    + " but has no mail data for it !");
-                return;
-            }
-
-            String mailSubject = translationService.translate(
-                "request.notification.validation.subject",
+        String mailSubject = translationService.translate(
+                "request.notification.subject." + request.getState().name(),
                 new Object[] {
                     SecurityContext.getCurrentSite().getDisplayTitle(),
-                    translationService.translateRequestTypeLabel(request.getRequestType().getLabel())
-                });
+                    translationService.translateRequestTypeLabel(requestTypeLabel)
+        });
 
-            if (pdfData != null && attachPdf.booleanValue()) {
-                mailService.send(null, requester.getEmail(), null,
-                        mailSubject, mailDataBody, pdfData, "Attestation_Demande.pdf");
-            } else {
-                mailService.send(null, requester.getEmail(), null,
-                        mailSubject, mailDataBody);
-            }
+        if (mailSubject.equals("request.notification.subject." + request.getState().name())) {
+            mailSubject = "[" + SecurityContext.getCurrentSite().getDisplayTitle() + "]"
+                + " " + translationService.translateRequestTypeLabel(requestTypeLabel)
+                + " " + translationService.translate("request.state." + request.getState().toString().toLowerCase());
+        }
+
+        Adult requester = (Adult) userSearchService.getById(request.getRequesterId());
+        if (pdfData != null) {
+            mailService.send(
+                    request.getRequestType().getCategory().getPrimaryEmail(),
+                    requester.getEmail(), null,
+                    mailSubject, mailBody, pdfData, "Attestation_Demande.pdf");
+        } else {
+            mailService.send(
+                    request.getRequestType().getCategory().getPrimaryEmail(),
+                    requester.getEmail(), null,
+                    mailSubject, mailBody);
         }
     }
 
@@ -223,12 +210,8 @@ public class RequestNotificationService implements ApplicationListener<CapDematE
         logger.debug("onApplicationEvent() got a request event of type " + requestEvent.getEvent());
         try {
             switch (requestEvent.getEvent()) {
-                case REQUEST_CREATED :
-                    notifyRequestCreation(requestEvent.getRequest(),
-                        (byte[])requestEvent.getComplementaryData(COMP_DATA.PDF_FILE));
-                    break;
-                case REQUEST_VALIDATED :
-                    notifyRequestValidation(requestEvent.getRequest().getId(),
+                case STATE_CHANGED :
+                    notifyStateChanged(requestEvent.getRequest().getId(),
                         (byte[])requestEvent.getComplementaryData(COMP_DATA.PDF_FILE));
                     break;
                 case NOTE_ADDED :
@@ -273,4 +256,5 @@ public class RequestNotificationService implements ApplicationListener<CapDematE
             logger.debug("onApplicationEvent() : unhandled event type");
         }
     }
+
 }

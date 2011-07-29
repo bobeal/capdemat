@@ -38,8 +38,6 @@ public final class LocalAuthorityConfigurationBean {
     private Map<IPaymentProviderService, PaymentServiceBean> paymentServices;
     private ExternalServiceConfigurationBean escb;
 
-    private Map<String, String> ecitizenCreationNotifications;
-    private Map<String, Map<String, String>> ecitizenValidationNotifications;
     private Map<String, Map<String, String>> agentNotifications;
     private Map<String, Map<String, String>> paymentNotifications;
     private Properties jpaConfigurations;
@@ -51,9 +49,6 @@ public final class LocalAuthorityConfigurationBean {
         paymentServices =
             new HashMap<IPaymentProviderService, PaymentServiceBean>();
         escb = new ExternalServiceConfigurationBean();
-        ecitizenCreationNotifications = new HashMap<String, String>();
-        ecitizenValidationNotifications =
-            new HashMap<String, Map<String, String>>();
     }
 
     /**
@@ -64,47 +59,6 @@ public final class LocalAuthorityConfigurationBean {
             return null;
 
         return paymentServices.keySet();
-    }
-
-    /**
-     * Return whether the given request type has ecitizen notification enabled for the local
-     * authority associated to this bean.
-     */
-    public boolean hasEcitizenValidationNotification(final String requestTypeLabel) {
-        if (ecitizenValidationNotifications == null)
-            return false;
-        if (ecitizenValidationNotifications.get("All")!= null)
-            return true;
-        if (ecitizenValidationNotifications.get(requestTypeLabel) != null)
-            return true;
-
-        return false;
-    }
-
-    /**
-     * Return configuration data associated to the given data key for the given request type
-     * label.
-     */
-    public String getEcitizenValidationNotificationData(final String requestTypeLabel,
-            final String dataKey) {
-        if (ecitizenValidationNotifications == null)
-            return null;
-        Map<String, String> data;
-        if (ecitizenValidationNotifications.get("All")!= null)
-            data = ecitizenValidationNotifications.get("All");
-        else
-            data = ecitizenValidationNotifications.get(requestTypeLabel);
-        if (data == null)
-            return null;
-        return data.get(dataKey);
-    }
-
-    public Map<String, String> getEcitizenCreationNotifications() {
-        return ecitizenCreationNotifications;
-    }
-
-    public void setEcitizenCreationNotifications(Map<String, String> ecitizenCreationNotifications) {
-        this.ecitizenCreationNotifications = ecitizenCreationNotifications;
     }
 
     /**
@@ -283,10 +237,6 @@ public final class LocalAuthorityConfigurationBean {
 
     public void unregisterExternalService(IExternalProviderService service) {
         escb.unregisterExternalService(service);
-    }
-
-    public void setEcitizenValidationNotifications(Map<String, Map<String, String>> ecitizenValidationNotifications) {
-        this.ecitizenValidationNotifications = ecitizenValidationNotifications;
     }
 
 	public void setAgentNotifications(Map<String, Map<String, String>> agentNotifications) {

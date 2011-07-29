@@ -748,11 +748,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         byte[] pdfData = requestPdfService.generateCertificate(request);
         requestActionService.addCreationAction(request.getId(), date, pdfData, note);
 
-        RequestEvent requestEvent = 
-            new RequestEvent(this, EVENT_TYPE.REQUEST_CREATED, request);
-        if (pdfData != null)
-            requestEvent.addComplementaryData(COMP_DATA.PDF_FILE, pdfData);
-        applicationContext.publishEvent(requestEvent);
+        applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.REQUEST_CREATED, request));
+        applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.STATE_CHANGED, request, pdfData));
 
         postActionsProcess(wfEvent.getWorkflowPostActions());
     }
@@ -780,6 +777,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         requestActionService.addWorfklowAction(request.getId(), note, date,
             RequestState.INPROGRESS, null);
+
+        applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.STATE_CHANGED, request));
+
         postActionsProcess(wfEvent.getWorkflowPostActions());
     }
 
@@ -793,6 +793,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         requestActionService.addWorfklowAction(request.getId(), note, date,
             RequestState.EXTINPROGRESS, null);
+
+        applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.STATE_CHANGED, request));
+
         postActionsProcess(wfEvent.getWorkflowPostActions());
     }
 
@@ -813,6 +816,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         requestActionService.addWorfklowAction(request.getId(), note, date,
             RequestState.COMPLETE, null);
+
+        applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.STATE_CHANGED, request));
+
         postActionsProcess(wfEvent.getWorkflowPostActions());
     }
 
@@ -829,6 +835,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         requestActionService.addWorfklowAction(request.getId(), note, date,
             RequestState.UNCOMPLETE, null);
+
+        applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.STATE_CHANGED, request));
+
         postActionsProcess(wfEvent.getWorkflowPostActions());
     }
 
@@ -842,6 +851,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         requestActionService.addWorfklowAction(request.getId(), note, date,
             RequestState.RECTIFIED, null);
+
+        applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.STATE_CHANGED, request));
+
         postActionsProcess(wfEvent.getWorkflowPostActions());
     }
 
@@ -869,6 +881,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         requestActionService.addWorfklowAction(request.getId(), note, date,
             RequestState.REJECTED, pdfData);
+
+        applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.STATE_CHANGED, request, pdfData));
+
         postActionsProcess(wfEvent.getWorkflowPostActions());
 
         HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
@@ -911,6 +926,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         requestActionService.addWorfklowAction(request.getId(), note, date,
             RequestState.CANCELLED, pdfData);
+
+        applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.STATE_CHANGED, request, pdfData));
+
         postActionsProcess(wfEvent.getWorkflowPostActions());
 
         HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
@@ -953,11 +971,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         if (homeFolder.isTemporary() && !homeFolder.getState().equals(UserState.VALID))
             userWorkflowService.changeState(individual, UserState.VALID);
 
-        RequestEvent requestEvent = 
-            new RequestEvent(this, EVENT_TYPE.REQUEST_VALIDATED, request);
-        if (pdfData != null)
-            requestEvent.addComplementaryData(COMP_DATA.PDF_FILE, pdfData);
-        applicationContext.publishEvent(requestEvent);
+        applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.STATE_CHANGED, request, pdfData));
+
         postActionsProcess(wfEvent.getWorkflowPostActions());
     }
 
@@ -974,6 +989,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         requestActionService.addWorfklowAction(request.getId(), note, date,
             RequestState.NOTIFIED, null);
+
+        applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.STATE_CHANGED, request));
+
         postActionsProcess(wfEvent.getWorkflowPostActions());
     }
 
@@ -990,6 +1008,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         requestActionService.addWorfklowAction(request.getId(), note, date,
             RequestState.CLOSED, null);
+
+        applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.STATE_CHANGED, request));
+
         postActionsProcess(wfEvent.getWorkflowPostActions());
     }
 

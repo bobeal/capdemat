@@ -122,24 +122,6 @@
         </entry>
       </map>
     </property>
-    <property name="ecitizenCreationNotifications">
-      <map>
-        <entry key="mailData" value="RequestCreationConfirmation"/>
-        <entry key="mailSubject" value="Notification de création de votre demande"/>
-        <entry key="attachPdf" value="true"/>
-      </map>
-    </property>
-    <property name="ecitizenValidationNotifications">
-      <map>
-        <entry>
-          <key><value>All</value></key>
-          <map>
-            <entry key="mailData" value="RequestValidationNotification"/>
-            <entry key="attachPdf" value="true"/>
-          </map>
-        </entry>
-      </map>
-    </property>
      <property name="agentNotifications">
       <map>
         <entry>

@@ -1,0 +1,7 @@
+${i18n.translate('homeFolder.adult.title.' + requester.title.toString().toLowerCase() )} ${requester.getFullName()},
+
+Nous accusons réception de votre demande d'intervention technique numéro ${request.getId()}.
+
+Cordialement,
+
+CapDémat Team

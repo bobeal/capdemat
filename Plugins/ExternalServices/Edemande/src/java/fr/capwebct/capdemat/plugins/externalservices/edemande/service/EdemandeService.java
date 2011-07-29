@@ -27,6 +27,7 @@ import org.apache.commons.collections.keyvalue.UnmodifiableMapEntry;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
 import org.jaxen.JaxenException;
 import org.jaxen.dom.DOMXPath;
@@ -79,6 +80,8 @@ import fr.cg95.cvq.xml.request.social.impl.BafaGrantRequestDocumentImpl.BafaGran
 
 public class EdemandeService implements IExternalProviderService {
 
+    private static Logger logger = Logger.getLogger(EdemandeService.class);
+    
     private String label;
     private IEdemandeClient edemandeClient;
     private IUserSearchService userSearchService;
@@ -208,8 +211,31 @@ public class EdemandeService implements IExternalProviderService {
             "Payé partiellement".equals(msStatut) ||
             "Terminé".equals(msStatut)) {
             addTrace(request.getId(), null, RequestExternalAction.Status.ACCEPTED, msStatut);
+            if ("Accepté".equals(msStatut))
+                try {
+                    requestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
+                } catch (CvqInvalidTransitionException e) {
+                    logger.error("sendRequest() could not validate request " + request.getId() 
+                            + " (" + e.getMessage() + ")"); 
+                } catch (CvqObjectNotFoundException e) {
+                    // unlikely to happen
+                } catch (CvqException e) {
+                    logger.error("sendRequest() unexpected error while validating request " + request.getId() 
+                            + " (" + e.getMessage() + ")");
+                }
         } else if ("Refusé".equals(msStatut)) {
             addTrace(request.getId(), null, RequestExternalAction.Status.REJECTED, msStatut);
+            try {
+                requestWorkflowService.updateRequestState(request.getId(), RequestState.REJECTED, null);
+            } catch (CvqInvalidTransitionException e) {
+                logger.error("sendRequest() could not reject request " + request.getId() 
+                        + " (" + e.getMessage() + ")"); 
+            } catch (CvqObjectNotFoundException e) {
+                // unlikely to happen
+            } catch (CvqException e) {
+                logger.error("sendRequest() unexpected error while rejecting request " + request.getId() 
+                        + " (" + e.getMessage() + ")");
+            }
         }
         return null;
     }

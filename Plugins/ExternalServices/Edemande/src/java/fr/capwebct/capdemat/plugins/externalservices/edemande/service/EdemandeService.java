@@ -56,7 +56,7 @@ import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.business.request.school.StudyGrantRequest;
 import fr.cg95.cvq.business.request.social.BafaGrantRequest;
 import fr.cg95.cvq.business.users.FrenchRIB;
-import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;

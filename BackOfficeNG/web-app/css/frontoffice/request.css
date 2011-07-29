@@ -237,11 +237,14 @@ a.link-agent          { color: #EA3D1A; }
 /* help
 --------------------------------------------------------------*/
 #request div.help {
-  margin-top: 1em;; padding: .5em 1.5em 1em;
+  margin-top: 1em; padding: .5em 1.5em 1em;
   clear: both;
   background: #eee;
 }
 
+#request div.help h4 { font-size: 1.3em; font-weight: bold; }
+#request div.help p  { padding : 0; }
+#request div.help li { margin : .5em 0 0 30px; list-style-type: disc; }
 
 /* notices
 --------------------------------------------------------------*/

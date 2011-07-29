@@ -215,13 +215,6 @@ public class RequestExternalService extends ExternalService implements IRequestE
                             .add(new IndividualMapping(xmlIndividual.getId(), null, mapping));
                 }
                 externalHomeFolderService.createHomeFolderMapping(mapping);
-                // Yet another fucking Hibernate hack
-                HomeFolderMapping mappingTest = externalHomeFolderService
-                    .getHomeFolderMapping(externalServiceLabel, xmlHomeFolder.getId());
-                if (mappingTest == null) {
-                    logger.warn("sendError() mapping was not created, trying a flush");
-                    HibernateUtil.getSession().flush();
-                }
                 fillRequestWithMapping(xmlRequest, mapping);
             }
 

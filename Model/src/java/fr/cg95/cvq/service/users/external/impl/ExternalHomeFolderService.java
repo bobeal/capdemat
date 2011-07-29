@@ -9,7 +9,7 @@ import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.business.users.external.IndividualMapping;
 import fr.cg95.cvq.dao.IGenericDAO;
-import fr.cg95.cvq.exception.CvqModelException;
+import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
@@ -20,15 +20,19 @@ public class ExternalHomeFolderService implements IExternalHomeFolderService {
     private IGenericDAO genericDAO;
 
     @Override
-    public void createHomeFolderMapping(HomeFolderMapping homeFolderMapping)
-            throws CvqModelException {
+    public void createHomeFolderMapping(HomeFolderMapping homeFolderMapping) {
         genericDAO.create(homeFolderMapping);
+        // Flush session to ensure every user of this home folder mapping will be able to retrieve it
+        // in the current session
+        HibernateUtil.getSession().flush();
     }
 
     @Override
-    public void modifyHomeFolderMapping(HomeFolderMapping homeFolderMapping)
-            throws CvqModelException {
+    public void modifyHomeFolderMapping(HomeFolderMapping homeFolderMapping) {
         genericDAO.update(homeFolderMapping);
+        // Flush session to ensure every user of this home folder mapping will be able to retrieve it
+        // in the current session
+        HibernateUtil.getSession().flush();
     }
 
     @Override
@@ -109,7 +113,7 @@ public class ExternalHomeFolderService implements IExternalHomeFolderService {
         } else {
             iMapping.setExternalId(externalId);
         }
-        genericDAO.update(mapping);
+        modifyHomeFolderMapping(mapping);
     }
 
     @Override
@@ -128,7 +132,7 @@ public class ExternalHomeFolderService implements IExternalHomeFolderService {
 
         esim.setExternalId(externalId);
 
-        genericDAO.create(esim);
+        createHomeFolderMapping(esim);
     }
 
     @Override

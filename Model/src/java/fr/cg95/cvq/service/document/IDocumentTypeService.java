@@ -49,7 +49,8 @@ public interface IDocumentTypeService {
     Integer BAFA_GENERAL_TRAINING_CERTIFICATE = new Integer(39);
     Integer SCHOOL_ASSIGNMENT_CERTIFICATE = new Integer(40);
     Integer MEDICAL_FORM = new Integer(41);
-    Integer SWIMMING_CERTIFICATE = new Integer(42); 
+    Integer SWIMMING_CERTIFICATE = new Integer(42);
+    Integer TRAINING_AGREEMENT = new Integer(43);
 
     /**
      * Get a document type by type id.

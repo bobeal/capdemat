@@ -160,6 +160,9 @@ public class DocumentBootstrapper {
         
         checkDocumentType("Swimming Certificate", 42,
                 DocumentUsageType.REUSABLE, 0, DocumentTypeValidity.UNLIMITED);
+
+        checkDocumentType("Training Agreement", 43,
+                DocumentUsageType.REUSABLE, 1, DocumentTypeValidity.YEAR);
     }
 
     public void setDocumentTypeDAO(IDocumentTypeDAO documentTypeDAO) {

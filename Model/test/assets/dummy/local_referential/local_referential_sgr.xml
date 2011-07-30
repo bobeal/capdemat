@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-    <request>StudyGrantRequest</request>
-    <data name="TaxHouseholdCity" alowMultipleChoices="true">
+    <data name="TaxHouseholdCity" allowMultipleChoices="true">
         <label>Commune</label>
         <entries>
             <entry key="Paris">

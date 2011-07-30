@@ -5,6 +5,7 @@
       <g:each var="record" in="${dashBoard.payments.all}">
         <li>
             <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="payment.state" />
+            <a href="${createLink(controller:'frontofficePayment',action:'paymentDetails',id:record.id)}">
             <p>
               <g:message code="payment.property.payment" /> 
               <g:if test="${record.bankReference}">
@@ -17,6 +18,7 @@
               - <g:message code="payment.searchResult.initializationDate" /> 
               <g:formatDate date="${record.initializationDate}" formatName="format.fullDate"/>
             </p>
+            </a>
         </li>
       </g:each>
     </ul>

@@ -200,6 +200,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
               this.set("cacheData", cacheData);
             }
           }, null);
+        this.refreshHomeFolderState();
       },
 
       add : function(e) {
@@ -235,6 +236,14 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
             individual.parentNode.removeChild(individual);
             zcbh.Details.refreshActions();
         });
+      },
+      
+      refreshHomeFolderState : function() {
+          zct.doAjaxCall('/currentHomeFolderState/'+zenexity.capdemat.bong.homeFolder.Details.homeFolderId, null, function(o) {
+            var state = document.getElementById('homeFolderState');
+            var parentNode=state.parentNode;
+            parentNode.innerHTML = o.responseText;
+          });
       }
     };
   }();

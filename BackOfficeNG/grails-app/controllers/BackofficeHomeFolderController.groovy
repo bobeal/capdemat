@@ -94,6 +94,11 @@ class BackofficeHomeFolderController {
         result.children = children
         result.homeFolderState = homeFolder.state.toString().toLowerCase()
         result.homeFolderStatus = homeFolder.enabled ? 'enable' : 'disable'
+        def isValidable=false
+        if(homeFolder.state.equals(UserState.NEW) || homeFolder.state.equals(UserState.MODIFIED)) {
+            isValidable=true
+        }
+        result.isValidable=isValidable
 
         result.responsibles = [:]
         for(Child child : result.children)
@@ -221,6 +226,12 @@ class BackofficeHomeFolderController {
         render(template : mode + "/state", model : [
             "user" : user, "states" : userWorkflowService.getPossibleTransitions(user)])
     }
+    
+    def validateHomeFolder = {
+            def homeFolder = userSearchService.getHomeFolderById(Long.parseLong(params.id));
+            userWorkflowService.validateHomeFolder(homeFolder);
+            redirect(action: 'details',id: params.id)
+    }
 
     def address = {
         def adult = userSearchService.getAdultById(params.long("id"))
@@ -273,7 +284,7 @@ class BackofficeHomeFolderController {
                 individualAdaptorService.historize(
                     individual, individual, temp, "identity",
                     individual instanceof Adult ?
-                        ["title", "familyStatus", "lastName", "maidenName", "nameOfUse", "firstName", "firstName2", "firstName3", "profession"] :
+                        ["title", "familyStatus", "lastName", "maidenName", "nameOfUse", "firstName", "firstName2", "firstName3", "profession", "cfbn"] :
                         ["born", "lastName", "firstName", "firstName2", "firstName3", "sex", "birthDate", "birthPostalCode", "birthCity", "birthCountry"])
             } catch (CvqValidationException e) {
                 session.doRollback = true 
@@ -322,6 +333,19 @@ class BackofficeHomeFolderController {
         def list = new ArrayList(userSearchService.getHomeFolderById(Long.valueOf(params.id)).actions)
         Collections.reverse(list)
         return ["actions" : homeFolderAdaptorService.prepareActions(list)]
+    }
+    
+    def currentHomeFolderState = {
+        def result = [:];
+        def homeFolder = userSearchService.getHomeFolderById(Long.parseLong(params.id));
+        result.homeFolderState = homeFolder.state.toString().toLowerCase();
+        def isValidable=false;
+        if(homeFolder.state.equals(UserState.NEW) || homeFolder.state.equals(UserState.MODIFIED)) {
+            isValidable=true;
+        }
+        result.isValidable=isValidable;
+        result.homeFolder=homeFolder;
+        return result;
     }
 
     def mapping = {

@@ -7,11 +7,10 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.testtool.TestUtils;
 
-import java.util.LinkedHashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import junit.framework.Assert;
 
@@ -22,6 +21,9 @@ import junit.framework.Assert;
  */
 public class LocalReferentialServiceTest extends RequestTestCase {
 
+    @Autowired
+    private IRequestServiceRegistry requestServiceRegistry;
+    
     @Test
     public void testAgentManipulation() throws CvqException {
 
@@ -31,27 +33,21 @@ public class LocalReferentialServiceTest extends RequestTestCase {
         // play a little bit with local referential data
         // //////////////////////////////////////////////
 
-        // check retrieving of whole tree of local referential data
-        Set<LocalReferentialType> allLocalReferentialData = 
-            localReferentialService.getAllLocalReferentialData();
-        TestUtils.printLocalRefData(allLocalReferentialData);
-                
-        Set<String> requestTypeLabels = localReferentialService.getAllLocalReferentialRequestTypeLabels();
-        // rt = request type
-        String rtLabel = requestTypeLabels.iterator().next();
+        String rtLabel = null;
+        for (IRequestService service : requestServiceRegistry.getAllRequestServices())
+            if (service.getLocalReferentialFilename() != null) {
+                rtLabel = service.getLabel();
+                break;
+            }
+
         // lrt = local referential type
         String lrtName = localReferentialService.getLocalReferentialTypes(rtLabel).iterator().next().getName();
+        Assert.assertNotNull(lrtName);
         logger.debug("Asking information for : " + rtLabel + "->" + lrtName);
-
-        // check retrieving by request type
-        final String studyGrantLabel = "Study Grant";
-        Set<LocalReferentialType> lrts = 
-            localReferentialService.getLocalReferentialTypes(studyGrantLabel);
-        Assert.assertNotNull(lrts);
-        TestUtils.printLocalRefData(lrts);
 
         // check retrieving by data name
         String lreKey = localReferentialService.getLocalReferentialType(rtLabel, lrtName).getEntriesKeys().iterator().next();
+        Assert.assertNotNull(lreKey);
         
         // check modifications on a local referential type :
         //    -> remove the first entry
@@ -68,7 +64,7 @@ public class LocalReferentialServiceTest extends RequestTestCase {
             localReferentialService.getLocalReferentialType(rtLabel, lrtName);
         Assert.assertNotNull(retrievedLrt);
         Assert.assertTrue(retrievedLrt.isMultiple());
-        LocalReferentialEntry retrievedLre = retrievedLrt.getEntryByKey("ANewEntry");
+        LocalReferentialEntry retrievedLre = retrievedLrt.getEntryByKey(entryKey);
         Assert.assertNotNull(retrievedLre);
         Assert.assertEquals(retrievedLre.getEntries().size(), 1);
 
@@ -79,7 +75,7 @@ public class LocalReferentialServiceTest extends RequestTestCase {
         retrievedLrt = localReferentialService.getLocalReferentialType(rtLabel, lrtName);
         Assert.assertNotNull(retrievedLrt);
         Assert.assertTrue(retrievedLrt.isMultiple());
-        retrievedLre = retrievedLrt.getEntryByKey("ANewEntry");
+        retrievedLre = retrievedLrt.getEntryByKey(entryKey);
         Assert.assertNull(retrievedLre);
         retrievedLre = retrievedLrt.getEntryByKey(backupKey);
         Assert.assertNotNull(retrievedLre);

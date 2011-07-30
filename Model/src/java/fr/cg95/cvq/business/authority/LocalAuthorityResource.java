@@ -40,8 +40,7 @@ public class LocalAuthorityResource {
         PDF("pdf", ".pdf"),
         REQUEST_ARCHIVE("pdf/request_archives", ".pdf"),
         TXT("txt", ".txt"),
-        XML("xml", ".xml"),
-        XSL("xsl", ".xsl");
+        XML("xml", ".xml");
         private String folder;
         private String extension;
         private Type(String folder, String extension) {

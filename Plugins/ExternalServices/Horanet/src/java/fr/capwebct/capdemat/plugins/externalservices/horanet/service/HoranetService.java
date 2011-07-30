@@ -285,8 +285,6 @@ public class HoranetService implements IExternalProviderService {
             final Date dateFrom, final Date dateTo)
         throws CvqException {
 
-        logger.debug("getConsumptionsByRequest()");
-
         String SOAP_ACTION_URI = HORANET_CVQ2_NS + "GetChildTransactions2";
         Map<Date, String> results = new LinkedHashMap<Date, String>();
         try {
@@ -340,7 +338,14 @@ public class HoranetService implements IExternalProviderService {
                 Date eventDate = simpleDateFormat.parse(dateNode.getNodeValue());
                 logger.debug("adding label " + labelNode.getNodeValue()
                              + " with date " + eventDate);
-                results.put(eventDate, labelNode.getNodeValue());
+                if (results.get(eventDate) != null && results.get(eventDate) != labelNode.getNodeValue()) {
+                    Calendar calendar = new GregorianCalendar();
+                    calendar.setTime(eventDate);
+                    calendar.add(Calendar.SECOND, 1);
+                    results.put(calendar.getTime(), labelNode.getNodeValue());
+                } else { 
+                    results.put(eventDate, labelNode.getNodeValue());
+                }
             }
         } catch (ServiceException se) {
             logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
@@ -398,6 +403,13 @@ public class HoranetService implements IExternalProviderService {
                             currentHomeFolder.getId().toString()
                         });
 
+            // Horanet often fails to return a valid response (even an empty one)
+            // so prevent NPEs from jumping over
+            if (call.getResponseMessage() == null) {
+                logger.warn("getHomeFolderAccountsDocument() Horanet returned a null response for home folder "
+                        + homeFolderId);
+                throw new CvqRemoteException("Impossible de remonter les éléments de facturation du service distant");
+            }
             Iterator attachements = call.getResponseMessage().getAttachments();
             AttachmentPart attachmentPart = (AttachmentPart) attachements.next();
             byte[] data = new byte[attachmentPart.getSize()];

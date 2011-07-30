@@ -65,6 +65,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             }
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
+            calendar.add(Calendar.HOUR, -1);
             
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.EXTERNAL_SERVICE_CONTEXT);
             SecurityContext.setCurrentExternalService(fakeExternalService.getLabel());
@@ -82,7 +83,7 @@ public class RequestServiceEndpointTest extends ExternalServiceTestCase {
             GetRequestsResponse getResponse = 
                 (GetRequestsResponse) endpoint2.invokeInternal(requestDocument);
             int getCountBefore = getResponse.getRequestArray().length;
-            assertEquals(1, getCountBefore);
+            assertEquals(1, getCountBefore); 
             
             continueWithNewTransaction();
 

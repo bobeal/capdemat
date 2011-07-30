@@ -75,26 +75,6 @@
       init : function() {
         var subjectSelect = yud.get("subjectId");
         var subjectSeparatorAdded = false;
-        if (subjectSelect) {
-          zct.each([["Adult", "Nouvel adulte"], ["Child", "Nouvel enfant"], ["Subject", "Nouveau sujet"]], function() {
-            if (yud.get("add" + this[0] + "Link")) {
-              if (!subjectSeparatorAdded) {
-                var subjectSeparator = document.createElement("option");
-                subjectSeparator.text = "---";
-                subjectSeparator.value = "";
-                subjectSeparator.disabled = "disabled";
-                subjectSelect.add(subjectSeparator, null);
-                subjectSeparatorAdded = true;
-              }
-              var option = document.createElement("option");
-              option.text = this[1];
-              option.value = "";
-              option.id = "addSubject";
-              option.name = this[0];
-              subjectSelect.add(option, null);
-            }
-          });
-        }
         zcf.RequestCreation.clickEvent = new zct.Event(zcf.RequestCreation, zcf.RequestCreation.getHandler);
         yue.on('request','click', zcf.RequestCreation.clickEvent.dispatch, zcf.RequestCreation.clickEvent, true);
         

@@ -45,14 +45,16 @@ public class Adult extends Individual {
 
     @NotNull(message = "officePhone", when = "groovy:_this.homePhone == null && _this.mobilePhone == null")
     @NotEmpty(message = "officePhone")
-    @MatchPattern(pattern = "^0[1-59][0-9]{8}$", message = "officePhone")
+    @MatchPattern(pattern = "^0[1-5679][0-9]{8}$", message = "officePhone")
     private String officePhone;
 
     @NotNull(message = "email")
     @Email(message = "email")
     private String email;
 
+    @MatchPattern(pattern = "^[0-9]{7}[A-Z]{0,1}$", message = "cfbn")
     private String cfbn;
+
     private String profession;
 
     @NotNull(message = "question", profiles = {"login"})
@@ -121,6 +123,7 @@ public class Adult extends Individual {
             adult.setNameOfUse(adultType.getNameOfUse());
             if (adultType.getFamilyStatus() != null)
                 adult.setFamilyStatus(FamilyStatusType.forString(adultType.getFamilyStatus().toString()));
+            adult.setExternalCapDematId(adultType.getExternalCapdematId());
             adult.setHomePhone(adultType.getHomePhone());
             adult.setMobilePhone(adultType.getMobilePhone());
             adult.setOfficePhone(adultType.getOfficePhone());

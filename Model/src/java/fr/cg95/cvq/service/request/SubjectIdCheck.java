@@ -35,20 +35,25 @@ public class SubjectIdCheck extends AbstractAnnotationCheck<LocalReferential> {
                 }
             }
         }
-        HibernateUtil.getSession().evict(requestData);
-        try {
-            requestWorkflowService.checkSubjectPolicy(
-                (Long)valueToValidate,
-                requestData.getHomeFolderId(),
-                requestServiceRegistry.getRequestService(requestData.getRequestType().getLabel())
-                    .getSubjectPolicy(),
-                requestData.getRequestType()
-            );
+
+        if (requestServiceRegistry.getRequestService(requestData.getRequestType().getLabel()).getSubjectPolicy() != IRequestWorkflowService.SUBJECT_POLICY_NONE) {
+            HibernateUtil.getSession().evict(requestData);
+            try {
+                requestWorkflowService.checkSubjectPolicy(
+                        (Long)valueToValidate,
+                        requestData.getHomeFolderId(),
+                        requestServiceRegistry.getRequestService(requestData.getRequestType().getLabel())
+                        .getSubjectPolicy(),
+                        requestData.getRequestType()
+                );
+                return true;
+            } catch (CvqException e) {
+                return false;
+            } finally {
+                HibernateUtil.getSession().merge(requestData);
+            }
+        } else {
             return true;
-        } catch (CvqException e) {
-            return false;
-        } finally {
-            HibernateUtil.getSession().merge(requestData);
         }
     }
 

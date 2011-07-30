@@ -2634,7 +2634,7 @@
         user_id int8 not null,
         target_id int8 not null,
         type varchar(255) not null,
-        note varchar(255),
+        note varchar(1024),
         data text,
         home_folder_id int8,
         home_folder_index int4,

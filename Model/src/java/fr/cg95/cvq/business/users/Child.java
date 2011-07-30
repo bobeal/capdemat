@@ -25,6 +25,7 @@ public class Child extends Individual {
         child.setBorn(childType.getBorn());
         if (childType.getSex() != null)
             child.setSex(SexType.forString(childType.getSex().toString()));
+        child.setExternalCapDematId(childType.getExternalCapdematId());
         return child;
     }
 

@@ -20,6 +20,8 @@
   <dd>${adult.firstName3}</dd>
   <dt>${message(code:'homeFolder.adult.property.profession')} : </dt>
   <dd>${adult.profession}</dd>
+  <dt>${message(code:'homeFolder.adult.property.cfbn')} : </dt>
+  <dd>${adult.cfbn}</dd>
 %{--  <dt>${message(code:'homeFolder.individual.property.birthDate')} : </dt>--}%
 %{--  <dd><g:formatDate formatName="format.date" date="${adult.birthDate}" /></dd>--}%
 %{--  <dt>${message(code:'homeFolder.individual.property.birthCity')} : </dt>--}%

@@ -261,7 +261,7 @@ public class TechnocarteService implements IExternalProviderService, IScholarBus
                         if (!expire.isEmpty()) {
                             String[] tokens = expire.split("/");
                             accountDate2.set(Integer.parseInt(tokens[2]), Integer
-                                    .parseInt(tokens[1]), Integer.parseInt(tokens[0]));
+                                    .parseInt(tokens[1]) - 1, Integer.parseInt(tokens[0]));
                         } else {
                             accountDate2.set(0, 0, 0);
                         }
@@ -275,7 +275,7 @@ public class TechnocarteService implements IExternalProviderService, IScholarBus
                         if (!calcul.isEmpty()) {
                             String[] tokens = calcul.split("/");
                             accountDate.set(Integer.parseInt(tokens[2]), Integer
-                                    .parseInt(tokens[1]), Integer.parseInt(tokens[0]));
+                                    .parseInt(tokens[1]) - 1, Integer.parseInt(tokens[0]));
                         } else {
                             accountDate.set(0, 0, 0);
                         }
@@ -289,7 +289,7 @@ public class TechnocarteService implements IExternalProviderService, IScholarBus
                         if (!payment.isEmpty()) {
                             String[] tokens = payment.split("/");
                             accountDate3.set(Integer.parseInt(tokens[2]), Integer
-                                    .parseInt(tokens[1]), Integer.parseInt(tokens[0]));
+                                    .parseInt(tokens[1]) - 1, Integer.parseInt(tokens[0]));
                         } else {
                             accountDate3.set(0, 0, 0);
                         }

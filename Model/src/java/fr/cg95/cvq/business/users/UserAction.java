@@ -126,6 +126,7 @@ public class UserAction {
     /**
      * @hibernate.property
      *  column="note"
+     *  length="1024"
      */
     public String getNote() {
         return note;

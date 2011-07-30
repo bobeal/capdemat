@@ -82,4 +82,11 @@ public interface IUserWorkflowService {
 
     void importHomeFolders(HomeFolderImportDocument doc)
         throws CvqException, IOException;
+    /*
+     * Change state of homeFolder and all individual to valid
+     * Only possible if current homeFolder state is New or Modify
+     */
+    void validateHomeFolder(@IsUser HomeFolder homeFolder)
+        throws CvqModelException, CvqInvalidTransitionException, CvqObjectNotFoundException;
+    
 }

@@ -48,5 +48,9 @@
   <dd>
     <input type="text" name="profession" value="${individual.profession}" />
   </dd>
+  <dt>${message(code:'homeFolder.adult.property.cfbn')}</dt>
+  <dd>
+    <input type="text" name="cfbn" value="${individual.cfbn}" />
+  </dd>
   <g:render template="edit/submit" model="['object':individual, 'template':'adultIdentity']" />
 </form>

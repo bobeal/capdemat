@@ -63,6 +63,7 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
+import fr.cg95.cvq.security.annotation.IsUser;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry;
@@ -552,6 +553,23 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         homeFolder.getActions().add(action);
         homeFolderDAO.update(homeFolder);
         applicationEventPublisher.publishEvent(new UserEvent(this, action));
+    }
+    
+    @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    public void validateHomeFolder(@IsUser HomeFolder homeFolder) throws CvqModelException, CvqInvalidTransitionException, CvqObjectNotFoundException {
+        //collect individuals ids
+        List<Long> ids=new ArrayList<Long>();
+        for (Individual i : homeFolder.getIndividuals()) {
+            ids.add(i.getId());
+        }
+        for (Iterator iterator = ids.iterator(); iterator.hasNext();) {
+            Long id = (Long) iterator.next();
+            Individual individual=userSearchService.getById(id);
+            if(individual.getState().equals(UserState.NEW) || individual.getState().equals(UserState.MODIFIED)) {
+                changeState(individual,UserState.VALID);
+            }
+        }
     }
 
     @Override

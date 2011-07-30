@@ -24,4 +24,6 @@ public interface IRequestExternalActionService {
     List<Long> getRequestsWithoutExternalAction(Long requestTypeId, String externalServiceLabel);
 
     List<String> getKeys(Set<Critere> criterias);
+    
+    boolean isAcknowledged(@IsRequest Long requestId, String externalServiceLabel);
 }

@@ -16,3 +16,5 @@
 <dd>${individual.firstName3}</dd>
 <dt>${message(code:'homeFolder.adult.property.profession')}</dt>
 <dd>${individual.profession}</dd>
+<dt>${message(code:'homeFolder.adult.property.cfbn')}</dt>
+<dd>${individual.cfbn}</dd>

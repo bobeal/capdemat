@@ -94,20 +94,4 @@ public interface ILocalReferentialService {
      */
     public void saveLocalReferentialType(@IsRequestType final String requestTypeLabel, LocalReferentialType newLrt)
             throws CvqException;
-
-    /**
-     * Get a list of all known local referential data.
-     * @deprecated only used in unit tests
-     */
-    @Deprecated
-    Set<LocalReferentialType> getAllLocalReferentialData()
-            throws CvqException;
-    
-    /**
-     * @return a set of all request type labels using local referentials
-     * @throws CvqException
-     * @deprecated only used in unit tests
-     */
-    @Deprecated
-    Set<String> getAllLocalReferentialRequestTypeLabels() throws CvqException;
 }

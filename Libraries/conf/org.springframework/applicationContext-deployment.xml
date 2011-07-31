@@ -210,10 +210,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <bean id="fakeExternalService" class="fr.cg95.cvq.external.impl.FakeExternalService">
     <property name="label" value="Fake External Service" />
-    <property name="requestSearchService">
-      <ref bean="requestSearchService" />
-    </property>
-    <property name="userSearchService" ref="userSearchService" />
     <property name="paymentService" ref="paymentService" />
     <property name="xmlDirectory" value="external_service"/>
     <property name="consumptionsFile" value="consumptions.xml"/>

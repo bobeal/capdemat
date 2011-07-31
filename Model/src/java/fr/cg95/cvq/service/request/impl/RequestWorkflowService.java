@@ -1177,7 +1177,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         List<RequestState> result = new ArrayList<RequestState>();
 
         result.add(RequestState.PENDING);
-        result.add(RequestState.COMPLETE);
         result.add(RequestState.UNCOMPLETE);
 
         return result;

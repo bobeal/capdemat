@@ -42,7 +42,7 @@ public final class SchoolCanteenRegistrationRequestService extends RequestServic
     }
 
     @Override
-    public void onRequestValidated(final Request request)
+    public void onRequestCompleted(final Request request)
         throws CvqModelException {
         
         SchoolCanteenRegistrationRequest scrr = (SchoolCanteenRegistrationRequest) request;

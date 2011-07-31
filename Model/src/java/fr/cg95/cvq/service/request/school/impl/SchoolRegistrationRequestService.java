@@ -17,7 +17,7 @@ import fr.cg95.cvq.service.request.impl.RequestService;
 public final class SchoolRegistrationRequestService extends RequestService {
 
     @Override
-    public void onRequestValidated(final Request request)
+    public void onRequestCompleted(final Request request)
         throws CvqModelException {
 
         // check school association has been done before validating request

@@ -453,7 +453,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
 
         if (UserAction.Type.MODIFICATION.equals(event.getAction().getType())
             || UserAction.Type.STATE_CHANGE.equals(event.getAction().getType())) {
-            if (UserState.VALID.equals(homeFolder.getState())) {
+            if (UserState.VALID.equals(homeFolder.getState()) && event.getAction().getTargetId().equals(homeFolder.getId())) {
 
                 List<String> newMappings = new ArrayList<String>();
                 for (Entry<IExternalProviderService, ExternalServiceBean> entry : 

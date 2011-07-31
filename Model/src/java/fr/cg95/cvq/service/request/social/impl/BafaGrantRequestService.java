@@ -32,7 +32,7 @@ public class BafaGrantRequestService extends RequestService {
     }
 
     @Override
-    public void onRequestValidated(Request request) throws CvqException {
+    public void onRequestCompleted(Request request) throws CvqException {
         BafaGrantRequest bgr = (BafaGrantRequest) request;
         Individual subject = (Individual) genericDAO.findById(Individual.class, bgr.getSubjectId());
         subject.setAddress(bgr.getSubjectAddress());

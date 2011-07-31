@@ -21,7 +21,7 @@ public final class PerischoolActivityRegistrationRequestService extends RequestS
         Logger.getLogger(PerischoolActivityRegistrationRequestService.class);
 
     @Override
-    public void onRequestValidated(final Request request)
+    public void onRequestCompleted(final Request request)
         throws CvqModelException {
     
         PerischoolActivityRegistrationRequest parr = (PerischoolActivityRegistrationRequest) request;

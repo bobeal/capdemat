@@ -35,7 +35,7 @@ public class StudyGrantRequestService extends RequestService {
     }
 
     @Override
-    public void onRequestValidated(Request request) throws CvqException {
+    public void onRequestCompleted(Request request) throws CvqException {
         StudyGrantRequest sgr = (StudyGrantRequest) request;
         Individual subject = (Individual) genericDAO.findById(Individual.class, sgr.getSubjectId());
         subject.setBirthDate(sgr.getSubjectBirthDate());

@@ -11,10 +11,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -41,8 +41,6 @@ import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
 import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Child;
-import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqRemoteException;
@@ -51,9 +49,7 @@ import fr.cg95.cvq.external.ExternalServiceUtils;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.payment.IPaymentService;
-import fr.cg95.cvq.service.request.IRequestSearchService;
 import fr.cg95.cvq.service.request.school.external.IScholarBusinessProviderService;
-import fr.cg95.cvq.service.users.IUserSearchService;
 
 /**
  * A fake implementation of the {@link IExternalProviderService external provider service interface}
@@ -68,8 +64,6 @@ public class FakeExternalService implements IExternalProviderService, IScholarBu
 
     private static Logger logger = Logger.getLogger(FakeExternalService.class);
 
-    private IRequestSearchService requestSearchService;
-    private IUserSearchService userSearchService;
     private IPaymentService paymentService;
     
     private String label;
@@ -81,8 +75,7 @@ public class FakeExternalService implements IExternalProviderService, IScholarBu
     private String invoiceDetailsFile;
 
     public final String sendRequest(XmlObject requestXml) throws CvqException {
-        logger.debug("sendRequest() sending request data " + requestXml.xmlText());
-        return null;
+        return UUID.randomUUID().toString();
     }
 
     public final void creditHomeFolderAccounts(final Collection<PurchaseItem> purchaseItems, 
@@ -316,14 +309,6 @@ public class FakeExternalService implements IExternalProviderService, IScholarBu
 
     public final void setInvoiceDetailsFile(String invoiceDetailsFile) {
         this.invoiceDetailsFile = invoiceDetailsFile;
-    }
-
-    public void setUserSearchService(IUserSearchService userSearchService) {
-        this.userSearchService = userSearchService;
-    }
-
-    public void setRequestSearchService(IRequestSearchService requestSearchService) {
-        this.requestSearchService = requestSearchService;
     }
 
     public boolean supportsConsumptions() {

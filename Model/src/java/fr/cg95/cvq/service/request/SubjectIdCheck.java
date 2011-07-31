@@ -11,7 +11,7 @@ import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqException;
 
-public class SubjectIdCheck extends AbstractAnnotationCheck<LocalReferential> {
+public class SubjectIdCheck extends AbstractAnnotationCheck<SubjectId> {
 
     private static final long serialVersionUID = 1L;
 

@@ -546,13 +546,15 @@ public class RequestExternalService extends ExternalService implements IRequestE
     public void publish(WorkflowGenericEvent wfEvent) throws CvqException {
         // Save current context
         String externalService = null;
-        String context = null;
+        Long ecitizenId = null;
+        String agent = null;
         if (SecurityContext.isExternalServiceContext())
             externalService = SecurityContext.getCurrentExternalService();
-        else
-            context = SecurityContext.getCurrentContext();
+        else if (SecurityContext.isFrontOfficeContext())
+            ecitizenId = SecurityContext.getCurrentUserId();
+        else if (SecurityContext.isBackOfficeContext())
+            agent = SecurityContext.getCurrentUserLogin();
 
-        // Switch to ES context
         SecurityContext.setCurrentContext(SecurityContext.EXTERNAL_SERVICE_CONTEXT);
 
         for (IExternalProviderService extProviderService : getExternalServicesByRequestType(wfEvent.getRequest().getRequestType().getLabel())) {
@@ -561,10 +563,15 @@ public class RequestExternalService extends ExternalService implements IRequestE
         }
 
         // Reset saved context
-        if (externalService != null)
+        if (externalService != null) {
+            SecurityContext.setCurrentContext(SecurityContext.EXTERNAL_SERVICE_CONTEXT);
             SecurityContext.setCurrentExternalService(externalService);
-        else
-            SecurityContext.setCurrentContext(context);
-
+        } else if (ecitizenId != null) {
+            SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT);
+            SecurityContext.setCurrentEcitizen(ecitizenId);
+        } else if (agent != null) {
+            SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
+            SecurityContext.setCurrentAgent(agent);
+        }
     }
 }

@@ -31,6 +31,11 @@
           <form action="#" id="homeFolderSearchSorters">
             <ul>
               <li>
+                <label for="sortCreationDate"><g:message code="property.creationDate" /></label>
+                <input type="radio" id="sortCreationDate" value="creationDate" class="persistent sort"
+                  name="orderBy" ${state.orderBy == 'creationDate' ? 'checked="checked"' : ''} />
+              </li>
+              <li>
                 <label for="sortLastName"><g:message code="property.individualLastName" /></label>
                 <input type="radio" id="sortLastName" value="lastName" class="persistent sort"
                   name="orderBy" ${state.orderBy == 'lastName' ? 'checked="checked"' : ''} />

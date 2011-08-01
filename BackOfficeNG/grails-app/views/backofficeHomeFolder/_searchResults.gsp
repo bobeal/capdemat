@@ -36,6 +36,14 @@
             <span class="${state?.orderBy == 'homeFolder.id' ? 'current-sort' : ''}">
               ${record.homeFolder.id}
             </span>
+            - ${message(code:'homeFolder.search.creationDate')} 
+            <span class="${state?.orderBy == 'creationDate' ? 'current-sort' : ''}">
+              <g:formatDate formatName="format.date" date="${record.creationDate}" />
+            </span>
+            - ${message(code:'homeFolder.search.lastModificationDate')} 
+            <span class="${state?.orderBy == 'lastModificationDate' ? 'current-sort' : ''}">
+              <g:formatDate formatName="format.date" date="${record.lastModificationDate}" />
+            </span>
             <g:capdematEnumToFlag var="${record.homeFolder.state}" i18nKeyPrefix="user.state" />
           </p>
         </g:if>

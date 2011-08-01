@@ -129,7 +129,8 @@ body {
 #narrow .nobox .body form          { padding: 0; }
 #narrow .nobox .body form select   { width: 100%; }
 #narrow .nobox .body form label    { width: 100%; text-align: left; }
-#narrow .nobox .body form li label { width: 85% ; text-align: left; }
+#narrow .nobox .body form li { overflow: auto; margin: 5px 0; }
+#narrow .nobox .body form li label { width: 85% ; text-align: left; margin: 2px 0 0; }
 
 /* color */
 #narrow .nobox.yellow h3       { border-color: #FFD053; background: #FFFFAB; }

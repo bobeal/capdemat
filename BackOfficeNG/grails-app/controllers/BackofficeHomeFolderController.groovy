@@ -504,9 +504,12 @@ class BackofficeHomeFolderController {
     }
     
     protected Map<String,String> prepareSort(state) {
-        if(!state?.orderBy) state.orderBy = 'id'
+        if(!state?.orderBy) state.orderBy = 'creationDate'
         Map<String,String> result = new HashMap<String,String>();
-        result.put("individual." + state.orderBy,'asc')
+        def orderBy = 'asc'
+        if (state.orderBy.contains('Date'))
+            orderBy = 'desc'
+        result.put("individual." + state.orderBy, orderBy)
         return result
     }
     

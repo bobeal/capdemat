@@ -5,7 +5,7 @@
   <div class="body">
     <g:if test="${session.payment}">
       
-        <g:if test="${cart.invoices}">
+        <g:if test="${cart?.invoices}">
           <h4><g:message code="payment.header.invoices"/></h4>
           <ul>
             <g:each in="${cart.invoices}" var="${record}">
@@ -13,7 +13,7 @@
             </g:each>
           </ul>
         </g:if>
-        <g:if test="${cart.depositAccounts}">
+        <g:if test="${cart?.depositAccounts}">
           <h4><g:message code="payment.header.depositAccounts"/></h4>
           <ul>
             <g:each in="${cart.depositAccounts}" var="${record}">
@@ -21,7 +21,7 @@
             </g:each>
           </ul>
         </g:if>
-        <g:if test="${cart.ticketingContracts}">
+        <g:if test="${cart?.ticketingContracts}">
           <h4><g:message code="payment.header.ticketingContracts"/></h4>
           <ul>
             <g:each in="${cart.ticketingContracts}" var="${record}">

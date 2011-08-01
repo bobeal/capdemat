@@ -800,6 +800,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   </bean>
 
   <bean id="externalApplicationProviderService"
+    parent="externalProviderServiceAdapter"
     class="fr.cg95.cvq.service.payment.external.ExternalApplicationProviderService">
     <property name="paymentService" ref="paymentService" />
   </bean>

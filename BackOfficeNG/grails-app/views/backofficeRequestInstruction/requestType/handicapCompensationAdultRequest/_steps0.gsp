@@ -17,8 +17,8 @@
         <h3><g:message code="hcar.property.hcarSubject.label" /></h3>
         <dl class="required">
           
-              <dt class="required"><g:message code="request.property.subject.label" /> : </dt>
-              <dd><span>${rqt?.subjectFirstName} ${rqt?.subjectLastName}</span></dd>
+              <dt class="required"><g:message code="hcar.property.subject.label" /> : </dt>
+             <dd><span>${rqt?.subjectFirstName} ${rqt?.subjectLastName}</span></dd>
           
           
               <dt class="required condition-isMadam-trigger"><g:message code="hcar.property.subjectTitle.label" /> * : </dt><dd id="subjectTitle" class="action-editField validate-capdematEnum required-true i18n-hcar.property.subjectTitle javatype-fr.cg95.cvq.business.users.TitleType" ><g:capdematEnumToField var="${rqt?.subjectTitle}" i18nKeyPrefix="hcar.property.subjectTitle" /></dd>

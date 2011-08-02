@@ -8,7 +8,8 @@
       <h4><g:message code="hcar.property.hcarSubject.label" /></h4>
       <dl>
         
-          <dt><g:message code="request.property.subject.label" /></dt><dd>${subjects.get(rqt.subjectId)}</dd>
+          <dt><g:message code="hcar.property.subject.label" /></dt>
+          <dd>${subjects.get(rqt.subjectId)}</dd>
 
         
           <dt><g:message code="hcar.property.subjectTitle.label" /></dt>

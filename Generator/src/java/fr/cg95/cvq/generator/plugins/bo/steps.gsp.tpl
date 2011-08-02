@@ -66,8 +66,8 @@
       ,'text' :
           "<span>\${${wrapper}?.${element.javaFieldName}}</span>"
       ,'subject' :
-          """<dt class="required"><g:message code="request.property.subject.label" /> : </dt>
-              <dd><span>\${rqt?.subjectFirstName} \${rqt?.subjectLastName}</span></dd>
+          """<dt class="required"><g:message code="${requestBo.acronym}.property.subject.label" /> : </dt>
+             <dd><span>\${rqt?.subjectFirstName} \${rqt?.subjectLastName}</span></dd>
           """
       ,'requester' :
           """<g:render template="/backofficeRequestInstruction/requestType/requester" model="['requester':requester]" />"""

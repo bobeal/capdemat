@@ -1,5 +1,7 @@
 hsr.duration.value =
 
+hsr.property.subject.label = Sujet
+
 hsr.step.registration.label =
 hsr.step.registration.desc =
 

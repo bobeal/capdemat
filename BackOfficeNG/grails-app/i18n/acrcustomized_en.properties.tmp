@@ -1,5 +1,7 @@
 acr.duration.value =
 
+acr.property.subject.label = Sujet
+
 acr.step.cadastre.label =
 acr.step.cadastre.desc =
 

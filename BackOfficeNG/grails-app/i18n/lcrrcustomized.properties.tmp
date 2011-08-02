@@ -1,5 +1,7 @@
 lcrr.duration.value =
 
+lcrr.property.subject.label = Sujet
+
 lcrr.step.enfant.label =
 lcrr.step.enfant.desc =
 

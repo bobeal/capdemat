@@ -1,5 +1,7 @@
 cwcr.duration.value =
 
+cwcr.property.subject.label = Sujet
+
 cwcr.step.waste.label =
 cwcr.step.waste.desc =
 

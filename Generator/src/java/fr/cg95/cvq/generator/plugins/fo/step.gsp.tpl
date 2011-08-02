@@ -185,7 +185,7 @@
          ,'subject' :
             """
             <label for="${IdRefNamePrefix}${element.javaFieldName}Id" class="${element.listenerConditionsClass}">
-              <g:message code="${element.i18nPrefixCode}.label" /> ${element.mandatory ? '*' : ''}
+              <g:message code="${acronym}.property.subject.label" /> ${element.mandatory ? '*' : ''}
               <span><g:message code="${element.i18nPrefixCode}.help" /></span>
               <g:if test="\${rqt.stepStates[currentStep].state != 'complete'}">
                 <g:if test="\${!fr.cg95.cvq.service.request.IRequestWorkflowService.SUBJECT_POLICY_NONE.equals(subjectPolicy)}">

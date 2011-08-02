@@ -1,5 +1,7 @@
 rsr.duration.value =
 
+rsr.property.subject.label = Sujet
+
 rsr.step.subject.label =
 rsr.step.subject.desc =
 

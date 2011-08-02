@@ -6,7 +6,8 @@
     
       
       <dl>
-        <dt><g:message code="request.property.subject.label" /></dt><dd>${subjects.get(rqt.subjectId)}</dd>
+        <dt><g:message code="dccrr.property.subject.label" /></dt>
+          <dd>${subjects.get(rqt.subjectId)}</dd>
 
       </dl>
       

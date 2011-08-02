@@ -81,7 +81,8 @@
       ,'text' :
           """<dd>\${${wrapper}.${element.javaFieldName}?.toString()}</dd>"""
       ,'subject' :
-          """<dd>\${subjects.get(rqt.subjectId)}</dd>"""
+          """<dt><g:message code="${requestFo.acronym}.property.subject.label" /></dt>
+          <dd>\${subjects.get(rqt.subjectId)}</dd>"""
       ,'requester' :
           """
           <g:render template="/frontofficeRequestType/widget/requesterSummary" model="['requester':requester]" />
@@ -94,7 +95,7 @@
           """
     ]
     
-    def output = (element.widget != 'requester' ?  widgets['label'] : '')
+    def output = (element.widget != 'requester' && element.widget != 'subject' ?  widgets['label'] : '')
     if (widgets[element.widget] != null) output += widgets[element.widget]
     else output += widgets['text']
     println output

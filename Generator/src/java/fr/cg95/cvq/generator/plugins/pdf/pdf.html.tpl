@@ -101,6 +101,7 @@
           """<div class="response">\${esc(StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.toString()))}</div>"""
       ,'subject' :
           """
+          <p class="label">\${esc(i18n.translate('${requestPdf.acronym}.property.subject.label'))}</p>
           <div class="response">\${esc(subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName)}</div>
           """
       ,'school' :
@@ -160,7 +161,7 @@
           """
     ]
     
-    def output = (element.widget != 'requester' ?  widgets['label'] : '')
+    def output = (element.widget != 'requester' && element.widget != 'subject' ?  widgets['label'] : '')
     if (widgets[element.widget] != null) output += widgets[element.widget]
     else output += widgets['text']
     println output

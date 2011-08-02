@@ -1,5 +1,7 @@
 bwcr.duration.value =
 
+bwcr.property.subject.label = Sujet
+
 bwcr.step.waste.label =
 bwcr.step.waste.desc =
 

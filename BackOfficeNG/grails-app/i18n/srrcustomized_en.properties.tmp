@@ -1,5 +1,7 @@
 srr.duration.value =
 
+srr.property.subject.label = Sujet
+
 srr.step.registration.label =
 srr.step.registration.desc =
 

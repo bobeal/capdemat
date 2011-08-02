@@ -7,7 +7,7 @@
     
       
             <label for="subjectId" class="required">
-              <g:message code="request.property.subject.label" /> *
+              <g:message code="rsr.property.subject.label" /> *
               <span><g:message code="request.property.subject.help" /></span>
               <g:if test="${rqt.stepStates[currentStep].state != 'complete'}">
                 <g:if test="${!fr.cg95.cvq.service.request.IRequestWorkflowService.SUBJECT_POLICY_NONE.equals(subjectPolicy)}">

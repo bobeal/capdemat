@@ -1,4 +1,6 @@
 ${acronym}.duration.value =
+
+${acronym}.property.subject.label = Sujet
 <% steps.each { %>
 ${acronym}.step.${it.name}.label =
 ${acronym}.step.${it.name}.desc =

@@ -1,5 +1,7 @@
 lrr.duration.value =
 
+lrr.property.subject.label = Sujet
+
 lrr.step.registration.label =
 lrr.step.registration.desc =
 

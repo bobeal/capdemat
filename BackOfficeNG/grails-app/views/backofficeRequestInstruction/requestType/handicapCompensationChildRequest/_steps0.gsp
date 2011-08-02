@@ -17,8 +17,8 @@
         <h3><g:message code="hccr.property.hccrSubject.label" /></h3>
         <dl class="required">
           
-              <dt class="required"><g:message code="request.property.subject.label" /> : </dt>
-              <dd><span>${rqt?.subjectFirstName} ${rqt?.subjectLastName}</span></dd>
+              <dt class="required"><g:message code="hccr.property.subject.label" /> : </dt>
+             <dd><span>${rqt?.subjectFirstName} ${rqt?.subjectLastName}</span></dd>
           
           
               <dt class="required condition-isLessThan18-trigger"><g:message code="hccr.property.subjectBirthDate.label" /> * : </dt><dd id="subjectBirthDate" class="action-editField validate-date required-true i18n-hccr.property.subjectBirthDate" ><span><g:formatDate formatName="format.date" date="${rqt?.subjectBirthDate}"/></span></dd>

@@ -92,7 +92,8 @@
   <h2>${i18n.translate('rpar.step.enfant.label')}</h2>
   
     
-      <p class="label">${esc(i18n.translate('request.property.subject.label'))}</p>
+      
+          <p class="label">${esc(i18n.translate('rpar.property.subject.label'))}</p>
           <div class="response">${esc(subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName)}</div>
           
 

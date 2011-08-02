@@ -1,5 +1,7 @@
 hccr.duration.value =
 
+hccr.property.subject.label = Sujet
+
 hccr.step.subject.label =
 hccr.step.subject.desc =
 

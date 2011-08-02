@@ -34,7 +34,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="request.property.subject.label" /> : </dt>
+                <dt class="required"><g:message code="srr.property.subject.label" /> : </dt>
               <dd><span>${subjectIsChild && !subject?.born ? message(code:'request.subject.childNoBorn', args:[subject?.getFullName()]) : subject?.fullName}</span></dd>
           
               </dl>

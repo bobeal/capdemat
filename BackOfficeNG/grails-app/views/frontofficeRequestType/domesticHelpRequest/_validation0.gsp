@@ -8,7 +8,8 @@
       <h4><g:message code="dhr.property.dhrRequester.label" /></h4>
       <dl>
         
-          <dt><g:message code="request.property.subject.label" /></dt><dd>${subjects.get(rqt.subjectId)}</dd>
+          <dt><g:message code="dhr.property.subject.label" /></dt>
+          <dd>${subjects.get(rqt.subjectId)}</dd>
 
         
           <dt><g:message code="dhr.property.dhrRequesterBirthDate.label" /></dt>

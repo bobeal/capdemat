@@ -116,6 +116,7 @@ public class FoPlugin implements IPluginGenerator {
             // <requestType.name>_<collection>.gsp templates
             template = templateEngine.createTemplate(new File(collectionTemplate));
             bindingMap = new HashMap<String, Object>();
+            bindingMap.put("acronym", requestFo.getAcronym());
             for (ElementFo element: requestFo.getElementsByTypeClass(ElementTypeClass.COLLECTION)) {
                 bindingMap.put("element", element);
                 bindingMap.put("step", element.getStep());

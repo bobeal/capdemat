@@ -1,5 +1,7 @@
 mcr.duration.value =
 
+mcr.property.subject.label = Sujet
+
 mcr.step.census.label =
 mcr.step.census.desc =
 

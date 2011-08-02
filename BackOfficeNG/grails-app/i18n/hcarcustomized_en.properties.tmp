@@ -1,5 +1,7 @@
 hcar.duration.value =
 
+hcar.property.subject.label = Sujet
+
 hcar.step.subject.label =
 hcar.step.subject.desc =
 

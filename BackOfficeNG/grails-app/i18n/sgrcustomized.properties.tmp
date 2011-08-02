@@ -1,5 +1,7 @@
 sgr.duration.value =
 
+sgr.property.subject.label = Sujet
+
 sgr.step.subject.label =
 sgr.step.subject.desc =
 

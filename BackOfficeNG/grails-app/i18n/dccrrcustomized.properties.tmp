@@ -1,5 +1,7 @@
 dccrr.duration.value =
 
+dccrr.property.subject.label = Sujet
+
 dccrr.step.subject.label =
 dccrr.step.subject.desc =
 

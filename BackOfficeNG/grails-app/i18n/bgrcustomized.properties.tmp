@@ -1,5 +1,7 @@
 bgr.duration.value =
 
+bgr.property.subject.label = Sujet
+
 bgr.step.subject.label =
 bgr.step.subject.desc =
 

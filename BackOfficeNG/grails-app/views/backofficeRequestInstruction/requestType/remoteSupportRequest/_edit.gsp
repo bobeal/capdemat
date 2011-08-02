@@ -32,7 +32,7 @@
               <h3><g:message code="rsr.property.rsrSubject.label" /></h3>
               <dl class="required">
                 
-                  <dt class="required"><g:message code="request.property.subject.label" /> : </dt>
+                  <dt class="required"><g:message code="rsr.property.subject.label" /> : </dt>
               <dd><span>${subjectIsChild && !subject?.born ? message(code:'request.subject.childNoBorn', args:[subject?.getFullName()]) : subject?.fullName}</span></dd>
           
                 

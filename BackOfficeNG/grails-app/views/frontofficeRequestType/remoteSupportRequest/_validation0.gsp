@@ -8,7 +8,8 @@
       <h4><g:message code="rsr.property.rsrSubject.label" /></h4>
       <dl>
         
-          <dt><g:message code="request.property.subject.label" /></dt><dd>${subjects.get(rqt.subjectId)}</dd>
+          <dt><g:message code="rsr.property.subject.label" /></dt>
+          <dd>${subjects.get(rqt.subjectId)}</dd>
 
         
           <dt><g:message code="rsr.property.subjectTitle.label" /></dt>

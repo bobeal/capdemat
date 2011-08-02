@@ -1,5 +1,7 @@
 tir.duration.value =
 
+tir.property.subject.label = Sujet
+
 tir.step.intervention.label =
 tir.step.intervention.desc =
 

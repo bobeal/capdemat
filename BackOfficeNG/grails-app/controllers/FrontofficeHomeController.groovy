@@ -156,6 +156,8 @@ class FrontofficeHomeController {
         return ['accessibilityPolicy':accessibilityPolicy]
     }
 
+    def browsers = { }
+
     def protected preparePayments(payments) {
         payments.all.each {
             payments.records.add([

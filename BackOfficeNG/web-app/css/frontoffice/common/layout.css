@@ -85,3 +85,27 @@ p.agent-note {
     border: 1px solid #ffddaa;
     background-color:#ffffcc;
 }
+
+.main-box ul.browsers {
+    width: 90%;
+    clear: both;
+    margin: 15px auto;
+    overflow: auto;
+}
+
+.main-box ul.browsers li {
+    float: left;
+    padding: 10px 15px;
+    text-align: center;
+}
+
+.main-box ul.browsers li img {
+    width: 75px;
+}
+
+.main-box ul.browsers li h3 {
+    display: block;
+    color: #777;
+    font-size: 18px;
+}
+

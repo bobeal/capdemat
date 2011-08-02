@@ -61,7 +61,7 @@ public class SecurityService {
             (SecurityContext.FRONT_OFFICE_CONTEXT) : [
                 "frontofficeRequestType" : [/login/, /start/],
                 "frontofficeHomeFolder" : [/create/, /resetPassword/],
-                "frontofficeHome" : [/loginAgent/, /login/, /accessibilityPolicy/, /test/],
+                "frontofficeHome" : [/loginAgent/, /login/, /accessibilityPolicy/, /browsers/, /test/],
                 "frontofficeDocument" : [/details/, /binary/, /preview/],
                 "system" : /error/
             ]

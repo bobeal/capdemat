@@ -396,26 +396,10 @@ clean-tests
                 <include name="**" />
             </packageset>
 
-            <!-- explicitely ignore Hibernate XDoclet tags to avoid javadoc warnings -->
-            <tag name="hibernate.subclass" enabled="false" />
-            <tag name="hibernate.any" enabled="false" />
-            <tag name="hibernate.discriminator" enabled="false" />
-            <tag name="hibernate.property" enabled="false" />
-            <tag name="hibernate.class" enabled="false" />
-            <tag name="hibernate.id" enabled="false" />
-            <tag name="hibernate.column" enabled="false" />
-            <tag name="hibernate.many-to-one" enabled="false" />
-            <tag name="hibernate.set" enabled="false" />
-            <tag name="hibernate.key" enabled="false" />
-            <tag name="hibernate.one-to-many" enabled="false" />
-            <tag name="hibernate.many-to-many" enabled="false" />
-            <tag name="hibernate.composite-element" enabled="false" />
-            <tag name="hibernate.parent" enabled="false" />
-
             <doctitle>
                 <![CDATA[<h1>${application.name}-${module.name}</h1>]]></doctitle>
         <bottom>
-            <![CDATA[<i>Benoit Orihuela, 2004-2006.</i>]]></bottom>
+            <![CDATA[<i>Zenexity, 2004-2011.</i>]]></bottom>
     <tag name="todo" scope="all" description="TODO :" />
     <tag name="fixme" scope="all" description="FIXME :" />
 </javadoc>

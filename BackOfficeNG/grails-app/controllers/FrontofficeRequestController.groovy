@@ -103,7 +103,7 @@ class FrontofficeRequestController {
         def requestSeasonId = params.long("requestSeasonId")
         if (!requestWorkflowService.validateSeason(requestType,
             requestTypeService.getRequestSeason(requestType.id, requestSeasonId))) {
-            redirect(controller : "frontofficeRequestType", action : "start", id : params.label)
+            redirect(controller : "frontofficeRequestType", action : "start", params : ["id" : params.label, "noSeason" : true])
             return false
         }
         Request rqt

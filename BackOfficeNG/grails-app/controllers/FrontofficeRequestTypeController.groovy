@@ -68,6 +68,7 @@ class FrontofficeRequestTypeController {
             "intro" : intro,
             "lastRequests" : lastRequests,
             "seasons" : seasons,
+            "noSeason" : params.noSeason != null ? params.noSeason : false,
             "drafts" : requestAdaptorService.prepareRecords(["all" : drafts, "count" : drafts.size(), "records" : []]).records
         ]
     }

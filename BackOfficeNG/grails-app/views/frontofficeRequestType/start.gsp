@@ -77,17 +77,21 @@
           <input type="hidden" name="label" value="${params.id}" />
           <g:if test="${!seasons.isEmpty()}">
             <h3>${message(code:'request.action.choose.requestSeason')}</h3>
+            <ul class="required ${noSeason ? 'validation-failed' : ''}">
             <g:each var="season" in="${seasons}">
-              <label>
-                <input name="requestSeasonId" type="radio" value="${season.id}" />
-                ${season.label}
-                <span class="help">
-                  (${message(code : 'message.dateInterval', args : [
-                    g.formatDate(formatName : 'format.date', date : season.effectStart.toDate()),
-                    g.formatDate(formatName : 'format.date', date : season.effectEnd.toDate())])})
-                </span>
-              </label>
+              <li>
+                <label>
+                    <input name="requestSeasonId" type="radio" value="${season.id}" />
+                    ${season.label}
+                    <span class="help">
+                      (${message(code : 'message.dateInterval', args : [
+                        g.formatDate(formatName : 'format.date', date : season.effectStart.toDate()),
+                        g.formatDate(formatName : 'format.date', date : season.effectEnd.toDate())])})
+                    </span>
+                </label>
+              </li>
             </g:each>
+            </ul>
           </g:if>
           <g:if test="${!lastRequests.isEmpty()}">
             <h3>${message(code:'requestType.message.renew.chooseRequest')}</h3>
@@ -105,6 +109,9 @@
               <input name="renewedId" type="radio" value="" checked="checked" />
               ${message(code:'requestType.message.renew.noRequest')}
             </label>
+          </g:if>
+          <g:if test="${noSeason}">
+             <p class="error">${message(code:'requestType.message.error.noSeason')}</p>
           </g:if>
           <p style="text-align: center;">
             <input type="submit" value="${message(code:'requestType.action.start')}" style="font-size:1.2em;" />

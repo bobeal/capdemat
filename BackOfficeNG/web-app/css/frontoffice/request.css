@@ -259,7 +259,7 @@ a.link-agent          { color: #EA3D1A; }
 
 div.error, span.error, p.error {
   margin: .5em; padding: .5em;
-  font-style: italic; text-align: center;
+  font-style: italic; font-size: 1.1em; text-align: center;
   color: red;
 }
 

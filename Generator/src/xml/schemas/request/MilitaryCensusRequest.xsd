@@ -363,16 +363,16 @@
             <xs:element name="JapdExemption" type="xs:boolean" default="false">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Demande d'exemption à la JAPD
+                  Demande d'exemption à la JDC
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Exemption JAPD
+                  Exemption JDC
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  JAPD exemption request
+                  JDC exemption request
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  JAPD exemption
+                  JDC exemption
                 </xs:documentation>
                 <xs:appinfo>
                   <common>

@@ -19,7 +19,13 @@
               <label for="token">
                 <g:message code="localAuthority.property.token" /> :
               </label>
-              <input type="text" class="" size="50" maxlength="100" name="token" value="${token}" />
+              <input type="text" class="required" size="50" maxlength="100" name="token" value="${token}" />
+            </p>
+            <p class="field">
+              <label for="adressesReferentialUrl">
+                <g:message code="localAuthority.property.adressesReferentialUrl" /> :
+              </label>
+              <input type="text" class="required" size="50" maxlength="100" name="adressesReferentialUrl" value="${adressesReferentialUrl}" />
             </p>
             <div class="form-button">
               <input id="save" type="button" value="${message(code:'action.save')}" />

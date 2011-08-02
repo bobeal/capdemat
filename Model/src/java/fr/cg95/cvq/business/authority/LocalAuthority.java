@@ -40,6 +40,9 @@ public class LocalAuthority implements Serializable {
 
     @Column(name="token")
     private String token;
+    
+    @Column(name="adresses_referential_url")
+    private String adressesReferentialUrl;
 
     /**
      * Whether document digitalization is enabled for this local authority, defaults to true.
@@ -151,6 +154,14 @@ public class LocalAuthority implements Serializable {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getAdressesReferentiaUrl() {
+        return adressesReferentialUrl;
+    }
+
+    public void setAdressesReferentialUrl(String adressesReferentialUrl) {
+        this.adressesReferentialUrl = adressesReferentialUrl;
     }
 
     public String getAdminEmail() {

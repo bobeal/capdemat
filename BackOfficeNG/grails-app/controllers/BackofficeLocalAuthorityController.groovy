@@ -128,11 +128,12 @@ class BackofficeLocalAuthorityController {
         if(request.get) {
             return [
                 "subMenuEntries": subMenuEntries,
-                "token": SecurityContext.getCurrentSite().token]
+                "token": SecurityContext.getCurrentSite().token,
+                "adressesReferentialUrl" : SecurityContext.getCurrentSite().adressesReferentialUrl]
         } else if (request.post) {
             bind(SecurityContext.getCurrentSite())
             localAuthorityRegistry.saveLocalAuthority(SecurityContext.getCurrentSite())
-            render ([status:"success", success_msg:message(code:"message.updateDone")] as JSON)
+            render ([status:"success", success_msg:message(code:"localAuthority.message.addressesReferentialConfigSuccess")] as JSON)
             return false
         }
     }

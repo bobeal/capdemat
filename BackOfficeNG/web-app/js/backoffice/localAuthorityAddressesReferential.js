@@ -2,6 +2,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
 
 (function(){
 
+  var zc = zenexity.capdemat;
   var zct = zenexity.capdemat.tools;
   var zcv = zenexity.capdemat.Validation;
   var zcbl = zenexity.capdemat.bong.localauthority;
@@ -9,6 +10,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
   var yud = YAHOO.util.Dom;
   var yue = YAHOO.util.Event;
   var ylj = YAHOO.lang.JSON;
+  var yuc = YAHOO.util.Connect;
 
   zcbl.AddressesReferential = function() {
     return {
@@ -33,8 +35,19 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
         if (zcv.check(yud.get("addressesReferentialForm"), cont)) {
           var target = yue.getTarget(e);
           zct.doAjaxFormSubmitCall("addressesReferentialForm", [], function(o){
-            zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, target);
+            var currentBaseUrl = zenexity.capdemat.baseUrl;
+            zenexity.capdemat.baseUrl = [zc['contextPath'],'/autocomplete'].join('');
+            yuc.asyncRequest("GET", zc.contextPath + "/autocomplete/tokenValidity", {
+              success: function() {
+                zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, target);
+              },
+              failure : function() {
+                zct.Notifier.processMessage('error', "Configuration incorrecte, veuillez vérifier le token ou l'url", null, target);
+              }
+            })
+            zenexity.capdemat.baseUrl = currentBaseUrl;
           });
+          
         }
       }
     }

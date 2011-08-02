@@ -12,4 +12,5 @@ grails.war.resources = { stagingDir ->
     }
 
     deleteJars java.util.regex.Pattern.compile('org.springframework.*3.0.0.*.jar') // conflicts with our version of spring framework
+    deleteJars java.util.regex.Pattern.compile('ejb3-persistence-.*.jar') // remove JPA 1 from the war 
 }

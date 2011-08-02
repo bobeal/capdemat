@@ -22,7 +22,9 @@
       </div>
 
       <!-- footer -->
-      <div id="ft"></div>
+      <div id="ft">
+        <span>${message(code:'message.capdemat')} ${grailsApplication.metadata['app.version']}</span>
+      </div>
 
     </div>
     

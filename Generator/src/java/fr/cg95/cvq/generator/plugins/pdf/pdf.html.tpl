@@ -140,11 +140,11 @@
           <p class="label">\${i18n.translate('homeFolder.adult.property.email')}</p>
           <div class="response">\${esc(requester?.email)}</div>
           <p class="label">\${i18n.translate('homeFolder.adult.property.homePhone')}</p>
-          <div class="response">\${esc(requester?.homePhone)}</div>
+          <div class="response">\${esc(StringUtils.defaultString(requester?.homePhone))}</div>
           <p class="label">\${i18n.translate('homeFolder.adult.property.mobilePhone')}</p>
-          <div class="response">\${esc(requester?.mobilePhone)}</div>
+          <div class="response">\${esc(StringUtils.defaultString(requester?.mobilePhone))}</div>
           <p class="label">\${i18n.translate('homeFolder.adult.property.officePhone')}</p>
-          <div class="response">\${esc(requester?.officePhone)}</div>
+          <div class="response">\${esc(StringUtils.defaultString(requester?.officePhone))}</div>
           """
       ,'label' :
           """<p class="label">\${esc(i18n.translate('${element.i18nPrefixCode}.label'))}</p>"""

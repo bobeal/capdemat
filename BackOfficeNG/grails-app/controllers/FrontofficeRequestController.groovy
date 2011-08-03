@@ -26,6 +26,7 @@ import fr.cg95.cvq.service.users.IUserService
 import fr.cg95.cvq.service.users.IUserSearchService
 import fr.cg95.cvq.service.users.IUserWorkflowService
 import fr.cg95.cvq.util.Critere
+import fr.cg95.cvq.util.UserUtils
 import fr.cg95.cvq.util.translation.ITranslationService
 import fr.cg95.cvq.service.payment.IRequestPaymentService
 import fr.cg95.cvq.service.payment.IPaymentService
@@ -446,7 +447,7 @@ class FrontofficeRequestController {
         def requester = rqt.requesterId != null ? userSearchService.getById(rqt.requesterId) : null
         def subject = rqt.subjectId != null ? userSearchService.getById(rqt.subjectId) : null
         def subjects = [:]
-        subjects[rqt.subjectId] = subject instanceof Child && !subject.born ? message(code:'request.subject.childNoBorn', args:[subject.getFullName()]) : "${rqt.subjectLastName} ${rqt.subjectFirstName}"
+        subjects[rqt.subjectId] = subject instanceof Child && !subject.born ? message(code:'request.subject.childNoBorn', args:[subject.getFullName()]) : UserUtils.getDisplayName(rqt.subjectId)
         return ['rqt': rqt,
                 'requestTypeLabel':requestTypeLabel,
                 'requester':requester,

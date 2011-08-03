@@ -15,6 +15,11 @@
         </label>
         <input type="checkbox" name="isHomeFolderResponsible" value="true"
           class="persistent" ${state?.isHomeFolderResponsible ? ' checked="checked"': ''} />
+        <label for="isDuplicateAlert">
+          <g:message code="homeFolder.search.isDuplicateAlert" /> :
+        </label>
+        <input type="checkbox" name="isDuplicateAlert" value="true"
+          class="persistent" ${state?.isDuplicateAlert ? ' checked="checked"': ''} />
       </div>
 
       <div class="yui-u">

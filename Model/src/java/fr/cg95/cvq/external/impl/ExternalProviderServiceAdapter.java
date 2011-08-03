@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.xmlbeans.XmlObject;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
@@ -156,5 +157,9 @@ public abstract class ExternalProviderServiceAdapter implements IExternalProvide
             mapping.setExternalId(externalId);
             externalHomeFolderService.modifyHomeFolderMapping(mapping);
         }
+    }
+    
+    public void sendMergedHomeFolder(XmlObject xmlObject) throws CvqException {
+        logger.debug("sendMergedHomeFolder() sending " + xmlObject.xmlText());
     }
 }

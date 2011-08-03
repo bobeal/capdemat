@@ -182,6 +182,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="requestDocumentService" ref="requestDocumentService" />
     <property name="requestTypeService" ref="requestTypeService" />
     <property name="requestPdfService" ref="requestPdfService" />
+    <property name="requestSearchService" ref="requestSearchService" />
     <property name="userWorkflowService" ref="userWorkflowService" />
   </bean>
 
@@ -384,6 +385,15 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="adultDAO" ref="adultDAO" />
     <property name="childDAO" ref="childDAO" />
     <property name="homeFolderDAO" ref="homeFolderDAO"/>
+  </bean>
+
+  <bean id="userDeduplicationService" class="fr.cg95.cvq.service.users.impl.UserDeduplicationService">
+    <property name="adultDAO" ref="adultDAO" />
+    <property name="childDAO" ref="childDAO" />
+    <property name="homeFolderDAO" ref="homeFolderDAO" />
+    <property name="individualDAO" ref="individualDAO" />
+    <property name="userSearchService" ref="userSearchService" />
+    <property name="userWorkflowService" ref="userWorkflowService" />
   </bean>
 
   <bean id="userSearchServiceToHasLegalResponsiblesCheckInjector"

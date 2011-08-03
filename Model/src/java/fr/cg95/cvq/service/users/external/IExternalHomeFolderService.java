@@ -7,16 +7,15 @@ import fr.cg95.cvq.business.payment.external.ExternalHomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.business.users.external.IndividualMapping;
-import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.security.annotation.IsUser;
 
 public interface IExternalHomeFolderService {
 
     List<HomeFolderMapping> getHomeFolderMappings(@IsUser Long homeFolderId);
 
-    void createHomeFolderMapping(HomeFolderMapping homeFolderMapping) throws CvqModelException;
+    void createHomeFolderMapping(HomeFolderMapping homeFolderMapping);
 
-    void modifyHomeFolderMapping(HomeFolderMapping homeFolderMapping) throws CvqModelException;
+    void modifyHomeFolderMapping(HomeFolderMapping homeFolderMapping);
 
     HomeFolderMapping getHomeFolderMapping(final String externalServiceLabel,
         @IsUser final Long homeFolderId);

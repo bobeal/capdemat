@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.users.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,13 @@ public class UserSearchService implements IUserSearchService {
     @Override
     public Integer getCount(Set<Critere> criterias) {
         return individualDAO.searchCount(criterias);
+    }
+
+    @Override
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public List<Adult> match(final Set<Critere> criteriaSet) {
+//        return adultDAO.match(criteriaSet, new UserState[] { UserState.ARCHIVED });
+        return Collections.emptyList();
     }
 
     @Override
@@ -90,6 +98,18 @@ public class UserSearchService implements IUserSearchService {
 
     @Override
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public Long countDuplicates() {
+        return adultDAO.countDuplicates();
+    }
+
+    @Override
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public List<Adult> listDuplicates(int max) {
+        return adultDAO.listDuplicates(max);
+    }
+
+    @Override
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public final List<HomeFolder> getAll(boolean filterArchived, boolean filterTemporary) {
         return homeFolderDAO.listAll(filterArchived, filterTemporary);
     }
@@ -122,9 +142,9 @@ public class UserSearchService implements IUserSearchService {
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.READ)
     public List<Individual> getExternalIndividuals(final Long homeFolderId) {
         Set<Individual> externalIndividuals = new HashSet<Individual>();
-        externalIndividuals.addAll(individualDAO.listByHomeFolderRoles(homeFolderId, RoleType.allRoleTypes, true));
+        externalIndividuals.addAll(individualDAO.listByHomeFolderRoles(homeFolderId, RoleType.values(), true));
         for (Individual individual : getIndividuals(homeFolderId))
-            externalIndividuals.addAll(individualDAO.listBySubjectRoles(individual.getId(), RoleType.allRoleTypes, true));
+            externalIndividuals.addAll(individualDAO.listBySubjectRoles(individual.getId(), RoleType.values(), true));
         return new ArrayList<Individual>(externalIndividuals);
     }
 

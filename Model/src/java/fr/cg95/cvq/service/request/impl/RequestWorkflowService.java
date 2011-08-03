@@ -23,14 +23,18 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
 
+import com.google.gson.JsonObject;
+
 import fr.cg95.cvq.business.authority.LocalAuthorityResource;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentState;
 import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.RequestActionType;
 import fr.cg95.cvq.business.request.RequestDocument;
 import fr.cg95.cvq.business.request.RequestEvent;
+import fr.cg95.cvq.business.request.RequestNote;
 import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestStep;
@@ -74,6 +78,7 @@ import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.service.request.IRequestDocumentService;
 import fr.cg95.cvq.service.request.IRequestPdfService;
+import fr.cg95.cvq.service.request.IRequestSearchService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.request.IRequestTypeService;
@@ -82,6 +87,7 @@ import fr.cg95.cvq.service.request.external.IRequestExternalService;
 import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.service.users.IUserWorkflowService;
 import fr.cg95.cvq.util.Critere;
+import fr.cg95.cvq.util.JSONUtils;
 import fr.cg95.cvq.util.ValidationUtils;
 
 /**
@@ -108,6 +114,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     private IRequestExternalService requestExternalService;
     private IRequestTypeService requestTypeService;
     private IRequestDocumentService requestDocumentService;
+    private IRequestSearchService requestSearchService;
 
     private IRequestDAO requestDAO;
 
@@ -1223,6 +1230,45 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                 logger.debug("onApplicationEvent() nothing to do for individual "
                     + event.getAction().getTargetId());
             }
+        } else if (UserAction.Type.MERGE.equals(event.getAction().getType())) {
+            JsonObject payload = JSONUtils.deserialize(event.getAction().getData());
+            HomeFolder homeFolder = userSearchService.getHomeFolderById(event.getAction().getTargetId());
+            if (homeFolder != null) {
+                logger.debug("onApplicationEvent() moving requests of home folder "
+                        + event.getAction().getTargetId() + " to " + payload.get("merge").getAsLong());
+                List<Request> requests = requestSearchService.getByHomeFolderId(homeFolder.getId(), false);
+                for (Request request : requests) {
+                    request.setHomeFolderId(payload.get("merge").getAsLong());
+                }
+            } else {
+                logger.debug("onApplicationEvent() moving requests of individual "
+                        + event.getAction().getTargetId() + " to " + payload.get("merge"));
+                Individual targetIndividual = userSearchService.getById(payload.get("merge").getAsLong());
+                Individual individual = userSearchService.getById(event.getAction().getTargetId());
+                List<Request> requests = 
+                    requestSearchService.getByHomeFolderId(individual.getHomeFolder().getId(), false);
+                for (Request request : requests) {
+                    if (request.getRequesterId().equals(event.getAction().getTargetId())) {
+                        request.setRequesterId(targetIndividual.getId());
+                    } 
+                    if (request.getSubjectId() != null && request.getSubjectId().equals(event.getAction().getTargetId())) {
+                        request.setSubjectId(targetIndividual.getId());
+                    }
+                    if (request.getLastInterveningUserId() != null && request.getLastInterveningUserId().equals(event.getAction().getTargetId())) {
+                        request.setLastInterveningUserId(targetIndividual.getId());
+                    }
+                    for (RequestAction requestAction : request.getActions()) {
+                        if (requestAction.getAgentId().equals(event.getAction().getTargetId())) {
+                            requestAction.setAgentId(targetIndividual.getId());
+                        }
+                    }
+                    for (RequestNote requestNote : request.getNotes()) {
+                        if (requestNote.getUserId().equals(event.getAction().getTargetId())) {
+                            requestNote.setUserId(targetIndividual.getId());
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -1264,6 +1310,10 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
     public void setRequestPdfService(IRequestPdfService requestPdfService) {
         this.requestPdfService = requestPdfService;
+    }
+
+    public void setRequestSearchService(IRequestSearchService requestSearchService) {
+        this.requestSearchService = requestSearchService;
     }
 
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {

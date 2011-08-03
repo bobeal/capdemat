@@ -49,6 +49,7 @@ import fr.cg95.cvq.service.payment.external.IPaymentExternalService;
 import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 import fr.cg95.cvq.util.Critere;
+import fr.cg95.cvq.util.JSONUtils;
 import fr.cg95.cvq.util.mail.IMailService;
 
 public final class PaymentService implements IPaymentService, 
@@ -517,6 +518,27 @@ public final class PaymentService implements IPaymentService,
                 logger.debug("onApplicationEvent() deleting payments of home folder "
                     + event.getAction().getTargetId());
                 deleteHomeFolderPayments(event.getAction().getTargetId());
+            }
+        } else if (UserAction.Type.MERGE.equals(event.getAction().getType())) {
+            if (userSearchService.getById(event.getAction().getTargetId()) != null) {
+                Long individualId = event.getAction().getTargetId();
+                Long homeFolderId = userSearchService.getById(individualId).getHomeFolder().getId();
+                Long targetIndividualId = JSONUtils.deserialize(event.getAction().getData()).get("merge").getAsLong();
+                logger.debug("onApplicationEvent() moving payment from individual " + individualId
+                    + " to " + targetIndividualId);
+                for (Payment payment : getByHomeFolder(homeFolderId)) {
+                    payment.setRequesterId(targetIndividualId);
+                    paymentDAO.update(payment);
+                }
+            } else {
+                logger.debug("onApplicationEvent() deleting payments of home folder "
+                    + event.getAction().getTargetId());
+                Long homeFolderId = event.getAction().getTargetId();
+                Long targetHomeFolderId = JSONUtils.deserialize(event.getAction().getData()).get("merge").getAsLong();
+                for (Payment payment : getByHomeFolder(homeFolderId)) {
+                    payment.setHomeFolderId(targetHomeFolderId);
+                    paymentDAO.update(payment);
+                }
             }
         }
     }

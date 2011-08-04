@@ -150,6 +150,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
     public List<Request> getSendableRequests(String externalServiceLabel) {
         Set<RequestState> set = new HashSet<RequestState>(1);
         set.add(RequestState.COMPLETE);
+        set.add(RequestState.VALIDATED);
         List<Request> result = new ArrayList<Request>();
         for (String rt : getRequestTypesForExternalService(externalServiceLabel)) {
             for (Request req : requestDAO.listByStatesAndType(set, rt, true)) {

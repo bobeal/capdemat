@@ -247,6 +247,22 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
                 parametersTypes.add(Hibernate.STRING);
                 parametersValues.add(entry.getValue());
                 parametersTypes.add(Hibernate.SERIALIZABLE);
+            } else if (RequestExternalAction.SEARCH_BY_STATUS.equals(searchCrit.getAttribut())) {
+                    if (Critere.IN.equals(searchCrit.getComparatif())) {
+                        Set<RequestExternalAction.Status> statuses =
+                            (Set<RequestExternalAction.Status>) searchCrit.getValue();
+                        String[] values = new String[statuses.size()];
+                        int i = 0;
+                        for (RequestExternalAction.Status status : statuses) {
+                            values[i++] = status.toString();
+                        }
+                        sb.append(" and ").append(searchCrit.getAttribut()).append(" ").append(searchCrit.getComparatif())
+                                .append(" (").append(StringUtils.join(values, ", ")).append(')');
+                    } else {
+                        sb.append(" and ").append(searchCrit.getAttribut()).append(searchCrit.getSqlComparatif()).append(" ?");
+                        parametersValues.add(searchCrit.getValue().toString());
+                        parametersTypes.add(Hibernate.STRING);
+                    }
             } else {
                 sb.append(" and ").append(searchCrit.getAttribut()).append(searchCrit.getSqlComparatif()).append(" ?");
                 if (RequestExternalAction.SEARCH_BY_DATE.equals(searchCrit.getAttribut())) {
@@ -266,9 +282,6 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
                     parametersTypes.add(Hibernate.STRING);
                 } else if (RequestExternalAction.SEARCH_BY_NAME.equals(searchCrit.getAttribut())) {
                     parametersValues.add(searchCrit.getSqlStringValue());
-                    parametersTypes.add(Hibernate.STRING);
-                } else if (RequestExternalAction.SEARCH_BY_STATUS.equals(searchCrit.getAttribut())) {
-                    parametersValues.add(searchCrit.getValue().toString());
                     parametersTypes.add(Hibernate.STRING);
                 }
             }

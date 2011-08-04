@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import net.sf.oval.constraint.Email;
 import net.sf.oval.constraint.EqualToField;
@@ -89,6 +90,7 @@ public class Adult extends Individual {
     @SuppressWarnings("unused")
     @NotNull(message = "confirmPassword", profiles = {"login"})
     @EqualToField(message = "confirmPassword", value = "password", profiles = {"login"})
+    @Transient
     private String confirmPassword;
 
     public AdultType modelToXml() {

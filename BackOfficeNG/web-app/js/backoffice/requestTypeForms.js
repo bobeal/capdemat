@@ -44,7 +44,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           { text: '(SU) Prénom', value:'#{SU_FNAME}' },
           { text: '(SU) Nom', value:'#{SU_LNAME}' },
           { text: '(SU) Civilité', value:'#{SU_TITLE}' },
-          { text: '(AR) Nom de l\'agent', value: '#{LAST_AGENT_NAME}' }        ]
+          { text: '(AR) Nom de l\'agent', value: '#{LAST_AGENT_NAME}' },
+          { text: '(AR) Email de l\'agent', value: '#{LAST_AGENT_EMAIL}' }]
       }]
   });
 

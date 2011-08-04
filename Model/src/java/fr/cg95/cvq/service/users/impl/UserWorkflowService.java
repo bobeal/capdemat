@@ -270,6 +270,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         if (individual.getAddress() == null) individual.setAddress(homeFolder.getAddress());
         Long id = individualDAO.create(individual).getId();
         UserAction action = new UserAction(UserAction.Type.CREATION, id);
+        action = (UserAction) genericDAO.create(action);
         individual.getHomeFolder().getActions().add(action);
         if (SecurityContext.isFrontOfficeContext()
             && !UserState.NEW.equals(individual.getHomeFolder().getState())) {
@@ -429,6 +430,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         jsonResponsible.addProperty("name", UserUtils.getDisplayName(owner.getId()));
         payload.add("responsible", jsonResponsible);
         UserAction action = new UserAction(UserAction.Type.MODIFICATION, target.getId(), payload);
+        action = (UserAction) genericDAO.create(action);
         owner.getHomeFolder().getActions().add(action);
         homeFolderDAO.update(owner.getHomeFolder());
         applicationEventPublisher.publishEvent(new UserEvent(this, action));

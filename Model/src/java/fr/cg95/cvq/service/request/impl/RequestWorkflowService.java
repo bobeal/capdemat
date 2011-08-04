@@ -62,6 +62,7 @@ import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.exception.CvqValidationException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
@@ -800,7 +801,10 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         Date date = new Date();
         updateLastModificationInformation(request, date);
 
+        /* Set all the states to pending */
         request.setState(RequestState.PENDING);
+        request.setDataState(DataState.PENDING);
+        updateDocumentsToPending(request);
 
         WorkflowPendingEvent wfEvent = new WorkflowPendingEvent(request);
         requestExternalService.publish(wfEvent);
@@ -808,6 +812,17 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         byte[] pdfData = requestPdfService.generateCertificate(request);
         requestActionService.addCreationAction(request.getId(), date, pdfData, note);
         postActionsProcess(wfEvent.getWorkflowPostActions());
+    }
+
+    protected void updateDocumentsToPending(Request request) throws CvqException,
+            CvqObjectNotFoundException, CvqInvalidTransitionException {
+        Set<RequestDocument> documentSet = request.getDocuments();
+        if (documentSet == null)
+            return;
+
+        for (RequestDocument requestDocument : documentSet) {
+            documentService.pending(requestDocument.getDocumentId());
+        }
     }
 
     private void inProgress(Request request, final String note) throws CvqException {

@@ -254,7 +254,7 @@ public final class RequestExternalActionDAO extends GenericDAO implements IReque
                         String[] values = new String[statuses.size()];
                         int i = 0;
                         for (RequestExternalAction.Status status : statuses) {
-                            values[i++] = status.toString();
+                            values[i++] = "'" + status.toString() + "'";
                         }
                         sb.append(" and ").append(searchCrit.getAttribut()).append(" ").append(searchCrit.getComparatif())
                                 .append(" (").append(StringUtils.join(values, ", ")).append(')');

@@ -31,6 +31,7 @@ public abstract class PurchaseItem implements Serializable {
     /**
      * Convey broker information for this item. It can't be null.
      */
+    @Column(name="supported_broker")
     private String supportedBroker;
     
     public PurchaseItem(final String label, final Double amount,

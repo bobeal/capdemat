@@ -26,6 +26,7 @@ import javax.persistence.Table;
 import net.sf.oval.constraint.NotNull;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.hibernate.annotations.Type;
 
 import fr.cg95.cvq.business.users.MeansOfContact;
 import fr.cg95.cvq.service.request.SubjectId;
@@ -130,19 +131,9 @@ public class RequestData implements Serializable {
     @JoinColumn(name="request_id")
     private Set<RequestNote> notes;
 
-    private class SerializableInstanceOf<T> implements Serializable {
-        private static final long serialVersionUID = 1L;
-        public final T instance;
-
-        @SuppressWarnings("unused")
-        public SerializableInstanceOf(T instance) {
-            Serializable s = (Serializable)instance; // Check
-            this.instance = instance;
-        }
-    }
-
     @Column(name="step_states")
-    private SerializableInstanceOf<Map<String, Map<String, Object>>> stepStates;
+    @Type(type="serializable")
+    private Map<String, Map<String, Object>> stepStates;
 
     @Column(name="specific_data_class")
     private Class<?> specificDataClass;
@@ -158,8 +149,7 @@ public class RequestData implements Serializable {
     private byte[] documentsArchive;
 
     public RequestData() {
-        this.stepStates = new SerializableInstanceOf<Map<String,Map<String,Object>>>(
-                new LinkedHashMap<String, Map<String, Object>>());
+        this.stepStates = new LinkedHashMap<String, Map<String, Object>>();
     }
 
     public Long getId() {
@@ -354,11 +344,11 @@ public class RequestData implements Serializable {
     }
 
     public Map<String, Map<String, Object>> getStepStates() {
-        return stepStates.instance;
+        return stepStates;
     }
 
     public void setStepStates(Map<String, Map<String, Object>> stepStates) {
-        this.stepStates = new SerializableInstanceOf<Map<String,Map<String,Object>>>(stepStates);
+        this.stepStates = stepStates;
     }
 
     public Class<?> getSpecificDataClass() {

@@ -80,6 +80,20 @@ UPDATE day_care_center_registration_request SET situation_actuelle_mere = 'CONGE
 UPDATE day_care_center_registration_request SET situation_actuelle_mere = 'RETRAITE'  Where situation_actuelle_mere = 'Retraite';
 UPDATE day_care_center_registration_request SET situation_actuelle_mere = 'AUTRE'  Where situation_actuelle_mere = 'Autre';
 -----------------;
+-- ChoixSituationActuelle;
+-----------------;
+UPDATE day_care_center_registration_request SET situation_actuelle_pere = 'PLEIN'  Where situation_actuelle_pere = 'Plein';
+UPDATE day_care_center_registration_request SET situation_actuelle_pere = 'PARTIEL'  Where situation_actuelle_pere = 'Partiel';
+UPDATE day_care_center_registration_request SET situation_actuelle_pere = 'INTERIM'  Where situation_actuelle_pere = 'Interim';
+UPDATE day_care_center_registration_request SET situation_actuelle_pere = 'ETUDIANT'  Where situation_actuelle_pere = 'Etudiant';
+UPDATE day_care_center_registration_request SET situation_actuelle_pere = 'STAGE'  Where situation_actuelle_pere = 'Stage';
+UPDATE day_care_center_registration_request SET situation_actuelle_pere = 'RECHERCHE'  Where situation_actuelle_pere = 'Recherche';
+UPDATE day_care_center_registration_request SET situation_actuelle_pere = 'PARENT'  Where situation_actuelle_pere = 'Parent';
+UPDATE day_care_center_registration_request SET situation_actuelle_pere = 'LIBRE'  Where situation_actuelle_pere = 'Libre';
+UPDATE day_care_center_registration_request SET situation_actuelle_pere = 'CONGE'  Where situation_actuelle_pere = 'Conge';
+UPDATE day_care_center_registration_request SET situation_actuelle_pere = 'RETRAITE'  Where situation_actuelle_pere = 'Retraite';
+UPDATE day_care_center_registration_request SET situation_actuelle_pere = 'AUTRE'  Where situation_actuelle_pere = 'Autre';
+-----------------;
 -- MarriageRequesterQualityType;
 -----------------;
 UPDATE marriage_details_request SET requester_quality = 'REQUESTER'  Where requester_quality = 'Requester';
@@ -363,6 +377,15 @@ UPDATE request_action SET resulting_state = 'CLOSED'  Where resulting_state = 'C
 UPDATE request_action SET resulting_state = 'REJECTED'  Where resulting_state = 'Rejected';
 UPDATE request_action SET resulting_state = 'CANCELLED'  Where resulting_state = 'Cancelled';
 UPDATE request_action SET resulting_state = 'ARCHIVED'  Where resulting_state = 'Archived';
+
+update request_action set type = 'DRAFT_DELETE_NOTIFICATION' where type = 'DraftDeleteNotification';
+update request_action set type = 'CREATION_NOTIFICATION' where type = 'CreationNotification';
+update request_action set type = 'ORANGE_ALERT_NOTIFICATION' where type = 'OrangeAlertNotification';
+update request_action set type = 'RED_ALERT_NOTIFICATION' where type = 'RedAlertNotification';
+update request_action set type = 'CREATION' where type = 'Creation';
+update request_action set type = 'STATE_CHANGE' where type = 'StateChange';
+update request_action set type = 'CONTACT_CITIZEN' where type = 'ContactCitizen';
+
 -----------------;
 -- Type;
 -----------------;
@@ -397,6 +420,7 @@ UPDATE adult SET family_status = 'MARRIED'  Where family_status = 'Married';
 UPDATE adult SET family_status = 'COMMON_LAW_MARRIAGE'  Where family_status = 'CommonLawMarriage';
 UPDATE adult SET family_status = 'PACS'  Where family_status = 'PACS';
 UPDATE adult SET family_status = 'OTHER'  Where family_status = 'Other';
+UPDATE adult SET family_status = 'SEPARATED'  Where family_status = 'Separated';
 -----------------;
 -- RequestStep;
 -----------------;
@@ -866,3 +890,30 @@ UPDATE request SET state = 'CLOSED'  Where state = 'Closed';
 UPDATE request SET state = 'REJECTED'  Where state = 'Rejected';
 UPDATE request SET state = 'CANCELLED'  Where state = 'Cancelled';
 UPDATE request SET state = 'ARCHIVED'  Where state = 'Archived';
+
+update document set state = 'DRAFT' where state = 'Draft';
+update document set state = 'PENDING' where state = 'Pending';
+update document set state = 'VALIDATED' where state = 'Validated';
+update document set state = 'CHECKED' where state = 'Checked';
+update document set state = 'REFUSED' where state = 'Refused';
+update document set state = 'OUTDATED' where state = 'Outdated';
+
+update document_binary set content_type = 'BMP' where content_type = 'image/x-ms-bmp';
+update document_binary set content_type = 'PDF' where content_type = 'application/pdf';
+update document_binary set content_type = 'JPEG' where content_type = 'image/jpeg';
+update document_binary set content_type = 'GIF' where content_type = 'image/gif';
+update document_binary set content_type = 'PNG' where content_type = 'image/png';
+update document_binary set content_type = 'OCTET_STREAM' where content_type = 'application/octet-stream';
+update document_binary set content_type = 'TIFF' where content_type = 'image/tiff';
+
+update request_external_action set status = 'SENT' where status = 'Sent';
+update request_external_action set status = 'NOT_SENT' where status = 'NotSent';
+update request_external_action set status = 'IN_PROGRESS' where status = 'InProgress';
+update request_external_action set status = 'ACKNOWLEDGED' where status = 'Acknowledged';
+update request_external_action set status = 'ERROR' where status = 'Error';
+update request_external_action set status = 'ACCEPTED' where status = 'Accepted';
+update request_external_action set status = 'REJECTED' where status = 'Rejected';
+update request_external_action set status = 'RETURNED' where status = 'Returned';
+
+update request_note set type = 'INTERNAL' where type = 'Internal';
+update request_note set type = 'PUBLIC' where type = 'Public';

@@ -921,3 +921,6 @@ update request_note set type = 'PUBLIC' where type = 'Public';
 update school_transport_registration_request set autorisation = 'SEUL' where autorisation = 'Seul';
 update school_transport_registration_request set autorisation = 'AVEC_FRERE_SOEUR' where autorisation = 'AvecFrereSoeur';
 update school_transport_registration_request set autorisation = 'AVEC_TIERS' where autorisation = 'AvecTiers';
+
+UPDATE day_care_center_registration_request SET mode_accueil_choix_deux = 'COLLECTIF' where mode_accueil_choix_deux = 'Collectif';
+UPDATE day_care_center_registration_request SET mode_accueil_choix_deux = 'FAMILIAL' where mode_accueil_choix_deux = 'Familial';

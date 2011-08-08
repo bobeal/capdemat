@@ -917,3 +917,7 @@ update request_external_action set status = 'RETURNED' where status = 'Returned'
 
 update request_note set type = 'INTERNAL' where type = 'Internal';
 update request_note set type = 'PUBLIC' where type = 'Public';
+
+update school_transport_registration_request set autorisation = 'SEUL' where autorisation = 'Seul';
+update school_transport_registration_request set autorisation = 'AVEC_FRERE_SOEUR' where autorisation = 'AvecFrereSoeur';
+update school_transport_registration_request set autorisation = 'AVEC_TIERS' where autorisation = 'AvecTiers';

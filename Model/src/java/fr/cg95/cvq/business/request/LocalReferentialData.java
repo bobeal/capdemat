@@ -32,7 +32,11 @@ public class LocalReferentialData implements Serializable {
 
     private String name;
     private Integer priority;
+    
+    @Column(name="additional_information_label")
     private String additionalInformationLabel;
+
+    @Column(name="additional_information_value")
     private String additionalInformationValue;
     
     // FIXME how to removeOrphan on many2many?

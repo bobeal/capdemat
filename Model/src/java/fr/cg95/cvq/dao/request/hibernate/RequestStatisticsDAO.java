@@ -53,7 +53,7 @@ public class RequestStatisticsDAO  implements IRequestStatisticsDAO {
 
         sb.append(" and action.resultingState in (");
         for (int i = 0; i < resultingStates.size(); i++) {
-            sb.append("'").append(resultingStates.get(i)).append("'");
+            sb.append("'").append(resultingStates.get(i).name()).append("'");
             if (i != resultingStates.size() - 1)
                 sb.append(",");
         }
@@ -115,7 +115,7 @@ public class RequestStatisticsDAO  implements IRequestStatisticsDAO {
 
         sb.append(" and action.resultingState in (");
         for (int i = 0; i < resultingStates.size(); i++) {
-            sb.append("'").append(resultingStates.get(i)).append("'");
+            sb.append("'").append(resultingStates.get(i).name()).append("'");
             if (i != resultingStates.size() - 1)
                 sb.append(",");
         }
@@ -174,7 +174,7 @@ public class RequestStatisticsDAO  implements IRequestStatisticsDAO {
         }
 
         if (resultingState != null && !resultingState.equals("")) {
-            sb.append(" and request_action.resulting_state = '").append(resultingState).append("'");
+            sb.append(" and request_action.resulting_state = '").append(RequestState.forString(resultingState).name()).append("'");
         }
 
         if (!requestTypesId.isEmpty()) {

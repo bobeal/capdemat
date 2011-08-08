@@ -73,6 +73,7 @@ import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.translation.ITranslationService;
 import fr.cg95.cvq.xml.common.AddressType;
+import fr.cg95.cvq.xml.common.FrenchRIBType;
 import fr.cg95.cvq.xml.request.school.StudyGrantRequestDocument;
 import fr.cg95.cvq.xml.request.school.impl.StudyGrantRequestDocumentImpl.StudyGrantRequestImpl;
 import fr.cg95.cvq.xml.request.social.BafaGrantRequestDocument;
@@ -293,6 +294,11 @@ public class EdemandeService implements IExternalProviderService {
         Calendar birthDate, String subkey) {
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("lastName", escapeLastName(lastName));
+        FrenchRIBType frenchRIBType = request.getFrenchRIB();
+        if (frenchRIBType == null) {
+            addTrace(request.getId(), subkey, RequestExternalAction.Status.NOT_SENT, "Coordonnées bancaires non renseignées");
+            return null;
+        }
         model.put("frenchRIB", FrenchRIB.xmlToModel(request.getFrenchRIB()).format(" "));
         String searchResults;
         int resultsNumber;

@@ -3,7 +3,7 @@
 
 <beans>
 
-  <bean id="technocarteExternalService"
+  <bean id="technocarteExternalService" parent="externalProviderServiceAdapter"
     class="fr.capwebct.capdemat.plugins.externalservices.technocarte.service.TechnocarteService">
     <property name="label" value="Technocarte"></property>
     <!-- Insert services you need here -->

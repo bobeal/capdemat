@@ -3,7 +3,7 @@
 
 <beans>
 
-  <bean id="horanetExternalService"
+  <bean id="horanetExternalService" parent="externalProviderServiceAdapter"
     class="fr.capwebct.capdemat.plugins.externalservices.horanet.service.HoranetService">
     <property name="label" value="Horanet"></property>
     <!-- Insert services you need here -->

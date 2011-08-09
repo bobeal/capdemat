@@ -3,7 +3,7 @@
 
 <beans>
 
-  <bean id="edemandeExternalService"
+  <bean id="edemandeExternalService" parent="externalProviderServiceAdapter"
     class="fr.capwebct.capdemat.plugins.externalservices.edemande.service.EdemandeService">
     <property name="label" value="Edemande" />
     <property name="edemandeClient" ref="edemandeClient" />

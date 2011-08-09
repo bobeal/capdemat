@@ -3,7 +3,7 @@
 
 <beans>
 
-  <bean id="cirilNetEnfanceExternalService"
+  <bean id="cirilNetEnfanceExternalService" parent="externalProviderServiceAdapter"
     class="fr.capwebct.capdemat.plugins.externalservices.cirilnetenfance.service.CirilNetEnfanceService">
     <property name="label" value="CirilNetEnfance" />
     <!-- Insert services you need here -->

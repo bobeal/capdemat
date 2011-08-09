@@ -3,7 +3,7 @@
 
 <beans>
 
-  <bean id="cleverExternalService"
+  <bean id="cleverExternalService" parent="externalProviderServiceAdapter"
     class="fr.capwebct.capdemat.plugins.externalservices.clever.service.CleverService">
     <property name="label" value="Clever"></property>
     <!-- Insert services you need here -->

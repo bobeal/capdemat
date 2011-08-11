@@ -563,15 +563,16 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void validateHomeFolder(@IsUser HomeFolder homeFolder) throws CvqModelException, CvqInvalidTransitionException {
-        //collect individuals ids
+        // collect individuals ids to not iterate on individuals directly
+        // coz' it throws ConcurrentModificationException in called methods (changeState)
         List<Long> ids=new ArrayList<Long>();
         for (Individual i : homeFolder.getIndividuals()) {
             ids.add(i.getId());
         }
-        for (Iterator iterator = ids.iterator(); iterator.hasNext();) {
-            Long id = (Long) iterator.next();
-            Individual individual=userSearchService.getById(id);
-            if(individual.getState().equals(UserState.NEW) || individual.getState().equals(UserState.MODIFIED)) {
+        for (Long id : ids) {
+            Individual individual = userSearchService.getById(id);
+            if (individual.getState().equals(UserState.NEW) 
+                    || individual.getState().equals(UserState.MODIFIED)) {
                 changeState(individual,UserState.VALID);
             }
         }

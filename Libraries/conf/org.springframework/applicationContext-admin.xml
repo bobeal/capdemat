@@ -319,7 +319,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="requestArchivingTrigger"
     class="org.springframework.scheduling.quartz.CronTriggerBean">
     <property name="jobDetail" ref="requestArchivingInvoker" />
-    <property name="cronExpression" value="0 0 * * * ?" />
+    <property name="cronExpression" value="0 0 3 * * ?" />
   </bean>
 
   <!-- *******************************************************************  -->

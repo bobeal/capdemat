@@ -4,6 +4,7 @@ import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.external.IRequestExternalService
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.security.SecurityContext
+import fr.cg95.cvq.util.UserUtils
 
 import java.text.DateFormatSymbols
 
@@ -69,7 +70,7 @@ class FrontofficeActivityController {
         def result = [:]
         for (Request r :
             requestSearchService.getByHomeFolderId(ecitizen.homeFolder.id, false)) {
-            def name = "${r.subjectFirstName} ${r.subjectLastName}"
+            def name = UserUtils.getDisplayName(r.subjectId)
             def label = r.requestType.label
             if (
                 (individualName && name != individualName)

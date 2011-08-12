@@ -134,7 +134,7 @@
         <entry>
           <key><value>NotCommitPaymentAlert</value></key>
           <map>
-            <entry key="mailSendTo" value="administrateur@blainville.fr"/>
+            <entry key="mailSendTo" value="capdemat-dev@zenexity.fr"/>
             <entry key="mailSubject" value="[CapDémat] Alerte Paiement"/>
             <entry key="mailData" value="NotCommitedPaymentsAlert"/>
           </map>

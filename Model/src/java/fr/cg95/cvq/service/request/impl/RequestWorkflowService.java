@@ -25,6 +25,7 @@ import org.springframework.context.ApplicationListener;
 
 import fr.cg95.cvq.business.authority.LocalAuthorityResource;
 import fr.cg95.cvq.business.document.Document;
+import fr.cg95.cvq.business.document.DocumentState;
 import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestActionType;
@@ -821,7 +822,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             return;
 
         for (RequestDocument requestDocument : documentSet) {
-            documentService.pending(requestDocument.getDocumentId());
+            Document document = documentService.getById(requestDocument.getDocumentId());
+            if (document.getState().equals(DocumentState.DRAFT))
+                documentService.pending(requestDocument.getDocumentId());
         }
     }
 

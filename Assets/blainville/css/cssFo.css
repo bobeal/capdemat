@@ -76,6 +76,7 @@ form textarea { border-top-color: #ff812b !important; }
 .box h2 { color: #ff812b !important; }
 .box h3 { color: #ff812b !important; }
 
+.individual legend { color: #ff812b !important; }
 
 /* request creation
  * ----------------------------------------------------- */

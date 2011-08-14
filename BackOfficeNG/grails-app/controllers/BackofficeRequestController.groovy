@@ -57,8 +57,6 @@ class BackofficeRequestController {
        
         // deal with search criteria
         Set<Critere> criteria = new HashSet<Critere>()
-        criteria.add(new Critere(Request.SEARCH_BY_STATE, RequestState.DRAFT,
-            Critere.NEQUALS))
         params.each { key,value ->
             if (supportedKeys.contains(key) && value != "") {
                 Critere critere = new Critere()
@@ -92,7 +90,7 @@ class BackofficeRequestController {
             critere.attribut = key.replaceAll('Filter','')
             critere.comparatif = Critere.EQUALS
             if (key == 'stateFilter') {
-                critere.value = value
+                critere.value = RequestState.forString(value)
                 hasStateFilter = true
             }
             else if (key == 'qualityFilter') {

@@ -1,3 +1,40 @@
+create table bafa_grant_request (
+    id int8 not null,
+    account_holder_birth_date timestamp,
+    account_holder_edemande_id varchar(255),
+    account_holder_first_name varchar(38),
+    account_holder_last_name varchar(38),
+    account_holder_title varchar(255),
+    bank_account_id int8,
+    edemande_id varchar(255),
+    internship_end_date timestamp,
+    internship_institute_address_id int8,
+    internship_institute_name varchar(255),
+    internship_start_date timestamp,
+    is_subject_account_holder bool,
+    subject_address_id int8,
+    subject_birth_city varchar(32),
+    subject_birth_date timestamp,
+    subject_email varchar(255),
+    subject_phone varchar(10),
+    primary key (id)
+);
+
+alter table bafa_grant_request 
+    add constraint FK50AFA827681FBDDD 
+    foreign key (internship_institute_address_id) 
+    references address;
+
+alter table bafa_grant_request 
+    add constraint FK50AFA82787B85F15 
+    foreign key (subject_address_id) 
+    references address;
+
+alter table bafa_grant_request 
+    add constraint FK50AFA827A4AB2F89 
+    foreign key (bank_account_id) 
+    references bank_account;
+
 create table bank_account (
     id int8 not null,
     bic varchar(255) not null,
@@ -5,7 +42,9 @@ create table bank_account (
     primary key (id)
 );
 
-alter table bafa_grant_request add column bank_account_id int8;
+
+-- only needed for CG77's platform
+--alter table bafa_grant_request add column bank_account_id int8;
 alter table study_grant_request add column bank_account_id int8;
 
 alter table document_binary add column zdb_id varchar(255) unique;

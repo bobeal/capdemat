@@ -154,6 +154,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
     public List<Request> getSendableRequests(String externalServiceLabel) {
         Set<RequestState> set = new HashSet<RequestState>(1);
         set.add(RequestState.COMPLETE);
+        set.add(RequestState.VALIDATED);
         List<Request> result = new ArrayList<Request>();
         for (String rt : getRequestTypesForExternalService(externalServiceLabel)) {
             for (Request req : requestDAO.listByStatesAndType(set, rt, true)) {
@@ -436,7 +437,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
 
         if (UserAction.Type.MODIFICATION.equals(event.getAction().getType())
             || UserAction.Type.STATE_CHANGE.equals(event.getAction().getType())) {
-            if (UserState.VALID.equals(homeFolder.getState()) && event.getAction().getTargetId().equals(homeFolder.getId())) {
+            if (UserState.VALID.equals(homeFolder.getState())) {
 
                 List<String> newMappings = new ArrayList<String>();
                 for (Entry<IExternalProviderService, ExternalServiceBean> entry : 

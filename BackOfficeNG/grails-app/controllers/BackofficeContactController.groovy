@@ -3,6 +3,7 @@ import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
 import fr.cg95.cvq.business.users.MeansOfContactEnum
 import fr.cg95.cvq.business.request.RequestActionType
 import fr.cg95.cvq.business.request.RequestFormType
+import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.request.IRequestLockService
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestTypeService
@@ -26,6 +27,7 @@ class BackofficeContactController {
     IRequestTypeService requestTypeService
     IUserNotificationService userNotificationService
     IUserSearchService userSearchService
+    IAgentService agentService
 
     def groovyPagesTemplateEngine
     def individualAdaptorService
@@ -333,6 +335,7 @@ class BackofficeContactController {
             def model = [
                 "DATE" : DateUtils.dateToFullString(new Date()),
                 "LAST_AGENT_NAME" : UserUtils.getDisplayName(rqt.lastInterveningUserId),
+                "LAST_AGENT_EMAIL" : agentService.exists(rqt.lastInterveningUserId) ? agentService.getById(rqt.lastInterveningUserId).email : '',
                 "MOC" : message(code : "meansOfContact." + StringUtils.pascalToCamelCase(meansOfContact)),
                 "RQ_ID" : rqt.id,
                 "RQ_CAT" : rqt.requestType.category.name,

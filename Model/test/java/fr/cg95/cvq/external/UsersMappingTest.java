@@ -8,22 +8,20 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import org.hamcrest.core.AllOf;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
 
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
+import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowCompleteEvent;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.business.users.external.IndividualMapping;
-import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.jpa.JpaUtil;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
-import fr.cg95.cvq.testtool.HasInnerProperty;
 import fr.cg95.cvq.util.Critere;
-import fr.cg95.cvq.xml.request.technical.TechnicalInterventionRequestDocument;
 
 public class UsersMappingTest extends ExternalServiceTestCase {
 
@@ -31,14 +29,17 @@ public class UsersMappingTest extends ExternalServiceTestCase {
 
     @Override
     public void onTearDown() throws Exception {
+        SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+        startTransaction();
         for (RequestExternalAction trace :
             requestExternalActionService.getTraces(new HashSet<Critere>(), null, null, 0, 0)) {
-            HibernateUtil.getSession().delete(trace);
+            JpaUtil.getEntityManager().remove(trace);
         }
         continueWithNewTransaction();
         HomeFolderMapping esimFromDb = 
             externalHomeFolderService.getHomeFolderMapping(EXTERNAL_SERVICE_LABEL, (Long) null);
-        assertNull(esimFromDb);        
+        assertNull(esimFromDb);
         assertEquals(0, requestExternalActionService.getTracesCount(new HashSet<Critere>()).longValue());
         super.onTearDown();
     }
@@ -60,14 +61,8 @@ public class UsersMappingTest extends ExternalServiceTestCase {
         // set up the mock expectations
         context.checking(new Expectations() {{
             oneOf(mockExternalService).checkConfiguration(with(any(ExternalServiceBean.class)), with(localAuthorityName));
-            oneOf(mockExternalService).checkExternalReferential(with(any(TechnicalInterventionRequestDocument.class)));
+            oneOf(mockExternalService).visit(with(any(WorkflowCompleteEvent.class)));
             allowing(mockExternalService).getLabel();will(returnValue(EXTERNAL_SERVICE_LABEL));
-            oneOf(mockExternalService).handlesTraces();
-            oneOf(mockExternalService)
-                .sendRequest(with(AllOf.<TechnicalInterventionRequestDocument>allOf(
-                        HasInnerProperty.<TechnicalInterventionRequestDocument>hasProperty("homeFolder.externalId"),
-                        HasInnerProperty.<TechnicalInterventionRequestDocument>hasProperty("homeFolder.externalCapDematId"))));
-            allowing(mockExternalService).handlesTraces();
         }});
         
         // register the mock external provider service with the LACB
@@ -78,14 +73,13 @@ public class UsersMappingTest extends ExternalServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         requestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
-        requestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
 
         continueWithNewTransaction();
         
         context.assertIsSatisfied();
         
+        externalHomeFolderService.deleteHomeFolderMappings(fakeExternalService.getLabel(), fake.id);
         lacb.unregisterExternalService(mockExternalService);
-        externalHomeFolderService.deleteHomeFolderMappings(EXTERNAL_SERVICE_LABEL, fake.id);
     }
 
     @Test
@@ -93,7 +87,6 @@ public class UsersMappingTest extends ExternalServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         requestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
-        requestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
 
         continueWithNewTransaction();
         
@@ -101,7 +94,10 @@ public class UsersMappingTest extends ExternalServiceTestCase {
                 fake.responsibleId, "external ID");
         
         continueWithNewTransaction();
-        
+
+        assertNotNull(externalHomeFolderService.getHomeFolderMapping(fakeExternalService.getLabel(), fake.id));
+        assertEquals(1, externalHomeFolderService.getHomeFolderMappings(fake.id).size());
+
         HomeFolderMapping esimFromDb =
             externalHomeFolderService.getHomeFolderMapping(fakeExternalService.getLabel(), fake.id);
         assertNotNull(esimFromDb);

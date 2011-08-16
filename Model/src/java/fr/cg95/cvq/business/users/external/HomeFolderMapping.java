@@ -39,7 +39,7 @@ public class HomeFolderMapping implements Serializable {
     @Column(name="external_id")
     private String externalId;
 
-    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
     @JoinColumn(name="home_folder_mapping_id")
     @OrderColumn(name="home_folder_mapping_index")
     private List<IndividualMapping> individualsMappings;

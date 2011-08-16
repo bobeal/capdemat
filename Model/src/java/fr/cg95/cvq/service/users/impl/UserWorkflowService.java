@@ -223,17 +223,19 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
             SecurityContext.setCurrentEcitizen(adult);
         }
         add(homeFolder, adult, !temporary);
-        homeFolder.getActions().add(new UserAction(UserAction.Type.CREATION, homeFolder.getId()));
+        UserAction action = new UserAction(UserAction.Type.CREATION, homeFolder.getId());
+        action = (UserAction) genericDAO.create(action);
+        homeFolder.getActions().add(action);
         if (SecurityContext.isFrontOfficeContext()) {
             // FIXME attribute all previous actions to the newly created responsible which had no ID
             Gson gson = new Gson();
-            for (UserAction action : homeFolder.getActions()) {
-                action.setUserId(adult.getId());
-                JsonObject payload = JSONUtils.deserialize(action.getData());
+            for (UserAction tempAction : homeFolder.getActions()) {
+                tempAction.setUserId(adult.getId());
+                JsonObject payload = JSONUtils.deserialize(tempAction.getData());
                 JsonObject user = payload.getAsJsonObject("user");
                 user.addProperty("id", adult.getId());
                 user.addProperty("name", UserUtils.getDisplayName(adult.getId()));
-                action.setData(gson.toJson(payload));
+                tempAction.setData(gson.toJson(payload));
             }
         }
         link(adult, homeFolder, Collections.singleton(RoleType.HOME_FOLDER_RESPONSIBLE));
@@ -311,6 +313,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         JsonObject payload = new JsonObject();
         payload.add("atom", atom);
         UserAction action = new UserAction(UserAction.Type.MODIFICATION, individual.getId(), payload);
+        action = (UserAction) genericDAO.create(action);
         // FIXME hack for specific business when changing a user's first or last name
         if ("identity".equals(atom.get("name").getAsString())) {
             JsonObject fields = atom.get("fields").getAsJsonObject();
@@ -458,6 +461,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         jsonResponsible.addProperty("name", UserUtils.getDisplayName(owner.getId()));
         payload.add("responsible", jsonResponsible);
         UserAction action = new UserAction(UserAction.Type.MODIFICATION, target.getId(), payload);
+        action = (UserAction) genericDAO.create(action);
         owner.getHomeFolder().getActions().add(action);
         homeFolderDAO.update(owner.getHomeFolder());
         applicationEventPublisher.publishEvent(new UserEvent(this, action));
@@ -496,6 +500,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         jsonResponsible.addProperty("name", UserUtils.getDisplayName(owner.getId()));
         payload.add("responsible", jsonResponsible);
         UserAction action = new UserAction(UserAction.Type.MODIFICATION, target.getId(), payload);
+        action = (UserAction) genericDAO.create(action);
         owner.getHomeFolder().getActions().add(action);
         homeFolderDAO.update(owner.getHomeFolder());
         applicationEventPublisher.publishEvent(new UserEvent(this, action));
@@ -529,6 +534,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         jsonResponsible.addProperty("name", UserUtils.getDisplayName(owner.getId()));
         payload.add("responsible", jsonResponsible);
         UserAction action = new UserAction(UserAction.Type.MODIFICATION, target.getId(), payload);
+        action = (UserAction) genericDAO.create(action);
         owner.getHomeFolder().getActions().add(action);
         homeFolderDAO.update(owner.getHomeFolder());
         applicationEventPublisher.publishEvent(new UserEvent(this, action));
@@ -555,6 +561,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         JsonObject payload = new JsonObject();
         payload.addProperty("state", state.toString());
         UserAction action = new UserAction(UserAction.Type.STATE_CHANGE, homeFolder.getId(), payload);
+        action = (UserAction) genericDAO.create(action);
         homeFolder.getActions().add(action);
         homeFolderDAO.update(homeFolder);
         applicationEventPublisher.publishEvent(new UserEvent(this, action));
@@ -604,6 +611,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         JsonObject payload = new JsonObject();
         payload.addProperty("state", state.toString());
         UserAction action = new UserAction(UserAction.Type.STATE_CHANGE, individual.getId(), payload);
+        action = (UserAction) genericDAO.create(action);
         individual.getHomeFolder().getActions().add(action);
         if (UserState.ARCHIVED.equals(state)) {
             for (Individual responsible : homeFolder.getIndividuals()) {
@@ -644,6 +652,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
             unlink(responsible, individual);
         }
         UserAction action = new UserAction(UserAction.Type.DELETION, individual.getId());
+        action = (UserAction) genericDAO.create(action);
         applicationEventPublisher.publishEvent(new UserEvent(this, action));
         homeFolder.getActions().add(action);
         homeFolder.getIndividuals().remove(individual);

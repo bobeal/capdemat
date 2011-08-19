@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.capwebct.fr/capdemat"
+  xmlns:capdemat="http://www.capwebct.fr/capdemat"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:element name="homeFolderMergeRequest">
+    <xs:annotation>
+      <xs:documentation>
+        A message sent to an external service after a successful merge of an home folder
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="OriginHomeFolderExternalCapDematId" type="xs:string" />
+        <xs:element name="TargetHomeFolderExternalCapDematId" type="xs:string" />
+        <xs:element name="MergedIndividual" type="capdemat:MergedIndividualType" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+    <xs:complexType name="MergedIndividualType">
+      <xs:sequence>
+        <xs:element name="OriginIndividualExternalCapDematId" type="xs:string" />
+        <xs:element name="TargetIndividualExternalCapDematId" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

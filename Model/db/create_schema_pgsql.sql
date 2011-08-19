@@ -586,8 +586,6 @@
 
     drop table home_folder_mapping cascade;
 
-    drop table home_folder_modification_request cascade;
-
     drop table individual cascade;
 
     drop table individual_mapping cascade;
@@ -731,8 +729,6 @@
     drop table user_external_action cascade;
 
     drop table user_security_rule cascade;
-
-    drop table vo_card_request cascade;
 
     drop sequence hibernate_sequence;
 
@@ -1816,11 +1812,6 @@
         primary key (id)
     );
 
-    create table home_folder_modification_request (
-        id int8 not null,
-        primary key (id)
-    );
-
     create table individual (
         id int8 not null,
         birth_city varchar(32),
@@ -1828,6 +1819,8 @@
         birth_date timestamp,
         birth_postal_code varchar(5),
         creation_date timestamp,
+        duplicate_alert bool,
+        duplicate_data TEXT,
         federation_key varchar(64) unique,
         first_name varchar(38),
         first_name_2 varchar(38),
@@ -1936,8 +1929,8 @@
 
     create table local_referential_data (
         id int8 not null,
-        additionalInformationLabel varchar(255),
-        additionalInformationValue varchar(255),
+        additional_information_label varchar(255),
+        additional_information_value varchar(255),
         name varchar(255),
         priority int4,
         local_referential_parent_data_id int8,
@@ -2103,27 +2096,27 @@
         id int8 not null,
         amount float8,
         label varchar(255),
-        supportedBroker varchar(255),
+        supported_broker varchar(255),
         external_application_id varchar(255),
         external_home_folder_id varchar(255),
         external_individual_id varchar(255),
         external_item_id varchar(255),
         external_service_label varchar(255),
+        key varchar(255),
+        key_owner varchar(255),
+        quantity int4,
+        unit_price float8,
+        creation_date timestamp,
+        max_buy int4,
+        min_buy int4,
+        old_quantity int4,
+        subject_id int8,
         expiration_date timestamp,
         is_paid bool,
         issue_date timestamp,
         payment_date timestamp,
         old_value float8,
         old_value_date timestamp,
-        creation_date timestamp,
-        max_buy int4,
-        min_buy int4,
-        old_quantity int4,
-        quantity int4,
-        subject_id int8,
-        unit_price float8,
-        key varchar(255),
-        key_owner varchar(255),
         payment_id int8,
         primary key (id)
     );
@@ -2657,11 +2650,6 @@
         id int8 not null,
         agent_id int8,
         profile varchar(16),
-        primary key (id)
-    );
-
-    create table vo_card_request (
-        id int8 not null,
         primary key (id)
     );
 

@@ -924,3 +924,13 @@ update school_transport_registration_request set autorisation = 'AVEC_TIERS' whe
 
 UPDATE day_care_center_registration_request SET mode_accueil_choix_deux = 'COLLECTIF' where mode_accueil_choix_deux = 'Collectif';
 UPDATE day_care_center_registration_request SET mode_accueil_choix_deux = 'FAMILIAL' where mode_accueil_choix_deux = 'Familial';
+
+update request_admin_action set type = 'ARCHIVES_DELETED' where type = 'ArchivesDeleted';
+update request_admin_action set type = 'ARCHIVES_DOWNLOADED' where type = 'ArchivesDownloaded';
+update request_admin_action set type = 'PASSWORD_RESET' where type = 'PasswordReset';
+update request_admin_action set type = 'REQUESTS_ARCHIVED' where type = 'RequestsArchived';
+update request_admin_action set type = 'ARCHIVES_MIGRATED' where type = 'ArchivesMigrated';
+
+update request_admin_action_complementary_data set key = 'ARCHIVE_NAMES' where key = 'ArchiveNames';
+update request_admin_action_complementary_data set key = 'ARCHIVING_RESULT' where key = 'ArchivingResult';
+update request_admin_action_complementary_data set key = 'PASSWORD' where key = 'Password';

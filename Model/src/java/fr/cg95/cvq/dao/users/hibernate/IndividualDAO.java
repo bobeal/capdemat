@@ -240,7 +240,7 @@ public class IndividualDAO extends JpaTemplate<Individual,Long> implements IIndi
                 typeList.add(Hibernate.STRING);
                 searchByUserState = true;
             } else if(criteria.getAttribut().equals(Individual.SEARCH_IS_HOME_FOLDER_RESPONSIBLE)) {
-                sb.append(" and roles.role = 'HomeFolderResponsible' ");
+                sb.append(" and roles.role = 'HOME_FOLDER_RESPONSIBLE' ");
             } else if (Individual.SEARCH_BY_USER_STATE.equals(criteria.getAttribut())) {
                 sb.append(String.format(" and lower(individual.state) %1$s lower(?) ", criteria.getSqlComparatif()));
                 objectList.add(criteria.getValue());

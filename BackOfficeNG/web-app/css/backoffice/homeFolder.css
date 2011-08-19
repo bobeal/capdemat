@@ -136,3 +136,63 @@ dl.atom .previous { text-decoration: line-through; }
 #homeFolderInformation .tag-state { float: right; }
 #homeFolderInformation .comment   { font-size: 1.4em; font-weight: normal; }
 
+/* duplicates
+-------------------------------------------------------------- */
+#duplicates {
+  border: 2px solid #CC0000;
+  border-radius: .5em; -moz-border-radius: .5em; -webkit-border-radius: .5em;
+  background-color: #ffffff;
+}
+
+#duplicates h2 {
+  color: #CC0000;
+  border-bottom-color: #CC0000;
+}
+
+#duplicates h3 {
+  border-bottom: none;
+  font-size: 1.4em;
+}
+
+.duplicate {
+  margin : 10px 15px; padding: 5px;
+  border-top: 1px solid #cfcfcf;
+}
+
+.duplicate dl {
+  margin-bottom: 10px;
+}
+
+.duplicate dd.duplicateData {
+  font-weight: bold;
+}
+
+.duplicate ul {
+  margin: auto 0;
+  padding: auto 0;
+}
+
+.duplicate ul li:before {
+  content: "▸ ";
+  margin-right: 2px;
+}
+
+.duplicate h4 {
+  color: #FF6600;
+  font-size: 1.2em;
+}
+
+.duplicate h4 span,
+.duplicate h4 span a,
+.duplicate h4 span a:hover
+ {
+  color: #000;
+  font-size: 90%;
+  font-style: italic;
+  background: #fff !important;
+  text-transform: lowercase;
+}
+
+.duplicate input[type="submit"] {
+  display: block;
+}

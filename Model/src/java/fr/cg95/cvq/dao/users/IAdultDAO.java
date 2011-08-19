@@ -19,4 +19,10 @@ public interface IAdultDAO extends IIndividualDAO {
     List<Adult> listAdultsByHomeFolder(final Long homeFolderId, UserState... states);
 
     List<Adult> matchAdults (Map<String, String> parameters);
+
+    List<Adult> findDuplicates(Map<String, String> parameters);
+
+    Long countDuplicates();
+
+    List<Adult> listDuplicates(int max);
 }

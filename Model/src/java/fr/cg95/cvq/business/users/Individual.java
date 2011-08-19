@@ -52,14 +52,16 @@ public abstract class Individual implements Serializable {
     // Search fields used in DAO and Service Layer
 
     public static final String SEARCH_BY_FIRSTNAME = "firstName";
-    public static final String SEARCH_BY_BIRTHDATE = "birthDate";
-    public static final String SEARCH_BY_ADDRESS = "address";
     public static final String SEARCH_BY_LASTNAME = "lastName";
+    public static final String SEARCH_BY_STREET_NAME = "streetName";
+    public static final String SEARCH_BY_STREET_NUMBER = "streetNumber";
+    public static final String SEARCH_BY_BIRTHDATE = "birthDate";
     public static final String SEARCH_BY_INDIVIDUAL_ID = "individualId";
     public static final String SEARCH_BY_USER_STATE = "userState";
     public static final String SEARCH_BY_HOME_FOLDER_ID = "homeFolderId";
     public static final String SEARCH_BY_HOME_FOLDER_STATE = "homeFolderState";
     public static final String SEARCH_IS_HOME_FOLDER_RESPONSIBLE = "isHomeFolderResponsible";
+    public static final String SEARCH_IS_DUPLICATE_ALERT = "isDuplicateAlert";
     
     private static final long serialVersionUID = 1L;
 
@@ -146,6 +148,12 @@ public abstract class Individual implements Serializable {
     @OrderBy("id asc")
     @JoinColumn(name="owner_id")
     private Set<IndividualRole> individualRoles;
+
+    @Column(name="duplicate_alert")
+    private boolean duplicateAlert;
+    
+    @Column(name="duplicate_data", columnDefinition="TEXT")
+    private String duplicateData;
 
     public Individual() {
         individualRoles = new HashSet<IndividualRole>();
@@ -453,5 +461,21 @@ public abstract class Individual implements Serializable {
             .append("name", getFullName())
             .append("id", getId())
             .toString();
+    }
+
+    public boolean isDuplicateAlert() {
+        return duplicateAlert;
+    }
+
+    public void setDuplicateAlert(boolean duplicateAlert) {
+        this.duplicateAlert = duplicateAlert;
+    }
+
+    public String getDuplicateData() {
+        return duplicateData;
+    }
+
+    public void setDuplicateData(String duplicateData) {
+        this.duplicateData = duplicateData;
     }
 }

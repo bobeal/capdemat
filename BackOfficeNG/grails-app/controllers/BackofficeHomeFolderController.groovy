@@ -9,6 +9,7 @@ import fr.cg95.cvq.service.users.IUserService
 import fr.cg95.cvq.service.users.IUserSearchService
 import fr.cg95.cvq.service.users.IUserWorkflowService
 import fr.cg95.cvq.service.users.IUserSecurityService
+import fr.cg95.cvq.service.users.IUserDeduplicationService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.business.users.*
 import fr.cg95.cvq.business.QoS
@@ -26,6 +27,8 @@ import org.apache.xmlbeans.XmlException
 import org.apache.xmlbeans.XmlOptions
 
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
+import org.codehaus.groovy.grails.web.json.JSONArray
+import org.codehaus.groovy.grails.web.json.JSONObject
 
 class BackofficeHomeFolderController {
 
@@ -33,6 +36,7 @@ class BackofficeHomeFolderController {
     IUserService userService
     IUserSearchService userSearchService
     IUserWorkflowService userWorkflowService
+    IUserDeduplicationService userDeduplicationService
     IRequestSearchService requestSearchService
     IPaymentService paymentService
     IMeansOfContactService meansOfContactService
@@ -90,11 +94,28 @@ class BackofficeHomeFolderController {
         def result = [:]
         result.homeFolder = homeFolder
         result.homeFolderResponsible = userSearchService.getHomeFolderResponsible(homeFolder.id)
+        if (result.homeFolderResponsible.duplicateAlert) {
+            result.homeFolderDuplicates = [:]
+            def duplicates = JSON.parse(result.homeFolderResponsible.duplicateData)
+            duplicates.each { homeFolderId, values ->
+                result.homeFolderDuplicates[homeFolderId] = [:]
+                values.each { 
+                    if (it.key == 'rank')
+                        result.homeFolderDuplicates[homeFolderId][it.key] = Long.valueOf(it.value)
+                    else
+                        result.homeFolderDuplicates[homeFolderId][it.key] = it.value
+                }
+                result.homeFolderDuplicates[homeFolderId]['otherDuplicates'] = 
+                    userDeduplicationService.getHomeFolderDuplicates(homeFolder.id, Long.valueOf(homeFolderId))
+                result.homeFolderDuplicates[homeFolderId]['otherDuplicates'].remove(result.homeFolderResponsible.fullName)
+                result.homeFolderDuplicates[homeFolderId]['duplicateResponsibleData'] = userSearchService.getHomeFolderResponsible(Long.valueOf(homeFolderId))
+            }
+        }
         result.adults = adults.findAll{it.id != result.homeFolderResponsible.id}
         result.children = children
         result.homeFolderState = homeFolder.state.toString().toLowerCase()
         result.homeFolderStatus = homeFolder.enabled ? 'enable' : 'disable'
-        def isValidable=false
+        def isValidable = false
         if(homeFolder.state.equals(UserState.NEW) || homeFolder.state.equals(UserState.MODIFIED)) {
             isValidable=true
         }
@@ -231,6 +252,15 @@ class BackofficeHomeFolderController {
             def homeFolder = userSearchService.getHomeFolderById(Long.parseLong(params.id));
             userWorkflowService.validateHomeFolder(homeFolder);
             redirect(action: 'details',id: params.id)
+    }
+
+    def processDuplicate = {
+        if (params.ignore) {
+            userDeduplicationService.removeDuplicate(params.long('homeFolderId'), params.long('targetHomeFolderId'))
+        } else if (params.merge) {
+            userDeduplicationService.mergeDuplicate(params.long('homeFolderId'), params.long('targetHomeFolderId'))
+        }
+        redirect(action:'details', params:['id': params.homeFolderId])
     }
 
     def address = {
@@ -485,6 +515,7 @@ class BackofficeHomeFolderController {
         mapper.homeFolderId = Critere.EQUALS
         mapper.homeFolderState = Critere.EQUALS 
         mapper.isHomeFolderResponsible = Critere.EQUALS
+        mapper.isDuplicateAlert = Critere.EQUALS
         mapper.userState = Critere.EQUALS
         Set<Critere> criterias = new LinkedHashSet<Critere>()
         
@@ -540,6 +571,23 @@ class BackofficeHomeFolderController {
             'state': state,
             'records' : userSearchService.listTasks(QoS.forString(params.qoS), 0),
             'count' : userSearchService.countTasks(QoS.forString(params.qoS)),
+            'max': 100,
+            'homeFolderStates': buildHomeFolderStateFilter(),
+            'currentSiteName': SecurityContext.currentSite.name,
+            'homeFolderStatus' : buildHomeFolderStatusFilter(),
+            'pageState' : (new JSON(state)).toString().encodeAsHTML(),
+            'offset' : 0
+        ]);
+    }
+
+    def listDuplicates = {
+        def state = ['isDuplicateAlert': true]
+
+        // TODO deal with pagination
+        render(view : 'search', model: [
+            'state': state,
+            'records' : userSearchService.listDuplicates(-1),
+            'count' : userSearchService.countDuplicates(),
             'max': 100,
             'homeFolderStates': buildHomeFolderStateFilter(),
             'currentSiteName': SecurityContext.currentSite.name,

@@ -76,6 +76,16 @@
             </ul>
           </div>
 
+          <div class="tasks duplicates">
+            <h2>
+              <strong class="toggle"><g:message code="tasks.header.duplicates" /> (${taskMap.aboutIndividuals.duplicates.count})</strong>
+              <a href="${createLink(controller : 'backofficeHomeFolder', action : 'listDuplicates')}" ><g:message code="action.seeAll" /></a>
+            </h2>
+            <ul class="${taskMap.aboutIndividuals.duplicates.count > 0 ? '' : 'collapse'}">
+              <g:render template="individualEntry" var="record" collection="${taskMap.aboutIndividuals.duplicates.all}" />
+            </ul>
+          </div>
+
       </div>
     </div>
 

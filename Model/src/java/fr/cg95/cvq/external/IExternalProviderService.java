@@ -34,6 +34,9 @@ public interface IExternalProviderService extends IWorkflowEventVisitor{
         throws CvqException;
 
     void sendRequest(final Request request) throws CvqException;
+
+    void sendMergedHomeFolder(XmlObject xmlObject) throws CvqException;
+
     /**
      * Get consumptions for a specific request.
      *

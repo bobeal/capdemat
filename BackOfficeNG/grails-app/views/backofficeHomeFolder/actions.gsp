@@ -71,6 +71,10 @@
           <dt>${message(code : "contact.property.note")}</dt>
           <dd>${action.note}</dd>
         </g:if>
+        <g:if test="${action.merge}">
+          <dt>${message(code : "property.target")}</dt>
+          <dd>${action.merge}</dd>
+        </g:if>
       </dl>
     </li>
   </g:each>

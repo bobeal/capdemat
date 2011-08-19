@@ -39,6 +39,54 @@
           <h1>${message(code:'homeFolder.header.details', args:[params.id])}</h1>
         </div>
 
+        <g:if test="${homeFolderResponsible.duplicateAlert}">
+          <div id="duplicates" class="mainbox">
+            <h2><g:message code="homeFolder.message.duplicateAlert" /></h2>
+
+            <h3><g:message code="homeFolder.message.duplicate.actions" /></h3>
+            <ul>
+                <li><g:message code="action.merge" /> : <g:message code="homeFolder.message.duplicate.merge" /></li>
+                <li><g:message code="action.ignore" /> : <g:message code="homeFolder.message.duplicate.ignore" /></li>
+            </ul>
+            <g:each in="${homeFolderDuplicates}" var="duplicate">
+              <div class="yui-g duplicate">
+                <div class="yui-u first">
+                  <h4>
+                    <g:message code="homeFolder.message.duplicate.homeFolderId" /> ${duplicate.key}
+                    <span>(<a href="${createLink(controller: 'backofficeHomeFolder',action:'details', id : duplicate.key)}"><g:message code="homeFolder.header.goToAccount" /></a>)</span>
+                  </h4>
+                  <dl>
+                    <dd class="duplicateData">${duplicate.value['duplicateResponsibleData'].firstName} ${duplicate.value['duplicateResponsibleData'].lastName}</dd>
+                    <dd ${duplicate.value['streetName'] != null ? 'class=\"duplicateData\"' : ''}>${duplicate.value['duplicateResponsibleData'].address.streetName}</dd>
+                    <dd ${duplicate.value['email'] != null ? 'class=\"duplicateData\"' : ''}>${duplicate.value['duplicateResponsibleData'].email}</dd>
+                  </dl>
+
+                  </h4><g:message code="homeFolder.message.otherDuplicates" /> : ${duplicate.value['otherDuplicates'].size()}</h4>
+                  <ul>
+                    <g:each in="${duplicate.value['otherDuplicates']}" var="otherDuplicate">
+                      <li>${otherDuplicate}</li>
+                    </g:each>
+                  </ul>
+                </div>
+
+                <div class="yui-u txt-right">
+                  <g:while test="${duplicate.value['rank'] > 0}">
+                    <img src="${createLinkTo(dir:'images/icons',file:'16-star.png')}" alt="${message(code:'homeFolder.label.rank')}" />
+                    <%duplicate.value['rank']--%>
+                  </g:while>
+                  <br />
+                  <form id="ignoreDuplicate" method="post" action="${g.createLink(action:'processDuplicate')}" style="float: right">
+                    <input type="submit" name="ignore" value="${message(code:'action.ignore')}" />
+                    <input type="submit" name="merge" value="${message(code:'action.merge')}" />
+                    <input type="hidden" name="targetHomeFolderId" value="${duplicate.key}" />
+                    <input type="hidden" name="homeFolderId" value="${homeFolder.id}" />
+                  </form>
+                </div>
+              </div>
+            </g:each>
+          </div>
+        </g:if>
+
         <div id="homeFolder" class="mainbox mainbox-yellow">
           <h2>${message(code:'homeFolder.search.isHomeFolderResponsible')}</h2>
 

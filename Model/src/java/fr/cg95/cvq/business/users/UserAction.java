@@ -28,7 +28,9 @@ public class UserAction {
         STATE_CHANGE("StateChange"),
         QoS("QoS"),
         CONTACT("Contact"),
-        DELETION("Deletion");
+        DELETION("Deletion"),
+        MERGE("Merge"),
+        MOVE("Move");
 
         private String name;
         private Type(String type) { this.name = type; }

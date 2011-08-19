@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request.external.impl;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -20,6 +21,13 @@ import org.apache.xmlbeans.XmlObject;
 import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Async;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
+import fr.capwebct.capdemat.HomeFolderMergeRequestDocument;
+import fr.capwebct.capdemat.MergedIndividualType;
+import fr.capwebct.capdemat.HomeFolderMergeRequestDocument.HomeFolderMergeRequest;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestState;
@@ -56,6 +64,7 @@ import fr.cg95.cvq.service.request.external.IRequestExternalService;
 import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 import fr.cg95.cvq.util.Critere;
+import fr.cg95.cvq.util.JSONUtils;
 import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.util.translation.ITranslationService;
 import fr.cg95.cvq.xml.common.HomeFolderType;
@@ -430,7 +439,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
         if (homeFolder == null)
             homeFolder = userSearchService.getById(event.getAction().getTargetId()).getHomeFolder();
         if (homeFolder == null) {
-            logger.debug("onApplicationEvent() got an event for a non-existent user ID : "
+            logger.warn("onApplicationEvent() got an event for a non-existent user ID : "
                     + event.getAction().getTargetId());
             return;
         }
@@ -497,6 +506,91 @@ public class RequestExternalService extends ExternalService implements IRequestE
                     }
                 } catch (CvqException ex) {
                     throw new RuntimeException(ex);
+                }
+            }
+        } else if (UserAction.Type.MERGE.equals(event.getAction().getType())) {
+            
+            HomeFolder originHomeFolder = 
+                userSearchService.getHomeFolderById(event.getAction().getTargetId());
+            if (originHomeFolder == null) {
+                logger.debug("onApplicationEvent() ignoring MERGE event on individual, waiting for home folder");
+                return;
+            }
+
+            List<HomeFolderMapping> mappings = 
+              externalHomeFolderService.getHomeFolderMappings(originHomeFolder.getId());
+            if (mappings == null || mappings.isEmpty()) {
+                logger.debug("onApplicationEvent() merged home folder has no mapping, returning");
+                return;
+            }
+
+            JsonObject jsonObject = JSONUtils.deserialize(event.getAction().getData());
+            Gson gson = new Gson();
+            Type type = new TypeToken<Map<Long, Long>>() {}.getType();
+            Map<Long, Long> merged = gson.fromJson(jsonObject.get("mergedIndividuals").getAsString(), type);
+
+            Long targetHomeFolderId = jsonObject.get("merge").getAsLong();
+            for (HomeFolderMapping originMapping : mappings) {
+
+                String externalServiceLabel = originMapping.getExternalServiceLabel();
+                HomeFolderMapping targetMapping = 
+                    externalHomeFolderService.getHomeFolderMapping(externalServiceLabel, targetHomeFolderId);
+                if (targetMapping == null) {
+                    logger.debug("onApplicationEvent() creating a new HF mapping for " + externalServiceLabel
+                            + " and " + targetHomeFolderId);
+                    targetMapping = new HomeFolderMapping(externalServiceLabel, targetHomeFolderId, null);
+                    targetMapping.setExternalCapDematId(originMapping.getExternalCapDematId());
+                    for (IndividualMapping originIndMapping : originMapping.getIndividualsMappings()) {
+                        Long targetIndividualId = merged.get(originIndMapping.getIndividualId()) != null ? 
+                                merged.get(originIndMapping.getIndividualId()) : originIndMapping.getIndividualId();
+                        IndividualMapping targetIndMapping = 
+                            new IndividualMapping(targetIndividualId, null, targetMapping);
+                        targetIndMapping.setExternalCapDematId(originIndMapping.getExternalCapDematId());
+                        targetMapping.getIndividualsMappings().add(targetIndMapping);
+                    }
+
+                    externalHomeFolderService.createHomeFolderMapping(targetMapping);
+
+                } else {
+                    HomeFolderMergeRequestDocument hfmrDocument = 
+                        HomeFolderMergeRequestDocument.Factory.newInstance();
+                    HomeFolderMergeRequest hfmrRequest = hfmrDocument.addNewHomeFolderMergeRequest();
+                    hfmrRequest.setOriginHomeFolderExternalCapDematId(originMapping.getExternalCapDematId());
+                    hfmrRequest.setTargetHomeFolderExternalCapDematId(targetMapping.getExternalCapDematId());
+
+                    for (IndividualMapping originIndMapping : originMapping.getIndividualsMappings()) {
+                        MergedIndividualType mergedIndividual = hfmrRequest.addNewMergedIndividual();
+                        mergedIndividual.setOriginIndividualExternalCapDematId(originIndMapping.getExternalCapDematId());
+                        Long targetIndividualId = merged.get(originIndMapping.getIndividualId()) != null ? 
+                                merged.get(originIndMapping.getIndividualId()) : originIndMapping.getIndividualId();
+                        IndividualMapping targetIndMapping = 
+                            externalHomeFolderService.getIndividualMapping(targetMapping, targetIndividualId);
+                        if (targetIndMapping != null) {
+                            logger.debug("onApplicationEvent() already a mapping for " + targetIndividualId 
+                                    + " in " + targetHomeFolderId);
+                            mergedIndividual.setTargetIndividualExternalCapDematId(targetIndMapping.getExternalCapDematId());
+                            continue;
+                            
+                        }
+
+                        targetIndMapping = new IndividualMapping(targetIndividualId, null, targetMapping);
+                        targetIndMapping.setExternalCapDematId(originIndMapping.getExternalCapDematId());
+                        targetMapping.getIndividualsMappings().add(targetIndMapping);
+
+                        // even if no change in externalCapDematId, notify anyway
+                        mergedIndividual.setTargetIndividualExternalCapDematId(originIndMapping.getExternalCapDematId());
+                    }
+
+                    externalHomeFolderService.modifyHomeFolderMapping(targetMapping);
+                    
+                    IExternalProviderService externalProviderService =
+                        getExternalServiceByLabel(externalServiceLabel);
+                    try {
+                        externalProviderService.sendMergedHomeFolder(hfmrDocument);
+                    } catch (CvqException e) {
+                        throw new RuntimeException();
+                    }
+                    
                 }
             }
         }

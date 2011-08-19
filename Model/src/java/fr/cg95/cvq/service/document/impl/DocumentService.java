@@ -21,6 +21,7 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.util.PDFMergerUtility;
 import org.springframework.context.ApplicationListener;
 
+import com.google.gson.JsonObject;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.PdfDictionary;
 import com.lowagie.text.pdf.PdfName;
@@ -57,6 +58,7 @@ import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.users.IUserSearchService;
+import fr.cg95.cvq.util.JSONUtils;
 import fr.cg95.cvq.util.translation.ITranslationService;
 
 /**
@@ -181,8 +183,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     }
 
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
-    public void modify(final Document document)
-    throws CvqException {
+    public void modify(final Document document) {
 
         if (document == null)
             return;
@@ -577,6 +578,31 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
                 logger.debug("onApplicationEvent() deleting documents of home folder "
                     + event.getAction().getTargetId());
                 deleteHomeFolderDocuments(event.getAction().getTargetId());
+            }
+        } else if (UserAction.Type.MERGE.equals(event.getAction().getType())) {
+            if (userSearchService.getHomeFolderById(event.getAction().getTargetId()) != null) {
+                JsonObject payload = JSONUtils.deserialize(event.getAction().getData());
+                Long targetHomeFolderId = payload.get("merge").getAsLong();
+                logger.debug("onApplicationEvent() moving document of home folder "
+                        + event.getAction().getTargetId() + " to " + targetHomeFolderId);
+                for (Document document : getHomeFolderDocuments(event.getAction().getTargetId(), -1)) {
+                    document.setHomeFolderId(targetHomeFolderId);
+                    modify(document);
+                }
+            } else {
+                Long individualId = event.getAction().getTargetId();
+                Long homeFolderId = userSearchService.getById(individualId).getHomeFolder().getId();
+                Long targetIndividualId = JSONUtils.deserialize(event.getAction().getData()).get("merge").getAsLong();
+                for (Document document : getHomeFolderDocuments(homeFolderId, -1)) {
+                    if (document.getIndividualId() != null && document.getIndividualId().equals(individualId))
+                        document.setIndividualId(targetIndividualId);
+                    if (document.getDepositId().equals(individualId))
+                        document.setDepositId(targetIndividualId);
+                    for (DocumentAction documentAction : document.getActions()) {
+                        if (documentAction.getUserId().equals(individualId))
+                            documentAction.setUserId(targetIndividualId);
+                    }
+                }
             }
         }
     }

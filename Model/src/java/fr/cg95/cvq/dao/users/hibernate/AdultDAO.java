@@ -52,4 +52,33 @@ public class AdultDAO extends IndividualDAO implements IAdultDAO {
         );
         return q.setProperties(parameters).list();
     }
+
+    @Override
+    public List<Adult> findDuplicates(Map<String,String> parameters) {
+        Query q = HibernateUtil.getSession().createQuery(
+                "from Adult a where" +
+                    " (lower(a.firstName) = lower(:firstName) and lower(a.lastName) = lower(:lastName))" +
+                    " and ( lower(a.email) = lower(:email) " +
+                    " or lower(:address) like '%'|| lower(a.address.streetName) || '%' )"
+        );
+
+        return q.setProperties(parameters).list();
+    }
+
+    @Override
+    public Long countDuplicates() {
+        return (Long)HibernateUtil.getSession()
+            .createQuery("select count(*) from Adult a where a.duplicateAlert is true and homeFolder != null")
+            .iterate().next();
+    }
+
+    @Override
+    public List<Adult> listDuplicates(int max) {
+        Query query = HibernateUtil.getSession()
+            .createQuery("from Adult a where a.duplicateAlert is true and homeFolder != null " + 
+                    "and homeFolder.temporary is false order by a.lastModificationDate");
+        if (max > 0)
+            query.setMaxResults(max);
+        return query.list();
+    }
 }

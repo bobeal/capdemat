@@ -63,6 +63,23 @@
           <span id="requestTypeLabel">${requestTypeLabel}</span>
         </div>
 
+        <g:if test="${requester.duplicateAlert}">
+          <div id="duplicates" class="mainbox">
+            <h2><g:message code="request.message.duplicateAlert" /></h2>
+
+            <h3><g:message code="request.message.duplicate.informations.label" /></h3>
+            <p><g:message code="request.message.duplicate.informations.desc" /></p>
+
+            <h3><g:message code="request.message.duplicate.actions.label" /></h3>
+            <p><g:message code="request.message.duplicate.actions.desc" /></p>
+            <p>
+                <a href="${createLink(controller: 'backofficeHomeFolder',action:'details', id : requester.homeFolder.id)}">
+                    <g:message code="request.action.viewHomeFolderDetails" />
+                </a>
+            </p>
+          </div>
+        </g:if>
+
         <!-- request data template selection by request type -->
         <g:render template="/backofficeRequestInstruction/requestType/${requestTypeTemplate}/edit" 
                   model="['rqt':rqt, 'requester':requester, 'lrTypes': lrTypes]" />

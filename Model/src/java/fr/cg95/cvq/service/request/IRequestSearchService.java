@@ -5,10 +5,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-import fr.cg95.cvq.business.QoS;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
-import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.annotation.IsUser;
@@ -46,8 +44,7 @@ public interface IRequestSearchService {
     /**
      * Get all requests belonging to the given home folder.
      */
-    List<Request> getByHomeFolderId(@IsUser final Long homeFolderId, final boolean full)
-        throws CvqException, CvqObjectNotFoundException;
+    List<Request> getByHomeFolderId(@IsUser final Long homeFolderId, final boolean full);
 
     /**
      * Get all requests of the given type belonging to the given home folder.

@@ -58,6 +58,10 @@ class BackofficeTasksController {
             'good' : [
                 'count' : userSearchService.countTasks(QoS.GOOD),
                 'all' : userSearchService.listTasks(QoS.GOOD, tasksShownNb)
+            ],
+            'duplicates' : [
+                'count' : userSearchService.countDuplicates(),
+                'all' : userSearchService.listDuplicates(tasksShownNb)
             ]
         ]
 

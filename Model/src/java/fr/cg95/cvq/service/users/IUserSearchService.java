@@ -21,6 +21,8 @@ public interface IUserSearchService extends IAutofillTriggerService {
 
     Integer getCount(Set<Critere> criterias);
 
+    List<Adult> match(final Set<Critere> criteriaSet);
+
     @Override
     Individual getById(@IsUser Long id);
 
@@ -35,6 +37,10 @@ public interface IUserSearchService extends IAutofillTriggerService {
     List<Individual> listTasks(QoS qoS, int max);
 
     Long countTasks(QoS qoS);
+
+    List<Adult> listDuplicates(int max);
+
+    Long countDuplicates();
 
     Adult getHomeFolderResponsible(@IsUser Long homeFolderId);
 

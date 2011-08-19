@@ -13,6 +13,7 @@
 .mainbox p { margin-bottom :.5em; }
 
 .mainbox-yellow,
+.mainbox-orange
 .mainbox-blue      { border-top: 1px solid; border-bottom: 1px solid; }
 
 /* mainbox yellow */
@@ -25,5 +26,11 @@
 .mainbox-blue      { border-color: #C1CFE2; background: #F3F8FF; }
 .mainbox-blue h2,
 .mainbox-blue h3   { border-color: #C1CFE2 !important; }
+
+/* mainbox orange */
+.mainbox-orange    { border-color: #ec7000; background: #ff9999; }
+.mainbox-orange h2,
+.mainbox-orange h3 { border-color: #ec7000 !important; }
+.mainbox-orange hr { border: 0; border-top: 1px dashed #ec7000; }
 
 .mainbox p.message { margin-left : 1em; }

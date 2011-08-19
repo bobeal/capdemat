@@ -11,6 +11,7 @@
 .tasks.blue h2 { color: #2020cc; border-color: #2020cc !important; }
 .tasks.green h2 { color: #20aa20; border-color: #20aa20 !important; }
 .tasks.orange h2 { color: #ec7000; border-color: #ec7000 !important; }
+.tasks.duplicates h2 { color: #a64d79; border-color: #a64d79 !important; }
 
 .tasks h2 strong {cursor: pointer; }
 .tasks h2 a { float: right; font-size:.75em; color: #333; text-decoration:none; }
@@ -36,3 +37,6 @@
 
 .tasks.blue li a { color: #2020cc; }
 .tasks.blue li a:hover { background: #2020cc; }
+
+.tasks.duplicates li a { color: #a64d79; }
+.tasks.duplicates li a:hover { background: #a64d79; }

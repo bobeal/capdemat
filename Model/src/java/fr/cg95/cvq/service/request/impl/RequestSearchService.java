@@ -67,7 +67,7 @@ public class RequestSearchService implements IRequestSearchService, BeanFactoryA
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public List<Request> getByHomeFolderId(final Long homeFolderId, final boolean full) throws CvqException {
+    public List<Request> getByHomeFolderId(final Long homeFolderId, final boolean full) {
 
         return requestDAO.listByHomeFolder(homeFolderId, full);
     }

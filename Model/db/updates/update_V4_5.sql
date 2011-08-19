@@ -20,6 +20,13 @@ create table bafa_grant_request (
     primary key (id)
 );
 
+create table bank_account (
+    id int8 not null,
+    bic varchar(255) not null,
+    iban varchar(255) not null,
+    primary key (id)
+);
+
 alter table bafa_grant_request 
     add constraint FK50AFA827681FBDDD 
     foreign key (internship_institute_address_id) 
@@ -34,13 +41,6 @@ alter table bafa_grant_request
     add constraint FK50AFA827A4AB2F89 
     foreign key (bank_account_id) 
     references bank_account;
-
-create table bank_account (
-    id int8 not null,
-    bic varchar(255) not null,
-    iban varchar(255) not null,
-    primary key (id)
-);
 
 
 -- only needed for CG77's platform

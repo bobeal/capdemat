@@ -110,6 +110,9 @@ class BackofficeRequestController {
             critere.value = RequestState.ARCHIVED
             criteria.add(critere)
         }
+        // in all cases, do not display draft requests
+        criteria.add(new Critere(Request.SEARCH_BY_STATE, RequestState.DRAFT,
+            Critere.NEQUALS))
         
         // deal with dynamic sorts
         def sortBy = defaultSortBy

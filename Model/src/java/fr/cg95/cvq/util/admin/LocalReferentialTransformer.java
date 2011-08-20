@@ -55,7 +55,7 @@ public class LocalReferentialTransformer {
             String serviceFileName = service.getLocalReferentialFilename();
             if (serviceFileName != null) {
                 logger.info("Migrating " + service.getLabel() + " local referential…");
-                File file = laRegistry.getLocalAuthorityResourceFileForLocalAuthority(siteName, Type.LOCAL_REFERENTIAL, serviceFileName, true);
+                File file = laRegistry.getLocalAuthorityResourceFileForLocalAuthority(siteName, Type.LOCAL_REFERENTIAL, serviceFileName, false);
                 
                 if (file == null) {
                     logger.warn("No existing local referential for " + service.getLabel() + ", going to the next");
@@ -175,9 +175,9 @@ public class LocalReferentialTransformer {
                     return lrts;
                 }
             } catch (XmlException ex) {
-                logger.error("Unable to parse XML file: " + file.getAbsolutePath(), ex);
+                logger.error("Unable to parse XML file: " + file.getAbsolutePath());
             } catch (IOException ex) {
-                logger.error("Unable to read file: " + file.getAbsolutePath(), ex);
+                logger.error("Unable to read file: " + file.getAbsolutePath());
             }
             return null;
         }

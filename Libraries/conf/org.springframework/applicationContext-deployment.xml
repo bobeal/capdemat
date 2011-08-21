@@ -162,7 +162,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="localAuthorityRegistry"
     class="fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry" init-method="init">
     <property name="localAuthorityDAO" ref="localAuthorityDAO" />
-    <property name="requestActionDAO" ref="requestActionDAO" />
     <property name="genericDAO" ref="genericDAO" />
     <property name="referentialBase" value="${referential.properties.path}" />
     <property name="assetsBase" value="${assets.properties.path}" />

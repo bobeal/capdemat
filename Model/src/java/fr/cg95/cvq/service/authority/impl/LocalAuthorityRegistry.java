@@ -14,7 +14,6 @@ import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -32,7 +31,6 @@ import javax.persistence.Persistence;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.hibernate.SessionFactory;
 import org.hibernate.ejb.HibernateEntityManager;
 import org.joda.time.DateMidnight;
 import org.joda.time.Interval;
@@ -48,7 +46,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.Resource;
-import org.springframework.orm.hibernate3.LocalSessionFactoryBean;
 
 import zdb.core.Store;
 
@@ -61,10 +58,8 @@ import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Version;
 import fr.cg95.cvq.business.users.UserSecurityProfile;
 import fr.cg95.cvq.dao.authority.ILocalAuthorityDAO;
-import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.dao.jpa.JpaUtil;
-import fr.cg95.cvq.dao.request.IRequestActionDAO;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -115,7 +110,6 @@ public class LocalAuthorityRegistry
     private ILocalAuthorityDAO localAuthorityDAO;
     private IAgentService agentService;
     private IUserSecurityService userSecurityService;
-    private IRequestActionDAO requestActionDAO;
     private IGenericDAO genericDAO;
 
     private ListableBeanFactory beanFactory;
@@ -195,7 +189,7 @@ public class LocalAuthorityRegistry
     @Override
     @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public void saveLocalAuthority(LocalAuthority localAuthority) {
-        localAuthorityDAO.saveOrUpdate(localAuthority);
+        localAuthorityDAO.update(localAuthority);
     }
 
     @Override
@@ -976,10 +970,6 @@ public class LocalAuthorityRegistry
 
     public void setUserSecurityService(IUserSecurityService userSecurityService) {
         this.userSecurityService = userSecurityService;
-    }
-
-    public void setRequestActionDAO(IRequestActionDAO requestActionDAO) {
-        this.requestActionDAO = requestActionDAO;
     }
 
     public void setGenericDAO(IGenericDAO genericDAO) {

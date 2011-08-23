@@ -110,7 +110,7 @@ clean-tests
     <target name="clean" depends="init">
         <delete>
             <fileset dir="${basedir}">
-                <include name="${application.name}-admin-${application.version}*.zip" />
+                <include name="${application.name}-admin-*.zip" />
             </fileset>
         </delete>
         <delete dir="${basedir}/${build.dir}" />

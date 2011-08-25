@@ -211,6 +211,56 @@ UPDATE adult SET title = 'MADAM'  Where title = 'Madam';
 UPDATE adult SET title = 'MISS'  Where title = 'Miss';
 UPDATE adult SET title = 'AGENCY'  Where title = 'Agency';
 UPDATE adult SET title = 'UNKNOWN'  Where title = 'Unknown';
+
+
+UPDATE military_census_request SET child_title = 'MISTER'  Where child_title = 'Mister';
+UPDATE military_census_request SET child_title = 'MADAM'  Where child_title = 'Madam';
+UPDATE military_census_request SET child_title = 'MISS'  Where child_title = 'Miss';
+UPDATE military_census_request SET child_title = 'AGENCY'  Where child_title = 'Agency';
+UPDATE military_census_request SET child_title = 'UNKNOWN'  Where child_title = 'Unknown';
+
+
+UPDATE study_grant_request SET account_holder_title = 'MISTER'  Where account_holder_title = 'Mister';
+UPDATE study_grant_request SET account_holder_title = 'MADAM'  Where account_holder_title = 'Madam';
+UPDATE study_grant_request SET account_holder_title = 'MISS'  Where account_holder_title = 'Miss';
+UPDATE study_grant_request SET account_holder_title = 'AGENCY'  Where account_holder_title = 'Agency';
+UPDATE study_grant_request SET account_holder_title = 'UNKNOWN'  Where account_holder_title = 'Unknown';
+
+
+UPDATE bafa_grant_request SET account_holder_title = 'MISTER'  Where account_holder_title = 'Mister';
+UPDATE bafa_grant_request SET account_holder_title = 'MADAM'  Where account_holder_title = 'Madam';
+UPDATE bafa_grant_request SET account_holder_title = 'MISS'  Where account_holder_title = 'Miss';
+UPDATE bafa_grant_request SET account_holder_title = 'AGENCY'  Where account_holder_title = 'Agency';
+UPDATE bafa_grant_request SET account_holder_title = 'UNKNOWN'  Where account_holder_title = 'Unknown';
+
+
+UPDATE domestic_help_request SET dhr_spouse_title = 'MISTER'  Where dhr_spouse_title = 'Mister';
+UPDATE domestic_help_request SET dhr_spouse_title = 'MADAM'  Where dhr_spouse_title = 'Madam';
+UPDATE domestic_help_request SET dhr_spouse_title = 'MISS'  Where dhr_spouse_title = 'Miss';
+UPDATE domestic_help_request SET dhr_spouse_title = 'AGENCY'  Where dhr_spouse_title = 'Agency';
+UPDATE domestic_help_request SET dhr_spouse_title = 'UNKNOWN'  Where dhr_spouse_title = 'Unknown';
+
+
+UPDATE handicap_compensation_adult_request SET subject_title = 'MISTER'  Where subject_title = 'Mister';
+UPDATE handicap_compensation_adult_request SET subject_title = 'MADAM'  Where subject_title = 'Madam';
+UPDATE handicap_compensation_adult_request SET subject_title = 'MISS'  Where subject_title = 'Miss';
+UPDATE handicap_compensation_adult_request SET subject_title = 'AGENCY'  Where subject_title = 'Agency';
+UPDATE handicap_compensation_adult_request SET subject_title = 'UNKNOWN'  Where subject_title = 'Unknown';
+
+
+UPDATE handicap_compensation_child_request SET referent_title = 'MISTER'  Where referent_title = 'Mister';
+UPDATE handicap_compensation_child_request SET referent_title = 'MADAM'  Where referent_title = 'Madam';
+UPDATE handicap_compensation_child_request SET referent_title = 'MISS'  Where referent_title = 'Miss';
+UPDATE handicap_compensation_child_request SET referent_title = 'AGENCY'  Where referent_title = 'Agency';
+UPDATE handicap_compensation_child_request SET referent_title = 'UNKNOWN'  Where referent_title = 'Unknown';
+
+
+UPDATE remote_support_request SET spouse_title = 'MISTER'  Where spouse_title = 'Mister';
+UPDATE remote_support_request SET spouse_title = 'MADAM'  Where spouse_title = 'Madam';
+UPDATE remote_support_request SET spouse_title = 'MISS'  Where spouse_title = 'Miss';
+UPDATE remote_support_request SET spouse_title = 'AGENCY'  Where spouse_title = 'Agency';
+UPDATE remote_support_request SET spouse_title = 'UNKNOWN'  Where spouse_title = 'Unknown';
+
 -----------------;
 -- AncrRequesterQualityType;
 -----------------;
@@ -421,6 +471,46 @@ UPDATE adult SET family_status = 'COMMON_LAW_MARRIAGE'  Where family_status = 'C
 UPDATE adult SET family_status = 'PACS'  Where family_status = 'PACS';
 UPDATE adult SET family_status = 'OTHER'  Where family_status = 'Other';
 UPDATE adult SET family_status = 'SEPARATED'  Where family_status = 'Separated';
+
+
+UPDATE military_census_request SET child_status = 'SINGLE'  Where child_status = 'Single';
+UPDATE military_census_request SET child_status = 'DIVORCED'  Where child_status = 'Divorced';
+UPDATE military_census_request SET child_status = 'WIDOW'  Where child_status = 'Widow';
+UPDATE military_census_request SET child_status = 'MARRIED'  Where child_status = 'Married';
+UPDATE military_census_request SET child_status = 'COMMON_LAW_MARRIAGE'  Where child_status = 'CommonLawMarriage';
+UPDATE military_census_request SET child_status = 'PACS'  Where child_status = 'PACS';
+UPDATE military_census_request SET child_status = 'OTHER'  Where child_status = 'Other';
+UPDATE military_census_request SET child_status = 'SEPARATED'  Where child_status = 'Separated';
+
+UPDATE domestic_help_request SET dhr_spouse_family_status = 'SINGLE'  Where dhr_spouse_family_status = 'Single';
+UPDATE domestic_help_request SET dhr_spouse_family_status = 'DIVORCED'  Where dhr_spouse_family_status = 'Divorced';
+UPDATE domestic_help_request SET dhr_spouse_family_status = 'WIDOW'  Where dhr_spouse_family_status = 'Widow';
+UPDATE domestic_help_request SET dhr_spouse_family_status = 'MARRIED'  Where dhr_spouse_family_status = 'Married';
+UPDATE domestic_help_request SET dhr_spouse_family_status = 'COMMON_LAW_MARRIAGE'  Where dhr_spouse_family_status = 'CommonLawMarriage';
+UPDATE domestic_help_request SET dhr_spouse_family_status = 'PACS'  Where dhr_spouse_family_status = 'PACS';
+UPDATE domestic_help_request SET dhr_spouse_family_status = 'OTHER'  Where dhr_spouse_family_status = 'Other';
+UPDATE domestic_help_request SET dhr_spouse_family_status = 'SEPARATED'  Where dhr_spouse_family_status = 'Separated';
+
+
+UPDATE handicap_compensation_adult_request SET family_status = 'SINGLE'  Where family_status = 'Single';
+UPDATE handicap_compensation_adult_request SET family_status = 'DIVORCED'  Where family_status = 'Divorced';
+UPDATE handicap_compensation_adult_request SET family_status = 'WIDOW'  Where family_status = 'Widow';
+UPDATE handicap_compensation_adult_request SET family_status = 'MARRIED'  Where family_status = 'Married';
+UPDATE handicap_compensation_adult_request SET family_status = 'COMMON_LAW_MARRIAGE'  Where family_status = 'CommonLawMarriage';
+UPDATE handicap_compensation_adult_request SET family_status = 'PACS'  Where family_status = 'PACS';
+UPDATE handicap_compensation_adult_request SET family_status = 'OTHER'  Where family_status = 'Other';
+UPDATE handicap_compensation_adult_request SET family_status = 'SEPARATED'  Where family_status = 'Separated';
+
+
+UPDATE handicap_compensation_child_request SET referent_family_status = 'SINGLE'  Where referent_family_status = 'Single';
+UPDATE handicap_compensation_child_request SET referent_family_status = 'DIVORCED'  Where referent_family_status = 'Divorced';
+UPDATE handicap_compensation_child_request SET referent_family_status = 'WIDOW'  Where referent_family_status = 'Widow';
+UPDATE handicap_compensation_child_request SET referent_family_status = 'MARRIED'  Where referent_family_status = 'Married';
+UPDATE handicap_compensation_child_request SET referent_family_status = 'COMMON_LAW_MARRIAGE'  Where referent_family_status = 'CommonLawMarriage';
+UPDATE handicap_compensation_child_request SET referent_family_status = 'PACS'  Where referent_family_status = 'PACS';
+UPDATE handicap_compensation_child_request SET referent_family_status = 'OTHER'  Where referent_family_status = 'Other';
+UPDATE handicap_compensation_child_request SET referent_family_status = 'SEPARATED'  Where referent_family_status = 'Separated';
+
 -----------------;
 -- RequestStep;
 -----------------;
@@ -2834,4 +2924,15 @@ UPDATE school_registration_request SET current_section = 'C_M1'  Where current_s
 UPDATE school_registration_request SET current_section = 'C_M2'  Where current_section = 'CM2';
 UPDATE school_registration_request SET current_section = 'C_L_I_S_S'  Where current_section = 'CLISS';
 UPDATE school_registration_request SET current_section = 'UNKNOWN'  Where current_section = 'Unknown';
+
+--------------------
+--HcarDwellingKindType
+--------------------
+
+UPDATE handicap_compensation_adult_request SET dwelling_kind = 'PLACE_OF_RESIDENCE' where dwelling_kind = 'PlaceOfResidence';
+UPDATE handicap_compensation_adult_request SET dwelling_kind = 'THIRD_PARTY_PLACE_OF_RESIDENCE' where dwelling_kind = 'ThirdPartyPlaceOfResidence';
+UPDATE handicap_compensation_adult_request SET dwelling_kind = 'OTHER' where dwelling_kind = 'Other';
+
+UPDATE request_form set type = 'REQUEST_CERTIFICAT' where type = 'Request Certificate';
+UPDATE request_form set type = 'REQUEST_MAIL_TEMPLATE' where type = 'Request Mail Template';
 

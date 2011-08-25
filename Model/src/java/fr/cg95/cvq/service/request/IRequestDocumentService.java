@@ -37,9 +37,8 @@ public interface IRequestDocumentService {
      * @param documentId a document that must have been created with the creation
      *  method provided by the {@link fr.cg95.cvq.service.document.IDocumentService} service
      */
-    void addDocument(@IsRequest final Long requestId, final Long documentId)
-        throws CvqException, CvqObjectNotFoundException;
-    
+    void addDocument(@IsRequest final Long requestId, final Long documentId);
+
     /**
      * Add a single existing document to a not yet persisted request.
      *
@@ -47,9 +46,8 @@ public interface IRequestDocumentService {
      * @param documentId a document that must have been created with the creation
      *  method provided by the {@link fr.cg95.cvq.service.document.IDocumentService} service
      */
-    void addDocument(@IsRequest Request request, final Long documentId)
-        throws CvqException, CvqObjectNotFoundException;
-    
+    void addDocument(@IsRequest Request request, final Long documentId);
+
     void addDocuments(@IsRequest Request request, List<Document> documents) throws CvqException;
 
     /**

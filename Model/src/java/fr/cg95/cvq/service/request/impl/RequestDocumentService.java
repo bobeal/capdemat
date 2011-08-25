@@ -70,17 +70,17 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
-    public void addDocument(final Long requestId, final Long documentId)
-        throws CvqException, CvqObjectNotFoundException {
+    public void addDocument(final Long requestId, final Long documentId) {
         addDocument(requestDAO.findById(requestId), documentId);
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
-    public void addDocument(Request request, final Long documentId)
-        throws CvqException, CvqObjectNotFoundException {
-        request.getDocuments().add(new RequestDocument(documentId));
-        updateLastModificationInformation(request);
+    public void addDocument(Request request, final Long documentId) {
+        if (request != null) {
+            request.getDocuments().add(new RequestDocument(documentId));
+            updateLastModificationInformation(request);
+        }
     }
     
     @Deprecated

@@ -320,8 +320,10 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="documentTypeDAO" ref="documentTypeDAO"/>
     <property name="userSearchService" ref="userSearchService"/>
     <property name="genericDAO" ref="genericDAO" />
+    <property name="homeFolderDAO" ref="homeFolderDAO" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="translationService" ref="translationService"/>
+    <property name="homeFolderDocumentService" ref="homeFolderDocumentService" />
     <property name="maxDataSize" value="${document.upload.maxSize}" />
   </bean>
 
@@ -356,6 +358,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 
   <bean id="userService" class="fr.cg95.cvq.service.users.impl.UserService">
     <property name="userSearchService" ref="userSearchService" />
+    <property name="genericDAO" ref="genericDAO" />
   </bean>
 
   <bean id="userNotificationService" class="fr.cg95.cvq.service.users.impl.UserNotificationService">
@@ -375,6 +378,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="userService" ref="userService" />
     <property name="userNotificationService" ref="userNotificationService" />
     <property name="userSearchService" ref="userSearchService" />
+    <property name="homeFolderDocumentService" ref="homeFolderDocumentService" />
     <property name="homeFolderDAO" ref="homeFolderDAO" />
     <property name="individualDAO" ref="individualDAO" />
     <property name="genericDAO" ref="genericDAO" />
@@ -424,6 +428,13 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   
   <bean id="externalHomeFolderService" class="fr.cg95.cvq.service.users.external.impl.ExternalHomeFolderService">
     <property name="genericDAO" ref="genericDAO" />
+  </bean>
+
+  <bean id="homeFolderDocumentService" class="fr.cg95.cvq.service.users.impl.HomeFolderDocumentService">
+    <property name="homeFolderDAO" ref="homeFolderDAO" />
+    <property name="documentDAO" ref="documentDAO" />
+    <property name="genericDAO" ref="genericDAO" />
+    <property name="documentTypeDAO" ref="documentTypeDAO" />
   </bean>
 
   <!-- ********************** INSTANCE REQUESTS SERVICES ***********************  -->

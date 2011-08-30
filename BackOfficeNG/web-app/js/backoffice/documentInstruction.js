@@ -26,7 +26,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
   zcbd.Instruction = function() {
     var initWidgets = function() {
       zcbd.Instruction.panel = new yw.Panel(
-        'requestDocumentPanel',{
+        'documentPanel',{
           width: '800px', y: 120,visible: false,
           constraintoviewport: false, draggable: true,
           underlay: 'shadow', close: true
@@ -41,7 +41,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
       zcbd.Instruction.overlay.render();
     };
     var initEvents = function() {
-      var clicks = yus.query('#requestDocumentPanel .bd')
+      var clicks = yus.query('#documentPanel .bd')
         .concat([yud.get('documentStateOverlay')])
         .concat(yus.query('ul.document-list'));
       
@@ -108,7 +108,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
           zcbd.Instruction.panel.setBody(o.responseText);
           zcbd.Instruction.panel.show();
           
-          zcbd.Instruction.tabView = new yw.TabView("requestDocumentData");
+          zcbd.Instruction.tabView = new yw.TabView("documentData");
           zcbd.Instruction.dataTabView = new yw.TabView("documentMetaData");
           
           if(json) {

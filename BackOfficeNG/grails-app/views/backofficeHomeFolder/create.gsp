@@ -124,7 +124,7 @@
       </div>
     </div>
     <div id="narrow" class="yui-b">
-
+      <menu:subMenu i18nPrefix="header" data="${subMenuEntries}" />
       <!-- home folder state -->
       <div class="nobox taskstate">
         <h3>${message(code:'header.help')}</h3>

@@ -9,6 +9,7 @@ class FrontofficeUrlMappings {
     "/frontoffice/requestDocument/$action?/$id?" (controller : "frontofficeRequestDocument" )
     "/frontoffice/home/$action?/$id?" (controller : "frontofficeHome" )
     "/frontoffice/homeFolder/$action?/$id?" (controller : "frontofficeHomeFolder" )
+    "/frontoffice/homeFolderDocument/$action?/$id?" (controller : "frontofficeHomeFolderDocument" )
     "/frontoffice/ticketBooking/$action?/$id?" (controller : "frontofficeTicketBooking" )
     "/frontoffice/globalSchoolRegistration/$action?/$id?" (controller : "frontofficeGlobalSchoolRegistration")
     "/frontoffice/holidayCampRegistration/$action?/$id?" (controller : "frontofficeHolidayCampRegistration")

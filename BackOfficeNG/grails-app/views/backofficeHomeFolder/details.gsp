@@ -10,8 +10,10 @@
       <script type="text/javascript" src="${resource(dir:'js/common',file:'addressAutocomplete.js')}"></script>
       <script type="text/javascript" src="${resource(dir:'js/common',file:'autocomplete.js')}"></script>
     </g:if>
+    <script type="text/javascript" src="${resource(dir:'js/common',file:'calendar.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'contact.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'homeFolderDetails.js')}"></script>
+    <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'userDocumentInstruction.js')}"></script>
     <link rel="stylesheet" href="${resource(dir:'css/backoffice/common/yui-skin/',file:'container.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'homeFolder.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'document.css')}" />
@@ -147,9 +149,25 @@
         <!-- Request TabView -->
         <div id="homeFolderInformation"></div>
 
+        <!-- document managment panel [default display = none] -->
+        <div id="documentPanel">
+          <div class="hd"></div>
+          <div class="bd"></div>
+        </div>
+
       </div>
     </div>
     <div id="narrow" class="yui-b">
+      <div class="nobox taskstate">
+        <h3>${message(code:'header.subMenus')}</h3>
+        <div class="body">
+          <p>
+            <a href="${createLink(controller: 'frontofficeHome',action:'loginAgent', id : homeFolderResponsible.id)}">
+              ${message(code:'homeFolder.header.goToAccount')}
+            </a>
+          </p>
+        </div>
+      </div>
 
       <!-- home folder state -->
       <div class="nobox taskstate">
@@ -167,14 +185,24 @@
         </div>
       </div>
 
+      <!-- request document state -->
       <div class="nobox taskstate">
-        <h3>${message(code:'header.subMenus')}</h3>
+        <h3><g:message code="property.documents" /></h3>
         <div class="body">
-          <p>
-            <a href="${createLink(controller: 'frontofficeHome',action:'loginAgent', id : homeFolderResponsible.id)}">
-              ${message(code:'homeFolder.header.goToAccount')}
-            </a>
-          </p>
+          <ul class="document-list" id="fullDocumentList">
+          </ul>
+        </div>
+      </div>
+
+      <div id="documentStateOverlay" class="state-overlay">
+        <div class="hd"> </div>
+        <div class="bd"> </div>
+      </div>
+
+      <div id="documentCalendarTip">
+        <div class="hd"> </div>
+        <div class="bd">
+          <div id="documentCalendar"> </div>
         </div>
       </div>
 

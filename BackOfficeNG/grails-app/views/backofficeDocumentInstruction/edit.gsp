@@ -23,7 +23,7 @@
   </h1>
   <div id="documentMessage" class="invisible"></div>
   <!-- datas bloc-->
-  <div id="requestDocumentData" class="yellow-yui-tabview">
+  <div id="documentData" class="yellow-yui-tabview">
   
     <ul class="yui-nav">
       <g:each var="page" in="${document.pages}" status="i">

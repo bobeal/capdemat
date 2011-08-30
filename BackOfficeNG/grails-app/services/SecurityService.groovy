@@ -29,6 +29,7 @@ public class SecurityService {
             (SecurityContext.BACK_OFFICE_CONTEXT) : [
                 "backofficeContact" : /.*/,
                 "backofficeDocumentInstruction" : /.*/,
+                "backofficeUserDocumentInstruction" : /.*/,
                 "backofficeExternal" : /.*/,
                 "backofficeHomeFolder" : /^(?:(?!importHomeFolders|meansOfContact|moCs|moC).)*$/,
                 "backofficeLogin" : /.*/,

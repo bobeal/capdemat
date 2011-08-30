@@ -8,11 +8,17 @@
 /* TODO : define in common style
 ---------------------------------------------------------------*/
 
-.box { padding: 1.5em; overflow: auto; border: 0; background: #fff; }
-.box .main { width: 70%; float: left; }
-.box .side { width: 28%; float: right; }
+.box { padding: 1.5em; overflow: auto; border: 0 0 1em; background: #fff; margin: 0 0 1em 0; }
+.box .main { width: 68%; float: left; }
+.box .side { width: 29%; float: right; }
 
-.box .side div { 
+.box-container { overflow: auto; }
+.box-container .tracker-box { width: 54%; float: left; font-size: .9em; }
+.box-container .information-box, .box-container .error-box { width: 38%; float: right; clear: none; font-size: 1em; text-align: left; }
+.box-container .information-box p, .box-container .error-box p { margin: 0 0 .2em; font-size: 1em; }
+
+/*FIXME: refactor*/
+.box .side div.note, .box .side div.action, .box .side div.back {
   margin: 0 0 .5em; padding: .5em 1em; font-size: 1.15em; background: #ddd;
   border-radius: .5em; -moz-border-radius: .5em; -webkit-border-radius .5em;
 }
@@ -38,13 +44,15 @@
 ---------------------------------------------------------------*/
 
 .box .individuals { overflow: auto; }
+
 .box .individuals .adults { width: 49%; float: left; }
 .box .individuals .children { width: 49%; float: right; }
 
+.box .individuals h3  { margin:0; }
 .box .individuals h3 a { font-size: .5em; }
 
 .box .individuals dl {
-  margin: 1em 0; padding: 1em;
+  margin: 1em 0; padding: .5em;
   border: 2px solid #bbb;
   border-radius: .5em; -moz-border-radius: .5em; -webkit-border-radius: .5em;
 }
@@ -56,12 +64,11 @@
 .box .individuals dl dd.action { margin-top: 1em; text-align: right;border: none; }
 
 .box .individuals dl.Invalid { border-color: #CC2020; }
-
-.box .individuals dl.delete   { border: 4px solid #CC2020; }
+.box .individuals dl.delete   { border: 2px solid #CC2020; }
 .box .individuals dl dd.delete {
 	width: 100%;
-	position: relative; left: -8em;
-	margin-top: 1em; padding: .5em 1em;
+	position: relative; left: -7.5em;
+	margin-top: 1em; padding: .5em .5em;
 	text-align: center;
 	color:#fff; background: #CC2020;
 	border: none;
@@ -75,10 +82,10 @@
   width: 65%; padding: 1.5em; border: 3px solid #ccc;
   border-radius: .5em; -moz-border-radius: .5em; -webkit-border-radius .5em;
 }
-.box.individual .main.New      { border-color: #2020cc; }
-.box.individual .main.Modified { border-color: #fc0; }
-.box.individual .main.Valid    { border-color: #20CC20; }
-.box.individual .main.Invalid  { border-color:  #CC2020; }
+.box.individual .main.New                                        { border-color: #2020cc; }
+.box.individual .main.Modified, .box.individual .main.Uncomplete { border-color: #fc0; }
+.box.individual .main.Valid, .box.individual .main.Complete       { border-color: #20CC20; }
+.box.individual .main.Invalid                                    { border-color:  #CC2020; }
 
 .box.individual a.modify { float: right; margin: -1.5em 1.5em 0 0; }
 
@@ -94,6 +101,20 @@
   text-align: right; color: #444;
 }
 .individual dd { width: 60%; font-size: 1.2em; }
+
+/* Document (override)
+---------------------------------------------------------------*/
+
+.box .side #document { margin-top: 2em; }
+
+.box .side #document h4 { margin-top: 1em; font-size: 1.1em; font-style: italic; }
+.box .side #document h4 a            { margin : 0 1em 0; }
+.box .side #document h4 a.warn       { padding: .2em; background: #ffee20; text-decoration: none; }
+.box .side #document h4 a.warn:hover { background: #ffffff; }
+
+.box .side #document dl   { clear: both; }
+.box .side #document dt   { width: 17%; }
+.box .side #document dd   { width: 73%; font-size: .95em; }
 
 
 

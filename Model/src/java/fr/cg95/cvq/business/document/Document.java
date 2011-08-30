@@ -24,6 +24,8 @@ import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import fr.cg95.cvq.business.users.HomeFolder;
+
 @Entity
 @Table(name="document")
 public class Document implements Serializable {
@@ -69,6 +71,14 @@ public class Document implements Serializable {
     @Column(name="home_folder_id")
     private Long homeFolderId;
 
+    /**
+     * Set if the document is not only owned by the home folder but explicitely linked, which means that the document
+     * is available in BO.
+     */
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="linked_home_folder_id")
+    private HomeFolder linkedHomeFolder;
+
     @Column(name="individual_id")
     private Long individualId;
 
@@ -99,6 +109,12 @@ public class Document implements Serializable {
         this.ecitizenNote = ecitizenNote;
         this.documentType = documentType;
         this.state = state;
+    }
+
+    public boolean isPDF() {
+        if (datas.isEmpty())
+            return false;
+        return ContentType.PDF.equals(datas.get(0).getContentType());
     }
 
     public Long getId() {
@@ -187,6 +203,14 @@ public class Document implements Serializable {
 
     public void setHomeFolderId(Long homeFolderId) {
         this.homeFolderId = homeFolderId;
+    }
+
+    public HomeFolder getLinkedHomeFolder() {
+        return this.linkedHomeFolder;
+    }
+
+    public void setLinkedHomeFolder(HomeFolder linkedHomeFolder) {
+        this.linkedHomeFolder = linkedHomeFolder;
     }
 
     public Long getIndividualId() {

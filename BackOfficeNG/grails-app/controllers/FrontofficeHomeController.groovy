@@ -21,6 +21,7 @@ import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestActionService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.users.IUserWorkflowService
+import fr.cg95.cvq.service.users.IUserService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.util.UserUtils
 
@@ -30,6 +31,7 @@ class FrontofficeHomeController {
     def requestTypeAdaptorService
     def securityService
     
+    IUserService userService
     IRequestNoteService requestNoteService
     IRequestSearchService requestSearchService
     IRequestActionService requestActionService
@@ -86,6 +88,9 @@ class FrontofficeHomeController {
 
         result.dashBoard.payments = preparePayments(this.getTopFivePayments())
         result.dashBoard.documents = prepareDocuments(this.getTopFiveDocuments())
+
+        result.requestTypes = requestTypeAdaptorService.getDisplayGroups(this.currentEcitizen?.homeFolder)
+        result.homeFolder = this.currentEcitizen.homeFolder
         return result
     }
     
@@ -110,10 +115,16 @@ class FrontofficeHomeController {
             redirect(url : params.errorURL)
             return false
         }
+
+        File infoFile = localAuthorityRegistry.getLocalAuthorityResourceFile(
+            LocalAuthorityResource.INFORMATION_MESSAGE_FO.id)
+
         return [
             "isLogin" : true,
             "error" : message(code : error),
-            "groups" : requestTypeAdaptorService.getDisplayGroups(null)
+            "groups" : requestTypeAdaptorService.getDisplayGroups(null),
+            "commonInfo" : infoFile.exists() ? infoFile.text : null,
+            "homeFolderIndependentCreationEnabled" : userService.homeFolderIndependentCreationEnabled()
         ]
     }
     

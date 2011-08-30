@@ -1,3 +1,8 @@
+<%
+  //Hack:
+  if (flash.invalidFields) invalidFields = flash.invalidFields
+  if (flash.adult) adult = flash.adult
+%>
 <input type="hidden" name="id" value="${adult?.id}" />
 <input type="hidden" name="mode" value="create" />
   <fieldset>

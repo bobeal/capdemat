@@ -10,19 +10,7 @@
           <g:message code="${i18nKey}" args="${i18nArgs}" />
         </p>
         <div class="links">
-          <g:message code="request.message.actionWhenLocked" /> :
-          <ul>
-            <li>
-              <a href="${createLink(controller:'frontofficeRequestType')}">
-                <g:message code="request.action.issueNewRequest" />
-              </a>
-            </li>
-            <li>
-              <a href="${createLink(controller:'frontofficeHome')}">
-                <g:message code="action.goHome" />
-              </a>
-            </li>
-          </ul>
+          <a href="${createLink(controller:'frontofficeHome')}"><g:message code="action.goHome" /></a>
         </div>
       </div>
     </div>

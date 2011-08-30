@@ -15,7 +15,7 @@
   <body>
     <div id="request" class="main-box">
       <h2>
-        <g:translateRequestTypeLabel label="${params.id}" />
+        <g:translateRequestTypeLabel label="${requestTypeLabel}" />
       </h2>
       <p><g:message code="request.duration.label" /><strong> : <g:message code="${acronym}.duration.value" /></strong></p>
       <p>
@@ -74,7 +74,7 @@
       <div class="yui-u main-box">
         <h2><g:message code="request.header.createNewRequest" /></h2>
         <form action="${createLink(controller : 'frontofficeRequest', action : 'create')}">
-          <input type="hidden" name="label" value="${params.id}" />
+          <input type="hidden" name="label" value="${requestTypeLabel}" />
           <g:if test="${!seasons.isEmpty()}">
             <h3>${message(code:'request.action.choose.requestSeason')}</h3>
             <ul class="required ${noSeason ? 'validation-failed' : ''}">

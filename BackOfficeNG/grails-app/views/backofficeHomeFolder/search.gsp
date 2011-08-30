@@ -23,8 +23,9 @@
       </div>
     </div>
 
-    <!-- filters and sorters -->
     <div id="narrow" class="yui-b">
+      <menu:subMenu i18nPrefix="header" data="${subMenuEntries}" />
+      <!-- filters and sorters -->
       <div class="nobox">
         <h3><g:message code="header.sortBy" /></h3>
         <div class="body">
@@ -82,14 +83,6 @@
 
         </div>
       </div>
-      
-      <div id="createAccount" class="nobox">
-        <h3><g:message code="header.subMenus" /></h3>
-        <div class="body">
-          <a href="${g.createLink(action:'create')}">${message(code:'homeFolder.action.createAccount')}</a>
-        </div>
-      </div>
-
     </div>
   
   </body>

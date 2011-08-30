@@ -75,6 +75,7 @@ public class UserSecurityService implements IUserSecurityService {
             genericDAO.delete(rule);
     }
 
+    @Deprecated
     @Override
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.NONE)
     public boolean canWrite(Long agentId) {
@@ -82,6 +83,27 @@ public class UserSecurityService implements IUserSecurityService {
         if (rule == null)
             return false;
         return UserSecurityProfile.writer.contains(rule.getProfile());
+    }
+
+    @Override
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.NONE)
+    public boolean can(Agent agent, ContextPrivilege privilege) {
+        if (agent == null)
+            return false;
+        UserSecurityRule rule = getRule(agent.getId());
+        if (rule == null)
+            return false;
+
+        switch(privilege) {
+            case MANAGE:
+                return (UserSecurityProfile.MANAGE.equals(rule.getProfile()));
+            case WRITE:
+                return (UserSecurityProfile.writer.contains(rule.getProfile()));
+            case READ:
+                return (UserSecurityProfile.reader.contains(rule.getProfile()));
+            default:
+                return false;
+        }
     }
 
     public void setGenericDAO(IGenericDAO genericDAO) {

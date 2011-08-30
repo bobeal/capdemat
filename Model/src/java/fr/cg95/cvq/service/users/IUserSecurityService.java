@@ -6,6 +6,7 @@ import java.util.Map;
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.users.UserSecurityProfile;
 import fr.cg95.cvq.business.users.UserSecurityRule;
+import fr.cg95.cvq.security.annotation.ContextPrivilege;
 
 public interface IUserSecurityService {
 
@@ -20,4 +21,10 @@ public interface IUserSecurityService {
     void disallow(Long agentId);
 
     boolean canWrite(Long agentId);
+
+    /**
+     * @deprecated use can(Agent, ContextPrivilege) instead.
+     */
+    @Deprecated
+    public boolean can(Agent agent, ContextPrivilege privilege);
 }

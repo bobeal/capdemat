@@ -42,6 +42,7 @@ class FrontofficeRequestDocumentController {
                 'rqt': rqt,
                 'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
                 'currentStep': 'document',
+                'documentsByTypes': documentAdaptorService.getDocumentsByType(rqt),
                 'documentTypes': documentAdaptorService.getDocumentTypes(rqt),
                 'document': document,
                 'documentType': documentType,
@@ -73,13 +74,8 @@ class FrontofficeRequestDocumentController {
             } catch (CvqModelException e) {
                 flash.errorMessage = message(code : e.i18nKey, args : e.i18nArgs as List)
             }
-            if (params.saveAndBackDocument) {
-                redirect(controller:'frontofficeRequest', action:'edit', params:[
-                    'id':rqt.id, 'currentStep': 'document'])
-            } else {
-                redirect(action:'edit', params:[
+            redirect(action:'edit', params:[
                     'requestId':rqt.id, 'documentTypeId':documentType.id, 'documentId': document?.id])
-            }
         }
     }
 

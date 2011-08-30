@@ -1,4 +1,4 @@
-<div class="yui-g">
+<div class="">
   <g:each var="group" in="${groups}" status="i">
     <g:if test="${i == 0}">
       <div class="yui-u first">

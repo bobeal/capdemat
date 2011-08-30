@@ -1,9 +1,7 @@
 import fr.cg95.cvq.authentication.IAuthenticationService
 import fr.cg95.cvq.business.users.*
-import fr.cg95.cvq.dao.hibernate.HibernateUtil
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException
 import fr.cg95.cvq.exception.CvqBadPasswordException
-import fr.cg95.cvq.exception.CvqModelException
 import fr.cg95.cvq.exception.CvqValidationException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
@@ -13,6 +11,9 @@ import fr.cg95.cvq.service.users.IUserWorkflowService
 
 import com.octo.captcha.service.CaptchaServiceException
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
+
+import java.util.Map
+import java.util.List
 
 class FrontofficeHomeFolderController {
 
@@ -26,20 +27,19 @@ class FrontofficeHomeFolderController {
     def individualAdaptorService
     def jcaptchaService
     def securityService
+    def documentAdaptorService
 
     Adult currentEcitizen
 
     def beforeInterceptor = {
-        currentEcitizen = SecurityContext.getCurrentEcitizen();
-    }
-
-    def index = {
-        def homeFolderId = currentEcitizen.homeFolder.id
-        def children = userSearchService.getChildren(homeFolderId)
-        // FIXME : Poor implementation : db request on Role are crappy
-        def childResponsibles = [:]
-        children.each {
-            childResponsibles.put(it.id, userSearchService.listBySubjectRoles(it.id, RoleType.childRoleTypes))
+        currentEcitizen = SecurityContext.getCurrentEcitizen()
+        Map.metaClass.reduce << { List keys ->
+            def reducedMap = [:]
+            keys.each {
+                if (delegate.get(it) != null)
+                    reducedMap.put(it, delegate.get(it))
+            }
+            return reducedMap
         }
         Individual.metaClass.homeFolderResponsible = {
             def role = null
@@ -48,50 +48,159 @@ class FrontofficeHomeFolderController {
             }
             return role
         }
+    }
+
+    def index = {
+        def homeFolder = currentEcitizen.homeFolder
+        def children = userSearchService.getChildren(homeFolder.id)
+        // FIXME : Poor implementation : db request on Role are crappy
+        def childResponsibles = [:]
+        children.each {
+            childResponsibles.put(it.id, userSearchService.listBySubjectRoles(it.id, RoleType.childRoleTypes))
+        }
+
+        def actions = homeFolder.actions.findAll {
+            it.type == UserAction.Type.CONTACT
+        }.sort {
+            it.date
+        }.reverse()
+        def lastMessage = homeFolderAdaptorService.prepareAction(actions[0])?.contact?.message
+
+        def states = [homeFolder.responsibleStepState, homeFolder.familyStepState, homeFolder.documentsStepState]
+        def overallState = 'Complete'
+        if (states.any { it == HomeFolderStepState.UNCOMPLETE })
+            overallState = 'Uncomplete'
+        if (states.any { it == HomeFolderStepState.INVALID })
+            overallState = 'Invalid'
 
         if (params.idToDelete)
             flash.idToDelete = Long.valueOf(params.idToDelete)
 
-        return ['homeFolder': currentEcitizen.homeFolder,
-                'adults':  userSearchService.getAdults(homeFolderId),
+        return ['homeFolder': homeFolder,
+                'adults' : userSearchService.getAdults(homeFolder.id),
                 'children': children,
-                'childResponsibles' : childResponsibles]
+                'childResponsibles' : childResponsibles,
+                'documentsByTypes' : documentAdaptorService.homeFolderDocumentsByType(homeFolder.id),
+                'lastMessage' : lastMessage,
+                'overallState' : overallState]
     }
 
     def create = {
-        def model = [
-            "invalidFields" : [],
-            "temporary" : params.requestTypeLabel && requestServiceRegistry.getRequestService(
-                params.requestTypeLabel).supportUnregisteredCreation()
-        ]
+        /*
+         * Initialize model
+         */
+        def model = [ 'callback' : callback() ]
+        def flow = flow()
+        if (flow == 'onTheFly') {
+                def temporary = requestServiceRegistry
+                    .getRequestService(params.requestTypeLabel)?.supportUnregisteredCreation()
+                model = model.plus('temporary' : temporary)
+        }
+
+        /*
+         * GET
+         */
         if (request.get) {
-            return model
+            switch (flow) {
+                case 'standalone' :
+                    if (!userService.homeFolderIndependentCreationEnabled())
+                        render(text : 'Independent home folder creation is disabled.', status : 403)
+                    else
+                        render(view : 'createStandalone', model : model)
+                    break
+
+                case 'onTheFly' :
+                    render(view : 'createOnTheFly', model : model)
+                    break
+            }
+
+        /*
+         * POST
+         */
         } else if (request.post) {
-            Adult adult = new Adult()
-            DataBindingUtils.initBind(adult, params)
-            bind(adult)
-            model["adult"] = adult
-            model["invalidFields"] = userService.validate(adult, !model["temporary"] || !params.boolean("temporary"))
-            boolean captchaIsValid = false
-            try {
-                captchaIsValid = jcaptchaService.validateResponse("captchaImage", session.id, params.captchaText)
-            } catch (CaptchaServiceException e) {
-                // no need to throw an exception when the captcha has expired...
-            }
-            if (!captchaIsValid) {
-                model["invalidFields"].add("captchaText")
-            }
-            if (model["invalidFields"].isEmpty()) {
-                userWorkflowService.create(adult, model["temporary"] && params.boolean("temporary"))
-                securityService.setEcitizenSessionInformation(adult, session)
-                if (params.requestTypeLabel) {
-                    redirect(controller : "frontofficeRequestType", action : "start", id : params.requestTypeLabel)
-                    return false
-                }
+            handleResponsiblePost(model)
+            if (flash.invalidFields.any()) {
+                redirect(controller : 'frontofficeHomeFolder', action : 'create', params : model.callback.params)
+                return
             } else {
-                return model
+                redirect(
+                    controller : model.callback.controller,
+                    action : model.callback.action,
+                    params : model.callback.params)
+                return
             }
         }
+    }
+
+    /**
+     * The "flow" variable is used to determine which creation form to display, depending on the "params" map.
+     * @return
+     *      'onTheFly': if the creation is done on the fly for starting a request,
+     *      'standalone': if the creation is standalone.
+     */
+    private flow() {
+        def requestKeys = ['requestTypeLabel', 'requestSeasonId']
+
+        if (params.reduce(requestKeys).any())
+            return 'onTheFly'
+        else
+            return 'standalone'
+    }
+
+    /**
+     * Guess a callback url using the "params" map.
+     * @return an object [ controller:… action:… params:… ] to redirect to after the home folder creation.
+     */
+    private callback() {
+        //Callback defaults to the home folder index.
+        def result = [
+            'controller' : 'frontofficeHomeFolder',
+            'action' : 'index',
+            'params' : null ]
+
+        def requestKeys = ['requestTypeLabel', 'requestSeasonId']
+
+        if (params.reduce(requestKeys).any()) {
+            result.controller = 'frontofficeRequestType'
+            result.action = 'start'
+            result.params = params.reduce(requestKeys)
+        }
+
+        return result
+    }
+
+    /**
+     * Try to create the home folder. If successing, login the user, else set flash variables:
+     * - flash.adult
+     * - flash.invalidFields
+     */
+    private handleResponsiblePost(model) {
+        Adult adult = new Adult()
+        DataBindingUtils.initBind(adult, params)
+        bind(adult)
+        flash['adult'] = adult
+        flash['invalidFields'] = userService.validate(adult, !model.temporary || !params.boolean('temporary'))
+        boolean captchaIsValid = false
+        try {
+            captchaIsValid = jcaptchaService.validateResponse('captchaImage', session.id, params.captchaText)
+        } catch (CaptchaServiceException e) {
+            //No need to throw an exception when the captcha has expired…
+        }
+        if (!captchaIsValid) {
+            flash.invalidFields.add('captchaText')
+        }
+        if (flash.invalidFields.isEmpty()) {
+            userWorkflowService.create(adult, model.temporary && params.boolean('temporary'))
+            securityService.setEcitizenSessionInformation(adult, session)
+        }
+    }
+
+    /**
+     * Set home folder family step to complete.
+     */
+    def complete = {
+        userService.completeHomeFolderFamilyStep(currentEcitizen.homeFolder);
+        redirect(action : 'index')
     }
 
     def deleteIndividual = {
@@ -132,6 +241,7 @@ class FrontofficeHomeFolderController {
             return (name == params.fragment  ? 'edit' : 'static') + template
         }
         model['adult'] = individual
+        model["homeFolder"] = currentEcitizen.homeFolder
         if (individual.id) {
             model['ownerRoles'] = homeFolderAdaptorService.prepareOwnerRoles(individual)
         }
@@ -176,6 +286,7 @@ class FrontofficeHomeFolderController {
             return (name == params.fragment  ? 'edit' : 'static') + template
         }
         model["child"] = individual
+        model["homeFolder"] = currentEcitizen.homeFolder
         if (individual.id) {
             model['roleOwners'] = ('responsibles' != params.fragment) ? userSearchService.listBySubjectRoles(individual.id, RoleType.childRoleTypes) : homeFolderAdaptorService.roleOwners(individual.id)
             model['currentEcitizen'] = currentEcitizen

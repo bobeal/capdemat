@@ -21,13 +21,14 @@ class FrontofficeRequestTypeController {
     def requestTypeAdaptorService
     def documentAdaptorService
     
+    // FIXME : deprecated action
     def index = {
         def adult = userSearchService.getAdultById(session.currentEcitizenId)
         return ['groups':requestTypeAdaptorService.getDisplayGroups(adult?.homeFolder)]
     }
 
     def start = {
-        def label = params.id
+        def label = params.id != null ? params.id : params.requestTypeLabel
         if (label == null) {
             redirect(uri: '/frontoffice/requestType')
             return false

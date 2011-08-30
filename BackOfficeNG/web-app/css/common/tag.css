@@ -84,7 +84,7 @@ invoice : paid, no_paid
 .tag-sent,
 .tag-statechange,
 .tag-rectified,
-.tag-uncomplete    { background: #ffcc20; border-color:#ffaa20; }
+.tag-uncomplete    { background: #ffcc20; border-color:#ffaa20; color: #000;}
 
 /* green */
 .tag-paid,
@@ -169,7 +169,7 @@ invoice : paid, no_paid
 .tag-brought_paper { background: #333333; border-color:#cccccc; color:#ffffff; }
 
 /* draft */
-.tag-draft { background: #13d6d6; border-color: #009999; }
+.tag-draft { background: #13d6d6; border-color: #009999; color: #000;}
 
 .tag-public {
   background-color : #eeeeee;

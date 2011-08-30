@@ -1,3 +1,5 @@
+import fr.cg95.cvq.service.users.IHomeFolderDocumentService;
+
 import fr.cg95.cvq.exception.CvqModelException;
 
 import fr.cg95.cvq.business.request.Request
@@ -22,6 +24,7 @@ public class DocumentAdaptorService {
     IRequestDocumentService requestDocumentService
     IDocumentService documentService
     IDocumentTypeService documentTypeService
+    IHomeFolderDocumentService homeFolderDocumentService
 
     def getDocumentTypes(Request rqt) {
         return getDocumentTypes(rqt.requestType.id)
@@ -101,5 +104,46 @@ public class DocumentAdaptorService {
     def adaptDocumentType(Long id) {
         def docType = documentTypeService.getDocumentTypeById(id)
         return ['id':docType.id, 'i18nKey':CapdematUtils.adaptDocumentTypeName(docType.name)]
+    }
+
+    /**
+     * For a given document type, return documents linked to the home folder and documents which could be linked.
+     *
+     * @return [
+     *      'linked' : documents linked to the home folder.
+     *      'available' : documents which could be linked.
+     * ]
+     */
+    def homeFolderDocumentsForType(Long homeFolderId, Long documentTypeId) {
+        def documentType = documentTypeService.getDocumentTypeById(documentTypeId)
+        def linked
+        def all
+        if (homeFolderId) {
+            linked = homeFolderDocumentService.documentsLinkedToHomeFolder(homeFolderId, documentType)
+            all = documentService.getProvidedDocuments(documentType, homeFolderId, null)
+        }
+        return [
+            'linked' : linked,
+            'available' : all?.minus(linked)
+        ]
+    }
+
+    def homeFolderDocumentsByType(Long homeFolderId) {
+        def wished = homeFolderDocumentService.wishedDocumentTypes()
+        def documentTypeList = []
+        wished.each {
+            def documents = homeFolderDocumentsForType(homeFolderId, it.id)
+            def type = [
+                'id':it.id,
+                'name': messageSource.getMessage(CapdematUtils.adaptDocumentTypeName(it.name),null,SecurityContext.currentLocale),
+                'linked': documents.linked,
+                'available': documents.available
+            ]
+            documentTypeList.add(type)
+        }
+        def result = [:]
+        documentTypeList = documentTypeList.sort { it.name }
+        documentTypeList.each { result[it.id] = it }
+        return result
     }
 }

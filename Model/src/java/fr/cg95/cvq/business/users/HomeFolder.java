@@ -26,6 +26,7 @@ import net.sf.oval.constraint.NotNull;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.xml.common.AdultType;
 import fr.cg95.cvq.xml.common.ChildType;
 import fr.cg95.cvq.xml.common.HomeFolderType;
@@ -89,10 +90,26 @@ public class HomeFolder implements Serializable {
     @OrderColumn(name="home_folder_index")
     private List<UserAction> actions;
 
+    @OneToMany(mappedBy="linkedHomeFolder")
+    private List<Document> documents;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable=false)
+    private HomeFolderStepState responsibleStepState = HomeFolderStepState.COMPLETE;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable=false)
+    private HomeFolderStepState familyStepState = HomeFolderStepState.UNCOMPLETE;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable=false)
+    private HomeFolderStepState documentsStepState = HomeFolderStepState.UNNEEDED;
+
     /** default constructor */
     public HomeFolder() {
         individuals = new ArrayList<Individual>();
         actions = new ArrayList<UserAction>();
+        documents = new ArrayList<Document>();
     }
 
     public HomeFolderType modelToXml() {
@@ -236,5 +253,33 @@ public class HomeFolder implements Serializable {
 
     public void setActions(List<UserAction> actions) {
         this.actions = actions;
+    }
+
+    public List<Document> getDocuments() {
+        return documents;
+    }
+
+    public HomeFolderStepState getResponsibleStepState() {
+        return responsibleStepState;
+    }
+
+    public void setResponsibleStepState(HomeFolderStepState responsibleStepState) {
+        this.responsibleStepState = responsibleStepState;
+    }
+
+    public HomeFolderStepState getFamilyStepState() {
+        return familyStepState;
+    }
+
+    public void setFamilyStepState(HomeFolderStepState familyStepState) {
+        this.familyStepState = familyStepState;
+    }
+
+    public HomeFolderStepState getDocumentsStepState() {
+        return documentsStepState;
+    }
+
+    public void setDocumentsStepState(HomeFolderStepState documentsStepState) {
+        this.documentsStepState = documentsStepState;
     }
 }

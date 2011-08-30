@@ -10,9 +10,13 @@ import java.util.Map;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
 import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.GlobalHomeFolderConfiguration;
+import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.HomeFolderStepState;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.IndividualRole;
 import fr.cg95.cvq.business.users.RoleType;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
@@ -23,6 +27,11 @@ import fr.cg95.cvq.util.ValidationUtils;
 public class UserService implements IUserService {
 
     private IUserSearchService userSearchService;
+    private IGenericDAO genericDAO;
+
+    public void setGenericDAO(IGenericDAO genericDAO) {
+        this.genericDAO = genericDAO;
+    }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.READ)
@@ -74,5 +83,42 @@ public class UserService implements IUserService {
 
     public void setUserSearchService(IUserSearchService userSearchService) {
         this.userSearchService = userSearchService;
+    }
+
+    private GlobalHomeFolderConfiguration getGlobalHomeFolderConfiguration() {
+        GlobalHomeFolderConfiguration conf =
+            genericDAO.simpleSelect(GlobalHomeFolderConfiguration.class).unique();
+
+        return (conf != null) ? conf : new GlobalHomeFolderConfiguration();
+    }
+
+    @Override
+    public Boolean homeFolderIndependentCreationEnabled() {
+        return getGlobalHomeFolderConfiguration().getIndependentCreation();
+    }
+
+    @Override
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
+    public void enableHomeFolderIndependentCreation() {
+        GlobalHomeFolderConfiguration conf = getGlobalHomeFolderConfiguration();
+        conf.setIndependentCreation(true);
+        genericDAO.update(conf);
+    }
+
+    @Override
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
+    public void disableHomeFolderIndependentCreation() {
+        GlobalHomeFolderConfiguration conf = getGlobalHomeFolderConfiguration();
+        conf.setIndependentCreation(false);
+        genericDAO.update(conf);
+    }
+
+    @Override
+    @Context(types = {ContextType.ECITIZEN})
+    public void completeHomeFolderFamilyStep(HomeFolder homeFolder) {
+        if (homeFolder != null) {
+            homeFolder.setFamilyStepState(HomeFolderStepState.COMPLETE);
+            genericDAO.update(homeFolder);
+        }
     }
 }

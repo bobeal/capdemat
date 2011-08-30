@@ -4,6 +4,8 @@ import java.util.Hashtable;
 import java.util.List;
 
 import fr.cg95.cvq.business.document.Document;
+import fr.cg95.cvq.business.document.DocumentType;
+import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.dao.jpa.IJpaTemplate;
 
 /**
@@ -43,4 +45,11 @@ public interface IDocumentDAO extends IJpaTemplate<Document, Long> {
      * @return the IDs of documents which contentType or preview isn't set
      */
     List<Long> listByMissingComputedValues();
+
+    /**
+     * Return the list of documents linked to the home folder, filtered with the document type.
+     * @param homeFolder
+     * @param documentType
+     */
+    public List<Document> linkedToHomeFolder(HomeFolder homeFolder, DocumentType documentType);
 }

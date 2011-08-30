@@ -94,7 +94,7 @@
             </ul>
           </div>
           <!-- document managment panel [default display = none] -->
-          <div id="requestDocumentPanel">
+          <div id="documentPanel">
             <div class="hd"></div>
             <div class="bd"></div>
           </div>

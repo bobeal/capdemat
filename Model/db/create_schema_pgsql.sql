@@ -77,6 +77,9 @@
     alter table document 
         drop constraint FK335CD11B8EAF8712;
 
+    alter table document
+        drop constraint FK335CD11BAE5B2A57;
+
     alter table document_action 
         drop constraint FKA42545DA7A6C6B5B;
 
@@ -244,6 +247,12 @@
 
     alter table home_folder 
         drop constraint FKDB87BBCEB7531222;
+
+    alter table home_folder_wished_document_types
+        drop constraint FK1C339C7D8EAF8712;
+
+    alter table home_folder_wished_document_types
+        drop constraint FK1C339C7DC3E3DBFF;
 
     alter table individual 
         drop constraint FKFD3DA299B7531222;
@@ -532,6 +541,8 @@
 
     drop table french_r_i_b cascade;
 
+    drop table global_home_folder_configuration cascade;
+
     drop table global_request_type_configuration cascade;
 
     drop table global_school_registration_request cascade;
@@ -585,6 +596,8 @@
     drop table home_folder cascade;
 
     drop table home_folder_mapping cascade;
+
+    drop table home_folder_wished_document_types cascade;
 
     drop table individual cascade;
 
@@ -1059,6 +1072,7 @@
         state varchar(16),
         validation_date timestamp,
         document_type_id int8,
+        linked_home_folder_id int8,
         primary key (id)
     );
 
@@ -1231,6 +1245,12 @@
         account_number varchar(11) not null,
         bank_code int4 not null,
         counter_code int4 not null,
+        primary key (id)
+    );
+
+    create table global_home_folder_configuration (
+        id int8 not null,
+        independentCreation bool not null,
         primary key (id)
     );
 
@@ -1795,8 +1815,11 @@
 
     create table home_folder (
         id int8 not null,
+        documentsStepState varchar(255) not null,
         enabled bool,
         family_quotient varchar(255),
+        familyStepState varchar(255) not null,
+        responsibleStepState varchar(255) not null,
         state varchar(16) not null,
         is_temporary bool,
         address_id int8,
@@ -1810,6 +1833,13 @@
         external_service_label varchar(255),
         home_folder_id int8,
         primary key (id)
+    );
+
+    create table home_folder_wished_document_types (
+        global_home_folder_configuration_id int8 not null,
+        document_type_id int8 not null,
+        primary key (global_home_folder_configuration_id, document_type_id),
+        unique (document_type_id)
     );
 
     create table individual (
@@ -2783,6 +2813,11 @@
         foreign key (document_type_id) 
         references document_type;
 
+    alter table document
+        add constraint FK335CD11BAE5B2A57
+        foreign key (linked_home_folder_id)
+        references home_folder;
+
     alter table document_action 
         add constraint FKA42545DA7A6C6B5B 
         foreign key (document_id) 
@@ -3062,6 +3097,16 @@
         add constraint FKDB87BBCEB7531222 
         foreign key (address_id) 
         references address;
+
+    alter table home_folder_wished_document_types
+        add constraint FK1C339C7D8EAF8712
+        foreign key (document_type_id)
+        references document_type;
+
+    alter table home_folder_wished_document_types
+        add constraint FK1C339C7DC3E3DBFF
+        foreign key (global_home_folder_configuration_id)
+        references global_home_folder_configuration;
 
     alter table individual 
         add constraint FKFD3DA299B7531222 

@@ -31,14 +31,8 @@
                 </a>
               </li>
               <li>
-                <a href="${createLink(controller:'frontofficeRequestType')}">
-                  <g:message code="request.action.issueNewRequest" />
-                </a>
-              </li>
-              <li>
-                <a href="${createLink(controller:'frontofficeHome')}">
-                  <g:message code="action.goHome" />
-                </a>
+                <a href="${createLink(controller:'frontofficeHome')}"><g:message code="action.goHome" /></a>
+                <g:message code="request.action.whereToIssueNewRequests" />
               </li>
             </g:if>
             <g:if test="${returnUrl != ''}">

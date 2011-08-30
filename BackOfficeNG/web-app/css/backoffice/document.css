@@ -4,25 +4,20 @@
 
 -------------------------------------------------------------- */
 
-
-/* request document panel
- * TODO : merge panel style
--------------------------------------------------------------- */
-
-#requestDocumentPanel {
+#documentPanel {
   padding: 0;
   border: 6px solid #636e80;
   -moz-border-radius: .5em; -webkit-border-radius: .5em;
   background: #ffffff;
 }
 
-#requestDocumentPanel a       { font-size: 1em; color: #000; text-decoration: none; }
-#requestDocumentPanel a:hover { color: #000; background: transparent; text-decoration: underline; }
+#documentPanel a       { font-size: 1em; color: #000; text-decoration: none; }
+#documentPanel a:hover { color: #000; background: transparent; text-decoration: underline; }
 
-#requestDocumentPanel .bd { padding: 1em 2em; background: transparent; border: 0;}
-#requestDocumentPanel .hd { height: 2.5em; padding: 0; background: #636e80; border: 0; }
+#documentPanel .bd { padding: 1em 2em; background: transparent; border: 0;}
+#documentPanel .hd { height: 2.5em; padding: 0; background: #636e80; border: 0; }
 
-#requestDocumentPanel .bd h1 { 
+#documentPanel .bd h1 { 
   margin: 0 0 1em 0; padding: .5em 0;
   font-size: 1.8em;
   font-weight: normal;
@@ -32,35 +27,35 @@
 
 .document-state        { float: right;  margin: 0; cursor: pointer; font-size: .8em; }
 .document-state:hover  { color: #000000; border-color: #000000; }
-#requestDocumentPanel .bd h1 #documentEndValidityDate,
-#requestDocumentPanel .bd h1 #documentDepositType,
-#requestDocumentPanel .bd h1 #documentOrigin       { float: left;  margin: 0 .5em 0 0; font-size: .6em }
+#documentPanel .bd h1 #documentEndValidityDate,
+#documentPanel .bd h1 #documentDepositType,
+#documentPanel .bd h1 #documentOrigin       { float: left;  margin: 0 .5em 0 0; font-size: .6em }
 
 /* yui tabview special rendering */
-.yui-skin-sam #requestDocumentPanel .bd .yellow-yui-tabview .yui-content, 
-.yui-skin-sam #requestDocumentPanel .bd .yellow-yui-tabview .yui-navset-top .yui-content { 
+.yui-skin-sam #documentPanel .bd .yellow-yui-tabview .yui-content, 
+.yui-skin-sam #documentPanel .bd .yellow-yui-tabview .yui-navset-top .yui-content { 
   border-width: 1px 0;
   text-align: center;
   padding: 1em 0;
 }
 
-#requestDocumentPanel #requestDocumentData img { max-width: 90%; }
+#documentPanel #documentData img { max-width: 90%; }
 
-#requestDocumentPanel #documentMetaData { margin : 2em 0 0 0; }
+#documentPanel #documentMetaData { margin : 2em 0 0 0; }
 /* list */
-#requestDocumentPanel #documentMetaData .yui-content ul         { margin: 10px; color: #333;}
-#requestDocumentPanel #documentMetaData .yui-content ul li      { padding: .5em 0 .5em 0; border-bottom:1px dashed #C1CFE2; }
+#documentPanel #documentMetaData .yui-content ul         { margin: 10px; color: #333;}
+#documentPanel #documentMetaData .yui-content ul li      { padding: .5em 0 .5em 0; border-bottom:1px dashed #C1CFE2; }
 
-#requestDocumentPanel #documentMetaData .yui-content form { margin-bottom: 10px; }
+#documentPanel #documentMetaData .yui-content form { margin-bottom: 10px; }
 
-#requestDocumentPanel #documentMetaData .yui-content p.static-data      { overflow: auto; }
-#requestDocumentPanel #documentMetaData .yui-content p.static-data span { width: 35%; float: left; margin-left: 5px; padding-right:10px; text-align: right; }
-#requestDocumentPanel #documentMetaData .yui-content p.static-data em   { float: left; padding: .1em; font: italic 1.1em sans-serif; background: #fff; }
+#documentPanel #documentMetaData .yui-content p.static-data      { overflow: auto; }
+#documentPanel #documentMetaData .yui-content p.static-data span { width: 35%; float: left; margin-left: 5px; padding-right:10px; text-align: right; }
+#documentPanel #documentMetaData .yui-content p.static-data em   { float: left; padding: .1em; font: italic 1.1em sans-serif; background: #fff; }
 
 
 /* Change state block 
  * -------------------------------------------------------------- */
-#requestDocumentPanel #documentTransitionStates {
+#documentPanel #documentTransitionStates {
   width: 22%;
   display:none; 
   position:absolute; right: 1em; top: 3.3em; z-index: 9;
@@ -118,3 +113,38 @@
   .overlay-notified, .overlay-enable {
   border-color:#20CC20  !important;
 }
+
+
+/* list in right column
+ * -------------------------------------------------------------- */
+
+.taskstate .tag-pending, .taskstate .tag-validated, .taskstate .tag-checked, .taskstate .tag-refused, .taskstate .tag-outdated,
+.taskstate  .tag-not_provided
+{ float: right; margin: 0; font-size: 1.1em;}
+
+.taskstate .tag-pending:hover, .taskstate .tag-validated:hover, .taskstate .tag-checked:hover, .taskstate .tag-refused:hover, .taskstate .tag-outdated:hover,
+{ cursor: pointer; border-color: #000000; color: #000000; }
+
+.taskstate .documentLink { text-decoration: none; }
+.taskstate .documentLink:hover { color: #eeeeee; background: #cc2020; border-color: #000000; }
+
+
+/* request instruction state list
+-------------------------------------------------------------- */
+.taskstate ul { margin: 0; padding: .5em 0 0 0; clear:both; }
+.taskstate ul li { padding: .4em; }
+.taskstate ul li { font-size: .85em; }
+
+
+ul.document-list a.removeDocument {
+  float : right;
+  cursor : pointer;
+  height : 16px;
+  width : 16px;
+  background-image: url(../../images/icons/16-delete.png);
+}
+
+ul.document-list a.removeDocument:hover {
+  background-color : inherit;
+}
+

@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.security.annotation.IsUser;
@@ -29,4 +30,24 @@ public interface IUserService {
     List<String> validate(Individual individual)
         throws ClassNotFoundException, IllegalAccessException, InvocationTargetException,
             NoSuchMethodException;
+
+    /**
+     * @return Whether or not a home folder can be created without starting a request.
+     */
+     Boolean homeFolderIndependentCreationEnabled();
+
+    /**
+     * Enable home folder creation without starting a request.
+     */
+    void enableHomeFolderIndependentCreation();
+
+    /**
+     * Disable home folder creation without starting a request.
+     */
+    void disableHomeFolderIndependentCreation();
+
+    /**
+     * Set home folder family step to complete.
+     */
+    void completeHomeFolderFamilyStep(@IsUser HomeFolder homeFolder);
 }

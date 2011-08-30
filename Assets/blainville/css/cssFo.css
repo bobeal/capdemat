@@ -98,6 +98,8 @@ form textarea { border-top-color: #ff812b !important; }
 
 /* document and activities
  * ----------------------------------------------------- */
+ 
+#document h4 { color: #ff812b !important; }
 
 .data-detail .yui-g { border-color: #ff812b !important; }
 .data-detail dl     { border-color: #ff812b !important; }

@@ -35,6 +35,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/users/Address.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/BankAccount.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/FrenchRIB.hbm.xml</value>
+        <value>fr/cg95/cvq/business/users/GlobalHomeFolderConfiguration.hbm.xml</value>
         <value>fr/cg95/cvq/business/authority/Agent.hbm.xml</value>
         <value>fr/cg95/cvq/business/document/DocumentAction.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/RequestAction.hbm.xml</value>

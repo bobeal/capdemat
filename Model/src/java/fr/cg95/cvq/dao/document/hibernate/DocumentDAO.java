@@ -19,8 +19,11 @@ import fr.cg95.cvq.business.document.ContentType;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.document.DocumentState;
+import fr.cg95.cvq.business.document.DocumentType;
+import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.jpa.JpaTemplate;
+import fr.cg95.cvq.dao.jpa.JpaUtil;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.util.Critere;
 
@@ -164,5 +167,18 @@ public class DocumentDAO extends JpaTemplate<Document, Long> implements IDocumen
 
     private <T> Criterion processParam(String key, T param) {
         return Restrictions.eq(key, param);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Document> linkedToHomeFolder(HomeFolder homeFolder, DocumentType documentType) {
+        if (homeFolder != null && documentType != null)
+            return JpaUtil.getEntityManager()
+                .createQuery("select doc from Document as doc where doc.linkedHomeFolder = ? and doc.documentType = ?")
+                .setParameter(1, homeFolder)
+                .setParameter(2, documentType)
+                .getResultList();
+        else
+            return new ArrayList<Document>();
     }
 }

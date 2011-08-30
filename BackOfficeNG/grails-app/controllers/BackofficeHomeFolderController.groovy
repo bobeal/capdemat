@@ -5,6 +5,7 @@ import java.util.ArrayList
 import java.util.Collections
 
 import fr.cg95.cvq.schema.ximport.HomeFolderImportDocument
+import fr.cg95.cvq.service.users.IHomeFolderDocumentService
 import fr.cg95.cvq.service.users.IUserService
 import fr.cg95.cvq.service.users.IUserSearchService
 import fr.cg95.cvq.service.users.IUserWorkflowService
@@ -19,6 +20,9 @@ import fr.cg95.cvq.service.payment.IPaymentService
 import fr.cg95.cvq.service.users.IMeansOfContactService
 import fr.cg95.cvq.service.users.external.IExternalHomeFolderService
 import fr.cg95.cvq.business.payment.Payment
+import fr.cg95.cvq.service.document.IDocumentTypeService
+import fr.cg95.cvq.security.PermissionException
+import fr.cg95.cvq.security.annotation.ContextPrivilege
 
 import fr.cg95.cvq.exception.CvqValidationException
 
@@ -41,7 +45,9 @@ class BackofficeHomeFolderController {
     IPaymentService paymentService
     IMeansOfContactService meansOfContactService
     IUserSecurityService userSecurityService
-    
+    IDocumentTypeService documentTypeService
+    IHomeFolderDocumentService homeFolderDocumentService
+
     def translationService
     def homeFolderAdaptorService
     def requestAdaptorService
@@ -49,10 +55,18 @@ class BackofficeHomeFolderController {
 
     def defaultAction = 'search'
     def defaultMax = 15
-    def subMenuEntries = ["userSecurity.index", "homeFolder.meansOfContact", "homeFolder.importHomeFolders"]
+    def subMenuEntries
 
     def beforeInterceptor = {
         session["currentMenu"] = "users"
+        if (SecurityContext.currentCredentialBean.hasSiteAdminRole()) {
+            subMenuEntries = ["userSecurity.index", "homeFolder.meansOfContact", "homeFolder.importHomeFolders"]
+        } else {
+            if (userSecurityService.can(SecurityContext.getCurrentAgent(), ContextPrivilege.MANAGE))
+                subMenuEntries = ["homeFolder.search", "homeFolder.configure", "homeFolder.create"]
+            else
+                subMenuEntries = ["homeFolder.search", "homeFolder.create"]
+        }
     }
 
     def help = {}
@@ -76,7 +90,8 @@ class BackofficeHomeFolderController {
             'currentSiteName': SecurityContext.currentSite.name,
             'homeFolderStatus' : this.buildHomeFolderStatusFilter(),
             'pageState' : (new JSON(state)).toString().encodeAsHTML(),
-            'offset' : params.currentOffset ? params.currentOffset : 0 
+            'offset' : params.currentOffset ? params.currentOffset : 0,
+            'subMenuEntries': subMenuEntries
         ]);
     }
     
@@ -144,7 +159,7 @@ class BackofficeHomeFolderController {
             render (['id' : adult.homeFolder.id] as JSON)
             return false
         }
-        return []
+        return (['subMenuEntries': subMenuEntries])
     }
 
     def adult = { 
@@ -595,5 +610,63 @@ class BackofficeHomeFolderController {
             'pageState' : (new JSON(state)).toString().encodeAsHTML(),
             'offset' : 0
         ]);
+    }
+    /**
+     * Home folders configuration:
+     * Enable/disable home folder creation without starting a request.
+     * Set document types wished at home folder creation time.
+     */
+    def configure = {
+        try {
+            def bool = userService.homeFolderIndependentCreationEnabled();
+            return (['subMenuEntries': subMenuEntries, 'independentCreationEnabled': bool])
+        } catch (PermissionException pe) {
+            render(text: message(code: pe.message), status: 403)
+        }
+    }
+
+    def setIndependentCreation = {
+        try {
+            if (params.independentCreation == "1")
+                userService.enableHomeFolderIndependentCreation()
+            else
+                userService.disableHomeFolderIndependentCreation()
+            render ([status:"success", success_msg:message(code:"message.updateDone")] as JSON)
+        } catch (PermissionException pe) {
+            render(text: message(code: pe.message), status: 403)
+        }
+    }
+
+    def documentList = {
+        def list = []
+        def wishedDocumentTypes = homeFolderDocumentService.wishedDocumentTypes()
+        documentTypeService.getAllDocumentTypes().each{ d ->
+            list.add([
+                'documentId' : d.id,
+                'name' : message(code:CapdematUtils.adaptDocumentTypeName(d.name)),
+                'bound' : wishedDocumentTypes.contains(d),
+                'class' : wishedDocumentTypes.contains(d) ? '' : 'notBelong'
+            ])
+        }
+        list = list.sort{ it.name }
+        render(template:"documentList", model:["documents":list])
+    }
+
+    def associateDocument = {
+        try {
+            homeFolderDocumentService.wish(Long.valueOf(params.dtid))
+            render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+        } catch (PermissionException pe) {
+            render(text: message(code: pe.message), status: 403)
+        }
+    }
+
+    def unassociateDocument = {
+        try {
+            homeFolderDocumentService.unwish(Long.valueOf(params.dtid))
+            render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+        } catch (PermissionException pe) {
+            render(text: message(code: pe.message), status: 403)
+        }
     }
 }

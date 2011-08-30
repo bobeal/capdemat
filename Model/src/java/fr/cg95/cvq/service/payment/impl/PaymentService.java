@@ -199,7 +199,7 @@ public final class PaymentService implements IPaymentService,
       
         payment.setState(PaymentState.INITIALIZED);
         payment.setInitializationDate(new Date());
-        paymentDAO.create(payment);
+        paymentDAO.saveOrUpdate(payment);
         
         return url;
     }

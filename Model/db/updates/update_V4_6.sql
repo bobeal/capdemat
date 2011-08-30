@@ -54,3 +54,5 @@ alter table home_folder_wished_document_types
     add constraint FK1C339C7DC3E3DBFF
     foreign key (global_home_folder_configuration_id)
     references global_home_folder_configuration;
+
+alter table external_invoice_item_detail RENAME COLUMN quatity TO quantity;

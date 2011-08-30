@@ -222,7 +222,7 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
           when = "groovy:def active = true;" +
           
             
-            "active &= _this.conditions['autorisation'].test(_this.autorisation.toString());" +
+            "active &= _this.conditions['autorisation'].test('autoriseFrereOuSoeur='+_this.autorisation.toString());" +
                 
               
             
@@ -238,7 +238,7 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
           when = "groovy:def active = true;" +
           
             
-            "active &= _this.conditions['autorisation'].test(_this.autorisation.toString());" +
+            "active &= _this.conditions['autorisation'].test('autoriseFrereOuSoeur='+_this.autorisation.toString());" +
                 
               
             
@@ -268,7 +268,7 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
           when = "groovy:def active = true;" +
           
             
-            "active &= _this.conditions['autorisation'].test(_this.autorisation.toString());" +
+            "active &= _this.conditions['autorisation'].test('autoriseFrereOuSoeur='+_this.autorisation.toString());" +
                 
               
             
@@ -284,7 +284,7 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
           when = "groovy:def active = true;" +
           
             
-            "active &= _this.conditions['autorisation'].test(_this.autorisation.toString());" +
+            "active &= _this.conditions['autorisation'].test('autoriseFrereOuSoeur='+_this.autorisation.toString());" +
                 
               
             
@@ -316,7 +316,7 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
           when = "groovy:def active = true;" +
           
             
-            "active &= _this.conditions['autorisation'].test(_this.autorisation.toString());" +
+            "active &= _this.conditions['autorisation'].test('autoriseFrereOuSoeur='+_this.autorisation.toString());" +
                 
               
             
@@ -332,7 +332,7 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
           when = "groovy:def active = true;" +
           
             
-            "active &= _this.conditions['autorisation'].test(_this.autorisation.toString());" +
+            "active &= _this.conditions['autorisation'].test('autoriseFrereOuSoeur='+_this.autorisation.toString());" +
                 
               
             
@@ -348,7 +348,7 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
           when = "groovy:def active = true;" +
           
             
-            "active &= _this.conditions['autorisation'].test(_this.autorisation.toString());" +
+            "active &= _this.conditions['autorisation'].test('autoriseFrereOuSoeur='+_this.autorisation.toString());" +
                 
               
             
@@ -380,7 +380,7 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
           when = "groovy:def active = true;" +
           
             
-            "active &= _this.conditions['autorisation'].test(_this.autorisation.toString());" +
+            "active &= _this.conditions['autorisation'].test('autoriseFrereOuSoeur='+_this.autorisation.toString());" +
                 
               
             
@@ -396,7 +396,7 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
           when = "groovy:def active = true;" +
           
             
-            "active &= _this.conditions['autorisation'].test(_this.autorisation.toString());" +
+            "active &= _this.conditions['autorisation'].test('autoriseFrereOuSoeur='+_this.autorisation.toString());" +
                 
               
             
@@ -412,7 +412,7 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
           when = "groovy:def active = true;" +
           
             
-            "active &= _this.conditions['autorisation'].test(_this.autorisation.toString());" +
+            "active &= _this.conditions['autorisation'].test('autoriseFrereOuSoeur='+_this.autorisation.toString());" +
                 
               
             
@@ -553,7 +553,7 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['autorisation'].test(_this.autorisation.toString());" +
+            "active &= _this.conditions['autorisation'].test('autoriseTiers='+_this.autorisation.toString());" +
                 
               
             
@@ -571,7 +571,7 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['autorisation'].test(_this.autorisation.toString());" +
+            "active &= _this.conditions['autorisation'].test('autoriseTiers='+_this.autorisation.toString());" +
                 
               
             

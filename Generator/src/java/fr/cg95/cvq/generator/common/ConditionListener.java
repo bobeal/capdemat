@@ -19,6 +19,10 @@ public class ConditionListener {
         this.required = required;
     }
 
+    public boolean listenAMultiTrigger() {
+        return condition.getTrigger().getTriggeredConditions().size() > 1;
+    }
+
     public ElementCommon getListener() {
         return listener;
     }

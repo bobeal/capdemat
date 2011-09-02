@@ -82,6 +82,8 @@ public class LocalReferentialDAO implements ILocalReferentialDAO {
      */
     private File getOrCreateLocalReferentialFile(final String requestTypeLabel) {
         final String fileName = requestServiceRegistry.getRequestService(requestTypeLabel).getLocalReferentialFilename();
+        if (fileName == null)
+            return null;
         final File file = getLocalReferentialFile(fileName);
         if (file != null && file.exists()) {
             return file;

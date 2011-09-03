@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-    <request>TicketOfficeRequest</request>
     <data name="entertainmentCategories">
-        <label lang="fr">Catégories de spectacles</label>
+        <label>Catégories de spectacles</label>
     </data>
     <data name="placeCategories">
-        <label lang="fr">Catégories de places</label>
+        <label>Catégories de places</label>
     </data>
-    <data name="rateTypes">
-        <label lang="fr">Type de tarif</label>
+    <data name="rateTypes" allowMultipleChoices="false" manager="CapDémat">
+        <label>Type de tarif</label>
+        <entries>
+            <entry key="Plein">
+                <label>Plein</label>
+            </entry>
+            <entry key="Reduit">
+                <label>Réduit</label>
+            </entry>
+        </entries>
     </data>
     <data name="ticketBookingConfiguration">
-        <label lang="fr">Configuration</label>
+        <label>Configuration</label>
     </data>
 </LocalReferential>

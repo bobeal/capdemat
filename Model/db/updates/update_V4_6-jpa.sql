@@ -2823,3 +2823,15 @@ UPDATE military_census_request SET mother_nationality = 'ZM'  Where mother_natio
 UPDATE military_census_request SET mother_nationality = 'ZW'  Where mother_nationality = 'zw';
 UPDATE military_census_request SET mother_nationality = 'MK'  Where mother_nationality = 'mk';
 
+UPDATE school_registration_request SET current_section = 'BEFORE_FIRST_SECTION'  Where current_section = 'BeforeFirstSection';
+UPDATE school_registration_request SET current_section = 'FIRST_SECTION'  Where current_section = 'FirstSection';
+UPDATE school_registration_request SET current_section = 'SECOND_SECTION'  Where current_section = 'SecondSection';
+UPDATE school_registration_request SET current_section = 'THIRD_SECTION'  Where current_section = 'ThirdSection';
+UPDATE school_registration_request SET current_section = 'C_P'  Where current_section = 'CP';
+UPDATE school_registration_request SET current_section = 'C_E1'  Where current_section = 'CE1';
+UPDATE school_registration_request SET current_section = 'C_E2'  Where current_section = 'CE2';
+UPDATE school_registration_request SET current_section = 'C_M1'  Where current_section = 'CM1';
+UPDATE school_registration_request SET current_section = 'C_M2'  Where current_section = 'CM2';
+UPDATE school_registration_request SET current_section = 'C_L_I_S_S'  Where current_section = 'CLISS';
+UPDATE school_registration_request SET current_section = 'UNKNOWN'  Where current_section = 'Unknown';
+

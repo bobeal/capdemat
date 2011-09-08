@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
+import javax.persistence.PersistenceUnitUtil;
 import javax.persistence.RollbackException;
 
 import org.apache.log4j.Logger;
@@ -107,6 +108,16 @@ public class JpaUtil {
         if (tx != null && tx.isActive()) {
             rollbackTransaction();
             throw new RuntimeException("EntityManager closed before transition commited");
+        }
+    }
+
+    public static PersistenceUnitUtil getPersistenceUnitUtil(){
+        // if threadEntityManagerFactory dont have an emf
+        EntityManagerFactory emf = threadEntityManagerFactory.get();
+        if (emf != null){
+            return threadEntityManagerFactory.get().getPersistenceUnitUtil();
+        }else{
+            throw new RuntimeException("you can't use getPersistenceUnitUtil() when no EntityManagerFactory is set");
         }
     }
 

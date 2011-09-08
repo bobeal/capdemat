@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceUnitUtil;
 import javax.persistence.Query;
 
 import fr.cg95.cvq.dao.hibernate.SimpleQuery;
@@ -45,6 +47,9 @@ public abstract class JpaTemplate<T, ID extends Serializable> implements IJpaTem
         this.entityManager = entityManager;
     }
 
+    public PersistenceUnitUtil getPersistenceUnitUtil(){
+       return JpaUtil.getPersistenceUnitUtil();
+    }
     /* -- CRUD -- */
 
     @Override
@@ -71,7 +76,8 @@ public abstract class JpaTemplate<T, ID extends Serializable> implements IJpaTem
 
     @Override
     public void delete(T object) {
-        getEntityManager().remove(object);
+        T objectManaged = (T) getEntityManager().find(object.getClass(), getPersistenceUnitUtil().getIdentifier(object));
+        getEntityManager().remove(objectManaged);
     }
 
     /* -- Payload -- */

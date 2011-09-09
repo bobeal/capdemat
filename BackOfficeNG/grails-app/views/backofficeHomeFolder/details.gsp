@@ -78,8 +78,8 @@
                   </g:while>
                   <br />
                   <form id="ignoreDuplicate" method="post" action="${g.createLink(action:'processDuplicate')}" style="float: right">
-                    <input type="submit" name="ignore" value="${message(code:'action.ignore')}" />
-                    <input type="submit" name="merge" value="${message(code:'action.merge')}" />
+                    <input type="submit" name="ignore" value="${message(code:'action.ignore')}" ${agentCanWrite ? '' : 'disabled="disabled"'}/>
+                    <input type="submit" name="merge" value="${message(code:'action.merge')}" ${agentCanWrite ? '' : 'disabled="disabled"'}/>
                     <input type="hidden" name="targetHomeFolderId" value="${duplicate.key}" />
                     <input type="hidden" name="homeFolderId" value="${homeFolder.id}" />
                   </form>

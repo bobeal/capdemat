@@ -134,8 +134,9 @@ class BackofficeHomeFolderController {
         result.homeFolderState = homeFolder.state.toString().toLowerCase()
         result.homeFolderStatus = homeFolder.enabled ? 'enable' : 'disable'
         def isValidable = false
+        def agentCanWrite = userSecurityService.can(SecurityContext.getCurrentAgent(), ContextPrivilege.WRITE)
         if ((homeFolder.state.equals(UserState.NEW) || homeFolder.state.equals(UserState.MODIFIED)) &&
-            (userSecurityService.can(SecurityContext.getCurrentAgent(), ContextPrivilege.WRITE))) {
+            (agentCanWrite)) {
             isValidable=true
         }
         result.isValidable=isValidable
@@ -144,7 +145,7 @@ class BackofficeHomeFolderController {
         for(Child child : result.children)
             result.responsibles.put(child.id, userSearchService.listBySubjectRoles(child.id, RoleType.childRoleTypes))
 
-        result.agentCanWrite = userSecurityService.canWrite(SecurityContext.currentAgent.id)
+        result.agentCanWrite = agentCanWrite
         return result
     }
 

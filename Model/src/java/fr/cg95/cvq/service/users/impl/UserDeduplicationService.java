@@ -193,7 +193,7 @@ public class UserDeduplicationService implements ApplicationListener<UserEvent>,
     }
 
     @Override
-    @Context(types={ContextType.AGENT}, privilege=ContextPrivilege.WRITE)
+    @Context(types={ContextType.AGENT}, privilege=ContextPrivilege.READ)
     public List<String> getHomeFolderDuplicates(Long homeFolderId,
             Long duplicateHomeFolderId) {
         List<String> resultsByIndividualType = new ArrayList<String>();

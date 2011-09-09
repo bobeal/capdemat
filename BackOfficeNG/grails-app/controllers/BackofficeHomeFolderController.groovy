@@ -131,7 +131,8 @@ class BackofficeHomeFolderController {
         result.homeFolderState = homeFolder.state.toString().toLowerCase()
         result.homeFolderStatus = homeFolder.enabled ? 'enable' : 'disable'
         def isValidable = false
-        if(homeFolder.state.equals(UserState.NEW) || homeFolder.state.equals(UserState.MODIFIED)) {
+        if ((homeFolder.state.equals(UserState.NEW) || homeFolder.state.equals(UserState.MODIFIED)) &&
+            (userSecurityService.can(SecurityContext.getCurrentAgent(), ContextPrivilege.WRITE))) {
             isValidable=true
         }
         result.isValidable=isValidable

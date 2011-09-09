@@ -1012,7 +1012,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
         Individual individual = userSearchService.getAdultById(request.getRequesterId());
-        if (homeFolder.isTemporary())
+        if (homeFolder.isTemporary() && !homeFolder.getState().equals(UserState.VALID))
             userWorkflowService.changeState(individual, UserState.VALID);
 
         RequestEvent requestEvent = 

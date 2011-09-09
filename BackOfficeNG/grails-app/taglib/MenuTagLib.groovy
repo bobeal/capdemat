@@ -44,17 +44,17 @@ class MenuTagLib {
                 """
             }
         }
-        
-        out << """
-          <div class="nobox">
-            <h3>${message(code:'header.subMenus')}</h3>
-            <div class="body">
-              <ul class="second-level-menu" id="${id}">
-                ${blocks}
-              </ul>
-            </div>
-          </div>
-        """
+        if (items.size() > 1)
+            out << """
+              <div class="nobox">
+                <h3>${message(code:'header.subMenus')}</h3>
+                <div class="body">
+                  <ul class="second-level-menu" id="${id}">
+                    ${blocks}
+                  </ul>
+                </div>
+              </div>
+            """
     }
     
     def protected getCurrentItem = {

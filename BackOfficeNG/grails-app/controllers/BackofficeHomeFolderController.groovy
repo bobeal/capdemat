@@ -65,7 +65,10 @@ class BackofficeHomeFolderController {
             if (userSecurityService.can(SecurityContext.getCurrentAgent(), ContextPrivilege.MANAGE))
                 subMenuEntries = ["homeFolder.search", "homeFolder.configure", "homeFolder.create"]
             else
-                subMenuEntries = ["homeFolder.search", "homeFolder.create"]
+                if (userSecurityService.can(SecurityContext.getCurrentAgent(), ContextPrivilege.WRITE))
+                    subMenuEntries = ["homeFolder.search", "homeFolder.create"]
+                else
+                    subMenuEntries = ["homeFolder.search"]
         }
     }
 

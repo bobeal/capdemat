@@ -47,7 +47,6 @@ public class RequestArchivingJob implements ApplicationContextAware, ILocalAutho
     private static final Set<RequestState> states = new HashSet<RequestState>(5);
     static {
         states.add(RequestState.VALIDATED);
-        states.add(RequestState.NOTIFIED);
         states.add(RequestState.CLOSED);
         states.add(RequestState.REJECTED);
         states.add(RequestState.CANCELLED);
@@ -85,7 +84,7 @@ public class RequestArchivingJob implements ApplicationContextAware, ILocalAutho
                         .translate("requestArchive.motive", new Object[]{filingDelay});
                     if (RequestState.VALIDATED.equals(request.getState()))
                         requestWorkflowService.updateRequestState(request.getId(),
-                            RequestState.NOTIFIED, motive);
+                            RequestState.CLOSED, motive);
                     requestWorkflowService.updateRequestState(request.getId(),
                         RequestState.ARCHIVED, motive);
                     byte archive[] = requestPdfService.generateArchive(request.getId());

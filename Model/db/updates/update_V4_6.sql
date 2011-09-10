@@ -56,3 +56,29 @@ alter table home_folder_wished_document_types
     references global_home_folder_configuration;
 
 alter table external_invoice_item_detail RENAME COLUMN quatity TO quantity;
+
+-- migrate Notified state (no longer exist in 4.6) to Closed state
+create or replace function migrate_notified() returns void as $$
+  declare
+    r record;
+  begin
+    for r in select * from request where state = 'NOTIFIED' or state = 'Notified' loop
+      insert into request_action (id, agent_id, note, date, message, request_id, resulting_state, file, type) values (
+        nextval('hibernate_sequence'),
+        r.requester_id,
+        null,
+        r.creation_date,
+        null,
+        r.id,
+        'CLOSED',
+        null,
+        'STATE_CHANGE'
+      );
+    end loop;
+  end;
+$$ LANGUAGE plpgsql;
+
+select * from migrate_notified();
+drop function migrate_notified();
+
+update request set state = 'CLOSED' where state = 'NOTIFIED' or state = 'Notified';

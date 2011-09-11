@@ -262,11 +262,11 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public Long add(HomeFolder homeFolder, Child child) {
+    public Long add(HomeFolder homeFolder, Child child) throws CvqModelException, CvqInvalidTransitionException {
         return add(homeFolder, (Individual)child);
     }
 
-    private Long add(HomeFolder homeFolder, Individual individual) {
+    private Long add(HomeFolder homeFolder, Individual individual) throws CvqModelException, CvqInvalidTransitionException {
         homeFolder.getIndividuals().add(individual);
         individual.setHomeFolder(homeFolder);
         individual.setState(SecurityContext.isFrontOfficeContext() ? UserState.NEW : UserState.VALID);
@@ -279,8 +279,9 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         action = (UserAction) genericDAO.create(action);
         individual.getHomeFolder().getActions().add(action);
         if (SecurityContext.isFrontOfficeContext()
-            && !UserState.NEW.equals(individual.getHomeFolder().getState())) {
-            individual.getHomeFolder().setState(UserState.MODIFIED);
+            && !UserState.NEW.equals(individual.getHomeFolder().getState())
+            && !UserState.MODIFIED.equals(individual.getHomeFolder().getState())) {
+            changeState(homeFolder, UserState.MODIFIED);
         }
         homeFolderDAO.update(homeFolder);
         applicationEventPublisher.publishEvent(new UserEvent(this, action));
@@ -603,12 +604,11 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
                     "user.state." + individual.getState().toString().toLowerCase()),
                 translationService.translate(
                     "user.state." + state.toString().toLowerCase()));
-        individual.setState(state);
-        individual.setLastModificationDate(new Date());
-        if (SecurityContext.isBackOfficeContext()) {
-            individual.setQoS(null);
-        }
+
         HomeFolder homeFolder = individual.getHomeFolder();
+
+        // if trying to archive home folder responsible, check it is the last non archived individual
+        // in home folder
         if (UserState.ARCHIVED.equals(state) && individual.getId().equals(
             userSearchService.getHomeFolderResponsible(homeFolder.getId()).getId())) {
             for (Individual i : homeFolder.getIndividuals()) {
@@ -616,24 +616,37 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
                     throw new CvqModelException("user.state.error.mustArchiveResponsibleLast");
             }
         }
-        JsonObject payload = new JsonObject();
-        payload.addProperty("state", state.toString());
-        UserAction action = new UserAction(UserAction.Type.STATE_CHANGE, individual.getId(), payload);
-        action = (UserAction) genericDAO.create(action);
-        individual.getHomeFolder().getActions().add(action);
+
+        // if trying to archive an individual, remove in and out roles
         if (UserState.ARCHIVED.equals(state)) {
-            for (Individual responsible : homeFolder.getIndividuals()) {
+            List<Individual> individualsCopy = new ArrayList<Individual>(homeFolder.getIndividuals());
+            for (Individual responsible : individualsCopy) {
                 unlink(responsible, individual);
                 unlink(individual, responsible);
             }
         }
+
+        // update individual state and notify
+        individual.setState(state);
+        individual.setLastModificationDate(new Date());
+        // NdBOR : why only in Back Office context ?
+        if (SecurityContext.isBackOfficeContext()) {
+            individual.setQoS(null);
+        }
+        JsonObject payload = new JsonObject();
+        payload.addProperty("state", state.toString());
+        UserAction action = new UserAction(UserAction.Type.STATE_CHANGE, individual.getId(), payload);
+        action = (UserAction) genericDAO.create(action);
+        homeFolder.getActions().add(action);
         homeFolderDAO.update(individual.getHomeFolder());
         applicationEventPublisher.publishEvent(new UserEvent(this, action));
+
+        // change home folder state if needed
         if (UserState.INVALID.equals(state) && !UserState.INVALID.equals(homeFolder.getState()))
-            changeState(individual.getHomeFolder(), UserState.INVALID);
+            changeState(homeFolder, UserState.INVALID);
         else if (UserState.VALID.equals(state) || UserState.ARCHIVED.equals(state)) {
             UserState homeFolderState = state;
-            for (Individual i : individual.getHomeFolder().getIndividuals()) {
+            for (Individual i : homeFolder.getIndividuals()) {
                 if (UserState.VALID.equals(i.getState())) {
                     homeFolderState = UserState.VALID;
                 } else if (!UserState.ARCHIVED.equals(i.getState())) {

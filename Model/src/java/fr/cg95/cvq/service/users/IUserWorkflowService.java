@@ -38,7 +38,8 @@ public interface IUserWorkflowService {
     Long add(@IsUser HomeFolder homeFolder, @IsUser Adult adult, boolean assignLogin)
         throws CvqException;
 
-    Long add(@IsUser HomeFolder homeFolder, @IsUser Child child);
+    Long add(@IsUser HomeFolder homeFolder, @IsUser Child child)
+        throws CvqException;
 
     void modify(@IsUser HomeFolder homeFolder);
 

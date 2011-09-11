@@ -25,7 +25,7 @@ import fr.cg95.cvq.business.users.IndividualRole;
  *
  * @author bor@zenexity.fr
  */
-public class CredentialBean {
+public class CredentialBean implements Cloneable {
 
     private static Logger logger = Logger.getLogger(CredentialBean.class);
 
@@ -36,10 +36,10 @@ public class CredentialBean {
     private LocalAuthority localAuthority;
     private Locale locale;
 
-    private boolean boContext;
-    private boolean foContext;
-    private boolean adminContext;
-    private boolean externalServiceContext;
+    private boolean boContext = false;
+    private boolean foContext = false;
+    private boolean adminContext = false;
+    private boolean externalServiceContext = false;
 
     /**
      * Used to keep trace of current agent's site roles.
@@ -60,23 +60,11 @@ public class CredentialBean {
         this.localAuthority = localAuthority;
         if (context.equals(SecurityContext.BACK_OFFICE_CONTEXT)) {
             boContext = true;
-            foContext = false;
-            adminContext = false;
-            externalServiceContext = false;
         } else if (context.equals(SecurityContext.FRONT_OFFICE_CONTEXT)) {
-            boContext = false;
             foContext = true;
-            adminContext = false;
-            externalServiceContext = false;
         } else if (context.equals(SecurityContext.ADMIN_CONTEXT)) {
-            boContext = false;
-            foContext = false;
             adminContext = true;
-            externalServiceContext = false;
         } else if (context.equals(SecurityContext.EXTERNAL_SERVICE_CONTEXT)) {
-            boContext = false;
-            foContext = false;
-            adminContext = false;
             externalServiceContext = true;
         }
     }
@@ -113,7 +101,7 @@ public class CredentialBean {
             foContext = false;
             adminContext = false;
             externalServiceContext = true;
-        } else {
+        } else if (context.equals(SecurityContext.ADMIN_CONTEXT)){
             boContext = false;
             foContext = false;
             adminContext = true;
@@ -122,9 +110,9 @@ public class CredentialBean {
     }
 
     private void resetCaches() {
-		siteRoles = null;
-		individualRoles = null;
-		individualsIds = null;
+        siteRoles = null;
+        individualRoles = null;
+        individualsIds = null;
     }
 
     public Agent getAgent() {
@@ -292,5 +280,15 @@ public class CredentialBean {
             return false;
         
         return this.individualsIds.contains(individualId);
+    }
+
+    public Object clone() {
+        Object o = null;
+        try {
+            o = super.clone();
+        } catch(CloneNotSupportedException cnse) {
+            // unlikely to happen
+        }
+        return o;
     }
 }

@@ -1077,32 +1077,23 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             userWorkflowService.changeState(homeFolder, UserState.ARCHIVED);
     }
 
-    // TODO : Review security rules
     private void postActionsProcess(List<IWorkflowPostAction> workflowPostActions) {
         for(IWorkflowPostAction workflowPostAction : workflowPostActions) {
             try {
-                // Save current context
-                String externalService = null;
-                String context = null;
-                if (SecurityContext.isExternalServiceContext())
-                    externalService = SecurityContext.getCurrentExternalService();
-                else
-                    context = SecurityContext.getCurrentContext();
 
+                SecurityContext.stashContext();
+                
                 // Switch to ES context
                 SecurityContext.setCurrentContext(SecurityContext.EXTERNAL_SERVICE_CONTEXT);
                 SecurityContext.setCurrentExternalService(workflowPostAction.getExecutor());
 
                 workflowPostAction.execute(this);
 
-                // Reset saved context
-                if (externalService != null)
-                    SecurityContext.setCurrentExternalService(externalService);
-                else
-                    SecurityContext.setCurrentContext(context);
             } catch (CvqException e) {
                 // Harmless error
                 logger.debug(e.getMessage());
+            } finally {
+                SecurityContext.popContext();
             }
         }
     }

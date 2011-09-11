@@ -43,6 +43,8 @@ public class SecurityContext {
 
     private static ThreadLocal<CredentialBean> currentContextThreadLocal =
         new InheritableThreadLocal<CredentialBean>();
+    private static ThreadLocal<CredentialBean> stashedContextThreadLocal =
+        new InheritableThreadLocal<CredentialBean>();
 
     public void init() throws CvqConfigurationException {
         if (agentGroups == null || agentGroups.isEmpty() 
@@ -304,6 +306,8 @@ public class SecurityContext {
             return credentialBean.getEcitizen() == null ? "" : credentialBean.getEcitizen().getLogin();
         } else if (credentialBean.isBoContext()) {
             return credentialBean.getAgent() == null ? "" : credentialBean.getAgent().getLogin();
+        } else if (credentialBean.isExternalServiceContext()) {
+            return credentialBean.getExternalService();
         } else {
             return "administrator";
         }
@@ -364,6 +368,17 @@ public class SecurityContext {
             throw new CvqException("Context cannot be changed if not set");
         else
             credentialBean.setContext(context);
+    }
+
+    public static void stashContext() {
+        CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get().clone();
+        stashedContextThreadLocal.set(credentialBean);
+    }
+
+    public static void popContext() {
+        CredentialBean credentialBean = stashedContextThreadLocal.get();
+        currentContextThreadLocal.set(credentialBean);
+        stashedContextThreadLocal.remove();
     }
 
     /**

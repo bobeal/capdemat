@@ -1072,7 +1072,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         postActionsProcess(wfEvent.getWorkflowPostActions());
 
         HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
-        Individual individual = userSearchService.getAdultById(request.getRequesterId());
         if (homeFolder.isTemporary())
             userWorkflowService.changeState(homeFolder, UserState.ARCHIVED);
     }

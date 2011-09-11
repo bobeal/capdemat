@@ -1,7 +1,5 @@
 package fr.cg95.cvq.exception;
 
-//import org.apache.log4j.Logger;
-
 /**
  * Base class for application's checked exceptions class hierarchy.
  *
@@ -11,8 +9,6 @@ public class CvqException extends Exception {
 
     private static final long serialVersionUID = 1L;
     
-//    protected static Logger logger = Logger.getLogger(CvqException.class);
-
     private String i18nKey;
     private String[] i18nArgs;
 
@@ -25,7 +21,6 @@ public class CvqException extends Exception {
 
     public CvqException(final String i18nKey) {
         this(i18nKey, null);
-        this.i18nKey = i18nKey;
     }
     
     public CvqException(String i18nKey, String[] i18nArgs) {
@@ -48,5 +43,14 @@ public class CvqException extends Exception {
 
     public void setI18nArgs(String[] args) {
         this.i18nArgs = args;
+    }
+    
+    public String getMessage() {
+        if (i18nArgs == null)
+            return i18nKey;
+        StringBuffer sb = new StringBuffer(i18nKey);
+        for (int i = 0 ; i < i18nArgs.length; i++)
+            sb.append(" ").append(i18nArgs[i]);
+        return sb.toString();
     }
 }

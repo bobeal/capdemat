@@ -10,6 +10,9 @@
 		<context>frontOffice</context>
 		<context>backOffice</context>
 	</transition>
+	<transition from="Valid" to="Modified">
+		<context>frontOffice</context>
+	</transition>
 	<transition from="Valid" to="Invalid">
 		<context>backOffice</context>
 	</transition>

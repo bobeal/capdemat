@@ -35,7 +35,7 @@ public class ExternalApplication {
     @CollectionTable(name="external_application_broker",joinColumns=@JoinColumn(name="external_application_id"))
     private Set<String> brokers = new HashSet<String>();
 
-    @OneToMany(mappedBy="externalApplication",fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="externalApplication",fetch=FetchType.LAZY)
     private List<ExternalHomeFolder> externalHomeFolders = new ArrayList<ExternalHomeFolder>();
 
     public ExternalApplication() {

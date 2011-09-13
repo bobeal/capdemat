@@ -81,7 +81,14 @@ public interface IRequestDAO extends IJpaTemplate<Request, Long> {
     /**
      * Return the list of requests which do not have the given action type.
      */
+    @Deprecated
     List<Request> listByNotMatchingActionLabel(final RequestActionType type, final boolean full);
+
+
+    /**
+     * Requests issued and which don't have a RequestActionType.CREATION_NOTIFICATION, i.e. not yet notified.
+     */
+    List<Request> issuedAndNotYetNotified();
 
     /**
      * Specialized method for the RequestService endpoint.

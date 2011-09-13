@@ -526,12 +526,20 @@ public class RequestDAO extends JpaTemplate<Request, Long> implements IRequestDA
         return transform(query.list(), full);
     }
 
+    @Deprecated
     public List<Request> listByNotMatchingActionLabel(final RequestActionType type,
         final boolean full) {
         Query query = HibernateUtil.getSession()
             .createQuery("from RequestData as request where request.id not in (select request.id from RequestData request join request.actions action  where action.type = :type)");
         query.setString("type", type.name());
         return transform(query.list(), full);
+    }
+
+    @Override
+    public List<Request> issuedAndNotYetNotified() {
+        return find("from RequestData as request where request.id not in (select request.id from RequestData request join request.actions action where action.type = ?) and request.state <> ?",
+                RequestActionType.CREATION_NOTIFICATION,
+                RequestState.DRAFT);
     }
 
     public List<Long> listHomeFolderSubjectIds(Long homeFolderId, String label, 

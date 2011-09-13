@@ -84,7 +84,7 @@ public abstract class JpaTemplate<T, ID extends Serializable> implements IJpaTem
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<T> findBy(String query, Object... params) {
+    public List<T> find(String query, Object... params) {
         Query q = getEntityManager().createQuery(
                 createFindByQuery(getEntityClass().getName(), query, params));
         return bindParameters(q, params).getResultList();

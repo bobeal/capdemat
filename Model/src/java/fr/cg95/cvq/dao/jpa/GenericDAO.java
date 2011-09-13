@@ -51,7 +51,7 @@ public class GenericDAO implements IGenericDAO {
 
     @SuppressWarnings("rawtypes")
     @Override
-    public List findBy(Class<?> clazz, String query, Object... params) {
+    public List find(Class<?> clazz, String query, Object... params) {
         Query q = getEntityManager().createQuery(
                 jpaTemplate.createFindByQuery(clazz.getName(), query, params));
         return jpaTemplate.bindParameters(q, params).getResultList();

@@ -44,7 +44,7 @@ public interface IGenericDAO {
     void delete(final Object object);
 
     @SuppressWarnings("rawtypes")
-    public List findBy(Class<?> clazz, String query, Object... params);
+    public List find(Class<?> clazz, String query, Object... params);
 
     public Object findById(Class<?> clazz, Long id);
 

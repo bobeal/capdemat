@@ -43,7 +43,7 @@ public interface IJpaTemplate<T, ID extends Serializable> {
      */
     void delete(final T object);
 
-    public List<T> findBy(String query, Object... params);
+    public List<T> find(String query, Object... params);
 
     public T findById(ID id);
 

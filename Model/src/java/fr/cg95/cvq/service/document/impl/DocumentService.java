@@ -355,7 +355,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     }
 
     public List<Document> getBySessionUuid(final String sessionUuid) {
-        return documentDAO.findBy("bySessionUuid", sessionUuid);
+        return documentDAO.find("bySessionUuid", sessionUuid);
     }
 
     @Context(types = {ContextType.ECITIZEN}, privilege = ContextPrivilege.NONE)

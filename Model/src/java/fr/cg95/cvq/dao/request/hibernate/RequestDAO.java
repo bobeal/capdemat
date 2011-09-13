@@ -687,6 +687,17 @@ public class RequestDAO extends JpaTemplate<Request, Long> implements IRequestDA
     }
 
     @Override
+    public List<Request> find(String query, Object... params) {
+        return find(true, query, params);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Request> find(final Boolean full, String query, Object... params) {
+        return transform((List<RequestData>)genericDAO.find(RequestData.class, query, params), full);
+    }
+
+    @Override
     public Request findById(Long id) {
         return findById(id, true);
     }

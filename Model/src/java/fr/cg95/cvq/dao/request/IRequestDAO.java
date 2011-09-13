@@ -105,6 +105,8 @@ public interface IRequestDAO extends IJpaTemplate<Request, Long> {
 
     Request findById(Long id, final boolean full);
 
+    List<Request> find(final Boolean full, String query, Object... params);
+
     /**
      * Delete specific data
      */

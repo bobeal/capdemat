@@ -20,6 +20,7 @@ import fr.cg95.cvq.service.request.IRequestNoteService
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestActionService
 import fr.cg95.cvq.service.request.IRequestTypeService
+import fr.cg95.cvq.service.request.ICategoryService
 import fr.cg95.cvq.service.users.IUserWorkflowService
 import fr.cg95.cvq.service.users.IUserService
 import fr.cg95.cvq.util.Critere
@@ -41,7 +42,8 @@ class FrontofficeHomeController {
     IPaymentService paymentService
     IDocumentService documentService
     IAuthenticationService authenticationService
-    
+    ICategoryService categoryService
+
     Adult currentEcitizen
 
     def resultsPerList = 5
@@ -153,10 +155,16 @@ class FrontofficeHomeController {
         session.frontContext = null
         session.currentEcitizenId = null
         session.currentEcitizenName = null
-        if (params.id)
+
+        def agentCanRead = categoryService.hasProfileOnCategory(
+            SecurityContext.proxyAgent,
+            requestSearchService.getById(Long.parseLong(params.id), false).requestType.category.id)
+
+        if (params.id && agentCanRead) {
             redirect(controller : "backofficeRequestInstruction", action : "edit", id : params.id)
-        else
+        } else {
             redirect(controller : "backofficeHomeFolder", action : "details", id : SecurityContext.currentEcitizen.homeFolder.id)
+        }
     }
 
     def accessibilityPolicy = {

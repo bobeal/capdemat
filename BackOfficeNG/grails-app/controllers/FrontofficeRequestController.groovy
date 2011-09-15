@@ -19,6 +19,7 @@ import fr.cg95.cvq.service.request.external.IRequestExternalService
 import fr.cg95.cvq.service.request.IRequestLockService
 import fr.cg95.cvq.service.request.IRequestNoteService
 import fr.cg95.cvq.service.request.IRequestSearchService
+import fr.cg95.cvq.service.request.ICategoryService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
@@ -47,6 +48,7 @@ class FrontofficeRequestController {
     IConditionService conditionService
     IUserService userService
     IUserSearchService userSearchService
+    ICategoryService categoryService
     IUserWorkflowService userWorkflowService
     ILocalAuthorityRegistry localAuthorityRegistry
     IMeansOfContactService meansOfContactService
@@ -413,6 +415,9 @@ class FrontofficeRequestController {
         if (temporary) {
             securityService.logout(session)
         }
+        def agentCanRead = categoryService.hasProfileOnCategory(
+            SecurityContext.proxyAgent,
+            requestSearchService.getById(requestId, false).requestType.category.id)
         render(
             view : "/frontofficeRequestType/exit",
             model : [
@@ -421,8 +426,9 @@ class FrontofficeRequestController {
                 'requestId': requestId,
                 'requesterLogin': params.requesterLogin,
                 'temporary': temporary,
-                'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
-                'isEdition' : params.isEdition
+                'returnUrl': (params.returnUrl != null ? params.returnUrl : ""),
+                'isEdition': params.isEdition,
+                'agentCanRead': agentCanRead
             ]
         )
     }

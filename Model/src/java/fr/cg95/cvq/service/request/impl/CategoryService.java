@@ -149,12 +149,12 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
     }
 
     @Override
-    @Context(types = {ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public boolean hasProfileOnCategory(Agent agent, Long categoryId) {
 
-        if (categoryId == null)
+        if (categoryId == null || agent == null)
             return false;
-        
+
         Category category = getById(categoryId);
         for (CategoryRoles categoryRoles : category.getCategoriesRoles()) {
             if (categoryRoles.getAgentId().equals(agent.getId()))

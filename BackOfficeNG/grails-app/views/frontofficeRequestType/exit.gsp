@@ -46,7 +46,7 @@
                 <hr />
                 <li>
                     <a href="${createLink(controller:'frontofficeHome', action:'logoutAgent', id:requestId)}" class="link-agent">
-                        <g:message code="request.action.continueRequest" />
+                        <g:message code="${agentCanRead ? 'request.action.continueRequest' : 'request.action.goBackToBO'}" />
                     </a>
                 </li>
             </g:if>

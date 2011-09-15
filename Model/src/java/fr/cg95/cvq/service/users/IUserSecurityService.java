@@ -20,11 +20,11 @@ public interface IUserSecurityService {
 
     void disallow(Long agentId);
 
-    boolean canWrite(Long agentId);
-
     /**
      * @deprecated use can(Agent, ContextPrivilege) instead.
      */
     @Deprecated
+    boolean canWrite(Long agentId);
+
     public boolean can(Agent agent, ContextPrivilege privilege);
 }

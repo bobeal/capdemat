@@ -11,7 +11,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import au.com.bytecode.opencsv.CSVReader;
-import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItemDetail;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
@@ -23,6 +22,7 @@ import fr.cg95.cvq.business.payment.external.ExternalIndividual;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.IndividualRole;
 import fr.cg95.cvq.business.users.RoleType;
+import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.dao.users.IAdultDAO;
@@ -78,11 +78,13 @@ public class ExternalApplicationService implements IExternalApplicationService {
 //                }
 //            }
             for (ExternalHomeFolder externalHomeFolder : ea.getExternalHomeFolders()) {
-                externalHomeFolderService.deleteHomeFolderMappings(
-                        ea.getLabel(),
-                        externalHomeFolderService.getHomeFolderMapping(
-                                ea.getLabel(), externalHomeFolder.getExternalId()).getHomeFolderId()
-                );
+                HomeFolderMapping homeFolderMapping =
+                    externalHomeFolderService.getHomeFolderMapping(ea.getLabel(), 
+                            externalHomeFolder.getExternalId());
+                // a external home folder not yet mapped to a CapDemat account has no home folder mapping
+                if (homeFolderMapping != null)
+                    externalHomeFolderService.deleteHomeFolderMappings(ea.getLabel(), 
+                            homeFolderMapping.getHomeFolderId());
                 genericDAO.delete(externalHomeFolder);
             }
             ea.setExternalHomeFolders(null);
@@ -547,5 +549,9 @@ public class ExternalApplicationService implements IExternalApplicationService {
 
     public void setAdultDAO(IAdultDAO adultDAO) {
         this.adultDAO = adultDAO;
+    }
+
+    public void setExternalHomeFolderService(IExternalHomeFolderService externalHomeFolderService) {
+        this.externalHomeFolderService = externalHomeFolderService;
     }
 }

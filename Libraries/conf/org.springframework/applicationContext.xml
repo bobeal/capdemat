@@ -834,6 +834,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   <bean id="externalApplicationService" class="fr.cg95.cvq.service.payment.external.impl.ExternalApplicationService">
     <property name="adultDAO" ref="adultDAO" />
     <property name="genericDAO" ref="genericDAO" />
+    <property name="externalHomeFolderService" ref="externalHomeFolderService" />
   </bean>
 
   <!-- ======================================================= -->

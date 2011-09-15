@@ -43,7 +43,7 @@ public class ExternalHomeFolder {
 
     private String address;
 
-    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
     @JoinColumn(name="external_home_folder_id")
     @OrderColumn(name="external_home_folder_index")
     private List<ExternalIndividual> individuals = new ArrayList<ExternalIndividual>();

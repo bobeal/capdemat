@@ -45,7 +45,7 @@ public class ExternalHomeFolderService implements IExternalHomeFolderService {
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE},
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.EXTERNAL_SERVICE, ContextType.ADMIN},
             privilege = ContextPrivilege.READ)
     public HomeFolderMapping getHomeFolderMapping(
             String externalServiceLabel, String externalCapDematId) {

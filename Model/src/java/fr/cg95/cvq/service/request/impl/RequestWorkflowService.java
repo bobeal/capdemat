@@ -862,6 +862,10 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     private void complete(Request request, final String note) throws CvqException {
+
+        IRequestService requestService = requestServiceRegistry.getRequestService(request.getId());
+        requestService.onRequestCompleted(request);
+
         if (request.getState().equals(RequestState.COMPLETE))
             return;
 

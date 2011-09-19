@@ -9,6 +9,8 @@
       .box .main { width: 56%; float: left; }
       .box .side { width: 42%; float: right; }
 
+      .information-box ul li { list-style: disc inside none; }
+
       .list-box h2 { border: 0; }
       .list-box { font-size: .9em; border-width: 1px; }
       .list-box ul li { padding: .4em 0; overflow: auto; }

@@ -46,7 +46,7 @@
       <label for="confirmPassword" class="required">${message(code:'request.step.validation.label.confirmPassword')}</label>
       <input type="password" id="confirmPassword" name="confirmPassword" value=""
         class="required ${invalidFields?.contains('confirmPassword') ? 'validation-failed' : ''}"
-        title="${message(code:'vcr.property.confirmPassword.validationError')}'" />
+        title="${message(code:'homeFolder.adult.property.password.validationError')}" />
       <p>${message(code:'homeFolder.adult.help.question')}</p>
       <label for="question" class="required">
         ${message(code:'homeFolder.adult.property.question')}

@@ -13,14 +13,13 @@
             <span class="${state.cssClass}">${message(code:state.i18nKey)}</span>
           </li>
         </g:each>
-        <g:if test="${stateType == 'requestState'}">
-          <li>
-              <p id="changeStateNote">
-              ${message(code:'request.message.changeStateMotivation')} : <input type="text" name="note" value="">
-              </p>
-          </li>
-        </g:if>
       </ul>
+      <g:if test="${stateType == 'requestState'}">
+        <p id="changeStateNote">
+          ${message(code:'request.message.changeStateMotivation')} : 
+          <textarea name="note" style="width:200px" rows="4"></textarea>
+        </p>
+      </g:if>
       <input type="hidden" name="stateType" value="${stateType}" />
       <input type="hidden" name="id" value="${id}" />
       

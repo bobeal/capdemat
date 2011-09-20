@@ -117,7 +117,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       /* panels */
       zcb.instructionStatePanel = new yw.Panel(
         'instructionStatePanel',
-        { width: '135%',
+        { width: '250px',
+          context: [yud.get('requestState'),'tr','br'],
           visible: false,
           constraintoviewport: true, draggable: false,
           underlay: 'none', close: false
@@ -173,8 +174,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           zcb.instructionStatePanel.id,
           'border-color',
           yud.getStyle(targetEl, 'background-color'));
-
-      zcb.instructionStatePanel.cfg.setProperty('context', [targetEl,'tr','br'])
 
       if (! zcb.instructionStatePanel.cfg.getProperty('visible'))
         getStateTransitions(targetEl.className, targetEl.id);

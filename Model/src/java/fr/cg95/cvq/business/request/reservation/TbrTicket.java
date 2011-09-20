@@ -22,6 +22,7 @@ import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
 import javax.persistence.*;
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 
 /**
  * Generated class file, do not edit !
@@ -237,6 +238,7 @@ public class TbrTicket implements Serializable {
 
 
     @Column(name="place_number" , columnDefinition="bytea" )
+    @Type(type="serializable") //Hack see http://capdemat.capwebct.fr/ticket/338
       
     public java.math.BigInteger getPlaceNumber() {
         return this.placeNumber;

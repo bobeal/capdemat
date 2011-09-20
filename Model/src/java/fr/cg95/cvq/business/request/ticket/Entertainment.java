@@ -11,7 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -41,8 +40,7 @@ public class Entertainment implements Serializable {
 
     private byte[] logo;
 
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-    @JoinColumn(name="ticket_entertainment_id")
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="entertainment")
     private Set<Event> events = new LinkedHashSet<Event>();
 
     public Entertainment() {

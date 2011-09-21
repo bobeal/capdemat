@@ -12,7 +12,7 @@
 
       .group-box h3 { border: 0; }
 
-      .information-box { margin-top: 1em; }
+      .information-box ul li { list-style: disc inside none; }
 
       .group-box.homefolder img { padding: 0; margin: 1em; background: #E6648D; }
     </style>

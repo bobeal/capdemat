@@ -49,7 +49,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong.external");
         yud.get("searchForm").submit();
       },
       handlePaginatorChange : function(state) {
-        yud.get("offset").value = state.recordOffset;
+        yud.get("recordOffset").value = state.recordOffset;
         yud.get("searchForm").submit();
       },
       resend : function(e) {

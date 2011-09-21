@@ -251,6 +251,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
 
       savePlaceCategory : function(e) {
         var target = (yue.getTarget(e)||e);
+        var formEl = yud.getAncestorByTagName(target, 'form');
+        var formElId = formEl.getAttribute('id');
+        var errorEl = yud.get(formElId + '_Errors');
+        if (!zcv.check(e, errorEl))
+          return;
         var id = target.id.split('_')[1];
         //TODO: refactor fetching strategy (decouple to DOM)
         var placeNumber = yud.get('placeNumber_' + id).value;        

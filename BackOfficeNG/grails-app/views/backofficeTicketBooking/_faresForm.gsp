@@ -1,5 +1,5 @@
 <form id="fares_${event.id}" class="fares listItem" method="post" action="${createLink(action:'entertainment')}" class="editable-list-form">
-  <div class="error" id="fares_${event.id}_Errors"></div>
+  <p class="error" id="fares_${event.id}_Errors" style="margin: 0 0 1em 0;"></p>
   <input type="hidden" name="eventId" value="${event.id}" class="invisible" />
   <p style="text-align:right;">
     <a id="addPlaceCategory_${event.id}" class="createSubItem"></a>
@@ -52,7 +52,7 @@
       <p style="text-align:right;">
         <a id="savePlaceCategory_${placeCategory.id}"" class="modifyItem"></a>
         <span for="placeNumber" class="required">${message(code:'placeCategory.property.placeNumber')} : *</span>
-        <input id="placeNumber_${placeCategory.id}" type="text" name="placeNumber" value="${placeCategory.placeNumber}" size="4" class="required" />
+        <input id="placeNumber_${placeCategory.id}" type="text" name="placeNumber_${placeCategory.id}" value="${placeCategory.placeNumber}" size="4" class="required validate-positiveInteger" />
       </p>
       <dl>
         <dt>${message(code:'fare.header')} <a id="addFare_${placeCategory.id}" class="createSubItem text">${message(code:'fare.action.add')}</a></dt>

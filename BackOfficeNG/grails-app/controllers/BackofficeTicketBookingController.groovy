@@ -150,7 +150,12 @@ class BackofficeTicketBookingController {
 
     def savePlaceCategory = {
         def placeCategory = ticketBookingService.getPlaceCategoryById(Long.valueOf(params.id))
-        placeCategory.placeNumber = Integer.valueOf(params.placeNumber)
+        try {
+            placeCategory.placeNumber = Integer.valueOf(params.placeNumber)
+        } catch (NumberFormatException nfe) {
+            render (new JSON(['status':'error', 'message':message(code:'ticketBooking.error.invalidPlaceNumber')]).toString())
+            return false
+        }
         render (new JSON(['status':'success', 'message':message(code:'ticketBooking.message.placeCategoryUpdate', args:[placeCategory.name])]).toString())
         return false
     }

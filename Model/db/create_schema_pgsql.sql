@@ -77,7 +77,7 @@
     alter table document 
         drop constraint FK335CD11B8EAF8712;
 
-    alter table document
+    alter table document 
         drop constraint FK335CD11BAE5B2A57;
 
     alter table document_action 
@@ -248,10 +248,10 @@
     alter table home_folder 
         drop constraint FKDB87BBCEB7531222;
 
-    alter table home_folder_wished_document_types
+    alter table home_folder_wished_document_types 
         drop constraint FK1C339C7D8EAF8712;
 
-    alter table home_folder_wished_document_types
+    alter table home_folder_wished_document_types 
         drop constraint FK1C339C7DC3E3DBFF;
 
     alter table individual 
@@ -708,6 +708,8 @@
     drop table sms_notification_request cascade;
 
     drop table sms_notification_request_interests cascade;
+
+    drop table standard_electoral_roll_registration_request cascade;
 
     drop table study_grant_request cascade;
 
@@ -2132,19 +2134,19 @@
         external_individual_id varchar(255),
         external_item_id varchar(255),
         external_service_label varchar(255),
-        key varchar(255),
-        key_owner varchar(255),
-        quantity int4,
-        unit_price float8,
-        creation_date timestamp,
-        max_buy int4,
-        min_buy int4,
-        old_quantity int4,
-        subject_id int8,
         expiration_date timestamp,
         is_paid bool,
         issue_date timestamp,
         payment_date timestamp,
+        creation_date timestamp,
+        max_buy int4,
+        min_buy int4,
+        old_quantity int4,
+        quantity int4,
+        subject_id int8,
+        unit_price float8,
+        key varchar(255),
+        key_owner varchar(255),
         old_value float8,
         old_value_date timestamp,
         payment_id int8,
@@ -2488,6 +2490,29 @@
         primary key (sms_notification_request_id, interests_index)
     );
 
+    create table standard_electoral_roll_registration_request (
+        id int8 not null,
+        ambassade_ou_poste_consulaire varchar(255),
+        ancienne_commune varchar(32),
+        commune_ou_localite_precedente varchar(32),
+        date_naissance timestamp,
+        departement_ancienne_commune varchar(255),
+        lieu_naissance_departement varchar(255),
+        lieu_naissance_pays varchar(255),
+        nationalite varchar(255),
+        nom_jeune_fille varchar(38),
+        pays_precedent varchar(255),
+        pays_radiation varchar(255),
+        precision_nationalite varchar(255),
+        sexe varchar(255),
+        situation varchar(255),
+        subdivision_administrative_precedente varchar(255),
+        type_election varchar(255),
+        type_inscription varchar(255),
+        ville_naissance_code_postal varchar(32),
+        primary key (id)
+    );
+
     create table study_grant_request (
         id int8 not null,
         abroad_internship bool,
@@ -2813,9 +2838,9 @@
         foreign key (document_type_id) 
         references document_type;
 
-    alter table document
-        add constraint FK335CD11BAE5B2A57
-        foreign key (linked_home_folder_id)
+    alter table document 
+        add constraint FK335CD11BAE5B2A57 
+        foreign key (linked_home_folder_id) 
         references home_folder;
 
     alter table document_action 
@@ -3098,14 +3123,14 @@
         foreign key (address_id) 
         references address;
 
-    alter table home_folder_wished_document_types
-        add constraint FK1C339C7D8EAF8712
-        foreign key (document_type_id)
+    alter table home_folder_wished_document_types 
+        add constraint FK1C339C7D8EAF8712 
+        foreign key (document_type_id) 
         references document_type;
 
-    alter table home_folder_wished_document_types
-        add constraint FK1C339C7DC3E3DBFF
-        foreign key (global_home_folder_configuration_id)
+    alter table home_folder_wished_document_types 
+        add constraint FK1C339C7DC3E3DBFF 
+        foreign key (global_home_folder_configuration_id) 
         references global_home_folder_configuration;
 
     alter table individual 

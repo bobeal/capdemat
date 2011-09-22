@@ -80,6 +80,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/civil/DeathDetailsRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/civil/BirthDetailsRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/election/ElectoralRollRegistrationRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/election/StandardElectoralRollRegistrationRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/military/MilitaryCensusRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/leisure/culture/LibraryRegistrationRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/leisure/SmsNotificationRequestData.hbm.xml</value>

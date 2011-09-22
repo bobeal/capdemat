@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/serrr" 
+  xmlns:serrr="http://www.cg95.fr/cvq/schema/serrr"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common" 
+    schemaLocation="../common/CVQCommonElements.xsd" />
+
+  <xs:element name="StandardElectoralRollRegistrationRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Demande d'inscription sur les listes électorales (CERFA)
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Inscription sur les listes électorales (CERFA)
+      </xs:documentation>
+      <xs:appinfo>
+        <model namespace="election" />
+        <common>
+            <namespace name="election" />
+          <steps>
+            <step index="0" name="inscription" >
+              <widgets>
+                <subject />
+              </widgets>
+              <conditions>
+                <condition name="estUnionEuropenne" />
+                <condition name="estElectionEuropenne" />
+              </conditions>
+            </step>
+            <step index="1" name="situation" >
+              <conditions>
+                <condition name="estChangementCommune" />
+              </conditions>
+            </step>
+            <step index="2" name="radiation" required="false" />
+            <step index="3" ref="document" />
+            <step index="4" ref="validation" />
+            <step index="5" ref="administration" />
+            </steps>
+          </common>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="cvq:RequestType">
+          <xs:sequence>
+            <xs:element name="NomJeuneFille" type="cvq:LastNameType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Nom de jeune fille
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom de jeune fille
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="inscription" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="Sexe" type="serrr:SerrrSexeType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Sexe
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Sexe
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="inscription" />
+                  </common>
+                  <fo>
+                      <radio />
+                  </fo>
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="DateNaissance" type="xs:date">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Date de naissance
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Date de naissance
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" /> 
+                  <common>
+                    <step name="inscription" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="LieuNaissance" type="serrr:SerrrLieuNaissanceType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Lieu de naissance
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Lieu de naissance
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="inscription" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Nationalite" type="serrr:SerrrNationaliteType" default="Francaise">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Nationalité de la personne à inscrire
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nationalité
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="inscription" />
+                    <conditions>
+                      <condition name="estUnionEuropenne" type="trigger" />
+                    </conditions>
+                  </common>
+                  <fo>
+                    <radio />
+                  </fo>
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="PrecisionNationalite" type="serrr:SerrrPrecisionNationaliteType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Précisez votre nationalité
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Précisez votre nationalité
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="inscription" />
+                    <conditions>
+                      <condition name="estUnionEuropenne" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="TypeElection" type="serrr:SerrrTypeElectionType" default="ElectionMunicipale">
+              <xs:annotation>
+               <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                 Type d'élection
+               </xs:documentation>
+              <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Type d'élection
+              </xs:documentation>
+             <xs:appinfo>
+             <common>
+               <step name="inscription" />
+               <conditions>
+                  <condition name="estUnionEuropenne" type="filled" />
+                  <condition name="estElectionEuropenne" type="trigger" />
+               </conditions>
+             </common>
+                <fo>
+                 <radio />
+               </fo>
+               <bo column="2" />
+               <pdf />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+
+            <xs:element name="LieuDerniereInscription" type="serrr:SerrrLieuDerniereInscriptionType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Indiquez le lieu de votre dernière inscription sur une liste électorale d'un autre pays de l'Union Européenne
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Indiquez le lieu de votre dernière inscription sur une liste électorale d'un autre pays de l'Union Européenne
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="inscription" />
+                    <conditions>
+                      <condition name="estElectionEuropenne" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="Situation" type="serrr:SerrrSituationType" default="PremiereInscription">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Cocher la case correspondant à votre situation
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Cocher la case correspondant à votre situation
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="situation" />
+                    <conditions>
+                      <condition name="estChangementCommune" type="trigger" />
+                    </conditions>
+                  </common>
+                  <fo>
+                    <radio />
+                  </fo>
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="PrecedentLieuInscription" type="serrr:SerrrPrecedentLieuInscriptionType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Précédent lieu d'inscription
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Précédent lieu d'inscription
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="situation" />
+                    <conditions>
+                      <condition name="estChangementCommune" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AmbassadeOuPosteConsulaire" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Ambassade ou poste consulaire
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Ambassade ou poste consulaire
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="radiation" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="PaysRadiation" type="cvq:CountryType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Pays
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Pays
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="radiation" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="TypeInscription" type="serrr:SerrrTypeInscriptionType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Inscription
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Inscription
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step ref="administration" />
+                  </common>
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:simpleType name="SerrrSexeType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Feminin" value="Féminin"/>
+        <enum key="Masculin" value="Masculin"/>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Feminin"/>
+      <xs:enumeration value="Masculin"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="SerrrNationaliteType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Francaise" value="Française"/>
+        <enum key="RessortissantUE" value="Ressortissant de l'UE"/>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Francaise"/>
+      <xs:enumeration value="RessortissantUE"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="SerrrTypeElectionType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="ElectionMunicipale" value="Elections municipales"/>
+        <enum key="ElectionEuropeenne" value="Elections européennes"/>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ElectionMunicipale"/>
+      <xs:enumeration value="ElectionEuropeenne"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="SerrrTypeInscriptionType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Volontaire" value="Inscription volontaire"/>
+        <enum key="DecisionJudiciaire" value="Inscription par décision judiciaire"/>
+        <enum key="Office" value="Inscription d'office"/>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Volontaire"/>
+      <xs:enumeration value="DecisionJudiciaire"/>
+      <xs:enumeration value="Office"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="SerrrSituationType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Informations relatives à la raison de la demande d'inscription sur les listes électorales 
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Raison de la demande
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="PremiereInscription" value="Première inscription sur les listes électorales d'une commune française"/>
+        <enum key="DemenagementMemeCommune" value="Inscription en cas de déménagement à l'intérieur d'une même commune française ou d'un même arrondissement pour Paris, Lyon et Marseille"/>
+        <enum key="ChangementCommune" value="Inscription en cas de changement de commune d'inscription ou en cas de changement d'arrondissement pour Paris, Lyon et Marseille"/>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PremiereInscription"/>
+      <xs:enumeration value="DemenagementMemeCommune"/>
+      <xs:enumeration value="ChangementCommune"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="SerrrLieuDerniereInscriptionType">
+    <xs:sequence>
+      <xs:element name="PaysPrecedent" type="cvq:CountryType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Pays
+          </xs:documentation>
+          <xs:documentation xml:lang="fr"
+            source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Pays
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" />
+            <common>
+              <step name="inscription" />
+            </common>
+            <fo />
+            <bo column="2" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="SubdivisionAdministrativePrecedente" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Subdivision administrative
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Subdivision administrative
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="inscription" />
+            </common>
+            <fo />
+            <bo column="2" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CommuneOuLocalitePrecedente" type="cvq:CityType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Commune ou Localité
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Commune ou Localité
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="inscription" />
+            </common>
+            <fo />
+            <bo column="2" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SerrrRadiationListeConsulaireType">
+    <xs:sequence>
+      <xs:element name="PaysRadiation" type="cvq:CountryType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Pays
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Pays
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step ref="inscription" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AmbassadeOuPosteConsulaire" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Ambassade ou poste consulaire
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Ambassade ou poste consulaire
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step ref="inscription" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SerrrLieuNaissanceType">
+    <xs:sequence>
+      <xs:element name="VilleNaissanceCodePostal" type="cvq:CityType">
+         <xs:annotation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+             Ville du lieu de naissance
+           </xs:documentation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+             Ville
+           </xs:documentation>
+           <xs:appinfo>
+             <common>
+               <step ref="inscription" />
+             </common>
+             <fo />
+             <bo column="1" />
+             <pdf />
+           </xs:appinfo>
+         </xs:annotation>
+       </xs:element>
+      <xs:element name="LieuNaissanceDepartement" type="cvq:InseeDepartementCodeType" minOccurs="0">
+         <xs:annotation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+             Département du lieu de naissance
+           </xs:documentation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+             Département
+           </xs:documentation>
+           <xs:appinfo>
+             <model namespace="users" />
+             <common>
+               <step ref="inscription" />
+             </common>
+             <fo />
+             <bo column="1" />
+             <pdf />
+           </xs:appinfo>
+         </xs:annotation>
+       </xs:element>
+      <xs:element name="LieuNaissancePays" type="cvq:CountryType" minOccurs="0">
+         <xs:annotation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+             Pays du lieu de naissance
+           </xs:documentation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+             Pays
+           </xs:documentation>
+           <xs:appinfo>
+             <model namespace="users" />
+             <common>
+               <step ref="inscription" />
+             </common>
+             <fo />
+             <bo column="1" />
+             <pdf />
+           </xs:appinfo>
+         </xs:annotation>
+       </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SerrrPrecedentLieuInscriptionType">
+    <xs:sequence>
+      <xs:element name="AncienneCommune" type="cvq:CityType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Commune
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Commune
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="situation" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="DepartementAncienneCommune" type="cvq:InseeDepartementCodeType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Département
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Département
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="situation" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="SerrrPrecisionNationaliteType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="de" value="Allemand(e)" />
+        <enum key="ad" value="Andorran(e)" />
+        <enum key="at" value="Autrichien(ne)" />
+        <enum key="be" value="Belge" />
+        <enum key="gb" value="Britannique" />
+        <enum key="bg" value="Bulgare" />
+        <enum key="cy" value="Chypriote" />
+        <enum key="dk" value="Danois(e)" />
+        <enum key="es" value="Espagnol(e)" />
+        <enum key="ee" value="Estonien(ne)" />
+        <enum key="fi" value="Finlandais(e)" />
+        <enum key="gr" value="Grec(que)" />
+        <enum key="hu" value="Hongrois(e)" />
+        <enum key="ie" value="Irlandais(e)" />
+        <enum key="it" value="Italien(ne)" />
+        <enum key="lv" value="Lettonien(ne)" />
+        <enum key="lt" value="Lituanien(ne)" />
+        <enum key="lu" value="Luxembourgeois(e)" />
+        <enum key="mt" value="Maltais(e)" />
+        <enum key="nl" value="Néerlandais(e)" />
+        <enum key="pl" value="Polonais(e)" />
+        <enum key="pt" value="Portugais(e)" />
+        <enum key="ro" value="Roumain(e)" />
+        <enum key="si" value="Slovénien(ne)" />
+        <enum key="sk" value="Slovaque" />
+        <enum key="se" value="Suèdois(e)" />
+        <enum key="cz" value="Tchèque" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="de"/>
+      <xs:enumeration value="ad"/>
+      <xs:enumeration value="at"/>
+      <xs:enumeration value="be"/>
+      <xs:enumeration value="gb"/>
+      <xs:enumeration value="bg"/>
+      <xs:enumeration value="cy"/>
+      <xs:enumeration value="dk"/>
+      <xs:enumeration value="es"/>
+      <xs:enumeration value="ee"/>
+      <xs:enumeration value="fi"/>
+      <xs:enumeration value="gr"/>
+      <xs:enumeration value="hu"/>
+      <xs:enumeration value="ie"/>
+      <xs:enumeration value="it"/>
+      <xs:enumeration value="lv"/>
+      <xs:enumeration value="lt"/>
+      <xs:enumeration value="lu"/>
+      <xs:enumeration value="mt"/>
+      <xs:enumeration value="nl"/>
+      <xs:enumeration value="pl"/>
+      <xs:enumeration value="pt"/>
+      <xs:enumeration value="ro"/>
+      <xs:enumeration value="si"/>
+      <xs:enumeration value="sk"/>
+      <xs:enumeration value="se"/>
+      <xs:enumeration value="cz"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

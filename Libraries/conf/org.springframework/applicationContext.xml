@@ -655,6 +655,16 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="filingDelay" value="12"/>
   </bean>
 
+  <bean id="standardElectoralRollRegistrationRequestService" 
+    class="fr.cg95.cvq.service.request.election.impl.StandardElectoralRollRegistrationRequestService" 
+    parent="requestService">
+    <property name="label" value="Standard Electoral Roll Registration"/>
+    <property name="subjectPolicy" value="SUBJECT_POLICY_ADULT" />
+    <property name="isOfRegistrationKind" value="true"/>
+    <property name="defaultDisplayGroup" value="election" />
+    <property name="filingDelay" value="12"/>
+  </bean>
+
   <bean id="alignmentCertificateRequestService" 
     class="fr.cg95.cvq.service.request.urbanism.impl.AlignmentCertificateRequestService" 
     parent="requestService">

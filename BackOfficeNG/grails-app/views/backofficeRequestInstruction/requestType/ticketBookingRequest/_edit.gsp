@@ -4,7 +4,7 @@
 <div id="requestData" class="yellow-yui-tabview">
   <ul class="yui-nav">
   
-    <li  class="selected ">
+    <li class="selected ">
       <a href="#page0"><em><g:message code="tbr.step.entertainments.label" /></em></a>
     </li>
   
@@ -30,25 +30,25 @@
             
               
               <dl>
-                <dt class="required condition-hasSubscriberNumber-trigger"><g:message code="tbr.property.isSubscriber.label" /> * : </dt><dd id="isSubscriber" class="validate-boolean required-true i18n-tbr.property.isSubscriber" ><span class="value-${rqt?.isSubscriber}"><g:message code="message.${rqt?.isSubscriber ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required condition-hasSubscriberNumber-trigger"><g:message code="tbr.property.isSubscriber.label" /> * : </dt><dd id="isSubscriber" class="action-editField validate-boolean required-true i18n-tbr.property.isSubscriber" ><span class="value-${rqt?.isSubscriber}"><g:message code="message.${rqt?.isSubscriber ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required condition-hasSubscriberNumber-filled"><g:message code="tbr.property.subscriberNumber.label" /> * : </dt><dd id="subscriberNumber" class="validate-token required-true i18n-tbr.property.subscriberNumber" ><span>${rqt?.subscriberNumber}</span></dd>
+                <dt class="required condition-hasSubscriberNumber-filled"><g:message code="tbr.property.subscriberNumber.label" /> * : </dt><dd id="subscriberNumber" class="action-editField validate-token required-true i18n-tbr.property.subscriberNumber" ><span>${rqt?.subscriberNumber}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required condition-hasSubscriberNumber-filled"><g:message code="tbr.property.subscriberFirstName.label" /> * : </dt><dd id="subscriberFirstName" class="validate-string required-true i18n-tbr.property.subscriberFirstName" ><span>${rqt?.subscriberFirstName}</span></dd>
+                <dt class="required condition-hasSubscriberNumber-filled"><g:message code="tbr.property.subscriberFirstName.label" /> * : </dt><dd id="subscriberFirstName" class="action-editField validate-string required-true i18n-tbr.property.subscriberFirstName" ><span>${rqt?.subscriberFirstName}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required condition-hasSubscriberNumber-filled"><g:message code="tbr.property.subscriberLastName.label" /> * : </dt><dd id="subscriberLastName" class="validate-string required-true i18n-tbr.property.subscriberLastName" ><span>${rqt?.subscriberLastName}</span></dd>
+                <dt class="required condition-hasSubscriberNumber-filled"><g:message code="tbr.property.subscriberLastName.label" /> * : </dt><dd id="subscriberLastName" class="action-editField validate-string required-true i18n-tbr.property.subscriberLastName" ><span>${rqt?.subscriberLastName}</span></dd>
               </dl>
               
             
@@ -66,13 +66,13 @@
             
               
               <dl>
-                <dt class="required"><g:message code="tbr.property.totalPrice.label" /> * : </dt><dd id="totalPrice" class="validate-decimal required-true i18n-tbr.property.totalPrice" ><span>${rqt?.totalPrice}</span></dd>
+                <dt class="required"><g:message code="tbr.property.totalPrice.label" /> * : </dt><dd id="totalPrice" class="action-editField validate-decimal required-true i18n-tbr.property.totalPrice" ><span>${rqt?.totalPrice}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class=""><g:message code="tbr.property.paymentReference.label" />  : </dt><dd id="paymentReference" class="validate-string i18n-tbr.property.paymentReference" ><span>${rqt?.paymentReference}</span></dd>
+                <dt class=""><g:message code="tbr.property.paymentReference.label" />  : </dt><dd id="paymentReference" class="action-editField validate-string i18n-tbr.property.paymentReference" ><span>${rqt?.paymentReference}</span></dd>
               </dl>
               
             
@@ -97,7 +97,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="tbr.property.rulesAndRegulationsAcceptance.label" /> * : </dt><dd id="rulesAndRegulationsAcceptance" class="validate-acceptance required-true i18n-tbr.property.rulesAndRegulationsAcceptance" ><span class="value-${rqt?.rulesAndRegulationsAcceptance}"><g:message code="message.${rqt?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required"><g:message code="tbr.property.rulesAndRegulationsAcceptance.label" /> * : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance required-true i18n-tbr.property.rulesAndRegulationsAcceptance" ><span class="value-${rqt?.rulesAndRegulationsAcceptance}"><g:message code="message.${rqt?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             

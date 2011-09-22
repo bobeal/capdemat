@@ -107,7 +107,7 @@
 <g:else>
   <div id="${currentStep}" class="form ${rqt.stepStates[currentStep]?.state}">
     <g:if test="${!(customReferential.businessStep == currentStep)}">
-      <form method="post" id="stepForm" action="${createLink(action:'edit')}">
+      <form method="post" id="stepForm" action="${createLink(controller:'frontofficeRequest', action:'edit')}">
     </g:if>
       <h3>
          ${message(code: requestTypeAcronym + '.step.' + currentStep + '.label')}
@@ -119,7 +119,7 @@
        <g:render template="/frontofficeRequestType/${requestTypeLabelAsDir}/${currentStep}${currentCollection ? '-' + currentCollection : ''}" />
       </div>
       <g:if test="${customReferential?.businessStep == currentStep}">
-        <form method="post" id="stepForm" action="${createLink(action:'edit')}">
+        <form method="post" id="stepForm" action="${createLink(controller:'frontofficeRequest', action:'edit')}">
       </g:if>
       <div class="error" id="stepForm-error"> </div>
       <input type="hidden" name="returnUrl" value="${returnUrl}" />

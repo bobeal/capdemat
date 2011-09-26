@@ -67,7 +67,7 @@ public class DraftManagementJob {
             requestTypeService.getGlobalRequestTypeConfiguration().getDraftLiveDuration());
         List<Request> requests = requestDAO.search(criterias,null,null,0,0, true);
         for (Request r : requests) {
-            requestWorkflowService.delete(r);
+            requestWorkflowService.delete(r, false);
         }
     }
     

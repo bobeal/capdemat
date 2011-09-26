@@ -712,22 +712,22 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void delete(Request request) {
+    public void delete(Request request, boolean homeFolderDeletionInProgress) {
+        if (request == null)
+            return;
         requestDAO.delete(request);
-        if (request != null) {
-            applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.REQUEST_DELETED, request));
-            HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
-            if (homeFolder.isTemporary()) {
-                HibernateUtil.getSession().flush();
-                userWorkflowService.delete(homeFolder);
-            }
+        applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.REQUEST_DELETED, request));
+        HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
+        if (!homeFolderDeletionInProgress && homeFolder.isTemporary()) {
+            HibernateUtil.getSession().flush();
+            userWorkflowService.delete(homeFolder);
         }
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void delete(final Long id) {
-        delete(requestDAO.findById(id, true));
+        delete(requestDAO.findById(id, true), false);
     }
 
     @Override
@@ -1218,7 +1218,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                 logger.debug("onApplicationEvent() deleting requests for home folder "
                     + homeFolder.getId());
                 for (Request request : requestDAO.listByHomeFolder(homeFolder.getId(), false)) {
-                    delete(request);
+                    delete(request, true);
                 }
             } else {
                 logger.debug("onApplicationEvent() nothing to do for individual "

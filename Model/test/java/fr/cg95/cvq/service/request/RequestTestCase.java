@@ -107,7 +107,7 @@ public class RequestTestCase extends ServiceTestCase {
             continueWithNewTransaction();
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-            requestWorkflowService.delete(request);
+            requestWorkflowService.delete(request, false);
             continueWithNewTransaction();
             // ensure all requests have been deleted after each test
             assertEquals(0, requestSearchService.get(new HashSet<Critere>(), null, null, -1, 0, false).size());

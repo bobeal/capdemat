@@ -6,12 +6,10 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.request.IRequestWorkflowService
-import fr.cg95.cvq.service.users.IUserSearchService
 import fr.cg95.cvq.util.Critere
 
 class FrontofficeRequestTypeController {
 
-    IUserSearchService userSearchService
     ILocalAuthorityRegistry localAuthorityRegistry
     IRequestSearchService requestSearchService
     IRequestWorkflowService requestWorkflowService
@@ -20,12 +18,6 @@ class FrontofficeRequestTypeController {
     def requestTypeService
     def requestTypeAdaptorService
     def documentAdaptorService
-    
-    // FIXME : deprecated action
-    def index = {
-        def adult = userSearchService.getAdultById(session.currentEcitizenId)
-        return ['groups':requestTypeAdaptorService.getDisplayGroups(adult?.homeFolder)]
-    }
 
     def start = {
         def label = params.id != null ? params.id : params.requestTypeLabel

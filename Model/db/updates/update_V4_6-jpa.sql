@@ -594,6 +594,7 @@ UPDATE individual SET state = 'ARCHIVED'  Where state = 'Archived';
 -----------------;
 -- FullNationalityType;
 -----------------;
+UPDATE military_census_request SET child_country = 'UNKNOWN'  Where child_country = 'Unknown';
 UPDATE military_census_request SET child_country = 'NONE'  Where child_country = 'None';
 UPDATE military_census_request SET child_country = 'AF'  Where child_country = 'af';
 UPDATE military_census_request SET child_country = 'ZA'  Where child_country = 'za';
@@ -1273,6 +1274,7 @@ UPDATE military_census_request SET mother_nationality = 'ZM'  Where mother_natio
 UPDATE military_census_request SET mother_nationality = 'ZW'  Where mother_nationality = 'zw';
 UPDATE military_census_request SET mother_nationality = 'MK'  Where mother_nationality = 'mk';
 
+UPDATE military_census_request SET child_birth_country = 'UNKNOWN'  Where child_birth_country = 'Unknown';
 UPDATE military_census_request SET child_birth_country = 'NONE'  Where child_birth_country = 'None';
 UPDATE military_census_request SET child_birth_country = 'AF'  Where child_birth_country = 'af';
 UPDATE military_census_request SET child_birth_country = 'ZA'  Where child_birth_country = 'za';
@@ -1476,6 +1478,7 @@ UPDATE military_census_request SET child_birth_country = 'ZM'  Where child_birth
 UPDATE military_census_request SET child_birth_country = 'ZW'  Where child_birth_country = 'zw';
 UPDATE military_census_request SET child_birth_country = 'MK'  Where child_birth_country = 'mk';
 
+UPDATE military_census_request SET child_residence_country = 'UNKNOWN'  Where child_residence_country = 'Unknown';
 UPDATE military_census_request SET child_residence_country = 'NONE'  Where child_residence_country = 'None';
 UPDATE military_census_request SET child_residence_country = 'AF'  Where child_residence_country = 'af';
 UPDATE military_census_request SET child_residence_country = 'ZA'  Where child_residence_country = 'za';
@@ -1694,6 +1697,7 @@ UPDATE military_census_request SET child_title = 'MISS'  Where child_title = 'Mi
 UPDATE military_census_request SET child_title = 'AGENCY'  Where child_title = 'Agency';
 UPDATE military_census_request SET child_title = 'UNKNOWN'  Where child_title = 'Unknown';
 
+UPDATE military_census_request SET father_birth_country = 'UNKNOWN'  Where father_birth_country = 'Unknown';
 UPDATE military_census_request SET father_birth_country = 'NONE'  Where father_birth_country = 'None';
 UPDATE military_census_request SET father_birth_country = 'AF'  Where father_birth_country = 'af';
 UPDATE military_census_request SET father_birth_country = 'ZA'  Where father_birth_country = 'za';
@@ -1897,6 +1901,7 @@ UPDATE military_census_request SET father_birth_country = 'ZM'  Where father_bir
 UPDATE military_census_request SET father_birth_country = 'ZW'  Where father_birth_country = 'zw';
 UPDATE military_census_request SET father_birth_country = 'MK'  Where father_birth_country = 'mk';
 
+UPDATE military_census_request SET mother_birth_country = 'UNKNOWN'  Where mother_birth_country = 'Unknown';
 UPDATE military_census_request SET mother_birth_country = 'NONE'  Where mother_birth_country = 'None';
 UPDATE military_census_request SET mother_birth_country = 'AF'  Where mother_birth_country = 'af';
 UPDATE military_census_request SET mother_birth_country = 'ZA'  Where mother_birth_country = 'za';
@@ -2304,6 +2309,7 @@ UPDATE military_census_request SET prefect_pupil_department = 'D_E_P_972'  Where
 UPDATE military_census_request SET prefect_pupil_department = 'D_E_P_973'  Where prefect_pupil_department = 'DEP_973';
 UPDATE military_census_request SET prefect_pupil_department = 'D_E_P_974'  Where prefect_pupil_department = 'DEP_974';
 
+UPDATE military_census_request SET child_other_country = 'UNKNOWN'  Where child_other_country = 'Unknown';
 UPDATE military_census_request SET child_other_country = 'NONE'  Where child_other_country = 'None';
 UPDATE military_census_request SET child_other_country = 'AF'  Where child_other_country = 'af';
 UPDATE military_census_request SET child_other_country = 'ZA'  Where child_other_country = 'za';

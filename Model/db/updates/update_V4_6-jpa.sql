@@ -2936,3 +2936,10 @@ UPDATE handicap_compensation_adult_request SET dwelling_kind = 'OTHER' where dwe
 UPDATE request_form set type = 'REQUEST_CERTIFICAT' where type = 'Request Certificate';
 UPDATE request_form set type = 'REQUEST_MAIL_TEMPLATE' where type = 'Request Mail Template';
 
+---------------------
+-- FareType
+--------------------
+
+UPDATE ticket_subscriber_limits set key = 'PLEIN' where key = 'Plein';
+UPDATE ticket_subscriber_limits set key = 'REDUIT' where key = 'Réduit';
+

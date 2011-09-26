@@ -1,3 +1,19 @@
-p.draft-warning     { margin-top:0.6em !important; }
-.draft-warning span { background-color:#fdd; padding:0.2em; font-size: .9em; font-style: italic; }
-.draft-warning img  { vertical-align:middle; }
+.box .main { width: 56%; float: left; }
+.box .side { width: 42%; float: right; }
+
+/* Display bullet points in the information-box. */
+.information-box ul li { list-style: disc inside none; }
+
+.list-box h2 { border: 0; }
+.list-box { font-size: .9em; }
+.list-box ul li { padding: .4em 0; overflow: hidden; width: 100%; }
+
+.list-box ul li span.date   { float:  left; width: 20%; }
+.list-box ul li div.content { float: right; width: 80%; }
+
+.list-box ul li p, .list-box ul li span.date { color: #666; }
+.list-box ul li p { margin-top: .1em; }
+.list-box ul li p span.warn { background-color:#fdd; color: #000; }
+
+.group-box ul { margin: 0 1em 0 7em; }
+.group-box h3 { border: 0; }

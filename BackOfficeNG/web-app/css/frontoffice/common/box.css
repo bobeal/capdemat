@@ -7,13 +7,13 @@
 
 /* group box
 --------------------------------------------------------------*/
-.group-box   { margin: 1em 0; border-top: 1px solid #e6648d; background: #ffffff; overflow:auto; }
+.group-box { background: #fff; overflow:auto; }
 
 .group-box h3 { 
-  margin: .1em .5em ;
+  padding: .1em .5em;
   font-size: 1.5em; font-weight: normal;
   border-bottom: 1px dashed #e6648d;
-  color: #e6648d;
+  background-color: #e6648d;
 }
 
 .group-box a           { color: #095ba6; }

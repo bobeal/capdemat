@@ -77,15 +77,13 @@ class FrontofficeHomeController {
             it.lastAgentNote = requestAdaptorService.prepareNote(
                     requestNoteService.getLastAgentNote(it.id, null))
         }
+        def drafts = requestSearchService.find(false, "byState", RequestState.DRAFT)
         result.dashBoard.drafts =
-            requestAdaptorService.prepareRecords(this.getTopFiveRequests(draft:true))
+            requestAdaptorService.prepareRecords(['all': drafts, 'count': drafts.size, 'records': []])
         def draftLiveDuration = requestTypeService.globalRequestTypeConfiguration.draftLiveDuration
         result.dashBoard.drafts.records.each {
-            if (requestActionService.hasAction(it.id,
-                RequestActionType.DRAFT_DELETE_NOTIFICATION)) {
-                it.displayDraftWarning = true
-                it.draftExpirationDate = it.creationDate + draftLiveDuration
-            }
+            it.expirationDate = it.creationDate + draftLiveDuration
+            it.warn = requestActionService.hasAction(it.id, RequestActionType.DRAFT_DELETE_NOTIFICATION)
         }
 
         result.dashBoard.payments = preparePayments(this.getTopFivePayments())

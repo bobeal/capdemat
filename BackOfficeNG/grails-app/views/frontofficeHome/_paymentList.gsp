@@ -1,24 +1,24 @@
 <g:if test="${dashBoard.payments?.all.size() > 0}">
-<div class="list-box">
-  <h2><g:message code="payment.header.lastPayments" /></h2>
+  <div class="list-box">
+    <h2><g:message code="payment.header.lastPayments" /></h2>
     <ul>
       <g:each var="record" in="${dashBoard.payments.all}">
         <li>
-            <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="payment.state" />
+          <span class="date">${formatDate(date:record.initializationDate,formatName:'format.date')}</span>
+
+          <div class="content">
             <a href="${createLink(controller:'frontofficePayment',action:'paymentDetails',id:record.id)}">
-            <p>
-              <g:message code="payment.property.payment" /> 
+              ${formatNumber(number:record.amount / 100,formatName:'format.currency')}
               <g:if test="${record.bankReference}">
-                ${record.bankReference}
+                - ${record.bankReference}
               </g:if>
-              <g:message code="payment.searchResult.amount" /> 
-              <span><g:formatNumber number="${record.amount / 100}" formatName="format.currency"/></span>
-              - <g:message code="payment.searchResult.paidBy" />
-              <span>${record.paymentMode}</span>
-              - <g:message code="payment.searchResult.initializationDate" /> 
-              <g:formatDate date="${record.initializationDate}" formatName="format.fullDate"/>
-            </p>
             </a>
+            <span class="tag-state">
+              <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="payment.state" />
+            </span>
+            <p>> <g:message code="payment.searchResult.paidBy" /> ${record.paymentMode}</p>
+          </div>
+
         </li>
       </g:each>
     </ul>
@@ -27,5 +27,5 @@
         <g:message code="action.seeAll" />
       </a>
     </p>
-</div>
+  </div>
 </g:if>

@@ -64,7 +64,7 @@ class FrontofficeHomeController {
         File infoFile = localAuthorityRegistry.getLocalAuthorityResourceFile(
             LocalAuthorityResource.INFORMATION_MESSAGE_FO.id)
         
-        if(infoFile.exists()) result.commonInfo = infoFile.text
+        if(infoFile.exists() && !infoFile.text.isEmpty()) result.commonInfo = infoFile.text
         
         result.dashBoard.lastRequests = requestAdaptorService.prepareRecords(this.getTopFiveRequests())
         result.dashBoard.lastRequests.records.each {

@@ -222,7 +222,7 @@ class FrontofficeHomeController {
         criteriaSet.add(critere)
         
         return [
-            'all' : requestSearchService.get(criteriaSet, 'creationDate', 'desc', 
+            'all' : requestSearchService.get(criteriaSet, Request.SEARCH_BY_LAST_MODIFICATION_DATE, 'desc',
                 draft ? -1 : resultsPerList, 0, false),
             'count' : requestSearchService.getCount(criteriaSet),
             'records' : []
@@ -240,8 +240,8 @@ class FrontofficeHomeController {
         critere.value = RequestState.UNCOMPLETE
         criteriaSet.add(critere)
         return [
-            'all' : requestSearchService.get(criteriaSet,
-                Request.SEARCH_BY_CREATION_DATE, "desc", -1, 0, false),
+            'all' : requestSearchService.get(criteriaSet, Request.SEARCH_BY_LAST_MODIFICATION_DATE, "desc",
+                -1, 0, false),
             'count' : requestSearchService.getCount(criteriaSet),
             'records' : []
         ]

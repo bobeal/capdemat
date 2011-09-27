@@ -609,10 +609,11 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
 
         // if trying to archive home folder responsible, check it is the last non archived individual
         // in home folder
-        if (UserState.ARCHIVED.equals(state) && individual.getId().equals(
-            userSearchService.getHomeFolderResponsible(homeFolder.getId()).getId())) {
+        Long responsibleId = userSearchService.getHomeFolderResponsible(homeFolder.getId()).getId(); 
+        if (UserState.ARCHIVED.equals(state) && individual.getId().equals(responsibleId)) {
             for (Individual i : homeFolder.getIndividuals()) {
-                if (!UserState.ARCHIVED.equals(i.getState()))
+                // check that other individuals are also archived
+                if (!UserState.ARCHIVED.equals(i.getState()) && !i.getId().equals(responsibleId))
                     throw new CvqModelException("user.state.error.mustArchiveResponsibleLast");
             }
         }

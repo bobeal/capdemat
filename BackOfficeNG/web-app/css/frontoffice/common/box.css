@@ -18,7 +18,7 @@
 
 .group-box a           { color: #095ba6; }
 .group-box a:hover     { color: #fff; background: #e6648d; text-decoration: none; }
-.group-box a.tag-draft { color: #fff; font-size: .8em; text-decoration: none; }
+.group-box a.tag-draft { color: #000; font-size: .8em; text-decoration: none; }
 
 .group-box ul      { margin: 1em 1em 0 10em; padding: 0 0 1em; font-size: 1.1em; }
 .group-box ul li   { padding: .3em 0; }

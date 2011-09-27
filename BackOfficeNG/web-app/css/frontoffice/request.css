@@ -146,12 +146,12 @@
 
 #request div.form ul.yes-no li { display: inline; margin: 0 .5em 0 0; }
 
-#request div.form div fieldset { margin: 0.5em 0 .5em 0; padding: 1em 0 1em 1em;  border: 1px solid #DB4366;}
+#request div.form div fieldset { margin: .5em 0 1em 0; padding: 1em;  border: 1px solid #DB4366; }
 
 #request legend {
-  margin-top: 1em !important; 
   font-size: 1.3em; font-weight: bold;
   color: #DB4366;
+  padding: 0 .3em;
 }
 
 #request div.form .address {

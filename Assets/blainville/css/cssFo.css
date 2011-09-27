@@ -88,7 +88,8 @@ form textarea { border-top-color: #ff812b !important; }
 #request legend   { color: #ff812b !important; }
 #request .address { border-color: #ff812b !important; }
 
-#request form ul.dataTree      { border-color: #ff812b !important; }
+#request form ul.dataTree,
+#request form fieldset,
 #request form div .captcha img { border-color: #ff812b !important; }
 
 #request form div input[type="text"],

@@ -45,10 +45,8 @@ class RequestAdaptorService {
                 'label':translationService
                     .translateRequestTypeLabel(request.requestType.label).encodeAsHTML(),
                 'creationDate':request.creationDate,
-                'requesterLastName':request.requesterLastName,
-                'requesterFirstName': request.requesterFirstName,
-                'subjectLastName':request.subjectLastName,
-                'subjectFirstName': request.subjectFirstName,
+                'requesterName':UserUtils.getDisplayName(request.requesterId),
+                'subjectName':UserUtils.getDisplayName(request.subjectId),
                 'state':request.state.toString(),
                 'lastModificationDate':request.lastModificationDate,
                 'lastInterveningUserId': UserUtils.getDisplayName(request.lastInterveningUserId),

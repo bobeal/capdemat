@@ -24,10 +24,10 @@
             <g:message code="request.searchResult.requestId" />
             <span>${record.id}</span>
             - <g:message code="layout.from" /> 
-            <span>${record.requesterLastName} ${record.requesterFirstName}</span>
-            <g:if test="${record.subjectLastName && record.subjectLastName != ''}">
+            <span>${record.requesterName}</span>
+            <g:if test="${record.subjectName && record.subjectName != ''}">
              <g:message code="layout.for" />
-             ${record.subjectLastName} ${record.subjectFirstName}
+             ${record.subjectName}
             </g:if>
           <g:if test="${record.state != 'Archived'}">
             </a>

@@ -47,10 +47,10 @@
                     <g:message code="request.searchResult.requestId" />
                     <span>${draft.id}</span>
                     - <g:message code="layout.from" />
-                    <span>${draft.requesterLastName} ${draft.requesterFirstName}</span>
-                    <g:if test="${draft.subjectLastName && draft.subjectLastName != ''}">
+                    <span>${draft.requesterName}</span>
+                    <g:if test="${draft.subjectName && draft.subjectName != ''}">
                       <g:message code="layout.for" />
-                      ${draft.subjectLastName} ${draft.subjectFirstName}
+                      ${draft.subjectName}
                     </g:if>
                   </a>
                 </p>

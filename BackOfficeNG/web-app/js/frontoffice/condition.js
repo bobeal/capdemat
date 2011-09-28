@@ -73,8 +73,7 @@
           reset();
           zcf.Condition.setAll();
           zcf.Condition.test();
-          yue.on('request', 'change', zcf.Condition.run,zcf.Condition,true);
-          yue.on('request', 'click', zcf.Condition.run,zcf.Condition,true);
+          yue.on(yus.query('form', 'request'), 'change', zcf.Condition.run,zcf.Condition,true);
       },
       
       run : function(e) {
@@ -118,7 +117,7 @@
       },
       
       /*
-       * Specific current trigger element isn't usefull in FrontOffice request creation from
+       * Specific current trigger element isn't useful in FrontOffice request creation from
        * TODO - Modify zcf.condition.js API or call addTriggers() with the two fisrt params only
        */
       addTriggers : function (conditionName, triggerEls, currentTriggerEl) {

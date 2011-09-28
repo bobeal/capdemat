@@ -150,8 +150,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public Long create(Request request, String note) throws CvqException {
         performBusinessChecks(request, SecurityContext.getCurrentEcitizen());
-        IRequestService requestService = requestServiceRegistry.getRequestService(request);
-        requestService.onRequestIssued(request);
         return finalizeAndPersist(request, note);
     }
 
@@ -161,8 +159,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     public Long create(Request request, Adult requester, String note)
         throws CvqException {
         HomeFolder homeFolder = performBusinessChecks(request, requester);
-        IRequestService requestService = requestServiceRegistry.getRequestService(request);
-        requestService.onRequestIssued(request);
         return finalizeAndPersist(request, homeFolder, note);
     }
 
@@ -178,8 +174,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         SecurityContext.setCurrentEcitizen(
                 userSearchService.getHomeFolderResponsible(homeFolder.getId()));
 
-        IRequestService requestService = requestServiceRegistry.getRequestService(request);
-        requestService.onRequestIssued(request);
         requestDocumentService.addDocuments(request, documents);
         return finalizeAndPersist(request, homeFolder, note);
     }
@@ -813,6 +807,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         request.setState(RequestState.PENDING);
         request.setDataState(DataState.PENDING);
         updateDocumentsToPending(request);
+
+        IRequestService requestService = requestServiceRegistry.getRequestService(request);
+        requestService.onRequestIssued(request);
 
         WorkflowPendingEvent wfEvent = new WorkflowPendingEvent(request);
         requestExternalService.publish(wfEvent);

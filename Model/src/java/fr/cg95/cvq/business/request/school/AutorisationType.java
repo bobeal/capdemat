@@ -17,9 +17,14 @@ public enum AutorisationType {
     @Deprecated 
     public static AutorisationType[] allAutorisationTypes = AutorisationType.values();
 
-    private String name;
-    private AutorisationType(String name){
-        this.name = name;
+    private String legacyLabel;
+
+    private AutorisationType(String legacyLabel){
+        this.legacyLabel = legacyLabel;
+    }
+
+    public String getLegacyLabel() {
+        return legacyLabel;
     }
 
     public static AutorisationType getDefaultAutorisationType() {

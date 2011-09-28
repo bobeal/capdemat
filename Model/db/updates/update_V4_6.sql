@@ -82,3 +82,27 @@ select * from migrate_notified();
 drop function migrate_notified();
 
 update request set state = 'CLOSED' where state = 'NOTIFIED' or state = 'Notified';
+
+-- TS Standard Electoral Roll Registration (CERFA)
+create table standard_electoral_roll_registration_request (
+        id int8 not null,
+        ambassade_ou_poste_consulaire varchar(255),
+        ancienne_commune varchar(32),
+        commune_ou_localite_precedente varchar(32),
+        date_naissance timestamp,
+        departement_ancienne_commune varchar(255),
+        lieu_naissance_departement varchar(255),
+        lieu_naissance_pays varchar(255),
+        nationalite varchar(255),
+        nom_jeune_fille varchar(38),
+        pays_precedent varchar(255),
+        pays_radiation varchar(255),
+        precision_nationalite varchar(255),
+        sexe varchar(255),
+        situation varchar(255),
+        subdivision_administrative_precedente varchar(255),
+        type_election varchar(255),
+        type_inscription varchar(255),
+        ville_naissance_code_postal varchar(32),
+        primary key (id)
+    );

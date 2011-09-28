@@ -152,7 +152,5 @@
     };
     
   }();
-  
-  yue.onDOMReady(zcf.Condition.init);
-  
+
 }());

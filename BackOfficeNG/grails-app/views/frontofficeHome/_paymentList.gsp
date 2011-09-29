@@ -7,15 +7,15 @@
           <span class="date">${formatDate(date:record.initializationDate,formatName:'format.date')}</span>
 
           <div class="content">
+            <span class="action_and_tag-state">
+              <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="payment.state" />
+            </span>
             <a href="${createLink(controller:'frontofficePayment',action:'paymentDetails',id:record.id)}">
               ${formatNumber(number:record.amount / 100,formatName:'format.currency')}
               <g:if test="${record.bankReference}">
                 - ${record.bankReference}
               </g:if>
             </a>
-            <span class="tag-state">
-              <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="payment.state" />
-            </span>
             <p>> <g:message code="payment.searchResult.paidBy" /> ${record.paymentMode}</p>
           </div>
 

@@ -7,16 +7,7 @@
           <span class="date">${formatDate(date:record.creationDate,formatName:'format.date')}</span>
 
           <div class="content">
-            <g:if test="record.state != 'Archived'">
-              <a href="${createLink(controller:'frontofficeRequest',action:'summary',id:record.id)}">
-            </g:if>
-              ${record.label}
-              <g:message code="request.searchResult.requestId" />
-              ${record.id}
-            <g:if test="record.state != 'Archived'">
-              </a>
-            </g:if>
-            <span class="tag-state">
+            <span class="action_and_tag-state">
               <g:if test="${record.isEditable}">
                 <a href="${createLink(action:'edit',controller:'frontofficeRequest',id:record.id)}">
                   <g:message code="action.modify"/>
@@ -24,6 +15,15 @@
               </g:if>
               <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" />
             </span>
+            <g:if test="${record.state != 'Archived'}">
+              <a href="${createLink(controller:'frontofficeRequest',action:'summary',id:record.id)}">
+            </g:if>
+              ${record.label}
+              <g:message code="request.searchResult.requestId" />
+              ${record.id}
+            <g:if test="${record.state != 'Archived'}">
+              </a>
+            </g:if>
             <g:if test="${record.subjectName && record.subjectName != ''}">
               <p>> <g:message code="layout.for" /> ${record.subjectName}</p>
             </g:if>

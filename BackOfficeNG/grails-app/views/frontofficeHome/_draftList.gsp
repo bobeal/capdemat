@@ -7,17 +7,17 @@
           <span class="date">${formatDate(date:record.creationDate,formatName:'format.date')}</span>
 
           <div class="content">
-            <a href="${createLink(action:'edit',controller:'frontofficeRequest',id:record.id)}">
-              ${record.label}
-              <g:message code="request.searchResult.requestId" />
-              ${record.id}
-            </a>
-            <span class="tag-state">
+            <span class="action_and_tag-state">
               <a href="${createLink(action:'deleteDraft',controller:'frontofficeRequest',id:record.id)}">
                   <g:message code="action.remove"/>
               </a>
               <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" />
             </span>
+            <a href="${createLink(action:'edit',controller:'frontofficeRequest',id:record.id)}">
+              ${record.label}
+              <g:message code="request.searchResult.requestId" />
+              ${record.id}
+            </a>
             <g:if test="${record.subjectName && record.subjectName != ''}">
               <p>> <g:message code="layout.for" /> ${record.subjectName}</p>
             </g:if>

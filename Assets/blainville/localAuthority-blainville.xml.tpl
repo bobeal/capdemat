@@ -55,6 +55,8 @@
                 <value>School Canteen Registration</value>
                 <value>Perischool Activity Registration</value>
                 <value>Recreation Activity Registration</value>
+                <value>School Transport Registration</value>
+                <value>Global School Registration</value>
               </list>
             </property>
             <property name="serviceProperties">

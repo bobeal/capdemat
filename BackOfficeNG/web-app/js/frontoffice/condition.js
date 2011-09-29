@@ -124,7 +124,14 @@
           if (!yl.isUndefined(triggerEls) && triggerEls.length > 0) {
             var jsonTrigger = {};
             zct.each (triggerEls, function() {
-              jsonTrigger[this.name] = getTriggerValue(this);
+              var cut = this.name.lastIndexOf("[0].name")
+              if (cut !== -1) {
+                //The "condition" action expects a name without the "[0].name" part.
+                //"[0].name" part is present in local referential selectors.
+                jsonTrigger[this.name.slice(0, cut)] = getTriggerValue(this);
+              } else {
+                jsonTrigger[this.name] = getTriggerValue(this);
+              }
             });
             zcf.Condition.triggers.push(jsonTrigger);
             zcf.Condition.addFilleds(['condition', conditionName, 'filled'].join('-'));

@@ -7,108 +7,107 @@ package fr.cg95.cvq.business.users;
  */
 public enum InseeDepartementCodeType { 
 
-
     NONE("None"),
-    D_E_P_01("DEP_01"),
-    D_E_P_02("DEP_02"),
-    D_E_P_03("DEP_03"),
-    D_E_P_04("DEP_04"),
-    D_E_P_05("DEP_05"),
-    D_E_P_06("DEP_06"),
-    D_E_P_07("DEP_07"),
-    D_E_P_08("DEP_08"),
-    D_E_P_09("DEP_09"),
-    D_E_P_10("DEP_10"),
-    D_E_P_11("DEP_11"),
-    D_E_P_12("DEP_12"),
-    D_E_P_13("DEP_13"),
-    D_E_P_14("DEP_14"),
-    D_E_P_15("DEP_15"),
-    D_E_P_16("DEP_16"),
-    D_E_P_17("DEP_17"),
-    D_E_P_18("DEP_18"),
-    D_E_P_19("DEP_19"),
-    D_E_P_2_A("DEP_2A"),
-    D_E_P_2_B("DEP_2B"),
-    D_E_P_21("DEP_21"),
-    D_E_P_22("DEP_22"),
-    D_E_P_23("DEP_23"),
-    D_E_P_24("DEP_24"),
-    D_E_P_25("DEP_25"),
-    D_E_P_26("DEP_26"),
-    D_E_P_27("DEP_27"),
-    D_E_P_28("DEP_28"),
-    D_E_P_29("DEP_29"),
-    D_E_P_30("DEP_30"),
-    D_E_P_31("DEP_31"),
-    D_E_P_32("DEP_32"),
-    D_E_P_33("DEP_33"),
-    D_E_P_34("DEP_34"),
-    D_E_P_35("DEP_35"),
-    D_E_P_36("DEP_36"),
-    D_E_P_37("DEP_37"),
-    D_E_P_38("DEP_38"),
-    D_E_P_39("DEP_39"),
-    D_E_P_40("DEP_40"),
-    D_E_P_41("DEP_41"),
-    D_E_P_42("DEP_42"),
-    D_E_P_43("DEP_43"),
-    D_E_P_44("DEP_44"),
-    D_E_P_45("DEP_45"),
-    D_E_P_46("DEP_46"),
-    D_E_P_47("DEP_47"),
-    D_E_P_48("DEP_48"),
-    D_E_P_49("DEP_49"),
-    D_E_P_50("DEP_50"),
-    D_E_P_51("DEP_51"),
-    D_E_P_52("DEP_52"),
-    D_E_P_53("DEP_53"),
-    D_E_P_54("DEP_54"),
-    D_E_P_55("DEP_55"),
-    D_E_P_56("DEP_56"),
-    D_E_P_57("DEP_57"),
-    D_E_P_58("DEP_58"),
-    D_E_P_59("DEP_59"),
-    D_E_P_60("DEP_60"),
-    D_E_P_61("DEP_61"),
-    D_E_P_62("DEP_62"),
-    D_E_P_63("DEP_63"),
-    D_E_P_64("DEP_64"),
-    D_E_P_65("DEP_65"),
-    D_E_P_66("DEP_66"),
-    D_E_P_67("DEP_67"),
-    D_E_P_68("DEP_68"),
-    D_E_P_69("DEP_69"),
-    D_E_P_70("DEP_70"),
-    D_E_P_71("DEP_71"),
-    D_E_P_72("DEP_72"),
-    D_E_P_73("DEP_73"),
-    D_E_P_74("DEP_74"),
-    D_E_P_75("DEP_75"),
-    D_E_P_76("DEP_76"),
-    D_E_P_77("DEP_77"),
-    D_E_P_78("DEP_78"),
-    D_E_P_79("DEP_79"),
-    D_E_P_80("DEP_80"),
-    D_E_P_81("DEP_81"),
-    D_E_P_82("DEP_82"),
-    D_E_P_83("DEP_83"),
-    D_E_P_84("DEP_84"),
-    D_E_P_85("DEP_85"),
-    D_E_P_86("DEP_86"),
-    D_E_P_87("DEP_87"),
-    D_E_P_88("DEP_88"),
-    D_E_P_89("DEP_89"),
-    D_E_P_90("DEP_90"),
-    D_E_P_91("DEP_91"),
-    D_E_P_92("DEP_92"),
-    D_E_P_93("DEP_93"),
-    D_E_P_94("DEP_94"),
-    D_E_P_95("DEP_95"),
-    D_E_P_971("DEP_971"),
-    D_E_P_972("DEP_972"),
-    D_E_P_973("DEP_973"),
-    D_E_P_974("DEP_974");
+    D_E_P01("DEP01"),
+    D_E_P02("DEP02"),
+    D_E_P03("DEP03"),
+    D_E_P04("DEP04"),
+    D_E_P05("DEP05"),
+    D_E_P06("DEP06"),
+    D_E_P07("DEP07"),
+    D_E_P08("DEP08"),
+    D_E_P09("DEP09"),
+    D_E_P10("DEP10"),
+    D_E_P11("DEP11"),
+    D_E_P12("DEP12"),
+    D_E_P13("DEP13"),
+    D_E_P14("DEP14"),
+    D_E_P15("DEP15"),
+    D_E_P16("DEP16"),
+    D_E_P17("DEP17"),
+    D_E_P18("DEP18"),
+    D_E_P19("DEP19"),
+    D_E_P2_A("DEP2A"),
+    D_E_P2_B("DEP2B"),
+    D_E_P21("DEP21"),
+    D_E_P22("DEP22"),
+    D_E_P23("DEP23"),
+    D_E_P24("DEP24"),
+    D_E_P25("DEP25"),
+    D_E_P26("DEP26"),
+    D_E_P27("DEP27"),
+    D_E_P28("DEP28"),
+    D_E_P29("DEP29"),
+    D_E_P30("DEP30"),
+    D_E_P31("DEP31"),
+    D_E_P32("DEP32"),
+    D_E_P33("DEP33"),
+    D_E_P34("DEP34"),
+    D_E_P35("DEP35"),
+    D_E_P36("DEP36"),
+    D_E_P37("DEP37"),
+    D_E_P38("DEP38"),
+    D_E_P39("DEP39"),
+    D_E_P40("DEP40"),
+    D_E_P41("DEP41"),
+    D_E_P42("DEP42"),
+    D_E_P43("DEP43"),
+    D_E_P44("DEP44"),
+    D_E_P45("DEP45"),
+    D_E_P46("DEP46"),
+    D_E_P47("DEP47"),
+    D_E_P48("DEP48"),
+    D_E_P49("DEP49"),
+    D_E_P50("DEP50"),
+    D_E_P51("DEP51"),
+    D_E_P52("DEP52"),
+    D_E_P53("DEP53"),
+    D_E_P54("DEP54"),
+    D_E_P55("DEP55"),
+    D_E_P56("DEP56"),
+    D_E_P57("DEP57"),
+    D_E_P58("DEP58"),
+    D_E_P59("DEP59"),
+    D_E_P60("DEP60"),
+    D_E_P61("DEP61"),
+    D_E_P62("DEP62"),
+    D_E_P63("DEP63"),
+    D_E_P64("DEP64"),
+    D_E_P65("DEP65"),
+    D_E_P66("DEP66"),
+    D_E_P67("DEP67"),
+    D_E_P68("DEP68"),
+    D_E_P69("DEP69"),
+    D_E_P70("DEP70"),
+    D_E_P71("DEP71"),
+    D_E_P72("DEP72"),
+    D_E_P73("DEP73"),
+    D_E_P74("DEP74"),
+    D_E_P75("DEP75"),
+    D_E_P76("DEP76"),
+    D_E_P77("DEP77"),
+    D_E_P78("DEP78"),
+    D_E_P79("DEP79"),
+    D_E_P80("DEP80"),
+    D_E_P81("DEP81"),
+    D_E_P82("DEP82"),
+    D_E_P83("DEP83"),
+    D_E_P84("DEP84"),
+    D_E_P85("DEP85"),
+    D_E_P86("DEP86"),
+    D_E_P87("DEP87"),
+    D_E_P88("DEP88"),
+    D_E_P89("DEP89"),
+    D_E_P90("DEP90"),
+    D_E_P91("DEP91"),
+    D_E_P92("DEP92"),
+    D_E_P93("DEP93"),
+    D_E_P94("DEP94"),
+    D_E_P95("DEP95"),
+    D_E_P971("DEP971"),
+    D_E_P972("DEP972"),
+    D_E_P973("DEP973"),
+    D_E_P974("DEP974");
 
     private String legacyLabel;
 
@@ -134,212 +133,207 @@ public enum InseeDepartementCodeType {
 
         if (enumAsString.equals(NONE.toString()))
             return NONE;
-        else if (enumAsString.equals(D_E_P_01.toString()))
-            return D_E_P_01;
-        else if (enumAsString.equals(D_E_P_02.toString()))
-            return D_E_P_02;
-        else if (enumAsString.equals(D_E_P_03.toString()))
-            return D_E_P_03;
-        else if (enumAsString.equals(D_E_P_04.toString()))
-            return D_E_P_04;
-        else if (enumAsString.equals(D_E_P_05.toString()))
-            return D_E_P_05;
-        else if (enumAsString.equals(D_E_P_06.toString()))
-            return D_E_P_06;
-        else if (enumAsString.equals(D_E_P_07.toString()))
-            return D_E_P_07;
-        else if (enumAsString.equals(D_E_P_08.toString()))
-            return D_E_P_08;
-        else if (enumAsString.equals(D_E_P_09.toString()))
-            return D_E_P_09;
-        else if (enumAsString.equals(D_E_P_10.toString()))
-            return D_E_P_10;
-        else if (enumAsString.equals(D_E_P_11.toString()))
-            return D_E_P_11;
-        else if (enumAsString.equals(D_E_P_12.toString()))
-            return D_E_P_12;
-        else if (enumAsString.equals(D_E_P_13.toString()))
-            return D_E_P_13;
-        else if (enumAsString.equals(D_E_P_14.toString()))
-            return D_E_P_14;
-        else if (enumAsString.equals(D_E_P_15.toString()))
-            return D_E_P_15;
-        else if (enumAsString.equals(D_E_P_16.toString()))
-            return D_E_P_16;
-        else if (enumAsString.equals(D_E_P_17.toString()))
-            return D_E_P_17;
-        else if (enumAsString.equals(D_E_P_18.toString()))
-            return D_E_P_18;
-        else if (enumAsString.equals(D_E_P_19.toString()))
-            return D_E_P_19;
-        else if (enumAsString.equals(D_E_P_2_A.toString()))
-            return D_E_P_2_A;
-        else if (enumAsString.equals(D_E_P_2_B.toString()))
-            return D_E_P_2_B;
-        else if (enumAsString.equals(D_E_P_21.toString()))
-            return D_E_P_21;
-        else if (enumAsString.equals(D_E_P_22.toString()))
-            return D_E_P_22;
-        else if (enumAsString.equals(D_E_P_23.toString()))
-            return D_E_P_23;
-        else if (enumAsString.equals(D_E_P_24.toString()))
-            return D_E_P_24;
-        else if (enumAsString.equals(D_E_P_25.toString()))
-            return D_E_P_25;
-        else if (enumAsString.equals(D_E_P_26.toString()))
-            return D_E_P_26;
-        else if (enumAsString.equals(D_E_P_27.toString()))
-            return D_E_P_27;
-        else if (enumAsString.equals(D_E_P_28.toString()))
-            return D_E_P_28;
-        else if (enumAsString.equals(D_E_P_29.toString()))
-            return D_E_P_29;
-        else if (enumAsString.equals(D_E_P_30.toString()))
-            return D_E_P_30;
-        else if (enumAsString.equals(D_E_P_31.toString()))
-            return D_E_P_31;
-        else if (enumAsString.equals(D_E_P_32.toString()))
-            return D_E_P_32;
-        else if (enumAsString.equals(D_E_P_33.toString()))
-            return D_E_P_33;
-        else if (enumAsString.equals(D_E_P_34.toString()))
-            return D_E_P_34;
-        else if (enumAsString.equals(D_E_P_35.toString()))
-            return D_E_P_35;
-        else if (enumAsString.equals(D_E_P_36.toString()))
-            return D_E_P_36;
-        else if (enumAsString.equals(D_E_P_37.toString()))
-            return D_E_P_37;
-        else if (enumAsString.equals(D_E_P_38.toString()))
-            return D_E_P_38;
-        else if (enumAsString.equals(D_E_P_39.toString()))
-            return D_E_P_39;
-        else if (enumAsString.equals(D_E_P_40.toString()))
-            return D_E_P_40;
-        else if (enumAsString.equals(D_E_P_41.toString()))
-            return D_E_P_41;
-        else if (enumAsString.equals(D_E_P_42.toString()))
-            return D_E_P_42;
-        else if (enumAsString.equals(D_E_P_43.toString()))
-            return D_E_P_43;
-        else if (enumAsString.equals(D_E_P_44.toString()))
-            return D_E_P_44;
-        else if (enumAsString.equals(D_E_P_45.toString()))
-            return D_E_P_45;
-        else if (enumAsString.equals(D_E_P_46.toString()))
-            return D_E_P_46;
-        else if (enumAsString.equals(D_E_P_47.toString()))
-            return D_E_P_47;
-        else if (enumAsString.equals(D_E_P_48.toString()))
-            return D_E_P_48;
-        else if (enumAsString.equals(D_E_P_49.toString()))
-            return D_E_P_49;
-        else if (enumAsString.equals(D_E_P_50.toString()))
-            return D_E_P_50;
-        else if (enumAsString.equals(D_E_P_51.toString()))
-            return D_E_P_51;
-        else if (enumAsString.equals(D_E_P_52.toString()))
-            return D_E_P_52;
-        else if (enumAsString.equals(D_E_P_53.toString()))
-            return D_E_P_53;
-        else if (enumAsString.equals(D_E_P_54.toString()))
-            return D_E_P_54;
-        else if (enumAsString.equals(D_E_P_55.toString()))
-            return D_E_P_55;
-        else if (enumAsString.equals(D_E_P_56.toString()))
-            return D_E_P_56;
-        else if (enumAsString.equals(D_E_P_57.toString()))
-            return D_E_P_57;
-        else if (enumAsString.equals(D_E_P_58.toString()))
-            return D_E_P_58;
-        else if (enumAsString.equals(D_E_P_59.toString()))
-            return D_E_P_59;
-        else if (enumAsString.equals(D_E_P_60.toString()))
-            return D_E_P_60;
-        else if (enumAsString.equals(D_E_P_61.toString()))
-            return D_E_P_61;
-        else if (enumAsString.equals(D_E_P_62.toString()))
-            return D_E_P_62;
-        else if (enumAsString.equals(D_E_P_63.toString()))
-            return D_E_P_63;
-        else if (enumAsString.equals(D_E_P_64.toString()))
-            return D_E_P_64;
-        else if (enumAsString.equals(D_E_P_65.toString()))
-            return D_E_P_65;
-        else if (enumAsString.equals(D_E_P_66.toString()))
-            return D_E_P_66;
-        else if (enumAsString.equals(D_E_P_67.toString()))
-            return D_E_P_67;
-        else if (enumAsString.equals(D_E_P_68.toString()))
-            return D_E_P_68;
-        else if (enumAsString.equals(D_E_P_69.toString()))
-            return D_E_P_69;
-        else if (enumAsString.equals(D_E_P_70.toString()))
-            return D_E_P_70;
-        else if (enumAsString.equals(D_E_P_71.toString()))
-            return D_E_P_71;
-        else if (enumAsString.equals(D_E_P_72.toString()))
-            return D_E_P_72;
-        else if (enumAsString.equals(D_E_P_73.toString()))
-            return D_E_P_73;
-        else if (enumAsString.equals(D_E_P_74.toString()))
-            return D_E_P_74;
-        else if (enumAsString.equals(D_E_P_75.toString()))
-            return D_E_P_75;
-        else if (enumAsString.equals(D_E_P_76.toString()))
-            return D_E_P_76;
-        else if (enumAsString.equals(D_E_P_77.toString()))
-            return D_E_P_77;
-        else if (enumAsString.equals(D_E_P_78.toString()))
-            return D_E_P_78;
-        else if (enumAsString.equals(D_E_P_79.toString()))
-            return D_E_P_79;
-        else if (enumAsString.equals(D_E_P_80.toString()))
-            return D_E_P_80;
-        else if (enumAsString.equals(D_E_P_81.toString()))
-            return D_E_P_81;
-        else if (enumAsString.equals(D_E_P_82.toString()))
-            return D_E_P_82;
-        else if (enumAsString.equals(D_E_P_83.toString()))
-            return D_E_P_83;
-        else if (enumAsString.equals(D_E_P_84.toString()))
-            return D_E_P_84;
-        else if (enumAsString.equals(D_E_P_85.toString()))
-            return D_E_P_85;
-        else if (enumAsString.equals(D_E_P_86.toString()))
-            return D_E_P_86;
-        else if (enumAsString.equals(D_E_P_87.toString()))
-            return D_E_P_87;
-        else if (enumAsString.equals(D_E_P_88.toString()))
-            return D_E_P_88;
-        else if (enumAsString.equals(D_E_P_89.toString()))
-            return D_E_P_89;
-        else if (enumAsString.equals(D_E_P_90.toString()))
-            return D_E_P_90;
-        else if (enumAsString.equals(D_E_P_91.toString()))
-            return D_E_P_91;
-        else if (enumAsString.equals(D_E_P_92.toString()))
-            return D_E_P_92;
-        else if (enumAsString.equals(D_E_P_93.toString()))
-            return D_E_P_93;
-        else if (enumAsString.equals(D_E_P_94.toString()))
-            return D_E_P_94;
-        else if (enumAsString.equals(D_E_P_95.toString()))
-            return D_E_P_95;
-        else if (enumAsString.equals(D_E_P_971.toString()))
-            return D_E_P_971;
-        else if (enumAsString.equals(D_E_P_972.toString()))
-            return D_E_P_972;
-        else if (enumAsString.equals(D_E_P_973.toString()))
-            return D_E_P_973;
-        else if (enumAsString.equals(D_E_P_974.toString()))
-            return D_E_P_974;
+        else if (enumAsString.equals(D_E_P01.toString()))
+            return D_E_P01;
+        else if (enumAsString.equals(D_E_P02.toString()))
+            return D_E_P02;
+        else if (enumAsString.equals(D_E_P03.toString()))
+            return D_E_P03;
+        else if (enumAsString.equals(D_E_P04.toString()))
+            return D_E_P04;
+        else if (enumAsString.equals(D_E_P05.toString()))
+            return D_E_P05;
+        else if (enumAsString.equals(D_E_P06.toString()))
+            return D_E_P06;
+        else if (enumAsString.equals(D_E_P07.toString()))
+            return D_E_P07;
+        else if (enumAsString.equals(D_E_P08.toString()))
+            return D_E_P08;
+        else if (enumAsString.equals(D_E_P09.toString()))
+            return D_E_P09;
+        else if (enumAsString.equals(D_E_P10.toString()))
+            return D_E_P10;
+        else if (enumAsString.equals(D_E_P11.toString()))
+            return D_E_P11;
+        else if (enumAsString.equals(D_E_P12.toString()))
+            return D_E_P12;
+        else if (enumAsString.equals(D_E_P13.toString()))
+            return D_E_P13;
+        else if (enumAsString.equals(D_E_P14.toString()))
+            return D_E_P14;
+        else if (enumAsString.equals(D_E_P15.toString()))
+            return D_E_P15;
+        else if (enumAsString.equals(D_E_P16.toString()))
+            return D_E_P16;
+        else if (enumAsString.equals(D_E_P17.toString()))
+            return D_E_P17;
+        else if (enumAsString.equals(D_E_P18.toString()))
+            return D_E_P18;
+        else if (enumAsString.equals(D_E_P19.toString()))
+            return D_E_P19;
+        else if (enumAsString.equals(D_E_P2_A.toString()))
+            return D_E_P2_A;
+        else if (enumAsString.equals(D_E_P2_B.toString()))
+            return D_E_P2_B;
+        else if (enumAsString.equals(D_E_P21.toString()))
+            return D_E_P21;
+        else if (enumAsString.equals(D_E_P22.toString()))
+            return D_E_P22;
+        else if (enumAsString.equals(D_E_P23.toString()))
+            return D_E_P23;
+        else if (enumAsString.equals(D_E_P24.toString()))
+            return D_E_P24;
+        else if (enumAsString.equals(D_E_P25.toString()))
+            return D_E_P25;
+        else if (enumAsString.equals(D_E_P26.toString()))
+            return D_E_P26;
+        else if (enumAsString.equals(D_E_P27.toString()))
+            return D_E_P27;
+        else if (enumAsString.equals(D_E_P28.toString()))
+            return D_E_P28;
+        else if (enumAsString.equals(D_E_P29.toString()))
+            return D_E_P29;
+        else if (enumAsString.equals(D_E_P30.toString()))
+            return D_E_P30;
+        else if (enumAsString.equals(D_E_P31.toString()))
+            return D_E_P31;
+        else if (enumAsString.equals(D_E_P32.toString()))
+            return D_E_P32;
+        else if (enumAsString.equals(D_E_P33.toString()))
+            return D_E_P33;
+        else if (enumAsString.equals(D_E_P34.toString()))
+            return D_E_P34;
+        else if (enumAsString.equals(D_E_P35.toString()))
+            return D_E_P35;
+        else if (enumAsString.equals(D_E_P36.toString()))
+            return D_E_P36;
+        else if (enumAsString.equals(D_E_P37.toString()))
+            return D_E_P37;
+        else if (enumAsString.equals(D_E_P38.toString()))
+            return D_E_P38;
+        else if (enumAsString.equals(D_E_P39.toString()))
+            return D_E_P39;
+        else if (enumAsString.equals(D_E_P40.toString()))
+            return D_E_P40;
+        else if (enumAsString.equals(D_E_P41.toString()))
+            return D_E_P41;
+        else if (enumAsString.equals(D_E_P42.toString()))
+            return D_E_P42;
+        else if (enumAsString.equals(D_E_P43.toString()))
+            return D_E_P43;
+        else if (enumAsString.equals(D_E_P44.toString()))
+            return D_E_P44;
+        else if (enumAsString.equals(D_E_P45.toString()))
+            return D_E_P45;
+        else if (enumAsString.equals(D_E_P46.toString()))
+            return D_E_P46;
+        else if (enumAsString.equals(D_E_P47.toString()))
+            return D_E_P47;
+        else if (enumAsString.equals(D_E_P48.toString()))
+            return D_E_P48;
+        else if (enumAsString.equals(D_E_P49.toString()))
+            return D_E_P49;
+        else if (enumAsString.equals(D_E_P50.toString()))
+            return D_E_P50;
+        else if (enumAsString.equals(D_E_P51.toString()))
+            return D_E_P51;
+        else if (enumAsString.equals(D_E_P52.toString()))
+            return D_E_P52;
+        else if (enumAsString.equals(D_E_P53.toString()))
+            return D_E_P53;
+        else if (enumAsString.equals(D_E_P54.toString()))
+            return D_E_P54;
+        else if (enumAsString.equals(D_E_P55.toString()))
+            return D_E_P55;
+        else if (enumAsString.equals(D_E_P56.toString()))
+            return D_E_P56;
+        else if (enumAsString.equals(D_E_P57.toString()))
+            return D_E_P57;
+        else if (enumAsString.equals(D_E_P58.toString()))
+            return D_E_P58;
+        else if (enumAsString.equals(D_E_P59.toString()))
+            return D_E_P59;
+        else if (enumAsString.equals(D_E_P60.toString()))
+            return D_E_P60;
+        else if (enumAsString.equals(D_E_P61.toString()))
+            return D_E_P61;
+        else if (enumAsString.equals(D_E_P62.toString()))
+            return D_E_P62;
+        else if (enumAsString.equals(D_E_P63.toString()))
+            return D_E_P63;
+        else if (enumAsString.equals(D_E_P64.toString()))
+            return D_E_P64;
+        else if (enumAsString.equals(D_E_P65.toString()))
+            return D_E_P65;
+        else if (enumAsString.equals(D_E_P66.toString()))
+            return D_E_P66;
+        else if (enumAsString.equals(D_E_P67.toString()))
+            return D_E_P67;
+        else if (enumAsString.equals(D_E_P68.toString()))
+            return D_E_P68;
+        else if (enumAsString.equals(D_E_P69.toString()))
+            return D_E_P69;
+        else if (enumAsString.equals(D_E_P70.toString()))
+            return D_E_P70;
+        else if (enumAsString.equals(D_E_P71.toString()))
+            return D_E_P71;
+        else if (enumAsString.equals(D_E_P72.toString()))
+            return D_E_P72;
+        else if (enumAsString.equals(D_E_P73.toString()))
+            return D_E_P73;
+        else if (enumAsString.equals(D_E_P74.toString()))
+            return D_E_P74;
+        else if (enumAsString.equals(D_E_P75.toString()))
+            return D_E_P75;
+        else if (enumAsString.equals(D_E_P76.toString()))
+            return D_E_P76;
+        else if (enumAsString.equals(D_E_P77.toString()))
+            return D_E_P77;
+        else if (enumAsString.equals(D_E_P78.toString()))
+            return D_E_P78;
+        else if (enumAsString.equals(D_E_P79.toString()))
+            return D_E_P79;
+        else if (enumAsString.equals(D_E_P80.toString()))
+            return D_E_P80;
+        else if (enumAsString.equals(D_E_P81.toString()))
+            return D_E_P81;
+        else if (enumAsString.equals(D_E_P82.toString()))
+            return D_E_P82;
+        else if (enumAsString.equals(D_E_P83.toString()))
+            return D_E_P83;
+        else if (enumAsString.equals(D_E_P84.toString()))
+            return D_E_P84;
+        else if (enumAsString.equals(D_E_P85.toString()))
+            return D_E_P85;
+        else if (enumAsString.equals(D_E_P86.toString()))
+            return D_E_P86;
+        else if (enumAsString.equals(D_E_P87.toString()))
+            return D_E_P87;
+        else if (enumAsString.equals(D_E_P88.toString()))
+            return D_E_P88;
+        else if (enumAsString.equals(D_E_P89.toString()))
+            return D_E_P89;
+        else if (enumAsString.equals(D_E_P90.toString()))
+            return D_E_P90;
+        else if (enumAsString.equals(D_E_P91.toString()))
+            return D_E_P91;
+        else if (enumAsString.equals(D_E_P92.toString()))
+            return D_E_P92;
+        else if (enumAsString.equals(D_E_P93.toString()))
+            return D_E_P93;
+        else if (enumAsString.equals(D_E_P94.toString()))
+            return D_E_P94;
+        else if (enumAsString.equals(D_E_P95.toString()))
+            return D_E_P95;
+        else if (enumAsString.equals(D_E_P971.toString()))
+            return D_E_P971;
+        else if (enumAsString.equals(D_E_P972.toString()))
+            return D_E_P972;
+        else if (enumAsString.equals(D_E_P973.toString()))
+            return D_E_P973;
+        else if (enumAsString.equals(D_E_P974.toString()))
+            return D_E_P974;
 
         return getDefaultInseeDepartementCodeType();
-    }
-
-    @Override
-    public String toString() {
-        return legacyLabel;
     }
 }

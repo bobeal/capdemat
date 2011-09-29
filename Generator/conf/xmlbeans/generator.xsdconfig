@@ -204,4 +204,9 @@
     <xb:package>fr.cg95.cvq.xml.request.social</xb:package>
   </xb:namespace>
 
+  <!-- Sports Associations Grant Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/sagr">
+    <xb:package>fr.cg95.cvq.xml.request.social</xb:package>
+  </xb:namespace>
+
 </xb:config>

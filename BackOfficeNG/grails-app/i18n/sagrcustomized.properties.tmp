@@ -1,0 +1,169 @@
+sagr.duration.value =
+
+sagr.property.subject.label = Sujet
+
+sagr.step.association.label =
+sagr.step.association.desc =
+
+sagr.step.bureau.label =
+sagr.step.bureau.desc =
+
+sagr.step.activites.label =
+sagr.step.activites.desc =
+
+sagr.step.subvention.label =
+sagr.step.subvention.desc =
+
+
+sagr.property.nomAssociation.help =
+sagr.property.nomAssociation.validationError =
+
+
+sagr.property.siegeSocialAssociation.help =
+sagr.property.siegeSocialAssociation.validationError =
+
+
+sagr.property.numerosAssociation.help =
+sagr.property.numerosAssociation.validationError =
+
+
+sagr.property.numeroSiretAssociation.help =
+sagr.property.numeroSiretAssociation.validationError =
+
+
+sagr.property.numeroEnregistrementPrefectureAssociation.help =
+sagr.property.numeroEnregistrementPrefectureAssociation.validationError =
+
+
+sagr.property.numeroAgrementJeunesseSportAssociation.help =
+sagr.property.numeroAgrementJeunesseSportAssociation.validationError =
+
+
+sagr.property.contactsAssociation.help =
+sagr.property.contactsAssociation.validationError =
+
+
+sagr.property.estAdresseCorrespondantPrincipal.help =
+sagr.property.estAdresseCorrespondantPrincipal.validationError =
+
+
+sagr.property.nomCompletCorrespondantPrincipal.help =
+sagr.property.nomCompletCorrespondantPrincipal.validationError =
+
+
+sagr.property.adresseCorrespondantPrincipal.help =
+sagr.property.adresseCorrespondantPrincipal.validationError =
+
+
+sagr.property.emailClubOuCorrespondant.help =
+sagr.property.emailClubOuCorrespondant.validationError =
+
+
+sagr.property.roleDemandeur.help =
+sagr.property.roleDemandeur.validationError =
+
+
+sagr.property.autreMembreBureau.help =
+sagr.property.autreMembreBureau.validationError =
+
+sagr.property.autreMembreBureau.elementAdditionSuccess =
+
+
+sagr.property.roleMembre.help =
+sagr.property.roleMembre.validationError =
+
+
+sagr.property.nomMembre.help =
+sagr.property.nomMembre.validationError =
+
+
+sagr.property.prenomMembre.help =
+sagr.property.prenomMembre.validationError =
+
+
+sagr.property.telephoneMembre.help =
+sagr.property.telephoneMembre.validationError =
+
+
+sagr.property.emailMembre.help =
+sagr.property.emailMembre.validationError =
+
+
+sagr.property.activiteAssociation.help =
+sagr.property.activiteAssociation.validationError =
+
+sagr.property.activiteAssociation.elementAdditionSuccess =
+
+
+sagr.property.nomActivite.help =
+sagr.property.nomActivite.validationError =
+
+
+sagr.property.nomFederationSportiveActivite.help =
+sagr.property.nomFederationSportiveActivite.validationError =
+
+
+sagr.property.numeroAffiliationActivite.help =
+sagr.property.numeroAffiliationActivite.validationError =
+
+
+sagr.property.nombreLicencieMineurActivite.help =
+sagr.property.nombreLicencieMineurActivite.validationError =
+
+
+sagr.property.nombreLicencieMajeurActivite.help =
+sagr.property.nombreLicencieMajeurActivite.validationError =
+
+
+sagr.property.totalLicencieActivite.help =
+sagr.property.totalLicencieActivite.validationError =
+
+
+sagr.property.sommeAlloueeActivite.help =
+sagr.property.sommeAlloueeActivite.validationError =
+
+
+sagr.property.subventionPubliqueFonctionnement.help =
+sagr.property.subventionPubliqueFonctionnement.validationError =
+
+
+sagr.property.subventionSolliciteConseilGeneral.help =
+sagr.property.subventionSolliciteConseilGeneral.validationError =
+
+
+sagr.property.cndsAnneeN.help =
+sagr.property.cndsAnneeN.validationError =
+
+
+sagr.property.cndsAnneeNPlusUn.help =
+sagr.property.cndsAnneeNPlusUn.validationError =
+
+
+sagr.property.regionAnneeN.help =
+sagr.property.regionAnneeN.validationError =
+
+
+sagr.property.regionAnneeNPlusUn.help =
+sagr.property.regionAnneeNPlusUn.validationError =
+
+
+sagr.property.communeAnneeN.help =
+sagr.property.communeAnneeN.validationError =
+
+
+sagr.property.communeAnneeNPlusUn.help =
+sagr.property.communeAnneeNPlusUn.validationError =
+
+
+sagr.property.compteBancaire.help =
+sagr.property.compteBancaire.validationError =
+
+
+sagr.property.numeroEnregistrementAssociation.help =
+sagr.property.numeroEnregistrementAssociation.validationError =
+
+
+sagr.property.montantSubvention.help =
+sagr.property.montantSubvention.validationError =
+
+

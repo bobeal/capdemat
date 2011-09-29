@@ -577,6 +577,16 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="requestExternalActionDAO" ref="requestExternalActionDAO" />
     <property name="genericDAO" ref="genericDAO" />
   </bean>
+
+  <bean id="sportsAssociationsGrantRequestService"
+    class="fr.cg95.cvq.service.request.social.impl.SportsAssociationsGrantRequestService"
+    parent="requestService">
+    <!-- Service specific -->
+    <property name="label" value="Sports Associations Grant"/>
+    <property name="isOfRegistrationKind" value="true"/>
+    <property name="defaultDisplayGroup" value="social" />
+    <property name="filingDelay" value="12"/>
+  </bean>
   
   <bean id="learningActivitiesDiscoveryRegistrationRequestService" 
     class="fr.cg95.cvq.service.request.school.impl.LearningActivitiesDiscoveryRegistrationRequestService"

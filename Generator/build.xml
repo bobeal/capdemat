@@ -64,6 +64,7 @@
       <include name="SchoolCanteenRegistrationRequest.xsd" />
       <include name="SchoolRegistrationRequest.xsd" />
       <include name="SchoolTransportRegistrationRequest.xsd" />
+      <include name="SportsAssociationsGrantRequest.xsd" />
       <include name="SmsNotificationRequest.xsd" />
       <include name="SewerConnectionRequest.xsd" />
       <include name="StandardElectoralRollRegistrationRequest.xsd" />
@@ -145,7 +146,7 @@
       <!--<fileset refid="generated-requests" />-->
       
       <fileset id="generated-requests" dir="${src.xml.schema.dir}/request">
-      	<include name="StandardElectoralRollRegistrationRequest.xsd" />
+      	<include name="SportsAssociationsGrantRequest.xsd" />
       </fileset>
       
       <plugins>

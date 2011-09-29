@@ -1,0 +1,731 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/sagr"
+  xmlns:sagr="http://www.cg95.fr/cvq/schema/sagr" 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common" 
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common" 
+    schemaLocation="../common/CVQCommonElements.xsd" />
+
+  <xs:element name="SportsAssociationsGrantRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Demande de subvention pour les associations sportives civiles
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Subvention pour les associations sportives civiles
+      </xs:documentation>
+      <xs:appinfo>
+        <model namespace="social" />
+        <common>
+          <namespace name="social" />
+          <steps>
+            <step index="0" name="association">
+              <conditions>
+                <condition name="estAdresseCorrespondantPrincipal" />
+              </conditions>
+            </step>
+            <step index="1" name="bureau" />
+            <step index="2" name="activites" />
+            <step index="3" name="subvention" />
+            <step index="4" ref="document" />
+            <step index="5" ref="validation" />
+            <step index="6" ref="administration" />
+          </steps>
+        </common>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="cvq:RequestType">
+          <xs:sequence>
+          
+            <xs:element name="NomAssociation" type="xs:string">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Nom
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="association" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="SiegeSocialAssociation" type="cvq:AddressType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Siège social
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Siège social
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" isTiedToRequest="true" />
+                  <common>
+                    <step name="association" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="NumerosAssociation" type="sagr:SagrNumerosAssociationType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Numéros d'enregistrement
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Numéros d'enregistrement
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="association" />
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="ContactsAssociation" type="sagr:SagrContactsAssociationType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Contacts de l'association
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Contacts de l'association
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="association" />
+                  </common>
+                  <fo />
+                  <bo column="2" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="RoleDemandeur" type="sagr:SagrRoleAssociationType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Quel est votre fonction dans l'association ?
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Quel est votre fonction dans l'association ?
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="bureau" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="AutreMembreBureau" type="sagr:SagrMembreBureauType" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Autres membres du bureau
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Autres membres du bureau
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="bureau" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="ActiviteAssociation" type="sagr:SagrActiviteAssociationType" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Sports pratiqués dans l'association
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Sports pratiqués dans l'association
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="activites" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="SubventionPubliqueFonctionnement" type="sagr:SagrSubventionPubliqueFonctionnementType">
+              <xs:annotation>
+                <xs:appinfo>
+                  <model namespace="users" isTiedToRequest="true" />
+                  <common>
+                    <step name="subvention" />
+                  </common>
+                  <pdf />
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="CompteBancaire" type="cvq:BankAccountType">
+              <xs:annotation>
+                <xs:appinfo>
+                  <model namespace="users" isTiedToRequest="true" />
+                  <common>
+                    <step name="subvention" />
+                  </common>
+                  <pdf />
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="NumeroEnregistrementAssociation" type="xs:string">
+               <xs:annotation>
+                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                   Numéro d'enregistrement au CONSEIL GÉNÉRAL
+                 </xs:documentation>
+                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                   Numéro d'enregistrement au CONSEIL GÉNÉRAL
+                 </xs:documentation>
+                 <xs:appinfo>
+                   <common>
+                     <step name="administration" />
+                   </common>
+                   <bo column="1" />
+                   <pdf />
+                 </xs:appinfo>
+               </xs:annotation>
+             </xs:element>
+
+           <xs:element name="MontantSubvention" type="xs:string">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Montant de la subvention
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Montant de la subvention
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step ref="administration" />
+                  </common>
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:simpleType name="SagrRoleAssociationType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="President" value="Président(e)" />
+        <enum key="VicePresident" value="Vice-président(e)" />
+        <enum key="Tresorier" value="Trésorier(ière)" />
+        <enum key="Secretaire" value="Secrétaire" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="President" />
+      <xs:enumeration value="VicePresident" />
+      <xs:enumeration value="Tresorier" />
+      <xs:enumeration value="Secretaire" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="SagrNumerosAssociationType">
+    <xs:sequence>
+
+       <xs:element name="NumeroSiretAssociation">
+         <xs:annotation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+             Numéro de SIRET
+           </xs:documentation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+             Numéro de SIRET
+           </xs:documentation>
+           <xs:appinfo>
+             <common>
+               <step name="association" />
+               <validation jsregexp="^[\w\W]{0,14}$" />
+             </common>
+             <fo />
+             <bo column="2" />
+             <pdf />
+           </xs:appinfo>
+         </xs:annotation>
+         <xs:simpleType>
+           <xs:restriction base="xs:string">
+             <xs:pattern value="^[\w\W]{0,14}$" />
+             <xs:maxLength value="14" />
+           </xs:restriction>
+         </xs:simpleType>
+       </xs:element>
+
+       <xs:element name="NumeroEnregistrementPrefectureAssociation">
+         <xs:annotation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+             Numéro d'enregistrement en PRÉFECTURE
+           </xs:documentation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+             Numéro d'enregistrement en PRÉFECTURE
+           </xs:documentation>
+           <xs:appinfo>
+             <common>
+               <step name="association" />
+               <validation jsregexp="^[\w\W]{0,9}$" />
+             </common>
+             <fo />
+             <bo column="2" />
+             <pdf />
+           </xs:appinfo>
+         </xs:annotation>
+         <xs:simpleType>
+           <xs:restriction base="xs:string">
+             <xs:pattern value="^[\w\W]{0,9}$" />
+             <xs:maxLength value="9" />
+           </xs:restriction>
+         </xs:simpleType>
+       </xs:element>
+
+       <xs:element name="NumeroAgrementJeunesseSportAssociation" type="xs:string" minOccurs="0">
+         <xs:annotation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+             Numéro d'agrément Jeunesse et Sport
+           </xs:documentation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+             Numéro d'agrément Jeunesse et Sport
+           </xs:documentation>
+           <xs:appinfo>
+             <common>
+               <step name="association" />
+             </common>
+             <fo />
+             <bo column="2" />
+             <pdf />
+           </xs:appinfo>
+         </xs:annotation>
+       </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SagrContactsAssociationType">
+    <xs:sequence>
+        <xs:element name="EstAdresseCorrespondantPrincipal" type="xs:boolean" default="true">
+          <xs:annotation>
+            <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+              Votre adresse est-elle celle du correspondant principal ?
+            </xs:documentation>
+            <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+              Votre adresse est-elle celle du correspondant principal ?
+            </xs:documentation>
+            <xs:appinfo>
+              <common>
+                <step name="association" />
+                <conditions>
+                    <condition name="estAdresseCorrespondantPrincipal" type="trigger" />
+                </conditions>
+              </common>
+              <fo />
+              <bo />
+              <pdf />
+            </xs:appinfo>
+          </xs:annotation>
+        </xs:element>
+
+        <xs:element name="NomCompletCorrespondantPrincipal" type="xs:string">
+          <xs:annotation>
+            <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+              Nom et prénom du correspondant principal
+            </xs:documentation>
+            <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+              Nom et prénom du correspondant principal
+            </xs:documentation>
+            <xs:appinfo>
+              <common>
+                <step name="association" />
+                <conditions>
+                    <condition name="estAdresseCorrespondantPrincipal" type="filled" />
+                </conditions>
+              </common>
+              <fo />
+              <bo />
+              <pdf />
+            </xs:appinfo>
+          </xs:annotation>
+        </xs:element>
+
+        <xs:element name="AdresseCorrespondantPrincipal" type="cvq:AddressType">
+          <xs:annotation>
+            <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+              Adresse du correspondant principal
+            </xs:documentation>
+            <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+              Adresse du correspondant principal
+            </xs:documentation>
+            <xs:appinfo>
+              <model namespace="users" isTiedToRequest="true" />
+              <common>
+                <step name="association" />
+                <conditions>
+                    <condition name="estAdresseCorrespondantPrincipal" type="filled" />
+                </conditions>
+              </common>
+              <fo />
+              <bo />
+              <pdf />
+            </xs:appinfo>
+          </xs:annotation>
+        </xs:element>
+
+        <xs:element name="EmailClubOuCorrespondant" type="cvq:EmailType" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+              Email du club ou du correspondant
+            </xs:documentation>
+            <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+              Email du club ou du correspondant
+            </xs:documentation>
+            <xs:appinfo>
+              <common>
+                <step name="association" />
+              </common>
+              <fo />
+              <bo />
+              <pdf />
+            </xs:appinfo>
+          </xs:annotation>
+        </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SagrMembreBureauType">
+    <xs:sequence>
+      <xs:element name="RoleMembre" type="sagr:SagrRoleAssociationType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Fonction occupée
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="bureau" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="NomMembre" type="cvq:LastNameType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="bureau" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PrenomMembre" type="cvq:FirstNameType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Prénom
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="bureau" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TelephoneMembre" type="cvq:PhoneType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Téléphone fixe ou portable
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="bureau" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="EmailMembre" type="cvq:EmailType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Email
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Email
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="bureau" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="SagrActiviteAssociationType">
+    <xs:sequence>
+      <xs:element name="NomActivite" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Sport pratiqué
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="activites" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="NomFederationSportiveActivite" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom de la fédération sportive
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="activites" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="NumeroAffiliationActivite" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Numéro d'affiliation
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="activites" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="NombreLicencieMineurActivite" type="xs:long">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nombre de licencié pour l'année précédente de moins de 18 ans
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="activites" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="NombreLicencieMajeurActivite" type="xs:long">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nombre de licencié pour l'année précédente de 18 ans et plus
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="activites" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TotalLicencieActivite" type="xs:long" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Total de licencié pour l'année précédente
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="activites" />
+            </common>
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="SommeAlloueeActivite" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Somme allouée
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="activites" />
+            </common>
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SagrSubventionPubliqueFonctionnementType">
+    <xs:sequence>
+      <xs:element name="SubventionSolliciteConseilGeneral" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Subvention sollicitée auprès du Conseil Général
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subvention" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CndsAnneeN" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Subvention du CNDS pour l'année en cours
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subvention" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CndsAnneeNPlusUn" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Subvention du CNDS pour l'année prochaine
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subvention" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="RegionAnneeN" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+           Subvention de la région pour l'année en cours
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subvention" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+     <xs:element name="RegionAnneeNPlusUn" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Subvention de la région pour l'année prochaine
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subvention" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CommuneAnneeN" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Subvention de la commune pour l'année en cours
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subvention" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CommuneAnneeNPlusUn" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Subvention de la commune pour l'année prochaine
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subvention" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

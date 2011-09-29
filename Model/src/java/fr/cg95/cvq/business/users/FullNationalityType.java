@@ -639,9 +639,4 @@ public enum FullNationalityType {
 
         return getDefaultFullNationalityType();
     }
-
-    @Override
-    public String toString() {
-        return legacyLabel;
-    }
 }

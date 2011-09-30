@@ -1214,7 +1214,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             if (homeFolder != null) {
                 logger.debug("onApplicationEvent() deleting requests for home folder "
                     + homeFolder.getId());
-                for (Request request : requestDAO.listByHomeFolder(homeFolder.getId(), false)) {
+                for (Request request : requestSearchService.find(false, "byHomeFolderId", homeFolder.getId())) {
                     delete(request, true);
                 }
             } else {

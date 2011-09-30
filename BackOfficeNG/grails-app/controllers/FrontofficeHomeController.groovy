@@ -77,7 +77,9 @@ class FrontofficeHomeController {
             it.lastAgentNote = requestAdaptorService.prepareNote(
                     requestNoteService.getLastAgentNote(it.id, null))
         }
-        def drafts = requestSearchService.find(false, "byState", RequestState.DRAFT)
+        def drafts = requestSearchService.find(false, "byStateAndHomeFolderId",
+            RequestState.DRAFT,
+            currentEcitizen.homeFolder.id)
         result.dashBoard.drafts =
             requestAdaptorService.prepareRecords(['all': drafts, 'count': drafts.size, 'records': []])
         def draftLiveDuration = requestTypeService.globalRequestTypeConfiguration.draftLiveDuration

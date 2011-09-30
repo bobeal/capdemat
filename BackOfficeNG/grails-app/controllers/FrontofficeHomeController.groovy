@@ -135,7 +135,7 @@ class FrontofficeHomeController {
         }
 
         File infoFile = localAuthorityRegistry.getLocalAuthorityResourceFile(
-            LocalAuthorityResource.INFORMATION_MESSAGE_FO.id)
+            LocalAuthorityResource.INFORMATION_MESSAGE_FO_UNAUTHENTICATED.id)
 
         def groups = []
         use(SplitMap) {

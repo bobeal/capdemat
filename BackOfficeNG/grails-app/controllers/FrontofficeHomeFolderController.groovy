@@ -258,6 +258,7 @@ class FrontofficeHomeFolderController {
             // hack : WTF is an unknown sex ?
             individual.sex = null
         }
+        boolean failedCreation = false
         if (request.post) {
             try {
                 if (individual.id && params.roleOwnerId) {
@@ -275,8 +276,7 @@ class FrontofficeHomeFolderController {
                 redirect(action : 'child', params : ['id' : individual.id])
                 return false
             } catch (CvqValidationException e) {
-                // hack hibernate
-                if (!params.id) individual.id = null
+                if (!params.id) failedCreation = true
                 flash['invalidFields'] = e.invalidFields
                 session.doRollback = true
             }
@@ -287,13 +287,17 @@ class FrontofficeHomeFolderController {
         }
         model["child"] = individual
         model["homeFolder"] = currentEcitizen.homeFolder
-        if (individual.id) {
+        if (individual.id && !failedCreation) {
             model['roleOwners'] = ('responsibles' != params.fragment) ? userSearchService.listBySubjectRoles(individual.id, RoleType.childRoleTypes) : homeFolderAdaptorService.roleOwners(individual.id)
             model['currentEcitizen'] = currentEcitizen
             model['currentRoleOwnerId'] = params.roleOwnerId ? Long.valueOf(params.roleOwnerId) : 0
         } else {
             model['adults'] = userSearchService.getAdults(currentEcitizen.homeFolder.id)
         }
+        // if creation failed, set id to null to force switch in edition mode in views
+        // id is set to null lastly because JPA does not like tampered ids
+        if (failedCreation) individual.id = null
+
         return model
     }
 

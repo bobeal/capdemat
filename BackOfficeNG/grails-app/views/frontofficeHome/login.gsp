@@ -2,50 +2,37 @@
   <head>
     <title>${message(code:'home.portal.title',args:[session.currentSiteDisplayTitle])}</title>
     <meta name="layout" content="fo_main" />
-    <!-- TODO : extract styles for form styles -->
-    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'request.css')}" />
-    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'homefolderTracker.css')}" />
-    <style>
-      .box { /*overflow: auto;*/ border: 0; background: transparent; }
-      .box .main { width: 56%; float: left; }
-      .box .side { width: 42%; float: right; }
-
-      .group-box h3 { border: 0; }
-
-      .information-box ul li { list-style: disc inside none; }
-
-      .group-box.homefolder img { padding: 0; margin: 1em; background: #E6648D; }
-    </style>
+    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'dashboard.css')}" />
   </head>
+
   <body>
     <div class="box">
-      <div class="main">
+      <div class="half1">
         <g:if test="${commonInfo != null}">
           <div class="information-box">${commonInfo}</div>
         </g:if>
-        <g:render template="/shared/services" model="['groups':groups]" />
+        <g:render template="/shared/services" model="['groups':groups[0]]" />
       </div>
-      <div class="side">
+      <div class="half2">
         <g:if test="${homeFolderIndependentCreationEnabled}">
-          <div class="group-box homefolder">
-            <h3>${message(code:'homeFolder.action.createAccount')}</h3>
-            <img src="${resource(dir:'images/icons',file:'account-tracker-family-100.png')}" />
-            <ul>
-              <li>${message(code:'homeFolder.message.accountAdvantage0')}:</li>
-              <li><span class="notice">${message(code:'homeFolder.message.accountAdvantage1')}</span></li>
-              <li><span class="notice">${message(code:'homeFolder.message.accountAdvantage2')}</span></li>
-              <li><span class="notice">${message(code:'homeFolder.message.accountAdvantage3')}</span></li>
-              <li>
-                <a style="font-size: 1.3em;" href="${createLink(controller : 'frontofficeHomeFolder', action : 'create')}">
+          <div class="list-box creation">
+            <h2>${message(code:'homeFolder.action.createAccount')}</h2>
+            <img src="${resource(dir:'images/icons', file:'account-tracker-family-100.png')}" />
+            <div>
+              <p>${message(code:'homeFolder.message.accountAdvantage0')} :</p>
+              <ul>
+                <li>${message(code:'homeFolder.message.accountAdvantage1')}</li>
+                <li>${message(code:'homeFolder.message.accountAdvantage2')}</li>
+                <li>${message(code:'homeFolder.message.accountAdvantage3')}</li>
+              </ul>
+              <a href="${createLink(controller:'frontofficeHomeFolder', action:'create')}">
                 ${message(code:'homeFolder.action.wishCreateAccount')}
               </a>
-              </li>
-            </ul>
+            </div>
           </div>
         </g:if>
+        <g:render template="/shared/services" model="['groups':groups[1]]" />
       </div>
     </div>
   </body>
 </html>
-
-

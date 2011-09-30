@@ -26,6 +26,22 @@ import fr.cg95.cvq.service.users.IUserService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.util.UserUtils
 
+class SplitMap {
+    /**
+     * Return a list containing two maps, each map being the half of the original map.
+     * Example:
+     * use(SplitMap) {
+     *     assert [1:'a', 2:'b', 3:'c', 4:'d'].split() == [ [1:'a', 2:'b'], [3:'c', 4:'d'] ]
+     * }
+     */
+    static List split(Map delegate) {
+        def finalList = delegate.inject([ [:], [:] ]) { currentList, mapElement ->
+            (currentList[0].size() < delegate.size() / 2 ? currentList[0] : currentList[1]) << mapElement
+            return currentList
+        }
+    }
+}
+
 class FrontofficeHomeController {
 
     def requestAdaptorService
@@ -81,7 +97,7 @@ class FrontofficeHomeController {
             RequestState.DRAFT,
             currentEcitizen.homeFolder.id)
         result.dashBoard.drafts =
-            requestAdaptorService.prepareRecords(['all': drafts, 'count': drafts.size, 'records': []])
+            requestAdaptorService.prepareRecords(['all': drafts, 'count': drafts.size(), 'records': []])
         def draftLiveDuration = requestTypeService.globalRequestTypeConfiguration.draftLiveDuration
         result.dashBoard.drafts.records.each {
             it.expirationDate = it.creationDate + draftLiveDuration
@@ -121,10 +137,15 @@ class FrontofficeHomeController {
         File infoFile = localAuthorityRegistry.getLocalAuthorityResourceFile(
             LocalAuthorityResource.INFORMATION_MESSAGE_FO.id)
 
+        def groups = []
+        use(SplitMap) {
+            groups = requestTypeAdaptorService.getDisplayGroups(null).split()
+        }
+
         return [
             "isLogin" : true,
             "error" : message(code : error),
-            "groups" : requestTypeAdaptorService.getDisplayGroups(null),
+            "groups" : groups,
             "commonInfo" : infoFile.exists() && !infoFile.text.isEmpty() ? infoFile.text : null,
             "homeFolderIndependentCreationEnabled" : userService.homeFolderIndependentCreationEnabled()
         ]

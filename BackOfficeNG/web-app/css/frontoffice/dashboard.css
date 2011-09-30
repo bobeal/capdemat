@@ -1,9 +1,17 @@
 .box .main { width: 56%; float: left; }
 .box .side { width: 42%; float: right; }
 
-/* Display bullet points in the information-box. */
+.box .half1 { width: 49%; float: left; }
+.box .half2 { width: 49%; float: right; }
+
+/*
+ * Information message.
+ */
 .information-box ul li { list-style: disc inside none; }
 
+/*
+ * Last requests, payments and drafts boxes.
+ */
 .list-box h2 { border: 0; }
 .list-box { font-size: .9em; }
 .list-box ul li { padding: .4em 0; overflow: hidden; width: 100%; }
@@ -16,5 +24,16 @@
 .list-box ul li p { margin-top: .1em; }
 .list-box ul li p span.warn { background-color:#fdd; }
 
-.group-box ul { margin: 0 1em 0 7em; }
-.group-box h3 { border: 0; }
+
+/*
+ * Home folder creation box.
+ */
+.list-box.creation { overflow: hidden; }
+.list-box.creation h2 { margin-bottom: .5em; }
+.list-box.creation img { float:  left; margin-left:  .5em; background: #e6648d; }
+.list-box.creation div { float: right; margin-right: .5em; width: 73%; font-size: 1.1em; }
+.list-box.creation div p { font-size: 1.1em; }
+.list-box.creation ul { font-size: 1em; margin: .5em 0; }
+.list-box.creation ul li { list-style-type: disc; border-bottom: 0 none; overflow: visible; padding: .2em 0; }
+.list-box.creation a       { font-size: 1.5em; color: #095ba6; }
+.list-box.creation a:hover { color: #fff; background: #e6648d; text-decoration: none; }

@@ -123,7 +123,7 @@ class FrontofficeHomeController {
             "isLogin" : true,
             "error" : message(code : error),
             "groups" : requestTypeAdaptorService.getDisplayGroups(null),
-            "commonInfo" : infoFile.exists() ? infoFile.text : null,
+            "commonInfo" : infoFile.exists() && !infoFile.text.isEmpty() ? infoFile.text : null,
             "homeFolderIndependentCreationEnabled" : userService.homeFolderIndependentCreationEnabled()
         ]
     }

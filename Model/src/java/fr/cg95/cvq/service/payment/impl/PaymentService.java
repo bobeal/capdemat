@@ -1,7 +1,11 @@
 package fr.cg95.cvq.service.payment.impl;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
+
+import au.com.bytecode.opencsv.CSVWriter;
 
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
@@ -50,6 +56,7 @@ import fr.cg95.cvq.service.payment.external.IPaymentExternalService;
 import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 import fr.cg95.cvq.util.Critere;
+import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.util.mail.IMailService;
 
 public final class PaymentService implements IPaymentService, 
@@ -316,6 +323,77 @@ public final class PaymentService implements IPaymentService,
 
         return paymentDAO.search(criteriaSet, sort, dir, recordsReturned, startIndex);
     }    
+
+    @Override
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
+    public List<Long> getIds(Set<Critere> criteriaSet) {
+        List<Payment> payments = paymentDAO.search(criteriaSet, null, null, -1, 0);
+        if (payments == null || payments.isEmpty())
+            return Collections.emptyList();
+
+        List<Long> paymentsIds = new ArrayList<Long>();
+        for (Payment payment : payments)
+            paymentsIds.add(payment.getId());
+        return paymentsIds;
+    }
+
+    @Override
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
+    public File exportPayments(List<Long> paymentsIds) throws CvqException {
+        List<Payment> payments = paymentDAO.findByIds(paymentsIds);
+        String[] header = new String[11];
+        header[0] = "Identifiant CapDémat";
+        header[1] = "Référence bancaire";
+        header[2] = "Régie de paiement";
+        header[3] = "Date de validation";
+        header[4] = "Identifiant compte CapDémat";
+        header[5] = "Montant total";
+        header[6] = "État";
+        header[7] = "Identifiant compte externe";
+        header[8] = "Identifiant item";
+        header[9] = "Label item";
+        header[10] = "Montant item";
+        List<String[]> data = new ArrayList<String[]>();
+        data.add(header);
+        for (Payment payment : payments) {
+            for (PurchaseItem purchaseItem : payment.getPurchaseItems()) {
+                String[] line = new String[11];
+                line[0] = String.valueOf(payment.getId());
+                line[1] = payment.getBankReference();
+                line[2] = payment.getBroker();
+                line[3] = DateUtils.formatDate(payment.getCommitDate());
+                line[4] = String.valueOf(payment.getHomeFolderId());
+                line[5] = String.valueOf(payment.getAmount());
+                line[6] = payment.getState().toString();
+                if (purchaseItem instanceof ExternalAccountItem) {
+                    ExternalAccountItem externalAccountItem = (ExternalAccountItem) purchaseItem;
+                    line[7] = externalAccountItem.getExternalHomeFolderId();
+                    line[8] = externalAccountItem.getExternalItemId();
+                    line[9] = externalAccountItem.getLabel();
+                    line[10] = String.valueOf(externalAccountItem.getAmount());
+                } else {
+                    line[7] = "";
+                    line[8] = "";
+                    line[9] = "";
+                    line[10] = "";
+                }
+                data.add(line);
+            }
+        }
+        File file = null;
+        try {
+            file = File.createTempFile("paiements_", ".csv");
+            FileWriter fw = new FileWriter(file);
+            CSVWriter writer = new CSVWriter(fw);
+            writer.writeAll(data);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            throw new CvqException("payment.error.failedExport");
+        }
+
+        return file;
+    }
 
     // TODO : Improve externalHomeFolder mapping strategy
     // introducing compositId in externalHomeFolderIs is a very bad idea

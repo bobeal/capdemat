@@ -65,4 +65,6 @@ public interface IPaymentDAO extends IGenericDAO {
 
     List<ExternalAccountItem> searchInvoices(final Set<Critere> criteria, final String sort, String dir,
             int recordsReturned, int startIndex);
+
+    List<Payment> findByIds(List<Long> paymentsIds);
 }

@@ -532,13 +532,16 @@ public class ExternalApplicationService implements IExternalApplicationService {
         parameters.put("homePhone", ehfr.getHomePhone());
         parameters.put("address", ehf.getAddress());
         List<Adult> adults = adultDAO.matchAdults(parameters);
-        List<Adult> responsibles = new ArrayList<Adult>();
-        for (Adult adult : adults) {
-            for (IndividualRole ir : adult.getIndividualRoles())
-                if (ir.getRole().equals(RoleType.HOME_FOLDER_RESPONSIBLE))
-                    responsibles.add(adult);
-        }
-        return responsibles;
+        return adults;
+
+        // restricting on home folders responsibles seems to be a too strong commitment for real life
+//        List<Adult> responsibles = new ArrayList<Adult>();
+//        for (Adult adult : adults) {
+//            for (IndividualRole ir : adult.getIndividualRoles())
+//                if (ir.getRole().equals(RoleType.HOME_FOLDER_RESPONSIBLE))
+//                    responsibles.add(adult);
+//        }
+//        return responsibles;
     }
 
     public void setGenericDAO(IGenericDAO genericDAO) {

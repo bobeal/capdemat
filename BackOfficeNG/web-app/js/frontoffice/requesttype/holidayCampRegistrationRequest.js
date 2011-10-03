@@ -62,9 +62,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
 
     var updateLayout = function() {
       zct.each(yus.query('fieldset'), function() {
-        yud.setStyle(this, 'padding', 0);
         var legend = yud.getFirstChild(this);
-        yud.setStyle(legend, 'color', '#000');
         legend.innerHTML = legend.innerHTML + ' *';
         zct.each(this.getElementsByTagName('label'), function() {
           yud.addClass(this, 'unactive');

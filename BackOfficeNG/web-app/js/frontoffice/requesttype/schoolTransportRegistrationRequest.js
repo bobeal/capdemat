@@ -72,10 +72,6 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
     };
 
     var changeLayout = function() {
-      zct.each(yus.query('fieldset'),function() {
-        yud.setStyle(this, 'padding', '0');
-        yud.setStyle(this, 'margin', '0');
-      });
       zct.each(yus.query('legend, label[for^="label"]'), function() {
         yud.addClass(this, 'unactive');
       });

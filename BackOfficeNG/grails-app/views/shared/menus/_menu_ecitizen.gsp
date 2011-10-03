@@ -12,7 +12,7 @@
     </span>
   </a>
   <a href="${createLink(controller : 'frontofficeRequest')}"
-    class="${menu.current(elem : 'request')}" accesskey="3">
+    class="${menu.current(elem : 'request') ? menu.current(elem : 'request') : menu.current(elem : 'requestType')}" accesskey="3">
     <span>
       <g:message code="menu.requests" />
     </span>

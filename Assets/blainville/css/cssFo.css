@@ -74,6 +74,7 @@ form textarea { border-top-color: #ff812b !important; }
 /* family account
  * ----------------------------------------------------- */
 
+.box h2, .box h3 { color: #ff812b !important; }
 .individual legend { color: #ff812b !important; }
 
 /* request creation

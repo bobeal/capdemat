@@ -73,6 +73,12 @@ form select,
 form textarea { border-top-color: #ff812b !important; }
 
 
+/* family account
+/* ----------------------------------------------------- */
+
+.individual form .address { border-color: #ff812b !important; }
+
+
 /* request creation
  * ----------------------------------------------------- */
 

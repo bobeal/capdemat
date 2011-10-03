@@ -31,6 +31,8 @@ html { background: #fff; }
 /* boxes
  * ----------------------------------------------------- */
 
+.box h2, .box h3 { color: #ff812b !important; }
+
 .list-box               { border-color: #ff812b; }
 .list-box h2            { color: #ff812b; border-color: #ff812b; }
 .list-box h3            { color: #ff812b; }
@@ -43,7 +45,7 @@ html { background: #fff; }
 .list-box.creation a:hover { background: #ff812b !important; }
 .list-box.creation img { background: #ff812b !important; }
 
-.group-box h3      { background-color: #ff812b; }
+.group-box h3      { background-color: #ff812b; color: #fff !important; }
 .group-box a:hover { background: #ff812b; }
 
 .summary-box.created { border-color: #ff812b; }
@@ -70,12 +72,6 @@ form input[type="password"],
 form select,
 form textarea { border-top-color: #ff812b !important; }
 
-
-/* family account
- * ----------------------------------------------------- */
-
-.box h2, .box h3 { color: #ff812b !important; }
-.individual legend { color: #ff812b !important; }
 
 /* request creation
  * ----------------------------------------------------- */

@@ -73,7 +73,6 @@ import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.translation.ITranslationService;
 import fr.cg95.cvq.xml.common.AddressType;
-import fr.cg95.cvq.xml.common.FrenchRIBType;
 import fr.cg95.cvq.xml.request.school.StudyGrantRequestDocument;
 import fr.cg95.cvq.xml.request.school.impl.StudyGrantRequestDocumentImpl.StudyGrantRequestImpl;
 import fr.cg95.cvq.xml.request.social.BafaGrantRequestDocument;
@@ -110,7 +109,10 @@ public class EdemandeService implements IExternalProviderService {
         if (!request.isSubjectAccountHolder()) {
             psCodeTiersAH = request.getAccountHolderEdemandeId();
             if (psCodeTiersAH == null || psCodeTiersAH.trim().isEmpty()) {
-                psCodeTiersAH = searchAccountHolder(request);
+              //Search the account holder : psCodeTiersAH is the external ID
+                psCodeTiersAH = searchCases(request, request.getAccountHolderFirstName(),
+                        request.getAccountHolderLastName(), request.getAccountHolderBirthDate(),
+                        ACCOUNT_HOLDER_TRACE_SUBKEY);
                 if (psCodeTiersAH == null || psCodeTiersAH.trim().isEmpty()) {
                     if (mustCreateAccountHolder(request)) {
                         createAccountHolder(request);
@@ -135,7 +137,9 @@ public class EdemandeService implements IExternalProviderService {
             // external id (code tiers) not known locally : 
             //     either check if tiers has been created in eDemande
             //     either ask for its creation in eDemande
-            psCodeTiersS = searchSubject(request);
+            psCodeTiersS = searchCases(request, request.getSubjectFirstName(),
+                    request.getSubjectLastName(), request.getSubjectBirthDate(), SUBJECT_TRACE_SUBKEY);
+            
             // add a "hack" condition when psCodeTiersS == psCodeTiersAH
             // to handle homonyms until individual search accepts birth date etc.
             if (psCodeTiersS == null || psCodeTiersS.trim().isEmpty() || psCodeTiersS.trim().equals(psCodeTiersAH)) {
@@ -290,57 +294,45 @@ public class EdemandeService implements IExternalProviderService {
      * @return the individual's code in eDemande, an empty string if the individual is not found,
      * or null if there is an error while contacting eDemande.
      */
-    private String searchIndividual(EdemandeRequest request, String firstName, String lastName,
-        Calendar birthDate, String subkey) {
-        Map<String, Object> model = new HashMap<String, Object>();
-        model.put("lastName", escapeLastName(lastName));
-        FrenchRIBType frenchRIBType = request.getFrenchRIB();
-        if (frenchRIBType == null) {
-            addTrace(request.getId(), subkey, RequestExternalAction.Status.NOT_SENT, "Coordonnées bancaires non renseignées");
-            return null;
-        }
-        model.put("frenchRIB", FrenchRIB.xmlToModel(request.getFrenchRIB()).format(" "));
+    /**
+     * Search for this request's individual in eDemande.
+     * 
+     * @return the individual's code in eDemande, an empty string if the individual is not found,
+     * or null if there is an error while contacting eDemande.
+     */
+    public String searchIndividual(EdemandeRequest request, Map<String, Object> model, String filter) throws CvqException {
         String searchResults;
         int resultsNumber;
-        try {
-            searchResults =
+        //Launch client search
+        searchResults =
                 edemandeClient.rechercherTiers(escapeStrings(model))
                 .getRechercherTiersResponse().getReturn();
-            resultsNumber = parseDatas(searchResults,
+        resultsNumber = parseDatas(searchResults,
                 "//resultatRechTiers/listeTiers/tiers/codeTiers").size();
-        } catch (CvqException e) {
-            addTrace(request.getId(), subkey, RequestExternalAction.Status.NOT_SENT, e.getMessage());
-            return null;
-        }
+        
+        //Return "" if no results
         if (resultsNumber == 0) {
             return "";
         }
+        //Case 1 - one result : get codeTiers (by XPATH)
         if (resultsNumber == 1) {
-            try {
-                return parseData(searchResults,
+            return parseData(searchResults,
                     "//resultatRechTiers/listeTiers/tiers/codeTiers");
-            } catch (CvqException e) {
-                addTrace(request.getId(), subkey, RequestExternalAction.Status.NOT_SENT,
-                    e.getMessage());
-                return null;
-            }
         }
+        //Case 2 - Multiple results 
         for (int i = 1; i <= resultsNumber; i++) {
             try {
+                //Get code tier
                 String code =
                     parseData(searchResults,
                         "//resultatRechTiers/listeTiers/tiers[" + i
                         + "]/codeTiers");
-                String informations =
+                //Client call to get infos about tier 
+                String informations = 
                     edemandeClient.initialiserFormulaire(request.getConfig().name, code)
                     .getInitialiserFormulaireResponse().getReturn();
-                if (parseData(informations,
-                    "/CBdosInitFormulaireBean/moTierInit/msPrenom")
-                    .equalsIgnoreCase(escapeFirstName(firstName))
-                    && parseData(informations,
-                        "/CBdosInitFormulaireBean/moTierInit/mdtDateNaissance")
-                        .equals(new SimpleDateFormat("yyyy-MM-dd")
-                        .format(birthDate.getTime()))) {
+                //Filter and Select code by comparing escaped FirstName and Birth day.   
+                if (this.testData(informations, filter)) {
                     return code;
                 }
             } catch (CvqException e) {
@@ -350,16 +342,72 @@ public class EdemandeService implements IExternalProviderService {
         return "";
     }
 
-    private String searchSubject(EdemandeRequest request) {
-        return searchIndividual(request, request.getSubjectFirstName(),
-            request.getSubjectLastName(), request.getSubjectBirthDate(), SUBJECT_TRACE_SUBKEY);
+    private String searchCases(EdemandeRequest request, String firstName, String lastName,
+            Calendar birthDate, String subkey) {
+        
+        try {
+            //Bank account is mondatory
+            if (request.getFrBankAccount().getIBAN() == null) {
+                addTrace(request.getId(), subkey, RequestExternalAction.Status.NOT_SENT, "Coordonnées bancaires non renseignées");
+                return null;
+            }
+            //Search by IBAN
+            Map<String, Object> modelIBAN = new HashMap<String, Object>();
+            modelIBAN.put("numero", request.getFrBankAccount().getIBAN());
+            modelIBAN.put("type", "IBAN");
+            modelIBAN.put("lastName", "");
+            modelIBAN.put("firstName", "");
+            modelIBAN.put("postalCode", "");
+            String filterNP = new StringBuffer("(upper-case(/CBdosInitFormulaireBean/moTierInit/msPrenom)='")
+            .append(StringUtils.upperCase(firstName))
+            .append("' or upper-case(/CBdosInitFormulaireBean/moTierInit/msPrenom)='")
+            .append(StringUtils.upperCase(this.escapeFirstName(firstName)))
+            .append("') and (upper-case(/CBdosInitFormulaireBean/moTierInit/msNom)='")
+            .append(StringUtils.upperCase(lastName))
+            .append("' or upper-case(/CBdosInitFormulaireBean/moTierInit/msNom)='")
+            .append(StringUtils.upperCase(this.escapeLastName(lastName)))
+            .append("')").toString();
+            String resultIBAN = this.searchIndividual(request, modelIBAN, filterNP);
+            if(!"".equals(resultIBAN)) return resultIBAN;
+            //Search by RIB
+            Map<String, Object> modelRIB = new HashMap<String, Object>();
+            modelRIB.put("numero", FrenchRIB.xmlToModel(request.getFrenchRIB()).format(" "));
+            modelRIB.put("type", "RIB");
+            modelRIB.put("lastName", "");
+            modelRIB.put("firstName", "");
+            modelRIB.put("postalCode", "");
+            String resultRIB = this.searchIndividual(request, modelRIB, filterNP);
+            if(!"".equals(resultRIB)) return resultRIB;
+            //Search by lastName/firtName/postalCode
+            Map<String, Object> modelNPC = new HashMap<String, Object>();
+            modelNPC.put("numero", "");
+            modelNPC.put("type", "");
+            modelNPC.put("lastName", StringUtils.upperCase(lastName));
+            modelNPC.put("firstName", firstName);
+            modelNPC.put("postalCode", request.getSubjectAddress().getPostalCode());
+            String filterBD = "/CBdosInitFormulaireBean/moTierInit/mdtDateNaissance='"+new SimpleDateFormat("yyyy-MM-dd").format(birthDate.getTime())+"'";
+            String resultNPC = this.searchIndividual(request, modelNPC, filterBD);
+            if(!"".equals(resultNPC)) return resultNPC;
+            //Search by lastName/escaped(firtName)/postalCode
+            if(firstName.equalsIgnoreCase(this.escapeFirstName(firstName))) {
+                Map<String, Object> modelNPC_ = new HashMap<String, Object>();
+                modelNPC_.put("numero", "");
+                modelNPC_.put("type", "");
+                modelNPC_.put("lastName", StringUtils.upperCase(lastName));
+                modelNPC_.put("firstName", this.escapeFirstName(firstName));
+                modelNPC_.put("postalCode", "");
+                String resultNPC_ = this.searchIndividual(request, modelNPC_, filterBD);
+                if(!"".equals(resultNPC_)) return resultNPC_;
+            }
+            
+        } catch (CvqException e) {
+            addTrace(request.getId(), subkey, RequestExternalAction.Status.NOT_SENT, e.getMessage());
+            return null;
+        }
+        return "";
+        
     }
-
-    private String searchAccountHolder(EdemandeRequest request) {
-        return searchIndividual(request, request.getAccountHolderFirstName(),
-            request.getAccountHolderLastName(), request.getAccountHolderBirthDate(),
-            ACCOUNT_HOLDER_TRACE_SUBKEY);
-    }
+    
 
     private void createSubject(EdemandeRequest request) {
         Map<String, Object> model = new HashMap<String, Object>();
@@ -374,7 +422,8 @@ public class EdemandeService implements IExternalProviderService {
         model.put("firstName", escapeFirstName(request.getSubjectFirstName()));
         model.put("birthPlace", StringUtils.defaultString(request.getSubjectBirthCity()));
         model.put("birthDate", formatDate(request.getSubjectBirthDate()));
-        model.put("frenchRIB", FrenchRIB.xmlToModel(request.getFrenchRIB()).format(" "));
+        model.put("iban", request.getFrBankAccount().getIBAN());
+        model.put("bic", request.getFrBankAccount().getBIC());
         try {
             model.put("email", StringUtils.defaultIfEmpty(request.getSubjectEmail(),
                 userSearchService.getHomeFolderResponsible(request.getHomeFolderId()).getEmail()));
@@ -453,7 +502,8 @@ public class EdemandeService implements IExternalProviderService {
         if (!StringUtils.isBlank(request.getSubjectPhone())) {
             model.put("phone", request.getSubjectPhone());
         }
-        model.put("frenchRIB", FrenchRIB.xmlToModel(request.getFrenchRIB()).format(" "));
+        model.put("iban", request.getFrBankAccount().getIBAN());
+        model.put("bic", request.getFrBankAccount().getBIC());
         model.put("creationDate", formatDate(request.getCreationDate()));
         List<Map<String, String>> documents = new ArrayList<Map<String, String>>();
         model.put("documents", documents);
@@ -642,6 +692,30 @@ public class EdemandeService implements IExternalProviderService {
             throw new CvqException("Erreur lors de la lecture de la réponse du service externe");
         }
     }
+    
+    
+    private boolean testData(String returnElement, String path)
+            throws CvqException {
+            try {   
+                return new DOMXPath(path)
+                    .booleanValueOf(
+                        DocumentBuilderFactory.newInstance().newDocumentBuilder()
+                            .parse(new InputSource(new StringReader(returnElement)))
+                            .getDocumentElement());
+            } catch (JaxenException e) {
+                e.printStackTrace();
+                throw new CvqException("Erreur lors de la lecture de la réponse du service externe");
+            } catch (SAXException e) {
+                e.printStackTrace();
+                throw new CvqException("Erreur lors de la lecture de la réponse du service externe");
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new CvqException("Erreur lors de la lecture de la réponse du service externe");
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
+                throw new CvqException("Erreur lors de la lecture de la réponse du service externe");
+            }
+        }
 
     /**
      * Same as {@link #parseData(String, String)}
@@ -884,6 +958,8 @@ public class EdemandeService implements IExternalProviderService {
             throw new IllegalArgumentException();
         }
     }
+    
+    
 
     @Override
     public void checkConfiguration(ExternalServiceBean externalServiceBean, String localAuthorityName)

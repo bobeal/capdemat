@@ -51,16 +51,11 @@
         <moModePaiement>
           <msDescription>Virement bancaire</msDescription>
         </moModePaiement>
-        <moAgence>
-          <miBanque>${frenchRIB.split()[0]}</miBanque>
-          <miAgence>${frenchRIB.split()[1]}</miAgence>
-          <msLibelle></msLibelle>
-        </moAgence>
-        <msCompte>${frenchRIB.split()[2]}</msCompte>
-        <miCleRib>${frenchRIB.split()[3]}</miCleRib>
         <mbEtranger>false</mbEtranger>
-        <mbIban>false</mbIban>
+        <mbIban>true</mbIban>
         <mbUsuel>true</mbUsuel>
+        <msEtranger>${iban}</msEtranger>
+        <msNumeroBic>${bic}</msNumeroBic>
         <msIntitule/>
       </CTierReferenceBancaireVO>
     </mvReferencesBancaires>

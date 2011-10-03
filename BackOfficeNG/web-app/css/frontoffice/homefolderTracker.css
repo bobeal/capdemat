@@ -2,7 +2,7 @@
 /* Home folder Tracker
 ---------------------------------------------------------------*/
 
-.tracker.flat { overflow: auto; }
+.tracker.flat { overflow: hidden; }
 
 .tracker.flat a { float: left; margin-left: 3%; }
 .tracker a { display: block; color: #000; text-decoration: none; }

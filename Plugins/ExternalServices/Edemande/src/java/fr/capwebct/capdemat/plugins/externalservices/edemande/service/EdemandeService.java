@@ -411,7 +411,7 @@ public class EdemandeService implements IExternalProviderService {
 
     private void createSubject(EdemandeRequest request) {
         Map<String, Object> model = new HashMap<String, Object>();
-        model.put("lastName", escapeLastName(request.getSubjectLastName()));
+        model.put("lastName", StringUtils.upperCase(request.getSubjectLastName()));
         model.put("address", request.getSubjectAddress());
         if (!StringUtils.isBlank(request.getSubjectPhone())) {
             model.put("phone", request.getSubjectPhone());
@@ -419,7 +419,7 @@ public class EdemandeService implements IExternalProviderService {
         model.put("title",
             translationService.translate("homeFolder.adult.title."
                 + request.getSubjectTitle().toString().toLowerCase(), Locale.FRANCE));
-        model.put("firstName", escapeFirstName(request.getSubjectFirstName()));
+        model.put("firstName", StringUtils.capitalize(request.getSubjectFirstName()));
         model.put("birthPlace", StringUtils.defaultString(request.getSubjectBirthCity()));
         model.put("birthDate", formatDate(request.getSubjectBirthDate()));
         model.put("iban", request.getFrBankAccount().getIBAN());
@@ -448,13 +448,13 @@ public class EdemandeService implements IExternalProviderService {
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("title", translationService.translate("homeFolder.adult.title."
             + request.getAccountHolderTitle().toString().toLowerCase(), Locale.FRANCE));
-        model.put("lastName", escapeLastName(request.getAccountHolderLastName()));
+        model.put("lastName", StringUtils.upperCase(request.getAccountHolderLastName()));
         //FIXME placeholders; are these really needed ?
         model.put("address", request.getSubjectAddress());
         model.put("phone", "");
         model.put("birthPlace", "");
         //ENDFIXME
-        model.put("firstName", escapeFirstName(request.getAccountHolderFirstName()));
+        model.put("firstName", StringUtils.capitalize(request.getAccountHolderFirstName()));
         model.put("birthDate", formatDate(request.getAccountHolderBirthDate()));
         model.put("frenchRIB", FrenchRIB.xmlToModel(request.getFrenchRIB()).format(" "));
         try {
@@ -496,8 +496,8 @@ public class EdemandeService implements IExternalProviderService {
         model.put("psCodeDemande",
             StringUtils.defaultIfEmpty(request.getEdemandeId(), "-1"));
         model.put("etatCourant", firstSending ? 2 : 1);
-        model.put("firstName", escapeFirstName(request.getSubjectFirstName()));
-        model.put("lastName", escapeLastName(request.getSubjectLastName()));
+        model.put("firstName", StringUtils.capitalize(request.getSubjectFirstName()));
+        model.put("lastName", StringUtils.upperCase(request.getSubjectLastName()));
         model.put("address", request.getSubjectAddress());
         if (!StringUtils.isBlank(request.getSubjectPhone())) {
             model.put("phone", request.getSubjectPhone());

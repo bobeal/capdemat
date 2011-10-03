@@ -19,6 +19,7 @@
 .list-box ul li span.date   { float:  left; width: 20%; }
 .list-box ul li div.content { float: right; width: 80%; }
 .list-box ul li div.content span.action_and_tag-state { float: right; margin-left: 1em; }
+.list-box ul li div.content span.action_and_tag-state span.tag-state { float: none; }
 
 .list-box ul li p, .list-box ul li span.date { color: #666; }
 .list-box ul li p { margin-top: .1em; }

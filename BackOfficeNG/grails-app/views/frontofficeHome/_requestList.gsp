@@ -9,9 +9,7 @@
           <div class="content">
             <span class="action_and_tag-state">
               <g:if test="${record.isEditable}">
-                <a href="${createLink(action:'edit',controller:'frontofficeRequest',id:record.id)}">
-                  <g:message code="action.modify"/>
-                </a>
+                <a href="${createLink(action:'edit',controller:'frontofficeRequest',id:record.id)}"><g:message code="action.modify"/></a>
               </g:if>
               <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" />
             </span>

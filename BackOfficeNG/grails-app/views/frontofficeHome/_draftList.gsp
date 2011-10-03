@@ -8,9 +8,7 @@
 
           <div class="content">
             <span class="action_and_tag-state">
-              <a href="${createLink(action:'deleteDraft',controller:'frontofficeRequest',id:record.id)}">
-                  <g:message code="action.remove"/>
-              </a>
+              <a href="${createLink(action:'deleteDraft',controller:'frontofficeRequest',id:record.id)}"><g:message code="action.remove"/></a>
               <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" />
             </span>
             <a href="${createLink(action:'edit',controller:'frontofficeRequest',id:record.id)}">

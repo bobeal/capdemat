@@ -19,8 +19,7 @@
               <a href="${createLink(controller:'frontofficeRequest',action:'summary',id:record.id)}">
             </g:if>
               ${record.label}
-              <g:message code="request.searchResult.requestId" />
-              ${record.id}
+              <g:message code="request.searchResult.requestId" /> ${record.id}
             <g:if test="${record.state != 'Archived'}">
               </a>
             </g:if>

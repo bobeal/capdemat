@@ -15,8 +15,7 @@
             </span>
             <a href="${createLink(action:'edit',controller:'frontofficeRequest',id:record.id)}">
               ${record.label}
-              <g:message code="request.searchResult.requestId" />
-              ${record.id}
+              <g:message code="request.searchResult.requestId" /> ${record.id}
             </a>
             <g:if test="${record.subjectName && record.subjectName != ''}">
               <p>> <g:message code="layout.for" /> ${record.subjectName}</p>

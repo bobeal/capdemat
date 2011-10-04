@@ -323,7 +323,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
                 xmlRequest.getRequester().setExternalId(iMapping.getExternalId());
             }
 
-            if (xmlRequest.getSubject() != null && xmlRequest.getSubject().getChild() != null) {
+            if (xmlRequest.getSubject() != null) {
                 IndividualType individualType = null;
                 if (xmlRequest.getSubject().getChild() != null)
                     individualType = xmlRequest.getSubject().getChild();

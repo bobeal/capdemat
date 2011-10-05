@@ -20,4 +20,14 @@
   <dl class="collapse">
     <g:render template="static/connexion" model="['adult':adult]" />
   </dl>
+  <g:each var="homeMapping" in="${homeMappings}">
+  
+   <g:set var="individualsMappings" value="${homeMapping.individualsMappings.groupBy { it.individualId }}" />
+    <g:each var="mapping" in="${individualsMappings[adult.id]}">
+     <h3>${homeMapping.externalServiceLabel}</h3>
+     <dl class="${adult?.state?.toString() != 'Archived' ? 'edit' : ''} individual-${homeMapping.externalServiceLabel}-mapping required collapse">
+       <g:render template="static/mapping" model="['mapping':mapping]" />
+      </dl>
+    </g:each>
+  </g:each>
 </div>

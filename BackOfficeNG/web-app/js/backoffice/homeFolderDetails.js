@@ -115,7 +115,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
         var urlElems = atom.slice(1, atom.length)
         var urlElemsString = ""
         for(i = 0; i < urlElems.length; i ++) {
-        	urlElemsString = urlElemsString+"/"+urlElems[i]
+        	urlElemsString = urlElemsString+"/"+urlElems[i].replace(/#/g,' ')
         }
         zct.doAjaxCall(
             '/' + atom[0]

@@ -72,7 +72,7 @@
                    <g:set var="individualsMappings" value="${homeMapping.individualsMappings.groupBy { it.individualId }}" />
                    <g:each var="mapping" in="${individualsMappings[homeFolderResponsible.id]}">
                    <h3>${homeMapping.externalServiceLabel}</h3>
-                   <dl class="${homeFolderResponsible?.state?.toString() != 'Archived' ? 'edit' : ''} individual-${homeMapping.externalServiceLabel}-mapping required collapse">
+                   <dl class="${homeFolderResponsible?.state?.toString() != 'Archived' ? 'edit' : ''} individual-${homeMapping.externalServiceLabel.replace(" ", "#")}-mapping required collapse">
                       <g:render template="static/mapping" model="['mapping':mapping]" />
                    </dl>
                   </g:each>

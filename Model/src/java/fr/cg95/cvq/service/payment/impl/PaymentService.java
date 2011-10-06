@@ -31,6 +31,7 @@ import fr.cg95.cvq.business.payment.PaymentEvent;
 import fr.cg95.cvq.business.payment.PaymentMode;
 import fr.cg95.cvq.business.payment.PaymentState;
 import fr.cg95.cvq.business.payment.PurchaseItem;
+import fr.cg95.cvq.business.payment.external.ExternalHomeFolder;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.UserAction;
 import fr.cg95.cvq.business.users.UserEvent;
@@ -52,6 +53,7 @@ import fr.cg95.cvq.service.payment.PaymentResultBean;
 import fr.cg95.cvq.service.payment.PaymentResultStatus;
 import fr.cg95.cvq.service.payment.PaymentServiceBean;
 import fr.cg95.cvq.service.payment.annotation.PaymentFilter;
+import fr.cg95.cvq.service.payment.external.IExternalApplicationService;
 import fr.cg95.cvq.service.payment.external.IPaymentExternalService;
 import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
@@ -72,6 +74,7 @@ public final class PaymentService implements IPaymentService,
     private IExternalHomeFolderService externalHomeFolderService;
     @Autowired
     private IPaymentExternalService paymentExternalService;
+    private IExternalApplicationService externalApplicationService;
 
     private ApplicationContext applicationContext;
 
@@ -341,41 +344,59 @@ public final class PaymentService implements IPaymentService,
     @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public File exportPayments(List<Long> paymentsIds) throws CvqException {
         List<Payment> payments = paymentDAO.findByIds(paymentsIds);
-        String[] header = new String[11];
+        String[] header = new String[15];
         header[0] = "Identifiant CapDémat";
         header[1] = "Référence bancaire";
         header[2] = "Régie de paiement";
         header[3] = "Date de validation";
         header[4] = "Identifiant compte CapDémat";
-        header[5] = "Montant total";
-        header[6] = "État";
-        header[7] = "Identifiant compte externe";
-        header[8] = "Identifiant item";
-        header[9] = "Label item";
-        header[10] = "Montant item";
+        header[5] = "Nom du payeur";
+        header[6] = "Prénom du payeur";
+        header[7] = "Montant total";
+        header[8] = "État";
+        header[9] = "Identifiant compte externe";
+        header[10] = "Nom compte externe";
+        header[11] = "Prénom compte externe";
+        header[12] = "Identifiant item";
+        header[13] = "Label item";
+        header[14] = "Montant item";
         List<String[]> data = new ArrayList<String[]>();
         data.add(header);
         for (Payment payment : payments) {
             for (PurchaseItem purchaseItem : payment.getPurchaseItems()) {
-                String[] line = new String[11];
+                String[] line = new String[15];
                 line[0] = String.valueOf(payment.getId());
                 line[1] = payment.getBankReference();
                 line[2] = payment.getBroker();
                 line[3] = DateUtils.formatDate(payment.getCommitDate());
                 line[4] = String.valueOf(payment.getHomeFolderId());
-                line[5] = String.valueOf(payment.getAmount());
-                line[6] = payment.getState().toString();
+                line[5] = payment.getRequesterLastName();
+                line[6] = payment.getRequesterFirstName();
+                line[7] = String.valueOf(payment.getAmount());
+                line[8] = payment.getState().toString();
                 if (purchaseItem instanceof ExternalAccountItem) {
                     ExternalAccountItem externalAccountItem = (ExternalAccountItem) purchaseItem;
-                    line[7] = externalAccountItem.getExternalHomeFolderId();
-                    line[8] = externalAccountItem.getExternalItemId();
-                    line[9] = externalAccountItem.getLabel();
-                    line[10] = String.valueOf(externalAccountItem.getAmount());
+                    ExternalHomeFolder ehf = 
+                        externalApplicationService.getHomeFolder(Long.valueOf(externalAccountItem.getExternalApplicationId()), 
+                                externalAccountItem.getExternalHomeFolderId());
+                    line[9] = externalAccountItem.getExternalHomeFolderId();
+                    if (ehf != null) {
+                        line[10] = ehf.getResponsible().getLastName();
+                        line[11] = ehf.getResponsible().getFirstName();
+                    } else {
+                        line[10] = "";
+                        line[11] = "";
+                    }
+                    line[12] = externalAccountItem.getExternalItemId();
+                    line[13] = externalAccountItem.getLabel();
+                    line[14] = String.valueOf(externalAccountItem.getAmount());
                 } else {
-                    line[7] = "";
-                    line[8] = "";
                     line[9] = "";
                     line[10] = "";
+                    line[11] = "";
+                    line[12] = "";
+                    line[13] = "";
+                    line[14] = "";
                 }
                 data.add(line);
             }
@@ -623,5 +644,9 @@ public final class PaymentService implements IPaymentService,
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+    }
+
+    public void setExternalApplicationService(IExternalApplicationService externalApplicationService) {
+        this.externalApplicationService = externalApplicationService;
     }
 }

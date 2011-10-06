@@ -11,7 +11,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import au.com.bytecode.opencsv.CSVReader;
-import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItemDetail;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
@@ -21,8 +20,6 @@ import fr.cg95.cvq.business.payment.external.ExternalApplication;
 import fr.cg95.cvq.business.payment.external.ExternalHomeFolder;
 import fr.cg95.cvq.business.payment.external.ExternalIndividual;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.IndividualRole;
-import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.users.IAdultDAO;
@@ -490,6 +487,15 @@ public class ExternalApplicationService implements IExternalApplicationService {
         return genericDAO.simpleSelect(ExternalHomeFolder.class)
                 .and("externalApplication", getExternalApplicationById(externalApplicationId))
                 .max(max).offset(offset).list();
+    }
+
+    @Override
+    public ExternalHomeFolder getHomeFolder(Long externalApplicationId, String externalId) 
+        throws CvqException {
+        return genericDAO.simpleSelect(ExternalHomeFolder.class)
+            .and("externalApplication", getExternalApplicationById(externalApplicationId))
+            .and("externalId", externalId)
+            .unique();
     }
 
     @Override

@@ -705,6 +705,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
     <property name="mailService" ref="mailService" />
     <property name="userSearchService" ref="userSearchService" />
+    <property name="externalApplicationService" ref="externalApplicationService" />
   </bean>
 
   <bean id="externalApplicationProviderService"

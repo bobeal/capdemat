@@ -1,6 +1,6 @@
 <h4>${message(code:documentType.i18nKey)}</h4>
 <g:if test="${document == null && documentsByTypes[documentType.id].provided}">
-  <h5>${message(code:'document.header')}</h5>
+  <h5>${message(code:'document.header.available')}</h5>
   <g:each in="${documentsByTypes}" var="type">
     <g:if test="${type.value.provided && type.key == documentType.id}">
     <dl>

@@ -12,7 +12,6 @@
     </g:if>
     <script type="text/javascript" src="${resource(dir:'js/frontoffice', file:'homeFolder.js')}"></script>
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/common', file:'form.css')}" />
-    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'homefolderTracker.css')}" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'homefolder.css')}" />
   </head>
   <body>
@@ -42,16 +41,13 @@
         </g:else>
       </div>
       <div class="side">
-        <div>
-          <g:render template="/frontofficeHomeFolder/tracker" model="['clickable' : true, 'step' : 'family']" />
-        </div>
-%{--        <g:if test="${child.id != null}">--}%
-%{--          <div class="action">--}%
-%{--            <a href="#generalInformations">${message(code:'homeFolder.individual.header.general')}</a>--}%
-%{--            <a href="#identity">${message(code:'homeFolder.individual.header.identity')}</a>--}%
-%{--            <a href="#responsibles">${message(code:'homeFolder.individual.header.responsibles')}</a>--}%
-%{--          </div>--}%
-%{--        </g:if>--}%
+        <g:if test="${child.id != null}">
+          <div class="action">
+            <a href="#generalInformations">${message(code:'homeFolder.individual.header.general')}</a>
+            <a href="#identity">${message(code:'homeFolder.individual.header.identity')}</a>
+            <a href="#responsibles">${message(code:'homeFolder.individual.header.responsibles')}</a>
+          </div>
+        </g:if>
       </div>
     </div>
   </body>

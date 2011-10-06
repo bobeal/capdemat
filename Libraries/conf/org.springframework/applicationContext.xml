@@ -320,10 +320,8 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="documentTypeDAO" ref="documentTypeDAO"/>
     <property name="userSearchService" ref="userSearchService"/>
     <property name="genericDAO" ref="genericDAO" />
-    <property name="homeFolderDAO" ref="homeFolderDAO" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="translationService" ref="translationService"/>
-    <property name="homeFolderDocumentService" ref="homeFolderDocumentService" />
     <property name="maxDataSize" value="${document.upload.maxSize}" />
   </bean>
 
@@ -378,7 +376,6 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="userService" ref="userService" />
     <property name="userNotificationService" ref="userNotificationService" />
     <property name="userSearchService" ref="userSearchService" />
-    <property name="homeFolderDocumentService" ref="homeFolderDocumentService" />
     <property name="homeFolderDAO" ref="homeFolderDAO" />
     <property name="individualDAO" ref="individualDAO" />
     <property name="genericDAO" ref="genericDAO" />

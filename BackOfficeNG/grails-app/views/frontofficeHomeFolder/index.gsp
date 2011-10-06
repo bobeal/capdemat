@@ -4,39 +4,19 @@
     <meta name="layout" content="fo_main" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'document.css')}" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'homefolder.css')}" />
-    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'homefolderTracker.css')}" />
-    <style>
-      .tracker-box #familyStepQuestion { font-size: 1.1em; font-weight: bold; text-align: center; background: none repeat scroll 0 0 #FFEE20; padding: 5px; }
-      .tracker-box #familyStepQuestion a { font-size: 1.3em; color: black;}
-    </style>
   </head>
   <body>
     <g:if test="${flash.successMessage}"><div class="success-box"><p>${flash.successMessage}</p></div></g:if>
 
-    <!-- Home folder statuses. -->
-    <g:if test="${overallState != 'Complete'}">
-      <div class="box-container">
-        <div class="box tracker-box">
-          <g:render template="/frontofficeHomeFolder/tracker" model="['flat' : true]" />
-          <g:if test="${homeFolder?.familyStepState?.name() == 'UNCOMPLETE'}">
-            <div id="familyStepQuestion">
-              Les membres du compte sont-ils tous ajoutés ?
-              <a href="${createLink(controller : 'frontofficeHomeFolder', action : 'complete')}">
-                Oui
-              </a>
-            </div>
-          </g:if>
+    <div class="box-container">
+      <!-- Last message sent. -->
+      <g:if test="${lastMessage}">
+        <div class="information-box">
+          <p><strong>Dernier message de votre collectivité :</strong></p>
+          <p>${lastMessage}</p>
         </div>
-
-        <!-- Last message sent. -->
-        <g:if test="${lastMessage}">
-          <div class="${overallState == 'Uncomplete' ? 'information-box' : 'error-box'}">
-            <p><strong>Dernier message de votre collectivité :</strong></p>
-            <p>${lastMessage}</p>
-          </div>
-        </g:if>
-      </div>
-    </g:if>
+      </g:if>
+    </div>
 
     <div class="box">
       <div class="main">

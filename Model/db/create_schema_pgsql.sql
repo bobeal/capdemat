@@ -1838,11 +1838,8 @@
 
     create table home_folder (
         id int8 not null,
-        documentsStepState varchar(255) not null,
         enabled bool,
         family_quotient varchar(255),
-        familyStepState varchar(255) not null,
-        responsibleStepState varchar(255) not null,
         state varchar(16) not null,
         is_temporary bool,
         address_id int8,

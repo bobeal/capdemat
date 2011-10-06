@@ -92,7 +92,6 @@ class FrontofficeHomeController {
         result.dashBoard.documents = prepareDocuments(this.getTopFiveDocuments())
 
         result.requestTypes = requestTypeAdaptorService.getDisplayGroups(this.currentEcitizen?.homeFolder)
-        result.homeFolder = this.currentEcitizen.homeFolder
         return result
     }
     

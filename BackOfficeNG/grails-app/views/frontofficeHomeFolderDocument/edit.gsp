@@ -5,7 +5,6 @@
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/common', file:'form.css')}" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'document.css')}" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'homefolder.css')}" />
-    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'homefolderTracker.css')}" />
   </head>
   <body>
     <div class="individual box">
@@ -103,9 +102,6 @@
         </form>
       </div>
       <div class="side">
-        <div>
-          <g:render template="/frontofficeHomeFolder/tracker" model="['clickable' : true, 'step' : 'documents']" />
-        </div>
       </div>
     </div>
   </body>

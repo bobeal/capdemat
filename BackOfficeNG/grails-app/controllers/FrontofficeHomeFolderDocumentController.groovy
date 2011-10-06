@@ -77,7 +77,6 @@ class FrontofficeHomeFolderDocumentController {
                 'document' : document,
                 'documentType' : documentType,
                 'documentsByTypes' : documentAdaptorService.homeFolderDocumentsByType(homeFolderId),
-                'homeFolder' : SecurityContext.getCurrentEcitizen().getHomeFolder(),
                 'callback' : callback
             ]
         }

@@ -13,7 +13,6 @@
 .box .side { width: 29%; float: right; }
 
 .box-container { overflow: auto; }
-.box-container .tracker-box { width: 54%; float: left; font-size: .9em; }
 .box-container .information-box, .box-container .error-box { width: 38%; float: right; clear: none; font-size: 1em; text-align: left; }
 .box-container .information-box p, .box-container .error-box p { margin: 0 0 .2em; font-size: 1em; }
 
@@ -82,10 +81,10 @@
   width: 65%; padding: 1.5em; border: 3px solid #ccc;
   border-radius: .5em; -moz-border-radius: .5em; -webkit-border-radius .5em;
 }
-.box.individual .main.New                                        { border-color: #2020cc; }
-.box.individual .main.Modified, .box.individual .main.Uncomplete { border-color: #fc0; }
-.box.individual .main.Valid, .box.individual .main.Complete       { border-color: #20CC20; }
-.box.individual .main.Invalid                                    { border-color:  #CC2020; }
+.box.individual .main.New      { border-color: #2020cc; }
+.box.individual .main.Modified { border-color: #fc0; }
+.box.individual .main.Valid    { border-color: #20CC20; }
+.box.individual .main.Invalid  { border-color:  #CC2020; }
 
 .box.individual a.modify { float: right; margin: -1.5em 1.5em 0 0; }
 

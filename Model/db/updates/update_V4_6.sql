@@ -24,15 +24,6 @@ create table global_home_folder_configuration (
     primary key (id)
 );
 
--- add home folder's progressive tracker model
-alter table home_folder add column documentsStepState varchar(255);
-alter table home_folder add column familyStepState varchar(255);
-alter table home_folder add column responsibleStepState varchar(255);
-update home_folder set responsibleStepState='COMPLETE', familyStepState='UNCOMPLETE', documentsStepState='UNNEEDED';
-alter table home_folder alter column responsibleStepState set not null;
-alter table home_folder alter column familyStepState set not null;
-alter table home_folder alter column documentsStepState set not null;
-
 create table home_folder_wished_document_types (
     global_home_folder_configuration_id int8 not null,
     document_type_id int8 not null,

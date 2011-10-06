@@ -5,11 +5,9 @@ import java.util.List;
 import java.util.Set;
 
 import fr.cg95.cvq.business.document.Document;
-import fr.cg95.cvq.business.document.DocumentState;
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.users.GlobalHomeFolderConfiguration;
 import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.HomeFolderStepState;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
 import fr.cg95.cvq.dao.jpa.IGenericDAO;
@@ -58,7 +56,6 @@ public class HomeFolderDocumentService implements IHomeFolderDocumentService {
             }
             documentDAO.update(document);
         }
-        updateDocumentsStepState(homeFolder);
     }
 
     @Override
@@ -75,7 +72,6 @@ public class HomeFolderDocumentService implements IHomeFolderDocumentService {
             document.setLinkedHomeFolder(null);
             documentDAO.update(document);
         }
-        updateDocumentsStepState(homeFolder);
     }
 
     @Override
@@ -103,9 +99,6 @@ public class HomeFolderDocumentService implements IHomeFolderDocumentService {
         conf.setWishedDocumentTypes(wished);
 
         genericDAO.update(conf);
-        for (HomeFolder homeFolder : homeFolderDAO.findAll()) {
-            updateDocumentsStepState(homeFolder);
-        }
     }
 
     @Override
@@ -118,49 +111,10 @@ public class HomeFolderDocumentService implements IHomeFolderDocumentService {
         conf.setWishedDocumentTypes(wished);
 
         genericDAO.update(conf);
-        for (HomeFolder homeFolder : homeFolderDAO.findAll()) {
-            updateDocumentsStepState(homeFolder);
-        }
     }
 
     @Override
     public Set<DocumentType> wishedDocumentTypes() {
         return getGlobalHomeFolderConfiguration().getWishedDocumentTypes();
-    }
-
-    @Override
-    public Boolean aDocumentIsMissing(HomeFolder homeFolder) {
-        for (DocumentType documentType : wishedDocumentTypes()) {
-            if (documentsLinkedToHomeFolder(homeFolder.getId(), documentType).isEmpty()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public Boolean aDocumentIsInvalid(HomeFolder homeFolder) {
-        for (Document document : homeFolder.getDocuments()) {
-            if (document.getState().equals(DocumentState.OUTDATED) ||
-                document.getState().equals(DocumentState.REFUSED))
-                return true;
-        }
-        return false;
-    }
-
-    @Override
-    public void updateDocumentsStepState(HomeFolder homeFolder) {
-        if (homeFolder != null) {
-            if (wishedDocumentTypes().isEmpty()) {
-                homeFolder.setDocumentsStepState(HomeFolderStepState.UNNEEDED);
-            }  else if (aDocumentIsMissing(homeFolder)) {
-                homeFolder.setDocumentsStepState(HomeFolderStepState.UNCOMPLETE);
-            } else if (aDocumentIsInvalid(homeFolder)) {
-                homeFolder.setDocumentsStepState(HomeFolderStepState.INVALID);
-            } else {
-                homeFolder.setDocumentsStepState(HomeFolderStepState.COMPLETE);
-            }
-            homeFolderDAO.update(homeFolder);
-        }
     }
 }

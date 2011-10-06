@@ -101,7 +101,7 @@ environments {
 		log4j = {
 			appenders {
 				// set up a log file in the standard tomcat area; be sure to use .toString() with ${}
-				rollingFile name:'capdemat', file:"${logDirectory}/${appName}.log".toString(), 
+				rollingFile name:'capdemat', file:"${logDirectory}/${appName}.log".toString(), layout:pattern(conversionPattern: '%d{yyyy-MM-dd HH:mm:ss} [%t:%x]  %c{1} [%p] %m%n'),
 					maxFileSize:'20000KB', maxBackupIndex:"10"
 				'null' name:'stacktrace'
 			}

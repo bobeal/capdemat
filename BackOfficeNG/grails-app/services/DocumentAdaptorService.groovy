@@ -1,3 +1,5 @@
+import fr.cg95.cvq.business.document.DocumentState;
+
 import fr.cg95.cvq.service.users.IHomeFolderDocumentService;
 
 import fr.cg95.cvq.exception.CvqModelException;
@@ -137,6 +139,7 @@ public class DocumentAdaptorService {
                 'id':it.id,
                 'name': messageSource.getMessage(CapdematUtils.adaptDocumentTypeName(it.name),null,SecurityContext.currentLocale),
                 'linked': documents.linked,
+                'linkedAndInvalid': documents.linked.findAll { [DocumentState.OUTDATED, DocumentState.REFUSED].contains(it.state) },
                 'available': documents.available
             ]
             documentTypeList.add(type)

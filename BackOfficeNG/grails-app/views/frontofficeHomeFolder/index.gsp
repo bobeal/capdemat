@@ -133,7 +133,7 @@
                   ${document.datas.size()} ${message(code:'property.pages')}
                   <g:if test="${document.endValidityDate}">
                     -
-                    <span>${message(code:'document.header.expireOn')} ${formatDate(date:document.endValidityDate,formatName:'format.date')}</span>
+                    <span>${message(code:'message.expireOn',args:[formatDate(date:document.endValidityDate,formatName:'format.date')])}</span>
                   </g:if>
                 </p>
                 <p>

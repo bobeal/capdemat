@@ -10,7 +10,7 @@
 .information-box ul li { list-style: disc inside none; }
 
 /*
- * Last requests, payments and drafts boxes.
+ * Last requests, payments, drafts and home folder documents boxes.
  */
 .list-box h2 { border: 0; }
 .list-box { font-size: .9em; }
@@ -18,13 +18,16 @@
 
 .list-box ul li span.date   { float:  left; width: 20%; }
 .list-box ul li div.content { float: right; width: 80%; }
-.list-box ul li div.content span.action_and_tag-state { float: right; margin-left: 1em; }
-.list-box ul li div.content span.action_and_tag-state span.tag-state { float: none; }
+.list-box ul li span.action_and_tag-state { float: right; margin-left: 1em; }
+.list-box ul li span.action_and_tag-state span.tag-state { float: none; }
 
 .list-box ul li p, .list-box ul li span.date { color: #666; }
 .list-box ul li p { margin-top: .1em; }
-.list-box ul li p span.warn { background-color:#fdd; }
 
+.list-box .warn           { background-color: #fdd; }
+.list-box .warn.documents { padding: .5em 1em; font-size: 1.1em; margin: .5em 0; }
+.list-box.warn    { border-color: #CC2020 !important; }
+.list-box.warn h2 { color: #CC2020 !important; }
 
 /*
  * Home folder creation box.

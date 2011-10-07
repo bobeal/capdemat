@@ -31,7 +31,8 @@ class FrontofficeHomeController {
     def requestAdaptorService
     def requestTypeAdaptorService
     def securityService
-    
+    def documentAdaptorService
+
     IUserService userService
     IRequestNoteService requestNoteService
     IRequestSearchService requestSearchService
@@ -92,6 +93,8 @@ class FrontofficeHomeController {
         result.dashBoard.documents = prepareDocuments(this.getTopFiveDocuments())
 
         result.requestTypes = requestTypeAdaptorService.getDisplayGroups(this.currentEcitizen?.homeFolder)
+
+        result.documentsByTypes = documentAdaptorService.homeFolderDocumentsByType(currentEcitizen.homeFolder.id)
         return result
     }
     

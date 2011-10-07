@@ -20,7 +20,7 @@
             </g:if>
             <p>
               <span ${record.warn ? 'class="warn"' : ''}>
-                > <g:message code="request.message.expireOn"
+                > <g:message code="message.expireOn"
                     args="${[formatDate(date:record.expirationDate,formatName:'format.date')]}"/><g:if test="${record.warn}"> !</g:if>
               </span>
             </p>

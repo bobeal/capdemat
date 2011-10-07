@@ -8,6 +8,7 @@
   <body>
     <div class="box">
       <div class="main">
+        <g:render template="homeFolderDocumentList" />
         <g:render template="draftList" />
         <g:render template="requestList" />
         <g:render template="paymentList" />

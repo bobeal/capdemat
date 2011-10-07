@@ -17,7 +17,7 @@
           <g:each var="document" in="${documentType.value.linkedAndInvalid}">
             <li>
               <span class="action_and_tag-state">
-                <a href="${createLink(controller:'frontofficeHomeFolderDocument', action:'edit', params:['documentTypeId':documentType.key])}">${message(code:'action.attach')}</a>
+                <a href="${createLink(controller:'frontofficeHomeFolderDocument', action:'replace', params:['documentId':document.id, 'documentTypeId':documentType.key])}">${message(code:'action.replace')}</a>
                 <g:capdematEnumToFlag var="${document.state}" i18nKeyPrefix="document.state" />
               </span>
               <a href="${createLink(controller:'frontofficeDocument',action:'details',id:document.id)}" target="blank" title="${message(code:'document.message.preview.longdesc')}">

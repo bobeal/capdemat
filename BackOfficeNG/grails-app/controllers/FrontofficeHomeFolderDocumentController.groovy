@@ -61,6 +61,13 @@ class FrontofficeHomeFolderDocumentController {
         redirect(controller : callback.controller, action : callback.action, params : callback.params)
     }
 
+    def replace = {
+        homeFolderDocumentService.unlink(homeFolderId, Long.valueOf(params.documentId))
+        redirect(action : 'edit', params : [
+            'documentTypeId' : params.documentTypeId
+        ].plus(callback.params ? callback.params : [:]))
+    }
+
     /**
      * GET: view to edit document pages (add / delete pages)
      *

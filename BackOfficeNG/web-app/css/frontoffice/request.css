@@ -192,6 +192,15 @@
 }
 
 
+/* document step (override)
+--------------------------------------------------------------*/
+#request #docs dd label, #request #docs dd input { font-size: 1em; }
+#request #docs p  { padding: 0; font-size: 1em; }
+#request #docs h4 { margin-bottom: 0; }
+#request #docs dd input[type=submit] { font-size: 1.2em !important; }
+#request #docs dd input[type=text]   { border-top-color: #bbb !important; }
+
+
 /* validation step
 --------------------------------------------------------------*/
 #request div.form div .captcha       { margin : .1em 0 .5em; overflow: auto;}

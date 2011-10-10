@@ -9,8 +9,8 @@
 ---------------------------------------------------------------*/
 
 .box { padding: 1.5em; overflow: auto; border: 0 0 1em; background: #fff; margin: 0 0 1em 0; }
-.box .main { width: 68%; float: left; }
-.box .side { width: 29%; float: right; }
+.box .main { width: 65%; float: left; }
+.box .side { width: 32%; float: right; }
 
 .box-container { overflow: auto; }
 .box-container .information-box, .box-container .error-box { width: 38%; float: right; clear: none; font-size: 1em; text-align: left; }
@@ -104,18 +104,15 @@
 /* Document (override)
 ---------------------------------------------------------------*/
 
-.box .side #document { margin-top: 2em; }
+.box .side #docs    { margin-top: 2em; }
 
-.box .side #document h4 { margin-top: 1em; font-size: 1.1em; font-style: italic; }
-.box .side #document h4 a            { margin : 0 1em 0; }
-.box .side #document h4 a.warn       { padding: .2em; background: #ffee20; text-decoration: none; }
-.box .side #document h4 a.warn:hover { background: #ffffff; }
+.box .side #docs h4 { margin-top: 1em; font-size: 1.1em; }
 
-.box .side #document dl   { clear: both; }
-.box .side #document dt   { width: 17%; }
-.box .side #document dd   { width: 73%; font-size: .95em; }
+.box .side #docs dl { clear: both; }
 
-
+.box .side #docs dt, .box .side #docs dd { font-size: .9em !important; }
+.box .side #docs dt { width: 16%; }
+.box .side #docs dd { width: 73%; }
 
 /* TODO : refactor duplicated form style !!
 ---------------------------------------------------------------*/

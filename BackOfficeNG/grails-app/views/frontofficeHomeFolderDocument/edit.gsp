@@ -9,7 +9,7 @@
   <body>
     <div class="individual box">
       <h2>${message(code:'property.documents')}</h2>
-      <div id ="document" class="main ${flash.errorMessage ? 'Invalid' : 'Modified'}">
+      <div id ="docs" class="main ${flash.errorMessage ? 'Invalid' : 'Modified'}">
         <form method="post" enctype="multipart/form-data" action="${createLink(controller : 'frontofficeHomeFolderDocument', action : 'edit', params : callback.params)}">
           <g:if test="${flash.errorMessage}"><p class="error">${flash.errorMessage}</p></g:if>
 
@@ -24,23 +24,20 @@
                   <img src="${resource(dir:'images/icons',file:'mime_' + (document.isPDF() ? 'pdf' : 'img') + '.png')}" />
                 </dt>
                 <dd>
+                  <g:capdematEnumToFlag var="${document.state}" i18nKeyPrefix="document.state" />
                   <g:if test="${document.ecitizenNote}">
-                    <p>${message(code:'document.header.description')} : ${document.ecitizenNote}</p>
+                    <p>${message(code:'document.header.description')} : ${document.ecitizenNote}</p>
                   </g:if>
                   <p class="help">
                     ${document.datas.size()} ${message(code:'property.pages')}
                     <g:if test="${document.endValidityDate}">
                       -
-                      <span>${message(code:'document.header.expireOn')} ${formatDate(date:document.endValidityDate,formatName:'format.date')}</span>
+                      <span>${message(code:'message.expireOn',args:[formatDate(date:document.endValidityDate,formatName:'format.date')])}</span>
                     </g:if>
                   </p>
                   <p>
-                    <a href="${createLink(controller:'frontofficeHomeFolderDocument', action:'link', params: callback.params ? callback.params.plus('documentId' : document.id) : [ 'documentId' : document.id ])}">
-                      ${message(code:'action.attach')}
-                    </a>&nbsp;
-                    <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank" title="${message(code:'document.message.preview.longdesc')}">
-                      ${message(code:'document.message.preview')}
-                    </a>
+                    <a href="${createLink(controller:'frontofficeHomeFolderDocument', action:'link', params: callback.params ? callback.params.plus('documentId' : document.id) : [ 'documentId' : document.id ])}">${message(code:'action.attach')}</a>&nbsp;
+                    <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank" title="${message(code:'document.message.preview.longdesc')}">${message(code:'document.message.preview')}</a>
                   </p>
                   </dd>
                 </g:each>
@@ -67,17 +64,12 @@
                   ${message(code:'document.header.page')} ${index + 1}
                 </label>
                 <input type="file" name="documentData-${index}"/>
-                <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}?pn=${index}" target="blank" title="${message(code:'document.message.preview.longdesc')}">
-                  ${message(code:'document.message.preview')}
-                </a>
+                <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}?pn=${index}" target="blank" title="${message(code:'document.message.preview.longdesc')}">${message(code:'document.message.preview')}</a>
                 <g:if test="${index > 0}">
-                  &nbsp;
-                  <a href="${createLink(
+                  &nbsp;<a href="${createLink(
                         controller:'frontofficeHomeFolderDocument',
                         action:'deletePage',
-                        params: callback.params ? callback.params.plus(['documentTypeId':documentType.id, 'documentId':document?.id, 'pageIndex':index]) : [ 'documentTypeId':documentType.id, 'documentId':document?.id, 'pageIndex':index ])}">
-                    ${message(code:'action.delete')}
-                  </a>
+                        params: callback.params ? callback.params.plus(['documentTypeId':documentType.id, 'documentId':document?.id, 'pageIndex':index]) : [ 'documentTypeId':documentType.id, 'documentId':document?.id, 'pageIndex':index ])}">${message(code:'action.delete')}</a>
                 </g:if>
               </p>
             </g:each>

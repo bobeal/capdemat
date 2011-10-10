@@ -1,27 +1,28 @@
 /* document management
 --------------------------------------------------------------*/
 
-#document h4 { font-size: 1.4em; font-weight: normal; color: #DB4366; }
-#document h4 a { float: right; margin: .7em 1em 0; font-size: .7em; }
-#document h5 { margin-bottom: 1em; font-size: 1.25em; }
-#document label { font-size: 1.1em !important; }
-#document .help { font-size: .9em; font-style: italic; color: #333; }
-#document dl { margin: 0 0 1em; overflow : auto; }
-#document dt,
-#document dd { float: left; margin: 0; padding: .4em; border-top: 1px dotted #ccc; }
-#document dt {
+#docs h4   { font-size: 1.4em; font-weight: normal; color: #DB4366; font-style: italic; }
+#docs h4 a { float: right; font-size: .9em; margin-right: 1em; }
+#docs h5   { font-size: 1.25em; }
+#docs .help {
+  font-style: italic;
+  color: #333;
+}
+#docs dl { margin: 0 0 1em; overflow : auto; }
+#docs dt,
+#docs dd { float: left; margin: 0; padding: .5em; border-top: 1px dotted #ccc; font-size: 1em; }
+#docs dt {
   clear: both; width: 15%; padding-top: .6em;
-  font-size: 1em; min-height: 1.5em;
+  min-height: 1.5em;
   text-align: right; color: #444;
 }
-#document dd { width: 78%; font-size: 1.2em; }
-#document dd p { margin: 0 !important; font-size: .8em !important; }
-#document dd label,
-#document dd input { font-size: .9em !important; }
+#docs dd { width: 78%; }
+#docs dd.warn { background-color: #fdd; }
+#docs dd p { margin: 0 0 .1em !important; }
+#docs dd p.warn { margin: .4em 0 !important; font-size: 1.1em !important; }
 
-#document dd input[type=text], 
-#request #document dd input[type=text] { border-top-color:#bbb !important; }
+#docs .tag-state { float: right; margin-left: .5em; }
 
-#document dd input[type=submit],
-#request #document dd input[type=submit] { font-size: 1.2em !important; }
-
+#docs dd label, #docs dd input { font-size: 1em; }
+#docs dd input[type=submit] { font-size: 1.2em !important; }
+#docs dd input[type=text]   { border-top-color: #bbb !important; }

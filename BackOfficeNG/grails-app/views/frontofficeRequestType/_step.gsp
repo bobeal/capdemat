@@ -64,7 +64,7 @@
         <span class="error">${rqt.stepStates[currentStep]?.errorMsg}</span>
       </h3>
       <p class="required-fields-notice">${message(code:'request.message.requiredFieldsNotice')}</p>
-      <div>
+      <div id="docs">
         <g:render template="/frontofficeRequestType/${documentType ? 'document' : 'documents'}" />  
         <div class="error" id="stepForm-error"> </div>
         <input type="hidden" name="returnUrl" value="${returnUrl}" />

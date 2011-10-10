@@ -110,22 +110,23 @@
         </div>
         <g:if test="${documentsByTypes}">
         <!-- Documents -->
-        <div id="document">
+        <div id="docs">
           <h3>${message(code:'property.documents')}</h3>
           <g:each in="${documentsByTypes}" var="documentType">
             <h4>
-              <a href="${createLink(controller:'frontofficeHomeFolderDocument', action:'edit', params:['documentTypeId':documentType.key])}" class="${documentType.value.linked ? '' : 'warn'}">
+              <a href="${createLink(controller:'frontofficeHomeFolderDocument', action:'edit', params:['documentTypeId':documentType.key])}">
                 ${message(code:'action.attach')}
               </a>
               ${message(code:documentType.value.name)}
             </h4>
-            <g:if test="${documentType.value.linked}">
             <dl>
+            <g:if test="${documentType.value.linked}">
               <g:each in="${documentType.value.linked}" var="document">
               <dt>
                 <img src="${resource(dir:'images/icons',file:'mime_' + (document.isPDF() ? 'pdf' : 'img') + '.png')}" />
               </dt>
-              <dd>
+              <dd ${[fr.cg95.cvq.business.document.DocumentState.OUTDATED, fr.cg95.cvq.business.document.DocumentState.REFUSED].contains(document.state) ? 'class="warn"' : ''}>
+                <g:capdematEnumToFlag var="${document.state}" i18nKeyPrefix="document.state" />
                 <g:if test="${document.ecitizenNote}">
                     <p>${message(code:'document.header.description')} : ${document.ecitizenNote}</p>
                 </g:if>
@@ -137,30 +138,31 @@
                   </g:if>
                 </p>
                 <p>
-                  <g:if test="${document.state.toString() == 'Draft'}">
-                    <a href="${createLink(controller:'frontofficeHomeFolderDocument', action:'edit', params:['documentTypeId':documentType.key, 'documentId':document.id])}">
-                      ${message(code:'action.modify')}
-                    </a>&nbsp;
-                    <a href="${createLink(controller:'frontofficeHomeFolderDocument', action:'delete', params:['documentId':document.id])}">
-                      ${message(code:'action.delete')}
-                    </a>&nbsp;
+                  <g:if test="${document.state == fr.cg95.cvq.business.document.DocumentState.DRAFT}">
+                    <a href="${createLink(controller:'frontofficeHomeFolderDocument', action:'edit', params:['documentTypeId':documentType.key, 'documentId':document.id])}">${message(code:'action.modify')}</a>&nbsp;
+                    <a href="${createLink(controller:'frontofficeHomeFolderDocument', action:'delete', params:['documentId':document.id])}">${message(code:'action.delete')}</a>&nbsp;
                   </g:if>
                   <g:else>
-                    <a href="${createLink(controller:'frontofficeHomeFolderDocument', action:'unlink', params:['documentId':document.id])}">
-                      ${message(code:'action.detach')}
-                    </a>&nbsp;
+                    <a href="${createLink(controller:'frontofficeHomeFolderDocument', action:'unlink', params:['documentId':document.id])}">${message(code:'action.detach')}</a>&nbsp;
                   </g:else>
                   <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank" title="${message(code:'document.message.preview.longdesc')}">
                     ${message(code:'document.message.preview')}
                   </a>
                 </p>
+                <g:if test="${[fr.cg95.cvq.business.document.DocumentState.OUTDATED, fr.cg95.cvq.business.document.DocumentState.REFUSED].contains(document.state)}">
+                  <p class="warn">${message(code:'document.message.shouldDetach')}</p>
+                </g:if>
               </dd>
               </g:each>
-            </dl>
             </g:if>
             <g:else>
-              <p class="help">${message(code:'document.message.noAttachment')}</p>
+              <dt></dt>
+              <dd class="warn">
+                <span class="tag-state tag-not_provided">${message(code:'document.state.notProvided')}</span>
+                <p class="warn">${message(code:'document.message.noAttachment')}</p>
+              </dd>
             </g:else>
+            </dl>
           </g:each>
           </div>
         </g:if>

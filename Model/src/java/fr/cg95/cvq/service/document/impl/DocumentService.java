@@ -334,7 +334,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         if (homeFolderId == null)
             throw new CvqException("No home folder id provided");
 
-        return documentDAO.listProvidedDocuments(docType.getId(),
+        return documentDAO.listProvidedDocuments(docType,
                 homeFolderId, individualId);
     }
 

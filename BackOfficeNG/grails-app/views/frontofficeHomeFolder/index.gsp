@@ -20,10 +20,7 @@
 
     <div class="box">
       <div class="main">
-        <h2>
-          ${message(code:'homeFolder.title')}
-        </h2>
-        <p style="min-height: 2.5em;">${message(code:'property.address')} : 
+        <p style="min-height: 5.5em;">${message(code:'property.address')} :
           <strong>
             ${homeFolder.address.streetNumber} ${homeFolder.address.streetName}
             ${homeFolder.address.postalCode} ${homeFolder.address.city}

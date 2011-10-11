@@ -4,28 +4,31 @@
     <meta name="layout" content="fo_main" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'document.css')}" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'homefolder.css')}" />
+    <style>
+        .box .main { width: 66%; float: left; }
+        .box .side { width: 25%; float: right; }
+    </style>
   </head>
   <body>
     <g:if test="${flash.successMessage}"><div class="success-box"><p>${flash.successMessage}</p></div></g:if>
-
-    <div class="box-container">
-      <!-- Last message sent. -->
-      <g:if test="${lastMessage}">
-        <div class="information-box">
-          <p><strong>Dernier message de votre collectivité :</strong></p>
-          <p>${lastMessage}</p>
-        </div>
-      </g:if>
-    </div>
+    <!-- Last message sent. -->
+    <g:if test="${lastMessage}">
+      <div class="information-box">
+        <p><strong>${message(code:'homeFolder.message.lastMessage')}</strong> ${lastMessage}</p>
+      </div>
+    </g:if>
 
     <div class="box">
       <div class="main">
-        <p style="min-height: 5.5em;">${message(code:'property.address')} :
-          <strong>
-            ${homeFolder.address.streetNumber} ${homeFolder.address.streetName}
-            ${homeFolder.address.postalCode} ${homeFolder.address.city}
-          </strong>
-        </p>
+        <p style="font-size: 1.15em;">${message(code:'homeFolder.message.completeYourFamily')}</p>
+      </div>
+      <div class="side">
+        <div class="action">
+          <a href="${createLink(action:'editPassword')}">${message(code:'account.action.editPassword')}</a>
+          <a href="${createLink(action:'editQuestion')}">${message(code:'account.action.editQuestion')}</a>
+        </div>
+      </div>
+      <div class="main columns">
         <div class="individuals">
           <!-- Adults -->
           <div class="adults">
@@ -99,12 +102,6 @@
             </g:if>
           </div>
         </div>
-      </div>
-      <div class="side">
-        <div class="action">
-          <a href="${createLink(action:'editPassword')}">${message(code:'account.action.editPassword')}</a>
-          <a href="${createLink(action:'editQuestion')}">${message(code:'account.action.editQuestion')}</a>
-        </div>
         <g:if test="${documentsByTypes}">
         <!-- Documents -->
         <div id="docs">
@@ -161,13 +158,9 @@
             </g:else>
             </dl>
           </g:each>
-          </div>
+        </div>
         </g:if>
-%{--        <div class="note">--}%
-%{--          <h4>Notes de la collectivité</h4>--}%
-%{--          <p>l'individu blabla est n'a pas d'identifiant hibernate !</p>--}%
-%{--        </div>--}%
-      </div>  
+      </div>
     </div>
   </body>
 </html>

@@ -5,16 +5,12 @@
 ---------------------------------------------------------------*/
 
 
-/* TODO : define in common style
+/* Common style
 ---------------------------------------------------------------*/
 
 .box { padding: 1.5em; overflow: auto; border: 0 0 1em; background: #fff; margin: 0 0 1em 0; }
-.box .main { width: 65%; float: left; }
-.box .side { width: 32%; float: right; }
-
-.box-container { overflow: auto; }
-.box-container .information-box, .box-container .error-box { width: 38%; float: right; clear: none; font-size: 1em; text-align: left; }
-.box-container .information-box p, .box-container .error-box p { margin: 0 0 .2em; font-size: 1em; }
+.box .main { width: 68%; float: left; }
+.box .side { width: 29%; float: right; }
 
 /*FIXME: refactor*/
 .box .side div.note, .box .side div.action, .box .side div.back {
@@ -32,6 +28,16 @@
 
 .box p  { margin: .5em 0; }
 
+/* Index
+---------------------------------------------------------------*/
+
+.box .main.columns { overflow: hidden; width: 100%; padding-top: 2.5em; }
+.box .main.columns .adults   { width: 32%; float:  left; padding: 0 .5em; }
+.box .main.columns .children { width: 32%; float:  left; padding: 0 .5em; }
+.box .main.columns #docs     { width: 32%; float: right; padding: 0 .5em; }
+
+/* Individuals ------------------------------------------------*/
+
 /* FIXME: custom tag */
 .box .individuals .tag          { display: block; font-family: monospace; font-style: italic; }
 .box .individuals .tag.New      { color: #2020cc; }
@@ -39,15 +45,7 @@
 .box .individuals .tag.Invalid  { color: #CC2020; }
 .box .individuals .tag.Valid    { display: none; }
 
-/* index
----------------------------------------------------------------*/
-
-.box .individuals { overflow: auto; }
-
-.box .individuals .adults { width: 49%; float: left; }
-.box .individuals .children { width: 49%; float: right; }
-
-.box .individuals h3  { margin:0; }
+.box .individuals h3   { margin: 0; }
 .box .individuals h3 a { font-size: .5em; }
 
 .box .individuals dl {
@@ -73,6 +71,16 @@
 	border: none;
 }
 .box .individuals dl dd.delete a { font-size: 1.2em; font-weight: bold; color: #fff; }
+
+/* Documents (override) ---------------------------------------*/
+
+.box .main.columns #docs h3 { margin-top: 0; }
+.box .main.columns #docs h4 { margin-top: 1em; font-size: 1.1em; }
+
+.box .main.columns #docs dt, .box .main.columns #docs dd { font-size: .9em !important; }
+.box .main.columns #docs dt { width: 16%; }
+.box .main.columns #docs dd { width: 73%; }
+
 
 /* Individual
 ---------------------------------------------------------------*/
@@ -101,18 +109,6 @@
 }
 .individual dd { width: 60%; font-size: 1.2em; }
 
-/* Document (override)
----------------------------------------------------------------*/
-
-.box .side #docs    { margin-top: 2em; }
-
-.box .side #docs h4 { margin-top: 1em; font-size: 1.1em; }
-
-.box .side #docs dl { clear: both; }
-
-.box .side #docs dt, .box .side #docs dd { font-size: .9em !important; }
-.box .side #docs dt { width: 16%; }
-.box .side #docs dd { width: 73%; }
 
 /* TODO : refactor duplicated form style !!
 ---------------------------------------------------------------*/
@@ -141,5 +137,3 @@
 .individual form .date input.year,
 .individual form .date select.day,
 .individual form .date select.month { display : inline; width : auto; }
-
-

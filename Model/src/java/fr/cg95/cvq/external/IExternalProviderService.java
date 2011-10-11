@@ -35,6 +35,8 @@ public interface IExternalProviderService extends IWorkflowEventVisitor{
 
     void sendRequest(final Request request) throws CvqException;
 
+    String sendHomeFolderModification(final XmlObject requestXml) throws CvqException;
+
     void sendMergedHomeFolder(XmlObject xmlObject) throws CvqException;
 
     /**

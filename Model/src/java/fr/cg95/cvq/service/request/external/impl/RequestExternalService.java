@@ -498,7 +498,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
                         xmlRequest.addNewHomeFolder().set(homeFolder.modelToXml());
                         xmlRequest.addNewRequester().set(userSearchService.getHomeFolderResponsible(homeFolder.getId()).modelToXml());
                         fillRequestWithMapping(xmlRequest, mapping);
-                        String externalId = externalProviderService.sendRequest(xmlRequest);
+                        String externalId = externalProviderService.sendHomeFolderModification(xmlRequest);
                         if (externalId != null && !externalId.equals("")) {
                             mapping.setExternalId(externalId);
                             externalHomeFolderService.modifyHomeFolderMapping(mapping);

@@ -294,12 +294,6 @@ public class EdemandeService implements IExternalProviderService {
      * @return the individual's code in eDemande, an empty string if the individual is not found,
      * or null if there is an error while contacting eDemande.
      */
-    /**
-     * Search for this request's individual in eDemande.
-     * 
-     * @return the individual's code in eDemande, an empty string if the individual is not found,
-     * or null if there is an error while contacting eDemande.
-     */
     public String searchIndividual(EdemandeRequest request, Map<String, Object> model, String filter) throws CvqException {
         String searchResults;
         int resultsNumber;
@@ -341,7 +335,15 @@ public class EdemandeService implements IExternalProviderService {
         }
         return "";
     }
-
+    /**
+     * Search by IBAN - Search by RIB - Search by LastName/FirstName/postalCode
+     * @param request
+     * @param firstName
+     * @param lastName
+     * @param birthDate
+     * @param subkey
+     * @return Tiers exteranl ID
+     */
     private String searchCases(EdemandeRequest request, String firstName, String lastName,
             Calendar birthDate, String subkey) {
         
@@ -389,7 +391,7 @@ public class EdemandeService implements IExternalProviderService {
             String resultNPC = this.searchIndividual(request, modelNPC, filterBD);
             if(!"".equals(resultNPC)) return resultNPC;
             //Search by lastName/escaped(firtName)/postalCode
-            if(firstName.equalsIgnoreCase(this.escapeFirstName(firstName))) {
+            if(!firstName.equalsIgnoreCase(this.escapeFirstName(firstName))) {
                 Map<String, Object> modelNPC_ = new HashMap<String, Object>();
                 modelNPC_.put("numero", "");
                 modelNPC_.put("type", "");

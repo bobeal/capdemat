@@ -80,6 +80,11 @@ class BackofficeRequestInstructionController {
         def rqt = requestSearchService.getById(Long.valueOf(params.id), true)
         def requester = rqt.requesterId != null ? userSearchService.getById(rqt.requesterId) : null
 
+        // Auto-Transition from Pending to INProgress if enabled
+        if (rqt.getState().equals(RequestState.PENDING) && SecurityContext.getCurrentConfigurationBean().isAutotransition()){
+            requestWorkflowService.updateRequestState(rqt.id,RequestState.INPROGRESS, "auto-transition");
+        }
+
         def editableStates = []
         for (RequestState state : requestWorkflowService.getEditableStates())
             editableStates.add(state.toString())

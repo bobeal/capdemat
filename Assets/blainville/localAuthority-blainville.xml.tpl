@@ -8,6 +8,7 @@
     init-method="init">
     <property name="name" value="blainville"/>
     <property name="defaultServerName" value="localhost"/>
+    <property name="autotransition" value="true"/>
     <property name="jpaConfigurations">
         <props>
             <prop key="hibernate.show_sql">false</prop>

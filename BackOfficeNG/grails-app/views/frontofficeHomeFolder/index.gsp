@@ -5,7 +5,6 @@
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'document.css')}" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'homefolder.css')}" />
     <style>
-        .box .main { width: 66%; float: left; }
         .box .side { width: 25%; float: right; }
     </style>
   </head>

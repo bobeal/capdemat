@@ -32,9 +32,9 @@
 ---------------------------------------------------------------*/
 
 .box .main.columns { overflow: hidden; width: 100%; padding-top: 2.5em; }
-.box .main.columns .adults   { width: 32%; float:  left; padding: 0 .5em; }
-.box .main.columns .children { width: 32%; float:  left; padding: 0 .5em; }
-.box .main.columns #docs     { width: 32%; float: right; padding: 0 .5em; }
+.box .main.columns .adults   { width: 31%; float:  left; padding: 0 .5em; }
+.box .main.columns .children { width: 31%; float:  left; padding: 0 .5em; }
+.box .main.columns #docs     { width: 31%; float: right; padding: 0 .5em; }
 
 /* Individuals ------------------------------------------------*/
 

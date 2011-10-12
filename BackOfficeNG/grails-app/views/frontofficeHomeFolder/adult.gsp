@@ -48,7 +48,6 @@
             <a href="#identity">${message(code:'homeFolder.individual.header.identity')}</a>
             <a href="#address">${message(code:'homeFolder.individual.header.address')}</a>
             <a href="#contact">${message(code:'homeFolder.individual.header.contact')}</a>
-            <a href="#connexion">${message(code:'homeFolder.individual.header.connexion')}</a>
           </div>
         </g:if>
       </div>

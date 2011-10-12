@@ -6,5 +6,12 @@
     <input type="text" name="externalId" value="${mapping.externalId}" />
   </dd>
   <input type="hidden" name="homeFolderId" value="${mapping.homeFolderMapping.homeFolderId}" />
-  <g:render template="edit/submit" model="['object':mapping]" />
+  <dt>&nbsp;</dt>
+  <dd style="font-size: .95em;">
+   <input type="hidden" name="mode" value="${!mapping.id ? 'add' : 'modify'}" />
+   <input type="submit" name="submit" value="${message(code:'action.save')}" class="save" />
+   <a class="cancel${!mapping.id ? 'Add' : ''}">
+     ${message(code:'action.cancel')}
+   </a>
+ </dd>
 </form>

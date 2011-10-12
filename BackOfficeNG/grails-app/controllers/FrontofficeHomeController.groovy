@@ -163,11 +163,10 @@ class FrontofficeHomeController {
         session.currentEcitizenId = null
         session.currentEcitizenName = null
 
-        def agentCanRead = categoryService.hasProfileOnCategory(
-            SecurityContext.proxyAgent,
-            requestSearchService.getById(Long.parseLong(params.id), false).requestType.category.id)
+        if (params.id && categoryService.hasProfileOnCategory(
+                    SecurityContext.proxyAgent,
+                    requestSearchService.getById(Long.parseLong(params.id), false).requestType.category.id)) {
 
-        if (params.id && agentCanRead) {
             redirect(controller : "backofficeRequestInstruction", action : "edit", id : params.id)
         } else {
             redirect(controller : "backofficeHomeFolder", action : "details", id : SecurityContext.currentEcitizen.homeFolder.id)

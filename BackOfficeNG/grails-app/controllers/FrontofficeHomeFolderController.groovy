@@ -269,6 +269,7 @@ class FrontofficeHomeFolderController {
             return (name == params.fragment  ? 'edit' : 'static') + template
         }
         model["child"] = individual
+        model["roles"] = params.roles
         if (individual.id && !failedCreation) {
             model['roleOwners'] = ('responsibles' != params.fragment) ? userSearchService.listBySubjectRoles(individual.id, RoleType.childRoleTypes) : homeFolderAdaptorService.roleOwners(individual.id)
             model['currentEcitizen'] = currentEcitizen

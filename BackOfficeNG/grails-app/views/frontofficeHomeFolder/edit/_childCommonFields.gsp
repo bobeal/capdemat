@@ -90,7 +90,7 @@
     <select name="roles.${i}.owner" style="width: auto; display: inline; margin-bottom: .5em;">
       <option value="">${message(code:'message.select.defaultOption')}</option>
       <g:each var="adult" in="${adults}">
-        <option value="${adult.id}">
+        <option value="${adult.id}" ${roles[i + ".owner"].equals(adult.id.toString()) ? 'selected="selected"' : ''}>
           ${adult.id != session.currentEcitizenId ? adult.fullName : message(code:'homeFolder.role.message.YouAre')}
         </option>
       </g:each>
@@ -99,7 +99,7 @@
     <select name="roles.${i}.type" style="width: auto; display: inline; margin-bottom: .5em;">
       <option value="">${message(code:'homeFolder.role.message.none')}</option>
       <g:each var="roleType" in="${fr.cg95.cvq.business.users.RoleType.childRoleTypes}">
-        <option value="${roleType}">
+        <option value="${roleType}" ${roles[i + ".type"].equals(roleType.toString()) ? 'selected="selected"' : ''}>
           ${g.capdematEnumToText(var:roleType, i18nKeyPrefix:'homeFolder.role.withParticle')}
         </option>
       </g:each>

@@ -121,7 +121,7 @@
           </p>
           <div class="response">
             ${toGT('if(requester?.title) {')}
-              \${i18n.translate('homeFolder.adult.title.' + StringUtils.lowerCase(requester?.title))}
+              \${i18n.translate('homeFolder.adult.title.' + StringUtils.lowerCase(requester?.title.toString()))}
             ${toGT('}')}
             \${esc(requester?.firstName)}
             \${esc(requester?.lastName)}

@@ -46,13 +46,37 @@
             
               
               <dl>
-                <dt class=""><g:message code="serrr.property.nomJeuneFille.label" />  : </dt><dd id="nomJeuneFille" class="action-editField validate-lastName i18n-serrr.property.nomJeuneFille maxLength-38" ><span>${rqt?.nomJeuneFille}</span></dd>
+                <dt class="required"><g:message code="serrr.property.nomNaissance.label" /> * : </dt><dd id="nomNaissance" class="action-editField validate-lastName required-true i18n-serrr.property.nomNaissance maxLength-38" ><span>${rqt?.nomNaissance}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="serrr.property.sexe.label" /> * : </dt><dd id="sexe" class="action-editField validate-capdematEnum required-true i18n-serrr.property.sexe javatype-fr.cg95.cvq.business.request.election.SerrrSexeType" ><g:capdematEnumToField var="${rqt?.sexe}" i18nKeyPrefix="serrr.property.sexe" /></dd>
+                <dt class="required"><g:message code="serrr.property.prenom.label" /> * : </dt><dd id="prenom" class="action-editField validate-firstName required-true i18n-serrr.property.prenom maxLength-38" ><span>${rqt?.prenom}</span></dd>
+              </dl>
+              
+            
+              
+              <dl>
+                <dt class=""><g:message code="serrr.property.deuxiemePrenom.label" />  : </dt><dd id="deuxiemePrenom" class="action-editField validate-firstName i18n-serrr.property.deuxiemePrenom maxLength-38" ><span>${rqt?.deuxiemePrenom}</span></dd>
+              </dl>
+              
+            
+              
+              <dl>
+                <dt class=""><g:message code="serrr.property.troisiemePrenom.label" />  : </dt><dd id="troisiemePrenom" class="action-editField validate-firstName i18n-serrr.property.troisiemePrenom maxLength-38" ><span>${rqt?.troisiemePrenom}</span></dd>
+              </dl>
+              
+            
+              
+              <dl>
+                <dt class="required condition-estFemme-trigger"><g:message code="serrr.property.sexe.label" /> * : </dt><dd id="sexe" class="action-editField validate-capdematEnum required-true i18n-serrr.property.sexe javatype-fr.cg95.cvq.business.request.election.SerrrSexeType" ><g:capdematEnumToField var="${rqt?.sexe}" i18nKeyPrefix="serrr.property.sexe" /></dd>
+              </dl>
+              
+            
+              
+              <dl>
+                <dt class="condition-estFemme-filled"><g:message code="serrr.property.nomMarital.label" />  : </dt><dd id="nomMarital" class="action-editField validate-lastName i18n-serrr.property.nomMarital maxLength-38" ><span>${rqt?.nomMarital}</span></dd>
               </dl>
               
             

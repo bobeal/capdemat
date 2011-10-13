@@ -27,7 +27,7 @@ public enum SerrrSexeType {
     }
 
     public static SerrrSexeType getDefaultSerrrSexeType() {
-        return null;
+        return MASCULIN;
     }
 
     /**

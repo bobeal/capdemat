@@ -61,7 +61,7 @@
           </p>
           <div class="response">
             <% if(requester?.title) { %>
-              ${i18n.translate('homeFolder.adult.title.' + StringUtils.uncapitalize(requester?.title.toString()))}
+              ${i18n.translate('homeFolder.adult.title.' + StringUtils.lowerCase(requester?.title.toString()))}
             <% } %>
             ${esc(requester?.firstName)}
             ${esc(requester?.lastName)}
@@ -100,7 +100,22 @@
     
   
     
-      <p class="label">${esc(i18n.translate('serrr.property.nomJeuneFille.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.nomJeuneFille?.toString()))}</div>
+      <p class="label">${esc(i18n.translate('serrr.property.nomNaissance.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.nomNaissance?.toString()))}</div>
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('serrr.property.prenom.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.prenom?.toString()))}</div>
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('serrr.property.deuxiemePrenom.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.deuxiemePrenom?.toString()))}</div>
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('serrr.property.troisiemePrenom.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.troisiemePrenom?.toString()))}</div>
 
     
   
@@ -112,6 +127,11 @@
             <% } %>
           </div>
           
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('serrr.property.nomMarital.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.nomMarital?.toString()))}</div>
 
     
   

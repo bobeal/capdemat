@@ -24,9 +24,12 @@
           <steps>
             <step index="0" name="inscription" >
               <widgets>
-                <subject />
+                <subject>
+                  <autofill name="subjectFirstNamesFilling" type="trigger" />
+                </subject>
               </widgets>
               <conditions>
+                <condition name="estFemme" />
                 <condition name="estUnionEuropenne" />
                 <condition name="estElectionEuropenne" />
               </conditions>
@@ -48,13 +51,13 @@
       <xs:complexContent>
         <xs:extension base="cvq:RequestType">
           <xs:sequence>
-            <xs:element name="NomJeuneFille" type="cvq:LastNameType" minOccurs="0">
+            <xs:element name="NomNaissance" type="cvq:LastNameType">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Nom de jeune fille
+                  Nom de naissance
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Nom de jeune fille
+                  Nom de naissance
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -66,7 +69,64 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="Sexe" type="serrr:SerrrSexeType">
+            <xs:element name="Prenom" type="cvq:FirstNameType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Prénom
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Prénom
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="inscription" />
+                    <autofill name="subjectFirstNamesFilling" type="listener" field="FirstName" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="DeuxiemePrenom" type="cvq:FirstNameType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Deuxième prénom
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Deuxième prénom
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="inscription" />
+                    <autofill name="subjectFirstNamesFilling" type="listener" field="FirstName2" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="TroisiemePrenom" type="cvq:FirstNameType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Troisième prénom
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Troisième prénom
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="inscription" />
+                    <autofill name="subjectFirstNamesFilling" type="listener" field="FirstName3" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="Sexe" type="serrr:SerrrSexeType" default="Masculin">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Sexe
@@ -77,10 +137,34 @@
                 <xs:appinfo>
                   <common>
                     <step name="inscription" />
+                    <conditions>
+                      <condition name="estFemme" type="trigger" />
+                    </conditions>
                   </common>
                   <fo>
                       <radio />
                   </fo>
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="NomMarital" type="cvq:LastNameType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Nom marital
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom marital
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="inscription" />
+                    <conditions>
+                      <condition name="estFemme" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
                   <bo column="1" />
                   <pdf />
                 </xs:appinfo>

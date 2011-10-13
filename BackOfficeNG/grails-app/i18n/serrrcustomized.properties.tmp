@@ -12,12 +12,28 @@ serrr.step.radiation.label =
 serrr.step.radiation.desc =
 
 
-serrr.property.nomJeuneFille.help =
-serrr.property.nomJeuneFille.validationError =
+serrr.property.nomNaissance.help =
+serrr.property.nomNaissance.validationError =
+
+
+serrr.property.prenom.help =
+serrr.property.prenom.validationError =
+
+
+serrr.property.deuxiemePrenom.help =
+serrr.property.deuxiemePrenom.validationError =
+
+
+serrr.property.troisiemePrenom.help =
+serrr.property.troisiemePrenom.validationError =
 
 
 serrr.property.sexe.help =
 serrr.property.sexe.validationError =
+
+
+serrr.property.nomMarital.help =
+serrr.property.nomMarital.validationError =
 
 
 serrr.property.dateNaissance.help =

@@ -14,7 +14,28 @@
     
       
       <dl>
-        <dt><g:message code="serrr.property.nomJeuneFille.label" /></dt><dd>${rqt.nomJeuneFille?.toString()}</dd>
+        <dt><g:message code="serrr.property.nomNaissance.label" /></dt><dd>${rqt.nomNaissance?.toString()}</dd>
+
+      </dl>
+      
+    
+      
+      <dl>
+        <dt><g:message code="serrr.property.prenom.label" /></dt><dd>${rqt.prenom?.toString()}</dd>
+
+      </dl>
+      
+    
+      
+      <dl>
+        <dt><g:message code="serrr.property.deuxiemePrenom.label" /></dt><dd>${rqt.deuxiemePrenom?.toString()}</dd>
+
+      </dl>
+      
+    
+      
+      <dl>
+        <dt><g:message code="serrr.property.troisiemePrenom.label" /></dt><dd>${rqt.troisiemePrenom?.toString()}</dd>
 
       </dl>
       
@@ -28,6 +49,13 @@
             </g:if>
           </dd>
           
+
+      </dl>
+      
+    
+      
+      <dl>
+        <dt><g:message code="serrr.property.nomMarital.label" /></dt><dd>${rqt.nomMarital?.toString()}</dd>
 
       </dl>
       

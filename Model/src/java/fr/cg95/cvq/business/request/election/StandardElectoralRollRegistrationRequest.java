@@ -139,6 +139,8 @@ public class StandardElectoralRollRegistrationRequest extends Request implements
       
         if (getDepartementAncienneCommune() != null)
             serrrPrecedentLieuInscriptionTypePrecedentLieuInscription.setDepartementAncienneCommune(fr.cg95.cvq.xml.common.InseeDepartementCodeType.Enum.forString(getDepartementAncienneCommune().getLegacyLabel()));
+      
+        standardElectoralRollRegistrationRequest.setDeuxiemePrenom(getDeuxiemePrenom());
         SerrrLieuNaissanceType serrrLieuNaissanceTypeLieuNaissance = standardElectoralRollRegistrationRequest.addNewLieuNaissance();
         if (getLieuNaissanceDepartement() != null)
             serrrLieuNaissanceTypeLieuNaissance.setLieuNaissanceDepartement(fr.cg95.cvq.xml.common.InseeDepartementCodeType.Enum.forString(getLieuNaissanceDepartement().getLegacyLabel()));
@@ -149,7 +151,9 @@ public class StandardElectoralRollRegistrationRequest extends Request implements
         if (getNationalite() != null)
             standardElectoralRollRegistrationRequest.setNationalite(fr.cg95.cvq.xml.request.election.SerrrNationaliteType.Enum.forString(getNationalite().getLegacyLabel()));
       
-        standardElectoralRollRegistrationRequest.setNomJeuneFille(getNomJeuneFille());
+        standardElectoralRollRegistrationRequest.setNomMarital(getNomMarital());
+      
+        standardElectoralRollRegistrationRequest.setNomNaissance(getNomNaissance());
       
         if (getPaysPrecedent() != null)
             serrrLieuDerniereInscriptionTypeLieuDerniereInscription.setPaysPrecedent(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getPaysPrecedent().getLegacyLabel()));
@@ -160,6 +164,8 @@ public class StandardElectoralRollRegistrationRequest extends Request implements
         if (getPrecisionNationalite() != null)
             standardElectoralRollRegistrationRequest.setPrecisionNationalite(fr.cg95.cvq.xml.request.election.SerrrPrecisionNationaliteType.Enum.forString(getPrecisionNationalite().getLegacyLabel()));
       
+        standardElectoralRollRegistrationRequest.setPrenom(getPrenom());
+      
         if (getSexe() != null)
             standardElectoralRollRegistrationRequest.setSexe(fr.cg95.cvq.xml.request.election.SerrrSexeType.Enum.forString(getSexe().getLegacyLabel()));
       
@@ -167,6 +173,8 @@ public class StandardElectoralRollRegistrationRequest extends Request implements
             standardElectoralRollRegistrationRequest.setSituation(fr.cg95.cvq.xml.request.election.SerrrSituationType.Enum.forString(getSituation().getLegacyLabel()));
       
         serrrLieuDerniereInscriptionTypeLieuDerniereInscription.setSubdivisionAdministrativePrecedente(getSubdivisionAdministrativePrecedente());
+      
+        standardElectoralRollRegistrationRequest.setTroisiemePrenom(getTroisiemePrenom());
       
         if (getTypeElection() != null)
             standardElectoralRollRegistrationRequest.setTypeElection(fr.cg95.cvq.xml.request.election.SerrrTypeElectionType.Enum.forString(getTypeElection().getLegacyLabel()));
@@ -208,6 +216,8 @@ public class StandardElectoralRollRegistrationRequest extends Request implements
         else
             standardElectoralRollRegistrationRequest.setDepartementAncienneCommune(fr.cg95.cvq.business.users.InseeDepartementCodeType.getDefaultInseeDepartementCodeType());
       
+        standardElectoralRollRegistrationRequest.setDeuxiemePrenom(standardElectoralRollRegistrationRequestXml.getDeuxiemePrenom());
+      
         if (standardElectoralRollRegistrationRequestXml.getLieuNaissance().getLieuNaissanceDepartement() != null)
             standardElectoralRollRegistrationRequest.setLieuNaissanceDepartement(fr.cg95.cvq.business.users.InseeDepartementCodeType.forString(standardElectoralRollRegistrationRequestXml.getLieuNaissance().getLieuNaissanceDepartement().toString()));
         else
@@ -223,7 +233,9 @@ public class StandardElectoralRollRegistrationRequest extends Request implements
         else
             standardElectoralRollRegistrationRequest.setNationalite(fr.cg95.cvq.business.request.election.SerrrNationaliteType.getDefaultSerrrNationaliteType());
       
-        standardElectoralRollRegistrationRequest.setNomJeuneFille(standardElectoralRollRegistrationRequestXml.getNomJeuneFille());
+        standardElectoralRollRegistrationRequest.setNomMarital(standardElectoralRollRegistrationRequestXml.getNomMarital());
+      
+        standardElectoralRollRegistrationRequest.setNomNaissance(standardElectoralRollRegistrationRequestXml.getNomNaissance());
       
         if (standardElectoralRollRegistrationRequestXml.getLieuDerniereInscription().getPaysPrecedent() != null)
             standardElectoralRollRegistrationRequest.setPaysPrecedent(fr.cg95.cvq.business.users.CountryType.forString(standardElectoralRollRegistrationRequestXml.getLieuDerniereInscription().getPaysPrecedent().toString()));
@@ -240,6 +252,8 @@ public class StandardElectoralRollRegistrationRequest extends Request implements
         else
             standardElectoralRollRegistrationRequest.setPrecisionNationalite(fr.cg95.cvq.business.request.election.SerrrPrecisionNationaliteType.getDefaultSerrrPrecisionNationaliteType());
       
+        standardElectoralRollRegistrationRequest.setPrenom(standardElectoralRollRegistrationRequestXml.getPrenom());
+      
         if (standardElectoralRollRegistrationRequestXml.getSexe() != null)
             standardElectoralRollRegistrationRequest.setSexe(fr.cg95.cvq.business.request.election.SerrrSexeType.forString(standardElectoralRollRegistrationRequestXml.getSexe().toString()));
         else
@@ -251,6 +265,8 @@ public class StandardElectoralRollRegistrationRequest extends Request implements
             standardElectoralRollRegistrationRequest.setSituation(fr.cg95.cvq.business.request.election.SerrrSituationType.getDefaultSerrrSituationType());
       
         standardElectoralRollRegistrationRequest.setSubdivisionAdministrativePrecedente(standardElectoralRollRegistrationRequestXml.getLieuDerniereInscription().getSubdivisionAdministrativePrecedente());
+      
+        standardElectoralRollRegistrationRequest.setTroisiemePrenom(standardElectoralRollRegistrationRequestXml.getTroisiemePrenom());
       
         if (standardElectoralRollRegistrationRequestXml.getTypeElection() != null)
             standardElectoralRollRegistrationRequest.setTypeElection(fr.cg95.cvq.business.request.election.SerrrTypeElectionType.forString(standardElectoralRollRegistrationRequestXml.getTypeElection().toString()));
@@ -363,6 +379,15 @@ public class StandardElectoralRollRegistrationRequest extends Request implements
         return standardElectoralRollRegistrationRequestData.getDepartementAncienneCommune();
     }
   
+    public final void setDeuxiemePrenom(final String deuxiemePrenom) {
+        standardElectoralRollRegistrationRequestData.setDeuxiemePrenom(deuxiemePrenom);
+    }
+
+    
+    public final String getDeuxiemePrenom() {
+        return standardElectoralRollRegistrationRequestData.getDeuxiemePrenom();
+    }
+  
     public final void setLieuNaissanceDepartement(final fr.cg95.cvq.business.users.InseeDepartementCodeType lieuNaissanceDepartement) {
         standardElectoralRollRegistrationRequestData.setLieuNaissanceDepartement(lieuNaissanceDepartement);
     }
@@ -390,13 +415,22 @@ public class StandardElectoralRollRegistrationRequest extends Request implements
         return standardElectoralRollRegistrationRequestData.getNationalite();
     }
   
-    public final void setNomJeuneFille(final String nomJeuneFille) {
-        standardElectoralRollRegistrationRequestData.setNomJeuneFille(nomJeuneFille);
+    public final void setNomMarital(final String nomMarital) {
+        standardElectoralRollRegistrationRequestData.setNomMarital(nomMarital);
     }
 
     
-    public final String getNomJeuneFille() {
-        return standardElectoralRollRegistrationRequestData.getNomJeuneFille();
+    public final String getNomMarital() {
+        return standardElectoralRollRegistrationRequestData.getNomMarital();
+    }
+  
+    public final void setNomNaissance(final String nomNaissance) {
+        standardElectoralRollRegistrationRequestData.setNomNaissance(nomNaissance);
+    }
+
+    
+    public final String getNomNaissance() {
+        return standardElectoralRollRegistrationRequestData.getNomNaissance();
     }
   
     public final void setPaysPrecedent(final fr.cg95.cvq.business.users.CountryType paysPrecedent) {
@@ -426,6 +460,15 @@ public class StandardElectoralRollRegistrationRequest extends Request implements
         return standardElectoralRollRegistrationRequestData.getPrecisionNationalite();
     }
   
+    public final void setPrenom(final String prenom) {
+        standardElectoralRollRegistrationRequestData.setPrenom(prenom);
+    }
+
+    
+    public final String getPrenom() {
+        return standardElectoralRollRegistrationRequestData.getPrenom();
+    }
+  
     public final void setSexe(final fr.cg95.cvq.business.request.election.SerrrSexeType sexe) {
         standardElectoralRollRegistrationRequestData.setSexe(sexe);
     }
@@ -451,6 +494,15 @@ public class StandardElectoralRollRegistrationRequest extends Request implements
     
     public final String getSubdivisionAdministrativePrecedente() {
         return standardElectoralRollRegistrationRequestData.getSubdivisionAdministrativePrecedente();
+    }
+  
+    public final void setTroisiemePrenom(final String troisiemePrenom) {
+        standardElectoralRollRegistrationRequestData.setTroisiemePrenom(troisiemePrenom);
+    }
+
+    
+    public final String getTroisiemePrenom() {
+        return standardElectoralRollRegistrationRequestData.getTroisiemePrenom();
     }
   
     public final void setTypeElection(final fr.cg95.cvq.business.request.election.SerrrTypeElectionType typeElection) {

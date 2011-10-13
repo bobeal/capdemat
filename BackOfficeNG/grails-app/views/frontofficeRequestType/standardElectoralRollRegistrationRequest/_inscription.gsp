@@ -22,7 +22,7 @@
                 </g:if>
               </g:if>
             </label>
-            <select id="subjectId" name="subjectId" <g:if test="${isEdition || rqt.stepStates[currentStep].state == 'complete'}">disabled="disabled"</g:if> class="required validate-not-first  ${rqt.stepStates['inscription'].invalidFields.contains('subjectId') ? 'validation-failed' : ''}" title="<g:message code="request.property.subject.validationError" /> ">
+            <select id="subjectId" name="subjectId" <g:if test="${isEdition || rqt.stepStates[currentStep].state == 'complete'}">disabled="disabled"</g:if> class="required validate-not-first autofill-subjectFirstNamesFilling-trigger ${rqt.stepStates['inscription'].invalidFields.contains('subjectId') ? 'validation-failed' : ''}" title="<g:message code="request.property.subject.validationError" /> ">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${subjects}">
                 <option value="${it.key}" ${it.key == rqt.subjectId ? 'selected="selected"': ''}>${it.value}</option>
@@ -33,9 +33,33 @@
   
 
   
-    <label for="nomJeuneFille" class=""><g:message code="serrr.property.nomJeuneFille.label" />   <span><g:message code="serrr.property.nomJeuneFille.help" /></span></label>
-            <input type="text" id="nomJeuneFille" name="nomJeuneFille" value="${rqt.nomJeuneFille?.toString()}" 
-                    class="  validate-lastName ${rqt.stepStates['inscription'].invalidFields.contains('nomJeuneFille') ? 'validation-failed' : ''}" title="<g:message code="serrr.property.nomJeuneFille.validationError" />"  maxlength="38" />
+    <label for="nomNaissance" class="required"><g:message code="serrr.property.nomNaissance.label" /> *  <span><g:message code="serrr.property.nomNaissance.help" /></span></label>
+            <input type="text" id="nomNaissance" name="nomNaissance" value="${rqt.nomNaissance?.toString()}" 
+                    class="required  validate-lastName ${rqt.stepStates['inscription'].invalidFields.contains('nomNaissance') ? 'validation-failed' : ''}" title="<g:message code="serrr.property.nomNaissance.validationError" />"  maxlength="38" />
+            
+
+  
+
+  
+    <label for="prenom" class="required"><g:message code="serrr.property.prenom.label" /> *  <span><g:message code="serrr.property.prenom.help" /></span></label>
+            <input type="text" id="prenom" name="prenom" value="${rqt.prenom?.toString()}" 
+                    class="required autofill-subjectFirstNamesFilling-listener-FirstName validate-firstName ${rqt.stepStates['inscription'].invalidFields.contains('prenom') ? 'validation-failed' : ''}" title="<g:message code="serrr.property.prenom.validationError" />"  maxlength="38" />
+            
+
+  
+
+  
+    <label for="deuxiemePrenom" class=""><g:message code="serrr.property.deuxiemePrenom.label" />   <span><g:message code="serrr.property.deuxiemePrenom.help" /></span></label>
+            <input type="text" id="deuxiemePrenom" name="deuxiemePrenom" value="${rqt.deuxiemePrenom?.toString()}" 
+                    class=" autofill-subjectFirstNamesFilling-listener-FirstName2 validate-firstName ${rqt.stepStates['inscription'].invalidFields.contains('deuxiemePrenom') ? 'validation-failed' : ''}" title="<g:message code="serrr.property.deuxiemePrenom.validationError" />"  maxlength="38" />
+            
+
+  
+
+  
+    <label for="troisiemePrenom" class=""><g:message code="serrr.property.troisiemePrenom.label" />   <span><g:message code="serrr.property.troisiemePrenom.help" /></span></label>
+            <input type="text" id="troisiemePrenom" name="troisiemePrenom" value="${rqt.troisiemePrenom?.toString()}" 
+                    class=" autofill-subjectFirstNamesFilling-listener-FirstName3 validate-firstName ${rqt.stepStates['inscription'].invalidFields.contains('troisiemePrenom') ? 'validation-failed' : ''}" title="<g:message code="serrr.property.troisiemePrenom.validationError" />"  maxlength="38" />
             
 
   
@@ -45,11 +69,19 @@
             <ul class="required ${rqt.stepStates['inscription'].invalidFields.contains('sexe') ? 'validation-failed' : ''}">
               <g:each in="${['FEMININ','MASCULIN']}">
               <li>
-                <input type="radio" id="sexe_${it}" class="required  validate-one-required" value="${it}" name="sexe" ${it == rqt.sexe.toString() ? 'checked="checked"': ''} title="<g:message code="serrr.property.sexe.validationError" />" />
+                <input type="radio" id="sexe_${it}" class="required condition-estFemme-trigger  validate-one-required" value="${it}" name="sexe" ${it == rqt.sexe.toString() ? 'checked="checked"': ''} title="<g:message code="serrr.property.sexe.validationError" />" />
                 <label for="sexe_${it}"><g:capdematEnumToText var="${it}" i18nKeyPrefix="serrr.property.sexe" /></label>
               </li>
               </g:each>
             </ul>
+            
+
+  
+
+  
+    <label for="nomMarital" class="condition-estFemme-filled"><g:message code="serrr.property.nomMarital.label" />   <span><g:message code="serrr.property.nomMarital.help" /></span></label>
+            <input type="text" id="nomMarital" name="nomMarital" value="${rqt.nomMarital?.toString()}" 
+                    class="condition-estFemme-filled  validate-lastName ${rqt.stepStates['inscription'].invalidFields.contains('nomMarital') ? 'validation-failed' : ''}" title="<g:message code="serrr.property.nomMarital.validationError" />"  maxlength="38" />
             
 
   

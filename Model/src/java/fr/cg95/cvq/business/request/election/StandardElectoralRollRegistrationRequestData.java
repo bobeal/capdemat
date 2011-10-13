@@ -41,6 +41,8 @@ public class StandardElectoralRollRegistrationRequestData implements Serializabl
       
         nationalite = fr.cg95.cvq.business.request.election.SerrrNationaliteType.FRANCAISE;
       
+        sexe = fr.cg95.cvq.business.request.election.SerrrSexeType.MASCULIN;
+      
         situation = fr.cg95.cvq.business.request.election.SerrrSituationType.PREMIERE_INSCRIPTION;
       
         typeElection = fr.cg95.cvq.business.request.election.SerrrTypeElectionType.ELECTION_MUNICIPALE;
@@ -86,6 +88,12 @@ public class StandardElectoralRollRegistrationRequestData implements Serializabl
         
           
             
+        result.setDeuxiemePrenom(deuxiemePrenom);
+      
+          
+        
+          
+            
         if (lieuNaissanceDepartement != null)
             result.setLieuNaissanceDepartement(lieuNaissanceDepartement);
         else
@@ -113,7 +121,13 @@ public class StandardElectoralRollRegistrationRequestData implements Serializabl
         
           
             
-        result.setNomJeuneFille(nomJeuneFille);
+        result.setNomMarital(nomMarital);
+      
+          
+        
+          
+            
+        result.setNomNaissance(nomNaissance);
       
           
         
@@ -146,6 +160,12 @@ public class StandardElectoralRollRegistrationRequestData implements Serializabl
         
           
             
+        result.setPrenom(prenom);
+      
+          
+        
+          
+            
         if (sexe != null)
             result.setSexe(sexe);
         else
@@ -165,6 +185,12 @@ public class StandardElectoralRollRegistrationRequestData implements Serializabl
           
             
         result.setSubdivisionAdministrativePrecedente(subdivisionAdministrativePrecedente);
+      
+          
+        
+          
+            
+        result.setTroisiemePrenom(troisiemePrenom);
       
           
         
@@ -369,6 +395,29 @@ public class StandardElectoralRollRegistrationRequestData implements Serializabl
     }
   
     
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"inscription"},
+        message = "deuxiemePrenom"
+      )
+    
+    private String deuxiemePrenom;
+
+    public void setDeuxiemePrenom(final String deuxiemePrenom) {
+        this.deuxiemePrenom = deuxiemePrenom;
+    }
+
+ 
+    @Column(name="deuxieme_prenom" , length=38 )
+      
+    public String getDeuxiemePrenom() {
+        return this.deuxiemePrenom;
+    }
+  
+    
     private fr.cg95.cvq.business.users.InseeDepartementCodeType lieuNaissanceDepartement;
 
     public void setLieuNaissanceDepartement(final fr.cg95.cvq.business.users.InseeDepartementCodeType lieuNaissanceDepartement) {
@@ -426,21 +475,67 @@ public class StandardElectoralRollRegistrationRequestData implements Serializabl
           value = 38,
         
         
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['sexe'].test(_this.sexe.toString());" +
+                
+              
+            
+            
+            "return active",
+        
         profiles = {"inscription"},
-        message = "nomJeuneFille"
+        message = "nomMarital"
       )
     
-    private String nomJeuneFille;
+    private String nomMarital;
 
-    public void setNomJeuneFille(final String nomJeuneFille) {
-        this.nomJeuneFille = nomJeuneFille;
+    public void setNomMarital(final String nomMarital) {
+        this.nomMarital = nomMarital;
     }
 
  
-    @Column(name="nom_jeune_fille" , length=38 )
+    @Column(name="nom_marital" , length=38 )
       
-    public String getNomJeuneFille() {
-        return this.nomJeuneFille;
+    public String getNomMarital() {
+        return this.nomMarital;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"inscription"},
+        message = "nomNaissance"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"inscription"},
+        message = "nomNaissance"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"inscription"},
+        message = "nomNaissance"
+      )
+    
+    private String nomNaissance;
+
+    public void setNomNaissance(final String nomNaissance) {
+        this.nomNaissance = nomNaissance;
+    }
+
+ 
+    @Column(name="nom_naissance" , length=38 )
+      
+    public String getNomNaissance() {
+        return this.nomNaissance;
     }
   
     
@@ -505,6 +600,43 @@ public class StandardElectoralRollRegistrationRequestData implements Serializabl
     }
   
     
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"inscription"},
+        message = "prenom"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"inscription"},
+        message = "prenom"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"inscription"},
+        message = "prenom"
+      )
+    
+    private String prenom;
+
+    public void setPrenom(final String prenom) {
+        this.prenom = prenom;
+    }
+
+ 
+    @Column(name="prenom" , length=38 )
+      
+    public String getPrenom() {
+        return this.prenom;
+    }
+  
+    
       @NotNull(
         
         
@@ -560,6 +692,29 @@ public class StandardElectoralRollRegistrationRequestData implements Serializabl
       
     public String getSubdivisionAdministrativePrecedente() {
         return this.subdivisionAdministrativePrecedente;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"inscription"},
+        message = "troisiemePrenom"
+      )
+    
+    private String troisiemePrenom;
+
+    public void setTroisiemePrenom(final String troisiemePrenom) {
+        this.troisiemePrenom = troisiemePrenom;
+    }
+
+ 
+    @Column(name="troisieme_prenom" , length=38 )
+      
+    public String getTroisiemePrenom() {
+        return this.troisiemePrenom;
     }
   
     

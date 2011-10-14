@@ -2,6 +2,7 @@ package fr.cg95.cvq.security;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Stack;
 
 import org.apache.log4j.Logger;
 
@@ -43,8 +44,12 @@ public class SecurityContext {
 
     private static ThreadLocal<CredentialBean> currentContextThreadLocal =
         new InheritableThreadLocal<CredentialBean>();
-    private static ThreadLocal<CredentialBean> stashedContextThreadLocal =
-        new InheritableThreadLocal<CredentialBean>();
+    private static ThreadLocal<Stack<CredentialBean>> stashedContextThreadLocal =
+          new InheritableThreadLocal<Stack<CredentialBean>>();
+
+    static {
+        stashedContextThreadLocal.set(new Stack<CredentialBean>());
+    }
 
     public void init() throws CvqConfigurationException {
         if (agentGroups == null || agentGroups.isEmpty() 
@@ -370,15 +375,14 @@ public class SecurityContext {
             credentialBean.setContext(context);
     }
 
-    public static void stashContext() {
+    public static void pushContext() {
         CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get().clone();
-        stashedContextThreadLocal.set(credentialBean);
+        stashedContextThreadLocal.get().push(credentialBean);
     }
 
     public static void popContext() {
-        CredentialBean credentialBean = stashedContextThreadLocal.get();
+        CredentialBean credentialBean = stashedContextThreadLocal.get().pop();
         currentContextThreadLocal.set(credentialBean);
-        stashedContextThreadLocal.remove();
     }
 
     /**

@@ -1081,8 +1081,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         for(IWorkflowPostAction workflowPostAction : workflowPostActions) {
             try {
 
-                SecurityContext.stashContext();
-                
+                SecurityContext.pushContext();
+
                 // Switch to ES context
                 SecurityContext.setCurrentContext(SecurityContext.EXTERNAL_SERVICE_CONTEXT);
                 SecurityContext.setCurrentExternalService(workflowPostAction.getExecutor());

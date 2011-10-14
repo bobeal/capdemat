@@ -645,7 +645,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
 
     public void publish(WorkflowGenericEvent wfEvent) throws CvqException {
 
-        SecurityContext.stashContext();
+        SecurityContext.pushContext();
         SecurityContext.setCurrentContext(SecurityContext.EXTERNAL_SERVICE_CONTEXT);
 
         for (IExternalProviderService extProviderService : getExternalServicesByRequestType(wfEvent.getRequest().getRequestType().getLabel())) {

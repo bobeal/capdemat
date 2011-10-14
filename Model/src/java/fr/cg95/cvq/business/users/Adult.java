@@ -52,7 +52,9 @@ public class Adult extends Individual {
     @Email(message = "email")
     private String email;
 
-    @MatchPattern(pattern = "^[0-9]{7}[A-Z]{0,1}$", message = "cfbn")
+    // This field is currently often used to store family quotient which has a different pattern
+    // So disable the validation for now
+//    @MatchPattern(pattern = "^[0-9]{7}[A-Z]{0,1}$", message = "cfbn")
     private String cfbn;
 
     private String profession;

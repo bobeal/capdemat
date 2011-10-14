@@ -53,14 +53,21 @@
     
     <div id="request" class="main-box">
       <h2>
-        <a href="${createLink(controller:'frontofficeHome')}" class="button">
-          <g:message code="request.action.continueLater"/>
-        </a>
-        <g:if test="${!isEdition}">
-          <a href="${createLink(action:'deleteDraft', controller:'frontofficeRequest', params : ['id' : rqt.id, 'from' : 'edition'])}" class="button">
-            <g:message code="request.action.discardDarft"/>
+        <g:if test="${temporary}">
+          <a href="${createLink(controller : 'frontofficeHome', action : 'logout')}" class="button">
+            <g:message code="request.action.discard"/>
           </a>
         </g:if>
+        <g:else>
+          <a href="${createLink(controller:'frontofficeHome')}" class="button">
+            <g:message code="request.action.continueLater"/>
+          </a>
+          <g:if test="${!isEdition}">
+            <a href="${createLink(action:'deleteDraft', controller:'frontofficeRequest', params : ['id' : rqt.id, 'from' : 'edition'])}" class="button">
+              <g:message code="request.action.discardDarft"/>
+            </a>
+          </g:if>
+        </g:else>
         <g:message code="tbr.label" /> <g:message code="message.number" args="[rqt.id]" />
       </h2>
       <p><g:message code="request.duration.label" /><strong> : <g:message code="tbr.duration.value" /></strong></p>
@@ -84,10 +91,9 @@
       <ul>
 
   
-  
         <li class="${currentStep == 'entertainments' ? 'current ' : ''}
           
-            ${rqt.stepStates['entertainments'].state}
+            ${individual ? rqt.stepStates['entertainments-' + params.type].state : rqt.stepStates['entertainments'].state}
           
           ">
           <span class="number">1</span>
@@ -97,11 +103,10 @@
             </g:if>
           >
             
-              <g:message code="tbr.step.entertainments.label" />
+              <g:message code="${individual ? 'homeFolder.action.add' + org.apache.commons.lang.StringUtils.capitalize(params.type) : 'tbr.step.entertainments.label'}" />
+              }
               <span class="help">
-                
-                  <g:message code="request.step.message.${rqt.stepStates['entertainments'].state}" />
-                
+                <g:message code="request.step.message.${rqt.stepStates['entertainments' + (individual ? '-' + params.type : '')].state}" />
               </span>
             
           </a>

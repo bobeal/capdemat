@@ -473,6 +473,11 @@ public class RequestExternalService extends ExternalService implements IRequestE
                         String externalServiceLabel = mapping.getExternalServiceLabel();
                         IExternalProviderService externalProviderService =
                             getExternalServiceByLabel(externalServiceLabel);
+                        if (externalProviderService == null) {
+                            logger.warn("onApplicationEvent() External service " 
+                                    + mapping.getExternalServiceLabel() + " is no longer existing");
+                            continue;
+                        }
                         if (externalProviderService instanceof ExternalApplicationProviderService)
                             continue;
 

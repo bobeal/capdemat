@@ -2,8 +2,6 @@ package fr.cg95.cvq.business.payment;
 
 import java.util.Date;
 
-import fr.cg95.cvq.util.DateUtils;
-
 /**
  * 
  * @hibernate.subclass

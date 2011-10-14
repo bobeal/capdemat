@@ -3,7 +3,6 @@ package fr.cg95.cvq.service.payment.external;
 import java.util.List;
 import java.util.Map;
 
-import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
@@ -49,6 +48,8 @@ public interface IExternalApplicationService {
     List<ExternalHomeFolder> getHomeFolders(Integer offset, Integer max) throws CvqException;
 
     ExternalHomeFolder getHomeFolder(Long id) throws CvqException;
+
+    ExternalHomeFolder getHomeFolder(Long externalApplicationId, String externalId) throws CvqException;
 
     List<ExternalHomeFolder> getHomeFolders(Long externalApplicationId, Integer offset, Integer max) throws CvqException;
 

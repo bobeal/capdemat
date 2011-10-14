@@ -104,10 +104,19 @@ public class TicketBookingRequest extends Request implements Serializable {
         super.fillCommonXmlInfo(ticketBookingRequest);
         int i = 0;
         
+        if (getIsSubscriber() != null)
+            ticketBookingRequest.setIsSubscriber(getIsSubscriber().booleanValue());
+      
+        ticketBookingRequest.setPaymentReference(getPaymentReference());
+      
         if (getRulesAndRegulationsAcceptance() != null)
             ticketBookingRequest.setRulesAndRegulationsAcceptance(getRulesAndRegulationsAcceptance().booleanValue());
       
+        ticketBookingRequest.setSubscriberFirstName(getSubscriberFirstName());
+      
         ticketBookingRequest.setSubscriberLastName(getSubscriberLastName());
+      
+        ticketBookingRequest.setSubscriberNumber(getSubscriberNumber());
       
         i = 0;
         if (getTbrTicket() != null) {
@@ -120,15 +129,6 @@ public class TicketBookingRequest extends Request implements Serializable {
       
         if (getTotalPrice() != null)
             ticketBookingRequest.setTotalPrice(getTotalPrice());
-      
-        ticketBookingRequest.setSubscriberNumber(getSubscriberNumber());
-      
-        ticketBookingRequest.setSubscriberFirstName(getSubscriberFirstName());
-      
-        if (getIsSubscriber() != null)
-            ticketBookingRequest.setIsSubscriber(getIsSubscriber().booleanValue());
-      
-        ticketBookingRequest.setPaymentReference(getPaymentReference());
       
         return ticketBookingRequestDoc;
     }
@@ -146,9 +146,17 @@ public class TicketBookingRequest extends Request implements Serializable {
         TicketBookingRequest ticketBookingRequest = new TicketBookingRequest();
         ticketBookingRequest.fillCommonModelInfo(ticketBookingRequest, ticketBookingRequestXml);
         
+        ticketBookingRequest.setIsSubscriber(Boolean.valueOf(ticketBookingRequestXml.getIsSubscriber()));
+      
+        ticketBookingRequest.setPaymentReference(ticketBookingRequestXml.getPaymentReference());
+      
         ticketBookingRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(ticketBookingRequestXml.getRulesAndRegulationsAcceptance()));
       
+        ticketBookingRequest.setSubscriberFirstName(ticketBookingRequestXml.getSubscriberFirstName());
+      
         ticketBookingRequest.setSubscriberLastName(ticketBookingRequestXml.getSubscriberLastName());
+      
+        ticketBookingRequest.setSubscriberNumber(ticketBookingRequestXml.getSubscriberNumber());
       
         List<fr.cg95.cvq.business.request.reservation.TbrTicket> tbrTicketList = new ArrayList<fr.cg95.cvq.business.request.reservation.TbrTicket>(ticketBookingRequestXml.sizeOfTbrTicketArray());
         for (TbrTicketType object : ticketBookingRequestXml.getTbrTicketArray()) {
@@ -158,14 +166,6 @@ public class TicketBookingRequest extends Request implements Serializable {
       
         if (ticketBookingRequestXml.getTotalPrice() != null)
             ticketBookingRequest.setTotalPrice(ticketBookingRequestXml.getTotalPrice());
-      
-        ticketBookingRequest.setSubscriberNumber(ticketBookingRequestXml.getSubscriberNumber());
-      
-        ticketBookingRequest.setSubscriberFirstName(ticketBookingRequestXml.getSubscriberFirstName());
-      
-        ticketBookingRequest.setIsSubscriber(Boolean.valueOf(ticketBookingRequestXml.getIsSubscriber()));
-      
-        ticketBookingRequest.setPaymentReference(ticketBookingRequestXml.getPaymentReference());
       
         return ticketBookingRequest;
     }
@@ -200,6 +200,24 @@ public class TicketBookingRequest extends Request implements Serializable {
     }
 
   
+    public final void setIsSubscriber(final Boolean isSubscriber) {
+        ticketBookingRequestData.setIsSubscriber(isSubscriber);
+    }
+
+    
+    public final Boolean getIsSubscriber() {
+        return ticketBookingRequestData.getIsSubscriber();
+    }
+  
+    public final void setPaymentReference(final String paymentReference) {
+        ticketBookingRequestData.setPaymentReference(paymentReference);
+    }
+
+    
+    public final String getPaymentReference() {
+        return ticketBookingRequestData.getPaymentReference();
+    }
+  
     public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
         ticketBookingRequestData.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
     }
@@ -209,6 +227,15 @@ public class TicketBookingRequest extends Request implements Serializable {
         return ticketBookingRequestData.getRulesAndRegulationsAcceptance();
     }
   
+    public final void setSubscriberFirstName(final String subscriberFirstName) {
+        ticketBookingRequestData.setSubscriberFirstName(subscriberFirstName);
+    }
+
+    
+    public final String getSubscriberFirstName() {
+        return ticketBookingRequestData.getSubscriberFirstName();
+    }
+  
     public final void setSubscriberLastName(final String subscriberLastName) {
         ticketBookingRequestData.setSubscriberLastName(subscriberLastName);
     }
@@ -216,6 +243,15 @@ public class TicketBookingRequest extends Request implements Serializable {
     
     public final String getSubscriberLastName() {
         return ticketBookingRequestData.getSubscriberLastName();
+    }
+  
+    public final void setSubscriberNumber(final String subscriberNumber) {
+        ticketBookingRequestData.setSubscriberNumber(subscriberNumber);
+    }
+
+    
+    public final String getSubscriberNumber() {
+        return ticketBookingRequestData.getSubscriberNumber();
     }
   
     public final void setTbrTicket(final List<fr.cg95.cvq.business.request.reservation.TbrTicket> tbrTicket) {
@@ -234,42 +270,6 @@ public class TicketBookingRequest extends Request implements Serializable {
     
     public final java.math.BigDecimal getTotalPrice() {
         return ticketBookingRequestData.getTotalPrice();
-    }
-  
-    public final void setSubscriberNumber(final String subscriberNumber) {
-        ticketBookingRequestData.setSubscriberNumber(subscriberNumber);
-    }
-
-    
-    public final String getSubscriberNumber() {
-        return ticketBookingRequestData.getSubscriberNumber();
-    }
-  
-    public final void setSubscriberFirstName(final String subscriberFirstName) {
-        ticketBookingRequestData.setSubscriberFirstName(subscriberFirstName);
-    }
-
-    
-    public final String getSubscriberFirstName() {
-        return ticketBookingRequestData.getSubscriberFirstName();
-    }
-  
-    public final void setIsSubscriber(final Boolean isSubscriber) {
-        ticketBookingRequestData.setIsSubscriber(isSubscriber);
-    }
-
-    
-    public final Boolean getIsSubscriber() {
-        return ticketBookingRequestData.getIsSubscriber();
-    }
-  
-    public final void setPaymentReference(final String paymentReference) {
-        ticketBookingRequestData.setPaymentReference(paymentReference);
-    }
-
-    
-    public final String getPaymentReference() {
-        return ticketBookingRequestData.getPaymentReference();
     }
   
 }

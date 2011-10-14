@@ -85,7 +85,20 @@
           </form>
         </div>
       </div>
-      
+      <g:if test="${inSearch && totalRecords > 0}">
+        <div class="nobox">
+          <h3><g:message code="payment.header.export" /></h3>
+          <div id="paymentExportContainer" class="body">
+            <form action="${createLink(action:'export')}" method="post" id="exportPaymentsForm">
+              <g:each var="id" in="${paymentsIds}">
+                <input type="hidden" name="ids" value="${id}" />
+              </g:each>
+              <input type="submit" id="exportButton"
+                value="${message(code:'action.export')}"/>
+            </form>
+          </div>
+        </div>
+      </g:if>      
     </div>    
   </body>
 </html>

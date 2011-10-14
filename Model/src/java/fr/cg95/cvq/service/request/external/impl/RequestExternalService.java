@@ -16,6 +16,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.xmlbeans.XmlObject;
 import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Async;
 

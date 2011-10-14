@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import fr.cg95.cvq.service.payment.PaymentUtils;
 import fr.cg95.cvq.util.DateUtils;
 
 /**

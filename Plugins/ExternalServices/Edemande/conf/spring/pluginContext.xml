@@ -58,6 +58,11 @@
     <property name="defaultUri">
       <value>${plugins.externalservices.edemande.suivi_demande_service_uri}</value>
     </property>
+    <property name="messageSender">
+        <bean class="org.springframework.ws.transport.http.CommonsHttpMessageSender">
+            <property name="readTimeout" value="60000" />
+        </bean>
+    </property>
     <property name="marshaller" ref="edemandeXmlBeanMarshaller" />
     <property name="unmarshaller" ref="edemandeXmlBeanMarshaller" />
   </bean>

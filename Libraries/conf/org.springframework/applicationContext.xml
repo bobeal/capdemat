@@ -835,6 +835,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="userSearchService" ref="userSearchService" />
     <property name="externalHomeFolderService" ref="externalHomeFolderService" />
     <property name="paymentExternalService" ref="paymentExternalService" />
+    <property name="externalApplicationService" ref="externalApplicationService" />
   </bean>
 
   <bean id="externalApplicationProviderService"

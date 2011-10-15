@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.payment;
 
+import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
@@ -109,6 +110,16 @@ public interface IPaymentService {
      */
     Long getCount(Set<Critere> criteriaSet);
     
+    /**
+     * Get ids of payments matching the given criteria
+     */
+    List<Long> getIds(Set<Critere> criteriaSet);
+
+    /**
+     * Export given payments as a CSV file
+     */
+    File exportPayments(List<Long> paymentsIds) throws CvqException;
+
     /**
      * Get a payment by id.
      */

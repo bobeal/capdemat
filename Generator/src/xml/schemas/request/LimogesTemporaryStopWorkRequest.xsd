@@ -1,0 +1,852 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/ltswr"
+  xmlns:ltswr="http://www.cg95.fr/cvq/schema/ltswr"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
+    schemaLocation="../common/CVQCommonElements.xsd" />
+
+  <xs:element name="LimogesTemporaryStopWorkRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+       	Demande d'arrêté temporaire pour des travaux
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+		Temporary stop for work request
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+       	Demande d'arrêté temporaire pour des travaux
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		Temporary stop for work request
+      </xs:documentation>
+      <xs:appinfo>
+        <model namespace="urbanism" />
+        <common>
+          <namespace name="urbanism" />
+          <steps>
+			<step index="0" name="requester">
+				<conditions>
+					<condition name="isLandlord" />
+					<condition name="isContractor" />
+					<condition name="isCollectivity" />
+					<condition name="forAll" />
+					<condition name="forContractorCollectivity" />
+				</conditions>
+			</step>
+            <step index="1" name="work" >
+				<conditions>
+					<condition name="isExtension" />
+				</conditions>
+			</step>	
+            <step index="2" name="informations">
+				<conditions>
+					<condition name="noParking" />
+					<condition name="direction" />
+					<condition name="alternate" />
+					<condition name="ban" />
+					<condition name="banBetween" />
+					<condition name="deviation" />
+				</conditions>
+			</step>
+            <step index="3" name="rules" />
+		    <step index="4"  ref="document" />
+            <step index="5" ref="validation" />
+          </steps>
+        </common>
+      </xs:appinfo>
+    </xs:annotation>
+
+    <xs:complexType> 
+      <xs:complexContent> 
+        <xs:extension base="cvq:RequestType"> 
+          <xs:sequence>
+
+			<!-- Etape 0 : Demandeur -->
+            <xs:element name="RequesterType" type="ltswr:LtswrRequesterType" minOccurs="1">
+              <xs:annotation>
+                <xs:appinfo>
+                  <common>
+                    <step name="requester" />
+					<conditions>
+						<condition name="isLandlord" type="trigger"/>
+						<condition name="isContractor" type="trigger"/>
+						<condition name="isCollectivity" type="trigger"/>
+						<condition name="forAll" type="trigger" />
+						<condition name="forContractorCollectivity" type="trigger" />
+					</conditions>
+                  </common>
+                  <fo> 
+					<!-- <radio /> -->
+				  </fo>
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Civility" type="cvq:TitleType" minOccurs="0">
+              <xs:annotation>
+                <xs:appinfo>
+				  <model namespace="users" />
+                  <common>
+                    <step name="requester" />
+					<conditions>
+						<condition name="isLandlord" type="filled" required="true"/>
+					</conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="LastName" type="cvq:LastNameType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Nom
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="requester" />
+					<conditions>
+						<condition name="isLandlord" type="filled" required="true"/>
+					</conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="FirstName" type="cvq:FirstNameType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Prénom
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Prénom
+                </xs:documentation>
+                <xs:appinfo>
+				  <model namespace="users" />
+                  <common>
+                    <step name="requester" />
+					<conditions>
+						<condition name="isLandlord" type="filled" required="true"/>
+					</conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="ContractorName" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Raison sociale
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Raison sociale
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="requester" />
+                    <conditions>
+                        <condition name="isContractor" type="filled" required="true"/>
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+
+            <xs:element name="CollectivityName" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Nom de la collectivité
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom de la collectivité
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="requester" />
+                    <conditions>
+                        <condition name="isCollectivity" type="filled" required="true"/>
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+			<xs:element name="Address" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Adresse
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Adresse
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="requester" />
+					<conditions>
+						<condition name="forAll" type="filled" required="true"/>
+					</conditions>
+                  </common>
+                  <fo>
+					<textarea rows="5" />
+				  </fo>
+                  <bo>
+					<textarea rows="5" />
+				  </bo>
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="PhoneNumber" type="cvq:PhoneType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  N° de Téléphone
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  N° de Téléphone
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="requester" />
+					<conditions>
+						<condition name="forAll" type="filled" required="true"/>
+					</conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="FaxNumber" type="cvq:PhoneType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  N° de Fax
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  N° de Fax
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="requester" />
+					<conditions>
+						<condition name="forContractorCollectivity" type="filled" />
+					</conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Mail" type="cvq:EmailType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Adresse e-mail
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Adresse e-mail
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="requester" />
+                    <conditions>
+                        <condition name="forAll" type="filled"/>
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+			<!-- Etape 1 : Travaux -->
+
+            <xs:element name="SelectedRequestType" type="ltswr:LtswrRequestType" minOccurs="1">
+              <xs:annotation>
+                <xs:appinfo>
+                  <common>
+                    <step name="work" />
+					<conditions>
+						<condition name="isExtension" type="trigger" />
+					</conditions>
+                  </common>
+                  <fo>
+					<!-- <radio /> -->
+				  </fo>
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="AutorizationNumber" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Numéro de l'arrêté
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Numéro de l'arrêté
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="work" />
+					<conditions>
+						<condition name="isExtension" type="filled" required="true" />	
+					</conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="OnBehalf" type="xs:string" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Pour le compte de 
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Pour le compte de 
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="work" />
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="WorkAddress" type="xs:string" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Adresse des travaux
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Adresse des travaux
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="work" />
+                  </common>
+                  <fo>
+					<textarea rows="5" />
+				  </fo>
+                  <bo>
+					<textarea rows="5" />
+				  </bo>
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="WorkType" type="xs:string" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Nature des travaux
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nature des travaux
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="work" />
+                  </common>
+                  <fo>
+					<textarea rows="5" />
+				  </fo>
+                  <bo>
+					<textarea rows="5" />
+				  </bo>
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="WorkDate" type="xs:date" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Date des travaux
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Date des travaux
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="work" />
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="WorkTime" type="xs:string" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Préciser les horaires des travaux
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Horaires
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="work" />
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="WorkDuration" type="xs:string" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Durée des travaux
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Durée des travaux
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="work" />
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+			<!-- Etape 2 : Informations-->
+
+            <xs:element name="NoParking" type="ltswr:LtswrNoParking" minOccurs="0">
+              <xs:annotation>
+                <xs:appinfo>
+                  <common>
+                    <step name="informations" />
+					<conditions>
+						<condition name="noParking" type="trigger"/>
+					</conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="NoParkingStraightNumber" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+				  préciser n° 
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+				  préciser le(s) numéro(s) concerné(s) dans la voix
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="informations" />
+					<conditions>
+						<condition name="noParking" type="filled" required="true"/>
+					</conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="NoParkingStraightMeter" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+				  sur xx mètres
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+				  préciser le nombre de mètre(s)
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="informations" />
+					<conditions>
+						<condition name="noParking" type="filled" required="true"/>
+					</conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="AlternateTraffic" type="ltswr:LtswrAlternateTraffic" minOccurs="0">
+              <xs:annotation>
+                <xs:appinfo>
+                  <common>
+                    <step name="informations" />
+					<conditions>
+						<condition name="direction" type="trigger"/>
+						<condition name="alternate" type="trigger"/>
+					</conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="AlternateTrafficDirection" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+				  Sens de priorité
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+				  Préciser le sens de priorité
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="informations" />
+                    <conditions>
+                        <condition name="direction" type="filled" required="true"/>
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="AlternateTrafficMeter" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+				  sur xx mètres
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+				  préciser le nombre de mètre(s)
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="informations" />
+                    <conditions>
+                        <condition name="alternate" type="filled" required="true"/>
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="DrivingBan" type="ltswr:LtswrDrivingBan" minOccurs="0">
+              <xs:annotation>
+                <xs:appinfo>
+                  <common>
+                    <step name="informations" />
+					<conditions>
+						<condition name="ban" type="trigger"/>
+						<condition name="banBetween" type="trigger"/>
+						<condition name="deviation" type="trigger"/>
+					</conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="DrivingBanBetween" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+				  préciser entre xx et xx
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+				  préciser les numéros concernés dans la voix
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="informations" />
+                    <conditions>
+                        <condition name="banBetween" type="filled" required="true"/>
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="DrivingBanDirection" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+				  Préciser le sens de circulation
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+				  Préciser le sens de circulation
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="informations" />
+                    <conditions>
+                        <condition name="ban" type="filled" required="true"/>
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Deviation" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+				  Préciser la déviation mise en place
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+				  Préciser la déviation mise en place
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="informations" />
+                    <conditions>
+                        <condition name="deviation" type="filled" required="true"/>
+                    </conditions>
+                  </common>
+                  <fo>
+					<textarea rows="5" />
+				  </fo>
+                  <bo>
+					<textarea rows="5" />
+				  </bo>
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Comment" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+				  Commentaires
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+				  Commentaires
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="informations" />
+                  </common>
+                  <fo>
+					<textarea rows="5" />
+				  </fo>
+                  <bo>
+					<textarea rows="5" />
+				  </bo>
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+			<!-- Etape 3 : Règlements -->
+
+            <xs:element name="LtswrRule" type="cvq:AcceptanceType"
+              default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Si l'intéressé est domicilié dans la commune de Limoges et ses environs, il devra mettre en place la signalisation (<a href="#">Notice</a>). 
+				  Sinon, la signalisation pourra être mise en place, à titre exceptionnel, par la Direction des Infrastructures.
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Si l'intéressé est domicilié dans la commune de Limoges et ses environs, il devra mettre en place la signalisation (<a href="#">Notice</a>). 
+				  Sinon, la signalisation pourra être mise en place, à titre exceptionnel, par la Direction des Infrastructures.
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="rules" />
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+			<!-- Etape 4 : Documents -->
+
+			<!-- // -->
+
+          </xs:sequence>
+        </xs:extension> 
+      </xs:complexContent> 
+    </xs:complexType> 
+  </xs:element>
+
+  <xs:simpleType name="LtswrRequesterType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+		Type du demandeur
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		Type du demandeur
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="landlord" value="Propriétaire" />
+        <enum key="contractor" value="Entrepreneur" />
+        <enum key="collectivity" value="Collectivité" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="landlord" />
+      <xs:enumeration value="contractor" />
+      <xs:enumeration value="collectivity" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="LtswrCivility">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+		Civilité
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		Civilité
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="mme" value="Madame" />
+        <enum key="mlle" value="Mademoiselle" />
+        <enum key="m" value="Monsieur" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="mme" />
+      <xs:enumeration value="mlle" />
+      <xs:enumeration value="m" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="LtswrRequestType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+		Type de la demande
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		Type de la demande
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="initial" value="Initiale" />
+        <enum key="extension" value="Prolongation" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="initial" />
+      <xs:enumeration value="extension" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="LtswrNoParking">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+		En cas d'interdiction de stationner, préciser la nature
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		En cas d'interdiction de stationner, préciser la nature
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="allway" value="toute la voie" />
+        <enum key="progress" value="selon l'avancement du chantier" />
+        <enum key="right" value="au droit de n°" />
+        <enum key="front" value="en face de n°" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="allway" />
+      <xs:enumeration value="progress" />
+      <xs:enumeration value="right" />
+      <xs:enumeration value="front" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="LtswrAlternateTraffic">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+		En cas de circulation alternée, préciser
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		En cas de circulation alternée, préciser
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="info" value="par panneaux B15/C18" />
+        <enum key="manual" value="par manuel piquet K10" />
+        <enum key="auto" value="par signaux tricolores" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="info" />
+      <xs:enumeration value="manual" />
+      <xs:enumeration value="auto" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="LtswrDrivingBan">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+		En cas d'interdiction de circulation, préciser
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		En cas d'interdiction de circulation, préciser
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="allway" value="toute la voie" />
+        <enum key="partway" value="en partie" />
+        <enum key="oneway" value="neutralisation de la voie" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="allway" />
+      <xs:enumeration value="partway" />
+      <xs:enumeration value="oneway" />
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

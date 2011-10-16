@@ -1,0 +1,93 @@
+lpsrr.duration.value =
+
+lpsrr.property.subject.label = Sujet
+
+lpsrr.step.requester.label =
+lpsrr.step.requester.desc =
+
+lpsrr.step.reservation.label =
+lpsrr.step.reservation.desc =
+
+lpsrr.step.complement.label =
+lpsrr.step.complement.desc =
+
+lpsrr.step.rules.label =
+lpsrr.step.rules.desc =
+
+
+lpsrr.property.requesterType.help =
+lpsrr.property.requesterType.validationError =
+
+
+lpsrr.property.civility.help =
+lpsrr.property.civility.validationError =
+
+
+lpsrr.property.lastName.help =
+lpsrr.property.lastName.validationError =
+
+
+lpsrr.property.firstName.help =
+lpsrr.property.firstName.validationError =
+
+
+lpsrr.property.contractorName.help =
+lpsrr.property.contractorName.validationError =
+
+
+lpsrr.property.address.help =
+lpsrr.property.address.validationError =
+
+
+lpsrr.property.phoneNumber.help =
+lpsrr.property.phoneNumber.validationError =
+
+
+lpsrr.property.faxNumber.help =
+lpsrr.property.faxNumber.validationError =
+
+
+lpsrr.property.mail.help =
+lpsrr.property.mail.validationError =
+
+
+lpsrr.property.requesterFirstAddressKind.help =
+lpsrr.property.requesterFirstAddressKind.validationError =
+
+
+lpsrr.property.requesterFirstAddress.help =
+lpsrr.property.requesterFirstAddress.validationError =
+
+
+lpsrr.property.requesterOtherAddressKind.help =
+lpsrr.property.requesterOtherAddressKind.validationError =
+
+
+lpsrr.property.requesterOtherAddress.help =
+lpsrr.property.requesterOtherAddress.validationError =
+
+
+lpsrr.property.furnitureLift.help =
+lpsrr.property.furnitureLift.validationError =
+
+
+lpsrr.property.startDate.help =
+lpsrr.property.startDate.validationError =
+
+
+lpsrr.property.duration.help =
+lpsrr.property.duration.validationError =
+
+
+lpsrr.property.footWay.help =
+lpsrr.property.footWay.validationError =
+
+
+lpsrr.property.vehiclesRegistration.help =
+lpsrr.property.vehiclesRegistration.validationError =
+
+
+lpsrr.property.lpsrrRule.help =
+lpsrr.property.lpsrrRule.validationError =
+
+

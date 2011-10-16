@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/lpsrr"
+  xmlns:lpsrr="http://www.cg95.fr/cvq/schema/lpsrr"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
+    schemaLocation="../common/CVQCommonElements.xsd" />
+
+  <xs:element name="LimogesParkingSpaceReservationRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Réservation Déménagement, Emménagement 
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+	Parking space reservation request
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Réservation Déménagement, Emménagement 
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+	Parking space reservation
+      </xs:documentation>
+      <xs:appinfo>
+        <model namespace="urbanism" />
+        <common>
+          <namespace name="urbanism" />
+          <steps>
+            <step index="0" name="requester">
+				<conditions>
+					<condition name="isLandlord"/>
+					<condition name="isContractor"/>
+					<condition name="forAll"/>
+				</conditions>
+			</step>
+            <step index="1" name="reservation">
+				<conditions>
+					<condition name="AddressOne"/>
+					<condition name="AddressTwo"/>
+				</conditions>
+			</step>
+            <step index="2" name="complement">
+				<conditions>
+					<condition name="isFootWay"/>
+				</conditions>
+			</step>
+            <step index="3" name="rules" />
+            <step index="4" ref="document" />
+            <step index="5" ref="validation" />
+          </steps>
+        </common>
+      </xs:appinfo>
+    </xs:annotation>
+
+    <xs:complexType> 
+      <xs:complexContent> 
+        <xs:extension base="cvq:RequestType"> 
+          <xs:sequence>
+
+			<!-- Etape 0 : Demandeur -->
+
+            <xs:element name="RequesterType" type="lpsrr:LpsrrRequesterType" minOccurs="1">
+              <xs:annotation>
+                <xs:appinfo>
+                  <common>
+                    <step name="requester" />
+                    <conditions>
+                        <condition name="isLandlord" type="trigger"/>
+                        <condition name="isContractor" type="trigger"/>
+                        <condition name="forAll" type="trigger" />
+                    </conditions>
+                  </common>
+                  <fo>
+                    <!-- <radio /> -->
+                  </fo>
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Civility" type="cvq:TitleType" minOccurs="0">
+              <xs:annotation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="requester" />
+                    <conditions>
+                        <condition name="isLandlord" type="filled" required="true"/>
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="LastName" type="cvq:LastNameType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Nom
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="requester" />
+                    <conditions>
+                        <condition name="isLandlord" type="filled" required="true"/>
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="FirstName" type="cvq:FirstNameType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Prénom
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Prénom
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="requester" />
+                    <conditions>
+                        <condition name="isLandlord" type="filled" required="true"/>
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="ContractorName" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Raison sociale
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Raison sociale
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="requester" />
+                    <conditions>
+                        <condition name="isContractor" type="filled" required="true"/>
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+			<xs:element name="Address" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Adresse
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Adresse
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="requester" />
+                    <conditions>
+                        <condition name="forAll" type="filled" required="true"/>
+                    </conditions>
+                  </common>
+                  <fo>
+                    <textarea rows="5" />
+                  </fo>
+                  <bo>
+                    <textarea rows="5" />
+                  </bo>
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="PhoneNumber" type="cvq:PhoneType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  N° de Téléphone
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  N° de Téléphone
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="requester" />
+                    <conditions>
+                        <condition name="forAll" type="filled" required="true"/>
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="FaxNumber" type="cvq:PhoneType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  N° de Fax
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  N° de Fax
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="requester" />
+                    <conditions>
+                        <condition name="isContractor" type="filled"/>
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Mail" type="cvq:EmailType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Adresse e-mail
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Adresse e-mail
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="requester" />
+                    <conditions>
+                        <condition name="forAll" type="filled"/>
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+			<!-- Etape 1 : Réservation -->
+
+            <xs:element name="RequesterFirstAddressKind" type="lpsrr:AccountAddressKindType" minOccurs="1">
+              <xs:annotation>
+                <xs:appinfo>
+                  <common>
+                    <step name="reservation" />
+					<conditions>
+						<condition name="AddressOne" type="trigger" />
+					</conditions>	
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="RequesterFirstAddress" type="xs:string" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+		  Première Adresse
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		  Première Adresse
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="reservation" />
+					<conditions>
+						<condition name="AddressOne" type="filled" required="true"/>
+					</conditions>	
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="RequesterOtherAddressKind" type="lpsrr:AccountAddressKindType" minOccurs="0">
+              <xs:annotation>
+                <xs:appinfo>
+                  <common>
+                    <step name="reservation" />
+                    <conditions>
+                        <condition name="AddressTwo" type="trigger"/>
+                    </conditions>   
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="RequesterOtherAddress" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+		  Deuxième Adresse
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		  Deuxième Adresse
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="reservation" />
+					<conditions>
+						<condition name="AddressTwo" type="filled" required="true"/>
+					</conditions>	
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="FurnitureLift" type="xs:boolean" default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+		  Présence d'un monte meuble ?
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		  Présence d'un monte meuble ?
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="reservation" />
+                  </common>
+                  <fo />
+                  <bo/>
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="StartDate" type="xs:date">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+		  Date de début
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		  Date de début
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="reservation" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Duration" type="cvq:LocalReferentialDataType" minOccurs="1" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+		  Durée de la réservation
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		  Durée 
+                </xs:documentation>
+                <xs:appinfo>
+				  <model namespace="request" isTiedToRequest="true" />
+                  <common>
+                    <step name="reservation" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+			<!-- Etape 2 : Complément -->
+
+            <xs:element name="FootWay" type="xs:boolean" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+		  Voie Piétonne
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		  Voie Piétonne
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="complement" />
+					<conditions>
+                      <condition name="isFootWay" type="trigger"/>
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo/>
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+	
+            <xs:element name="VehiclesRegistration" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+		  Immatriculation des véhicules
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		  Immatriculation des véhicules
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="complement" />
+					<conditions>
+					  <condition name="isFootWay" type="filled" required="true"/>
+					</conditions>
+                  </common>
+                  <fo />
+                  <bo/>
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <!-- Etape 3 : Règlements -->
+
+            <xs:element name="LpsrrRule" type="cvq:AcceptanceType"
+              default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Si l'intéressé est domicilié dans la commune de Limoges et ses environs, il devra mettre en place la signalisation (<a href="#">Notice</a>). 
+                  Sinon, la signalisation pourra être mise en place, à titre exceptionnel, par la Direction des Infrastructures.
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Si l'intéressé est domicilié dans la commune de Limoges et ses environs, il devra mettre en place la signalisation (<a href="#">Notice</a>). 
+                  Sinon, la signalisation pourra être mise en place, à titre exceptionnel, par la Direction des Infrastructures.
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="rules" />
+                  </common>
+                  <fo />
+                  <bo />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <!-- Etape 4 : Documents -->
+
+            <!-- // -->	
+          </xs:sequence>
+        </xs:extension> 
+      </xs:complexContent> 
+    </xs:complexType> 
+  </xs:element>
+
+  <xs:simpleType name="LpsrrRequesterType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Type du demandeur
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Type du demandeur
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="landlord" value="Propriétaire" />
+        <enum key="contractor" value="Entrepreneur" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="landlord" />
+      <xs:enumeration value="contractor" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="AccountAddressKindType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+	Nature de l'adresse
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+	Nature de l'adresse
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="current" value="Adresse de départ" />
+        <enum key="future" value="Adresse d'arrivée" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="current" />
+      <xs:enumeration value="future" />
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

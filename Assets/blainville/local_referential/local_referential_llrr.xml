@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <request>LimogesLibraryRegistrationRequest</request>
+    <data name="LlrrSubscription">
+        <label lang="fr">Mise à disposition</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+            <entry key="BFM-Centre-Ville">
+                <label lang="fr">BFM Centre Ville</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="BFM-Aurence">
+                <label lang="fr">BFM Aurence</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="BFM-Beaubreuil">
+                <label lang="fr">BFM Beaubreuil</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="BFM-Vigenal">
+                <label lang="fr">BFM Vigenal</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="BFM-Landouge">
+                <label lang="fr">BFM Landouge</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="BFM-Bastide">
+                <label lang="fr">BFM Bastide</label>
+                <message lang="fr"/>
+            </entry>
+        </entries>
+    </data>
+    <data name="LlrrCareer">
+        <label lang="fr">Profession</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+            <entry key="Agriculteurs-sur-petite-exploitation">
+                <label lang="fr">Agriculteurs sur petite exploitation</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Agriculteurs-sur-moyenne-exploitation">
+                <label lang="fr">Agriculteurs sur moyenne exploitation</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Agriculteurs-sur-grande-exploitation">
+                <label lang="fr">Agriculteurs sur grande exploitation</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Artisans">
+                <label lang="fr">Artisans</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Commercants-et-assimile-s">
+                <label lang="fr">Commercants et assimilés</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Chefs-d-entreprise-de-10-salarie-s-ou-plus">
+                <label lang="fr">Chefs d'entreprise de 10 salariés ou plus</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Professions-libe-rales">
+                <label lang="fr">Professions libérales</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Cadres-de-la-fonction-publique">
+                <label lang="fr">Cadres de la fonction publique</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Professeurs--professions-scientifiques">
+                <label lang="fr">Professeurs, professions scientifiques</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Professions-de-l-information--arts--spectacles">
+                <label lang="fr">Professions de l'information, arts, spectacles</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Cadres-administratifs-et-commerciaux">
+                <label lang="fr">Cadres administratifs et commerciaux</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Inge-nieurs-et-cadres-techniques">
+                <label lang="fr">Ingénieurs et cadres techniques</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Instituteurs-et-assimile-s">
+                <label lang="fr">Instituteurs et assimilés</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Prof.-interme-diaires-de-la-sante---travail-social">
+                <label lang="fr">Prof. intermédiaires de la santé, travail social</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Clerge---religieux">
+                <label lang="fr">Clergé, religieux</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Prof.-interm.-adminis.-de-la-fonction-publique">
+                <label lang="fr">Prof. interm. adminis. de la fonction publique</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Prof.-interm.-administratives-et-commerciales">
+                <label lang="fr">Prof. interm. administratives et commerciales</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Techniciens">
+                <label lang="fr">Techniciens</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Contremaitres--agents-de-maitrise">
+                <label lang="fr">Contremaitres, agents de maitrise</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Employe-s-fonc.-pub.-agents-service-aide-soignants">
+                <label lang="fr">Employés fonc. pub./agents service/aide-soignants</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Policiers-Militaires-Agents-de-surveillance">
+                <label lang="fr">Policiers/Militaires/Agents de surveillance</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Employe-s-administratifs">
+                <label lang="fr">Employés administratifs</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Employe-s-de-commerce">
+                <label lang="fr">Employés de commerce</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Personnels-des-services-directs-aux-particuliers">
+                <label lang="fr">Personnels des services directs aux particuliers</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Ouvriers-qualifie-s-de-type-industriel">
+                <label lang="fr">Ouvriers qualifiés de type industriel</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Ouvriers-qualifie-s-de-type-artisanal">
+                <label lang="fr">Ouvriers qualifiés de type artisanal</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Chauffeurs">
+                <label lang="fr">Chauffeurs</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Agents-qualif.-manutention-magasinage-transports">
+                <label lang="fr">Agents qualif. manutention/magasinage/transports</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Ouvriers-non-qualifie-s-de-type-industriel">
+                <label lang="fr">Ouvriers non qualifiés de type industriel</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Ouvriers-non-qualifies-de-type-artisanal">
+                <label lang="fr">Ouvriers non qualifies de type artisanal</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Ouvriers-agricoles">
+                <label lang="fr">Ouvriers agricoles</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Retraite-s">
+                <label lang="fr">Retraités</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Anciens-agriculteurs-exploitants">
+                <label lang="fr">Anciens agriculteurs exploitants</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Anciens-artisans--comercants--chefs-d-entreprise">
+                <label lang="fr">Anciens artisans, comercants, chefs d'entreprise</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Anciens-cadres-et-professions-interme-diaires">
+                <label lang="fr">Anciens cadres et professions intermédiaires</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Anciens-cadres">
+                <label lang="fr">Anciens cadres</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Anciennes-professions-interme-diaires">
+                <label lang="fr">Anciennes professions intermédiaires</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Anciens-employe-s-et-ouvriers">
+                <label lang="fr">Anciens employés et ouvriers</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Anciens-employe-s">
+                <label lang="fr">Anciens employés</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Anciens-ouvriers">
+                <label lang="fr">Anciens ouvriers</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Autres-personnes-sans-activite-s">
+                <label lang="fr">Autres personnes sans activités</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Chomeurs-n-ayant-jamais-travaille-">
+                <label lang="fr">Chomeurs n'ayant jamais travaillé</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Inactifs-divers--autres-que-retraite-s-">
+                <label lang="fr">Inactifs divers (autres que retraités)</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Militaires-du-contigent">
+                <label lang="fr">Militaires du contigent</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Ele-ves--e-tudiants">
+                <label lang="fr">Elèves, étudiants</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Personnes-sans-activite-s-prof.-de-moins-de-60-ans--sauf-retraite-s-">
+                <label lang="fr">Personnes sans activités prof. de moins de 60 ans (sauf retraités)</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Personnes-sans-activite-s-prof.-de-60-ans-et-plus--sauf-retraite-s-">
+                <label lang="fr">Personnes sans activités prof. de 60 ans et plus (sauf retraités)</label>
+                <message lang="fr"/>
+            </entry>
+        </entries>
+    </data>
+    <data name="LlrrSchoolType">
+        <label lang="fr">Type d'établissement</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+            <entry key="Ecole-maternelle">
+                <label lang="fr">Ecole maternelle</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Ecole-e-le-mentaire">
+                <label lang="fr">Ecole élémentaire</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Colle-ge">
+                <label lang="fr">Collège</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Lyce-e">
+                <label lang="fr">Lycée</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Universite-">
+                <label lang="fr">Université ou supérieur</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Autre">
+                <label lang="fr">Autre</label>
+                <message lang="fr"/>
+            </entry>
+        </entries>
+    </data>
+</LocalReferential>

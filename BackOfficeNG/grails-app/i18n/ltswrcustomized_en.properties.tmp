@@ -1,0 +1,137 @@
+ltswr.duration.value =
+
+ltswr.property.subject.label = Sujet
+
+ltswr.step.requester.label =
+ltswr.step.requester.desc =
+
+ltswr.step.work.label =
+ltswr.step.work.desc =
+
+ltswr.step.informations.label =
+ltswr.step.informations.desc =
+
+ltswr.step.rules.label =
+ltswr.step.rules.desc =
+
+
+ltswr.property.requesterType.help =
+ltswr.property.requesterType.validationError =
+
+
+ltswr.property.civility.help =
+ltswr.property.civility.validationError =
+
+
+ltswr.property.lastName.help =
+ltswr.property.lastName.validationError =
+
+
+ltswr.property.firstName.help =
+ltswr.property.firstName.validationError =
+
+
+ltswr.property.contractorName.help =
+ltswr.property.contractorName.validationError =
+
+
+ltswr.property.collectivityName.help =
+ltswr.property.collectivityName.validationError =
+
+
+ltswr.property.address.help =
+ltswr.property.address.validationError =
+
+
+ltswr.property.phoneNumber.help =
+ltswr.property.phoneNumber.validationError =
+
+
+ltswr.property.faxNumber.help =
+ltswr.property.faxNumber.validationError =
+
+
+ltswr.property.mail.help =
+ltswr.property.mail.validationError =
+
+
+ltswr.property.selectedRequestType.help =
+ltswr.property.selectedRequestType.validationError =
+
+
+ltswr.property.autorizationNumber.help =
+ltswr.property.autorizationNumber.validationError =
+
+
+ltswr.property.onBehalf.help =
+ltswr.property.onBehalf.validationError =
+
+
+ltswr.property.workAddress.help =
+ltswr.property.workAddress.validationError =
+
+
+ltswr.property.workType.help =
+ltswr.property.workType.validationError =
+
+
+ltswr.property.workDate.help =
+ltswr.property.workDate.validationError =
+
+
+ltswr.property.workTime.help =
+ltswr.property.workTime.validationError =
+
+
+ltswr.property.workDuration.help =
+ltswr.property.workDuration.validationError =
+
+
+ltswr.property.noParking.help =
+ltswr.property.noParking.validationError =
+
+
+ltswr.property.noParkingStraightNumber.help =
+ltswr.property.noParkingStraightNumber.validationError =
+
+
+ltswr.property.noParkingStraightMeter.help =
+ltswr.property.noParkingStraightMeter.validationError =
+
+
+ltswr.property.alternateTraffic.help =
+ltswr.property.alternateTraffic.validationError =
+
+
+ltswr.property.alternateTrafficDirection.help =
+ltswr.property.alternateTrafficDirection.validationError =
+
+
+ltswr.property.alternateTrafficMeter.help =
+ltswr.property.alternateTrafficMeter.validationError =
+
+
+ltswr.property.drivingBan.help =
+ltswr.property.drivingBan.validationError =
+
+
+ltswr.property.drivingBanBetween.help =
+ltswr.property.drivingBanBetween.validationError =
+
+
+ltswr.property.drivingBanDirection.help =
+ltswr.property.drivingBanDirection.validationError =
+
+
+ltswr.property.deviation.help =
+ltswr.property.deviation.validationError =
+
+
+ltswr.property.comment.help =
+ltswr.property.comment.validationError =
+
+
+ltswr.property.ltswrRule.help =
+ltswr.property.ltswrRule.validationError =
+
+

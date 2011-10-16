@@ -1,0 +1,43 @@
+llrr.duration.value =
+
+llrr.property.subject.label = Sujet
+
+llrr.step.registration.label =
+llrr.step.registration.desc =
+
+llrr.step.rules.label =
+llrr.step.rules.desc =
+
+
+llrr.property.llrrSubscription.help =
+llrr.property.llrrSubscription.validationError =
+
+
+llrr.property.llrrBirthDate.help =
+llrr.property.llrrBirthDate.validationError =
+
+
+llrr.property.llrrCareer.help =
+llrr.property.llrrCareer.validationError =
+
+
+llrr.property.llrrSchoolType.help =
+llrr.property.llrrSchoolType.validationError =
+
+
+llrr.property.llrrSchoolName.help =
+llrr.property.llrrSchoolName.validationError =
+
+
+llrr.property.llrrSchoolClass.help =
+llrr.property.llrrSchoolClass.validationError =
+
+
+llrr.property.rulesAndRegulationsAcceptance.help =
+llrr.property.rulesAndRegulationsAcceptance.validationError =
+
+
+llrr.property.mailingList.help =
+llrr.property.mailingList.validationError =
+
+

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <data name="Duration" allowMultipleChoices="false" manager="CapDémat">
+        <label>Durée</label>
+        <entries>
+            <entry key="1-2-journe-e">
+                <label>1/2 journée</label>
+                <message>0.5</message>
+            </entry>
+            <entry key="1-journe-e">
+                <label>1 journée</label>
+                <message>1</message>
+            </entry>
+            <entry key="2-jours">
+                <label>2 jours</label>
+                <message>2</message>
+            </entry>
+        </entries>
+    </data>
+</LocalReferential>

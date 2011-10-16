@@ -1,0 +1,116 @@
+lcr.duration.value =
+
+lcr.property.subject.label = Sujet
+
+lcr.step.requester.label =
+lcr.step.requester.desc =
+
+lcr.step.work.label =
+lcr.step.work.desc =
+
+lcr.step.rules.label =
+lcr.step.rules.desc =
+
+
+lcr.property.requesterType.help =
+lcr.property.requesterType.validationError =
+
+
+lcr.property.civility.help =
+lcr.property.civility.validationError =
+
+
+lcr.property.lastName.help =
+lcr.property.lastName.validationError =
+
+
+lcr.property.firstName.help =
+lcr.property.firstName.validationError =
+
+
+lcr.property.contractorName.help =
+lcr.property.contractorName.validationError =
+
+
+lcr.property.collectivityName.help =
+lcr.property.collectivityName.validationError =
+
+
+lcr.property.address.help =
+lcr.property.address.validationError =
+
+
+lcr.property.phoneNumber.help =
+lcr.property.phoneNumber.validationError =
+
+
+lcr.property.faxNumber.help =
+lcr.property.faxNumber.validationError =
+
+
+lcr.property.mail.help =
+lcr.property.mail.validationError =
+
+
+lcr.property.selectedRequestType.help =
+lcr.property.selectedRequestType.validationError =
+
+
+lcr.property.autorizationNumber.help =
+lcr.property.autorizationNumber.validationError =
+
+
+lcr.property.lcrCompteDe.help =
+lcr.property.lcrCompteDe.validationError =
+
+
+lcr.property.lcrWorkAddress.help =
+lcr.property.lcrWorkAddress.validationError =
+
+
+lcr.property.lcrWorkNature.help =
+lcr.property.lcrWorkNature.validationError =
+
+
+lcr.property.lcrDuration.help =
+lcr.property.lcrDuration.validationError =
+
+
+lcr.property.lcrStartWork.help =
+lcr.property.lcrStartWork.validationError =
+
+
+lcr.property.lcrEndWork.help =
+lcr.property.lcrEndWork.validationError =
+
+
+lcr.property.lcrDescription.help =
+lcr.property.lcrDescription.validationError =
+
+lcr.property.lcrDescription.elementAdditionSuccess =
+
+
+lcr.property.lcrDetailDescription.help =
+lcr.property.lcrDetailDescription.validationError =
+
+
+lcr.property.lcrDetailLength.help =
+lcr.property.lcrDetailLength.validationError =
+
+
+lcr.property.lcrDetailWidth.help =
+lcr.property.lcrDetailWidth.validationError =
+
+
+lcr.property.lcrDetailHeight.help =
+lcr.property.lcrDetailHeight.validationError =
+
+
+lcr.property.lcrDetailOther.help =
+lcr.property.lcrDetailOther.validationError =
+
+
+lcr.property.lcrDuesAcceptance.help =
+lcr.property.lcrDuesAcceptance.validationError =
+
+

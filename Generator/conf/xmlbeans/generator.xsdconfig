@@ -199,4 +199,36 @@
     <xb:package>fr.cg95.cvq.xml.request.social</xb:package>
   </xb:namespace>
 
+  <!-- TS MADE BY CAP-TIC -->
+
+  <!-- Iconito Ps Subscription Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/ipsr">
+    <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
+  </xb:namespace>
+
+  <!-- Limoges Congestion Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/lcr">
+    <xb:package>fr.cg95.cvq.xml.request.urbanism</xb:package>
+  </xb:namespace>
+
+  <!-- Parking Space Reservation Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/psrr">
+    <xb:package>fr.cg95.cvq.xml.request.urbanism</xb:package>
+  </xb:namespace>
+
+  <!-- Limoges Library Registration Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/llrr">
+    <xb:package>fr.cg95.cvq.xml.request.leisure.culture</xb:package>
+  </xb:namespace>
+
+  <!-- Limoges Temporary Stop Work Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/ltswr">
+    <xb:package>fr.cg95.cvq.xml.request.urbanism</xb:package>
+  </xb:namespace>
+
+  <!-- Limoges Parking Space Reservation Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/lpsrr">
+    <xb:package>fr.cg95.cvq.xml.request.urbanism</xb:package>
+  </xb:namespace>
+
 </xb:config>

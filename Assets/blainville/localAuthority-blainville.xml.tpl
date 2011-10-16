@@ -7,7 +7,7 @@
     class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean"
     init-method="init">
     <property name="name" value="blainville"/>
-    <property name="defaultServerName" value="localhost"/>
+    <property name="defaultServerName" value="10.4.250.221"/>
     <property name="jpaConfigurations">
         <props>
             <prop key="hibernate.show_sql">false</prop>
@@ -15,7 +15,7 @@
             <prop key="hibernate.connection.driver_class">org.postgresql.Driver</prop>
             <prop key="hibernate.connection.url">jdbc:postgresql://localhost:5432/capdemat_blainville_${branch}</prop>
             <prop key="hibernate.connection.username">capdemat</prop>
-            <prop key="hibernate.connection.password">capdematpass</prop>
+            <prop key="hibernate.connection.password">capdemat</prop>
             <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
             <prop key="acquireIncrement">3</prop>
             <prop key="initialPoolSize">0</prop>
@@ -31,7 +31,7 @@
             <ref bean="fakePaymentProviderService" />
           </key>
           <bean class="fr.cg95.cvq.service.payment.PaymentServiceBean">
-            <property name="broker" value="Régie démo de Blainville"></property>
+            <property name="broker" value="Regie ICONITO PS - Capdemat"></property>
             <property name="friendlyLabel" value="Services autres que restauration scolaire"></property>
             <property name="requestTypes">
               <list>
@@ -45,6 +45,30 @@
     </property>
     <property name="externalServices">
       <map>
+        <entry>
+          <key>
+            <ref bean="iconitoPeriscolaireExternalService" />
+          </key>
+          <bean class="fr.cg95.cvq.external.ExternalServiceBean">
+            <property name="requestTypes">
+              <list>
+<!--
+                <value>VO Card</value>
+                <value>Home Folder Modification</value>
+-->
+                <value>Perischool Activity Registration</value>
+                <value>Birth Details</value>
+                <value>Death Details</value>
+                <value>Marriage Details</value>
+                <value>Iconito Ps Subscription</value>
+                <value>Electoral Roll Registration</value>
+              </list>
+            </property>
+            <property name="password">
+              <value>blainvillepwd</value>
+            </property>
+          </bean>
+        </entry>
         <entry>
           <key>
             <ref bean="fakeExternalService" />

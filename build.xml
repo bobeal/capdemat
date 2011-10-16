@@ -49,6 +49,7 @@
     <ant dir="${plugins.externalservices.edemande.dir}" target="clean" />
     <ant dir="${plugins.externalservices.ciril.dir}" target="clean" />
     <ant dir="${plugins.externalservices.technocarte.dir}" target="clean" />
+		<ant dir="${plugins.externalservices.iconitoperiscolaire.dir}" target="clean" />
   </target>
     
   <target name="prepare-configfiles-model" depends="init">
@@ -138,6 +139,7 @@
     <ant dir="${plugins.externalservices.clever.dir}" target="deploy" />
     <ant dir="${plugins.externalservices.edemande.dir}" target="deploy" />
     <ant dir="${plugins.externalservices.technocarte.dir}" target="deploy" />
+		<ant dir="${plugins.externalservices.iconitoperiscolaire.dir}" target="deploy" />
   </target>
 
   <target name="deploy-plugin-paylineV4" depends="compile-model">
@@ -174,6 +176,10 @@
 
   <target name="deploy-plugin-technocarte" depends="init, compile-model">
     <ant dir="${plugins.externalservices.technocarte.dir}" target="deploy" />
+  </target>
+
+  <target name="deploy-plugin-iconitoperiscolaire" depends="init, compile-model">
+    <ant dir="${plugins.externalservices.iconitoperiscolaire.dir}" target="deploy" />
   </target>
 
   <!-- ================================================================================= -->

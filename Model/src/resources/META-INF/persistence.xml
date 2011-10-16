@@ -11,7 +11,7 @@
             <property name="hibernate.connection.url" 
                       value="jdbc:postgresql://localhost:5432/capdemat_dummy" />
             <property name="hibernate.connection.username" value="capdemat" />
-            <property name="hibernate.connection.password" value="capdematpass"/>
+            <property name="hibernate.connection.password" value="capdemat"/>
  
             <property name="hibernate.dialect" 
                       value="org.hibernate.dialect.PostgreSQLDialect" />

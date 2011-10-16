@@ -77,7 +77,7 @@
     alter table document 
         drop constraint FK335CD11B8EAF8712;
 
-    alter table document
+    alter table document 
         drop constraint FK335CD11BAE5B2A57;
 
     alter table document_action 
@@ -248,10 +248,10 @@
     alter table home_folder 
         drop constraint FKDB87BBCEB7531222;
 
-    alter table home_folder_wished_document_types
+    alter table home_folder_wished_document_types 
         drop constraint FK1C339C7D8EAF8712;
 
-    alter table home_folder_wished_document_types
+    alter table home_folder_wished_document_types 
         drop constraint FK1C339C7DC3E3DBFF;
 
     alter table individual 
@@ -265,6 +265,9 @@
 
     alter table individual_role 
         drop constraint FK3C7D4E5CD4C3A2D8;
+
+    alter table lcr_description 
+        drop constraint FKEBD0939838A65302;
 
     alter table learning_activities_discovery_registration_request_atelier_eveil 
         drop constraint FK6631159E51ABD2B5;
@@ -283,6 +286,30 @@
 
     alter table library_registration_request_subscription 
         drop constraint FK56C4BE0F97237F56;
+
+    alter table limoges_library_registration_request_llrr_career 
+        drop constraint FK3EC24CB4292F2F96;
+
+    alter table limoges_library_registration_request_llrr_career 
+        drop constraint FK3EC24CB4F403D9A5;
+
+    alter table limoges_library_registration_request_llrr_school_type 
+        drop constraint FK152581AF8837C0AD;
+
+    alter table limoges_library_registration_request_llrr_school_type 
+        drop constraint FK152581AFF403D9A5;
+
+    alter table limoges_library_registration_request_llrr_subscription 
+        drop constraint FKEA55DD33D0810D7;
+
+    alter table limoges_library_registration_request_llrr_subscription 
+        drop constraint FKEA55DD3F403D9A5;
+
+    alter table limoges_parking_space_reservation_request_duration 
+        drop constraint FK49E230A0C383ECC;
+
+    alter table limoges_parking_space_reservation_request_duration 
+        drop constraint FK49E230A0CE37237F;
 
     alter table local_referential_association 
         drop constraint FK6B28F677E6775FC;
@@ -599,11 +626,15 @@
 
     drop table home_folder_wished_document_types cascade;
 
+    drop table iconito_ps_subscription_request cascade;
+
     drop table individual cascade;
 
     drop table individual_mapping cascade;
 
     drop table individual_role cascade;
+
+    drop table lcr_description cascade;
 
     drop table learning_activities_discovery_registration_request cascade;
 
@@ -616,6 +647,22 @@
     drop table library_registration_request cascade;
 
     drop table library_registration_request_subscription cascade;
+
+    drop table limoges_congestion_request cascade;
+
+    drop table limoges_library_registration_request cascade;
+
+    drop table limoges_library_registration_request_llrr_career cascade;
+
+    drop table limoges_library_registration_request_llrr_school_type cascade;
+
+    drop table limoges_library_registration_request_llrr_subscription cascade;
+
+    drop table limoges_parking_space_reservation_request cascade;
+
+    drop table limoges_parking_space_reservation_request_duration cascade;
+
+    drop table limoges_temporary_stop_work_request cascade;
 
     drop table local_authority cascade;
 
@@ -1842,6 +1889,12 @@
         unique (document_type_id)
     );
 
+    create table iconito_ps_subscription_request (
+        id int8 not null,
+        invoice_bar_code varchar(255),
+        primary key (id)
+    );
+
     create table individual (
         id int8 not null,
         birth_city varchar(32),
@@ -1882,6 +1935,18 @@
         individual_name varchar(255),
         role varchar(255),
         owner_id int8,
+        primary key (id)
+    );
+
+    create table lcr_description (
+        id int8 not null,
+        lcr_detail_description varchar(255),
+        lcr_detail_height varchar(255),
+        lcr_detail_length varchar(255),
+        lcr_detail_other varchar(255),
+        lcr_detail_width varchar(255),
+        limoges_congestion_request_id int8,
+        lcr_description_index int4,
         primary key (id)
     );
 
@@ -1933,6 +1998,126 @@
         subscription_id int8 not null,
         subscription_index int4 not null,
         primary key (library_registration_request_id, subscription_index)
+    );
+
+    create table limoges_congestion_request (
+        id int8 not null,
+        address varchar(255),
+        autorization_number varchar(255),
+        civility varchar(255),
+        collectivity_name varchar(255),
+        contractor_name varchar(255),
+        fax_number varchar(10),
+        first_name varchar(38),
+        last_name varchar(38),
+        lcr_compte_de varchar(255),
+        lcr_dues_acceptance bool,
+        lcr_duration varchar(255),
+        lcr_end_work varchar(255),
+        lcr_start_work varchar(255),
+        lcr_work_address varchar(255),
+        lcr_work_nature varchar(255),
+        mail varchar(255),
+        phone_number varchar(10),
+        requester_type varchar(255),
+        selected_request_type varchar(255),
+        primary key (id)
+    );
+
+    create table limoges_library_registration_request (
+        id int8 not null,
+        llrr_birth_date timestamp,
+        llrr_school_class varchar(255),
+        llrr_school_name varchar(255),
+        mailing_list bool,
+        rules_and_regulations_acceptance bool,
+        primary key (id)
+    );
+
+    create table limoges_library_registration_request_llrr_career (
+        limoges_library_registration_request_id int8 not null,
+        llrr_career_id int8 not null,
+        llrr_career_index int4 not null,
+        primary key (limoges_library_registration_request_id, llrr_career_index)
+    );
+
+    create table limoges_library_registration_request_llrr_school_type (
+        limoges_library_registration_request_id int8 not null,
+        llrr_school_type_id int8 not null,
+        llrr_school_type_index int4 not null,
+        primary key (limoges_library_registration_request_id, llrr_school_type_index)
+    );
+
+    create table limoges_library_registration_request_llrr_subscription (
+        limoges_library_registration_request_id int8 not null,
+        llrr_subscription_id int8 not null,
+        llrr_subscription_index int4 not null,
+        primary key (limoges_library_registration_request_id, llrr_subscription_index)
+    );
+
+    create table limoges_parking_space_reservation_request (
+        id int8 not null,
+        address varchar(255),
+        civility varchar(255),
+        contractor_name varchar(255),
+        fax_number varchar(10),
+        first_name varchar(38),
+        foot_way bool,
+        furniture_lift bool,
+        last_name varchar(38),
+        lpsrr_rule bool,
+        mail varchar(255),
+        phone_number varchar(10),
+        requester_first_address varchar(255),
+        requester_first_address_kind varchar(255),
+        requester_other_address varchar(255),
+        requester_other_address_kind varchar(255),
+        requester_type varchar(255),
+        start_date timestamp,
+        vehicles_registration varchar(255),
+        primary key (id)
+    );
+
+    create table limoges_parking_space_reservation_request_duration (
+        limoges_parking_space_reservation_request_id int8 not null,
+        duration_id int8 not null,
+        duration_index int4 not null,
+        primary key (limoges_parking_space_reservation_request_id, duration_index)
+    );
+
+    create table limoges_temporary_stop_work_request (
+        id int8 not null,
+        address varchar(255),
+        alternate_traffic varchar(255),
+        alternate_traffic_direction varchar(255),
+        alternate_traffic_meter varchar(255),
+        autorization_number varchar(255),
+        civility varchar(255),
+        collectivity_name varchar(255),
+        comment varchar(255),
+        contractor_name varchar(255),
+        deviation varchar(255),
+        driving_ban varchar(255),
+        driving_ban_between varchar(255),
+        driving_ban_direction varchar(255),
+        fax_number varchar(10),
+        first_name varchar(38),
+        last_name varchar(38),
+        ltswr_rule bool,
+        mail varchar(255),
+        no_parking varchar(255),
+        no_parking_straight_meter varchar(255),
+        no_parking_straight_number varchar(255),
+        on_behalf varchar(255),
+        phone_number varchar(10),
+        requester_type varchar(255),
+        selected_request_type varchar(255),
+        work_address varchar(255),
+        work_date timestamp,
+        work_duration varchar(255),
+        work_time varchar(255),
+        work_type varchar(255),
+        primary key (id)
     );
 
     create table local_authority (
@@ -2127,26 +2312,26 @@
         amount float8,
         label varchar(255),
         supported_broker varchar(255),
+        key varchar(255),
+        key_owner varchar(255),
+        quantity int4,
+        unit_price float8,
         external_application_id varchar(255),
         external_home_folder_id varchar(255),
         external_individual_id varchar(255),
         external_item_id varchar(255),
         external_service_label varchar(255),
-        key varchar(255),
-        key_owner varchar(255),
-        quantity int4,
-        unit_price float8,
         creation_date timestamp,
         max_buy int4,
         min_buy int4,
         old_quantity int4,
         subject_id int8,
+        old_value float8,
+        old_value_date timestamp,
         expiration_date timestamp,
         is_paid bool,
         issue_date timestamp,
         payment_date timestamp,
-        old_value float8,
-        old_value_date timestamp,
         payment_id int8,
         primary key (id)
     );
@@ -2813,9 +2998,9 @@
         foreign key (document_type_id) 
         references document_type;
 
-    alter table document
-        add constraint FK335CD11BAE5B2A57
-        foreign key (linked_home_folder_id)
+    alter table document 
+        add constraint FK335CD11BAE5B2A57 
+        foreign key (linked_home_folder_id) 
         references home_folder;
 
     alter table document_action 
@@ -3098,14 +3283,14 @@
         foreign key (address_id) 
         references address;
 
-    alter table home_folder_wished_document_types
-        add constraint FK1C339C7D8EAF8712
-        foreign key (document_type_id)
+    alter table home_folder_wished_document_types 
+        add constraint FK1C339C7D8EAF8712 
+        foreign key (document_type_id) 
         references document_type;
 
-    alter table home_folder_wished_document_types
-        add constraint FK1C339C7DC3E3DBFF
-        foreign key (global_home_folder_configuration_id)
+    alter table home_folder_wished_document_types 
+        add constraint FK1C339C7DC3E3DBFF 
+        foreign key (global_home_folder_configuration_id) 
         references global_home_folder_configuration;
 
     alter table individual 
@@ -3127,6 +3312,11 @@
         add constraint FK3C7D4E5CD4C3A2D8 
         foreign key (owner_id) 
         references individual;
+
+    alter table lcr_description 
+        add constraint FKEBD0939838A65302 
+        foreign key (limoges_congestion_request_id) 
+        references limoges_congestion_request;
 
     alter table learning_activities_discovery_registration_request_atelier_eveil 
         add constraint FK6631159E51ABD2B5 
@@ -3156,6 +3346,46 @@
     alter table library_registration_request_subscription 
         add constraint FK56C4BE0F97237F56 
         foreign key (subscription_id) 
+        references local_referential_data;
+
+    alter table limoges_library_registration_request_llrr_career 
+        add constraint FK3EC24CB4292F2F96 
+        foreign key (llrr_career_id) 
+        references local_referential_data;
+
+    alter table limoges_library_registration_request_llrr_career 
+        add constraint FK3EC24CB4F403D9A5 
+        foreign key (limoges_library_registration_request_id) 
+        references limoges_library_registration_request;
+
+    alter table limoges_library_registration_request_llrr_school_type 
+        add constraint FK152581AF8837C0AD 
+        foreign key (llrr_school_type_id) 
+        references local_referential_data;
+
+    alter table limoges_library_registration_request_llrr_school_type 
+        add constraint FK152581AFF403D9A5 
+        foreign key (limoges_library_registration_request_id) 
+        references limoges_library_registration_request;
+
+    alter table limoges_library_registration_request_llrr_subscription 
+        add constraint FKEA55DD33D0810D7 
+        foreign key (llrr_subscription_id) 
+        references local_referential_data;
+
+    alter table limoges_library_registration_request_llrr_subscription 
+        add constraint FKEA55DD3F403D9A5 
+        foreign key (limoges_library_registration_request_id) 
+        references limoges_library_registration_request;
+
+    alter table limoges_parking_space_reservation_request_duration 
+        add constraint FK49E230A0C383ECC 
+        foreign key (limoges_parking_space_reservation_request_id) 
+        references limoges_parking_space_reservation_request;
+
+    alter table limoges_parking_space_reservation_request_duration 
+        add constraint FK49E230A0CE37237F 
+        foreign key (duration_id) 
         references local_referential_data;
 
     alter table local_referential_association 

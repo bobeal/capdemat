@@ -793,6 +793,75 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="defaultDisplayGroup" value="technical" />
   </bean>
 
+  <!-- ********************************* -->
+  <!-- ******* TS MADE BY CAP-TIC ****** -->
+  <!-- ********************************* -->
+
+  <bean id="iconitoPsSubscriptionService" 
+    class="fr.cg95.cvq.service.request.school.impl.IconitoPsSubscriptionRequestService"
+    parent="requestService">
+    <property name="label" value="Iconito Ps Subscription"/>
+    <!-- <property name="localReferentialFilename" value="local_referential_ipsr"/> -->
+    <!-- <property name="xslFoFilename" value="<camel_case_request_name>.xsl"/> -->
+    <!-- ... property declarations ... !-->
+    <property name="subjectPolicy" value="SUBJECT_POLICY_NONE" />
+    <property name="defaultDisplayGroup" value="school" />
+  </bean>
+
+<!--
+  <bean id="parkingSpaceReservationRequestService"
+    class="fr.cg95.cvq.service.request.urbanism.impl.ParkingSpaceReservationRequestService"
+    parent="requestService">
+    <property name="label" value="Parking Space Reservation" />
+    <property name="localReferentialFilename" value="local_referential_psrr"/>
+    <property name="subjectPolicy" value="SUBJECT_POLICY_NONE" />
+    <property name="defaultDisplayGroup" value="urbanism" />  </bean>
+-->
+
+  <bean id="limogesLibraryRegistrationRequestService" 
+    class="fr.cg95.cvq.service.request.leisure.culture.impl.LimogesLibraryRegistrationRequestService"
+    parent="requestService">
+    <property name="localReferentialFilename" value="local_referential_llrr"/>
+    <property name="label" value="Limoges Library Registration"/>
+    <property name="supportUnregisteredCreation" value="true"/>
+    <property name="defaultDisplayGroup" value="culture" />
+  </bean>
+
+  <bean id="limogesCongestionRequestService"
+    class="fr.cg95.cvq.service.request.urbanism.impl.LimogesCongestionRequestService"
+    parent="requestService">
+    <property name="label" value="Limoges Congestion" />
+    <property name="subjectPolicy" value="SUBJECT_POLICY_NONE" />
+    <property name="supportUnregisteredCreation" value="true"/>
+    <property name="defaultDisplayGroup" value="urbanism" />
+  </bean>
+
+  <bean id="limogesTemporaryStopWorkRequestService"
+    class="fr.cg95.cvq.service.request.urbanism.impl.LimogesTemporaryStopWorkRequestService"
+    parent="requestService">
+    <property name="label" value="Limoges Temporary Stop Work" />
+    <property name="subjectPolicy" value="SUBJECT_POLICY_NONE" />
+    <property name="supportUnregisteredCreation" value="true"/>
+    <property name="defaultDisplayGroup" value="urbanism" />
+  </bean>
+
+  <bean id="limogesParkingSpaceReservationRequestService"
+    class="fr.cg95.cvq.service.request.urbanism.impl.LimogesParkingSpaceReservationRequestService"
+    parent="requestService">
+    <property name="label" value="Limoges Parking Space Reservation" />
+    <property name="localReferentialFilename" value="local_referential_lpsrr"/>
+    <property name="subjectPolicy" value="SUBJECT_POLICY_NONE" />
+    <property name="supportUnregisteredCreation" value="true"/>
+    <property name="defaultDisplayGroup" value="urbanism" />
+  </bean>
+
+<!--
+-->
+
+  <!-- ********************************* -->
+  <!-- ******* TS MADE BY CAP-TIC ****** -->
+  <!-- ********************************* -->
+
   <bean id="displayGroupService" class="fr.cg95.cvq.service.request.impl.DisplayGroupService">
     <property name="genericDAO" ref="genericDAO" />
     <property name="requestTypeDAO" ref="requestTypeDAO" />

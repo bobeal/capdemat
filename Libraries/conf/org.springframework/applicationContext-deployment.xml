@@ -128,6 +128,13 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/ticket/Subscriber.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/UserAction.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/UserSecurityRule.hbm.xml</value>
+				<!-- CAP-TIC -->    
+				<value>fr/cg95/cvq/business/request/school/IconitoPsSubscriptionRequestData.hbm.xml</value>
+		    <value>fr/cg95/cvq/business/request/leisure/culture/LimogesLibraryRegistrationRequestData.hbm.xml</value>
+		    <value>fr/cg95/cvq/business/request/urbanism/LimogesCongestionRequestData.hbm.xml</value>
+				<value>fr/cg95/cvq/business/request/urbanism/LcrDescription.hbm.xml</value>
+				<value>fr/cg95/cvq/business/request/urbanism/LimogesTemporaryStopWorkRequestData.hbm.xml</value>
+				<value>fr/cg95/cvq/business/request/urbanism/LimogesParkingSpaceReservationRequestData.hbm.xml</value>
       </list>
     </property>
 
@@ -175,7 +182,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
             <entry key="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
             <entry key="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/template1"/>
             <entry key="hibernate.connection.username" value="capdemat"/>
-            <entry key="hibernate.connection.password" value="capdematpass"/>
+            <entry key="hibernate.connection.password" value="capdemat"/>
             <entry key="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <entry key="acquireIncrement" value="3"/>
             <entry key="initialPoolSize" value="0"/>

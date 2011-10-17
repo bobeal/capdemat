@@ -402,11 +402,14 @@ class BackofficeExternalApplicationController {
     }
 
     private prepareResult(accountItem) {
-        def externalApplication = externalApplicationService.getExternalApplicationById(Long.valueOf(accountItem.externalApplicationId))
+        def externalApplication
         def hfm
-        if (externalApplication != null)
-            hfm = externalHomeFolderService
-                .getHomeFolderMapping(accountItem.externalServiceLabel, externalApplication, accountItem.externalHomeFolderId)
+        if (accountItem.externalApplicationId) {
+            externalApplication = externalApplicationService.getExternalApplicationById(Long.valueOf(accountItem.externalApplicationId))
+            if (externalApplication != null)
+                hfm = externalHomeFolderService.getHomeFolderMapping(accountItem.externalServiceLabel, 
+                    externalApplication, accountItem.externalHomeFolderId)
+        }
         def extendedAccounItem = [
             'item' : accountItem,
             'externalLabel' : externalApplication != null ? externalApplication.label : accountItem.externalServiceLabel,

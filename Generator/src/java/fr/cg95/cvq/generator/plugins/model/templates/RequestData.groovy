@@ -185,11 +185,12 @@ public class ${requestName}Data implements Serializable {
             [element.elementCommon.conditionListener, element.complexContainerConditionListener].each { listener ->
               if (listener != null) {
                 def trigger = request.getField(listener.condition.trigger.name)
+                def prefix = listener.listenAMultiTrigger() ? '\''+listener.condition.name+'=\'+' : ''
                 if ("LocalReferentialData".equals(trigger.modelClassName)) {
           %>
-            "if (_this.${trigger.nameAsParam} == null || _this.${trigger.nameAsParam}.isEmpty()) return false; _this.${trigger.nameAsParam}.each { active &= <% if (RoleType.unfilled.equals(listener.role)) { %>!<% } %>_this.conditions['${trigger.nameAsParam}'].test(it.name) };" +
+            "if (_this.${trigger.nameAsParam} == null || _this.${trigger.nameAsParam}.isEmpty()) return false; _this.${trigger.nameAsParam}.each { active &= <% if (RoleType.unfilled.equals(listener.role)) { %>!<% } %>_this.conditions['${trigger.nameAsParam}'].test(${!prefix.isEmpty() ? prefix : ''}it.name) };" +
                 <% } else { %>
-            "active &= <% if (RoleType.unfilled.equals(listener.role)) { %>!<% } %>_this.conditions['${trigger.nameAsParam}'].test(_this.${trigger.nameAsParam}.toString());" +
+            "active &= <% if (RoleType.unfilled.equals(listener.role)) { %>!<% } %>_this.conditions['${trigger.nameAsParam}'].test(${!prefix.isEmpty() ? prefix : ''}_this.${trigger.nameAsParam}.toString());" +
                 <% } %>
               <% } %>
             <% } %>

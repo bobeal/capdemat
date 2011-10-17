@@ -1,0 +1,324 @@
+
+
+<%
+
+  import org.apache.commons.lang.StringUtils
+  import fr.cg95.cvq.util.EnumTool
+  def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
+  def localReferentialWidget(rqt, javaName, lrEntries, depth) {
+    def currentLrDatas = rqt[javaName].collect{it.name}
+    if (lrEntries.any{it.entries}) {
+      println "<ul ${depth==0 ? 'class="dataTree"' : ''}>"
+      
+      lrEntries.each { entry ->
+        println "<li>"
+        if (entry.entries) {
+          println "<em ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.label} :</em>"
+          localReferentialWidget(rqt, javaName, entry.entries, depth + 1)
+        } else {
+          println "<span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.label}</span>"
+        }
+        println "</li>"
+      }
+
+      println "</ul>"
+    } else {
+      lrEntries.eachWithIndex { entry, i ->
+        println "<span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.label}</span>${i + 1 < lrEntries.size() ? ', ' : ''}"
+      }
+    }
+  }
+
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>${esc(i18n.translate('sagr.label'))}</title>
+  <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
+</head>
+<body>
+  <div id="hd">
+    <p>${esc(localAuthority.displayTitle)}</p>
+    <img src="file://${logoPath}" alt="mairie2424" />
+  </div>
+  <h1>${esc(i18n.translate('sagr.label'))}</h1>
+  <div class="localAuthority">
+    <h2>${i18n.translate('pdf.localAutorityReservedSection')}</h2>
+    <ul>
+      <li>${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
+      <li>${i18n.translate('property.requester')} : <strong>${esc(rqt.requesterFirstName +' '+ rqt.requesterLastName)}</strong></li>
+      <li>${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong></li>
+      <li>${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
+    </ul>
+  </div>
+  <h2>${i18n.translate('request.property.requester')}</h2>
+  
+          <p class="label">
+            ${i18n.translate('homeFolder.adult.property.title')}
+            ${i18n.translate('homeFolder.individual.property.firstName')}
+            ${i18n.translate('homeFolder.individual.property.lastName')}
+          </p>
+          <div class="response">
+            <% if(requester?.title) { %>
+              ${i18n.translate('homeFolder.adult.title.' + StringUtils.lowerCase(requester?.title.toString()))}
+            <% } %>
+            ${esc(requester?.firstName)}
+            ${esc(requester?.lastName)}
+          </div>
+          <p class="label">${i18n.translate('homeFolder.individual.property.address')}</p>
+          <div class="response">
+            <% if (requester?.address) { %>
+              <p>${esc(StringUtils.defaultString(requester?.address?.additionalDeliveryInformation))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.additionalGeographicalInformation))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.streetNumber))} ${esc(StringUtils.defaultString(requester?.address?.streetName))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.placeNameOrService))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.postalCode))} ${esc(StringUtils.defaultString(requester?.address?.city))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.countryName))}</p>
+            <% } %>
+          </div>
+          <p class="label">${i18n.translate('homeFolder.adult.property.email')}</p>
+          <div class="response">${esc(StringUtils.defaultString(requester?.email))}</div>
+          <p class="label">${i18n.translate('homeFolder.adult.property.homePhone')}</p>
+          <div class="response">${esc(StringUtils.defaultString(requester?.homePhone))}</div>
+          <p class="label">${i18n.translate('homeFolder.adult.property.mobilePhone')}</p>
+          <div class="response">${esc(StringUtils.defaultString(requester?.mobilePhone))}</div>
+          <p class="label">${i18n.translate('homeFolder.adult.property.officePhone')}</p>
+          <div class="response">${esc(StringUtils.defaultString(requester?.officePhone))}</div>
+          
+
+
+  
+  <h2>${i18n.translate('sagr.step.association.label')}</h2>
+  
+    
+      <p class="label">${esc(i18n.translate('sagr.property.nomAssociation.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.nomAssociation?.toString()))}</div>
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('sagr.property.siegeSocialAssociation.label'))}</p>
+          <div class="response">
+            <% if(rqt.siegeSocialAssociation) { %>
+              <p>${esc(StringUtils.defaultString(rqt.siegeSocialAssociation?.additionalDeliveryInformation))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.siegeSocialAssociation?.additionalGeographicalInformation))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.siegeSocialAssociation?.streetNumber))} ${esc(StringUtils.defaultString(rqt.siegeSocialAssociation?.streetName))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.siegeSocialAssociation?.placeNameOrService))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.siegeSocialAssociation?.postalCode))} ${esc(StringUtils.defaultString(rqt.siegeSocialAssociation?.city))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.siegeSocialAssociation?.countryName))}</p>
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <h3>${i18n.translate('sagr.property.numerosAssociation.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${esc(i18n.translate('sagr.property.numeroSiretAssociation.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.numeroSiretAssociation?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sagr.property.numeroEnregistrementPrefectureAssociation.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.numeroEnregistrementPrefectureAssociation?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sagr.property.numeroAgrementJeunesseSportAssociation.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.numeroAgrementJeunesseSportAssociation?.toString()))}</div>
+
+        
+      </div>
+    
+  
+    
+      <h3>${i18n.translate('sagr.property.contactsAssociation.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${esc(i18n.translate('sagr.property.estAdresseCorrespondantPrincipal.label'))}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.estAdresseCorrespondantPrincipal ? 'class="checked"': ''}>
+                ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sagr.property.nomCompletCorrespondantPrincipal.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.nomCompletCorrespondantPrincipal?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sagr.property.adresseCorrespondantPrincipal.label'))}</p>
+          <div class="response">
+            <% if(rqt.adresseCorrespondantPrincipal) { %>
+              <p>${esc(StringUtils.defaultString(rqt.adresseCorrespondantPrincipal?.additionalDeliveryInformation))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.adresseCorrespondantPrincipal?.additionalGeographicalInformation))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.adresseCorrespondantPrincipal?.streetNumber))} ${esc(StringUtils.defaultString(rqt.adresseCorrespondantPrincipal?.streetName))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.adresseCorrespondantPrincipal?.placeNameOrService))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.adresseCorrespondantPrincipal?.postalCode))} ${esc(StringUtils.defaultString(rqt.adresseCorrespondantPrincipal?.city))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.adresseCorrespondantPrincipal?.countryName))}</p>
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sagr.property.emailClubOuCorrespondant.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.emailClubOuCorrespondant?.toString()))}</div>
+
+        
+      </div>
+    
+  
+
+  
+  <h2>${i18n.translate('sagr.step.bureau.label')}</h2>
+  
+    
+      <p class="label">${esc(i18n.translate('sagr.property.roleDemandeur.label'))}</p>
+          <div class="response">
+            <% if(rqt.roleDemandeur) { %>
+              ${esc(i18n.translate('sagr.property.roleDemandeur.' + EnumTool.toLowerCamelCase(rqt.roleDemandeur.toString())))}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <h3>${i18n.translate('sagr.property.autreMembreBureau.label')}</h3>
+      <div class="complex">
+      <% rqt.autreMembreBureau.each { collectionIt -> %>
+      
+        <p class="label">${esc(i18n.translate('sagr.property.roleMembre.label'))}</p>
+          <div class="response">
+            <% if(collectionIt.roleMembre) { %>
+              ${esc(i18n.translate('sagr.property.roleMembre.' + EnumTool.toLowerCamelCase(collectionIt.roleMembre.toString())))}
+            <% } %>
+          </div>
+          
+
+      
+        <p class="label">${esc(i18n.translate('sagr.property.nomMembre.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.nomMembre?.toString()))}</div>
+
+      
+        <p class="label">${esc(i18n.translate('sagr.property.prenomMembre.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.prenomMembre?.toString()))}</div>
+
+      
+        <p class="label">${esc(i18n.translate('sagr.property.telephoneMembre.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.telephoneMembre?.toString()))}</div>
+
+      
+        <p class="label">${esc(i18n.translate('sagr.property.emailMembre.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.emailMembre?.toString()))}</div>
+
+      
+      <% } %>
+      </div>    
+    
+  
+
+  
+  <h2>${i18n.translate('sagr.step.activites.label')}</h2>
+  
+    
+      <h3>${i18n.translate('sagr.property.activiteAssociation.label')}</h3>
+      <div class="complex">
+      <% rqt.activiteAssociation.each { collectionIt -> %>
+      
+        <p class="label">${esc(i18n.translate('sagr.property.nomActivite.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.nomActivite?.toString()))}</div>
+
+      
+        <p class="label">${esc(i18n.translate('sagr.property.nomFederationSportiveActivite.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.nomFederationSportiveActivite?.toString()))}</div>
+
+      
+        <p class="label">${esc(i18n.translate('sagr.property.numeroAffiliationActivite.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.numeroAffiliationActivite?.toString()))}</div>
+
+      
+        <p class="label">${esc(i18n.translate('sagr.property.nombreLicencieMineurActivite.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.nombreLicencieMineurActivite?.toString()))}</div>
+
+      
+        <p class="label">${esc(i18n.translate('sagr.property.nombreLicencieMajeurActivite.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.nombreLicencieMajeurActivite?.toString()))}</div>
+
+      
+        <p class="label">${esc(i18n.translate('sagr.property.totalLicencieActivite.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.totalLicencieActivite?.toString()))}</div>
+
+      
+        <p class="label">${esc(i18n.translate('sagr.property.sommeAlloueeActivite.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.sommeAlloueeActivite?.toString()))}</div>
+
+      
+      <% } %>
+      </div>    
+    
+  
+
+  
+  <h2>${i18n.translate('sagr.step.subvention.label')}</h2>
+  
+    
+      <h3>${i18n.translate('sagr.property.subventionPubliqueFonctionnement.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${esc(i18n.translate('sagr.property.subventionSolliciteConseilGeneral.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.subventionSolliciteConseilGeneral?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sagr.property.cndsAnneeN.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.cndsAnneeN?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sagr.property.cndsAnneeNPlusUn.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.cndsAnneeNPlusUn?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sagr.property.regionAnneeN.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.regionAnneeN?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sagr.property.regionAnneeNPlusUn.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.regionAnneeNPlusUn?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sagr.property.communeAnneeN.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.communeAnneeN?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sagr.property.communeAnneeNPlusUn.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.communeAnneeNPlusUn?.toString()))}</div>
+
+        
+      </div>
+    
+  
+    
+      <p class="label">${esc(i18n.translate('sagr.property.compteBancaire.label'))}</p>
+          <div class="response">
+            <% if(rqt.compteBancaire) { %>
+              <p>
+                ${rqt.compteBancaire?.BIC}
+                ${rqt.compteBancaire?.IBAN}
+              </p>
+            <% } %>
+          </div>
+          
+
+    
+  
+
+  
+  <h2>${i18n.translate('request.step.administration.label')}</h2>
+  
+    
+      <p class="label">${esc(i18n.translate('sagr.property.numeroEnregistrementAssociation.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.numeroEnregistrementAssociation?.toString()))}</div>
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('sagr.property.montantSubvention.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.montantSubvention?.toString()))}</div>
+
+    
+  
+
+  <h2>${i18n.translate('contact.property.meansOfContact')}</h2>
+  <div class="response choice">
+    <% if (rqt.meansOfContact) { %>
+      <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
+        <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
+          ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.legacyLabel))}
+        </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
+      <% } %>
+    <% } else { %>
+      <span class="checked">${i18n.translate('meansOfContact.none')}</span>
+    <% } %>
+  </div>
+</body>
+</html>
+

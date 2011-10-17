@@ -1007,210 +1007,210 @@
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
         <enum key="None" value="Aucun" />
-        <enum key="DEP_01" value="Ain" />
-        <enum key="DEP_02" value="Aisne" />
-        <enum key="DEP_03" value="Allier" />
-        <enum key="DEP_04" value="Alpes-de-Haute-Provence" />
-        <enum key="DEP_05" value="Hautes-Alpes" />
-        <enum key="DEP_06" value="Alpes-Maritimes" />
-        <enum key="DEP_07" value="Ardèche" />
-        <enum key="DEP_08" value="Ardennes" />
-        <enum key="DEP_09" value="Ariège" />
-        <enum key="DEP_10" value="Aube" />
-        <enum key="DEP_11" value="Aude" />
-        <enum key="DEP_12" value="Aveyron" />
-        <enum key="DEP_13" value="Bouches-du-Rhône" />
-        <enum key="DEP_14" value="Calvados" />
-        <enum key="DEP_15" value="Cantal" />
-        <enum key="DEP_16" value="Charente" />
-        <enum key="DEP_17" value="Charente-Maritime" />
-        <enum key="DEP_18" value="Cher" />
-        <enum key="DEP_19" value="Corrèze" />
-        <enum key="DEP_2A" value="Corse-du-Sud" />
-        <enum key="DEP_2B" value="Haute-Corse" />
-        <enum key="DEP_21" value="Côte-d'Or" />
-        <enum key="DEP_22" value="Côtes-d'Armor" />
-        <enum key="DEP_23" value="Creuse" />
-        <enum key="DEP_24" value="Dordogne" />
-        <enum key="DEP_25" value="Doubs" />
-        <enum key="DEP_26" value="Drôme" />
-        <enum key="DEP_27" value="Eure" />
-        <enum key="DEP_28" value="Eure-et-Loir" />
-        <enum key="DEP_29" value="Finistère" />
-        <enum key="DEP_30" value="Gard" />
-        <enum key="DEP_31" value="Haute-Garonne" />
-        <enum key="DEP_32" value="Gers" />
-        <enum key="DEP_33" value="Gironde" />
-        <enum key="DEP_34" value="Hérault" />
-        <enum key="DEP_35" value="Ille-et-Vilaine" />
-        <enum key="DEP_36" value="Indre" />
-        <enum key="DEP_37" value="Indre-et-Loire" />
-        <enum key="DEP_38" value="Isère" />
-        <enum key="DEP_39" value="Jura" />
-        <enum key="DEP_40" value="Landes" />
-        <enum key="DEP_41" value="Loir-et-Cher" />
-        <enum key="DEP_42" value="Loire" />
-        <enum key="DEP_43" value="Haute-Loire" />
-        <enum key="DEP_44" value="Loire-Atlantique" />
-        <enum key="DEP_45" value="Loiret" />
-        <enum key="DEP_46" value="Lot" />
-        <enum key="DEP_47" value="Lot-et-Garonne" />
-        <enum key="DEP_48" value="Lozère" />
-        <enum key="DEP_49" value="Maine-et-Loire" />
-        <enum key="DEP_50" value="Manche" />
-        <enum key="DEP_51" value="Marne" />
-        <enum key="DEP_52" value="Haute-Marne" />
-        <enum key="DEP_53" value="Mayenne" />
-        <enum key="DEP_54" value="Meurthe-et-Moselle" />
-        <enum key="DEP_55" value="Meuse" />
-        <enum key="DEP_56" value="Morbihan" />
-        <enum key="DEP_57" value="Moselle" />
-        <enum key="DEP_58" value="Nièvre" />
-        <enum key="DEP_59" value="Nord" />
-        <enum key="DEP_60" value="Oise" />
-        <enum key="DEP_61" value="Orne" />
-        <enum key="DEP_62" value="Pas-de-Calais" />
-        <enum key="DEP_63" value="Puy-de-Dôme" />
-        <enum key="DEP_64" value="Pyrénes-Atlantiques" />
-        <enum key="DEP_65" value="Hautes-Pyrénées" />
-        <enum key="DEP_66" value="Pyrénées-Orientales" />
-        <enum key="DEP_67" value="Bas-Rhin" />
-        <enum key="DEP_68" value="Haut-Rhin" />
-        <enum key="DEP_69" value="Rhône" />
-        <enum key="DEP_70" value="Haute-Saône" />
-        <enum key="DEP_71" value="Saône-et-Loire" />
-        <enum key="DEP_72" value="Sarthe" />
-        <enum key="DEP_73" value="Savoie" />
-        <enum key="DEP_74" value="Haute-Savoie" />
-        <enum key="DEP_75" value="Paris" />
-        <enum key="DEP_76" value="Seine-Maritime" />
-        <enum key="DEP_77" value="Seine-et-Marne" />
-        <enum key="DEP_78" value="Yvelines" />
-        <enum key="DEP_79" value="Deux-Sèvres" />
-        <enum key="DEP_80" value="Somme" />
-        <enum key="DEP_81" value="Tarn" />
-        <enum key="DEP_82" value="Tarn-et-Garonne" />
-        <enum key="DEP_83" value="Var" />
-        <enum key="DEP_84" value="Vaucluse" />
-        <enum key="DEP_85" value="Vendée" />
-        <enum key="DEP_86" value="Vienne" />
-        <enum key="DEP_87" value="Haute-Vienne" />
-        <enum key="DEP_88" value="Vosges" />
-        <enum key="DEP_89" value="Yonne" />
-        <enum key="DEP_90" value="Territoire de Belfort" />
-        <enum key="DEP_91" value="Essonne" />
-        <enum key="DEP_92" value="Hauts-de-Seine" />
-        <enum key="DEP_93" value="Seine-Saint-Denis" />
-        <enum key="DEP_94" value="Val-de-Marne" />
-        <enum key="DEP_95" value="Val-d'Oise" />
-        <enum key="DEP_971" value="Guadeloupe" />
-        <enum key="DEP_972" value="Martinique" />
-        <enum key="DEP_973" value="Guyane" />
-        <enum key="DEP_974" value="Réunion" />
+        <enum key="DEP01" value="Ain" />
+        <enum key="DEP02" value="Aisne" />
+        <enum key="DEP03" value="Allier" />
+        <enum key="DEP04" value="Alpes-de-Haute-Provence" />
+        <enum key="DEP05" value="Hautes-Alpes" />
+        <enum key="DEP06" value="Alpes-Maritimes" />
+        <enum key="DEP07" value="Ardèche" />
+        <enum key="DEP08" value="Ardennes" />
+        <enum key="DEP09" value="Ariège" />
+        <enum key="DEP10" value="Aube" />
+        <enum key="DEP11" value="Aude" />
+        <enum key="DEP12" value="Aveyron" />
+        <enum key="DEP13" value="Bouches-du-Rhône" />
+        <enum key="DEP14" value="Calvados" />
+        <enum key="DEP15" value="Cantal" />
+        <enum key="DEP16" value="Charente" />
+        <enum key="DEP17" value="Charente-Maritime" />
+        <enum key="DEP18" value="Cher" />
+        <enum key="DEP19" value="Corrèze" />
+        <enum key="DEP2A" value="Corse-du-Sud" />
+        <enum key="DEP2B" value="Haute-Corse" />
+        <enum key="DEP21" value="Côte-d'Or" />
+        <enum key="DEP22" value="Côtes-d'Armor" />
+        <enum key="DEP23" value="Creuse" />
+        <enum key="DEP24" value="Dordogne" />
+        <enum key="DEP25" value="Doubs" />
+        <enum key="DEP26" value="Drôme" />
+        <enum key="DEP27" value="Eure" />
+        <enum key="DEP28" value="Eure-et-Loir" />
+        <enum key="DEP29" value="Finistère" />
+        <enum key="DEP30" value="Gard" />
+        <enum key="DEP31" value="Haute-Garonne" />
+        <enum key="DEP32" value="Gers" />
+        <enum key="DEP33" value="Gironde" />
+        <enum key="DEP34" value="Hérault" />
+        <enum key="DEP35" value="Ille-et-Vilaine" />
+        <enum key="DEP36" value="Indre" />
+        <enum key="DEP37" value="Indre-et-Loire" />
+        <enum key="DEP38" value="Isère" />
+        <enum key="DEP39" value="Jura" />
+        <enum key="DEP40" value="Landes" />
+        <enum key="DEP41" value="Loir-et-Cher" />
+        <enum key="DEP42" value="Loire" />
+        <enum key="DEP43" value="Haute-Loire" />
+        <enum key="DEP44" value="Loire-Atlantique" />
+        <enum key="DEP45" value="Loiret" />
+        <enum key="DEP46" value="Lot" />
+        <enum key="DEP47" value="Lot-et-Garonne" />
+        <enum key="DEP48" value="Lozère" />
+        <enum key="DEP49" value="Maine-et-Loire" />
+        <enum key="DEP50" value="Manche" />
+        <enum key="DEP51" value="Marne" />
+        <enum key="DEP52" value="Haute-Marne" />
+        <enum key="DEP53" value="Mayenne" />
+        <enum key="DEP54" value="Meurthe-et-Moselle" />
+        <enum key="DEP55" value="Meuse" />
+        <enum key="DEP56" value="Morbihan" />
+        <enum key="DEP57" value="Moselle" />
+        <enum key="DEP58" value="Nièvre" />
+        <enum key="DEP59" value="Nord" />
+        <enum key="DEP60" value="Oise" />
+        <enum key="DEP61" value="Orne" />
+        <enum key="DEP62" value="Pas-de-Calais" />
+        <enum key="DEP63" value="Puy-de-Dôme" />
+        <enum key="DEP64" value="Pyrénes-Atlantiques" />
+        <enum key="DEP65" value="Hautes-Pyrénées" />
+        <enum key="DEP66" value="Pyrénées-Orientales" />
+        <enum key="DEP67" value="Bas-Rhin" />
+        <enum key="DEP68" value="Haut-Rhin" />
+        <enum key="DEP69" value="Rhône" />
+        <enum key="DEP70" value="Haute-Saône" />
+        <enum key="DEP71" value="Saône-et-Loire" />
+        <enum key="DEP72" value="Sarthe" />
+        <enum key="DEP73" value="Savoie" />
+        <enum key="DEP74" value="Haute-Savoie" />
+        <enum key="DEP75" value="Paris" />
+        <enum key="DEP76" value="Seine-Maritime" />
+        <enum key="DEP77" value="Seine-et-Marne" />
+        <enum key="DEP78" value="Yvelines" />
+        <enum key="DEP79" value="Deux-Sèvres" />
+        <enum key="DEP80" value="Somme" />
+        <enum key="DEP81" value="Tarn" />
+        <enum key="DEP82" value="Tarn-et-Garonne" />
+        <enum key="DEP83" value="Var" />
+        <enum key="DEP84" value="Vaucluse" />
+        <enum key="DEP85" value="Vendée" />
+        <enum key="DEP86" value="Vienne" />
+        <enum key="DEP87" value="Haute-Vienne" />
+        <enum key="DEP88" value="Vosges" />
+        <enum key="DEP89" value="Yonne" />
+        <enum key="DEP90" value="Territoire de Belfort" />
+        <enum key="DEP91" value="Essonne" />
+        <enum key="DEP92" value="Hauts-de-Seine" />
+        <enum key="DEP93" value="Seine-Saint-Denis" />
+        <enum key="DEP94" value="Val-de-Marne" />
+        <enum key="DEP95" value="Val-d'Oise" />
+        <enum key="DEP971" value="Guadeloupe" />
+        <enum key="DEP972" value="Martinique" />
+        <enum key="DEP973" value="Guyane" />
+        <enum key="DEP974" value="Réunion" />
       </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:enumeration value="None" />
-      <xs:enumeration value="DEP_01" />
-      <xs:enumeration value="DEP_02" />
-      <xs:enumeration value="DEP_03" />
-      <xs:enumeration value="DEP_04" />
-      <xs:enumeration value="DEP_05" />
-      <xs:enumeration value="DEP_06" />
-      <xs:enumeration value="DEP_07" />
-      <xs:enumeration value="DEP_08" />
-      <xs:enumeration value="DEP_09" />
-      <xs:enumeration value="DEP_10" />
-      <xs:enumeration value="DEP_11" />
-      <xs:enumeration value="DEP_12" />
-      <xs:enumeration value="DEP_13" />
-      <xs:enumeration value="DEP_14" />
-      <xs:enumeration value="DEP_15" />
-      <xs:enumeration value="DEP_16" />
-      <xs:enumeration value="DEP_17" />
-      <xs:enumeration value="DEP_18" />
-      <xs:enumeration value="DEP_19" />
-      <xs:enumeration value="DEP_2A" />
-      <xs:enumeration value="DEP_2B" />
-      <xs:enumeration value="DEP_21" />
-      <xs:enumeration value="DEP_22" />
-      <xs:enumeration value="DEP_23" />
-      <xs:enumeration value="DEP_24" />
-      <xs:enumeration value="DEP_25" />
-      <xs:enumeration value="DEP_26" />
-      <xs:enumeration value="DEP_27" />
-      <xs:enumeration value="DEP_28" />
-      <xs:enumeration value="DEP_29" />
-      <xs:enumeration value="DEP_30" />
-      <xs:enumeration value="DEP_31" />
-      <xs:enumeration value="DEP_32" />
-      <xs:enumeration value="DEP_33" />
-      <xs:enumeration value="DEP_34" />
-      <xs:enumeration value="DEP_35" />
-      <xs:enumeration value="DEP_36" />
-      <xs:enumeration value="DEP_37" />
-      <xs:enumeration value="DEP_38" />
-      <xs:enumeration value="DEP_39" />
-      <xs:enumeration value="DEP_40" />
-      <xs:enumeration value="DEP_41" />
-      <xs:enumeration value="DEP_42" />
-      <xs:enumeration value="DEP_43" />
-      <xs:enumeration value="DEP_44" />
-      <xs:enumeration value="DEP_45" />
-      <xs:enumeration value="DEP_46" />
-      <xs:enumeration value="DEP_47" />
-      <xs:enumeration value="DEP_48" />
-      <xs:enumeration value="DEP_49" />
-      <xs:enumeration value="DEP_50" />
-      <xs:enumeration value="DEP_51" />
-      <xs:enumeration value="DEP_52" />
-      <xs:enumeration value="DEP_53" />
-      <xs:enumeration value="DEP_54" />
-      <xs:enumeration value="DEP_55" />
-      <xs:enumeration value="DEP_56" />
-      <xs:enumeration value="DEP_57" />
-      <xs:enumeration value="DEP_58" />
-      <xs:enumeration value="DEP_59" />
-      <xs:enumeration value="DEP_60" />
-      <xs:enumeration value="DEP_61" />
-      <xs:enumeration value="DEP_62" />
-      <xs:enumeration value="DEP_63" />
-      <xs:enumeration value="DEP_64" />
-      <xs:enumeration value="DEP_65" />
-      <xs:enumeration value="DEP_66" />
-      <xs:enumeration value="DEP_67" />
-      <xs:enumeration value="DEP_68" />
-      <xs:enumeration value="DEP_69" />
-      <xs:enumeration value="DEP_70" />
-      <xs:enumeration value="DEP_71" />
-      <xs:enumeration value="DEP_72" />
-      <xs:enumeration value="DEP_73" />
-      <xs:enumeration value="DEP_74" />
-      <xs:enumeration value="DEP_75" />
-      <xs:enumeration value="DEP_76" />
-      <xs:enumeration value="DEP_77" />
-      <xs:enumeration value="DEP_78" />
-      <xs:enumeration value="DEP_79" />
-      <xs:enumeration value="DEP_80" />
-      <xs:enumeration value="DEP_81" />
-      <xs:enumeration value="DEP_82" />
-      <xs:enumeration value="DEP_83" />
-      <xs:enumeration value="DEP_84" />
-      <xs:enumeration value="DEP_85" />
-      <xs:enumeration value="DEP_86" />
-      <xs:enumeration value="DEP_87" />
-      <xs:enumeration value="DEP_88" />
-      <xs:enumeration value="DEP_89" />
-      <xs:enumeration value="DEP_90" />
-      <xs:enumeration value="DEP_91" />
-      <xs:enumeration value="DEP_92" />
-      <xs:enumeration value="DEP_93" />
-      <xs:enumeration value="DEP_94"  />
-      <xs:enumeration value="DEP_95"  />
-      <xs:enumeration value="DEP_971" />
-      <xs:enumeration value="DEP_972" />
-      <xs:enumeration value="DEP_973" />
-      <xs:enumeration value="DEP_974" />
+      <xs:enumeration value="DEP01" />
+      <xs:enumeration value="DEP02" />
+      <xs:enumeration value="DEP03" />
+      <xs:enumeration value="DEP04" />
+      <xs:enumeration value="DEP05" />
+      <xs:enumeration value="DEP06" />
+      <xs:enumeration value="DEP07" />
+      <xs:enumeration value="DEP08" />
+      <xs:enumeration value="DEP09" />
+      <xs:enumeration value="DEP10" />
+      <xs:enumeration value="DEP11" />
+      <xs:enumeration value="DEP12" />
+      <xs:enumeration value="DEP13" />
+      <xs:enumeration value="DEP14" />
+      <xs:enumeration value="DEP15" />
+      <xs:enumeration value="DEP16" />
+      <xs:enumeration value="DEP17" />
+      <xs:enumeration value="DEP18" />
+      <xs:enumeration value="DEP19" />
+      <xs:enumeration value="DEP2A" />
+      <xs:enumeration value="DEP2B" />
+      <xs:enumeration value="DEP21" />
+      <xs:enumeration value="DEP22" />
+      <xs:enumeration value="DEP23" />
+      <xs:enumeration value="DEP24" />
+      <xs:enumeration value="DEP25" />
+      <xs:enumeration value="DEP26" />
+      <xs:enumeration value="DEP27" />
+      <xs:enumeration value="DEP28" />
+      <xs:enumeration value="DEP29" />
+      <xs:enumeration value="DEP30" />
+      <xs:enumeration value="DEP31" />
+      <xs:enumeration value="DEP32" />
+      <xs:enumeration value="DEP33" />
+      <xs:enumeration value="DEP34" />
+      <xs:enumeration value="DEP35" />
+      <xs:enumeration value="DEP36" />
+      <xs:enumeration value="DEP37" />
+      <xs:enumeration value="DEP38" />
+      <xs:enumeration value="DEP39" />
+      <xs:enumeration value="DEP40" />
+      <xs:enumeration value="DEP41" />
+      <xs:enumeration value="DEP42" />
+      <xs:enumeration value="DEP43" />
+      <xs:enumeration value="DEP44" />
+      <xs:enumeration value="DEP45" />
+      <xs:enumeration value="DEP46" />
+      <xs:enumeration value="DEP47" />
+      <xs:enumeration value="DEP48" />
+      <xs:enumeration value="DEP49" />
+      <xs:enumeration value="DEP50" />
+      <xs:enumeration value="DEP51" />
+      <xs:enumeration value="DEP52" />
+      <xs:enumeration value="DEP53" />
+      <xs:enumeration value="DEP54" />
+      <xs:enumeration value="DEP55" />
+      <xs:enumeration value="DEP56" />
+      <xs:enumeration value="DEP57" />
+      <xs:enumeration value="DEP58" />
+      <xs:enumeration value="DEP59" />
+      <xs:enumeration value="DEP60" />
+      <xs:enumeration value="DEP61" />
+      <xs:enumeration value="DEP62" />
+      <xs:enumeration value="DEP63" />
+      <xs:enumeration value="DEP64" />
+      <xs:enumeration value="DEP65" />
+      <xs:enumeration value="DEP66" />
+      <xs:enumeration value="DEP67" />
+      <xs:enumeration value="DEP68" />
+      <xs:enumeration value="DEP69" />
+      <xs:enumeration value="DEP70" />
+      <xs:enumeration value="DEP71" />
+      <xs:enumeration value="DEP72" />
+      <xs:enumeration value="DEP73" />
+      <xs:enumeration value="DEP74" />
+      <xs:enumeration value="DEP75" />
+      <xs:enumeration value="DEP76" />
+      <xs:enumeration value="DEP77" />
+      <xs:enumeration value="DEP78" />
+      <xs:enumeration value="DEP79" />
+      <xs:enumeration value="DEP80" />
+      <xs:enumeration value="DEP81" />
+      <xs:enumeration value="DEP82" />
+      <xs:enumeration value="DEP83" />
+      <xs:enumeration value="DEP84" />
+      <xs:enumeration value="DEP85" />
+      <xs:enumeration value="DEP86" />
+      <xs:enumeration value="DEP87" />
+      <xs:enumeration value="DEP88" />
+      <xs:enumeration value="DEP89" />
+      <xs:enumeration value="DEP90" />
+      <xs:enumeration value="DEP91" />
+      <xs:enumeration value="DEP92" />
+      <xs:enumeration value="DEP93" />
+      <xs:enumeration value="DEP94"  />
+      <xs:enumeration value="DEP95"  />
+      <xs:enumeration value="DEP971" />
+      <xs:enumeration value="DEP972" />
+      <xs:enumeration value="DEP973" />
+      <xs:enumeration value="DEP974" />
     </xs:restriction>
   </xs:simpleType>
 

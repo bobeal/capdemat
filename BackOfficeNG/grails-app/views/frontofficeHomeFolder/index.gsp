@@ -4,51 +4,30 @@
     <meta name="layout" content="fo_main" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'document.css')}" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'homefolder.css')}" />
-    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'homefolderTracker.css')}" />
     <style>
-      .tracker-box #familyStepQuestion { font-size: 1.1em; font-weight: bold; text-align: center; background: none repeat scroll 0 0 #FFEE20; padding: 5px; }
-      .tracker-box #familyStepQuestion a { font-size: 1.3em; color: black;}
+        .box .side { width: 25%; float: right; }
     </style>
   </head>
   <body>
     <g:if test="${flash.successMessage}"><div class="success-box"><p>${flash.successMessage}</p></div></g:if>
-
-    <!-- Home folder statuses. -->
-    <g:if test="${overallState != 'Complete'}">
-      <div class="box-container">
-        <div class="box tracker-box">
-          <g:render template="/frontofficeHomeFolder/tracker" model="['flat' : true]" />
-          <g:if test="${homeFolder?.familyStepState?.name() == 'UNCOMPLETE'}">
-            <div id="familyStepQuestion">
-              Les membres du compte sont-ils tous ajoutés ?
-              <a href="${createLink(controller : 'frontofficeHomeFolder', action : 'complete')}">
-                Oui
-              </a>
-            </div>
-          </g:if>
-        </div>
-
-        <!-- Last message sent. -->
-        <g:if test="${lastMessage}">
-          <div class="${overallState == 'Uncomplete' ? 'information-box' : 'error-box'}">
-            <p><strong>Dernier message de votre collectivité :</strong></p>
-            <p>${lastMessage}</p>
-          </div>
-        </g:if>
+    <!-- Last message sent. -->
+    <g:if test="${lastMessage}">
+      <div class="information-box">
+        <p><strong>${message(code:'homeFolder.message.lastMessage')}</strong> ${lastMessage}</p>
       </div>
     </g:if>
 
     <div class="box">
       <div class="main">
-        <h2>
-          ${message(code:'homeFolder.title')}
-        </h2>
-        <p style="min-height: 2.5em;">${message(code:'property.address')} : 
-          <strong>
-            ${homeFolder.address.streetNumber} ${homeFolder.address.streetName}
-            ${homeFolder.address.postalCode} ${homeFolder.address.city}
-          </strong>
-        </p>
+        <p style="font-size: 1.15em;">${message(code:'homeFolder.message.completeYourFamily')}</p>
+      </div>
+      <div class="side">
+        <div class="action">
+          <a href="${createLink(action:'editPassword')}">${message(code:'account.action.editPassword')}</a>
+          <a href="${createLink(action:'editQuestion')}">${message(code:'account.action.editQuestion')}</a>
+        </div>
+      </div>
+      <div class="main columns">
         <div class="individuals">
           <!-- Adults -->
           <div class="adults">
@@ -122,30 +101,25 @@
             </g:if>
           </div>
         </div>
-      </div>
-      <div class="side">
-        <div class="action">
-          <a href="${createLink(action:'editPassword')}">${message(code:'account.action.editPassword')}</a>
-          <a href="${createLink(action:'editQuestion')}">${message(code:'account.action.editQuestion')}</a>
-        </div>
         <g:if test="${documentsByTypes}">
         <!-- Documents -->
-        <div id="document">
+        <div id="docs">
           <h3>${message(code:'property.documents')}</h3>
           <g:each in="${documentsByTypes}" var="documentType">
             <h4>
-              <a href="${createLink(controller:'frontofficeHomeFolderDocument', action:'edit', params:['documentTypeId':documentType.key])}" class="${documentType.value.linked ? '' : 'warn'}">
+              <a href="${createLink(controller:'frontofficeHomeFolderDocument', action:'edit', params:['documentTypeId':documentType.key])}">
                 ${message(code:'action.attach')}
               </a>
               ${message(code:documentType.value.name)}
             </h4>
-            <g:if test="${documentType.value.linked}">
             <dl>
+            <g:if test="${documentType.value.linked}">
               <g:each in="${documentType.value.linked}" var="document">
               <dt>
                 <img src="${resource(dir:'images/icons',file:'mime_' + (document.isPDF() ? 'pdf' : 'img') + '.png')}" />
               </dt>
-              <dd>
+              <dd ${[fr.cg95.cvq.business.document.DocumentState.OUTDATED, fr.cg95.cvq.business.document.DocumentState.REFUSED].contains(document.state) ? 'class="warn"' : ''}>
+                <g:capdematEnumToFlag var="${document.state}" i18nKeyPrefix="document.state" />
                 <g:if test="${document.ecitizenNote}">
                     <p>${message(code:'document.header.description')} : ${document.ecitizenNote}</p>
                 </g:if>
@@ -153,42 +127,39 @@
                   ${document.datas.size()} ${message(code:'property.pages')}
                   <g:if test="${document.endValidityDate}">
                     -
-                    <span>${message(code:'document.header.expireOn')} ${formatDate(date:document.endValidityDate,formatName:'format.date')}</span>
+                    <span>${message(code:'message.expireOn',args:[formatDate(date:document.endValidityDate,formatName:'format.date')])}</span>
                   </g:if>
                 </p>
                 <p>
-                  <g:if test="${document.state.toString() == 'Draft'}">
-                    <a href="${createLink(controller:'frontofficeHomeFolderDocument', action:'edit', params:['documentTypeId':documentType.key, 'documentId':document.id])}">
-                      ${message(code:'action.modify')}
-                    </a>&nbsp;
-                    <a href="${createLink(controller:'frontofficeHomeFolderDocument', action:'delete', params:['documentId':document.id])}">
-                      ${message(code:'action.delete')}
-                    </a>&nbsp;
+                  <g:if test="${document.state == fr.cg95.cvq.business.document.DocumentState.DRAFT}">
+                    <a href="${createLink(controller:'frontofficeHomeFolderDocument', action:'edit', params:['documentTypeId':documentType.key, 'documentId':document.id])}">${message(code:'action.modify')}</a>&nbsp;
+                    <a href="${createLink(controller:'frontofficeHomeFolderDocument', action:'delete', params:['documentId':document.id])}">${message(code:'action.delete')}</a>&nbsp;
                   </g:if>
                   <g:else>
-                    <a href="${createLink(controller:'frontofficeHomeFolderDocument', action:'unlink', params:['documentId':document.id])}">
-                      ${message(code:'action.detach')}
-                    </a>&nbsp;
+                    <a href="${createLink(controller:'frontofficeHomeFolderDocument', action:'unlink', params:['documentId':document.id])}">${message(code:'action.detach')}</a>&nbsp;
                   </g:else>
                   <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank" title="${message(code:'document.message.preview.longdesc')}">
                     ${message(code:'document.message.preview')}
                   </a>
                 </p>
+                <g:if test="${[fr.cg95.cvq.business.document.DocumentState.OUTDATED, fr.cg95.cvq.business.document.DocumentState.REFUSED].contains(document.state)}">
+                  <p class="warn">${message(code:'document.message.shouldDetach')}</p>
+                </g:if>
               </dd>
               </g:each>
-            </dl>
             </g:if>
             <g:else>
-              <p class="help">${message(code:'document.message.noAttachment')}</p>
+              <dt></dt>
+              <dd class="warn">
+                <span class="tag-state tag-not_provided">${message(code:'document.state.notProvided')}</span>
+                <p class="warn">${message(code:'document.message.noAttachment')}</p>
+              </dd>
             </g:else>
+            </dl>
           </g:each>
-          </div>
+        </div>
         </g:if>
-%{--        <div class="note">--}%
-%{--          <h4>Notes de la collectivité</h4>--}%
-%{--          <p>l'individu blabla est n'a pas d'identifiant hibernate !</p>--}%
-%{--        </div>--}%
-      </div>  
+      </div>
     </div>
   </body>
 </html>

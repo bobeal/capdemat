@@ -330,14 +330,16 @@ dl.account a { float: none !important; }
 #instructionStatePanel .ft { padding: 0; background: transparent; border: 0; }
 
 #requestLockPanel form,
-#instructionStatePanel form                      { margin: 0; padding: 0;}
+#instructionStatePanel form                      { margin: 0; padding: 0 1em; }
 #requestLockPanel input[type="button"],
 #instructionStatePanel form input[type="button"] { font-size: .8em; }
 #requestLockPanel input[type="button"]           { width : 45%; }
 #instructionStatePanel form .error               { margin: 0; font-size: .8em; font-style: italic; text-align: center }
 
-#instructionStatePanel ul    { margin: .2em 0 .5em .5em; text-align: left }
+#instructionStatePanel ul    { margin: .2em 0 .5em; text-align: left; }
 #instructionStatePanel ul li { padding: .1em 0; }
+
+#instructionStatePanel #changeStateNote { margin-top : .5em; }
 
 .add-link em {
   background:transparent url(../../images/icons/16-add.png) no-repeat scroll right 4px;

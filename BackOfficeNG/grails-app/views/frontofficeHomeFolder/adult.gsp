@@ -4,7 +4,6 @@
     <meta name="layout" content="fo_main" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/common', file:'form.css')}" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'homefolder.css')}" />
-    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'homefolderTracker.css')}" />
     <g:if test="${flash.addressesReferentialEnabled}">
       <link rel="stylesheet" type="text/css" href="${resource(dir:'css/common', file:'autocomplete.css')}" />
       <script type="text/javascript">
@@ -43,18 +42,14 @@
         </g:else>
       </div>
       <div class="side">
-        <div>
-          <g:render template="/frontofficeHomeFolder/tracker" model="['clickable' : true, 'step' : 'family']" />
-        </div>
-%{--        <g:if test="${adult.id != null}">--}%
-%{--          <div class="action">--}%
-%{--            <a href="#general">${message(code:'homeFolder.individual.header.general')}</a>--}%
-%{--            <a href="#identity">${message(code:'homeFolder.individual.header.identity')}</a>--}%
-%{--            <a href="#address">${message(code:'homeFolder.individual.header.address')}</a>--}%
-%{--            <a href="#contact">${message(code:'homeFolder.individual.header.contact')}</a>--}%
-%{--            <a href="#connexion">${message(code:'homeFolder.individual.header.connexion')}</a>--}%
-%{--          </div>--}%
-%{--        </g:if>--}%
+        <g:if test="${adult.id != null}">
+          <div class="action">
+            <a href="#general">${message(code:'homeFolder.individual.header.general')}</a>
+            <a href="#identity">${message(code:'homeFolder.individual.header.identity')}</a>
+            <a href="#address">${message(code:'homeFolder.individual.header.address')}</a>
+            <a href="#contact">${message(code:'homeFolder.individual.header.contact')}</a>
+          </div>
+        </g:if>
       </div>
     </div>
   </body>

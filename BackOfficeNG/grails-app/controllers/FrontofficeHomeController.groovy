@@ -31,7 +31,8 @@ class FrontofficeHomeController {
     def requestAdaptorService
     def requestTypeAdaptorService
     def securityService
-    
+    def documentAdaptorService
+
     IUserService userService
     IRequestNoteService requestNoteService
     IRequestSearchService requestSearchService
@@ -64,7 +65,7 @@ class FrontofficeHomeController {
         File infoFile = localAuthorityRegistry.getLocalAuthorityResourceFile(
             LocalAuthorityResource.INFORMATION_MESSAGE_FO.id)
         
-        if(infoFile.exists()) result.commonInfo = infoFile.text
+        if(infoFile.exists() && !infoFile.text.isEmpty()) result.commonInfo = infoFile.text
         
         result.dashBoard.lastRequests = requestAdaptorService.prepareRecords(this.getTopFiveRequests())
         result.dashBoard.lastRequests.records.each {
@@ -77,22 +78,23 @@ class FrontofficeHomeController {
             it.lastAgentNote = requestAdaptorService.prepareNote(
                     requestNoteService.getLastAgentNote(it.id, null))
         }
+        def drafts = requestSearchService.find(false, "byStateAndHomeFolderId",
+            RequestState.DRAFT,
+            currentEcitizen.homeFolder.id)
         result.dashBoard.drafts =
-            requestAdaptorService.prepareRecords(this.getTopFiveRequests(draft:true))
+            requestAdaptorService.prepareRecords(['all': drafts, 'count': drafts.size(), 'records': []])
         def draftLiveDuration = requestTypeService.globalRequestTypeConfiguration.draftLiveDuration
         result.dashBoard.drafts.records.each {
-            if (requestActionService.hasAction(it.id,
-                RequestActionType.DRAFT_DELETE_NOTIFICATION)) {
-                it.displayDraftWarning = true
-                it.draftExpirationDate = it.creationDate + draftLiveDuration
-            }
+            it.expirationDate = it.creationDate + draftLiveDuration
+            it.warn = requestActionService.hasAction(it.id, RequestActionType.DRAFT_DELETE_NOTIFICATION)
         }
 
         result.dashBoard.payments = preparePayments(this.getTopFivePayments())
         result.dashBoard.documents = prepareDocuments(this.getTopFiveDocuments())
 
         result.requestTypes = requestTypeAdaptorService.getDisplayGroups(this.currentEcitizen?.homeFolder)
-        result.homeFolder = this.currentEcitizen.homeFolder
+
+        result.documentsByTypes = documentAdaptorService.homeFolderDocumentsByType(currentEcitizen.homeFolder.id)
         return result
     }
     
@@ -119,13 +121,18 @@ class FrontofficeHomeController {
         }
 
         File infoFile = localAuthorityRegistry.getLocalAuthorityResourceFile(
-            LocalAuthorityResource.INFORMATION_MESSAGE_FO.id)
+            LocalAuthorityResource.INFORMATION_MESSAGE_FO_UNAUTHENTICATED.id)
+
+        def groups = []
+        use(SplitMap) {
+            groups = requestTypeAdaptorService.getDisplayGroups(null).split()
+        }
 
         return [
             "isLogin" : true,
             "error" : message(code : error),
-            "groups" : requestTypeAdaptorService.getDisplayGroups(null),
-            "commonInfo" : infoFile.exists() ? infoFile.text : null,
+            "groups" : groups,
+            "commonInfo" : infoFile.exists() && !infoFile.text.isEmpty() ? infoFile.text : null,
             "homeFolderIndependentCreationEnabled" : userService.homeFolderIndependentCreationEnabled()
         ]
     }
@@ -156,11 +163,10 @@ class FrontofficeHomeController {
         session.currentEcitizenId = null
         session.currentEcitizenName = null
 
-        def agentCanRead = categoryService.hasProfileOnCategory(
-            SecurityContext.proxyAgent,
-            requestSearchService.getById(Long.parseLong(params.id), false).requestType.category.id)
+        if (params.id && categoryService.hasProfileOnCategory(
+                    SecurityContext.proxyAgent,
+                    requestSearchService.getById(Long.parseLong(params.id), false).requestType.category.id)) {
 
-        if (params.id && agentCanRead) {
             redirect(controller : "backofficeRequestInstruction", action : "edit", id : params.id)
         } else {
             redirect(controller : "backofficeHomeFolder", action : "details", id : SecurityContext.currentEcitizen.homeFolder.id)
@@ -224,7 +230,7 @@ class FrontofficeHomeController {
         criteriaSet.add(critere)
         
         return [
-            'all' : requestSearchService.get(criteriaSet, 'creationDate', 'desc', 
+            'all' : requestSearchService.get(criteriaSet, Request.SEARCH_BY_LAST_MODIFICATION_DATE, 'desc',
                 draft ? -1 : resultsPerList, 0, false),
             'count' : requestSearchService.getCount(criteriaSet),
             'records' : []
@@ -242,8 +248,8 @@ class FrontofficeHomeController {
         critere.value = RequestState.UNCOMPLETE
         criteriaSet.add(critere)
         return [
-            'all' : requestSearchService.get(criteriaSet,
-                Request.SEARCH_BY_CREATION_DATE, "desc", -1, 0, false),
+            'all' : requestSearchService.get(criteriaSet, Request.SEARCH_BY_LAST_MODIFICATION_DATE, "desc",
+                -1, 0, false),
             'count' : requestSearchService.getCount(criteriaSet),
             'records' : []
         ]

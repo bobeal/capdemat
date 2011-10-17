@@ -31,9 +31,17 @@
                 </a>
               </li>
               <li>
-                <a href="${createLink(controller:'frontofficeHome')}"><g:message code="action.goHome" /></a>
-                <g:message code="request.action.whereToIssueNewRequests" />
+                <a href="${createLink(controller:'frontofficeRequestType')}">
+                  <g:message code="request.action.issueNewRequest" />
+                </a>
               </li>
+              <g:if test="${!session.proxyAgent}">
+                <li>
+                  <a href="${createLink(controller:'frontofficeHome')}">
+                    <g:message code="action.goHome" />
+                  </a>
+                </li>
+              </g:if>
             </g:if>
             <g:if test="${returnUrl != ''}">
               <li>

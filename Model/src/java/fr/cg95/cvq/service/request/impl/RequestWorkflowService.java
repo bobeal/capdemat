@@ -150,8 +150,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public Long create(Request request, String note) throws CvqException {
         performBusinessChecks(request, SecurityContext.getCurrentEcitizen());
-        IRequestService requestService = requestServiceRegistry.getRequestService(request);
-        requestService.onRequestIssued(request);
         return finalizeAndPersist(request, note);
     }
 
@@ -161,8 +159,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     public Long create(Request request, Adult requester, String note)
         throws CvqException {
         HomeFolder homeFolder = performBusinessChecks(request, requester);
-        IRequestService requestService = requestServiceRegistry.getRequestService(request);
-        requestService.onRequestIssued(request);
         return finalizeAndPersist(request, homeFolder, note);
     }
 
@@ -178,8 +174,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         SecurityContext.setCurrentEcitizen(
                 userSearchService.getHomeFolderResponsible(homeFolder.getId()));
 
-        IRequestService requestService = requestServiceRegistry.getRequestService(request);
-        requestService.onRequestIssued(request);
         requestDocumentService.addDocuments(request, documents);
         return finalizeAndPersist(request, homeFolder, note);
     }
@@ -712,22 +706,22 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public void delete(Request request) {
+    public void delete(Request request, boolean homeFolderDeletionInProgress) {
+        if (request == null)
+            return;
         requestDAO.delete(request);
-        if (request != null) {
-            applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.REQUEST_DELETED, request));
-            HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
-            if (homeFolder.isTemporary()) {
-                HibernateUtil.getSession().flush();
-                userWorkflowService.delete(homeFolder);
-            }
+        applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.REQUEST_DELETED, request));
+        HomeFolder homeFolder = userSearchService.getHomeFolderById(request.getHomeFolderId());
+        if (!homeFolderDeletionInProgress && homeFolder.isTemporary()) {
+            HibernateUtil.getSession().flush();
+            userWorkflowService.delete(homeFolder);
         }
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void delete(final Long id) {
-        delete(requestDAO.findById(id, true));
+        delete(requestDAO.findById(id, true), false);
     }
 
     @Override
@@ -814,6 +808,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         request.setDataState(DataState.PENDING);
         updateDocumentsToPending(request);
 
+        IRequestService requestService = requestServiceRegistry.getRequestService(request);
+        requestService.onRequestIssued(request);
+
         WorkflowPendingEvent wfEvent = new WorkflowPendingEvent(request);
         requestExternalService.publish(wfEvent);
 
@@ -862,6 +859,10 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     private void complete(Request request, final String note) throws CvqException {
+
+        IRequestService requestService = requestServiceRegistry.getRequestService(request.getId());
+        requestService.onRequestCompleted(request);
+
         if (request.getState().equals(RequestState.COMPLETE))
             return;
 
@@ -1213,8 +1214,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             if (homeFolder != null) {
                 logger.debug("onApplicationEvent() deleting requests for home folder "
                     + homeFolder.getId());
-                for (Request request : requestDAO.listByHomeFolder(homeFolder.getId(), false)) {
-                    delete(request);
+                for (Request request : requestSearchService.find(false, "byHomeFolderId", homeFolder.getId())) {
+                    delete(request, true);
                 }
             } else {
                 logger.debug("onApplicationEvent() nothing to do for individual "

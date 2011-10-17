@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.type.Type;
@@ -19,7 +20,6 @@ import fr.cg95.cvq.business.payment.PaymentState;
 import fr.cg95.cvq.dao.jpa.JpaTemplate;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.payment.IPaymentDAO;
-import fr.cg95.cvq.external.ExternalServiceUtils;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 
@@ -56,6 +56,19 @@ public class PaymentDAO extends JpaTemplate<Payment,Long> implements IPaymentDAO
             .createQuery("from Payment as payment where payment.bankReference = :bankReference")
             .setParameter("bankReference", bankReference)
             .uniqueResult();
+    }
+
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Payment> findByIds(List<Long> paymentsIds) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("from Payment as payment where id in (");
+        sb.append(StringUtils.join(paymentsIds, ","));
+        sb.append(" ) ");
+
+        Query query = HibernateUtil.getSession().createQuery(sb.toString());
+        return query.list();
     }
 
     @SuppressWarnings("unchecked")

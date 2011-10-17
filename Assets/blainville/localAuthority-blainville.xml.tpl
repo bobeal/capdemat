@@ -8,6 +8,7 @@
     init-method="init">
     <property name="name" value="blainville"/>
     <property name="defaultServerName" value="10.4.250.221"/>
+    <property name="autotransition" value="true"/>
     <property name="jpaConfigurations">
         <props>
             <prop key="hibernate.show_sql">false</prop>
@@ -79,6 +80,8 @@
                 <value>School Canteen Registration</value>
                 <value>Perischool Activity Registration</value>
                 <value>Recreation Activity Registration</value>
+                <value>School Transport Registration</value>
+                <value>Global School Registration</value>
               </list>
             </property>
             <property name="serviceProperties">

@@ -63,6 +63,7 @@ properties: see "Paramétrage du Workflow" in googledoc
 </state>
 <state name="Rectified">
 	<properties>
+		<property>editableBO</property>
 		<property>!cloneable</property>
 	</properties>
 </state>

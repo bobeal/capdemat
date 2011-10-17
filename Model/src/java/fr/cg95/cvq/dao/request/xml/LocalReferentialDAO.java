@@ -9,6 +9,7 @@ import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.request.LocalReferential;
 import fr.cg95.cvq.util.translation.ITranslationService;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -81,20 +82,28 @@ public class LocalReferentialDAO implements ILocalReferentialDAO {
      */
     private File getOrCreateLocalReferentialFile(final String requestTypeLabel) {
         final String fileName = requestServiceRegistry.getRequestService(requestTypeLabel).getLocalReferentialFilename();
+        if (fileName == null)
+            return null;
         final File file = getLocalReferentialFile(fileName);
-        if (file != null) {
+        if (file != null && file.exists()) {
             return file;
         } else {
             logger.debug("No local referential file found, creating an empty one.");
+            if (!file.exists())
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    logger.error("Failed to create the new local referential " + file.getName());
+                    return null;
+                }
             final Set<LocalReferentialType> lrts = generateEmptyLocalReferential(requestTypeLabel);
             if (!lrts.isEmpty()) {
                 try {
-                    final File defaultFile = localAuthorityRegistry.getDefaultResourceFile(Type.LOCAL_REFERENTIAL, fileName);
-                    LocalReferentialXml.modelToXml(lrts, defaultFile);
-                    logger.debug("Local referential skeleton saved in file: "+defaultFile.getAbsolutePath());
-                    return defaultFile;
+                    LocalReferentialXml.modelToXml(lrts, file);
+                    logger.debug("Local referential skeleton saved in file: "+ file.getAbsolutePath());
+                    return file;
                 } catch (CvqException ex) {
-                    logger.debug("Failed to save the generated local referential");
+                    logger.error("Failed to save the generated local referential");
                 }
             }
             logger.debug("No local referential for this request type");
@@ -108,7 +117,7 @@ public class LocalReferentialDAO implements ILocalReferentialDAO {
      */
     private File getLocalReferentialFile(final String fileName) {
         if (fileName != null) {
-            return localAuthorityRegistry.getLocalAuthorityResourceFile(Type.LOCAL_REFERENTIAL, fileName, true);
+            return localAuthorityRegistry.getLocalAuthorityResourceFile(Type.LOCAL_REFERENTIAL, fileName, false);
         }
         return null;
     }

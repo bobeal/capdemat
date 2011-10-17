@@ -4649,7 +4649,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['professionalStatusKind'].test(_this.professionalStatusKind.toString());" +
+            "active &= _this.conditions['professionalStatusKind'].test('isEmployed='+_this.professionalStatusKind.toString());" +
                 
               
             
@@ -4788,7 +4788,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['professionalStatusKind'].test(_this.professionalStatusKind.toString());" +
+            "active &= _this.conditions['professionalStatusKind'].test('isEmployed='+_this.professionalStatusKind.toString());" +
                 
               
             
@@ -4804,7 +4804,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['professionalStatusKind'].test(_this.professionalStatusKind.toString());" +
+            "active &= _this.conditions['professionalStatusKind'].test('isEmployed='+_this.professionalStatusKind.toString());" +
                 
               
             
@@ -4820,7 +4820,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['professionalStatusKind'].test(_this.professionalStatusKind.toString());" +
+            "active &= _this.conditions['professionalStatusKind'].test('isEmployed='+_this.professionalStatusKind.toString());" +
                 
               
             
@@ -4850,7 +4850,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['professionalStatusKind'].test(_this.professionalStatusKind.toString());" +
+            "active &= _this.conditions['professionalStatusKind'].test('isEmployed='+_this.professionalStatusKind.toString());" +
                 
               
             
@@ -4881,7 +4881,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['professionalStatusKind'].test(_this.professionalStatusKind.toString());" +
+            "active &= _this.conditions['professionalStatusKind'].test('isUnemployed='+_this.professionalStatusKind.toString());" +
                 
               
             
@@ -4965,7 +4965,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['professionalStatusKind'].test(_this.professionalStatusKind.toString());" +
+            "active &= _this.conditions['professionalStatusKind'].test('isEmployed='+_this.professionalStatusKind.toString());" +
                 
               
             
@@ -4981,7 +4981,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['professionalStatusKind'].test(_this.professionalStatusKind.toString());" +
+            "active &= _this.conditions['professionalStatusKind'].test('isEmployed='+_this.professionalStatusKind.toString());" +
                 
               
             
@@ -4997,7 +4997,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['professionalStatusKind'].test(_this.professionalStatusKind.toString());" +
+            "active &= _this.conditions['professionalStatusKind'].test('isEmployed='+_this.professionalStatusKind.toString());" +
                 
               
             
@@ -5027,7 +5027,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['professionalStatusKind'].test(_this.professionalStatusKind.toString());" +
+            "active &= _this.conditions['professionalStatusKind'].test('isUnemployed='+_this.professionalStatusKind.toString());" +
                 
               
             

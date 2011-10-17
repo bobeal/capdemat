@@ -66,13 +66,6 @@ class FrontofficeHomeFolderController {
         }.reverse()
         def lastMessage = homeFolderAdaptorService.prepareAction(actions[0])?.contact?.message
 
-        def states = [homeFolder.responsibleStepState, homeFolder.familyStepState, homeFolder.documentsStepState]
-        def overallState = 'Complete'
-        if (states.any { it == HomeFolderStepState.UNCOMPLETE })
-            overallState = 'Uncomplete'
-        if (states.any { it == HomeFolderStepState.INVALID })
-            overallState = 'Invalid'
-
         if (params.idToDelete)
             flash.idToDelete = Long.valueOf(params.idToDelete)
 
@@ -81,8 +74,7 @@ class FrontofficeHomeFolderController {
                 'children': children,
                 'childResponsibles' : childResponsibles,
                 'documentsByTypes' : documentAdaptorService.homeFolderDocumentsByType(homeFolder.id),
-                'lastMessage' : lastMessage,
-                'overallState' : overallState]
+                'lastMessage' : lastMessage]
     }
 
     def create = {
@@ -195,14 +187,6 @@ class FrontofficeHomeFolderController {
         }
     }
 
-    /**
-     * Set home folder family step to complete.
-     */
-    def complete = {
-        userService.completeHomeFolderFamilyStep(currentEcitizen.homeFolder);
-        redirect(action : 'index')
-    }
-
     def deleteIndividual = {
         userWorkflowService.changeState(userSearchService.getById(Long.valueOf(params.id)), UserState.ARCHIVED)
         redirect(action : 'index')
@@ -241,7 +225,6 @@ class FrontofficeHomeFolderController {
             return (name == params.fragment  ? 'edit' : 'static') + template
         }
         model['adult'] = individual
-        model["homeFolder"] = currentEcitizen.homeFolder
         if (individual.id) {
             model['ownerRoles'] = homeFolderAdaptorService.prepareOwnerRoles(individual)
         }
@@ -258,6 +241,7 @@ class FrontofficeHomeFolderController {
             // hack : WTF is an unknown sex ?
             individual.sex = null
         }
+        boolean failedCreation = false
         if (request.post) {
             try {
                 if (individual.id && params.roleOwnerId) {
@@ -275,8 +259,7 @@ class FrontofficeHomeFolderController {
                 redirect(action : 'child', params : ['id' : individual.id])
                 return false
             } catch (CvqValidationException e) {
-                // hack hibernate
-                if (!params.id) individual.id = null
+                if (!params.id) failedCreation = true
                 flash['invalidFields'] = e.invalidFields
                 session.doRollback = true
             }
@@ -286,14 +269,18 @@ class FrontofficeHomeFolderController {
             return (name == params.fragment  ? 'edit' : 'static') + template
         }
         model["child"] = individual
-        model["homeFolder"] = currentEcitizen.homeFolder
-        if (individual.id) {
+        model["roles"] = params.roles
+        if (individual.id && !failedCreation) {
             model['roleOwners'] = ('responsibles' != params.fragment) ? userSearchService.listBySubjectRoles(individual.id, RoleType.childRoleTypes) : homeFolderAdaptorService.roleOwners(individual.id)
             model['currentEcitizen'] = currentEcitizen
             model['currentRoleOwnerId'] = params.roleOwnerId ? Long.valueOf(params.roleOwnerId) : 0
         } else {
             model['adults'] = userSearchService.getAdults(currentEcitizen.homeFolder.id)
         }
+        // if creation failed, set id to null to force switch in edition mode in views
+        // id is set to null lastly because JPA does not like tampered ids
+        if (failedCreation) individual.id = null
+
         return model
     }
 

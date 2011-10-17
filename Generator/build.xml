@@ -64,8 +64,10 @@
       <include name="SchoolCanteenRegistrationRequest.xsd" />
       <include name="SchoolRegistrationRequest.xsd" />
       <include name="SchoolTransportRegistrationRequest.xsd" />
+      <include name="SportsAssociationsGrantRequest.xsd" />
       <include name="SmsNotificationRequest.xsd" />
       <include name="SewerConnectionRequest.xsd" />
+      <include name="StandardElectoralRollRegistrationRequest.xsd" />
       <include name="StudyGrantRequest.xsd" />
       <include name="TechnicalInterventionRequest.xsd" />
       <!-- TS MADE BY CAP-TIC -->
@@ -157,10 +159,11 @@
         <include name="LimogesCongestionRequest.xsd" />
         <include name="LimogesTemporaryStopWorkRequest.xsd" />
         <include name="LimogesParkingSpaceReservationRequest.xsd" />
+      	<include name="SportsAssociationsGrantRequest.xsd" />
       </fileset>
       <plugins>
         <fileset dir="${src.xml.plugins.dir}">
-          <!--<include name="fong_plugin.xml" />-->
+          <include name="fong_plugin.xml" />
           <include name="model_plugin.xml" />
           <include name="bo_plugin.xml" />
           <include name="pdf_plugin.xml" />

@@ -46,7 +46,6 @@ import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.jpa.IGenericDAO;
-import fr.cg95.cvq.dao.users.IHomeFolderDAO;
 import fr.cg95.cvq.exception.CvqDisabledFunctionalityException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
@@ -58,7 +57,6 @@ import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.document.IDocumentService;
-import fr.cg95.cvq.service.users.IHomeFolderDocumentService;
 import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.util.JSONUtils;
 import fr.cg95.cvq.util.translation.ITranslationService;
@@ -77,10 +75,8 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     protected IDocumentDAO documentDAO;
     protected IDocumentTypeDAO documentTypeDAO;
     private IGenericDAO genericDAO;
-    private IHomeFolderDAO homeFolderDAO;
     private ITranslationService translationService;
     private IUserSearchService userSearchService;
-    private IHomeFolderDocumentService homeFolderDocumentService;
 
     /**
      * Max allowed data size (in Mb) for uploaded files, 0 means unlimited
@@ -338,7 +334,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         if (homeFolderId == null)
             throw new CvqException("No home folder id provided");
 
-        return documentDAO.listProvidedDocuments(docType.getId(),
+        return documentDAO.listProvidedDocuments(docType,
                 homeFolderId, individualId);
     }
 
@@ -409,7 +405,6 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         if (!doc.getDatas().isEmpty() && doc.getDatas().get(0).getContentType().equals(ContentType.PDF)) {
             mergeDocumentBinary(doc);
         }
-        homeFolderDocumentService.updateDocumentsStepState(homeFolderDAO.findById(doc.getHomeFolderId()));
     }
 
     @Override
@@ -818,10 +813,6 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         this.genericDAO = genericDAO;
     }
 
-    public void setHomeFolderDAO(IHomeFolderDAO homeFolderDAO) {
-        this.homeFolderDAO = homeFolderDAO;
-    }
-
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
         this.localAuthorityRegistry = localAuthorityRegistry;
     }
@@ -832,10 +823,6 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
     public void setUserSearchService(IUserSearchService userSearchService) {
         this.userSearchService = userSearchService;
-    }
-
-    public void setHomeFolderDocumentService(IHomeFolderDocumentService homeFolderDocumentService) {
-        this.homeFolderDocumentService = homeFolderDocumentService;
     }
 
     public int getMaxDataSize() {

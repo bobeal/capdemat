@@ -320,10 +320,8 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="documentTypeDAO" ref="documentTypeDAO"/>
     <property name="userSearchService" ref="userSearchService"/>
     <property name="genericDAO" ref="genericDAO" />
-    <property name="homeFolderDAO" ref="homeFolderDAO" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="translationService" ref="translationService"/>
-    <property name="homeFolderDocumentService" ref="homeFolderDocumentService" />
     <property name="maxDataSize" value="${document.upload.maxSize}" />
   </bean>
 
@@ -378,7 +376,6 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="userService" ref="userService" />
     <property name="userNotificationService" ref="userNotificationService" />
     <property name="userSearchService" ref="userSearchService" />
-    <property name="homeFolderDocumentService" ref="homeFolderDocumentService" />
     <property name="homeFolderDAO" ref="homeFolderDAO" />
     <property name="individualDAO" ref="individualDAO" />
     <property name="genericDAO" ref="genericDAO" />
@@ -577,6 +574,16 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="requestExternalActionDAO" ref="requestExternalActionDAO" />
     <property name="genericDAO" ref="genericDAO" />
   </bean>
+
+  <bean id="sportsAssociationsGrantRequestService"
+    class="fr.cg95.cvq.service.request.social.impl.SportsAssociationsGrantRequestService"
+    parent="requestService">
+    <!-- Service specific -->
+    <property name="label" value="Sports Associations Grant"/>
+    <property name="isOfRegistrationKind" value="true"/>
+    <property name="defaultDisplayGroup" value="social" />
+    <property name="filingDelay" value="12"/>
+  </bean>
   
   <bean id="learningActivitiesDiscoveryRegistrationRequestService" 
     class="fr.cg95.cvq.service.request.school.impl.LearningActivitiesDiscoveryRegistrationRequestService"
@@ -649,6 +656,16 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     class="fr.cg95.cvq.service.request.election.impl.ElectoralRollRegistrationRequestService" 
     parent="requestService">
     <property name="label" value="Electoral Roll Registration"/>
+    <property name="subjectPolicy" value="SUBJECT_POLICY_ADULT" />
+    <property name="isOfRegistrationKind" value="true"/>
+    <property name="defaultDisplayGroup" value="election" />
+    <property name="filingDelay" value="12"/>
+  </bean>
+
+  <bean id="standardElectoralRollRegistrationRequestService" 
+    class="fr.cg95.cvq.service.request.election.impl.StandardElectoralRollRegistrationRequestService" 
+    parent="requestService">
+    <property name="label" value="Standard Electoral Roll Registration"/>
     <property name="subjectPolicy" value="SUBJECT_POLICY_ADULT" />
     <property name="isOfRegistrationKind" value="true"/>
     <property name="defaultDisplayGroup" value="election" />
@@ -887,6 +904,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="userSearchService" ref="userSearchService" />
     <property name="externalHomeFolderService" ref="externalHomeFolderService" />
     <property name="paymentExternalService" ref="paymentExternalService" />
+    <property name="externalApplicationService" ref="externalApplicationService" />
   </bean>
 
   <bean id="externalApplicationProviderService"

@@ -596,7 +596,8 @@ class BackofficeHomeFolderController {
             'currentSiteName': SecurityContext.currentSite.name,
             'homeFolderStatus' : buildHomeFolderStatusFilter(),
             'pageState' : (new JSON(state)).toString().encodeAsHTML(),
-            'offset' : 0
+            'offset' : 0,
+            'subMenuEntries' : subMenuEntries
         ]);
     }
 
@@ -613,7 +614,8 @@ class BackofficeHomeFolderController {
             'currentSiteName': SecurityContext.currentSite.name,
             'homeFolderStatus' : buildHomeFolderStatusFilter(),
             'pageState' : (new JSON(state)).toString().encodeAsHTML(),
-            'offset' : 0
+            'offset' : 0,
+            'subMenuEntries' : subMenuEntries
         ]);
     }
     /**

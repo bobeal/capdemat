@@ -47,9 +47,4 @@ public enum TitleType {
 
         return UNKNOWN;
     }
-
-    @Override
-    public String toString() {
-        return legacyLabel;
-    }
 }

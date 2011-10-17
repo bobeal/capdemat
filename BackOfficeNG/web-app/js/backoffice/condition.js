@@ -200,7 +200,7 @@
               else 
                 value = triggerValue(ddEl);
               
-              jsonTrigger[ddEl.id] = (isMultipleTrigger(this) ? conditionName + '-' : '') + value;
+              jsonTrigger[ddEl.id] = (isMultipleTrigger(this) ? conditionName + '=' : '') + value;
             });
             zcb.Condition.triggers.push(jsonTrigger);
             zcb.Condition.addFilleds(['condition', conditionName, 'filled'].join('-'));

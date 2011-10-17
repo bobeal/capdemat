@@ -232,4 +232,14 @@ public class RequestSearchService implements IRequestSearchService, BeanFactoryA
         throws BeansException {
         this.beanFactory = beanFactory;
     }
+
+    @Override
+    public List<Request> find(String query, Object... params) {
+        return find(true, query, params);
+    }
+
+    @Override
+    public List<Request> find(final Boolean full, String query, Object... params) {
+        return requestDAO.find(full, query, params);
+    }
 }

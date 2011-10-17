@@ -46,6 +46,8 @@ public class RequestNoteService implements IRequestNoteService, ApplicationConte
         // TODO refactor this security filtering which doesn't look very robust
         List<RequestNote> result = new ArrayList<RequestNote>();
         List<RequestNote> notes = requestNoteDAO.listByRequestAndType(requestId, type);
+        if (notes == null)
+            return result;
         boolean isAgentNote;
         for (RequestNote note : notes) {
             isAgentNote = agentService.exists(note.getUserId());

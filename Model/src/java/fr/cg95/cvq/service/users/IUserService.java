@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.security.annotation.IsUser;
@@ -45,9 +44,4 @@ public interface IUserService {
      * Disable home folder creation without starting a request.
      */
     void disableHomeFolderIndependentCreation();
-
-    /**
-     * Set home folder family step to complete.
-     */
-    void completeHomeFolderFamilyStep(@IsUser HomeFolder homeFolder);
 }

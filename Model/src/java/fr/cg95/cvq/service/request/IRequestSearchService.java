@@ -95,4 +95,8 @@ public interface IRequestSearchService {
     List<Request> listTasks(String qoS, String sortBy, int max) throws CvqException;
 
     Long countTasks(String qoS) throws CvqException;
+
+    List<Request> find(String query, Object... params);
+
+    List<Request> find(final Boolean full, String query, Object... params);
 }

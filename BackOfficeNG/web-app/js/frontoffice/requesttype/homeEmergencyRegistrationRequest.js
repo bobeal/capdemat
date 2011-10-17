@@ -16,7 +16,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
             for (i = 0; i < 3; i++) {
               if (arguments[i].value === null || arguments[i].value === "") return false;
             }
-            var startdate = new Date(arguments[0].value, arguments[1].value - 1, arguments[2].value);
+            var startdate = new Date(arguments[0].value, arguments[1].value, arguments[2].value);
             var twoDaysAfterToday = Date.today().add({"days" : 3});
             return twoDaysAfterToday.compareTo(startdate) < 0;
           },"La date de début d'accueil doit être dans plus de trois jours à compter de la date d'aujourd'hui")

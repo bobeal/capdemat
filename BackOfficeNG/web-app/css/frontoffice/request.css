@@ -96,7 +96,7 @@
 #request h3 span.error { margin: 0; padding: 0; text-align: right; }
 #request h3 .tag-state { float: right; }
 
-#request h4      { margin: 1em 0 ; font-size: 1.15em; font-style: italic; }
+#request h4      { margin: 1em 0 ; font-size: 1.2em; }
 #request h4 span { display: block; font-size: .8em; }
 
 #request div.form div label {
@@ -142,16 +142,16 @@
 /* list
 -------------------------------------------------------------- */
 #request div.form ul       { width: 80%; margin: .2em 0 .5em 0; }
-#request div.form li label { display: inline; font-size: .95em; }
+#request div.form li label { display: inline; font-size: 1em; }
 
 #request div.form ul.yes-no li { display: inline; margin: 0 .5em 0 0; }
 
-#request div.form div fieldset { margin: 0 0 .5em 0; padding: 1em 0 0 1em; }
+#request div.form div fieldset { margin: .5em 0 1em 0; padding: 1em;  border: 1px solid #DB4366; }
 
 #request legend {
-  margin-top: .5em !important; 
   font-size: 1.3em; font-weight: bold;
   color: #DB4366;
+  padding: 0 .3em;
 }
 
 #request div.form .address {
@@ -190,6 +190,15 @@
   list-style-type: disc;
   font-size: 1.2em; font-weight: bold;
 }
+
+
+/* document step (override)
+--------------------------------------------------------------*/
+#request #docs dd label, #request #docs dd input { font-size: 1em; }
+#request #docs p  { padding: 0; font-size: 1em; }
+#request #docs h4 { margin-bottom: 0; }
+#request #docs dd input[type=submit] { font-size: 1.2em !important; }
+#request #docs dd input[type=text]   { border-top-color: #bbb !important; }
 
 
 /* validation step
@@ -237,11 +246,14 @@ a.link-agent          { color: #EA3D1A; }
 /* help
 --------------------------------------------------------------*/
 #request div.help {
-  margin-top: 1em;; padding: .5em 1.5em 1em;
+  margin-top: 1em; padding: .5em 1.5em 1em;
   clear: both;
   background: #eee;
 }
 
+#request div.help h4 { font-size: 1.3em; font-weight: bold; }
+#request div.help p  { padding : 0; }
+#request div.help li { margin : .5em 0 0 30px; list-style-type: disc; }
 
 /* notices
 --------------------------------------------------------------*/

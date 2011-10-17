@@ -9,7 +9,6 @@
       #request .datas form { padding: 1em 0; }
       #request .datas form div p.error { text-align: left; }
       #request .datas form p { padding-left: 0; font-style: italic; }
-      #request div.form div fieldset { padding: 0; }
     </style>
     <script type="text/javascript" src="${resource(dir : 'js/frontoffice', file : 'homeFolderCreation.js')}"></script>
     <g:if test="${flash.addressesReferentialEnabled}">

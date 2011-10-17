@@ -73,8 +73,7 @@
           reset();
           zcf.Condition.setAll();
           zcf.Condition.test();
-          yue.on('request', 'change', zcf.Condition.run,zcf.Condition,true);
-          yue.on('request', 'click', zcf.Condition.run,zcf.Condition,true);
+          yue.on(yus.query('form', 'request'), 'change', zcf.Condition.run,zcf.Condition,true);
       },
       
       run : function(e) {
@@ -118,14 +117,21 @@
       },
       
       /*
-       * Specific current trigger element isn't usefull in FrontOffice request creation from
+       * Specific current trigger element isn't useful in FrontOffice request creation from
        * TODO - Modify zcf.condition.js API or call addTriggers() with the two fisrt params only
        */
       addTriggers : function (conditionName, triggerEls, currentTriggerEl) {
           if (!yl.isUndefined(triggerEls) && triggerEls.length > 0) {
             var jsonTrigger = {};
             zct.each (triggerEls, function() {
-              jsonTrigger[this.name] = getTriggerValue(this);
+              var cut = this.name.lastIndexOf("[0].name")
+              if (cut !== -1) {
+                //The "condition" action expects a name without the "[0].name" part.
+                //"[0].name" part is present in local referential selectors.
+                jsonTrigger[this.name.slice(0, cut)] = getTriggerValue(this);
+              } else {
+                jsonTrigger[this.name] = getTriggerValue(this);
+              }
             });
             zcf.Condition.triggers.push(jsonTrigger);
             zcf.Condition.addFilleds(['condition', conditionName, 'filled'].join('-'));
@@ -152,7 +158,5 @@
     };
     
   }();
-  
-  yue.onDOMReady(zcf.Condition.init);
-  
+
 }());

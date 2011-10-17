@@ -71,22 +71,4 @@ public interface IHomeFolderDocumentService {
      * Return the list of wished document types at home folder creation time.
      */
     public Set<DocumentType> wishedDocumentTypes();
-
-    /**
-     * Return wether or not a home folder document is missing.
-     * @param homeFolder
-     */
-    public Boolean aDocumentIsMissing(@IsUser final HomeFolder homeFolder);
-
-    /**
-     * Return wether or not a home folder document is invalid (i.e. outdated or refused).
-     * @param homeFolder
-     */
-    public Boolean aDocumentIsInvalid(@IsUser final HomeFolder homeFolder);
-
-    /**
-     * Update the "documents" step state. To call each time home folder's documents or wished documents change.
-     * @param homeFolder
-     */
-    public void updateDocumentsStepState(@IsUser final HomeFolder homeFolder);
 }

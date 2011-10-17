@@ -50,6 +50,10 @@ public interface IDocumentTypeService {
     Integer MEDICAL_FORM = new Integer(41);
     Integer SWIMMING_CERTIFICATE = new Integer(42);
     Integer TRAINING_AGREEMENT = new Integer(43);
+    Integer LAST_GENERAL_ASSEMBLY_MINUTE = new Integer(44);
+    Integer PAST_SEASON_BUDGET = new Integer(45);
+    Integer ESTIMATED_BUDGET_INCLUDING_REQUESTED_GRANT = new Integer(46);
+    Integer PAST_SEASON_LICENCES_PAYMENT_RECEIPT = new Integer(47);
 
     /**
      * Get a document type by type id.

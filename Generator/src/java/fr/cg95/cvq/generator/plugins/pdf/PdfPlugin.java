@@ -1,8 +1,9 @@
 package fr.cg95.cvq.generator.plugins.pdf;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,7 +67,7 @@ public class PdfPlugin implements IPluginGenerator {
             Template template = templateEngine.createTemplate(new File(pdfTemplate));
             Map<String, Object> bindingMap = new HashMap<String, Object>();
             bindingMap.put("requestPdf", requestPdf);
-            template.make(bindingMap).writeTo(new FileWriter(output + requestPdf.getName() +".html"));
+            template.make(bindingMap).writeTo(new OutputStreamWriter(new FileOutputStream(output + requestPdf.getName() +".html"), "UTF-8"));
             logger.warn("endRequest() - pdf.html.tpl OK");
         } catch (CompilationFailedException cfe) {
             logger.error(cfe.getMessage()); 

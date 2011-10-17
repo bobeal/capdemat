@@ -43,6 +43,8 @@ public final class LocalAuthorityConfigurationBean {
     private Properties jpaConfigurations;
     private EntityManagerFactory entityManagerFactory;
 
+    private boolean autotransition = false;
+
     public LocalAuthorityConfigurationBean() {
         paymentServices =
             new HashMap<IPaymentProviderService, PaymentServiceBean>();
@@ -302,5 +304,13 @@ public final class LocalAuthorityConfigurationBean {
 
     public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
+    }
+
+    public boolean isAutotransition() {
+        return autotransition;
+    }
+
+    public void setAutotransition(boolean autotransition) {
+        this.autotransition = autotransition;
     }
 }

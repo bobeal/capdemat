@@ -219,6 +219,7 @@ class BackofficePaymentController {
                                      'totalRecords':paymentService.getCount(criteria),
                                      'recordOffset':recordOffset,
                                      'records':recordsList,
+                                     'paymentsIds':paymentService.getIds(criteria),
                                      'filters':parsedFilters.filters,
                                      'filterBy':parsedFilters.filterBy,
                                      'sortBy':params.sortBy,
@@ -230,5 +231,18 @@ class BackofficePaymentController {
     	return ['allStates':PaymentState.allPaymentStates,
     	        'allBrokers':paymentService.getAllBrokers(),
     	        'allModes': PaymentMode.allPaymentModes]
+    }
+
+    def export = {
+        def ids = []
+        if (params.ids instanceof String) ids.add(Long.valueOf(params.ids))
+        else params.ids.each { ids.add(Long.valueOf(it)) }
+        def file = paymentService.exportPayments(ids)
+        byte[] data = file.readBytes()
+
+        response.setHeader("Content-disposition", "attachment; filename=\"" + file.name + "\"")
+        response.contentType = "text/csv"
+        response.contentLength = data.length
+        response.outputStream << data
     }
 }

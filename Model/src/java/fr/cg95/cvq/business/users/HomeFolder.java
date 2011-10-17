@@ -93,18 +93,6 @@ public class HomeFolder implements Serializable {
     @OneToMany(mappedBy="linkedHomeFolder")
     private List<Document> documents;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable=false)
-    private HomeFolderStepState responsibleStepState = HomeFolderStepState.COMPLETE;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable=false)
-    private HomeFolderStepState familyStepState = HomeFolderStepState.UNCOMPLETE;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable=false)
-    private HomeFolderStepState documentsStepState = HomeFolderStepState.UNNEEDED;
-
     /** default constructor */
     public HomeFolder() {
         individuals = new ArrayList<Individual>();
@@ -257,29 +245,5 @@ public class HomeFolder implements Serializable {
 
     public List<Document> getDocuments() {
         return documents;
-    }
-
-    public HomeFolderStepState getResponsibleStepState() {
-        return responsibleStepState;
-    }
-
-    public void setResponsibleStepState(HomeFolderStepState responsibleStepState) {
-        this.responsibleStepState = responsibleStepState;
-    }
-
-    public HomeFolderStepState getFamilyStepState() {
-        return familyStepState;
-    }
-
-    public void setFamilyStepState(HomeFolderStepState familyStepState) {
-        this.familyStepState = familyStepState;
-    }
-
-    public HomeFolderStepState getDocumentsStepState() {
-        return documentsStepState;
-    }
-
-    public void setDocumentsStepState(HomeFolderStepState documentsStepState) {
-        this.documentsStepState = documentsStepState;
     }
 }

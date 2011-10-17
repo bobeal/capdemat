@@ -148,7 +148,7 @@
       },
 
       displayErrors: function(errorsEl, errorMsgs) {
-        zct.html(errorsEl, errorMsgs.join('').length > 0 ? errorMsgs.join('<br />') : 'Des champs obligatoires ne sont pas correctement remplis, merci de v&eacute;rifier les champs en rouge');
+        zct.html(errorsEl, errorMsgs.join('').length > 0 ? errorMsgs.join('<br />') : 'Certains champs ne sont pas correctement remplis, merci de v&eacute;rifier les champs en rouge');
       },
 
       checkComplexRules: function(errorMsgs) {
@@ -223,6 +223,8 @@
     'mobilePhone': new me.rule('regex', /^0[67][0-9]{8}$/),
     'firstName': new me.rule('regex', /^\D{0,38}$/),
     'lastName': new me.rule('regex', /^\D{0,38}$/),
+    'hour': new me.rule('regex', /^([01][0-9]|2[0-3])$/), /* 00-23 */
+    'minute': new me.rule('regex', /^[0-5][0-9]$/), /* 00-59 */
     /* address specific rules */
     'streetNumber': new me.rule('regex', /^.{0,5}$/),
     'streetName': new me.rule('regex', /^.{0,32}$/),

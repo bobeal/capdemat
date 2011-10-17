@@ -61,9 +61,4 @@ public enum FamilyStatusType {
 
         return OTHER;
     }
-
-    @Override
-    public String toString() {
-        return legacyLabel;
-    }
 }

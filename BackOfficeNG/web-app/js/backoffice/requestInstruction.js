@@ -117,7 +117,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       /* panels */
       zcb.instructionStatePanel = new yw.Panel(
         'instructionStatePanel',
-        { width: '135%',
+        { width: '250px',
+          context: [yud.get('requestState'),'tr','br'],
           visible: false,
           constraintoviewport: true, draggable: false,
           underlay: 'none', close: false
@@ -174,8 +175,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           'border-color',
           yud.getStyle(targetEl, 'background-color'));
 
-      zcb.instructionStatePanel.cfg.setProperty('context', [targetEl,'tr','br'])
-
       if (! zcb.instructionStatePanel.cfg.getProperty('visible'))
         getStateTransitions(targetEl.className, targetEl.id);
       else
@@ -216,10 +215,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         propertyWrapperEl.innerHTML = propertyValue.text;
         // FIXME - normalize propertyValue class like class="value<MY_VAL> i18n-<MY_I18n>)"
         var classNameArray = propertyWrapperEl.className.split(' ');
-        if (classNameArray.length > 1)
-          classNameArray[0] = propertyValue.value.split('_')[1];
-        else
-          classNameArray.unshift(propertyValue.value.split('_')[1]);
+        if (classNameArray.length > 1) classNameArray[0] = propertyValue.value;
+        else classNameArray.unshift(propertyValue.value);
         propertyWrapperEl.className = classNameArray.join(' ');   
       }
       else if (isSubmit && yud.hasClass(ddEl, 'validate-address')) {

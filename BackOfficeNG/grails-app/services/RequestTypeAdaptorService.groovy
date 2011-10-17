@@ -18,6 +18,22 @@ import fr.cg95.cvq.util.Critere
 
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
 
+class SplitMap {
+    /**
+     * Return a list containing two maps, each map being the half of the original map.
+     * Example:
+     * use(SplitMap) {
+     *     assert [1:'a', 2:'b', 3:'c', 4:'d'].split() == [ [1:'a', 2:'b'], [3:'c', 4:'d'] ]
+     * }
+     */
+    static List split(Map delegate) {
+        def finalList = delegate.inject([ [:], [:] ]) { currentList, mapElement ->
+            (currentList[0].size() < delegate.size() / 2 ? currentList[0] : currentList[1]) << mapElement
+            return currentList
+        }
+    }
+}
+
 public class RequestTypeAdaptorService {
     
     IRequestTypeService requestTypeService

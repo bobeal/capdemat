@@ -265,7 +265,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('forAll='+_this.requesterType.toString());" +
                 
               
             
@@ -281,7 +281,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('forAll='+_this.requesterType.toString());" +
                 
               
             
@@ -326,7 +326,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['alternateTraffic'].test(_this.alternateTraffic.toString());" +
+            "active &= _this.conditions['alternateTraffic'].test('direction='+_this.alternateTraffic.toString());" +
                 
               
             
@@ -342,7 +342,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['alternateTraffic'].test(_this.alternateTraffic.toString());" +
+            "active &= _this.conditions['alternateTraffic'].test('direction='+_this.alternateTraffic.toString());" +
                 
               
             
@@ -372,7 +372,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['alternateTraffic'].test(_this.alternateTraffic.toString());" +
+            "active &= _this.conditions['alternateTraffic'].test('alternate='+_this.alternateTraffic.toString());" +
                 
               
             
@@ -388,7 +388,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['alternateTraffic'].test(_this.alternateTraffic.toString());" +
+            "active &= _this.conditions['alternateTraffic'].test('alternate='+_this.alternateTraffic.toString());" +
                 
               
             
@@ -464,7 +464,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isLandlord='+_this.requesterType.toString());" +
                 
               
             
@@ -495,7 +495,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isCollectivity='+_this.requesterType.toString());" +
                 
               
             
@@ -511,7 +511,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isCollectivity='+_this.requesterType.toString());" +
                 
               
             
@@ -555,7 +555,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isContractor='+_this.requesterType.toString());" +
                 
               
             
@@ -571,7 +571,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isContractor='+_this.requesterType.toString());" +
                 
               
             
@@ -601,7 +601,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['drivingBan'].test(_this.drivingBan.toString());" +
+            "active &= _this.conditions['drivingBan'].test('deviation='+_this.drivingBan.toString());" +
                 
               
             
@@ -617,7 +617,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['drivingBan'].test(_this.drivingBan.toString());" +
+            "active &= _this.conditions['drivingBan'].test('deviation='+_this.drivingBan.toString());" +
                 
               
             
@@ -662,7 +662,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['drivingBan'].test(_this.drivingBan.toString());" +
+            "active &= _this.conditions['drivingBan'].test('banBetween='+_this.drivingBan.toString());" +
                 
               
             
@@ -678,7 +678,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['drivingBan'].test(_this.drivingBan.toString());" +
+            "active &= _this.conditions['drivingBan'].test('banBetween='+_this.drivingBan.toString());" +
                 
               
             
@@ -708,7 +708,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['drivingBan'].test(_this.drivingBan.toString());" +
+            "active &= _this.conditions['drivingBan'].test('ban='+_this.drivingBan.toString());" +
                 
               
             
@@ -724,7 +724,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['drivingBan'].test(_this.drivingBan.toString());" +
+            "active &= _this.conditions['drivingBan'].test('ban='+_this.drivingBan.toString());" +
                 
               
             
@@ -756,7 +756,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('forContractorCollectivity='+_this.requesterType.toString());" +
                 
               
             
@@ -788,7 +788,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isLandlord='+_this.requesterType.toString());" +
                 
               
             
@@ -804,7 +804,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isLandlord='+_this.requesterType.toString());" +
                 
               
             
@@ -820,7 +820,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isLandlord='+_this.requesterType.toString());" +
                 
               
             
@@ -852,7 +852,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isLandlord='+_this.requesterType.toString());" +
                 
               
             
@@ -868,7 +868,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isLandlord='+_this.requesterType.toString());" +
                 
               
             
@@ -884,7 +884,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isLandlord='+_this.requesterType.toString());" +
                 
               
             
@@ -1086,7 +1086,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('forAll='+_this.requesterType.toString());" +
                 
               
             
@@ -1102,7 +1102,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('forAll='+_this.requesterType.toString());" +
                 
               
             
@@ -1118,7 +1118,7 @@ public class LimogesTemporaryStopWorkRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('forAll='+_this.requesterType.toString());" +
                 
               
             

@@ -37,7 +37,6 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.FamilyStatusType;
 import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.HomeFolderStepState;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.IndividualRole;
 import fr.cg95.cvq.business.users.RoleType;
@@ -68,7 +67,6 @@ import fr.cg95.cvq.security.annotation.IsUser;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry;
-import fr.cg95.cvq.service.users.IHomeFolderDocumentService;
 import fr.cg95.cvq.service.users.IUserNotificationService;
 import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.service.users.IUserService;
@@ -102,8 +100,6 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
     private IUserService userService;
 
     private IUserNotificationService userNotificationService;
-
-    private IHomeFolderDocumentService homeFolderDocumentService;
 
     private IUserSearchService userSearchService;
     
@@ -243,7 +239,6 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         }
         link(adult, homeFolder, Collections.singleton(RoleType.HOME_FOLDER_RESPONSIBLE));
         logger.debug("create() successfully created home folder " + homeFolder.getId());
-        homeFolderDocumentService.updateDocumentsStepState(homeFolder);
         homeFolderDAO.update(homeFolder);
         return homeFolder;
     }
@@ -568,10 +563,6 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         UserAction action = new UserAction(UserAction.Type.STATE_CHANGE, homeFolder.getId(), payload);
         action = (UserAction) genericDAO.create(action);
         homeFolder.getActions().add(action);
-        if (state.equals(UserState.INVALID))
-            homeFolder.setFamilyStepState(HomeFolderStepState.INVALID);
-        else
-            homeFolder.setFamilyStepState(HomeFolderStepState.UNCOMPLETE);
         homeFolderDAO.update(homeFolder);
         applicationEventPublisher.publishEvent(new UserEvent(this, action));
     }
@@ -609,10 +600,11 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
 
         // if trying to archive home folder responsible, check it is the last non archived individual
         // in home folder
-        if (UserState.ARCHIVED.equals(state) && individual.getId().equals(
-            userSearchService.getHomeFolderResponsible(homeFolder.getId()).getId())) {
+        Long responsibleId = userSearchService.getHomeFolderResponsible(homeFolder.getId()).getId(); 
+        if (UserState.ARCHIVED.equals(state) && individual.getId().equals(responsibleId)) {
             for (Individual i : homeFolder.getIndividuals()) {
-                if (!UserState.ARCHIVED.equals(i.getState()))
+                // check that other individuals are also archived
+                if (!UserState.ARCHIVED.equals(i.getState()) && !i.getId().equals(responsibleId))
                     throw new CvqModelException("user.state.error.mustArchiveResponsibleLast");
             }
         }
@@ -940,10 +932,6 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
 
     public void setUserSearchService(IUserSearchService userSearchService) {
         this.userSearchService = userSearchService;
-    }
-
-    public void setHomeFolderDocumentService(IHomeFolderDocumentService homeFolderDocumentService) {
-        this.homeFolderDocumentService = homeFolderDocumentService;
     }
 
     public void setHomeFolderDAO(IHomeFolderDAO homeFolderDAO) {

@@ -121,7 +121,7 @@
           </p>
           <div class="response">
             ${toGT('if(requester?.title) {')}
-              \${i18n.translate('homeFolder.adult.title.' + StringUtils.uncapitalize(requester?.title.toString()))}
+              \${i18n.translate('homeFolder.adult.title.' + StringUtils.lowerCase(requester?.title.toString()))}
             ${toGT('}')}
             \${esc(requester?.firstName)}
             \${esc(requester?.lastName)}
@@ -138,7 +138,7 @@
             ${toGT('}')}
           </div>
           <p class="label">\${i18n.translate('homeFolder.adult.property.email')}</p>
-          <div class="response">\${esc(requester?.email)}</div>
+          <div class="response">\${esc(StringUtils.defaultString(requester?.email))}</div>
           <p class="label">\${i18n.translate('homeFolder.adult.property.homePhone')}</p>
           <div class="response">\${esc(StringUtils.defaultString(requester?.homePhone))}</div>
           <p class="label">\${i18n.translate('homeFolder.adult.property.mobilePhone')}</p>

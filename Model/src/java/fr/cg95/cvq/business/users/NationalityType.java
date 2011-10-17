@@ -39,9 +39,4 @@ public enum NationalityType {
         
         return FRENCH;
     }
-
-    @Override
-    public String toString() {
-        return legacyLabel;
-    }
 }

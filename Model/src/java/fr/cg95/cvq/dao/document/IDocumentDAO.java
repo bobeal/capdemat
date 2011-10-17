@@ -16,7 +16,7 @@ public interface IDocumentDAO extends IJpaTemplate<Document, Long> {
     /**
      * Return the documents who belong to the given home folder with the specified type.
      */
-    List<Document> listProvidedDocuments(final Long docTypeId,
+    List<Document> listProvidedDocuments(final DocumentType documentType,
         final Long homeFolderId, final Long individualId);
 
     /**

@@ -80,6 +80,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/civil/DeathDetailsRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/civil/BirthDetailsRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/election/ElectoralRollRegistrationRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/election/StandardElectoralRollRegistrationRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/military/MilitaryCensusRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/leisure/culture/LibraryRegistrationRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/leisure/SmsNotificationRequestData.hbm.xml</value>
@@ -91,6 +92,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/school/RecreationContactIndividual.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/school/TiersInformations.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/BafaGrantRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/SportsAssociationsGrantRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/DhrRealAsset.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/DhrNotRealAsset.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/DhrPreviousDwelling.hbm.xml</value>
@@ -110,6 +112,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/social/HccrOtherFolder.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/HccrOtherBenefit.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/HccrProfessional.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/SagrMembreBureau.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/SagrActiviteAssociation.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/reservation/TbrTicket.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/MeansOfContact.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/external/RequestExternalAction.hbm.xml</value>

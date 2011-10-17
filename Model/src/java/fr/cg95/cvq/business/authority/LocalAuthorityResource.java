@@ -65,6 +65,7 @@ public class LocalAuthorityResource {
     public static final LocalAuthorityResource LEGAL = new LocalAuthorityResource("legal", "legal", Type.PDF, false);
     public static final LocalAuthorityResource USE = new LocalAuthorityResource("use", "use", Type.PDF, false);
     public static final LocalAuthorityResource INFORMATION_MESSAGE_FO = new LocalAuthorityResource("informationFo", "informationFo", Type.HTML, false);
+    public static final LocalAuthorityResource INFORMATION_MESSAGE_FO_UNAUTHENTICATED = new LocalAuthorityResource("informationFoUnauthenticated", "informationFoUnauthenticated", Type.HTML, false);
     public static final LocalAuthorityResource ACCESSIBILITY_POLICY_FO = new LocalAuthorityResource("accessibilityPolicyFo", "accessibilityPolicyFo", Type.HTML, true);
 
     private String id;

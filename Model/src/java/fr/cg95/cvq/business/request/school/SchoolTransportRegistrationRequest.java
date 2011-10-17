@@ -122,7 +122,7 @@ public class SchoolTransportRegistrationRequest extends Request implements Seria
             schoolTransportRegistrationRequest.setAcceptationReglementInterieur(getAcceptationReglementInterieur().booleanValue());
       
         if (getAutorisation() != null)
-            schoolTransportRegistrationRequest.setAutorisation(fr.cg95.cvq.xml.request.school.AutorisationType.Enum.forString(getAutorisation().toString()));
+            schoolTransportRegistrationRequest.setAutorisation(fr.cg95.cvq.xml.request.school.AutorisationType.Enum.forString(getAutorisation().getLegacyLabel()));
       
         if (getEstMaternelleElementaireAutorisations() != null)
             schoolTransportRegistrationRequest.setEstMaternelleElementaireAutorisations(getEstMaternelleElementaireAutorisations().booleanValue());

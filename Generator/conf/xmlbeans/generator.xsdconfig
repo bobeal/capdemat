@@ -109,6 +109,11 @@
     <xb:package>fr.cg95.cvq.xml.request.election</xb:package>
   </xb:namespace>
 
+  <!-- Standard Electoral Roll Registration Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/serrr">
+    <xb:package>fr.cg95.cvq.xml.request.election</xb:package>
+  </xb:namespace>
+
   <!-- Library Registration Request -->
   <xb:namespace uri="http://www.cg95.fr/cvq/schema/lrr">
     <xb:package>fr.cg95.cvq.xml.request.leisure.culture</xb:package>
@@ -196,6 +201,11 @@
 
   <!-- Bafa Grant Request -->
   <xb:namespace uri="http://www.cg95.fr/cvq/schema/bgr">
+    <xb:package>fr.cg95.cvq.xml.request.social</xb:package>
+  </xb:namespace>
+
+  <!-- Sports Associations Grant Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/sagr">
     <xb:package>fr.cg95.cvq.xml.request.social</xb:package>
   </xb:namespace>
 

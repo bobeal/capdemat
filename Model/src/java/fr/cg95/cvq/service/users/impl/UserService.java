@@ -11,8 +11,6 @@ import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.GlobalHomeFolderConfiguration;
-import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.HomeFolderStepState;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.IndividualRole;
 import fr.cg95.cvq.business.users.RoleType;
@@ -111,14 +109,5 @@ public class UserService implements IUserService {
         GlobalHomeFolderConfiguration conf = getGlobalHomeFolderConfiguration();
         conf.setIndependentCreation(false);
         genericDAO.update(conf);
-    }
-
-    @Override
-    @Context(types = {ContextType.ECITIZEN})
-    public void completeHomeFolderFamilyStep(HomeFolder homeFolder) {
-        if (homeFolder != null) {
-            homeFolder.setFamilyStepState(HomeFolderStepState.COMPLETE);
-            genericDAO.update(homeFolder);
-        }
     }
 }

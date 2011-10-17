@@ -162,4 +162,9 @@ public abstract class ExternalProviderServiceAdapter implements IExternalProvide
     public void sendMergedHomeFolder(XmlObject xmlObject) throws CvqException {
         logger.debug("sendMergedHomeFolder() sending " + xmlObject.xmlText());
     }
+
+    @Override
+    public String sendHomeFolderModification(XmlObject requestXml) throws CvqException {
+        return sendRequest(requestXml);
+    }
 }

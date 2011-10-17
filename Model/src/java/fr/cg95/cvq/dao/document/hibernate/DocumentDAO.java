@@ -37,21 +37,24 @@ import fr.cg95.cvq.util.Critere;
  */
 public class DocumentDAO extends JpaTemplate<Document, Long> implements IDocumentDAO, PostDeleteEventListener {
 
-    @SuppressWarnings("unchecked")
-    public List<Document> listProvidedDocuments(final Long docTypeId,
-        final Long homeFolderId, final Long individualId) {
+    @Override
+    public List<Document> listProvidedDocuments(
+            final DocumentType documentType,
+            final Long homeFolderId,
+            final Long individualId) {
 
-        Criteria crit = HibernateUtil.getSession().createCriteria(Document.class);
-        crit.add(Critere.compose("state", DocumentState.DRAFT, Critere.NEQUALS));
-        if (docTypeId != null)
-            crit.createCriteria("documentType").add(
-                    Critere.compose("id", docTypeId, Critere.EQUALS));
-        if (homeFolderId != null)
-            crit.add(Critere.compose("homeFolderId", homeFolderId, Critere.EQUALS));
-        if (individualId != null)
-            crit.add(Critere.compose("individualId", individualId, Critere.EQUALS));
-
-        return (List<Document>)crit.list();
+        String query = "from Document d where d.state not in (" +
+            "fr.cg95.cvq.business.document.DocumentState.DRAFT, " +
+            "fr.cg95.cvq.business.document.DocumentState.REFUSED, " +
+            "fr.cg95.cvq.business.document.DocumentState.OUTDATED" +
+            ")" +
+            " and d.documentType = ? and d.homeFolderId = ?";
+        if (individualId != null) {
+            query += " and d.individualId = ?";
+            return find(query, documentType, homeFolderId, individualId);
+        } else {
+            return find(query, documentType, homeFolderId);
+        }
     }
 
     @SuppressWarnings("unchecked")

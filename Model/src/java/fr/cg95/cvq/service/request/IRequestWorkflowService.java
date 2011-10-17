@@ -185,7 +185,7 @@ public interface IRequestWorkflowService {
      */
     void modify(@IsRequest Request request) throws CvqException;
 
-    void delete(@IsRequest Request request);
+    void delete(@IsRequest Request request, boolean homeFolderDeletionInProgress);
 
     /**
      * Remove permanently a request.

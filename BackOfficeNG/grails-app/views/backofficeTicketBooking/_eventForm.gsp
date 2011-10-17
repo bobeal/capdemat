@@ -15,9 +15,11 @@
         id="date_${entertainmentId}_${event?.id}" size="8" class="required validate-date" />
     <img id="date_${entertainmentId}_${event?.id}Show" src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}" class="calendar" />
     <span id="date_${entertainmentId}_${event?.id}CalContainer" class="yui-cal yui-calcontainer"></span>
-    <input type="text" name="dateHour" value="<g:formatDate format='HH' date='${event?.date}'/>" size="1" />
+    <input type="text" name="dateHour" value="<g:formatDate format='HH' date='${event?.date}'/>"
+        id="dateHour_${entertainmentId}_${event?.id}" size="1" class="validate-hour" />
     <span>${message(code:'event.label.hour')}</span>
-    <input type="text" name="dateMinute" value="<g:formatDate format='mm' date='${event?.date}' />" size="1" />
+    <input type="text" name="dateMinute" value="<g:formatDate format='mm' date='${event?.date}' />"
+        id="dateMinute_${entertainmentId}_${event?.id}" size="1" class="validate-minute" />
   </p>
   <p>
     <label class="required">${message(code:'event.property.bookingStart')} :</label>
@@ -25,9 +27,11 @@
         id="bookingStart_${entertainmentId}_${event?.id}" size="8" class="required validate-date"/>
     <img id="bookingStart_${entertainmentId}_${event?.id}Show" src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"  class="calendar" />
     <span id="bookingStart_${entertainmentId}_${event?.id}CalContainer" class="yui-cal yui-calcontainer"></span>
-    <input type="text" name="bookingStartHour" value="<g:formatDate format='HH' date='${event?.bookingStart}'/>" size="1" />
+    <input type="text" name="bookingStartHour" value="<g:formatDate format='HH' date='${event?.bookingStart}'/>"
+        id="bookingStartHour_${entertainmentId}_${event?.id}" size="1" class="validate-hour" />
     <span>${message(code:'event.label.hour')}</span>
-    <input type="text" name="bookingStartMinute" value="<g:formatDate format='mm' date='${event?.bookingStart}' />" size="1" />
+    <input type="text" name="bookingStartMinute" value="<g:formatDate format='mm' date='${event?.bookingStart}' />"
+        id="bookingStartMinute_${entertainmentId}_${event?.id}" size="1" class="validate-minute" />
   </p>
   <p>
     <label class="required">${message(code:'event.property.bookingEnd')} :</label>
@@ -35,9 +39,11 @@
         id="bookingEnd_${entertainmentId}_${event?.id}" size="8" class="required validate-date"/>
     <img id="bookingEnd_${entertainmentId}_${event?.id}Show" src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}" class="calendar" />
     <span id="bookingEnd_${entertainmentId}_${event?.id}CalContainer" class="yui-cal yui-calcontainer"></span>
-    <input type="text" name="bookingEndHour" value="<g:formatDate format='HH' date='${event?.bookingEnd}'/>" size="1" /> 
+    <input type="text" name="bookingEndHour" value="<g:formatDate format='HH' date='${event?.bookingEnd}'/>"
+        id="bookingEndHour_${entertainmentId}_${event?.id}" size="1" class="validate-hour" />
     <span>${message(code:'event.label.hour')}</span>
-    <input type="text" name="bookingEndMinute" value="<g:formatDate format='mm' date='${event?.bookingEnd}' />" size="1" />
+    <input type="text" name="bookingEndMinute" value="<g:formatDate format='mm' date='${event?.bookingEnd}' />"
+        id="bookingEndMinute_${entertainmentId}_${event?.id}" size="1" class="validate-minute" />
   </p>
   <p>
     <label>${message(code:'event.property.address')} : </label>

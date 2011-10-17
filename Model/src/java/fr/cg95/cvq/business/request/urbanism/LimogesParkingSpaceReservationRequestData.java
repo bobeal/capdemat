@@ -199,7 +199,7 @@ public class LimogesParkingSpaceReservationRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('forAll='+_this.requesterType.toString());" +
                 
               
             
@@ -215,7 +215,7 @@ public class LimogesParkingSpaceReservationRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('forAll='+_this.requesterType.toString());" +
                 
               
             
@@ -245,7 +245,7 @@ public class LimogesParkingSpaceReservationRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isLandlord='+_this.requesterType.toString());" +
                 
               
             
@@ -276,7 +276,7 @@ public class LimogesParkingSpaceReservationRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isContractor='+_this.requesterType.toString());" +
                 
               
             
@@ -292,7 +292,7 @@ public class LimogesParkingSpaceReservationRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isContractor='+_this.requesterType.toString());" +
                 
               
             
@@ -360,7 +360,7 @@ public class LimogesParkingSpaceReservationRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isContractor='+_this.requesterType.toString());" +
                 
               
             
@@ -392,7 +392,7 @@ public class LimogesParkingSpaceReservationRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isLandlord='+_this.requesterType.toString());" +
                 
               
             
@@ -408,7 +408,7 @@ public class LimogesParkingSpaceReservationRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isLandlord='+_this.requesterType.toString());" +
                 
               
             
@@ -424,7 +424,7 @@ public class LimogesParkingSpaceReservationRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isLandlord='+_this.requesterType.toString());" +
                 
               
             
@@ -498,7 +498,7 @@ public class LimogesParkingSpaceReservationRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isLandlord='+_this.requesterType.toString());" +
                 
               
             
@@ -514,7 +514,7 @@ public class LimogesParkingSpaceReservationRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isLandlord='+_this.requesterType.toString());" +
                 
               
             
@@ -530,7 +530,7 @@ public class LimogesParkingSpaceReservationRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('isLandlord='+_this.requesterType.toString());" +
                 
               
             
@@ -597,7 +597,7 @@ public class LimogesParkingSpaceReservationRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('forAll='+_this.requesterType.toString());" +
                 
               
             
@@ -613,7 +613,7 @@ public class LimogesParkingSpaceReservationRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('forAll='+_this.requesterType.toString());" +
                 
               
             
@@ -629,7 +629,7 @@ public class LimogesParkingSpaceReservationRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "active &= _this.conditions['requesterType'].test(_this.requesterType.toString());" +
+            "active &= _this.conditions['requesterType'].test('forAll='+_this.requesterType.toString());" +
                 
               
             

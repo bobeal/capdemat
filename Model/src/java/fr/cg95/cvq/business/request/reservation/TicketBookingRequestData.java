@@ -1,4 +1,5 @@
 
+
 package fr.cg95.cvq.business.request.reservation;
 
 import java.io.Serializable;
@@ -20,6 +21,7 @@ import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 import javax.persistence.*;
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 
 /**
  * Generated class file, do not edit !
@@ -37,9 +39,9 @@ public class TicketBookingRequestData implements Serializable {
 
     public TicketBookingRequestData() {
       
-        rulesAndRegulationsAcceptance = Boolean.valueOf(true);
-      
         isSubscriber = Boolean.valueOf(false);
+      
+        rulesAndRegulationsAcceptance = Boolean.valueOf(true);
       
     }
 
@@ -49,13 +51,37 @@ public class TicketBookingRequestData implements Serializable {
         
           
             
+        result.setIsSubscriber(isSubscriber);
+      
+          
+        
+          
+            
+        result.setPaymentReference(paymentReference);
+      
+          
+        
+          
+            
         result.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
       
           
         
           
             
+        result.setSubscriberFirstName(subscriberFirstName);
+      
+          
+        
+          
+            
         result.setSubscriberLastName(subscriberLastName);
+      
+          
+        
+          
+            
+        result.setSubscriberNumber(subscriberNumber);
       
           
         
@@ -72,30 +98,6 @@ public class TicketBookingRequestData implements Serializable {
           
             
         result.setTotalPrice(totalPrice);
-      
-          
-        
-          
-            
-        result.setSubscriberNumber(subscriberNumber);
-      
-          
-        
-          
-            
-        result.setSubscriberFirstName(subscriberFirstName);
-      
-          
-        
-          
-            
-        result.setIsSubscriber(isSubscriber);
-      
-          
-        
-          
-            
-        result.setPaymentReference(paymentReference);
       
           
         
@@ -117,6 +119,41 @@ public class TicketBookingRequestData implements Serializable {
       @NotNull(
         
         
+        profiles = {"entertainments"},
+        message = "isSubscriber"
+      )
+    
+    private Boolean isSubscriber;
+
+    public void setIsSubscriber(final Boolean isSubscriber) {
+        this.isSubscriber = isSubscriber;
+    }
+
+ 
+    @Column(name="is_subscriber"  )
+      
+    public Boolean getIsSubscriber() {
+        return this.isSubscriber;
+    }
+  
+    
+    private String paymentReference;
+
+    public void setPaymentReference(final String paymentReference) {
+        this.paymentReference = paymentReference;
+    }
+
+ 
+    @Column(name="payment_reference"  )
+      
+    public String getPaymentReference() {
+        return this.paymentReference;
+    }
+  
+    
+      @NotNull(
+        
+        
         profiles = {"rules"},
         message = "rulesAndRegulationsAcceptance"
       )
@@ -132,6 +169,52 @@ public class TicketBookingRequestData implements Serializable {
       
     public Boolean getRulesAndRegulationsAcceptance() {
         return this.rulesAndRegulationsAcceptance;
+    }
+  
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['isSubscriber'].test(_this.isSubscriber.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"entertainments"},
+        message = "subscriberFirstName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['isSubscriber'].test(_this.isSubscriber.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"entertainments"},
+        message = "subscriberFirstName"
+      )
+    
+    private String subscriberFirstName;
+
+    public void setSubscriberFirstName(final String subscriberFirstName) {
+        this.subscriberFirstName = subscriberFirstName;
+    }
+
+ 
+    @Column(name="subscriber_first_name"  )
+      
+    public String getSubscriberFirstName() {
+        return this.subscriberFirstName;
     }
   
     
@@ -178,6 +261,52 @@ public class TicketBookingRequestData implements Serializable {
       
     public String getSubscriberLastName() {
         return this.subscriberLastName;
+    }
+  
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['isSubscriber'].test(_this.isSubscriber.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"entertainments"},
+        message = "subscriberNumber"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['isSubscriber'].test(_this.isSubscriber.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"entertainments"},
+        message = "subscriberNumber"
+      )
+    
+    private String subscriberNumber;
+
+    public void setSubscriberNumber(final String subscriberNumber) {
+        this.subscriberNumber = subscriberNumber;
+    }
+
+ 
+    @Column(name="subscriber_number"  )
+      
+    public String getSubscriberNumber() {
+        return this.subscriberNumber;
     }
   
     
@@ -231,133 +360,6 @@ public class TicketBookingRequestData implements Serializable {
       
     public java.math.BigDecimal getTotalPrice() {
         return this.totalPrice;
-    }
-  
-    
-      @NotNull(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= _this.conditions['isSubscriber'].test(_this.isSubscriber.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"entertainments"},
-        message = "subscriberNumber"
-      )
-    
-      @NotBlank(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= _this.conditions['isSubscriber'].test(_this.isSubscriber.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"entertainments"},
-        message = "subscriberNumber"
-      )
-    
-    private String subscriberNumber;
-
-    public void setSubscriberNumber(final String subscriberNumber) {
-        this.subscriberNumber = subscriberNumber;
-    }
-
- 
-    @Column(name="subscriber_number"  )
-      
-    public String getSubscriberNumber() {
-        return this.subscriberNumber;
-    }
-  
-    
-      @NotNull(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= _this.conditions['isSubscriber'].test(_this.isSubscriber.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"entertainments"},
-        message = "subscriberFirstName"
-      )
-    
-      @NotBlank(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= _this.conditions['isSubscriber'].test(_this.isSubscriber.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"entertainments"},
-        message = "subscriberFirstName"
-      )
-    
-    private String subscriberFirstName;
-
-    public void setSubscriberFirstName(final String subscriberFirstName) {
-        this.subscriberFirstName = subscriberFirstName;
-    }
-
- 
-    @Column(name="subscriber_first_name"  )
-      
-    public String getSubscriberFirstName() {
-        return this.subscriberFirstName;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"entertainments"},
-        message = "isSubscriber"
-      )
-    
-    private Boolean isSubscriber;
-
-    public void setIsSubscriber(final Boolean isSubscriber) {
-        this.isSubscriber = isSubscriber;
-    }
-
- 
-    @Column(name="is_subscriber"  )
-      
-    public Boolean getIsSubscriber() {
-        return this.isSubscriber;
-    }
-  
-    
-    private String paymentReference;
-
-    public void setPaymentReference(final String paymentReference) {
-        this.paymentReference = paymentReference;
-    }
-
- 
-    @Column(name="payment_reference"  )
-      
-    public String getPaymentReference() {
-        return this.paymentReference;
     }
   
 }

@@ -1,3 +1,43 @@
-p.draft-warning     { margin-top:0.6em !important; }
-.draft-warning span { background-color:#fdd; padding:0.2em; font-size: .9em; font-style: italic; }
-.draft-warning img  { vertical-align:middle; }
+.box .main { width: 56%; float: left; }
+.box .side { width: 42%; float: right; }
+
+.box .half1 { width: 49%; float: left; }
+.box .half2 { width: 49%; float: right; }
+
+/*
+ * Information message.
+ */
+.information-box ul li { list-style: disc inside none; }
+
+/*
+ * Last requests, payments, drafts and home folder documents boxes.
+ */
+.list-box h2 { border: 0; }
+.list-box { font-size: .9em; }
+.list-box ul li { padding: .4em 0; overflow: hidden; width: 100%; }
+
+.list-box ul li span.date   { float:  left; width: 20%; }
+.list-box ul li div.content { float: right; width: 80%; }
+.list-box ul li span.action_and_tag-state { float: right; margin-left: 1em; }
+.list-box ul li span.action_and_tag-state span.tag-state { float: none; }
+
+.list-box ul li p, .list-box ul li span.date { color: #666; }
+.list-box ul li p { margin-top: .1em; }
+
+.list-box .warn           { background-color: #fdd; }
+.list-box .warn.documents { padding: .5em 1em; font-size: 1.1em; margin: .5em 0; }
+.list-box.warn    { border-color: #CC2020 !important; }
+.list-box.warn h2 { color: #CC2020 !important; }
+
+/*
+ * Home folder creation box.
+ */
+.list-box.creation { overflow: hidden; }
+.list-box.creation h2 { margin-bottom: .5em; }
+.list-box.creation img { float:  left; margin-left:  .5em; background: #e6648d; }
+.list-box.creation div { float: right; margin-right: .5em; width: 73%; font-size: 1.1em; }
+.list-box.creation div p { font-size: 1.1em; }
+.list-box.creation ul { font-size: 1em; margin: .5em 0; }
+.list-box.creation ul li { list-style-type: disc; border-bottom: 0 none; overflow: visible; padding: .2em 0; }
+.list-box.creation a       { font-size: 1.5em; color: #095ba6; }
+.list-box.creation a:hover { color: #fff; background: #e6648d; text-decoration: none; }

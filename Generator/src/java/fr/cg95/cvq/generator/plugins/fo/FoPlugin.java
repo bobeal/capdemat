@@ -1,8 +1,9 @@
 package fr.cg95.cvq.generator.plugins.fo;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
@@ -81,12 +82,12 @@ public class FoPlugin implements IPluginGenerator {
             template = templateEngine.createTemplate(new File(editTemplate));
             bindingMap = new HashMap<String, Object>();
             bindingMap.put("requestFo", requestFo);
-            template.make(bindingMap).writeTo(new FileWriter(output + "edit.gsp" ));
+            template.make(bindingMap).writeTo(new OutputStreamWriter(new FileOutputStream(output + "edit.gsp" ), "UTF-8"));
             logger.warn("endRequest() - edit.gsp.tpl OK");
             
             // _summary.gsp template 
             template = templateEngine.createTemplate(new File(summaryTemplate));
-            template.make(bindingMap).writeTo(new FileWriter(output + "_summary.gsp" ));
+            template.make(bindingMap).writeTo(new OutputStreamWriter(new FileOutputStream(output + "_summary.gsp" ), "UTF-8"));
             logger.warn("endRequest() - summaryTemplate.gsp.tpl OK");
             
             // _validation.gsp template
@@ -96,7 +97,7 @@ public class FoPlugin implements IPluginGenerator {
             int bundleIndex = 0;
             for (List<Step> stepBundle : requestFo.getStepBundles()) {
                 bindingMap.put("stepBundle", stepBundle);
-                template.make(bindingMap).writeTo(new FileWriter(output + "_validation"+ bundleIndex++ +".gsp" ));
+                template.make(bindingMap).writeTo(new OutputStreamWriter(new FileOutputStream(output + "_validation"+ bundleIndex++ +".gsp" ), "UTF-8"));
             }
             logger.warn("endRequest() - validation.gsp.tpl OK");
             
@@ -108,7 +109,7 @@ public class FoPlugin implements IPluginGenerator {
                 if (!(step instanceof CommonStep)) {
                     bindingMap.put("step", step);
                     bindingMap.put("elementList", requestFo.getElementsByStep(step));
-                    template.make(bindingMap).writeTo(new FileWriter(output + "_" + step.getName() + ".gsp"));
+                    template.make(bindingMap).writeTo(new OutputStreamWriter(new FileOutputStream(output + "_" + step.getName() + ".gsp"), "UTF-8"));
                 }
             }
             logger.warn("endRequest() - step.gsp.tpl OK");
@@ -120,8 +121,8 @@ public class FoPlugin implements IPluginGenerator {
             for (ElementFo element: requestFo.getElementsByTypeClass(ElementTypeClass.COLLECTION)) {
                 bindingMap.put("element", element);
                 bindingMap.put("step", element.getStep());
-                template.make(bindingMap).writeTo(
-                        new FileWriter(output + "_" + element.getStep().getName() + "-" + element.getJavaFieldName() + ".gsp"));
+                template.make(bindingMap).writeTo(new OutputStreamWriter(
+                        new FileOutputStream(output + "_" + element.getStep().getName() + "-" + element.getJavaFieldName() + ".gsp"), "UTF-8"));
             }
             logger.warn("endRequest() - collection.gsp.tpl OK");
 

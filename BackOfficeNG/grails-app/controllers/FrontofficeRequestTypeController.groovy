@@ -20,11 +20,14 @@ class FrontofficeRequestTypeController {
     def requestTypeService
     def requestTypeAdaptorService
     def documentAdaptorService
-    
-    // FIXME : deprecated action
+
     def index = {
         def adult = userSearchService.getAdultById(session.currentEcitizenId)
-        return ['groups':requestTypeAdaptorService.getDisplayGroups(adult?.homeFolder)]
+        def groups = []
+        use(SplitMap) {
+            groups = requestTypeAdaptorService.getDisplayGroups(adult?.homeFolder).split()
+        }
+        return ['groups':groups]
     }
 
     def start = {

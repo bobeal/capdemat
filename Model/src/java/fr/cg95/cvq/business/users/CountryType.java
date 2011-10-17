@@ -651,9 +651,4 @@ public enum CountryType {
 
         return getDefaultCountryType();
     }
-
-    @Override
-    public String toString() {
-        return legacyLabel;
-    }
 }

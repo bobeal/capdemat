@@ -419,6 +419,12 @@
     alter table requirement 
         drop constraint FK15A8DC43C5FD0068;
 
+    alter table sagr_activite_association 
+        drop constraint FKDDAC2603CB99EC99;
+
+    alter table sagr_membre_bureau 
+        drop constraint FK4697AB73CB99EC99;
+
     alter table school_canteen_registration_request 
         drop constraint FKDC4CBC6920540B7;
 
@@ -445,6 +451,15 @@
 
     alter table sms_notification_request_interests 
         drop constraint FKCE60DA2B10A7E028;
+
+    alter table sports_associations_grant_request 
+        drop constraint FKB93535BFC11E2C05;
+
+    alter table sports_associations_grant_request 
+        drop constraint FKB93535BF6AEB0ADF;
+
+    alter table sports_associations_grant_request 
+        drop constraint FKB93535BFD370CB5;
 
     alter table study_grant_request 
         drop constraint FK7D2F0A766A39B687;
@@ -738,6 +753,10 @@
 
     drop table requirement cascade;
 
+    drop table sagr_activite_association cascade;
+
+    drop table sagr_membre_bureau cascade;
+
     drop table school cascade;
 
     drop table school_canteen_registration_request cascade;
@@ -755,6 +774,10 @@
     drop table sms_notification_request cascade;
 
     drop table sms_notification_request_interests cascade;
+
+    drop table sports_associations_grant_request cascade;
+
+    drop table standard_electoral_roll_registration_request cascade;
 
     drop table study_grant_request cascade;
 
@@ -1862,11 +1885,8 @@
 
     create table home_folder (
         id int8 not null,
-        documentsStepState varchar(255) not null,
         enabled bool,
         family_quotient varchar(255),
-        familyStepState varchar(255) not null,
-        responsibleStepState varchar(255) not null,
         state varchar(16) not null,
         is_temporary bool,
         address_id int8,
@@ -2312,10 +2332,6 @@
         amount float8,
         label varchar(255),
         supported_broker varchar(255),
-        key varchar(255),
-        key_owner varchar(255),
-        quantity int4,
-        unit_price float8,
         external_application_id varchar(255),
         external_home_folder_id varchar(255),
         external_individual_id varchar(255),
@@ -2325,7 +2341,11 @@
         max_buy int4,
         min_buy int4,
         old_quantity int4,
+        quantity int4,
         subject_id int8,
+        unit_price float8,
+        key varchar(255),
+        key_owner varchar(255),
         old_value float8,
         old_value_date timestamp,
         expiration_date timestamp,
@@ -2580,6 +2600,32 @@
         special_reason varchar(255)
     );
 
+    create table sagr_activite_association (
+        id int8 not null,
+        nom_activite varchar(255),
+        nom_federation_sportive_activite varchar(255),
+        nombre_licencie_majeur_activite int8,
+        nombre_licencie_mineur_activite int8,
+        numero_affiliation_activite varchar(255),
+        somme_allouee_activite varchar(255),
+        total_licencie_activite int8,
+        sports_associations_grant_request_id int8,
+        activite_association_index int4,
+        primary key (id)
+    );
+
+    create table sagr_membre_bureau (
+        id int8 not null,
+        email_membre varchar(255),
+        nom_membre varchar(38),
+        prenom_membre varchar(38),
+        role_membre varchar(255),
+        telephone_membre varchar(10),
+        sports_associations_grant_request_id int8,
+        autre_membre_bureau_index int4,
+        primary key (id)
+    );
+
     create table school (
         id int8 not null,
         active bool,
@@ -2671,6 +2717,58 @@
         interests_id int8 not null,
         interests_index int4 not null,
         primary key (sms_notification_request_id, interests_index)
+    );
+
+    create table sports_associations_grant_request (
+        id int8 not null,
+        cnds_annee_n varchar(255),
+        cnds_annee_n_plus_un varchar(255),
+        commune_annee_n varchar(255),
+        commune_annee_n_plus_un varchar(255),
+        email_club_ou_correspondant varchar(255),
+        est_adresse_correspondant_principal bool,
+        montant_subvention varchar(255),
+        nom_association varchar(255),
+        nom_complet_correspondant_principal varchar(255),
+        numero_agrement_jeunesse_sport_association varchar(255),
+        numero_enregistrement_association varchar(255),
+        numero_enregistrement_prefecture_association varchar(9),
+        numero_siret_association varchar(14),
+        region_annee_n varchar(255),
+        region_annee_n_plus_un varchar(255),
+        role_demandeur varchar(255),
+        subvention_sollicite_conseil_general varchar(255),
+        adresse_correspondant_principal_id int8,
+        compte_bancaire_id int8,
+        siege_social_association_id int8,
+        primary key (id)
+    );
+
+    create table standard_electoral_roll_registration_request (
+        id int8 not null,
+        ambassade_ou_poste_consulaire varchar(255),
+        ancienne_commune varchar(32),
+        commune_ou_localite_precedente varchar(32),
+        date_naissance timestamp,
+        departement_ancienne_commune varchar(255),
+        deuxieme_prenom varchar(38),
+        lieu_naissance_departement varchar(255),
+        lieu_naissance_pays varchar(255),
+        nationalite varchar(255),
+        nom_marital varchar(38),
+        nom_naissance varchar(38),
+        pays_precedent varchar(255),
+        pays_radiation varchar(255),
+        precision_nationalite varchar(255),
+        prenom varchar(38),
+        sexe varchar(255),
+        situation varchar(255),
+        subdivision_administrative_precedente varchar(255),
+        troisieme_prenom varchar(38),
+        type_election varchar(255),
+        type_inscription varchar(255),
+        ville_naissance_code_postal varchar(32),
+        primary key (id)
     );
 
     create table study_grant_request (
@@ -3568,6 +3666,16 @@
         foreign key (request_type_id) 
         references request_type;
 
+    alter table sagr_activite_association 
+        add constraint FKDDAC2603CB99EC99 
+        foreign key (sports_associations_grant_request_id) 
+        references sports_associations_grant_request;
+
+    alter table sagr_membre_bureau 
+        add constraint FK4697AB73CB99EC99 
+        foreign key (sports_associations_grant_request_id) 
+        references sports_associations_grant_request;
+
     alter table school_canteen_registration_request 
         add constraint FKDC4CBC6920540B7 
         foreign key (school_id) 
@@ -3612,6 +3720,21 @@
         add constraint FKCE60DA2B10A7E028 
         foreign key (sms_notification_request_id) 
         references sms_notification_request;
+
+    alter table sports_associations_grant_request 
+        add constraint FKB93535BFC11E2C05 
+        foreign key (compte_bancaire_id) 
+        references bank_account;
+
+    alter table sports_associations_grant_request 
+        add constraint FKB93535BF6AEB0ADF 
+        foreign key (adresse_correspondant_principal_id) 
+        references address;
+
+    alter table sports_associations_grant_request 
+        add constraint FKB93535BFD370CB5 
+        foreign key (siege_social_association_id) 
+        references address;
 
     alter table study_grant_request 
         add constraint FK7D2F0A766A39B687 

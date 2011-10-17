@@ -46,9 +46,10 @@ public class AdultDAO extends IndividualDAO implements IAdultDAO {
     public List<Adult> matchAdults (Map<String,String> parameters) {
         Query q = HibernateUtil.getSession().createQuery(
                 "from Adult a where" +
-                    " (lower(a.firstName) = lower(:firstName) and lower(a.lastName) = lower(:lastName))" +
+                    " ((lower(a.firstName) = lower(:firstName) and lower(a.lastName) = lower(:lastName))" +
                     " or lower(a.email) = lower(:email) or lower(a.homePhone) = lower(:homePhone)" +
-                    " or lower(:address) like '%'|| lower(a.address.streetName) || '%'"
+                    " or lower(:address) like '%'|| lower(a.address.streetName) || '%')" +
+                    " and a.homeFolder.temporary is false"
         );
         return q.setProperties(parameters).list();
     }
@@ -59,7 +60,8 @@ public class AdultDAO extends IndividualDAO implements IAdultDAO {
                 "from Adult a where" +
                     " (lower(a.firstName) = lower(:firstName) and lower(a.lastName) = lower(:lastName))" +
                     " and ( lower(a.email) = lower(:email) " +
-                    " or lower(:address) like '%'|| lower(a.address.streetName) || '%' )"
+                    " or lower(:address) like '%'|| lower(a.address.streetName) || '%' )" +
+                    " and a.state != '" + UserState.ARCHIVED.name() + "'"
         );
 
         return q.setProperties(parameters).list();

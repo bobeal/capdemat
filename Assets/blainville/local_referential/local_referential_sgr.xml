@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <data name="CurrentSchoolName" allowMultipleChoices="false" manager="CapDémat">
+        <label>Nom de l'établissement</label>
+        <entries>
+            <entry key="PANTHEON-SORBONNE-PARIS-1">
+                <label>PANTHEON-SORBONNE PARIS 1</label>
+                <entries>
+                    <entry key="PANTHEON-SORBONNE-PARIS-1-Panthe-on-Sorbonne">
+                        <label>Panthéon-Sorbonne</label>
+                    </entry>
+                    <entry key="PANTHEON-SORBONNE-PARIS-1-Carre--colbert">
+                        <label>Carré colbert</label>
+                    </entry>
+                </entries>
+            </entry>
+            <entry key="PANTHEON-ASSAS-PARIS-2">
+                <label>PANTHEON-ASSAS PARIS 2</label>
+                <entries>
+                    <entry key="PANTHEON-ASSAS-PARIS-2-Antenne-de-Melun">
+                        <label>Antenne de Melun</label>
+                    </entry>
+                    <entry key="PANTHEON-ASSAS-PARIS-2-Centre-Assas">
+                        <label>Centre Assas</label>
+                    </entry>
+                </entries>
+            </entry>
+            <entry key="autre">
+                <label>autre</label>
+            </entry>
+        </entries>
+    </data>
+    <data name="TaxHouseholdCity" allowMultipleChoices="false" manager="CapDémat">
+        <label>Commune</label>
+        <entries>
+            <entry key="325">
+                <label>Melun</label>
+            </entry>
+            <entry key="573">
+                <label>Hors Seine et Marne</label>
+            </entry>
+        </entries>
+    </data>
+</LocalReferential>

@@ -7,7 +7,7 @@
     class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean"
     init-method="init">
     <property name="name" value="blainville"/>
-    <property name="defaultServerName" value="10.4.250.221"/>
+    <property name="defaultServerName" value="blainville.dev.guichet-public.fr"/>
     <property name="autotransition" value="true"/>
     <property name="jpaConfigurations">
         <props>

@@ -6,7 +6,6 @@ package fr.cg95.cvq.business.request.social;
 public enum SagrRoleAssociationType {
 
     PRESIDENT("President"),
-    VICE_PRESIDENT("VicePresident"),
     TRESORIER("Tresorier"),
     SECRETAIRE("Secretaire");
 
@@ -29,7 +28,7 @@ public enum SagrRoleAssociationType {
     }
 
     public static SagrRoleAssociationType getDefaultSagrRoleAssociationType() {
-        return null;
+        return PRESIDENT;
     }
 
     /**

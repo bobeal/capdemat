@@ -56,6 +56,9 @@ public class SagrActiviteAssociation implements Serializable {
         SagrActiviteAssociationType sagrActiviteAssociation = SagrActiviteAssociationType.Factory.newInstance();
         int i = 0;
     
+        if (this.sportPratique != null)
+            sagrActiviteAssociation.setSportPratique(fr.cg95.cvq.xml.request.social.SagrSportPratiqueType.Enum.forString(this.sportPratique.toString()));
+      
         sagrActiviteAssociation.setNumeroAffiliationActivite(this.numeroAffiliationActivite);
       
         if (this.nombreLicencieMajeurActivite != null)
@@ -66,12 +69,15 @@ public class SagrActiviteAssociation implements Serializable {
       
         sagrActiviteAssociation.setSommeAlloueeActivite(this.sommeAlloueeActivite);
       
-        sagrActiviteAssociation.setNomFederationSportiveActivite(this.nomFederationSportiveActivite);
+        sagrActiviteAssociation.setFederationSportivePrecision(this.federationSportivePrecision);
       
-        sagrActiviteAssociation.setNomActivite(this.nomActivite);
+        if (this.federationSportive != null)
+            sagrActiviteAssociation.setFederationSportive(fr.cg95.cvq.xml.request.social.SagrFederationSportiveType.Enum.forString(this.federationSportive.toString()));
       
         if (this.nombreLicencieMineurActivite != null)
             sagrActiviteAssociation.setNombreLicencieMineurActivite(this.nombreLicencieMineurActivite.longValue());
+      
+        sagrActiviteAssociation.setSportPratiquePrecision(this.sportPratiquePrecision);
       
         return sagrActiviteAssociation;
     }
@@ -82,6 +88,11 @@ public class SagrActiviteAssociation implements Serializable {
         List list = new ArrayList();
         SagrActiviteAssociation sagrActiviteAssociation = new SagrActiviteAssociation();
     
+        if (sagrActiviteAssociationDoc.getSportPratique() != null)
+            sagrActiviteAssociation.setSportPratique(fr.cg95.cvq.business.request.social.SagrSportPratiqueType.forString(sagrActiviteAssociationDoc.getSportPratique().toString()));
+        else
+            sagrActiviteAssociation.setSportPratique(fr.cg95.cvq.business.request.social.SagrSportPratiqueType.getDefaultSagrSportPratiqueType());
+      
         sagrActiviteAssociation.setNumeroAffiliationActivite(sagrActiviteAssociationDoc.getNumeroAffiliationActivite());
       
         if (sagrActiviteAssociationDoc.getNombreLicencieMajeurActivite() != 0)
@@ -92,12 +103,17 @@ public class SagrActiviteAssociation implements Serializable {
       
         sagrActiviteAssociation.setSommeAlloueeActivite(sagrActiviteAssociationDoc.getSommeAlloueeActivite());
       
-        sagrActiviteAssociation.setNomFederationSportiveActivite(sagrActiviteAssociationDoc.getNomFederationSportiveActivite());
+        sagrActiviteAssociation.setFederationSportivePrecision(sagrActiviteAssociationDoc.getFederationSportivePrecision());
       
-        sagrActiviteAssociation.setNomActivite(sagrActiviteAssociationDoc.getNomActivite());
+        if (sagrActiviteAssociationDoc.getFederationSportive() != null)
+            sagrActiviteAssociation.setFederationSportive(fr.cg95.cvq.business.request.social.SagrFederationSportiveType.forString(sagrActiviteAssociationDoc.getFederationSportive().toString()));
+        else
+            sagrActiviteAssociation.setFederationSportive(fr.cg95.cvq.business.request.social.SagrFederationSportiveType.getDefaultSagrFederationSportiveType());
       
         if (sagrActiviteAssociationDoc.getNombreLicencieMineurActivite() != 0)
             sagrActiviteAssociation.setNombreLicencieMineurActivite(new Long(sagrActiviteAssociationDoc.getNombreLicencieMineurActivite()));
+      
+        sagrActiviteAssociation.setSportPratiquePrecision(sagrActiviteAssociationDoc.getSportPratiquePrecision());
       
         return sagrActiviteAssociation;
     }
@@ -105,6 +121,15 @@ public class SagrActiviteAssociation implements Serializable {
     @Override
     public SagrActiviteAssociation clone() {
         SagrActiviteAssociation result = new SagrActiviteAssociation();
+        
+          
+            
+        if (sportPratique != null)
+            result.setSportPratique(sportPratique);
+        else
+            result.setSportPratique(fr.cg95.cvq.business.request.social.SagrSportPratiqueType.getDefaultSagrSportPratiqueType());
+      
+          
         
           
             
@@ -132,19 +157,28 @@ public class SagrActiviteAssociation implements Serializable {
         
           
             
-        result.setNomFederationSportiveActivite(nomFederationSportiveActivite);
+        result.setFederationSportivePrecision(federationSportivePrecision);
       
           
         
           
             
-        result.setNomActivite(nomActivite);
+        if (federationSportive != null)
+            result.setFederationSportive(federationSportive);
+        else
+            result.setFederationSportive(fr.cg95.cvq.business.request.social.SagrFederationSportiveType.getDefaultSagrFederationSportiveType());
       
           
         
           
             
         result.setNombreLicencieMineurActivite(nombreLicencieMineurActivite);
+      
+          
+        
+          
+            
+        result.setSportPratiquePrecision(sportPratiquePrecision);
       
           
         
@@ -163,6 +197,28 @@ public class SagrActiviteAssociation implements Serializable {
         return this.id;
     }
 
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"activites"},
+        message = "sportPratique"
+      )
+    
+    private fr.cg95.cvq.business.request.social.SagrSportPratiqueType sportPratique;
+
+    public void setSportPratique(final fr.cg95.cvq.business.request.social.SagrSportPratiqueType sportPratique) {
+        this.sportPratique = sportPratique;
+    }
+
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="sport_pratique"  )
+      
+    public fr.cg95.cvq.business.request.social.SagrSportPratiqueType getSportPratique() {
+        return this.sportPratique;
+    }
   
     
       @NotNull(
@@ -242,31 +298,17 @@ public class SagrActiviteAssociation implements Serializable {
     }
   
     
-      @NotNull(
-        
-        
-        profiles = {"activites"},
-        message = "nomFederationSportiveActivite"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"activites"},
-        message = "nomFederationSportiveActivite"
-      )
-    
-    private String nomFederationSportiveActivite;
+    private String federationSportivePrecision;
 
-    public void setNomFederationSportiveActivite(final String nomFederationSportiveActivite) {
-        this.nomFederationSportiveActivite = nomFederationSportiveActivite;
+    public void setFederationSportivePrecision(final String federationSportivePrecision) {
+        this.federationSportivePrecision = federationSportivePrecision;
     }
 
 
-    @Column(name="nom_federation_sportive_activite"  )
+    @Column(name="federation_sportive_precision"  )
       
-    public String getNomFederationSportiveActivite() {
-        return this.nomFederationSportiveActivite;
+    public String getFederationSportivePrecision() {
+        return this.federationSportivePrecision;
     }
   
     
@@ -274,27 +316,21 @@ public class SagrActiviteAssociation implements Serializable {
         
         
         profiles = {"activites"},
-        message = "nomActivite"
+        message = "federationSportive"
       )
     
-      @NotBlank(
-        
-        
-        profiles = {"activites"},
-        message = "nomActivite"
-      )
-    
-    private String nomActivite;
+    private fr.cg95.cvq.business.request.social.SagrFederationSportiveType federationSportive;
 
-    public void setNomActivite(final String nomActivite) {
-        this.nomActivite = nomActivite;
+    public void setFederationSportive(final fr.cg95.cvq.business.request.social.SagrFederationSportiveType federationSportive) {
+        this.federationSportive = federationSportive;
     }
 
 
-    @Column(name="nom_activite"  )
+    @Enumerated(EnumType.STRING)
+    @Column(name="federation_sportive"  )
       
-    public String getNomActivite() {
-        return this.nomActivite;
+    public fr.cg95.cvq.business.request.social.SagrFederationSportiveType getFederationSportive() {
+        return this.federationSportive;
     }
   
     
@@ -316,6 +352,20 @@ public class SagrActiviteAssociation implements Serializable {
       
     public Long getNombreLicencieMineurActivite() {
         return this.nombreLicencieMineurActivite;
+    }
+  
+    
+    private String sportPratiquePrecision;
+
+    public void setSportPratiquePrecision(final String sportPratiquePrecision) {
+        this.sportPratiquePrecision = sportPratiquePrecision;
+    }
+
+
+    @Column(name="sport_pratique_precision"  )
+      
+    public String getSportPratiquePrecision() {
+        return this.sportPratiquePrecision;
     }
   
 }

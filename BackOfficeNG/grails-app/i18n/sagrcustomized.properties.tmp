@@ -35,10 +35,6 @@ sagr.property.numeroEnregistrementPrefectureAssociation.help =
 sagr.property.numeroEnregistrementPrefectureAssociation.validationError =
 
 
-sagr.property.numeroAgrementJeunesseSportAssociation.help =
-sagr.property.numeroAgrementJeunesseSportAssociation.validationError =
-
-
 sagr.property.contactsAssociation.help =
 sagr.property.contactsAssociation.validationError =
 
@@ -61,6 +57,26 @@ sagr.property.emailClubOuCorrespondant.validationError =
 
 sagr.property.roleDemandeur.help =
 sagr.property.roleDemandeur.validationError =
+
+
+sagr.property.precisionPresident.help =
+sagr.property.precisionPresident.validationError =
+
+
+sagr.property.nomPresident.help =
+sagr.property.nomPresident.validationError =
+
+
+sagr.property.prenomPresident.help =
+sagr.property.prenomPresident.validationError =
+
+
+sagr.property.telephonePresident.help =
+sagr.property.telephonePresident.validationError =
+
+
+sagr.property.emailPresident.help =
+sagr.property.emailPresident.validationError =
 
 
 sagr.property.autreMembreBureau.help =
@@ -95,12 +111,20 @@ sagr.property.activiteAssociation.validationError =
 sagr.property.activiteAssociation.elementAdditionSuccess =
 
 
-sagr.property.nomActivite.help =
-sagr.property.nomActivite.validationError =
+sagr.property.sportPratique.help =
+sagr.property.sportPratique.validationError =
 
 
-sagr.property.nomFederationSportiveActivite.help =
-sagr.property.nomFederationSportiveActivite.validationError =
+sagr.property.sportPratiquePrecision.help =
+sagr.property.sportPratiquePrecision.validationError =
+
+
+sagr.property.federationSportive.help =
+sagr.property.federationSportive.validationError =
+
+
+sagr.property.federationSportivePrecision.help =
+sagr.property.federationSportivePrecision.validationError =
 
 
 sagr.property.numeroAffiliationActivite.help =
@@ -131,20 +155,24 @@ sagr.property.subventionSolliciteConseilGeneral.help =
 sagr.property.subventionSolliciteConseilGeneral.validationError =
 
 
-sagr.property.cndsAnneeN.help =
-sagr.property.cndsAnneeN.validationError =
+sagr.property.subventionObtenueConseilGeneralSaisonEcoulee.help =
+sagr.property.subventionObtenueConseilGeneralSaisonEcoulee.validationError =
 
 
-sagr.property.cndsAnneeNPlusUn.help =
-sagr.property.cndsAnneeNPlusUn.validationError =
+sagr.property.budgetSaisonEcouleeRecette.help =
+sagr.property.budgetSaisonEcouleeRecette.validationError =
 
 
-sagr.property.regionAnneeN.help =
-sagr.property.regionAnneeN.validationError =
+sagr.property.budgetSaisonEcouleeDepenses.help =
+sagr.property.budgetSaisonEcouleeDepenses.validationError =
 
 
-sagr.property.regionAnneeNPlusUn.help =
-sagr.property.regionAnneeNPlusUn.validationError =
+sagr.property.nombreLicencieMoinsDixHuitSaisonEcoulee.help =
+sagr.property.nombreLicencieMoinsDixHuitSaisonEcoulee.validationError =
+
+
+sagr.property.nombreLicenciePlusDixHuitSaisonEcoulee.help =
+sagr.property.nombreLicenciePlusDixHuitSaisonEcoulee.validationError =
 
 
 sagr.property.communeAnneeN.help =

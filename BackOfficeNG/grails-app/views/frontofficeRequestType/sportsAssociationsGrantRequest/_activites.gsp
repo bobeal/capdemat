@@ -25,11 +25,29 @@
          </a>
         </dd>
     
-        <dt><g:message code="sagr.property.nomActivite.label" /></dt>
-        <dd class="${rqt.stepStates['activites'].invalidFields.contains('activiteAssociation[' + index + '].nomActivite') ? 'validation-failed' : ''}">${it.nomActivite?.toString()}</dd>
+        <dt><g:message code="sagr.property.sportPratique.label" /></dt>
+        
+              <dd class="${rqt.stepStates['activites'].invalidFields.contains('activiteAssociation[' + index + '].sportPratique') ? 'validation-failed' : ''}">
+                <g:if test="${it.sportPratique}">
+                  <g:capdematEnumToField var="${it.sportPratique}" i18nKeyPrefix="sagr.property.sportPratique" />
+                </g:if>
+              </dd>
+              
     
-        <dt><g:message code="sagr.property.nomFederationSportiveActivite.label" /></dt>
-        <dd class="${rqt.stepStates['activites'].invalidFields.contains('activiteAssociation[' + index + '].nomFederationSportiveActivite') ? 'validation-failed' : ''}">${it.nomFederationSportiveActivite?.toString()}</dd>
+        <dt><g:message code="sagr.property.sportPratiquePrecision.label" /></dt>
+        <dd class="${rqt.stepStates['activites'].invalidFields.contains('activiteAssociation[' + index + '].sportPratiquePrecision') ? 'validation-failed' : ''}">${it.sportPratiquePrecision?.toString()}</dd>
+    
+        <dt><g:message code="sagr.property.federationSportive.label" /></dt>
+        
+              <dd class="${rqt.stepStates['activites'].invalidFields.contains('activiteAssociation[' + index + '].federationSportive') ? 'validation-failed' : ''}">
+                <g:if test="${it.federationSportive}">
+                  <g:capdematEnumToField var="${it.federationSportive}" i18nKeyPrefix="sagr.property.federationSportive" />
+                </g:if>
+              </dd>
+              
+    
+        <dt><g:message code="sagr.property.federationSportivePrecision.label" /></dt>
+        <dd class="${rqt.stepStates['activites'].invalidFields.contains('activiteAssociation[' + index + '].federationSportivePrecision') ? 'validation-failed' : ''}">${it.federationSportivePrecision?.toString()}</dd>
     
         <dt><g:message code="sagr.property.numeroAffiliationActivite.label" /></dt>
         <dd class="${rqt.stepStates['activites'].invalidFields.contains('activiteAssociation[' + index + '].numeroAffiliationActivite') ? 'validation-failed' : ''}">${it.numeroAffiliationActivite?.toString()}</dd>

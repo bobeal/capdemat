@@ -52,12 +52,6 @@
             
 
     
-      <label for="numeroAgrementJeunesseSportAssociation" class=""><g:message code="sagr.property.numeroAgrementJeunesseSportAssociation.label" />   <span><g:message code="sagr.property.numeroAgrementJeunesseSportAssociation.help" /></span></label>
-            <input type="text" id="numeroAgrementJeunesseSportAssociation" name="numeroAgrementJeunesseSportAssociation" value="${rqt.numeroAgrementJeunesseSportAssociation?.toString()}" 
-                    class="  validate-string ${rqt.stepStates['association'].invalidFields.contains('numeroAgrementJeunesseSportAssociation') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.numeroAgrementJeunesseSportAssociation.validationError" />"   />
-            
-
-    
     </fieldset>
   
 

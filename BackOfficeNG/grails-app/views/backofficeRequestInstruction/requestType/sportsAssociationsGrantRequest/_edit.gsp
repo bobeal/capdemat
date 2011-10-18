@@ -66,8 +66,6 @@
                 
                   <dt class="required"><g:message code="sagr.property.numeroEnregistrementPrefectureAssociation.label" /> * : </dt><dd id="numeroEnregistrementPrefectureAssociation" class="action-editField validate-regex required-true i18n-sagr.property.numeroEnregistrementPrefectureAssociation maxLength-9" regex="^[\w\W]{0,9}$"><span>${rqt?.numeroEnregistrementPrefectureAssociation}</span></dd>
                 
-                  <dt class=""><g:message code="sagr.property.numeroAgrementJeunesseSportAssociation.label" />  : </dt><dd id="numeroAgrementJeunesseSportAssociation" class="action-editField validate-string i18n-sagr.property.numeroAgrementJeunesseSportAssociation" ><span>${rqt?.numeroAgrementJeunesseSportAssociation}</span></dd>
-                
               </dl>
               
             
@@ -107,7 +105,22 @@
             
               
               <dl>
-                <dt class="required"><g:message code="sagr.property.roleDemandeur.label" /> * : </dt><dd id="roleDemandeur" class="action-editField validate-capdematEnum required-true i18n-sagr.property.roleDemandeur javatype-fr.cg95.cvq.business.request.social.SagrRoleAssociationType" ><g:capdematEnumToField var="${rqt?.roleDemandeur}" i18nKeyPrefix="sagr.property.roleDemandeur" /></dd>
+                <dt class="required condition-estPresident-trigger"><g:message code="sagr.property.roleDemandeur.label" /> * : </dt><dd id="roleDemandeur" class="action-editField validate-capdematEnum required-true i18n-sagr.property.roleDemandeur javatype-fr.cg95.cvq.business.request.social.SagrRoleAssociationType" ><g:capdematEnumToField var="${rqt?.roleDemandeur}" i18nKeyPrefix="sagr.property.roleDemandeur" /></dd>
+              </dl>
+              
+            
+              
+              <h3><g:message code="sagr.property.precisionPresident.label" /></h3>
+              <dl class="required condition-estPresident-unfilled">
+                
+                  <dt class="required"><g:message code="sagr.property.nomPresident.label" /> * : </dt><dd id="nomPresident" class="action-editField validate-lastName required-true i18n-sagr.property.nomPresident maxLength-38" ><span>${rqt?.nomPresident}</span></dd>
+                
+                  <dt class="required"><g:message code="sagr.property.prenomPresident.label" /> * : </dt><dd id="prenomPresident" class="action-editField validate-firstName required-true i18n-sagr.property.prenomPresident maxLength-38" ><span>${rqt?.prenomPresident}</span></dd>
+                
+                  <dt class=""><g:message code="sagr.property.telephonePresident.label" />  : </dt><dd id="telephonePresident" class="action-editField validate-phone i18n-sagr.property.telephonePresident maxLength-10" ><span>${rqt?.telephonePresident}</span></dd>
+                
+                  <dt class=""><g:message code="sagr.property.emailPresident.label" />  : </dt><dd id="emailPresident" class="action-editField validate-email i18n-sagr.property.emailPresident" ><span>${rqt?.emailPresident}</span></dd>
+                
               </dl>
               
             
@@ -179,13 +192,15 @@
                 
                   <dt class="required"><g:message code="sagr.property.subventionSolliciteConseilGeneral.label" /> * : </dt><dd id="subventionSolliciteConseilGeneral" class="action-editField validate-string required-true i18n-sagr.property.subventionSolliciteConseilGeneral" ><span>${rqt?.subventionSolliciteConseilGeneral}</span></dd>
                 
-                  <dt class=""><g:message code="sagr.property.cndsAnneeN.label" />  : </dt><dd id="cndsAnneeN" class="action-editField validate-string i18n-sagr.property.cndsAnneeN" ><span>${rqt?.cndsAnneeN}</span></dd>
+                  <dt class=""><g:message code="sagr.property.subventionObtenueConseilGeneralSaisonEcoulee.label" />  : </dt><dd id="subventionObtenueConseilGeneralSaisonEcoulee" class="action-editField validate-string i18n-sagr.property.subventionObtenueConseilGeneralSaisonEcoulee" ><span>${rqt?.subventionObtenueConseilGeneralSaisonEcoulee}</span></dd>
                 
-                  <dt class=""><g:message code="sagr.property.cndsAnneeNPlusUn.label" />  : </dt><dd id="cndsAnneeNPlusUn" class="action-editField validate-string i18n-sagr.property.cndsAnneeNPlusUn" ><span>${rqt?.cndsAnneeNPlusUn}</span></dd>
+                  <dt class=""><g:message code="sagr.property.budgetSaisonEcouleeRecette.label" />  : </dt><dd id="budgetSaisonEcouleeRecette" class="action-editField validate-string i18n-sagr.property.budgetSaisonEcouleeRecette" ><span>${rqt?.budgetSaisonEcouleeRecette}</span></dd>
                 
-                  <dt class=""><g:message code="sagr.property.regionAnneeN.label" />  : </dt><dd id="regionAnneeN" class="action-editField validate-string i18n-sagr.property.regionAnneeN" ><span>${rqt?.regionAnneeN}</span></dd>
+                  <dt class=""><g:message code="sagr.property.budgetSaisonEcouleeDepenses.label" />  : </dt><dd id="budgetSaisonEcouleeDepenses" class="action-editField validate-string i18n-sagr.property.budgetSaisonEcouleeDepenses" ><span>${rqt?.budgetSaisonEcouleeDepenses}</span></dd>
                 
-                  <dt class=""><g:message code="sagr.property.regionAnneeNPlusUn.label" />  : </dt><dd id="regionAnneeNPlusUn" class="action-editField validate-string i18n-sagr.property.regionAnneeNPlusUn" ><span>${rqt?.regionAnneeNPlusUn}</span></dd>
+                  <dt class=""><g:message code="sagr.property.nombreLicencieMoinsDixHuitSaisonEcoulee.label" />  : </dt><dd id="nombreLicencieMoinsDixHuitSaisonEcoulee" class="action-editField validate-string i18n-sagr.property.nombreLicencieMoinsDixHuitSaisonEcoulee" ><span>${rqt?.nombreLicencieMoinsDixHuitSaisonEcoulee}</span></dd>
+                
+                  <dt class=""><g:message code="sagr.property.nombreLicenciePlusDixHuitSaisonEcoulee.label" />  : </dt><dd id="nombreLicenciePlusDixHuitSaisonEcoulee" class="action-editField validate-string i18n-sagr.property.nombreLicenciePlusDixHuitSaisonEcoulee" ><span>${rqt?.nombreLicenciePlusDixHuitSaisonEcoulee}</span></dd>
                 
                   <dt class=""><g:message code="sagr.property.communeAnneeN.label" />  : </dt><dd id="communeAnneeN" class="action-editField validate-string i18n-sagr.property.communeAnneeN" ><span>${rqt?.communeAnneeN}</span></dd>
                 

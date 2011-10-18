@@ -11,27 +11,33 @@
             
 
     
-      <label for="cndsAnneeN" class=""><g:message code="sagr.property.cndsAnneeN.label" />   <span><g:message code="sagr.property.cndsAnneeN.help" /></span></label>
-            <input type="text" id="cndsAnneeN" name="cndsAnneeN" value="${rqt.cndsAnneeN?.toString()}" 
-                    class="  validate-string ${rqt.stepStates['subvention'].invalidFields.contains('cndsAnneeN') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.cndsAnneeN.validationError" />"   />
+      <label for="subventionObtenueConseilGeneralSaisonEcoulee" class=""><g:message code="sagr.property.subventionObtenueConseilGeneralSaisonEcoulee.label" />   <span><g:message code="sagr.property.subventionObtenueConseilGeneralSaisonEcoulee.help" /></span></label>
+            <input type="text" id="subventionObtenueConseilGeneralSaisonEcoulee" name="subventionObtenueConseilGeneralSaisonEcoulee" value="${rqt.subventionObtenueConseilGeneralSaisonEcoulee?.toString()}" 
+                    class="  validate-string ${rqt.stepStates['subvention'].invalidFields.contains('subventionObtenueConseilGeneralSaisonEcoulee') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.subventionObtenueConseilGeneralSaisonEcoulee.validationError" />"   />
             
 
     
-      <label for="cndsAnneeNPlusUn" class=""><g:message code="sagr.property.cndsAnneeNPlusUn.label" />   <span><g:message code="sagr.property.cndsAnneeNPlusUn.help" /></span></label>
-            <input type="text" id="cndsAnneeNPlusUn" name="cndsAnneeNPlusUn" value="${rqt.cndsAnneeNPlusUn?.toString()}" 
-                    class="  validate-string ${rqt.stepStates['subvention'].invalidFields.contains('cndsAnneeNPlusUn') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.cndsAnneeNPlusUn.validationError" />"   />
+      <label for="budgetSaisonEcouleeRecette" class=""><g:message code="sagr.property.budgetSaisonEcouleeRecette.label" />   <span><g:message code="sagr.property.budgetSaisonEcouleeRecette.help" /></span></label>
+            <input type="text" id="budgetSaisonEcouleeRecette" name="budgetSaisonEcouleeRecette" value="${rqt.budgetSaisonEcouleeRecette?.toString()}" 
+                    class="  validate-string ${rqt.stepStates['subvention'].invalidFields.contains('budgetSaisonEcouleeRecette') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.budgetSaisonEcouleeRecette.validationError" />"   />
             
 
     
-      <label for="regionAnneeN" class=""><g:message code="sagr.property.regionAnneeN.label" />   <span><g:message code="sagr.property.regionAnneeN.help" /></span></label>
-            <input type="text" id="regionAnneeN" name="regionAnneeN" value="${rqt.regionAnneeN?.toString()}" 
-                    class="  validate-string ${rqt.stepStates['subvention'].invalidFields.contains('regionAnneeN') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.regionAnneeN.validationError" />"   />
+      <label for="budgetSaisonEcouleeDepenses" class=""><g:message code="sagr.property.budgetSaisonEcouleeDepenses.label" />   <span><g:message code="sagr.property.budgetSaisonEcouleeDepenses.help" /></span></label>
+            <input type="text" id="budgetSaisonEcouleeDepenses" name="budgetSaisonEcouleeDepenses" value="${rqt.budgetSaisonEcouleeDepenses?.toString()}" 
+                    class="  validate-string ${rqt.stepStates['subvention'].invalidFields.contains('budgetSaisonEcouleeDepenses') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.budgetSaisonEcouleeDepenses.validationError" />"   />
             
 
     
-      <label for="regionAnneeNPlusUn" class=""><g:message code="sagr.property.regionAnneeNPlusUn.label" />   <span><g:message code="sagr.property.regionAnneeNPlusUn.help" /></span></label>
-            <input type="text" id="regionAnneeNPlusUn" name="regionAnneeNPlusUn" value="${rqt.regionAnneeNPlusUn?.toString()}" 
-                    class="  validate-string ${rqt.stepStates['subvention'].invalidFields.contains('regionAnneeNPlusUn') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.regionAnneeNPlusUn.validationError" />"   />
+      <label for="nombreLicencieMoinsDixHuitSaisonEcoulee" class=""><g:message code="sagr.property.nombreLicencieMoinsDixHuitSaisonEcoulee.label" />   <span><g:message code="sagr.property.nombreLicencieMoinsDixHuitSaisonEcoulee.help" /></span></label>
+            <input type="text" id="nombreLicencieMoinsDixHuitSaisonEcoulee" name="nombreLicencieMoinsDixHuitSaisonEcoulee" value="${rqt.nombreLicencieMoinsDixHuitSaisonEcoulee?.toString()}" 
+                    class="  validate-string ${rqt.stepStates['subvention'].invalidFields.contains('nombreLicencieMoinsDixHuitSaisonEcoulee') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.nombreLicencieMoinsDixHuitSaisonEcoulee.validationError" />"   />
+            
+
+    
+      <label for="nombreLicenciePlusDixHuitSaisonEcoulee" class=""><g:message code="sagr.property.nombreLicenciePlusDixHuitSaisonEcoulee.label" />   <span><g:message code="sagr.property.nombreLicenciePlusDixHuitSaisonEcoulee.help" /></span></label>
+            <input type="text" id="nombreLicenciePlusDixHuitSaisonEcoulee" name="nombreLicenciePlusDixHuitSaisonEcoulee" value="${rqt.nombreLicenciePlusDixHuitSaisonEcoulee?.toString()}" 
+                    class="  validate-string ${rqt.stepStates['subvention'].invalidFields.contains('nombreLicenciePlusDixHuitSaisonEcoulee') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.nombreLicenciePlusDixHuitSaisonEcoulee.validationError" />"   />
             
 
     

@@ -39,9 +39,6 @@
           <dt><g:message code="sagr.property.numeroEnregistrementPrefectureAssociation.label" /></dt><dd>${rqt.numeroEnregistrementPrefectureAssociation?.toString()}</dd>
 
         
-          <dt><g:message code="sagr.property.numeroAgrementJeunesseSportAssociation.label" /></dt><dd>${rqt.numeroAgrementJeunesseSportAssociation?.toString()}</dd>
-
-        
       </dl>
       
     
@@ -96,6 +93,25 @@
       
     
       
+      <h4><g:message code="sagr.property.precisionPresident.label" /></h4>
+      <dl>
+        
+          <dt><g:message code="sagr.property.nomPresident.label" /></dt><dd>${rqt.nomPresident?.toString()}</dd>
+
+        
+          <dt><g:message code="sagr.property.prenomPresident.label" /></dt><dd>${rqt.prenomPresident?.toString()}</dd>
+
+        
+          <dt><g:message code="sagr.property.telephonePresident.label" /></dt><dd>${rqt.telephonePresident?.toString()}</dd>
+
+        
+          <dt><g:message code="sagr.property.emailPresident.label" /></dt><dd>${rqt.emailPresident?.toString()}</dd>
+
+        
+      </dl>
+      
+    
+      
       <h4><g:message code="sagr.property.autreMembreBureau.label" /></h4>
       <g:each var="it" in="${rqt.autreMembreBureau}" status="index">
       <dl>
@@ -135,10 +151,28 @@
       <g:each var="it" in="${rqt.activiteAssociation}" status="index">
       <dl>
         
-          <dt><g:message code="sagr.property.nomActivite.label" /></dt><dd>${it.nomActivite?.toString()}</dd>
+          <dt><g:message code="sagr.property.sportPratique.label" /></dt>
+          <dd>
+            <g:if test="${it.sportPratique}">
+              <g:capdematEnumToField var="${it.sportPratique}" i18nKeyPrefix="sagr.property.sportPratique" />
+            </g:if>
+          </dd>
+          
 
         
-          <dt><g:message code="sagr.property.nomFederationSportiveActivite.label" /></dt><dd>${it.nomFederationSportiveActivite?.toString()}</dd>
+          <dt><g:message code="sagr.property.sportPratiquePrecision.label" /></dt><dd>${it.sportPratiquePrecision?.toString()}</dd>
+
+        
+          <dt><g:message code="sagr.property.federationSportive.label" /></dt>
+          <dd>
+            <g:if test="${it.federationSportive}">
+              <g:capdematEnumToField var="${it.federationSportive}" i18nKeyPrefix="sagr.property.federationSportive" />
+            </g:if>
+          </dd>
+          
+
+        
+          <dt><g:message code="sagr.property.federationSportivePrecision.label" /></dt><dd>${it.federationSportivePrecision?.toString()}</dd>
 
         
           <dt><g:message code="sagr.property.numeroAffiliationActivite.label" /></dt><dd>${it.numeroAffiliationActivite?.toString()}</dd>
@@ -166,16 +200,19 @@
           <dt><g:message code="sagr.property.subventionSolliciteConseilGeneral.label" /></dt><dd>${rqt.subventionSolliciteConseilGeneral?.toString()}</dd>
 
         
-          <dt><g:message code="sagr.property.cndsAnneeN.label" /></dt><dd>${rqt.cndsAnneeN?.toString()}</dd>
+          <dt><g:message code="sagr.property.subventionObtenueConseilGeneralSaisonEcoulee.label" /></dt><dd>${rqt.subventionObtenueConseilGeneralSaisonEcoulee?.toString()}</dd>
 
         
-          <dt><g:message code="sagr.property.cndsAnneeNPlusUn.label" /></dt><dd>${rqt.cndsAnneeNPlusUn?.toString()}</dd>
+          <dt><g:message code="sagr.property.budgetSaisonEcouleeRecette.label" /></dt><dd>${rqt.budgetSaisonEcouleeRecette?.toString()}</dd>
 
         
-          <dt><g:message code="sagr.property.regionAnneeN.label" /></dt><dd>${rqt.regionAnneeN?.toString()}</dd>
+          <dt><g:message code="sagr.property.budgetSaisonEcouleeDepenses.label" /></dt><dd>${rqt.budgetSaisonEcouleeDepenses?.toString()}</dd>
 
         
-          <dt><g:message code="sagr.property.regionAnneeNPlusUn.label" /></dt><dd>${rqt.regionAnneeNPlusUn?.toString()}</dd>
+          <dt><g:message code="sagr.property.nombreLicencieMoinsDixHuitSaisonEcoulee.label" /></dt><dd>${rqt.nombreLicencieMoinsDixHuitSaisonEcoulee?.toString()}</dd>
+
+        
+          <dt><g:message code="sagr.property.nombreLicenciePlusDixHuitSaisonEcoulee.label" /></dt><dd>${rqt.nombreLicenciePlusDixHuitSaisonEcoulee?.toString()}</dd>
 
         
           <dt><g:message code="sagr.property.communeAnneeN.label" /></dt><dd>${rqt.communeAnneeN?.toString()}</dd>

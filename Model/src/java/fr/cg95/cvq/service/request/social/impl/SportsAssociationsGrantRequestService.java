@@ -2,6 +2,9 @@ package fr.cg95.cvq.service.request.social.impl;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.social.SagrActiviteAssociation;
+import fr.cg95.cvq.business.request.social.SagrFederationSportiveType;
+import fr.cg95.cvq.business.request.social.SagrRoleAssociationType;
+import fr.cg95.cvq.business.request.social.SagrSportPratiqueType;
 import fr.cg95.cvq.business.request.social.SportsAssociationsGrantRequest;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
@@ -11,6 +14,9 @@ public class SportsAssociationsGrantRequestService extends RequestService {
     @Override
     public void init() {
         SportsAssociationsGrantRequest.conditions.put("estAdresseCorrespondantPrincipal", new EqualityChecker("false"));
+        SportsAssociationsGrantRequest.conditions.put("roleDemandeur", new EqualityChecker(SagrRoleAssociationType.PRESIDENT.name()));
+//        SportsAssociationsGrantRequest.conditions.put("sportPratique", new EqualityChecker(SagrSportPratiqueType.AUTRE.name()));
+//        SportsAssociationsGrantRequest.conditions.put("federationSportive", new EqualityChecker(SagrFederationSportiveType.AUTRE.name()));
     }
 
     @Override

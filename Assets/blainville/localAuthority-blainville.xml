@@ -63,6 +63,7 @@
                 <value>Marriage Details</value>
                 <value>Iconito Ps Subscription</value>
                 <value>Electoral Roll Registration</value>
+								<value>Military Census</value>
               </list>
             </property>
             <property name="password">

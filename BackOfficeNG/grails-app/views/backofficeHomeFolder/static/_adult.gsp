@@ -1,4 +1,4 @@
-<div id="adult_${adult.id}" class="individual collapse">
+<div id="adult_${adult.id}" class="individual collapse mainbox">
   <a class="confirmRemoveIndividual" style="float: right;">${message(code:'action.delete')}</a>
   <a class="toggle">${message(code:'action.expand')} / ${message(code:'action.collapse')}</a>
   <dl class="${adult?.state?.toString() != 'Archived' ? 'edit' : ''} individual-state required collapse">

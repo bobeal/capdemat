@@ -232,9 +232,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
         var individual = yud.getAncestorByTagName(target, 'div');
         zct.doAjaxCall('/removeIndividual?id=' + individual.id.split('_')[1], null, function(o) {
           var json = ylj.parse(o.responseText);
-          if (json.status === 'success')
+          if (json.status === 'success') {
             individual.parentNode.removeChild(individual);
             zcbh.Details.refreshActions();
+            //Children should be refreshed too… to reflect any change on their responsibles.
+          } else {
+            zct.Notifier.processMessage('error', json.message, null, target);
+          }
         });
       },
       

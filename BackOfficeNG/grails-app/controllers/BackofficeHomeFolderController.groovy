@@ -101,6 +101,8 @@ class BackofficeHomeFolderController {
     
     def details = {
         def homeFolder = userSearchService.getHomeFolderById(Long.parseLong(params.id))
+        if (homeFolder.temporary)
+            render(text: "", status: 403)
         def adults, children
         if (params.viewArchived != null) {
             adults = userSearchService.getAdults(homeFolder.id, UserState.allUserStates)
@@ -556,7 +558,12 @@ class BackofficeHomeFolderController {
                 criterias.add(criteria)
             }
         }
-        return criterias;
+        Critere criteria = new Critere()
+        criteria.setAttribut(Individual.SEARCH_IS_TEMPORARY)
+        criteria.setComparatif(Critere.EQUALS)
+        criteria.setValue(false)
+        criterias.add(criteria)
+        return criterias
     }
     
     protected Map<String,String> prepareSort(state) {

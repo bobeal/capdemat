@@ -61,6 +61,7 @@ public abstract class Individual implements Serializable {
     public static final String SEARCH_BY_HOME_FOLDER_ID = "homeFolderId";
     public static final String SEARCH_BY_HOME_FOLDER_STATE = "homeFolderState";
     public static final String SEARCH_IS_HOME_FOLDER_RESPONSIBLE = "isHomeFolderResponsible";
+    public static final String SEARCH_IS_TEMPORARY = "isTemporary";
     public static final String SEARCH_IS_DUPLICATE_ALERT = "isDuplicateAlert";
     
     private static final long serialVersionUID = 1L;

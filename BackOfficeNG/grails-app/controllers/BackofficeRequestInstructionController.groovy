@@ -412,9 +412,8 @@ class BackofficeRequestInstructionController {
     /*  request information  managment
     * --------------------------------------------------------------------- */
 
-    // FIXME : copy-paste from frontOfficeHomeFolderController. mutualize if possible
     def homeFolder = {
-        def result = ['adults':[], 'children': [], homeFolder: []]
+        def result = ['adults':[], 'children':[]]
         def cRequest = requestSearchService.getById(Long.valueOf(params.id), false)
         def homeFolder = userSearchService.getHomeFolderById(cRequest.homeFolderId)
         userSearchService.getAdults(homeFolder.id).each { adult ->
@@ -425,6 +424,7 @@ class BackofficeRequestInstructionController {
                 'email' : adult.email,
                 'homePhone' : adult.homePhone,
                 'mobilePhone' : adult.mobilePhone,
+                'officePhone' : adult.officePhone,
                 'birthDate' : adult.birthDate,
                 'birthCountry' : adult.birthCountry,
                 'birthPostalCode' : adult.birthPostalCode,
@@ -436,7 +436,8 @@ class BackofficeRequestInstructionController {
             result.children.add([
                 'id' : child.id,
                 'sex' : child.sex,
-                'fullName' : "${child.firstName} ${child.lastName}",
+                'fullName' : "${child.firstName?.concat(' ')?: ''}${child.lastName}",
+                'born' : child.isBorn(),
                 'birthDate' : child.birthDate,
                 'birthCountry' : child.birthCountry,
                 'birthPostalCode' : child.birthPostalCode,
@@ -445,19 +446,21 @@ class BackofficeRequestInstructionController {
                     [RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR] as RoleType[])
             ])
         }
-        
         result.info = [
             'id' : homeFolder.id,
             'temporary': homeFolder.temporary,
             'state' : homeFolder.state,
             'enabled' : homeFolder.enabled,
             'temporary' : homeFolder.temporary,
-            'addressDetails' :   "${homeFolder.address.streetNumber ?: ''} "+
-                                 "${homeFolder.address.streetName} " +
-                                 "${homeFolder.address.postalCode} " +
-                                 "${homeFolder.address.city}"
+            'addressDetails' : "${homeFolder.address.additionalDeliveryInformation?.concat(', ')?: ''}" +
+                "${homeFolder.address.additionalGeographicalInformation?.concat(', ')?: ''}" +
+                "${homeFolder.address.streetNumber?.concat(' ')?: ''}${homeFolder.address.streetName}, " +
+                "${homeFolder.address.placeNameOrService?.concat(', ')?: ''}" +
+                "${homeFolder.address.postalCode + ', '}" +
+                "${homeFolder.address.city}" +
+                "${homeFolder.address.countryName ? ', ' + homeFolder.address.countryName : ''}" + "."
         ]
-    		render(template:'homeFolderData', model:['homeFolder':result])
+        render(template:'homeFolderData', model:['homeFolder':result])
     }
 
     def homeFolderRequests = {

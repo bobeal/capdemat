@@ -15,8 +15,8 @@
        zcf.Condition.triggers = [];
        zcf.Condition.filleds = [];
        zcf.Condition.unfilleds = [];
-    }
-  
+    };
+
     var getTriggerEls = function (triggerClassName) {
       var triggerEls = [];
       zct.each (yud.getElementsByClassName(triggerClassName, null, 'request'), function() {
@@ -27,12 +27,18 @@
             triggerEls.push(this);       
       });
       return triggerEls;
-    }
-    
+    };
+
     var getTriggerValue = function (triggerEl) {
         return triggerEl.value || "";
-    }
-    
+    };
+
+    var isMultipleTrigger = function (triggerEl) {
+      var triggerArray = triggerEl.className.match(/condition-(\w+)-trigger/ig);
+      if (triggerArray.length > 1) return true;
+      else return false;
+    };
+
     var setDisabled = function (controlEl, active) {
       if((controlEl.nodeName == "INPUT" || controlEl.nodeName == "SELECT" || controlEl.nodeName == "TEXTAREA")) {
           controlEl.disabled = active;
@@ -49,14 +55,13 @@
                 }
                 );
       }
-    }
-    
+    };
+
     var listenerSwitch = function (listenerEl, active) {
       active ? yud.removeClass(listenerEl, 'unactive') : yud.addClass(listenerEl, 'unactive');
       setDisabled(listenerEl, !active);
-    }
-    
-        
+    };
+
     return {
       /* type triggers = [json{requestField : value}, json{requestField : value}, json{requestField : value} ... ] 
        * triggers[n] affects filled[n] and unfilled[n] 
@@ -68,10 +73,11 @@
       
       /* type unfilleds = type filled */
       unfilleds : undefined,
-      
+
       init : function() {
           reset();
           zcf.Condition.setAll();
+          if (!zcf.Condition.triggers.length) return;
           zcf.Condition.test();
           yue.on(yus.query('form', 'request'), 'change', zcf.Condition.run,zcf.Condition,true);
       },
@@ -79,6 +85,7 @@
       run : function(e) {
           reset();
           zcf.Condition.set(e);
+          if (!zcf.Condition.triggers.length) return;
           zcf.Condition.test();
       },
       
@@ -94,8 +101,8 @@
                     zcf.Condition.unactive(zcf.Condition.filleds[i]);
                     zcf.Condition.active(zcf.Condition.unfilleds[i]);
                   }
-               });
-           zcf.RequestCreation.resizeDatasBloc(); // hack RDJ
+              });
+              zcf.RequestCreation.resizeDatasBloc(); // hack RDJ
           });
       },
       
@@ -108,14 +115,17 @@
               });
           });
       },
-      
+
       set : function(e) {
-          var targetEl = yue.getTarget(e);
-          var trigger = /condition-(\w+)-trigger/i.exec(targetEl.className);
-          if (!yl.isNull(trigger))
-            zcf.Condition.addTriggers(trigger[1], getTriggerEls(trigger[0]), null);
+        var targetEl = yue.getTarget(e);
+        zct.each (targetEl.className.split(' '), function() {
+          var trigger = /condition-(\w+)-trigger/i.exec(this);
+          if (trigger) {
+            zcf.Condition.addTriggers(trigger[1], getTriggerEls(trigger[0]));
+          }
+        });
       },
-      
+
       /*
        * Specific current trigger element isn't useful in FrontOffice request creation from
        * TODO - Modify zcf.condition.js API or call addTriggers() with the two fisrt params only
@@ -124,13 +134,10 @@
           if (!yl.isUndefined(triggerEls) && triggerEls.length > 0) {
             var jsonTrigger = {};
             zct.each (triggerEls, function() {
-              var cut = this.name.lastIndexOf("[0].name")
-              if (cut !== -1) {
-                //The "condition" action expects a name without the "[0].name" part.
-                //"[0].name" part is present in local referential selectors.
-                jsonTrigger[this.name.slice(0, cut)] = getTriggerValue(this);
+              if (yud.hasClass(this, 'data-localReferentialData')) {
+                jsonTrigger[this.name.split('[')[0]] = (isMultipleTrigger(this) ? conditionName + '=' : '') + getTriggerValue(this);
               } else {
-                jsonTrigger[this.name] = getTriggerValue(this);
+                jsonTrigger[this.name] = (isMultipleTrigger(this) ? conditionName + '=' : '') + getTriggerValue(this);
               }
             });
             zcf.Condition.triggers.push(jsonTrigger);

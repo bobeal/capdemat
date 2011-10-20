@@ -296,7 +296,7 @@ public class SoapExternalService extends ExternalProviderServiceAdapter {
             CheckExternalReferentialRequestDocument.Factory.newInstance();
         CheckExternalReferentialRequest checkExternalReferentialRequest =
             checkExternalReferentialRequestDocument.addNewCheckExternalReferentialRequest();
-        checkExternalReferentialRequest.setRequest(ExternalServiceUtils.getRequestTypeFromXmlObject(requestXml));
+        checkExternalReferentialRequest.setRequest((RequestType) requestXml);
         
         CheckExternalReferentialResponseDocument checkExternalReferentialResponseDocument =
             (CheckExternalReferentialResponseDocument) soapExternalServiceClient.checkExternalReferential(checkExternalReferentialRequestDocument);

@@ -14,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -51,7 +50,7 @@ public class RequestType implements Serializable {
     private DisplayGroup displayGroup;
 
     /** the set of requirements to fulfill this request type */
-    @ElementCollection(fetch=FetchType.EAGER)
+    @ElementCollection(fetch=FetchType.LAZY)
     @CollectionTable(
           name="requirement",
           joinColumns=@JoinColumn(name="request_type_id")
@@ -63,7 +62,7 @@ public class RequestType implements Serializable {
     private Set<RequestForm> forms;
 
     /** the set of seasons associated with this request type */
-    @OneToMany(mappedBy="requestType",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="requestType",cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     private Set<RequestSeason> seasons;
 
     /** 

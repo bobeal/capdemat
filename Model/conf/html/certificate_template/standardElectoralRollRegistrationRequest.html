@@ -182,7 +182,10 @@
     
   
     
-      <p class="label">${esc(i18n.translate('serrr.property.precisionNationalite.label'))}</p>
+      <h3>${i18n.translate('serrr.property.fieldsetEstUnionEuropeenne.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${esc(i18n.translate('serrr.property.precisionNationalite.label'))}</p>
           <div class="response">
             <% if(rqt.precisionNationalite) { %>
               ${esc(i18n.translate('serrr.property.precisionNationalite.' + EnumTool.toLowerCamelCase(rqt.precisionNationalite.toString())))}
@@ -190,10 +193,8 @@
           </div>
           
 
-    
-  
-    
-      <p class="label">${esc(i18n.translate('serrr.property.typeElection.label'))}</p>
+        
+          <p class="label">${esc(i18n.translate('serrr.property.typeElection.label'))}</p>
           <div class="response">
             <% if(rqt.typeElection) { %>
               ${esc(i18n.translate('serrr.property.typeElection.' + EnumTool.toLowerCamelCase(rqt.typeElection.toString())))}
@@ -201,11 +202,6 @@
           </div>
           
 
-    
-  
-    
-      <h3>${i18n.translate('serrr.property.lieuDerniereInscription.label')}</h3>
-      <div class="complex">
         
           <p class="label">${esc(i18n.translate('serrr.property.paysPrecedent.label'))}</p>
           <div class="response">

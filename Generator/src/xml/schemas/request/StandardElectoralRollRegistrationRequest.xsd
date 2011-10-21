@@ -232,13 +232,13 @@
               </xs:annotation>
             </xs:element>
 
-            <xs:element name="PrecisionNationalite" type="serrr:SerrrPrecisionNationaliteType">
+            <xs:element name="FieldsetEstUnionEuropeenne" type="serrr:SerrrFieldsetEstUnionEuropeenneType">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Précisez votre nationalité
+                  
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Précisez votre nationalité
+                  
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -254,53 +254,6 @@
               </xs:annotation>
             </xs:element>
 
-            <xs:element name="TypeElection" type="serrr:SerrrTypeElectionType" default="ElectionMunicipale">
-              <xs:annotation>
-               <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                 Type d'élection
-               </xs:documentation>
-              <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Type d'élection
-              </xs:documentation>
-             <xs:appinfo>
-             <common>
-               <step name="inscription" />
-               <conditions>
-                  <condition name="estUnionEuropenne" type="filled" />
-                  <condition name="estElectionEuropenne" type="trigger" />
-               </conditions>
-             </common>
-                <fo>
-                 <radio />
-               </fo>
-               <bo column="2" />
-               <pdf />
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-
-            <xs:element name="LieuDerniereInscription" type="serrr:SerrrLieuDerniereInscriptionType">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Indiquez le lieu de votre dernière inscription sur une liste électorale d'un autre pays de l'Union Européenne
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Indiquez le lieu de votre dernière inscription sur une liste électorale d'un autre pays de l'Union Européenne
-                </xs:documentation>
-                <xs:appinfo>
-                  <common>
-                    <step name="inscription" />
-                    <conditions>
-                      <condition name="estElectionEuropenne" type="filled" />
-                    </conditions>
-                  </common>
-                  <fo />
-                  <bo column="2" />
-                  <pdf />
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-            
             <xs:element name="Situation" type="serrr:SerrrSituationType" default="PremiereInscription">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
@@ -482,9 +435,56 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:complexType name="SerrrLieuDerniereInscriptionType">
+  <xs:complexType name="SerrrFieldsetEstUnionEuropeenneType">
     <xs:sequence>
-      <xs:element name="PaysPrecedent" type="cvq:CountryType" minOccurs="0">
+      <xs:element name="PrecisionNationalite" type="serrr:SerrrPrecisionNationaliteType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Précisez votre nationalité
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Précisez votre nationalité
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="inscription" />
+                    <conditions>
+                      <condition name="estUnionEuropenne" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="TypeElection" type="serrr:SerrrTypeElectionType" default="ElectionMunicipale">
+              <xs:annotation>
+               <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                 Type d'élection
+               </xs:documentation>
+              <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Type d'élection
+              </xs:documentation>
+             <xs:appinfo>
+             <common>
+               <step name="inscription" />
+               <conditions>
+                  <condition name="estUnionEuropenne" type="filled" />
+                  <condition name="estElectionEuropenne" type="trigger" />
+               </conditions>
+             </common>
+                <fo>
+                 <radio />
+               </fo>
+               <bo column="2" />
+               <pdf />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+
+          <xs:element name="PaysPrecedent" type="cvq:CountryType" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Pays
@@ -497,6 +497,9 @@
             <model namespace="users" />
             <common>
               <step name="inscription" />
+              <conditions>
+                 <condition name="estElectionEuropenne" type="filled" />
+              </conditions>
             </common>
             <fo />
             <bo column="2" />
@@ -515,6 +518,9 @@
           <xs:appinfo>
             <common>
               <step name="inscription" />
+              <conditions>
+                 <condition name="estElectionEuropenne" type="filled" />
+              </conditions>
             </common>
             <fo />
             <bo column="2" />
@@ -533,6 +539,9 @@
           <xs:appinfo>
             <common>
               <step name="inscription" />
+              <conditions>
+                 <condition name="estElectionEuropenne" type="filled" />
+              </conditions>
             </common>
             <fo />
             <bo column="2" />

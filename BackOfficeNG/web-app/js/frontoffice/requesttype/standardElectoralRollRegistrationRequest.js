@@ -57,7 +57,6 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
             if (birthdate.getMonth() >= marchdate.getMonth()) {
                 age --;
             }
-            console.log(age);
             return age >= 18;
             
           },"Le sujet doit être âgé d'au moins 18 ans la veille du 1er mars. <br /> Si le sujet atteint l'âge de 18 ans entre le 1er mars et le jour de l'élection, contactez votre mairie.")

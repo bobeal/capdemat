@@ -62,9 +62,10 @@ class BackofficeCategoryController {
     }
     
     def create = {
-        render(view:'edit',model:[editMode:"create", categories:categoryService.getAll()])
+        render(view:'edit',
+               model:[editMode:"create", categories:categoryService.getAll(), subMenuEntries : subMenuEntries])
     }
-    
+
     def save = {
         def category = null
         def create = true

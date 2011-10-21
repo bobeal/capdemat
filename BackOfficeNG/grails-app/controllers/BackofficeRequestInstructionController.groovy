@@ -82,7 +82,7 @@ class BackofficeRequestInstructionController {
 
         // Auto-Transition from Pending to INProgress if enabled
         if (rqt.getState().equals(RequestState.PENDING) && SecurityContext.getCurrentConfigurationBean().isAutotransition()){
-            requestWorkflowService.updateRequestState(rqt.id,RequestState.INPROGRESS, "auto-transition");
+            requestWorkflowService.updateRequestState(rqt.id,RequestState.INPROGRESS, null);
         }
 
         def editableStates = []

@@ -323,6 +323,7 @@ public class ModelRequestObject {
 
         private void generate() {
             Map<String, Object> model = new HashMap<String, Object>();
+            model.put("requestName", requestName);
             model.put("complexType", this);
             model.put("baseNS", IPluginGenerator.MODEL_BASE_TARGET_NS);
             model.put("lastParticle", requestNamespaceLastParticle);

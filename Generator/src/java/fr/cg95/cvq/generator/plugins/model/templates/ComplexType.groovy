@@ -242,6 +242,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.*;
@@ -266,6 +267,9 @@ import org.hibernate.annotations.Type;
 public class ${className} implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Map<String, IConditionChecker> conditions =
+        ${requestName}.conditions;
 
     public ${className}() {
         super();

@@ -41,9 +41,9 @@ public class DomesticHelpRequestService extends RequestService {
             new EqualityChecker("Other"));
         DomesticHelpRequest.conditions.put("dhrCurrentDwellingKind",
             new EqualityChecker(DhrDwellingKindType.PLACE_OF_RESIDENCE.name()));
-        DomesticHelpRequest.conditions.put("dhrPreviousDwelling[0].dhrPreviousDwellingKind",
+        DomesticHelpRequest.conditions.put("dhrPreviousDwelling.dhrPreviousDwellingKind",
             new EqualityChecker(DhrDwellingKindType.PLACE_OF_RESIDENCE.name()));
-        DomesticHelpRequest.conditions.put("dhrNotRealAsset[0].dhrNotRealAssetKind",
+        DomesticHelpRequest.conditions.put("dhrNotRealAsset.dhrNotRealAssetKind",
             new EqualityChecker(DhrAssetKindType.REAL_ESTATE.name()));
     }
 

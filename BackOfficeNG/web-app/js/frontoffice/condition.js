@@ -137,7 +137,8 @@
               if (yud.hasClass(this, 'data-localReferentialData')) {
                 jsonTrigger[this.name.split('[')[0]] = (isMultipleTrigger(this) ? conditionName + '=' : '') + getTriggerValue(this);
               } else {
-                jsonTrigger[this.name] = (isMultipleTrigger(this) ? conditionName + '=' : '') + getTriggerValue(this);
+                //.replace(/\[\d*\]/, '') is for conditions in collection items.
+                jsonTrigger[this.name.replace(/\[\d*\]/, '')] = (isMultipleTrigger(this) ? conditionName + '=' : '') + getTriggerValue(this);
               }
             });
             zcf.Condition.triggers.push(jsonTrigger);

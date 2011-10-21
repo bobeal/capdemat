@@ -82,12 +82,12 @@ public class HandicapCompensationAdultRequestService extends RequestService {
             new EqualityChecker("true"));
         HandicapCompensationAdultRequest.conditions.put("homeInterventionHomeIntervenant",
             new EqualityChecker("true"));
-        HandicapCompensationAdultRequest.conditions.put("homeIntervenants[0].homeIntervenantKind",
+        HandicapCompensationAdultRequest.conditions.put("homeIntervenants.homeIntervenantKind",
             new EqualityChecker(HcarHomeIntervenantKindType.OTHER.name()));
         HandicapCompensationAdultRequest.conditions.put("careCareServices",
             new EqualityChecker("true"));
         HandicapCompensationAdultRequest.conditions.put(
-            "careServices[0].careServiceCareServiceEmployer", new EqualityChecker("true"));
+            "careServices.careServiceCareServiceEmployer", new EqualityChecker("true"));
         HandicapCompensationAdultRequest.conditions.put("facilitiesHousing",
             new EqualityChecker("true"));
         HandicapCompensationAdultRequest.conditions.put("facilitiesTechnicalAssistance",

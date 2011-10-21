@@ -1,15 +1,50 @@
 zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
 
 (function() {
+  var zct = zenexity.capdemat.tools;
   var zcf = zenexity.capdemat.fong;
   var zcfr = zenexity.capdemat.fong.requesttype;
   var zcv = zenexity.capdemat.Validation;
   var yue = YAHOO.util.Event;
+  var yus = YAHOO.util.Selector;
+  var yud = YAHOO.util.Dom;
 
   zcfr.StandardElectoralRollRegistrationRequest = function() {
 
+    /**
+     * Conditions on 2 levels only work if the conditional fields are included in a complex type (fieldset).
+     * But it sucks in terms of UX.
+     * So "move" the fieldset around the 2 levels to the 2nd level only.
+     */
+    var moveFieldset = function() {
+      //Return if we aren't on step 1.
+      if (yud.get('subjectId') === null)
+        return;
+
+      //Hide original fieldset.
+      var originalFieldset = yus.query('fieldset.condition-estUnionEuropenne-filled', yus.document, true);
+      originalFieldset.style.border = 'none';
+      originalFieldset.style.padding = '0';
+      originalFieldset.style.margin = '0';
+
+      //Create new fieldset.
+      var newFieldset = document.createElement('fieldset');
+      originalFieldset.appendChild(newFieldset);
+      var legend = document.createElement('legend');
+      legend.innerHTML = "Indiquez le lieu de votre dernière inscription sur une liste électorale d'un autre pays de l'Union Européenne";
+      newFieldset.appendChild(legend);
+
+      //Fill new fieldset.
+      zct.each(yus.query('.condition-estElectionEuropenne-filled', originalFieldset), function() {
+          newFieldset.appendChild(this);
+      });
+      newFieldset.className = "condition-estElectionEuropenne-filled";
+    };
+
     return {
       init: function() {
+        moveFieldset();
+
         zcf.RequestCreation.requestTypeModule = zcfr.StandardElectoralRollRegistrationRequest;
         zcv.putComplexRules({
           "eighteenInMarch" : new zcv.complexRule(function(){
@@ -34,6 +69,5 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
     };
 
   }();
-  yue.onDOMReady(zcfr.StandardElectoralRollRegistrationRequest.init);
-}());
 
+}());

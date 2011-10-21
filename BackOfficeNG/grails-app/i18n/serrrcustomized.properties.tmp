@@ -60,16 +60,16 @@ serrr.property.nationalite.help =
 serrr.property.nationalite.validationError =
 
 
+serrr.property.fieldsetEstUnionEuropeenne.help =
+serrr.property.fieldsetEstUnionEuropeenne.validationError =
+
+
 serrr.property.precisionNationalite.help =
 serrr.property.precisionNationalite.validationError =
 
 
 serrr.property.typeElection.help =
 serrr.property.typeElection.validationError =
-
-
-serrr.property.lieuDerniereInscription.help =
-serrr.property.lieuDerniereInscription.validationError =
 
 
 serrr.property.paysPrecedent.help =

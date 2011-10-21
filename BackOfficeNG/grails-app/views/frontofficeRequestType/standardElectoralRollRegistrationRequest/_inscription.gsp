@@ -176,7 +176,10 @@
   
 
   
-    <label for="precisionNationalite" class="required condition-estUnionEuropenne-filled"><g:message code="serrr.property.precisionNationalite.label" /> *  <span><g:message code="serrr.property.precisionNationalite.help" /></span></label>
+    <fieldset class="required condition-estUnionEuropenne-filled">
+    <legend><g:message code="serrr.property.fieldsetEstUnionEuropeenne.label" /></legend>
+    
+      <label for="precisionNationalite" class="required condition-estUnionEuropenne-filled"><g:message code="serrr.property.precisionNationalite.label" /> *  <span><g:message code="serrr.property.precisionNationalite.help" /></span></label>
             <select id="precisionNationalite" name="precisionNationalite" class="required condition-estUnionEuropenne-filled  validate-not-first ${rqt.stepStates['inscription'].invalidFields.contains('precisionNationalite') ? 'validation-failed' : ''}" title="<g:message code="serrr.property.precisionNationalite.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['DE','AD','AT','BE','GB','BG','CY','DK','ES','EE','FI','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SI','SK','SE','CZ']}">
@@ -185,10 +188,8 @@
             </select>
             
 
-  
-
-  
-    <label class="required condition-estUnionEuropenne-filled"><g:message code="serrr.property.typeElection.label" /> *  <span><g:message code="serrr.property.typeElection.help" /></span></label>
+    
+      <label class="required condition-estUnionEuropenne-filled"><g:message code="serrr.property.typeElection.label" /> *  <span><g:message code="serrr.property.typeElection.help" /></span></label>
             <ul class="required condition-estUnionEuropenne-filled ${rqt.stepStates['inscription'].invalidFields.contains('typeElection') ? 'validation-failed' : ''}">
               <g:each in="${['ELECTION_MUNICIPALE','ELECTION_EUROPEENNE']}">
               <li>
@@ -199,14 +200,9 @@
             </ul>
             
 
-  
-
-  
-    <fieldset class="required condition-estElectionEuropenne-filled">
-    <legend><g:message code="serrr.property.lieuDerniereInscription.label" /></legend>
     
-      <label for="paysPrecedent" class=""><g:message code="serrr.property.paysPrecedent.label" />   <span><g:message code="serrr.property.paysPrecedent.help" /></span></label>
-            <select id="paysPrecedent" name="paysPrecedent" class="  validate-select ${rqt.stepStates['inscription'].invalidFields.contains('paysPrecedent') ? 'validation-failed' : ''}" title="<g:message code="serrr.property.paysPrecedent.validationError" />">
+      <label for="paysPrecedent" class="condition-estElectionEuropenne-filled"><g:message code="serrr.property.paysPrecedent.label" />   <span><g:message code="serrr.property.paysPrecedent.help" /></span></label>
+            <select id="paysPrecedent" name="paysPrecedent" class="condition-estElectionEuropenne-filled  validate-select ${rqt.stepStates['inscription'].invalidFields.contains('paysPrecedent') ? 'validation-failed' : ''}" title="<g:message code="serrr.property.paysPrecedent.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['UNKNOWN','AF','ZA','AL','DZ','DE','AD','AO','AI','AQ','AG','AN','SA','AR','AM','AW','AU','AT','AZ','BJ','BS','BH','BD','BB','PW','BE','BZ','BM','BT','BY','MM','BO','BA','BW','BR','BN','BG','BF','BI','CI','KH','CM','CA','CV','CL','CN','CY','CO','KM','CG','KP','KR','CR','HR','CU','DK','DJ','DM','EG','AE','EC','ER','ES','EE','US','ET','FI','FR','GE','GA','GM','GH','GI','GR','GD','GL','GP','GU','GT','GN','GQ','GW','GY','GF','HT','HN','HK','HU','CK','FJ','MH','SB','IN','ID','IR','IQ','IE','IS','IL','IT','JM','JP','JO','KZ','KE','KG','KI','KW','LA','LS','LV','LB','LR','LY','LI','LT','LU','MG','MY','MW','MV','ML','MT','MA','MU','MR','MX','FM','MD','MC','MN','MZ','NP','NA','NR','NI','NE','NG','NU','NO','NZ','OM','UG','UZ','PE','PK','PA','PG','PY','NL','PH','PL','PT','QA','CF','CD','DO','CZ','RO','GB','RU','RW','SN','KN','SM','VA','VC','LC','SV','WS','ST','SC','SL','SG','SI','SK','SO','SD','LK','SE','CH','SR','SZ','SY','TW','TJ','TZ','TD','TH','TL','TG','TO','VT','TN','TM','TR','TV','UA','UY','VU','VE','VN','YE','ZM','ZW','MK']}">
                 <option value="${it}" ${it == rqt.paysPrecedent?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="serrr.property.paysPrecedent" /></option>
@@ -215,15 +211,15 @@
             
 
     
-      <label for="subdivisionAdministrativePrecedente" class=""><g:message code="serrr.property.subdivisionAdministrativePrecedente.label" />   <span><g:message code="serrr.property.subdivisionAdministrativePrecedente.help" /></span></label>
+      <label for="subdivisionAdministrativePrecedente" class="condition-estElectionEuropenne-filled"><g:message code="serrr.property.subdivisionAdministrativePrecedente.label" />   <span><g:message code="serrr.property.subdivisionAdministrativePrecedente.help" /></span></label>
             <input type="text" id="subdivisionAdministrativePrecedente" name="subdivisionAdministrativePrecedente" value="${rqt.subdivisionAdministrativePrecedente?.toString()}" 
-                    class="  validate-string ${rqt.stepStates['inscription'].invalidFields.contains('subdivisionAdministrativePrecedente') ? 'validation-failed' : ''}" title="<g:message code="serrr.property.subdivisionAdministrativePrecedente.validationError" />"   />
+                    class="condition-estElectionEuropenne-filled  validate-string ${rqt.stepStates['inscription'].invalidFields.contains('subdivisionAdministrativePrecedente') ? 'validation-failed' : ''}" title="<g:message code="serrr.property.subdivisionAdministrativePrecedente.validationError" />"   />
             
 
     
-      <label for="communeOuLocalitePrecedente" class=""><g:message code="serrr.property.communeOuLocalitePrecedente.label" />   <span><g:message code="serrr.property.communeOuLocalitePrecedente.help" /></span></label>
+      <label for="communeOuLocalitePrecedente" class="condition-estElectionEuropenne-filled"><g:message code="serrr.property.communeOuLocalitePrecedente.label" />   <span><g:message code="serrr.property.communeOuLocalitePrecedente.help" /></span></label>
             <input type="text" id="communeOuLocalitePrecedente" name="communeOuLocalitePrecedente" value="${rqt.communeOuLocalitePrecedente?.toString()}" 
-                    class="  validate-city ${rqt.stepStates['inscription'].invalidFields.contains('communeOuLocalitePrecedente') ? 'validation-failed' : ''}" title="<g:message code="serrr.property.communeOuLocalitePrecedente.validationError" />"  maxlength="32" />
+                    class="condition-estElectionEuropenne-filled  validate-city ${rqt.stepStates['inscription'].invalidFields.contains('communeOuLocalitePrecedente') ? 'validation-failed' : ''}" title="<g:message code="serrr.property.communeOuLocalitePrecedente.validationError" />"  maxlength="32" />
             
 
     

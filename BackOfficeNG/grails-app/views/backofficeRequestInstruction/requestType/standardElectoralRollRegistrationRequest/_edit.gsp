@@ -106,8 +106,19 @@
               
             
               
-              <dl>
-                <dt class="required condition-estUnionEuropenne-filled"><g:message code="serrr.property.precisionNationalite.label" /> * : </dt><dd id="precisionNationalite" class="action-editField validate-capdematEnum required-true i18n-serrr.property.precisionNationalite javatype-fr.cg95.cvq.business.request.election.SerrrPrecisionNationaliteType" ><g:capdematEnumToField var="${rqt?.precisionNationalite}" i18nKeyPrefix="serrr.property.precisionNationalite" /></dd>
+              <h3><g:message code="serrr.property.fieldsetEstUnionEuropeenne.label" /></h3>
+              <dl class="required condition-estUnionEuropenne-filled">
+                
+                  <dt class="required condition-estUnionEuropenne-filled"><g:message code="serrr.property.precisionNationalite.label" /> * : </dt><dd id="precisionNationalite" class="action-editField validate-capdematEnum required-true i18n-serrr.property.precisionNationalite javatype-fr.cg95.cvq.business.request.election.SerrrPrecisionNationaliteType" ><g:capdematEnumToField var="${rqt?.precisionNationalite}" i18nKeyPrefix="serrr.property.precisionNationalite" /></dd>
+                
+                  <dt class="required condition-estUnionEuropenne-filled condition-estElectionEuropenne-trigger"><g:message code="serrr.property.typeElection.label" /> * : </dt><dd id="typeElection" class="action-editField validate-capdematEnum required-true i18n-serrr.property.typeElection javatype-fr.cg95.cvq.business.request.election.SerrrTypeElectionType" ><g:capdematEnumToField var="${rqt?.typeElection}" i18nKeyPrefix="serrr.property.typeElection" /></dd>
+                
+                  <dt class="condition-estElectionEuropenne-filled"><g:message code="serrr.property.paysPrecedent.label" />  : </dt><dd id="paysPrecedent" class="action-editField validate-capdematEnum i18n-serrr.property.paysPrecedent javatype-fr.cg95.cvq.business.users.CountryType" ><g:capdematEnumToField var="${rqt?.paysPrecedent}" i18nKeyPrefix="serrr.property.paysPrecedent" /></dd>
+                
+                  <dt class="condition-estElectionEuropenne-filled"><g:message code="serrr.property.subdivisionAdministrativePrecedente.label" />  : </dt><dd id="subdivisionAdministrativePrecedente" class="action-editField validate-string i18n-serrr.property.subdivisionAdministrativePrecedente" ><span>${rqt?.subdivisionAdministrativePrecedente}</span></dd>
+                
+                  <dt class="condition-estElectionEuropenne-filled"><g:message code="serrr.property.communeOuLocalitePrecedente.label" />  : </dt><dd id="communeOuLocalitePrecedente" class="action-editField validate-city i18n-serrr.property.communeOuLocalitePrecedente maxLength-32" ><span>${rqt?.communeOuLocalitePrecedente}</span></dd>
+                
               </dl>
               
             
@@ -116,25 +127,6 @@
           
           <!-- column start -->
           <div class="yui-u">
-            
-              
-              <dl>
-                <dt class="required condition-estUnionEuropenne-filled condition-estElectionEuropenne-trigger"><g:message code="serrr.property.typeElection.label" /> * : </dt><dd id="typeElection" class="action-editField validate-capdematEnum required-true i18n-serrr.property.typeElection javatype-fr.cg95.cvq.business.request.election.SerrrTypeElectionType" ><g:capdematEnumToField var="${rqt?.typeElection}" i18nKeyPrefix="serrr.property.typeElection" /></dd>
-              </dl>
-              
-            
-              
-              <h3><g:message code="serrr.property.lieuDerniereInscription.label" /></h3>
-              <dl class="required condition-estElectionEuropenne-filled">
-                
-                  <dt class=""><g:message code="serrr.property.paysPrecedent.label" />  : </dt><dd id="paysPrecedent" class="action-editField validate-capdematEnum i18n-serrr.property.paysPrecedent javatype-fr.cg95.cvq.business.users.CountryType" ><g:capdematEnumToField var="${rqt?.paysPrecedent}" i18nKeyPrefix="serrr.property.paysPrecedent" /></dd>
-                
-                  <dt class=""><g:message code="serrr.property.subdivisionAdministrativePrecedente.label" />  : </dt><dd id="subdivisionAdministrativePrecedente" class="action-editField validate-string i18n-serrr.property.subdivisionAdministrativePrecedente" ><span>${rqt?.subdivisionAdministrativePrecedente}</span></dd>
-                
-                  <dt class=""><g:message code="serrr.property.communeOuLocalitePrecedente.label" />  : </dt><dd id="communeOuLocalitePrecedente" class="action-editField validate-city i18n-serrr.property.communeOuLocalitePrecedente maxLength-32" ><span>${rqt?.communeOuLocalitePrecedente}</span></dd>
-                
-              </dl>
-              
             
           </div>
           <!-- column end -->

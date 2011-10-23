@@ -101,7 +101,6 @@
       <fileset dir="${src.xml.schema.dir}/referential">
         <include name="ReferentialData.xsd" />
       </fileset>
-      <fileset dir="${src.xml.schema.dir}/import" />
       <fileset dir="${conf.xmlbeans.dir}" includes="generator.xsdconfig" />
     </xmlbean>
 

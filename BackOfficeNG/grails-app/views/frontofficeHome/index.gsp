@@ -7,18 +7,13 @@
 
   <body>
     <div class="box">
-      <div class="main">
-        <g:render template="homeFolderDocumentList" />
-        <g:render template="draftList" />
-        <g:render template="requestList" />
-        <g:render template="paymentList" />
-      </div>
-      <div class="side">
-        <g:if test="${commonInfo != null}">
-          <div class="information-box">${commonInfo}</div>
-        </g:if>
-        <g:render template="/shared/services" model="['groups':requestTypes]" />
-      </div>
+      <g:if test="${commonInfo != null}">
+        <div class="information-box">${commonInfo}</div>
+      </g:if>
+      <g:render template="homeFolderDocumentList" />
+      <g:render template="draftList" />
+      <g:render template="requestList" />
+      <g:render template="paymentList" />
     </div>
   </body>
 </html>

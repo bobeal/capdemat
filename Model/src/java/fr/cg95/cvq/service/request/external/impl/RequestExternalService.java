@@ -190,7 +190,8 @@ public class RequestExternalService extends ExternalService implements IRequestE
         if (!hasMatchingExternalService(request.getRequestType().getLabel()))
             return Collections.<String>emptyList();
 
-        XmlObject xmlRequest = requestExportService.fillRequestXml(request);
+        XmlObject xmlRequest = 
+            ExternalServiceUtils.getRequestTypeFromXmlObject(requestExportService.fillRequestXml(request));
 
         List<String> errors = new ArrayList<String>();
         for (IExternalProviderService eps :

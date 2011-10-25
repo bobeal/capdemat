@@ -48,6 +48,9 @@
             <a href="#responsibles">${message(code:'homeFolder.individual.header.responsibles')}</a>
           </div>
         </g:if>
+        <div class="back">
+          <a href="${createLink(action:'index')}">${message(code:'homeFolder.action.back')}</a>
+        </div>
       </div>
     </div>
   </body>

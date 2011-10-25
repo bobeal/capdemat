@@ -16,6 +16,7 @@ import fr.cg95.cvq.business.request.workflow.event.IWorkflowEventVisitor;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.payment.IPaymentService;
+import fr.cg95.cvq.xml.common.RequestType;
 
 /**
  * The interface all external services must implement.
@@ -119,6 +120,8 @@ public interface IExternalProviderService extends IWorkflowEventVisitor{
 
     /**
      * Check the coherence of CapDemat's local referentials and external service's referentials.
+     * 
+     * @param requestXml an instance of a {@link RequestType} object.
      * @return a list of reasons for failed tests.
      */
     List<String> checkExternalReferential(final XmlObject requestXml);

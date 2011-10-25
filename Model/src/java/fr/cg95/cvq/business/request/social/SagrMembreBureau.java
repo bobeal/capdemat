@@ -63,7 +63,7 @@ public class SagrMembreBureau implements Serializable {
         sagrMembreBureau.setEmailMembre(this.emailMembre);
       
         if (this.roleMembre != null)
-            sagrMembreBureau.setRoleMembre(fr.cg95.cvq.xml.request.social.SagrRoleAssociationType.Enum.forString(this.roleMembre.toString()));
+            sagrMembreBureau.setRoleMembre(fr.cg95.cvq.xml.request.social.SagrRoleAutreMembreAssociationType.Enum.forString(this.roleMembre.toString()));
       
         sagrMembreBureau.setTelephoneMembre(this.telephoneMembre);
       
@@ -83,9 +83,9 @@ public class SagrMembreBureau implements Serializable {
         sagrMembreBureau.setEmailMembre(sagrMembreBureauDoc.getEmailMembre());
       
         if (sagrMembreBureauDoc.getRoleMembre() != null)
-            sagrMembreBureau.setRoleMembre(fr.cg95.cvq.business.request.social.SagrRoleAssociationType.forString(sagrMembreBureauDoc.getRoleMembre().toString()));
+            sagrMembreBureau.setRoleMembre(fr.cg95.cvq.business.request.social.SagrRoleAutreMembreAssociationType.forString(sagrMembreBureauDoc.getRoleMembre().toString()));
         else
-            sagrMembreBureau.setRoleMembre(fr.cg95.cvq.business.request.social.SagrRoleAssociationType.getDefaultSagrRoleAssociationType());
+            sagrMembreBureau.setRoleMembre(fr.cg95.cvq.business.request.social.SagrRoleAutreMembreAssociationType.getDefaultSagrRoleAutreMembreAssociationType());
       
         sagrMembreBureau.setTelephoneMembre(sagrMembreBureauDoc.getTelephoneMembre());
       
@@ -119,7 +119,7 @@ public class SagrMembreBureau implements Serializable {
         if (roleMembre != null)
             result.setRoleMembre(roleMembre);
         else
-            result.setRoleMembre(fr.cg95.cvq.business.request.social.SagrRoleAssociationType.getDefaultSagrRoleAssociationType());
+            result.setRoleMembre(fr.cg95.cvq.business.request.social.SagrRoleAutreMembreAssociationType.getDefaultSagrRoleAutreMembreAssociationType());
       
           
         
@@ -241,9 +241,9 @@ public class SagrMembreBureau implements Serializable {
         message = "roleMembre"
       )
     
-    private fr.cg95.cvq.business.request.social.SagrRoleAssociationType roleMembre;
+    private fr.cg95.cvq.business.request.social.SagrRoleAutreMembreAssociationType roleMembre;
 
-    public void setRoleMembre(final fr.cg95.cvq.business.request.social.SagrRoleAssociationType roleMembre) {
+    public void setRoleMembre(final fr.cg95.cvq.business.request.social.SagrRoleAutreMembreAssociationType roleMembre) {
         this.roleMembre = roleMembre;
     }
 
@@ -251,7 +251,7 @@ public class SagrMembreBureau implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name="role_membre"  )
       
-    public fr.cg95.cvq.business.request.social.SagrRoleAssociationType getRoleMembre() {
+    public fr.cg95.cvq.business.request.social.SagrRoleAutreMembreAssociationType getRoleMembre() {
         return this.roleMembre;
     }
   

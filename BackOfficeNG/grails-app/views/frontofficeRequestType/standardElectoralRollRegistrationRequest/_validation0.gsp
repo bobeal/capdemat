@@ -111,8 +111,10 @@
       
     
       
+      <h4><g:message code="serrr.property.fieldsetEstUnionEuropeenne.label" /></h4>
       <dl>
-        <dt><g:message code="serrr.property.precisionNationalite.label" /></dt>
+        
+          <dt><g:message code="serrr.property.precisionNationalite.label" /></dt>
           <dd>
             <g:if test="${rqt.precisionNationalite}">
               <g:capdematEnumToField var="${rqt.precisionNationalite}" i18nKeyPrefix="serrr.property.precisionNationalite" />
@@ -120,12 +122,8 @@
           </dd>
           
 
-      </dl>
-      
-    
-      
-      <dl>
-        <dt><g:message code="serrr.property.typeElection.label" /></dt>
+        
+          <dt><g:message code="serrr.property.typeElection.label" /></dt>
           <dd>
             <g:if test="${rqt.typeElection}">
               <g:capdematEnumToField var="${rqt.typeElection}" i18nKeyPrefix="serrr.property.typeElection" />
@@ -133,12 +131,6 @@
           </dd>
           
 
-      </dl>
-      
-    
-      
-      <h4><g:message code="serrr.property.lieuDerniereInscription.label" /></h4>
-      <dl>
         
           <dt><g:message code="serrr.property.paysPrecedent.label" /></dt>
           <dd>

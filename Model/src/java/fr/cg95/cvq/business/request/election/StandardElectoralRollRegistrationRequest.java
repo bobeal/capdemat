@@ -128,8 +128,8 @@ public class StandardElectoralRollRegistrationRequest extends Request implements
         standardElectoralRollRegistrationRequest.setAmbassadeOuPosteConsulaire(getAmbassadeOuPosteConsulaire());
         SerrrPrecedentLieuInscriptionType serrrPrecedentLieuInscriptionTypePrecedentLieuInscription = standardElectoralRollRegistrationRequest.addNewPrecedentLieuInscription();
         serrrPrecedentLieuInscriptionTypePrecedentLieuInscription.setAncienneCommune(getAncienneCommune());
-        SerrrLieuDerniereInscriptionType serrrLieuDerniereInscriptionTypeLieuDerniereInscription = standardElectoralRollRegistrationRequest.addNewLieuDerniereInscription();
-        serrrLieuDerniereInscriptionTypeLieuDerniereInscription.setCommuneOuLocalitePrecedente(getCommuneOuLocalitePrecedente());
+        SerrrFieldsetEstUnionEuropeenneType serrrFieldsetEstUnionEuropeenneTypeFieldsetEstUnionEuropeenne = standardElectoralRollRegistrationRequest.addNewFieldsetEstUnionEuropeenne();
+        serrrFieldsetEstUnionEuropeenneTypeFieldsetEstUnionEuropeenne.setCommuneOuLocalitePrecedente(getCommuneOuLocalitePrecedente());
       
         date = getDateNaissance();
         if (date != null) {
@@ -156,13 +156,13 @@ public class StandardElectoralRollRegistrationRequest extends Request implements
         standardElectoralRollRegistrationRequest.setNomNaissance(getNomNaissance());
       
         if (getPaysPrecedent() != null)
-            serrrLieuDerniereInscriptionTypeLieuDerniereInscription.setPaysPrecedent(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getPaysPrecedent().getLegacyLabel()));
+            serrrFieldsetEstUnionEuropeenneTypeFieldsetEstUnionEuropeenne.setPaysPrecedent(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getPaysPrecedent().getLegacyLabel()));
       
         if (getPaysRadiation() != null)
             standardElectoralRollRegistrationRequest.setPaysRadiation(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getPaysRadiation().getLegacyLabel()));
       
         if (getPrecisionNationalite() != null)
-            standardElectoralRollRegistrationRequest.setPrecisionNationalite(fr.cg95.cvq.xml.request.election.SerrrPrecisionNationaliteType.Enum.forString(getPrecisionNationalite().getLegacyLabel()));
+            serrrFieldsetEstUnionEuropeenneTypeFieldsetEstUnionEuropeenne.setPrecisionNationalite(fr.cg95.cvq.xml.request.election.SerrrPrecisionNationaliteType.Enum.forString(getPrecisionNationalite().getLegacyLabel()));
       
         standardElectoralRollRegistrationRequest.setPrenom(getPrenom());
       
@@ -172,12 +172,12 @@ public class StandardElectoralRollRegistrationRequest extends Request implements
         if (getSituation() != null)
             standardElectoralRollRegistrationRequest.setSituation(fr.cg95.cvq.xml.request.election.SerrrSituationType.Enum.forString(getSituation().getLegacyLabel()));
       
-        serrrLieuDerniereInscriptionTypeLieuDerniereInscription.setSubdivisionAdministrativePrecedente(getSubdivisionAdministrativePrecedente());
+        serrrFieldsetEstUnionEuropeenneTypeFieldsetEstUnionEuropeenne.setSubdivisionAdministrativePrecedente(getSubdivisionAdministrativePrecedente());
       
         standardElectoralRollRegistrationRequest.setTroisiemePrenom(getTroisiemePrenom());
       
         if (getTypeElection() != null)
-            standardElectoralRollRegistrationRequest.setTypeElection(fr.cg95.cvq.xml.request.election.SerrrTypeElectionType.Enum.forString(getTypeElection().getLegacyLabel()));
+            serrrFieldsetEstUnionEuropeenneTypeFieldsetEstUnionEuropeenne.setTypeElection(fr.cg95.cvq.xml.request.election.SerrrTypeElectionType.Enum.forString(getTypeElection().getLegacyLabel()));
       
         if (getTypeInscription() != null)
             standardElectoralRollRegistrationRequest.setTypeInscription(fr.cg95.cvq.xml.request.election.SerrrTypeInscriptionType.Enum.forString(getTypeInscription().getLegacyLabel()));
@@ -204,7 +204,7 @@ public class StandardElectoralRollRegistrationRequest extends Request implements
       
         standardElectoralRollRegistrationRequest.setAncienneCommune(standardElectoralRollRegistrationRequestXml.getPrecedentLieuInscription().getAncienneCommune());
       
-        standardElectoralRollRegistrationRequest.setCommuneOuLocalitePrecedente(standardElectoralRollRegistrationRequestXml.getLieuDerniereInscription().getCommuneOuLocalitePrecedente());
+        standardElectoralRollRegistrationRequest.setCommuneOuLocalitePrecedente(standardElectoralRollRegistrationRequestXml.getFieldsetEstUnionEuropeenne().getCommuneOuLocalitePrecedente());
       
         calendar = standardElectoralRollRegistrationRequestXml.getDateNaissance();
         if (calendar != null) {
@@ -237,8 +237,8 @@ public class StandardElectoralRollRegistrationRequest extends Request implements
       
         standardElectoralRollRegistrationRequest.setNomNaissance(standardElectoralRollRegistrationRequestXml.getNomNaissance());
       
-        if (standardElectoralRollRegistrationRequestXml.getLieuDerniereInscription().getPaysPrecedent() != null)
-            standardElectoralRollRegistrationRequest.setPaysPrecedent(fr.cg95.cvq.business.users.CountryType.forString(standardElectoralRollRegistrationRequestXml.getLieuDerniereInscription().getPaysPrecedent().toString()));
+        if (standardElectoralRollRegistrationRequestXml.getFieldsetEstUnionEuropeenne().getPaysPrecedent() != null)
+            standardElectoralRollRegistrationRequest.setPaysPrecedent(fr.cg95.cvq.business.users.CountryType.forString(standardElectoralRollRegistrationRequestXml.getFieldsetEstUnionEuropeenne().getPaysPrecedent().toString()));
         else
             standardElectoralRollRegistrationRequest.setPaysPrecedent(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
       
@@ -247,8 +247,8 @@ public class StandardElectoralRollRegistrationRequest extends Request implements
         else
             standardElectoralRollRegistrationRequest.setPaysRadiation(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
       
-        if (standardElectoralRollRegistrationRequestXml.getPrecisionNationalite() != null)
-            standardElectoralRollRegistrationRequest.setPrecisionNationalite(fr.cg95.cvq.business.request.election.SerrrPrecisionNationaliteType.forString(standardElectoralRollRegistrationRequestXml.getPrecisionNationalite().toString()));
+        if (standardElectoralRollRegistrationRequestXml.getFieldsetEstUnionEuropeenne().getPrecisionNationalite() != null)
+            standardElectoralRollRegistrationRequest.setPrecisionNationalite(fr.cg95.cvq.business.request.election.SerrrPrecisionNationaliteType.forString(standardElectoralRollRegistrationRequestXml.getFieldsetEstUnionEuropeenne().getPrecisionNationalite().toString()));
         else
             standardElectoralRollRegistrationRequest.setPrecisionNationalite(fr.cg95.cvq.business.request.election.SerrrPrecisionNationaliteType.getDefaultSerrrPrecisionNationaliteType());
       
@@ -264,12 +264,12 @@ public class StandardElectoralRollRegistrationRequest extends Request implements
         else
             standardElectoralRollRegistrationRequest.setSituation(fr.cg95.cvq.business.request.election.SerrrSituationType.getDefaultSerrrSituationType());
       
-        standardElectoralRollRegistrationRequest.setSubdivisionAdministrativePrecedente(standardElectoralRollRegistrationRequestXml.getLieuDerniereInscription().getSubdivisionAdministrativePrecedente());
+        standardElectoralRollRegistrationRequest.setSubdivisionAdministrativePrecedente(standardElectoralRollRegistrationRequestXml.getFieldsetEstUnionEuropeenne().getSubdivisionAdministrativePrecedente());
       
         standardElectoralRollRegistrationRequest.setTroisiemePrenom(standardElectoralRollRegistrationRequestXml.getTroisiemePrenom());
       
-        if (standardElectoralRollRegistrationRequestXml.getTypeElection() != null)
-            standardElectoralRollRegistrationRequest.setTypeElection(fr.cg95.cvq.business.request.election.SerrrTypeElectionType.forString(standardElectoralRollRegistrationRequestXml.getTypeElection().toString()));
+        if (standardElectoralRollRegistrationRequestXml.getFieldsetEstUnionEuropeenne().getTypeElection() != null)
+            standardElectoralRollRegistrationRequest.setTypeElection(fr.cg95.cvq.business.request.election.SerrrTypeElectionType.forString(standardElectoralRollRegistrationRequestXml.getFieldsetEstUnionEuropeenne().getTypeElection().toString()));
         else
             standardElectoralRollRegistrationRequest.setTypeElection(fr.cg95.cvq.business.request.election.SerrrTypeElectionType.getDefaultSerrrTypeElectionType());
       

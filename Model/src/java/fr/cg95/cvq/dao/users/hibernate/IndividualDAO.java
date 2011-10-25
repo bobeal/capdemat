@@ -241,6 +241,10 @@ public class IndividualDAO extends JpaTemplate<Individual,Long> implements IIndi
                 searchByUserState = true;
             } else if(criteria.getAttribut().equals(Individual.SEARCH_IS_HOME_FOLDER_RESPONSIBLE)) {
                 sb.append(" and roles.role = 'HOME_FOLDER_RESPONSIBLE' ");
+            } else if(criteria.getAttribut().equals(Individual.SEARCH_IS_TEMPORARY)) {
+                sb.append(" and individual.homeFolder.temporary " + criteria.getComparatif() + " ?");
+                objectList.add(criteria.getValue());
+                typeList.add(Hibernate.BOOLEAN);
             } else if(criteria.getAttribut().equals(Individual.SEARCH_IS_DUPLICATE_ALERT)) {
                 sb.append(" and individual.duplicateAlert = true ");
             } else if (Individual.SEARCH_BY_USER_STATE.equals(criteria.getAttribut())) {
@@ -266,7 +270,10 @@ public class IndividualDAO extends JpaTemplate<Individual,Long> implements IIndi
     @Override
     public List<Individual> listTasks(QoS qoS, int max) {
         Query query = HibernateUtil.getSession()
-            .createQuery("from Individual i where i.qoS = :qoS and homeFolder != null order by i.lastModificationDate")
+            .createQuery("from Individual i where" +
+                    " i.qoS = :qoS" +
+                    " and homeFolder != null and homeFolder.temporary = false" +
+                    " order by i.lastModificationDate")
             .setString("qoS", qoS.name());
         if (max > 0)
             query.setMaxResults(max);
@@ -276,7 +283,9 @@ public class IndividualDAO extends JpaTemplate<Individual,Long> implements IIndi
     @Override
     public Long countTasks(QoS qoS) {
         return (Long)HibernateUtil.getSession()
-            .createQuery("select count(*) from Individual i where i.qoS = :qoS and homeFolder != null")
+            .createQuery("select count(*) from Individual i where" +
+                    " i.qoS = :qoS" +
+                    " and homeFolder != null and homeFolder.temporary = false")
             .setString("qoS", qoS.name())
             .iterate().next();
     }

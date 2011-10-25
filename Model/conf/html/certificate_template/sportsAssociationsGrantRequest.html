@@ -122,9 +122,6 @@
           <p class="label">${esc(i18n.translate('sagr.property.numeroEnregistrementPrefectureAssociation.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.numeroEnregistrementPrefectureAssociation?.toString()))}</div>
 
         
-          <p class="label">${esc(i18n.translate('sagr.property.numeroAgrementJeunesseSportAssociation.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.numeroAgrementJeunesseSportAssociation?.toString()))}</div>
-
-        
       </div>
     
   
@@ -183,6 +180,25 @@
     
   
     
+      <h3>${i18n.translate('sagr.property.precisionPresident.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${esc(i18n.translate('sagr.property.nomPresident.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.nomPresident?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sagr.property.prenomPresident.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.prenomPresident?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sagr.property.telephonePresident.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.telephonePresident?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sagr.property.emailPresident.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.emailPresident?.toString()))}</div>
+
+        
+      </div>
+    
+  
+    
       <h3>${i18n.translate('sagr.property.autreMembreBureau.label')}</h3>
       <div class="complex">
       <% rqt.autreMembreBureau.each { collectionIt -> %>
@@ -221,10 +237,28 @@
       <div class="complex">
       <% rqt.activiteAssociation.each { collectionIt -> %>
       
-        <p class="label">${esc(i18n.translate('sagr.property.nomActivite.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.nomActivite?.toString()))}</div>
+        <p class="label">${esc(i18n.translate('sagr.property.sportPratique.label'))}</p>
+          <div class="response">
+            <% if(collectionIt.sportPratique) { %>
+              ${esc(i18n.translate('sagr.property.sportPratique.' + EnumTool.toLowerCamelCase(collectionIt.sportPratique.toString())))}
+            <% } %>
+          </div>
+          
 
       
-        <p class="label">${esc(i18n.translate('sagr.property.nomFederationSportiveActivite.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.nomFederationSportiveActivite?.toString()))}</div>
+        <p class="label">${esc(i18n.translate('sagr.property.sportPratiquePrecision.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.sportPratiquePrecision?.toString()))}</div>
+
+      
+        <p class="label">${esc(i18n.translate('sagr.property.federationSportive.label'))}</p>
+          <div class="response">
+            <% if(collectionIt.federationSportive) { %>
+              ${esc(i18n.translate('sagr.property.federationSportive.' + EnumTool.toLowerCamelCase(collectionIt.federationSportive.toString())))}
+            <% } %>
+          </div>
+          
+
+      
+        <p class="label">${esc(i18n.translate('sagr.property.federationSportivePrecision.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.federationSportivePrecision?.toString()))}</div>
 
       
         <p class="label">${esc(i18n.translate('sagr.property.numeroAffiliationActivite.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.numeroAffiliationActivite?.toString()))}</div>
@@ -257,16 +291,19 @@
           <p class="label">${esc(i18n.translate('sagr.property.subventionSolliciteConseilGeneral.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.subventionSolliciteConseilGeneral?.toString()))}</div>
 
         
-          <p class="label">${esc(i18n.translate('sagr.property.cndsAnneeN.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.cndsAnneeN?.toString()))}</div>
+          <p class="label">${esc(i18n.translate('sagr.property.subventionObtenueConseilGeneralSaisonEcoulee.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.subventionObtenueConseilGeneralSaisonEcoulee?.toString()))}</div>
 
         
-          <p class="label">${esc(i18n.translate('sagr.property.cndsAnneeNPlusUn.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.cndsAnneeNPlusUn?.toString()))}</div>
+          <p class="label">${esc(i18n.translate('sagr.property.budgetSaisonEcouleeRecette.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.budgetSaisonEcouleeRecette?.toString()))}</div>
 
         
-          <p class="label">${esc(i18n.translate('sagr.property.regionAnneeN.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.regionAnneeN?.toString()))}</div>
+          <p class="label">${esc(i18n.translate('sagr.property.budgetSaisonEcouleeDepenses.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.budgetSaisonEcouleeDepenses?.toString()))}</div>
 
         
-          <p class="label">${esc(i18n.translate('sagr.property.regionAnneeNPlusUn.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.regionAnneeNPlusUn?.toString()))}</div>
+          <p class="label">${esc(i18n.translate('sagr.property.nombreLicencieMoinsDixHuitSaisonEcoulee.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.nombreLicencieMoinsDixHuitSaisonEcoulee?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sagr.property.nombreLicenciePlusDixHuitSaisonEcoulee.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.nombreLicenciePlusDixHuitSaisonEcoulee?.toString()))}</div>
 
         
           <p class="label">${esc(i18n.translate('sagr.property.communeAnneeN.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.communeAnneeN?.toString()))}</div>

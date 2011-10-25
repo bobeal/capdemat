@@ -12,7 +12,7 @@
   <dl class="">
     
       <dt class="required"><g:message code="sagr.property.roleMembre.label" /> * : </dt>
-      <dd id="autreMembreBureau[${listSize - 1 - index}].roleMembre" class="action-editField validate-capdematEnum required-true i18n-sagr.property.roleMembre javatype-fr.cg95.cvq.business.request.social.SagrRoleAssociationType" >
+      <dd id="autreMembreBureau[${listSize - 1 - index}].roleMembre" class="action-editField validate-capdematEnum required-true i18n-sagr.property.roleMembre javatype-fr.cg95.cvq.business.request.social.SagrRoleAutreMembreAssociationType" >
         <g:capdematEnumToField var="${it?.roleMembre}" i18nKeyPrefix="sagr.property.roleMembre" />
       </dd>
     

@@ -50,6 +50,9 @@
             <a href="#contact">${message(code:'homeFolder.individual.header.contact')}</a>
           </div>
         </g:if>
+        <div class="back">
+          <a href="${createLink(action:'index')}">${message(code:'homeFolder.action.back')}</a>
+        </div>
       </div>
     </div>
   </body>

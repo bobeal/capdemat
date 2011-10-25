@@ -63,6 +63,11 @@ public interface IUserSearchService extends IAutofillTriggerService {
     List<Individual> getIndividuals(@IsUser Long homeFolderId);
 
     /**
+     * Return the list of children having only one responsible: the adult passed in param.
+     */
+    Set<Child> havingAsOnlyResponsible(@IsUser Adult adult);
+
+    /**
      * Get a list of individuals who have a role in the home folder but are not part of it.
      */
     List<Individual> getExternalIndividuals(@IsUser Long homeFolderId);

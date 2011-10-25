@@ -61,16 +61,30 @@
 .box .individuals dl dd.action { margin-top: 1em; text-align: right;border: none; }
 
 .box .individuals dl.Invalid { border-color: #CC2020; }
-.box .individuals dl.delete   { border: 2px solid #CC2020; }
-.box .individuals dl dd.delete {
-	width: 100%;
-	position: relative; left: -7.5em;
-	margin-top: 1em; padding: .5em .5em;
-	text-align: center;
-	color:#fff; background: #CC2020;
-	border: none;
+.box .individuals dl.delete  { border: 2px solid #CC2020; }
+.box .individuals dl dd.deletionConfirmation, .box .individuals dl dd.deletionError {
+  width: 100%;
+  position: relative;
+  left: -7.5em;
+  padding: .5em .5em;
+  text-align: center;
+  border: none;
 }
-.box .individuals dl dd.delete a { font-size: 1.2em; font-weight: bold; color: #fff; }
+.box .individuals dl dd.deletionConfirmation {
+  margin-top: 1em;
+  color: #fff;
+  background: #CC2020;
+  border: none;
+}
+.box .individuals dl dd.deletionConfirmation a {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #fff;
+}
+.box .individuals dl dd.deletionError {
+  color: #CC2020;
+  font-weight: bold;
+}
 
 /* Documents (override) ---------------------------------------*/
 

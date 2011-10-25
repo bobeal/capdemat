@@ -609,8 +609,19 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
             }
         }
 
-        // if trying to archive an individual, remove in and out roles
         if (UserState.ARCHIVED.equals(state)) {
+            //Forbid to delete an adult if he's the last responsible of someone.
+            if (individual.getClass().equals(Adult.class)) {
+                Set<Child> children = userSearchService.havingAsOnlyResponsible((Adult)individual);
+                if (!children.isEmpty())
+                    throw new CvqModelException(translationService.translate(
+                            "user.state.error.cannotDeleteLastResponsible",
+                            new  Object[]{
+                                    UserUtils.getDisplayName(individual.getId()),
+                                    UserUtils.getDisplayName(( (Child)(children.toArray()[0]) ).getId())
+                            }));
+            }
+            //Remove in and out roles.
             List<Individual> individualsCopy = new ArrayList<Individual>(homeFolder.getIndividuals());
             for (Individual responsible : individualsCopy) {
                 unlink(responsible, individual);

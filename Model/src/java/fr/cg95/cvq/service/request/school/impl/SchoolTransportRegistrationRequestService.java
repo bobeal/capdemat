@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.school.AutorisationType;
 import fr.cg95.cvq.business.request.school.SchoolTransportRegistrationRequest;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -27,8 +28,9 @@ public class SchoolTransportRegistrationRequestService extends RequestService im
     @Override
     public void init() {
         SchoolTransportRegistrationRequest.conditions.put("estMaternelleElementaireAutorisations", new EqualityChecker("true"));
-        SchoolTransportRegistrationRequest.conditions.put("autorisation",
-                new EqualityListChecker(Arrays.asList("autoriseTiers=AvecTiers", "autoriseFrereOuSoeur=AvecFrereSoeur")));
+        SchoolTransportRegistrationRequest.conditions.put("autorisation", new EqualityListChecker(Arrays.asList(
+            "autoriseTiers=" + AutorisationType.AVEC_TIERS.name(),
+            "autoriseFrereOuSoeur=" + AutorisationType.AVEC_FRERE_SOEUR)));
     }
 
     @Override

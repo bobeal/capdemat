@@ -41,6 +41,8 @@ public class SportsAssociationsGrantRequestData implements Serializable {
       
         estAdresseCorrespondantPrincipal = Boolean.valueOf(true);
       
+        roleDemandeur = fr.cg95.cvq.business.request.social.SagrRoleAssociationType.PRESIDENT;
+      
     }
 
     @Override
@@ -76,13 +78,13 @@ public class SportsAssociationsGrantRequestData implements Serializable {
         
           
             
-        result.setCndsAnneeN(cndsAnneeN);
+        result.setBudgetSaisonEcouleeDepenses(budgetSaisonEcouleeDepenses);
       
           
         
           
             
-        result.setCndsAnneeNPlusUn(cndsAnneeNPlusUn);
+        result.setBudgetSaisonEcouleeRecette(budgetSaisonEcouleeRecette);
       
           
         
@@ -113,6 +115,12 @@ public class SportsAssociationsGrantRequestData implements Serializable {
         
           
             
+        result.setEmailPresident(emailPresident);
+      
+          
+        
+          
+            
         result.setEstAdresseCorrespondantPrincipal(estAdresseCorrespondantPrincipal);
       
           
@@ -137,7 +145,19 @@ public class SportsAssociationsGrantRequestData implements Serializable {
         
           
             
-        result.setNumeroAgrementJeunesseSportAssociation(numeroAgrementJeunesseSportAssociation);
+        result.setNomPresident(nomPresident);
+      
+          
+        
+          
+            
+        result.setNombreLicencieMoinsDixHuitSaisonEcoulee(nombreLicencieMoinsDixHuitSaisonEcoulee);
+      
+          
+        
+          
+            
+        result.setNombreLicenciePlusDixHuitSaisonEcoulee(nombreLicenciePlusDixHuitSaisonEcoulee);
       
           
         
@@ -161,13 +181,7 @@ public class SportsAssociationsGrantRequestData implements Serializable {
         
           
             
-        result.setRegionAnneeN(regionAnneeN);
-      
-          
-        
-          
-            
-        result.setRegionAnneeNPlusUn(regionAnneeNPlusUn);
+        result.setPrenomPresident(prenomPresident);
       
           
         
@@ -189,7 +203,19 @@ public class SportsAssociationsGrantRequestData implements Serializable {
         
           
             
+        result.setSubventionObtenueConseilGeneralSaisonEcoulee(subventionObtenueConseilGeneralSaisonEcoulee);
+      
+          
+        
+          
+            
         result.setSubventionSolliciteConseilGeneral(subventionSolliciteConseilGeneral);
+      
+          
+        
+          
+            
+        result.setTelephonePresident(telephonePresident);
       
           
         
@@ -310,31 +336,31 @@ public class SportsAssociationsGrantRequestData implements Serializable {
     }
   
     
-    private String cndsAnneeN;
+    private String budgetSaisonEcouleeDepenses;
 
-    public void setCndsAnneeN(final String cndsAnneeN) {
-        this.cndsAnneeN = cndsAnneeN;
+    public void setBudgetSaisonEcouleeDepenses(final String budgetSaisonEcouleeDepenses) {
+        this.budgetSaisonEcouleeDepenses = budgetSaisonEcouleeDepenses;
     }
 
  
-    @Column(name="cnds_annee_n"  )
+    @Column(name="budget_saison_ecoulee_depenses"  )
       
-    public String getCndsAnneeN() {
-        return this.cndsAnneeN;
+    public String getBudgetSaisonEcouleeDepenses() {
+        return this.budgetSaisonEcouleeDepenses;
     }
   
     
-    private String cndsAnneeNPlusUn;
+    private String budgetSaisonEcouleeRecette;
 
-    public void setCndsAnneeNPlusUn(final String cndsAnneeNPlusUn) {
-        this.cndsAnneeNPlusUn = cndsAnneeNPlusUn;
+    public void setBudgetSaisonEcouleeRecette(final String budgetSaisonEcouleeRecette) {
+        this.budgetSaisonEcouleeRecette = budgetSaisonEcouleeRecette;
     }
 
  
-    @Column(name="cnds_annee_n_plus_un"  )
+    @Column(name="budget_saison_ecoulee_recette"  )
       
-    public String getCndsAnneeNPlusUn() {
-        return this.cndsAnneeNPlusUn;
+    public String getBudgetSaisonEcouleeRecette() {
+        return this.budgetSaisonEcouleeRecette;
     }
   
     
@@ -406,6 +432,20 @@ public class SportsAssociationsGrantRequestData implements Serializable {
       
     public String getEmailClubOuCorrespondant() {
         return this.emailClubOuCorrespondant;
+    }
+  
+    
+    private String emailPresident;
+
+    public void setEmailPresident(final String emailPresident) {
+        this.emailPresident = emailPresident;
+    }
+
+ 
+    @Column(name="email_president"  )
+      
+    public String getEmailPresident() {
+        return this.emailPresident;
     }
   
     
@@ -532,17 +572,95 @@ public class SportsAssociationsGrantRequestData implements Serializable {
     }
   
     
-    private String numeroAgrementJeunesseSportAssociation;
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= !_this.conditions['roleDemandeur'].test(_this.roleDemandeur.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"bureau"},
+        message = "nomPresident"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= !_this.conditions['roleDemandeur'].test(_this.roleDemandeur.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"bureau"},
+        message = "nomPresident"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= !_this.conditions['roleDemandeur'].test(_this.roleDemandeur.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"bureau"},
+        message = "nomPresident"
+      )
+    
+    private String nomPresident;
 
-    public void setNumeroAgrementJeunesseSportAssociation(final String numeroAgrementJeunesseSportAssociation) {
-        this.numeroAgrementJeunesseSportAssociation = numeroAgrementJeunesseSportAssociation;
+    public void setNomPresident(final String nomPresident) {
+        this.nomPresident = nomPresident;
     }
 
  
-    @Column(name="numero_agrement_jeunesse_sport_association"  )
+    @Column(name="nom_president" , length=38 )
       
-    public String getNumeroAgrementJeunesseSportAssociation() {
-        return this.numeroAgrementJeunesseSportAssociation;
+    public String getNomPresident() {
+        return this.nomPresident;
+    }
+  
+    
+    private String nombreLicencieMoinsDixHuitSaisonEcoulee;
+
+    public void setNombreLicencieMoinsDixHuitSaisonEcoulee(final String nombreLicencieMoinsDixHuitSaisonEcoulee) {
+        this.nombreLicencieMoinsDixHuitSaisonEcoulee = nombreLicencieMoinsDixHuitSaisonEcoulee;
+    }
+
+ 
+    @Column(name="nombre_licencie_moins_dix_huit_saison_ecoulee"  )
+      
+    public String getNombreLicencieMoinsDixHuitSaisonEcoulee() {
+        return this.nombreLicencieMoinsDixHuitSaisonEcoulee;
+    }
+  
+    
+    private String nombreLicenciePlusDixHuitSaisonEcoulee;
+
+    public void setNombreLicenciePlusDixHuitSaisonEcoulee(final String nombreLicenciePlusDixHuitSaisonEcoulee) {
+        this.nombreLicenciePlusDixHuitSaisonEcoulee = nombreLicenciePlusDixHuitSaisonEcoulee;
+    }
+
+ 
+    @Column(name="nombre_licencie_plus_dix_huit_saison_ecoulee"  )
+      
+    public String getNombreLicenciePlusDixHuitSaisonEcoulee() {
+        return this.nombreLicenciePlusDixHuitSaisonEcoulee;
     }
   
     
@@ -666,31 +784,67 @@ public class SportsAssociationsGrantRequestData implements Serializable {
     }
   
     
-    private String regionAnneeN;
-
-    public void setRegionAnneeN(final String regionAnneeN) {
-        this.regionAnneeN = regionAnneeN;
-    }
-
- 
-    @Column(name="region_annee_n"  )
-      
-    public String getRegionAnneeN() {
-        return this.regionAnneeN;
-    }
-  
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= !_this.conditions['roleDemandeur'].test(_this.roleDemandeur.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"bureau"},
+        message = "prenomPresident"
+      )
     
-    private String regionAnneeNPlusUn;
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= !_this.conditions['roleDemandeur'].test(_this.roleDemandeur.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"bureau"},
+        message = "prenomPresident"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= !_this.conditions['roleDemandeur'].test(_this.roleDemandeur.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"bureau"},
+        message = "prenomPresident"
+      )
+    
+    private String prenomPresident;
 
-    public void setRegionAnneeNPlusUn(final String regionAnneeNPlusUn) {
-        this.regionAnneeNPlusUn = regionAnneeNPlusUn;
+    public void setPrenomPresident(final String prenomPresident) {
+        this.prenomPresident = prenomPresident;
     }
 
  
-    @Column(name="region_annee_n_plus_un"  )
+    @Column(name="prenom_president" , length=38 )
       
-    public String getRegionAnneeNPlusUn() {
-        return this.regionAnneeNPlusUn;
+    public String getPrenomPresident() {
+        return this.prenomPresident;
     }
   
     
@@ -745,6 +899,20 @@ public class SportsAssociationsGrantRequestData implements Serializable {
     }
   
     
+    private String subventionObtenueConseilGeneralSaisonEcoulee;
+
+    public void setSubventionObtenueConseilGeneralSaisonEcoulee(final String subventionObtenueConseilGeneralSaisonEcoulee) {
+        this.subventionObtenueConseilGeneralSaisonEcoulee = subventionObtenueConseilGeneralSaisonEcoulee;
+    }
+
+ 
+    @Column(name="subvention_obtenue_conseil_general_saison_ecoulee"  )
+      
+    public String getSubventionObtenueConseilGeneralSaisonEcoulee() {
+        return this.subventionObtenueConseilGeneralSaisonEcoulee;
+    }
+  
+    
       @NotNull(
         
         
@@ -770,6 +938,38 @@ public class SportsAssociationsGrantRequestData implements Serializable {
       
     public String getSubventionSolliciteConseilGeneral() {
         return this.subventionSolliciteConseilGeneral;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= !_this.conditions['roleDemandeur'].test(_this.roleDemandeur.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"bureau"},
+        message = "telephonePresident"
+      )
+    
+    private String telephonePresident;
+
+    public void setTelephonePresident(final String telephonePresident) {
+        this.telephonePresident = telephonePresident;
+    }
+
+ 
+    @Column(name="telephone_president" , length=10 )
+      
+    public String getTelephonePresident() {
+        return this.telephonePresident;
     }
   
 }

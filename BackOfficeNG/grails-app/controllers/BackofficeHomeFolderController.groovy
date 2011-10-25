@@ -24,6 +24,7 @@ import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.security.PermissionException
 import fr.cg95.cvq.security.annotation.ContextPrivilege
 
+import fr.cg95.cvq.exception.CvqModelException
 import fr.cg95.cvq.exception.CvqValidationException
 
 import org.apache.xmlbeans.XmlError
@@ -100,6 +101,8 @@ class BackofficeHomeFolderController {
     
     def details = {
         def homeFolder = userSearchService.getHomeFolderById(Long.parseLong(params.id))
+        if (homeFolder.temporary)
+            render(text: "", status: 403)
         def adults, children
         if (params.viewArchived != null) {
             adults = userSearchService.getAdults(homeFolder.id, UserState.allUserStates)
@@ -249,8 +252,12 @@ class BackofficeHomeFolderController {
 
     def removeIndividual = {
         def user = userSearchService.getById(params.long("id"))
-        userWorkflowService.changeState(user, UserState.ARCHIVED)
-        render (['status':'success', 'message':message(code:'homeFolder.message.individualRemoveSuccess')] as JSON)
+        try {
+            userWorkflowService.changeState(user, UserState.ARCHIVED)
+            render(['status':'success', 'message':message(code:'homeFolder.message.individualRemoveSuccess')] as JSON)
+        } catch (CvqModelException cme) {
+            render(['status':'error', 'message':cme.message] as JSON)
+        }
     }
 
     def state = {
@@ -551,7 +558,12 @@ class BackofficeHomeFolderController {
                 criterias.add(criteria)
             }
         }
-        return criterias;
+        Critere criteria = new Critere()
+        criteria.setAttribut(Individual.SEARCH_IS_TEMPORARY)
+        criteria.setComparatif(Critere.EQUALS)
+        criteria.setValue(false)
+        criterias.add(criteria)
+        return criterias
     }
     
     protected Map<String,String> prepareSort(state) {

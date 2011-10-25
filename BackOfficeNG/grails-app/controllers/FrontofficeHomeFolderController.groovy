@@ -9,6 +9,7 @@ import fr.cg95.cvq.service.users.IUserService
 import fr.cg95.cvq.service.users.IUserSearchService
 import fr.cg95.cvq.service.users.IUserWorkflowService
 
+import fr.cg95.cvq.exception.CvqModelException
 import com.octo.captcha.service.CaptchaServiceException
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
 
@@ -68,6 +69,8 @@ class FrontofficeHomeFolderController {
 
         if (params.idToDelete)
             flash.idToDelete = Long.valueOf(params.idToDelete)
+
+        flash.deletionError = params.deletionError
 
         return ['homeFolder': homeFolder,
                 'adults' : userSearchService.getAdults(homeFolder.id),
@@ -188,8 +191,13 @@ class FrontofficeHomeFolderController {
     }
 
     def deleteIndividual = {
-        userWorkflowService.changeState(userSearchService.getById(Long.valueOf(params.id)), UserState.ARCHIVED)
-        redirect(action : 'index')
+        def user = userSearchService.getById(params.long("id"))
+        try {
+            userWorkflowService.changeState(user, UserState.ARCHIVED)
+            redirect(action: 'index')
+        } catch (CvqModelException cme) {
+            redirect(action: 'index', params: ['deletionError': cme.message, 'idToDelete': user.id])
+        }
     }
 
     def adult = {

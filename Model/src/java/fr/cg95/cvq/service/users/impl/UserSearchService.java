@@ -12,6 +12,7 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.IndividualRole;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.dao.users.IAdultDAO;
@@ -179,6 +180,20 @@ public class UserSearchService implements IUserSearchService {
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<Individual> listBySubjectRoles(Long subjectId, RoleType[] roles) {
         return individualDAO.listBySubjectRoles(subjectId, roles, false);
+    }
+
+    @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public Set<Child> havingAsOnlyResponsible(Adult adult) {
+        Set<Child> children = new HashSet<Child>();
+
+        for (IndividualRole role : adult.getIndividualRoles()) {
+            List<Individual> responsibles = listBySubjectRole(role.getIndividualId(), null);
+            if (responsibles.size() == 1)
+                children.add((Child)individualDAO.findById(role.getIndividualId()));
+        }
+
+        return children;
     }
 
     public void setHomeFolderDAO(IHomeFolderDAO homeFolderDAO) {

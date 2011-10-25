@@ -1,17 +1,19 @@
 <h2><g:message code="homeFolder.header.generalInformations"/></h2>
 <div class="homFolderInfo">
-  <p style="float:right;">
-    <a href="${createLink(controller:'backofficeHomeFolder', action:'details', id:homeFolder.info.id)}">
-      ${message(code:'homeFolder.individual.action.seeDetails')}
-    </a>
-  </p>
+  <g:if test="${!homeFolder.info.temporary}">
+    <p style="float:right;">
+      <a href="${createLink(controller:'backofficeHomeFolder', action:'details', id:homeFolder.info.id)}">
+        ${message(code:'homeFolder.individual.action.seeDetails')}
+      </a>
+    </p>
+    <p>
+      ${message(code:'property.active')} :
+      <g:if test="${homeFolder.info.enabled}"><span class="tag-valid"><g:message code="message.yes" /></span></g:if>
+      <g:else><span class="tag-invalid"><g:message code="message.no" /></span></g:else>
+    </p>
+  </g:if>
   <p>
-    ${message(code:'property.active')} :
-    <g:if test="${homeFolder.info.enabled}"><span class="tag-valid"><g:message code="message.yes" /></span></g:if>
-    <g:else><span class="tag-invalid"><g:message code="message.no" /></span></g:else>
-  </p>
-  <p>
-    ${message(code:'request.property.withAccount')} : 
+    ${message(code:'request.property.withAccount')} :
     <g:if test="${homeFolder.info.temporary}">
       <img src="${resource(dir:'images/icons',file:'HorsFoyerListe.gif')}"/>
     </g:if>
@@ -19,8 +21,10 @@
       <img src="${resource(dir:'images/icons',file:'12-check-green.png')}"/>
     </g:else>
   </p>
-  <p>${message(code:'property.state')} : <g:capdematEnumToFlag var="${homeFolder.info.state}" i18nKeyPrefix="user.state" /></p>
-  <p>${message(code:'property.address')} : <strong>${homeFolder.info.addressDetails}</strong></p>
+  <g:if test="${!homeFolder.info.temporary}">
+    <p>${message(code:'property.state')} : <g:capdematEnumToFlag var="${homeFolder.info.state}" i18nKeyPrefix="user.state" /></p>
+  </g:if>
+  <p>${message(code:'property.address')} : <strong>${homeFolder.info.addressDetails}</strong></p>
 </div>
 
 <div class="yui-g">
@@ -56,6 +60,9 @@
           <g:if test="${record.mobilePhone}">
             <dd>${message(code:'homeFolder.adult.property.mobilePhone')} : ${record.mobilePhone}</dd>
           </g:if>
+          <g:if test="${record.officePhone && homeFolder.info.temporary}">
+            <dd>${message(code:'homeFolder.adult.property.officePhone')} : ${record.officePhone}</dd>
+          </g:if>
           <g:if test="${record.email}">
             <dd>${record.email}</dd>
           </g:if>
@@ -74,7 +81,7 @@
             <g:capdematEnumToText var="${record.sex}" i18nKeyPrefix="homeFolder.child.property.sex"/>
           </dd>
           <dd>
-            ${message(code:'homeFolder.header.born')}
+            ${record.born ? message(code:'homeFolder.header.born') : message(code:'homeFolder.header.noBorn')}
             <g:if test="${record.birthDate}">
               ${message(code:'homeFolder.header.on')} 
               ${formatDate(date:record.birthDate,formatName:'format.date')}

@@ -27,7 +27,11 @@
                 <condition name="estAdresseCorrespondantPrincipal" />
               </conditions>
             </step>
-            <step index="1" name="bureau" />
+            <step index="1" name="bureau">
+                <conditions>
+                    <condition name="estPresident" />
+                </conditions>
+            </step>
             <step index="2" name="activites" />
             <step index="3" name="subvention" />
             <step index="4" ref="document" />
@@ -119,7 +123,7 @@
               </xs:annotation>
             </xs:element>
 
-            <xs:element name="RoleDemandeur" type="sagr:SagrRoleAssociationType">
+            <xs:element name="RoleDemandeur" type="sagr:SagrRoleAssociationType" default="President">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Quel est votre fonction dans l'association ?
@@ -130,6 +134,31 @@
                 <xs:appinfo>
                   <common>
                     <step name="bureau" />
+                    <conditions>
+                      <condition name="estPresident" type="trigger" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="PrecisionPresident" type="sagr:SagrPrecisionPresidentType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Informations concernant le Président
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Informations concernant le Président
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="bureau" />
+                    <conditions>
+                      <condition name="estPresident" type="unfilled" />
+                    </conditions>
                   </common>
                   <fo />
                   <bo column="1" />
@@ -160,10 +189,10 @@
             <xs:element name="ActiviteAssociation" type="sagr:SagrActiviteAssociationType" maxOccurs="unbounded">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Sports pratiqués dans l'association
+                  Sport pratiqué dans l'association
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Sports pratiqués dans l'association
+                  Sport pratiqué dans l'association
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -192,6 +221,12 @@
 
             <xs:element name="CompteBancaire" type="cvq:BankAccountType">
               <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Compte bancaire de l'association
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Compte bancaire de l'association
+                </xs:documentation>
                 <xs:appinfo>
                   <model namespace="users" isTiedToRequest="true" />
                   <common>
@@ -249,18 +284,341 @@
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
         <enum key="President" value="Président(e)" />
-        <enum key="VicePresident" value="Vice-président(e)" />
         <enum key="Tresorier" value="Trésorier(ière)" />
         <enum key="Secretaire" value="Secrétaire" />
       </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:enumeration value="President" />
-      <xs:enumeration value="VicePresident" />
       <xs:enumeration value="Tresorier" />
       <xs:enumeration value="Secretaire" />
     </xs:restriction>
   </xs:simpleType>
+
+  <xs:simpleType name="SagrRoleAutreMembreAssociationType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Tresorier" value="Trésorier(ière)" />
+        <enum key="Secretaire" value="Secrétaire" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Tresorier" />
+      <xs:enumeration value="Secretaire" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="SagrSportPratiqueType">
+    <xs:annotation>
+        <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+            <enum key="Aeromodelisme" value="Aeromodelisme" />
+            <enum key="Aerostation" value="Aerostation" />
+            <enum key="Aikido" value="Aikido" />
+            <enum key="Athletisme" value="Athlétisme" />
+            <enum key="Aviron" value="Aviron" />
+            <enum key="Badminton" value="Badminton" />
+            <enum key="BaseBall" value="Baseball" />
+            <enum key="BasketBall" value="Basketball" />
+            <enum key="Billard" value="Billard" />
+            <enum key="BoulesLyonnaises" value="Boules Lyonnaises" />
+            <enum key="Bowling" value="Bowling" />
+            <enum key="BoxeAmericaine" value="Boxe Américaine" />
+            <enum key="BoxeAnglaise" value="Boxe Anglaise" />
+            <enum key="BoxeFrancaise" value="Boxe Française" />
+            <enum key="BoxeThailandaise" value="Boxe Thaïlandaise" />
+            <enum key="CanoeKayak" value="Canoë kayak" />
+            <enum key="CourseOrientation" value="Course d'orientation" />
+            <enum key="Cyclisme" value="Cyclisme" />
+            <enum key="CycloTourisme" value="Cyclo tourisme" />
+            <enum key="CycloVtt" value="Cyclo VTT" />
+            <enum key="Danse" value="Danse" />
+            <enum key="Echecs" value="Echecs" />
+            <enum key="Equitation" value="Equitation" />
+            <enum key="EscaladeEtMontagne" value="Escalade et montagne" />
+            <enum key="Escrime" value="Escrime" />
+            <enum key="Football" value="Football" />
+            <enum key="FootballAmericain" value="Football Américain" />
+            <enum key="Futsal" value="Futsal" />
+            <enum key="Golf" value="Golf" />
+            <enum key="GymRythmSportive" value="Gymnastique rythmique et sportive" />
+            <enum key="GymVolontaire" value="Gymnastique volontaire" />
+            <enum key="Halterophilie" value="Haltérophilie" />
+            <enum key="HandBall" value="Handball" />
+            <enum key="HockeySurGlace" value="Hockey sur glace" />
+            <enum key="JeuDePaume" value="Jeu de paume" />
+            <enum key="Joutes" value="Joutes" />
+            <enum key="Judo" value="Judo" />
+            <enum key="Karate" value="Karaté" />
+            <enum key="Kickboxing" value="Kickboxing" />
+            <enum key="Lutte" value="Lutte" />
+            <enum key="MotoCyclisme" value="Moto cyclisme" />
+            <enum key="Natation" value="Natation" />
+            <enum key="Parachutisme" value="Parachutisme" />
+            <enum key="PatinsARoulettes" value="Patins à roulettes" />
+            <enum key="PecheALaMouche" value="Pêche à la mouche" />
+            <enum key="PecheAuCoup" value="Pêche au coup" />
+            <enum key="Petanque" value="Pétanque" />
+            <enum key="RandonneePedestre" value="Randonnée pédestre" />
+            <enum key="RollerSkatingEtDa" value="Roller, skating et da" />
+            <enum key="Rugby" value="Rugby" />
+            <enum key="Sambo" value="Sambo" />
+            <enum key="SkateBoard" value="Skateboard" />
+            <enum key="Ski" value="Ski" />
+            <enum key="SkiNautique" value="Ski nautique" />
+            <enum key="Speleologie" value="Spéléologie" />
+            <enum key="SportsDeGlace" value="Sports de glace" />
+            <enum key="SportsHandicapes" value="Sports handicapés" />
+            <enum key="SportsSousMarins" value="Sports sous-marins" />
+            <enum key="Squash" value="Squash" />
+            <enum key="TaekwondoEtDa" value="Taekwondo et da" />
+            <enum key="TaichiChuanQiGong" value="Taichi chuan qi gong" />
+            <enum key="Tennis" value="Tennis" />
+            <enum key="TennisDeTable" value="Tennis de table" />
+            <enum key="TirAArc" value="Tir à l'arc" />
+            <enum key="TirAuxArmes" value="Tir aux armes" />
+            <enum key="Trampoline" value="Trampoline" />
+            <enum key="Triathlon" value="Triathlon" />
+            <enum key="TwirlingBaton" value="Twirling baton" />
+            <enum key="VietVoDaoEtDa" value="Viet vo dao et da" />
+            <enum key="Voile" value="Voile" />
+            <enum key="VolAVoile" value="Vol à voile" />
+            <enum key="VolLibre" value="Vol libre" />
+            <enum key="VolleyBall" value="Volleyball" />
+            <enum key="Autre" value="Autre" />
+        </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+        <xs:enumeration value="Aeromodelisme" />
+        <xs:enumeration value="Aerostation" />
+        <xs:enumeration value="Aikido" />
+        <xs:enumeration value="Athletisme" />
+        <xs:enumeration value="Aviron" />
+        <xs:enumeration value="Badminton" />
+        <xs:enumeration value="BaseBall" />
+        <xs:enumeration value="BasketBall" />
+        <xs:enumeration value="Billard" />
+        <xs:enumeration value="BoulesLyonnaises" />
+        <xs:enumeration value="Bowling" />
+        <xs:enumeration value="BoxeAmericaine" />
+        <xs:enumeration value="BoxeAnglaise" />
+        <xs:enumeration value="BoxeFrancaise" />
+        <xs:enumeration value="BoxeThailandaise" />
+        <xs:enumeration value="CanoeKayak" />
+        <xs:enumeration value="CourseOrientation" />
+        <xs:enumeration value="Cyclisme" />
+        <xs:enumeration value="CycloTourisme" />
+        <xs:enumeration value="CycloVtt" />
+        <xs:enumeration value="Danse" />
+        <xs:enumeration value="Echecs" />
+        <xs:enumeration value="Equitation" />
+        <xs:enumeration value="EscaladeEtMontagne" />
+        <xs:enumeration value="Escrime" />
+        <xs:enumeration value="Football" />
+        <xs:enumeration value="FootballAmericain" />
+        <xs:enumeration value="Futsal" />
+        <xs:enumeration value="Golf" />
+        <xs:enumeration value="GymRythmSportive" />
+        <xs:enumeration value="GymVolontaire" />
+        <xs:enumeration value="Halterophilie" />
+        <xs:enumeration value="HandBall" />
+        <xs:enumeration value="HockeySurGlace" />
+        <xs:enumeration value="JeuDePaume" />
+        <xs:enumeration value="Joutes" />
+        <xs:enumeration value="Judo" />
+        <xs:enumeration value="Karate" />
+        <xs:enumeration value="Kickboxing" />
+        <xs:enumeration value="Lutte" />
+        <xs:enumeration value="MotoCyclisme" />
+        <xs:enumeration value="Natation" />
+        <xs:enumeration value="Parachutisme" />
+        <xs:enumeration value="PatinsARoulettes" />
+        <xs:enumeration value="PecheALaMouche" />
+        <xs:enumeration value="PecheAuCoup" />
+        <xs:enumeration value="Petanque" />
+        <xs:enumeration value="RandonneePedestre" />
+        <xs:enumeration value="RollerSkatingEtDa" />
+        <xs:enumeration value="Rugby" />
+        <xs:enumeration value="Sambo" />
+        <xs:enumeration value="SkateBoard" />
+        <xs:enumeration value="Ski" />
+        <xs:enumeration value="SkiNautique" />
+        <xs:enumeration value="Speleologie" />
+        <xs:enumeration value="SportsDeGlace" />
+        <xs:enumeration value="SportsHandicapes" />
+        <xs:enumeration value="SportsSousMarins" />
+        <xs:enumeration value="Squash" />
+        <xs:enumeration value="TaekwondoEtDa" />
+        <xs:enumeration value="TaichiChuanQiGong" />
+        <xs:enumeration value="Tennis" />
+        <xs:enumeration value="TennisDeTable" />
+        <xs:enumeration value="TirAArc" />
+        <xs:enumeration value="TirAuxArmes" />
+        <xs:enumeration value="Trampoline" />
+        <xs:enumeration value="Triathlon" />
+        <xs:enumeration value="TwirlingBaton" />
+        <xs:enumeration value="VietVoDaoEtDa" />
+        <xs:enumeration value="Voile" />
+        <xs:enumeration value="VolAVoile" />
+        <xs:enumeration value="VolLibre" />
+        <xs:enumeration value="VolleyBall" />
+        <xs:enumeration value="Autre" />
+    </xs:restriction>
+</xs:simpleType>
+
+  <xs:simpleType name="SagrFederationSportiveType">
+    <xs:annotation>
+        <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+            <enum key="Aeromodelisme" value="Aeromodelisme" />
+            <enum key="Aerostation" value="Aerostation" />
+            <enum key="Athletisme" value="Athletisme" />
+            <enum key="Badminton" value="Badminton" />
+            <enum key="BallonAuPoing" value="Ballon au poing" />
+            <enum key="BaseBall" value="Baseball" />
+            <enum key="BasketBall" value="Basketball" />
+            <enum key="Billard" value="Billard" />
+            <enum key="Bowling" value="Bowling" />
+            <enum key="BoxeBoxeAnglaise" value="Boxe, boxe anglaise" />
+            <enum key="CanoeKayak" value="Canoë kayak" />
+            <enum key="CharAVoile" value="Char à voile" />
+            <enum key="CourseDOrientation" value="Course d'orientation" />
+            <enum key="Cyclisme" value="Cyclisme" />
+            <enum key="EducationPhysiqueEtGymnastiqueVolontaire" value="Education physique et gymnastique volontaire" />
+            <enum key="Equitation" value="Equitation" />
+            <enum key="Escrime" value="Escrime" />
+            <enum key="EtudesEtSportsSousMarins" value="Etudes et sports sous-marins" />
+            <enum key="Football" value="Football" />
+            <enum key="FootballAmericain" value="Football Américain" />
+            <enum key="Giraviation" value="Giraviation" />
+            <enum key="Golf" value="Golf" />
+            <enum key="Gymnastique" value="Gymnastique" />
+            <enum key="Halterophilie" value="Halterophilie" />
+            <enum key="HandBall" value="Handball" />
+            <enum key="Handisport" value="Handisport" />
+            <enum key="Hockey" value="Hockey" />
+            <enum key="JeuDeBalleAuTambourin" value="Jeu de balle au tambourin" />
+            <enum key="Judo" value="Judo" />
+            <enum key="Karate" value="Karaté" />
+            <enum key="LonguePaume" value="Longue paume" />
+            <enum key="Lutte" value="Lutte" />
+            <enum key="MotoCyclisme" value="Moto cyclisme" />
+            <enum key="Motonautique" value="Motonautique" />
+            <enum key="MultisportsOmnisports" value="Multisports, omnisports" />
+            <enum key="Natation" value="Natation" />
+            <enum key="NationaleAeronautique" value="Nationale aéronautique" />
+            <enum key="Parachutisme" value="Parachutisme" />
+            <enum key="PecheALaMouche" value="Pêche à la mouche" />
+            <enum key="PecheEnEauDouce" value="Pêche en eau douce" />
+            <enum key="PecheEnMer" value="Pêche en mer" />
+            <enum key="PeloteBasque" value="Pelote basque" />
+            <enum key="Petanque" value="Pétanque" />
+            <enum key="PlanneurUltraLegerMotorise" value="Planneur ultra leger motorise" />
+            <enum key="RandonneePedestre" value="Randonnée pedestre" />
+            <enum key="RollerSkating" value="Roller skating" />
+            <enum key="Rugby" value="Rugby" />
+            <enum key="RugbyAXiii" value="Rugby à XIII" />
+            <enum key="Sambo" value="Sambo" />
+            <enum key="SauvetageEtSecourisme" value="Sauvetage et secourisme" />
+            <enum key="SkiNautique" value="Ski nautique" />
+            <enum key="SocietesDAviron" value="Sociétés d'aviron" />
+            <enum key="Speleologie" value="Spéléologie" />
+            <enum key="SportsAdaptes" value="Sports adaptés" />
+            <enum key="SportsAutomobiles" value="Sports automobiles" />
+            <enum key="SportsBoules" value="Sports boules" />
+            <enum key="SportsDeGlace" value="Sports de glace" />
+            <enum key="SportsDeQuille" value="Sports de quille" />
+            <enum key="SportsEnMilieuRural" value="Sports en milieu rural" />
+            <enum key="Squash" value="Squash" />
+            <enum key="SurfEtSkate" value="Surf et skate" />
+            <enum key="Tennis" value="Tennis" />
+            <enum key="TennisDeTable" value="Tennis de table" />
+            <enum key="Tir" value="Tir" />
+            <enum key="TirALArc" value="Tir à l'arc" />
+            <enum key="Trampoline" value="Trampoline" />
+            <enum key="Triathlon" value="Triathlon" />
+            <enum key="TwirlingBaton" value="Twirling baton" />
+            <enum key="Voile" value="Voile" />
+            <enum key="VolAVoile" value="Vol à voile" />
+            <enum key="VolLibre" value="Vol libre" />
+            <enum key="VolleyBall" value="Volleyball" />
+            <enum key="Autre" value="Autre" />
+        </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+        <xs:enumeration value="Aeromodelisme" />
+        <xs:enumeration value="Aerostation" />
+        <xs:enumeration value="Athletisme" />
+        <xs:enumeration value="Badminton" />
+        <xs:enumeration value="BallonAuPoing" />
+        <xs:enumeration value="BaseBall" />
+        <xs:enumeration value="BasketBall" />
+        <xs:enumeration value="Billard" />
+        <xs:enumeration value="Bowling" />
+        <xs:enumeration value="BoxeBoxeAnglaise" />
+        <xs:enumeration value="CanoeKayak" />
+        <xs:enumeration value="CharAVoile" />
+        <xs:enumeration value="CourseDOrientation" />
+        <xs:enumeration value="Cyclisme" />
+        <xs:enumeration value="EducationPhysiqueEtGymnastiqueVolontaire" />
+        <xs:enumeration value="Equitation" />
+        <xs:enumeration value="Escrime" />
+        <xs:enumeration value="EtudesEtSportsSousMarins" />
+        <xs:enumeration value="Football" />
+        <xs:enumeration value="FootballAmericain" />
+        <xs:enumeration value="Giraviation" />
+        <xs:enumeration value="Golf" />
+        <xs:enumeration value="Gymnastique" />
+        <xs:enumeration value="Halterophilie" />
+        <xs:enumeration value="HandBall" />
+        <xs:enumeration value="Handisport" />
+        <xs:enumeration value="Hockey" />
+        <xs:enumeration value="JeuDeBalleAuTambourin" />
+        <xs:enumeration value="Judo" />
+        <xs:enumeration value="Karate" />
+        <xs:enumeration value="LonguePaume" />
+        <xs:enumeration value="Lutte" />
+        <xs:enumeration value="MotoCyclisme" />
+        <xs:enumeration value="Motonautique" />
+        <xs:enumeration value="MultisportsOmnisports" />
+        <xs:enumeration value="Natation" />
+        <xs:enumeration value="NationaleAeronautique" />
+        <xs:enumeration value="Parachutisme" />
+        <xs:enumeration value="PecheALaMouche" />
+        <xs:enumeration value="PecheEnEauDouce" />
+        <xs:enumeration value="PecheEnMer" />
+        <xs:enumeration value="PeloteBasque" />
+        <xs:enumeration value="Petanque" />
+        <xs:enumeration value="PlanneurUltraLegerMotorise" />
+        <xs:enumeration value="RandonneePedestre" />
+        <xs:enumeration value="RollerSkating" />
+        <xs:enumeration value="Rugby" />
+        <xs:enumeration value="RugbyAXiii" />
+        <xs:enumeration value="Sambo" />
+        <xs:enumeration value="SauvetageEtSecourisme" />
+        <xs:enumeration value="SkiNautique" />
+        <xs:enumeration value="SocietesDAviron" />
+        <xs:enumeration value="Speleologie" />
+        <xs:enumeration value="SportsAdaptes" />
+        <xs:enumeration value="SportsAutomobiles" />
+        <xs:enumeration value="SportsBoules" />
+        <xs:enumeration value="SportsDeGlace" />
+        <xs:enumeration value="SportsDeQuille" />
+        <xs:enumeration value="SportsEnMilieuRural" />
+        <xs:enumeration value="Squash" />
+        <xs:enumeration value="SurfEtSkate" />
+        <xs:enumeration value="Tennis" />
+        <xs:enumeration value="TennisDeTable" />
+        <xs:enumeration value="Tir" />
+        <xs:enumeration value="TirALArc" />
+        <xs:enumeration value="Trampoline" />
+        <xs:enumeration value="Triathlon" />
+        <xs:enumeration value="TwirlingBaton" />
+        <xs:enumeration value="Voile" />
+        <xs:enumeration value="VolAVoile" />
+        <xs:enumeration value="VolLibre" />
+        <xs:enumeration value="VolleyBall" />
+        <xs:enumeration value="Autre" />
+    </xs:restriction>
+</xs:simpleType>
 
   <xs:complexType name="SagrNumerosAssociationType">
     <xs:sequence>
@@ -315,25 +673,6 @@
              <xs:maxLength value="9" />
            </xs:restriction>
          </xs:simpleType>
-       </xs:element>
-
-       <xs:element name="NumeroAgrementJeunesseSportAssociation" type="xs:string" minOccurs="0">
-         <xs:annotation>
-           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-             Numéro d'agrément Jeunesse et Sport
-           </xs:documentation>
-           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-             Numéro d'agrément Jeunesse et Sport
-           </xs:documentation>
-           <xs:appinfo>
-             <common>
-               <step name="association" />
-             </common>
-             <fo />
-             <bo column="2" />
-             <pdf />
-           </xs:appinfo>
-         </xs:annotation>
        </xs:element>
     </xs:sequence>
   </xs:complexType>
@@ -428,9 +767,77 @@
     </xs:sequence>
   </xs:complexType>
 
+<xs:complexType name="SagrPrecisionPresidentType">
+    <xs:sequence>
+      <xs:element name="NomPresident" type="cvq:LastNameType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="bureau" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PrenomPresident" type="cvq:FirstNameType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Prénom
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="bureau" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TelephonePresident" type="cvq:PhoneType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Téléphone fixe ou portable
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="bureau" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="EmailPresident" type="cvq:EmailType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Email
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Email
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="bureau" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="SagrMembreBureauType">
     <xs:sequence>
-      <xs:element name="RoleMembre" type="sagr:SagrRoleAssociationType">
+      <xs:element name="RoleMembre" type="sagr:SagrRoleAutreMembreAssociationType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             Fonction occupée
@@ -513,7 +920,7 @@
   
   <xs:complexType name="SagrActiviteAssociationType">
     <xs:sequence>
-      <xs:element name="NomActivite" type="xs:string">
+      <xs:element name="SportPratique" type="sagr:SagrSportPratiqueType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             Sport pratiqué
@@ -528,10 +935,40 @@
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-      <xs:element name="NomFederationSportiveActivite" type="xs:string">
+      <xs:element name="SportPratiquePrecision" type="xs:string" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Nom de la fédération sportive
+            Si Autre, précisez
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="activites" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="FederationSportive" type="sagr:SagrFederationSportiveType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Fédération sportive
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="activites" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="FederationSportivePrecision" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Si Autre, précisez
           </xs:documentation>
           <xs:appinfo>
             <common>
@@ -561,7 +998,7 @@
       <xs:element name="NombreLicencieMineurActivite" type="xs:long">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Nombre de licencié pour l'année précédente de moins de 18 ans
+            Nombre de licenciés pour l'année précédente de moins de 18 ans
           </xs:documentation>
           <xs:appinfo>
             <common>
@@ -576,7 +1013,7 @@
       <xs:element name="NombreLicencieMajeurActivite" type="xs:long">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Nombre de licencié pour l'année précédente de 18 ans et plus
+            Nombre de licenciés pour l'année précédente de 18 ans et plus
           </xs:documentation>
           <xs:appinfo>
             <common>
@@ -591,7 +1028,7 @@
       <xs:element name="TotalLicencieActivite" type="xs:long" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Total de licencié pour l'année précédente
+            Total de licenciés pour l'année précédente
           </xs:documentation>
           <xs:appinfo>
             <common>
@@ -636,10 +1073,10 @@
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CndsAnneeN" type="xs:string" minOccurs="0">
+      <xs:element name="SubventionObtenueConseilGeneralSaisonEcoulee" type="xs:string" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Subvention du CNDS pour l'année en cours
+            Subvention obtenue par le Conseil général pour la saison écoulée
           </xs:documentation>
           <xs:appinfo>
             <common>
@@ -651,10 +1088,10 @@
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CndsAnneeNPlusUn" type="xs:string" minOccurs="0">
+      <xs:element name="BudgetSaisonEcouleeRecette" type="xs:string" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Subvention du CNDS pour l'année prochaine
+            Budget réalisé de la saison écoulée – Recettes
           </xs:documentation>
           <xs:appinfo>
             <common>
@@ -666,10 +1103,10 @@
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-      <xs:element name="RegionAnneeN" type="xs:string" minOccurs="0">
+      <xs:element name="BudgetSaisonEcouleeDepenses" type="xs:string" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-           Subvention de la région pour l'année en cours
+            Budget réalisé de la saison écoulée – Dépenses
           </xs:documentation>
           <xs:appinfo>
             <common>
@@ -681,10 +1118,25 @@
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-     <xs:element name="RegionAnneeNPlusUn" type="xs:string" minOccurs="0">
+      <xs:element name="NombreLicencieMoinsDixHuitSaisonEcoulee" type="xs:string" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Subvention de la région pour l'année prochaine
+           Nombre de licenciés de moins de 18 ans pour la saison écoulée
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subvention" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+     <xs:element name="NombreLicenciePlusDixHuitSaisonEcoulee" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nombre de licenciés de plus de 18 ans pour la saison écoulée
           </xs:documentation>
           <xs:appinfo>
             <common>

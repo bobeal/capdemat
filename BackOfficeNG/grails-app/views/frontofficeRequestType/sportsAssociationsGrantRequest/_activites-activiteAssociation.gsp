@@ -12,15 +12,35 @@
     </span>
   </h4>
   
-    <label for="activiteAssociation.${collectionIndex}.nomActivite" class="required"><g:message code="sagr.property.nomActivite.label" /> *  <span><g:message code="sagr.property.nomActivite.help" /></span></label>
-            <input type="text" id="activiteAssociation.${collectionIndex}.nomActivite" name="activiteAssociation[${collectionIndex}].nomActivite" value="${currentCollectionItem?.nomActivite?.toString()}" 
-                    class="required  validate-string ${rqt.stepStates['activites'].invalidFields.contains('activiteAssociation['+collectionIndex+'].nomActivite') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.nomActivite.validationError" />"   />
+    <label for="activiteAssociation.${collectionIndex}.sportPratique" class="required"><g:message code="sagr.property.sportPratique.label" /> *  <span><g:message code="sagr.property.sportPratique.help" /></span></label>
+            <select id="activiteAssociation.${collectionIndex}.sportPratique" name="activiteAssociation[${collectionIndex}].sportPratique" class="required  validate-not-first ${rqt.stepStates['activites'].invalidFields.contains('activiteAssociation['+collectionIndex+'].sportPratique') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.sportPratique.validationError" />">
+              <option value=""><g:message code="message.select.defaultOption" /></option>
+              <g:each in="${['AEROMODELISME','AEROSTATION','AIKIDO','ATHLETISME','AVIRON','BADMINTON','BASE_BALL','BASKET_BALL','BILLARD','BOULES_LYONNAISES','BOWLING','BOXE_AMERICAINE','BOXE_ANGLAISE','BOXE_FRANCAISE','BOXE_THAILANDAISE','CANOE_KAYAK','COURSE_ORIENTATION','CYCLISME','CYCLO_TOURISME','CYCLO_VTT','DANSE','ECHECS','EQUITATION','ESCALADE_ET_MONTAGNE','ESCRIME','FOOTBALL','FOOTBALL_AMERICAIN','FUTSAL','GOLF','GYM_RYTHM_SPORTIVE','GYM_VOLONTAIRE','HALTEROPHILIE','HAND_BALL','HOCKEY_SUR_GLACE','JEU_DE_PAUME','JOUTES','JUDO','KARATE','KICKBOXING','LUTTE','MOTO_CYCLISME','NATATION','PARACHUTISME','PATINS_A_ROULETTES','PECHE_A_LA_MOUCHE','PECHE_AU_COUP','PETANQUE','RANDONNEE_PEDESTRE','ROLLER_SKATING_ET_DA','RUGBY','SAMBO','SKATE_BOARD','SKI','SKI_NAUTIQUE','SPELEOLOGIE','SPORTS_DE_GLACE','SPORTS_HANDICAPES','SPORTS_SOUS_MARINS','SQUASH','TAEKWONDO_ET_DA','TAICHI_CHUAN_QI_GONG','TENNIS','TENNIS_DE_TABLE','TIR_A_ARC','TIR_AUX_ARMES','TRAMPOLINE','TRIATHLON','TWIRLING_BATON','VIET_VO_DAO_ET_DA','VOILE','VOL_A_VOILE','VOL_LIBRE','VOLLEY_BALL','AUTRE']}">
+                <option value="${it}" ${it == currentCollectionItem?.sportPratique?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="sagr.property.sportPratique" /></option>
+              </g:each>
+            </select>
             
 
   
-    <label for="activiteAssociation.${collectionIndex}.nomFederationSportiveActivite" class="required"><g:message code="sagr.property.nomFederationSportiveActivite.label" /> *  <span><g:message code="sagr.property.nomFederationSportiveActivite.help" /></span></label>
-            <input type="text" id="activiteAssociation.${collectionIndex}.nomFederationSportiveActivite" name="activiteAssociation[${collectionIndex}].nomFederationSportiveActivite" value="${currentCollectionItem?.nomFederationSportiveActivite?.toString()}" 
-                    class="required  validate-string ${rqt.stepStates['activites'].invalidFields.contains('activiteAssociation['+collectionIndex+'].nomFederationSportiveActivite') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.nomFederationSportiveActivite.validationError" />"   />
+    <label for="activiteAssociation.${collectionIndex}.sportPratiquePrecision" class=""><g:message code="sagr.property.sportPratiquePrecision.label" />   <span><g:message code="sagr.property.sportPratiquePrecision.help" /></span></label>
+            <input type="text" id="activiteAssociation.${collectionIndex}.sportPratiquePrecision" name="activiteAssociation[${collectionIndex}].sportPratiquePrecision" value="${currentCollectionItem?.sportPratiquePrecision?.toString()}" 
+                    class="  validate-string ${rqt.stepStates['activites'].invalidFields.contains('activiteAssociation['+collectionIndex+'].sportPratiquePrecision') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.sportPratiquePrecision.validationError" />"   />
+            
+
+  
+    <label for="activiteAssociation.${collectionIndex}.federationSportive" class="required"><g:message code="sagr.property.federationSportive.label" /> *  <span><g:message code="sagr.property.federationSportive.help" /></span></label>
+            <select id="activiteAssociation.${collectionIndex}.federationSportive" name="activiteAssociation[${collectionIndex}].federationSportive" class="required  validate-not-first ${rqt.stepStates['activites'].invalidFields.contains('activiteAssociation['+collectionIndex+'].federationSportive') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.federationSportive.validationError" />">
+              <option value=""><g:message code="message.select.defaultOption" /></option>
+              <g:each in="${['AEROMODELISME','AEROSTATION','ATHLETISME','BADMINTON','BALLON_AU_POING','BASE_BALL','BASKET_BALL','BILLARD','BOWLING','BOXE_BOXE_ANGLAISE','CANOE_KAYAK','CHAR_A_VOILE','COURSE_D_ORIENTATION','CYCLISME','EDUCATION_PHYSIQUE_ET_GYMNASTIQUE_VOLONTAIRE','EQUITATION','ESCRIME','ETUDES_ET_SPORTS_SOUS_MARINS','FOOTBALL','FOOTBALL_AMERICAIN','GIRAVIATION','GOLF','GYMNASTIQUE','HALTEROPHILIE','HAND_BALL','HANDISPORT','HOCKEY','JEU_DE_BALLE_AU_TAMBOURIN','JUDO','KARATE','LONGUE_PAUME','LUTTE','MOTO_CYCLISME','MOTONAUTIQUE','MULTISPORTS_OMNISPORTS','NATATION','NATIONALE_AERONAUTIQUE','PARACHUTISME','PECHE_A_LA_MOUCHE','PECHE_EN_EAU_DOUCE','PECHE_EN_MER','PELOTE_BASQUE','PETANQUE','PLANNEUR_ULTRA_LEGER_MOTORISE','RANDONNEE_PEDESTRE','ROLLER_SKATING','RUGBY','RUGBY_A_XIII','SAMBO','SAUVETAGE_ET_SECOURISME','SKI_NAUTIQUE','SOCIETES_D_AVIRON','SPELEOLOGIE','SPORTS_ADAPTES','SPORTS_AUTOMOBILES','SPORTS_BOULES','SPORTS_DE_GLACE','SPORTS_DE_QUILLE','SPORTS_EN_MILIEU_RURAL','SQUASH','SURF_ET_SKATE','TENNIS','TENNIS_DE_TABLE','TIR','TIR_A_L_ARC','TRAMPOLINE','TRIATHLON','TWIRLING_BATON','VOILE','VOL_A_VOILE','VOL_LIBRE','VOLLEY_BALL','AUTRE']}">
+                <option value="${it}" ${it == currentCollectionItem?.federationSportive?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="sagr.property.federationSportive" /></option>
+              </g:each>
+            </select>
+            
+
+  
+    <label for="activiteAssociation.${collectionIndex}.federationSportivePrecision" class=""><g:message code="sagr.property.federationSportivePrecision.label" />   <span><g:message code="sagr.property.federationSportivePrecision.help" /></span></label>
+            <input type="text" id="activiteAssociation.${collectionIndex}.federationSportivePrecision" name="activiteAssociation[${collectionIndex}].federationSportivePrecision" value="${currentCollectionItem?.federationSportivePrecision?.toString()}" 
+                    class="  validate-string ${rqt.stepStates['activites'].invalidFields.contains('activiteAssociation['+collectionIndex+'].federationSportivePrecision') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.federationSportivePrecision.validationError" />"   />
             
 
   

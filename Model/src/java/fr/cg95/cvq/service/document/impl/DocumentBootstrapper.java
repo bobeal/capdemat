@@ -175,6 +175,24 @@ public class DocumentBootstrapper {
 
         checkDocumentType("Past Season Licences Payment Receipt", 47,
                 DocumentUsageType.REUSABLE, 1, DocumentTypeValidity.YEAR);
+
+        checkDocumentType("Recepisse Declaration Constitution Association", 48,
+                DocumentUsageType.REUSABLE, 0, DocumentTypeValidity.UNLIMITED);
+
+        checkDocumentType("Insertion Journal Officiel", 49,
+                DocumentUsageType.REUSABLE, 0, DocumentTypeValidity.UNLIMITED);
+
+        checkDocumentType("Status Association", 50,
+                DocumentUsageType.REUSABLE, 0, DocumentTypeValidity.UNLIMITED);
+
+        checkDocumentType("Liste Membres Bureau", 51,
+                DocumentUsageType.REUSABLE, 0, DocumentTypeValidity.UNLIMITED);
+
+        checkDocumentType("Rapport Annuel Activite", 52,
+                DocumentUsageType.REUSABLE, 1, DocumentTypeValidity.YEAR);
+
+        checkDocumentType("Modifications Depuis Creation Association", 53,
+                DocumentUsageType.REUSABLE, 0, DocumentTypeValidity.UNLIMITED);
     }
 
     public void setDocumentTypeDAO(IDocumentTypeDAO documentTypeDAO) {

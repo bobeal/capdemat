@@ -77,7 +77,7 @@
   
 
   
-    <h3><g:message code="sagr.step.bureau.label" /></h3>
+    <h3><g:message code="sagr.step.president.label" /></h3>
     
       
       <dl>
@@ -110,6 +110,11 @@
         
       </dl>
       
+    
+  
+
+  
+    <h3><g:message code="sagr.step.bureau.label" /></h3>
     
       
       <h4><g:message code="sagr.property.autreMembreBureau.label" /></h4>
@@ -147,8 +152,8 @@
     <h3><g:message code="sagr.step.activites.label" /></h3>
     
       
-      <h4><g:message code="sagr.property.activiteAssociation.label" /></h4>
-      <g:each var="it" in="${rqt.activiteAssociation}" status="index">
+      <h4><g:message code="sagr.property.sagrActiviteAssociation.label" /></h4>
+      <g:each var="it" in="${rqt.sagrActiviteAssociation}" status="index">
       <dl>
         
           <dt><g:message code="sagr.property.sportPratique.label" /></dt>
@@ -198,9 +203,6 @@
       <dl>
         
           <dt><g:message code="sagr.property.subventionSolliciteConseilGeneral.label" /></dt><dd>${rqt.subventionSolliciteConseilGeneral?.toString()}</dd>
-
-        
-          <dt><g:message code="sagr.property.subventionObtenueConseilGeneralSaisonEcoulee.label" /></dt><dd>${rqt.subventionObtenueConseilGeneralSaisonEcoulee?.toString()}</dd>
 
         
           <dt><g:message code="sagr.property.budgetSaisonEcouleeRecette.label" /></dt><dd>${rqt.budgetSaisonEcouleeRecette?.toString()}</dd>

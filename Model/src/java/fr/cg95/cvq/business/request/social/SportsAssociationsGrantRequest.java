@@ -56,6 +56,13 @@ public class SportsAssociationsGrantRequest extends Request implements Serializa
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
+          getStepStates().put("president", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
           getStepStates().put("bureau", stepState);
         
           stepState = new HashMap<String, Object>(4);
@@ -131,16 +138,7 @@ public class SportsAssociationsGrantRequest extends Request implements Serializa
         SportsAssociationsGrantRequestDocument.SportsAssociationsGrantRequest sportsAssociationsGrantRequest = sportsAssociationsGrantRequestDoc.addNewSportsAssociationsGrantRequest();
         super.fillCommonXmlInfo(sportsAssociationsGrantRequest);
         int i = 0;
-        
-        i = 0;
-        if (getActiviteAssociation() != null) {
-            fr.cg95.cvq.xml.request.social.SagrActiviteAssociationType[] activiteAssociationTypeTab = new fr.cg95.cvq.xml.request.social.SagrActiviteAssociationType[getActiviteAssociation().size()];
-            for (SagrActiviteAssociation object : getActiviteAssociation()) {
-              activiteAssociationTypeTab[i++] = object.modelToXml();
-            }
-            sportsAssociationsGrantRequest.setActiviteAssociationArray(activiteAssociationTypeTab);
-        }
-        SagrContactsAssociationType sagrContactsAssociationTypeContactsAssociation = sportsAssociationsGrantRequest.addNewContactsAssociation();
+          SagrContactsAssociationType sagrContactsAssociationTypeContactsAssociation = sportsAssociationsGrantRequest.addNewContactsAssociation();
         if (getAdresseCorrespondantPrincipal() != null)
             sagrContactsAssociationTypeContactsAssociation.setAdresseCorrespondantPrincipal(Address.modelToXml(getAdresseCorrespondantPrincipal()));
       
@@ -194,10 +192,17 @@ public class SportsAssociationsGrantRequest extends Request implements Serializa
         if (getRoleDemandeur() != null)
             sportsAssociationsGrantRequest.setRoleDemandeur(fr.cg95.cvq.xml.request.social.SagrRoleAssociationType.Enum.forString(getRoleDemandeur().getLegacyLabel()));
       
+        i = 0;
+        if (getSagrActiviteAssociation() != null) {
+            fr.cg95.cvq.xml.request.social.SagrActiviteAssociationType[] sagrActiviteAssociationTypeTab = new fr.cg95.cvq.xml.request.social.SagrActiviteAssociationType[getSagrActiviteAssociation().size()];
+            for (SagrActiviteAssociation object : getSagrActiviteAssociation()) {
+              sagrActiviteAssociationTypeTab[i++] = object.modelToXml();
+            }
+            sportsAssociationsGrantRequest.setSagrActiviteAssociationArray(sagrActiviteAssociationTypeTab);
+        }
+      
         if (getSiegeSocialAssociation() != null)
             sportsAssociationsGrantRequest.setSiegeSocialAssociation(Address.modelToXml(getSiegeSocialAssociation()));
-      
-        sagrSubventionPubliqueFonctionnementTypeSubventionPubliqueFonctionnement.setSubventionObtenueConseilGeneralSaisonEcoulee(getSubventionObtenueConseilGeneralSaisonEcoulee());
       
         sagrSubventionPubliqueFonctionnementTypeSubventionPubliqueFonctionnement.setSubventionSolliciteConseilGeneral(getSubventionSolliciteConseilGeneral());
       
@@ -219,12 +224,6 @@ public class SportsAssociationsGrantRequest extends Request implements Serializa
         SportsAssociationsGrantRequest sportsAssociationsGrantRequest = new SportsAssociationsGrantRequest();
         sportsAssociationsGrantRequest.fillCommonModelInfo(sportsAssociationsGrantRequest, sportsAssociationsGrantRequestXml);
         
-        List<fr.cg95.cvq.business.request.social.SagrActiviteAssociation> activiteAssociationList = new ArrayList<fr.cg95.cvq.business.request.social.SagrActiviteAssociation>(sportsAssociationsGrantRequestXml.sizeOfActiviteAssociationArray());
-        for (SagrActiviteAssociationType object : sportsAssociationsGrantRequestXml.getActiviteAssociationArray()) {
-            activiteAssociationList.add(fr.cg95.cvq.business.request.social.SagrActiviteAssociation.xmlToModel(object));
-        }
-        sportsAssociationsGrantRequest.setActiviteAssociation(activiteAssociationList);
-      
         if (sportsAssociationsGrantRequestXml.getContactsAssociation().getAdresseCorrespondantPrincipal() != null)
             sportsAssociationsGrantRequest.setAdresseCorrespondantPrincipal(Address.xmlToModel(sportsAssociationsGrantRequestXml.getContactsAssociation().getAdresseCorrespondantPrincipal()));
       
@@ -276,10 +275,14 @@ public class SportsAssociationsGrantRequest extends Request implements Serializa
         else
             sportsAssociationsGrantRequest.setRoleDemandeur(fr.cg95.cvq.business.request.social.SagrRoleAssociationType.getDefaultSagrRoleAssociationType());
       
+        List<fr.cg95.cvq.business.request.social.SagrActiviteAssociation> sagrActiviteAssociationList = new ArrayList<fr.cg95.cvq.business.request.social.SagrActiviteAssociation>(sportsAssociationsGrantRequestXml.sizeOfSagrActiviteAssociationArray());
+        for (SagrActiviteAssociationType object : sportsAssociationsGrantRequestXml.getSagrActiviteAssociationArray()) {
+            sagrActiviteAssociationList.add(fr.cg95.cvq.business.request.social.SagrActiviteAssociation.xmlToModel(object));
+        }
+        sportsAssociationsGrantRequest.setSagrActiviteAssociation(sagrActiviteAssociationList);
+      
         if (sportsAssociationsGrantRequestXml.getSiegeSocialAssociation() != null)
             sportsAssociationsGrantRequest.setSiegeSocialAssociation(Address.xmlToModel(sportsAssociationsGrantRequestXml.getSiegeSocialAssociation()));
-      
-        sportsAssociationsGrantRequest.setSubventionObtenueConseilGeneralSaisonEcoulee(sportsAssociationsGrantRequestXml.getSubventionPubliqueFonctionnement().getSubventionObtenueConseilGeneralSaisonEcoulee());
       
         sportsAssociationsGrantRequest.setSubventionSolliciteConseilGeneral(sportsAssociationsGrantRequestXml.getSubventionPubliqueFonctionnement().getSubventionSolliciteConseilGeneral());
       
@@ -299,6 +302,13 @@ public class SportsAssociationsGrantRequest extends Request implements Serializa
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
           clone.getStepStates().put("association", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
+          stepState.put("required", true);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("president", stepState);
         
           stepState = new HashMap<String, Object>(4);
           stepState.put("state", "unavailable");
@@ -345,15 +355,6 @@ public class SportsAssociationsGrantRequest extends Request implements Serializa
         return clone;
     }
 
-  
-    public final void setActiviteAssociation(final List<fr.cg95.cvq.business.request.social.SagrActiviteAssociation> activiteAssociation) {
-        sportsAssociationsGrantRequestData.setActiviteAssociation(activiteAssociation);
-    }
-
-    
-    public final List<fr.cg95.cvq.business.request.social.SagrActiviteAssociation> getActiviteAssociation() {
-        return sportsAssociationsGrantRequestData.getActiviteAssociation();
-    }
   
     public final void setAdresseCorrespondantPrincipal(final fr.cg95.cvq.business.users.Address adresseCorrespondantPrincipal) {
         sportsAssociationsGrantRequestData.setAdresseCorrespondantPrincipal(adresseCorrespondantPrincipal);
@@ -544,6 +545,15 @@ public class SportsAssociationsGrantRequest extends Request implements Serializa
         return sportsAssociationsGrantRequestData.getRoleDemandeur();
     }
   
+    public final void setSagrActiviteAssociation(final List<fr.cg95.cvq.business.request.social.SagrActiviteAssociation> sagrActiviteAssociation) {
+        sportsAssociationsGrantRequestData.setSagrActiviteAssociation(sagrActiviteAssociation);
+    }
+
+    
+    public final List<fr.cg95.cvq.business.request.social.SagrActiviteAssociation> getSagrActiviteAssociation() {
+        return sportsAssociationsGrantRequestData.getSagrActiviteAssociation();
+    }
+  
     public final void setSiegeSocialAssociation(final fr.cg95.cvq.business.users.Address siegeSocialAssociation) {
         sportsAssociationsGrantRequestData.setSiegeSocialAssociation(siegeSocialAssociation);
     }
@@ -551,15 +561,6 @@ public class SportsAssociationsGrantRequest extends Request implements Serializa
     
     public final fr.cg95.cvq.business.users.Address getSiegeSocialAssociation() {
         return sportsAssociationsGrantRequestData.getSiegeSocialAssociation();
-    }
-  
-    public final void setSubventionObtenueConseilGeneralSaisonEcoulee(final String subventionObtenueConseilGeneralSaisonEcoulee) {
-        sportsAssociationsGrantRequestData.setSubventionObtenueConseilGeneralSaisonEcoulee(subventionObtenueConseilGeneralSaisonEcoulee);
-    }
-
-    
-    public final String getSubventionObtenueConseilGeneralSaisonEcoulee() {
-        return sportsAssociationsGrantRequestData.getSubventionObtenueConseilGeneralSaisonEcoulee();
     }
   
     public final void setSubventionSolliciteConseilGeneral(final String subventionSolliciteConseilGeneral) {

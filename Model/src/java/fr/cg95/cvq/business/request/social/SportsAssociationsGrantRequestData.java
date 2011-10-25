@@ -51,16 +51,6 @@ public class SportsAssociationsGrantRequestData implements Serializable {
         
           
             
-        List<fr.cg95.cvq.business.request.social.SagrActiviteAssociation> activiteAssociationList = new ArrayList<fr.cg95.cvq.business.request.social.SagrActiviteAssociation>();
-        for (SagrActiviteAssociation object : activiteAssociation) {
-            activiteAssociationList.add(object.clone());
-        }
-        result.setActiviteAssociation(activiteAssociationList);
-      
-          
-        
-          
-            
         if (adresseCorrespondantPrincipal != null)
             result.setAdresseCorrespondantPrincipal(adresseCorrespondantPrincipal.clone());
       
@@ -196,14 +186,18 @@ public class SportsAssociationsGrantRequestData implements Serializable {
         
           
             
-        if (siegeSocialAssociation != null)
-            result.setSiegeSocialAssociation(siegeSocialAssociation.clone());
+        List<fr.cg95.cvq.business.request.social.SagrActiviteAssociation> sagrActiviteAssociationList = new ArrayList<fr.cg95.cvq.business.request.social.SagrActiviteAssociation>();
+        for (SagrActiviteAssociation object : sagrActiviteAssociation) {
+            sagrActiviteAssociationList.add(object.clone());
+        }
+        result.setSagrActiviteAssociation(sagrActiviteAssociationList);
       
           
         
           
             
-        result.setSubventionObtenueConseilGeneralSaisonEcoulee(subventionObtenueConseilGeneralSaisonEcoulee);
+        if (siegeSocialAssociation != null)
+            result.setSiegeSocialAssociation(siegeSocialAssociation.clone());
       
           
         
@@ -232,38 +226,6 @@ public class SportsAssociationsGrantRequestData implements Serializable {
         return this.id;
     }
 
-  
-    
-      @AssertValid(
-        
-        
-        profiles = {"activites"},
-        message = "activiteAssociation"
-      )
-    
-      @MinSize(
-        
-          value = 1,
-        
-        
-        profiles = {"activites"},
-        message = "activiteAssociation"
-      )
-    
-    private List<fr.cg95.cvq.business.request.social.SagrActiviteAssociation> activiteAssociation;
-
-    public void setActiviteAssociation(final List<fr.cg95.cvq.business.request.social.SagrActiviteAssociation> activiteAssociation) {
-        this.activiteAssociation = activiteAssociation;
-    }
-
- 
-    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-    @OrderColumn(name="activite_association_index")
-    @JoinColumn(name="sports_associations_grant_request_id")
-      
-    public List<fr.cg95.cvq.business.request.social.SagrActiviteAssociation> getActiviteAssociation() {
-        return this.activiteAssociation;
-    }
   
     
       @NotNull(
@@ -586,7 +548,7 @@ public class SportsAssociationsGrantRequestData implements Serializable {
             
             "return active",
         
-        profiles = {"bureau"},
+        profiles = {"president"},
         message = "nomPresident"
       )
     
@@ -602,7 +564,7 @@ public class SportsAssociationsGrantRequestData implements Serializable {
             
             "return active",
         
-        profiles = {"bureau"},
+        profiles = {"president"},
         message = "nomPresident"
       )
     
@@ -618,7 +580,7 @@ public class SportsAssociationsGrantRequestData implements Serializable {
             
             "return active",
         
-        profiles = {"bureau"},
+        profiles = {"president"},
         message = "nomPresident"
       )
     
@@ -798,7 +760,7 @@ public class SportsAssociationsGrantRequestData implements Serializable {
             
             "return active",
         
-        profiles = {"bureau"},
+        profiles = {"president"},
         message = "prenomPresident"
       )
     
@@ -814,7 +776,7 @@ public class SportsAssociationsGrantRequestData implements Serializable {
             
             "return active",
         
-        profiles = {"bureau"},
+        profiles = {"president"},
         message = "prenomPresident"
       )
     
@@ -830,7 +792,7 @@ public class SportsAssociationsGrantRequestData implements Serializable {
             
             "return active",
         
-        profiles = {"bureau"},
+        profiles = {"president"},
         message = "prenomPresident"
       )
     
@@ -851,7 +813,7 @@ public class SportsAssociationsGrantRequestData implements Serializable {
       @NotNull(
         
         
-        profiles = {"bureau"},
+        profiles = {"president"},
         message = "roleDemandeur"
       )
     
@@ -867,6 +829,38 @@ public class SportsAssociationsGrantRequestData implements Serializable {
       
     public fr.cg95.cvq.business.request.social.SagrRoleAssociationType getRoleDemandeur() {
         return this.roleDemandeur;
+    }
+  
+    
+      @AssertValid(
+        
+        
+        profiles = {"activites"},
+        message = "sagrActiviteAssociation"
+      )
+    
+      @MinSize(
+        
+          value = 1,
+        
+        
+        profiles = {"activites"},
+        message = "sagrActiviteAssociation"
+      )
+    
+    private List<fr.cg95.cvq.business.request.social.SagrActiviteAssociation> sagrActiviteAssociation;
+
+    public void setSagrActiviteAssociation(final List<fr.cg95.cvq.business.request.social.SagrActiviteAssociation> sagrActiviteAssociation) {
+        this.sagrActiviteAssociation = sagrActiviteAssociation;
+    }
+
+ 
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @OrderColumn(name="sagr_activite_association_index")
+    @JoinColumn(name="sports_associations_grant_request_id")
+      
+    public List<fr.cg95.cvq.business.request.social.SagrActiviteAssociation> getSagrActiviteAssociation() {
+        return this.sagrActiviteAssociation;
     }
   
     
@@ -896,20 +890,6 @@ public class SportsAssociationsGrantRequestData implements Serializable {
       
     public fr.cg95.cvq.business.users.Address getSiegeSocialAssociation() {
         return this.siegeSocialAssociation;
-    }
-  
-    
-    private String subventionObtenueConseilGeneralSaisonEcoulee;
-
-    public void setSubventionObtenueConseilGeneralSaisonEcoulee(final String subventionObtenueConseilGeneralSaisonEcoulee) {
-        this.subventionObtenueConseilGeneralSaisonEcoulee = subventionObtenueConseilGeneralSaisonEcoulee;
-    }
-
- 
-    @Column(name="subvention_obtenue_conseil_general_saison_ecoulee"  )
-      
-    public String getSubventionObtenueConseilGeneralSaisonEcoulee() {
-        return this.subventionObtenueConseilGeneralSaisonEcoulee;
     }
   
     
@@ -955,7 +935,7 @@ public class SportsAssociationsGrantRequestData implements Serializable {
             
             "return active",
         
-        profiles = {"bureau"},
+        profiles = {"president"},
         message = "telephonePresident"
       )
     

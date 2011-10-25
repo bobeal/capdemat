@@ -15,8 +15,8 @@ public class SportsAssociationsGrantRequestService extends RequestService {
     public void init() {
         SportsAssociationsGrantRequest.conditions.put("estAdresseCorrespondantPrincipal", new EqualityChecker("false"));
         SportsAssociationsGrantRequest.conditions.put("roleDemandeur", new EqualityChecker(SagrRoleAssociationType.PRESIDENT.name()));
-//        SportsAssociationsGrantRequest.conditions.put("sportPratique", new EqualityChecker(SagrSportPratiqueType.AUTRE.name()));
-//        SportsAssociationsGrantRequest.conditions.put("federationSportive", new EqualityChecker(SagrFederationSportiveType.AUTRE.name()));
+        SportsAssociationsGrantRequest.conditions.put("sagrActiviteAssociation.sportPratique", new EqualityChecker(SagrSportPratiqueType.AUTRE.name()));
+        SportsAssociationsGrantRequest.conditions.put("sagrActiviteAssociation.federationSportive", new EqualityChecker(SagrFederationSportiveType.AUTRE.name()));
     }
 
     @Override
@@ -32,7 +32,7 @@ public class SportsAssociationsGrantRequestService extends RequestService {
     @Override
     public void onRequestIssued(Request request) {
         SportsAssociationsGrantRequest sagr = (SportsAssociationsGrantRequest) request;
-        for (SagrActiviteAssociation as : sagr.getActiviteAssociation()) {
+        for (SagrActiviteAssociation as : sagr.getSagrActiviteAssociation()) {
             as.setTotalLicencieActivite(as.getNombreLicencieMajeurActivite() + as.getNombreLicencieMineurActivite());
         }
     }

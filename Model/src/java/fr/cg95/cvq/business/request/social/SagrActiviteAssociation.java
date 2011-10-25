@@ -302,6 +302,38 @@ public class SagrActiviteAssociation implements Serializable {
     }
   
     
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['sagrActiviteAssociation.federationSportive'].test(_this.federationSportive.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"activites"},
+        message = "federationSportivePrecision"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['sagrActiviteAssociation.federationSportive'].test(_this.federationSportive.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"activites"},
+        message = "federationSportivePrecision"
+      )
+    
     private String federationSportivePrecision;
 
     public void setFederationSportivePrecision(final String federationSportivePrecision) {
@@ -358,6 +390,38 @@ public class SagrActiviteAssociation implements Serializable {
         return this.nombreLicencieMineurActivite;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['sagrActiviteAssociation.sportPratique'].test(_this.sportPratique.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"activites"},
+        message = "sportPratiquePrecision"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['sagrActiviteAssociation.sportPratique'].test(_this.sportPratique.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"activites"},
+        message = "sportPratiquePrecision"
+      )
     
     private String sportPratiquePrecision;
 

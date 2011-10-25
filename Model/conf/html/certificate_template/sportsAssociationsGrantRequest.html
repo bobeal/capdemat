@@ -166,7 +166,7 @@
   
 
   
-  <h2>${i18n.translate('sagr.step.bureau.label')}</h2>
+  <h2>${i18n.translate('sagr.step.president.label')}</h2>
   
     
       <p class="label">${esc(i18n.translate('sagr.property.roleDemandeur.label'))}</p>
@@ -197,6 +197,10 @@
         
       </div>
     
+  
+
+  
+  <h2>${i18n.translate('sagr.step.bureau.label')}</h2>
   
     
       <h3>${i18n.translate('sagr.property.autreMembreBureau.label')}</h3>
@@ -233,9 +237,9 @@
   <h2>${i18n.translate('sagr.step.activites.label')}</h2>
   
     
-      <h3>${i18n.translate('sagr.property.activiteAssociation.label')}</h3>
+      <h3>${i18n.translate('sagr.property.sagrActiviteAssociation.label')}</h3>
       <div class="complex">
-      <% rqt.activiteAssociation.each { collectionIt -> %>
+      <% rqt.sagrActiviteAssociation.each { collectionIt -> %>
       
         <p class="label">${esc(i18n.translate('sagr.property.sportPratique.label'))}</p>
           <div class="response">
@@ -289,9 +293,6 @@
       <div class="complex">
         
           <p class="label">${esc(i18n.translate('sagr.property.subventionSolliciteConseilGeneral.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.subventionSolliciteConseilGeneral?.toString()))}</div>
-
-        
-          <p class="label">${esc(i18n.translate('sagr.property.subventionObtenueConseilGeneralSaisonEcoulee.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.subventionObtenueConseilGeneralSaisonEcoulee?.toString()))}</div>
 
         
           <p class="label">${esc(i18n.translate('sagr.property.budgetSaisonEcouleeRecette.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.budgetSaisonEcouleeRecette?.toString()))}</div>

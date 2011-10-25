@@ -411,7 +411,7 @@ class BackofficeRequestTypeController {
         } else {
             localReferentialService.editLocalReferentialEntry(rtLabel, params.dataName, params.'entry.key', newLabel, newMessage)
         }
-        render (['isNew': isNew, 'entryLabel': newLabel,
+        render (['isNew': isNew, 'entryLabel': newLabel, 'entryKey': params.'entry.key',
                  'status':'success', 'message':message(code:"message.updateDone")] as JSON)
     }
     

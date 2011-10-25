@@ -105,7 +105,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         zct.doAjaxFormSubmitCall(entryFormEl.id, null, function(o) {
           var response = ylj.parse(o.responseText);
           if (!response.isNew) {
-            zct.html(yud.getFirstChild(yud.getAncestorByTagName(target, 'li')), response.entryLabel);
+            zct.html(yud.getFirstChild(yud.getAncestorByTagName(target, 'li')), 
+		     response.entryLabel + " (clé : " + response.entryKey + ")");
             zct.style(yud.getAncestorByTagName(entryFormEl, 'div'), {display:'none'});
           } else {
             zcbrt.LocalReferential.refreshEntries(entryFormEl.dataName.value);

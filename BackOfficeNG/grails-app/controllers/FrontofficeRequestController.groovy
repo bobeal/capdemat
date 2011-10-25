@@ -237,7 +237,6 @@ class FrontofficeRequestController {
         requestLockService.lock(id)
         Request rqt = requestSearchService.getById(id, true)
         rqt[params.currentCollection].remove(Integer.valueOf(params.collectionIndex))
-        requestWorkflowService.validate(rqt, [params.currentStep])
         // hack : reset step to uncomplete,
         // to force step validation irrespective of collection elements manipulation
         rqt.stepStates[params.currentStep].state = "uncomplete"

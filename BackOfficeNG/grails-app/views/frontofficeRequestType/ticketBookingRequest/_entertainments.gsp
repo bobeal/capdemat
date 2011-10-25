@@ -107,11 +107,11 @@ if (session.ticketBooking == null) {
     <input type="text" id="subscriberNumber" name="subscriberNumber" value="${flash?.subscriberNumber?.toString()}" 
     class="required condition-hasSubscriberNumber-filled  validate-token" title="<g:message code="tbr.property.subscriberNumber.validationError" />"   />
 
-    <label for="subscriberFirstName" class="required condition-hasSubscriberNumber-filled"><g:message code="tbr.property.subscriberFirstName.label" /> *  <span><g:message code="tbr.property.subcriberFirstName.help" /></span></label>
+    <label for="subscriberFirstName" class="required condition-hasSubscriberNumber-filled"><g:message code="tbr.property.subscriberFirstName.label" /> *  <span><g:message code="tbr.property.subscriberFirstName.help" /></span></label>
     <input type="text" id="subscriberFirstName" name="subscriberFirstName" value="${flash?.subscriberFirstName?.toString()}" 
     class="required condition-hasSubscriberNumber-filled  validate-string" title="<g:message code="tbr.property.subscriberFirstName.validationError" />"   />
 
-    <label for="subscriberLastName" class="required condition-hasSubscriberNumber-filled"><g:message code="tbr.property.subscriberLastName.label" /> *  <span><g:message code="tbr.property.subcriberLastName.help" /></span></label>
+    <label for="subscriberLastName" class="required condition-hasSubscriberNumber-filled"><g:message code="tbr.property.subscriberLastName.label" /> *  <span><g:message code="tbr.property.subscriberLastName.help" /></span></label>
     <input type="text" id="subscriberLastName" name="subscriberLastName" value="${flash?.subscriberLastName?.toString()}" 
     class="required condition-hasSubscriberNumber-filled  validate-string" title="<g:message code="tbr.property.subscriberLastName.validationError" />"   />
 

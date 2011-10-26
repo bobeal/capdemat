@@ -325,6 +325,7 @@ class FrontofficeRequestController {
         def model = [
             "rqt" : rqt,
             "hasHomeFolder" : SecurityContext.currentEcitizen ? true : false,
+            'temporary' : SecurityContext.currentEcitizen?.homeFolder?.temporary,
             "currentStep" : currentStep,
             "missingSteps" : requestWorkflowService.getMissingSteps(rqt),
             "documentTypes" : documentAdaptorService.getDocumentTypes(rqt),

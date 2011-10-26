@@ -350,6 +350,8 @@ class FrontofficeRequestController {
             } catch (CvqValidationException e) {
                 rqt.stepStates[currentStep + '-' + params.type].state = "invalid"
                 rqt.stepStates[currentStep + '-' + params.type].invalidFields = e.invalidFields
+                //Set id to null because JPA doesn't like tampered ids.
+                individual.id = null
                 session.doRollback = true
             }
         }

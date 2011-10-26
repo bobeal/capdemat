@@ -294,7 +294,7 @@ public class EdemandeService implements IExternalProviderService {
      * @return the individual's code in eDemande, an empty string if the individual is not found,
      * or null if there is an error while contacting eDemande.
      */
-    public String searchIndividual(EdemandeRequest request, Map<String, Object> model, String filter) throws CvqException {
+    private String searchIndividual(EdemandeRequest request, Map<String, Object> model, String filter) throws CvqException {
         String searchResults;
         int resultsNumber;
         //Launch client search
@@ -308,12 +308,8 @@ public class EdemandeService implements IExternalProviderService {
         if (resultsNumber == 0) {
             return "";
         }
-        //Case 1 - one result : get codeTiers (by XPATH)
-        if (resultsNumber == 1) {
-            return parseData(searchResults,
-                    "//resultatRechTiers/listeTiers/tiers/codeTiers");
-        }
-        //Case 2 - Multiple results 
+        
+        //Apply filter to check and get the right one
         for (int i = 1; i <= resultsNumber; i++) {
             try {
                 //Get code tier
@@ -325,7 +321,7 @@ public class EdemandeService implements IExternalProviderService {
                 String informations = 
                     edemandeClient.initialiserFormulaire(request.getConfig().name, code)
                     .getInitialiserFormulaireResponse().getReturn();
-                //Filter and Select code by comparing escaped FirstName and Birth day.   
+               
                 if (this.testData(informations, filter)) {
                     return code;
                 }
@@ -381,25 +377,27 @@ public class EdemandeService implements IExternalProviderService {
             String resultRIB = this.searchIndividual(request, modelRIB, filterNP);
             if(!"".equals(resultRIB)) return resultRIB;
             //Search by lastName/firtName/postalCode
-            Map<String, Object> modelNPC = new HashMap<String, Object>();
-            modelNPC.put("numero", "");
-            modelNPC.put("type", "");
-            modelNPC.put("lastName", StringUtils.upperCase(lastName));
-            modelNPC.put("firstName", firstName);
-            modelNPC.put("postalCode", request.getSubjectAddress().getPostalCode());
-            String filterBD = "/CBdosInitFormulaireBean/moTierInit/mdtDateNaissance='"+new SimpleDateFormat("yyyy-MM-dd").format(birthDate.getTime())+"'";
-            String resultNPC = this.searchIndividual(request, modelNPC, filterBD);
-            if(!"".equals(resultNPC)) return resultNPC;
-            //Search by lastName/escaped(firtName)/postalCode
-            if(!firstName.equalsIgnoreCase(this.escapeFirstName(firstName))) {
-                Map<String, Object> modelNPC_ = new HashMap<String, Object>();
-                modelNPC_.put("numero", "");
-                modelNPC_.put("type", "");
-                modelNPC_.put("lastName", StringUtils.upperCase(lastName));
-                modelNPC_.put("firstName", this.escapeFirstName(firstName));
-                modelNPC_.put("postalCode", "");
-                String resultNPC_ = this.searchIndividual(request, modelNPC_, filterBD);
-                if(!"".equals(resultNPC_)) return resultNPC_;
+            if(SUBJECT_TRACE_SUBKEY.equals(subkey)) {
+                Map<String, Object> modelNPC = new HashMap<String, Object>();
+                modelNPC.put("numero", "");
+                modelNPC.put("type", "");
+                modelNPC.put("lastName", StringUtils.upperCase(lastName));
+                modelNPC.put("firstName", firstName);
+                modelNPC.put("postalCode", request.getSubjectAddress().getPostalCode());
+                String filterBD = "/CBdosInitFormulaireBean/moTierInit/mdtDateNaissance='"+new SimpleDateFormat("yyyy-MM-dd").format(birthDate.getTime())+"'";
+                String resultNPC = this.searchIndividual(request, modelNPC, filterBD);
+                if(!"".equals(resultNPC)) return resultNPC;
+                //Search by lastName/escaped(firtName)/postalCode
+                if(!firstName.equalsIgnoreCase(this.escapeFirstName(firstName))) {
+                    Map<String, Object> modelNPC_ = new HashMap<String, Object>();
+                    modelNPC_.put("numero", "");
+                    modelNPC_.put("type", "");
+                    modelNPC_.put("lastName", StringUtils.upperCase(lastName));
+                    modelNPC_.put("firstName", this.escapeFirstName(firstName));
+                    modelNPC_.put("postalCode", "");
+                    String resultNPC_ = this.searchIndividual(request, modelNPC_, filterBD);
+                    if(!"".equals(resultNPC_)) return resultNPC_;
+                }
             }
             
         } catch (CvqException e) {
@@ -458,7 +456,9 @@ public class EdemandeService implements IExternalProviderService {
         //ENDFIXME
         model.put("firstName", StringUtils.capitalize(request.getAccountHolderFirstName()));
         model.put("birthDate", formatDate(request.getAccountHolderBirthDate()));
-        model.put("frenchRIB", FrenchRIB.xmlToModel(request.getFrenchRIB()).format(" "));
+        model.put("iban", request.getFrBankAccount().getIBAN());
+        model.put("bic", request.getFrBankAccount().getBIC());
+      
         try {
             //FIXME placeholder
             model.put("email",
@@ -506,6 +506,7 @@ public class EdemandeService implements IExternalProviderService {
         }
         model.put("iban", request.getFrBankAccount().getIBAN());
         model.put("bic", request.getFrBankAccount().getBIC());
+        model.put("frenchRIB", FrenchRIB.xmlToModel(request.getFrenchRIB()).format(" "));
         model.put("creationDate", formatDate(request.getCreationDate()));
         List<Map<String, String>> documents = new ArrayList<Map<String, String>>();
         model.put("documents", documents);

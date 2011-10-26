@@ -1,7 +1,7 @@
 <moGeneral type="noeud" nom="DEMANDE">
  <mbPremiereDem type="booleen" nom="Indicateur Première Demande">${firstRequest}</mbPremiereDem>
  <mdtDateCreation type="date" nom="Date de validation de la demande par l'étudiant">${creationDate}</mdtDateCreation>
- <msRIB type="texte" nom="IBAN">${iban}</msRIB>
+ <msRIB type="texte" nom="RIB">${frenchRIB}</msRIB>
 </moGeneral>
 <moFoyerFiscal type="noeud" nom="FOYER FISCAL">
  <mdMtRevenuBrutGlobal type="montant" nom="Revenu brut global pour l'année 2009 et inférieur à 32 000 euros">${taxHouseholdIncome}</mdMtRevenuBrutGlobal>

@@ -353,6 +353,8 @@ class FrontofficeRequestController {
                 rqt.stepStates[currentStep + '-' + params.type].invalidFields = e.invalidFields
                 //Set id to null because JPA doesn't like tampered ids.
                 individual.id = null
+                //Rollback child's responsibles.
+                model["roles"] = params.roles
                 session.doRollback = true
             }
         }

@@ -58,10 +58,13 @@ import fr.cg95.cvq.external.ExternalServiceUtils;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.request.civil.BirthDetailsRequestDocument.BirthDetailsRequest;
+import fr.cg95.cvq.xml.request.civil.DeathDetailsRequestDocument.DeathDetailsRequest;
+import fr.cg95.cvq.xml.request.civil.MariageDetailsRequestDocument.MariageDetailsRequest;
 import fr.cg95.cvq.xml.request.school.PerischoolActivityRegistrationRequestDocument.PerischoolActivityRegistrationRequest;
 import fr.cg95.cvq.xml.request.school.RecreationActivityRegistrationRequestDocument.RecreationActivityRegistrationRequest;
 import fr.cg95.cvq.xml.request.school.SchoolCanteenRegistrationRequestDocument.SchoolCanteenRegistrationRequest;
 import fr.cg95.cvq.xml.request.school.SchoolRegistrationRequestDocument.SchoolRegistrationRequest;
+import fr.cg95.cvq.xml.request.school.IconitoPsSubscriptionRegistrationRequestDocument.IconitoPsSubscriptionRegistrationRequest;
 import fr.cg95.cvq.external.impl.ExternalProviderServiceAdapter;
 import fr.cg95.cvq.service.payment.IPaymentService;
 import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
@@ -73,7 +76,32 @@ public class IconitoPeriscolaireService extends ExternalProviderServiceAdapter {
     private String label;
 
     private IconitoPeriscolaireServiceClient iconitoPeriscolaireServiceClient;
-    
+   
+		private String sendRequestUrl;
+		private String loadExternalInformationsUrl; 
+		private String loadInvoiceDetailsUrl;
+		private String loadAccountDetailsUrl;
+		private String getFamilyAccountsUrl;
+		private String creditAccountUrl;
+		private String checkExternalReferentialUrl;
+		private String getConsumptionsUrl;
+
+		private WebServiceTemplate webServiceTemplate;
+
+		@Override
+    public void checkConfiguration(ExternalServiceBean externalServiceBean, String localAuthorityName)
+        throws CvqConfigurationException {
+	
+				sendRequestUrl = (String)externalServiceBean.getProperty("sendRequestUrl");
+				loadExternalInformationsUrl = (String)externalServiceBean.getProperty("loadExternalInformationsUrl");
+				loadInvoiceDetailsUrl = (String)externalServiceBean.getProperty("loadInvoiceDetailsUrl");
+				loadAccountDetailsUrl = (String)externalServiceBean.getProperty("loadAccountDetailsUrl");
+				getFamilyAccountsUrl = (String)externalServiceBean.getProperty("getFamilyAccountsUrl");
+				creditAccountUrl = (String)externalServiceBean.getProperty("creditAccountUrl");
+				checkExternalReferentialUrl = (String)externalServiceBean.getProperty("checkExternalReferentialUrl");
+				getConsumptionsUrl = (String)externalServiceBean.getProperty("getConsumptionsUrl");
+    }
+
     public Map<String, List<ExternalAccountItem>> getAccountsByHomeFolder(Long homeFolderId, 
             String externalHomeFolderId, String externalId)
         throws CvqException {
@@ -279,10 +307,22 @@ public class IconitoPeriscolaireService extends ExternalProviderServiceAdapter {
             sendRequestRequest.setRecreationActivityRegistrationRequest((RecreationActivityRegistrationRequest) request);
         else if (request instanceof BirthDetailsRequest)
             sendRequestRequest.setBirthDetailsRequest((BirthDetailsRequest) request);
+				else if (request instanceof DeathDetailsRequest)
+						sendRequestRequest.setDeathDetailsRequest((DeathDetailsRequest) request);
+				else if (request instanceof MariageDetailsRequest)
+						sendRequestRequest.setMariageDetailsRequest((MariageDetailsRequest) request);
+				else if (request instanceof IconitoPsSubscriptionRegistrationRequest)
+						sendRequestRequest.setIconitoPsSubscriptionRequest((IconitoPsSubscriptionRegistrationRequest) request);
         else
             sendRequestRequest.setRequest(request);
         sendRequestRequest.setRequestTypeLabel(request.getRequestTypeLabel());
-        iconitoPeriscolaireServiceClient.sendRequest(sendRequestRequestDocument);
+
+				// Ca ca dégage.
+        // iconitoPeriscolaireServiceClient.sendRequest(sendRequestRequestDocument);
+
+				ExternalInformationResponse externalInformationResponse = (ExternalInformationResponse)
+						webServiceTemplate.marshalSendAndReceive(sendRequestUrl, externalInformationRequest);
+
         return "";
     }
 
@@ -299,7 +339,7 @@ public class IconitoPeriscolaireService extends ExternalProviderServiceAdapter {
             CheckExternalReferentialRequestDocument.Factory.newInstance();
         CheckExternalReferentialRequest checkExternalReferentialRequest =
             checkExternalReferentialRequestDocument.addNewCheckExternalReferentialRequest();
-        checkExternalReferentialRequest.setRequest(ExternalServiceUtils.getRequestTypeFromXmlObject(requestXml));
+        checkExternalReferentialRequest.setRequest((RequestType) requestXml);
         
         CheckExternalReferentialResponseDocument checkExternalReferentialResponseDocument =
             (CheckExternalReferentialResponseDocument) iconitoPeriscolaireServiceClient.checkExternalReferential(checkExternalReferentialRequestDocument);
@@ -313,6 +353,7 @@ public class IconitoPeriscolaireService extends ExternalProviderServiceAdapter {
         return result;
     }
 
+		@Override
     public Map<String, Object> loadExternalInformations(XmlObject requestXml)
         throws CvqException {
         GetExternalInformationRequestDocument getExternalInformationRequestDocument =
@@ -323,8 +364,11 @@ public class IconitoPeriscolaireService extends ExternalProviderServiceAdapter {
         RequestType requestType = (RequestType) requestXml;
         getExternalInformationRequest.setRequestId(requestType.getId());
 
-        GetExternalInformationResponseDocument getExternalInformationResponseDocument =
-            (GetExternalInformationResponseDocument) iconitoPeriscolaireServiceClient.loadExternalInformation(getExternalInformationRequestDocument);
+				ExternalInformationResponse externalInformationResponse = (ExternalInformationResponse)
+						webServiceTemplate.marshalSendAndReceive(loadExternalInformationsUrl, externalInformationRequest);
+
+        //GetExternalInformationResponseDocument getExternalInformationResponseDocument =
+        //    (GetExternalInformationResponseDocument) iconitoPeriscolaireServiceClient.loadExternalInformation(getExternalInformationRequestDocument);
         ExternalInformationType[] externalInformations = 
             getExternalInformationResponseDocument.getGetExternalInformationResponse().getExternalInformationArray();
         Map<String, Object> result = new HashMap<String, Object>();
@@ -333,8 +377,13 @@ public class IconitoPeriscolaireService extends ExternalProviderServiceAdapter {
             result.put(externalInformation.getKey(), externalInformation.getValue());
         }
 
+
         return result;
     }
+
+		public void setWebServiceTemplate(WebServiceTemplate webServiceTemplate) {
+				this.webServiceTemplate = webServiceTemplate;
+		}
 
     public Map<Date, String> getConsumptions(Long key, Date dateFrom, Date dateTo)
         throws CvqException {
@@ -360,10 +409,6 @@ public class IconitoPeriscolaireService extends ExternalProviderServiceAdapter {
         }
         
         return result;
-    }
-
-    public void checkConfiguration(ExternalServiceBean externalServiceBean, String localAuthorityName)
-        throws CvqConfigurationException {
     }
 
     /** ***** Not Implemented methods ****** */

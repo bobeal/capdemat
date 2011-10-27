@@ -16,15 +16,15 @@ public final class LimogesCongestionRequestService extends RequestService {
     public void init() {
         LimogesCongestionRequest.conditions.put("requesterType",
                 new EqualityListChecker(
-                    Arrays.asList("isLandlord=landlord",
-                                  "isContractor=contractor",
-                                  "isCollectivity=collectivity",
-                                  "forAll=landlord",
-                                  "forAll=contractor",
-                                  "forAll=collectivity",
-                                  "forContractorCollectivity=contractor",
-                                  "forContractorCollectivity=collectivity")));
-        LimogesCongestionRequest.conditions.put("selectedRequestType", new EqualityChecker("extension"));
+                    Arrays.asList("isLandlord=LANDLORD",
+                                  "isContractor=CONTRACTOR",
+                                  "isCollectivity=COLLECTIVITY",
+                                  "forAll=LANDLORD",
+                                  "forAll=CONTRACTOR",
+                                  "forAll=COLLECTIVITY",
+                                  "forContractorCollectivity=CONTRACTOR",
+                                  "forContractorCollectivity=COLLECTIVITY")));
+        LimogesCongestionRequest.conditions.put("selectedRequestType", new EqualityChecker("EXTENSION"));
     }
 
     @Override

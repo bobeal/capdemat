@@ -16,30 +16,30 @@ public final class LimogesTemporaryStopWorkRequestService extends RequestService
     public void init() {
 		LimogesTemporaryStopWorkRequest.conditions.put("requesterType",
                 new EqualityListChecker(
-					Arrays.asList("isLandlord=landlord", 
-								  "isContractor=contractor", 
-								  "isCollectivity=collectivity",
-								  "forAll=landlord",
-								  "forAll=contractor",
-								  "forAll=collectivity",
-								  "forContractorCollectivity=contractor",
-								  "forContractorCollectivity=collectivity")));
-        LimogesTemporaryStopWorkRequest.conditions.put("selectedRequestType", new EqualityChecker("extension"));
+					Arrays.asList("isLandlord=LANDLORD", 
+								  "isContractor=CONTRACTOR", 
+								  "isCollectivity=COLLECTIVITY",
+								  "forAll=LANDLORD",
+								  "forAll=CONTRACTOR",
+								  "forAll=COLLECTIVITY",
+								  "forContractorCollectivity=CONTRACTOR",
+								  "forContractorCollectivity=COLLECTIVITY")));
+        LimogesTemporaryStopWorkRequest.conditions.put("selectedRequestType", new EqualityChecker("EXTENSION"));
         LimogesTemporaryStopWorkRequest.conditions.put("noParking", 
 				new EqualityListChecker(
-					Arrays.asList("right", "front"))); 
+					Arrays.asList("RIGHT", "FRONT"))); 
         LimogesTemporaryStopWorkRequest.conditions.put("alternateTraffic", 
 				new EqualityListChecker(
-					Arrays.asList("direction=info", 
-								  "alternate=info", 
-								  "alternate=manual", 
-								  "alternate=auto")));
+					Arrays.asList("direction=INFO", 
+								  "alternate=INFO", 
+								  "alternate=MANUAL", 
+								  "alternate=AUTO")));
         LimogesTemporaryStopWorkRequest.conditions.put("drivingBan", 
 				new EqualityListChecker(
-					Arrays.asList("deviation=allway", 
-								  "deviation=partway",
-								  "ban=oneway", 
-								  "banBetween=partway"))); 
+					Arrays.asList("deviation=ALLWAY", 
+								  "deviation=PARTWAY",
+								  "ban=ONEWAY", 
+								  "banBetween=PARTWAY"))); 
     }
 
     @Override

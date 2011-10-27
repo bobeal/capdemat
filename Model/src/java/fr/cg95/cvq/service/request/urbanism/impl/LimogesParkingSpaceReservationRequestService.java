@@ -16,17 +16,17 @@ public final class LimogesParkingSpaceReservationRequestService extends RequestS
     public void init() {
 		LimogesParkingSpaceReservationRequest.conditions.put("requesterType",
                 new EqualityListChecker(
-					Arrays.asList("isLandlord=landlord", 
-								  "isContractor=contractor",
-								  "forAll=landlord",
-								  "forAll=contractor")));
+					Arrays.asList("isLandlord=LANDLORD", 
+								  "isContractor=CONTRACTOR",
+								  "forAll=LANDLORD",
+								  "forAll=CONTRACTOR")));
         LimogesParkingSpaceReservationRequest.conditions.put("footWay", new EqualityChecker("true"));
 		LimogesParkingSpaceReservationRequest.conditions.put("requesterFirstAddressKind", 
 				new EqualityListChecker(
-					Arrays.asList("current","future")));
+					Arrays.asList("CURRENT","FUTURE")));
 		LimogesParkingSpaceReservationRequest.conditions.put("requesterOtherAddressKind", 
 				new EqualityListChecker(
-					Arrays.asList("current","future")));
+					Arrays.asList("CURRENT","FUTURE")));
     }
 
     @Override

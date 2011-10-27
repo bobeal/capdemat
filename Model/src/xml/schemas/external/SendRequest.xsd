@@ -12,17 +12,17 @@
   attributeFormDefault="unqualified">
 
   <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
-    schemaLocation="http://people.zenexity.fr/~bor/capdemat/V4_2/common/CVQCommonElements.xsd" />
+    schemaLocation="http://people.zenexity.fr/~bor/capdemat/latest/common/CVQCommonElements.xsd" />
   <xs:import namespace="http://www.cg95.fr/cvq/schema/srr"
-    schemaLocation="http://people.zenexity.fr/~bor/capdemat/V4_2/schemas/SchoolRegistrationRequest.xsd" />
+    schemaLocation="http://people.zenexity.fr/~bor/capdemat/latest/request/SchoolRegistrationRequest.xsd" />
   <xs:import namespace="http://www.cg95.fr/cvq/schema/scrr"
-    schemaLocation="http://people.zenexity.fr/~bor/capdemat/V4_2/schemas/SchoolCanteenRegistrationRequest.xsd" />
+    schemaLocation="http://people.zenexity.fr/~bor/capdemat/latest/request/SchoolCanteenRegistrationRequest.xsd" />
   <xs:import namespace="http://www.cg95.fr/cvq/schema/parr"
-    schemaLocation="http://people.zenexity.fr/~bor/capdemat/V4_2/schemas/PerischoolActivityRegistrationRequest.xsd" />
+    schemaLocation="http://people.zenexity.fr/~bor/capdemat/latest/request/PerischoolActivityRegistrationRequest.xsd" />
   <xs:import namespace="http://www.cg95.fr/cvq/schema/rarr"
-    schemaLocation="http://people.zenexity.fr/~bor/capdemat/V4_2/schemas/RecreationActivityRegistrationRequest.xsd" />
+    schemaLocation="http://people.zenexity.fr/~bor/capdemat/latest/request/RecreationActivityRegistrationRequest.xsd" />
   <xs:import namespace="http://www.cg95.fr/cvq/schema/bdr"
-    schemaLocation="http://people.zenexity.fr/~bor/capdemat/V4_2/schemas/BirthDetailsRequest.xsd" />
+    schemaLocation="http://people.zenexity.fr/~bor/capdemat/latest/request/BirthDetailsRequest.xsd" />
 
   <xs:element name="SendRequestRequest">
     <xs:complexType>

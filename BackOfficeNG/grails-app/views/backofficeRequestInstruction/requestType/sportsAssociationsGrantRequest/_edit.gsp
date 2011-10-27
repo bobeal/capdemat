@@ -9,19 +9,23 @@
     </li>
   
     <li class="">
-      <a href="#page1"><em><g:message code="sagr.step.bureau.label" /></em></a>
+      <a href="#page1"><em><g:message code="sagr.step.president.label" /></em></a>
     </li>
   
     <li class="">
-      <a href="#page2"><em><g:message code="sagr.step.activites.label" /></em></a>
+      <a href="#page2"><em><g:message code="sagr.step.bureau.label" /></em></a>
     </li>
   
     <li class="">
-      <a href="#page3"><em><g:message code="sagr.step.subvention.label" /></em></a>
+      <a href="#page3"><em><g:message code="sagr.step.activites.label" /></em></a>
+    </li>
+  
+    <li class="">
+      <a href="#page4"><em><g:message code="sagr.step.subvention.label" /></em></a>
     </li>
   
     <li class="administration ">
-      <a href="#page6"><em><g:message code="request.step.administration.label" /></em></a>
+      <a href="#page7"><em><g:message code="request.step.administration.label" /></em></a>
     </li>
   
   </ul>
@@ -95,7 +99,7 @@
       <!-- step start -->
       <div id="page1">
         <h2><g:message code="property.form" />
-          <span><g:message code="sagr.step.bureau.label" /></span>
+          <span><g:message code="sagr.step.president.label" /></span>
         </h2>
         <div class="yui-g">
           
@@ -108,6 +112,12 @@
                 <dt class="required condition-estPresident-trigger"><g:message code="sagr.property.roleDemandeur.label" /> * : </dt><dd id="roleDemandeur" class="action-editField validate-capdematEnum required-true i18n-sagr.property.roleDemandeur javatype-fr.cg95.cvq.business.request.social.SagrRoleAssociationType" ><g:capdematEnumToField var="${rqt?.roleDemandeur}" i18nKeyPrefix="sagr.property.roleDemandeur" /></dd>
               </dl>
               
+            
+          </div>
+          <!-- column end -->
+          
+          <!-- column start -->
+          <div class="yui-u">
             
               
               <h3><g:message code="sagr.property.precisionPresident.label" /></h3>
@@ -123,6 +133,25 @@
                 
               </dl>
               
+            
+          </div>
+          <!-- column end -->
+          
+        </div>
+        <!-- data step  end -->
+      </div>
+      <!-- step end -->
+      
+      <!-- step start -->
+      <div id="page2">
+        <h2><g:message code="property.form" />
+          <span><g:message code="sagr.step.bureau.label" /></span>
+        </h2>
+        <div class="yui-g">
+          
+          
+          <!-- column start -->
+          <div class="yui-u first">
             
               
               <div id="widget-autreMembreBureau" class="">
@@ -145,7 +174,7 @@
       <!-- step end -->
       
       <!-- step start -->
-      <div id="page2">
+      <div id="page3">
         <h2><g:message code="property.form" />
           <span><g:message code="sagr.step.activites.label" /></span>
         </h2>
@@ -156,8 +185,8 @@
           <div class="yui-u first">
             
               
-              <div id="widget-activiteAssociation" class="required">
-                <g:render template="/backofficeRequestInstruction/requestType/sportsAssociationsGrantRequest/activiteAssociation" model="['rqt':rqt]" />
+              <div id="widget-sagrActiviteAssociation" class="required">
+                <g:render template="/backofficeRequestInstruction/requestType/sportsAssociationsGrantRequest/sagrActiviteAssociation" model="['rqt':rqt]" />
               </div>
               
             
@@ -176,7 +205,7 @@
       <!-- step end -->
       
       <!-- step start -->
-      <div id="page3">
+      <div id="page4">
         <h2><g:message code="property.form" />
           <span><g:message code="sagr.step.subvention.label" /></span>
         </h2>
@@ -191,8 +220,6 @@
               <dl class="required">
                 
                   <dt class="required"><g:message code="sagr.property.subventionSolliciteConseilGeneral.label" /> * : </dt><dd id="subventionSolliciteConseilGeneral" class="action-editField validate-string required-true i18n-sagr.property.subventionSolliciteConseilGeneral" ><span>${rqt?.subventionSolliciteConseilGeneral}</span></dd>
-                
-                  <dt class=""><g:message code="sagr.property.subventionObtenueConseilGeneralSaisonEcoulee.label" />  : </dt><dd id="subventionObtenueConseilGeneralSaisonEcoulee" class="action-editField validate-string i18n-sagr.property.subventionObtenueConseilGeneralSaisonEcoulee" ><span>${rqt?.subventionObtenueConseilGeneralSaisonEcoulee}</span></dd>
                 
                   <dt class=""><g:message code="sagr.property.budgetSaisonEcouleeRecette.label" />  : </dt><dd id="budgetSaisonEcouleeRecette" class="action-editField validate-string i18n-sagr.property.budgetSaisonEcouleeRecette" ><span>${rqt?.budgetSaisonEcouleeRecette}</span></dd>
                 
@@ -230,7 +257,7 @@
       <!-- step end -->
       
       <!-- step start -->
-      <div id="page6">
+      <div id="page7">
         <h2><g:message code="property.form" />
           <span><g:message code="request.step.administration.label" /></span>
         </h2>

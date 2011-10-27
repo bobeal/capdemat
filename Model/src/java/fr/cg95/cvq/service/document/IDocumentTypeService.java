@@ -54,6 +54,12 @@ public interface IDocumentTypeService {
     Integer PAST_SEASON_BUDGET = new Integer(45);
     Integer ESTIMATED_BUDGET_INCLUDING_REQUESTED_GRANT = new Integer(46);
     Integer PAST_SEASON_LICENCES_PAYMENT_RECEIPT = new Integer(47);
+    Integer RECEPISSE_DECLARATION_CONSTITUION_ASSOCIATION = new Integer(48);
+    Integer INSERTION_JOURNAL_OFFICIEL = new Integer(49);
+    Integer STATUS_ASSOCIATION = new Integer(50);
+    Integer LISTE_MEMBRES_BUREAU = new Integer(51);
+    Integer RAPPORT_ANNUEL_ACTIVITE = new Integer(52);
+    Integer MODIFICATIONS_DEPUIS_CREATION_ASSOCIATION = new Integer(53);
 
     /**
      * Get a document type by type id.

@@ -153,7 +153,7 @@ clean-tests
 
         <xmlbean destfile="${basedir}/${build.archives.dir}/${application.name}-ExternalServicesSchemas-${application.version}.jar" classpathref="classpath.compile" download="true">
             <fileset dir="${src.xml.dir}/schemas/external">
-                <include name="*.xsd" />
+                <include name="**/*.xsd" />
             </fileset>
             <fileset dir="${conf.dir.xmlbeans}" includes="schemas.xsdconfig" />
         </xmlbean>

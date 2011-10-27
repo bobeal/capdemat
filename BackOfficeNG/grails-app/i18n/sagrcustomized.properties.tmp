@@ -5,6 +5,9 @@ sagr.property.subject.label = Sujet
 sagr.step.association.label =
 sagr.step.association.desc =
 
+sagr.step.president.label =
+sagr.step.president.desc =
+
 sagr.step.bureau.label =
 sagr.step.bureau.desc =
 
@@ -105,10 +108,10 @@ sagr.property.emailMembre.help =
 sagr.property.emailMembre.validationError =
 
 
-sagr.property.activiteAssociation.help =
-sagr.property.activiteAssociation.validationError =
+sagr.property.sagrActiviteAssociation.help =
+sagr.property.sagrActiviteAssociation.validationError =
 
-sagr.property.activiteAssociation.elementAdditionSuccess =
+sagr.property.sagrActiviteAssociation.elementAdditionSuccess =
 
 
 sagr.property.sportPratique.help =
@@ -153,10 +156,6 @@ sagr.property.subventionPubliqueFonctionnement.validationError =
 
 sagr.property.subventionSolliciteConseilGeneral.help =
 sagr.property.subventionSolliciteConseilGeneral.validationError =
-
-
-sagr.property.subventionObtenueConseilGeneralSaisonEcoulee.help =
-sagr.property.subventionObtenueConseilGeneralSaisonEcoulee.validationError =
 
 
 sagr.property.budgetSaisonEcouleeRecette.help =

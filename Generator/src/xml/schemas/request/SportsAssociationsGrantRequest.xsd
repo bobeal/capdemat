@@ -27,16 +27,23 @@
                 <condition name="estAdresseCorrespondantPrincipal" />
               </conditions>
             </step>
-            <step index="1" name="bureau">
+            <step index="1" name="president">
                 <conditions>
                     <condition name="estPresident" />
                 </conditions>
             </step>
-            <step index="2" name="activites" />
-            <step index="3" name="subvention" />
-            <step index="4" ref="document" />
-            <step index="5" ref="validation" />
-            <step index="6" ref="administration" />
+            <step index="2" name="bureau">
+            </step>
+            <step index="3" name="activites">
+               <conditions>
+                    <condition name="estAutreSportPratique" />
+                    <condition name="estAutreFederationSportive" />
+                </conditions>
+            </step>
+            <step index="4" name="subvention" />
+            <step index="5" ref="document" />
+            <step index="6" ref="validation" />
+            <step index="7" ref="administration" />
           </steps>
         </common>
       </xs:appinfo>
@@ -126,14 +133,14 @@
             <xs:element name="RoleDemandeur" type="sagr:SagrRoleAssociationType" default="President">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Quel est votre fonction dans l'association ?
+                  Quel est votre rôle dans l'association ?
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Quel est votre fonction dans l'association ?
+                  Quel est votre rôle dans l'association ?
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="bureau" />
+                    <step name="president" />
                     <conditions>
                       <condition name="estPresident" type="trigger" />
                     </conditions>
@@ -155,13 +162,13 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="bureau" />
+                    <step name="president" />
                     <conditions>
                       <condition name="estPresident" type="unfilled" />
                     </conditions>
                   </common>
                   <fo />
-                  <bo column="1" />
+                  <bo column="2" />
                   <pdf />
                 </xs:appinfo>
               </xs:annotation>
@@ -186,7 +193,7 @@
               </xs:annotation>
             </xs:element>
 
-            <xs:element name="ActiviteAssociation" type="sagr:SagrActiviteAssociationType" maxOccurs="unbounded">
+            <xs:element name="SagrActiviteAssociation" type="sagr:SagrActiviteAssociationType" maxOccurs="unbounded">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Sport pratiqué dans l'association
@@ -776,7 +783,7 @@
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="bureau" />
+              <step name="president" />
             </common>
             <fo />
             <bo />
@@ -791,7 +798,7 @@
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="bureau" />
+              <step name="president" />
             </common>
             <fo />
             <bo />
@@ -806,7 +813,7 @@
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="bureau" />
+              <step name="president" />
             </common>
             <fo />
             <bo />
@@ -824,7 +831,7 @@
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="bureau" />
+              <step name="president" />
             </common>
             <fo />
             <bo />
@@ -928,6 +935,9 @@
           <xs:appinfo>
             <common>
               <step name="activites" />
+              <conditions>
+                 <condition name="estAutreSportPratique" type="trigger" />
+              </conditions>
             </common>
             <fo />
             <bo />
@@ -935,14 +945,17 @@
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-      <xs:element name="SportPratiquePrecision" type="xs:string" minOccurs="0">
+      <xs:element name="SportPratiquePrecision" type="xs:string">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Si Autre, précisez
+            Précisez
           </xs:documentation>
           <xs:appinfo>
             <common>
               <step name="activites" />
+              <conditions>
+                 <condition name="estAutreSportPratique" type="filled" />
+              </conditions>
             </common>
             <fo />
             <bo />
@@ -958,6 +971,9 @@
           <xs:appinfo>
             <common>
               <step name="activites" />
+              <conditions>
+                 <condition name="estAutreFederationSportive" type="trigger" />
+              </conditions>
             </common>
             <fo />
             <bo />
@@ -968,11 +984,14 @@
       <xs:element name="FederationSportivePrecision" type="xs:string" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Si Autre, précisez
+            Précisez
           </xs:documentation>
           <xs:appinfo>
             <common>
               <step name="activites" />
+              <conditions>
+                 <condition name="estAutreFederationSportive" type="filled" required="true" />
+              </conditions>
             </common>
             <fo />
             <bo />
@@ -1062,21 +1081,6 @@
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             Subvention sollicitée auprès du Conseil Général
-          </xs:documentation>
-          <xs:appinfo>
-            <common>
-              <step name="subvention" />
-            </common>
-            <fo />
-            <bo />
-            <pdf />
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="SubventionObtenueConseilGeneralSaisonEcoulee" type="xs:string" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Subvention obtenue par le Conseil général pour la saison écoulée
           </xs:documentation>
           <xs:appinfo>
             <common>

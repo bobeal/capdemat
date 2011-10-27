@@ -11,12 +11,6 @@
             
 
     
-      <label for="subventionObtenueConseilGeneralSaisonEcoulee" class=""><g:message code="sagr.property.subventionObtenueConseilGeneralSaisonEcoulee.label" />   <span><g:message code="sagr.property.subventionObtenueConseilGeneralSaisonEcoulee.help" /></span></label>
-            <input type="text" id="subventionObtenueConseilGeneralSaisonEcoulee" name="subventionObtenueConseilGeneralSaisonEcoulee" value="${rqt.subventionObtenueConseilGeneralSaisonEcoulee?.toString()}" 
-                    class="  validate-string ${rqt.stepStates['subvention'].invalidFields.contains('subventionObtenueConseilGeneralSaisonEcoulee') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.subventionObtenueConseilGeneralSaisonEcoulee.validationError" />"   />
-            
-
-    
       <label for="budgetSaisonEcouleeRecette" class=""><g:message code="sagr.property.budgetSaisonEcouleeRecette.label" />   <span><g:message code="sagr.property.budgetSaisonEcouleeRecette.help" /></span></label>
             <input type="text" id="budgetSaisonEcouleeRecette" name="budgetSaisonEcouleeRecette" value="${rqt.budgetSaisonEcouleeRecette?.toString()}" 
                     class="  validate-string ${rqt.stepStates['subvention'].invalidFields.contains('budgetSaisonEcouleeRecette') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.budgetSaisonEcouleeRecette.validationError" />"   />

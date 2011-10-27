@@ -3,10 +3,12 @@ import fr.cg95.cvq.dao.hibernate.HibernateUtil
 import grails.converters.JSON
 
 public class SystemController {
+    def securityService
 
     def error = {
         def exception = request.exception
         def currentSiteDisplayTitle = SecurityContext.currentSite.displayTitle
+        def temporary = SecurityContext.currentEcitizen?.homeFolder?.isTemporary()
 
         try {
             HibernateUtil.rollbackTransaction();
@@ -31,15 +33,17 @@ public class SystemController {
                     "i18nArgs" : concurrentModificationException.i18nArgs])
             } else if (ExceptionUtils.isModelException(exception)) {
                 return [
+                    "temporary" : temporary,
                     "i18nKey" : ExceptionUtils.getModelI18nKey(exception),
                     "i18nArgs" : ExceptionUtils.getModelI18nArgs(exception)
                 ]
             } else if (ExceptionUtils.isPermissionException(exception)) {
                 return [
+                    "temporary" : temporary,
                     "i18nKey" : message(code:'error.permission'),
                     "i18nArgs" : []
                 ]
-            }
+            } else return ["temporary" : temporary]
         } else
             render(view: "/error", 
                 model:['currentSite': currentSiteDisplayTitle,

@@ -9,7 +9,7 @@
 ---------------------------------------------------------------*/
 
 .box { padding: 1.5em; overflow: auto; border: 0 0 1em; background: #fff; margin: 0 0 1em 0; }
-.box .main { width: 68%; float: left; }
+.box .main { width: 70%; float: left; }
 .box .side { width: 29%; float: right; }
 
 /*FIXME: refactor*/

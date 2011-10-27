@@ -3270,7 +3270,7 @@ create table sagr_activite_association (
     sport_pratique_precision varchar(255),
     total_licencie_activite int8,
     sports_associations_grant_request_id int8,
-    activite_association_index int4,
+    sagr_activite_association_index int4,
     primary key (id)
 );
 
@@ -3306,7 +3306,6 @@ create table sports_associations_grant_request (
     numero_siret_association varchar(14),
     prenom_president varchar(38),
     role_demandeur varchar(255),
-    subvention_obtenue_conseil_general_saison_ecoulee varchar(255),
     subvention_sollicite_conseil_general varchar(255),
     telephone_president varchar(10),
     adresse_correspondant_principal_id int8,

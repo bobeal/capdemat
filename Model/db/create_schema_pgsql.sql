@@ -2351,7 +2351,15 @@
         max_buy int4,
         min_buy int4,
         old_quantity int4,
+        quantity int4,
         subject_id int8,
+        unit_price float8,
+        expiration_date timestamp,
+        is_paid bool,
+        issue_date timestamp,
+        payment_date timestamp,
+        key varchar(255),
+        key_owner varchar(255),
         payment_id int8,
         primary key (id)
     );
@@ -2612,7 +2620,7 @@
         sport_pratique_precision varchar(255),
         total_licencie_activite int8,
         sports_associations_grant_request_id int8,
-        activite_association_index int4,
+        sagr_activite_association_index int4,
         primary key (id)
     );
 
@@ -2741,7 +2749,6 @@
         numero_siret_association varchar(14),
         prenom_president varchar(38),
         role_demandeur varchar(255),
-        subvention_obtenue_conseil_general_saison_ecoulee varchar(255),
         subvention_sollicite_conseil_general varchar(255),
         telephone_president varchar(10),
         adresse_correspondant_principal_id int8,

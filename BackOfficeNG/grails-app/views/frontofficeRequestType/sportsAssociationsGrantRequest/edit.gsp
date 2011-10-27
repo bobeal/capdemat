@@ -115,12 +115,36 @@
   
 
   
+        <li class="${currentStep == 'president' ? 'current ' : ''}
+          
+            ${rqt.stepStates['president'].state}
+          
+          ">
+          <span class="number">2</span>
+          <a
+            <g:if test="${currentStep != 'president' && rqt.stepStates['president'].state != 'unavailable'}">
+              href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'president'])}"
+            </g:if>
+          >
+            
+              <g:message code="sagr.step.president.label" /> *
+              <span class="help">
+                
+                  <g:message code="request.step.message.${rqt.stepStates['president'].state}" />
+                
+              </span>
+            
+          </a>
+        </li>    
+  
+
+  
         <li class="${currentStep == 'bureau' ? 'current ' : ''}
           
             ${rqt.stepStates['bureau'].state}
           
           ">
-          <span class="number">2</span>
+          <span class="number">3</span>
           <a
             <g:if test="${currentStep != 'bureau' && rqt.stepStates['bureau'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'bureau'])}"
@@ -144,7 +168,7 @@
             ${rqt.stepStates['activites'].state}
           
           ">
-          <span class="number">3</span>
+          <span class="number">4</span>
           <a
             <g:if test="${currentStep != 'activites' && rqt.stepStates['activites'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'activites'])}"
@@ -168,7 +192,7 @@
             ${rqt.stepStates['subvention'].state}
           
           ">
-          <span class="number">4</span>
+          <span class="number">5</span>
           <a
             <g:if test="${currentStep != 'subvention' && rqt.stepStates['subvention'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'subvention'])}"
@@ -194,7 +218,7 @@
             ${rqt.stepStates['document'].state}
           
           ">
-          <span class="number">5</span>
+          <span class="number">6</span>
           <a
             <g:if test="${currentStep != 'document' && rqt.stepStates['document'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'document'])}"

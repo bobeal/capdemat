@@ -325,6 +325,7 @@ class FrontofficeRequestController {
         def model = [
             "rqt" : rqt,
             "hasHomeFolder" : SecurityContext.currentEcitizen ? true : false,
+            'temporary' : SecurityContext.currentEcitizen?.homeFolder?.temporary,
             "currentStep" : currentStep,
             "missingSteps" : requestWorkflowService.getMissingSteps(rqt),
             "documentTypes" : documentAdaptorService.getDocumentTypes(rqt),
@@ -350,6 +351,10 @@ class FrontofficeRequestController {
             } catch (CvqValidationException e) {
                 rqt.stepStates[currentStep + '-' + params.type].state = "invalid"
                 rqt.stepStates[currentStep + '-' + params.type].invalidFields = e.invalidFields
+                //Set id to null because JPA doesn't like tampered ids.
+                individual.id = null
+                //Rollback child's responsibles.
+                model["roles"] = params.roles
                 session.doRollback = true
             }
         }

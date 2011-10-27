@@ -7,7 +7,7 @@
   attributeFormDefault="unqualified">
 
   <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
-    schemaLocation="http://people.zenexity.fr/~bor/capdemat/V4_3/common/CVQCommonElements.xsd" />
+    schemaLocation="http://people.zenexity.fr/~bor/capdemat/latest/common/CVQCommonElements.xsd" />
 
   <xs:element name="requestTypeSeasonRequest">
     <xs:complexType>

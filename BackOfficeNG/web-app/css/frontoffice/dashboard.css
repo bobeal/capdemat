@@ -8,6 +8,7 @@
  * Information message.
  */
 .information-box ul li { list-style: disc inside none; }
+.information-box ol li { list-style: decimal inside none; }
 
 /*
  * Last requests, payments, drafts and home folder documents boxes.

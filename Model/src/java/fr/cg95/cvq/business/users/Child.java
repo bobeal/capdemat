@@ -42,7 +42,7 @@ public class Child extends Individual {
         fillCommonXmlInfo(childType);
         childType.setBorn(born);
         if (sex != null)
-            childType.setSex(fr.cg95.cvq.xml.common.SexType.Enum.forString(sex.toString()));
+            childType.setSex(fr.cg95.cvq.xml.common.SexType.Enum.forString(sex.getLegacyLabel()));
         return childType;
     }
 

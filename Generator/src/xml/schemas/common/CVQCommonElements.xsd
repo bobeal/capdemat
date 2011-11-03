@@ -1727,6 +1727,8 @@
         <enum key="Pending" value="En attente" />
         <enum key="Valid" value="Valide" />
         <enum key="Invalid" value="Invalide" />
+        <enum key="Modified" value="Modifié" />
+        <enum key="New" value="Nouveau" />
         <enum key="Archived" value="Archivé" />
       </xs:documentation>
     </xs:annotation>
@@ -1734,6 +1736,8 @@
       <xs:enumeration value="Pending" />
       <xs:enumeration value="Valid" />
       <xs:enumeration value="Invalid" />
+      <xs:enumeration value="Modified" />
+      <xs:enumeration value="New" />
       <xs:enumeration value="Archived" />
     </xs:restriction>
   </xs:simpleType>

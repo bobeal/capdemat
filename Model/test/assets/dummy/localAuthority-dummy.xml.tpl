@@ -21,17 +21,6 @@
             <prop key="maxIdleTime">300</prop>
           <% } %>
 
-          <% if (databaseType == 'hsqldb') { %>
-            <prop key="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</prop>
-            <prop key="hibernate.connection.url">jdbc:hsqldb:file:/tmp/capdemat_dummy;shutdown=true</prop>
-            <prop key="hibernate.connection.username">sa</prop>
-            <prop key="hibernate.connection.password"></prop>
-            <prop key="password"></prop>
-            <prop key="acquireIncrement">3</prop>
-            <prop key="initialPoolSize">1</prop>
-            <prop key="minPoolSize">1</prop>
-            <prop key="maxPoolSize">12</prop>
-          <% } %>
             <prop key="hibernate.show_sql">false</prop>
             <prop key="hibernate.bytecode.use_reflection_optimizer">true</prop>
             <prop key="hibernate.use_outer_join">false</prop>

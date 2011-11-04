@@ -80,7 +80,6 @@ clean-tests
             <pathelement path="${basedir}/test/conf/log4j" />
             <path refid="classpath.compile.test" />
             <fileset dir="${basedir}/${lib.dir}">
-                <include name="**/hsqldb-*.jar" />
                 <include name="**/mina-core-*.jar" />
                 <include name="**/slf4j-api-*.jar" />
                 <include name="**/slf4j-log4j12-*.jar" />
@@ -231,25 +230,6 @@ clean-tests
         </hibernatetool>
     </target>
 
-    <!-- 
-      'hsql-write-delay-config' target is used to overwrite 
-      default HSQLBD WRITE_DELAY property, that cause error on unit test,
-      becouse the state of database in memory isn't synchronise
-      with its state one file system.
-    -->
-    <target name="load-hibernate-properties-file">
-        <property file="${conf.dir.hibernate}/hibernate.properties.${database.type}" />
-        <condition property="db.driver.hsql">
-            <equals arg1="${database.type}" arg2="hsqldb" />
-        </condition>
-    </target>
-
-    <target name="hsql-write-delay-config" if="db.driver.hsql" depends="load-hibernate-properties-file">
-        <sql classpathref="classpath.compile.test" driver="${hibernate.connection.driver_class}" url="${hibernate.connection.url}" userid="${hibernate.connection.username}" password="${hibernate.connection.password}">
-        SET WRITE_DELAY FALSE;
-      </sql>
-    </target>
-
     <!-- =================================================================== -->
     <!--                     Tests                                           -->
     <!-- =================================================================== -->
@@ -279,8 +259,7 @@ clean-tests
         <groovy>
 		  	def dialect
 		  	switch (properties.'database.type') {
-		  		case 'pgsql' : dialect = 'org.hibernate.dialect.HSQLDialect' ; break
-		  		case 'hsqldb' : dialect = 'org.hibernate.dialect.PostgreSQLDialect'  ; break
+		  		case 'pgsql' : dialect = 'org.hibernate.dialect.PostgreSQLDialect'  ; break
 			}
 		  	def engine = new groovy.text.SimpleTemplateEngine()
 			

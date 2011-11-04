@@ -44,8 +44,8 @@
     <ant dir="${plugins.paymentproviders.spplus.dir}" target="clean" />
     <ant dir="${plugins.paymentproviders.wynid.dir}" target="clean" />
     <ant dir="${plugins.paymentproviders.payboxsystem.dir}" target="clean" />
-    <ant dir="${plugins.externalservices.horanet.dir}" target="clean" />
     <ant dir="${plugins.externalservices.clever.dir}" target="clean" />
+    <ant dir="${plugins.externalservices.horanet.dir}" target="clean" />
     <ant dir="${plugins.externalservices.edemande.dir}" target="clean" />
     <ant dir="${plugins.externalservices.ciril.dir}" target="clean" />
     <ant dir="${plugins.externalservices.technocarte.dir}" target="clean" />
@@ -133,10 +133,8 @@
   <target name="deploy-plugins" depends="deploy-model">
     <ant dir="${plugins.paymentproviders.paylineV4.dir}" target="deploy" />
     <ant dir="${plugins.paymentproviders.spplus.dir}" target="deploy" />
-    <ant dir="${plugins.paymentproviders.wynid.dir}" target="deploy" />
     <ant dir="${plugins.paymentproviders.payboxsystem.dir}" target="deploy" />
     <ant dir="${plugins.externalservices.horanet.dir}" target="deploy" />
-    <ant dir="${plugins.externalservices.clever.dir}" target="deploy" />
     <ant dir="${plugins.externalservices.edemande.dir}" target="deploy" />
     <ant dir="${plugins.externalservices.technocarte.dir}" target="deploy" />
 		<ant dir="${plugins.externalservices.iconitoperiscolaire.dir}" target="deploy" />

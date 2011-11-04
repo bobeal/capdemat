@@ -177,9 +177,15 @@ class BackofficePaymentController {
         def parsedFilters = SearchUtils.parseFilters(params.filterBy)
         parsedFilters.filters.each { key, value ->
             Critere critere = new Critere()
-            critere.attribut = key.replaceAll("Filter","")
+            critere.attribut = key.replaceAll('Filter','')
             critere.comparatif = Critere.EQUALS
-            critere.value = value
+            if (key == 'paymentStateFilter') {
+                critere.value = PaymentState.forString(value)
+            } else if (key == 'paymentModeFilter') {
+                critere.value = PaymentMode.forString(value)
+            } else {
+                critere.value = value
+            }
             criteria.add(critere)
         }
         
@@ -212,7 +218,7 @@ class BackofficePaymentController {
                 'amount':it.amount,
                 'paymentMode':it.paymentMode.toString()
             ]		
-			recordsList.add(record)
+            recordsList.add(record)
         }
         render(view:'search', model:[
                                      'recordsReturned':payments.size(),

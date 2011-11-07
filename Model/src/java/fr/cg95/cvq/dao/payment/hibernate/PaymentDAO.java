@@ -16,6 +16,7 @@ import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
 import fr.cg95.cvq.business.payment.Payment;
+import fr.cg95.cvq.business.payment.PaymentMode;
 import fr.cg95.cvq.business.payment.PaymentState;
 import fr.cg95.cvq.dao.jpa.JpaTemplate;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
@@ -111,7 +112,7 @@ public class PaymentDAO extends JpaTemplate<Payment,Long> implements IPaymentDAO
                 
             } else if (searchCrit.getAttribut().equals(Payment.SEARCH_BY_PAYMENT_STATE)) {
                 sb.append(" and payment.state " + searchCrit.getComparatif() + " ?");
-                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersValues.add(((PaymentState) searchCrit.getValue()).name());
                 parametersTypes.add(Hibernate.STRING);
                 
             } else if (searchCrit.getAttribut().equals(Payment.SEARCH_BY_BROKER)) {
@@ -121,7 +122,7 @@ public class PaymentDAO extends JpaTemplate<Payment,Long> implements IPaymentDAO
             
             } else if (searchCrit.getAttribut().equals(Payment.SEARCH_BY_PAYMENT_MODE)) {
                 sb.append(" and payment.paymentMode " + searchCrit.getComparatif() + " ?");
-                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersValues.add(((PaymentMode) searchCrit.getValue()).name());
                 parametersTypes.add(Hibernate.STRING);
             }
         }
@@ -375,7 +376,7 @@ public class PaymentDAO extends JpaTemplate<Payment,Long> implements IPaymentDAO
                 
             } else if (searchCrit.getAttribut().equals(Payment.SEARCH_BY_PAYMENT_STATE)) {
                 sb.append(" and payment.state " + searchCrit.getComparatif() + " ?");
-                objectList.add(searchCrit.getSqlStringValue());
+                objectList.add(((PaymentState) searchCrit.getValue()).name());
                 typeList.add(Hibernate.STRING);
                 
             } else if (searchCrit.getAttribut().equals(Payment.SEARCH_BY_BROKER)) {
@@ -385,7 +386,7 @@ public class PaymentDAO extends JpaTemplate<Payment,Long> implements IPaymentDAO
                 
             } else if (searchCrit.getAttribut().equals(Payment.SEARCH_BY_PAYMENT_MODE)) {
                 sb.append(" and payment.paymentMode " + searchCrit.getComparatif() + " ?");
-                objectList.add(searchCrit.getSqlStringValue());
+                objectList.add(((PaymentMode) searchCrit.getValue()).name());
                 typeList.add(Hibernate.STRING);
             }
         }

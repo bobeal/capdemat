@@ -447,7 +447,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       init: function() {
           infoTabView = new yw.TabView();
           var historyTab = new yw.Tab({
-              label: 'Historique', dataSrc: zenexity.capdemat.baseUrl + '/history/' + zcb.requestId,
+              label: 'Historique', dataSrc: zenexity.capdemat.baseUrl + '/history/' + zcb.requestId + "?rnd=" + new Date().valueOf(),
               cacheData: true, active: true });
           infoTabView.addTab(historyTab);
           infoTabView.addTab( new yw.Tab({
@@ -522,6 +522,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           if (this.get("label") == label) {
             var cacheData = this.get("cacheData");
             var contentVisible = this.get("contentVisible");
+            if (label === "Historique") {
+                //Force cache update on IE.
+                this.set('dataSrc', this.get('dataSrc').replace(/rnd.*/, 'rnd=' + new Date().valueOf()));
+            }
             this.set("cacheData", false);
             this.set("contentVisible", false);
             this.set("contentVisible", true);

@@ -26,6 +26,8 @@ agent.contributor_group=CVQ_CONTRIBUTORS
 fake_payment.url=/service/fakePayment
 fake_payment.callbackUrl=/frontoffice/payment/status
 
+addresses_referential_url = http://localhost:9000
+
 provisioning.authorizeAlreadyCreated=true
 provisioning.secret=changeme
 

@@ -99,12 +99,12 @@ public class Adult extends Individual {
         AdultType adultType = AdultType.Factory.newInstance();
         fillCommonXmlInfo(adultType);
         if (getTitle() != null)
-            adultType.setTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getTitle().toString()));
+            adultType.setTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getTitle().getLegacyLabel()));
         if (getMaidenName() != null)
             adultType.setMaidenName(getMaidenName());
         adultType.setNameOfUse(getNameOfUse());
         if (getFamilyStatus() != null)
-            adultType.setFamilyStatus(fr.cg95.cvq.xml.common.FamilyStatusType.Enum.forString(getFamilyStatus().toString()));
+            adultType.setFamilyStatus(fr.cg95.cvq.xml.common.FamilyStatusType.Enum.forString(getFamilyStatus().getLegacyLabel()));
         if (getHomePhone() != null)
             adultType.setHomePhone(getHomePhone());
         if (getMobilePhone() != null)

@@ -253,14 +253,13 @@ class FrontofficePaymentController {
 
     protected Map getPaymentsHistory() {
         def result = [:] 
-        def paymentState = state.st ? PaymentState.forString(StringUtils.capitalize(state.st)) : null
         def offset = params.offset ? Integer.valueOf(params.offset) : 0
 
         Set criteriaSet = new HashSet<Critere>();
         Critere critere = new Critere();
         critere.comparatif = Critere.NEQUALS
         critere.attribut = Payment.SEARCH_BY_PAYMENT_STATE
-        critere.value = PaymentState.INITIALIZED.toString()
+        critere.value = PaymentState.INITIALIZED
         criteriaSet.add(critere)
 
         result.all = paymentService.get(criteriaSet, 'initializationDate', 'desc', maxRows, offset)
@@ -274,7 +273,7 @@ class FrontofficePaymentController {
         Critere critere = new Critere();
         critere.comparatif = Critere.EQUALS
         critere.attribut = Payment.SEARCH_BY_PAYMENT_STATE
-        critere.value = PaymentState.INITIALIZED.toString()
+        critere.value = PaymentState.INITIALIZED
         criteriaSet.add(critere)
         result.all = paymentService.get(criteriaSet, 'initializationDate', 'desc', 0, 0)
         return result

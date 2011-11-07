@@ -253,7 +253,9 @@ a.link-agent          { color: #EA3D1A; }
 
 #request div.help h4 { font-size: 1.3em; font-weight: bold; }
 #request div.help p  { padding : 0; }
-#request div.help li { margin : .5em 0 0 30px; list-style-type: disc; }
+#request div.help ul { width: 100% }
+#request div.help li { margin : .5em 0 0 20px; list-style-type: disc; }
+#request div.help li li { list-style-type: square; }
 
 /* notices
 --------------------------------------------------------------*/

@@ -59,12 +59,39 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
             }
             return age >= 18;
             
-          },"Le sujet doit être âgé d'au moins 18 ans la veille du 1er mars. <br /> Si le sujet atteint l'âge de 18 ans entre le 1er mars et le jour de l'élection, contactez votre mairie.")
+          },"Le sujet doit être âgé d'au moins 18 ans la veille du 1er mars de l'année suivante. <br /> Si le sujet atteint l'âge de 18 ans entre le 1er mars et le jour de l'élection, contactez votre mairie.")
         });
         zcv.complexRules["eighteenInMarch"].pushFields("dateNaissance_year", "dateNaissance_month", "dateNaissance_day");
+
+        yue.on('nationalite_FRANCAISE', 'click', zcfr.StandardElectoralRollRegistrationRequest.removeTypeElection);
+        yue.on('nationalite_RESSORTISSANT_U_E', 'click', function() {
+          yud.get('stepForm').removeChild(yud.get('hiddenTypeElection'));
+        });
+
+        if (yud.get('nationalite_FRANCAISE') && yud.get('nationalite_FRANCAISE').checked)
+          zcfr.StandardElectoralRollRegistrationRequest.removeTypeElection();
       },
 
-      displayErrorMsg: function() { return true; }
+      displayErrorMsg: function() { return true; },
+
+      // Hack to bypass no-reset in condition unfilled field
+      removeTypeElection : function() {
+        var stepForm = yud.get('stepForm');
+        stepForm['typeElection'][0].checked = false;
+        stepForm['typeElection'][1].checked = false;
+
+        if (!!yud.get('hiddenTypeElection'))
+          return;
+
+        var hiddenTypeElection = document.createElement("input");
+        hiddenTypeElection.type = 'hidden';
+        hiddenTypeElection.name = 'typeElection';
+        hiddenTypeElection.id = 'hiddenTypeElection';
+        hiddenTypeElection.value = '';
+        stepForm.appendChild(hiddenTypeElection);
+
+        yud.get('precisionNationalite').selectedIndex = 0;
+      }
     };
 
   }();

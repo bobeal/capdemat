@@ -72,9 +72,10 @@
                   <value>http://capdemat-iconito.debug/index.php/webservices/v46/sendrequest</value>
                 </entry>
                 <entry>
-                  <key><value>loadExternalInformationUrl</value></key>
+                  <key><value>loadExternalInformationsUrl</value></key>
                   <value>http://capdemat-iconito.debug/index.php/webservices/v46/requestexternalinformation</value>
-                </entry>                <entry>
+                </entry>
+                <entry>
                   <key><value>loadInvoiceDetailsUrl</value></key>
                   <value>http://capdemat-iconito.debug/index.php/webservices/v46/invoicedetails</value>
                 </entry>
@@ -104,6 +105,7 @@
             <property name="password" value="Blainville" />
           </bean>
         </entry>
+<!--
         <entry>
           <key>
             <ref bean="fakeExternalService" />
@@ -142,6 +144,7 @@
            <property name="password" value="abcd"/>
           </bean>
         </entry>
+-->
         <entry>
           <key>
             <ref bean="restExternalService" />

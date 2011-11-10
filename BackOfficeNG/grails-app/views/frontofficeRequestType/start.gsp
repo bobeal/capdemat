@@ -10,6 +10,11 @@
       #request .datas form p { padding-left: 0; font-style: italic;}
       #request .datas form { padding: 0; }
       #request form div label { line-height: 1.6em; }
+      
+      #request .intro    { padding: 0 1.5em; font-size: 1.1em; }
+      #request .intro ul { margin: 0 0 .5em 1.5em; }
+      #request .intro li { padding: .25em 0; list-style-type: disc;; }
+      #request .intro p  { margin: .5em 0; }
     </style>
   </head>
   <body>
@@ -29,7 +34,9 @@
           <g:message code="message.none" />
         </g:else>
       </p>
+      <div class="intro">
       ${intro}
+      </div>
     </div>
     <div class="yui-g">
       <div class="yui-u first list-box">

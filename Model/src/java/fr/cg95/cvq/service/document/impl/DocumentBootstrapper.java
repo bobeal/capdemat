@@ -199,6 +199,12 @@ public class DocumentBootstrapper {
 
         checkDocumentType("Medical Form Next Year", 55,
                 DocumentUsageType.REUSABLE, 1, DocumentTypeValidity.YEAR);
+
+        checkDocumentType("Plan Cote", 56,
+                DocumentUsageType.SINGLE_USE, 0, DocumentTypeValidity.UNLIMITED);
+
+        checkDocumentType("Photo Lieu Occupation", 57,
+                DocumentUsageType.SINGLE_USE, 0, DocumentTypeValidity.UNLIMITED);
     }
 
     public void setDocumentTypeDAO(IDocumentTypeDAO documentTypeDAO) {

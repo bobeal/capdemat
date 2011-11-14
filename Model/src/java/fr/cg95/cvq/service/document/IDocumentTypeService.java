@@ -62,6 +62,8 @@ public interface IDocumentTypeService {
     Integer MODIFICATIONS_DEPUIS_CREATION_ASSOCIATION = new Integer(53);
     Integer ATTESTATION_LYCEE = new Integer(54);
     Integer MEDICAL_FORM_NEXT_YEAR = new Integer(55);
+    Integer PLAN_COTE = new Integer(56);
+    Integer PHOTO_LIEU_OCCUPATION = new Integer(57);
 
     /**
      * Get a document type by type id.

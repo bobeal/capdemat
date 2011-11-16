@@ -40,6 +40,9 @@ public class ExternalInvoiceItem extends ExternalAccountItem {
     @Column(name="is_paid")
     private Boolean isPaid;
 
+    @Column(name="external_url")
+    private String externalUrl;
+
     @Transient private Double totalValue;
 
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="externalInvoiceItem")
@@ -48,12 +51,13 @@ public class ExternalInvoiceItem extends ExternalAccountItem {
     public ExternalInvoiceItem(final String label, final Double amount, final Double totalValue,
             final String externalServiceLabel, final String externalItemId,
             final Date issueDate, final Date expirationDate, final Date paymentDate,
-            final Boolean isPaid, final String broker) {
+            final Boolean isPaid, final String broker, final String externalUrl) {
         super(label, amount, externalServiceLabel, externalItemId, broker);
         this.issueDate = issueDate;
         this.expirationDate = expirationDate;
         this.paymentDate = paymentDate;
         this.isPaid = isPaid;
+				this.externalUrl = externalUrl;
         this.totalValue = totalValue;
     }
 
@@ -75,6 +79,14 @@ public class ExternalInvoiceItem extends ExternalAccountItem {
 
     public final void setIsPaid(boolean isPaid) {
         this.isPaid = isPaid;
+    }
+
+    public final String getExternalUrl() {
+        return externalUrl;
+    }
+
+    public final void setExternalUrl(String externalUrl) {
+        this.externalUrl = externalUrl;
     }
 
     @Override

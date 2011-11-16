@@ -237,6 +237,13 @@
         </xs:documentation>
                </xs:annotation>
             </xs:attribute>
+                <xs:attribute name="external-url" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+        External URL
+                        </xs:documentation>
+                    </xs:annotation>
+             </xs:attribute>
          </xs:complexType>
 
          <xs:complexType name="individualContractType">
@@ -344,6 +351,13 @@
         </xs:documentation>
                </xs:annotation>          
             </xs:attribute>
+                <xs:attribute name="external-url" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+        External URL
+                        </xs:documentation>
+                    </xs:annotation>
+             </xs:attribute>
          </xs:complexType>
 
       </xs:schema>

@@ -58,11 +58,60 @@
                 <value>Home Folder Modification</value>
 -->
                 <value>Perischool Activity Registration</value>
+                <value>Iconito Ps Subscription</value>
+                <value>Electoral Roll Registration</value>
+              </list>
+            </property>
+            <property name="serviceProperties">
+              <map>
+                <entry>
+                  <key><value>sendRequestUrl</value></key>
+                  <value>http://capdemat-iconito.debug/index.php/webservices/v46/sendrequest</value>
+                </entry>
+                <entry>
+                  <key><value>loadExternalInformationsUrl</value></key>
+                  <value>http://capdemat-iconito.debug/index.php/webservices/v46/requestexternalinformation</value>
+                </entry>
+                <entry>
+                  <key><value>loadInvoiceDetailsUrl</value></key>
+                  <value>http://capdemat-iconito.debug/index.php/webservices/v46/invoicedetails</value>
+                </entry>
+                <entry>
+                  <key><value>loadAccountDetailsUrl</value></key>
+                  <value>http://capdemat-iconito.debug/index.php/webservices/v46/accountdetails</value>
+                </entry>
+                <entry>
+                  <key><value>getFamilyAccountsUrl</value></key>
+                  <value>http://capdemat-iconito.debug/index.php/webservices/v46/familyaccounts</value>
+                </entry>
+                <entry>
+                  <key><value>creditAccountUrl</value></key>
+                  <value>http://capdemat-iconito.debug/index.php/webservices/v46/creditaccount</value>
+                </entry>
+                <entry>
+                  <key><value>checkExternalReferentialUrl</value></key>
+                  <value>http://capdemat-iconito.debug/index.php/webservices/v46/checkexternalreferential</value>
+                </entry>
+                <entry>
+                  <key><value>getConsumptionsUrl</value></key>
+                  <value>http://capdemat-iconito.debug/index.php/webservices/v46/getConsumptions</value>
+                </entry>
+              </map>
+            </property>
+            <property name="login" value="Blainville" />
+            <property name="password" value="Blainville" />
+          </bean>
+        </entry>
+        <entry>
+          <key>
+            <ref bean="iconitoActeWebExternalService" />
+          </key>
+          <bean class="fr.cg95.cvq.external.ExternalServiceBean">
+            <property name="requestTypes">
+              <list>
                 <value>Birth Details</value>
                 <value>Death Details</value>
                 <value>Marriage Details</value>
-                <value>Iconito Ps Subscription</value>
-                <value>Electoral Roll Registration</value>
               </list>
             </property>
             <property name="serviceProperties">

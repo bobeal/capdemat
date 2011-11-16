@@ -18,6 +18,9 @@
           <g:else>
             ${record.oldQuantity} <g:message code="payment.header.tickets"/>
           </g:else>
+				<g:if test="${record.externalUrl}">
+					<a href="${record.externalUrl}" target="_blank"><g:message code="payment.header.tickets.externalUrl"/></a>
+				</g:if>
         </p>
         <p>
           <g:message code="payment.header.ticketUnitPrice"/> : ${record.unitPrice / 100} € 

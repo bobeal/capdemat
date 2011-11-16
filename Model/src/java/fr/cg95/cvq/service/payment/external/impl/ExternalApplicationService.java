@@ -209,7 +209,8 @@ public class ExternalApplicationService implements IExternalApplicationService {
                         DateUtils.parseIso(line[4]),
                         DateUtils.parseIso(line[5]),
                         "1".equals(line[6]) ? true : false,
-                        broker);
+                        broker,
+												null);
                 eii.setExternalApplicationId(ea.getId().toString());
                 eii.setExternalHomeFolderId(ehf.getExternalId());
                 genericDAO.create(eii);
@@ -456,7 +457,8 @@ public class ExternalApplicationService implements IExternalApplicationService {
                         Integer.valueOf(line[5]),
                         Integer.valueOf(line[6]),
                         DateUtils.parseIso(line[2]),
-                        broker);
+                        broker,
+												null);
                 etci.setExternalApplicationId(ea.getId().toString());
                 etci.setExternalHomeFolderId(ehf.getExternalId());
                 etci.setExternalIndividualId(line[8]);

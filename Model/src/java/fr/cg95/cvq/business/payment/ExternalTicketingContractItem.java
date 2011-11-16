@@ -36,11 +36,14 @@ public class ExternalTicketingContractItem extends ExternalAccountItem {
     @Column(name="creation_date")
     private Date creationDate;
 
+	  @Column(name="external_url")
+    private String externalUrl;
+
     public ExternalTicketingContractItem(final String label, final Double amount,
             final String externalServiceLabel, final String externalItemId,
             final Long subjectId, final Double unitPrice, final Integer minBuy,
             final Integer maxBuy, final Date creationDate,
-            final String broker) {
+            final String broker, final String externalUrl) {
         super(label, amount, externalServiceLabel, externalItemId, broker);
         this.subjectId = subjectId;
         this.unitPrice = unitPrice;
@@ -48,6 +51,7 @@ public class ExternalTicketingContractItem extends ExternalAccountItem {
         this.maxBuy = maxBuy;
         this.creationDate = creationDate;
         this.oldQuantity = (new Double(amount / unitPrice)).intValue();
+				this.externalUrl = externalUrl;
     }
 
     @Deprecated
@@ -116,6 +120,14 @@ public class ExternalTicketingContractItem extends ExternalAccountItem {
 
     public final void setUnitPrice(Double unitPrice) {
         this.unitPrice = unitPrice;
+    }
+
+    public final String getExternalUrl() {
+        return externalUrl;
+    }
+
+    public final void setExternalUrl(String externalUrl) {
+        this.externalUrl = externalUrl;
     }
 
     public final Integer getOldQuantity() {

@@ -10,6 +10,7 @@
   xmlns:ddr="http://www.cg95.fr/cvq/schema/ddr" 
   xmlns:mdr="http://www.cg95.fr/cvq/schema/mdr" 
   xmlns:ipsr="http://www.cg95.fr/cvq/schema/ipsr" 
+  xmlns:serrr="http://www.cg95.fr/cvq/schema/serrr" 
   xmlns:xs="http://www.w3.org/2001/XMLSchema" 
   elementFormDefault="qualified"
   attributeFormDefault="unqualified">
@@ -30,6 +31,8 @@
     schemaLocation="http://people.zenexity.fr/~bor/capdemat/latest/request/DeathDetailsRequest.xsd" />
   <xs:import namespace="http://www.cg95.fr/cvq/schema/ipsr"
     schemaLocation="http://people.zenexity.fr/~bor/capdemat/latest/request/IconitoPsSubscriptionRequest.xsd" />
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/serrr"
+    schemaLocation="http://people.zenexity.fr/~bor/capdemat/latest/request/StandardElectoralRollRegistrationRequest.xsd" />
 
   <xs:element name="SendRequestRequest">
     <xs:complexType>
@@ -50,6 +53,7 @@
         <xs:element ref="ddr:DeathDetailsRequest" />
         <xs:element ref="mdr:MarriageDetailsRequest" />
         <xs:element ref="ipsr:IconitoPsSubscriptionRequest" />
+        <xs:element ref="serrr:StandardElectoralRollRegistrationRequest" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

@@ -91,6 +91,7 @@ public class ExternalServiceUtils {
                     eii.setPaymentDate(calendar.getTime());
                 }
                 eii.setIsPaid(invoiceType.getInvoicePaid());
+								eii.setExternalUrl(invoiceType.getExternalUrl());
                 eii.setExternalHomeFolderId(invoiceType.getExternalFamilyAccountId());
                 eii.setExternalApplicationId(String.valueOf(invoiceType.getExternalApplicationId()));
 
@@ -118,6 +119,7 @@ public class ExternalServiceUtils {
                         etci.setMaxBuy(contractType.getMaxBuy());
                         etci.setMinBuy(contractType.getMinBuy());
                         etci.setUnitPrice(new Double(contractType.getBuyPrice()));
+												etci.setExternalUrl(contractType.getExternalUrl());
                         etci.setSubjectId(individualContractType.getCapwebctIndividualId());
 
                         etci.setExternalHomeFolderId(contractType.getExternalFamilyAccountId());

@@ -229,6 +229,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="external-url" type="xs:string">
+       <xs:annotation>
+        <xs:documentation>
+          External URL to make reservation
+        </xs:documentation>
+      </xs:annotation>          
+    </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="individualContractType">
@@ -333,6 +340,13 @@
        <xs:annotation>
         <xs:documentation>
           The maximal amount of items that can be bought in a purchase
+        </xs:documentation>
+      </xs:annotation>          
+    </xs:attribute>
+    <xs:attribute name="external-url" type="xs:string">
+       <xs:annotation>
+        <xs:documentation>
+          External URL to make reservation
         </xs:documentation>
       </xs:annotation>          
     </xs:attribute>

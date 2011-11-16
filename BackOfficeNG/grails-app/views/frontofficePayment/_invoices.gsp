@@ -14,9 +14,14 @@
         </g:if>
         <p>
           <g:message code="payment.header.issueAt"/>
-          <g:formatDate date="${record.issueDate}" formatName="format.date"/> - 
-          <g:message code="payment.header.expireAt"/>
-          <g:formatDate date="${record.expirationDate}" formatName="format.date"/>
+          <g:formatDate date="${record.issueDate}" formatName="format.date"/>
+					<g:if test="${record.expirationDate}"> 
+						- <g:message code="payment.header.expireAt"/>
+						<g:formatDate date="${record.expirationDate}" formatName="format.date"/>
+					</g:if>
+				  <g:if test="${record.externalUrl}"> 
+						<a href="${record.externalUrl}" target="_blank"><g:message code="payment.header.invoice.externalUrl"/></a>
+					</g:if>
         </p>
         <g:if test="${record.hasDetails}">
           <p>

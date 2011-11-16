@@ -379,6 +379,7 @@ class FrontofficePaymentController {
             quantity : item.quantity,
             oldQuantity: item.oldQuantity,
             creationDate : item.creationDate,
+						externalUrl : item.externalUrl,
             type : 'ticketingContracts'
         ]
         return entry;

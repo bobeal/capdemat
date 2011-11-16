@@ -76,6 +76,7 @@ import fr.cg95.cvq.xml.request.school.RecreationActivityRegistrationRequestDocum
 import fr.cg95.cvq.xml.request.school.SchoolCanteenRegistrationRequestDocument.SchoolCanteenRegistrationRequest;
 import fr.cg95.cvq.xml.request.school.SchoolRegistrationRequestDocument.SchoolRegistrationRequest;
 import fr.cg95.cvq.xml.request.school.IconitoPsSubscriptionRequestDocument.IconitoPsSubscriptionRequest;
+import fr.cg95.cvq.xml.request.election.StandardElectoralRollRegistrationRequestDocument.StandardElectoralRollRegistrationRequest;
 import fr.cg95.cvq.external.impl.ExternalProviderServiceAdapter;
 import fr.cg95.cvq.service.payment.IPaymentService;
 import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
@@ -330,6 +331,8 @@ public class IconitoPeriscolaireService extends ExternalProviderServiceAdapter {
 				sendRequestRequest.setMarriageDetailsRequest((MarriageDetailsRequest) request);
 			else if (request instanceof IconitoPsSubscriptionRequest)
 				sendRequestRequest.setIconitoPsSubscriptionRequest((IconitoPsSubscriptionRequest) request);
+			else if (request instanceof StandardElectoralRollRegistrationRequest)
+				sendRequestRequest.setStandardElectoralRollRegistrationRequest((StandardElectoralRollRegistrationRequest) request);
 			else
 				sendRequestRequest.setRequest(request);
 			sendRequestRequest.setRequestTypeLabel(request.getRequestTypeLabel());

@@ -165,7 +165,7 @@ public class RestExternalServiceTest extends ExternalServiceTestCase {
     @Test
     public void loadInvoiceDetails()
         throws CvqException {
-        ExternalInvoiceItem eii = new ExternalInvoiceItem("test", Double.valueOf(10), Double.valueOf(20), restExternalService.getLabel(), "ext", new Date(), new Date(), new Date(), true, "fake");
+        ExternalInvoiceItem eii = new ExternalInvoiceItem("test", Double.valueOf(10), Double.valueOf(20), restExternalService.getLabel(), "ext", new Date(), new Date(), new Date(), true, "fake", null);
         eii.setExternalApplicationId("ext");
         eii.setExternalHomeFolderId("extFID");
         assertNull(eii.getInvoiceDetails());

@@ -24,7 +24,8 @@ class FrontofficeRequestDocumentController {
 
     def afterInterceptor = {
         if (params.action != "edit" || request.post) {
-            def rqt = requestSearchService.getById(Long.valueOf(params.requestId), true)
+            def requestId = Long.valueOf(params.requestId)
+            def rqt = requestSearchService.getById(requestId, true)
             if (RequestState.UNCOMPLETE.equals(rqt.state)) {
                 requestWorkflowService.updateRequestState(requestId, RequestState.RECTIFIED, null)
             }

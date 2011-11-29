@@ -448,7 +448,8 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
                 || document.getState().equals(DocumentState.CHECKED)) {
             try {
                 document.setState(DocumentState.VALIDATED);
-                document.setEndValidityDate(validityDate);
+                if (validityDate != null)
+                    document.setEndValidityDate(validityDate);
                 document.setValidationDate(new Date());
                 documentDAO.update(document);
             } catch (RuntimeException e) {
@@ -463,6 +464,12 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         }
 
         addActionTrace(DocumentAction.Type.STATE_CHANGE, DocumentState.VALIDATED, document);
+    }
+
+    @Context(types = {ContextType.AGENT, ContextType.EXTERNAL_SERVICE})
+    public void validate(final Long id, final String message)
+        throws CvqException, CvqObjectNotFoundException, CvqInvalidTransitionException {
+        validate(id, null, message);
     }
 
     @Context(types = {ContextType.AGENT})

@@ -945,8 +945,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             return;
 
         for (RequestDocument requestDocument : documentSet) {
-            documentService.validate(requestDocument.getDocumentId(),
-                    new Date(), "Automatic validation");
+            documentService.validate(requestDocument.getDocumentId(),"Automatic validation");
         }
     }
 

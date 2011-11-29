@@ -138,6 +138,9 @@ public interface IDocumentService {
         throws CvqException, CvqObjectNotFoundException,
                CvqInvalidTransitionException;
 
+    void validate(@IsDocument final Long id, final String message) 
+        throws CvqException, CvqObjectNotFoundException, CvqInvalidTransitionException;
+
     /**
      * Refuse the validation of a document.
      *

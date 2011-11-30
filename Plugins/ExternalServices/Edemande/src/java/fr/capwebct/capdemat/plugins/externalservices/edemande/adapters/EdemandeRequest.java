@@ -5,6 +5,7 @@ import java.util.Map;
 
 import fr.capwebct.capdemat.plugins.externalservices.edemande.service.EdemandeService;
 import fr.cg95.cvq.xml.common.AddressType;
+import fr.cg95.cvq.xml.common.BankAccountType;
 import fr.cg95.cvq.xml.common.FrenchRIBType;
 import fr.cg95.cvq.xml.common.TitleType;
 
@@ -44,6 +45,7 @@ public interface EdemandeRequest {
     String getEdemandeId();
 
     FrenchRIBType getFrenchRIB();
+    BankAccountType getFrBankAccount();
 
     Long getHomeFolderId();
 

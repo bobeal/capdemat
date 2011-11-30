@@ -1,7 +1,16 @@
 <rechercheTiers>
-  <nom>${lastName}</nom>
-  <infoRIB>
-    <type>RIB</type>
-    <numero>${frenchRIB}</numero>
-  </infoRIB>
+<nom>${lastName}</nom>
+<prenom>${firstName}</prenom>
+<codeTiers></codeTiers>
+<codePostal>${postalCode}</codePostal>
+<ville></ville>
+<infosSIRETCODIC>
+ <type></type>
+ <numero></numero>
+</infosSIRETCODIC>
+<infoRIB>
+  <type>${type}</type>
+  <numero>${numero}</numero>
+</infoRIB>
+<typeTiers></typeTiers>
 </rechercheTiers>

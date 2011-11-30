@@ -1,6 +1,5 @@
 class BackofficeUrlMappings {
   static mappings = {
-
     "/backoffice/requestAdmin/$action?/$id?" (controller : "backofficeRequestAdmin" )
     "/backoffice/requestArchives/$action?/$id?" (controller : "backofficeRequestArchives" )
     "/backoffice/requestType/$action?/$id?" (controller : "backofficeRequestType" )
@@ -16,6 +15,7 @@ class BackofficeUrlMappings {
     "/backoffice/homeFolder/$id/state" (controller : "backofficeHomeFolder", action : "state")
     "/backoffice/homeFolder/individual/$id/state" (controller : "backofficeHomeFolder", action : "state")
     "/backoffice/homeFolder/individual/$id/identity" (controller : "backofficeHomeFolder", action : "identity")
+    "/backoffice/homeFolder/individual/$id/$externalServiceLabel/mapping" (controller : "backofficeHomeFolder", action : "mapping")
     "/backoffice/homeFolder/adult/$id/address" (controller : "backofficeHomeFolder", action : "address")
     "/backoffice/homeFolder/adult/$id/contact" (controller : "backofficeHomeFolder", action : "contact")
     "/backoffice/homeFolder/child/$id/responsibles" (controller : "backofficeHomeFolder", action : "responsibles")

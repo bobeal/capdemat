@@ -107,6 +107,7 @@
                 <dl class="required collapse">
                   <g:render template="static/connexion" model="['adult':homeFolderResponsible]" />
                 </dl>
+
               </div>
               <div class="yui-u">
                 <h3>${message(code:'homeFolder.individual.header.address')}</h3>
@@ -117,6 +118,15 @@
                 <dl class="${homeFolderResponsible?.state?.toString() != 'Archived' ? 'edit' : ''} adult-contact required collapse">
                   <g:render template="static/contact" model="['adult':homeFolderResponsible, 'isResponsible':true]" />
                 </dl>
+                <g:each var="homeMapping" in="${homeMappings}">
+                   <g:set var="individualsMappings" value="${homeMapping.individualsMappings.groupBy { it.individualId }}" />
+                   <g:each var="mapping" in="${individualsMappings[homeFolderResponsible.id]}">
+                   <h3>${homeMapping.externalServiceLabel}</h3>
+                   <dl class="${homeFolderResponsible?.state?.toString() != 'Archived' ? 'edit' : ''} individual-${homeMapping.externalServiceLabel.replace(" ", "#")}-mapping required collapse">
+                      <g:render template="static/mapping" model="['mapping':mapping]" />
+                   </dl>
+                  </g:each>
+                </g:each>
               </div>
             </div>
           </div>
@@ -139,7 +149,7 @@
               </h2>
               <div class="new"></div>
               <g:each var="child" in="${children}">
-                <g:render template="static/child" model="['child':child, 'roleOwners': responsibles[child.id]]" />
+                <g:render template="static/child" model="['child':child, 'roleOwners': responsibles[child.id], 'homeMappings' : homeMappings]" />
               </g:each>
             </div>
           </div>

@@ -112,10 +112,15 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
         var atom = dl.className.split(' ')[1].split('-');
         var div = yud.getAncestorByClassName(dl, 'individual');
         var id = div.id.split('_')[1];
+        var urlElems = atom.slice(1, atom.length)
+        var urlElemsString = ""
+        for(i = 0; i < urlElems.length; i ++) {
+        	urlElemsString = urlElemsString+"/"+urlElems[i].replace(/#/g,' ')
+        }
         zct.doAjaxCall(
             '/' + atom[0]
             + '/' + id
-            + '/' + atom[1]
+            + urlElemsString
             + '?mode=' + mode
           , null,
           function(o) {

@@ -2,7 +2,7 @@
   <head>
     <title><g:message code="requestExternalAction.header.search" /></title>
     <meta name="layout" content="main" />
-    <link rel="stylesheet" href="${resource(dir : 'css/backoffice', file : 'externalSearch.css')}" />
+    <!-- link rel="stylesheet" href="${resource(dir : 'css/backoffice', file : 'externalSearch.css')}" / -->
     <script type="text/javascript" src="${resource(dir:'js/common',file:'calendar.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'externalSearch.js')}"></script>
   </head>

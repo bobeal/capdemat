@@ -29,8 +29,9 @@ public class EdemandeCommunicationJob {
     }
 
     public void sendRequests() {
-        List<Request> requests = 
-            requestExternalService.getSendableRequests(edemandeService.getLabel());
+        logger.error("Start - EdemandeJobThread-ID " + Thread.currentThread().getId());
+        
+        List<Request> requests = requestExternalService.getSendableRequests(edemandeService.getLabel());
         for (Request request : requests) {
             try {
                 //Each request is managed in its own transaction
@@ -38,16 +39,13 @@ public class EdemandeCommunicationJob {
                 requestExternalService.sendRequest(request);
                 HibernateUtil.commitTransaction();
                 
-            } catch (CvqException e) {
-                HibernateUtil.rollbackTransaction();
-                logger.warn("sendRequests() Unable to send request " + request.getId()
-                        + " to " + edemandeService.getLabel());
             } catch(Throwable t) {
                 HibernateUtil.rollbackTransaction();
-                logger.warn("sendRequests() Unable to send request " + request.getId()
-                        + " to " + edemandeService.getLabel());
+                logger.error("sendRequests() Unable to send request " + request.getId() + " to " + this.edemandeService.getLabel());
             }
         }
+        
+        logger.error("End   - EdemandeJobThread-ID " + Thread.currentThread().getId());
     }
 
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {

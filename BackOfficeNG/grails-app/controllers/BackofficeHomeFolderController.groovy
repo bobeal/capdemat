@@ -147,7 +147,9 @@ class BackofficeHomeFolderController {
         result.responsibles = [:]
         for(Child child : result.children)
             result.responsibles.put(child.id, userSearchService.listBySubjectRoles(child.id, RoleType.childRoleTypes))
-
+        
+	    result.homeMappings = externalHomeFolderService.getHomeFolderMappings(Long.valueOf(params.id))
+		
         result.agentCanWrite = agentCanWrite
         return result
     }
@@ -352,6 +354,17 @@ class BackofficeHomeFolderController {
         render(template : mode + "/" + individual.class.simpleName.toLowerCase() + "Identity",
             model : ["individual" : individual])
     }
+    
+    
+    def mapping = {
+    	if (request.post) {
+    	  externalHomeFolderService.setExternalId(params.externalServiceLabel, Long.valueOf(params.homeFolderId), Long.valueOf(params.id), params.externalId)
+    	}
+        def individual = userSearchService.getById(params.long("id"))
+        def mapping = externalHomeFolderService.getIndividualMapping(individual, params.externalServiceLabel)
+        def mode = request.get ? params.mode : "static"
+        render(template : mode + "/mapping", model : ["mapping" : mapping])
+    }
 
     def responsibles = {
         def child = userSearchService.getChildById(Long.valueOf(params.id))
@@ -405,33 +418,7 @@ class BackofficeHomeFolderController {
         return result;
     }
 
-    def mapping = {
-        def mapping =
-            externalHomeFolderService.getHomeFolderMapping(params.externalServiceLabel,
-                Long.valueOf(params.homeFolderId))
-        def id = mapping.externalId
-        if (params.individualId) {
-            mapping.individualsMappings.each {
-                if (params.individualId.equals(it.individualId.toString())) {
-                    mapping = it
-                    return
-                }
-            }
-        }
-        if (request.get) {
-            def model = [
-                "externalServiceLabel" : params.externalServiceLabel,
-                "homeFolderId" : params.homeFolderId,
-                "individualId" : params.individualId,
-                "id" : mapping.externalId
-            ]
-            render(template : "mapping", model : model)
-        } else if (request.post) {
-            mapping.externalId = params.id
-            render ([status:"ok", success_msg:message(code:"message.updateDone"), "id" : params.id] as JSON)
-        }
-    }
-
+  
     // TODO : move in request module
     def requests = {
         def result = [requests:[]]

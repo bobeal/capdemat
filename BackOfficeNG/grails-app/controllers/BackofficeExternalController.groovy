@@ -25,7 +25,7 @@ class BackofficeExternalController {
     }
 
     def defaultSortBy = RequestExternalAction.SEARCH_BY_DATE
-    def count = 15
+    def rowsPerPage = 15
 
     def search = {
         if (request.get) {
@@ -62,19 +62,16 @@ class BackofficeExternalController {
                 criteria.add(new Critere(RequestExternalAction.SEARCH_BY_REQUEST_STATE,
                     parsedFilters.filters.requestStateFilter, Critere.EQUALS))
             def sortBy = params.sortBy ? params.sortBy : defaultSortBy
-            def offset
-            try {
-                offset = Integer.valueOf(params.offset)
-            } catch (NumberFormatException e) {
-                offset = 0
-            }
+			
+            def recordOffset = (params.recordOffset == "" || params.recordOffset == null) ? 0 : Integer.valueOf(params.recordOffset)
+			
             def traces
             def totalRecords
             if (params.lastOnly) {
-                traces = requestExternalActionService.getLastTraces(criteria, sortBy, "desc", count, offset)
+                traces = requestExternalActionService.getLastTraces(criteria, sortBy, "desc", rowsPerPage, recordOffset)
                 totalRecords = requestExternalActionService.getLastTracesCount(criteria)
             } else {
-                traces = requestExternalActionService.getTraces(criteria, sortBy, "desc", count, offset)
+                traces = requestExternalActionService.getTraces(criteria, sortBy, "desc", rowsPerPage, recordOffset)
                 totalRecords = requestExternalActionService.getTracesCount(criteria)
             }
             traces = requestAdaptorService.prepareTraces(traces)
@@ -88,7 +85,7 @@ class BackofficeExternalController {
                 "lastOnly" : params.lastOnly,
                 "filters":parsedFilters.filters,
                 "filterBy":parsedFilters.filterBy,
-                "recordOffset" : offset,
+                "recordOffset" : recordOffset,
                 "sortBy" : sortBy,
                 "inSearch" : true
             ].plus(initSearchReferential())

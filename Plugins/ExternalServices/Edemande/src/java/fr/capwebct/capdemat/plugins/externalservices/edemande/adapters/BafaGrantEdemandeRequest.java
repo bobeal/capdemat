@@ -8,6 +8,7 @@ import fr.capwebct.capdemat.plugins.externalservices.edemande.service.EdemandeSe
 import fr.cg95.cvq.business.users.BankAccount;
 import fr.cg95.cvq.business.users.FrenchRIB;
 import fr.cg95.cvq.xml.common.AddressType;
+import fr.cg95.cvq.xml.common.BankAccountType;
 import fr.cg95.cvq.xml.common.FrenchRIBType;
 import fr.cg95.cvq.xml.common.IndividualType;
 import fr.cg95.cvq.xml.common.SexType;
@@ -175,5 +176,14 @@ public class BafaGrantEdemandeRequest implements EdemandeRequest {
     @Override
     public Config getConfig() {
         return Config.BGR;
+    }
+    
+    @Override
+    public BankAccountType getFrBankAccount() {
+        if(request.getBankAccount() == null 
+                || request.getBankAccount().getIBAN() == null 
+                || request.getBankAccount().getIBAN().length() != 27
+                || !request.getBankAccount().getIBAN().startsWith("FR")) return null;
+        return request.getBankAccount();
     }
 }

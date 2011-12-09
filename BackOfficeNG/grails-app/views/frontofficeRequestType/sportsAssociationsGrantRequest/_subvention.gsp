@@ -5,12 +5,6 @@
     <fieldset class="required">
     <legend><g:message code="sagr.property.subventionPubliqueFonctionnement.label" /></legend>
     
-      <label for="subventionSolliciteConseilGeneral" class="required"><g:message code="sagr.property.subventionSolliciteConseilGeneral.label" /> *  <span><g:message code="sagr.property.subventionSolliciteConseilGeneral.help" /></span></label>
-            <input type="text" id="subventionSolliciteConseilGeneral" name="subventionSolliciteConseilGeneral" value="${rqt.subventionSolliciteConseilGeneral?.toString()}" 
-                    class="required  validate-string ${rqt.stepStates['subvention'].invalidFields.contains('subventionSolliciteConseilGeneral') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.subventionSolliciteConseilGeneral.validationError" />"   />
-            
-
-    
       <label for="budgetSaisonEcouleeRecette" class=""><g:message code="sagr.property.budgetSaisonEcouleeRecette.label" />   <span><g:message code="sagr.property.budgetSaisonEcouleeRecette.help" /></span></label>
             <input type="text" id="budgetSaisonEcouleeRecette" name="budgetSaisonEcouleeRecette" value="${rqt.budgetSaisonEcouleeRecette?.toString()}" 
                     class="  validate-string ${rqt.stepStates['subvention'].invalidFields.contains('budgetSaisonEcouleeRecette') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.budgetSaisonEcouleeRecette.validationError" />"   />

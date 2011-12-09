@@ -189,8 +189,18 @@
           <dt><g:message code="sagr.property.nombreLicencieMajeurActivite.label" /></dt><dd>${it.nombreLicencieMajeurActivite?.toString()}</dd>
 
         
+          <dt><g:message code="sagr.property.sommeSolliciteeActivite.label" /></dt><dd>${it.sommeSolliciteeActivite?.toString()}</dd>
+
+        
       </dl>
       </g:each>
+      
+    
+      
+      <dl>
+        <dt><g:message code="sagr.property.subventionSolliciteConseilGeneral.label" /></dt><dd>${rqt.subventionSolliciteConseilGeneral?.toString()}</dd>
+
+      </dl>
       
     
   
@@ -201,9 +211,6 @@
       
       <h4><g:message code="sagr.property.subventionPubliqueFonctionnement.label" /></h4>
       <dl>
-        
-          <dt><g:message code="sagr.property.subventionSolliciteConseilGeneral.label" /></dt><dd>${rqt.subventionSolliciteConseilGeneral?.toString()}</dd>
-
         
           <dt><g:message code="sagr.property.budgetSaisonEcouleeRecette.label" /></dt><dd>${rqt.budgetSaisonEcouleeRecette?.toString()}</dd>
 

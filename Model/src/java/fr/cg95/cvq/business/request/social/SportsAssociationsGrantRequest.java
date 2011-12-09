@@ -169,7 +169,10 @@ public class SportsAssociationsGrantRequest extends Request implements Serializa
         if (getEstAdresseCorrespondantPrincipal() != null)
             sagrContactsAssociationTypeContactsAssociation.setEstAdresseCorrespondantPrincipal(getEstAdresseCorrespondantPrincipal().booleanValue());
       
-        sportsAssociationsGrantRequest.setMontantSubvention(getMontantSubvention());
+        sportsAssociationsGrantRequest.setIdentifiantEDemandeAssociation(getIdentifiantEDemandeAssociation());
+      
+        if (getMontantSubvention() != null)
+            sportsAssociationsGrantRequest.setMontantSubvention(getMontantSubvention());
       
         sportsAssociationsGrantRequest.setNomAssociation(getNomAssociation());
       
@@ -204,7 +207,8 @@ public class SportsAssociationsGrantRequest extends Request implements Serializa
         if (getSiegeSocialAssociation() != null)
             sportsAssociationsGrantRequest.setSiegeSocialAssociation(Address.modelToXml(getSiegeSocialAssociation()));
       
-        sagrSubventionPubliqueFonctionnementTypeSubventionPubliqueFonctionnement.setSubventionSolliciteConseilGeneral(getSubventionSolliciteConseilGeneral());
+        if (getSubventionSolliciteConseilGeneral() != null)
+            sportsAssociationsGrantRequest.setSubventionSolliciteConseilGeneral(getSubventionSolliciteConseilGeneral());
       
         sagrPrecisionPresidentTypePrecisionPresident.setTelephonePresident(getTelephonePresident());
       
@@ -250,7 +254,10 @@ public class SportsAssociationsGrantRequest extends Request implements Serializa
       
         sportsAssociationsGrantRequest.setEstAdresseCorrespondantPrincipal(Boolean.valueOf(sportsAssociationsGrantRequestXml.getContactsAssociation().getEstAdresseCorrespondantPrincipal()));
       
-        sportsAssociationsGrantRequest.setMontantSubvention(sportsAssociationsGrantRequestXml.getMontantSubvention());
+        sportsAssociationsGrantRequest.setIdentifiantEDemandeAssociation(sportsAssociationsGrantRequestXml.getIdentifiantEDemandeAssociation());
+      
+        if (sportsAssociationsGrantRequestXml.getMontantSubvention() != null)
+            sportsAssociationsGrantRequest.setMontantSubvention(sportsAssociationsGrantRequestXml.getMontantSubvention());
       
         sportsAssociationsGrantRequest.setNomAssociation(sportsAssociationsGrantRequestXml.getNomAssociation());
       
@@ -284,7 +291,8 @@ public class SportsAssociationsGrantRequest extends Request implements Serializa
         if (sportsAssociationsGrantRequestXml.getSiegeSocialAssociation() != null)
             sportsAssociationsGrantRequest.setSiegeSocialAssociation(Address.xmlToModel(sportsAssociationsGrantRequestXml.getSiegeSocialAssociation()));
       
-        sportsAssociationsGrantRequest.setSubventionSolliciteConseilGeneral(sportsAssociationsGrantRequestXml.getSubventionPubliqueFonctionnement().getSubventionSolliciteConseilGeneral());
+        if (sportsAssociationsGrantRequestXml.getSubventionSolliciteConseilGeneral() != null)
+            sportsAssociationsGrantRequest.setSubventionSolliciteConseilGeneral(sportsAssociationsGrantRequestXml.getSubventionSolliciteConseilGeneral());
       
         sportsAssociationsGrantRequest.setTelephonePresident(sportsAssociationsGrantRequestXml.getPrecisionPresident().getTelephonePresident());
       
@@ -446,12 +454,21 @@ public class SportsAssociationsGrantRequest extends Request implements Serializa
         return sportsAssociationsGrantRequestData.getEstAdresseCorrespondantPrincipal();
     }
   
-    public final void setMontantSubvention(final String montantSubvention) {
+    public final void setIdentifiantEDemandeAssociation(final String identifiantEDemandeAssociation) {
+        sportsAssociationsGrantRequestData.setIdentifiantEDemandeAssociation(identifiantEDemandeAssociation);
+    }
+
+    
+    public final String getIdentifiantEDemandeAssociation() {
+        return sportsAssociationsGrantRequestData.getIdentifiantEDemandeAssociation();
+    }
+  
+    public final void setMontantSubvention(final java.math.BigDecimal montantSubvention) {
         sportsAssociationsGrantRequestData.setMontantSubvention(montantSubvention);
     }
 
     
-    public final String getMontantSubvention() {
+    public final java.math.BigDecimal getMontantSubvention() {
         return sportsAssociationsGrantRequestData.getMontantSubvention();
     }
   
@@ -563,12 +580,12 @@ public class SportsAssociationsGrantRequest extends Request implements Serializa
         return sportsAssociationsGrantRequestData.getSiegeSocialAssociation();
     }
   
-    public final void setSubventionSolliciteConseilGeneral(final String subventionSolliciteConseilGeneral) {
+    public final void setSubventionSolliciteConseilGeneral(final java.math.BigDecimal subventionSolliciteConseilGeneral) {
         sportsAssociationsGrantRequestData.setSubventionSolliciteConseilGeneral(subventionSolliciteConseilGeneral);
     }
 
     
-    public final String getSubventionSolliciteConseilGeneral() {
+    public final java.math.BigDecimal getSubventionSolliciteConseilGeneral() {
         return sportsAssociationsGrantRequestData.getSubventionSolliciteConseilGeneral();
     }
   

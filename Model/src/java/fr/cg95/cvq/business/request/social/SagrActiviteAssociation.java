@@ -68,10 +68,16 @@ public class SagrActiviteAssociation implements Serializable {
         if (this.nombreLicencieMajeurActivite != null)
             sagrActiviteAssociation.setNombreLicencieMajeurActivite(this.nombreLicencieMajeurActivite.longValue());
       
+        if (this.sommeSolliciteeActivite != null)
+            sagrActiviteAssociation.setSommeSolliciteeActivite(this.sommeSolliciteeActivite);
+      
         if (this.totalLicencieActivite != null)
             sagrActiviteAssociation.setTotalLicencieActivite(this.totalLicencieActivite.longValue());
       
-        sagrActiviteAssociation.setSommeAlloueeActivite(this.sommeAlloueeActivite);
+        sagrActiviteAssociation.setIdentifiantEDemandeActivite(this.identifiantEDemandeActivite);
+      
+        if (this.sommeAlloueeActivite != null)
+            sagrActiviteAssociation.setSommeAlloueeActivite(this.sommeAlloueeActivite);
       
         sagrActiviteAssociation.setFederationSportivePrecision(this.federationSportivePrecision);
       
@@ -102,10 +108,16 @@ public class SagrActiviteAssociation implements Serializable {
         if (sagrActiviteAssociationDoc.getNombreLicencieMajeurActivite() != 0)
             sagrActiviteAssociation.setNombreLicencieMajeurActivite(new Long(sagrActiviteAssociationDoc.getNombreLicencieMajeurActivite()));
       
+        if (sagrActiviteAssociationDoc.getSommeSolliciteeActivite() != null)
+            sagrActiviteAssociation.setSommeSolliciteeActivite(sagrActiviteAssociationDoc.getSommeSolliciteeActivite());
+      
         if (sagrActiviteAssociationDoc.getTotalLicencieActivite() != 0)
             sagrActiviteAssociation.setTotalLicencieActivite(new Long(sagrActiviteAssociationDoc.getTotalLicencieActivite()));
       
-        sagrActiviteAssociation.setSommeAlloueeActivite(sagrActiviteAssociationDoc.getSommeAlloueeActivite());
+        sagrActiviteAssociation.setIdentifiantEDemandeActivite(sagrActiviteAssociationDoc.getIdentifiantEDemandeActivite());
+      
+        if (sagrActiviteAssociationDoc.getSommeAlloueeActivite() != null)
+            sagrActiviteAssociation.setSommeAlloueeActivite(sagrActiviteAssociationDoc.getSommeAlloueeActivite());
       
         sagrActiviteAssociation.setFederationSportivePrecision(sagrActiviteAssociationDoc.getFederationSportivePrecision());
       
@@ -149,7 +161,19 @@ public class SagrActiviteAssociation implements Serializable {
         
           
             
+        result.setSommeSolliciteeActivite(sommeSolliciteeActivite);
+      
+          
+        
+          
+            
         result.setTotalLicencieActivite(totalLicencieActivite);
+      
+          
+        
+          
+            
+        result.setIdentifiantEDemandeActivite(identifiantEDemandeActivite);
       
           
         
@@ -274,6 +298,27 @@ public class SagrActiviteAssociation implements Serializable {
     }
   
     
+      @NotNull(
+        
+        
+        profiles = {"activites"},
+        message = "sommeSolliciteeActivite"
+      )
+    
+    private java.math.BigDecimal sommeSolliciteeActivite;
+
+    public void setSommeSolliciteeActivite(final java.math.BigDecimal sommeSolliciteeActivite) {
+        this.sommeSolliciteeActivite = sommeSolliciteeActivite;
+    }
+
+
+    @Column(name="somme_sollicitee_activite"  )
+      
+    public java.math.BigDecimal getSommeSolliciteeActivite() {
+        return this.sommeSolliciteeActivite;
+    }
+  
+    
     private Long totalLicencieActivite;
 
     public void setTotalLicencieActivite(final Long totalLicencieActivite) {
@@ -288,16 +333,30 @@ public class SagrActiviteAssociation implements Serializable {
     }
   
     
-    private String sommeAlloueeActivite;
+    private String identifiantEDemandeActivite;
 
-    public void setSommeAlloueeActivite(final String sommeAlloueeActivite) {
+    public void setIdentifiantEDemandeActivite(final String identifiantEDemandeActivite) {
+        this.identifiantEDemandeActivite = identifiantEDemandeActivite;
+    }
+
+
+    @Column(name="identifiant_e_demande_activite"  )
+      
+    public String getIdentifiantEDemandeActivite() {
+        return this.identifiantEDemandeActivite;
+    }
+  
+    
+    private java.math.BigDecimal sommeAlloueeActivite;
+
+    public void setSommeAlloueeActivite(final java.math.BigDecimal sommeAlloueeActivite) {
         this.sommeAlloueeActivite = sommeAlloueeActivite;
     }
 
 
     @Column(name="somme_allouee_activite"  )
       
-    public String getSommeAlloueeActivite() {
+    public java.math.BigDecimal getSommeAlloueeActivite() {
         return this.sommeAlloueeActivite;
     }
   

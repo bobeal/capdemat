@@ -1,5 +1,7 @@
 package fr.cg95.cvq.service.request.social.impl;
 
+import java.math.BigDecimal;
+
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.social.SagrActiviteAssociation;
 import fr.cg95.cvq.business.request.social.SagrFederationSportiveType;
@@ -32,9 +34,12 @@ public class SportsAssociationsGrantRequestService extends RequestService {
     @Override
     public void onRequestIssued(Request request) {
         SportsAssociationsGrantRequest sagr = (SportsAssociationsGrantRequest) request;
+        BigDecimal totalSubvention = BigDecimal.ZERO;
         for (SagrActiviteAssociation as : sagr.getSagrActiviteAssociation()) {
             as.setTotalLicencieActivite(as.getNombreLicencieMajeurActivite() + as.getNombreLicencieMineurActivite());
+            totalSubvention = totalSubvention.add(as.getSommeSolliciteeActivite());
         }
+        sagr.setSubventionSolliciteConseilGeneral(totalSubvention);
     }
 
 }

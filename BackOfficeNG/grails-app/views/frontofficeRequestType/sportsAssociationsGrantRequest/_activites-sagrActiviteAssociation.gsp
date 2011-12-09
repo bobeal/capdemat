@@ -62,6 +62,12 @@
             
 
   
+    <label for="sagrActiviteAssociation.${collectionIndex}.sommeSolliciteeActivite" class="required"><g:message code="sagr.property.sommeSolliciteeActivite.label" /> *  <span><g:message code="sagr.property.sommeSolliciteeActivite.help" /></span></label>
+            <input type="text" id="sagrActiviteAssociation.${collectionIndex}.sommeSolliciteeActivite" name="sagrActiviteAssociation[${collectionIndex}].sommeSolliciteeActivite" value="${currentCollectionItem?.sommeSolliciteeActivite?.toString()}" 
+                    class="required  validate-decimal ${rqt.stepStates['activites'].invalidFields.contains('sagrActiviteAssociation['+collectionIndex+'].sommeSolliciteeActivite') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.sommeSolliciteeActivite.validationError" />"   />
+            
+
+  
   <input type="hidden" name="currentCollection" value="${currentCollection}" />
   <input type="hidden" name="collectionIndex" value="${collectionIndex}" />
   <input type="submit" id="collectionSave" name="collectionSave" value="${message(code:'action.' + (currentCollectionItem != null ? 'save' : 'add'))}" />

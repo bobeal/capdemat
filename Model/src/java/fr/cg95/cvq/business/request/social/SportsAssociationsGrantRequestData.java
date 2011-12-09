@@ -117,6 +117,12 @@ public class SportsAssociationsGrantRequestData implements Serializable {
         
           
             
+        result.setIdentifiantEDemandeAssociation(identifiantEDemandeAssociation);
+      
+          
+        
+          
+            
         result.setMontantSubvention(montantSubvention);
       
           
@@ -432,6 +438,20 @@ public class SportsAssociationsGrantRequestData implements Serializable {
     }
   
     
+    private String identifiantEDemandeAssociation;
+
+    public void setIdentifiantEDemandeAssociation(final String identifiantEDemandeAssociation) {
+        this.identifiantEDemandeAssociation = identifiantEDemandeAssociation;
+    }
+
+ 
+    @Column(name="identifiant_e_demande_association"  )
+      
+    public String getIdentifiantEDemandeAssociation() {
+        return this.identifiantEDemandeAssociation;
+    }
+  
+    
       @NotNull(
         
         
@@ -439,23 +459,16 @@ public class SportsAssociationsGrantRequestData implements Serializable {
         message = "montantSubvention"
       )
     
-      @NotBlank(
-        
-        
-        profiles = {"administration"},
-        message = "montantSubvention"
-      )
-    
-    private String montantSubvention;
+    private java.math.BigDecimal montantSubvention;
 
-    public void setMontantSubvention(final String montantSubvention) {
+    public void setMontantSubvention(final java.math.BigDecimal montantSubvention) {
         this.montantSubvention = montantSubvention;
     }
 
  
     @Column(name="montant_subvention"  )
       
-    public String getMontantSubvention() {
+    public java.math.BigDecimal getMontantSubvention() {
         return this.montantSubvention;
     }
   
@@ -893,30 +906,16 @@ public class SportsAssociationsGrantRequestData implements Serializable {
     }
   
     
-      @NotNull(
-        
-        
-        profiles = {"subvention"},
-        message = "subventionSolliciteConseilGeneral"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"subvention"},
-        message = "subventionSolliciteConseilGeneral"
-      )
-    
-    private String subventionSolliciteConseilGeneral;
+    private java.math.BigDecimal subventionSolliciteConseilGeneral;
 
-    public void setSubventionSolliciteConseilGeneral(final String subventionSolliciteConseilGeneral) {
+    public void setSubventionSolliciteConseilGeneral(final java.math.BigDecimal subventionSolliciteConseilGeneral) {
         this.subventionSolliciteConseilGeneral = subventionSolliciteConseilGeneral;
     }
 
  
     @Column(name="subvention_sollicite_conseil_general"  )
       
-    public String getSubventionSolliciteConseilGeneral() {
+    public java.math.BigDecimal getSubventionSolliciteConseilGeneral() {
         return this.subventionSolliciteConseilGeneral;
     }
   

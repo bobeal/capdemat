@@ -277,11 +277,19 @@
         <p class="label">${esc(i18n.translate('sagr.property.totalLicencieActivite.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.totalLicencieActivite?.toString()))}</div>
 
       
+        <p class="label">${esc(i18n.translate('sagr.property.sommeSolliciteeActivite.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.sommeSolliciteeActivite?.toString()))}</div>
+
+      
         <p class="label">${esc(i18n.translate('sagr.property.sommeAlloueeActivite.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.sommeAlloueeActivite?.toString()))}</div>
 
       
       <% } %>
       </div>    
+    
+  
+    
+      <p class="label">${esc(i18n.translate('sagr.property.subventionSolliciteConseilGeneral.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.subventionSolliciteConseilGeneral?.toString()))}</div>
+
     
   
 
@@ -291,9 +299,6 @@
     
       <h3>${i18n.translate('sagr.property.subventionPubliqueFonctionnement.label')}</h3>
       <div class="complex">
-        
-          <p class="label">${esc(i18n.translate('sagr.property.subventionSolliciteConseilGeneral.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.subventionSolliciteConseilGeneral?.toString()))}</div>
-
         
           <p class="label">${esc(i18n.translate('sagr.property.budgetSaisonEcouleeRecette.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.budgetSaisonEcouleeRecette?.toString()))}</div>
 

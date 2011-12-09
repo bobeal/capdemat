@@ -196,6 +196,12 @@
           <!-- column start -->
           <div class="yui-u">
             
+              
+              <dl>
+                <dt class=""><g:message code="sagr.property.subventionSolliciteConseilGeneral.label" />  : </dt><dd id="subventionSolliciteConseilGeneral" class="action-editField validate-decimal i18n-sagr.property.subventionSolliciteConseilGeneral" ><span>${rqt?.subventionSolliciteConseilGeneral}</span></dd>
+              </dl>
+              
+            
           </div>
           <!-- column end -->
           
@@ -218,8 +224,6 @@
               
               <h3><g:message code="sagr.property.subventionPubliqueFonctionnement.label" /></h3>
               <dl class="required">
-                
-                  <dt class="required"><g:message code="sagr.property.subventionSolliciteConseilGeneral.label" /> * : </dt><dd id="subventionSolliciteConseilGeneral" class="action-editField validate-string required-true i18n-sagr.property.subventionSolliciteConseilGeneral" ><span>${rqt?.subventionSolliciteConseilGeneral}</span></dd>
                 
                   <dt class=""><g:message code="sagr.property.budgetSaisonEcouleeRecette.label" />  : </dt><dd id="budgetSaisonEcouleeRecette" class="action-editField validate-string i18n-sagr.property.budgetSaisonEcouleeRecette" ><span>${rqt?.budgetSaisonEcouleeRecette}</span></dd>
                 
@@ -279,7 +283,13 @@
             
               
               <dl>
-                <dt class="required"><g:message code="sagr.property.montantSubvention.label" /> * : </dt><dd id="montantSubvention" class="action-editField validate-string required-true i18n-sagr.property.montantSubvention" ><span>${rqt?.montantSubvention}</span></dd>
+                <dt class=""><g:message code="sagr.property.identifiantEDemandeAssociation.label" />  : </dt><dd id="identifiantEDemandeAssociation" class="action-editField validate-string i18n-sagr.property.identifiantEDemandeAssociation" ><span>${rqt?.identifiantEDemandeAssociation}</span></dd>
+              </dl>
+              
+            
+              
+              <dl>
+                <dt class="required"><g:message code="sagr.property.montantSubvention.label" /> * : </dt><dd id="montantSubvention" class="action-editField validate-decimal required-true i18n-sagr.property.montantSubvention" ><span>${rqt?.montantSubvention}</span></dd>
               </dl>
               
             

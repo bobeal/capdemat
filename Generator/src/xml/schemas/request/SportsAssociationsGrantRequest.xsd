@@ -212,6 +212,22 @@
               </xs:annotation>
             </xs:element>
 
+            <xs:element name="SubventionSolliciteConseilGeneral" type="xs:decimal" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                    Montant total de la subvention sollicitée auprès du Conseil Général
+                  </xs:documentation>
+                  <xs:appinfo>
+                    <common>
+                      <step name="activites" />
+                    </common>
+                    <fo />
+                    <bo column="2" />
+                    <pdf />
+                  </xs:appinfo>
+                </xs:annotation>
+              </xs:element>
+
             <xs:element name="SubventionPubliqueFonctionnement" type="sagr:SagrSubventionPubliqueFonctionnementType">
               <xs:annotation>
                 <xs:appinfo>
@@ -264,13 +280,30 @@
                </xs:annotation>
              </xs:element>
 
-           <xs:element name="MontantSubvention" type="xs:string">
+           <xs:element name="IdentifiantEDemandeAssociation" type="xs:string" minOccurs="0">
+               <xs:annotation>
+                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                   Identifiant EDemande de l'association
+                 </xs:documentation>
+                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                   Identifiant EDemande de l'association
+                 </xs:documentation>
+                 <xs:appinfo>
+                   <common>
+                     <step name="administration" />
+                   </common>
+                   <bo column="1" />
+                 </xs:appinfo>
+               </xs:annotation>
+             </xs:element>
+
+           <xs:element name="MontantSubvention" type="xs:decimal">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Montant de la subvention
+                  Montant total de la subvention allouée
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Montant de la subvention
+                  Montant total de la subvention allouée
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -927,6 +960,22 @@
   
   <xs:complexType name="SagrActiviteAssociationType">
     <xs:sequence>
+      <xs:element name="IdentifiantEDemandeActivite" type="xs:string" minOccurs="0">
+         <xs:annotation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+             Identifiant EDemande de l'activité
+           </xs:documentation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+             Identifiant EDemande de l'activité
+           </xs:documentation>
+           <xs:appinfo>
+             <common>
+               <step name="administration" />
+             </common>
+             <bo column="1" />
+           </xs:appinfo>
+         </xs:annotation>
+      </xs:element>
       <xs:element name="SportPratique" type="sagr:SagrSportPratiqueType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
@@ -1058,7 +1107,22 @@
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-      <xs:element name="SommeAlloueeActivite" type="xs:string" minOccurs="0">
+      <xs:element name="SommeSolliciteeActivite" type="xs:decimal">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Somme sollicitée
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="activites" />
+            </common>
+            <fo />
+            <bo />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="SommeAlloueeActivite" type="xs:decimal" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
             Somme allouée
@@ -1077,21 +1141,6 @@
 
   <xs:complexType name="SagrSubventionPubliqueFonctionnementType">
     <xs:sequence>
-      <xs:element name="SubventionSolliciteConseilGeneral" type="xs:string">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Subvention sollicitée auprès du Conseil Général
-          </xs:documentation>
-          <xs:appinfo>
-            <common>
-              <step name="subvention" />
-            </common>
-            <fo />
-            <bo />
-            <pdf />
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
       <xs:element name="BudgetSaisonEcouleeRecette" type="xs:string" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">

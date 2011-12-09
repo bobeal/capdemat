@@ -11,6 +11,11 @@
   </div>
   <dl class="required">
     
+      <dt class=""><g:message code="sagr.property.identifiantEDemandeActivite.label" />  : </dt>
+      <dd id="sagrActiviteAssociation[${listSize - 1 - index}].identifiantEDemandeActivite" class="action-editField validate-string i18n-sagr.property.identifiantEDemandeActivite" >
+        <span>${it?.identifiantEDemandeActivite}</span>
+      </dd>
+    
       <dt class="required condition-estAutreSportPratique-trigger"><g:message code="sagr.property.sportPratique.label" /> * : </dt>
       <dd id="sagrActiviteAssociation[${listSize - 1 - index}].sportPratique" class="action-editField validate-capdematEnum required-true i18n-sagr.property.sportPratique javatype-fr.cg95.cvq.business.request.social.SagrSportPratiqueType" >
         <g:capdematEnumToField var="${it?.sportPratique}" i18nKeyPrefix="sagr.property.sportPratique" />
@@ -51,8 +56,13 @@
         <span>${it?.totalLicencieActivite}</span>
       </dd>
     
+      <dt class="required"><g:message code="sagr.property.sommeSolliciteeActivite.label" /> * : </dt>
+      <dd id="sagrActiviteAssociation[${listSize - 1 - index}].sommeSolliciteeActivite" class="action-editField validate-decimal required-true i18n-sagr.property.sommeSolliciteeActivite" >
+        <span>${it?.sommeSolliciteeActivite}</span>
+      </dd>
+    
       <dt class=""><g:message code="sagr.property.sommeAlloueeActivite.label" />  : </dt>
-      <dd id="sagrActiviteAssociation[${listSize - 1 - index}].sommeAlloueeActivite" class="action-editField validate-string i18n-sagr.property.sommeAlloueeActivite" >
+      <dd id="sagrActiviteAssociation[${listSize - 1 - index}].sommeAlloueeActivite" class="action-editField validate-decimal i18n-sagr.property.sommeAlloueeActivite" >
         <span>${it?.sommeAlloueeActivite}</span>
       </dd>
     

@@ -1,12 +1,19 @@
 /* document management
 --------------------------------------------------------------*/
-
+#docs h3 span.help { 
+  display: block;
+  font-size: .8em;
+}
 #docs h4   { font-size: 1.4em; font-weight: normal; color: #DB4366; font-style: italic; }
 #docs h4 a { float: right; font-size: .9em; margin-right: 1em; }
 #docs h5   { font-size: 1.25em; }
 #docs .help {
   font-style: italic;
   color: #333;
+}
+#docs h4 span.help {
+  display: block;
+  font-size: .8em;
 }
 #docs dl { margin: 0 0 1em; overflow : auto; }
 #docs dt,

@@ -13,7 +13,10 @@
         <form method="post" enctype="multipart/form-data" action="${createLink(controller : 'frontofficeHomeFolderDocument', action : 'edit', params : callback.params)}">
           <g:if test="${flash.errorMessage}"><p class="error">${flash.errorMessage}</p></g:if>
 
-          <h3>${message(code:documentType.i18nKey)}</h3>
+          <h3>
+            ${message(code:documentType.i18nKey)}
+            <span class="help">${message(code: 'hf.' + documentType.i18nKey + '.help', default:'')}</span>
+          </h3>
           <g:if test="${document == null && documentsByTypes[documentType.id].available}">
             <h5>${message(code:'document.header.available')}</h5>
             <g:each in="${documentsByTypes}" var="type">

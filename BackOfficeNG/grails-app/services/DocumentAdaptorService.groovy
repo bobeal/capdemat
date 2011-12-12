@@ -53,6 +53,7 @@ public class DocumentAdaptorService {
         documentTypes.each {
             def docType = [
                 'id':it.id,
+                'key': CapdematUtils.adaptDocumentTypeName(it.name),
                 'name': messageSource.getMessage(CapdematUtils.adaptDocumentTypeName(it.name),null,SecurityContext.currentLocale),
                 'associated': requestDocumentService.getAssociatedDocumentsByType(rqt.id, it.id),
                 'provided': SecurityContext.currentEcitizen ? requestDocumentService.getProvidedNotAssociatedDocumentsByType(rqt.id, it.id) : []
@@ -137,6 +138,7 @@ public class DocumentAdaptorService {
             def documents = homeFolderDocumentsForType(homeFolderId, it.id)
             def type = [
                 'id':it.id,
+                'key': CapdematUtils.adaptDocumentTypeName(it.name),
                 'name': messageSource.getMessage(CapdematUtils.adaptDocumentTypeName(it.name),null,SecurityContext.currentLocale),
                 'linked': documents.linked,
                 'linkedAndInvalid': documents.linked.findAll { [DocumentState.OUTDATED, DocumentState.REFUSED].contains(it.state) },

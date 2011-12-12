@@ -1,4 +1,8 @@
-<h4 style="margin: .5em 0; font-size: 1.6em; font-style: normal; /* Mimick homefolder's h3 style. */">${message(code:documentType.i18nKey)}</h4>
+<h4 style="margin: .5em 0; font-size: 1.6em; font-style: normal; /* Mimick homefolder's h3 style. */">
+    ${message(code:documentType.i18nKey)}
+    <span class="help">${message(code:requestTypeAcronym + '.' + documentType.i18nKey + '.help', default:'')}</span>
+</h4>
+
 <g:if test="${document == null && documentsByTypes[documentType.id].provided}">
   <h5>${message(code:'document.header.available')}</h5>
   <g:each in="${documentsByTypes}" var="type">

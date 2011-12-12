@@ -4,6 +4,7 @@
       ${message(code:'action.attach')}
     </a>
     ${message(code:documentType.value.name)}
+    <span class="help">${message(code:requestTypeAcronym + '.' + documentType.value.key + '.help', default:'')}</span>
   </h4>
   <dl>
   <g:if test="${documentType.value.associated}">

@@ -1,0 +1,72 @@
+sisgr.duration.value =
+
+sisgr.property.subject.label = Sujet
+
+sisgr.step.enfant.label =
+sisgr.step.enfant.desc =
+
+sisgr.step.activites.label =
+sisgr.step.activites.desc =
+
+sisgr.step.paiement.label =
+sisgr.step.paiement.desc =
+
+
+sisgr.property.ecoleSecteur.help =
+sisgr.property.ecoleSecteur.validationError =
+
+
+sisgr.property.idEcoleSecteur.help =
+sisgr.property.idEcoleSecteur.validationError =
+
+
+sisgr.property.labelEcoleSecteur.help =
+sisgr.property.labelEcoleSecteur.validationError =
+
+
+sisgr.property.estAllergique.help =
+sisgr.property.estAllergique.validationError =
+
+
+sisgr.property.estHandicapeInvalidant.help =
+sisgr.property.estHandicapeInvalidant.validationError =
+
+
+sisgr.property.estRestauration.help =
+sisgr.property.estRestauration.validationError =
+
+
+sisgr.property.inscriptionPeriscolaire.help =
+sisgr.property.inscriptionPeriscolaire.validationError =
+
+
+sisgr.property.accueilMatin.help =
+sisgr.property.accueilMatin.validationError =
+
+
+sisgr.property.accueilSoir.help =
+sisgr.property.accueilSoir.validationError =
+
+
+sisgr.property.accueilMercrediEtVacances.help =
+sisgr.property.accueilMercrediEtVacances.validationError =
+
+
+sisgr.property.etudesSurveillees.help =
+sisgr.property.etudesSurveillees.validationError =
+
+
+sisgr.property.reglementInterieur.help =
+sisgr.property.reglementInterieur.validationError =
+
+
+sisgr.property.modeReglement.help =
+sisgr.property.modeReglement.validationError =
+
+
+
+sisgr.step.homeFolder.label = Compte famille
+sisgr.step.homeFolder.desc = Composition de votre compte famille
+
+sisgr.incitationText.desc = <span style="font-weight: bold;">Avant de continuer votre demande, merci de :</span><br /> - vérifier l''exactitude des informations de votre compte et des membres qui le compose<br /> - compléter votre compte en ajoutant tous les membres de votre famille (responsables légaux et enfants).<br /><br /><a href="{0}">Je souhaite accéder à mon compte pour le mettre à jour.</a><br /><span style="font-style: italic; font-size: 0.9em;">(Vous pourrez reprendre votre demande après avoir mis à jour votre compte.)
+sisgr.incitationText.desc2 = <a href="{0}">Je souhaite accéder à mon compte pour le mettre à jour.</a><br /><span style="font-style: italic; font-size: 0.9em;">(Vous pourrez reprendre votre demande après avoir mis à jour votre compte.)</span>

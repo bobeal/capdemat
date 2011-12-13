@@ -66,6 +66,7 @@
                 <value>Global School Registration</value>
                 <value>Leisure Center Registration</value>
                 <value>Holiday Camp Registration</value>
+                <value>Saintouen Inscription Scolaire Globale</value>
               </list>
             </property>
             <property name="serviceProperties">

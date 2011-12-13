@@ -386,6 +386,12 @@
     alter table sagr_membre_bureau 
         drop constraint FK4697AB73CB99EC99;
 
+    alter table saintouen_inscription_scolaire_globale_request_mode_reglement 
+        drop constraint FKF3C59C1D4F54D979;
+
+    alter table saintouen_inscription_scolaire_globale_request_mode_reglement 
+        drop constraint FKF3C59C1D5B36E4;
+
     alter table school_canteen_registration_request 
         drop constraint FKDC4CBC6920540B7;
 
@@ -693,6 +699,10 @@
     drop table sagr_activite_association cascade;
 
     drop table sagr_membre_bureau cascade;
+
+    drop table saintouen_inscription_scolaire_globale_request cascade;
+
+    drop table saintouen_inscription_scolaire_globale_request_mode_reglement cascade;
 
     drop table school cascade;
 
@@ -2415,6 +2425,28 @@
         primary key (id)
     );
 
+    create table saintouen_inscription_scolaire_globale_request (
+        id int8 not null,
+        accueil_matin bool,
+        accueil_mercredi_et_vacances bool,
+        accueil_soir bool,
+        est_allergique bool,
+        est_handicape_invalidant bool,
+        est_restauration bool,
+        etudes_surveillees bool,
+        id_ecole_secteur varchar(255),
+        label_ecole_secteur varchar(255),
+        reglement_interieur bool,
+        primary key (id)
+    );
+
+    create table saintouen_inscription_scolaire_globale_request_mode_reglement (
+        saintouen_inscription_scolaire_globale_request_id int8 not null,
+        mode_reglement_id int8 not null,
+        mode_reglement_index int4 not null,
+        primary key (saintouen_inscription_scolaire_globale_request_id, mode_reglement_index)
+    );
+
     create table school (
         id int8 not null,
         active bool,
@@ -3403,6 +3435,16 @@
         add constraint FK4697AB73CB99EC99 
         foreign key (sports_associations_grant_request_id) 
         references sports_associations_grant_request;
+
+    alter table saintouen_inscription_scolaire_globale_request_mode_reglement 
+        add constraint FKF3C59C1D4F54D979 
+        foreign key (saintouen_inscription_scolaire_globale_request_id) 
+        references saintouen_inscription_scolaire_globale_request;
+
+    alter table saintouen_inscription_scolaire_globale_request_mode_reglement 
+        add constraint FKF3C59C1D5B36E4 
+        foreign key (mode_reglement_id) 
+        references local_referential_data;
 
     alter table school_canteen_registration_request 
         add constraint FKDC4CBC6920540B7 

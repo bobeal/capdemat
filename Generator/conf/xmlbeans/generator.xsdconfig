@@ -209,4 +209,9 @@
     <xb:package>fr.cg95.cvq.xml.request.social</xb:package>
   </xb:namespace>
 
+  <!--Saintouen Inscription Scolaire Globale Request  -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/sisgr">
+    <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
+  </xb:namespace>
+
 </xb:config>

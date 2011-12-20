@@ -156,8 +156,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="RulesAndRegulationsAcceptance" type="cvq:AcceptanceType"
-              default="false">
+            <xs:element name="RulesAndRegulationsAcceptance" type="cvq:AcceptanceType" default="false" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Prise en compte et acceptation du règlement intérieur
@@ -175,7 +174,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="ClassTripPermission" type="cvq:AcceptanceType" default="false">
+            <xs:element name="ClassTripPermission" type="cvq:AcceptanceType" default="false" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Autorisation de l'enfant à participer aux sorties organisées
@@ -193,8 +192,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="ChildPhotoExploitationPermission" type="cvq:AcceptanceType"
-              default="false">
+            <xs:element name="ChildPhotoExploitationPermission" type="cvq:AcceptanceType" default="false" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Autorisation accordée à l'école concernant l'exposition et 
@@ -213,7 +211,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="HospitalizationPermission" type="cvq:AcceptanceType" default="false">
+            <xs:element name="HospitalizationPermission" type="cvq:AcceptanceType" default="false" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Autorisation de l'enfant à être soigné, hospitalisé et opéré si nécessaire

@@ -84,19 +84,19 @@
             
               
               <dl>
-                <dt class="required"><g:message code="lrr.property.rulesAndRegulationsAcceptance.label" /> * : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance required-true i18n-lrr.property.rulesAndRegulationsAcceptance" ><span class="value-${rqt?.rulesAndRegulationsAcceptance}"><g:message code="message.${rqt?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
+                <dt class=""><g:message code="lrr.property.rulesAndRegulationsAcceptance.label" />  : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance i18n-lrr.property.rulesAndRegulationsAcceptance" ><span class="value-${rqt?.rulesAndRegulationsAcceptance}"><g:message code="message.${rqt?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="lrr.property.parentalAuthorization.label" /> * : </dt><dd id="parentalAuthorization" class="action-editField validate-acceptance required-true i18n-lrr.property.parentalAuthorization" ><span class="value-${rqt?.parentalAuthorization}"><g:message code="message.${rqt?.parentalAuthorization ? 'yes' : 'no'}" /></span></dd>
+                <dt class=""><g:message code="lrr.property.parentalAuthorization.label" />  : </dt><dd id="parentalAuthorization" class="action-editField validate-acceptance i18n-lrr.property.parentalAuthorization" ><span class="value-${rqt?.parentalAuthorization}"><g:message code="message.${rqt?.parentalAuthorization ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="lrr.property.adultContentAuthorization.label" /> * : </dt><dd id="adultContentAuthorization" class="action-editField validate-acceptance required-true i18n-lrr.property.adultContentAuthorization" ><span class="value-${rqt?.adultContentAuthorization}"><g:message code="message.${rqt?.adultContentAuthorization ? 'yes' : 'no'}" /></span></dd>
+                <dt class=""><g:message code="lrr.property.adultContentAuthorization.label" />  : </dt><dd id="adultContentAuthorization" class="action-editField validate-acceptance i18n-lrr.property.adultContentAuthorization" ><span class="value-${rqt?.adultContentAuthorization}"><g:message code="message.${rqt?.adultContentAuthorization ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             

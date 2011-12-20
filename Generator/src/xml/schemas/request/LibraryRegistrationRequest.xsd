@@ -66,8 +66,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="RulesAndRegulationsAcceptance" type="cvq:AcceptanceType"
-              default="false">
+            <xs:element name="RulesAndRegulationsAcceptance" type="cvq:AcceptanceType" default="false" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Formulaire concernant l'acceptation du règlement intérieur
@@ -85,7 +84,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="ParentalAuthorization" type="cvq:AcceptanceType" default="false">
+            <xs:element name="ParentalAuthorization" type="cvq:AcceptanceType" default="false" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Autorisation délivrée à l'enfant à emprunter des documents et déclaration du parent 
@@ -104,7 +103,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="AdultContentAuthorization" type="cvq:AcceptanceType" default="false">
+            <xs:element name="AdultContentAuthorization" type="cvq:AcceptanceType" default="false" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Autorisation délivrée à l'enfant à emprunter des documents dans la section « Adultes » et déclaration du parent comme responsable de ses choix

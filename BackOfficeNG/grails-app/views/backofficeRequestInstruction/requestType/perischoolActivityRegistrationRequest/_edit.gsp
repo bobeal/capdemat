@@ -154,25 +154,25 @@
             
               
               <dl>
-                <dt class="required"><g:message code="parr.property.rulesAndRegulationsAcceptance.label" /> * : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance required-true i18n-parr.property.rulesAndRegulationsAcceptance" ><span class="value-${rqt?.rulesAndRegulationsAcceptance}"><g:message code="message.${rqt?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
+                <dt class=""><g:message code="parr.property.rulesAndRegulationsAcceptance.label" />  : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance i18n-parr.property.rulesAndRegulationsAcceptance" ><span class="value-${rqt?.rulesAndRegulationsAcceptance}"><g:message code="message.${rqt?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="parr.property.classTripPermission.label" /> * : </dt><dd id="classTripPermission" class="action-editField validate-acceptance required-true i18n-parr.property.classTripPermission" ><span class="value-${rqt?.classTripPermission}"><g:message code="message.${rqt?.classTripPermission ? 'yes' : 'no'}" /></span></dd>
+                <dt class=""><g:message code="parr.property.classTripPermission.label" />  : </dt><dd id="classTripPermission" class="action-editField validate-acceptance i18n-parr.property.classTripPermission" ><span class="value-${rqt?.classTripPermission}"><g:message code="message.${rqt?.classTripPermission ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="parr.property.childPhotoExploitationPermission.label" /> * : </dt><dd id="childPhotoExploitationPermission" class="action-editField validate-acceptance required-true i18n-parr.property.childPhotoExploitationPermission" ><span class="value-${rqt?.childPhotoExploitationPermission}"><g:message code="message.${rqt?.childPhotoExploitationPermission ? 'yes' : 'no'}" /></span></dd>
+                <dt class=""><g:message code="parr.property.childPhotoExploitationPermission.label" />  : </dt><dd id="childPhotoExploitationPermission" class="action-editField validate-acceptance i18n-parr.property.childPhotoExploitationPermission" ><span class="value-${rqt?.childPhotoExploitationPermission}"><g:message code="message.${rqt?.childPhotoExploitationPermission ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="parr.property.hospitalizationPermission.label" /> * : </dt><dd id="hospitalizationPermission" class="action-editField validate-acceptance required-true i18n-parr.property.hospitalizationPermission" ><span class="value-${rqt?.hospitalizationPermission}"><g:message code="message.${rqt?.hospitalizationPermission ? 'yes' : 'no'}" /></span></dd>
+                <dt class=""><g:message code="parr.property.hospitalizationPermission.label" />  : </dt><dd id="hospitalizationPermission" class="action-editField validate-acceptance i18n-parr.property.hospitalizationPermission" ><span class="value-${rqt?.hospitalizationPermission}"><g:message code="message.${rqt?.hospitalizationPermission ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             

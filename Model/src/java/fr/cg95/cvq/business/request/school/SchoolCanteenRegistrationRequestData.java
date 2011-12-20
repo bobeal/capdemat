@@ -273,13 +273,6 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
     }
   
     
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "hospitalizationPermission"
-      )
-    
     private Boolean hospitalizationPermission;
 
     public void setHospitalizationPermission(final Boolean hospitalizationPermission) {
@@ -293,13 +286,6 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
         return this.hospitalizationPermission;
     }
   
-    
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "rulesAndRegulationsAcceptance"
-      )
     
     private Boolean rulesAndRegulationsAcceptance;
 

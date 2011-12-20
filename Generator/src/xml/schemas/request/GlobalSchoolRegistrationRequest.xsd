@@ -224,7 +224,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="AcceptationReglementInterieur" type="cvq:AcceptanceType" default="false">
+            <xs:element name="AcceptationReglementInterieur" type="cvq:AcceptanceType" default="false" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   J'accepte et je m'engage à respecter le règlement

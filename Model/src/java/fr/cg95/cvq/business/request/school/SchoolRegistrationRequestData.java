@@ -155,13 +155,6 @@ public class SchoolRegistrationRequestData implements Serializable {
     }
   
     
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "rulesAndRegulationsAcceptance"
-      )
-    
     private Boolean rulesAndRegulationsAcceptance;
 
     public void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {

@@ -189,7 +189,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="gsrr.property.acceptationReglementInterieur.label" /> * : </dt><dd id="acceptationReglementInterieur" class="action-editField validate-acceptance required-true i18n-gsrr.property.acceptationReglementInterieur" ><span class="value-${rqt?.acceptationReglementInterieur}"><g:message code="message.${rqt?.acceptationReglementInterieur ? 'yes' : 'no'}" /></span></dd>
+                <dt class=""><g:message code="gsrr.property.acceptationReglementInterieur.label" />  : </dt><dd id="acceptationReglementInterieur" class="action-editField validate-acceptance i18n-gsrr.property.acceptationReglementInterieur" ><span class="value-${rqt?.acceptationReglementInterieur}"><g:message code="message.${rqt?.acceptationReglementInterieur ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             

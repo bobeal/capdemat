@@ -106,13 +106,6 @@ public class LibraryRegistrationRequestData implements Serializable {
 
   
     
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "adultContentAuthorization"
-      )
-    
     private Boolean adultContentAuthorization;
 
     public void setAdultContentAuthorization(final Boolean adultContentAuthorization) {
@@ -126,13 +119,6 @@ public class LibraryRegistrationRequestData implements Serializable {
         return this.adultContentAuthorization;
     }
   
-    
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "parentalAuthorization"
-      )
     
     private Boolean parentalAuthorization;
 
@@ -161,13 +147,6 @@ public class LibraryRegistrationRequestData implements Serializable {
         return this.registrationNumber;
     }
   
-    
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "rulesAndRegulationsAcceptance"
-      )
     
     private Boolean rulesAndRegulationsAcceptance;
 

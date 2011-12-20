@@ -143,13 +143,6 @@ public class SchoolTransportRegistrationRequestData implements Serializable {
 
   
     
-      @NotNull(
-        
-        
-        profiles = {"reglements"},
-        message = "acceptationReglementInterieur"
-      )
-    
     private Boolean acceptationReglementInterieur;
 
     public void setAcceptationReglementInterieur(final Boolean acceptationReglementInterieur) {

@@ -80,13 +80,6 @@ public class PessacAnimationRequestData implements Serializable {
 
   
     
-      @NotNull(
-        
-        
-        profiles = {"enfant"},
-        message = "acceptationReglementInterieur"
-      )
-    
     private Boolean acceptationReglementInterieur;
 
     public void setAcceptationReglementInterieur(final Boolean acceptationReglementInterieur) {

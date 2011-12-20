@@ -166,13 +166,6 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
     }
   
     
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "childPhotoExploitationPermission"
-      )
-    
     private Boolean childPhotoExploitationPermission;
 
     public void setChildPhotoExploitationPermission(final Boolean childPhotoExploitationPermission) {
@@ -186,13 +179,6 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
         return this.childPhotoExploitationPermission;
     }
   
-    
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "classTripPermission"
-      )
     
     private Boolean classTripPermission;
 
@@ -230,13 +216,6 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
         return this.contactIndividuals;
     }
   
-    
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "hospitalizationPermission"
-      )
     
     private Boolean hospitalizationPermission;
 
@@ -287,13 +266,6 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
         return this.perischoolActivity;
     }
   
-    
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "rulesAndRegulationsAcceptance"
-      )
     
     private Boolean rulesAndRegulationsAcceptance;
 

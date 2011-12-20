@@ -155,13 +155,6 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
     }
   
     
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "childPhotoExploitationPermission"
-      )
-    
     private Boolean childPhotoExploitationPermission;
 
     public void setChildPhotoExploitationPermission(final Boolean childPhotoExploitationPermission) {
@@ -175,13 +168,6 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
         return this.childPhotoExploitationPermission;
     }
   
-    
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "classTripPermission"
-      )
     
     private Boolean classTripPermission;
 
@@ -219,13 +205,6 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
         return this.contactIndividuals;
     }
   
-    
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "hospitalizationPermission"
-      )
     
     private Boolean hospitalizationPermission;
 
@@ -298,13 +277,6 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
         return this.recreationCenter;
     }
   
-    
-      @NotNull(
-        
-        
-        profiles = {"rules"},
-        message = "rulesAndRegulationsAcceptance"
-      )
     
     private Boolean rulesAndRegulationsAcceptance;
 

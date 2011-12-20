@@ -112,7 +112,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="lcrr.property.acceptationReglementInterieur.label" /> * : </dt><dd id="acceptationReglementInterieur" class="action-editField validate-acceptance required-true i18n-lcrr.property.acceptationReglementInterieur" ><span class="value-${rqt?.acceptationReglementInterieur}"><g:message code="message.${rqt?.acceptationReglementInterieur ? 'yes' : 'no'}" /></span></dd>
+                <dt class=""><g:message code="lcrr.property.acceptationReglementInterieur.label" />  : </dt><dd id="acceptationReglementInterieur" class="action-editField validate-acceptance i18n-lcrr.property.acceptationReglementInterieur" ><span class="value-${rqt?.acceptationReglementInterieur}"><g:message code="message.${rqt?.acceptationReglementInterieur ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             

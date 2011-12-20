@@ -6,6 +6,10 @@
           """
           <dd><g:message code="message.\${${wrapper}.${element.javaFieldName} ? 'yes' : 'no'}" /></dd>
           """
+      ,'checkbox' :
+          """
+          <dd><g:message code="message.\${${wrapper}.${element.javaFieldName} ? 'yes' : 'no'}" /></dd>
+          """
       ,'radio' :
           """
           <dd>

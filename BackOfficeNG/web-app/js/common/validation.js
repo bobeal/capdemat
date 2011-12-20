@@ -90,7 +90,7 @@
       },
 
       // TODO - manage multi-valued field
-      // FIXME - remanme
+      // FIXME - remame
       fieldCheck: function(el, sameNameField) {
         var props = {
           'value': el.value,
@@ -98,7 +98,7 @@
           'enhanceErrorEl': yud.getAncestorByTagName(el,'ul')
         };
         if (sameNameField != undefined) {
-          props.value = el.ckecked ? el.value : sameNameField.value;
+          props.value = el.checked ? el.value : sameNameField.value;
           props.checked = el.checked || sameNameField.checked;
         }
         return props;
@@ -108,7 +108,7 @@
         this.enhanceErrorEl = el;
         this.valid = true;
         this.value = el.value;
-        this.errorMsg =  yl.trim(el.title);
+        this.errorMsg = yl.trim(el.title);
         this.required = yud.hasClass(el, 'required');
         this.rule = /validate-([\w-]+)/i.test(el.className) ? /validate-([\w-]+)/i.exec(el.className)[1] : ''
 
@@ -225,6 +225,7 @@
     'lastName': new me.rule('regex', /^\D{0,38}$/),
     'hour': new me.rule('regex', /^([01][0-9]|2[0-3])$/), /* 00-23 */
     'minute': new me.rule('regex', /^[0-5][0-9]$/), /* 00-59 */
+    'acceptance': new me.rule('func', function(f){ console.log(f); return (f.checked && (f.value === "true")); }),
     /* address specific rules */
     'streetNumber': new me.rule('regex', /^.{0,5}$/),
     'streetName': new me.rule('regex', /^.{0,32}$/),

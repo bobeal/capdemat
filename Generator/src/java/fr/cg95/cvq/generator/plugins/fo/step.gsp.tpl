@@ -14,6 +14,28 @@
               </g:each>
             </ul>
             """
+        ,'checkbox' :
+            """
+            <ul \${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'class="validation-failed"' : ''}>
+              <li>
+                <input type="hidden" name="_${namePrefix}${element.javaFieldName}" /><!-- Grails 1.2.x convention to bind checkboxes. -->
+                <input type="checkbox" id="${IdRefNamePrefix}${element.javaFieldName}" name="${namePrefix}${element.javaFieldName}"
+                       class="${element.htmlClass}"
+                       title="\${message(code:'${element.i18nPrefixCode}.validationError')}"
+                       \${${valuePrefix}.${element.javaFieldName} ? 'checked="checked"' : ''} value="true" />
+                <label for="${IdRefNamePrefix}${element.javaFieldName}" class="${element.listenerConditionsClass}">
+                  \${message(code:'${element.i18nPrefixCode}.label')}${element.mandatory ? '*' : ''}
+                  <g:if test="\${availableRules.contains('$validationNamePrefix${element.javaFieldName}')}">
+                  <a target="_blank"
+                     href="\${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':rqt.requestType.label, 'filename':'${element.javaFieldName}']).encodeAsXML()}">
+                    <span>\${message(code:'request.action.consult.rules')}</span>
+                  </a>
+                  </g:if>
+                  <span>\${message(code:'${element.i18nPrefixCode}.help')}</span>
+                </label>
+              </li>
+            </ul>
+            """
         ,'radio' :
             """
             <ul class="${element.listenerConditionsClass} \${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}">
@@ -219,7 +241,7 @@
               <label class="${element.listenerConditionsClass}">
                 <g:message code="${element.i18nPrefixCode}.label" /> ${element.mandatory ? '*' : ''}
                 <g:if test="\${availableRules.contains('$validationNamePrefix${element.javaFieldName}')}">
-                  <p><a target="_blank" href="\${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':rqt.requestType.label, 'filename':'${element.javaFieldName}']).encodeAsXML()}"><span><g:message code="request.action.consult.rules" /></span></a></p>
+                  <a target="_blank" href="\${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':rqt.requestType.label, 'filename':'${element.javaFieldName}']).encodeAsXML()}"><span><g:message code="request.action.consult.rules" /></span></a>
                 </g:if>
                 <span><g:message code="${element.i18nPrefixCode}.help" /></span>
               </label>
@@ -235,7 +257,7 @@
       ]
       
       def output
-      if (['subject', 'acceptance', 'time'].contains(element.widget))
+      if (['subject', 'acceptance', 'time', 'checkbox'].contains(element.widget))
         output = ''
       else if (['radio', 'boolean', 'localReferentialData', 'address', 'date'].contains(element.widget))
         output = widgets['label']

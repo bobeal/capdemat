@@ -195,6 +195,8 @@ public class ElementModelProperties extends ElementProperties {
             annotations.put("NotNull", additionnalAttributes);
             if (widget == "string")
                 annotations.put("NotBlank", additionnalAttributes);
+            if (widget.equals("boolean") && xmlSchemaType.equals("AcceptanceType"))
+                annotations.put("AssertTrue", additionnalAttributes);
         } else {
             if (minOccurs != null && minOccurs.compareTo(BigInteger.ZERO) > 0) {
                 additionnalAttributes.put("value", minOccurs);

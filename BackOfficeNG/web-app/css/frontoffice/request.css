@@ -1,7 +1,7 @@
 /*--------------------------------------------------------------
 
     request
-    
+
 ---------------------------------------------------------------*/
 
 
@@ -120,7 +120,7 @@
   border-top-color: #DB4366;
   font-size: 1.1em; font-weight: normal;
   color: #095ba6;
-} 
+}
 
 #request #nextStep, #request .previousStep { font-size: 1.2em; }
 
@@ -138,6 +138,17 @@
 #request div.form .dataTree li ul li { width: 90%; padding: .2em 0 0 .4em; }
 #request div.form .dataTree li em    { font-size: 1.1em; font-style: italic; font-weight: bold; }
 
+/* checkboxes
+-------------------------------------------------------------- */
+#request div.form ul li input[type="checkbox"] + label {
+  display: block;
+  margin-left: 20px;
+  width: 100%;
+}
+
+#request div.form ul li input[type="checkbox"] {
+  float: left;
+}
 
 /* list
 -------------------------------------------------------------- */
@@ -291,22 +302,22 @@ div.error, span.error, p.error {
 .start-screen-details .group-box .yui-g { margin-bottom: 2em; }
 
 .start-screen-details .group-box span { font-weight: bold; }
-.start-screen-details .group-box p	   { margin: 1.5em 1em 1em 1em; font-size: 1.3em; clear: both !important;}
+.start-screen-details .group-box p    { margin: 1.5em 1em 1em 1em; font-size: 1.3em; clear: both !important;}
 
 .start-screen-details form { margin: .1em 1.5em ; }
-.start-screen-details form input[type="text"]{ 
-	display: block !important; 
-	width: 20%;
-  	margin: .1em 0 1em 0; 
-  	padding: .1em;
-  	border: 1px solid #cdcdcd;
-  	border-top-color: #DB4366;
-  	font-size: 1.1em; font-weight: normal;
-  	color: #095ba6;
+.start-screen-details form input[type="text"]{
+  display: block !important;
+  width: 20%;
+  margin: .1em 0 1em 0;
+  padding: .1em;
+  border: 1px solid #cdcdcd;
+  border-top-color: #DB4366;
+  font-size: 1.1em; font-weight: normal;
+  color: #095ba6;
 }
 
 .start-screen-details form input.submit-simulation {
 	width: 15%;
-	margin-left: 2.5%;	
+	margin-left: 2.5%;
 	font-size: 1.2em;
 }

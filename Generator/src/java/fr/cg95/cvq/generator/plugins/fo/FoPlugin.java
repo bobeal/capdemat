@@ -202,7 +202,8 @@ public class FoPlugin implements IPluginGenerator {
                     elementFo.setWidget("select");
                 if (appDoc.hasChildNode("radio"))
                     elementFo.setWidget("radio");
-                
+                if (appDoc.hasChildNode("checkbox"))
+                    elementFo.setWidget("checkbox");
                 if (appDoc.hasChildNode("textarea")) {
                     elementFo.setWidget("textarea");
                     elementFo.setRows(ApplicationDocumentation.getNodeAttributeValue(

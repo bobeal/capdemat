@@ -171,13 +171,17 @@ public class ElementFo extends ElementSpecific<ElementFo> {
             this.htmlClass += "validate-regex";
         else if (widget == null)
             return;
-        else if (widget.equals("select") && mandatory == true)
+        else if (widget.equals("select") && mandatory)
             this.htmlClass += "validate-not-first";
         else if (widget.equals("radio"))
             this.htmlClass += "validate-one-required";
         else if (widget.equals("boolean"))
             this.htmlClass += "validate-one-required boolean";
-        else 
+        else if ((widget.equals("checkbox") || widget.equals("acceptance"))) {
+            // Checks acceptance only if mandatory.
+            if (mandatory)
+                this.htmlClass += "validate-acceptance";
+        } else
             this.htmlClass += "validate-" + widget;
     }
 
@@ -192,7 +196,10 @@ public class ElementFo extends ElementSpecific<ElementFo> {
                 return;
             if (widget.equals("textarea") && !(type.equals("string") || type.equals("token")))
                 throw new RuntimeException("setWidget() - " +
-                		"<textarea /> can be only used for types {string, token}. [element: " + this.name + "]");
+                        "<textarea /> can only be used for types {string, token}. [element: " + this.name + "]");
+            if (widget.equals("checkbox") && !type.equals("AcceptanceType"))
+                throw new RuntimeException("setWidget() - " +
+                        "<checkbox /> can only be used for acceptance type. [element: " + this.name + "]");
             return;
         }
         this.widget = StringUtils.uncapitalize(StringUtils.removeEnd(type, "Type"));

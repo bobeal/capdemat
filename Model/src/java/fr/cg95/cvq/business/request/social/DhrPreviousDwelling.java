@@ -61,10 +61,10 @@ public class DhrPreviousDwelling implements Serializable {
         int i = 0;
     
         if (this.dhrPreviousDwellingStatus != null)
-            dhrPreviousDwelling.setDhrPreviousDwellingStatus(fr.cg95.cvq.xml.request.social.DhrDwellingStatusType.Enum.forString(this.dhrPreviousDwellingStatus.toString()));
+            dhrPreviousDwelling.setDhrPreviousDwellingStatus(fr.cg95.cvq.xml.request.social.DhrDwellingStatusType.Enum.forString(this.dhrPreviousDwellingStatus.getLegacyLabel()));
       
         if (this.dhrPreviousDwellingKind != null)
-            dhrPreviousDwelling.setDhrPreviousDwellingKind(fr.cg95.cvq.xml.request.social.DhrDwellingKindType.Enum.forString(this.dhrPreviousDwellingKind.toString()));
+            dhrPreviousDwelling.setDhrPreviousDwellingKind(fr.cg95.cvq.xml.request.social.DhrDwellingKindType.Enum.forString(this.dhrPreviousDwellingKind.getLegacyLabel()));
       
         dhrPreviousDwelling.setDhrPreviousDwellingComment(this.dhrPreviousDwellingComment);
       

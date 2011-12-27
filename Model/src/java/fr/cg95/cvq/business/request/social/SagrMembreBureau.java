@@ -67,7 +67,7 @@ public class SagrMembreBureau implements Serializable {
         sagrMembreBureau.setEmailMembre(this.emailMembre);
       
         if (this.roleMembre != null)
-            sagrMembreBureau.setRoleMembre(fr.cg95.cvq.xml.request.social.SagrRoleAutreMembreAssociationType.Enum.forString(this.roleMembre.toString()));
+            sagrMembreBureau.setRoleMembre(fr.cg95.cvq.xml.request.social.SagrRoleAutreMembreAssociationType.Enum.forString(this.roleMembre.getLegacyLabel()));
       
         sagrMembreBureau.setTelephoneMembre(this.telephoneMembre);
       

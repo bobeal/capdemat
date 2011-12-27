@@ -61,7 +61,7 @@ public class HcarHomeIntervenant implements Serializable {
         int i = 0;
     
         if (this.homeIntervenantKind != null)
-            hcarHomeIntervenant.setHomeIntervenantKind(fr.cg95.cvq.xml.request.social.HcarHomeIntervenantKindType.Enum.forString(this.homeIntervenantKind.toString()));
+            hcarHomeIntervenant.setHomeIntervenantKind(fr.cg95.cvq.xml.request.social.HcarHomeIntervenantKindType.Enum.forString(this.homeIntervenantKind.getLegacyLabel()));
       
         hcarHomeIntervenant.setHomeIntervenantDetails(this.homeIntervenantDetails);
       

@@ -37,7 +37,7 @@
       """,
       "enum" : """
         if (this.${element.nameAsParam} != null)
-            ${wrapper}.set${StringUtils.capitalize(element.nameAsParam)}(${element.xmlBeansPackageName}.${element.xmlSchemaType}.Enum.forString(this.${element.nameAsParam}.toString()));
+            ${wrapper}.set${StringUtils.capitalize(element.nameAsParam)}(${element.xmlBeansPackageName}.${element.xmlSchemaType}.Enum.forString(this.${element.nameAsParam}.getLegacyLabel()));
       """,
       "date" : """
         date = this.${element.nameAsParam};

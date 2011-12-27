@@ -79,7 +79,7 @@ public class DhrNotRealAsset implements Serializable {
         dhrNotRealAsset.setDhrNotRealAssetBeneficiaryFirstName(this.dhrNotRealAssetBeneficiaryFirstName);
       
         if (this.dhrNotRealAssetType != null)
-            dhrNotRealAsset.setDhrNotRealAssetType(fr.cg95.cvq.xml.request.social.DhrAssetTypeType.Enum.forString(this.dhrNotRealAssetType.toString()));
+            dhrNotRealAsset.setDhrNotRealAssetType(fr.cg95.cvq.xml.request.social.DhrAssetTypeType.Enum.forString(this.dhrNotRealAssetType.getLegacyLabel()));
       
         if (this.dhrNotRealAssetBeneficiaryAddress != null)
             dhrNotRealAsset.setDhrNotRealAssetBeneficiaryAddress(Address.modelToXml(this.dhrNotRealAssetBeneficiaryAddress));
@@ -88,7 +88,7 @@ public class DhrNotRealAsset implements Serializable {
             dhrNotRealAsset.setDhrNotRealAssetNotaryAddress(Address.modelToXml(this.dhrNotRealAssetNotaryAddress));
       
         if (this.dhrNotRealAssetKind != null)
-            dhrNotRealAsset.setDhrNotRealAssetKind(fr.cg95.cvq.xml.request.social.DhrAssetKindType.Enum.forString(this.dhrNotRealAssetKind.toString()));
+            dhrNotRealAsset.setDhrNotRealAssetKind(fr.cg95.cvq.xml.request.social.DhrAssetKindType.Enum.forString(this.dhrNotRealAssetKind.getLegacyLabel()));
       
         return dhrNotRealAsset;
     }

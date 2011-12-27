@@ -61,7 +61,7 @@ public class HccrHomeIntervenant implements Serializable {
         int i = 0;
     
         if (this.homeIntervenantKind != null)
-            hccrHomeIntervenant.setHomeIntervenantKind(fr.cg95.cvq.xml.request.social.HccrHomeIntervenantKindType.Enum.forString(this.homeIntervenantKind.toString()));
+            hccrHomeIntervenant.setHomeIntervenantKind(fr.cg95.cvq.xml.request.social.HccrHomeIntervenantKindType.Enum.forString(this.homeIntervenantKind.getLegacyLabel()));
       
         hccrHomeIntervenant.setHomeIntervenantDetails(this.homeIntervenantDetails);
       

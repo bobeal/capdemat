@@ -69,7 +69,7 @@ public class HccrFamilyDependent implements Serializable {
         }
       
         if (this.referentFamilyDependentActualSituation != null)
-            hccrFamilyDependent.setReferentFamilyDependentActualSituation(fr.cg95.cvq.xml.request.social.HccrReferentFamilyDependentActualSituationType.Enum.forString(this.referentFamilyDependentActualSituation.toString()));
+            hccrFamilyDependent.setReferentFamilyDependentActualSituation(fr.cg95.cvq.xml.request.social.HccrReferentFamilyDependentActualSituationType.Enum.forString(this.referentFamilyDependentActualSituation.getLegacyLabel()));
       
         hccrFamilyDependent.setReferentFamilyDependentLastName(this.referentFamilyDependentLastName);
       

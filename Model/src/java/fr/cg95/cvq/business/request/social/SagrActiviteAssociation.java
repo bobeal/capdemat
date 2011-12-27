@@ -61,7 +61,7 @@ public class SagrActiviteAssociation implements Serializable {
         int i = 0;
     
         if (this.sportPratique != null)
-            sagrActiviteAssociation.setSportPratique(fr.cg95.cvq.xml.request.social.SagrSportPratiqueType.Enum.forString(this.sportPratique.toString()));
+            sagrActiviteAssociation.setSportPratique(fr.cg95.cvq.xml.request.social.SagrSportPratiqueType.Enum.forString(this.sportPratique.getLegacyLabel()));
       
         sagrActiviteAssociation.setNumeroAffiliationActivite(this.numeroAffiliationActivite);
       
@@ -82,7 +82,7 @@ public class SagrActiviteAssociation implements Serializable {
         sagrActiviteAssociation.setFederationSportivePrecision(this.federationSportivePrecision);
       
         if (this.federationSportive != null)
-            sagrActiviteAssociation.setFederationSportive(fr.cg95.cvq.xml.request.social.SagrFederationSportiveType.Enum.forString(this.federationSportive.toString()));
+            sagrActiviteAssociation.setFederationSportive(fr.cg95.cvq.xml.request.social.SagrFederationSportiveType.Enum.forString(this.federationSportive.getLegacyLabel()));
       
         if (this.nombreLicencieMineurActivite != null)
             sagrActiviteAssociation.setNombreLicencieMineurActivite(this.nombreLicencieMineurActivite.longValue());

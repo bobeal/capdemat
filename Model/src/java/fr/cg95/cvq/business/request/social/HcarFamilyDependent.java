@@ -61,7 +61,7 @@ public class HcarFamilyDependent implements Serializable {
         int i = 0;
     
         if (this.familyDependentActualSituation != null)
-            hcarFamilyDependent.setFamilyDependentActualSituation(fr.cg95.cvq.xml.request.social.HcarFamilyDependentActualSituationType.Enum.forString(this.familyDependentActualSituation.toString()));
+            hcarFamilyDependent.setFamilyDependentActualSituation(fr.cg95.cvq.xml.request.social.HcarFamilyDependentActualSituationType.Enum.forString(this.familyDependentActualSituation.getLegacyLabel()));
       
         hcarFamilyDependent.setFamilyDependentLastName(this.familyDependentLastName);
       

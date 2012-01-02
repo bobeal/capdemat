@@ -97,8 +97,8 @@
 	<classpathentry kind="lib" path="Libraries/gson/gson-1.6.jar"/>
 	<classpathentry kind="lib" path="Libraries/com.zenexity/ZDB.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.hibernate/hibernate-jpa-2.0-api-1.0.0.Final.jar"/>
-	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.6.jar"/>
-	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-Model-4.6.jar"/>
-	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.6.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.6.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-Model-4.6.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.6.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

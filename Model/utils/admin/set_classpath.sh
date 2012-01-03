@@ -23,6 +23,7 @@ else
     for lib in $(find $libD  -name "*.jar"); do
       CLASSPATH="${CLASSPATH}:$lib"
     done
+  CLASSPATH="$CLASSPATH:$CAPDEMAT_HOME/BackOfficeNG/grails-app/conf:$CAPDEMAT_HOME/BackOfficeNG/grails-app/conf/spring:$CAPDEMAT_HOME/Model/test/conf/spring:$CAPDEMAT_HOME/Libraries/conf/deployments"
 fi
 
 for dir in $(echo $CommonLibPath | sed 's/:/ /g'); do

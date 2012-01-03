@@ -35,19 +35,19 @@
       <div id="loginInformations" class="${params.boolean == null || params.boolean('temporary') ? 'hidden' : ''}">
     </g:if>
     <label for="password" class="required">
-      ${message(code:'request.step.validation.label.choosePassword')}
+      ${message(code:'request.step.validation.label.choosePassword')} *
       <span>(${message(code:'request.step.validation.help.choosePassword')})</span>
     </label>
     <input type="password" id="password" name="password" value=""
       class="required ${invalidFields?.contains('password') ? 'validation-failed' : ''}"
       title="${message(code:'homeFolder.adult.property.password.validationError')}" />
-    <label for="confirmPassword" class="required">${message(code:'request.step.validation.label.confirmPassword')}</label>
+    <label for="confirmPassword" class="required">${message(code:'request.step.validation.label.confirmPassword')} *</label>
     <input type="password" id="confirmPassword" name="confirmPassword" value=""
       class="required ${invalidFields?.contains('confirmPassword') ? 'validation-failed' : ''}"
       title="${message(code:'homeFolder.adult.property.password.validationError')}" />
     <p>${message(code:'homeFolder.adult.help.question')}</p>
     <label for="question" class="required">
-      ${message(code:'homeFolder.adult.property.question')}
+      ${message(code:'homeFolder.adult.property.question')} *
     </label>
     <select id="question" name="question"
       class="required validate-not-first ${invalidFields?.contains('question') ? 'validation-failed' : ''}"
@@ -62,7 +62,7 @@
         </option>
       </g:each>
     </select>
-    <label for="answer" class="required">${message(code:'homeFolder.adult.property.answer')}</label>
+    <label for="answer" class="required">${message(code:'homeFolder.adult.property.answer')} *</label>
     <input type="text" id="answer" name="answer" value="${adult?.answer}"
       class="required ${invalidFields?.contains('answer') ? 'validation-failed' : ''}"
       title="${message(code:'homeFolder.adult.property.answer.validationError')}" />
@@ -70,7 +70,7 @@
       </div>
     </g:if>
     <label for="captchaText" class="required">
-      ${message(code:'request.step.validation.label.typeTextInImage')}
+      ${message(code:'request.step.validation.label.typeTextInImage')} *
     </label>
     <jcaptcha:jpeg name="captchaImage" alt="captcha" />
     <input type="text" id="captchaText" name="captchaText" autocomplete="off"

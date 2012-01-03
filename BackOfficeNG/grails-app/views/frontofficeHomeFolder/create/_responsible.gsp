@@ -38,11 +38,13 @@
       ${message(code:'request.step.validation.label.choosePassword')} *
       <span>(${message(code:'request.step.validation.help.choosePassword')})</span>
     </label>
-    <input type="password" id="password" name="password" value=""
+    <input type="password" id="password" name="password" value="${adult?.password}"
+      autocomplete="off"
       class="required ${invalidFields?.contains('password') ? 'validation-failed' : ''}"
       title="${message(code:'homeFolder.adult.property.password.validationError')}" />
     <label for="confirmPassword" class="required">${message(code:'request.step.validation.label.confirmPassword')} *</label>
-    <input type="password" id="confirmPassword" name="confirmPassword" value=""
+    <input type="password" id="confirmPassword" name="confirmPassword" value="${adult?.confirmPassword}"
+      autocomplete="off"
       class="required ${invalidFields?.contains('confirmPassword') ? 'validation-failed' : ''}"
       title="${message(code:'homeFolder.adult.property.password.validationError')}" />
     <p>${message(code:'homeFolder.adult.help.question')}</p>

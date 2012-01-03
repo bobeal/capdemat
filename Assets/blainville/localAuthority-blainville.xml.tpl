@@ -8,6 +8,7 @@
     init-method="init">
     <property name="name" value="blainville"/>
     <property name="defaultServerName" value="localhost"/>
+    <property name="defaultEmail" value="sansmail@blainville.fr"/>
     <property name="autotransition" value="true"/>
     <property name="jpaConfigurations">
         <props>

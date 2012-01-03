@@ -12,6 +12,7 @@ import fr.cg95.cvq.service.users.IUserWorkflowService
 import fr.cg95.cvq.exception.CvqModelException
 import com.octo.captcha.service.CaptchaServiceException
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
+import net.sf.oval.constraint.EmailCheck
 
 import java.util.Map
 import java.util.List
@@ -430,6 +431,59 @@ class FrontofficeHomeFolderController {
                 }
                 historize("connexion", currentEcitizen)
                 flash.successMessage = message("code":"homeFolder.adult.property.question.changeSuccess")
+            }
+            redirect(controller : "frontofficeHomeFolder")
+        }
+    }
+
+    def editImportedAccount = {
+        def model = ["adult": currentEcitizen,
+            "passwordMinLength" : authenticationService.passwordMinLength]
+        if (request.get) {
+            return model
+        } else if (request.post) {
+            if (params.cancel == null) {
+                try {
+                    authenticationService.authenticate(currentEcitizen.login, params.oldPassword)
+                } catch (CvqAuthenticationFailedException e) {
+                    flash.errorMessage = message("code":"homeFolder.adult.property.oldPassword.validationError")
+                    return model
+                }
+
+                if (params.email == null || params.email.trim().isEmpty() ||
+                    ! new EmailCheck().isSatisfied(null, params.email, null, null)) {
+                    flash.errorMessage = message("code":"homeFolder.adult.property.email.validationError")
+                    return model
+                }
+
+                if (params.question != message("code":"homeFolder.adult.question.q1")
+                       && params.question != message("code":"homeFolder.adult.question.q2")
+                       && params.question != message("code":"homeFolder.adult.question.q3")
+                       && params.question != message("code":"homeFolder.adult.question.q4")
+                   ) {
+                    flash.errorMessage = message("code":"homeFolder.adult.property.question.validationError")
+                    return model
+                }
+                if (params.answer == null || params.answer.trim().isEmpty()) {
+                    flash.errorMessage = message("code":"homeFolder.adult.property.answer.validationError")
+                    return model
+                }
+
+                if (params.newPassword != params.newPasswordConfirmation) {
+                    flash.errorMessage = message("code":"homeFolder.adult.property.newPasswordConfirmation.validationError")
+                    return model
+                } else if (params.newPassword == null || params.newPassword.length() < authenticationService.passwordMinLength) {
+                    flash.errorMessage = message("code":"homeFolder.adult.property.newPassword.validationError", "args":[authenticationService.passwordMinLength])
+                    return model
+                }
+                try {
+                    userWorkflowService.modifyPassword(currentEcitizen, params.oldPassword, params.newPassword)
+                } catch (CvqBadPasswordException e) {
+                    flash.errorMessage = message("code":"homeFolder.adult.property.oldPassword.validationError")
+                    return model
+                }
+                historize("connexion", currentEcitizen)
+                historize("contact", currentEcitizen)
             }
             redirect(controller : "frontofficeHomeFolder")
         }

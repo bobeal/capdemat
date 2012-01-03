@@ -59,8 +59,11 @@ class BackofficeContactController {
         }
         def meansOfContacts = []
         meansOfContactService.getAdultEnabledMeansOfContact(user).each {
+            if (!MeansOfContactEnum.EMAIL.equals(it.type) || !user.email.equals(
+                SecurityContext.getCurrentConfigurationBean().getDefaultEmail())) {
             meansOfContacts.add(
                 CapdematUtils.adaptCapdematEnum(it.type, "meansOfContact"))
+            }
         }
         meansOfContacts.each() {
             it.i18nKey = message(code:it.i18nKey)

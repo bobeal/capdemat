@@ -32,6 +32,7 @@ public final class LocalAuthorityConfigurationBean {
 
     private String name;
     private String defaultServerName;
+    private String defaultEmail;
 
     private Map<IPaymentProviderService, PaymentServiceBean> paymentServices;
     private ExternalServiceConfigurationBean escb;
@@ -312,5 +313,13 @@ public final class LocalAuthorityConfigurationBean {
 
     public void setAutotransition(boolean autotransition) {
         this.autotransition = autotransition;
+    }
+
+    public String getDefaultEmail() {
+        return defaultEmail;
+    }
+
+    public void setDefaultEmail(String defaultEmail) {
+        this.defaultEmail = defaultEmail;
     }
 }

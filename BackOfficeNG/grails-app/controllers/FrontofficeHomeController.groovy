@@ -95,6 +95,10 @@ class FrontofficeHomeController {
         result.requestTypes = requestTypeAdaptorService.getDisplayGroups(this.currentEcitizen?.homeFolder)
 
         result.documentsByTypes = documentAdaptorService.homeFolderDocumentsByType(currentEcitizen.homeFolder.id)
+
+        result.changeEmail = (currentEcitizen.email != null &&
+            !currentEcitizen.email.equals(
+                SecurityContext.getCurrentConfigurationBean().getDefaultEmail())) ? '0' : currentEcitizen.id
         return result
     }
     

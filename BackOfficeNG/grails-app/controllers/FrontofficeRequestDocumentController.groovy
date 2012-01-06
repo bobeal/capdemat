@@ -59,12 +59,13 @@ class FrontofficeRequestDocumentController {
                     if (request.getFile('documentData-0').empty)
                         throw new CvqModelException('document.error.mustHaveAtLeastOnePage')
                     document = new Document(SecurityContext.currentEcitizen?.homeFolder?.id,
-                        params.ecitizenNote, documentType,
+                        !params.ecitizenNote.isEmpty() ? params.ecitizenNote : request.getFile('documentData-0').getOriginalFilename(), documentType,
                         RequestState.DRAFT == rqt.state ? DocumentState.DRAFT : DocumentState.PENDING)
                     documentService.create(document)
                     requestDocumentService.addDocument(rqt, document.id)
                 }
-                document.ecitizenNote = params.ecitizenNote
+
+                document.ecitizenNote = !params.ecitizenNote.isEmpty() && request.getFile('documentData-0').getOriginalFilename().isEmpty() ? params.ecitizenNote : request.getFile('documentData-0').getOriginalFilename()
                 // update existing page
                 document.datas.eachWithIndex { data, index ->
                     documentService.modifyPage(document.id, index, request.getFile('documentData-' + index)?.bytes)  

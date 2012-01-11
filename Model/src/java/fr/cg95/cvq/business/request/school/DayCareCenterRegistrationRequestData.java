@@ -110,12 +110,6 @@ public class DayCareCenterRegistrationRequestData implements Serializable {
         
           
             
-        result.setDatePlacementFin(datePlacementFin);
-      
-          
-        
-          
-            
         result.setDixHuitMoisEnfant(dixHuitMoisEnfant);
       
           
@@ -602,20 +596,6 @@ public class DayCareCenterRegistrationRequestData implements Serializable {
       
     public java.util.Date getDatePlacementDebut() {
         return this.datePlacementDebut;
-    }
-  
-    
-    private java.util.Date datePlacementFin;
-
-    public void setDatePlacementFin(final java.util.Date datePlacementFin) {
-        this.datePlacementFin = datePlacementFin;
-    }
-
- 
-    @Column(name="date_placement_fin"  )
-      
-    public java.util.Date getDatePlacementFin() {
-        return this.datePlacementFin;
     }
   
     

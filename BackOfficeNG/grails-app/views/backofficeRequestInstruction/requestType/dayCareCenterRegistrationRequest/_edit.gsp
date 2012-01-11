@@ -161,8 +161,6 @@
                 
                   <dt class="required condition-dateConnue-filled"><g:message code="dccrr.property.datePlacementDebut.label" /> * : </dt><dd id="datePlacementDebut" class="action-editField validate-date required-true i18n-dccrr.property.datePlacementDebut" ><span><g:formatDate formatName="format.date" date="${rqt?.datePlacementDebut}"/></span></dd>
                 
-                  <dt class="condition-dateConnue-filled"><g:message code="dccrr.property.datePlacementFin.label" />  : </dt><dd id="datePlacementFin" class="action-editField validate-date i18n-dccrr.property.datePlacementFin" ><span><g:formatDate formatName="format.date" date="${rqt?.datePlacementFin}"/></span></dd>
-                
               </dl>
               
             

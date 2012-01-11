@@ -1139,27 +1139,6 @@
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-      <xs:element name="DatePlacementFin" type="xs:date" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            au
-                </xs:documentation>
-          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            au
-                </xs:documentation>
-          <xs:appinfo>
-            <common>
-              <step name="accueil" />
-              <conditions>
-                <condition name="dateConnue" type="filled" />
-              </conditions>
-            </common>
-            <fo />
-            <bo column="1" />
-            <pdf />
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
     </xs:sequence>
   </xs:complexType>
 

@@ -101,46 +101,6 @@
             
 
     
-      <label class="condition-dateConnue-filled"><g:message code="dccrr.property.datePlacementFin.label" />   <span><g:message code="dccrr.property.datePlacementFin.help" /></span></label>
-            <div class="date condition-dateConnue-filled  validate-date condition-dateConnue-filled ">
-              <select class="day ${rqt.stepStates['accueil'].invalidFields.contains('datePlacementFin') ? 'validation-failed' : ''}"
-                id="datePlacementFin_day"
-                name="datePlacementFin_day">
-                <option value=""><g:message code="message.select.defaultOption" /></option>
-                <g:each in="${1..31}">
-                  <option value="${it}"
-                    <g:if test="${rqt.datePlacementFin?.date == it
-                      || (rqt.datePlacementFin == null && params['datePlacementFin_day'] == it.toString())}">
-                      selected="selected"
-                    </g:if>>
-                    ${it}
-                  </option>
-                </g:each>
-              </select>
-              <select class="month ${rqt.stepStates['accueil'].invalidFields.contains('datePlacementFin') ? 'validation-failed' : ''}"
-                id="datePlacementFin_month"
-                name="datePlacementFin_month">
-                <option value=""><g:message code="message.select.defaultOption" /></option>
-                <g:each in="${1..12}">
-                  <option value="${it}"
-                    <g:if test="${rqt.datePlacementFin?.month == (it - 1)
-                      || (rqt.datePlacementFin == null && params['datePlacementFin_month'] == it.toString())}">
-                      selected="selected"
-                    </g:if>>
-                    <g:message code="month.${it}" />
-                  </option>
-                </g:each>
-              </select>
-              <input type="text" maxlength="4" size="3"
-                class="year ${rqt.stepStates['accueil'].invalidFields.contains('datePlacementFin') ? 'validation-failed' : ''}"
-                id="datePlacementFin_year"
-                name="datePlacementFin_year"
-                value="${rqt.datePlacementFin ? rqt.datePlacementFin.year + 1900 : params['datePlacementFin_year']}"
-                title="<g:message code="dccrr.property.datePlacementFin.validationError" />" />
-            </div>
-            
-
-    
     </fieldset>
   
 

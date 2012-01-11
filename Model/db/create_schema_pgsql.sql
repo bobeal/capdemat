@@ -965,7 +965,6 @@
         commune_lieu_travail_mere varchar(255),
         commune_lieu_travail_pere varchar(255),
         date_placement_debut timestamp,
-        date_placement_fin timestamp,
         dix_huit_mois_enfant timestamp,
         est_horaires_reguliers_mere bool,
         est_horaires_reguliers_pere bool,

@@ -141,12 +141,6 @@ public class DayCareCenterRegistrationRequest extends Request implements Seriali
             dccrrDatesPlacementTypeDatePlacementAccueilRegulier.setDatePlacementDebut(calendar);
         }
       
-        date = getDatePlacementFin();
-        if (date != null) {
-            calendar.setTime(date);
-            dccrrDatesPlacementTypeDatePlacementAccueilRegulier.setDatePlacementFin(calendar);
-        }
-      
         date = getDixHuitMoisEnfant();
         if (date != null) {
             calendar.setTime(date);
@@ -421,11 +415,6 @@ public class DayCareCenterRegistrationRequest extends Request implements Seriali
         calendar = dayCareCenterRegistrationRequestXml.getDatePlacementAccueilRegulier().getDatePlacementDebut();
         if (calendar != null) {
             dayCareCenterRegistrationRequest.setDatePlacementDebut(calendar.getTime());
-        }
-      
-        calendar = dayCareCenterRegistrationRequestXml.getDatePlacementAccueilRegulier().getDatePlacementFin();
-        if (calendar != null) {
-            dayCareCenterRegistrationRequest.setDatePlacementFin(calendar.getTime());
         }
       
         calendar = dayCareCenterRegistrationRequestXml.getDixHuitMoisEnfant();
@@ -759,15 +748,6 @@ public class DayCareCenterRegistrationRequest extends Request implements Seriali
     
     public final java.util.Date getDatePlacementDebut() {
         return dayCareCenterRegistrationRequestData.getDatePlacementDebut();
-    }
-  
-    public final void setDatePlacementFin(final java.util.Date datePlacementFin) {
-        dayCareCenterRegistrationRequestData.setDatePlacementFin(datePlacementFin);
-    }
-
-    
-    public final java.util.Date getDatePlacementFin() {
-        return dayCareCenterRegistrationRequestData.getDatePlacementFin();
     }
   
     public final void setDixHuitMoisEnfant(final java.util.Date dixHuitMoisEnfant) {

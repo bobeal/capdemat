@@ -173,11 +173,6 @@
           
 
         
-          <dt><g:message code="dccrr.property.datePlacementFin.label" /></dt>
-          <dd><g:formatDate formatName="format.date" date="${rqt.datePlacementFin}"/></dd>
-          
-
-        
       </dl>
       
     

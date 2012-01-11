@@ -3338,3 +3338,6 @@ alter table sports_associations_grant_request
     add constraint FKB93535BFD370CB5 
     foreign key (siege_social_association_id) 
     references address;
+
+-- Mise à jour du TS Multi-accueil
+ALTER TABLE day_care_center_registration_request DROP COLUMN date_placement_fin;

@@ -43,6 +43,7 @@ public class ExternalApplicationProviderService extends ExternalProviderServiceA
         Set<Critere> criteres = new HashSet<Critere>();
         criteres.add(new Critere(Payment.SEARCH_BY_HOME_FOLDER_ID, homeFolderId.toString(), Critere.EQUALS));
         criteres.add(new Critere(ExternalAccountItem.SEARCH_BY_EXTERNAL_SERVICE_LABEL, getLabel(), Critere.EQUALS));
+        criteres.add(new Critere(ExternalInvoiceItem.SEARCH_BY_EXPIRATION_DATE, new Date(), Critere.GTE));
 
         results.put(IPaymentService.EXTERNAL_INVOICES, paymentService.getInvoices(criteres, null, null, 0, 0));
         results.put(IPaymentService.EXTERNAL_DEPOSIT_ACCOUNTS, paymentService.getDepositAccounts(criteres, null, null, 0, 0));

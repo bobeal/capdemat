@@ -18,6 +18,7 @@
     <div class="yui-g">
       <div class="yui-u first main-box">
         <h2>${message(code:'account.message.useAccountToFillRequest')}</h2>
+        <p class="warning">${message(code :'account.message.localAuthorityInformation')}</p>
         <form action="${createLink(controller : 'frontofficeHome', action : 'login')}" method="post">
           <input type="hidden" name="targetURL"
             value="${createLink(controller : 'frontofficeRequestType', action : 'start', id : params.requestTypeLabel)}" />

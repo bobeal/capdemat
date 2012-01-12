@@ -55,6 +55,12 @@ public class LearningActivitiesDiscoveryRegistrationRequestData implements Seria
       
           
         
+          
+            
+        result.setAtelierEveilPrecisionChoix(atelierEveilPrecisionChoix);
+      
+          
+        
         return result;
     }
 
@@ -103,6 +109,38 @@ public class LearningActivitiesDiscoveryRegistrationRequestData implements Seria
       
     public List<fr.cg95.cvq.business.request.LocalReferentialData> getAtelierEveil() {
         return this.atelierEveil;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 255,
+        
+        
+        profiles = {"subject"},
+        message = "atelierEveilPrecisionChoix"
+      )
+    
+      @MatchPattern(
+        
+          pattern = "^[\\w\\W]{0,255}$",
+        
+        
+        profiles = {"subject"},
+        message = "atelierEveilPrecisionChoix"
+      )
+    
+    private String atelierEveilPrecisionChoix;
+
+    public void setAtelierEveilPrecisionChoix(final String atelierEveilPrecisionChoix) {
+        this.atelierEveilPrecisionChoix = atelierEveilPrecisionChoix;
+    }
+
+ 
+    @Column(name="atelier_eveil_precision_choix" , length=255 )
+      
+    public String getAtelierEveilPrecisionChoix() {
+        return this.atelierEveilPrecisionChoix;
     }
   
 }

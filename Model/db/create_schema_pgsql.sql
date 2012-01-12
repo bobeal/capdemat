@@ -1906,6 +1906,7 @@
 
     create table learning_activities_discovery_registration_request (
         id int8 not null,
+        atelier_eveil_precision_choix varchar(255),
         primary key (id)
     );
 

@@ -43,6 +43,12 @@
               </dl>
               
             
+              
+              <dl>
+                <dt class=""><g:message code="ladrr.property.atelierEveilPrecisionChoix.label" />  : </dt><dd id="atelierEveilPrecisionChoix" class="action-editField validate-regex i18n-ladrr.property.atelierEveilPrecisionChoix rows-3 maxLength-255" regex="^[\w\W]{0,255}$"><span>${rqt?.atelierEveilPrecisionChoix}</span></dd>
+              </dl>
+              
+            
           </div>
           <!-- column end -->
           

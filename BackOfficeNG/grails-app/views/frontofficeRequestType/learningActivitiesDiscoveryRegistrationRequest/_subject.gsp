@@ -42,3 +42,10 @@
 
   
 
+  
+    <label for="atelierEveilPrecisionChoix" class=""><g:message code="ladrr.property.atelierEveilPrecisionChoix.label" />   <span><g:message code="ladrr.property.atelierEveilPrecisionChoix.help" /></span></label>
+            <textarea id="atelierEveilPrecisionChoix" name="atelierEveilPrecisionChoix" class="  validate-regex ${rqt.stepStates['subject'].invalidFields.contains('atelierEveilPrecisionChoix') ? 'validation-failed' : ''}" title="<g:message code="ladrr.property.atelierEveilPrecisionChoix.validationError" />" rows="3" cols="" regex="^[\w\W]{0,255}$" maxlength="255">${rqt.atelierEveilPrecisionChoix}</textarea>
+            
+
+  
+

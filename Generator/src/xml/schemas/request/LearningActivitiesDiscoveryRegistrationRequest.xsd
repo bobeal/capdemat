@@ -60,6 +60,35 @@
               </xs:annotation>
             </xs:element>
 
+            <xs:element name="AtelierEveilPrecisionChoix" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Si vous avez un ordre de préférence, précisez votre choix 1 et choix 2
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Si vous avez un ordre de préférence, précisez votre choix 1 et choix 2
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="subject" />
+                    <validation jsregexp="^[\w\W]{0,255}$" />
+                  </common>
+                  <fo>
+                    <textarea rows="3" />
+                  </fo>
+                  <bo column="1">
+                    <textarea rows="3" />
+                  </bo>
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:pattern value="^[\w\W]{0,255}$" />
+                  <xs:maxLength value="255" />
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
           </xs:sequence>
         </xs:extension>
       </xs:complexContent>

@@ -113,6 +113,8 @@ public class LearningActivitiesDiscoveryRegistrationRequest extends Request impl
             learningActivitiesDiscoveryRegistrationRequest.setAtelierEveilArray(atelierEveilTypeTab);
         }
       
+        learningActivitiesDiscoveryRegistrationRequest.setAtelierEveilPrecisionChoix(getAtelierEveilPrecisionChoix());
+      
         return learningActivitiesDiscoveryRegistrationRequestDoc;
     }
 
@@ -134,6 +136,8 @@ public class LearningActivitiesDiscoveryRegistrationRequest extends Request impl
             atelierEveilList.add(fr.cg95.cvq.business.request.LocalReferentialData.xmlToModel(object));
         }
         learningActivitiesDiscoveryRegistrationRequest.setAtelierEveil(atelierEveilList);
+      
+        learningActivitiesDiscoveryRegistrationRequest.setAtelierEveilPrecisionChoix(learningActivitiesDiscoveryRegistrationRequestXml.getAtelierEveilPrecisionChoix());
       
         return learningActivitiesDiscoveryRegistrationRequest;
     }
@@ -175,6 +179,15 @@ public class LearningActivitiesDiscoveryRegistrationRequest extends Request impl
     
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getAtelierEveil() {
         return learningActivitiesDiscoveryRegistrationRequestData.getAtelierEveil();
+    }
+  
+    public final void setAtelierEveilPrecisionChoix(final String atelierEveilPrecisionChoix) {
+        learningActivitiesDiscoveryRegistrationRequestData.setAtelierEveilPrecisionChoix(atelierEveilPrecisionChoix);
+    }
+
+    
+    public final String getAtelierEveilPrecisionChoix() {
+        return learningActivitiesDiscoveryRegistrationRequestData.getAtelierEveilPrecisionChoix();
     }
   
 }

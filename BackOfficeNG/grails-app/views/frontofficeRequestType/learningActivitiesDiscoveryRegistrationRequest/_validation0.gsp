@@ -24,6 +24,13 @@
       </dl>
       
     
+      
+      <dl>
+        <dt><g:message code="ladrr.property.atelierEveilPrecisionChoix.label" /></dt><dd>${rqt.atelierEveilPrecisionChoix?.toString()}</dd>
+
+      </dl>
+      
+    
   
 
   

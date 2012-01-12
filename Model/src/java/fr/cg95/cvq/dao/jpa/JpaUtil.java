@@ -63,6 +63,7 @@ public class JpaUtil {
                 tx.commit();
                 threadEntityTransaction.set(null);
             } catch (final RollbackException rbe) {
+                logger.error("[#CVQE-01] Can't commit transaction : ", rbe);
                 rollbackTransaction();
             } catch (IllegalStateException ise) {
                 logger.warn("Sorry can't stop non started transaction");

@@ -144,6 +144,7 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
             RequestExternalAction trace = new RequestExternalAction();
             trace.setKeyOwner("capdemat");
             trace.setKey(r.getId());
+            trace.setName(SecurityContext.getCurrentExternalService());
             trace.setStatus(RequestExternalAction.Status.SENT);
 
             requestExternalActionService.addTrace(trace);

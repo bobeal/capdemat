@@ -1,5 +1,4 @@
 import fr.cg95.cvq.security.SecurityContext
-import fr.cg95.cvq.dao.hibernate.HibernateUtil
 import grails.converters.JSON
 
 public class SystemController {
@@ -10,13 +9,9 @@ public class SystemController {
         def currentSiteDisplayTitle = SecurityContext.currentSite.displayTitle
         def temporary = SecurityContext.currentEcitizen?.homeFolder?.isTemporary()
 
-        try {
-            HibernateUtil.rollbackTransaction();
-            HibernateUtil.closeSession();
-            SecurityContext.resetCurrentSite();
-        } catch (Throwable e) {
-        	log.error "Can't rollback hibernate transaction"
-        }
+        log.error "Error intercepted by system controller : ${exception}"
+        session.doRollback = true
+
         if (ExceptionUtils.isModelException(exception) && ExceptionUtils.isXRequestError(request))
             render(["status":"modelException", 
                     "message":exception.message, 

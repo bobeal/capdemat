@@ -86,6 +86,7 @@ public class JpaUtil {
      *             - if an unexpected error condition is encountered
      */
     public static void rollbackTransaction() {
+        logger.error("rollbackTransaction() Rollbacking ...");
         EntityTransaction entityTransaction = threadEntityTransaction.get();
         if (entityTransaction != null) {
             entityTransaction.rollback();

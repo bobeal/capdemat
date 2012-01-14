@@ -829,6 +829,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   </bean>
 
   <bean id="paymentService" class="fr.cg95.cvq.service.payment.impl.PaymentService">
+    <property name="genericDAO" ref="genericDAO" />
     <property name="paymentDAO" ref="paymentDAO" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
     <property name="mailService" ref="mailService" />

@@ -35,6 +35,8 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.UserAction;
 import fr.cg95.cvq.business.users.UserEvent;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
+import fr.cg95.cvq.dao.jpa.JpaUtil;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.dao.payment.IPaymentDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
@@ -66,6 +68,7 @@ public final class PaymentService implements IPaymentService,
 
     private static Logger logger = Logger.getLogger(PaymentService.class);
 
+    private IGenericDAO genericDAO;
     private IPaymentDAO paymentDAO;
     private ILocalAuthorityRegistry localAuthorityRegistry;
     private IMailService mailService;
@@ -209,7 +212,17 @@ public final class PaymentService implements IPaymentService,
       
         payment.setState(PaymentState.INITIALIZED);
         payment.setInitializationDate(new Date());
+
+        Set<PurchaseItem> purchaseItems = payment.getPurchaseItems();
+        if (purchaseItems != null){
+            Set<PurchaseItem> persistedPurchaseItems = new HashSet<PurchaseItem>();
+            for(PurchaseItem purchaseItem : purchaseItems){
+                persistedPurchaseItems.add((PurchaseItem) genericDAO.saveOrUpdate(purchaseItem));
+            }
+            payment.setPurchaseItems(persistedPurchaseItems);
+        }
         paymentDAO.saveOrUpdate(payment);
+        JpaUtil.getEntityManager().flush();
         
         return url;
     }
@@ -673,5 +686,13 @@ public final class PaymentService implements IPaymentService,
 
     public void setExternalApplicationService(IExternalApplicationService externalApplicationService) {
         this.externalApplicationService = externalApplicationService;
+    }
+
+    public IGenericDAO getGenericDAO() {
+        return genericDAO;
+    }
+
+    public void setGenericDAO(IGenericDAO genericDAO) {
+        this.genericDAO = genericDAO;
     }
 }

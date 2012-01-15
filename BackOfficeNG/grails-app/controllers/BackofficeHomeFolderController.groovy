@@ -28,6 +28,10 @@ import fr.cg95.cvq.security.annotation.ContextPrivilege
 import fr.cg95.cvq.exception.CvqModelException
 import fr.cg95.cvq.exception.CvqValidationException
 
+import fr.cg95.cvq.business.request.Request
+import fr.cg95.cvq.business.request.RequestState
+import fr.cg95.cvq.util.Critere
+
 import org.apache.xmlbeans.XmlError
 import org.apache.xmlbeans.XmlException
 import org.apache.xmlbeans.XmlOptions
@@ -115,6 +119,16 @@ class BackofficeHomeFolderController {
             children = userSearchService.getChildren(homeFolder.id)
         }
 
+        def unarchivableIndividuals = []
+            Critere critere = new Critere(Request.SEARCH_BY_HOME_FOLDER_ID, homeFolder.id, Critere.EQUALS)
+            Set<Critere> criteria = new HashSet<Critere>();
+            criteria.add(critere)
+            List<Request> homeFolderRequests = requestSearchService.get(criteria, null, null, -1, 0, false)
+            for (Request request : homeFolderRequests) {
+                if (request.state != RequestState.ARCHIVED && request.subjectId != null)
+                    unarchivableIndividuals.add(request.subjectId)
+            }
+
         def result = [:]
         result.homeFolder = homeFolder
         result.homeFolderResponsible = userSearchService.getHomeFolderResponsible(homeFolder.id)
@@ -156,6 +170,8 @@ class BackofficeHomeFolderController {
         result.agentCanWrite = agentCanWrite
 
         result.groups = requestTypeAdaptorService.getActiveRequestTypeByDisplayGroup(homeFolder)
+
+        result.unarchivableIndividuals = unarchivableIndividuals
 
         return result
     }

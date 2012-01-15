@@ -139,7 +139,7 @@
               </h2>
               <div class="new"></div>
               <g:each var="adult" in="${adults}">
-                <g:render template="static/adult" model="['adult':adult]" />
+                <g:render template="static/adult" model="['adult':adult,'unarchivable': unarchivableIndividuals.contains(adult.id)]" />
               </g:each>
             </div>
             <div class="yui-u">
@@ -149,7 +149,7 @@
               </h2>
               <div class="new"></div>
               <g:each var="child" in="${children}">
-                <g:render template="static/child" model="['child':child, 'roleOwners': responsibles[child.id], 'homeMappings' : homeMappings]" />
+                <g:render template="static/child" model="['child':child, 'roleOwners': responsibles[child.id], 'homeMappings' : homeMappings,'unarchivable': unarchivableIndividuals.contains(child.id)]" />
               </g:each>
             </div>
           </div>

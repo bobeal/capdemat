@@ -1,15 +1,18 @@
 import fr.cg95.cvq.authentication.IAuthenticationService
+import fr.cg95.cvq.business.request.Request
+import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.users.*
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException
 import fr.cg95.cvq.exception.CvqBadPasswordException
 import fr.cg95.cvq.exception.CvqValidationException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
+import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.users.IUserService
 import fr.cg95.cvq.service.users.IUserSearchService
 import fr.cg95.cvq.service.users.IUserWorkflowService
 import fr.cg95.cvq.service.request.IRequestSearchService
-
+import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.exception.CvqModelException
 import com.octo.captcha.service.CaptchaServiceException
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
@@ -92,6 +95,16 @@ class FrontofficeHomeFolderController {
         }.reverse()
         def lastMessage = homeFolderAdaptorService.prepareAction(actions[0])?.contact?.message
 
+        def unarchivableIndividuals = []
+        Critere critere = new Critere(Request.SEARCH_BY_HOME_FOLDER_ID, homeFolder.id, Critere.EQUALS)
+        Set<Critere> criteria = new HashSet<Critere>();
+        criteria.add(critere)
+        List<Request> homeFolderRequests = requestSearchService.get(criteria, null, null, -1, 0, false)
+        for (Request request : homeFolderRequests) {
+            if (request.state != RequestState.ARCHIVED && request.subjectId != null)
+                unarchivableIndividuals.add(request.subjectId)
+        }
+
         if (params.idToDelete)
             flash.idToDelete = Long.valueOf(params.idToDelete)
 
@@ -102,7 +115,8 @@ class FrontofficeHomeFolderController {
                 'children': children,
                 'childResponsibles' : childResponsibles,
                 'documentsByTypes' : documentAdaptorService.homeFolderDocumentsByType(homeFolder.id),
-                'lastMessage' : lastMessage]
+                'lastMessage' : lastMessage,
+                'unarchivableIndividuals' : unarchivableIndividuals]
     }
 
     def create = {

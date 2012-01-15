@@ -53,7 +53,8 @@
                   <g:if test="${adult.email}">
                     <dd>${adult.email}</dd>
                   </g:if>
-                  <g:render template="indexActions" model="['individual': adult]" />
+                  <g:render template="indexActions" 
+                    model="['individual': adult, 'unarchivable': unarchivableIndividuals.contains(adult.id)]" />
                 </dl>
               </g:each>
             </g:if>
@@ -94,7 +95,8 @@
                       </ul>
                     </dd>
                   </g:if>
-                  <g:render template="indexActions" model="['individual': child]" />
+                  <g:render template="indexActions" 
+                    model="['individual': child, 'unarchivable': unarchivableIndividuals.contains(child.id)]" />
                 </dl> 
               </g:each>
             </g:if>

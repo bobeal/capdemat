@@ -1,5 +1,5 @@
 <div id="child_${child.id}" class="individual collapse">
-  <g:if test="${child?.state?.toString() != 'Archived'}">
+  <g:if test="${child?.state?.toString() != 'Archived' && !unarchivable}">
   <a class="confirmRemoveIndividual" style="float: right;">${message(code:'action.delete')}</a>
   </g:if>
   <a class="toggle">${message(code:'action.expand')} / ${message(code:'action.collapse')}</a>

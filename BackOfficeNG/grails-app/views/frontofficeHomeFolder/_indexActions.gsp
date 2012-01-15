@@ -4,7 +4,7 @@
 <g:if test="${individual.id != flash.idToDelete}">
   <dd class="action">
     <a href="${createLink(action:className, params:['id':individual.id])}">${message(code:'homeFolder.individual.action.seeDetails')}</a>
-    <g:if test="${!individual.homeFolderResponsible()}">
+    <g:if test="${!individual.homeFolderResponsible() && !unarchivable}">
       / <a href="${createLink(action:'index', params:['idToDelete':individual.id])}">${message(code:'action.remove')}</a>
     </g:if>
   </dd>

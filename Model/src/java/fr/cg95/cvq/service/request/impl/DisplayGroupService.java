@@ -38,6 +38,7 @@ public class DisplayGroupService implements IDisplayGroupService, ILocalAuthorit
 
         Map<String, DisplayGroup> displayGroups = new HashMap<String, DisplayGroup>();
         displayGroups.put("school", new DisplayGroup("school","Scolaire"));
+        displayGroups.put("babyhood", new DisplayGroup("babyhood","Petite enfance"));
         displayGroups.put("civil", new DisplayGroup("civil","Etat civil"));
         displayGroups.put("social", new DisplayGroup("social","Social"));
         displayGroups.put("environment", new DisplayGroup("environment","Environnement"));

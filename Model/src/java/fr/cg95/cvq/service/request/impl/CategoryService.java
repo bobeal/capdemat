@@ -332,6 +332,7 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
         }
         // reuse existing defaultDisplayGroup label
         Map<String, Category> categories = new HashMap<String, Category>();
+        categories.put("babyhood", new Category("Petite Enfance", adminEmail));
         categories.put("civil", new Category("État civil", adminEmail));
         categories.put("urbanism", new Category("Urbanisme", adminEmail));
         categories.put("accounts", new Category("Gestion des comptes", adminEmail));

@@ -1,0 +1,283 @@
+sdccrr.duration.value =
+
+sdccrr.property.subject.label = Sujet
+
+sdccrr.step.subject.label =
+sdccrr.step.subject.desc =
+
+sdccrr.step.accueil.label =
+sdccrr.step.accueil.desc =
+
+sdccrr.step.rendezVous.label =
+sdccrr.step.rendezVous.desc =
+
+
+sdccrr.property.dixHuitMoisEnfant.help =
+sdccrr.property.dixHuitMoisEnfant.validationError =
+
+
+sdccrr.property.informationMere.help =
+sdccrr.property.informationMere.validationError =
+
+
+sdccrr.property.situationActuelleMere.help =
+sdccrr.property.situationActuelleMere.validationError =
+
+
+sdccrr.property.precisionAutreSituationActuelleMere.help =
+sdccrr.property.precisionAutreSituationActuelleMere.validationError =
+
+
+sdccrr.property.professionMere.help =
+sdccrr.property.professionMere.validationError =
+
+
+sdccrr.property.employeurMere.help =
+sdccrr.property.employeurMere.validationError =
+
+
+sdccrr.property.estHorairesReguliersMere.help =
+sdccrr.property.estHorairesReguliersMere.validationError =
+
+
+sdccrr.property.horairesReguliersMere.help =
+sdccrr.property.horairesReguliersMere.validationError =
+
+
+sdccrr.property.horairesTravailLundiMere.help =
+sdccrr.property.horairesTravailLundiMere.validationError =
+
+
+sdccrr.property.horairesTravailMardiMere.help =
+sdccrr.property.horairesTravailMardiMere.validationError =
+
+
+sdccrr.property.horairesTravailMercrediMere.help =
+sdccrr.property.horairesTravailMercrediMere.validationError =
+
+
+sdccrr.property.horairesTravailJeudiMere.help =
+sdccrr.property.horairesTravailJeudiMere.validationError =
+
+
+sdccrr.property.horairesTravailVendrediMere.help =
+sdccrr.property.horairesTravailVendrediMere.validationError =
+
+
+sdccrr.property.communeLieuTravailMere.help =
+sdccrr.property.communeLieuTravailMere.validationError =
+
+
+sdccrr.property.informationPere.help =
+sdccrr.property.informationPere.validationError =
+
+
+sdccrr.property.situationActuellePere.help =
+sdccrr.property.situationActuellePere.validationError =
+
+
+sdccrr.property.precisionAutreSituationActuellePere.help =
+sdccrr.property.precisionAutreSituationActuellePere.validationError =
+
+
+sdccrr.property.professionPere.help =
+sdccrr.property.professionPere.validationError =
+
+
+sdccrr.property.employeurPere.help =
+sdccrr.property.employeurPere.validationError =
+
+
+sdccrr.property.estHorairesReguliersPere.help =
+sdccrr.property.estHorairesReguliersPere.validationError =
+
+
+sdccrr.property.horairesReguliersPere.help =
+sdccrr.property.horairesReguliersPere.validationError =
+
+
+sdccrr.property.horairesTravailLundiPere.help =
+sdccrr.property.horairesTravailLundiPere.validationError =
+
+
+sdccrr.property.horairesTravailMardiPere.help =
+sdccrr.property.horairesTravailMardiPere.validationError =
+
+
+sdccrr.property.horairesTravailMercrediPere.help =
+sdccrr.property.horairesTravailMercrediPere.validationError =
+
+
+sdccrr.property.horairesTravailJeudiPere.help =
+sdccrr.property.horairesTravailJeudiPere.validationError =
+
+
+sdccrr.property.horairesTravailVendrediPere.help =
+sdccrr.property.horairesTravailVendrediPere.validationError =
+
+
+sdccrr.property.communeLieuTravailPere.help =
+sdccrr.property.communeLieuTravailPere.validationError =
+
+
+sdccrr.property.datePlacementAccueilRegulier.help =
+sdccrr.property.datePlacementAccueilRegulier.validationError =
+
+
+sdccrr.property.choixTypeDatePlacementAccueilRegulier.help =
+sdccrr.property.choixTypeDatePlacementAccueilRegulier.validationError =
+
+
+sdccrr.property.datePlacementDebut.help =
+sdccrr.property.datePlacementDebut.validationError =
+
+
+sdccrr.property.datePlacementFin.help =
+sdccrr.property.datePlacementFin.validationError =
+
+
+sdccrr.property.choixHorairesAccueil.help =
+sdccrr.property.choixHorairesAccueil.validationError =
+
+
+sdccrr.property.plageHoraireAccueilReguliere.help =
+sdccrr.property.plageHoraireAccueilReguliere.validationError =
+
+
+sdccrr.property.horairePlacementMatinDebut.help =
+sdccrr.property.horairePlacementMatinDebut.validationError =
+
+
+sdccrr.property.horairePlacementMatinFin.help =
+sdccrr.property.horairePlacementMatinFin.validationError =
+
+
+sdccrr.property.horairePlacementApresMidiDebut.help =
+sdccrr.property.horairePlacementApresMidiDebut.validationError =
+
+
+sdccrr.property.horairePlacementApresMidiFin.help =
+sdccrr.property.horairePlacementApresMidiFin.validationError =
+
+
+sdccrr.property.lundi.help =
+sdccrr.property.lundi.validationError =
+
+
+sdccrr.property.horairePlacementMatinDebutLundi.help =
+sdccrr.property.horairePlacementMatinDebutLundi.validationError =
+
+
+sdccrr.property.horairePlacementMatinFinLundi.help =
+sdccrr.property.horairePlacementMatinFinLundi.validationError =
+
+
+sdccrr.property.horairePlacementApresMidiDebutLundi.help =
+sdccrr.property.horairePlacementApresMidiDebutLundi.validationError =
+
+
+sdccrr.property.horairePlacementApresMidiFinLundi.help =
+sdccrr.property.horairePlacementApresMidiFinLundi.validationError =
+
+
+sdccrr.property.mardi.help =
+sdccrr.property.mardi.validationError =
+
+
+sdccrr.property.horairePlacementMatinDebutMardi.help =
+sdccrr.property.horairePlacementMatinDebutMardi.validationError =
+
+
+sdccrr.property.horairePlacementMatinFinMardi.help =
+sdccrr.property.horairePlacementMatinFinMardi.validationError =
+
+
+sdccrr.property.horairePlacementApresMidiDebutMardi.help =
+sdccrr.property.horairePlacementApresMidiDebutMardi.validationError =
+
+
+sdccrr.property.horairePlacementApresMidiFinMardi.help =
+sdccrr.property.horairePlacementApresMidiFinMardi.validationError =
+
+
+sdccrr.property.mercredi.help =
+sdccrr.property.mercredi.validationError =
+
+
+sdccrr.property.horairePlacementMatinDebutMercredi.help =
+sdccrr.property.horairePlacementMatinDebutMercredi.validationError =
+
+
+sdccrr.property.horairePlacementMatinFinMercredi.help =
+sdccrr.property.horairePlacementMatinFinMercredi.validationError =
+
+
+sdccrr.property.horairePlacementApresMidiDebutMercredi.help =
+sdccrr.property.horairePlacementApresMidiDebutMercredi.validationError =
+
+
+sdccrr.property.horairePlacementApresMidiFinMercredi.help =
+sdccrr.property.horairePlacementApresMidiFinMercredi.validationError =
+
+
+sdccrr.property.jeudi.help =
+sdccrr.property.jeudi.validationError =
+
+
+sdccrr.property.horairePlacementMatinDebutJeudi.help =
+sdccrr.property.horairePlacementMatinDebutJeudi.validationError =
+
+
+sdccrr.property.horairePlacementMatinFinJeudi.help =
+sdccrr.property.horairePlacementMatinFinJeudi.validationError =
+
+
+sdccrr.property.horairePlacementApresMidiDebutJeudi.help =
+sdccrr.property.horairePlacementApresMidiDebutJeudi.validationError =
+
+
+sdccrr.property.horairePlacementApresMidiFinJeudi.help =
+sdccrr.property.horairePlacementApresMidiFinJeudi.validationError =
+
+
+sdccrr.property.vendredi.help =
+sdccrr.property.vendredi.validationError =
+
+
+sdccrr.property.horairePlacementMatinDebutVendredi.help =
+sdccrr.property.horairePlacementMatinDebutVendredi.validationError =
+
+
+sdccrr.property.horairePlacementMatinFinVendredi.help =
+sdccrr.property.horairePlacementMatinFinVendredi.validationError =
+
+
+sdccrr.property.horairePlacementApresMidiDebutVendredi.help =
+sdccrr.property.horairePlacementApresMidiDebutVendredi.validationError =
+
+
+sdccrr.property.horairePlacementApresMidiFinVendredi.help =
+sdccrr.property.horairePlacementApresMidiFinVendredi.validationError =
+
+
+sdccrr.property.choixTypeRendezVous.help =
+sdccrr.property.choixTypeRendezVous.validationError =
+
+
+sdccrr.property.telephoneContact.help =
+sdccrr.property.telephoneContact.validationError =
+
+
+sdccrr.property.plageHoraireContact.help =
+sdccrr.property.plageHoraireContact.validationError =
+
+
+sdccrr.property.commentaireCitoyen.help =
+sdccrr.property.commentaireCitoyen.validationError =
+
+
+sdccrr.step.homeFolder.label = Compte famille
+sdccrr.step.homeFolder.desc = Composition de votre compte famille
+
+sdccrr.incitationText.desc = <span style="font-weight: bold;">Avant de continuer votre demande, merci de :</span><br /> - vérifier l''exactitude des informations de votre compte et des membres qui le compose<br /> - compléter votre compte en ajoutant tous les membres de votre famille (responsables légaux et enfants).<br /><br /><a href="{0}">Je souhaite accéder à mon compte pour le mettre à jour.</a><br /><span style="font-style: italic; font-size: 0.9em;">(Vous pourrez reprendre votre demande après avoir mis à jour votre compte.)
+sdccrr.incitationText.desc2 = <a href="{0}">Je souhaite accéder à mon compte pour le mettre à jour.</a><br /><span style="font-style: italic; font-size: 0.9em;">(Vous pourrez reprendre votre demande après avoir mis à jour votre compte.)</span>

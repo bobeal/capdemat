@@ -62,6 +62,7 @@
       <include name="RemoteSupportRequest.xsd" />
       <include name="RenewalPerischoolActivitiesRequest.xsd" />
       <include name="SaintouenInscriptionScolaireGlobaleRequest.xsd" />
+      <include name="SaintouenDayCareCenterRegistrationRequest.xsd" />
       <include name="SchoolCanteenRegistrationRequest.xsd" />
       <include name="SchoolRegistrationRequest.xsd" />
       <include name="SchoolTransportRegistrationRequest.xsd" />

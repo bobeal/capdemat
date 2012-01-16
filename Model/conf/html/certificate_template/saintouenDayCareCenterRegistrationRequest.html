@@ -1,0 +1,666 @@
+
+
+<%
+
+  import org.apache.commons.lang.StringUtils
+  import fr.cg95.cvq.util.EnumTool
+  import fr.cg95.cvq.business.users.RoleType
+  import fr.cg95.cvq.business.users.IndividualRole
+
+  def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
+  def localReferentialWidget(rqt, javaName, lrEntries, depth) {
+    def currentLrDatas = rqt[javaName].collect{it.name}
+    if (lrEntries.any{it.entries}) {
+      println "<ul ${depth==0 ? 'class="dataTree"' : ''}>"
+      
+      lrEntries.each { entry ->
+        println "<li>"
+        if (entry.entries) {
+          println "<em ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.label} :</em>"
+          localReferentialWidget(rqt, javaName, entry.entries, depth + 1)
+        } else {
+          println "<span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.label}</span>"
+        }
+        println "</li>"
+      }
+
+      println "</ul>"
+    } else {
+      lrEntries.eachWithIndex { entry, i ->
+        println "<span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.label}</span>${i + 1 < lrEntries.size() ? ', ' : ''}"
+      }
+    }
+  }
+
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>${esc(i18n.translate('sdccrr.label'))}</title>
+  <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
+</head>
+<body>
+  <div id="hd">
+    <p>${esc(localAuthority.displayTitle)}</p>
+    <img src="file://${logoPath}" alt="mairie2424" />
+  </div>
+  <h1>${esc(i18n.translate('sdccrr.label'))}</h1>
+  <div class="localAuthority">
+    <h2>${i18n.translate('pdf.localAutorityReservedSection')}</h2>
+    <ul>
+      <li>${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
+      <li>${i18n.translate('property.requester')} : <strong>${esc(rqt.requesterFirstName +' '+ rqt.requesterLastName)}</strong></li>
+      <li>${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong></li>
+      <li>${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
+    </ul>
+  </div>
+  <h2>${i18n.translate('request.property.requester')}</h2>
+  
+          <p class="label">
+            ${i18n.translate('homeFolder.adult.property.title')}
+            ${i18n.translate('homeFolder.individual.property.firstName')}
+            ${i18n.translate('homeFolder.individual.property.lastName')}
+          </p>
+          <div class="response">
+            <% if(requester?.title) { %>
+              ${i18n.translate('homeFolder.adult.title.' + StringUtils.lowerCase(requester?.title.toString()))}
+            <% } %>
+            ${esc(requester?.firstName)}
+            ${esc(requester?.lastName)}
+          </div>
+          <p class="label">${i18n.translate('homeFolder.individual.property.address')}</p>
+          <div class="response">
+            <% if (requester?.address) { %>
+              <p>${esc(StringUtils.defaultString(requester?.address?.additionalDeliveryInformation))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.additionalGeographicalInformation))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.streetNumber))} ${esc(StringUtils.defaultString(requester?.address?.streetName))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.placeNameOrService))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.postalCode))} ${esc(StringUtils.defaultString(requester?.address?.city))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.countryName))}</p>
+            <% } %>
+          </div>
+          <p class="label">${i18n.translate('homeFolder.adult.property.email')}</p>
+          <div class="response">${esc(StringUtils.defaultString(requester?.email))}</div>
+          <p class="label">${i18n.translate('homeFolder.adult.property.homePhone')}</p>
+          <div class="response">${esc(StringUtils.defaultString(requester?.homePhone))}</div>
+          <p class="label">${i18n.translate('homeFolder.adult.property.mobilePhone')}</p>
+          <div class="response">${esc(StringUtils.defaultString(requester?.mobilePhone))}</div>
+          <p class="label">${i18n.translate('homeFolder.adult.property.officePhone')}</p>
+          <div class="response">${esc(StringUtils.defaultString(requester?.officePhone))}</div>
+          
+
+
+  
+  <h2>${i18n.translate('sdccrr.step.subject.label')}</h2>
+  
+    
+      
+          <p class="label">${esc(i18n.translate('sdccrr.property.subject.label'))}</p>
+          <div class="response">${esc(subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName)}</div>
+          
+
+    
+  
+    
+      <h3>${i18n.translate('sdccrr.property.informationMere.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.situationActuelleMere.label'))}</p>
+          <div class="response">
+            <% if(rqt.situationActuelleMere) { %>
+              ${esc(i18n.translate('sdccrr.property.situationActuelleMere.' + EnumTool.toLowerCamelCase(rqt.situationActuelleMere.toString())))}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.precisionAutreSituationActuelleMere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.precisionAutreSituationActuelleMere?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.professionMere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.professionMere?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.employeurMere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.employeurMere?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.estHorairesReguliersMere.label'))}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.estHorairesReguliersMere ? 'class="checked"': ''}>
+                ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairesReguliersMere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesReguliersMere?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairesTravailLundiMere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesTravailLundiMere?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairesTravailMardiMere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesTravailMardiMere?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairesTravailMercrediMere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesTravailMercrediMere?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairesTravailJeudiMere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesTravailJeudiMere?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairesTravailVendrediMere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesTravailVendrediMere?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.communeLieuTravailMere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.communeLieuTravailMere?.toString()))}</div>
+
+        
+      </div>
+    
+  
+    
+      <h3>${i18n.translate('sdccrr.property.informationPere.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.situationActuellePere.label'))}</p>
+          <div class="response">
+            <% if(rqt.situationActuellePere) { %>
+              ${esc(i18n.translate('sdccrr.property.situationActuellePere.' + EnumTool.toLowerCamelCase(rqt.situationActuellePere.toString())))}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.precisionAutreSituationActuellePere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.precisionAutreSituationActuellePere?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.professionPere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.professionPere?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.employeurPere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.employeurPere?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.estHorairesReguliersPere.label'))}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.estHorairesReguliersPere ? 'class="checked"': ''}>
+                ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairesReguliersPere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesReguliersPere?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairesTravailLundiPere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesTravailLundiPere?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairesTravailMardiPere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesTravailMardiPere?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairesTravailMercrediPere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesTravailMercrediPere?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairesTravailJeudiPere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesTravailJeudiPere?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairesTravailVendrediPere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.horairesTravailVendrediPere?.toString()))}</div>
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.communeLieuTravailPere.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.communeLieuTravailPere?.toString()))}</div>
+
+        
+      </div>
+    
+  
+
+  
+  <h2>${i18n.translate('sdccrr.step.accueil.label')}</h2>
+  
+    
+      <h3>${i18n.translate('sdccrr.property.datePlacementAccueilRegulier.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.choixTypeDatePlacementAccueilRegulier.label'))}</p>
+          <div class="response">
+            <% if(rqt.choixTypeDatePlacementAccueilRegulier) { %>
+              ${esc(i18n.translate('sdccrr.property.choixTypeDatePlacementAccueilRegulier.' + EnumTool.toLowerCamelCase(rqt.choixTypeDatePlacementAccueilRegulier.toString())))}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.datePlacementDebut.label'))}</p>
+          <div class="response">${rqt.datePlacementDebut ? String.format('%td/%<tm/%<tY',rqt.datePlacementDebut) : ''}</div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.datePlacementFin.label'))}</p>
+          <div class="response">${rqt.datePlacementFin ? String.format('%td/%<tm/%<tY',rqt.datePlacementFin) : ''}</div>
+          
+
+        
+      </div>
+    
+  
+    
+      <p class="label">${esc(i18n.translate('sdccrr.property.choixHorairesAccueil.label'))}</p>
+          <div class="response">
+            <% if(rqt.choixHorairesAccueil) { %>
+              ${esc(i18n.translate('sdccrr.property.choixHorairesAccueil.' + EnumTool.toLowerCamelCase(rqt.choixHorairesAccueil.toString())))}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <h3>${i18n.translate('sdccrr.property.plageHoraireAccueilReguliere.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementMatinDebut.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementMatinDebut ? rqt.horairePlacementMatinDebut.getHourOfDay() : ''} :
+            ${rqt.horairePlacementMatinDebut && rqt.horairePlacementMatinDebut.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinDebut ? rqt.horairePlacementMatinDebut.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementMatinFin.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementMatinFin ? rqt.horairePlacementMatinFin.getHourOfDay() : ''} :
+            ${rqt.horairePlacementMatinFin && rqt.horairePlacementMatinFin.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinFin ? rqt.horairePlacementMatinFin.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementApresMidiDebut.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementApresMidiDebut ? rqt.horairePlacementApresMidiDebut.getHourOfDay() : ''} :
+            ${rqt.horairePlacementApresMidiDebut && rqt.horairePlacementApresMidiDebut.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiDebut ? rqt.horairePlacementApresMidiDebut.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementApresMidiFin.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementApresMidiFin ? rqt.horairePlacementApresMidiFin.getHourOfDay() : ''} :
+            ${rqt.horairePlacementApresMidiFin && rqt.horairePlacementApresMidiFin.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiFin ? rqt.horairePlacementApresMidiFin.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+      </div>
+    
+  
+    
+      <h3>${i18n.translate('sdccrr.property.lundi.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementMatinDebutLundi.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementMatinDebutLundi ? rqt.horairePlacementMatinDebutLundi.getHourOfDay() : ''} :
+            ${rqt.horairePlacementMatinDebutLundi && rqt.horairePlacementMatinDebutLundi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinDebutLundi ? rqt.horairePlacementMatinDebutLundi.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementMatinFinLundi.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementMatinFinLundi ? rqt.horairePlacementMatinFinLundi.getHourOfDay() : ''} :
+            ${rqt.horairePlacementMatinFinLundi && rqt.horairePlacementMatinFinLundi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinFinLundi ? rqt.horairePlacementMatinFinLundi.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementApresMidiDebutLundi.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementApresMidiDebutLundi ? rqt.horairePlacementApresMidiDebutLundi.getHourOfDay() : ''} :
+            ${rqt.horairePlacementApresMidiDebutLundi && rqt.horairePlacementApresMidiDebutLundi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiDebutLundi ? rqt.horairePlacementApresMidiDebutLundi.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementApresMidiFinLundi.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementApresMidiFinLundi ? rqt.horairePlacementApresMidiFinLundi.getHourOfDay() : ''} :
+            ${rqt.horairePlacementApresMidiFinLundi && rqt.horairePlacementApresMidiFinLundi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiFinLundi ? rqt.horairePlacementApresMidiFinLundi.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+      </div>
+    
+  
+    
+      <h3>${i18n.translate('sdccrr.property.mardi.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementMatinDebutMardi.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementMatinDebutMardi ? rqt.horairePlacementMatinDebutMardi.getHourOfDay() : ''} :
+            ${rqt.horairePlacementMatinDebutMardi && rqt.horairePlacementMatinDebutMardi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinDebutMardi ? rqt.horairePlacementMatinDebutMardi.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementMatinFinMardi.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementMatinFinMardi ? rqt.horairePlacementMatinFinMardi.getHourOfDay() : ''} :
+            ${rqt.horairePlacementMatinFinMardi && rqt.horairePlacementMatinFinMardi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinFinMardi ? rqt.horairePlacementMatinFinMardi.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementApresMidiDebutMardi.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementApresMidiDebutMardi ? rqt.horairePlacementApresMidiDebutMardi.getHourOfDay() : ''} :
+            ${rqt.horairePlacementApresMidiDebutMardi && rqt.horairePlacementApresMidiDebutMardi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiDebutMardi ? rqt.horairePlacementApresMidiDebutMardi.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementApresMidiFinMardi.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementApresMidiFinMardi ? rqt.horairePlacementApresMidiFinMardi.getHourOfDay() : ''} :
+            ${rqt.horairePlacementApresMidiFinMardi && rqt.horairePlacementApresMidiFinMardi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiFinMardi ? rqt.horairePlacementApresMidiFinMardi.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+      </div>
+    
+  
+    
+      <h3>${i18n.translate('sdccrr.property.mercredi.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementMatinDebutMercredi.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementMatinDebutMercredi ? rqt.horairePlacementMatinDebutMercredi.getHourOfDay() : ''} :
+            ${rqt.horairePlacementMatinDebutMercredi && rqt.horairePlacementMatinDebutMercredi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinDebutMercredi ? rqt.horairePlacementMatinDebutMercredi.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementMatinFinMercredi.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementMatinFinMercredi ? rqt.horairePlacementMatinFinMercredi.getHourOfDay() : ''} :
+            ${rqt.horairePlacementMatinFinMercredi && rqt.horairePlacementMatinFinMercredi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinFinMercredi ? rqt.horairePlacementMatinFinMercredi.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementApresMidiDebutMercredi.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementApresMidiDebutMercredi ? rqt.horairePlacementApresMidiDebutMercredi.getHourOfDay() : ''} :
+            ${rqt.horairePlacementApresMidiDebutMercredi && rqt.horairePlacementApresMidiDebutMercredi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiDebutMercredi ? rqt.horairePlacementApresMidiDebutMercredi.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementApresMidiFinMercredi.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementApresMidiFinMercredi ? rqt.horairePlacementApresMidiFinMercredi.getHourOfDay() : ''} :
+            ${rqt.horairePlacementApresMidiFinMercredi && rqt.horairePlacementApresMidiFinMercredi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiFinMercredi ? rqt.horairePlacementApresMidiFinMercredi.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+      </div>
+    
+  
+    
+      <h3>${i18n.translate('sdccrr.property.jeudi.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementMatinDebutJeudi.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementMatinDebutJeudi ? rqt.horairePlacementMatinDebutJeudi.getHourOfDay() : ''} :
+            ${rqt.horairePlacementMatinDebutJeudi && rqt.horairePlacementMatinDebutJeudi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinDebutJeudi ? rqt.horairePlacementMatinDebutJeudi.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementMatinFinJeudi.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementMatinFinJeudi ? rqt.horairePlacementMatinFinJeudi.getHourOfDay() : ''} :
+            ${rqt.horairePlacementMatinFinJeudi && rqt.horairePlacementMatinFinJeudi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinFinJeudi ? rqt.horairePlacementMatinFinJeudi.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementApresMidiDebutJeudi.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementApresMidiDebutJeudi ? rqt.horairePlacementApresMidiDebutJeudi.getHourOfDay() : ''} :
+            ${rqt.horairePlacementApresMidiDebutJeudi && rqt.horairePlacementApresMidiDebutJeudi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiDebutJeudi ? rqt.horairePlacementApresMidiDebutJeudi.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementApresMidiFinJeudi.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementApresMidiFinJeudi ? rqt.horairePlacementApresMidiFinJeudi.getHourOfDay() : ''} :
+            ${rqt.horairePlacementApresMidiFinJeudi && rqt.horairePlacementApresMidiFinJeudi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiFinJeudi ? rqt.horairePlacementApresMidiFinJeudi.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+      </div>
+    
+  
+    
+      <h3>${i18n.translate('sdccrr.property.vendredi.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementMatinDebutVendredi.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementMatinDebutVendredi ? rqt.horairePlacementMatinDebutVendredi.getHourOfDay() : ''} :
+            ${rqt.horairePlacementMatinDebutVendredi && rqt.horairePlacementMatinDebutVendredi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinDebutVendredi ? rqt.horairePlacementMatinDebutVendredi.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementMatinFinVendredi.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementMatinFinVendredi ? rqt.horairePlacementMatinFinVendredi.getHourOfDay() : ''} :
+            ${rqt.horairePlacementMatinFinVendredi && rqt.horairePlacementMatinFinVendredi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementMatinFinVendredi ? rqt.horairePlacementMatinFinVendredi.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementApresMidiDebutVendredi.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementApresMidiDebutVendredi ? rqt.horairePlacementApresMidiDebutVendredi.getHourOfDay() : ''} :
+            ${rqt.horairePlacementApresMidiDebutVendredi && rqt.horairePlacementApresMidiDebutVendredi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiDebutVendredi ? rqt.horairePlacementApresMidiDebutVendredi.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+          <p class="label">${esc(i18n.translate('sdccrr.property.horairePlacementApresMidiFinVendredi.label'))}</p>
+          <div class="response">
+            ${rqt.horairePlacementApresMidiFinVendredi ? rqt.horairePlacementApresMidiFinVendredi.getHourOfDay() : ''} :
+            ${rqt.horairePlacementApresMidiFinVendredi && rqt.horairePlacementApresMidiFinVendredi.getMinuteOfHour() < 10 ? '0' : ''}${rqt.horairePlacementApresMidiFinVendredi ? rqt.horairePlacementApresMidiFinVendredi.getMinuteOfHour() : ''}
+          </div>
+          
+
+        
+      </div>
+    
+  
+
+  
+  <h2>${i18n.translate('sdccrr.step.rendezVous.label')}</h2>
+  
+    
+      <p class="label">${esc(i18n.translate('sdccrr.property.choixTypeRendezVous.label'))}</p>
+          <div class="response">
+            <% if(rqt.choixTypeRendezVous) { %>
+              ${esc(i18n.translate('sdccrr.property.choixTypeRendezVous.' + EnumTool.toLowerCamelCase(rqt.choixTypeRendezVous.toString())))}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('sdccrr.property.telephoneContact.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.telephoneContact?.toString()))}</div>
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('sdccrr.property.plageHoraireContact.label'))}</p>
+          <div class="response choice">
+            <% localReferentialWidget(rqt, 'plageHoraireContact', lrTypes.plageHoraireContact.entries, 0) %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('sdccrr.property.commentaireCitoyen.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.commentaireCitoyen?.toString()))}</div>
+
+    
+  
+
+  <h2>${i18n.translate('contact.property.meansOfContact')}</h2>
+  <div class="response choice">
+    <% if (rqt.meansOfContact) { %>
+      <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
+        <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
+          ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.legacyLabel))}
+        </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
+      <% } %>
+    <% } else { %>
+      <span class="checked">${i18n.translate('meansOfContact.none')}</span>
+    <% } %>
+  </div>
+
+  
+          <% if (rqt.requestType.getStepAccountCompletion()){ %>
+              <h2>${i18n.translate('pdf.homeFolder.label')}</h2>
+
+            <% firstChild = true %>
+
+            <% responsibleId = requester.getHomeFolder().getIndividuals().findAll{ it.getHomeFolderRoles(requester.getHomeFolder().getId()).findAll{ it.getRole() == fr.cg95.cvq.business.users.RoleType.HOME_FOLDER_RESPONSIBLE }.size() > 0 }.get(0).getId()  %>
+
+            <% list = requester.getHomeFolder().getIndividuals().findAll{ !(it.getState().name.equals("Archived") || it.getState().name.equals("Invalid"))}.sort{a,b -> a.getClass() == fr.cg95.cvq.business.users.Adult.class ? (a.getId() == responsibleId ? -1 : 0) : 1 }  %>
+
+            <% list.each { individual -> %>
+
+              <% if (individual.getClass() == fr.cg95.cvq.business.users.Adult.class) { %>
+
+                <% if (individual.getId() == responsibleId) { %>
+                  <h3>${i18n.translate('homeFolder.property.responsible')}</h3>
+                <% } %>
+
+                <% if (list.indexOf(individual) == 1) { %>
+                  <h3>${i18n.translate('homeFolder.property.adults')}</h3>
+                <% } %>
+
+                <p class="label">
+                  ${i18n.translate('homeFolder.adult.property.title')}
+                  ${i18n.translate('homeFolder.individual.property.firstName')}
+                  ${i18n.translate('homeFolder.individual.property.lastName')}
+                </p>
+                <div class="response">
+                  <% if(individual?.title) { %>
+                    ${i18n.translate('homeFolder.adult.title.' + StringUtils.lowerCase(individual?.title.toString()))}
+                  <% } %>
+                  ${esc(individual?.firstName)}
+                  ${esc(individual?.lastName)}
+                </div>
+                <p class="label">${i18n.translate('homeFolder.individual.property.address')}</p>
+                <div class="response">
+                  <% if (individual?.address) { %>
+                    <p>${esc(StringUtils.defaultString(individual?.address?.additionalDeliveryInformation))}</p>
+                    <p>${esc(StringUtils.defaultString(individual?.address?.additionalGeographicalInformation))}</p>
+                    <p>${esc(StringUtils.defaultString(individual?.address?.streetNumber))} ${esc(StringUtils.defaultString(individual?.address?.streetName))}</p>
+                    <p>${esc(StringUtils.defaultString(individual?.address?.placeNameOrService))}</p>
+                    <p>${esc(StringUtils.defaultString(individual?.address?.postalCode))} ${esc(StringUtils.defaultString(individual?.address?.city))}</p>
+                    <p>${esc(StringUtils.defaultString(individual?.address?.countryName))}</p>
+                  <% } %>
+                </div>
+
+                <% if (individual?.email) { %>
+                  <p class="label">${i18n.translate('homeFolder.adult.property.email')}</p>
+                  <div class="response">${esc(StringUtils.defaultString(individual?.email))}</div>
+                <% } %>
+                <% if (individual?.homePhone) { %>
+                  <p class="label">${i18n.translate('homeFolder.adult.property.homePhone')}</p>
+                  <div class="response">${esc(StringUtils.defaultString(individual?.homePhone))}</div>
+                <% } %>
+                <% if (individual?.mobilePhone) { %>
+                  <p class="label">${i18n.translate('homeFolder.adult.property.mobilePhone')}</p>
+                  <div class="response">${esc(StringUtils.defaultString(individual?.mobilePhone))}</div>
+                <% } %>
+                <% if (individual?.officePhone) { %>
+                  <p class="label">${i18n.translate('homeFolder.adult.property.officePhone')}</p>
+                  <div class="response">${esc(StringUtils.defaultString(individual?.officePhone))}</div>
+                <% } %>
+                <hr />
+              <% } %>
+
+
+              <% if (individual.getClass() == fr.cg95.cvq.business.users.Child.class) { %>
+
+                <% if (firstChild){ %>
+                  <h3>${i18n.translate('homeFolder.property.children')}</h3>
+                <% firstChild=false } %>
+
+                <p class="label">
+                  ${i18n.translate('homeFolder.individual.property.firstName')}
+                  ${i18n.translate('homeFolder.individual.property.lastName')}
+                </p>
+                <div class="response">
+                  ${esc(individual?.firstName)}
+                  ${esc(individual?.lastName)}
+                </div>
+
+                <% if (individual?.isBorn()) { %>
+                  <p class="label">${i18n.translate('homeFolder.individual.property.birthDate')}</p>
+                <% } else { %>
+                  <p class="label">${i18n.translate('homeFolder.individual.property.expectedBirthDate')}</p>
+                <% } %>
+                <div class="response">
+                  ${String.format('%td/%<tm/%<tY',individual?.getBirthDate())}
+                </div>
+
+                <p class="label">${i18n.translate('homeFolder.child.property.sex')}</p>
+                <div class="response">
+                  ${i18n.translate('homeFolder.child.property.sex.'+StringUtils.lowerCase(individual?.getSex().getLegacyLabel()))}
+                </div>
+
+                <p class="label">${i18n.translate('homeFolder.child.property.legalResponsibles')}</p>
+
+                <div class="response">
+
+                <% requester.getHomeFolder().getIndividuals().each { indiv_2 ->  %>
+                  <% if (indiv_2.getClass() == fr.cg95.cvq.business.users.Adult.class) { %>
+                    <% indiv_2.getIndividualRoles().each{ indRole -> %>
+                      <% if((indRole.getRole().getLegacyLabel().equals("ClrMother") || indRole.getRole().getLegacyLabel().equals("ClrFather") || indRole.getRole().getLegacyLabel().equals("ClrTutor") || indRole.getRole().getLegacyLabel().equals("Tutor")) && indRole.getIndividualId() == individual.getId()){ %>
+
+                          ${esc(indiv_2?.firstName)}
+                          ${esc(indiv_2?.lastName)}
+
+                      <% } %>
+                    <% } %>
+                  <% } %>
+                <% } %>
+                </div>
+                <hr />
+
+              <% } %>
+            <% } %>
+          <% } %>
+          
+
+
+</body>
+</html>
+

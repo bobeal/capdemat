@@ -89,6 +89,11 @@
     <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
   </xb:namespace>
 
+  <!-- Saintouen Day Care Center Registration Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/sdccrr">
+    <xb:package>fr.cg95.cvq.xml.request.babyhood</xb:package>
+  </xb:namespace>
+
   <!-- Birth Details Request -->
   <xb:namespace uri="http://www.cg95.fr/cvq/schema/bdr">
     <xb:package>fr.cg95.cvq.xml.request.civil</xb:package>

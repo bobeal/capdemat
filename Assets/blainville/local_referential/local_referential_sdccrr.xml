@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <data name="PlageHoraireContact" allowMultipleChoices="false" manager="CapDémat">
+        <label>Plages horaires</label>
+        <entries>
+            <entry key="Entre-9h-et-12h">
+                <label>Entre 9h et 12h</label>
+                <message/>
+            </entry>
+            <entry key="Entre-14h-et-16h">
+                <label>Entre 14h et 16h</label>
+                <message/>
+            </entry>
+            <entry key="Entre-16h-et-18h">
+                <label>Entre 16h et 18h</label>
+                <message/>
+            </entry>
+            <entry key="Indiffe-rent">
+                <label>Indifférent</label>
+                <message/>
+            </entry>
+        </entries>
+    </data>
+</LocalReferential>

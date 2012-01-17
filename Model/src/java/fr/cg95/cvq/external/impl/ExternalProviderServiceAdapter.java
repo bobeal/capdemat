@@ -147,6 +147,7 @@ public abstract class ExternalProviderServiceAdapter implements IExternalProvide
         } catch (Exception e) {
             logger.error("sendRequest() error while sending request to " + getLabel());
             rea.setStatus(RequestExternalAction.Status.ERROR);
+            rea.setMessage(e.getMessage());
         }
 
         if (!handlesTraces())

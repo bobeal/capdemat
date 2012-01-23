@@ -75,7 +75,8 @@ class ServiceRequestExternalController {
             return false
         }
         SecurityContext.setCurrentContext(SecurityContext.EXTERNAL_SERVICE_CONTEXT)
-        SecurityContext.setCurrentExternalService(credentials[0])
+        SecurityContext.setCurrentExternalService(
+            externalService.getExternalServiceByLogin(credentials[0]).getLabel())
     }
 
     def requestDocuments = {

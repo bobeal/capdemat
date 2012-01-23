@@ -389,26 +389,30 @@ dl.account a { float: none !important; }
   font-size : 0.85em;
 }
 
-/* duplicates
+/* Alerts
 -------------------------------------------------------------- */
-#duplicates {
+.alert {
   border: 2px solid #CC0000;
   border-radius: .5em; -moz-border-radius: .5em; -webkit-border-radius: .5em;
   background-color: #ffffff;
   margin-bottom: 10px;
 }
 
-#duplicates h2 {
+#yui-main .alert h2 {
   color: #CC0000;
   border-bottom-color: #CC0000;
 }
 
-#duplicates h3 {
+#yui-main .alert h3 {
   border-bottom: none;
   font-size: 1.4em;
 }
 
-#duplicates p {
+.alert p {
   margin : 10px 20px;
   font-size: 1.1em;
+}
+
+.alert em {
+  font-style: italic;
 }

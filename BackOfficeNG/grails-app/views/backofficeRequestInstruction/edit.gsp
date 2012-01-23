@@ -64,19 +64,26 @@
         </div>
 
         <g:if test="${requester.duplicateAlert}">
-          <div id="duplicates" class="mainbox">
-            <h2><g:message code="request.message.duplicateAlert" /></h2>
-
-            <h3><g:message code="request.message.duplicate.informations.label" /></h3>
-            <p><g:message code="request.message.duplicate.informations.desc" /></p>
-
-            <h3><g:message code="request.message.duplicate.actions.label" /></h3>
-            <p><g:message code="request.message.duplicate.actions.desc" /></p>
+          <div class="alert mainbox">
+            <h2>${message(code:'request.alert.duplicate')}</h2>
+            <h3>${message(code:'request.alert.duplicate.informations.label')}</h3>
+            <p>${message(code:'request.alert.duplicate.informations.desc')}</p>
+            <h3>${message(code:'request.alert.duplicate.actions.label')}</h3>
+            <p>${message(code:'request.alert.duplicate.actions.desc')}</p>
             <p>
-                <a href="${createLink(controller: 'backofficeHomeFolder',action:'details', id : requester.homeFolder.id)}">
-                    <g:message code="request.action.viewHomeFolderDetails" />
-                </a>
+              <a href="${createLink(controller:'backofficeHomeFolder', action:'details', id:requester.homeFolder.id)}">
+                ${message(code:'request.alert.duplicate.actions.viewHomeFolderDetails')}
+              </a>
             </p>
+          </div>
+        </g:if>
+
+        <g:if test="${['Error', 'NotSent'].contains(lastTraceStatus?.enumString)}">
+          <div class="alert mainbox">
+            <h2>${message(code:'request.alert.notSent')}</h2>
+            <p>${message(code:'request.alert.notSent.informations.desc', args:[externalProviderServiceLabel])}</p>
+            <h3>${message(code:'request.alert.notSent.action.label')}</h3>
+            <p>${message(code:'request.alert.notSent.action.desc', args:[createLink(controller: 'backofficeExternal', action: 'search')])}</p>
           </div>
         </g:if>
 

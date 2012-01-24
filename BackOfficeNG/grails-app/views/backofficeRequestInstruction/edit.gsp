@@ -50,6 +50,15 @@
               </div>
             </div>
           </div>
+          <!-- error panel [default display = none] -->
+          <div id="errorPanel">
+            <div class="hd">${message(code:'request.alert.notSent')}</div>
+            <div class="bd">
+              <p>${message(code:'request.alert.notSent.informations.desc', args:[externalProviderServiceLabel])}</p>
+              <h1>${message(code:'request.alert.notSent.action.label')}</h1>
+              <p>${message(code:'request.alert.notSent.action.desc', args:[createLink(controller: 'backofficeExternal', action: 'search')])}</p>
+            </div>
+          </div>
           <h1>
             <g:message code="request.header.request" />
           	<g:if test="${!hasHomeFolder}">
@@ -79,7 +88,7 @@
         </g:if>
 
         <g:if test="${['Error', 'NotSent'].contains(lastTraceStatus?.enumString)}">
-          <div class="alert mainbox">
+          <div id="notSent" class="alert mainbox">
             <h2>${message(code:'request.alert.notSent')}</h2>
             <p>${message(code:'request.alert.notSent.informations.desc', args:[externalProviderServiceLabel])}</p>
             <h3>${message(code:'request.alert.notSent.action.label')}</h3>

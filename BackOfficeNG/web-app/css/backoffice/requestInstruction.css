@@ -356,7 +356,7 @@ dl.account a { float: none !important; }
   cursor : pointer;
 }
 
-#notePanel {
+#notePanel, #errorPanel {
   border: 6px solid #636e80;
   -moz-border-radius: .5em;
   -webkit-border-radius: .5em;
@@ -365,13 +365,14 @@ dl.account a { float: none !important; }
   background: #ffffff;
 }
 
-#notePanel .hd {
+#notePanel .hd, #errorPanel .hd {
   height: 2.5em;
   background: #636e80;
   border: 0;
+  color: #fff;
 }
 
-#notePanel .bd {
+#notePanel .bd, #errorPanel .bd {
   padding: 1em 2em;
   background: transparent;
   border: 0;
@@ -381,6 +382,16 @@ dl.account a { float: none !important; }
   margin: 0 0 1em 0;
   padding: .5em 0;
   border-bottom: 1px dashed #000000;
+}
+
+#errorPanel .bd h1 {
+  padding: .5em 0;
+  border-bottom: none;
+  font-size: 1.4em;
+}
+
+#errorPanel em {
+  font-style: italic;
 }
 
 #noteLimit {

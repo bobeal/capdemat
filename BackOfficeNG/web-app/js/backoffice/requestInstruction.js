@@ -441,6 +441,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
   zcbr.Information = function() {
     var infoTabView = undefined;
     var notePanel = undefined;
+    var errorPanel = undefined;
     return {
       clickEvent : undefined,
       
@@ -480,6 +481,22 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
             underlay : "shadow", close : true
           });
           notePanel.render();
+          errorPanel = new yw.Panel(yud.get("errorPanel"), {
+            close: true,
+            draggable: false,
+            underlay: 'shadow',
+            modal: true,
+            visible: false,
+            context: [
+              yus.query('.yui-b', yud.get('yui-main'), true),
+              'tl',
+              'tl',
+              ['beforeShow', 'windowResize'],
+              [130, 130]
+            ],
+            zindex: '2000'
+          })
+          errorPanel.render()
           zct.doAjaxCall("/requestNote/" + zcb.requestId, null, function(o) {
             notePanel.setBody(o.responseText);
             yue.on(yud.get("note"), "keyup", function(e) {
@@ -513,6 +530,21 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
               notePanel.show();
             });
           });
+          // Look for the first external service trace. If its type is error
+          // or not sent, pops-up a warning.
+          historyTab.on('contentChange', function(event) {
+            var action = yud.getAncestorBy(
+              yus.query('.tag-external', historyTab.get('contentEl'), true),
+              function(ancestor) {
+                return yud.hasClass(ancestor, 'action')
+              }
+            )
+            if (yud.hasClass(yus.query('dd span', action, true), /tag-error|tag-notsent/) &&
+                !yud.inDocument('notSent')) {
+              errorPanel.show()
+              // TODO: fade-in the not sent notification too.
+            }
+          })
       },
       getHandler : function(e) {
           return yue.getTarget(e).id;

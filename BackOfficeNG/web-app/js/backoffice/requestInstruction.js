@@ -496,6 +496,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
             ],
             zindex: '2000'
           })
+          // Several UI elements should be updated when an error has occured:
+          // * request state tag
+          // * "not sent" alert
+          errorPanel.hideEvent.subscribe(function() {
+            // Easiest way is to reload the page.
+            window.location.reload()
+          })
           errorPanel.render()
           zct.doAjaxCall("/requestNote/" + zcb.requestId, null, function(o) {
             notePanel.setBody(o.responseText);
@@ -542,7 +549,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
             if (yud.hasClass(yus.query('dd span', action, true), /tag-error|tag-notsent/) &&
                 !yud.inDocument('notSent')) {
               errorPanel.show()
-              // TODO: fade-in the not sent notification too.
             }
           })
       },

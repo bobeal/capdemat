@@ -12,10 +12,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name="home_folder_mapping")
@@ -39,8 +40,8 @@ public class HomeFolderMapping implements Serializable {
     @Column(name="external_id")
     private String externalId;
 
-    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
-    @JoinColumn(name="home_folder_mapping_id")
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY, mappedBy="homeFolderMapping")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @OrderColumn(name="home_folder_mapping_index")
     private List<IndividualMapping> individualsMappings;
 

@@ -212,7 +212,7 @@
   <!-- =============================== RELEASE TARGETS ================================= -->
   <!-- ================================================================================= -->
 
-  <target name="release" depends="deploy-libs, deploy-plugins, prepare-webapp-fobo">
+  <target name="release" depends="clean, deploy-libs, deploy-plugins, prepare-webapp-fobo">
     <delete dir="${release.dir}" />
     <mkdir dir="${release.dir}" />
     <ant dir="${bong.dir}" target="war" />

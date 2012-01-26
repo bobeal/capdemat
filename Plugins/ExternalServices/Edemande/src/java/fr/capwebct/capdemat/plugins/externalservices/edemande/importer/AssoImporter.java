@@ -7,7 +7,6 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,9 +19,11 @@ import au.com.bytecode.opencsv.CSVWriter;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.TitleType;
+import fr.cg95.cvq.dao.jpa.JpaUtil;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
+import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry;
 import fr.cg95.cvq.service.users.IUserWorkflowService;
 import fr.cg95.cvq.util.FileUtils;
 import fr.cg95.cvq.util.admin.SpringApplicationContextLoader;
@@ -31,14 +32,13 @@ import fr.cg95.cvq.util.mail.IMailService;
 public class AssoImporter {
 
     private static Logger logger = Logger.getLogger(AssoImporter.class);
-    private List<String> emailCc;
-    private ILocalAuthorityRegistry localAuthorityRegistry;
-    private IUserWorkflowService userWorkflowService;
-    private IMailService mailService;
+    private static ILocalAuthorityRegistry localAuthorityRegistry;
+    private static IUserWorkflowService userWorkflowService;
+    private static IMailService mailService;
 
     public static void main(String[] args) throws CvqException {
         ClassPathXmlApplicationContext cpxa = SpringApplicationContextLoader.loadContext(null);
-        AssoImporter assoImporter = (AssoImporter) cpxa.getBean("assoImporter");
+        AssoImporter assoImporter = new AssoImporter();
 
         if (args.length == 0 || args[0].equals("help") || args.length < 3){
             assoImporter.getAssoImportUsage();
@@ -49,7 +49,12 @@ public class AssoImporter {
 
         System.out.println("Start script process...");
 
-        assoImporter.importAssoFile(path, localAuthorityName);
+        localAuthorityRegistry = (LocalAuthorityRegistry) cpxa.getBean("localAuthorityRegistry");
+        userWorkflowService = (IUserWorkflowService) cpxa.getBean("userWorkflowService");
+        mailService = (IMailService) cpxa.getBean("mailService");
+
+        localAuthorityRegistry.callback(localAuthorityName, assoImporter, "importAssoFile",
+                new Object[]{path, localAuthorityName});
 
         System.out.println("End script process.");
         System.exit(0);
@@ -61,8 +66,6 @@ public class AssoImporter {
             logger.error("The path file or folder is bad. Give an absolute path to be sure it is correct.");
             return;
         }
-
-        SecurityContext.setCurrentSite(localAuthName, SecurityContext.ADMIN_CONTEXT);
 
         Writer errorsDetails = new StringWriter();
         CSVWriter csvErrorsDetails = new CSVWriter(errorsDetails);
@@ -113,8 +116,10 @@ public class AssoImporter {
                     userWorkflowService.create(adult, false);
                     String [] record = { adult.getProfession(), adult.getLogin(), adult.getEmail()};
                     csvImportDetails.writeNext(record);
+                    JpaUtil.getEntityManager().flush();
                 } catch (Exception e) {
                     logger.error("Import error at line " + lineNumber, e);
+                    e.printStackTrace();
                     csvErrorsDetails.writeNext(line);
                     errorsNumber++;
                 }
@@ -135,16 +140,10 @@ public class AssoImporter {
                 .append("Cordialement");
 
             mailService.send(null, SecurityContext.getCurrentSite().getAdminEmail(),
-                    emailCc.toArray(new String[emailCc.size()]),
+                    new String[] {"capdemat-dev@zenexity.com"},
                     "Compte rendu de l'import des associations, " + localAuthName, body.toString(),
                     attachments);
 
-            if (logger.isDebugEnabled()) {
-                logger.debug("Report mail send to : ");
-                for (String email : emailCc) {
-                    logger.debug(email);
-                }
-            }
         } catch (IOException ioe) {
             logger.error("Import csv file error.", ioe);
         }
@@ -158,22 +157,6 @@ public class AssoImporter {
             System.out.println("     . " + localAuthorityName);
         System.out.println("  - [PATH_FOLDER/FILE] : path folder or file wich must to be process.");
         System.exit(0);
-    }
-
-    public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
-        this.localAuthorityRegistry = localAuthorityRegistry;
-    }
-
-    public void setUserWorkflowService(IUserWorkflowService userWorkflowService) {
-        this.userWorkflowService = userWorkflowService;
-    }
-
-    public void setMailService(IMailService mailService) {
-        this.mailService = mailService;
-    }
-
-    public void setEmailCc(List<String> emailCc) {
-        this.emailCc = emailCc;
     }
 
     private String[] splitAddressStreetName(String streetInfo) {

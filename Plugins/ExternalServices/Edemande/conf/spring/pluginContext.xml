@@ -82,16 +82,4 @@
     </property>
   </bean>
 
-  <bean id="assoImporter" class="fr.capwebct.capdemat.plugins.externalservices.edemande.importer.AssoImporter">
-    <property name="emailCc">
-      <list>
-        <value>capdemat-dev@zenexity.fr</value>
-      </list>
-    </property>
-    <property name="userWorkflowService" ref="userWorkflowService" />
-    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
-    <property name="mailService" ref="mailService" />
-  </bean>
-
-
 </beans>

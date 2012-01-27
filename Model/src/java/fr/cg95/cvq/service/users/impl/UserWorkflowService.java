@@ -826,7 +826,8 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
                         Iterator<IndividualRole> it = a.getIndividualRoles().iterator();
                         while (it.hasNext()) {
                             IndividualRole role = it.next();
-                            if (c.getFullName().equals(role.getIndividualName())) {
+                            if (role.getIndividualName() != null
+                                    && c.getFullName().toUpperCase().equals(role.getIndividualName().toUpperCase())) {
                                 roles.add(role.getRole());
                                 it.remove();
                                 genericDAO.delete(role);

@@ -38,25 +38,49 @@ public enum FamilyStatusType {
         return OTHER;
     }
 
-    public static FamilyStatusType forString(String enumAsString) {
-        if (enumAsString == null || enumAsString.equals(""))
+    public static FamilyStatusType forString(String legacyLabel) {
+        if (legacyLabel == null || legacyLabel.equals(""))
             return OTHER;
 
-        if (enumAsString.equals(SINGLE.toString()))
+        if (legacyLabel.equals(SINGLE.getLegacyLabel()))
             return SINGLE;
-        else if (enumAsString.equals(DIVORCED.toString()))
+        else if (legacyLabel.equals(DIVORCED.getLegacyLabel()))
             return DIVORCED;
-        else if (enumAsString.equals(WIDOW.toString()))
+        else if (legacyLabel.equals(WIDOW.getLegacyLabel()))
             return WIDOW;
-        else if (enumAsString.equals(MARRIED.toString()))
+        else if (legacyLabel.equals(MARRIED.getLegacyLabel()))
             return MARRIED;
-        else if (enumAsString.equals(COMMON_LAW_MARRIAGE.toString()))
+        else if (legacyLabel.equals(COMMON_LAW_MARRIAGE.getLegacyLabel()))
             return COMMON_LAW_MARRIAGE;
-        else if (enumAsString.equals(SEPARATED.toString()))
+        else if (legacyLabel.equals(SEPARATED.getLegacyLabel()))
             return SEPARATED;
-        else if (enumAsString.equals(PACS.toString()))
+        else if (legacyLabel.equals(PACS.getLegacyLabel()))
             return PACS;
-        else if (enumAsString.equals(OTHER.toString()))
+        else if (legacyLabel.equals(OTHER.getLegacyLabel()))
+            return OTHER;
+
+        return OTHER;
+    }
+
+    public static FamilyStatusType forLegacyLabel(String legacyLabel) {
+        if (legacyLabel == null || legacyLabel.equals(""))
+            return OTHER;
+
+        if (legacyLabel.equals(SINGLE.getLegacyLabel()))
+            return SINGLE;
+        else if (legacyLabel.equals(DIVORCED.getLegacyLabel()))
+            return DIVORCED;
+        else if (legacyLabel.equals(WIDOW.getLegacyLabel()))
+            return WIDOW;
+        else if (legacyLabel.equals(MARRIED.getLegacyLabel()))
+            return MARRIED;
+        else if (legacyLabel.equals(COMMON_LAW_MARRIAGE.getLegacyLabel()))
+            return COMMON_LAW_MARRIAGE;
+        else if (legacyLabel.equals(SEPARATED.getLegacyLabel()))
+            return SEPARATED;
+        else if (legacyLabel.equals(PACS.getLegacyLabel()))
+            return PACS;
+        else if (legacyLabel.equals(OTHER.getLegacyLabel()))
             return OTHER;
 
         return OTHER;

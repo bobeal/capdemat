@@ -136,12 +136,12 @@ public class Adult extends Individual {
             adult.setLogin(adultType.getLogin());
             adult.setPassword(adultType.getPassword());
             if (adultType.getTitle() != null)
-                adult.setTitle(TitleType.forString(adultType.getTitle().toString()));
+                adult.setTitle(TitleType.forLegacyLabel(adultType.getTitle().toString()));
             if (adultType.getMaidenName() != null)
                 adult.setMaidenName(adultType.getMaidenName());
             adult.setNameOfUse(adultType.getNameOfUse());
             if (adultType.getFamilyStatus() != null)
-                adult.setFamilyStatus(FamilyStatusType.forString(adultType.getFamilyStatus().toString()));
+                adult.setFamilyStatus(FamilyStatusType.forLegacyLabel(adultType.getFamilyStatus().toString()));
             adult.setExternalCapDematId(adultType.getExternalCapdematId());
             adult.setHomePhone(adultType.getHomePhone());
             adult.setMobilePhone(adultType.getMobilePhone());
@@ -169,7 +169,7 @@ public class Adult extends Individual {
     }
 
     public void setTitleType(String title) {
-        TitleType[] allTitleTypes = TitleType.allTitleTypes;
+        TitleType[] allTitleTypes = TitleType.values();
         for (int i=0; i < allTitleTypes.length; i++) {
             TitleType titleType = allTitleTypes[i];
             if (titleType.toString().equals(title))
@@ -202,7 +202,7 @@ public class Adult extends Individual {
     }
 
     public void setFamilyStatus(String familyStatus) {
-        FamilyStatusType[] allFamilyStatusTypes = FamilyStatusType.allFamilyStatusTypes;
+        FamilyStatusType[] allFamilyStatusTypes = FamilyStatusType.values();
         for (int i=0; i < allFamilyStatusTypes.length; i++) {
             FamilyStatusType fs = allFamilyStatusTypes[i];
             if (fs.toString().equals(familyStatus))

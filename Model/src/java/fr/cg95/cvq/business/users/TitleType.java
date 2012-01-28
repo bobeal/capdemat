@@ -47,4 +47,20 @@ public enum TitleType {
 
         return UNKNOWN;
     }
+    
+    public static TitleType forLegacyLabel(String legacyLabel) {
+        if (legacyLabel == null || legacyLabel.equals(""))
+            return UNKNOWN;
+
+        if (legacyLabel.equals(MISTER.getLegacyLabel()))
+            return MISTER;
+        else if (legacyLabel.equals(MADAM.getLegacyLabel()))
+            return MADAM;
+        else if (legacyLabel.equals(MISS.getLegacyLabel()))
+            return MISS;
+        else if (legacyLabel.equals(AGENCY.getLegacyLabel()))
+            return AGENCY;
+
+        return UNKNOWN;
+    }
 }

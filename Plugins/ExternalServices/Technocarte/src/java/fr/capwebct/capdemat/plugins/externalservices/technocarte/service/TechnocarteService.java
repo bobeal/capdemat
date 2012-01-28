@@ -45,18 +45,20 @@ import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItemDetail;
 import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.business.request.workflow.event.IWorkflowPostAction;
+import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowCompleteEvent;
 import fr.cg95.cvq.business.users.Child;
-import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.jpa.JpaUtil;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.impl.ExternalProviderServiceAdapter;
 import fr.cg95.cvq.service.payment.IPaymentService;
+import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.school.external.IScholarBusinessProviderService;
 import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
-
-
 
 public class TechnocarteService extends ExternalProviderServiceAdapter implements IScholarBusinessProviderService {
     
@@ -67,11 +69,33 @@ public class TechnocarteService extends ExternalProviderServiceAdapter implement
 
     private IExternalHomeFolderService externalHomeFolderService;
 
+    @Override
+    public void visit(final WorkflowCompleteEvent wfEvent) throws CvqException {
+        checkExtReferentialAndSendRequest(wfEvent.getRequest());
+
+        wfEvent.setWorkflowPostAction(new IWorkflowPostAction() {
+            @Override
+            public String getExecutor() {
+                return getLabel();
+            }
+
+            @Override
+            public void execute(IRequestWorkflowService requestWorkflowService) {
+                try {
+                    requestWorkflowService.updateRequestState(wfEvent.getRequest().getId(),
+                            RequestState.EXTINPROGRESS, null);
+                } catch (CvqException e) {
+                    logger.error(e.getMessage());
+                }
+            }
+        });
+    }
+
     public String sendRequest(XmlObject requestXml) throws CvqException {
         String Method = "ReceptionCapdemat";
 
-        HibernateUtil.commitTransaction();
-        HibernateUtil.closeSession();
+        JpaUtil.commitTransaction();
+        JpaUtil.close();
         
         Vector<Parameter> parameters = new Vector<Parameter>();
         String la = "La connexion au serveur a echoué";
@@ -117,11 +141,12 @@ public class TechnocarteService extends ExternalProviderServiceAdapter implement
         } catch (Exception e) {
             throw new CvqException(la);
         } finally {
-            HibernateUtil.beginTransaction();
+            JpaUtil.beginTransaction();
         }
         return null;
     }
 
+    
     public void checkConfiguration(ExternalServiceBean externalServiceBean,
             String localAuthorityName) throws CvqConfigurationException {
         logger.debug("url kiosque = " + externalServiceBean.getProperty("urlkiosque"));

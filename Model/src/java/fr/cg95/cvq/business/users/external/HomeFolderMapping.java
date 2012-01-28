@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
@@ -42,7 +41,6 @@ public class HomeFolderMapping implements Serializable {
 
     @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY, mappedBy="homeFolderMapping")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    @OrderColumn(name="home_folder_mapping_index")
     private List<IndividualMapping> individualsMappings;
 
     

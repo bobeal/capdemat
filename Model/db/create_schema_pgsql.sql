@@ -1890,7 +1890,6 @@
         external_id varchar(255),
         individual_id int8,
         home_folder_mapping_id int8,
-        home_folder_mapping_index int4,
         primary key (id)
     );
 

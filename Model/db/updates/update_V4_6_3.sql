@@ -1,0 +1,1 @@
+alter table individual_mapping drop column home_folder_mapping_index;

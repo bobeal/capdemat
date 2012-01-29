@@ -412,6 +412,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
     }
 
     @Override
+    @Async
     @Context(types = {ContextType.SUPER_ADMIN})
     public void addLocalAuthority(String localAuthorityName) {
         for (fr.cg95.cvq.business.request.RequestType rt : requestTypeService.getAllRequestTypes()) {

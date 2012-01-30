@@ -125,12 +125,13 @@ public class PaylineV4Service implements IPaymentProviderService {
             getPaymentDetails(paymentServiceBean, token);
         String resultCode = getWebPaymentDetailsResponse.getResult().getCode();
 
+        logger.warn("doCommitPayment() result code received from Payline " + resultCode);
         PaymentResultBean paymentResultBean = new PaymentResultBean();
         Payment payment = paymentDAO.findByBankReference(token);
         if (payment != null)
             paymentResultBean.setCvqReference(payment.getCvqReference());
         else
-	    logger.warn("doCommitPayment() could not find payment with bank refererce : " + token);
+            logger.warn("doCommitPayment() could not find payment with bank reference : " + token);
         if (resultCode.equals("00000")) {
             paymentResultBean.setStatus(PaymentResultStatus.OK);
             paymentResultBean.setBankReference(getWebPaymentDetailsResponse.getTransaction().getId());

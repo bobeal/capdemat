@@ -116,6 +116,7 @@ environments {
 			error capdemat:'StackTrace'
 			
 			// set level for my messages; this uses the root logger (and thus the tomcatLog file)
+			warn 'fr.cg95', 'fr.capwebct'
 			info 'grails.app'
 		}
 	}

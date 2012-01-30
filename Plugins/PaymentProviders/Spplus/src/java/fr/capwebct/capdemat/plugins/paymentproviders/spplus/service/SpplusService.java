@@ -144,7 +144,8 @@ public class SpplusService implements IPaymentProviderService {
         
         String bankTransactionStatus = parameters.get("etat");
         
-        logger.debug("getStateFromParameters() Dealing with status : " + bankTransactionStatus);
+        logger.warn("getStateFromParameters() Dealing with status : " + bankTransactionStatus
+                + " for payment " + parameters.get("cvqReference"));
 
         // compute return status according to bank transaction status
         if (bankTransactionStatus.equals("2")) {

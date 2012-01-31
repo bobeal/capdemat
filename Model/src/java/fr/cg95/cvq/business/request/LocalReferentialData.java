@@ -40,7 +40,7 @@ public class LocalReferentialData implements Serializable {
     private String additionalInformationValue;
     
     // FIXME how to removeOrphan on many2many?
-    @ManyToMany(cascade=CascadeType.REMOVE,fetch=FetchType.LAZY)
+    @ManyToMany(cascade=CascadeType.REMOVE,fetch=FetchType.EAGER)
     @JoinTable(name="local_referential_association",
             joinColumns=@JoinColumn(name="local_referential_parent_data_id"),
             inverseJoinColumns=@JoinColumn(name="local_referential_child_data_id"))

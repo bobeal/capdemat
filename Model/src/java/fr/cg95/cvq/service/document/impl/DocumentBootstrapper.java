@@ -182,7 +182,7 @@ public class DocumentBootstrapper {
         checkDocumentType("Insertion Journal Officiel", 49,
                 DocumentUsageType.REUSABLE, 0, DocumentTypeValidity.UNLIMITED);
 
-        checkDocumentType("Status Association", 50,
+        checkDocumentType("Statuts Association", 50,
                 DocumentUsageType.REUSABLE, 0, DocumentTypeValidity.UNLIMITED);
 
         checkDocumentType("Liste Membres Bureau", 51,

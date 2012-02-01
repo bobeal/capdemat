@@ -9,6 +9,8 @@ import javax.persistence.RollbackException;
 
 import org.apache.log4j.Logger;
 
+import fr.cg95.cvq.security.SecurityContext;
+
 public class JpaUtil {
 
     private static Logger logger = Logger.getLogger(JpaUtil.class);
@@ -88,7 +90,13 @@ public class JpaUtil {
     public static void rollbackTransaction() {
         logger.error("rollbackTransaction() Rollbacking ...");
         EntityTransaction entityTransaction = threadEntityTransaction.get();
-        if (entityTransaction != null) {
+        if (entityTransaction != null && entityTransaction.isActive()) {
+            if (!entityTransaction.isActive()) {
+                logger.error("rollbackTransaction() transaction is not active");
+                logger.error("rollbackTransaction() site : " 
+                        + SecurityContext.getCurrentSite() == null ? "null" : SecurityContext.getCurrentSite().getName());
+                return;
+            }
             entityTransaction.rollback();
             threadEntityTransaction.remove();
         }

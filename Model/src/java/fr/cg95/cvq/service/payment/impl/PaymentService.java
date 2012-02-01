@@ -232,7 +232,10 @@ public final class PaymentService implements IPaymentService,
     public final PaymentResultStatus commitPayment(final Map<String, String> parameters)
         throws CvqException {
         
-        logger.debug("commitPayment() got a commit order");
+        logger.error("commitPayment() got a commit order in " + SecurityContext.getCurrentSite().getName());
+        for (String key : parameters.keySet()) {
+            logger.error("commitPayment() " + key + " : " + parameters.get(key));
+        }
 
         IPaymentProviderService paymentProviderService = 
             getPaymentProviderFromParameters(parameters);

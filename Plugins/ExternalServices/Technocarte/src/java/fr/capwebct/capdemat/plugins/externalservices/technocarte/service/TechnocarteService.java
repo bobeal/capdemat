@@ -2,6 +2,7 @@ package fr.capwebct.capdemat.plugins.externalservices.technocarte.service;
 
 import java.io.StringReader;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.log4j.Logger;
 import org.apache.soap.Fault;
+import org.apache.soap.SOAPException;
 import org.apache.soap.rpc.Call;
 import org.apache.soap.rpc.Parameter;
 import org.apache.soap.rpc.Response;
@@ -115,30 +117,14 @@ public class TechnocarteService extends ExternalProviderServiceAdapter implement
                 Parameter soap_result = soap_response.getReturnValue();
                 Object value = soap_result.getValue();
                 String s = getValue(value);
-                if (s.equals("0")) {
-                    la = "La famille n existe pas";
-                } else if (s.equals("1")) {
-                    la = "La modification est valide";
-                } else if (s.equals("2")) {
-                    la = "La demande n'est pas pris en charge par Technocarte";
-                } else if (s.equals("3")) {
-                    la = "La famille est créée";
-                } else if (s.equals("4")) {
-                    la = "La famille et l'inscription sont créées";
-                } else if (s.equals("5")) {
-                    la = "L'inscription est validée";
-                } else if (s.equals("6")) {
-                    la = "Inscription Refusée";
-                } else if (s.equals("7")) {
-                    la = "L'inscription est en attente de validation dans le BackOffice Technocarte";
-                } else if (s.equals("8")) {
-                    la = "Service non connu par Technocarte";
-                } else {
-                    la = "Code erreur inconnu";
-                }
-                TestRetourTechnocarte(s);
+                if (!s.equals(""))
+                    throw new CvqException(s);
             }
-        } catch (Exception e) {
+        } catch (MalformedURLException e) {
+            logger.error("sendRequest() got error " + e.getMessage());
+            throw new CvqException(la);
+        } catch (SOAPException e) {
+            logger.error("sendRequest() got error " + e.getMessage());
             throw new CvqException(la);
         } finally {
             JpaUtil.beginTransaction();
@@ -491,22 +477,6 @@ public class TechnocarteService extends ExternalProviderServiceAdapter implement
     public String getUrlKiosque() {
         return this.urlkiosque;
     }
-
-    public void TestRetourTechnocarte(String s) throws CvqException {
-        if (s.equals("0")) {
-            throw new CvqException("");
-        } else if (s.equals("6")) {
-            throw new CvqException("");
-        } else if (s.equals("8")) {
-            throw new CvqException("");
-        } else if (s.equals("1") || s.equals("2") || s.equals("3") || s.equals("4")
-                || s.equals("5") || s.equals("7")) {
-            // nothing;
-        } else {
-            throw new CvqException("");
-        }
-    }
-
 
     @Override
     public Map<String, Map<String, String>> getSchools(Child child) {

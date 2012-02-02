@@ -184,6 +184,19 @@ class SessionFilters {
             }
         }
 
+        emailCheck(controller: 'frontofficeHomeFolder', action: 'editImportedAccount', invert: true) {
+            before = {
+                def ecitizen = SecurityContext.getCurrentEcitizen()
+                def userId = SecurityContext.getCurrentUserId()
+                if (userId != null && ecitizen != null &&
+                    SecurityContext.getCurrentConfigurationBean().getDefaultEmail().equals(ecitizen.email)
+                    && !agentService.exists(userId)) {
+                    redirect(controller: "frontofficeHomeFolder", action: "editImportedAccount")
+                    return false
+                }
+            }
+        }
+
         authenticateBackUser(uri: '/backoffice/**') {
             before = {
             		

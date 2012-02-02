@@ -61,7 +61,8 @@ public class AdultDAO extends IndividualDAO implements IAdultDAO {
                     " (lower(a.firstName) = lower(:firstName) and lower(a.lastName) = lower(:lastName))" +
                     " and ( lower(a.email) = lower(:email) " +
                     " or lower(:address) like '%'|| lower(a.address.streetName) || '%' )" +
-                    " and a.state != '" + UserState.ARCHIVED.name() + "'"
+                    " and a.state != '" + UserState.ARCHIVED.name() + "'" +
+                    " and a.homeFolder.temporary is false"
         );
 
         return q.setProperties(parameters).list();

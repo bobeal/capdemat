@@ -22,6 +22,10 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   <!-- ======================================================= -->
   <!-- ========== GENERAL SERVICES DEFINITION ================ -->  
   <!-- ======================================================= -->
+ 
+  <bean id="log" class="fr.cg95.cvq.util.logging.impl.Log">
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
+  </bean>
 
   <bean id="authenticationService" 
     class="fr.cg95.cvq.authentication.impl.AuthenticationService">

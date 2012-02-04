@@ -74,6 +74,7 @@ import fr.cg95.cvq.service.users.IUserWorkflowService;
 import fr.cg95.cvq.util.JSONUtils;
 import fr.cg95.cvq.util.UserUtils;
 import fr.cg95.cvq.util.development.BusinessObjectsFactory;
+import fr.cg95.cvq.util.logging.impl.Log;
 import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.util.translation.ITranslationService;
 import fr.cg95.cvq.xml.common.AddressType;
@@ -238,8 +239,14 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
             }
         }
         link(adult, homeFolder, Collections.singleton(RoleType.HOME_FOLDER_RESPONSIBLE));
-        logger.debug("create() successfully created home folder " + homeFolder.getId());
         homeFolderDAO.update(homeFolder);
+
+        Log.adultToCsV(adult);
+        Log.logger(SecurityContext.getCurrentSite().getName()).info("CREATE HOME FOLDER : " 
+                + adult.getFirstName() 
+                + " " + adult.getLastName() 
+                + " <" +adult.getEmail() + ">");
+
         return homeFolder;
     }
 

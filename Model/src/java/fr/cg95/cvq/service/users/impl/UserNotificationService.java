@@ -20,6 +20,7 @@ import fr.cg95.cvq.service.users.IMeansOfContactService;
 import fr.cg95.cvq.service.users.IUserNotificationService;
 import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.util.JSONUtils;
+import fr.cg95.cvq.util.logging.impl.Log;
 import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.util.sms.ISmsService;
 import fr.cg95.cvq.util.translation.ITranslationService;
@@ -107,6 +108,9 @@ public class UserNotificationService implements IUserNotificationService, Applic
                         throw new RuntimeException(e);
                     }
                 }
+
+                Log.logger(SecurityContext.getCurrentSite().getName()).info("NOTIFIED HOME FOLDER CREATION: " 
+                        + " to " + adult.getFullName() + " <" + adult.getEmail() + ">");
             }
         }
     }

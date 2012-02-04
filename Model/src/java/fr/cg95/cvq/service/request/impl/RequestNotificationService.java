@@ -26,6 +26,7 @@ import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.job.RequestArchivingJob;
 import fr.cg95.cvq.service.request.job.RequestArchivingJob.Result;
 import fr.cg95.cvq.service.users.IUserSearchService;
+import fr.cg95.cvq.util.logging.impl.Log;
 import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.util.translation.ITranslationService;
 
@@ -79,6 +80,12 @@ public class RequestNotificationService implements ApplicationListener<CapDematE
                             mailSubject.toString(), mailDataBody);
                 }
             }
+            
+            Log.logger(SecurityContext.getCurrentSite().getName()).info("NOTIFY REQUEST CHANGE STATE: " 
+                    + "[" + request.getId() + "]" 
+                    + " {" + request.getState().name() + "}" 
+                    + " " + request.getRequestType().getLabel()
+                    + " by " + requester.getFullName() + " <" + requester.getEmail() + ">");
         }
     }
 

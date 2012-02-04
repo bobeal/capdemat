@@ -89,6 +89,7 @@ import fr.cg95.cvq.service.users.IUserWorkflowService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.JSONUtils;
 import fr.cg95.cvq.util.ValidationUtils;
+import fr.cg95.cvq.util.logging.impl.Log;
 
 /**
  * This services handles workflow tasks for requests. It is responsible for :
@@ -802,6 +803,11 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     private void pending(Request request, final String note) throws CvqException {
         Date date = new Date();
         updateLastModificationInformation(request, date);
+
+        Log.logger(SecurityContext.getCurrentSite().getName()).info("SUBMIT REQUEST : " 
+                + "[" + request.getId() + "]" 
+                + " " + request.getRequestType().getLabel()
+                + " by " + request.getRequesterFirstName() + " " + request.getRequesterLastName());
 
         /* Set all the states to pending */
         request.setState(RequestState.PENDING);

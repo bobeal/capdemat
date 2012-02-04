@@ -176,33 +176,18 @@ public class RequestSearchService implements IRequestSearchService, BeanFactoryA
     @Override
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<Request> listTasks(String qoS, String sortBy, int max) throws CvqException {
-        Set<Critere> criteria = new HashSet<Critere>(2);
-
-        Critere criterion = new Critere();
-        criterion.setComparatif(Critere.IN);
-        criterion.setAttribut(Request.SEARCH_BY_STATE);
-
-        Set<RequestState> states = new HashSet<RequestState>(3);
-        states.add(RequestState.PENDING);
-        states.add(RequestState.COMPLETE);
-        states.add(RequestState.UNCOMPLETE);
-        states.add(RequestState.RECTIFIED);
-        criterion.setValue(states);
-
-        criteria.add(criterion);
-
-        criterion = new Critere();
-        criterion.setComparatif(Critere.EQUALS);
-        criterion.setAttribut(Request.SEARCH_BY_QUALITY_TYPE);
-        criterion.setValue(qoS);
-        criteria.add(criterion);
         // FIXME JSB : hack to avoid bypassing aspect security
-        return ((IRequestSearchService)beanFactory.getBean("requestSearchService")).get(criteria, sortBy, null, max, 0, false);
+        return ((IRequestSearchService)beanFactory.getBean("requestSearchService")).get(composeTasksCriteria(qoS), sortBy, null, max, 0, false);
     }
 
     @Override
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Long countTasks(final String qoS) throws CvqException {
+        // FIXME JSB : hack to avoid bypassing aspect security
+        return ((IRequestSearchService) beanFactory.getBean("requestSearchService")).getCount(composeTasksCriteria(qoS));
+    }
+    
+    private Set<Critere> composeTasksCriteria(final String qoS) {
         Set<Critere> criteria = new HashSet<Critere>(2);
 
         Critere criterion = new Critere();
@@ -211,8 +196,7 @@ public class RequestSearchService implements IRequestSearchService, BeanFactoryA
 
         Set<RequestState> states = new HashSet<RequestState>(3);
         states.add(RequestState.PENDING);
-        states.add(RequestState.COMPLETE);
-        states.add(RequestState.UNCOMPLETE);
+        states.add(RequestState.INPROGRESS);
         states.add(RequestState.RECTIFIED);
         criterion.setValue(states);
 
@@ -223,8 +207,8 @@ public class RequestSearchService implements IRequestSearchService, BeanFactoryA
         criterion.setAttribut(Request.SEARCH_BY_QUALITY_TYPE);
         criterion.setValue(qoS);
         criteria.add(criterion);
-        // FIXME JSB : hack to avoid bypassing aspect security
-        return ((IRequestSearchService)beanFactory.getBean("requestSearchService")).getCount(criteria);
+
+        return criteria;
     }
 
     @Override

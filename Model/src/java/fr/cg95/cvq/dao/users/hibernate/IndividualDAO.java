@@ -272,6 +272,10 @@ public class IndividualDAO extends JpaTemplate<Individual,Long> implements IIndi
         Query query = HibernateUtil.getSession()
             .createQuery("from Individual i where" +
                     " i.qoS = :qoS" +
+                    " and i.state in ('" 
+                        + UserState.MODIFIED.name() + "','"
+                        + UserState.NEW.name() + "','"
+                        + UserState.INVALID + "')" +
                     " and homeFolder != null and homeFolder.temporary = false" +
                     " order by i.lastModificationDate")
             .setString("qoS", qoS.name());
@@ -285,6 +289,10 @@ public class IndividualDAO extends JpaTemplate<Individual,Long> implements IIndi
         return (Long)HibernateUtil.getSession()
             .createQuery("select count(*) from Individual i where" +
                     " i.qoS = :qoS" +
+                    " and i.state in ('" 
+                        + UserState.MODIFIED.name() + "','"
+                        + UserState.NEW.name() + "','"
+                        + UserState.INVALID + "')" +
                     " and homeFolder != null and homeFolder.temporary = false")
             .setString("qoS", qoS.name())
             .iterate().next();

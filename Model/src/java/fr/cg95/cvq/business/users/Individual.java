@@ -28,6 +28,7 @@ import javax.persistence.Transient;
 
 import net.sf.oval.constraint.AssertValid;
 import net.sf.oval.constraint.Future;
+import net.sf.oval.constraint.MaxLength;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.constraint.Past;
@@ -96,13 +97,16 @@ public abstract class Individual implements Serializable {
     @NotNull(message = "firstName", when = "groovy:(_this instanceof fr.cg95.cvq.business.users.Child && _this.born) || _this instanceof fr.cg95.cvq.business.users.Adult")
     @NotEmpty(message = "firstName", when = "groovy:(_this instanceof fr.cg95.cvq.business.users.Child && _this.born) || _this instanceof fr.cg95.cvq.business.users.Adult")
     @Column(name="first_name", length=38)
+    @MaxLength(value=38, message="firstName")
     private String firstName;
 
     @NotEmpty(message = "firstName2")
+    @MaxLength(value=38, message="firstName2")
     @Column(name="first_name_2",length=38)
     private String firstName2;
 
     @NotEmpty(message = "firstName3")
+    @MaxLength(value=38, message="firstName3")
     @Column(name="first_name_3",length=38)
     private String firstName3;
 
@@ -115,9 +119,11 @@ public abstract class Individual implements Serializable {
     @Column(name="birth_country")
     private String birthCountry;
 
+    @MaxLength(value=32, message="birthCity")
     @Column(name="birth_city",length=32)
     private String birthCity;
 
+    @MaxLength(value=5, message="birthPostalCode")
     @Column(name="birth_postal_code",length=5)
     private String birthPostalCode;
 

@@ -61,6 +61,7 @@ public class Address implements Serializable,Cloneable {
 
     @NotNull(message = "postalCode")
     @MatchPattern(pattern = "[0-9]{5}", message = "postalCode")
+    @MaxLength(value = 5, message = "postalCode")
     @Column(name="postal_code",length=5)
     private String postalCode;
 

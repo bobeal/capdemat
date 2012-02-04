@@ -10,6 +10,7 @@ import javax.persistence.Transient;
 import net.sf.oval.constraint.Email;
 import net.sf.oval.constraint.EqualToField;
 import net.sf.oval.constraint.MatchPattern;
+import net.sf.oval.constraint.MaxLength;
 import net.sf.oval.constraint.MinLength;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -42,23 +43,27 @@ public class Adult extends Individual {
     @NotNull(message = "homePhone", when = "groovy:_this.mobilePhone == null && _this.officePhone == null")
     @NotEmpty(message = "homePhone")
     @MatchPattern(pattern = "^0[1-59][0-9]{8}$", message = "homePhone")
+    @MaxLength(value=32, message="homePhone")
     @Column(name="home_phone",length=32)
     private String homePhone;
 
     @NotNull(message = "mobilePhone", when = "groovy:_this.homePhone == null && _this.officePhone == null")
     @NotEmpty(message = "mobilePhone")
     @MatchPattern(pattern = "^0[67][0-9]{8}$", message = "mobilePhone")
+    @MaxLength(value=32, message="mobilePhone")
     @Column(name="mobile_phone",length=32)
     private String mobilePhone;
 
     @NotNull(message = "officePhone", when = "groovy:_this.homePhone == null && _this.mobilePhone == null")
     @NotEmpty(message = "officePhone")
     @MatchPattern(pattern = "^0[1-5679][0-9]{8}$", message = "officePhone")
+    @MaxLength(value=32, message="officePhone")
     @Column(name="office_phone",length=32)
     private String officePhone;
 
     @NotNull(message = "email")
     @Email(message = "email")
+    @MaxLength(value=50, message="email")
     @Column(name="email",length=50)
     private String email;
 
@@ -66,6 +71,7 @@ public class Adult extends Individual {
     // So disable the validation for now
     // @MatchPattern(pattern = "^[0-9]{7}[A-Z]{0,1}$", message = "cfbn")
     @Column(name="cfbn",length=8)
+    @MaxLength(value=8, message="cfbn")
     private String cfbn;
 
     @Column(name="profession")

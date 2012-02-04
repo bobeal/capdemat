@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.external.IRequestExternalService;
@@ -29,8 +28,6 @@ public class EdemandeCommunicationJob {
     }
 
     public void sendRequests() {
-        logger.error("Start - EdemandeJobThread-ID " + Thread.currentThread().getId());
-        
         List<Request> requests = requestExternalService.getSendableRequests(edemandeService.getLabel());
         for (Request request : requests) {
             try {
@@ -44,8 +41,6 @@ public class EdemandeCommunicationJob {
                 logger.error("sendRequests() Unable to send request " + request.getId() + " to " + this.edemandeService.getLabel());
             }
         }
-        
-        logger.error("End   - EdemandeJobThread-ID " + Thread.currentThread().getId());
     }
 
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {

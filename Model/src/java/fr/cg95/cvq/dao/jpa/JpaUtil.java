@@ -90,14 +90,14 @@ public class JpaUtil {
     public static void rollbackTransaction() {
         logger.error("rollbackTransaction() Rollbacking ...");
         EntityTransaction entityTransaction = threadEntityTransaction.get();
-        if (entityTransaction != null && entityTransaction.isActive()) {
+        if (entityTransaction != null) {
             if (!entityTransaction.isActive()) {
                 logger.error("rollbackTransaction() transaction is not active");
                 logger.error("rollbackTransaction() site : " 
                         + SecurityContext.getCurrentSite() == null ? "null" : SecurityContext.getCurrentSite().getName());
-                return;
+            } else {
+                entityTransaction.rollback();
             }
-            entityTransaction.rollback();
             threadEntityTransaction.remove();
         }
     }

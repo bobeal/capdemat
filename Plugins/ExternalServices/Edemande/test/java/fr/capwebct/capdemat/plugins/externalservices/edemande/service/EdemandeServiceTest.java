@@ -49,7 +49,7 @@ public class EdemandeServiceTest extends RequestTestCase {
         //iDocumentService.addPage(documentId, documentBinary);
         //document.setDatas(null);
         Long requestId =
-            requestWorkflowService.create(request, null, null, null);
+            requestWorkflowService.create(request, null);
         requestDocumentService.addDocument(requestId, documentId);
 
         try {

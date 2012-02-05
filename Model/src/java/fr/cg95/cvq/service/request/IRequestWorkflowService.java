@@ -5,20 +5,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestType;
-import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqValidationException;
-import fr.cg95.cvq.security.annotation.IsRequester;
 import fr.cg95.cvq.security.annotation.IsSubject;
 import fr.cg95.cvq.security.annotation.IsUser;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
@@ -126,24 +123,6 @@ public interface IRequestWorkflowService {
      * be overrided.
      */
     Long create(@IsRequest Request request, String note) throws CvqException;
-
-    /**
-     * Create a new request from given data.
-     *
-     * It is meant to be used by requests issued outside an home folder. An home folder
-     * containing at least the requester will be created. The subject is optional.
-     */
-    @Deprecated
-    Long create(@IsRequest Request request, @IsRequester Adult requester, String note)
-        throws CvqException;
-
-    /**
-     * The same as {@link #create(Request, Adult, Individual, String)} but with a provided
-     * documents list.
-     */
-    @Deprecated
-    Long create(@IsRequest Request request, @IsRequester Adult requester, List<Document> documents, String note)
-        throws CvqException;
 
     /**
      * Get a set of home folder subjects that are authorized to be the subject of a request

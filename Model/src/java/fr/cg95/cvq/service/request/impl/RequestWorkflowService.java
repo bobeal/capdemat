@@ -150,56 +150,14 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public Long create(Request request, String note) throws CvqException {
-        performBusinessChecks(request, SecurityContext.getCurrentEcitizen());
-        return finalizeAndPersist(request, note);
-    }
 
-    @Deprecated
-    @Override
-    @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
-    public Long create(Request request, Adult requester, String note)
-        throws CvqException {
-        HomeFolder homeFolder = performBusinessChecks(request, requester);
-        return finalizeAndPersist(request, homeFolder, note);
-    }
+        createOrSynchronizeHomeFolder(request, SecurityContext.getCurrentEcitizen());
+        setAdministrativeInformation(request);
+        Long requestId = requestDAO.saveOrUpdate(request).getId();
+        if (!requestActionService.hasAction(requestId, RequestActionType.CREATION))
+            requestActionService.addDraftCreationAction(requestId, new Date());
 
-    @Deprecated
-    @Override
-    @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
-    public Long create(Request request, Adult requester, List<Document> documents, String note)
-        throws CvqException {
-
-        HomeFolder homeFolder = performBusinessChecks(request, requester);
-
-        HibernateUtil.getSession().flush();
-        SecurityContext.setCurrentEcitizen(
-                userSearchService.getHomeFolderResponsible(homeFolder.getId()));
-
-        requestDocumentService.addDocuments(request, documents);
-        return finalizeAndPersist(request, homeFolder, note);
-    }
-
-    private HomeFolder performBusinessChecks(Request request, Adult requester)
-        throws CvqException {
-
-        HomeFolder homeFolder = createOrSynchronizeHomeFolder(request, requester);
-
-        if (!RequestState.DRAFT.equals(request.getState())) {
-            IRequestService requestService = 
-                requestServiceRegistry.getRequestService(request);
-            RequestType requestType = 
-                requestTypeService.getRequestTypeByLabel(requestService.getLabel());
-            request.setRequestType(requestType);
-        }
-
-        if (request.getSubjectId() != null) {
-            Individual individual = userSearchService.getById(request.getSubjectId());
-            request.setSubjectId(individual.getId());
-            request.setSubjectLastName(individual.getLastName());
-            request.setSubjectFirstName(individual.getFirstName());
-        }
-
-        return homeFolder;
+        return requestId;
     }
 
     /**
@@ -573,46 +531,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         request.setCreationDate(new Date());
         request.setOrangeAlert(Boolean.FALSE);
         request.setRedAlert(Boolean.FALSE);
-
-    }
-
-    /**
-     * Finalize the setting of request properties (creation date, state, ...) and persist it in BD.
-     */
-    private Long finalizeAndPersist(Request request, HomeFolder homeFolder, String note)
-        throws CvqException {
-
-        setAdministrativeInformation(request);
-
-        Long requestId = requestDAO.saveOrUpdate(request).getId();
-
-        if (!RequestState.DRAFT.equals(request.getState())) {
-            // TODO DECOUPLING
-            // To flush new individuals and retrieve them with Query.list
-            HibernateUtil.getSession().flush();
-            byte[] pdfData = requestPdfService.generateCertificate(request);
-            
-            requestActionService.addCreationAction(requestId, new Date(), pdfData, note);
-
-            RequestEvent requestEvent = 
-                new RequestEvent(this, EVENT_TYPE.REQUEST_CREATED, request);
-            if (pdfData != null)
-                requestEvent.addComplementaryData(COMP_DATA.PDF_FILE, pdfData);
-            applicationContext.publishEvent(requestEvent);
-
-        } else if (!requestActionService.hasAction(requestId, RequestActionType.CREATION)) {
-            requestActionService.addDraftCreationAction(requestId, new Date());
-        }
-
-        return requestId;
-    }
-
-    /**
-     * Finalize the setting of request properties (creation date, state, ...) and persist it in BD.
-     */
-    private Long finalizeAndPersist(final Request request, String note)
-        throws CvqException {
-        return finalizeAndPersist(request, null, note);
     }
 
     @Override
@@ -701,6 +619,13 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         IRequestService requestService = requestServiceRegistry.getRequestService(request);
         requestService.onRequestModified(request);
+
+        if (SecurityContext.isFrontOfficeContext() && request.getSubjectId() != null
+                && request.getSubjectLastName() == null) {
+            Individual individual = userSearchService.getById(request.getSubjectId());
+            request.setSubjectLastName(individual.getLastName());
+            request.setSubjectFirstName(individual.getFirstName());
+        }
 
         updateLastModificationInformation(request, null);
     }
@@ -822,6 +747,13 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         byte[] pdfData = requestPdfService.generateCertificate(request);
         requestActionService.addCreationAction(request.getId(), date, pdfData, note);
+
+        RequestEvent requestEvent = 
+            new RequestEvent(this, EVENT_TYPE.REQUEST_CREATED, request);
+        if (pdfData != null)
+            requestEvent.addComplementaryData(COMP_DATA.PDF_FILE, pdfData);
+        applicationContext.publishEvent(requestEvent);
+
         postActionsProcess(wfEvent.getWorkflowPostActions());
     }
 

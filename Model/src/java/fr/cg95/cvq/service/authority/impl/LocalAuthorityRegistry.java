@@ -268,7 +268,7 @@ public class LocalAuthorityRegistry
         logger.debug("getAssetsFile() searching file : " + filePath.toString());
         File resourceFile = new File(filePath.toString());
         if (!resourceFile.exists() && fallbackToDefault) {
-            logger.warn("getAssetsFile() did not find " + filePath.toString()
+            logger.info("getAssetsFile() did not find " + filePath.toString()
                 + ", trying default");
             return getReferentialResource(type, filename);
         }

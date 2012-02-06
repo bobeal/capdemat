@@ -37,7 +37,6 @@ import fr.cg95.cvq.business.request.RequestAdminAction.Type;
 import fr.cg95.cvq.business.request.annotation.IsRulesAcceptance;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.jpa.IGenericDAO;
-import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.IRequestFormDAO;
 import fr.cg95.cvq.dao.request.IRequestTypeDAO;
 import fr.cg95.cvq.exception.CvqConfigurationException;
@@ -84,7 +83,6 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     private IRequestTypeDAO requestTypeDAO;
     private IRequestFormDAO requestFormDAO;
     private IGenericDAO genericDAO;
-    private IRequestDAO requestDAO;
 
     /** a list of all services interested in request types lifecycle */
     protected Collection<IRequestTypeLifecycleAware> allListenerServices;
@@ -111,9 +109,10 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
         throws CvqConfigurationException {
 
         final String label = service.getLabel();
-        logger.debug("registerService() registering service " + service + " with label " + label);
-        if (label == null || service == null)
-            throw new CvqConfigurationException("null label or service for registering service");
+        if (label == null) {
+            logger.error("null label for service " + service.getClass().getName());
+            return;
+        }
 
         requestServiceRegistry.registerService(service);
         
@@ -141,8 +140,6 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
             return;
         } 
 
-        IRequestService service = requestServiceRegistry.getRequestService(serviceLabel);
-        
         requestType = new RequestType();
         requestType.setLabel(serviceLabel);
         requestType.setActive(Boolean.FALSE);
@@ -665,10 +662,6 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
         this.beanFactory = (ListableBeanFactory) beanFactory;
-    }
-
-    public void setRequestDAO(IRequestDAO requestDAO) {
-        this.requestDAO = requestDAO;
     }
 
     public GlobalRequestTypeConfiguration getGlobalRequestTypeConfiguration() {

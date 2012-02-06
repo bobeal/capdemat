@@ -212,7 +212,6 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   <bean id="requestTypeService" class="fr.cg95.cvq.service.request.impl.RequestTypeService"
     init-method="init">
     <property name="genericDAO" ref="genericDAO"/>
-    <property name="requestDAO" ref="requestDAO"/>
     <property name="requestTypeDAO" ref="requestTypeDAO"/>
     <property name="requestFormDAO" ref="requestFormDAO"/>
     <property name="requestServiceRegistry" ref="requestServiceRegistry" />

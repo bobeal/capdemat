@@ -44,8 +44,8 @@ import fr.cg95.cvq.business.users.UserAction;
 import fr.cg95.cvq.business.users.UserEvent;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
-import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.jpa.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaUtil;
 import fr.cg95.cvq.exception.CvqDisabledFunctionalityException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
@@ -149,10 +149,10 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         logger.debug("checkLocalAuthDocumentsValidity() dealing with " 
             + SecurityContext.getCurrentSite().getName());
         for (Long id : documentDAO.listOutdated()) {
-            HibernateUtil.beginTransaction();
             updateDocumentState(id, DocumentState.OUTDATED, "", null);
-            HibernateUtil.commitTransaction();
-            HibernateUtil.closeSession();
+            JpaUtil.commitTransaction();
+            JpaUtil.close();
+            JpaUtil.beginTransaction();
         }
     }
 
@@ -177,7 +177,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         addActionTrace(DocumentAction.Type.CREATION, document.getState(), document);
 
         // when creating a new document in FO, we need it to be persisted before rendering the view
-        HibernateUtil.getSession().flush();
+        JpaUtil.getEntityManager().flush();
 
         return documentId;
     }
@@ -197,7 +197,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         documentDAO.delete(document);
 
         // when deleting a new document in FO, we need it to be removed from DB before rendering the view
-        HibernateUtil.getSession().flush();
+        JpaUtil.getEntityManager().flush();
     }
 
     @Override

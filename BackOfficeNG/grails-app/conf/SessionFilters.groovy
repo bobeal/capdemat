@@ -186,6 +186,8 @@ class SessionFilters {
 
         emailCheck(controller: 'frontofficeHomeFolder', action: 'editImportedAccount', invert: true) {
             before = {
+                if (!SecurityContext.isFrontOfficeContext())
+                    return true
                 def ecitizen = SecurityContext.getCurrentEcitizen()
                 def userId = SecurityContext.getCurrentUserId()
                 if (userId != null && ecitizen != null &&

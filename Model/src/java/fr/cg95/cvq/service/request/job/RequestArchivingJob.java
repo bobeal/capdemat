@@ -22,6 +22,7 @@ import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.jpa.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaUtil;
 import fr.cg95.cvq.dao.request.IRequestActionDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.external.IRequestExternalActionDAO;
@@ -74,7 +75,6 @@ public class RequestArchivingJob implements ApplicationContextAware, ILocalAutho
         Result result = new Result();
         DateMidnight today = new DateMidnight();
         for (Request r : requestDAO.listByStates(states, true)) {
-            HibernateUtil.beginTransaction();
             try {
                 Request request = requestDAO.findById(r.getId(), true);
                 int filingDelay = requestServiceRegistry.getRequestService(request).getFilingDelay();
@@ -106,7 +106,9 @@ public class RequestArchivingJob implements ApplicationContextAware, ILocalAutho
                     localAuthorityRegistry.saveLocalAuthorityResource(Type.REQUEST_ARCHIVE,
                         filename, archive);
                     try {
-                        HibernateUtil.commitTransaction();
+                        JpaUtil.commitTransaction();
+                        JpaUtil.close();
+                        JpaUtil.beginTransaction();
                         result.numberOfSuccesses++;
                     } catch (Throwable t) {
                         localAuthorityRegistry.getLocalAuthorityResourceFile(Type.REQUEST_ARCHIVE,
@@ -117,13 +119,14 @@ public class RequestArchivingJob implements ApplicationContextAware, ILocalAutho
             } catch (Throwable t) {
                 t.printStackTrace();
                 result.failures.put(r, t);
-                HibernateUtil.rollbackTransaction();
+                JpaUtil.rollbackTransaction();
+                JpaUtil.close();
+                JpaUtil.beginTransaction();
             }
         }
         RequestAdminAction action =
             new RequestAdminAction(RequestAdminAction.Type.REQUESTS_ARCHIVED);
         action.getComplementaryData().put(RequestAdminAction.Data.ARCHIVING_RESULT, result);
-        HibernateUtil.beginTransaction();
         if (result.numberOfSuccesses > 0 || result.failures.size() > 0) {
             genericDAO.saveOrUpdate(action);
         }

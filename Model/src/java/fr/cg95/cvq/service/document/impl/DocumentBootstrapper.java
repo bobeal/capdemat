@@ -193,6 +193,9 @@ public class DocumentBootstrapper {
 
         checkDocumentType("Modifications Depuis Creation Association", 53,
                 DocumentUsageType.REUSABLE, 0, DocumentTypeValidity.UNLIMITED);
+
+        checkDocumentType("Attestation Lycee", 54,
+                DocumentUsageType.REUSABLE, 1, DocumentTypeValidity.YEAR);
     }
 
     public void setDocumentTypeDAO(IDocumentTypeDAO documentTypeDAO) {

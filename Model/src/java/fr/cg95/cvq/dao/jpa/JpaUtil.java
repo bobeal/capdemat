@@ -2,133 +2,103 @@ package fr.cg95.cvq.dao.jpa;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceException;
 import javax.persistence.PersistenceUnitUtil;
-import javax.persistence.RollbackException;
 
 import org.apache.log4j.Logger;
-
-import fr.cg95.cvq.security.SecurityContext;
 
 public class JpaUtil {
 
     private static Logger logger = Logger.getLogger(JpaUtil.class);
 
-    private static final ThreadLocal<EntityManagerFactory> threadEntityManagerFactory = new InheritableThreadLocal<EntityManagerFactory>();
-
-    private static final ThreadLocal<EntityManager> threadEntityManager = new ThreadLocal<EntityManager>();
-
-    private static final ThreadLocal<EntityTransaction> threadEntityTransaction = new ThreadLocal<EntityTransaction>();
-
-    public static void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
-        threadEntityManagerFactory.set(entityManagerFactory);
-        threadEntityManager.set(entityManagerFactory.createEntityManager());
-    }
+    private static final ThreadLocal<EntityManager> threadEntityManager = 
+            new ThreadLocal<EntityManager>();
 
     public static EntityManager getEntityManager() {
         EntityManager entityManager = threadEntityManager.get();
         if (entityManager == null) {
-            entityManager = threadEntityManagerFactory.get().createEntityManager();
-            threadEntityManager.set(entityManager);
-            logger.debug("create new EntityManager : " + threadEntityManager.get());
+            Throwable t = new Throwable();
+            t.fillInStackTrace();
+            logger.error("no entity manager in current thread, refusing to create a new one", t);
+            throw new RuntimeException("no entity manager in current thread, refusing to create a new one");
         }
         return entityManager;
     }
 
-    public static void beginTransaction() {
-        EntityTransaction tx = threadEntityTransaction.get();
-        if (tx == null) {
-            // TODO why dont I make this on getEntityManager instead?
-//            getEntityManager().setFlushMode(FlushModeType.COMMIT);
-            tx = getEntityManager().getTransaction();
-            logger.debug("Creation of entityTransaction : " + tx);
-            try {
-                tx.begin();
-            } catch (IllegalStateException ise) {
-                // assert : active is not null => the transaction already begin
-                // => this case should never been throw..
-                logger.error("Amazing exception..");
-                // TODO: handle exception
-            }
-            threadEntityTransaction.set(tx);
-        } else {
-            logger.warn("Cannot begin an already opened transaction");
-            // TODO
+    public static boolean eventualInit(EntityManagerFactory entityManagerFactory) {
+        if (threadEntityManager.get() != null) {
+            logger.error("eventualInit() reusing existing entity manager " + threadEntityManager.get());
+            return false;
         }
+
+        init(entityManagerFactory);
+        return true;
     }
 
-    public static void commitTransaction() {
-        EntityTransaction tx = threadEntityTransaction.get();
-        if (tx != null && tx.isActive()) {
-            try {
-                tx.commit();
-                threadEntityTransaction.set(null);
-            } catch (final RollbackException rbe) {
-                logger.error("[#CVQE-01] Can't commit transaction : ", rbe);
-                rollbackTransaction();
-            } catch (IllegalStateException ise) {
-                logger.warn("Sorry can't stop non started transaction");
-                // TODO ? dont log and throw ?
-            } finally {
-//                close();  // FIXME I think we should not close the entitymanager
-            }
-        } else {
-            logger.warn("No transaction to commit");
-            // TODO what ?
+    public static void init(EntityManagerFactory entityManagerFactory) {
+        if (entityManagerFactory == null) {
+            logger.error("no entity manager factory");
+            throw new RuntimeException("no entity manager factory");
         }
+        
+        if (threadEntityManager.get() != null) {
+            logger.error("init() rollbacking " + threadEntityManager.get());
+            // FIXME : this a hack added to handle session closing problem
+            // TODO : identify the real cause and fix it properly
+            // « Cherry-picked » from defunct HibernateUtil
+            close(true);
+        }
+        
+        EntityManager em = entityManagerFactory.createEntityManager();
+        em.getTransaction().begin();
+        threadEntityManager.set(em);
+        logger.error("init() initialized entity manager " + em);
     }
 
-    /**
-     * Rollback a transaction
-     * 
-     * @throws IllegalStateException
-     *             - if isActive() is false
-     * @throws PersistenceException
-     *             - if an unexpected error condition is encountered
-     */
-    public static void rollbackTransaction() {
-        logger.error("rollbackTransaction() Rollbacking ...");
-        EntityTransaction entityTransaction = threadEntityTransaction.get();
-        if (entityTransaction != null) {
-            if (!entityTransaction.isActive()) {
-                logger.error("rollbackTransaction() transaction is not active");
-                logger.error("rollbackTransaction() site : " 
-                        + SecurityContext.getCurrentSite() == null ? "null" : SecurityContext.getCurrentSite().getName());
+    public static void close(boolean rollback) {
+        if (threadEntityManager.get() == null) {
+            logger.error("close() no entity manager found (was asking for rollback ? " + rollback + ")");
+            return;
+        }
+
+        try {
+            if (rollback) {
+                logger.error("close() rollbacking on " + threadEntityManager.get());
+                threadEntityManager.get().getTransaction().rollback();
             } else {
-                entityTransaction.rollback();
+                try {
+                    logger.error("close() commiting on " + threadEntityManager.get());
+                    threadEntityManager.get().getTransaction().commit();
+                } catch (Throwable t) {
+                    logger.error("close() can't commit", t);
+                    throw new RuntimeException("close() can't commit", t);
+                }
             }
-            threadEntityTransaction.remove();
+        } finally {
+            EntityManager em = threadEntityManager.get();
+            threadEntityManager.get().close();
+            threadEntityManager.remove();
+            logger.error("close() closed " + em);
         }
     }
-
-    /**
-     * close the entityManager
-     * 
-     * @throws IllegalStateException
-     */
-    public static void close() {
-        EntityManager entityManager = threadEntityManager.get();
-        if (entityManager != null && entityManager.isOpen()) {
-            threadEntityManager.get().close();
-            threadEntityManager.set(null);
+    
+    public static void closeAndReOpen(boolean rollback) {
+        if (threadEntityManager.get() == null) {
+            logger.error("closeAndReOpen() no entity manager found");
+            throw new RuntimeException("no entity manager found");
         }
 
-        EntityTransaction tx = threadEntityTransaction.get();
-        if (tx != null && tx.isActive()) {
-            rollbackTransaction();
-            throw new RuntimeException("EntityManager closed before transition commited");
-        }
+        EntityManagerFactory emf = threadEntityManager.get().getEntityManagerFactory();
+        close(rollback);
+        init(emf);
     }
 
     public static PersistenceUnitUtil getPersistenceUnitUtil(){
+        EntityManagerFactory emf = threadEntityManager.get().getEntityManagerFactory();
         // if threadEntityManagerFactory dont have an emf
-        EntityManagerFactory emf = threadEntityManagerFactory.get();
         if (emf != null){
-            return threadEntityManagerFactory.get().getPersistenceUnitUtil();
+            return emf.getPersistenceUnitUtil();
         }else{
             throw new RuntimeException("you can't use getPersistenceUnitUtil() when no EntityManagerFactory is set");
         }
     }
-
 }

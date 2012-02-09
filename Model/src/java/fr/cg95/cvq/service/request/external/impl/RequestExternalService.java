@@ -15,6 +15,8 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
+import javax.persistence.EntityManagerFactory;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
@@ -40,8 +42,8 @@ import fr.cg95.cvq.business.users.UserState;
 import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.business.users.external.IndividualMapping;
 import fr.cg95.cvq.business.users.external.UserExternalAction;
-import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.jpa.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
@@ -220,7 +222,8 @@ public class RequestExternalService extends ExternalService implements IRequestE
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
     @RequestFilter(privilege = ContextPrivilege.MANAGE)
     public void sendRequests(Set<Critere> ids, String email) throws CvqException {
-        HibernateUtil.beginTransaction();
+        EntityManagerFactory emf = SecurityContext.getCurrentConfigurationBean().getEntityManagerFactory();
+        JpaUtil.init(emf);
         Set<Long> successes = new HashSet<Long>();
         Map<Long, String> failures = new HashMap<Long, String>();
         for (Request request : requestSearchService.get(ids, null, null, 0, 0, true)) {
@@ -250,7 +253,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
         mailService.send(null, email, null,
             translationService.translate("externalService.batchRequestResend.notification.subject"),
             body);
-        HibernateUtil.commitTransaction();
+        JpaUtil.close(false);
     }
 
     @Override
@@ -415,6 +418,8 @@ public class RequestExternalService extends ExternalService implements IRequestE
     @Async
     @Context(types = {ContextType.SUPER_ADMIN})
     public void addLocalAuthority(String localAuthorityName) {
+        EntityManagerFactory emf = SecurityContext.getCurrentConfigurationBean().getEntityManagerFactory();
+        JpaUtil.init(emf);
         for (fr.cg95.cvq.business.request.RequestType rt : requestTypeService.getAllRequestTypes()) {
             for (IExternalProviderService service : getExternalServicesByRequestType(rt.getLabel())) {
                 for (Long id : requestExternalActionService.getRequestsWithoutExternalAction(
@@ -426,6 +431,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
                 }
             }
         }
+        JpaUtil.close(false);
     }
 
     @Override
@@ -476,7 +482,7 @@ public class RequestExternalService extends ExternalService implements IRequestE
                             continue;
 
                         // to force user action's saving (which implies it will have an id we can use below)
-                        HibernateUtil.getSession().flush();
+                        JpaUtil.getEntityManager().flush();
 
                         RequestType xmlRequest = null;
                         if (newMappings.contains(externalServiceLabel)) {

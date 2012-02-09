@@ -40,38 +40,6 @@ public class HibernateUtil {
     }
 
     /**
-     * Closes the Session local to the thread.
-     * @deprecated use JpaUtil instead
-     */
-    public static void closeSession() {
-        JpaUtil.close();
-    }
-
-    /**
-     * Start a new database transaction.
-     * @deprecated use JpaUtil instead
-     */
-    public static void beginTransaction() {
-        JpaUtil.beginTransaction();
-    }
-
-    /**
-     * Commit the database transaction.
-     * @deprecated use JpaUtil instead
-     */
-    public static void commitTransaction() {
-        JpaUtil.commitTransaction();
-    }
-
-    /**
-     * Rollback the database transaction.
-     * @deprecated use JpaUtil instead
-     */
-    public static void rollbackTransaction() {
-        JpaUtil.rollbackTransaction();
-    }
-
-    /**
      * Builds sort hql statement, must be called after main(select) statement created
      *
      * @param sortParams Parameters map where key is fileld name (ex: [Alias].[FiledName]) and value is order direction (DESC/ASC), default ASC

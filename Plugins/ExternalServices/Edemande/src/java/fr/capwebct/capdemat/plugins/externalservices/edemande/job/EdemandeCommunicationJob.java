@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.jpa.JpaUtil;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.external.IRequestExternalService;
@@ -32,12 +32,11 @@ public class EdemandeCommunicationJob {
         for (Request request : requests) {
             try {
                 //Each request is managed in its own transaction
-                HibernateUtil.beginTransaction();
                 requestExternalService.sendRequest(request);
-                HibernateUtil.commitTransaction();
+                JpaUtil.closeAndReOpen(false);
                 
             } catch(Throwable t) {
-                HibernateUtil.rollbackTransaction();
+                JpaUtil.closeAndReOpen(true);
                 logger.error("sendRequests() Unable to send request " + request.getId() + " to " + this.edemandeService.getLabel());
             }
         }

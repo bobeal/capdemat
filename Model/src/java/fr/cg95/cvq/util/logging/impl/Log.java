@@ -1,5 +1,6 @@
 package fr.cg95.cvq.util.logging.impl;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -14,6 +15,7 @@ import org.apache.log4j.PatternLayout;
 
 import au.com.bytecode.opencsv.CSVWriter;
 
+import fr.cg95.cvq.business.payment.Payment;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
@@ -77,6 +79,46 @@ public class Log implements ILog, ILocalAuthorityLifecycleAware {
             line.add(adult.getAddress().getCountryName());
             line.add(adult.getQuestion());
             line.add(adult.getAnswer());
+
+            writer.writeNext(line.toArray(new String[]{}));
+            writer.flush();
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void paymentToCsv(Payment payment) {
+        try {
+            SecurityContext.getCurrentSite().getName();
+            String paymentFile =  assetBase + SecurityContext.getCurrentSite().getName()
+                    + "/log/payment-" + dateFormat.format(new Date()) + ".csv";
+            CSVWriter writer = new CSVWriter(new FileWriter(paymentFile, true));
+
+            File file = new File(paymentFile);
+            if (!file.exists()) {
+                List<String> line = new ArrayList<String>();
+                line.add("BankReference");
+                line.add("CvqReference");
+                line.add("FormatedAmount");
+                line.add("RequesterFirstName");
+                line.add("RequesterLastName");
+                line.add("HomeFolderId");
+                line.add("InitializationDate");
+                line.add("RequesterId");
+                writer.writeNext(line.toArray(new String[]{}));
+            }
+
+            List<String> line = new ArrayList<String>();
+            line.add(payment.getBankReference());
+            line.add(payment.getCvqReference());
+            line.add(payment.getFormatedAmount());
+            line.add(payment.getRequesterFirstName());
+            line.add(payment.getRequesterLastName());
+            line.add(payment.getHomeFolderId().toString());
+            line.add(payment.getInitializationDate().toString());
+            line.add(payment.getRequesterId().toString());
 
             writer.writeNext(line.toArray(new String[]{}));
             writer.flush();

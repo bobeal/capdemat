@@ -29,10 +29,12 @@ public class Adult extends Individual {
     private TitleType title;
 
     @NotEmpty(message = "maidenName")
+    @MaxLength(value=255, message="maidenName")
     @Column(name="maiden_name")
     private String maidenName;
 
     @NotEmpty(message = "nameOfUse")
+    @MaxLength(value=255, message="nameOfUse")
     @Column(name="name_of_use")
     private String nameOfUse;
 
@@ -75,6 +77,7 @@ public class Adult extends Individual {
     private String cfbn;
 
     @Column(name="profession")
+    @MaxLength(value=255, message="profession")
     private String profession;
 
     @NotNull(message = "question", profiles = {"login"})
@@ -84,6 +87,7 @@ public class Adult extends Individual {
 
     @NotNull(message = "answer", profiles = {"login"})
     @NotEmpty(message = "answer")
+    @MaxLength(value=255, message="answer")
     @Column(name="answer")
     private String answer;
 
@@ -92,11 +96,13 @@ public class Adult extends Individual {
 
     @NotNull(message = "password", profiles = {"login"})
     @MinLength(message = "password", value = IAuthenticationService.passwordMinLength)
+    @MaxLength(value=255, message="password")
     @Column(name="password")
     private String password;
 
     @SuppressWarnings("unused")
     @NotNull(message = "confirmPassword", profiles = {"login"})
+    @MaxLength(value=255, message="confirmPassword")
     @EqualToField(message = "confirmPassword", value = "password", profiles = {"login"})
     @Transient
     private String confirmPassword;

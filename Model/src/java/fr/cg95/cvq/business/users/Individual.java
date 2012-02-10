@@ -91,13 +91,14 @@ public abstract class Individual implements Serializable {
 
     @NotNull(message = "lastName")
     @NotEmpty(message = "lastName")
+    @MaxLength(value=38,message="lastName")
     @Column(name="last_name",length=38)
     private String lastName;
 
     @NotNull(message = "firstName", when = "groovy:(_this instanceof fr.cg95.cvq.business.users.Child && _this.born) || _this instanceof fr.cg95.cvq.business.users.Adult")
     @NotEmpty(message = "firstName", when = "groovy:(_this instanceof fr.cg95.cvq.business.users.Child && _this.born) || _this instanceof fr.cg95.cvq.business.users.Adult")
-    @Column(name="first_name", length=38)
     @MaxLength(value=38, message="firstName")
+    @Column(name="first_name", length=38)
     private String firstName;
 
     @NotEmpty(message = "firstName2")

@@ -49,6 +49,7 @@ import fr.cg95.cvq.business.payment.ExternalInvoiceItemDetail;
 import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.business.request.workflow.event.IWorkflowPostAction;
 import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowCompleteEvent;
 import fr.cg95.cvq.business.users.Child;
@@ -61,7 +62,7 @@ import fr.cg95.cvq.external.impl.ExternalProviderServiceAdapter;
 import fr.cg95.cvq.service.payment.IPaymentService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.school.external.IScholarBusinessProviderService;
-import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
+import fr.cg95.cvq.xml.common.RequestType;
 
 public class TechnocarteService extends ExternalProviderServiceAdapter implements IScholarBusinessProviderService {
     
@@ -70,36 +71,42 @@ public class TechnocarteService extends ExternalProviderServiceAdapter implement
     private String label;
     private String urlkiosque;
 
-    private IExternalHomeFolderService externalHomeFolderService;
-
     @Override
     public void visit(final WorkflowCompleteEvent wfEvent) throws CvqException {
-        checkExtReferentialAndSendRequest(wfEvent.getRequest());
+        try {
+            checkExtReferentialAndSendRequest(wfEvent.getRequest());
+        } catch (Exception e) {
+            return;
+        }
 
         wfEvent.setWorkflowPostAction(new IWorkflowPostAction() {
-            @Override
-            public String getExecutor() {
-                return getLabel();
-            }
 
-            @Override
-            public void execute(IRequestWorkflowService requestWorkflowService) {
-                try {
-                    requestWorkflowService.updateRequestState(wfEvent.getRequest().getId(),
-                            RequestState.EXTINPROGRESS, null);
-                } catch (CvqException e) {
-                    logger.error(e.getMessage());
-                }
-            }
-        });
+          @Override
+          public String getExecutor() { return getLabel(); }
+
+          @Override
+          public void execute(IRequestWorkflowService requestWorkflowService) {
+              try {
+                  requestWorkflowService.updateRequestState(wfEvent.getRequest().getId(), RequestState.EXTINPROGRESS, null);
+              } catch (CvqException e) {
+                  logger.error(e.getMessage());
+              }
+          }
+      });
     }
 
-    public String sendRequest(XmlObject requestXml) throws CvqException {
+    @Override
+    public void sendRequest(Request request) throws CvqException {
+        RequestType requestXml = requestExternalService.getRequestPayload(request, this);
         String Method = "ReceptionCapdemat";
 
         EntityManagerFactory emf = JpaUtil.getEntityManager().getEntityManagerFactory();
         JpaUtil.close(false);
         
+        RequestExternalAction rea = 
+                new RequestExternalAction(new Date(), request.getId(), "capdemat", null, 
+                        getLabel(), RequestExternalAction.Status.SENT);
+
         Vector<Parameter> parameters = new Vector<Parameter>();
         String la = "La connexion au serveur a echoué";
         parameters.addElement(new Parameter("var", String.class, requestXml, null));
@@ -113,24 +120,38 @@ public class TechnocarteService extends ExternalProviderServiceAdapter implement
             call.setParams(parameters);
             Response soap_response = call.invoke(new java.net.URL(urlkiosque), "");
             if (soap_response.generatedFault()) {
-                logger.error("The call failed: ");
+                logger.error("The call failed: " + soap_response.getFault().getFaultString());
+                rea.setStatus(RequestExternalAction.Status.ERROR);
+                rea.setMessage(soap_response.getFault().getFaultString());
             } else {
                 Parameter soap_result = soap_response.getReturnValue();
                 Object value = soap_result.getValue();
                 String s = getValue(value);
-                if (!s.equals(""))
-                    throw new CvqException(s);
+                if (!s.equals("")) {
+                    rea.setStatus(RequestExternalAction.Status.ERROR);
+                    rea.setMessage(s);
+                }
             }
         } catch (MalformedURLException e) {
             logger.error("sendRequest() got error " + e.getMessage());
-            throw new CvqException(la);
+            rea.setStatus(RequestExternalAction.Status.ERROR);
+            rea.setMessage(e.getMessage());
         } catch (SOAPException e) {
             logger.error("sendRequest() got error " + e.getMessage());
-            throw new CvqException(la);
+            rea.setStatus(RequestExternalAction.Status.ERROR);
+            rea.setMessage(la);
         } finally {
             JpaUtil.init(emf);
         }
-        return null;
+
+        requestExternalActionService.addTrace(rea);
+
+        if (RequestExternalAction.Status.ERROR.equals(rea.getStatus())) {
+            logger.error("sendRequest() error while sending request to " + getLabel());
+            throw new CvqException(rea.getMessage());
+        }
+
+        return;
     }
 
     
@@ -736,7 +757,8 @@ public class TechnocarteService extends ExternalProviderServiceAdapter implement
         return stops;
     }
 
-    public void setExternalHomeFolderService(IExternalHomeFolderService externalHomeFolderService) {
-        this.externalHomeFolderService = externalHomeFolderService;
+    @Override
+    public String sendRequest(XmlObject requestXml) throws CvqException {
+        return null;
     }
 }

@@ -39,7 +39,7 @@ public abstract class ExternalProviderServiceAdapter implements IExternalProvide
 
     protected IRequestExternalService requestExternalService;
     protected IRequestExternalActionService requestExternalActionService;
-    private IExternalHomeFolderService externalHomeFolderService;
+    protected IExternalHomeFolderService externalHomeFolderService;
 
     public void setRequestExternalService(IRequestExternalService requestExternalService) {
         this.requestExternalService = requestExternalService;

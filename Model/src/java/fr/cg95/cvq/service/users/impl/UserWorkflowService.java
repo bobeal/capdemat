@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.EntityManagerFactory;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationEventPublisher;
@@ -49,6 +51,7 @@ import fr.cg95.cvq.business.users.external.HomeFolderMapping;
 import fr.cg95.cvq.business.users.external.IndividualMapping;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.jpa.IGenericDAO;
+import fr.cg95.cvq.dao.jpa.JpaUtil;
 import fr.cg95.cvq.dao.users.IHomeFolderDAO;
 import fr.cg95.cvq.dao.users.IIndividualDAO;
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException;
@@ -727,6 +730,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
     public void importHomeFolders(HomeFolderImportDocument doc)
         throws CvqException, IOException {
         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
+        EntityManagerFactory emf = SecurityContext.getCurrentConfigurationBean().getEntityManagerFactory();
         ByteArrayOutputStream creationsOutput = new ByteArrayOutputStream();
         CSVWriter creations = new CSVWriter(new OutputStreamWriter(creationsOutput));
         creations.writeNext(new String[] {
@@ -760,7 +764,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         boolean hasFailures = false;
         String label = doc.getHomeFolderImport().getExternalServiceLabel();
         homeFolders : for (HomeFolderType homeFolder : doc.getHomeFolderImport().getHomeFolderArray()) {
-            HibernateUtil.beginTransaction();
+            JpaUtil.init(emf);
             try {
                 Adult responsible = null;
                 List<Adult> adults = new ArrayList<Adult>();
@@ -883,11 +887,11 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
                     }
                     homeFolderDAO.update(result);
                 }
-                HibernateUtil.commitTransaction();
+                JpaUtil.close(false);
                 hasCreations = true;
             } catch (Throwable t) {
                 failures.writeNext(new String[]{homeFolder.getExternalId(), t.getMessage()});
-                HibernateUtil.rollbackTransaction();
+                JpaUtil.close(true);
                 hasFailures = true;
             }
         }

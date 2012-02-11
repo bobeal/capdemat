@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.persistence.EntityManagerFactory;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -96,8 +97,8 @@ public class TechnocarteService extends ExternalProviderServiceAdapter implement
     public String sendRequest(XmlObject requestXml) throws CvqException {
         String Method = "ReceptionCapdemat";
 
-        JpaUtil.commitTransaction();
-        JpaUtil.close();
+        EntityManagerFactory emf = JpaUtil.getEntityManager().getEntityManagerFactory();
+        JpaUtil.close(false);
         
         Vector<Parameter> parameters = new Vector<Parameter>();
         String la = "La connexion au serveur a echoué";
@@ -127,7 +128,7 @@ public class TechnocarteService extends ExternalProviderServiceAdapter implement
             logger.error("sendRequest() got error " + e.getMessage());
             throw new CvqException(la);
         } finally {
-            JpaUtil.beginTransaction();
+            JpaUtil.init(emf);
         }
         return null;
     }

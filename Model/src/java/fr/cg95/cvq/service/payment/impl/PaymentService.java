@@ -61,6 +61,7 @@ import fr.cg95.cvq.service.users.external.IExternalHomeFolderService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.JSONUtils;
 import fr.cg95.cvq.util.DateUtils;
+import fr.cg95.cvq.util.logging.impl.Log;
 import fr.cg95.cvq.util.mail.IMailService;
 
 public final class PaymentService implements IPaymentService, 
@@ -201,7 +202,7 @@ public final class PaymentService implements IPaymentService,
     @Context(types = {ContextType.ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public final URL initPayment(Payment payment)
         throws CvqException {
-    
+
         IPaymentProviderService paymentProviderService =
             getPaymentServiceByBrokerAndMode(payment.getBroker(), payment.getPaymentMode());
         if (paymentProviderService == null) {
@@ -213,10 +214,17 @@ public final class PaymentService implements IPaymentService,
         payment.setState(PaymentState.INITIALIZED);
         payment.setInitializationDate(new Date());
 
+        Log.paymentToCsv(payment);
+
         Set<PurchaseItem> purchaseItems = payment.getPurchaseItems();
         if (purchaseItems != null){
             Set<PurchaseItem> persistedPurchaseItems = new HashSet<PurchaseItem>();
-            for(PurchaseItem purchaseItem : purchaseItems){
+            for (PurchaseItem purchaseItem : purchaseItems) {
+                try {
+                    JpaUtil.getEntityManager().refresh(purchaseItem);
+                } catch (IllegalArgumentException iea) {
+                    // not managed => no problem
+                }
                 persistedPurchaseItems.add((PurchaseItem) genericDAO.saveOrUpdate(purchaseItem));
             }
             payment.setPurchaseItems(persistedPurchaseItems);

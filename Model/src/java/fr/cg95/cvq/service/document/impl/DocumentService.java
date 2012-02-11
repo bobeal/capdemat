@@ -150,9 +150,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             + SecurityContext.getCurrentSite().getName());
         for (Long id : documentDAO.listOutdated()) {
             updateDocumentState(id, DocumentState.OUTDATED, "", null);
-            JpaUtil.commitTransaction();
-            JpaUtil.close();
-            JpaUtil.beginTransaction();
+            JpaUtil.closeAndReOpen(false);
         }
     }
 

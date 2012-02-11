@@ -9,7 +9,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.dao.jpa.IGenericDAO;
-import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.jpa.JpaUtil;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry;
@@ -47,7 +47,6 @@ public class EdemandeTracesSquasher {
         criterias.add(new Critere(RequestExternalAction.SEARCH_BY_NAME, edemandeService.getLabel(),
             Critere.EQUALS));
         for (String key : requestExternalService.getKeys(criterias)) {
-            HibernateUtil.beginTransaction();
             RequestExternalAction previous = null;
             Set<Critere> criterias2 = new HashSet<Critere>(criterias);
             criterias2.add(new Critere(RequestExternalAction.SEARCH_BY_KEY, key, Critere.EQUALS));
@@ -64,8 +63,7 @@ public class EdemandeTracesSquasher {
                 }
                 previous = action;
             }
-            HibernateUtil.commitTransaction();
-            HibernateUtil.closeSession();
+            JpaUtil.closeAndReOpen(false);
         }
     }
 }

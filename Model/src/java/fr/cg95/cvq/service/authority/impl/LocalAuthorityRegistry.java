@@ -27,6 +27,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.apache.commons.lang.StringUtils;
@@ -638,27 +640,35 @@ public class LocalAuthorityRegistry
                         logger.debug("registerLocalAuthorities() loading " + localAuthorityName);
                         xmlBeanDefinitionReader.loadBeanDefinitions(localAuthoritiesFiles[i]);
                         if (DEVELOPMENT_LOCAL_AUTHORITY.equals(localAuthorityName)) {
-                            JpaUtil.setEntityManagerFactory(Persistence.createEntityManagerFactory("capdematPersistenceUnit", getTemplateJpaProperties()));
-                            BeanDefinition definition =
-                                gac.getBeanDefinition("configurationBean_blainville");
+                            BeanDefinition definition = gac.getBeanDefinition("configurationBean_blainville");
                             try {
                                 String dbName =
                                     new URI(parseJDBCProperty(definition, "jpaConfigurations").substring(5))
                                         .getPath().substring(1);
-                                if (BigInteger.ZERO.equals(JpaUtil.getEntityManager()
-                                        .createNativeQuery("select count(*) from pg_catalog.pg_database where datname = :dbName")
-                                        .setParameter("dbName", dbName).getSingleResult())) {
+                                EntityManagerFactory templateEmf = 
+                                        Persistence.createEntityManagerFactory("capdematPersistenceUnit", templateJpaProperties);
+                                EntityManager em = templateEmf.createEntityManager();
+                                if (BigInteger.ZERO.equals(
+                                        em.createNativeQuery("select count(*) from pg_catalog.pg_database where datname = :dbName")
+                                            .setParameter("dbName", dbName).getSingleResult())) {
                                     try {
-                                        ((HibernateEntityManager)JpaUtil.getEntityManager()).getSession()
+                                        ((HibernateEntityManager) em).getSession()
                                             .connection().createStatement().execute("create database \"" + dbName + '\"');
                                     } catch (Exception e) {
-                                        logger.error("could not create database " + dbName);
-                                        e.printStackTrace();
+                                        logger.error("could not create database " + dbName, e);
                                     }
+                                    em.close();
+                                    templateEmf.close();
                                     //jpa is in hibernate autoddl... should be enough ..
-                                    Map jpaConfigurations = parseJPAConfiguration(definition);
+                                    Map<String, String> jpaConfigurations = parseJPAConfiguration(definition);
                                     jpaConfigurations.put("hibernate.hbm2ddl.auto", "create-drop");
-                                    JpaUtil.setEntityManagerFactory(Persistence.createEntityManagerFactory("capdematPersistenceUnit",jpaConfigurations));
+                                    EntityManagerFactory emf = 
+                                            Persistence.createEntityManagerFactory("capdematPersistenceUnit",jpaConfigurations);
+                                    JpaUtil.init(emf);
+                                    JpaUtil.close(false);
+                                } else {
+                                    em.close();
+                                    templateEmf.close();
                                 }
                             } catch (URISyntaxException e) {
                                 logger.error("got an exception while trying to create dev database");
@@ -689,11 +699,10 @@ public class LocalAuthorityRegistry
         generateLocalAuthoritiesList();
     }
 
-    private Map parseJPAConfiguration(BeanDefinition definition) {
+    private Map<String, String> parseJPAConfiguration(BeanDefinition definition) {
         ManagedProperties managedProperties = ((ManagedProperties)definition.getPropertyValues().getPropertyValue("jpaConfigurations").getValue());
-        Map jpaConfigurationMap = new HashMap();
-        for(Entry entry : managedProperties.entrySet())
-        {
+        Map<String, String> jpaConfigurationMap = new HashMap<String, String>();
+        for (Entry entry : managedProperties.entrySet()) {
             jpaConfigurationMap.put(((TypedStringValue) entry.getKey()).getValue(),((TypedStringValue) entry.getValue()).getValue());
         }
         return jpaConfigurationMap;
@@ -779,16 +788,16 @@ public class LocalAuthorityRegistry
         
         LocalAuthorityConfigurationBean lacb =
             configurationBeansMap.get(localAuthority);
-        JpaUtil.setEntityManagerFactory(lacb.getEntityManagerFactory());
-        try {
-            SecurityContext.setCurrentSite(lacb.getName(), SecurityContext.ADMIN_CONTEXT);
-        } catch (CvqObjectNotFoundException confe) {
-            // unlikely to happen
-        }
 
+        boolean rollback = false;
         try {
-            Store.init(new File(assetsBase + lacb.getName(), "zdb"));            
-            JpaUtil.beginTransaction();
+            JpaUtil.init(lacb.getEntityManagerFactory());
+            try {
+                SecurityContext.setCurrentSite(lacb.getName(), SecurityContext.ADMIN_CONTEXT);
+            } catch (CvqObjectNotFoundException confe) {
+                logger.error("callback() site " + lacb.getName() + " not found in DB");
+            }
+            Store.init(new File(assetsBase + lacb.getName(), "zdb"));
 
             if (args == null || args.length == 0) {
                 Method method = 
@@ -806,15 +815,13 @@ public class LocalAuthorityRegistry
                 method.invoke(object, methArgs);
             }
 
-            JpaUtil.commitTransaction();
-
         } catch (Exception e) {
             logger.error("callback() got an exception, rollbacking");
             e.printStackTrace();
-            JpaUtil.rollbackTransaction();
+            rollback = true;
         } finally {
             Store.release();
-            JpaUtil.close();
+            JpaUtil.close(rollback);
             SecurityContext.resetCurrentSite();
         }
     }
@@ -974,10 +981,6 @@ public class LocalAuthorityRegistry
 
     public void setGenericDAO(IGenericDAO genericDAO) {
         this.genericDAO = genericDAO;
-    }
-
-    public Properties getTemplateJpaProperties() {
-        return templateJpaProperties;
     }
 
     public void setTemplateJpaProperties(Properties templateJpaProperties) {

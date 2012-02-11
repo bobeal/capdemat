@@ -13,9 +13,8 @@ import zdb.core.Store;
 import fr.cg95.cvq.business.document.ContentType;
 import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
-import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.jpa.IGenericDAO;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.dao.jpa.JpaUtil;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.document.IDocumentService;
@@ -49,12 +48,11 @@ public class DocumentToZDBExtractor {
         Store.init(new File(localAuthorityRegistry.getAssetsBase() + SecurityContext.getCurrentSite().getName(), "zdb"));
         DocumentBinary docBin;
         byte[] data;
-        for (Long id : (List<Long>)HibernateUtil.getSession().createQuery("select id from DocumentBinary").list()) {
-            HibernateUtil.beginTransaction();
+        for (Long id : (List<Long>) JpaUtil.getEntityManager().createQuery("select id from DocumentBinary").getResultList()) {
             docBin = (DocumentBinary) genericDAO.findById(DocumentBinary.class, id.longValue());
-            data = (byte[])HibernateUtil.getSession()
-                .createSQLQuery("select data from document_binary where id = :id")
-                    .setLong("id", id).uniqueResult();
+            data = (byte[]) JpaUtil.getEntityManager()
+                .createNativeQuery("select data from document_binary where id = :id")
+                    .setParameter("id", id).getSingleResult();
             if (data == null) {
                 docBin.setContentType(ContentType.OCTET_STREAM);
             } else {
@@ -68,8 +66,7 @@ public class DocumentToZDBExtractor {
                 // whatever...
             }
             genericDAO.update(docBin);
-            HibernateUtil.commitTransaction();
-            HibernateUtil.closeSession();
+            JpaUtil.closeAndReOpen(true);
         }
     }
 }

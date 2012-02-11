@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.junit.After;
@@ -28,7 +29,6 @@ import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.business.users.UserSecurityProfile;
-import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.dao.jpa.JpaUtil;
 import fr.cg95.cvq.exception.CvqException;
@@ -143,7 +143,6 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
 
     @Before
     public void onSetUp() throws Exception {
-        JpaUtil.setEntityManagerFactory(Persistence.createEntityManagerFactory("capdematPersistenceUnit",localAuthorityConfigurationBean.getJpaConfigurations()));
         startTransaction();
         IGenericDAO genericDAO = getApplicationBean("genericDAO");
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -190,7 +189,9 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
 
     protected void startTransaction() throws CvqException {
         try {
-            HibernateUtil.beginTransaction();
+            EntityManagerFactory emf = 
+                    Persistence.createEntityManagerFactory("capdematPersistenceUnit",localAuthorityConfigurationBean.getJpaConfigurations());
+            JpaUtil.init(emf);
         } catch (Exception e) {
             logger.error("got exception while starting new tx");
             e.printStackTrace();
@@ -199,22 +200,22 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
     }
 
     protected void commitTransaction() {
-        HibernateUtil.commitTransaction();
-        HibernateUtil.closeSession();
+        JpaUtil.close(false);
     }
     
     protected void rollbackTransaction() throws CvqException {
         try {
-            HibernateUtil.rollbackTransaction();
-            HibernateUtil.closeSession();
+            JpaUtil.close(true);
         } catch (Exception e) {
             throw new CvqException("");
         }         
     }
     
     protected void continueWithNewTransaction() {
-        HibernateUtil.commitTransaction();
-        HibernateUtil.beginTransaction();
+        JpaUtil.close(false);
+        EntityManagerFactory emf = 
+                Persistence.createEntityManagerFactory("capdematPersistenceUnit",localAuthorityConfigurationBean.getJpaConfigurations());
+        JpaUtil.init(emf);
     }
     
     @After

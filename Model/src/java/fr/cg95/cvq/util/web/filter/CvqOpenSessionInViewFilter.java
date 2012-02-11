@@ -78,8 +78,7 @@ public class CvqOpenSessionInViewFilter extends GenericFilterBean {
                 entityManagerFactory = Persistence.createEntityManagerFactory("capdematPersistenceUnit", lacb.getJpaConfigurations());
                 lacb.setEntityManagerFactory(entityManagerFactory);
             }
-            JpaUtil.setEntityManagerFactory(entityManagerFactory);
-            JpaUtil.beginTransaction();
+            JpaUtil.init(entityManagerFactory);
             txRollback.set(Boolean.FALSE);
             try {
                 SecurityContext.setCurrentSite(lacb.getName(), context);
@@ -98,15 +97,9 @@ public class CvqOpenSessionInViewFilter extends GenericFilterBean {
 
             Boolean doRollback = txRollback.get();
             logger.debug("doFilter() Tx rollback status : " + doRollback.booleanValue());
-            if (doRollback.booleanValue()) {
-                JpaUtil.rollbackTransaction();
-            } else {
-                JpaUtil.commitTransaction();
-            }
+            JpaUtil.close(doRollback);
         } finally {
             txRollback.set(null);
-            // No matter what happens, close the Session.
-            JpaUtil.close();
             SecurityContext.resetCurrentSite();
         }
     }

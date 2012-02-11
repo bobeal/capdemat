@@ -106,9 +106,7 @@ public class RequestArchivingJob implements ApplicationContextAware, ILocalAutho
                     localAuthorityRegistry.saveLocalAuthorityResource(Type.REQUEST_ARCHIVE,
                         filename, archive);
                     try {
-                        JpaUtil.commitTransaction();
-                        JpaUtil.close();
-                        JpaUtil.beginTransaction();
+                        JpaUtil.closeAndReOpen(false);
                         result.numberOfSuccesses++;
                     } catch (Throwable t) {
                         localAuthorityRegistry.getLocalAuthorityResourceFile(Type.REQUEST_ARCHIVE,
@@ -119,9 +117,7 @@ public class RequestArchivingJob implements ApplicationContextAware, ILocalAutho
             } catch (Throwable t) {
                 t.printStackTrace();
                 result.failures.put(r, t);
-                JpaUtil.rollbackTransaction();
-                JpaUtil.close();
-                JpaUtil.beginTransaction();
+                JpaUtil.closeAndReOpen(true);
             }
         }
         RequestAdminAction action =
@@ -140,7 +136,6 @@ public class RequestArchivingJob implements ApplicationContextAware, ILocalAutho
         Set<RequestState> archivedStates = new HashSet<RequestState>(1);
         archivedStates.add(RequestState.ARCHIVED);
         for (Request r : requestDAO.listByStates(archivedStates, true)) {
-            HibernateUtil.beginTransaction();
             try {
                 Request request = requestDAO.findById(r.getId(), true);
                 byte archive[] = requestPdfService.generateArchive(request.getId());
@@ -162,7 +157,7 @@ public class RequestArchivingJob implements ApplicationContextAware, ILocalAutho
                 localAuthorityRegistry.saveLocalAuthorityResource(Type.REQUEST_ARCHIVE,
                     filename, archive);
                 try {
-                    HibernateUtil.commitTransaction();
+                    JpaUtil.closeAndReOpen(false);
                     result.numberOfSuccesses++;
                 } catch (Throwable t) {
                     localAuthorityRegistry.getLocalAuthorityResourceFile(Type.REQUEST_ARCHIVE,
@@ -172,13 +167,12 @@ public class RequestArchivingJob implements ApplicationContextAware, ILocalAutho
             } catch (Throwable t) {
                 t.printStackTrace();
                 result.failures.put(r, t);
-                HibernateUtil.rollbackTransaction();
+                JpaUtil.closeAndReOpen(true);
             }
         }
         RequestAdminAction action =
             new RequestAdminAction(RequestAdminAction.Type.ARCHIVES_MIGRATED);
         action.getComplementaryData().put(RequestAdminAction.Data.ARCHIVING_RESULT, result);
-        HibernateUtil.beginTransaction();
         genericDAO.saveOrUpdate(action);
         RequestAdminEvent event = new RequestAdminEvent(this, action);
         applicationContext.publishEvent(event);

@@ -7,7 +7,6 @@ import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean
 import fr.cg95.cvq.service.request.ICategoryService
-import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.dao.jpa.JpaUtil;
 import fr.cg95.cvq.util.web.filter.CASFilter
 
@@ -16,8 +15,6 @@ import edu.yale.its.tp.cas.client.ProxyTicketValidator
 import edu.yale.its.tp.cas.client.CASAuthenticationException
 
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.servlet.ServletException
 
 import zdb.core.Store
 
@@ -26,18 +23,27 @@ class SessionFilters {
     def securityService
     
     IAgentService agentService
-    IRequestTypeService requestTypeService
     ICategoryService categoryService
+    ILocalAuthorityRegistry localAuthorityRegistry
 
     static filters = {
+        
+        logBefore(controller: '*', action: '*') {
+            before = {
+                log.info(
+                    session.currentEcitizenId
+                    + " " + session.currentCredentialBean
+                    + " " + request.method.toUpperCase()
+                    + " /" + controllerName
+                    + "/" + actionName)
+            }
+        }
         
         // filter used for local authority resources (images, css, pdf, ...)
         // that do not need a BD connection
         openSiteContextOnly(controller:'localAuthorityResource') {
             before = {
                 try {
-                    ILocalAuthorityRegistry localAuthorityRegistry =
-                            applicationContext.getBean("localAuthorityRegistry")
                     LocalAuthority la = localAuthorityRegistry.getLocalAuthorityByServerName(request.serverName)
                     if (la == null) {
                         log.error "No local authority found for domain : ${request.serverName}"
@@ -72,8 +78,6 @@ class SessionFilters {
         openSessionInView(controller:'localAuthorityResource', invert:'true') {
             before = {
                 try {
-                    ILocalAuthorityRegistry localAuthorityRegistry =
-                        applicationContext.getBean("localAuthorityRegistry")
                     LocalAuthority la
                     LocalAuthorityConfigurationBean lacb
                     if (controllerName != "serviceProvisioning") {
@@ -93,18 +97,18 @@ class SessionFilters {
 	                    }
                     } else {
                         lacb = localAuthorityRegistry.getLocalAuthorityBeanByName(params.localAuthority)
-                    }
-                    EntityManagerFactory entityManagerFactory = lacb.getEntityManagerFactory()
-                    if(entityManagerFactory == null){
-                        entityManagerFactory = Persistence.createEntityManagerFactory("capdematPersistenceUnit", lacb.getJpaConfigurations())
-                        lacb.setEntityManagerFactory(entityManagerFactory)
-                    }
-                    JpaUtil.setEntityManagerFactory(entityManagerFactory)
-                    JpaUtil.beginTransaction()
-
-                    if (controllerName == "serviceProvisioning") {
                         la = localAuthorityRegistry.getLocalAuthorityByName(lacb.name)
                     }
+
+                    EntityManagerFactory entityManagerFactory = lacb.getEntityManagerFactory()
+                    if (flash.redirect) {
+                        log.error "In filters redirect, reusing ${JpaUtil.getEntityManager()}"
+                    } else if (controllerName == "system" && actionName == "error") {
+                        JpaUtil.eventualInit(entityManagerFactory)
+                    } else {
+                        JpaUtil.init(entityManagerFactory)
+                    }
+
                     Store.init(new File(localAuthorityRegistry.assetsBase + la.name, "zdb"))
                     SecurityContext.setCurrentSite(la, SecurityContext.BACK_OFFICE_CONTEXT)
                     SecurityContext.setCurrentLocale(request.getLocale())
@@ -125,14 +129,8 @@ class SessionFilters {
             }
             afterView = {
                 def doRollback = session.getAttribute("doRollback")
-                if (doRollback)
-                    JpaUtil.rollbackTransaction()
-                else
-                    JpaUtil.commitTransaction()
-                // No matter what happens, close the Session.
+                JpaUtil.close(doRollback)
                 Store.release();
-                JpaUtil.close()
-                SecurityContext.resetCurrentSite();
             }
         }
 
@@ -151,6 +149,7 @@ class SessionFilters {
                     securityService.defineAccessPoint(session.frontContext,
                         SecurityContext.FRONT_OFFICE_CONTEXT, controllerName,
                         actionName)
+                log.error "Security service returned point : ${point}"
                 try {
                     SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
                     if (session.frontContext == ContextType.AGENT) {
@@ -164,17 +163,20 @@ class SessionFilters {
                         (point.controller != controllerName)) {
                         if(point.action) redirect(controller: point.controller, action: point.action)
                         else redirect(controller: point.controller)
+                        flash.redirect = true
                         return false
                     } else if (session.currentEcitizenId) {
                         SecurityContext.setCurrentEcitizen(session.currentEcitizenId)
                         session.setAttribute("currentCredentialBean", SecurityContext.currentCredentialBean)
                     }
                 } catch (CvqObjectNotFoundException ce) {
-                    session.currentEcitizenId = null
+                    log.error "Object not found : ${ce}"
+                    securityService.logout(session)
                     redirect(controller: 'frontofficeHome', action: 'login')
+                    flash.redirect = true
                     return false
                 } catch (CvqException ce) {
-                    if (session.currentEcitizenId) session.currentEcitizenId = null
+                    securityService.logout(session)
                 	log.error "Unexpected error while setting current ecitizen : ${ce.message}"
                 	response.setStatus(500)
                 	render "Unexpected error while setting current ecitizen : ${ce.message}"
@@ -194,6 +196,7 @@ class SessionFilters {
                     SecurityContext.getCurrentConfigurationBean().getDefaultEmail().equals(ecitizen.email)
                     && !agentService.exists(userId)) {
                     redirect(controller: "frontofficeHomeFolder", action: "editImportedAccount")
+                    flash.redirect = true
                     return false
                 }
             }
@@ -205,6 +208,7 @@ class SessionFilters {
             	if (org.codehaus.groovy.grails.commons.ConfigurationHolder.config.cas_mocking == 'true') {
             		if (session.getAttribute(CASFilter.CAS_FILTER_USER) == null) {
             			response.sendRedirect('/CapDemat/cas.gsp')
+                        flash.redirect = true
             			return false
             		} else {
             			return true
@@ -220,6 +224,7 @@ class SessionFilters {
                    	def redirectUrl =
                    	  "${org.codehaus.groovy.grails.commons.ConfigurationHolder.config.cas_login_url}?localAuthority=${session.getAttribute('currentSiteName')}&service=https://${request.serverName}${request.forwardURI}"
                    	response.sendRedirect(redirectUrl)
+                    flash.redirect = true
                    	return false
                 }
 
@@ -306,7 +311,7 @@ class SessionFilters {
                     try {
                         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT)
                         agentService.updateUserProfiles(user, groups, userInformations)
-                        JpaUtil.commitTransaction()
+                        JpaUtil.closeAndReOpen(false)
                         SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT)
                         SecurityContext.setCurrentAgent(user)
                         session.setAttribute("currentUser", user)
@@ -330,7 +335,7 @@ class SessionFilters {
                     	response.setStatus(500)
                     	render "Unexpected error while setting agent in security context"
                         e.printStackTrace()
-						JpaUtil.rollbackTransaction()
+						JpaUtil.close(true)
 						SecurityContext.resetCurrentSite()
     					return false
                     }
@@ -342,6 +347,7 @@ class SessionFilters {
                     controllerName, actionName)
                 if (point.controller != controllerName || point.action != actionName) {
                     redirect(controller: point.controller, action: point.action)
+                    flash.redirect = true
                     return false
                 }
         	}

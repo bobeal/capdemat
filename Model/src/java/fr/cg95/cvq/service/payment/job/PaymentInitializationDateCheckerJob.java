@@ -51,6 +51,8 @@ public class PaymentInitializationDateCheckerJob {
 		List<Payment> paymentList = paymentDAO.searchNotCommited();
 		logger.debug("checkInitializedPayment() number of not commited payments : " 
 		        + paymentList.size());
+		if (paymentList.isEmpty())
+		    return;
 		
 		LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         

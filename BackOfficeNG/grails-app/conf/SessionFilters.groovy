@@ -102,7 +102,8 @@ class SessionFilters {
 
                     EntityManagerFactory entityManagerFactory = lacb.getEntityManagerFactory()
                     if (flash.redirect) {
-                        log.error "In filters redirect, reusing ${JpaUtil.getEntityManager()}"
+                        log.error "In filters redirect, rollbacking ${JpaUtil.getEntityManager()}"
+                        JpaUtil.init(entityManagerFactory)
                     } else if (controllerName == "system" && actionName == "error") {
                         JpaUtil.eventualInit(entityManagerFactory)
                     } else {

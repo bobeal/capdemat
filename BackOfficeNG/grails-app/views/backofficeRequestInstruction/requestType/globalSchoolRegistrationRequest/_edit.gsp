@@ -120,17 +120,6 @@
               </dl>
               
             
-              
-              <dl>
-                <dt class="required condition-estRestauration-filled"><g:message code="gsrr.property.regimeAlimentaire.label" /> * : </dt><dd id="regimeAlimentaire" class="action-editField validate-localReferentialData required-true i18n-gsrr.property.regimeAlimentaire data-localReferentialData" >
-           <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
-                     model="['javaName':'regimeAlimentaire', 'lrEntries': lrTypes.regimeAlimentaire?.entries, 
-                             'rqt':rqt, 'isMultiple':lrTypes.regimeAlimentaire?.isMultiple(), 'depth':0]" />
- 
-          </dd>
-              </dl>
-              
-            
           </div>
           <!-- column end -->
           

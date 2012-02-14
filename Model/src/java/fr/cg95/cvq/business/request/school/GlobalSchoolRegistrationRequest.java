@@ -156,15 +156,6 @@ public class GlobalSchoolRegistrationRequest extends Request implements Serializ
             globalSchoolRegistrationRequest.setMotifsDerogationEcoleArray(motifsDerogationEcoleTypeTab);
         }
       
-        i = 0;
-        if (getRegimeAlimentaire() != null) {
-            fr.cg95.cvq.xml.common.LocalReferentialDataType[] regimeAlimentaireTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[getRegimeAlimentaire().size()];
-            for (LocalReferentialData object : getRegimeAlimentaire()) {
-              regimeAlimentaireTypeTab[i++] = LocalReferentialData.modelToXml(object);
-            }
-            globalSchoolRegistrationRequest.setRegimeAlimentaireArray(regimeAlimentaireTypeTab);
-        }
-      
         return globalSchoolRegistrationRequestDoc;
     }
 
@@ -204,12 +195,6 @@ public class GlobalSchoolRegistrationRequest extends Request implements Serializ
             motifsDerogationEcoleList.add(fr.cg95.cvq.business.request.LocalReferentialData.xmlToModel(object));
         }
         globalSchoolRegistrationRequest.setMotifsDerogationEcole(motifsDerogationEcoleList);
-      
-        List<fr.cg95.cvq.business.request.LocalReferentialData> regimeAlimentaireList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(globalSchoolRegistrationRequestXml.sizeOfRegimeAlimentaireArray());
-        for (LocalReferentialDataType object : globalSchoolRegistrationRequestXml.getRegimeAlimentaireArray()) {
-            regimeAlimentaireList.add(fr.cg95.cvq.business.request.LocalReferentialData.xmlToModel(object));
-        }
-        globalSchoolRegistrationRequest.setRegimeAlimentaire(regimeAlimentaireList);
       
         return globalSchoolRegistrationRequest;
     }
@@ -353,15 +338,6 @@ public class GlobalSchoolRegistrationRequest extends Request implements Serializ
     
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getMotifsDerogationEcole() {
         return globalSchoolRegistrationRequestData.getMotifsDerogationEcole();
-    }
-  
-    public final void setRegimeAlimentaire(final List<fr.cg95.cvq.business.request.LocalReferentialData> regimeAlimentaire) {
-        globalSchoolRegistrationRequestData.setRegimeAlimentaire(regimeAlimentaire);
-    }
-
-    
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getRegimeAlimentaire() {
-        return globalSchoolRegistrationRequestData.getRegimeAlimentaire();
     }
   
 }

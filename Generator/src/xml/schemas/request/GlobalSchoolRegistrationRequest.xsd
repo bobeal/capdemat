@@ -29,11 +29,7 @@
                 <condition name="estDerogation" />
               </conditions>
             </step>
-            <step index="1" name="restauration">
-                <conditions>
-                    <condition name="estRestauration" />
-                </conditions>
-            </step>
+            <step index="1" name="restauration" />
             <step index="2" name="periscolaire" />
             <step index="3" name="reglements" />
             <step index="4" ref="document" />
@@ -174,31 +170,6 @@
                 <xs:appinfo>
                   <common>
                     <step name="restauration" />
-                    <conditions>
-                        <condition name="estRestauration" type="trigger" />
-                    </conditions>
-                  </common>
-                  <fo />
-                  <bo column="1" />
-                 <pdf />
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-            <xs:element name="RegimeAlimentaire" type="cvq:LocalReferentialDataType" maxOccurs="unbounded">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Régime alimentaire de votre enfant
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Régime alimentaire de votre enfant
-                </xs:documentation>
-                <xs:appinfo>
-                  <model namespace="request" isTiedToRequest="true" />
-                  <common>
-                    <step name="restauration" />
-                    <conditions>
-                        <condition name="estRestauration" type="filled" />
-                    </conditions>
                   </common>
                   <fo />
                   <bo column="1" />

@@ -55,10 +55,6 @@ gsrr.property.estRestauration.help =
 gsrr.property.estRestauration.validationError =
 
 
-gsrr.property.regimeAlimentaire.help =
-gsrr.property.regimeAlimentaire.validationError =
-
-
 gsrr.property.estPeriscolaire.help =
 gsrr.property.estPeriscolaire.validationError =
 

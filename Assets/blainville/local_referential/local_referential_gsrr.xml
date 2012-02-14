@@ -17,21 +17,4 @@
             </entry>
         </entries>
     </data>
-    <data name="RegimeAlimentaire" allowMultipleChoices="false" manager="CapDémat">
-        <label>Régime alimentaire de votre enfant</label>
-        <entries>
-            <entry key="Sans-viande">
-                <label>Sans viande</label>
-                <message/>
-            </entry>
-            <entry key="Sans-lactose">
-                <label>Sans lactose</label>
-                <message/>
-            </entry>
-            <entry key="Sans-re-gime-particulier">
-                <label>Sans régime particulier</label>
-                <message/>
-            </entry>
-        </entries>
-    </data>
 </LocalReferential>

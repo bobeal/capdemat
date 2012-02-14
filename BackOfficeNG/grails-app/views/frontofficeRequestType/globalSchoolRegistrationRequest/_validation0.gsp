@@ -80,18 +80,6 @@
       </dl>
       
     
-      
-      <dl>
-        <dt><g:message code="gsrr.property.regimeAlimentaire.label" /></dt>
-          <dd>
-          <g:render template="/frontofficeRequestType/widget/localReferentialDataSummary" 
-                    model="['javaName':'regimeAlimentaire', 'lrEntries': lrTypes.regimeAlimentaire.entries, 'depth':0]" />
-          </dd>
-          
-
-      </dl>
-      
-    
   
 
   

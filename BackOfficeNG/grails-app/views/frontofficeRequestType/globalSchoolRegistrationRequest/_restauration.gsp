@@ -15,13 +15,3 @@
 
   
 
-  
-    <label class="required condition-estRestauration-filled"><g:message code="gsrr.property.regimeAlimentaire.label" /> *  <span><g:message code="gsrr.property.regimeAlimentaire.help" /></span></label>
-            <g:set var="regimeAlimentaireIndex" value="${0}" scope="flash" />
-            <g:render template="/frontofficeRequestType/widget/localReferentialData" 
-                      model="['javaName':'regimeAlimentaire', 'i18nPrefixCode':'gsrr.property.regimeAlimentaire', 'htmlClass':'required condition-estRestauration-filled  ', 
-                              'lrEntries': lrTypes.regimeAlimentaire.entries, 'depth':0]" />
-            
-
-  
-

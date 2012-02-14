@@ -22,7 +22,6 @@ public final class GlobalSchoolRegistrationRequestService extends RequestService
     @Override
     public void init() {
         GlobalSchoolRegistrationRequest.conditions.put("estDerogation", new EqualityChecker("true"));
-        GlobalSchoolRegistrationRequest.conditions.put("estRestauration", new EqualityChecker("true"));
     }
 
     @Override

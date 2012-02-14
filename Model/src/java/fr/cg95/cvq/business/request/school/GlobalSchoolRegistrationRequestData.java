@@ -117,16 +117,6 @@ public class GlobalSchoolRegistrationRequestData implements Serializable {
       
           
         
-          
-            
-        List<fr.cg95.cvq.business.request.LocalReferentialData> regimeAlimentaireList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>();
-        for (LocalReferentialData object : regimeAlimentaire) {
-            regimeAlimentaireList.add(object.clone());
-        }
-        result.setRegimeAlimentaire(regimeAlimentaireList);
-      
-          
-        
         return result;
     }
 
@@ -504,60 +494,6 @@ public class GlobalSchoolRegistrationRequestData implements Serializable {
       
     public List<fr.cg95.cvq.business.request.LocalReferentialData> getMotifsDerogationEcole() {
         return this.motifsDerogationEcole;
-    }
-  
-    
-      @LocalReferential(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= _this.conditions['estRestauration'].test(_this.estRestauration.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"restauration"},
-        message = "regimeAlimentaire"
-      )
-    
-      @MinSize(
-        
-          value = 1,
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= _this.conditions['estRestauration'].test(_this.estRestauration.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"restauration"},
-        message = "regimeAlimentaire"
-      )
-    
-    private List<fr.cg95.cvq.business.request.LocalReferentialData> regimeAlimentaire;
-
-    public void setRegimeAlimentaire(final List<fr.cg95.cvq.business.request.LocalReferentialData> regimeAlimentaire) {
-        this.regimeAlimentaire = regimeAlimentaire;
-    }
-
- 
-    @ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinTable(name="global_school_registration_request_regime_alimentaire",
-            joinColumns=
-                @JoinColumn(name="global_school_registration_request_id"),
-            inverseJoinColumns=
-                @JoinColumn(name="regime_alimentaire_id"))
-    @OrderColumn(name="regime_alimentaire_index")
-      
-    public List<fr.cg95.cvq.business.request.LocalReferentialData> getRegimeAlimentaire() {
-        return this.regimeAlimentaire;
     }
   
 }

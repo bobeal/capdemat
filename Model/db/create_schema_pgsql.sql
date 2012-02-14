@@ -128,12 +128,6 @@
     alter table global_school_registration_request_motifs_derogation_ecole 
         drop constraint FKCC5E50B315EEA61;
 
-    alter table global_school_registration_request_regime_alimentaire 
-        drop constraint FK261E5D0CA7322BAE;
-
-    alter table global_school_registration_request_regime_alimentaire 
-        drop constraint FK261E5D0C85DE12C2;
-
     alter table handicap_compensation_adult_request 
         drop constraint FK73D0EACC2BC49188;
 
@@ -557,8 +551,6 @@
     drop table global_school_registration_request cascade;
 
     drop table global_school_registration_request_motifs_derogation_ecole cascade;
-
-    drop table global_school_registration_request_regime_alimentaire cascade;
 
     drop table handicap_compensation_adult_request cascade;
 
@@ -1301,13 +1293,6 @@
         motifs_derogation_ecole_id int8 not null,
         motifs_derogation_ecole_index int4 not null,
         primary key (global_school_registration_request_id, motifs_derogation_ecole_index)
-    );
-
-    create table global_school_registration_request_regime_alimentaire (
-        global_school_registration_request_id int8 not null,
-        regime_alimentaire_id int8 not null,
-        regime_alimentaire_index int4 not null,
-        primary key (global_school_registration_request_id, regime_alimentaire_index)
     );
 
     create table handicap_compensation_adult_request (
@@ -2987,16 +2972,6 @@
         add constraint FKCC5E50B315EEA61 
         foreign key (motifs_derogation_ecole_id) 
         references local_referential_data;
-
-    alter table global_school_registration_request_regime_alimentaire 
-        add constraint FK261E5D0CA7322BAE 
-        foreign key (regime_alimentaire_id) 
-        references local_referential_data;
-
-    alter table global_school_registration_request_regime_alimentaire 
-        add constraint FK261E5D0C85DE12C2 
-        foreign key (global_school_registration_request_id) 
-        references global_school_registration_request;
 
     alter table handicap_compensation_adult_request 
         add constraint FK73D0EACC2BC49188 

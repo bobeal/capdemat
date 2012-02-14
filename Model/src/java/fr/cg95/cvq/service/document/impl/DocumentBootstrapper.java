@@ -196,6 +196,9 @@ public class DocumentBootstrapper {
 
         checkDocumentType("Attestation Lycee", 54,
                 DocumentUsageType.REUSABLE, 1, DocumentTypeValidity.YEAR);
+
+        checkDocumentType("Medical Form Next Year", 55,
+                DocumentUsageType.REUSABLE, 1, DocumentTypeValidity.YEAR);
     }
 
     public void setDocumentTypeDAO(IDocumentTypeDAO documentTypeDAO) {

@@ -45,7 +45,7 @@
                     <dd>
                       <select name="familyStatus">
                         <g:each var="familyStatus" in="${fr.cg95.cvq.business.users.FamilyStatusType.allFamilyStatusTypes}">
-                          <option value="fr.cg95.cvq.business.users.FamilyStatusType_${familyStatus}">
+                          <option value="${familyStatus.name()}">
                             ${g.capdematEnumToText(var:familyStatus, i18nKeyPrefix:'homeFolder.adult.familyStatus')}
                           </option>
                         </g:each>

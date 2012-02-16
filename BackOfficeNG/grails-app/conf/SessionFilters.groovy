@@ -97,7 +97,6 @@ class SessionFilters {
 	                    }
                     } else {
                         lacb = localAuthorityRegistry.getLocalAuthorityBeanByName(params.localAuthority)
-                        la = localAuthorityRegistry.getLocalAuthorityByName(lacb.name)
                     }
 
                     EntityManagerFactory entityManagerFactory = lacb.getEntityManagerFactory()
@@ -108,6 +107,11 @@ class SessionFilters {
                         JpaUtil.eventualInit(entityManagerFactory)
                     } else {
                         JpaUtil.init(entityManagerFactory)
+                    }
+
+		    // this one requires having a DB connection opened
+                    if (controllerName == "serviceProvisioning") {
+                        la = localAuthorityRegistry.getLocalAuthorityByName(lacb.name)
                     }
 
                     Store.init(new File(localAuthorityRegistry.assetsBase + la.name, "zdb"))

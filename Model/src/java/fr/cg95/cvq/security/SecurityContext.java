@@ -47,10 +47,6 @@ public class SecurityContext {
     private static ThreadLocal<Stack<CredentialBean>> stashedContextThreadLocal =
           new InheritableThreadLocal<Stack<CredentialBean>>();
 
-    static {
-        stashedContextThreadLocal.set(new Stack<CredentialBean>());
-    }
-
     public void init() throws CvqConfigurationException {
         if (agentGroups == null || agentGroups.isEmpty() 
             || administratorGroups == null || administratorGroups.isEmpty())
@@ -377,6 +373,8 @@ public class SecurityContext {
 
     public static void pushContext() {
         CredentialBean credentialBean = (CredentialBean) currentContextThreadLocal.get().clone();
+        if (stashedContextThreadLocal.get() == null)
+            stashedContextThreadLocal.set(new Stack<CredentialBean>());
         stashedContextThreadLocal.get().push(credentialBean);
     }
 

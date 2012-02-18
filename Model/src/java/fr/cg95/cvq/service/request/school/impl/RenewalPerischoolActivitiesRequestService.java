@@ -8,11 +8,6 @@ import fr.cg95.cvq.service.request.impl.RequestService;
 public class RenewalPerischoolActivitiesRequestService extends RequestService {
 
     @Override
-    public void init() {
-        RenewalPerischoolActivitiesRequest.conditions.put("estRestauration", new EqualityChecker("true"));
-    }
-
-    @Override
     public boolean accept(Request request) {
         return request instanceof RenewalPerischoolActivitiesRequest;
     }

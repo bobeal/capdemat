@@ -47,16 +47,6 @@
   
 
   
-    <label class="required condition-estRestauration-filled"><g:message code="rpar.property.regimeAlimentaireRenouvellement.label" /> *  <span><g:message code="rpar.property.regimeAlimentaireRenouvellement.help" /></span></label>
-            <g:set var="regimeAlimentaireRenouvellementIndex" value="${0}" scope="flash" />
-            <g:render template="/frontofficeRequestType/widget/localReferentialData" 
-                      model="['javaName':'regimeAlimentaireRenouvellement', 'i18nPrefixCode':'rpar.property.regimeAlimentaireRenouvellement', 'htmlClass':'required condition-estRestauration-filled  ', 
-                              'lrEntries': lrTypes.regimeAlimentaireRenouvellement.entries, 'depth':0]" />
-            
-
-  
-
-  
     <label class="required"><g:message code="rpar.property.estPeriscolaire.label" /> *  <span><g:message code="rpar.property.estPeriscolaire.help" /></span></label>
             <ul class="yes-no required ${rqt.stepStates['enfant'].invalidFields.contains('estPeriscolaire') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">

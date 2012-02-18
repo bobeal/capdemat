@@ -69,16 +69,6 @@ public class RenewalPerischoolActivitiesRequestData implements Serializable {
       
           
         
-          
-            
-        List<fr.cg95.cvq.business.request.LocalReferentialData> regimeAlimentaireRenouvellementList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>();
-        for (LocalReferentialData object : regimeAlimentaireRenouvellement) {
-            regimeAlimentaireRenouvellementList.add(object.clone());
-        }
-        result.setRegimeAlimentaireRenouvellement(regimeAlimentaireRenouvellementList);
-      
-          
-        
         return result;
     }
 
@@ -147,60 +137,6 @@ public class RenewalPerischoolActivitiesRequestData implements Serializable {
       
     public Boolean getEstRestauration() {
         return this.estRestauration;
-    }
-  
-    
-      @LocalReferential(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= _this.conditions['estRestauration'].test(_this.estRestauration.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"enfant"},
-        message = "regimeAlimentaireRenouvellement"
-      )
-    
-      @MinSize(
-        
-          value = 1,
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= _this.conditions['estRestauration'].test(_this.estRestauration.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"enfant"},
-        message = "regimeAlimentaireRenouvellement"
-      )
-    
-    private List<fr.cg95.cvq.business.request.LocalReferentialData> regimeAlimentaireRenouvellement;
-
-    public void setRegimeAlimentaireRenouvellement(final List<fr.cg95.cvq.business.request.LocalReferentialData> regimeAlimentaireRenouvellement) {
-        this.regimeAlimentaireRenouvellement = regimeAlimentaireRenouvellement;
-    }
-
- 
-    @ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinTable(name="renewal_perischool_activities_request_regime_alimentaire_renouvellement",
-            joinColumns=
-                @JoinColumn(name="renewal_perischool_activities_request_id"),
-            inverseJoinColumns=
-                @JoinColumn(name="regime_alimentaire_renouvellement_id"))
-    @OrderColumn(name="regime_alimentaire_renouvellement_index")
-      
-    public List<fr.cg95.cvq.business.request.LocalReferentialData> getRegimeAlimentaireRenouvellement() {
-        return this.regimeAlimentaireRenouvellement;
     }
   
 }

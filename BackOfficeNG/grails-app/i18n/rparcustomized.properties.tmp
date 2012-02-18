@@ -13,10 +13,6 @@ rpar.property.estRestauration.help =
 rpar.property.estRestauration.validationError =
 
 
-rpar.property.regimeAlimentaireRenouvellement.help =
-rpar.property.regimeAlimentaireRenouvellement.validationError =
-
-
 rpar.property.estPeriscolaire.help =
 rpar.property.estPeriscolaire.validationError =
 

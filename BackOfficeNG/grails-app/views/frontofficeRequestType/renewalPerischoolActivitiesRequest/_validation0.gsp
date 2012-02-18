@@ -23,18 +23,6 @@
     
       
       <dl>
-        <dt><g:message code="rpar.property.regimeAlimentaireRenouvellement.label" /></dt>
-          <dd>
-          <g:render template="/frontofficeRequestType/widget/localReferentialDataSummary" 
-                    model="['javaName':'regimeAlimentaireRenouvellement', 'lrEntries': lrTypes.regimeAlimentaireRenouvellement.entries, 'depth':0]" />
-          </dd>
-          
-
-      </dl>
-      
-    
-      
-      <dl>
         <dt><g:message code="rpar.property.estPeriscolaire.label" /></dt>
           <dd><g:message code="message.${rqt.estPeriscolaire ? 'yes' : 'no'}" /></dd>
           

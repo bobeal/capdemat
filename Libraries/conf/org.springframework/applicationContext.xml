@@ -478,7 +478,6 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   <bean id="renewalPerischoolActivitiesRequestService" 
     class="fr.cg95.cvq.service.request.school.impl.RenewalPerischoolActivitiesRequestService" 
     parent="requestService">
-    <property name="localReferentialFilename" value="local_referential_rpar"/>
     <property name="label" value="Renewal Perischool Activities"/>
     <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
     <property name="isOfRegistrationKind" value="true"/>

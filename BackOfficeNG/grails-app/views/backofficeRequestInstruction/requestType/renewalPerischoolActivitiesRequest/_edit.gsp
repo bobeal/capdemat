@@ -44,17 +44,6 @@
             
               
               <dl>
-                <dt class="required condition-estRestauration-filled"><g:message code="rpar.property.regimeAlimentaireRenouvellement.label" /> * : </dt><dd id="regimeAlimentaireRenouvellement" class="action-editField validate-localReferentialData required-true i18n-rpar.property.regimeAlimentaireRenouvellement data-localReferentialData" >
-           <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
-                     model="['javaName':'regimeAlimentaireRenouvellement', 'lrEntries': lrTypes.regimeAlimentaireRenouvellement?.entries, 
-                             'rqt':rqt, 'isMultiple':lrTypes.regimeAlimentaireRenouvellement?.isMultiple(), 'depth':0]" />
- 
-          </dd>
-              </dl>
-              
-            
-              
-              <dl>
                 <dt class="required"><g:message code="rpar.property.estPeriscolaire.label" /> * : </dt><dd id="estPeriscolaire" class="action-editField validate-boolean required-true i18n-rpar.property.estPeriscolaire" ><span class="value-${rqt?.estPeriscolaire}"><g:message code="message.${rqt?.estPeriscolaire ? 'yes' : 'no'}" /></span></dd>
               </dl>
               

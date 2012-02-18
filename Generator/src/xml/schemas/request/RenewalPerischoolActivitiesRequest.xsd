@@ -25,9 +25,6 @@
               <widgets>
                 <subject />
               </widgets>
-              <conditions>
-                 <condition name="estRestauration" />
-              </conditions>
             </step>
             <step index="1" name="reglements" />
             <step index="2" ref="document" />
@@ -52,31 +49,6 @@
                 <xs:appinfo>
                   <common>
                     <step name="enfant" />
-                    <conditions>
-                        <condition name="estRestauration" type="trigger" />
-                    </conditions>
-                  </common>
-                  <fo />
-                  <bo column="1" />
-                 <pdf />
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-            <xs:element name="RegimeAlimentaireRenouvellement" type="cvq:LocalReferentialDataType" maxOccurs="unbounded">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Régime alimentaire de votre enfant
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Régime alimentaire de votre enfant
-                </xs:documentation>
-                <xs:appinfo>
-                  <model namespace="request" isTiedToRequest="true" />
-                  <common>
-                    <step name="enfant" />
-                    <conditions>
-                        <condition name="estRestauration" type="filled" />
-                    </conditions>
                   </common>
                   <fo />
                   <bo column="1" />

@@ -1,0 +1,7 @@
+alter table renewal_perischool_activities_request_regime_alimentaire_renouvellement 
+    drop constraint FK8AFF2E83E35CAE2;
+
+alter table renewal_perischool_activities_request_regime_alimentaire_renouvellement 
+    drop constraint FK8AFF2E837F587126;
+
+drop table renewal_perischool_activities_request_regime_alimentaire_renouvellement cascade;

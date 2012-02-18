@@ -120,15 +120,6 @@ public class RenewalPerischoolActivitiesRequest extends Request implements Seria
         if (getEstRestauration() != null)
             renewalPerischoolActivitiesRequest.setEstRestauration(getEstRestauration().booleanValue());
       
-        i = 0;
-        if (getRegimeAlimentaireRenouvellement() != null) {
-            fr.cg95.cvq.xml.common.LocalReferentialDataType[] regimeAlimentaireRenouvellementTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[getRegimeAlimentaireRenouvellement().size()];
-            for (LocalReferentialData object : getRegimeAlimentaireRenouvellement()) {
-              regimeAlimentaireRenouvellementTypeTab[i++] = LocalReferentialData.modelToXml(object);
-            }
-            renewalPerischoolActivitiesRequest.setRegimeAlimentaireRenouvellementArray(regimeAlimentaireRenouvellementTypeTab);
-        }
-      
         return renewalPerischoolActivitiesRequestDoc;
     }
 
@@ -150,12 +141,6 @@ public class RenewalPerischoolActivitiesRequest extends Request implements Seria
         renewalPerischoolActivitiesRequest.setEstPeriscolaire(Boolean.valueOf(renewalPerischoolActivitiesRequestXml.getEstPeriscolaire()));
       
         renewalPerischoolActivitiesRequest.setEstRestauration(Boolean.valueOf(renewalPerischoolActivitiesRequestXml.getEstRestauration()));
-      
-        List<fr.cg95.cvq.business.request.LocalReferentialData> regimeAlimentaireRenouvellementList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(renewalPerischoolActivitiesRequestXml.sizeOfRegimeAlimentaireRenouvellementArray());
-        for (LocalReferentialDataType object : renewalPerischoolActivitiesRequestXml.getRegimeAlimentaireRenouvellementArray()) {
-            regimeAlimentaireRenouvellementList.add(fr.cg95.cvq.business.request.LocalReferentialData.xmlToModel(object));
-        }
-        renewalPerischoolActivitiesRequest.setRegimeAlimentaireRenouvellement(regimeAlimentaireRenouvellementList);
       
         return renewalPerischoolActivitiesRequest;
     }
@@ -222,15 +207,6 @@ public class RenewalPerischoolActivitiesRequest extends Request implements Seria
     
     public final Boolean getEstRestauration() {
         return renewalPerischoolActivitiesRequestData.getEstRestauration();
-    }
-  
-    public final void setRegimeAlimentaireRenouvellement(final List<fr.cg95.cvq.business.request.LocalReferentialData> regimeAlimentaireRenouvellement) {
-        renewalPerischoolActivitiesRequestData.setRegimeAlimentaireRenouvellement(regimeAlimentaireRenouvellement);
-    }
-
-    
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getRegimeAlimentaireRenouvellement() {
-        return renewalPerischoolActivitiesRequestData.getRegimeAlimentaireRenouvellement();
     }
   
 }

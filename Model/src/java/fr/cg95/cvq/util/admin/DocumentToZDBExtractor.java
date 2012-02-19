@@ -66,7 +66,7 @@ public class DocumentToZDBExtractor {
                 // whatever...
             }
             genericDAO.update(docBin);
-            JpaUtil.closeAndReOpen(true);
+            JpaUtil.closeAndReOpen(false);
         }
     }
 }

@@ -6,6 +6,7 @@
   <bean id="technocarteExternalService" parent="externalProviderServiceAdapter"
     class="fr.capwebct.capdemat.plugins.externalservices.technocarte.service.TechnocarteService">
     <property name="label" value="Technocarte"></property>
+    <property name="genericDAO" ref="genericDAO" />
   </bean>
 
 </beans>

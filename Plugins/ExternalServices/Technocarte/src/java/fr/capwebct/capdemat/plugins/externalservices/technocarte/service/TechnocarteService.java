@@ -53,6 +53,8 @@ import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.business.request.workflow.event.IWorkflowPostAction;
 import fr.cg95.cvq.business.request.workflow.event.impl.WorkflowCompleteEvent;
 import fr.cg95.cvq.business.users.Child;
+import fr.cg95.cvq.business.users.external.UserExternalAction;
+import fr.cg95.cvq.dao.jpa.IGenericDAO;
 import fr.cg95.cvq.dao.jpa.JpaUtil;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
@@ -70,6 +72,8 @@ public class TechnocarteService extends ExternalProviderServiceAdapter implement
 
     private String label;
     private String urlkiosque;
+
+    protected IGenericDAO genericDAO;
 
     @Override
     public void visit(final WorkflowCompleteEvent wfEvent) throws CvqException {
@@ -154,7 +158,63 @@ public class TechnocarteService extends ExternalProviderServiceAdapter implement
         return;
     }
 
-    
+    @Override
+    public String sendHomeFolderModification(XmlObject requestXml) throws CvqException {
+        String Method = "ReceptionCapdemat";
+
+        EntityManagerFactory emf = JpaUtil.getEntityManager().getEntityManagerFactory();
+        JpaUtil.close(false);
+        
+        UserExternalAction uea = 
+                new UserExternalAction(String.valueOf(((RequestType)requestXml).getHomeFolder().getId()), getLabel(), "Sent");
+
+        Vector<Parameter> parameters = new Vector<Parameter>();
+        String la = "La connexion au serveur a echoué";
+        parameters.addElement(new Parameter("var", String.class, requestXml, null));
+        parameters.addElement(new Parameter("code_appli", String.class, "Capdemat", null));
+        try {
+            Call call = new Call();
+            String encodingStyleURI = org.apache.soap.Constants.NS_URI_SOAP_ENC;
+            call.setEncodingStyleURI(encodingStyleURI);
+            call.setTargetObjectURI("urn:WSPocketTechno2");
+            call.setMethodName(Method);
+            call.setParams(parameters);
+            Response soap_response = call.invoke(new java.net.URL(urlkiosque), "");
+            if (soap_response.generatedFault()) {
+                logger.error("The call failed: " + soap_response.getFault().getFaultString());
+                uea.setStatus("Error");
+                uea.setMessage(soap_response.getFault().getFaultString());
+            } else {
+                Parameter soap_result = soap_response.getReturnValue();
+                Object value = soap_result.getValue();
+                String s = getValue(value);
+                if (!s.equals("")) {
+                    uea.setStatus("Error");
+                    uea.setMessage(s);
+                }
+            }
+        } catch (MalformedURLException e) {
+            logger.error("sendHomeFolderModificationRequest() got error " + e.getMessage());
+            uea.setStatus("Error");
+            uea.setMessage(e.getMessage());
+        } catch (SOAPException e) {
+            logger.error("sendHomeFolderModificationRequest() got error " + e.getMessage());
+            uea.setStatus("Error");
+            uea.setMessage(la);
+        } finally {
+            JpaUtil.init(emf);
+        }
+
+        genericDAO.create(uea);
+
+        if ("Error".equals(uea.getStatus())) {
+            logger.error("sendHomeFolderModificationRequest() error while sending request to " + getLabel());
+            throw new CvqException(uea.getMessage());
+        }
+
+        return null;
+    }
+
     public void checkConfiguration(ExternalServiceBean externalServiceBean,
             String localAuthorityName) throws CvqConfigurationException {
         logger.debug("url kiosque = " + externalServiceBean.getProperty("urlkiosque"));
@@ -481,7 +541,7 @@ public class TechnocarteService extends ExternalProviderServiceAdapter implement
     }
 
     public boolean handlesTraces() {
-        return false;
+        return true;
     }
 
     public List<String> checkExternalReferential(final XmlObject requestXml) {
@@ -760,5 +820,9 @@ public class TechnocarteService extends ExternalProviderServiceAdapter implement
     @Override
     public String sendRequest(XmlObject requestXml) throws CvqException {
         return null;
+    }
+
+    public void setGenericDAO(IGenericDAO genericDAO) {
+        this.genericDAO = genericDAO;
     }
 }

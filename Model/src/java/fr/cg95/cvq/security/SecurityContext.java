@@ -1,5 +1,6 @@
 package fr.cg95.cvq.security;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Stack;
@@ -520,11 +521,19 @@ public class SecurityContext {
         SecurityContext.userSearchService = userSearchService;
     }
 
-    public void setAdministratorGroups(List<String> administratorGroupsToSet) {
-        administratorGroups = administratorGroupsToSet;
+    public void setAdministratorGroups(String administratorGroupsToSet) {
+        administratorGroups = new ArrayList<String>();
+        String administratorGroupsTab[]=administratorGroupsToSet.split(",");
+        for(int i=0;i<administratorGroupsTab.length;i++){
+            administratorGroups.add(administratorGroupsTab[i]);
+        }
     }
 
-    public void setAgentGroups(List<String> agentGroupsToSet) {
-        agentGroups = agentGroupsToSet;
+    public void setAgentGroups(String agentGroupsToSet) {
+        agentGroups = new ArrayList<String>();
+        String agentGroupsTab[]=agentGroupsToSet.split(",");
+        for(int i=0;i<agentGroupsTab.length;i++){
+            agentGroups.add(agentGroupsTab[i]);
+        }
     }
 }

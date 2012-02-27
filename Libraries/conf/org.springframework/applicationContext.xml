@@ -66,16 +66,8 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
     <property name="agentService" ref="agentService" />
     <property name="userSearchService" ref="userSearchService" />
-    <property name="administratorGroups">
-      <list>
-       <value>${agent.administrator_group}</value>
-      </list>
-    </property>
-    <property name="agentGroups">
-      <list>
-       <value>${agent.contributor_group}</value>
-      </list>
-    </property>
+    <property name="administratorGroups" value="${agent.administrator_group}" />
+    <property name="agentGroups" value="${agent.contributor_group}" />
   </bean>
   
   <bean id="externalService" class="fr.cg95.cvq.external.impl.ExternalService" />

@@ -30,7 +30,7 @@ class SessionFilters {
         
         logBefore(controller: '*', action: '*') {
             before = {
-                log.info(
+                log.debug(
                     session.currentEcitizenId
                     + " " + session.currentCredentialBean
                     + " " + request.method.toUpperCase()
@@ -101,7 +101,7 @@ class SessionFilters {
 
                     EntityManagerFactory entityManagerFactory = lacb.getEntityManagerFactory()
                     if (flash.redirect) {
-                        log.error "In filters redirect, rollbacking current transaction"
+                        log.debug "In filters redirect, rollbacking current transaction"
                         JpaUtil.init(entityManagerFactory)
                     } else if (controllerName == "system" && actionName == "error") {
                         JpaUtil.eventualInit(entityManagerFactory)
@@ -154,7 +154,7 @@ class SessionFilters {
                     securityService.defineAccessPoint(session.frontContext,
                         SecurityContext.FRONT_OFFICE_CONTEXT, controllerName,
                         actionName)
-                log.error "Security service returned point : ${point}"
+                log.debug "Security service returned point : ${point}"
                 try {
                     SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
                     if (session.frontContext == ContextType.AGENT) {

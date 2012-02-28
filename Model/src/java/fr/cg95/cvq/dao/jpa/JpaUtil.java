@@ -26,7 +26,7 @@ public class JpaUtil {
 
     public static boolean eventualInit(EntityManagerFactory entityManagerFactory) {
         if (threadEntityManager.get() != null) {
-            logger.error("eventualInit() reusing existing entity manager " + threadEntityManager.get());
+            logger.debug("eventualInit() reusing existing entity manager " + threadEntityManager.get());
             return false;
         }
 
@@ -41,7 +41,7 @@ public class JpaUtil {
         }
         
         if (threadEntityManager.get() != null) {
-            logger.error("init() rollbacking " + threadEntityManager.get());
+            logger.warn("init() rollbacking " + threadEntityManager.get());
             // FIXME : this a hack added to handle session closing problem
             // TODO : identify the real cause and fix it properly
             // « Cherry-picked » from defunct HibernateUtil
@@ -51,22 +51,22 @@ public class JpaUtil {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
         threadEntityManager.set(em);
-        logger.error("init() initialized entity manager " + em);
+        logger.debug("init() initialized entity manager " + em);
     }
 
     public static void close(boolean rollback) {
         if (threadEntityManager.get() == null) {
-            logger.error("close() no entity manager found (was asking for rollback ? " + rollback + ")");
+            logger.debug("close() no entity manager found (was asking for rollback ? " + rollback + ")");
             return;
         }
 
         try {
             if (rollback) {
-                logger.error("close() rollbacking on " + threadEntityManager.get());
+                logger.debug("close() rollbacking on " + threadEntityManager.get());
                 threadEntityManager.get().getTransaction().rollback();
             } else {
                 try {
-                    logger.error("close() commiting on " + threadEntityManager.get());
+                    logger.debug("close() commiting on " + threadEntityManager.get());
                     threadEntityManager.get().getTransaction().commit();
                 } catch (Throwable t) {
                     logger.error("close() can't commit", t);
@@ -77,7 +77,7 @@ public class JpaUtil {
             EntityManager em = threadEntityManager.get();
             threadEntityManager.get().close();
             threadEntityManager.remove();
-            logger.error("close() closed " + em);
+            logger.debug("close() closed " + em);
         }
     }
     

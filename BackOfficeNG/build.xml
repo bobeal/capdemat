@@ -19,9 +19,7 @@
            		<include name="*.log" />
            	</fileset>
         </delete>
-        <delete>
-            <fileset dir="lib" />
-        </delete>
+        <delete dir="lib" />
     </target>
 
 	<!-- ================================= 

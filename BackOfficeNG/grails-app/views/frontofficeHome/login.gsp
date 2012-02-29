@@ -6,6 +6,9 @@
   </head>
 
   <body>
+    <g:if test="${flash.successMessage}">
+      <div class="success-box"><p>${flash.successMessage}</p></div>
+    </g:if>
     <div class="box">
       <div class="half1">
         <g:if test="${commonInfo != null}">

@@ -104,13 +104,13 @@ public class UserNotificationService implements IUserNotificationService, Applic
                             translationService.translate("homeFolder.adult.notification.loginAssigned.body",
                                 new Object[]{SecurityContext.getCurrentSite().getDisplayTitle(), adult.getLogin()})
                         );
+
+                        Log.logger(SecurityContext.getCurrentSite().getName()).info("NOTIFY HOME FOLDER CREATION: " 
+                                + " to " + adult.getFullName() + " <" + adult.getEmail() + ">");
                     } catch (CvqException e) {
                         throw new RuntimeException(e);
                     }
                 }
-
-                Log.logger(SecurityContext.getCurrentSite().getName()).info("NOTIFIED HOME FOLDER CREATION: " 
-                        + " to " + adult.getFullName() + " <" + adult.getEmail() + ">");
             }
         }
     }

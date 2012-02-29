@@ -116,7 +116,7 @@ class SessionFilters {
 
                     Store.init(new File(localAuthorityRegistry.assetsBase + la.name, "zdb"))
                     SecurityContext.setCurrentSite(la, SecurityContext.BACK_OFFICE_CONTEXT)
-                    SecurityContext.setCurrentLocale(request.getLocale())
+                    SecurityContext.setCurrentLocale(Locale.FRENCH)
 
                     session.setAttribute("currentSiteName", la.name.toLowerCase())
                     session.setAttribute("currentSiteDisplayTitle", la.displayTitle)

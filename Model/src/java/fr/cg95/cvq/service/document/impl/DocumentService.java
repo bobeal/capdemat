@@ -732,7 +732,8 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 pdDoc.save(baos);
                 DocumentBinary docBin = new DocumentBinary(ContentType.PDF, baos.toByteArray());
-                createPreview(docBin);
+                docBin.setPreview(doc.getDatas().get(0).getPreview());
+                // createPreview(docBin) :  doesn't keep the rotation of the document;
                 for (DocumentBinary page : doc.getDatas()) {
                     genericDAO.delete(page);
                 }

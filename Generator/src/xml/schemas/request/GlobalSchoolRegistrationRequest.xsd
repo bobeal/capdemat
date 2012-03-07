@@ -118,7 +118,7 @@
                 <xs:appinfo>
                   <common>
                     <step name="enfant" />
-                    <validation jsregexp="^.{0,1024}$"/>
+                    <validation jsregexp="^[\w\W]{0,1024}$"/>
                     <conditions>
                         <condition name="estDerogation" type="filled" />
                     </conditions>
@@ -134,6 +134,7 @@
               </xs:annotation>
               <xs:simpleType>
                 <xs:restriction base="xs:string">
+                    <xs:pattern value="^[\w\W]{0,1024}$" />
                     <xs:maxLength value="1024"/>
                 </xs:restriction>
               </xs:simpleType>

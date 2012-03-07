@@ -74,7 +74,7 @@
             
               
               <dl>
-                <dt class="condition-estDerogation-filled"><g:message code="gsrr.property.informationsComplementairesDerogation.label" />  : </dt><dd id="informationsComplementairesDerogation" class="action-editField validate-regex i18n-gsrr.property.informationsComplementairesDerogation rows-10 maxLength-1024" regex="^.{0,1024}$"><span>${rqt?.informationsComplementairesDerogation}</span></dd>
+                <dt class="condition-estDerogation-filled"><g:message code="gsrr.property.informationsComplementairesDerogation.label" />  : </dt><dd id="informationsComplementairesDerogation" class="action-editField validate-regex i18n-gsrr.property.informationsComplementairesDerogation rows-10 maxLength-1024" regex="^[\w\W]{0,1024}$"><span>${rqt?.informationsComplementairesDerogation}</span></dd>
               </dl>
               
             
@@ -116,7 +116,7 @@
             
               
               <dl>
-                <dt class="required condition-estRestauration-trigger"><g:message code="gsrr.property.estRestauration.label" /> * : </dt><dd id="estRestauration" class="action-editField validate-boolean required-true i18n-gsrr.property.estRestauration" ><span class="value-${rqt?.estRestauration}"><g:message code="message.${rqt?.estRestauration ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required"><g:message code="gsrr.property.estRestauration.label" /> * : </dt><dd id="estRestauration" class="action-editField validate-boolean required-true i18n-gsrr.property.estRestauration" ><span class="value-${rqt?.estRestauration}"><g:message code="message.${rqt?.estRestauration ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             

@@ -77,7 +77,7 @@
 
   
     <label for="informationsComplementairesDerogation" class="condition-estDerogation-filled"><g:message code="gsrr.property.informationsComplementairesDerogation.label" />   <span><g:message code="gsrr.property.informationsComplementairesDerogation.help" /></span></label>
-            <textarea id="informationsComplementairesDerogation" name="informationsComplementairesDerogation" class="condition-estDerogation-filled  validate-regex ${rqt.stepStates['enfant'].invalidFields.contains('informationsComplementairesDerogation') ? 'validation-failed' : ''}" title="<g:message code="gsrr.property.informationsComplementairesDerogation.validationError" />" rows="10" cols="" regex="^.{0,1024}$" maxlength="1024">${rqt.informationsComplementairesDerogation}</textarea>
+            <textarea id="informationsComplementairesDerogation" name="informationsComplementairesDerogation" class="condition-estDerogation-filled  validate-regex ${rqt.stepStates['enfant'].invalidFields.contains('informationsComplementairesDerogation') ? 'validation-failed' : ''}" title="<g:message code="gsrr.property.informationsComplementairesDerogation.validationError" />" rows="10" cols="" regex="^[\w\W]{0,1024}$" maxlength="1024">${rqt.informationsComplementairesDerogation}</textarea>
             
 
   

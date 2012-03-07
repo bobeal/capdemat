@@ -321,7 +321,7 @@ public class GlobalSchoolRegistrationRequestData implements Serializable {
     
       @MatchPattern(
         
-          pattern = "^.{0,1024}$",
+          pattern = "^[\\w\\W]{0,1024}$",
         
         
           when = "groovy:def active = true;" +

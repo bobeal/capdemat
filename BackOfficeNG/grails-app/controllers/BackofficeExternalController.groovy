@@ -60,7 +60,7 @@ class BackofficeExternalController {
                     parsedFilters.filters.requestTypeFilter, Critere.EQUALS))
             if (parsedFilters.filters.requestStateFilter)
                 criteria.add(new Critere(RequestExternalAction.SEARCH_BY_REQUEST_STATE,
-                    parsedFilters.filters.requestStateFilter, Critere.EQUALS))
+                    RequestState.forString(parsedFilters.filters.requestStateFilter), Critere.EQUALS))
             def sortBy = params.sortBy ? params.sortBy : defaultSortBy
 			
             def recordOffset = (params.recordOffset == "" || params.recordOffset == null) ? 0 : Integer.valueOf(params.recordOffset)

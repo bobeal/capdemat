@@ -68,7 +68,7 @@ public final class RequestExternalActionDAO extends JpaTemplate<RequestExternalA
             } else if (RequestExternalAction.SEARCH_BY_REQUEST_STATE.equals(searchCrit.getAttribut())) {
                 sb.append(" and (select state from request where id = key) ")
                     .append(searchCrit.getSqlComparatif()).append(" ?");
-                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersValues.add(((RequestState)searchCrit.getValue()).name());
                 parametersTypes.add(Hibernate.STRING);
             } else if (RequestExternalAction.SEARCH_BY_COMPLEMENTARY_DATA.equals(searchCrit.getAttribut())) {
                 sb.append(" and id in (select id from request_external_action_complementary_data where key = ? and value ")
@@ -236,7 +236,7 @@ public final class RequestExternalActionDAO extends JpaTemplate<RequestExternalA
             } else if (RequestExternalAction.SEARCH_BY_REQUEST_STATE.equals(searchCrit.getAttribut())) {
                 sb.append(" and (select state from request where id = key) ")
                     .append(searchCrit.getSqlComparatif()).append(" ?");
-                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersValues.add(((RequestState)searchCrit.getValue()).name());
                 parametersTypes.add(Hibernate.STRING);
             } else if (RequestExternalAction.SEARCH_BY_COMPLEMENTARY_DATA.equals(searchCrit.getAttribut())) {
                 sb.append(" and id in (select id from request_external_action_complementary_data where key = ? and value ")

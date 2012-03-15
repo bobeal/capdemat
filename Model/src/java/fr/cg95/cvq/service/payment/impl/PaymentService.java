@@ -220,18 +220,14 @@ public final class PaymentService implements IPaymentService,
         if (purchaseItems != null){
             Set<PurchaseItem> persistedPurchaseItems = new HashSet<PurchaseItem>();
             for (PurchaseItem purchaseItem : purchaseItems) {
-                try {
-                    JpaUtil.getEntityManager().refresh(purchaseItem);
-                } catch (IllegalArgumentException iea) {
-                    // not managed => no problem
-                }
-                persistedPurchaseItems.add((PurchaseItem) genericDAO.saveOrUpdate(purchaseItem));
+                PurchaseItem item = JpaUtil.getEntityManager().merge(purchaseItem);
+                persistedPurchaseItems.add(item);
             }
             payment.setPurchaseItems(persistedPurchaseItems);
         }
         paymentDAO.saveOrUpdate(payment);
         JpaUtil.getEntityManager().flush();
-        
+
         return url;
     }
 

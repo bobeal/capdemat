@@ -19,6 +19,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
   var yue = yu.Event;
   var yus = yu.Selector;
 
+  var isSavingAdult = false;
+  var isSavingChild = false;
+  var isCreateUserAccount = false;
+
   zcbh.Details = function() {
     var initControls = function() {
       zcbh.Details.bottomTabView = new yw.TabView();
@@ -141,41 +145,60 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
         yue.preventDefault(e);
         var target = yue.getTarget(e);
         var dl = yud.getAncestorByTagName(target, 'dl');
-        zct.doAjaxFormSubmitCall(target.form.getAttribute('id'), [], function(o) {
-          if (!zcbh.Details.isValid(o, target.form)) return;
-          if (target.form['mode'].value === 'modify') {
-            dl.innerHTML = o.responseText;
-            // hack : refresh clr (hibernate problem)
-            var formId = target.form.getAttribute('id').split('_');
-            if (formId[0] === 'responsibles') {
-              zct.doAjaxCall('/child/' + formId[1] + '/responsibles?mode=static', null,function(o) {
-                dl.innerHTML = o.responseText;
+        if((target.form.getAttribute('id') == 'addChild' && !isSavingChild)||(target.form.getAttribute('id') == 'addAdult' && !isSavingAdult)
+          || (!isSavingChild && !isSavingAdult)){
+          isSavingChild = true;
+          isSavingAdult = true;
+          zct.doAjaxFormSubmitCall(target.form.getAttribute('id'), [], function(o) {
+            if (!zcbh.Details.isValid(o, target.form)) {
+              isSavingChild = false;
+              isSavingAdult = false;
+              return;
+            }
+            if (target.form['mode'].value === 'modify') {
+              dl.innerHTML = o.responseText;
+              // hack : refresh clr (hibernate problem)
+              var formId = target.form.getAttribute('id').split('_');
+              if (formId[0] === 'responsibles') {
+                zct.doAjaxCall('/child/' + formId[1] + '/responsibles?mode=static', null,function(o) {
+                  dl.innerHTML = o.responseText;
+                });
+              }
+              isSavingChild = false;
+              isSavingAdult = false;
+            } else {
+              json = ylj.parse(o.responseText);
+              zct.doAjaxCall('/' + json.type + '/' + json.id + '/?mode=static' , null,function(o) {
+                var individual = yud.getAncestorByClassName(dl, 'individual');
+                var div = individual.parentNode;
+                div.removeChild(individual);
+                div.innerHTML += o.responseText;
+                isSavingChild = false;
+                isSavingAdult = false;
               });
             }
-          } else {
-            json = ylj.parse(o.responseText);
-            zct.doAjaxCall('/' + json.type + '/' + json.id + '/?mode=static' , null,function(o) {
-              var individual = yud.getAncestorByClassName(dl, 'individual');
-              var div = individual.parentNode;
-              div.removeChild(individual);
-              div.innerHTML += o.responseText;
-            });
-          }
-          zcbh.Details.refreshActions();
-        });
+            zcbh.Details.refreshActions();
+
+          });
+        }
       },
 
       create : function(e) {
         yue.preventDefault(e);
         var target = yue.getTarget(e);
-        zct.doAjaxFormSubmitCall(target.form.getAttribute('id'), [], function(o) {
-          if (!zcbh.Details.isValid(o, target.form)){
-            return;
-          } else {
-            var json = ylj.parse(o.responseText);
-            window.location = zenexity.capdemat.baseUrl + '/details/' + json.id;
-          }
-        });
+        if(!isCreateUserAccount){
+        isCreateUserAccount = true;
+          zct.doAjaxFormSubmitCall(target.form.getAttribute('id'), [], function(o) {
+            if (!zcbh.Details.isValid(o, target.form)){
+              isCreateUserAccount = false;
+              return;
+            } else {
+              var json = ylj.parse(o.responseText);
+              window.location = zenexity.capdemat.baseUrl + '/details/' + json.id;
+              isCreateUserAccount = false;
+            }
+          });
+        }
       },
 
       // TODO : It would be better to use JSON wrapper for all response

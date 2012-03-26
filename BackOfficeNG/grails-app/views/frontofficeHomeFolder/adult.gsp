@@ -49,6 +49,16 @@
       </div>
       <div class="side">
         <g:if test="${adult.id != null}">
+          <g:if test="${params.creation}">
+            <div class="summary">
+              ${message(code:'homeFolder.adultAdded',args:[adult.lastName,adult.firstName])}
+              <a href="${createLink(action:'adult')}">${message(code:'homeFolder.addOtherAdult')}</a>
+              <a href="${createLink(action:'child')}">${message(code:'homeFolder.addOtherChild')}</a>
+            </div>
+          </g:if>
+          <div class="back">
+            <a href="${createLink(action:'index')}">${message(code:'homeFolder.action.back')}</a>
+          </div>
           <div class="action">
             <a href="#general">${message(code:'homeFolder.individual.header.general')}</a>
             <a href="#identity">${message(code:'homeFolder.individual.header.identity')}</a>
@@ -56,9 +66,6 @@
             <a href="#contact">${message(code:'homeFolder.individual.header.contact')}</a>
           </div>
         </g:if>
-        <div class="back">
-          <a href="${createLink(action:'index')}">${message(code:'homeFolder.action.back')}</a>
-        </div>
       </div>
     </div>
   </body>

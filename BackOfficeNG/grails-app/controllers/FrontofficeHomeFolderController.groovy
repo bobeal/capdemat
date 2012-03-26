@@ -238,15 +238,17 @@ class FrontofficeHomeFolderController {
         }
         if (request.post) {
             try {
+                def creation = false
                 if (individual.id) {
                     historize(params.fragment, individual)
                     if (individual.id == currentEcitizen.id && params.fragment == 'identity') {
                         securityService.setEcitizenSessionInformation(individual, session)
                     }
                 } else {
+                    creation = true
                     addAdult(individual)
                 }
-                redirect(action : "adult", params : ["id" : individual.id])
+                redirect(action : "adult", params : ["id" : individual.id, 'creation' : creation])
                 return false
             } catch (CvqValidationException e) {
                 model["invalidFields"] = e.invalidFields
@@ -277,6 +279,7 @@ class FrontofficeHomeFolderController {
         boolean failedCreation = false
         if (request.post) {
             try {
+                def creation = false
                 if (individual.id && params.roleOwnerId) {
                     if (!params.roleType)
                         throw new CvqValidationException(['legalResponsibles'])
@@ -287,9 +290,10 @@ class FrontofficeHomeFolderController {
                 } else if (individual.id) {
                     historize(params.fragment, individual)
                 } else {
+                    creation = true
                     addChild(individual)
                 }
-                redirect(action : 'child', params : ['id' : individual.id])
+                redirect(action : 'child', params : ['id' : individual.id, 'creation' : creation])
                 return false
             } catch (CvqValidationException e) {
                 if (!params.id) failedCreation = true

@@ -17,6 +17,12 @@
   margin: 0 0 .5em; padding: .5em 1em; font-size: 1.15em; background: #ddd;
   border-radius: .5em; -moz-border-radius: .5em; -webkit-border-radius .5em;
 }
+.box .side div.summary {
+  margin: 0 0 .5em; padding: .5em 1em; font-size: 1.10em;
+  border-radius: .5em; -moz-border-radius: .5em; -webkit-border-radius .5em;
+  border: 3px solid #20CC20; font-weight: bold; background: #CCFFCC;
+}
+.box .side div.summary a { display: block; line-height: 1.5em; font-size: 0.9em;}
 .box .side div.action a { display: block; line-height: 1.5em; }
 .box .side div.back a   { display: block; line-height: 1.5em; color: #000; }
 .box .side div.note h4  { font-size: 1.1em; }

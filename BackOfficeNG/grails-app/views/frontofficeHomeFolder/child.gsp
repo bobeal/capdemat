@@ -47,15 +47,22 @@
       </div>
       <div class="side">
         <g:if test="${child.id != null}">
+          <g:if test="${params.creation}">
+          <div class="summary">
+              ${message(code:'homeFolder.childAdded',args:[child.lastName,child.firstName])}
+              <a href="${createLink(action:'child')}">${message(code:'homeFolder.addOtherChild')}</a>
+              <a href="${createLink(action:'adult')}">${message(code:'homeFolder.addOtherAdult')}</a>
+            </div>
+          </g:if>
+          <div class="back">
+            <a href="${createLink(action:'index')}">${message(code:'homeFolder.action.back')}</a>
+          </div>
           <div class="action">
             <a href="#generalInformations">${message(code:'homeFolder.individual.header.general')}</a>
             <a href="#identity">${message(code:'homeFolder.individual.header.identity')}</a>
             <a href="#responsibles">${message(code:'homeFolder.individual.header.responsibles')}</a>
           </div>
         </g:if>
-        <div class="back">
-          <a href="${createLink(action:'index')}">${message(code:'homeFolder.action.back')}</a>
-        </div>
       </div>
     </div>
   </body>

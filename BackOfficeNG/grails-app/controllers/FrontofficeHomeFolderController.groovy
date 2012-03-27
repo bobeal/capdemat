@@ -308,7 +308,7 @@ class FrontofficeHomeFolderController {
         model["child"] = individual
         model["roles"] = params.roles
         if (individual.id && !failedCreation) {
-            model['roleOwners'] = ('responsibles' != params.fragment) ? userSearchService.listBySubjectRoles(individual.id, RoleType.childRoleTypes) : homeFolderAdaptorService.roleOwners(individual.id)
+            model['roleOwners'] = homeFolderAdaptorService.roleOwners(individual.id)
             model['currentEcitizen'] = currentEcitizen
             model['currentRoleOwnerId'] = params.roleOwnerId ? Long.valueOf(params.roleOwnerId) : 0
         } else {

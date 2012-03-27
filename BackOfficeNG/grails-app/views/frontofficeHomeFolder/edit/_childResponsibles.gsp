@@ -15,12 +15,7 @@
   <g:each var="roleOwner" in="${roleOwners}">
     <p>
       <label>
-        <g:if test="${roleOwner.adult.id == currentEcitizen.id}">
-          ${message(code:'homeFolder.role.message.YouAre')}
-        </g:if>
-        <g:else>
           ${roleOwner.adult.fullName}
-        </g:else>
       </label>
       <g:if test="${roleOwner.adult.id == currentRoleOwnerId}">
         <g:each var="role" in="${fr.cg95.cvq.business.users.RoleType.childRoleTypes}">
@@ -47,7 +42,7 @@
         <g:if test="${roleOwner.roles}">
           &nbsp;
           <a href="${createLink(action:'unlink', params:['id':child.id, 'fragment':'responsibles','roleOwnerId':roleOwner.adult.id])}#responsibles">
-            ${message(code:'action.remove')}
+            ${message(code:'action.removeRole')}
           </a>
         </g:if>
       </g:else>

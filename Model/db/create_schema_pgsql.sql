@@ -2371,6 +2371,7 @@
         instruction_alert_delay int4,
         instruction_max_delay int4,
         label varchar(255),
+        step_account_completion bool,
         category_id int8,
         display_group_id int8,
         primary key (id)

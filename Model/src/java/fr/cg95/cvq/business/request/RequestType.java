@@ -80,6 +80,10 @@ public class RequestType implements Serializable {
     @Column(name="instruction_alert_delay")
     private Integer instructionAlertDelay;
 
+    /** status of the account completion incitation step */
+    @Column(name="step_account_completion")
+    private Boolean stepAccountCompletion;
+
     public RequestType() {
         setSeasons(new TreeSet<RequestSeason>());
     }
@@ -171,6 +175,14 @@ public class RequestType implements Serializable {
 
     public void setInstructionMaxDelay(Integer instructionMaxDelay) {
         this.instructionMaxDelay = instructionMaxDelay;
+    }
+
+    public Boolean getStepAccountCompletion() {
+        return this.stepAccountCompletion;
+    }
+
+    public void setStepAccountCompletion(Boolean stepAccountCompletion) {
+        this.stepAccountCompletion = stepAccountCompletion;
     }
 
     @Override

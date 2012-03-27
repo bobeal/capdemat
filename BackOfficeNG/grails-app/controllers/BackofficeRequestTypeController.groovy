@@ -102,7 +102,8 @@ class BackofficeRequestTypeController {
         result["configurationItems"] = [
             "forms" : ["requestType.configuration.forms", false],
             "delays" : ["requestType.configuration.delays", false],
-            "documents" : ["requestType.configuration.documentType", false]
+            "documents" : ["requestType.configuration.documentType", false],
+            "steps" : ["requestType.configuration.steps", false]
         ]
         if (requestTypeService.getRulesAcceptanceFieldNames(requestType.id).size() > 0) {
             result["configurationItems"]["rules"] = ["requestType.configuration.rules", false]
@@ -343,6 +344,24 @@ class BackofficeRequestTypeController {
         } else { 
             render message(code:'message.templateDoesNotExist')
         }
+    }
+
+    def steps = {
+        def id = Long.valueOf(params.id)
+        render(
+            view : "configure",
+            model : ["id" : params.id].plus(getCommonModel(requestTypeService.getRequestTypeById(Long.valueOf(id))))
+        )
+    }
+    def saveSteps = {
+
+        def steps = requestTypeService.getRequestTypeById(Long.valueOf(params.id))
+
+        steps.setStepAccountCompletion(params.stepAccountCompletion.equals("active"))
+
+        requestTypeService.modifyRequestType(steps)
+
+        render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
     
     /* Local referential related action

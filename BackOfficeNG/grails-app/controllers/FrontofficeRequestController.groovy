@@ -170,7 +170,7 @@ class FrontofficeRequestController {
                         redirect(action:'exit', params:parameters)
                     }
                     return
-                } else {
+                } else if (params.currentStep != 'homeFolder') { // nothing to validate for common home folder step
                     requestWorkflowService.modify(rqt)
                     requestWorkflowService.validate(rqt, [params.currentStep])
                     if (params.currentCollection != null) {
@@ -190,6 +190,8 @@ class FrontofficeRequestController {
                             ]
                         )
                     }
+                } else if (params.currentStep == 'homeFolder') {
+                    rqt.stepStates.get('homeFolder').state = 'complete'
                 }
             } catch (CvqException ce) {
                 log.error ce.getMessage()
@@ -206,6 +208,16 @@ class FrontofficeRequestController {
         def viewPath = "/frontofficeRequestType/${requestTypeLabelAsDir}/edit"
         def nextWebflowStep = webflowNextStep(rqt, params.currentStep)
 
+        //hack to jump homeFolder step if not activated
+        def isAccountCompletionStepActivated = 
+            (requestTypeService.getRequestTypeByLabel(rqt.requestType.label).getStepAccountCompletion() == null ||
+                requestTypeService.getRequestTypeByLabel(rqt.requestType.label).getStepAccountCompletion().equals(false)
+                || session.proxyAgent)? false : true
+        if(nextWebflowStep == "homeFolder" && !isAccountCompletionStepActivated)
+        {
+            params.nextStep = true
+            nextWebflowStep = webflowNextStep(rqt, "homeFolder")
+        }
         render(view: viewPath, model: [
             'rqt': rqt,
             'requester': SecurityContext.currentEcitizen,
@@ -228,7 +240,8 @@ class FrontofficeRequestController {
             'availableRules' : localAuthorityRegistry.getLocalAuthorityRules(requestTypeLabelAsDir),
             'customJS' : requestTypeAdaptorService.getCustomJS(rqt.requestType.label),
             "subjectPolicy" : requestTypeService.getSubjectPolicy(rqt.requestType.id),
-            'customReferential' : requestServiceRegistry.getRequestService(rqt).getBusinessReferential()
+            'customReferential' : requestServiceRegistry.getRequestService(rqt).getBusinessReferential(),
+            'isAccountCompletionStepActivated' : isAccountCompletionStepActivated
         ])
     }
 
@@ -296,6 +309,11 @@ class FrontofficeRequestController {
         requestLockService.lock(id)
         def rqt = requestSearchService.getById(id, true)
         def currentStep = rqt.stepStates.keySet().iterator().next()
+        // hack to ignore homeFolder step if not activated
+        if (currentStep == "homeFolder" 
+            && !requestTypeService.getRequestTypeByLabel(rqt.requestType.label).getStepAccountCompletion()) {
+            currentStep = rqt.stepStates.keySet().toArray()[1]
+        }
         if (params.cancel) {
             rqt.stepStates.remove(currentStep + '-' + params.type)
             redirect(action : "edit", id : id)

@@ -81,6 +81,30 @@
   </div>
 </g:elseif>
 
+<g:elseif test="${currentStep == 'homeFolder'}">
+  <g:if test="${rqt.requestType.getStepAccountCompletion() && !session.proxyAgent }">
+    <div class="form ${rqt.stepStates[currentStep]?.state}" id="${currentStep}">
+      <form action="${createLink(controller : 'frontofficeRequest', action:'edit')}" id="stepForm" method="post">
+        <h3>
+           ${message(code:'request.step.homeFolder.label')}
+          <span>${message(code:'request.step.homeFolder.desc')}</span>
+          <span class="error"></span>
+        </h3>
+
+        <g:render template="/frontofficeRequestType/homeFolder" model="['rqt':rqt]"/>
+
+        <div id="stepForm-error" class="error"> </div>
+        <input type="hidden" value="" name="returnUrl">
+        <input type="hidden" value="${rqt.id}" name="id">
+        <input type="hidden" value="${currentStep}" name="currentStep">
+        <input type="submit" value="${message(code:'request.action.nextStep')}" style="float:right;" name="nextStep" id="nextStep">
+
+      </form>
+    </div>
+  </g:if>
+</g:elseif>
+
+
 <g:elseif test="${individual}">
   <div id="${currentStep}" class="form ${rqt.stepStates[currentStep + '-' + params.type]?.state}">
     <form action="${createLink(controller : 'frontofficeRequest', action:'individual')}" method="post">
@@ -127,7 +151,9 @@
       <input type="hidden" name="currentStep" value="${currentStep}" />
       <g:if test="${!currentCollection}">
         <input type="submit" id="nextStep" name="nextStep" style="float:right;" value="${message(code:'request.action.nextStep')}" />
-        <g:if test="${!(rqt.stepStates.keySet().iterator().next() == currentStep)}">
+        <g:if test="${!(rqt.stepStates.keySet().iterator().next() == currentStep) &&
+        !(rqt.stepStates.keySet().iterator().next() == 'homeFolder' && !isAccountCompletionStepActivated &&
+        rqt.stepStates.keySet().toList().get(1) == currentStep )}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':currentStep, 'previousStep':'previousStep'])}" class="previousStep">
             ${message(code:'request.action.previousStep')}
           </a>

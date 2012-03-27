@@ -214,7 +214,7 @@
             <label for="${IdRefNamePrefix}${element.javaFieldName}Id" class="${element.listenerConditionsClass}">
               <g:message code="${acronym}.property.subject.label" /> ${element.mandatory ? '*' : ''}
               <span><g:message code="${element.i18nPrefixCode}.help" /></span>
-              <g:if test="\${rqt.stepStates[currentStep].state != 'complete'}">
+              <g:if test="\${rqt.stepStates[currentStep].state != 'complete' && !rqt.requestType.getStepAccountCompletion()}">
                 <g:if test="\${!fr.cg95.cvq.service.request.IRequestWorkflowService.SUBJECT_POLICY_NONE.equals(subjectPolicy)}">
                   <g:if test="\${fr.cg95.cvq.service.request.IRequestWorkflowService.SUBJECT_POLICY_ADULT.equals(subjectPolicy)}">
                     <span>(<a id="addSubjectLink" href="\${createLink(controller : 'frontofficeRequest', action : 'individual', params : ['type' : 'adult', 'requestId' : rqt.id])}"><g:message code="homeFolder.action.addSubject" /></a>)</span>

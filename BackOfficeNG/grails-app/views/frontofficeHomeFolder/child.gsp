@@ -15,6 +15,11 @@
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'homefolder.css')}" />
   </head>
   <body>
+
+    <g:if test="${child.id != null}">
+      <g:render template="edit/backToRequest" />
+    </g:if>
+
     <div class="individual box">
       <h2>
         <g:if test="${child.id != null}">

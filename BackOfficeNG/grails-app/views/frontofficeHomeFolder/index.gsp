@@ -14,6 +14,8 @@
       </div>
     </g:if>
 
+    <g:render template="edit/backToRequest" />
+
     <div class="box">
       <div class="main">
         <p style="font-size: 1.15em;">${message(code:'homeFolder.message.completeYourFamily')}</p>

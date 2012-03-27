@@ -8,6 +8,7 @@ import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.users.IUserService
 import fr.cg95.cvq.service.users.IUserSearchService
 import fr.cg95.cvq.service.users.IUserWorkflowService
+import fr.cg95.cvq.service.request.IRequestSearchService
 
 import fr.cg95.cvq.exception.CvqModelException
 import com.octo.captcha.service.CaptchaServiceException
@@ -24,6 +25,7 @@ class FrontofficeHomeFolderController {
     IUserService userService
     IUserSearchService userSearchService
     IUserWorkflowService userWorkflowService
+    IRequestSearchService requestSearchService
 
     def homeFolderAdaptorService
     def individualAdaptorService
@@ -50,6 +52,28 @@ class FrontofficeHomeFolderController {
             }
             return role
         }
+
+
+        if(session["inRQID"])
+        {
+            def referer = request.getHeader("Referer")
+            if(referer)
+            if(!referer.contains("/homeFolder"))
+            {
+                session["inRQID"] = false;
+            }
+        }
+
+        if(params.inRequestId)
+        {
+            session["inRQID"] = params.inRequestId
+        }
+
+        if(session["inRQID"]) {
+            flash.inRequestId = session["inRQID"]
+            flash.inRequestLabel = requestSearchService.getById(Long.valueOf(session["inRQID"]), false).getRequestType().getLabel()
+        }
+
     }
 
     def index = {

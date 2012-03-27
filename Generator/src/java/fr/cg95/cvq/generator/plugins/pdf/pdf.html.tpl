@@ -161,12 +161,131 @@
             ${toGT('}')}
           </div>
           """
+      ,'family' :
+          """
+          ${toGT('if (rqt.requestType.getStepAccountCompletion()){')}
+              <h2>\${i18n.translate('pdf.homeFolder.label')}</h2>
+
+            ${toGT('firstChild = true')}
+
+            ${toGT('responsibleId = requester.getHomeFolder().getIndividuals().findAll{ it.getHomeFolderRoles(requester.getHomeFolder().getId()).findAll{ it.getRole() == fr.cg95.cvq.business.users.RoleType.HOME_FOLDER_RESPONSIBLE }.size() > 0 }.get(0).getId() ')}
+
+            ${toGT('list = requester.getHomeFolder().getIndividuals().findAll{ !(it.getState().name.equals("Archived") || it.getState().name.equals("Invalid"))}.sort{a,b -> a.getClass() == fr.cg95.cvq.business.users.Adult.class ? (a.getId() == responsibleId ? -1 : 0) : 1 } ')}
+
+            ${toGT('list.each { individual ->')}
+
+              ${toGT('if (individual.getClass() == fr.cg95.cvq.business.users.Adult.class) {')}
+
+                ${toGT('if (individual.getId() == responsibleId) {')}
+                  <h3>\${i18n.translate('homeFolder.property.responsible')}</h3>
+                ${toGT('}')}
+
+                ${toGT('if (list.indexOf(individual) == 1) {')}
+                  <h3>\${i18n.translate('homeFolder.property.adults')}</h3>
+                ${toGT('}')}
+
+                <p class="label">
+                  \${i18n.translate('homeFolder.adult.property.title')}
+                  \${i18n.translate('homeFolder.individual.property.firstName')}
+                  \${i18n.translate('homeFolder.individual.property.lastName')}
+                </p>
+                <div class="response">
+                  ${toGT('if(individual?.title) {')}
+                    \${i18n.translate('homeFolder.adult.title.' + StringUtils.lowerCase(individual?.title.toString()))}
+                  ${toGT('}')}
+                  \${esc(individual?.firstName)}
+                  \${esc(individual?.lastName)}
+                </div>
+                <p class="label">\${i18n.translate('homeFolder.individual.property.address')}</p>
+                <div class="response">
+                  ${toGT('if (individual?.address) {')}
+                    <p>\${esc(StringUtils.defaultString(individual?.address?.additionalDeliveryInformation))}</p>
+                    <p>\${esc(StringUtils.defaultString(individual?.address?.additionalGeographicalInformation))}</p>
+                    <p>\${esc(StringUtils.defaultString(individual?.address?.streetNumber))} \${esc(StringUtils.defaultString(individual?.address?.streetName))}</p>
+                    <p>\${esc(StringUtils.defaultString(individual?.address?.placeNameOrService))}</p>
+                    <p>\${esc(StringUtils.defaultString(individual?.address?.postalCode))} \${esc(StringUtils.defaultString(individual?.address?.city))}</p>
+                    <p>\${esc(StringUtils.defaultString(individual?.address?.countryName))}</p>
+                  ${toGT('}')}
+                </div>
+
+                ${toGT('if (individual?.email) {')}
+                  <p class="label">\${i18n.translate('homeFolder.adult.property.email')}</p>
+                  <div class="response">\${esc(StringUtils.defaultString(individual?.email))}</div>
+                ${toGT('}')}
+                ${toGT('if (individual?.homePhone) {')}
+                  <p class="label">\${i18n.translate('homeFolder.adult.property.homePhone')}</p>
+                  <div class="response">\${esc(StringUtils.defaultString(individual?.homePhone))}</div>
+                ${toGT('}')}
+                ${toGT('if (individual?.mobilePhone) {')}
+                  <p class="label">\${i18n.translate('homeFolder.adult.property.mobilePhone')}</p>
+                  <div class="response">\${esc(StringUtils.defaultString(individual?.mobilePhone))}</div>
+                ${toGT('}')}
+                ${toGT('if (individual?.officePhone) {')}
+                  <p class="label">\${i18n.translate('homeFolder.adult.property.officePhone')}</p>
+                  <div class="response">\${esc(StringUtils.defaultString(individual?.officePhone))}</div>
+                ${toGT('}')}
+                <hr />
+              ${toGT('}')}
+
+
+              ${toGT('if (individual.getClass() == fr.cg95.cvq.business.users.Child.class) {')}
+
+                ${toGT('if (firstChild){')}
+                  <h3>\${i18n.translate('homeFolder.property.children')}</h3>
+                ${toGT('firstChild=false }')}
+
+                <p class="label">
+                  \${i18n.translate('homeFolder.individual.property.firstName')}
+                  \${i18n.translate('homeFolder.individual.property.lastName')}
+                </p>
+                <div class="response">
+                  \${esc(individual?.firstName)}
+                  \${esc(individual?.lastName)}
+                </div>
+
+                ${toGT('if (individual?.isBorn()) {')}
+                  <p class="label">\${i18n.translate('homeFolder.individual.property.birthDate')}</p>
+                ${toGT('} else {')}
+                  <p class="label">\${i18n.translate('homeFolder.individual.property.expectedBirthDate')}</p>
+                ${toGT('}')}
+                <div class="response">
+                  \${String.format('%td/%<tm/%<tY',individual?.getBirthDate())}
+                </div>
+
+                <p class="label">\${i18n.translate('homeFolder.child.property.sex')}</p>
+                <div class="response">
+                  \${i18n.translate('homeFolder.child.property.sex.'+StringUtils.lowerCase(individual?.getSex().getLegacyLabel()))}
+                </div>
+
+                <p class="label">\${i18n.translate('homeFolder.child.property.legalResponsibles')}</p>
+
+                <div class="response">
+
+                ${toGT('requester.getHomeFolder().getIndividuals().each { indiv_2 -> ')}
+                  ${toGT('if (indiv_2.getClass() == fr.cg95.cvq.business.users.Adult.class) {')}
+                    ${toGT('indiv_2.getIndividualRoles().each{ indRole ->')}
+                      ${toGT('if((indRole.getRole().getLegacyLabel().equals("ClrMother") || indRole.getRole().getLegacyLabel().equals("ClrFather") || indRole.getRole().getLegacyLabel().equals("ClrTutor") || indRole.getRole().getLegacyLabel().equals("Tutor")) && indRole.getIndividualId() == individual.getId()){')}
+
+                          \${esc(indiv_2?.firstName)}
+                          \${esc(indiv_2?.lastName)}
+
+                      ${toGT('}')}
+                    ${toGT('}')}
+                  ${toGT('}')}
+                ${toGT('}')}
+                </div>
+                <hr />
+
+              ${toGT('}')}
+            ${toGT('}')}
+          ${toGT('}')}
+          """
     ]
 
     def output
 
     switch (element.widget) {
-      case ['requester', 'subject']:
+      case ['requester', 'subject', 'family']:
         output = widgets[element.widget]
         break
       case ['decimal', 'double', 'float']:
@@ -186,6 +305,9 @@ ${beginGT()}
   import org.apache.commons.lang.StringUtils
   import fr.cg95.cvq.util.EnumTool
   import java.text.NumberFormat
+  import fr.cg95.cvq.business.users.RoleType
+  import fr.cg95.cvq.business.users.IndividualRole
+
   def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -272,6 +394,9 @@ ${endGT()}
       <span class="checked">\${i18n.translate('meansOfContact.none')}</span>
     ${toGT('}')}
   </div>
+
+  <% displayWidget(['widget':'family'], "rqt") %>
+
 </body>
 </html>
 

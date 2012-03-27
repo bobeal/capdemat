@@ -14,6 +14,12 @@
     </g:if>
   </head>
   <body>
+
+
+    <g:if test="${adult.id != null}">
+      <g:render template="edit/backToRequest" />
+    </g:if>
+
     <div class="box individual">
       <h2>
         <g:if test="${adult.id != null}">

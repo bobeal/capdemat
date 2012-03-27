@@ -7,6 +7,7 @@ package fr.cg95.cvq.generator.common;
 public class CommonStep extends Step {
 
     public enum Ref {
+        homeFolder(false),
         document(false),
         validation(true),
         administration(false);

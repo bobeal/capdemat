@@ -95,21 +95,30 @@
          <g:set var="requestTypeAcronym" value="${requestFo.acronym}" scope="request" />
          <g:render template="/frontofficeRequestType/step" /> 
       </div>
-      
+
       <div  class="steps">
       <ul>
+
+
+      <g:set var="stepNumber" value="1"/>
+
 <% requestFo.steps.eachWithIndex { step, i -> %>
   <% if (step.name == 'document') { %>
         <g:if test="\${!documentTypes.isEmpty()}">
   <% } %>
+
+  <% if (step.name == 'homeFolder') { %>
+        <g:if test="\${rqt.requestType.getStepAccountCompletion() && !session.proxyAgent}">
+  <% } %>
+
         <li class="\${currentStep == '${step.name}' ? 'current ' : ''}
           <% if (i == 0) { %>
             \${individual ? rqt.stepStates['${step.name}-' + params.type].state : rqt.stepStates['${step.name}'].state}
           <% } else { %>
             \${rqt.stepStates['${step.name}'].state}
-          <% } %>
-          ">
-          <span class="number">${step.name != 'validation' ? i+1 : ''}</span>
+          <% } %>"
+          >
+          <span class="number">${step.name != 'validation' ? '\${stepNumber++}' : ''}</span>
           <a
             <g:if test="\${currentStep != '${step.name}' && rqt.stepStates['${step.name}'].state != 'unavailable'}">
               href="\${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'${step.name}'])}"
@@ -117,7 +126,11 @@
           >
             <% if (i == 0) { %>
               <g:message code="\${individual ? 'homeFolder.action.add' + org.apache.commons.lang.StringUtils.capitalize(params.type) : '${step.i18nPrefix()}.step.${step.name}.label'}" />
-              ${step.required ? "\${individual ? '' : '*'" : ''}}
+
+              <% if (step.required) { %>
+                \${individual ? '' : '*'}
+              <% } %>
+
               <span class="help">
                 <g:message code="request.step.message.\${rqt.stepStates['${step.name}' + (individual ? '-' + params.type : '')].state}" />
               </span>
@@ -137,7 +150,12 @@
               </span>
             <% } %>
           </a>
-        </li>    
+        </li>
+
+  <% if (step.name == 'homeFolder') { %>
+        </g:if>
+  <% } %>
+
   <% if (step.name == 'document') { %>
         </g:if>
   <% } %>

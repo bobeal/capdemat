@@ -103,4 +103,6 @@ public interface IRequestExternalService {
      * @throws CvqException
      */
     public RequestType getRequestPayload(@IsRequest Request request, IExternalProviderService externalProviderService) throws CvqException;
+
+    boolean isAgentCreatorRequest(Request request);
 }

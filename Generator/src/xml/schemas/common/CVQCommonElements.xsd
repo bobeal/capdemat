@@ -2346,6 +2346,7 @@
       </xs:element>
       <!-- allow additional information from referential (only) to be added to the request -->
       <xs:element name="AdditionalInformation" type="cvq:AdditionalInformationType" minOccurs="0" />
+      <xs:element name="IsAgent" type="xs:boolean" minOccurs="0" />
     </xs:sequence>
   </xs:complexType>
 

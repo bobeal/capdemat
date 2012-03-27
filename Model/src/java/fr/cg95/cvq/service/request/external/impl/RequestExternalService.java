@@ -31,6 +31,8 @@ import fr.capwebct.capdemat.HomeFolderMergeRequestDocument;
 import fr.capwebct.capdemat.MergedIndividualType;
 import fr.capwebct.capdemat.HomeFolderMergeRequestDocument.HomeFolderMergeRequest;
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestAction;
+import fr.cg95.cvq.business.request.RequestActionType;
 import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
@@ -208,7 +210,6 @@ public class RequestExternalService extends ExternalService implements IRequestE
     public void sendRequest(Request request) throws CvqException {
         if (!hasMatchingExternalService(request.getRequestType().getLabel()))
             return;
-
         for (IExternalProviderService externalProviderService :
                 getExternalServicesByRequestType(request.getRequestType().getLabel())) {
             if (externalProviderService instanceof ExternalApplicationProviderService)
@@ -261,6 +262,9 @@ public class RequestExternalService extends ExternalService implements IRequestE
         RequestType xmlRequest = getRequestType(request);
         HomeFolderMapping mapping = getOrCreateHomeFolderMapping(xmlRequest, externalProviderService);
         fillRequestWithMapping(xmlRequest, mapping);
+        if(isAgentCreatorRequest(request)){
+            xmlRequest.setIsAgent(true);
+        }
         return xmlRequest;
     }
 
@@ -438,6 +442,19 @@ public class RequestExternalService extends ExternalService implements IRequestE
     @Context(types = {ContextType.SUPER_ADMIN})
     public void removeLocalAuthority(String localAuthorityName) {
         // nothing to do yet
+    }
+
+    @Override
+    public boolean isAgentCreatorRequest(Request request){
+        if(request.getActions() != null){
+            for(RequestAction requestAction : request.getActions()){
+                if(requestAction.getType().equals(RequestActionType.CREATION) &&
+                        requestAction.getResultingState().equals(RequestState.PENDING)){
+                    return !(request.getRequesterId().equals(requestAction.getAgentId()));
+                }
+            }
+        }
+        return false;
     }
 
     @Override

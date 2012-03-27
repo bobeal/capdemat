@@ -169,13 +169,24 @@
     </div>
     <div id="narrow" class="yui-b">
       <div class="nobox taskstate">
-        <h3>${message(code:'header.subMenus')}</h3>
+        <h3>${message(code:'home.header.realizeRequest')}</h3>
         <div class="body">
-          <p>
-            <a href="${createLink(controller: 'frontofficeHome',action:'loginAgent', id : homeFolderResponsible.id)}">
-              ${message(code:'homeFolder.header.goToAccount')}
-            </a>
-          </p>
+          <form method="post" action="${g.createLink(action:'realizeRequest', id:homeFolderResponsible.id)}">
+            <label for="requestTypeId">${message(code:'property.requestType')} :</label>
+            <select id="requestTypeId" name="requestTypeId">
+              <option value=""><g:message code="search.filter.defaultValue"/></option>
+              <g:each var="group" in="${groups}">
+                  <optgroup label="${group.value.get('label')}">
+                      <g:each in="${group.value.get('requests')}" var="requestType">
+                        <option value="${requestType.id}">
+                          <g:translateRequestTypeLabel label="${requestType.label}"/>
+                        </option>
+                      </g:each>
+                  </optgroup>
+              </g:each>
+            </select>
+            <input type="submit" value="${message(code:'action.begin')}" />
+          </form>
         </div>
       </div>
 

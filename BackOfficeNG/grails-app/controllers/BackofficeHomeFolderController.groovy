@@ -19,6 +19,7 @@ import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.payment.IPaymentService
 import fr.cg95.cvq.service.users.IMeansOfContactService
 import fr.cg95.cvq.service.users.external.IExternalHomeFolderService
+import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.business.payment.Payment
 import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.security.PermissionException
@@ -48,10 +49,12 @@ class BackofficeHomeFolderController {
     IUserSecurityService userSecurityService
     IDocumentTypeService documentTypeService
     IHomeFolderDocumentService homeFolderDocumentService
+    IRequestTypeService requestTypeService
 
     def translationService
     def homeFolderAdaptorService
     def requestAdaptorService
+    def requestTypeAdaptorService
     def individualAdaptorService
 
     def defaultAction = 'search'
@@ -151,6 +154,9 @@ class BackofficeHomeFolderController {
         result.homeMappings = externalHomeFolderService.getHomeFolderMappings(Long.valueOf(params.id))
 
         result.agentCanWrite = agentCanWrite
+
+        result.groups = requestTypeAdaptorService.getActiveRequestTypeByDisplayGroup(homeFolder)
+
         return result
     }
 
@@ -290,6 +296,11 @@ class BackofficeHomeFolderController {
             userDeduplicationService.mergeDuplicate(params.long('homeFolderId'), params.long('targetHomeFolderId'))
         }
         redirect(action:'details', params:['id': params.homeFolderId])
+    }
+
+    def realizeRequest = {
+        def requestTypeLabel = params.requestTypeId != null && !params.requestTypeId.isEmpty() ? requestTypeService.getRequestTypeById(Long.valueOf(params.requestTypeId)).label : null
+        redirect(controller: 'frontofficeHome', action:'loginAgent', params:['id' : params.id, 'requestTypeLabel' : requestTypeLabel])
     }
 
     def address = {

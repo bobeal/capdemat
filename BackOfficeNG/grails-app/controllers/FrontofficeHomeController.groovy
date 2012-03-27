@@ -154,7 +154,7 @@ class FrontofficeHomeController {
             session.frontContext = ContextType.AGENT
             session.currentEcitizenId = params.long("id")
             SecurityContext.setCurrentEcitizen(session.currentEcitizenId)
-            redirect(controller:'frontofficeRequestType')
+            redirect(controller:'frontofficeRequestType', action : "start", id : params.requestTypeLabel)
             return false
         } else {
             redirect(controller:'frontofficeHome')

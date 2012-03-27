@@ -196,3 +196,9 @@ dl.atom .previous { text-decoration: line-through; }
 .duplicate input[type="submit"] {
   display: block;
 }
+
+/* realize request for home folder
+-------------------------------------------------------------------------*/
+
+optgroup { font-style: italic; font-weight: bold; }
+option { font-style: normal; font-weight: normal; }

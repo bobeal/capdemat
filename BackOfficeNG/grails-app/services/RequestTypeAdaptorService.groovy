@@ -35,7 +35,9 @@ class SplitMap {
 }
 
 public class RequestTypeAdaptorService {
-    
+
+    def messageSource
+
     IRequestTypeService requestTypeService
     IRequestServiceRegistry requestServiceRegistry
     IRequestWorkflowService requestWorkflowService
@@ -78,6 +80,29 @@ public class RequestTypeAdaptorService {
         }
 
         return tempMap
+    }
+
+    public Map getActiveRequestTypeByDisplayGroup(HomeFolder homeFolder) {
+        def result = [:]
+        result["agentOnly"] = ['label': messageSource.getMessage("displayGroup.label.agentOnly", null, SecurityContext.currentLocale),'requests':[]]
+
+        for(RequestType rt : requestTypeService.getAllRequestTypes()) {
+            if (!rt.active)
+                continue
+
+            def dgName = rt.displayGroup != null ? rt.displayGroup.name : "agentOnly"
+            if (rt.displayGroup != null && !result.keySet().contains(rt.displayGroup.name))
+                result[rt.displayGroup.name] = ['label':rt.displayGroup.label,'requests':[]]
+
+            result[dgName].requests.add(['label': rt.label, 'id': rt.id])
+            result[dgName].requests = result[dgName].requests.sort{it -> it.label}
+        }
+
+        // remove agentOnly from the list if empty
+        if (result.get("agentOnly").get("requests").isEmpty())
+            result.remove("agentOnly")
+
+       return result
     }
 
     def protected countDraft(requestTypeLabel) {

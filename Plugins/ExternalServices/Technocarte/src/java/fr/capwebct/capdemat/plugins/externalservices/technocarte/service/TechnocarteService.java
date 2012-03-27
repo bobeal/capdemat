@@ -61,6 +61,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.impl.ExternalProviderServiceAdapter;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.payment.IPaymentService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.school.external.IScholarBusinessProviderService;
@@ -649,6 +650,8 @@ public class TechnocarteService extends ExternalProviderServiceAdapter implement
         parameters.addElement(new Parameter("datenai", String.class, birthDayDate, null));
         parameters.addElement(new Parameter("requestType", String.class, request.getRequestType().getLabel(), null));
         parameters.addElement(new Parameter("codsaison", String.class, requestSeasonId, null));
+        parameters.addElement(new Parameter("calend", String.class, "0", null));
+        parameters.addElement(new Parameter("agent", String.class, SecurityContext.getProxyAgent() != null ? "1" : "0", null));
 
         try {
             Call call = new Call();

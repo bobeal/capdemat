@@ -1,0 +1,271 @@
+
+
+<%
+
+  import org.apache.commons.lang.StringUtils
+  import fr.cg95.cvq.util.EnumTool
+  def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
+  def localReferentialWidget(rqt, javaName, lrEntries, depth) {
+    def currentLrDatas = rqt[javaName].collect{it.name}
+    if (lrEntries.any{it.entries}) {
+      println "<ul ${depth==0 ? 'class="dataTree"' : ''}>"
+      
+      lrEntries.each { entry ->
+        println "<li>"
+        if (entry.entries) {
+          println "<em ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.label} :</em>"
+          localReferentialWidget(rqt, javaName, entry.entries, depth + 1)
+        } else {
+          println "<span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.label}</span>"
+        }
+        println "</li>"
+      }
+
+      println "</ul>"
+    } else {
+      lrEntries.eachWithIndex { entry, i ->
+        println "<span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.label}</span>${i + 1 < lrEntries.size() ? ', ' : ''}"
+      }
+    }
+  }
+
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>${esc(i18n.translate('scjer.label'))}</title>
+  <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
+</head>
+<body>
+  <div id="hd">
+    <p>${esc(localAuthority.displayTitle)}</p>
+    <img src="file://${logoPath}" alt="mairie2424" />
+  </div>
+  <h1>${esc(i18n.translate('scjer.label'))}</h1>
+  <div class="localAuthority">
+    <h2>${i18n.translate('pdf.localAutorityReservedSection')}</h2>
+    <ul>
+      <li>${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
+      <li>${i18n.translate('property.requester')} : <strong>${esc(rqt.requesterFirstName +' '+ rqt.requesterLastName)}</strong></li>
+      <li>${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong></li>
+      <li>${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
+    </ul>
+  </div>
+  <h2>${i18n.translate('request.property.requester')}</h2>
+  
+          <p class="label">
+            ${i18n.translate('homeFolder.adult.property.title')}
+            ${i18n.translate('homeFolder.individual.property.firstName')}
+            ${i18n.translate('homeFolder.individual.property.lastName')}
+          </p>
+          <div class="response">
+            <% if(requester?.title) { %>
+              ${i18n.translate('homeFolder.adult.title.' + StringUtils.lowerCase(requester?.title.toString()))}
+            <% } %>
+            ${esc(requester?.firstName)}
+            ${esc(requester?.lastName)}
+          </div>
+          <p class="label">${i18n.translate('homeFolder.individual.property.address')}</p>
+          <div class="response">
+            <% if (requester?.address) { %>
+              <p>${esc(StringUtils.defaultString(requester?.address?.additionalDeliveryInformation))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.additionalGeographicalInformation))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.streetNumber))} ${esc(StringUtils.defaultString(requester?.address?.streetName))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.placeNameOrService))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.postalCode))} ${esc(StringUtils.defaultString(requester?.address?.city))}</p>
+              <p>${esc(StringUtils.defaultString(requester?.address?.countryName))}</p>
+            <% } %>
+          </div>
+          <p class="label">${i18n.translate('homeFolder.adult.property.email')}</p>
+          <div class="response">${esc(StringUtils.defaultString(requester?.email))}</div>
+          <p class="label">${i18n.translate('homeFolder.adult.property.homePhone')}</p>
+          <div class="response">${esc(StringUtils.defaultString(requester?.homePhone))}</div>
+          <p class="label">${i18n.translate('homeFolder.adult.property.mobilePhone')}</p>
+          <div class="response">${esc(StringUtils.defaultString(requester?.mobilePhone))}</div>
+          <p class="label">${i18n.translate('homeFolder.adult.property.officePhone')}</p>
+          <div class="response">${esc(StringUtils.defaultString(requester?.officePhone))}</div>
+          
+
+
+  
+  <h2>${i18n.translate('scjer.step.sujet.label')}</h2>
+  
+    
+      
+          <p class="label">${esc(i18n.translate('scjer.property.subject.label'))}</p>
+          <div class="response">${esc(subjectIsChild && !subject?.born ? i18n.translate('request.subject.childNoBorn', subject?.fullName) : subject?.fullName)}</div>
+          
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('scjer.property.telephonePortable.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.telephonePortable?.toString()))}</div>
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('scjer.property.email.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.email?.toString()))}</div>
+
+    
+  
+
+  
+  <h2>${i18n.translate('scjer.step.renseignements.label')}</h2>
+  
+    
+      <p class="label">${esc(i18n.translate('scjer.property.typeInscription.label'))}</p>
+          <div class="response">
+            <% if(rqt.typeInscription) { %>
+              ${esc(i18n.translate('scjer.property.typeInscription.' + EnumTool.toLowerCamelCase(rqt.typeInscription.toString())))}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('scjer.property.secteurHabitation.label'))}</p>
+          <div class="response choice">
+            <% localReferentialWidget(rqt, 'secteurHabitation', lrTypes.secteurHabitation.entries, 0) %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('scjer.property.typeEtablissementScolaireFrenquente.label'))}</p>
+          <div class="response">
+            <% if(rqt.typeEtablissementScolaireFrenquente) { %>
+              ${esc(i18n.translate('scjer.property.typeEtablissementScolaireFrenquente.' + EnumTool.toLowerCamelCase(rqt.typeEtablissementScolaireFrenquente.toString())))}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('scjer.property.etablissementScolaireCollege.label'))}</p>
+          <div class="response choice">
+            <% localReferentialWidget(rqt, 'etablissementScolaireCollege', lrTypes.etablissementScolaireCollege.entries, 0) %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('scjer.property.etablissementScolaireLycee.label'))}</p>
+          <div class="response choice">
+            <% localReferentialWidget(rqt, 'etablissementScolaireLycee', lrTypes.etablissementScolaireLycee.entries, 0) %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('scjer.property.etablissementScolaireAutre.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.etablissementScolaireAutre?.toString()))}</div>
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('scjer.property.etablissementScolaireAutreNom.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.etablissementScolaireAutreNom?.toString()))}</div>
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('scjer.property.etablissementScolaireAutreAdresse.label'))}</p>
+          <div class="response">
+            <% if(rqt.etablissementScolaireAutreAdresse) { %>
+              <p>${esc(StringUtils.defaultString(rqt.etablissementScolaireAutreAdresse?.additionalDeliveryInformation))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.etablissementScolaireAutreAdresse?.additionalGeographicalInformation))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.etablissementScolaireAutreAdresse?.streetNumber))} ${esc(StringUtils.defaultString(rqt.etablissementScolaireAutreAdresse?.streetName))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.etablissementScolaireAutreAdresse?.placeNameOrService))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.etablissementScolaireAutreAdresse?.postalCode))} ${esc(StringUtils.defaultString(rqt.etablissementScolaireAutreAdresse?.city))}</p>
+              <p>${esc(StringUtils.defaultString(rqt.etablissementScolaireAutreAdresse?.countryName))}</p>
+            <% } %>
+          </div>
+          
+
+    
+  
+
+  
+  <h2>${i18n.translate('scjer.step.reglements.label')}</h2>
+  
+    
+      <p class="label">${esc(i18n.translate('scjer.property.autorisationMedicale.label'))}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.autorisationMedicale ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('scjer.property.autorisationImage.label'))}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.autorisationImage ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('scjer.property.acceptationReglement.label'))}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.acceptationReglement ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+    
+  
+
+  
+  <h2>${i18n.translate('request.step.administration.label')}</h2>
+  
+    
+      <p class="label">${esc(i18n.translate('scjer.property.signatureResponsableLegal.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.signatureResponsableLegal?.toString()))}</div>
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('scjer.property.signatureAdolescent.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.signatureAdolescent?.toString()))}</div>
+
+    
+  
+    
+      <p class="label">${esc(i18n.translate('scjer.property.signatureElu.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.signatureElu?.toString()))}</div>
+
+    
+  
+
+  <h2>${i18n.translate('contact.property.meansOfContact')}</h2>
+  <div class="response choice">
+    <% if (rqt.meansOfContact) { %>
+      <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
+        <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
+          ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.legacyLabel))}
+        </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
+      <% } %>
+    <% } else { %>
+      <span class="checked">${i18n.translate('meansOfContact.none')}</span>
+    <% } %>
+  </div>
+</body>
+</html>
+

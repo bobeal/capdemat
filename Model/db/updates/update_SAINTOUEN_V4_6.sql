@@ -118,3 +118,78 @@ alter table saintouen_day_care_center_registration_request_plage_horaire_contact
     foreign key (saintouen_day_care_center_registration_request_id) 
     references saintouen_day_care_center_registration_request;
 
+-- TS Saintouen Cap Jeunesse Enfant : création
+create table saintouen_cap_jeunesse_enfant_request (
+    id int8 not null,
+    acceptation_reglement bool,
+    autorisation_image bool,
+    autorisation_medicale bool,
+    email varchar(255),
+    etablissement_scolaire_autre varchar(255),
+    etablissement_scolaire_autre_nom varchar(255),
+    signature_adolescent varchar(255),
+    signature_elu varchar(255),
+    signature_responsable_legal varchar(255),
+    telephone_portable varchar(10),
+    type_etablissement_scolaire_frenquente varchar(255),
+    type_inscription varchar(255),
+    etablissement_scolaire_autre_adresse_id int8,
+    primary key (id)
+);
+
+create table saintouen_cap_jeunesse_enfant_request_etablissement_scolaire_college (
+    saintouen_cap_jeunesse_enfant_request_id int8 not null,
+    etablissement_scolaire_college_id int8 not null,
+    etablissement_scolaire_college_index int4 not null,
+    primary key (saintouen_cap_jeunesse_enfant_request_id, etablissement_scolaire_college_index)
+);
+
+create table saintouen_cap_jeunesse_enfant_request_etablissement_scolaire_lycee (
+    saintouen_cap_jeunesse_enfant_request_id int8 not null,
+    etablissement_scolaire_lycee_id int8 not null,
+    etablissement_scolaire_lycee_index int4 not null,
+    primary key (saintouen_cap_jeunesse_enfant_request_id, etablissement_scolaire_lycee_index)
+);
+
+create table saintouen_cap_jeunesse_enfant_request_secteur_habitation (
+    saintouen_cap_jeunesse_enfant_request_id int8 not null,
+    secteur_habitation_id int8 not null,
+    secteur_habitation_index int4 not null,
+    primary key (saintouen_cap_jeunesse_enfant_request_id, secteur_habitation_index)
+);
+
+alter table saintouen_cap_jeunesse_enfant_request 
+    add constraint FKAFD6B68948ED1E61 
+    foreign key (etablissement_scolaire_autre_adresse_id) 
+    references address;
+
+alter table saintouen_cap_jeunesse_enfant_request_etablissement_scolaire_college 
+    add constraint FK5AF0DA3FC18B372A 
+    foreign key (etablissement_scolaire_college_id) 
+    references local_referential_data;
+
+alter table saintouen_cap_jeunesse_enfant_request_etablissement_scolaire_college 
+    add constraint FK5AF0DA3F9F7CE201 
+    foreign key (saintouen_cap_jeunesse_enfant_request_id) 
+    references saintouen_cap_jeunesse_enfant_request;
+
+alter table saintouen_cap_jeunesse_enfant_request_etablissement_scolaire_lycee 
+    add constraint FK7659EE3E7C30C44B 
+    foreign key (etablissement_scolaire_lycee_id) 
+    references local_referential_data;
+
+alter table saintouen_cap_jeunesse_enfant_request_etablissement_scolaire_lycee 
+    add constraint FK7659EE3E9F7CE201 
+    foreign key (saintouen_cap_jeunesse_enfant_request_id) 
+    references saintouen_cap_jeunesse_enfant_request;
+
+alter table saintouen_cap_jeunesse_enfant_request_secteur_habitation 
+    add constraint FK84B07178F4FDC52 
+    foreign key (secteur_habitation_id) 
+    references local_referential_data;
+
+alter table saintouen_cap_jeunesse_enfant_request_secteur_habitation 
+    add constraint FK84B07179F7CE201 
+    foreign key (saintouen_cap_jeunesse_enfant_request_id) 
+    references saintouen_cap_jeunesse_enfant_request;
+

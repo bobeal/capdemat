@@ -386,17 +386,38 @@
     alter table sagr_membre_bureau 
         drop constraint FK4697AB73CB99EC99;
 
-    alter table saintouen_inscription_scolaire_globale_request_mode_reglement 
-        drop constraint FKF3C59C1D4F54D979;
+    alter table saintouen_cap_jeunesse_enfant_request 
+        drop constraint FKAFD6B68948ED1E61;
 
-    alter table saintouen_inscription_scolaire_globale_request_mode_reglement 
-        drop constraint FKF3C59C1D5B36E4;
+    alter table saintouen_cap_jeunesse_enfant_request_etablissement_scolaire_college 
+        drop constraint FK5AF0DA3FC18B372A;
+
+    alter table saintouen_cap_jeunesse_enfant_request_etablissement_scolaire_college 
+        drop constraint FK5AF0DA3F9F7CE201;
+
+    alter table saintouen_cap_jeunesse_enfant_request_etablissement_scolaire_lycee 
+        drop constraint FK7659EE3E7C30C44B;
+
+    alter table saintouen_cap_jeunesse_enfant_request_etablissement_scolaire_lycee 
+        drop constraint FK7659EE3E9F7CE201;
+
+    alter table saintouen_cap_jeunesse_enfant_request_secteur_habitation 
+        drop constraint FK84B07178F4FDC52;
+
+    alter table saintouen_cap_jeunesse_enfant_request_secteur_habitation 
+        drop constraint FK84B07179F7CE201;
 
     alter table saintouen_day_care_center_registration_request_plage_horaire_contact 
         drop constraint FK2FBFAD43B83A0C68;
 
     alter table saintouen_day_care_center_registration_request_plage_horaire_contact 
         drop constraint FK2FBFAD434A067126;
+
+    alter table saintouen_inscription_scolaire_globale_request_mode_reglement 
+        drop constraint FKF3C59C1D4F54D979;
+
+    alter table saintouen_inscription_scolaire_globale_request_mode_reglement 
+        drop constraint FKF3C59C1D5B36E4;
 
     alter table school_canteen_registration_request 
         drop constraint FKDC4CBC6920540B7;
@@ -706,13 +727,21 @@
 
     drop table sagr_membre_bureau cascade;
 
-    drop table saintouen_inscription_scolaire_globale_request cascade;
+    drop table saintouen_cap_jeunesse_enfant_request cascade;
 
-    drop table saintouen_inscription_scolaire_globale_request_mode_reglement cascade;
+    drop table saintouen_cap_jeunesse_enfant_request_etablissement_scolaire_college cascade;
+
+    drop table saintouen_cap_jeunesse_enfant_request_etablissement_scolaire_lycee cascade;
+
+    drop table saintouen_cap_jeunesse_enfant_request_secteur_habitation cascade;
 
     drop table saintouen_day_care_center_registration_request cascade;
 
     drop table saintouen_day_care_center_registration_request_plage_horaire_contact cascade;
+
+    drop table saintouen_inscription_scolaire_globale_request cascade;
+
+    drop table saintouen_inscription_scolaire_globale_request_mode_reglement cascade;
 
     drop table school cascade;
 
@@ -2148,6 +2177,10 @@
         external_individual_id varchar(255),
         external_item_id varchar(255),
         external_service_label varchar(255),
+        expiration_date timestamp,
+        is_paid bool,
+        issue_date timestamp,
+        payment_date timestamp,
         old_value float8,
         old_value_date timestamp,
         creation_date timestamp,
@@ -2159,10 +2192,6 @@
         unit_price float8,
         key varchar(255),
         key_owner varchar(255),
-        expiration_date timestamp,
-        is_paid bool,
-        issue_date timestamp,
-        payment_date timestamp,
         payment_id int8,
         primary key (id)
     );
@@ -2435,26 +2464,43 @@
         primary key (id)
     );
 
-    create table saintouen_inscription_scolaire_globale_request (
+    create table saintouen_cap_jeunesse_enfant_request (
         id int8 not null,
-        accueil_matin bool,
-        accueil_mercredi_et_vacances bool,
-        accueil_soir bool,
-        est_allergique bool,
-        est_handicape_invalidant bool,
-        est_restauration bool,
-        etudes_surveillees bool,
-        id_ecole_secteur varchar(255),
-        label_ecole_secteur varchar(255),
-        reglement_interieur bool,
+        acceptation_reglement bool,
+        autorisation_image bool,
+        autorisation_medicale bool,
+        email varchar(255),
+        etablissement_scolaire_autre varchar(255),
+        etablissement_scolaire_autre_nom varchar(255),
+        signature_adolescent varchar(255),
+        signature_elu varchar(255),
+        signature_responsable_legal varchar(255),
+        telephone_portable varchar(10),
+        type_etablissement_scolaire_frenquente varchar(255),
+        type_inscription varchar(255),
+        etablissement_scolaire_autre_adresse_id int8,
         primary key (id)
     );
 
-    create table saintouen_inscription_scolaire_globale_request_mode_reglement (
-        saintouen_inscription_scolaire_globale_request_id int8 not null,
-        mode_reglement_id int8 not null,
-        mode_reglement_index int4 not null,
-        primary key (saintouen_inscription_scolaire_globale_request_id, mode_reglement_index)
+    create table saintouen_cap_jeunesse_enfant_request_etablissement_scolaire_college (
+        saintouen_cap_jeunesse_enfant_request_id int8 not null,
+        etablissement_scolaire_college_id int8 not null,
+        etablissement_scolaire_college_index int4 not null,
+        primary key (saintouen_cap_jeunesse_enfant_request_id, etablissement_scolaire_college_index)
+    );
+
+    create table saintouen_cap_jeunesse_enfant_request_etablissement_scolaire_lycee (
+        saintouen_cap_jeunesse_enfant_request_id int8 not null,
+        etablissement_scolaire_lycee_id int8 not null,
+        etablissement_scolaire_lycee_index int4 not null,
+        primary key (saintouen_cap_jeunesse_enfant_request_id, etablissement_scolaire_lycee_index)
+    );
+
+    create table saintouen_cap_jeunesse_enfant_request_secteur_habitation (
+        saintouen_cap_jeunesse_enfant_request_id int8 not null,
+        secteur_habitation_id int8 not null,
+        secteur_habitation_index int4 not null,
+        primary key (saintouen_cap_jeunesse_enfant_request_id, secteur_habitation_index)
     );
 
     create table saintouen_day_care_center_registration_request (
@@ -2523,6 +2569,28 @@
         plage_horaire_contact_id int8 not null,
         plage_horaire_contact_index int4 not null,
         primary key (saintouen_day_care_center_registration_request_id, plage_horaire_contact_index)
+    );
+
+    create table saintouen_inscription_scolaire_globale_request (
+        id int8 not null,
+        accueil_matin bool,
+        accueil_mercredi_et_vacances bool,
+        accueil_soir bool,
+        est_allergique bool,
+        est_handicape_invalidant bool,
+        est_restauration bool,
+        etudes_surveillees bool,
+        id_ecole_secteur varchar(255),
+        label_ecole_secteur varchar(255),
+        reglement_interieur bool,
+        primary key (id)
+    );
+
+    create table saintouen_inscription_scolaire_globale_request_mode_reglement (
+        saintouen_inscription_scolaire_globale_request_id int8 not null,
+        mode_reglement_id int8 not null,
+        mode_reglement_index int4 not null,
+        primary key (saintouen_inscription_scolaire_globale_request_id, mode_reglement_index)
     );
 
     create table school (
@@ -3514,15 +3582,40 @@
         foreign key (sports_associations_grant_request_id) 
         references sports_associations_grant_request;
 
-    alter table saintouen_inscription_scolaire_globale_request_mode_reglement 
-        add constraint FKF3C59C1D4F54D979 
-        foreign key (saintouen_inscription_scolaire_globale_request_id) 
-        references saintouen_inscription_scolaire_globale_request;
+    alter table saintouen_cap_jeunesse_enfant_request 
+        add constraint FKAFD6B68948ED1E61 
+        foreign key (etablissement_scolaire_autre_adresse_id) 
+        references address;
 
-    alter table saintouen_inscription_scolaire_globale_request_mode_reglement 
-        add constraint FKF3C59C1D5B36E4 
-        foreign key (mode_reglement_id) 
+    alter table saintouen_cap_jeunesse_enfant_request_etablissement_scolaire_college 
+        add constraint FK5AF0DA3FC18B372A 
+        foreign key (etablissement_scolaire_college_id) 
         references local_referential_data;
+
+    alter table saintouen_cap_jeunesse_enfant_request_etablissement_scolaire_college 
+        add constraint FK5AF0DA3F9F7CE201 
+        foreign key (saintouen_cap_jeunesse_enfant_request_id) 
+        references saintouen_cap_jeunesse_enfant_request;
+
+    alter table saintouen_cap_jeunesse_enfant_request_etablissement_scolaire_lycee 
+        add constraint FK7659EE3E7C30C44B 
+        foreign key (etablissement_scolaire_lycee_id) 
+        references local_referential_data;
+
+    alter table saintouen_cap_jeunesse_enfant_request_etablissement_scolaire_lycee 
+        add constraint FK7659EE3E9F7CE201 
+        foreign key (saintouen_cap_jeunesse_enfant_request_id) 
+        references saintouen_cap_jeunesse_enfant_request;
+
+    alter table saintouen_cap_jeunesse_enfant_request_secteur_habitation 
+        add constraint FK84B07178F4FDC52 
+        foreign key (secteur_habitation_id) 
+        references local_referential_data;
+
+    alter table saintouen_cap_jeunesse_enfant_request_secteur_habitation 
+        add constraint FK84B07179F7CE201 
+        foreign key (saintouen_cap_jeunesse_enfant_request_id) 
+        references saintouen_cap_jeunesse_enfant_request;
 
     alter table saintouen_day_care_center_registration_request_plage_horaire_contact 
         add constraint FK2FBFAD43B83A0C68 
@@ -3533,6 +3626,16 @@
         add constraint FK2FBFAD434A067126 
         foreign key (saintouen_day_care_center_registration_request_id) 
         references saintouen_day_care_center_registration_request;
+
+    alter table saintouen_inscription_scolaire_globale_request_mode_reglement 
+        add constraint FKF3C59C1D4F54D979 
+        foreign key (saintouen_inscription_scolaire_globale_request_id) 
+        references saintouen_inscription_scolaire_globale_request;
+
+    alter table saintouen_inscription_scolaire_globale_request_mode_reglement 
+        add constraint FKF3C59C1D5B36E4 
+        foreign key (mode_reglement_id) 
+        references local_referential_data;
 
     alter table school_canteen_registration_request 
         add constraint FKDC4CBC6920540B7 

@@ -836,6 +836,17 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="requestExternalService" ref="requestExternalService" />
   </bean>
 
+  <bean id="saintouenCapJeunesseEnfantRequestService"
+    class="fr.cg95.cvq.service.request.school.impl.SaintouenCapJeunesseEnfantRequestService"
+    parent="requestService">
+    <property name="localReferentialFilename" value="local_referential_scjer"/>
+    <property name="label" value="Saintouen Cap Jeunesse Enfant" />
+    <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
+    <property name="defaultDisplayGroup" value="school" />
+    <property name="isOfRegistrationKind" value="true"/>
+    <property name="filingDelay" value="12"/>
+  </bean>
+
   <bean id="displayGroupService" class="fr.cg95.cvq.service.request.impl.DisplayGroupService">
     <property name="genericDAO" ref="genericDAO" />
     <property name="requestTypeDAO" ref="requestTypeDAO" />

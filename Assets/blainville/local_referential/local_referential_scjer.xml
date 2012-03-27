@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <data name="EtablissementScolaireCollege" allowMultipleChoices="false" manager="CapDémat">
+        <label>Collège</label>
+        <entries>
+            <entry key="Baker">
+                <label>Baker</label>
+                <message/>
+            </entry>
+            <entry key="Jaure-s">
+                <label>Jaurès</label>
+                <message/>
+            </entry>
+            <entry key="Michelet">
+                <label>Michelet</label>
+                <message/>
+            </entry>
+        </entries>
+    </data>
+    <data name="EtablissementScolaireLycee" allowMultipleChoices="false" manager="CapDémat">
+        <label>Lycée</label>
+        <entries>
+            <entry key="Blanqui">
+                <label>Blanqui</label>
+                <message/>
+            </entry>
+            <entry key="Cachin">
+                <label>Cachin</label>
+                <message/>
+            </entry>
+        </entries>
+    </data>
+    <data name="SecteurHabitation" allowMultipleChoices="false" manager="CapDémat">
+        <label>Secteur d'habitation</label>
+        <entries>
+            <entry key="Vieux-Saint-Ouen">
+                <label>Vieux Saint-Ouen</label>
+                <message/>
+            </entry>
+            <entry key="Ampe-re-Cordon">
+                <label>Ampère / Cordon</label>
+                <message/>
+            </entry>
+            <entry key="Arago-Pasteur-Zola">
+                <label>Arago / Pasteur / Zola</label>
+                <message/>
+            </entry>
+            <entry key="Puces---Garibaldi---Valle-s---Rioux">
+                <label>Puces / Garibaldi / Vallès / Rioux</label>
+                <message/>
+            </entry>
+            <entry key="Michelet---Debain">
+                <label>Michelet / Debain</label>
+                <message/>
+            </entry>
+        </entries>
+    </data>
+</LocalReferential>

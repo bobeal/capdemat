@@ -1,0 +1,78 @@
+scjer.duration.value =
+
+scjer.property.subject.label = Sujet
+
+scjer.step.sujet.label =
+scjer.step.sujet.desc =
+
+scjer.step.renseignements.label =
+scjer.step.renseignements.desc =
+
+scjer.step.reglements.label =
+scjer.step.reglements.desc =
+
+
+scjer.property.telephonePortable.help =
+scjer.property.telephonePortable.validationError =
+
+
+scjer.property.email.help =
+scjer.property.email.validationError =
+
+
+scjer.property.typeInscription.help =
+scjer.property.typeInscription.validationError =
+
+
+scjer.property.secteurHabitation.help =
+scjer.property.secteurHabitation.validationError =
+
+
+scjer.property.typeEtablissementScolaireFrenquente.help =
+scjer.property.typeEtablissementScolaireFrenquente.validationError =
+
+
+scjer.property.etablissementScolaireCollege.help =
+scjer.property.etablissementScolaireCollege.validationError =
+
+
+scjer.property.etablissementScolaireLycee.help =
+scjer.property.etablissementScolaireLycee.validationError =
+
+
+scjer.property.etablissementScolaireAutre.help =
+scjer.property.etablissementScolaireAutre.validationError =
+
+
+scjer.property.etablissementScolaireAutreNom.help =
+scjer.property.etablissementScolaireAutreNom.validationError =
+
+
+scjer.property.etablissementScolaireAutreAdresse.help =
+scjer.property.etablissementScolaireAutreAdresse.validationError =
+
+
+scjer.property.autorisationMedicale.help =
+scjer.property.autorisationMedicale.validationError =
+
+
+scjer.property.autorisationImage.help =
+scjer.property.autorisationImage.validationError =
+
+
+scjer.property.acceptationReglement.help =
+scjer.property.acceptationReglement.validationError =
+
+
+scjer.property.signatureResponsableLegal.help =
+scjer.property.signatureResponsableLegal.validationError =
+
+
+scjer.property.signatureAdolescent.help =
+scjer.property.signatureAdolescent.validationError =
+
+
+scjer.property.signatureElu.help =
+scjer.property.signatureElu.validationError =
+
+

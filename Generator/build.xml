@@ -61,6 +61,7 @@
       <include name="RecreationActivityRegistrationRequest.xsd" />
       <include name="RemoteSupportRequest.xsd" />
       <include name="RenewalPerischoolActivitiesRequest.xsd" />
+      <include name="SaintouenCapJeunesseAdulteRequest.xsd" />
       <include name="SaintouenCapJeunesseEnfantRequest.xsd" />
       <include name="SaintouenDayCareCenterRegistrationRequest.xsd" />
       <include name="SaintouenInscriptionScolaireGlobaleRequest.xsd" />

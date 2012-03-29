@@ -224,4 +224,9 @@
     <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
   </xb:namespace>
 
+  <!--Saintouen Cap Jeunesse Adulte Request  -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/scjar">
+    <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
+  </xb:namespace>
+
 </xb:config>

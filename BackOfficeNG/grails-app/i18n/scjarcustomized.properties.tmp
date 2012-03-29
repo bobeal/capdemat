@@ -1,0 +1,90 @@
+scjar.duration.value =
+
+scjar.property.subject.label = Sujet
+
+scjar.step.sujet.label =
+scjar.step.sujet.desc =
+
+scjar.step.renseignements.label =
+scjar.step.renseignements.desc =
+
+scjar.step.reglements.label =
+scjar.step.reglements.desc =
+
+
+scjar.property.dateNaissance.help =
+scjar.property.dateNaissance.validationError =
+
+
+scjar.property.sexe.help =
+scjar.property.sexe.validationError =
+
+
+scjar.property.typeInscription.help =
+scjar.property.typeInscription.validationError =
+
+
+scjar.property.secteurHabitation.help =
+scjar.property.secteurHabitation.validationError =
+
+
+scjar.property.situationActuelle.help =
+scjar.property.situationActuelle.validationError =
+
+
+scjar.property.etudiantTypeEtablissement.help =
+scjar.property.etudiantTypeEtablissement.validationError =
+
+
+scjar.property.etablissementScolaireAutre.help =
+scjar.property.etablissementScolaireAutre.validationError =
+
+
+scjar.property.precisionEtablissementScolaireAutre.help =
+scjar.property.precisionEtablissementScolaireAutre.validationError =
+
+
+scjar.property.nomEtablissementScolaireAutre.help =
+scjar.property.nomEtablissementScolaireAutre.validationError =
+
+
+scjar.property.adresseEtablissementScolaireAutre.help =
+scjar.property.adresseEtablissementScolaireAutre.validationError =
+
+
+scjar.property.profession.help =
+scjar.property.profession.validationError =
+
+
+scjar.property.participeActivite.help =
+scjar.property.participeActivite.validationError =
+
+
+scjar.property.typeActivite.help =
+scjar.property.typeActivite.validationError =
+
+
+scjar.property.precisionActivite.help =
+scjar.property.precisionActivite.validationError =
+
+
+scjar.property.autorisationMedicale.help =
+scjar.property.autorisationMedicale.validationError =
+
+
+scjar.property.autorisationImage.help =
+scjar.property.autorisationImage.validationError =
+
+
+scjar.property.acceptationReglement.help =
+scjar.property.acceptationReglement.validationError =
+
+
+scjar.property.signatureAdolescent.help =
+scjar.property.signatureAdolescent.validationError =
+
+
+scjar.property.signatureElu.help =
+scjar.property.signatureElu.validationError =
+
+

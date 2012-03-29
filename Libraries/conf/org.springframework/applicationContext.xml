@@ -847,6 +847,17 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="filingDelay" value="12"/>
   </bean>
 
+  <bean id="saintouenCapJeunesseAdulteRequestService"
+    class="fr.cg95.cvq.service.request.school.impl.SaintouenCapJeunesseAdulteRequestService"
+    parent="requestService">
+    <property name="localReferentialFilename" value="local_referential_scjar"/>
+    <property name="label" value="Saintouen Cap Jeunesse Adulte" />
+    <property name="subjectPolicy" value="SUBJECT_POLICY_ADULT" />
+    <property name="defaultDisplayGroup" value="school" />
+    <property name="isOfRegistrationKind" value="true"/>
+    <property name="filingDelay" value="12"/>
+  </bean>
+
   <bean id="displayGroupService" class="fr.cg95.cvq.service.request.impl.DisplayGroupService">
     <property name="genericDAO" ref="genericDAO" />
     <property name="requestTypeDAO" ref="requestTypeDAO" />

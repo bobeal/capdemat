@@ -386,6 +386,15 @@
     alter table sagr_membre_bureau 
         drop constraint FK4697AB73CB99EC99;
 
+    alter table saintouen_cap_jeunesse_adulte_request 
+        drop constraint FKBA33D38A704B3F41;
+
+    alter table saintouen_cap_jeunesse_adulte_request_secteur_habitation 
+        drop constraint FKDBB8A076B2E150BF;
+
+    alter table saintouen_cap_jeunesse_adulte_request_secteur_habitation 
+        drop constraint FKDBB8A0768F4FDC52;
+
     alter table saintouen_cap_jeunesse_enfant_request 
         drop constraint FKAFD6B68948ED1E61;
 
@@ -726,6 +735,10 @@
     drop table sagr_activite_association cascade;
 
     drop table sagr_membre_bureau cascade;
+
+    drop table saintouen_cap_jeunesse_adulte_request cascade;
+
+    drop table saintouen_cap_jeunesse_adulte_request_secteur_habitation cascade;
 
     drop table saintouen_cap_jeunesse_enfant_request cascade;
 
@@ -2464,6 +2477,35 @@
         primary key (id)
     );
 
+    create table saintouen_cap_jeunesse_adulte_request (
+        id int8 not null,
+        acceptation_reglement bool,
+        autorisation_image bool,
+        autorisation_medicale bool,
+        date_naissance timestamp,
+        etudiant_type_etablissement varchar(255),
+        nom_etablissement_scolaire_autre varchar(255),
+        participe_activite bool,
+        precision_activite varchar(255),
+        precision_etablissement_scolaire_autre varchar(255),
+        profession varchar(255),
+        sexe varchar(255),
+        signature_adolescent varchar(255),
+        signature_elu varchar(255),
+        situation_actuelle varchar(255),
+        type_activite varchar(255),
+        type_inscription varchar(255),
+        adresse_etablissement_scolaire_autre_id int8,
+        primary key (id)
+    );
+
+    create table saintouen_cap_jeunesse_adulte_request_secteur_habitation (
+        saintouen_cap_jeunesse_adulte_request_id int8 not null,
+        secteur_habitation_id int8 not null,
+        secteur_habitation_index int4 not null,
+        primary key (saintouen_cap_jeunesse_adulte_request_id, secteur_habitation_index)
+    );
+
     create table saintouen_cap_jeunesse_enfant_request (
         id int8 not null,
         acceptation_reglement bool,
@@ -3581,6 +3623,21 @@
         add constraint FK4697AB73CB99EC99 
         foreign key (sports_associations_grant_request_id) 
         references sports_associations_grant_request;
+
+    alter table saintouen_cap_jeunesse_adulte_request 
+        add constraint FKBA33D38A704B3F41 
+        foreign key (adresse_etablissement_scolaire_autre_id) 
+        references address;
+
+    alter table saintouen_cap_jeunesse_adulte_request_secteur_habitation 
+        add constraint FKDBB8A076B2E150BF 
+        foreign key (saintouen_cap_jeunesse_adulte_request_id) 
+        references saintouen_cap_jeunesse_adulte_request;
+
+    alter table saintouen_cap_jeunesse_adulte_request_secteur_habitation 
+        add constraint FKDBB8A0768F4FDC52 
+        foreign key (secteur_habitation_id) 
+        references local_referential_data;
 
     alter table saintouen_cap_jeunesse_enfant_request 
         add constraint FKAFD6B68948ED1E61 

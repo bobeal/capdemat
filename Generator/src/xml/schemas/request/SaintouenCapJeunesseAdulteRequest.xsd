@@ -1,0 +1,556 @@
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/scjar" 
+           xmlns:scjar="http://www.cg95.fr/cvq/schema/scjar"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+           elementFormDefault="qualified" 
+           attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common" schemaLocation="../common/CVQCommonElements.xsd" />
+
+  <xs:element name="SaintouenCapJeunesseAdulteRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Demande de pré-inscription au CAP'J pour les majeurs
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Pré-inscription au CAP'J pour les majeurs
+      </xs:documentation>
+      <xs:appinfo>
+        <model namespace="school" />
+        <common>
+          <namespace name="school" />
+          <steps>
+            <step index="0" name="sujet">
+              <widgets>
+                <subject />
+              </widgets>
+            </step>
+            <step index="1" name="renseignements">
+                <conditions>
+                    <condition name="estEtudiant" />
+                    <condition name="estSalarie" />
+                    <condition name="estEtablissementAutre" />
+                    <condition name="participeActivite" />
+                </conditions>
+            </step>
+            <step index="2" name="reglements" />
+            <step index="3" ref="document" />
+            <step index="4" ref="validation" />
+            <step index="5" ref="administration" />
+          </steps>
+        </common>
+      </xs:appinfo>
+    </xs:annotation>
+
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="cvq:RequestType">
+          <xs:sequence>
+
+            <xs:element name="DateNaissance" type="xs:date">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Date de naissance
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Date de naissance
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="sujet" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Sexe" type="cvq:SexType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Sexe
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Sexe
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" isTiedToRequest="true" />
+                  <common>
+                    <step name="sujet" />
+                  </common>
+                  <fo>
+                    <radio />
+                  </fo>
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="TypeInscription" type="scjar:ScjarTypeInscriptionType" default="PremiereFois">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Inscription au CAP'J
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Inscription au CAP'J
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="renseignements" />
+                  </common>
+                  <fo>
+                    <radio />
+                  </fo>
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="SecteurHabitation" type="cvq:LocalReferentialDataType" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Secteur d'habitation
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Secteur d'habitation
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="request" isTiedToRequest="true" />
+                  <common>
+                    <step name="renseignements" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="SituationActuelle" type="scjar:ScjarSituationActuelleType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Situation actuelle
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Situation actuelle
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="renseignements" />
+                    <conditions>
+                        <condition name="estEtudiant" type="trigger" />
+                        <condition name="estSalarie" type="trigger" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="EtudiantTypeEtablissement" type="scjar:ScjarEtudiantTypeEtablissementType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Établissement fréquenté
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Établissement fréquenté
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="renseignements" />
+                    <conditions>
+                        <condition name="estEtudiant" type="filled" />
+                        <condition name="estEtablissementAutre" type="trigger" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="EtablissementScolaireAutre" type="scjar:ScjarEtablissementScolaireAutreType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Établissement scolaire
+                </xs:documentation>
+                <xs:documentation xml:lang="fr"
+                  source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Établissement scolaire
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="renseignements" />
+                    <conditions>
+                        <condition name="estEtablissementAutre" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Profession" type="xs:string">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Profession
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Profession
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="renseignements" />
+                    <conditions>
+                        <condition name="estSalarie" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="ParticipeActivite" type="xs:boolean" default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Participez-vous à une activité ?
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Participez-vous à une activité ?
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="renseignements" />
+                    <conditions>
+                        <condition name="participeActivite" type="trigger" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="TypeActivite" type="scjar:ScjarTypeActiviteType" default="Accueil">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Activité
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Activité
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="renseignements" />
+                    <conditions>
+                        <condition name="participeActivite" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo>
+                    <radio />
+                  </fo>
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="PrecisionActivite" type="xs:string">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Préciser l'activité
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Préciser l'activité
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="renseignements" />
+                    <conditions>
+                        <condition name="participeActivite" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="AutorisationMedicale" type="cvq:AcceptanceType" default="true" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  J'autorise la Direction du service municipal de la jeunesse à prendre en cas d'accident au cours d'activités, 
+                  toutes les mesures d'urgence en vue de m'assurer les soins médicaux avec, si nécessaire, le transport 
+                  à l'hôpital ou toute autre établissement de soins.
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  J'autorise la Direction du service municipal de la jeunesse à prendre en cas d'accident au cours d'activités, 
+                  toutes les mesures d'urgence en vue de m'assurer les soins médicaux avec, si nécessaire, le transport 
+                  à l'hôpital ou toute autre établissement de soins.
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="reglements" />
+                  </common>
+                  <fo>
+                    <checkbox />
+                  </fo>
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="AutorisationImage" type="cvq:AcceptanceType" default="true" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  J'autorise le service municipal de la jeunesse à me photographier, filmer et utiliser 
+                  les documents uniquement pour les expositions et publications de la ville.
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  J'autorise le service municipal de la jeunesse à me photographier, filmer et utiliser 
+                  les documents uniquement pour les expositions et publications de la ville.
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="reglements" />
+                  </common>
+                  <fo>
+                    <checkbox />
+                  </fo>
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="AcceptationReglement" type="cvq:AcceptanceType" default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                 J'atteste avoir pris connaissance du règlement intérieur. Son non-respect entraînera 
+                 une sanction définie par l'équipe d'animation et sera communiquée à qui de droit (interessé, parents).
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  J'atteste avoir pris connaissance du règlement intérieur. Son non-respect entraînera 
+                  une sanction définie par l'équipe d'animation et sera communiquée à qui de droit (interessé, parents).
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="reglements" />
+                  </common>
+                  <fo>
+                    <checkbox />
+                  </fo>
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="SignatureAdolescent" type="xs:string">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Signature de l'inscrit (précédée de la mention LU ET APPROUVÉ)
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Signature de l'inscrit (précédée de la mention LU ET APPROUVÉ)
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="administration" />
+                  </common>
+                  <pdf />
+                  <bo />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="SignatureElu" type="xs:string" default="nom de l'élu">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Signature de l'élu
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Signature de l'élu
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="administration" />
+                  </common>
+                  <pdf />
+                  <bo />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:simpleType name="ScjarTypeInscriptionType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Type inscription
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Type inscription
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="PremiereFois" value="1ère fois" />
+        <enum key="Renouvellement" value="Réinscription" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PremiereFois" />
+      <xs:enumeration value="Renouvellement" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ScjarSituationActuelleType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Situation actuelle
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Situation actuelle
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Etudiant" value="Etudiant" />
+        <enum key="Salarie" value="Salarié" />
+        <enum key="SansEmploi" value="Sans emploi" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Etudiant" />
+      <xs:enumeration value="Salarie" />
+      <xs:enumeration value="SansEmploi" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ScjarEtudiantTypeEtablissementType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Type établissement
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Type établissement
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Lycee" value="Lycée" />
+        <enum key="Fac" value="Fac" />
+        <enum key="Bts" value="BTS" />
+        <enum key="Autre" value="Autre" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Lycee" />
+      <xs:enumeration value="Fac" />
+      <xs:enumeration value="Bts" />
+      <xs:enumeration value="Autre" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ScjarTypeActiviteType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Type activité
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Type activité
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Accueil" value="Accueil" />
+        <enum key="Atelier" value="Atelier" />
+        <enum key="Projet" value="Projet" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Accueil" />
+      <xs:enumeration value="Atelier" />
+      <xs:enumeration value="Projet" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="ScjarEtablissementScolaireAutreType">
+    <xs:sequence>
+     <xs:element name="PrecisionEtablissementScolaireAutre" type="xs:string">
+         <xs:annotation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+             Précisez
+           </xs:documentation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+             Précisez
+           </xs:documentation>
+           <xs:appinfo>
+             <common>
+               <step name="renseignements" />
+             </common>
+             <fo />
+             <bo column="1" />
+             <pdf />
+           </xs:appinfo>
+         </xs:annotation>
+       </xs:element>
+
+       <xs:element name="NomEtablissementScolaireAutre" type="xs:string">
+         <xs:annotation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+             Nom de l'établissement fréquenté
+           </xs:documentation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+             Nom de l'établissement fréquenté
+           </xs:documentation>
+           <xs:appinfo>
+             <common>
+               <step name="renseignements" />
+             </common>
+             <fo />
+             <bo column="1" />
+             <pdf />
+           </xs:appinfo>
+         </xs:annotation>
+       </xs:element>
+
+       <xs:element name="AdresseEtablissementScolaireAutre" type="cvq:AddressType">
+         <xs:annotation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+             Adresse de l'établissement fréquenté
+           </xs:documentation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+             Adresse de l'établissement fréquenté
+           </xs:documentation>
+           <xs:appinfo>
+             <model namespace="users" isTiedToRequest="true" />
+             <common>
+               <step name="renseignements" />
+             </common>
+             <fo />
+             <bo column="1" />
+             <pdf />
+           </xs:appinfo>
+         </xs:annotation>
+       </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

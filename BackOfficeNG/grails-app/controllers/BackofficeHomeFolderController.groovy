@@ -148,8 +148,8 @@ class BackofficeHomeFolderController {
         for(Child child : result.children)
             result.responsibles.put(child.id, userSearchService.listBySubjectRoles(child.id, RoleType.childRoleTypes))
         
-	    result.homeMappings = externalHomeFolderService.getHomeFolderMappings(Long.valueOf(params.id))
-		
+        result.homeMappings = externalHomeFolderService.getHomeFolderMappings(Long.valueOf(params.id))
+
         result.agentCanWrite = agentCanWrite
         return result
     }

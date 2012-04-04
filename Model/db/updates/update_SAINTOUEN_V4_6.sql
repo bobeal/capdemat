@@ -238,3 +238,28 @@ alter table saintouen_cap_jeunesse_adulte_request_secteur_habitation
     foreign key (secteur_habitation_id) 
     references local_referential_data;
 
+-- Ts Saintouen Communal Studies Scholarship
+create table saintouen_communal_studies_scholarship_request (
+    id int8 not null,
+    account_holder_birth_date timestamp,
+    account_holder_first_name varchar(38),
+    account_holder_last_name varchar(38),
+    account_holder_title varchar(255),
+    is_other_situation varchar(255),
+    is_subject_account_holder bool,
+    montant_bourse varchar(255),
+    saint_ouen_current_studies_level varchar(255),
+    saint_ouen_establishment_label varchar(255),
+    saint_ouen_is_in_other_studies varchar(255),
+    saint_ouen_other_situation_details varchar(255),
+    saint_ouen_other_studies_label varchar(255),
+    subject_birth_date timestamp,
+    subject_domiciliation_date timestamp,
+    bank_account_id int8,
+    primary key (id)
+);
+
+alter table saintouen_communal_studies_scholarship_request
+    add constraint FK67AF029AA4AB2F89
+    foreign key (bank_account_id)
+    references bank_account;

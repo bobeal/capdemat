@@ -229,4 +229,8 @@
     <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
   </xb:namespace>
 
+  <!--Saintouen Communal Studies Scholars Request  -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/scssr">
+    <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
+  </xb:namespace>
 </xb:config>

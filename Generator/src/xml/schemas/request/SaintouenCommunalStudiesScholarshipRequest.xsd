@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/scssr"
+  xmlns:scssr="http://www.cg95.fr/cvq/schema/scssr"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+  
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
+    schemaLocation="../common/CVQCommonElements.xsd" />
+    
+  <xs:element name="SaintouenCommunalStudiesScholarshipRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Demande de bourse communale d'études pour l'enseignement supérieur public
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Scholarship application for communal study of public higher education request
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Demande de bourse communale d'etudes
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Scholarship communal request
+      </xs:documentation>
+      <xs:appinfo>
+        <model namespace="school" />
+        <common>
+          <namespace name="school" />
+          <steps>
+            <step index="0" name="subject">
+              <widgets>
+                <subject />
+              </widgets>
+              <conditions>
+                <condition name="isOtherSituation" />
+              </conditions>
+            </step>
+            <step index="1" name="schoolingInformation">
+              <conditions>
+                <condition name="saintOuenIsInOtherStudies"/>
+              </conditions>
+            </step>
+            <step index="2" name="bankReference">
+              <conditions>
+                <condition name="isSubjectAccountHolder" />
+              </conditions>
+            </step>
+            <step index="3" ref="document" />
+            <step index="4" ref="validation" />
+            <step index="5" ref="administration" />
+          </steps>
+        </common>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="cvq:RequestType">
+          <xs:sequence>
+
+      <xs:element name="SubjectBirthDate" type="xs:date">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Date de naissance
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Date of birth
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Date de naissance
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Date of birth
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+            </common>
+            <pdf />
+            <fo />
+            <bo column="1" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="SubjectDomiciliationDate" type="xs:date">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Date de domiciliation à Saint Ouen
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Date of domiciliation in Saint Ouen
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Date de domiciliation à Saint Ouen
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Date of domiciliation in Saint Ouen
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+            </common>
+            <pdf />
+            <fo />
+            <bo column="1" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="IsOtherSituation" type="scssr:SaintOuenSituationLogementType" default="tenant">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Logement
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Housing
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Logement
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Housing
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="isOtherSituation" type="trigger" />
+              </conditions>
+            </common>
+            <pdf />
+            <fo><radio/></fo>
+            <bo column="1" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="SaintOuenOtherSituationDetails" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Précisez
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Specify
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Précisez
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Specify
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+              <conditions>
+                <condition name="isOtherSituation" type="filled" required="true"/>
+              </conditions>
+            </common>
+            <pdf />
+            <fo />
+            <bo column="1" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+     <xs:element name="SaintOuenEstablishmentLabel" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Etablissements d'enseignement supérieur fréquenté pour l'année universitaire
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Higher education institutions attended for the academic year
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Etablissements d'enseignement supérieur fréquenté pour l'année universitaire
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Higher education institutions attended for the academic year
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="schoolingInformation" />
+            </common>
+            <fo />
+            <bo column="1" />
+            <pdf />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="SaintOuenIsInOtherStudies" type="scssr:SaintOuenCurrentStudiesType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Discipline
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Prepared diploma
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Discipline
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Prepared diploma
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="schoolingInformation" />
+              <conditions>
+                <condition name="saintOuenIsInOtherStudies" type="trigger" />
+              </conditions>
+            </common>
+            <pdf />
+            <fo />
+            <bo column="1" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="SaintOuenOtherStudiesLabel" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Précisez
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Specify
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Précisez
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Specify
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="schoolingInformation" />
+              <conditions>
+                <condition name="saintOuenIsInOtherStudies" type="filled" required="true" />
+              </conditions>
+            </common>
+            <pdf />
+            <fo />
+            <bo column="2" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="SaintOuenCurrentStudiesLevel" type="scssr:SaintOuenCurrentStudiesLevelType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Niveau d'étude
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Level
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Niveau d'étude
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Level
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="schoolingInformation" />
+            </common>
+            <pdf />
+            <fo />
+            <bo column="1" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+
+            <xs:element name="IsSubjectAccountHolder" type="xs:boolean" default="true">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Etes-vous titulaire du compte ?
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Are you Account holder ?
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Etes-vous titulaire du compte ?
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Are you Account holder ?
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="bankReference" />
+                    <conditions>
+                      <condition name="isSubjectAccountHolder" type="trigger" />
+                    </conditions>
+                  </common>
+                  <pdf />
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AccountHolderTitle" type="cvq:TitleType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Civilité du titulaire du compte
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Account holder title
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Civilité du titulaire du compte
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Account holder title
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="bankReference" />
+                    <conditions>
+                      <condition name="isSubjectAccountHolder" type="unfilled" required="true" />
+                    </conditions>
+                  </common>
+                 <pdf />
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AccountHolderLastName" type="cvq:LastNameType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Nom du titulaire du compte
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Account holder lastname
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom du titulaire du compte
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Account holder lastname
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="bankReference" />
+                    <conditions>
+                      <condition name="isSubjectAccountHolder" type="unfilled" required="true" />
+                    </conditions>
+                  </common>
+                 <pdf />
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AccountHolderFirstName" type="cvq:FirstNameType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Prénom du titulaire du compte
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Account holder firstname
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Prénom du titulaire du compte
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Account holder firstname
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="bankReference" />
+                    <conditions>
+                      <condition name="isSubjectAccountHolder" type="unfilled" required="true" />
+                    </conditions>
+                  </common>
+                  <pdf />
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="AccountHolderBirthDate" type="xs:date" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Date de naissance du titulaire du compte
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Account holder birth date
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Date de naissance du titulaire du compte
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Account holder birth date
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="bankReference" />
+                    <conditions>
+                      <condition name="isSubjectAccountHolder" type="unfilled" required="true" />
+                    </conditions>
+                  </common>
+                 <pdf />
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="BankAccount" type="cvq:BankAccountType">
+              <xs:annotation>
+                <xs:appinfo>
+                  <model namespace="users" isTiedToRequest="true" />
+                  <common>
+                    <step name="bankReference" />
+                  </common>
+                  <pdf />
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            
+            <xs:element name="MontantBourse" type="xs:string">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Montant de la bourse
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Montant de la bourse
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Grant amount
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Grant amount
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step ref="administration" />
+                  </common>
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:simpleType name="SaintOuenCurrentStudiesType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="licence" value="Licence" />
+        <enum key="licencePro" value="Licence Pro" />
+        <enum key="master" value="Master" />
+        <enum key="bts" value="BTS" />
+        <enum key="dut" value="DUT" />
+        <enum key="otherStudies" value="Autre" />
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="licence" value="Licence" />
+        <enum key="licencePro" value="Licence Pro" />
+        <enum key="master" value="Master" />
+        <enum key="bts" value="BTS" />
+        <enum key="dut" value="DUT" />
+        <enum key="otherStudies" value="Other" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="licence"></xs:enumeration>
+      <xs:enumeration value="licencePro"></xs:enumeration>
+      <xs:enumeration value="master"></xs:enumeration>
+      <xs:enumeration value="bts"></xs:enumeration>
+      <xs:enumeration value="dut"></xs:enumeration>
+      <xs:enumeration value="otherStudies"></xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="SaintOuenCurrentStudiesLevelType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="firstYear" value="1ère année" />
+        <enum key="secondYear" value="2ème année" />
+        <enum key="thirdYear" value="3ème année" />
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="firstYear" value="1st year" />
+        <enum key="secondYear" value="2nd year" />
+        <enum key="thirdYear" value="3rd year" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="firstYear"></xs:enumeration>
+      <xs:enumeration value="secondYear"></xs:enumeration>
+      <xs:enumeration value="thirdYear"></xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="SaintOuenSituationLogementType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="tenant" value="Locataire" />
+        <enum key="freeHoused" value="Logé gratuitement" />
+        <enum key="otherSituation" value="Autre situation" />
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="tenant" value="Tenant" />
+        <enum key="freeHoused" value="Free housed" />
+        <enum key="otherSituation" value="Other situation" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="tenant"></xs:enumeration>
+      <xs:enumeration value="freeHoused"></xs:enumeration>
+      <xs:enumeration value="otherSituation"></xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+ </xs:schema>

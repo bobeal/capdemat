@@ -233,4 +233,9 @@
   <xb:namespace uri="http://www.cg95.fr/cvq/schema/scssr">
     <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
   </xb:namespace>
+
+  <!--Saintouen Activite Periscolaire Request  -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/sapr">
+    <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
+  </xb:namespace>
 </xb:config>

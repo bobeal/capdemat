@@ -263,3 +263,41 @@ alter table saintouen_communal_studies_scholarship_request
     add constraint FK67AF029AA4AB2F89
     foreign key (bank_account_id)
     references bank_account;
+
+-----------------------------------------------------
+-- TS Inscription Renouvellement Activite Scolaire --
+-----------------------------------------------------
+
+-- creation
+create table saintouen_activite_periscolaire_request (
+    id int8 not null,
+    sapr_accueil_matin bool,
+    sapr_accueil_mercredi_et_vacances bool,
+    sapr_accueil_soir bool,
+    sapr_est_allergique bool,
+    sapr_est_handicape_invalidant bool,
+    sapr_est_restauration bool,
+    sapr_etudes_surveillees bool,
+    sapr_reglement_interieur bool,
+    primary key (id)
+);
+
+create table saintouen_activite_periscolaire_request_sapr_mode_reglement (
+    saintouen_activite_periscolaire_request_id int8 not null,
+    sapr_mode_reglement_id int8 not null,
+    sapr_mode_reglement_index int4 not null,
+    primary key (saintouen_activite_periscolaire_request_id, sapr_mode_reglement_index)
+);
+
+alter table saintouen_activite_periscolaire_request_sapr_mode_reglement 
+    add constraint FK930A5AD8BFEDC244 
+    foreign key (saintouen_activite_periscolaire_request_id) 
+    references saintouen_activite_periscolaire_request;
+
+alter table saintouen_activite_periscolaire_request_sapr_mode_reglement 
+    add constraint FK930A5AD813334D35 
+    foreign key (sapr_mode_reglement_id) 
+    references local_referential_data;
+
+-- maj du 24/04/2012
+alter table saintouen_activite_periscolaire_request add column ecole_inscription varchar(255);

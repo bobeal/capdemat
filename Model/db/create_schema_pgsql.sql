@@ -386,6 +386,12 @@
     alter table sagr_membre_bureau 
         drop constraint FK4697AB73CB99EC99;
 
+    alter table saintouen_activite_periscolaire_request_sapr_mode_reglement 
+        drop constraint FK930A5AD8BFEDC244;
+
+    alter table saintouen_activite_periscolaire_request_sapr_mode_reglement 
+        drop constraint FK930A5AD813334D35;
+
     alter table saintouen_cap_jeunesse_adulte_request 
         drop constraint FKBA33D38A704B3F41;
 
@@ -738,6 +744,10 @@
     drop table sagr_activite_association cascade;
 
     drop table sagr_membre_bureau cascade;
+
+    drop table saintouen_activite_periscolaire_request cascade;
+
+    drop table saintouen_activite_periscolaire_request_sapr_mode_reglement cascade;
 
     drop table saintouen_cap_jeunesse_adulte_request cascade;
 
@@ -2482,6 +2492,27 @@
         primary key (id)
     );
 
+    create table saintouen_activite_periscolaire_request (
+        id int8 not null,
+        ecole_inscription varchar(255),
+        sapr_accueil_matin bool,
+        sapr_accueil_mercredi_et_vacances bool,
+        sapr_accueil_soir bool,
+        sapr_est_allergique bool,
+        sapr_est_handicape_invalidant bool,
+        sapr_est_restauration bool,
+        sapr_etudes_surveillees bool,
+        sapr_reglement_interieur bool,
+        primary key (id)
+    );
+
+    create table saintouen_activite_periscolaire_request_sapr_mode_reglement (
+        saintouen_activite_periscolaire_request_id int8 not null,
+        sapr_mode_reglement_id int8 not null,
+        sapr_mode_reglement_index int4 not null,
+        primary key (saintouen_activite_periscolaire_request_id, sapr_mode_reglement_index)
+    );
+
     create table saintouen_cap_jeunesse_adulte_request (
         id int8 not null,
         acceptation_reglement bool,
@@ -3648,6 +3679,16 @@
         add constraint FK4697AB73CB99EC99 
         foreign key (sports_associations_grant_request_id) 
         references sports_associations_grant_request;
+
+    alter table saintouen_activite_periscolaire_request_sapr_mode_reglement 
+        add constraint FK930A5AD8BFEDC244 
+        foreign key (saintouen_activite_periscolaire_request_id) 
+        references saintouen_activite_periscolaire_request;
+
+    alter table saintouen_activite_periscolaire_request_sapr_mode_reglement 
+        add constraint FK930A5AD813334D35 
+        foreign key (sapr_mode_reglement_id) 
+        references local_referential_data;
 
     alter table saintouen_cap_jeunesse_adulte_request 
         add constraint FKBA33D38A704B3F41 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <data name="SaprModeReglement" allowMultipleChoices="false" manager="CapDémat">
+        <label>Mode de règlement</label>
+        <entries>
+            <entry key="En-ligne">
+                <label>En ligne</label>
+                <message/>
+            </entry>
+            <entry key="Au-guichet">
+                <label>Au guichet</label>
+                <message/>
+            </entry>
+            <entry key="Par-pre-le-vement-automatique">
+                <label>Par prélèvement automatique</label>
+                <message/>
+            </entry>
+        </entries>
+    </data>
+</LocalReferential>

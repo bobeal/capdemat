@@ -1,0 +1,64 @@
+sapr.duration.value =
+
+sapr.property.subject.label = Sujet
+
+sapr.step.enfant.label =
+sapr.step.enfant.desc =
+
+sapr.step.activites.label =
+sapr.step.activites.desc =
+
+sapr.step.paiement.label =
+sapr.step.paiement.desc =
+
+
+sapr.property.ecoleInscription.help =
+sapr.property.ecoleInscription.validationError =
+
+
+sapr.property.saprEstAllergique.help =
+sapr.property.saprEstAllergique.validationError =
+
+
+sapr.property.saprEstHandicapeInvalidant.help =
+sapr.property.saprEstHandicapeInvalidant.validationError =
+
+
+sapr.property.saprEstRestauration.help =
+sapr.property.saprEstRestauration.validationError =
+
+
+sapr.property.saprInscriptionPeriscolaire.help =
+sapr.property.saprInscriptionPeriscolaire.validationError =
+
+
+sapr.property.saprAccueilMatin.help =
+sapr.property.saprAccueilMatin.validationError =
+
+
+sapr.property.saprAccueilSoir.help =
+sapr.property.saprAccueilSoir.validationError =
+
+
+sapr.property.saprAccueilMercrediEtVacances.help =
+sapr.property.saprAccueilMercrediEtVacances.validationError =
+
+
+sapr.property.saprEtudesSurveillees.help =
+sapr.property.saprEtudesSurveillees.validationError =
+
+
+sapr.property.saprReglementInterieur.help =
+sapr.property.saprReglementInterieur.validationError =
+
+
+sapr.property.saprModeReglement.help =
+sapr.property.saprModeReglement.validationError =
+
+
+
+sapr.step.homeFolder.label = Compte famille
+sapr.step.homeFolder.desc = Composition de votre compte famille
+
+sapr.incitationText.desc = <span style="font-weight: bold;">Avant de continuer votre demande, merci de :</span><br /> - vérifier l''exactitude des informations de votre compte et des membres qui le compose<br /> - compléter votre compte en ajoutant tous les membres de votre famille (responsables légaux et enfants).<br /><br /><a href="{0}">Je souhaite accéder à mon compte pour le mettre à jour.</a><br /><span style="font-style: italic; font-size: 0.9em;">(Vous pourrez reprendre votre demande après avoir mis à jour votre compte.)
+sapr.incitationText.desc2 = <a href="{0}">Je souhaite accéder à mon compte pour le mettre à jour.</a><br /><span style="font-style: italic; font-size: 0.9em;">(Vous pourrez reprendre votre demande après avoir mis à jour votre compte.)</span>

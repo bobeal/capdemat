@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/sapr"
+  xmlns:sapr="http://www.cg95.fr/cvq/schema/sapr"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
+    schemaLocation="../common/CVQCommonElements.xsd"/>
+
+  <xs:element name="SaintouenActivitePeriscolaireRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Inscription ou renouvellement périscolaire et restauration scolaire
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Inscription ou renouvellement périscolaire et restauration scolaire
+      </xs:documentation>
+      <xs:appinfo>
+        <model namespace="school"/>
+        <common>
+          <namespace name="school"/>
+          <steps>
+            <step index="-1" ref="homeFolder" />
+            <step index="0" name="enfant">
+              <widgets>
+                <subject />
+              </widgets>
+            </step>
+            <step index="1" name="activites" />
+            <step index="2" name="paiement" />
+            <step index="3" ref="document" />
+            <step index="4" ref="validation"/>
+          </steps>
+        </common>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="cvq:RequestType">
+          <xs:sequence>
+            <xs:element name="EcoleInscription" type="sapr:SaprEcoleInscriptionType" default="EcoleSaintouen">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  École d'inscription
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  École d'inscription
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="enfant"/>
+                  </common>
+                  <fo>
+                    <radio />
+                  </fo>
+                  <bo column="1"/>
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="SaprEstAllergique" type="xs:boolean" default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Votre enfant a-t-il une allergie ? 
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Votre enfant a-t-il une allergie ? 
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="enfant"/>
+                  </common>
+                  <fo />
+                  <bo column="1"/>
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="SaprEstHandicapeInvalidant" type="xs:boolean" default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Votre enfant souffre-t-il d'un handicap ou d'un trouble de santé invalidant ?
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Votre enfant souffre-t-il d'un handicap ou d'un trouble de santé invalidant ?
+                </xs:documentation>
+                 <xs:appinfo>
+                  <common>
+                    <step name="enfant"/>
+                  </common>
+                  <fo />
+                  <bo column="1"/>
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="SaprEstRestauration" type="xs:boolean" default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Souhaitez-vous inscrire votre enfant à la restauration scolaire de l'école ? 
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Souhaitez-vous inscrire votre enfant à la restauration scolaire de l'école ? 
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="activites"/>
+                  </common>
+                  <fo />
+                  <bo column="1"/>
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="SaprInscriptionPeriscolaire" type="sapr:SaprInscriptionPeriscolaireType">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Inscription à l'accueil périscolaire de l'école
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Inscription à l'accueil périscolaire de l'école
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="activites"/>
+                  </common>
+                  <fo />
+                  <bo column="2"/>
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="SaprReglementInterieur" type="cvq:AcceptanceType" default="false">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  J'accepte le règlement intérieur. 
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  J'accepte le règlement intérieur.
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="activites"/>
+                  </common>
+                  <fo>
+                    <checkbox />
+                  </fo>
+                  <bo column="1"/>
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="SaprModeReglement" type="cvq:LocalReferentialDataType" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Mode de règlement
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Mode de règlement
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="request" isTiedToRequest="true" />
+                  <common>
+                    <step name="paiement" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:simpleType name="SaprEcoleInscriptionType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Ecole d'inscription
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Ecole d'inscription
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="EcoleSaintouen" value="École publique de Saint-Ouen" />
+        <enum key="College" value="Collège" />
+        <enum key="EcolePrivee" value="École privée" />
+        <enum key="EcoleHorsSaintouen" value="École publique hors Saint-Ouen" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="EcoleSaintouen" />
+      <xs:enumeration value="College" />
+      <xs:enumeration value="EcolePrivee" />
+      <xs:enumeration value="EcoleHorsSaintouen" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="SaprInscriptionPeriscolaireType">
+    <xs:sequence>
+     <xs:element name="SaprAccueilMatin" type="xs:boolean" default="false">
+         <xs:annotation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+             Accueil matin ?
+           </xs:documentation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+             Accueil matin ?
+           </xs:documentation>
+           <xs:appinfo>
+             <common>
+               <step name="activites"/>
+             </common>
+             <fo />
+             <bo column="2"/>
+             <pdf />
+           </xs:appinfo>
+         </xs:annotation>
+       </xs:element>
+       <xs:element name="SaprAccueilSoir" type="xs:boolean" default="false">
+         <xs:annotation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+             Accueil soir ?
+           </xs:documentation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+             Accueil soir ?
+           </xs:documentation>
+           <xs:appinfo>
+             <common>
+               <step name="activites"/>
+             </common>
+             <fo />
+             <bo column="2"/>
+             <pdf />
+           </xs:appinfo>
+         </xs:annotation>
+       </xs:element>
+       <xs:element name="SaprAccueilMercrediEtVacances" type="xs:boolean" default="false">
+         <xs:annotation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+             Accueil mercredi et Vacances ?
+           </xs:documentation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+             Accueil mercredi et Vacances ?
+           </xs:documentation>
+           <xs:appinfo>
+             <common>
+               <step name="activites"/>
+             </common>
+             <fo />
+             <bo column="2"/>
+             <pdf />
+           </xs:appinfo>
+         </xs:annotation>
+       </xs:element>
+       <xs:element name="SaprEtudesSurveillees" type="xs:boolean" default="false">
+         <xs:annotation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+             Etudes surveillées ?
+           </xs:documentation>
+           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+             Etudes surveillées ?
+           </xs:documentation>
+           <xs:appinfo>
+             <common>
+               <step name="activites"/>
+             </common>
+             <fo />
+             <bo column="2"/>
+             <pdf />
+           </xs:appinfo>
+         </xs:annotation>
+       </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

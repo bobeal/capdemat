@@ -225,7 +225,7 @@
     'lastName': new me.rule('regex', /^\D{0,38}$/),
     'hour': new me.rule('regex', /^([01][0-9]|2[0-3])$/), /* 00-23 */
     'minute': new me.rule('regex', /^[0-5][0-9]$/), /* 00-59 */
-    'acceptance': new me.rule('func', function(f){ console.log(f); return (f.checked && (f.value === "true")); }),
+    'acceptance': new me.rule('func', function(f){ return (f.checked && (f.value === "true")); }),
     /* address specific rules */
     'streetNumber': new me.rule('regex', /^.{0,5}$/),
     'streetName': new me.rule('regex', /^.{0,32}$/),

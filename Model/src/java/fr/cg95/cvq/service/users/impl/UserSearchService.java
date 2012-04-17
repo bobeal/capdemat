@@ -188,9 +188,11 @@ public class UserSearchService implements IUserSearchService {
         Set<Child> children = new HashSet<Child>();
 
         for (IndividualRole role : adult.getIndividualRoles()) {
-            List<Individual> responsibles = listBySubjectRole(role.getIndividualId(), null);
-            if (responsibles.size() == 1)
-                children.add((Child)individualDAO.findById(role.getIndividualId()));
+            if(role.getIndividualId()!=null){
+                List<Individual> responsibles = listBySubjectRole(role.getIndividualId(), null);
+                if (responsibles.size() == 1){
+                    children.add((Child)individualDAO.findById(role.getIndividualId()));}
+            }
         }
 
         return children;

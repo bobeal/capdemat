@@ -535,16 +535,6 @@ class BackofficeRequestInstructionController {
         ])
     }
 
-    def requestNotes = {
-        render(template : 'requestNotes',
-               model : ['requestNoteList' : requestAdaptorService.prepareNotes(
-                            requestNoteService.getNotes(Long.valueOf(params.id),
-                            RequestNoteType.forString(params.type))),
-                        'requestNoteTypes' : RequestNoteType.allRequestNoteTypes.collect{
-                            CapdematUtils.adaptCapdematEnum(it, "request.note.type")},
-                        'currentType' : params.type, 'requestId' : params.id])
-    }
-
     def requestNote = {
         if (request.get) {
             def rqt = requestSearchService.getById(params.long("id"), false)

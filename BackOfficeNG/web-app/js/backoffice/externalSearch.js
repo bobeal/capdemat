@@ -21,7 +21,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong.external");
         }
         var myPaginator = new yw.Paginator({
           containers : ["pagination-top", "pagination-bottom"],
-          rowsPerPage : 15,
+          rowsPerPage : 25,
           totalRecords : parseInt(yud.get("totalRecords").value),
           recordOffset : parseInt(yud.get("recordOffset").value),
           template : "{FirstPageLink} {PreviousPageLink} <span>{CurrentPageReport}</span> {NextPageLink} {LastPageLink}",
@@ -50,6 +50,23 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong.external");
       },
       handlePaginatorChange : function(state) {
         yud.get("recordOffset").value = state.recordOffset;
+        var newNode;
+        if(yud.get("paginatorChange")== null){
+          newNode = document.createElement('input');
+          newNode.name = 'paginatorChange';
+          newNode.id = 'paginatorChange';
+          newNode.type = 'hidden';
+          yud.insertAfter(newNode,yud.get("recordOffset"));
+        }
+        yud.get("paginatorChange").value = true;
+        if(yud.get("results")== null){
+          newNode = document.createElement('input');
+          newNode.name = 'results';
+          newNode.id = 'results';
+          newNode.type = 'hidden';
+          yud.insertAfter(newNode,yud.get("recordOffset"));
+        }
+        yud.get("results").value = 25;
         yud.get("searchForm").submit();
       },
       resend : function(e) {

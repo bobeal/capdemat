@@ -1,3 +1,5 @@
+-- @Text Drop table renewal_perischool_activities_request_regime_alimentaire_renouvellement
+
 alter table renewal_perischool_activities_request_regime_alimentaire_renouvellement 
     drop constraint FK8AFF2E83E35CAE2;
 
@@ -7,8 +9,3 @@ alter table renewal_perischool_activities_request_regime_alimentaire_renouvellem
 drop table renewal_perischool_activities_request_regime_alimentaire_renouvellement cascade;
 alter table global_school_registration_request_regime_alimentaire 
     drop constraint FK261E5D0CA7322BAE;
-
-alter table global_school_registration_request_regime_alimentaire 
-    drop constraint FK261E5D0C85DE12C2;
-
-drop table global_school_registration_request_regime_alimentaire cascade;

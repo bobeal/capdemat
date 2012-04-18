@@ -56,6 +56,10 @@
       <dd>
         <input type="text" name="mobilePhone" value="${adult.mobilePhone}" />
       </dd>
+      <dt>${message(code:'homeFolder.adult.property.officePhone')}</dt>
+      <dd>
+        <input type="text" name="officePhone" value="${adult.officePhone}" />
+      </dd>
     </dl>
     <dl style="margin-top:1em">
       <g:render template="edit/submit" model="['object':adult]" />

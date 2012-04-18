@@ -159,6 +159,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
               dl.innerHTML = o.responseText;
               // hack : refresh clr (hibernate problem)
               var formId = target.form.getAttribute('id').split('_');
+              if (formId[0] === 'state' && dl.innerHTML.indexOf('tag-archived')!= -1) {
+                var individual = yud.getAncestorByClassName(dl, 'individual');
+                var div = individual.parentNode;
+                div.removeChild(individual);
+              }
               if (formId[0] === 'responsibles') {
                 zct.doAjaxCall('/child/' + formId[1] + '/responsibles?mode=static', null,function(o) {
                   dl.innerHTML = o.responseText;

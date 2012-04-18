@@ -1,5 +1,7 @@
 <div id="child_${child.id}" class="individual collapse">
+  <g:if test="${child?.state?.toString() != 'Archived'}">
   <a class="confirmRemoveIndividual" style="float: right;">${message(code:'action.delete')}</a>
+  </g:if>
   <a class="toggle">${message(code:'action.expand')} / ${message(code:'action.collapse')}</a>
   <dl class="${child?.state?.toString() != 'Archived' ? 'edit' : ''} individual-state required collapse">
     <g:render template="static/state" model="['user':child]" />

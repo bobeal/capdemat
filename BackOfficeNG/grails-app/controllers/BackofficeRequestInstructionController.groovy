@@ -571,31 +571,6 @@ class BackofficeRequestInstructionController {
         }
     }
 
-    def externalHistory = {
-        def traces = []
-        Set criteriaSet = new HashSet<Critere>(2)
-        criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_KEY,
-            params.id, Critere.EQUALS))
-        criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_NAME,
-            params.label, Critere.EQUALS))
-        requestExternalActionService.getTraces(criteriaSet, null, "desc", 0, 0).each {
-            traces.add(["date" : it.date,
-                        "status" : CapdematUtils.adaptCapdematEnum(it.status, "externalservice.trace.status"),
-                        "message" : it.message,
-                        "complementaryData" : it.complementaryData])
-        }
-        def customTemplate = ["/backofficeRequestInstruction/external", params.label,
-            "_requestExternalActionComplementaryData"].join('/')
-        def customTemplateFile = groovyPagesTemplateEngine.getResourceForUri(customTemplate)
-        if (!customTemplateFile || !customTemplateFile.file || !customTemplateFile.exists())
-            customTemplate = null
-        else
-            customTemplate = ["/backofficeRequestInstruction/external", params.label,
-                "requestExternalActionComplementaryData"].join('/')
-        render(template : "externalHistory", model :
-            ["traces" : traces, "customTemplate" : customTemplate])
-    }
-
     def externalReferentialChecks = {
         def rqt = requestSearchService.getById(Long.valueOf(params.id), true)
         render(template : "/backofficeRequestInstruction/external/" + params.label + "/externalReferentialChecks",

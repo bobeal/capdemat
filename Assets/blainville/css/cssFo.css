@@ -91,6 +91,8 @@ form textarea { border-top-color: #ff812b !important; }
 /* request creation
  * ----------------------------------------------------- */
 
+#request .intro h3 { color: #b6aca5 !important; }
+
 #request div.help h3 { border-bottom-color: #ff812b !important; }
 
 #request h3       { border-bottom-color:  #ff812b !important; }

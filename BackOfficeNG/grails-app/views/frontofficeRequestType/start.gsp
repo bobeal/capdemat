@@ -11,10 +11,12 @@
       #request .datas form { padding: 0; }
       #request form div label { line-height: 1.6em; }
       
-      #request .intro    { padding: 0 1.5em; font-size: 1.1em; }
-      #request .intro ul { margin: 0 0 .5em 1.5em; }
-      #request .intro li { padding: .25em 0; list-style-type: disc;; }
-      #request .intro p  { margin: .5em 0; }
+      #request .intro    { padding: 0 1em; font-size: 1.1em; border-top: 1px solid #D4D4D4; margin: 2em 0; }
+      #request .intro ul { margin: 0 0 .5em 2.5em; }
+      #request .intro li { padding: .1em 0; list-style-type: disc; }
+      #request .intro p  { margin: 1em 0; padding: 0; }
+      #request .intro em { font-style: italic; }
+      #request .intro h3 { border-bottom: none; font-size: 1.5em; padding: 0; color: #9ECA27; }
     </style>
   </head>
   <body>

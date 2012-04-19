@@ -244,6 +244,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
           if (!json.pageNumber) json.pageNumber = zcbd.Instruction.tabView.get("activeIndex");
           zcbd.Instruction.displayDocPanel(undefined, json);
         });
+        zenexity.capdemat.baseUrl = zc["contextPath"] + "/backoffice/requestInstruction";
       }
     };
   }();

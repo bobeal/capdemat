@@ -208,6 +208,9 @@ public class DocumentBootstrapper {
 
         checkDocumentType("Fiche Sanitaire Pessac Animation", 58,
                 DocumentUsageType.REUSABLE, 1, DocumentTypeValidity.YEAR);
+
+        checkDocumentType("Justificatif Divorce", 59,
+                DocumentUsageType.REUSABLE, 0, DocumentTypeValidity.UNLIMITED);
     }
 
     public void setDocumentTypeDAO(IDocumentTypeDAO documentTypeDAO) {

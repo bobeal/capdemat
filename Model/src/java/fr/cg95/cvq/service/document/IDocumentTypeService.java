@@ -65,6 +65,7 @@ public interface IDocumentTypeService {
     Integer PLAN_COTE = new Integer(56);
     Integer PHOTO_LIEU_OCCUPATION = new Integer(57);
     Integer FICHE_SANITAIRE_PESSAC_ANIMATION = new Integer(58);
+    Integer JUSTIFICATIF_DIVORCE = new Integer(59);
 
     /**
      * Get a document type by type id.

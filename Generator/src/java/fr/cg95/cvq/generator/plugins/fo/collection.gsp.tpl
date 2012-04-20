@@ -174,7 +174,7 @@
               <g:render template="/frontofficeRequestType/widget/requester" model="['requester':requester, 'hasHomeFolder':hasHomeFolder]" />
             """
          ,'label' :
-            """<label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> ${element.mandatory ? '*' : ''}  <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>"""
+            """<label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" />${element.mandatory ? ' *' : ''} <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>"""
          ,'labelWithFor' :
             """<label for="${IdRefNamePrefix}${element.javaFieldName}" class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> ${element.mandatory ? '*' : ''}  <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>"""
          ,'acceptance' :

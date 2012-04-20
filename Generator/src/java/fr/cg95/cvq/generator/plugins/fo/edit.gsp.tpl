@@ -25,6 +25,8 @@
         <script type="text/javascript" src="\${resource(dir:'js/common',file:'autocomplete.js')}"></script>
     </g:if>
     <g:if test="\${customJS}">
+      <script src="\${resource(dir:'js/frontoffice/alterer', file:'drop-down.js')}"></script>
+      <script src="\${resource(dir:'js/frontoffice/alterer', file:'alterer.js')}"></script>
       <script type="text/javascript" src="\${resource(dir:customJS.dir,file:customJS.file)}"></script>
     </g:if>
     <script type="text/javascript">

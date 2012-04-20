@@ -42,6 +42,7 @@ public class SecurityService {
                 "system" : /error/
             ],
             (SecurityContext.FRONT_OFFICE_CONTEXT) : [
+                "frontofficeTechnocarte" : /.*/,
                 "frontofficeRequest" : /.*/,
                 "frontofficeGlobalSchoolRegistration" : /.*/,
                 "frontofficeHolidayCampRegistration" : /.*/,

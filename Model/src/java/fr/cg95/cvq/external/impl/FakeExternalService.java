@@ -390,11 +390,13 @@ public class FakeExternalService extends ExternalProviderServiceAdapter implemen
     @Override
     public Map<String, String> getTransportStops(Request request, Child child, String lineId) {
         Map<String, String> result = new HashMap<String, String>();
-        
-        result.put("0001", "Antigone");
-        result.put("0004", "Port Marianne");
-        result.put("0002", "Beaux Arts");
-        result.put("0003", "Hopitaux Facultés");
+        if (lineId.equals("0001") || lineId.equals("0004")) {
+            result.put("0001", "Antigone");
+            result.put("0004", "Port Marianne");
+        } else if (lineId.equals("0002") || lineId.equals("0003")) {
+            result.put("0002", "Beaux Arts");
+            result.put("0003", "Hopitaux Facultés");
+        }
 
         return result;
     }

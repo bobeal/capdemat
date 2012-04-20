@@ -44,10 +44,6 @@ public class SecurityService {
             (SecurityContext.FRONT_OFFICE_CONTEXT) : [
                 "frontofficeTechnocarte" : /.*/,
                 "frontofficeRequest" : /.*/,
-                "frontofficeGlobalSchoolRegistration" : /.*/,
-                "frontofficeHolidayCampRegistration" : /.*/,
-                "frontofficeLeisureCenterRegistration" : /.*/,
-                "frontofficeSchoolTransportRegistration" : /.*/,
                 "frontofficeRequestDocument" : /.*/,
                 "frontofficeRequestType" : /.*/,
                 "frontofficeDocument" : [/details/,/binary/,/preview/],

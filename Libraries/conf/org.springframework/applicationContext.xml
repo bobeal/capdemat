@@ -449,9 +449,6 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="isOfRegistrationKind" value="true"/>
     <property name="defaultDisplayGroup" value="school" />
     <property name="filingDelay" value="12"/>
-    <property name="userSearchService" ref="userSearchService" />
-    <property name="requestSearchService" ref="requestSearchService" />
-    <property name="requestExternalService" ref="requestExternalService" />
   </bean>
 
   <bean id="globalSchoolRegistrationRequestService" 
@@ -463,8 +460,6 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="isOfRegistrationKind" value="true"/>
     <property name="defaultDisplayGroup" value="school" />
     <property name="filingDelay" value="12"/>
-    <property name="userSearchService" ref="userSearchService" />
-    <property name="requestExternalService" ref="requestExternalService" />
   </bean>
 
   <bean id="renewalPerischoolActivitiesRequestService" 
@@ -486,9 +481,6 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="isOfRegistrationKind" value="true"/>
     <property name="defaultDisplayGroup" value="school" />
     <property name="filingDelay" value="12"/>
-    <property name="userSearchService" ref="userSearchService" />
-    <property name="requestSearchService" ref="requestSearchService" />
-    <property name="requestExternalService" ref="requestExternalService" />
   </bean>
 
   <bean id="holidayCampRegistrationRequestService"
@@ -500,9 +492,6 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="defaultDisplayGroup" value="school" />
     <property name="supportMultiple" value="true" />
     <property name="filingDelay" value="12"/>
-    <property name="userSearchService" ref="userSearchService" />
-    <property name="requestSearchService" ref="requestSearchService" />
-    <property name="requestExternalService" ref="requestExternalService" />
   </bean>
 
   <bean id="pessacAnimationRequestService" 

@@ -139,6 +139,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
         var target = (yue.getTarget(e)||e);
         var formEl = yud.getAncestorByTagName(target, 'form');
         var formElId = formEl.getAttributeNode('id').value;
+        var formInfo = formEl.information;
+        if(formInfo && formInfo.value.length>255){
+          formInfo.className = "validation-failed";
+          yud.get(formElId + '_Errors').innerText = 'Le champ "information" ne doit pas contenir plus de 255 caractères';
+          return;
+        }
         var errorEl = yud.get(formElId + '_Errors');
         if (!zcv.check(e, errorEl))
           return;

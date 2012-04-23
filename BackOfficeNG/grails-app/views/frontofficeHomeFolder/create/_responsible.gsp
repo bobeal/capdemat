@@ -3,8 +3,9 @@
   if (flash.invalidFields) invalidFields = flash.invalidFields
   if (flash.adult) adult = flash.adult
 %>
-<form action="${createLink(controller : 'frontofficeHomeFolder', action : 'create', params : callback.params)}" method="post">
+<form action="${createLink(controller : 'frontofficeHomeFolder', action : 'create', params :callback.params ) }" method="post">
   <div>
+    <input type="hidden" name="callback" value="${params.callback}" />
     <g:if test="${invalidFields?.any()}">
       <p class="error">${message(code:'form.error.invalidFields')}</p>
     </g:if>

@@ -20,10 +20,9 @@
         <h2>${message(code:'account.message.useAccountToFillRequest')}</h2>
         <p class="warning">${message(code :'account.message.localAuthorityInformation')}</p>
         <form action="${createLink(controller : 'frontofficeHome', action : 'login')}" method="post">
-          <input type="hidden" name="targetURL"
-            value="${createLink(controller : 'frontofficeRequestType', action : 'start', id : params.requestTypeLabel)}" />
+          <input type="hidden" name="callback" value="${params.callback}" />
           <input type="hidden" name="errorURL"
-            value="${createLink(controller : 'frontofficeRequestType', action : 'login', params : ['requestTypeLabel' : params.requestTypeLabel])}" />
+            value="${createLink(controller : 'frontofficeRequestType', action : 'login', params : ['requestTypeLabel' : params.requestTypeLabel, 'callback' : params.callback])}" />
           <label for="login" class="required">
             ${message(code:'homeFolder.adult.property.login')}
           </label>
@@ -67,7 +66,7 @@
           <p class="warning">${message(code:'homeFolder.message.createAccount.warning')}</p>
           <p>
             <a style="font-size: 1.5em;" href="${createLink(controller : 'frontofficeHomeFolder', action : 'create',
-              params : ['requestTypeLabel' : params.requestTypeLabel])}">
+              params : ['requestTypeLabel' : params.requestTypeLabel] + params)}">
               ${message(code:'homeFolder.action.wishCreateAccount')}
             </a>
           </p>

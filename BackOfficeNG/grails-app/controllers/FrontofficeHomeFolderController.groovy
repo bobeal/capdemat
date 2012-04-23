@@ -140,14 +140,24 @@ class FrontofficeHomeFolderController {
         } else if (request.post) {
             handleResponsiblePost(model)
             if (flash.invalidFields.any()) {
-                redirect(controller : 'frontofficeHomeFolder', action : 'create', params : model.callback.params)
+                def parameters = model.callback.params
+                parameters.put("callback", params.callback)
+                redirect(controller : 'frontofficeHomeFolder', action : 'create', params : parameters)
                 return
             } else {
-                redirect(
-                    controller : model.callback.controller,
-                    action : model.callback.action,
-                    params : model.callback.params)
-                return
+                if(params.callback)
+                {
+                    redirect(url : params.callback)
+                    return
+                }
+                else
+                {
+                    redirect(
+                        controller : model.callback.controller,
+                        action : model.callback.action,
+                        params : model.callback.params)
+                    return
+                }
             }
         }
     }
@@ -176,9 +186,12 @@ class FrontofficeHomeFolderController {
         def result = [
             'controller' : 'frontofficeHomeFolder',
             'action' : 'index',
-            'params' : null ]
+            'params' : [:] ]
 
         def requestKeys = ['requestTypeLabel', 'requestSeasonId']
+
+        if(params.redirectionParams)
+          requestKeys = requestKeys + params.findAll{ params.redirectionParams.contains(it.key)}.collect { key, value -> key }
 
         if (params.reduce(requestKeys).any()) {
             result.controller = 'frontofficeRequestType'

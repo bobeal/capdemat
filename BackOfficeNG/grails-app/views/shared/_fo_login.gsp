@@ -8,6 +8,7 @@
         <g:if test="${error}"><p class="error">${error}</p></g:if>
         <label for="login">${message(code:'account.property.login')}</label>
         <input type="text" class="text" name="login" id="login"/>
+        <input type="hidden" class="text" name="callback" id="callback" value="${params.callback}"/>
         <label for="password">${message(code:'account.property.password')}</label>
         <input type="password" class="text" name="password" id="password"/>
         <input type="submit" class="button" value="${message(code:'action.login')}"/>

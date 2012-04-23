@@ -150,6 +150,12 @@ class SessionFilters {
 
         setupFrontUser(uri: '/frontoffice/**') {
             before = {
+                if (params.owner) {
+                    session.setAttribute(
+                        'templatePath',
+                        'templates/fo/' + params.owner + '/' + (params.template?: 'default'))
+                }
+                def callbackURI = request.forwardURI+(request.queryString ? "?"+request.queryString : "")
                 def point =
                     securityService.defineAccessPoint(session.frontContext,
                         SecurityContext.FRONT_OFFICE_CONTEXT, controllerName,
@@ -166,7 +172,7 @@ class SessionFilters {
                     }
                     if ((point.controller == controllerName && point.action != actionName) || 
                         (point.controller != controllerName)) {
-                        if(point.action) redirect(controller: point.controller, action: point.action)
+                        if(point.action) redirect(controller: point.controller, action: point.action,params : ["callback" : callbackURI])
                         else redirect(controller: point.controller)
                         flash.redirect = true
                         return false

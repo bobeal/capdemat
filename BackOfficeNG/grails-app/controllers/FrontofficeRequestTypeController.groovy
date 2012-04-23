@@ -8,6 +8,7 @@ import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.users.IUserSearchService
 import fr.cg95.cvq.util.Critere
+import java.util.regex.Pattern
 
 class FrontofficeRequestTypeController {
 
@@ -36,8 +37,10 @@ class FrontofficeRequestTypeController {
             redirect(uri: '/frontoffice/requestType')
             return false
         }
+
         if (SecurityContext.currentEcitizen == null) {
-            redirect(controller : "frontofficeRequestType", action : "login", params : ["requestTypeLabel" : label])
+            def callbackURI = request.forwardURI+(request.queryString ? "?"+request.queryString : "")
+            redirect(controller : "frontofficeRequestType", action : "login", params : ["requestTypeLabel" : label, "callback" : callbackURI] )
             return false
         }
         def requestType = requestTypeService.getRequestTypeByLabel(label)
@@ -61,6 +64,25 @@ class FrontofficeRequestTypeController {
         critere.value = RequestState.DRAFT
         criterias.add(critere)
         def drafts = requestSearchService.get(criterias, null, null, 0, 0, false)
+        params.put('label', label)
+
+        def pat = Pattern.compile("(.*\\[\\d+\\])\\..*")
+        def paramsToDel = []
+        for( i in params.keySet())
+        {
+          def matcher = pat.matcher(i)
+          if(matcher.find() && !paramsToDel.contains(matcher.group(1)))
+            paramsToDel.add(matcher.group(1))
+        }
+        for(i in paramsToDel)
+        {
+          params.remove(i)
+        }
+        if ( request.queryString != null)
+        {
+            redirect(controller : "frontofficeRequest", action : "create", params : params)
+            return false
+        }
         if (intro == null && lastRequests.isEmpty() && seasons.isEmpty() && drafts.isEmpty()) {
             redirect(controller : "frontofficeRequest", action : "create", params : ["label" : label])
             return false

@@ -140,15 +140,19 @@
 #request div.form .dataTree li em    { font-size: 1.1em; font-style: italic; font-weight: bold; }
 
 /* checkboxes
+   * align the label with its checkbox
+   * if the label wraps, indent it
 -------------------------------------------------------------- */
 #request div.form ul li input[type="checkbox"] + label {
   display: block;
   margin-left: 20px;
-  width: 100%;
+  width: 95%;
+  min-height: 20px; /* IE8 hack. */
 }
 
 #request div.form ul li input[type="checkbox"] {
   float: left;
+  margin: 0;
 }
 
 /* list

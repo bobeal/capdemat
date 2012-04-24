@@ -1,6 +1,6 @@
 
-<form method="post" id="${propertyName.replace('[','').replace(']','').replace('.', '')}_Form" action="<g:createLink action="modify" />" class="editable-list-form" >
-  <span id="${propertyName.replace('[','').replace(']','').replace('.', '')}_FormErrors" class="error"></span>
+<form method="post" id="${propertyName}_Form" action="<g:createLink action="modify" />" class="editable-list-form" >
+  <span id="${propertyName}_FormErrors" class="error"></span>
   
   <fieldset>
     <label><g:message code="address.property.additionalDeliveryInformation" /></label>

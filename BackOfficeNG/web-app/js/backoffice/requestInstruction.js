@@ -227,8 +227,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           newAddressFields[this.name] = this.value;
         });
         zct.each (addressFields, function() {
-          if(newAddressFields[this.name]) {
-            this.innerHTML = newAddressFields[this.name];
+          var field = formEl.id.replace('_Form', '') + '.' + this.className
+          if (newAddressFields[field]) {
+            this.innerHTML = newAddressFields[field]
           }
         });
       }

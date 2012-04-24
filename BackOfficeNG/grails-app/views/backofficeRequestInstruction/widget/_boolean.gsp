@@ -1,4 +1,4 @@
-<form method="post" id="${propertyName.replace('[','').replace(']','').replace('.', '')}_Form" action="<g:createLink action="modify" />" class="editable-list-form" >
+<form method="post" id="${propertyName}_Form" action="<g:createLink action="modify" />" class="editable-list-form" >
   <span id="${propertyName}_FormErrors" class="error"></span> 
   <ul>
     <li>

@@ -34,6 +34,7 @@ public final class LocalAuthorityConfigurationBean {
     private String defaultServerName;
     private String defaultEmail;
 
+    private Map<String, String> authorizations;
     private Map<IPaymentProviderService, PaymentServiceBean> paymentServices;
     private ExternalServiceConfigurationBean escb;
 
@@ -321,5 +322,13 @@ public final class LocalAuthorityConfigurationBean {
 
     public void setDefaultEmail(String defaultEmail) {
         this.defaultEmail = defaultEmail;
+    }
+
+    public Map<String, String> getAuthorizations() {
+        return authorizations;
+    }
+
+    public void setAuthorizations(Map<String, String> authorizations) {
+        this.authorizations = authorizations;
     }
 }

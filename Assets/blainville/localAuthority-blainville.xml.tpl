@@ -7,6 +7,11 @@
     class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean"
     init-method="init">
     <property name="name" value="blainville"/>
+    <property name="authorizations">
+      <map>
+        <entry key="login" value="password"/>
+      </map>
+    </property>
     <property name="defaultServerName" value="localhost"/>
     <property name="defaultEmail" value="sansmail@blainville.fr"/>
     <property name="autotransition" value="true"/>

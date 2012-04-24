@@ -421,18 +421,20 @@ public class LocalAuthorityRegistry
         }
         File assetsFile = getAssetsFile(type, filename, false);
         try {
-            if (!assetsFile.exists())
+            if (!assetsFile.exists()) {
+                new File(assetsFile.getParent()).mkdirs();
                 assetsFile.createNewFile();
+            }
             Writer out = new BufferedWriter(new OutputStreamWriter(
                     new FileOutputStream(assetsFile), "UTF-8"));
             out.write(new String(data,"UTF-8"));
             out.flush();
             out.close();
         } catch (FileNotFoundException e) {
-            logger.error("saveLocalAuthorityResource() failel !" + e.getMessage());
+            logger.error("saveLocalAuthorityResource() failed!" + e.getMessage());
             throw new CvqException(e.getMessage());
         } catch (IOException ioe) {
-            logger.error("saveLocalAuthorityResource() failel !" + ioe.getMessage());
+            logger.error("saveLocalAuthorityResource() failed!" + ioe.getMessage());
             throw new CvqException(ioe.getMessage());
         }
     }

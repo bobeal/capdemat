@@ -211,6 +211,9 @@ public class DocumentBootstrapper {
 
         checkDocumentType("Justificatif Divorce", 59,
                 DocumentUsageType.REUSABLE, 0, DocumentTypeValidity.UNLIMITED);
+
+        checkDocumentType("Autorisation Prelevement", 60,
+                DocumentUsageType.REUSABLE, 0, DocumentTypeValidity.UNLIMITED);
     }
 
     public void setDocumentTypeDAO(IDocumentTypeDAO documentTypeDAO) {

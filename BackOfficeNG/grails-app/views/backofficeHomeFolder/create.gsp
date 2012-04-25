@@ -94,9 +94,9 @@
                     <h3>${message(code:'homeFolder.individual.header.connexion')}</h3>
                     <dl>
                       <dt class="required">${message(code:'request.step.validation.label.choosePassword')}</dt>
-                      <dd><input type="password" name="password" value="" /></dd>
+                      <dd><input type="password" name="password" value="" autocomplete="off"/></dd>
                       <dt class="required">${message(code:'request.step.validation.label.confirmPassword')}</dt>
-                      <dd><input type="password" name="confirmPassword" value="" /></dd>
+                      <dd><input type="password" name="confirmPassword" value="" autocomplete="off"/></dd>
                       <dt class="required">${message(code:'homeFolder.adult.property.question')}</dt>
                       <dd>
                         <select id="question" name="question">

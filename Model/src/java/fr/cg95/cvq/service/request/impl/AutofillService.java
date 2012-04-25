@@ -60,9 +60,7 @@ public class AutofillService implements IAutofillService {
                     break;
                 }
             }
-            if (currentObject instanceof Enum) { // TODO aca : Warning : this can be a really bad fix... should go back to watch it seriously
-                values.put(listener.getKey(), currentObject.getClass().getName() + "_" + currentObject);
-            } else if (currentObject instanceof Date) {
+            if (currentObject instanceof Date) {
                 Calendar cal = Calendar.getInstance();
                 cal.setTime((Date)currentObject);
                 values.put(listener.getKey() + ".day", String.valueOf(cal.get(Calendar.DAY_OF_MONTH)));

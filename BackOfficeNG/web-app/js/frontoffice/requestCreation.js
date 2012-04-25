@@ -40,27 +40,6 @@
       }
     };
 
-    var adaptDateDays = function(cont) {
-      var yearInput = yus.query(".year", cont, true);
-      var year = yearInput.value === "" ? Date.today().getFullYear() : yearInput.value;
-      var monthInput = yus.query(".month", cont, true);
-      var month = monthInput.value === "" ? 0 : monthInput.value - 1;
-      var dayInput = yus.query(".day", cont, true);
-      var days = Date.getDaysInMonth(year, month);
-      if (dayInput.length > days + 1) {
-        while (dayInput.length > days + 1) {
-          dayInput.remove(dayInput.length - 1);
-        }
-      } else if (days + 1 > dayInput.length) {
-        for (i = dayInput.length; i <= days; i++) {
-          var option = document.createElement("option");
-          option.text = i;
-          option.value = i;
-          dayInput.add(option, null);
-        }
-      }
-    };
-    
     var initCustomJS = function() {
       var label = yud.get("conditionsForm").requestTypeLabel.value.split(' ').join('');
       if (!!zcf.requesttype && !!zcf.requesttype[label + 'Request'])
@@ -78,8 +57,6 @@
         zcf.RequestCreation.clickEvent = new zct.Event(zcf.RequestCreation, zcf.RequestCreation.getHandler);
         yue.on('request','click', zcf.RequestCreation.clickEvent.dispatch, zcf.RequestCreation.clickEvent, true);
         
-        yue.on(yus.query("#request .date .month, #request .date .year"), "change", zcf.RequestCreation.dateChange);
-        
         var requestNote = yud.get("requestNote");
         if (requestNote != null) {
           yue.on(yud.get("requestNote"), 'keyup', function(e) {
@@ -88,7 +65,6 @@
           zct.limitArea("requestNote", 1024, "requestNoteLimit");
         }
         zct.each(yus.query("#request div.date"), function() {
-          adaptDateDays(this);
           zcv.complexRules["dateWidget"].pushFields(
             yus.query(".day", this, true).name,
             yus.query(".month", this, true).name,
@@ -137,9 +113,6 @@
       nextStep : function(e) { validateAndSubmit(e); },
       previousStep : function(e) { validateAndSubmit(e); },
       collectionSave : function(e) { validateAndSubmit(e); },
-      dateChange : function(e) {
-        adaptDateDays(yud.getAncestorByTagName(yue.getTarget(e), "div"));
-      },
       resizeDatasBloc : function () {
         var steps = yus.query("#request div.steps")[0];
         var datas = yus.query("#request div.form")[0];

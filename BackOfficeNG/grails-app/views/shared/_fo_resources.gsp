@@ -25,6 +25,7 @@
 <script type="text/javascript" src="${resource(dir:'js/common', file:'tools.js')}"></script>
 <script type="text/javascript" src="${resource(dir:'js/common', file:'validation.js')}"></script>
 <script type="text/javascript" src="${resource(dir:'js/common', file:'validationRules.js')}"></script>
+<script src="${resource(dir:'js/common', file:'date.js')}"></script>
 <script type="text/javascript" src="${resource(dir:'js/common', file:'date-fr-FR.js')}"></script>
 <script type="text/javascript">
   zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');

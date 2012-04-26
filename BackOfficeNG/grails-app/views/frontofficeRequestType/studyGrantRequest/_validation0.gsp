@@ -65,7 +65,7 @@
     
       
       <dl>
-        <dt><g:message code="sgr.property.taxHouseholdIncome.label" /></dt><dd>${rqt.taxHouseholdIncome?.toString()}</dd>
+        <dt><g:message code="sgr.property.taxHouseholdIncome.label" /></dt><dd>${formatNumber(number: rqt.taxHouseholdIncome, type: 'number')}</dd>
 
       </dl>
       

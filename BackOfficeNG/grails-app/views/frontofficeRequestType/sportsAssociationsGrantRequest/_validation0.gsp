@@ -189,7 +189,7 @@
           <dt><g:message code="sagr.property.nombreLicencieMajeurActivite.label" /></dt><dd>${it.nombreLicencieMajeurActivite?.toString()}</dd>
 
         
-          <dt><g:message code="sagr.property.sommeSolliciteeActivite.label" /></dt><dd>${it.sommeSolliciteeActivite?.toString()}</dd>
+          <dt><g:message code="sagr.property.sommeSolliciteeActivite.label" /></dt><dd>${formatNumber(number: it.sommeSolliciteeActivite, type: 'number')}</dd>
 
         
       </dl>
@@ -198,7 +198,7 @@
     
       
       <dl>
-        <dt><g:message code="sagr.property.subventionSolliciteConseilGeneral.label" /></dt><dd>${rqt.subventionSolliciteConseilGeneral?.toString()}</dd>
+        <dt><g:message code="sagr.property.subventionSolliciteConseilGeneral.label" /></dt><dd>${formatNumber(number: rqt.subventionSolliciteConseilGeneral, type: 'number')}</dd>
 
       </dl>
       

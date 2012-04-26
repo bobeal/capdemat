@@ -59,7 +59,7 @@
         <dd class="${rqt.stepStates['activites'].invalidFields.contains('sagrActiviteAssociation[' + index + '].nombreLicencieMajeurActivite') ? 'validation-failed' : ''}">${it.nombreLicencieMajeurActivite?.toString()}</dd>
     
         <dt><g:message code="sagr.property.sommeSolliciteeActivite.label" /></dt>
-        <dd class="${rqt.stepStates['activites'].invalidFields.contains('sagrActiviteAssociation[' + index + '].sommeSolliciteeActivite') ? 'validation-failed' : ''}">${it.sommeSolliciteeActivite?.toString()}</dd>
+        <dd class="${rqt.stepStates['activites'].invalidFields.contains('sagrActiviteAssociation[' + index + '].sommeSolliciteeActivite') ? 'validation-failed' : ''}">${formatNumber(number: it.sommeSolliciteeActivite, type: 'number')}</dd>
     
         </dl>
       </div>
@@ -69,7 +69,7 @@
 
   
     <label for="subventionSolliciteConseilGeneral" class=""><g:message code="sagr.property.subventionSolliciteConseilGeneral.label" />   <span><g:message code="sagr.property.subventionSolliciteConseilGeneral.help" /></span></label>
-            <input type="text" id="subventionSolliciteConseilGeneral" name="subventionSolliciteConseilGeneral" value="${rqt.subventionSolliciteConseilGeneral?.toString()}" 
+            <input type="text" id="subventionSolliciteConseilGeneral" name="subventionSolliciteConseilGeneral" value="${formatNumber(number: rqt.subventionSolliciteConseilGeneral, type: 'number')}"
                     class="  validate-decimal ${rqt.stepStates['activites'].invalidFields.contains('subventionSolliciteConseilGeneral') ? 'validation-failed' : ''}" title="<g:message code="sagr.property.subventionSolliciteConseilGeneral.validationError" />"   />
             
 

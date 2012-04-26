@@ -52,7 +52,7 @@
       </div>
     </g:if>
     
-    <div id="request" class="main-box">
+    <div id="request" class="main-box ${rqt.requestType.category.name}">
       <h2>
         <g:if test="${temporary}">
           <a href="${createLink(controller : 'frontofficeHome', action : 'logout')}" class="button">

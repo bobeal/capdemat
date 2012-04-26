@@ -154,6 +154,11 @@
             <input type="text" id="${IdRefNamePrefix}${element.javaFieldName}" name="${namePrefix}${element.javaFieldName}" value="\${${valuePrefix}.${element.javaFieldName}?.toString()}" 
                     class="${element.htmlClass} \${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" ${element.jsRegexp} ${element.lengthLimits} />
             """
+         ,'number' :
+            """
+            <input type="text" id="${IdRefNamePrefix}${element.javaFieldName}" name="${namePrefix}${element.javaFieldName}" value="\${formatNumber(number: ${valuePrefix}.${element.javaFieldName}, type: 'number')}"
+                    class="${element.htmlClass} \${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" ${element.jsRegexp} ${element.lengthLimits} />
+            """
          ,'subject' :
             """
             <label for="${IdRefNamePrefix}${element.javaFieldName}Id" class="${element.listenerConditionsClass}"><g:message code="${acronym}.property.subject.label" /> ${element.mandatory ? '*' : ''}  <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>
@@ -191,17 +196,25 @@
               </ul>
             """
       ]
-      
+
       def output
-      if (['requester','subject', 'acceptance', 'checkbox'].contains(element.widget))
-        output = ''
-      else if (['radio', 'boolean', 'localReferentialData', 'address', 'date'].contains(element.widget))
-        output = widgets['label']
-      else
-        output = widgets['labelWithFor']
-      
-      if (widgets[element.widget] != null) output += widgets[element.widget]
-      else output += widgets['text']
+
+      switch (element.widget) {
+        case ['requester', 'subject', 'acceptance', 'checkbox']:
+          output = widgets[element.widget]
+          break
+        case ['radio', 'boolean', 'localReferentialData', 'address', 'date']:
+          output = widgets['label'] + widgets[element.widget]
+          break
+        case ['decimal', 'double', 'float']:
+          output = widgets['labelWithFor'] + widgets['number']
+          break
+        default:
+          output = widgets['labelWithFor']
+          output += (widgets[element.widget] != null) ? widgets[element.widget] : widgets['text']
+          break
+      }
+
       println output
   }
 %>

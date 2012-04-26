@@ -204,6 +204,11 @@
             <input type="text" id="${IdRefNamePrefix}${element.javaFieldName}" name="${namePrefix}${element.javaFieldName}" value="\${${valuePrefix}.${element.javaFieldName}?.toString()}" 
                     class="${element.htmlClass} \${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" ${element.jsRegexp} ${element.lengthLimits} />
             """
+         ,'number' :
+            """
+            <input type="text" id="${IdRefNamePrefix}${element.javaFieldName}" name="${namePrefix}${element.javaFieldName}" value="\${formatNumber(number: ${valuePrefix}.${element.javaFieldName}, type: 'number')}"
+                    class="${element.htmlClass} \${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" ${element.jsRegexp} ${element.lengthLimits} />
+            """
          ,'subject' :
             """
             <label for="${IdRefNamePrefix}${element.javaFieldName}Id" class="${element.listenerConditionsClass}">
@@ -255,17 +260,25 @@
               </ul>
             """
       ]
-      
+
       def output
-      if (['subject', 'acceptance', 'time', 'checkbox'].contains(element.widget))
-        output = ''
-      else if (['radio', 'boolean', 'localReferentialData', 'address', 'date'].contains(element.widget))
-        output = widgets['label']
-      else
-        output = widgets['labelWithFor']
-      
-      if (widgets[element.widget] != null) output += widgets[element.widget]
-      else output += widgets['text']
+
+      switch (element.widget) {
+        case ['subject', 'acceptance', 'time', 'checkbox']:
+          output = widgets[element.widget]
+          break
+        case ['radio', 'boolean', 'localReferentialData', 'address', 'date']:
+          output = widgets['label'] + widgets[element.widget]
+          break
+        case ['decimal', 'double', 'float']:
+          output = widgets['labelWithFor'] + widgets['number']
+          break
+        default:
+          output = widgets['labelWithFor']
+          output += (widgets[element.widget] != null) ? widgets[element.widget] : widgets['text']
+          break
+      }
+
       println output
   }
   
@@ -313,12 +326,22 @@
               """<dd class="\${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}"><g:formatDate formatName="format.time" date="\${${valuePrefix}.${element.javaFieldName}}" type="time"/></dd>"""
           ,'text' : 
               """<dd class="\${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}">\${${valuePrefix}.${element.javaFieldName}?.toString()}</dd>"""
+          ,'number' :
+              """<dd class="\${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}">\${formatNumber(number: ${valuePrefix}.${element.javaFieldName}, type: 'number')}</dd>"""
       ]
-  
-      if (staticWidgets[element.widget] != null)
-          print staticWidgets[element.widget]
-      else
-          print staticWidgets['text']
+
+      def output
+
+      switch (element.widget) {
+        case ['decimal', 'double', 'float']:
+          output = staticWidgets['number']
+          break
+        default:
+          output = (staticWidgets[element.widget] != null) ? staticWidgets[element.widget] : staticWidgets['text']
+          break
+      }
+
+      print output
   }
 %>
 

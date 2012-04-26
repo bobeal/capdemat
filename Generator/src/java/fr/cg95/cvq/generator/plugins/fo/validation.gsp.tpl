@@ -84,6 +84,8 @@
           """
       ,'text' :
           """<dd>\${${wrapper}.${element.javaFieldName}?.toString()}</dd>"""
+      ,'number' :
+          "<dd>\${formatNumber(number: ${wrapper}.${element.javaFieldName}, type: 'number')}</dd>"
       ,'subject' :
           """<dt><g:message code="${requestFo.acronym}.property.subject.label" /></dt>
           <dd>\${subjects.get(rqt.subjectId)}</dd>"""
@@ -98,10 +100,22 @@
           <dd><g:message code="message.\${${wrapper}.${element.javaFieldName} ? 'yes' : 'no'}" /></dd>
           """
     ]
-    
-    def output = (element.widget != 'requester' && element.widget != 'subject' ?  widgets['label'] : '')
-    if (widgets[element.widget] != null) output += widgets[element.widget]
-    else output += widgets['text']
+
+    def output
+
+    switch (element.widget) {
+      case ['requester', 'subject']:
+        output = widgets[element.widget]
+        break
+      case ['decimal', 'double', 'float']:
+        output = widgets['label'] + widgets['number']
+        break
+      default:
+        output = widgets['label']
+        output += (widgets[element.widget] != null) ? widgets[element.widget] : widgets['text']
+        break
+    }
+
     println output
   }
 %>

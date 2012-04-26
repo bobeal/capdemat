@@ -4,6 +4,7 @@
 
   import org.apache.commons.lang.StringUtils
   import fr.cg95.cvq.util.EnumTool
+  import java.text.NumberFormat
   def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -277,10 +278,10 @@
         <p class="label">${esc(i18n.translate('sagr.property.totalLicencieActivite.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.totalLicencieActivite?.toString()))}</div>
 
       
-        <p class="label">${esc(i18n.translate('sagr.property.sommeSolliciteeActivite.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.sommeSolliciteeActivite?.toString()))}</div>
+        <p class="label">${esc(i18n.translate('sagr.property.sommeSolliciteeActivite.label'))}</p><div class="response">${esc(StringUtils.defaultString(NumberFormat.getInstance().format((collectionIt.sommeSolliciteeActivite)?.doubleValue()?: 0).toString()))}</div>
 
       
-        <p class="label">${esc(i18n.translate('sagr.property.sommeAlloueeActivite.label'))}</p><div class="response">${esc(StringUtils.defaultString(collectionIt.sommeAlloueeActivite?.toString()))}</div>
+        <p class="label">${esc(i18n.translate('sagr.property.sommeAlloueeActivite.label'))}</p><div class="response">${esc(StringUtils.defaultString(NumberFormat.getInstance().format((collectionIt.sommeAlloueeActivite)?.doubleValue()?: 0).toString()))}</div>
 
       
       <% } %>
@@ -288,7 +289,7 @@
     
   
     
-      <p class="label">${esc(i18n.translate('sagr.property.subventionSolliciteConseilGeneral.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.subventionSolliciteConseilGeneral?.toString()))}</div>
+      <p class="label">${esc(i18n.translate('sagr.property.subventionSolliciteConseilGeneral.label'))}</p><div class="response">${esc(StringUtils.defaultString(NumberFormat.getInstance().format((rqt.subventionSolliciteConseilGeneral)?.doubleValue()?: 0).toString()))}</div>
 
     
   
@@ -345,7 +346,7 @@
     
   
     
-      <p class="label">${esc(i18n.translate('sagr.property.montantSubvention.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.montantSubvention?.toString()))}</div>
+      <p class="label">${esc(i18n.translate('sagr.property.montantSubvention.label'))}</p><div class="response">${esc(StringUtils.defaultString(NumberFormat.getInstance().format((rqt.montantSubvention)?.doubleValue()?: 0).toString()))}</div>
 
     
   

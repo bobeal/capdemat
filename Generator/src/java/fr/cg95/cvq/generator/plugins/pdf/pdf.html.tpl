@@ -99,6 +99,8 @@
           """
       ,'text' :
           """<div class="response">\${esc(StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.toString()))}</div>"""
+      ,'number' :
+          "<div class=\"response\">\${esc(StringUtils.defaultString(NumberFormat.getInstance().format((${wrapper}.${element.javaFieldName})?.doubleValue()?: 0).toString()))}</div>"
       ,'subject' :
           """
           <p class="label">\${esc(i18n.translate('${requestPdf.acronym}.property.subject.label'))}</p>
@@ -160,10 +162,22 @@
           </div>
           """
     ]
-    
-    def output = (element.widget != 'requester' && element.widget != 'subject' ?  widgets['label'] : '')
-    if (widgets[element.widget] != null) output += widgets[element.widget]
-    else output += widgets['text']
+
+    def output
+
+    switch (element.widget) {
+      case ['requester', 'subject']:
+        output = widgets[element.widget]
+        break
+      case ['decimal', 'double', 'float']:
+        output = widgets['label'] + widgets['number']
+        break
+      default:
+        output = widgets['label']
+        output += (widgets[element.widget] != null) ? widgets[element.widget] : widgets['text']
+        break
+    }
+
     println output
   }
 %>
@@ -171,6 +185,7 @@
 ${beginGT()}
   import org.apache.commons.lang.StringUtils
   import fr.cg95.cvq.util.EnumTool
+  import java.text.NumberFormat
   def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def currentLrDatas = rqt[javaName].collect{it.name}

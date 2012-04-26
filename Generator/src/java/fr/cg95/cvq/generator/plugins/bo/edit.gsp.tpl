@@ -65,6 +65,8 @@
           """<span class="value-\${${wrapper}?.${element.javaFieldName}?.id}">\${${wrapper}?.${element.javaFieldName}?.name}</span>"""
       ,'text' :
           "<span>\${${wrapper}?.${element.javaFieldName}}</span>"
+      ,'number' :
+          "<span>\${formatNumber(number: ${wrapper}?.${element.javaFieldName}, type: 'number')}</span>"
       ,'subject' :
           """<dt class="required"><g:message code="${requestBo.acronym}.property.subject.label" /> : </dt>
               <dd><span>\${subjectIsChild && !subject?.born ? message(code:'request.subject.childNoBorn', args:[subject?.getFullName()]) : subject?.fullName}</span></dd>
@@ -72,15 +74,30 @@
       ,'requester' :
           """<g:render template="/backofficeRequestInstruction/requestType/requester" model="['requester':requester]" />"""
     ]
-    
-    
-    def output = ['requester','subject'].contains(element.widget) ? 
-            widgets[element.widget] : 
-          ["<dt class=\"${element.conditionsClass}\"><g:message code=\"${element.i18nPrefixCode}.label\" /> ${element.mandatory ? '*' : ''} : </dt>"
-          ,"<dd id=\"${element.javaFieldName}\" class=\"${element.htmlClass}\" ${element.jsRegexp}>"
-          ,(widgets[element.widget] != null ? widgets[element.widget]: widgets['text'])
-          ,"</dd>"].join()
-          
+
+    def outpout
+      switch (element.widget) {
+        case ['requester', 'subject']:
+          output = widgets[element.widget]
+          break
+        case ['decimal', 'double', 'float']:
+          output =
+            ["<dt class=\"${element.conditionsClass}\">\${message(code:'" + element.i18nPrefixCode + ".label')}${element.mandatory ? ' *' : ''} :</dt>"
+            ,"<dd id=\"${element.javaFieldName}\" class=\"${element.htmlClass}\" ${element.jsRegexp}>"
+            ,widgets['number']
+            ,"</dd>"
+            ].join()
+            break
+        default:
+          output =
+            ["<dt class=\"${element.conditionsClass}\">\${message(code:'" + element.i18nPrefixCode + ".label')}${element.mandatory ? ' *' : ''} :</dt>"
+            ,"<dd id=\"${element.javaFieldName}\" class=\"${element.htmlClass}\" ${element.jsRegexp}>"
+            ,(widgets[element.widget] != null ? widgets[element.widget] : widgets['text'])
+            ,"</dd>"
+            ].join()
+            break
+      }
+
     print output
   } 
 %>

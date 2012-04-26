@@ -43,12 +43,22 @@
           "<span class=\"value-\${${wrapper}?.${element.javaFieldName}}\"><g:message code=\"message.\${${wrapper}?.${element.javaFieldName} ? 'yes' : 'no'}\" /></span>"
       ,'text' :
           "<span>\${${wrapper}?.${element.javaFieldName}}</span>"
+      ,'number' :
+          "<span>\${formatNumber(number: ${wrapper}?.${element.javaFieldName}, type: 'number')}</span>"
     ]
-    
-    if (widgets[element.widget] != null)
-      print widgets[element.widget]
-    else
-      print widgets['text']
+
+    def output
+
+    switch (element.widget) {
+      case ['decimal', 'double', 'float']:
+        output = widgets['number']
+        break
+      default:
+        output = (widgets[element.widget] != null) ? widgets[element.widget] : widgets['text']
+        break
+    }
+
+    print output
   } 
 %>
 

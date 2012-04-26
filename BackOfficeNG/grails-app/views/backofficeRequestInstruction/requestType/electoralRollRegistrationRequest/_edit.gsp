@@ -38,25 +38,25 @@
             
               
               <dl>
-                <dt class="required"><g:message code="errr.property.subjectNationality.label" /> * : </dt><dd id="subjectNationality" class="action-editField validate-capdematEnum required-true i18n-errr.property.subjectNationality javatype-fr.cg95.cvq.business.users.NationalityType maxLength-32" ><g:capdematEnumToField var="${rqt?.subjectNationality}" i18nKeyPrefix="errr.property.subjectNationality" /></dd>
+                <dt class="required">${message(code:'errr.property.subjectNationality.label')} * :</dt><dd id="subjectNationality" class="action-editField validate-capdematEnum required-true i18n-errr.property.subjectNationality javatype-fr.cg95.cvq.business.users.NationalityType maxLength-32" ><g:capdematEnumToField var="${rqt?.subjectNationality}" i18nKeyPrefix="errr.property.subjectNationality" /></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required condition-isDirect-trigger"><g:message code="errr.property.motive.label" /> * : </dt><dd id="motive" class="action-editField validate-capdematEnum required-true i18n-errr.property.motive javatype-fr.cg95.cvq.business.request.election.ElectoralMotiveType" ><g:capdematEnumToField var="${rqt?.motive}" i18nKeyPrefix="errr.property.motive" /></dd>
+                <dt class="required condition-isDirect-trigger">${message(code:'errr.property.motive.label')} * :</dt><dd id="motive" class="action-editField validate-capdematEnum required-true i18n-errr.property.motive javatype-fr.cg95.cvq.business.request.election.ElectoralMotiveType" ><g:capdematEnumToField var="${rqt?.motive}" i18nKeyPrefix="errr.property.motive" /></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required condition-isDirect-unfilled"><g:message code="errr.property.subjectOldCity.label" /> * : </dt><dd id="subjectOldCity" class="action-editField validate-postalCode required-true i18n-errr.property.subjectOldCity maxLength-5" ><span>${rqt?.subjectOldCity}</span></dd>
+                <dt class="required condition-isDirect-unfilled">${message(code:'errr.property.subjectOldCity.label')} * :</dt><dd id="subjectOldCity" class="action-editField validate-postalCode required-true i18n-errr.property.subjectOldCity maxLength-5" ><span>${rqt?.subjectOldCity}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required condition-isDirect-filled"><g:message code="errr.property.subjectAddressOutsideCity.label" /> * : </dt><dd id="subjectAddressOutsideCity" class="action-editField validate-address required-true i18n-errr.property.subjectAddressOutsideCity" ><div><p class="additionalDeliveryInformation">${rqt?.subjectAddressOutsideCity?.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${rqt?.subjectAddressOutsideCity?.additionalGeographicalInformation}</p><span class="streetNumber">${rqt?.subjectAddressOutsideCity?.streetNumber}</span> <span class="streetName">${rqt?.subjectAddressOutsideCity?.streetName}</span><g:if test="${!!rqt?.subjectAddressOutsideCity?.streetMatriculation}"><br /><em><g:message code="address.property.streetMatriculation" /></em><span class="streetMatriculation">${rqt?.subjectAddressOutsideCity?.streetMatriculation}</span></g:if><g:if test="${!!rqt?.subjectAddressOutsideCity?.streetRivoliCode}"><br /><em><g:message code="address.property.streetRivoliCode" /></em><span class="streetRivoliCode">${rqt?.subjectAddressOutsideCity?.streetRivoliCode}</span></g:if><p class="placeNameOrService">${rqt?.subjectAddressOutsideCity?.placeNameOrService}</p><span class="postalCode">${rqt?.subjectAddressOutsideCity?.postalCode}</span> <span class="city">${rqt?.subjectAddressOutsideCity?.city}</span><p class="countryName">${rqt?.subjectAddressOutsideCity?.countryName}</p><g:if test="${!!rqt?.subjectAddressOutsideCity?.cityInseeCode}"><em><g:message code="address.property.cityInseeCode" /></em><span class="cityInseeCode">${rqt?.subjectAddressOutsideCity?.cityInseeCode}</span></g:if></div></dd>
+                <dt class="required condition-isDirect-filled">${message(code:'errr.property.subjectAddressOutsideCity.label')} * :</dt><dd id="subjectAddressOutsideCity" class="action-editField validate-address required-true i18n-errr.property.subjectAddressOutsideCity" ><div><p class="additionalDeliveryInformation">${rqt?.subjectAddressOutsideCity?.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${rqt?.subjectAddressOutsideCity?.additionalGeographicalInformation}</p><span class="streetNumber">${rqt?.subjectAddressOutsideCity?.streetNumber}</span> <span class="streetName">${rqt?.subjectAddressOutsideCity?.streetName}</span><g:if test="${!!rqt?.subjectAddressOutsideCity?.streetMatriculation}"><br /><em><g:message code="address.property.streetMatriculation" /></em><span class="streetMatriculation">${rqt?.subjectAddressOutsideCity?.streetMatriculation}</span></g:if><g:if test="${!!rqt?.subjectAddressOutsideCity?.streetRivoliCode}"><br /><em><g:message code="address.property.streetRivoliCode" /></em><span class="streetRivoliCode">${rqt?.subjectAddressOutsideCity?.streetRivoliCode}</span></g:if><p class="placeNameOrService">${rqt?.subjectAddressOutsideCity?.placeNameOrService}</p><span class="postalCode">${rqt?.subjectAddressOutsideCity?.postalCode}</span> <span class="city">${rqt?.subjectAddressOutsideCity?.city}</span><p class="countryName">${rqt?.subjectAddressOutsideCity?.countryName}</p><g:if test="${!!rqt?.subjectAddressOutsideCity?.cityInseeCode}"><em><g:message code="address.property.cityInseeCode" /></em><span class="cityInseeCode">${rqt?.subjectAddressOutsideCity?.cityInseeCode}</span></g:if></div></dd>
               </dl>
               
             
@@ -91,7 +91,7 @@
             
               
               <dl>
-                <dt class=""><g:message code="errr.property.electoralNumber.label" />  : </dt><dd id="electoralNumber" class="action-editField validate-long i18n-errr.property.electoralNumber" ><span>${rqt?.electoralNumber}</span></dd>
+                <dt class="">${message(code:'errr.property.electoralNumber.label')} :</dt><dd id="electoralNumber" class="action-editField validate-long i18n-errr.property.electoralNumber" ><span>${rqt?.electoralNumber}</span></dd>
               </dl>
               
             
@@ -103,13 +103,13 @@
             
               
               <dl>
-                <dt class=""><g:message code="errr.property.pollingStation.label" />  : </dt><dd id="pollingStation" class="action-editField validate-long i18n-errr.property.pollingStation" ><span>${rqt?.pollingStation}</span></dd>
+                <dt class="">${message(code:'errr.property.pollingStation.label')} :</dt><dd id="pollingStation" class="action-editField validate-long i18n-errr.property.pollingStation" ><span>${rqt?.pollingStation}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class=""><g:message code="errr.property.pollingSchoolName.label" />  : </dt><dd id="pollingSchoolName" class="action-editField validate-string i18n-errr.property.pollingSchoolName" ><span>${rqt?.pollingSchoolName}</span></dd>
+                <dt class="">${message(code:'errr.property.pollingSchoolName.label')} :</dt><dd id="pollingSchoolName" class="action-editField validate-string i18n-errr.property.pollingSchoolName" ><span>${rqt?.pollingSchoolName}</span></dd>
               </dl>
               
             

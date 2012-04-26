@@ -38,13 +38,13 @@
             
               
               <dl>
-                <dt class="required condition-estRestauration-trigger"><g:message code="rpar.property.estRestauration.label" /> * : </dt><dd id="estRestauration" class="action-editField validate-boolean required-true i18n-rpar.property.estRestauration" ><span class="value-${rqt?.estRestauration}"><g:message code="message.${rqt?.estRestauration ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required">${message(code:'rpar.property.estRestauration.label')} * :</dt><dd id="estRestauration" class="action-editField validate-boolean required-true i18n-rpar.property.estRestauration" ><span class="value-${rqt?.estRestauration}"><g:message code="message.${rqt?.estRestauration ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="rpar.property.estPeriscolaire.label" /> * : </dt><dd id="estPeriscolaire" class="action-editField validate-boolean required-true i18n-rpar.property.estPeriscolaire" ><span class="value-${rqt?.estPeriscolaire}"><g:message code="message.${rqt?.estPeriscolaire ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required">${message(code:'rpar.property.estPeriscolaire.label')} * :</dt><dd id="estPeriscolaire" class="action-editField validate-boolean required-true i18n-rpar.property.estPeriscolaire" ><span class="value-${rqt?.estPeriscolaire}"><g:message code="message.${rqt?.estPeriscolaire ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
@@ -75,7 +75,7 @@
             
               
               <dl>
-                <dt class=""><g:message code="rpar.property.acceptationReglementInterieur.label" />  : </dt><dd id="acceptationReglementInterieur" class="action-editField validate-acceptance i18n-rpar.property.acceptationReglementInterieur" ><span class="value-${rqt?.acceptationReglementInterieur}"><g:message code="message.${rqt?.acceptationReglementInterieur ? 'yes' : 'no'}" /></span></dd>
+                <dt class="">${message(code:'rpar.property.acceptationReglementInterieur.label')} :</dt><dd id="acceptationReglementInterieur" class="action-editField validate-acceptance i18n-rpar.property.acceptationReglementInterieur" ><span class="value-${rqt?.acceptationReglementInterieur}"><g:message code="message.${rqt?.acceptationReglementInterieur ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             

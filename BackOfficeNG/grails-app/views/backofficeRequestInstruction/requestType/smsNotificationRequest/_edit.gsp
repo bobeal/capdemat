@@ -38,19 +38,19 @@
             
               
               <dl>
-                <dt class=""><g:message code="snr.property.mobilePhone.label" />  : </dt><dd id="mobilePhone" class="action-editField validate-mobilePhone i18n-snr.property.mobilePhone maxLength-10" ><span>${rqt?.mobilePhone}</span></dd>
+                <dt class="">${message(code:'snr.property.mobilePhone.label')} :</dt><dd id="mobilePhone" class="action-editField validate-mobilePhone i18n-snr.property.mobilePhone maxLength-10" ><span>${rqt?.mobilePhone}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="snr.property.subscription.label" /> * : </dt><dd id="subscription" class="action-editField validate-boolean required-true i18n-snr.property.subscription" ><span class="value-${rqt?.subscription}"><g:message code="message.${rqt?.subscription ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required">${message(code:'snr.property.subscription.label')} * :</dt><dd id="subscription" class="action-editField validate-boolean required-true i18n-snr.property.subscription" ><span class="value-${rqt?.subscription}"><g:message code="message.${rqt?.subscription ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="snr.property.interests.label" /> * : </dt><dd id="interests" class="action-editField validate-localReferentialData required-true i18n-snr.property.interests data-localReferentialData" >
+                <dt class="required">${message(code:'snr.property.interests.label')} * :</dt><dd id="interests" class="action-editField validate-localReferentialData required-true i18n-snr.property.interests data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'interests', 'lrEntries': lrTypes.interests?.entries, 
                              'rqt':rqt, 'isMultiple':lrTypes.interests?.isMultiple(), 'depth':0]" />
@@ -90,7 +90,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="snr.property.cleverSmsContactId.label" /> * : </dt><dd id="cleverSmsContactId" class="action-editField validate-string required-true i18n-snr.property.cleverSmsContactId" ><span>${rqt?.cleverSmsContactId}</span></dd>
+                <dt class="required">${message(code:'snr.property.cleverSmsContactId.label')} * :</dt><dd id="cleverSmsContactId" class="action-editField validate-string required-true i18n-snr.property.cleverSmsContactId" ><span>${rqt?.cleverSmsContactId}</span></dd>
               </dl>
               
             

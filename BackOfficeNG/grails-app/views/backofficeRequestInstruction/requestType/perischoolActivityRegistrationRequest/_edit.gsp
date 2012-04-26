@@ -50,7 +50,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="parr.property.perischoolActivity.label" /> * : </dt><dd id="perischoolActivity" class="action-editField validate-localReferentialData required-true i18n-parr.property.perischoolActivity data-localReferentialData" >
+                <dt class="required">${message(code:'parr.property.perischoolActivity.label')} * :</dt><dd id="perischoolActivity" class="action-editField validate-localReferentialData required-true i18n-parr.property.perischoolActivity data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'perischoolActivity', 'lrEntries': lrTypes.perischoolActivity?.entries, 
                              'rqt':rqt, 'isMultiple':lrTypes.perischoolActivity?.isMultiple(), 'depth':0]" />
@@ -61,7 +61,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="parr.property.urgencyPhone.label" /> * : </dt><dd id="urgencyPhone" class="action-editField validate-phone required-true i18n-parr.property.urgencyPhone maxLength-10" ><span>${rqt?.urgencyPhone}</span></dd>
+                <dt class="required">${message(code:'parr.property.urgencyPhone.label')} * :</dt><dd id="urgencyPhone" class="action-editField validate-phone required-true i18n-parr.property.urgencyPhone maxLength-10" ><span>${rqt?.urgencyPhone}</span></dd>
               </dl>
               
             
@@ -154,25 +154,25 @@
             
               
               <dl>
-                <dt class=""><g:message code="parr.property.rulesAndRegulationsAcceptance.label" />  : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance i18n-parr.property.rulesAndRegulationsAcceptance" ><span class="value-${rqt?.rulesAndRegulationsAcceptance}"><g:message code="message.${rqt?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
+                <dt class="">${message(code:'parr.property.rulesAndRegulationsAcceptance.label')} :</dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance i18n-parr.property.rulesAndRegulationsAcceptance" ><span class="value-${rqt?.rulesAndRegulationsAcceptance}"><g:message code="message.${rqt?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class=""><g:message code="parr.property.classTripPermission.label" />  : </dt><dd id="classTripPermission" class="action-editField validate-acceptance i18n-parr.property.classTripPermission" ><span class="value-${rqt?.classTripPermission}"><g:message code="message.${rqt?.classTripPermission ? 'yes' : 'no'}" /></span></dd>
+                <dt class="">${message(code:'parr.property.classTripPermission.label')} :</dt><dd id="classTripPermission" class="action-editField validate-acceptance i18n-parr.property.classTripPermission" ><span class="value-${rqt?.classTripPermission}"><g:message code="message.${rqt?.classTripPermission ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class=""><g:message code="parr.property.childPhotoExploitationPermission.label" />  : </dt><dd id="childPhotoExploitationPermission" class="action-editField validate-acceptance i18n-parr.property.childPhotoExploitationPermission" ><span class="value-${rqt?.childPhotoExploitationPermission}"><g:message code="message.${rqt?.childPhotoExploitationPermission ? 'yes' : 'no'}" /></span></dd>
+                <dt class="">${message(code:'parr.property.childPhotoExploitationPermission.label')} :</dt><dd id="childPhotoExploitationPermission" class="action-editField validate-acceptance i18n-parr.property.childPhotoExploitationPermission" ><span class="value-${rqt?.childPhotoExploitationPermission}"><g:message code="message.${rqt?.childPhotoExploitationPermission ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class=""><g:message code="parr.property.hospitalizationPermission.label" />  : </dt><dd id="hospitalizationPermission" class="action-editField validate-acceptance i18n-parr.property.hospitalizationPermission" ><span class="value-${rqt?.hospitalizationPermission}"><g:message code="message.${rqt?.hospitalizationPermission ? 'yes' : 'no'}" /></span></dd>
+                <dt class="">${message(code:'parr.property.hospitalizationPermission.label')} :</dt><dd id="hospitalizationPermission" class="action-editField validate-acceptance i18n-parr.property.hospitalizationPermission" ><span class="value-${rqt?.hospitalizationPermission}"><g:message code="message.${rqt?.hospitalizationPermission ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
@@ -207,13 +207,13 @@
             
               
               <dl>
-                <dt class=""><g:message code="parr.property.school.label" />  : </dt><dd id="school" class="action-editField validate-school i18n-parr.property.school" ><span class="value-${rqt?.school?.id}">${rqt?.school?.name}</span></dd>
+                <dt class="">${message(code:'parr.property.school.label')} :</dt><dd id="school" class="action-editField validate-school i18n-parr.property.school" ><span class="value-${rqt?.school?.id}">${rqt?.school?.name}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="parr.property.section.label" /> * : </dt><dd id="section" class="action-editField validate-capdematEnum required-true i18n-parr.property.section javatype-fr.cg95.cvq.business.users.SectionType maxLength-32" ><g:capdematEnumToField var="${rqt?.section}" i18nKeyPrefix="parr.property.section" /></dd>
+                <dt class="required">${message(code:'parr.property.section.label')} * :</dt><dd id="section" class="action-editField validate-capdematEnum required-true i18n-parr.property.section javatype-fr.cg95.cvq.business.users.SectionType maxLength-32" ><g:capdematEnumToField var="${rqt?.section}" i18nKeyPrefix="parr.property.section" /></dd>
               </dl>
               
             

@@ -34,7 +34,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="ladrr.property.atelierEveil.label" /> * : </dt><dd id="atelierEveil" class="action-editField validate-localReferentialData required-true i18n-ladrr.property.atelierEveil data-localReferentialData" >
+                <dt class="required">${message(code:'ladrr.property.atelierEveil.label')} * :</dt><dd id="atelierEveil" class="action-editField validate-localReferentialData required-true i18n-ladrr.property.atelierEveil data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'atelierEveil', 'lrEntries': lrTypes.atelierEveil?.entries, 
                              'rqt':rqt, 'isMultiple':lrTypes.atelierEveil?.isMultiple(), 'depth':0]" />
@@ -45,7 +45,7 @@
             
               
               <dl>
-                <dt class=""><g:message code="ladrr.property.atelierEveilPrecisionChoix.label" />  : </dt><dd id="atelierEveilPrecisionChoix" class="action-editField validate-regex i18n-ladrr.property.atelierEveilPrecisionChoix rows-3 maxLength-255" regex="^[\w\W]{0,255}$"><span>${rqt?.atelierEveilPrecisionChoix}</span></dd>
+                <dt class="">${message(code:'ladrr.property.atelierEveilPrecisionChoix.label')} :</dt><dd id="atelierEveilPrecisionChoix" class="action-editField validate-regex i18n-ladrr.property.atelierEveilPrecisionChoix rows-3 maxLength-255" regex="^[\w\W]{0,255}$"><span>${rqt?.atelierEveilPrecisionChoix}</span></dd>
               </dl>
               
             

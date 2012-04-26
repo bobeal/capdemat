@@ -30,31 +30,31 @@
             
               
               <dl>
-                <dt class="required"><g:message code="ddr.property.deathLastName.label" /> * : </dt><dd id="deathLastName" class="action-editField validate-lastName required-true i18n-ddr.property.deathLastName maxLength-38" ><span>${rqt?.deathLastName}</span></dd>
+                <dt class="required">${message(code:'ddr.property.deathLastName.label')} * :</dt><dd id="deathLastName" class="action-editField validate-lastName required-true i18n-ddr.property.deathLastName maxLength-38" ><span>${rqt?.deathLastName}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="ddr.property.deathFirstNames.label" /> * : </dt><dd id="deathFirstNames" class="action-editField validate-string required-true i18n-ddr.property.deathFirstNames" ><span>${rqt?.deathFirstNames}</span></dd>
+                <dt class="required">${message(code:'ddr.property.deathFirstNames.label')} * :</dt><dd id="deathFirstNames" class="action-editField validate-string required-true i18n-ddr.property.deathFirstNames" ><span>${rqt?.deathFirstNames}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="ddr.property.deathDate.label" /> * : </dt><dd id="deathDate" class="action-editField validate-date required-true i18n-ddr.property.deathDate" ><span><g:formatDate formatName="format.date" date="${rqt?.deathDate}"/></span></dd>
+                <dt class="required">${message(code:'ddr.property.deathDate.label')} * :</dt><dd id="deathDate" class="action-editField validate-date required-true i18n-ddr.property.deathDate" ><span><g:formatDate formatName="format.date" date="${rqt?.deathDate}"/></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="ddr.property.deathCity.label" /> * : </dt><dd id="deathCity" class="action-editField validate-city required-true i18n-ddr.property.deathCity maxLength-32" ><span>${rqt?.deathCity}</span></dd>
+                <dt class="required">${message(code:'ddr.property.deathCity.label')} * :</dt><dd id="deathCity" class="action-editField validate-city required-true i18n-ddr.property.deathCity maxLength-32" ><span>${rqt?.deathCity}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="ddr.property.deathPostalCode.label" /> * : </dt><dd id="deathPostalCode" class="action-editField validate-departmentCode required-true i18n-ddr.property.deathPostalCode maxLength-2" ><span>${rqt?.deathPostalCode}</span></dd>
+                <dt class="required">${message(code:'ddr.property.deathPostalCode.label')} * :</dt><dd id="deathPostalCode" class="action-editField validate-departmentCode required-true i18n-ddr.property.deathPostalCode maxLength-2" ><span>${rqt?.deathPostalCode}</span></dd>
               </dl>
               
             
@@ -85,25 +85,25 @@
             
               
               <dl>
-                <dt class="required"><g:message code="ddr.property.format.label" /> * : </dt><dd id="format" class="action-editField validate-capdematEnum required-true i18n-ddr.property.format javatype-fr.cg95.cvq.business.request.civil.DeathCertificateFormatType" ><g:capdematEnumToField var="${rqt?.format}" i18nKeyPrefix="ddr.property.format" /></dd>
+                <dt class="required">${message(code:'ddr.property.format.label')} * :</dt><dd id="format" class="action-editField validate-capdematEnum required-true i18n-ddr.property.format javatype-fr.cg95.cvq.business.request.civil.DeathCertificateFormatType" ><g:capdematEnumToField var="${rqt?.format}" i18nKeyPrefix="ddr.property.format" /></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="ddr.property.copies.label" /> * : </dt><dd id="copies" class="action-editField validate-positiveInteger required-true i18n-ddr.property.copies" ><span>${rqt?.copies}</span></dd>
+                <dt class="required">${message(code:'ddr.property.copies.label')} * :</dt><dd id="copies" class="action-editField validate-positiveInteger required-true i18n-ddr.property.copies" ><span>${rqt?.copies}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class=""><g:message code="ddr.property.motive.label" />  : </dt><dd id="motive" class="action-editField validate-capdematEnum i18n-ddr.property.motive javatype-fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType" ><g:capdematEnumToField var="${rqt?.motive}" i18nKeyPrefix="ddr.property.motive" /></dd>
+                <dt class="">${message(code:'ddr.property.motive.label')} :</dt><dd id="motive" class="action-editField validate-capdematEnum i18n-ddr.property.motive javatype-fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType" ><g:capdematEnumToField var="${rqt?.motive}" i18nKeyPrefix="ddr.property.motive" /></dd>
               </dl>
               
             
               
               <dl>
-                <dt class=""><g:message code="ddr.property.comment.label" />  : </dt><dd id="comment" class="action-editField validate-regex i18n-ddr.property.comment rows-3 maxLength-255" regex="^[\w\W]{0,255}$"><span>${rqt?.comment}</span></dd>
+                <dt class="">${message(code:'ddr.property.comment.label')} :</dt><dd id="comment" class="action-editField validate-regex i18n-ddr.property.comment rows-3 maxLength-255" regex="^[\w\W]{0,255}$"><span>${rqt?.comment}</span></dd>
               </dl>
               
             

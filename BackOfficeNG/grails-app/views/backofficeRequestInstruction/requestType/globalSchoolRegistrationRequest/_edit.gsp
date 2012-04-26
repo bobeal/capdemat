@@ -46,7 +46,7 @@
             
               
               <dl>
-                <dt class="required condition-estDerogation-trigger"><g:message code="gsrr.property.estDerogation.label" /> * : </dt><dd id="estDerogation" class="action-editField validate-boolean required-true i18n-gsrr.property.estDerogation" ><span class="value-${rqt?.estDerogation}"><g:message code="message.${rqt?.estDerogation ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required condition-estDerogation-trigger">${message(code:'gsrr.property.estDerogation.label')} * :</dt><dd id="estDerogation" class="action-editField validate-boolean required-true i18n-gsrr.property.estDerogation" ><span class="value-${rqt?.estDerogation}"><g:message code="message.${rqt?.estDerogation ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
@@ -54,16 +54,16 @@
               <h3><g:message code="gsrr.property.ecoleDerogation.label" /></h3>
               <dl class="required condition-estDerogation-filled">
                 
-                  <dt class="required"><g:message code="gsrr.property.idEcoleDerog.label" /> * : </dt><dd id="idEcoleDerog" class="action-editField validate-string required-true i18n-gsrr.property.idEcoleDerog" ><span>${rqt?.idEcoleDerog}</span></dd>
+                  <dt class="required">${message(code:'gsrr.property.idEcoleDerog.label')} * :</dt><dd id="idEcoleDerog" class="action-editField validate-string required-true i18n-gsrr.property.idEcoleDerog" ><span>${rqt?.idEcoleDerog}</span></dd>
                 
-                  <dt class="required"><g:message code="gsrr.property.labelEcoleDerog.label" /> * : </dt><dd id="labelEcoleDerog" class="action-editField validate-string required-true i18n-gsrr.property.labelEcoleDerog" ><span>${rqt?.labelEcoleDerog}</span></dd>
+                  <dt class="required">${message(code:'gsrr.property.labelEcoleDerog.label')} * :</dt><dd id="labelEcoleDerog" class="action-editField validate-string required-true i18n-gsrr.property.labelEcoleDerog" ><span>${rqt?.labelEcoleDerog}</span></dd>
                 
               </dl>
               
             
               
               <dl>
-                <dt class="required condition-estDerogation-filled"><g:message code="gsrr.property.motifsDerogationEcole.label" /> * : </dt><dd id="motifsDerogationEcole" class="action-editField validate-localReferentialData required-true i18n-gsrr.property.motifsDerogationEcole data-localReferentialData" >
+                <dt class="required condition-estDerogation-filled">${message(code:'gsrr.property.motifsDerogationEcole.label')} * :</dt><dd id="motifsDerogationEcole" class="action-editField validate-localReferentialData required-true i18n-gsrr.property.motifsDerogationEcole data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'motifsDerogationEcole', 'lrEntries': lrTypes.motifsDerogationEcole?.entries, 
                              'rqt':rqt, 'isMultiple':lrTypes.motifsDerogationEcole?.isMultiple(), 'depth':0]" />
@@ -74,7 +74,7 @@
             
               
               <dl>
-                <dt class="condition-estDerogation-filled"><g:message code="gsrr.property.informationsComplementairesDerogation.label" />  : </dt><dd id="informationsComplementairesDerogation" class="action-editField validate-regex i18n-gsrr.property.informationsComplementairesDerogation rows-10 maxLength-1024" regex="^[\w\W]{0,1024}$"><span>${rqt?.informationsComplementairesDerogation}</span></dd>
+                <dt class="condition-estDerogation-filled">${message(code:'gsrr.property.informationsComplementairesDerogation.label')} :</dt><dd id="informationsComplementairesDerogation" class="action-editField validate-regex i18n-gsrr.property.informationsComplementairesDerogation rows-10 maxLength-1024" regex="^[\w\W]{0,1024}$"><span>${rqt?.informationsComplementairesDerogation}</span></dd>
               </dl>
               
             
@@ -88,9 +88,9 @@
               <h3><g:message code="gsrr.property.ecoleSecteur.label" /></h3>
               <dl class="required condition-estDerogation-unfilled">
                 
-                  <dt class="required"><g:message code="gsrr.property.idEcoleSecteur.label" /> * : </dt><dd id="idEcoleSecteur" class="action-editField validate-string required-true i18n-gsrr.property.idEcoleSecteur" ><span>${rqt?.idEcoleSecteur}</span></dd>
+                  <dt class="required">${message(code:'gsrr.property.idEcoleSecteur.label')} * :</dt><dd id="idEcoleSecteur" class="action-editField validate-string required-true i18n-gsrr.property.idEcoleSecteur" ><span>${rqt?.idEcoleSecteur}</span></dd>
                 
-                  <dt class="required"><g:message code="gsrr.property.labelEcoleSecteur.label" /> * : </dt><dd id="labelEcoleSecteur" class="action-editField validate-string required-true i18n-gsrr.property.labelEcoleSecteur" ><span>${rqt?.labelEcoleSecteur}</span></dd>
+                  <dt class="required">${message(code:'gsrr.property.labelEcoleSecteur.label')} * :</dt><dd id="labelEcoleSecteur" class="action-editField validate-string required-true i18n-gsrr.property.labelEcoleSecteur" ><span>${rqt?.labelEcoleSecteur}</span></dd>
                 
               </dl>
               
@@ -116,7 +116,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="gsrr.property.estRestauration.label" /> * : </dt><dd id="estRestauration" class="action-editField validate-boolean required-true i18n-gsrr.property.estRestauration" ><span class="value-${rqt?.estRestauration}"><g:message code="message.${rqt?.estRestauration ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required">${message(code:'gsrr.property.estRestauration.label')} * :</dt><dd id="estRestauration" class="action-editField validate-boolean required-true i18n-gsrr.property.estRestauration" ><span class="value-${rqt?.estRestauration}"><g:message code="message.${rqt?.estRestauration ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
@@ -147,7 +147,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="gsrr.property.estPeriscolaire.label" /> * : </dt><dd id="estPeriscolaire" class="action-editField validate-boolean required-true i18n-gsrr.property.estPeriscolaire" ><span class="value-${rqt?.estPeriscolaire}"><g:message code="message.${rqt?.estPeriscolaire ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required">${message(code:'gsrr.property.estPeriscolaire.label')} * :</dt><dd id="estPeriscolaire" class="action-editField validate-boolean required-true i18n-gsrr.property.estPeriscolaire" ><span class="value-${rqt?.estPeriscolaire}"><g:message code="message.${rqt?.estPeriscolaire ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
@@ -178,7 +178,7 @@
             
               
               <dl>
-                <dt class=""><g:message code="gsrr.property.acceptationReglementInterieur.label" />  : </dt><dd id="acceptationReglementInterieur" class="action-editField validate-acceptance i18n-gsrr.property.acceptationReglementInterieur" ><span class="value-${rqt?.acceptationReglementInterieur}"><g:message code="message.${rqt?.acceptationReglementInterieur ? 'yes' : 'no'}" /></span></dd>
+                <dt class="">${message(code:'gsrr.property.acceptationReglementInterieur.label')} :</dt><dd id="acceptationReglementInterieur" class="action-editField validate-acceptance i18n-gsrr.property.acceptationReglementInterieur" ><span class="value-${rqt?.acceptationReglementInterieur}"><g:message code="message.${rqt?.acceptationReglementInterieur ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             

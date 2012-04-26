@@ -58,12 +58,12 @@
     
       <dt class="required"><g:message code="sagr.property.sommeSolliciteeActivite.label" /> * : </dt>
       <dd id="sagrActiviteAssociation[${listSize - 1 - index}].sommeSolliciteeActivite" class="action-editField validate-decimal required-true i18n-sagr.property.sommeSolliciteeActivite" >
-        <span>${it?.sommeSolliciteeActivite}</span>
+        <span>${formatNumber(number: it?.sommeSolliciteeActivite, type: 'number')}</span>
       </dd>
     
       <dt class=""><g:message code="sagr.property.sommeAlloueeActivite.label" />  : </dt>
       <dd id="sagrActiviteAssociation[${listSize - 1 - index}].sommeAlloueeActivite" class="action-editField validate-decimal i18n-sagr.property.sommeAlloueeActivite" >
-        <span>${it?.sommeAlloueeActivite}</span>
+        <span>${formatNumber(number: it?.sommeAlloueeActivite, type: 'number')}</span>
       </dd>
     
   </dl>

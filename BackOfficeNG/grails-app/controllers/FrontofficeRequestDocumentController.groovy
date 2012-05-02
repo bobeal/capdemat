@@ -67,8 +67,9 @@ class FrontofficeRequestDocumentController {
 
                 document.ecitizenNote = !params.ecitizenNote.isEmpty() && request.getFile('documentData-0').getOriginalFilename().isEmpty() ? params.ecitizenNote : request.getFile('documentData-0').getOriginalFilename()
                 // update existing page
-                document.datas.eachWithIndex { data, index ->
-                    documentService.modifyPage(document.id, index, request.getFile('documentData-' + index)?.bytes)  
+                def datasSize = document.datas.size()
+                for (int i = 0; i < datasSize ; i++) {
+                    documentService.modifyPage(document.id, i, request.getFile('documentData-' + i)?.bytes)
                 }
                 // add new page
                 def index = document.datas?.isEmpty() ? 0 : document.datas.size()

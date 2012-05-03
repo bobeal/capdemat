@@ -9,6 +9,13 @@
       <dd>
         <g:capdematEnumToField var="${adult.title}" i18nKeyPrefix="homeFolder.adult.title"/>
       </dd>
+      
+      <dt><g:message code="homeFolder.adult.property.responsible"/> :</dt>
+      <dd>
+        <g:if test="${adult.id == responsible}">oui
+        </g:if>
+        <g:else>non</g:else>
+      </dd>
 
       <dt><g:message code="homeFolder.adult.property.familyStatus"/> :</dt>
       <dd>

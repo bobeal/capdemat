@@ -1,0 +1,34 @@
+srsr.duration.value =
+
+srsr.step.registration.label =
+srsr.step.registration.desc =
+
+
+srsr.property.section.help =
+srsr.property.section.validationError =
+
+
+srsr.property.existRegistration.help =
+srsr.property.existRegistration.validationError =
+
+
+srsr.property.currentSchoolName.help =
+srsr.property.currentSchoolName.validationError =
+
+
+srsr.property.currentSchoolAddress.help =
+srsr.property.currentSchoolAddress.validationError =
+
+
+srsr.property.currentSchoolLevel.help =
+srsr.property.currentSchoolLevel.validationError =
+
+
+srsr.property.emergencyContactName.help =
+srsr.property.emergencyContactName.validationError =
+
+
+srsr.property.emergencyPhone.help =
+srsr.property.emergencyPhone.validationError =
+
+

@@ -107,6 +107,13 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/ticket/PlaceCategory.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/ticket/Fare.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/ticket/Subscriber.hbm.xml</value>
+         <!-- inexine ts -->
+        <value>fr/cg95/cvq/business/request/school/SchoolRegistrationSimplifyRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/election/MultiCerfaElectoralRollRegistrationRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/school/ChildCareCenterRegistrationRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/school/RecreationActivityPolyRegistrationRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/school/RecreationAuthorizedPolyIndividual.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/school/RecreationContactPolyIndividual.hbm.xml</value>   
       </list>
     </property>
 

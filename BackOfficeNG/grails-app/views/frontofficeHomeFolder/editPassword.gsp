@@ -27,7 +27,13 @@
 
           <p class="submit-form">
             <input type="submit" value="${message(code:'action.save')}" />
-            <input type="submit" name="cancel" value="${message(code:'action.cancel')}" />
+            <g:if test="${fcac == 'ok'}">
+            	<input type="hidden" name="fcac" value="${fcac}"/>
+            	<a href="${createLink(controller:'frontofficeHome', action:'logout')}">${message(code:'action.cancel')}</a> 
+            </g:if>
+            <g:else>
+            	<input type="submit" name="cancel" value="${message(code:'action.cancel')}" />
+            </g:else>
           </p>
         </form>
       </div>

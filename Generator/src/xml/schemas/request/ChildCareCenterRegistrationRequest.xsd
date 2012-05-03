@@ -1,0 +1,943 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/cccrr" 
+  xmlns:cccrr="http://www.cg95.fr/cvq/schema/cccrr"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
+
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common" 
+    schemaLocation="../common/CVQCommonElements.xsd" />
+    
+	<xs:element name="ChildCareCenterRegistrationRequest">
+		<xs:annotation>
+			 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Demande de pré inscription petite enfance
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Child care center registration request
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Pré inscription petite enfance
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Child care center
+      </xs:documentation>
+      <xs:appinfo>
+				<model namespace="school"/>
+				<common>
+					<namespace name="school"/>
+					<steps>
+						<step index="0" name="registrationSubject">
+							<widgets>
+								<subject />
+							</widgets>
+						</step>
+						<step index="1" name="registrationParams">
+							<conditions>
+								<condition name="isMondayPeriodeChoice" />
+								<condition name="isTuesdayPeriodeChoice" />
+								<condition name="isWednesdayPeriodeChoice" />
+								<condition name="isThursdayPeriodeChoice" />
+								<condition name="isFridayPeriodeChoice" />
+							</conditions>
+						</step>
+						<step index="2" name="welcoming" />
+						<step index="3" ref="document" />
+	        	<step index="4" ref="validation" />
+					</steps>
+				</common>
+			</xs:appinfo>
+		</xs:annotation>	
+		
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="cvq:RequestType">
+					<xs:sequence>
+						<xs:element name="SubjectChoiceBirthDate" type="xs:date" minOccurs="0">
+			        <xs:annotation>
+			          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+			            Date de Naissance 
+			          </xs:documentation>
+			          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+			            Date de Naissance 
+			          </xs:documentation>          
+			          <xs:appinfo>
+			            <common>
+			              <step name="registrationSubject"/>			      				
+			            </common>
+			            <fo/>
+			            <bo />
+			            <pdf />	
+			          </xs:appinfo>
+			        </xs:annotation>
+			      </xs:element>
+			      
+			       <xs:element name="SubjectChoiceGender" type="cvq:SexType" minOccurs="0">
+			        <xs:annotation>
+			          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+			            Sexe 
+			          </xs:documentation>
+			          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+			            Sexe 
+			          </xs:documentation>          
+			          <xs:appinfo>
+			          	<model namespace="users" isTiedToRequest="true" />
+			            <common>
+			              <step name="registrationSubject"/>										
+			            </common>
+			            <fo>
+							<radio />
+						</fo>
+			            <bo />
+			            <pdf />	
+			          </xs:appinfo>
+			        </xs:annotation>
+			      </xs:element>
+						
+						
+						<!-- Registration date wished -->
+						<xs:element name="RegistrationDate" type="xs:date">
+							<xs:annotation>
+								<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+					        Date d'entrée souhaitée de l'enfant
+					      </xs:documentation>
+					      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+					        Begining date whished
+					      </xs:documentation>
+					      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+					        date d'entrée
+					      </xs:documentation>
+					      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+					        Begining date
+					      </xs:documentation>
+					      <xs:appinfo>
+					      	<common>
+					      		<step name="registrationParams"/>
+					      	</common>
+					      	<fo />
+					      	<bo column="1"/>
+					      	<pdf />
+					      </xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						
+						<!--  lundi -->
+						<xs:element name="MondayRegistrationParam" type="cccrr:ChildMonDayType" minOccurs="0">
+							<xs:annotation>
+									<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+						        Définition du lundi 
+						      </xs:documentation>
+						      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+						        Monday definition
+						      </xs:documentation>
+						      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+						        Lundi
+						      </xs:documentation>
+						      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+						        Monday
+						      </xs:documentation>
+						      <xs:appinfo>
+						      	<common>
+						      		<step name="registrationParams"/>
+						      	</common>
+							      <fo />
+						      	<bo column="1"/>
+						      	<pdf />
+						      </xs:appinfo>
+						  </xs:annotation>  
+						</xs:element>
+						
+						<!--  mardi -->
+						<xs:element name="TuesdayRegistrationParam" type="cccrr:ChildTuesdayType" maxOccurs="1">
+							<xs:annotation>
+									<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+						        Définition du mardi 
+						      </xs:documentation>
+						      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+						        Tuesday definition
+						      </xs:documentation>
+						      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+						        Mardi
+						      </xs:documentation>
+						      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+						        Tuesday
+						      </xs:documentation>
+						      <xs:appinfo>
+						      	<common>
+						      		<step name="registrationParams"/>
+						      	</common>
+							      <fo />
+						      	<bo column="1"/>
+						      	<pdf />
+						      </xs:appinfo>
+						  </xs:annotation>  
+						</xs:element>
+						
+						<!-- mercredi -->						
+							<xs:element name="WednesdayRegistrationParam" type="cccrr:ChildWednesdayType" maxOccurs="1">
+							<xs:annotation>
+									<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+						        Définition du mercredi 
+						      </xs:documentation>
+						      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+						        Wednesday definition
+						      </xs:documentation>
+						      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+						        Mercredi
+						      </xs:documentation>
+						      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+						        Wednesday
+						      </xs:documentation>
+						      <xs:appinfo>
+						      	<common>
+						      		<step name="registrationParams"/>
+						      	</common>
+							      <fo />
+						      	<bo column="1"/>
+						      	<pdf />
+						      </xs:appinfo>
+						  </xs:annotation>  
+						</xs:element>
+						
+						<!-- jeudi -->						
+							<xs:element name="ThursdayRegistrationParam" type="cccrr:ChildThursdayType" maxOccurs="1">
+							<xs:annotation>
+									<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+						        Définition du jeudi 
+						      </xs:documentation>
+						      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+						        Thursday definition
+						      </xs:documentation>
+						      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+						        Jeudi
+						      </xs:documentation>
+						      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+						        Thursday
+						      </xs:documentation>
+						      <xs:appinfo>
+						      	<common>
+						      		<step name="registrationParams"/>
+						      	</common>
+							      <fo />
+						      	<bo column="1"/>
+						      	<pdf />
+						      </xs:appinfo>
+						  </xs:annotation>  
+						</xs:element>
+						
+						<!-- vendredi -->						
+							<xs:element name="FridayRegistrationParam" type="cccrr:ChildFridayType" maxOccurs="1">
+							<xs:annotation>
+									<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+						        Définition du vendredi 
+						      </xs:documentation>
+						      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+						        Friday definition
+						      </xs:documentation>
+						      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+						        Vendredi
+						      </xs:documentation>
+						      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+						        Friday
+						      </xs:documentation>
+						      <xs:appinfo>
+						      	<common>
+						      		<step name="registrationParams"/>
+						      	</common>
+							      <fo />
+						      	<bo column="1"/>
+						      	<pdf />
+						      </xs:appinfo>
+						  </xs:annotation>  
+						</xs:element>
+						
+						<!-- structure or type of guard -->
+						<xs:element name="WelcomingChoice" type="cvq:LocalReferentialDataType" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+						        Choix de la structure ou du type d'acceuil 
+						      </xs:documentation>
+						      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+						        Structure or mode of guard choice
+						      </xs:documentation>
+						      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+						        Structure ou type d'accueil
+						      </xs:documentation>
+						      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+						        Structure or mode of guard
+						      </xs:documentation>
+						      <xs:appinfo>
+						      	<model namespace="request" isTiedToRequest="true" />
+							      <common>
+						      		<step name="welcoming"/>
+						      	</common>
+						      	<fo />
+						      	<bo column="1"/>
+						      	<pdf />
+						      </xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+													
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>		
+	</xs:element>
+	
+	
+	
+	<!-- child reception week choice definition -->
+	<xs:complexType name="ChildMonDayType" >
+		<xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Accueil de l'enfant
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Child reception
+      </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			
+			<!-- day type définition -->
+			<xs:element name="MondayPeriod" type="cccrr:DayPeriodType" default="allDay" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+							<conditions>
+								<condition name="isMondayPeriodeChoice" type="trigger"/>
+							</conditions>
+						</common>
+						<fo>
+							<radio />
+						</fo>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- Begining first periode -->
+			<xs:element name="MondayFirstPeriodBegining" type="xs:string" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Début première période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Begining period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+						</common>
+						<fo/>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- Ending first periode -->
+			<xs:element name="MondayFirstPeriodEnding" type="xs:string" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Fin première période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Ending period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+						</common>
+						<fo/>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- Begining second periode -->
+			<xs:element name="MondaySecondPeriodBegining" type="xs:string" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Début seconde période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Begining period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+							<conditions>
+								<condition name="isMondayPeriodeChoice" type="filled"/>
+							</conditions>
+						</common>
+						<fo/>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- Ending second periode -->
+			<xs:element name="MondaySecondPeriodEnding" type="xs:string" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Fin seconde période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Ending period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+							<conditions>
+							<condition name="isMondayPeriodeChoice" type="filled"/>
+							</conditions>
+						</common>
+						<fo/>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+		</xs:sequence>
+	</xs:complexType>	
+
+<xs:complexType name="ChildTuesdayType" >
+		<xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Accueil de l'enfant
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Child reception
+      </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			
+			<!-- day type définition -->
+			<xs:element name="TuesdayPeriod" type="cccrr:DayPeriodType" default="allDay" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+							<conditions>
+								<condition name="isTuesdayPeriodeChoice" type="trigger"/>
+							</conditions>
+						</common>
+						<fo>
+							<radio />
+						</fo>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- Begining first periode -->
+			<xs:element name="TuesdayFirstPeriodBegining" type="xs:string" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Début première période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Begining period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+						</common>
+						<fo/>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- Ending first periode -->
+			<xs:element name="TuesdayFirstPeriodEnding" type="xs:string" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Fin première période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Ending period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+						</common>
+						<fo/>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- Begining second periode -->
+			<xs:element name="TuesdaySecondPeriodBegining" type="xs:string" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Début seconde période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Begining period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+							<conditions>
+								<condition name="isTuesdayPeriodeChoice" type="filled"/>
+							</conditions>
+						</common>
+						<fo/>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- Ending second periode -->
+			<xs:element name="TuesdaySecondPeriodEnding" type="xs:string" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Fin seconde période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Ending period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+							<conditions>
+								<condition name="isTuesdayPeriodeChoice" type="filled"/>
+							</conditions>
+						</common>
+						<fo/>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="ChildWednesdayType" >
+		<xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Accueil de l'enfant
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Child reception
+      </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			
+			<!-- day type définition -->
+			<xs:element name="WednesdayPeriod" type="cccrr:DayPeriodType" default="allDay" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+							<conditions>
+								<condition name="isWednesdayPeriodeChoice" type="trigger"/>
+							</conditions>
+						</common>
+						<fo>
+							<radio />
+						</fo>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- Begining first periode -->
+			<xs:element name="WednesdayFirstPeriodBegining" type="xs:string" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Début première période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Begining period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+						</common>
+						<fo/>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- Ending first periode -->
+			<xs:element name="WednesdayFirstPeriodEnding" type="xs:string" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Fin première période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Ending period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+						</common>
+						<fo/>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- Begining second periode -->
+			<xs:element name="WednesdaySecondPeriodBegining" type="xs:string" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Début seconde période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Begining period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+							<conditions>
+								<condition name="isWednesdayPeriodeChoice" type="filled"/>
+							</conditions>
+						</common>
+						<fo/>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- Ending second periode -->
+			<xs:element name="WednesdaySecondPeriodEnding" type="xs:string" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Fin seconde période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Ending period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+							<conditions>
+								<condition name="isWednesdayPeriodeChoice" type="filled"/>
+							</conditions>
+						</common>
+						<fo/>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="ChildThursdayType" >
+		<xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Accueil de l'enfant
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Child reception
+      </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			
+			<!-- day type définition -->
+			<xs:element name="ThursdayPeriod" type="cccrr:DayPeriodType" default="allDay" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+							<conditions>
+								<condition name="isThursdayPeriodeChoice" type="trigger"/>
+							</conditions>
+						</common>
+						<fo>
+							<radio />
+						</fo>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- Begining first periode -->
+			<xs:element name="ThursdayFirstPeriodBegining" type="xs:string" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Début première période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Begining period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+						</common>
+						<fo/>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- Ending first periode -->
+			<xs:element name="ThursdayFirstPeriodEnding" type="xs:string" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Fin première période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Ending period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+						</common>
+						<fo/>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- Begining second periode -->
+			<xs:element name="ThursdaySecondPeriodBegining" type="xs:string" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Début seconde période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Begining period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+							<conditions>
+								<condition name="isThursdayPeriodeChoice" type="filled"/>
+							</conditions>
+						</common>
+						<fo/>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- Ending second periode -->
+			<xs:element name="ThursdaySecondPeriodEnding" type="xs:string" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Fin seconde période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Ending period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+							<conditions>
+								<condition name="isThursdayPeriodeChoice" type="filled"/>
+							</conditions>
+						</common>
+						<fo/>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="ChildFridayType" >
+		<xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Accueil de l'enfant
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Child reception
+      </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			
+			<!-- day type définition -->
+			<xs:element name="FridayPeriod" type="cccrr:DayPeriodType" default="allDay" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+							<conditions>
+								<condition name="isFridayPeriodeChoice" type="trigger"/>
+							</conditions>
+						</common>
+						<fo>
+							<radio />
+						</fo>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- Begining first periode -->
+			<xs:element name="FridayFirstPeriodBegining" type="xs:string" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Début première période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Begining period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+						</common>
+						<fo/>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- Ending first periode -->
+			<xs:element name="FridayFirstPeriodEnding" type="xs:string" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Fin première période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Ending period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+						</common>
+						<fo/>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- Begining second periode -->
+			<xs:element name="FridaySecondPeriodBegining" type="xs:string" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Début seconde période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Begining period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+							<conditions>
+								<condition name="isFridayPeriodeChoice" type="filled"/>
+							</conditions>
+						</common>
+						<fo/>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+			<!-- Ending second periode -->
+			<xs:element name="FridaySecondPeriodEnding" type="xs:string" minOccurs="0">
+				<xs:annotation>
+		      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Fin seconde période
+		      </xs:documentation>
+		      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+		        Ending period
+		      </xs:documentation>
+					<xs:appinfo>
+						<common>
+							<step name="registrationParams"/>
+							<conditions>
+								<condition name="isFridayPeriodeChoice" type="filled"/>
+							</conditions>
+						</common>
+						<fo/>
+						<bo column="2"/>
+						<pdf />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			
+		</xs:sequence>
+	</xs:complexType>
+
+		
+	<!-- enumeration of day type -->
+	<xs:simpleType name="DayPeriodType">
+		<xs:annotation>
+			<xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Durée du jour
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Day period
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Période
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Period
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+      	<enum key="allDay" value="Journée"/>
+      	<enum key="halfDay" value="Demi-journée"/>
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="allDay" />
+			<xs:enumeration value="halfDay" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+</xs:schema>

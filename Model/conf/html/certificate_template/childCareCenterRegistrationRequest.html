@@ -1,0 +1,262 @@
+
+
+<%
+
+  import org.apache.commons.lang.StringUtils
+  
+  def localReferentialWidget(rqt, javaName, lrEntries, depth) {
+    def lrHtml = ''
+    def currentLrDatas = rqt[javaName].collect{it.name}
+    if (lrTypes[javaName].entriesSupportMultiple) { 
+      lrHtml += "<ul ${depth==0 ? 'class="dataTree"' : ''}>"
+      lrEntries.eachWithIndex { entry, i -> 
+      if (entry.entries) { 
+        lrHtml += "<li>"
+        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
+        lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
+        lrHtml += "</li>"
+      } else {
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
+      } 
+    } 
+    lrHtml += "</ul>"
+    } else { 
+      lrEntries.each { entry -> 
+        lrHtml += "${currentLrDatas?.contains(entry.key) ? entry.labelsMap.fr: ''}"
+      } 
+    }
+    println lrHtml
+  }
+
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>${i18n.translate('cccrr.label')}</title>
+  <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
+</head>
+<body>
+  <div id="hd">
+    <p>${localAuthority.displayTitle}</p>
+    <img src="file://${logoPath}" alt="mairie2424" />
+  </div>
+  <h1>${i18n.translate('cccrr.label')}</h1>
+  <div class="localAuthority">
+    <h2>${i18n.translate('pdf.localAutorityReservedSection')}</h2>
+    <ul>
+      <li>${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
+      <li>${i18n.translate('property.requester')} : <strong>${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong></li>
+      <li>${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong></li>
+      <li>${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
+    </ul>
+  </div>
+
+  
+  <h2>${i18n.translate('cccrr.step.registrationSubject.label')}</h2>
+  
+    
+      <p class="label">${i18n.translate('request.property.subject.label')}</p>
+           <div class="response">${subject?.fullName}</div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('cccrr.property.subjectChoiceBirthDate.label')}</p>
+          <div class="response">${rqt.subjectChoiceBirthDate ? String.format('%td/%<tm/%<tY',rqt.subjectChoiceBirthDate) : ''}</div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('cccrr.property.subjectChoiceGender.label')}</p>
+          <div class="response">
+            <% if(rqt.subjectChoiceGender) { %>
+              ${i18n.translate('cccrr.property.subjectChoiceGender.' + StringUtils.uncapitalize(rqt.subjectChoiceGender.toString()))}
+            <% } %>
+          </div>
+          
+
+    
+  
+
+  
+  <h2>${i18n.translate('cccrr.step.registrationParams.label')}</h2>
+  
+    
+      <p class="label">${i18n.translate('cccrr.property.registrationDate.label')}</p>
+          <div class="response">${rqt.registrationDate ? String.format('%td/%<tm/%<tY',rqt.registrationDate) : ''}</div>
+          
+
+    
+  
+    
+      <h3>${i18n.translate('cccrr.property.mondayRegistrationParam.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('cccrr.property.mondayPeriod.label')}</p>
+          <div class="response">
+            <% if(rqt.mondayPeriod) { %>
+              ${i18n.translate('cccrr.property.mondayPeriod.' + StringUtils.uncapitalize(rqt.mondayPeriod.toString()))}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('cccrr.property.mondayFirstPeriodBegining.label')}</p><div class="response">${StringUtils.defaultString(rqt.mondayFirstPeriodBegining?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('cccrr.property.mondayFirstPeriodEnding.label')}</p><div class="response">${StringUtils.defaultString(rqt.mondayFirstPeriodEnding?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('cccrr.property.mondaySecondPeriodBegining.label')}</p><div class="response">${StringUtils.defaultString(rqt.mondaySecondPeriodBegining?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('cccrr.property.mondaySecondPeriodEnding.label')}</p><div class="response">${StringUtils.defaultString(rqt.mondaySecondPeriodEnding?.toString())}</div>
+
+        
+      </div>
+    
+  
+    
+      <h3>${i18n.translate('cccrr.property.tuesdayRegistrationParam.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('cccrr.property.tuesdayPeriod.label')}</p>
+          <div class="response">
+            <% if(rqt.tuesdayPeriod) { %>
+              ${i18n.translate('cccrr.property.tuesdayPeriod.' + StringUtils.uncapitalize(rqt.tuesdayPeriod.toString()))}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('cccrr.property.tuesdayFirstPeriodBegining.label')}</p><div class="response">${StringUtils.defaultString(rqt.tuesdayFirstPeriodBegining?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('cccrr.property.tuesdayFirstPeriodEnding.label')}</p><div class="response">${StringUtils.defaultString(rqt.tuesdayFirstPeriodEnding?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('cccrr.property.tuesdaySecondPeriodBegining.label')}</p><div class="response">${StringUtils.defaultString(rqt.tuesdaySecondPeriodBegining?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('cccrr.property.tuesdaySecondPeriodEnding.label')}</p><div class="response">${StringUtils.defaultString(rqt.tuesdaySecondPeriodEnding?.toString())}</div>
+
+        
+      </div>
+    
+  
+    
+      <h3>${i18n.translate('cccrr.property.wednesdayRegistrationParam.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('cccrr.property.wednesdayPeriod.label')}</p>
+          <div class="response">
+            <% if(rqt.wednesdayPeriod) { %>
+              ${i18n.translate('cccrr.property.wednesdayPeriod.' + StringUtils.uncapitalize(rqt.wednesdayPeriod.toString()))}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('cccrr.property.wednesdayFirstPeriodBegining.label')}</p><div class="response">${StringUtils.defaultString(rqt.wednesdayFirstPeriodBegining?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('cccrr.property.wednesdayFirstPeriodEnding.label')}</p><div class="response">${StringUtils.defaultString(rqt.wednesdayFirstPeriodEnding?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('cccrr.property.wednesdaySecondPeriodBegining.label')}</p><div class="response">${StringUtils.defaultString(rqt.wednesdaySecondPeriodBegining?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('cccrr.property.wednesdaySecondPeriodEnding.label')}</p><div class="response">${StringUtils.defaultString(rqt.wednesdaySecondPeriodEnding?.toString())}</div>
+
+        
+      </div>
+    
+  
+    
+      <h3>${i18n.translate('cccrr.property.thursdayRegistrationParam.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('cccrr.property.thursdayPeriod.label')}</p>
+          <div class="response">
+            <% if(rqt.thursdayPeriod) { %>
+              ${i18n.translate('cccrr.property.thursdayPeriod.' + StringUtils.uncapitalize(rqt.thursdayPeriod.toString()))}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('cccrr.property.thursdayFirstPeriodBegining.label')}</p><div class="response">${StringUtils.defaultString(rqt.thursdayFirstPeriodBegining?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('cccrr.property.thursdayFirstPeriodEnding.label')}</p><div class="response">${StringUtils.defaultString(rqt.thursdayFirstPeriodEnding?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('cccrr.property.thursdaySecondPeriodBegining.label')}</p><div class="response">${StringUtils.defaultString(rqt.thursdaySecondPeriodBegining?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('cccrr.property.thursdaySecondPeriodEnding.label')}</p><div class="response">${StringUtils.defaultString(rqt.thursdaySecondPeriodEnding?.toString())}</div>
+
+        
+      </div>
+    
+  
+    
+      <h3>${i18n.translate('cccrr.property.fridayRegistrationParam.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('cccrr.property.fridayPeriod.label')}</p>
+          <div class="response">
+            <% if(rqt.fridayPeriod) { %>
+              ${i18n.translate('cccrr.property.fridayPeriod.' + StringUtils.uncapitalize(rqt.fridayPeriod.toString()))}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('cccrr.property.fridayFirstPeriodBegining.label')}</p><div class="response">${StringUtils.defaultString(rqt.fridayFirstPeriodBegining?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('cccrr.property.fridayFirstPeriodEnding.label')}</p><div class="response">${StringUtils.defaultString(rqt.fridayFirstPeriodEnding?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('cccrr.property.fridaySecondPeriodBegining.label')}</p><div class="response">${StringUtils.defaultString(rqt.fridaySecondPeriodBegining?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('cccrr.property.fridaySecondPeriodEnding.label')}</p><div class="response">${StringUtils.defaultString(rqt.fridaySecondPeriodEnding?.toString())}</div>
+
+        
+      </div>
+    
+  
+
+  
+  <h2>${i18n.translate('cccrr.step.welcoming.label')}</h2>
+  
+    
+      <p class="label">${i18n.translate('cccrr.property.welcomingChoice.label')}</p>
+          <div class="response choice">
+            <% localReferentialWidget(rqt, 'welcomingChoice', lrTypes.welcomingChoice.entries, 0) %>
+          </div>
+          
+
+    
+  
+
+  <h2>${i18n.translate('contact.property.meansOfContact')}</h2>
+  <div class="response choice">
+    <% if (rqt.meansOfContact) { %>
+      <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
+        <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
+          ${i18n.translate('request.meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+        </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
+      <% } %>
+    <% } else { %>
+      <span class="checked">${i18n.translate('request.meansOfContact.none')}</span>
+    <% } %>
+  </div>
+</body>
+</html>
+

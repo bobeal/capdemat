@@ -12,7 +12,7 @@
         <ul>
           <g:each in="${items}" var="${record}">
             <li>
-              <g:if test="${record.type == 'invoices'}">
+              <g:if test="${record.type == 'invoicesNotPaid'}">
                 <h3>
                   <g:message code="payment.header.invoice"/>
                   ${record.label} <g:message code="message.of"/> ${record.amount ? record.amount / 100 + ' €':''}

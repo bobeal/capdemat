@@ -1,0 +1,476 @@
+
+
+<%
+
+  import org.apache.commons.lang.StringUtils
+  
+  def localReferentialWidget(rqt, javaName, lrEntries, depth) {
+    def lrHtml = ''
+    def currentLrDatas = rqt[javaName].collect{it.name}
+    if (lrTypes[javaName].entriesSupportMultiple) { 
+      lrHtml += "<ul ${depth==0 ? 'class="dataTree"' : ''}>"
+      lrEntries.eachWithIndex { entry, i -> 
+      if (entry.entries) { 
+        lrHtml += "<li>"
+        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
+        lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
+        lrHtml += "</li>"
+      } else {
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
+      } 
+    } 
+    lrHtml += "</ul>"
+    } else { 
+      lrEntries.each { entry -> 
+        lrHtml += "${currentLrDatas?.contains(entry.key) ? entry.labelsMap.fr: ''}"
+      } 
+    }
+    println lrHtml
+  }
+
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>${i18n.translate('srsr.label')}</title>
+  <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
+  <style>
+  	#hd1{
+  		border: solid 1px #000;
+  		background-color: silver;
+  		padding: 5px;
+  		margin-bottom: 10px;
+  	}
+  	
+  	#hd2 {
+  		border: 1px solid #000;
+  		margin-bottom: 10px;
+  	}
+  	table.mainTitle{
+  		width: 100%;
+  	}
+  	
+  	table.mainTitle	td.lo {
+  		width:25%;
+  		border-right: 1px solid #000;
+  		padding-left: 15px;
+  		padding-right: 15px;
+  	}
+  	
+  	table.mainTitle td.lab {
+  		width:75%;
+  		font-size: 1.5em;
+		text-align:center;
+		text-transform:uppercase;
+		vertical-align: middle;
+		padding: 25px;
+  	}
+  	
+  	.parafTitle {
+  		padding: 5px;
+  		margin-top: 25px;
+  		margin-bottom:10px;
+  		border: solid 1px #000;
+  		background-color: silver;
+  		text-align: center;
+  	}
+  	
+  	table.main {
+  		width: 100%;
+  	}
+  	
+  	table.main td {
+  		width: 50%;
+  		vertical-align: top;
+  	}
+  	
+  	table.parent td.label{
+  		text-align: right;
+  		padding-right: 15px;
+  		heigth:25px;
+  		font-size: 1em;
+  		font-style: italic;  		
+  	}
+  	table.parent td.field{
+  		border: solid 1px #000;
+  		width: 160px;
+  		heigth:25px;
+  		min-heigth:25px;
+  	}
+  	table.authorize {
+  		width: 100%;
+  	}
+  	
+  	table.authorize th{
+  		width: 49%;
+  		text-align: center;
+  		background-color: silver;
+  		border: solid 1px #000;
+  		padding: 5px;
+  	}
+  	table.authorize td{
+  		width: 49%;
+  		border: solid 1px #000;
+  		padding: 5px;
+  	}
+  	table.children {
+  		width: 100%;
+  	}
+  	
+  	table.children th{
+  		text-align: center;
+  		background-color: silver;
+  		border: solid 1px #000;
+  		padding: 5px;
+  	}
+  	
+  	table.children td{
+  		border: solid 1px #000;
+  		padding: 5px;
+  	}
+  	
+  	table.children th.first, table.children td.first{
+  		width: 40%;
+  	}
+  	
+  	table.children th.middle, table.children td.middle{
+  		width: 20%;
+  		text-align: center;
+  	}
+  	
+  	table.children th.last, table.children td.last{
+  		width: 40%;
+  		text-align: center;
+  	}
+  	
+  	.honnour {
+  		border: 1px solid #000;
+  		padding-top: 5px;
+  		padding-left: 5px;
+  		padding-right: 5px;
+  		padding-bottom: 30px;	
+  	}
+  	  	
+  	.information{
+  		text-align: center;
+  		font-size: 1.2em;
+  		font-weight: bold;
+  		margin-top: 25px;
+  		padding-left: 40px;
+  		
+  		padding-right: 40px;
+  	}
+  </style>
+</head>
+<body>
+  <div id="hd1">
+  	(Cadre réservé à l'administration) Ecole : .............................................  N°d'inscription : .................................
+  </div>
+  <div id="hd2">
+  	<table class="mainTitle">
+  		<tr>
+  			<td class="lo"><img src="file://${logoPath}" alt="" /></td>
+  			<td class="lab">Demande de pre inscription à l'école</td>
+  		</tr>
+  	</table>
+  </div>
+  <div class="parafTitle">Responsables</div>
+  <div> Responsable légal : 
+  <%
+  
+  def stateRes = []
+  adults.each{ parent ->
+  		def parentRole = parent.individualRoles
+  		parentRole.each{
+  			if( it.individualId == subject.id){
+  				stateRes << it.role.toString()
+			   // ${i18n.translate('homeFolder.role.' + StringUtils.uncapitalize(pRole.role.toString()))}
+  			}
+  		}
+  	}
+  	['ClrFather','ClrMother','Tutor'].each { st ->
+  		%>
+  			<span ${(stateRes.contains(st))?('class="caseok"'):('class="casenok"')}> ${i18n.translate('homeFolder.role.' + StringUtils.uncapitalize(st.toString()))}</span>
+  		<%
+  	}
+  	%>
+  	</div>
+  	<div>
+  	<%
+  	def father = null
+	def mother = null
+	def tutor = null
+  	adults.each{ parent ->
+  		def parentRole = parent.individualRoles
+  		def pRole = parentRole.find{it.individualId == subject.id}  		 				
+		
+		if(pRole.role.toString() == 'ClrFather'){
+			father = parent
+		} else if(pRole.role.toString() == 'ClrMother') {
+			mother = parent
+		} else if(pRole.role.toString() == 'Tutor') {
+			tutor = parent
+		}
+	}
+	%>
+  	
+  	<table class="main">
+  		<tr>
+  
+	  			<td>
+	  				<table class="parent">
+	  				<tr><th><u>Père : </u></th><th></th></tr>
+	  				<tr><td class="label">Nom : </td><td class="field">${(father != null)?(father.lastName):('')}</td></tr>
+	  				<tr><td class="label">&nbsp;</td><td></td></tr>
+	  				<tr><td class="label">Prénom : </td><td class="field">${(father != null)?(father.firstName):('')}</td></tr>
+	  				<tr><td class="label">Date de naissance : </td><td class="field">${(father != null)?((father.birthDate.toString() != 'null')?(String.format('%td/%<tm/%<tY',father.birthDate)):('')):('')}</td></tr>
+	  				<tr><td class="label">Adresse :</td><td class="field">${(father != null)?(father.adress.streetNumber):('')} ${(father != null)?(father.adress.streetName):('')}</td></tr>
+	  				<tr><td class="label">&nbsp;</td><td class="field">${(father != null)?(father.adress.additionalDeliveryInformation):('')}</td></tr>
+	  				<tr><td class="label">&nbsp;</td><td class="field">${(father != null)?(father.adress.additionalGeographicalInformation):('')}</td></tr>
+	  				<tr><td class="label">Commune : </td><td class="field">${(father != null)?(father.adress.city):('')}</td></tr>
+	  				<tr><td class="label">Code postal : </td><td class="field">${(father != null)?(father.adress.postalCode):('')}</td></tr>
+	  				<tr><td class="label">Courriel : </td><td class="field">${(father != null)?(father.email):('')}</td></tr>
+	  				<tr><td class="label">Tel. dom. : </td><td class="field">${(father != null)?((father.homePhone.toString() !='null')?(father.homePhone):('')):('')}</td></tr>
+	  				<tr><td class="label">Tel. bur. : </td><td class="field">${(father != null)?((father.officePhone.toString() !='null')?(father.officePhone):('')):('')}</td></tr>
+	  				<tr><td class="label">Tel. mob. : </td><td class="field">${(father != null)?((father.mobilePhone.toString() !='null')?(father.mobilePhone):('')):('')}</td></tr>
+	  				</table> 					
+  				</td>	  		
+	  			<td>
+	  				<table class="parent">
+	  				<tr><th><u>Mère : </u></th><th></th></tr>
+	  				<tr><td class="label">Nom : </td><td class="field">${(mother != null)?(mother.lastName):('')}</td></tr>
+	  				<tr><td class="label">Nom de jeune fille :</td><td class="field">${(mother != null)?(mother.maidenName):('')}</td></tr>
+	  				<tr><td class="label">Prénom : </td><td class="field">${(mother != null)?(mother.firstName):('')}</td></tr>
+	  				<tr><td class="label">Date de naissance : </td><td class="field">${(mother != null)?((mother.birthDate.toString() != 'null')?(String.format('%td/%<tm/%<tY',mother.birthDate)):('')):('')}</td></tr>
+	  				<tr><td class="label">Adresse :</td><td class="field">${(mother != null)?(mother.adress.streetNumber):('')} ${(mother != null)?(mother.adress.streetName):('')}</td></tr>
+	  				<tr><td class="label">&nbsp;</td><td class="field">${(mother != null)?(mother.adress.additionalDeliveryInformation):('')}</td></tr>
+	  				<tr><td class="label">&nbsp;</td><td class="field">${(mother != null)?(mother.adress.additionalGeographicalInformation):('')}</td></tr>
+	  				<tr><td class="label">Commune : </td><td class="field">${(mother != null)?(mother.adress.city):('')}</td></tr>
+	  				<tr><td class="label">Code postal : </td><td class="field">${(mother != null)?(mother.adress.postalCode):('')}</td></tr>
+	  				<tr><td class="label">Courriel : </td><td class="field" >${(mother != null)?(mother.email):('')}</td></tr>
+	  				<tr><td class="label">Tel. dom. : </td><td class="field">${(mother != null)?((mother.homePhone.toString() !='null')?(mother.homePhone):('')):('')}</td></tr>
+	  				<tr><td class="label">Tel. bur. : </td><td class="field">${(mother != null)?((mother.officePhone.toString() !='null')?(mother.officePhone):('')):('')}</td></tr>
+	  				<tr><td class="label">Tel. mob. : </td><td class="field">${(mother != null)?((mother.mobilePhone.toString() !='null')?(mother.mobilePhone):('')):('')}</td></tr>
+	  				</table>
+	  			</td>	  	
+  				<%
+  					if(tutor != null){
+  				%>
+  				</tr>
+  				<tr>
+  				<td>
+	  				<table class="parent">
+	  				<tr><th><u>Tuteur : </u></th><th></th></tr>
+	  				<tr><td class="label">Nom : </td><td class="field">${(tutor != null)?(tutor.lastName):('')}</td></tr>
+	  				<tr><td class="label">Nom de jeune fille :</td><td class="field">${(tutor != null)?(tutor.maidenName):('')}</td></tr>
+	  				<tr><td class="label">Prénom : </td><td class="field">${(tutor != null)?(tutor.firstName):('')}</td></tr>
+	  				<tr><td class="label">Date de naissance : </td><td class="field">${(tutor != null)?((tutor.birthDate.toString() != 'null')?(String.format('%td/%<tm/%<tY',tutor.birthDate)):('')):('')}</td></tr>
+	  				<tr><td class="label">Adresse :</td><td class="field">${(tutor != null)?(tutor.adress.streetNumber):('')} ${(tutor != null)?(tutor.adress.streetName):('')}</td></tr>
+	  				<tr><td class="label">&nbsp;</td><td class="field">${(tutor != null)?(tutor.adress.additionalDeliveryInformation):('')}</td></tr>
+	  				<tr><td class="label">&nbsp;</td><td class="field">${(tutor != null)?(tutor.adress.additionalGeographicalInformation):('')}</td></tr>
+	  				<tr><td class="label">Commune : </td><td class="field">${(tutor != null)?(tutor.adress.city):('')}</td></tr>
+	  				<tr><td class="label">Code postal : </td><td class="field">${(tutor != null)?(tutor.adress.postalCode):('')}</td></tr>
+	  				<tr><td class="label">Courriel : </td><td class="field" >${(tutor != null)?(tutor.email):('')}</td></tr>
+	  				<tr><td class="label">Tel. dom. : </td><td class="field">${(tutor != null)?((tutor.homePhone.toString() !='null')?(tutor.homePhone):('')):('')}</td></tr>
+	  				<tr><td class="label">Tel. bur. : </td><td class="field">${(tutor != null)?((tutor.officePhone.toString() !='null')?(tutor.officePhone):('')):('')}</td></tr>
+	  				<tr><td class="label">Tel. mob. : </td><td class="field">${(tutor != null)?((tutor.mobilePhone.toString() !='null')?(tutor.mobilePhone):('')):('')}</td></tr>
+	  				</table>
+	  		</td>
+  				
+  				<%
+  		}
+  %>
+  </tr>
+  </table>
+  </div>
+  <div class="parafTitle">Situation familiale</div>
+  <div>
+  <%
+  	requester.familyStatus.allFamilyStatusTypes.eachWithIndex{it, o ->
+
+  		if (it.toString() == 'CommonLawMarriage'){
+  			%>
+  			<span ${(it==requester.familyStatus)?('class="caseok"'):('class="casenok"')}>vie maritale</span>
+  			<%
+  		} else if(it.toString() == 'Other'){
+  		
+  		} else {
+  			%>
+  			<span ${(it==requester.familyStatus)?('class="caseok"'):('class="casenok"')}>${i18n.translate('homeFolder.adult.familyStatus.' + StringUtils.uncapitalize(it.toString()))}</span>
+  			<%
+  		}
+  	}
+  %>
+  </div>
+  <div class="parafTitle">Enfants vivant dans le foyer</div>
+  <div>
+  <table class="children">
+  	<tr><th class="first">Nom et prénoms</th><th class="middle">Sexe (M ou F)</th><th class="last">Date de Naissance</th></tr>
+  <%
+	children.each{ child ->
+	%>
+	<tr>
+		<td class="first">${child.lastName} ${child.firstName}</td>
+		<td class="middle">${(child.sex.toString() != 'Unknown')?(StringUtils.substring(child.sex.toString(), 0,1)):('non renseigné')}</td>
+		<td class="last">${String.format('%td/%<tm/%<tY',child.birthDate)}</td>
+	</tr>
+	<%
+	}  	
+  %>  
+  </table>
+  </div>
+  <div class="parafTitle">Moyens de contact</div>
+  <% if (rqt.meansOfContact) {
+   		rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i ->
+      	 if(it.toString() == 'Mail' || it.toString() == 'Email' || it.toString() == 'HomePhone'){ 
+      %>
+        <span ${(it==rqt.meansOfContact.type)?('class="caseok"'):('class="casenok"')}> ${(it.toString() != 'HomePhone')?(i18n.translate('request.meansOfContact.' + StringUtils.uncapitalize(it.toString()))):('Téléphone')}</span>
+      <%} 
+      } 
+      %>
+    <% } else { %>
+      <span class="checked">${i18n.translate('request.meansOfContact.none')}</span>
+    <% } %>
+  
+  <div class="parafTitle">Personnes à contacter en cas d'urgence</div>
+  <table class="authorize">
+  	<tr><th>Nom et prénom</th><th>Téléphone</th></tr>
+  	<tr>
+  		<td>${StringUtils.defaultString(rqt.emergencyContactName?.toString())}</td>
+  		<td>${StringUtils.defaultString(rqt.emergencyPhone?.toString())}</td>
+  	</tr>
+  </table>
+  
+  <div class="parafTitle">Enfant à inscrire</div>
+  <table class="parent">
+  	<tr>
+  		<td class="label">Nom de l'école actuelle : </td>
+  		<td class="field">${StringUtils.defaultString(rqt.currentSchoolName?.toString())}</td>
+  		<td class="label">Classe actuelle : </td>
+  		<td class="field">${StringUtils.defaultString(rqt.currentSchoolLevel?.toString())}</td>
+  	</tr>
+  	<tr>
+  		<td colspan="2" class="label">Adresse complete de l'école actuelle : </td>
+  		<td colspan="2" class="field">${StringUtils.defaultString(rqt.currentSchoolAddress?.toString())}</td>
+  	</tr>
+  	<tr>
+  		<td colspan="2" class="label">Inscription en classe : </td>
+  		<td colspan="2" class="field"><% localReferentialWidget(rqt, 'section', lrTypes.section.entries, 0) %></td>
+  	</tr>
+  	<tr>
+  		<td class="label">Nom : </td>
+  		<td class="field">${subject.lastName}</td>
+  		<td class="label">Prénom : </td>
+  		<td class="field">${subject.firstName}</td>
+  	</tr>
+  	<tr>
+  		<td class="label">Date de naissance : </td>
+  		<td class="field">${String.format('%td/%<tm/%<tY',subject.birthDate)}</td>
+  		<td class="label">Sexe</td>
+  		<td class="field">${(subject.sex.toString() != 'Unknown')?(StringUtils.substring(subject.sex.toString(), 0,1)):('non renseigné')}</td>
+  	</tr>
+  </table>
+  
+  <div class="parafTitle">Déclaration sur l'honneur</div>
+  <div class="honnour">
+  Je soussigné(e) ........................................ certifie sur l'honneur l'exactitude des renseignements donnés et m'engage 
+  à en signaler immediatement toute modification.
+  <br/>
+  <br/>
+  A : .......................................   Le : ................................... Signature du demandeur :
+  </div>
+  <br/>
+  <div class="information">
+  	Le dossier de pré-inscription est à retourner, dûment rempli et accompagné de l'ensemble des documents à fournir avant le 2 avril :<br/>
+  	\t - par courrier au : Service des Affaires Scolaires - Hôtel de ville - 1, place Foch - 93220 Gagny<br/>
+  	\t - ou en le déposant dans l'urne prévue à cet effet à l'accueil de la mairie annexe.<br/>
+  	<br/>
+  	Seul les dossiers complets seront étudiés.
+  </div>
+  <!--
+  
+  <div class="localAuthority">
+    <h2>${i18n.translate('pdf.localAutorityReservedSection')}</h2>
+    <ul>
+      <li>${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
+      <li>${i18n.translate('property.requester')} : <strong>${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong></li>
+      <li>${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong></li>
+      <li>${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
+    </ul>
+  </div>
+   
+  <h2>${i18n.translate('srsr.step.registration.label')}</h2>
+  
+    
+      <p class="label">${i18n.translate('request.property.subject.label')}</p>
+           <div class="response">${subject?.fullName}</div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('srsr.property.section.label')}</p>
+          <div class="response choice">
+            <% localReferentialWidget(rqt, 'section', lrTypes.section.entries, 0) %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('srsr.property.existRegistration.label')}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.existRegistration ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('srsr.property.currentSchoolName.label')}</p><div class="response">${StringUtils.defaultString(rqt.currentSchoolName?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('srsr.property.currentSchoolAddress.label')}</p><div class="response">${StringUtils.defaultString(rqt.currentSchoolAddress?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('srsr.property.currentSchoolLevel.label')}</p><div class="response">${StringUtils.defaultString(rqt.currentSchoolLevel?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('srsr.property.emergencyContactName.label')}</p><div class="response">${StringUtils.defaultString(rqt.emergencyContactName?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('srsr.property.emergencyPhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.emergencyPhone?.toString())}</div>
+
+    
+   
+
+  <h2>${i18n.translate('contact.property.meansOfContact')}</h2>
+  <div class="response choice">
+    <% if (rqt.meansOfContact) { %>
+      <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
+        <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
+          ${i18n.translate('request.meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+        </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
+      <% } %>
+    <% } else { %>
+      <span class="checked">${i18n.translate('request.meansOfContact.none')}</span>
+    <% } %>
+  </div>
+  -->
+</body>
+</html>
+

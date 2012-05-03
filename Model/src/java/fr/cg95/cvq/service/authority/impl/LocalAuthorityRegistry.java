@@ -281,15 +281,26 @@ public class LocalAuthorityRegistry
 
     @Override
     public File getReferentialResource(final Type type, final String filename) {
+        // hack inexine to surcharge certificate
+        StringBuffer filePathAsset = new StringBuffer().append(assetsBase)
+        .append(SecurityContext.getCurrentSite().getName().toLowerCase())
+        .append("/").append(type.getFolder()).append('/').append(filename)
+        .append(type.getExtension());
+        logger.debug("getReferentialResource() searching file : " + filePathAsset.toString());
+        
         StringBuffer filePath = new StringBuffer().append(referentialBase)
             .append(type.getFolder()).append('/').append(filename)
             .append(type.getExtension());
+        
         logger.debug("getReferentialResource() searching file : " + filePath.toString());
-        File resourceFile = new File(filePath.toString());
+        File resourceFile = new File(filePathAsset.toString());
         if (!resourceFile.exists()) {
-            logger.warn("getReferentialResource() did not find resource file : " + filename
+            resourceFile = new File(filePath.toString());
+            if (!resourceFile.exists()) {
+                logger.warn("getReferentialResource() did not find resource file : " + filename
                     + " of type " + type);
-            return null;
+                return null;
+            }
         }
         return resourceFile;
     }

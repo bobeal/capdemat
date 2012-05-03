@@ -12,10 +12,10 @@
           <div class="information-box">${displayedMessage}</div>
         </g:if>
         <g:else>
-          <g:if test="${!invoices.isEmpty()}">
+          <g:if test="${!invoicesNotPaid.isEmpty()}">
             <div id="invoices" class="list-box">
               <h2><g:message code="payment.header.invoices"/></h2>
-              <g:render template="invoices"/>
+              <g:render template="invoicesNotPaid"/>
             </div>
           </g:if>
           <g:if test="${!depositAccounts.isEmpty()}">
@@ -30,7 +30,7 @@
               <g:render template="ticketingContracts" />
             </div>
           </g:if>
-          <g:if test="${invoices.isEmpty() && depositAccounts.isEmpty() && ticketingContracts.isEmpty()}">
+          <g:if test="${invoicesNotPaid.isEmpty() && depositAccounts.isEmpty() && ticketingContracts.isEmpty()}">
             <div class="information-box">
               <g:message code="payment.message.noElementsToPay" />
             </div>
@@ -50,6 +50,9 @@
         <div class="body">
           <a class="top-link" href="${createLink(action: 'history')}">
             <g:message code="payment.header.paymentsHistory"/>
+          </a>        
+          <a class="top-link" href="${createLink(action: 'invoicesWasPaid')}">
+            <g:message code="payment.header.invoices.paid"/>
           </a>
         </div>
       </div>

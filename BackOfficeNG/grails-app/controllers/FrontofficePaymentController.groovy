@@ -44,13 +44,13 @@ class FrontofficePaymentController {
         if (params.st != null) state.st = params.st;
         
         if(['addToCart','removeCartItem'].contains(actionName)) {
-            if(!['invoices','depositAccounts','ticketingContracts'].contains(params.type))
+            if(!['invoicesNotPaid','depositAccounts','ticketingContracts'].contains(params.type))
                 throw new Exception("NotAuthorizedPaymentType")
         }
     }
     
     def afterInterceptor = { result ->
-        if(['index','history'].contains(actionName)) {
+        if(['index','history','invoicesPaid'].contains(actionName)) {
             result.state = state
             result.pageState = (new JSON(state)).toString()
         }
@@ -63,17 +63,22 @@ class FrontofficePaymentController {
     
     def index = {
         def result = [:]
-        result.invoices = this.invoices
+        result.invoicesNotPaid = this.invoicesNotPaid        
         result.depositAccounts = this.depositAccounts
         result.ticketingContracts = this.ticketingContracts
-        result.invalid = flash.invalid
-        
+        result.invalid = flash.invalid        
         return result
     }
     
-    def history = {
+    def invoicesWasPaid = {
         def result = [:]
-        
+        result.invoicesPaid = this.invoicesPaid
+        result.invalid = flash.invalid        
+        return result    
+    }
+    
+    def history = {
+        def result = [:]        
         result.paymentStates = PaymentState.allPaymentStates.collect{it.toString().toLowerCase()}
         result.paymentsHistory = this.paymentsHistory
         if (SecurityContext.currentSite.displayInProgressPayments)
@@ -157,7 +162,15 @@ class FrontofficePaymentController {
     
     def details = {
         def result = [items:[],cart:[]]
-        def list = params.type == 'invoice' ? session.invoices : session.depositAccounts
+        def list = []
+        if(params.type == 'invoice'){
+            list = session.invoicesNotPaid
+        } else if(params.type == 'invoicePaid'){
+            list = session.invoicesWasPaid
+        } else {
+            list = session.depositAccounts
+        }
+        //f list = params.type == 'invoice' ? session.invoicesNotPaid : session.depositAccounts
         def item = list.find {it.externalItemId == params.externalItemId}
         if(!item) {
             redirect(controller:'frontofficePayment')
@@ -165,6 +178,16 @@ class FrontofficePaymentController {
         }
         
         if(params.type == "invoice") {
+            for(ExternalInvoiceItemDetail detail : item.invoiceDetails) {
+                def entry = [:]
+                entry.label = detail.label
+                entry.subjectName = detail.subjectName + ' ' + detail.subjectSurname
+                entry.unitPrice = detail.unitPrice
+                entry.quantity = detail.quantity
+                entry.value = detail.value
+                result.items.add(entry)
+            }
+        } else if(params.type == "invoicePaid") {
             for(ExternalInvoiceItemDetail detail : item.invoiceDetails) {
                 def entry = [:]
                 entry.label = detail.label
@@ -264,19 +287,40 @@ class FrontofficePaymentController {
         return result.sort{it.externalItemId}
     }
     
-    protected List getInvoices() {
-        session.invoices = []
+    protected List getInvoicesNotPaid() {
+        session.invoicesNotPaid = []      
         def result = []
+      
         def invoices = externalService.getExternalAccounts(ecitizen.homeFolder.id, IPaymentService.EXTERNAL_INVOICES)
         
         for(ExternalInvoiceItem item : invoices) {
             if(!item.isPaid()) {
+                log.debug("Get the broker for invoice : "+item.getSupportedBroker())
                 externalService.loadInvoiceDetails(item)
-                session.invoices.add(item)
+                session.invoicesNotPaid.add(item)
+                result.add(this.buildInvoiceMap(item))
+            } 
+        }
+        return result.sort{it.externalItemId}
+        
+    }
+    
+    protected List getInvoicesPaid() {
+        session.invoicesWasPaid = []
+        def result = []      
+        def invoices = externalService.getExternalAccounts(ecitizen.homeFolder.id, IPaymentService.EXTERNAL_INVOICES)
+        
+        for(ExternalInvoiceItem item : invoices) {
+            if(item.isPaid()) {
+                log.debug("Get the broker for invoice paid : "+item.getSupportedBroker())
+                externalService.loadInvoiceDetails(item)
+                session.invoicesWasPaid.add(item)
                 result.add(this.buildInvoiceMap(item))
             }
         }
+        
         return result.sort{it.externalItemId}
+        
     }
     
     protected Map buildPurchaseItemMap(PurchaseItem item) {
@@ -351,7 +395,7 @@ class FrontofficePaymentController {
         entry.isInCart = session.payment?.purchaseItems?.find {
             it.externalItemId.equals(entry.externalItemId) && it instanceof ExternalInvoiceItem 
         }
-        entry.type = 'invoices' 
+        entry.type = 'invoicesNotPaid' 
         return entry;
     }
     

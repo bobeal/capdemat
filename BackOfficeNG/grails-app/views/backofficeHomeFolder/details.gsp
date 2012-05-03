@@ -33,7 +33,7 @@
               <div id="page1">
                 <h2><g:message code="property.form" /><span> - <g:message code="homeFolder.property.adults" /></span></h2>
                 <g:each in="${adults}" var="adult">
-                  <g:render template="adult" model="['adult':adult]" />
+                  <g:render template="adult" model="['adult':adult,'responsible':responsibleId]" />
                 </g:each>
               </div>
                <!-- Page 2 -->
@@ -91,6 +91,12 @@
               <g:message code="homeFolder.header.createHomeFolderModificationRequest"/>
             </a>
           </p>
+          <p>
+          	 <a href="#" class="resetPass" id="confirmResetPass_${params.id}" target="_self">
+              <g:message code="homeFolder.header.resetPassword"/>
+            </a>
+          </p>
+           
         </div>
       </div>
       

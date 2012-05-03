@@ -606,7 +606,59 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="subjectPolicy" value="SUBJECT_POLICY_NONE" />
     <property name="defaultDisplayGroup" value="technical" />
   </bean>
+ <!-- school registration simplify request-->
+  
+  <bean id="schoolRegistrationSimplifyRequestService" 
+    class="fr.cg95.cvq.service.request.school.impl.SchoolRegistrationSimplifyRequestService" 
+    parent="requestService">
+    <property name="label" value="School Registration Simplify"/>
+    <property name="localReferentialFilename" value="local_referential_srsr"/>
+    <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
+    <property name="isOfRegistrationKind" value="true"/>
+    <property name="defaultDisplayGroup" value="school" />
+    <property name="filingDelay" value="12"/>
+  </bean>
+  
+  	<!-- Multi Cerfa Electoral Roll Registration Request -->
 
+	<bean id="multiCerfaElectoralRollRegistrationRequestService" 
+    class="fr.cg95.cvq.service.request.election.impl.MultiCerfaElectoralRollRegistrationRequestService" 
+    parent="requestService">
+    <property name="label" value="Multi Cerfa Electoral Roll Registration"/>
+    <property name="subjectPolicy" value="SUBJECT_POLICY_INDIVIDUAL" />
+    <property name="isOfRegistrationKind" value="true"/>
+    <property name="defaultDisplayGroup" value="election" />
+    <property name="filingDelay" value="12"/>
+  </bean> 
+
+	<!-- Recreation Center Poly Registration Request -->
+
+	<bean id="recreationActivityPolyRegistrationRequestService" 
+    class="fr.cg95.cvq.service.request.school.impl.RecreationActivityPolyRegistrationRequestService" 
+    parent="requestService">
+    <property name="localReferentialFilename" value="local_referential_raprr"/>
+    <property name="label" value="Recreation Activity Poly Registration"/>
+    <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
+    <property name="defaultDisplayGroup" value="school" />
+    <property name="isOfRegistrationKind" value="true"/>
+    <property name="filingDelay" value="12"/>
+  </bean>
+  
+
+	<!-- Child Care Center Registration Request -->
+	<bean id="childCareCenterRegistrationRequestService"
+	  class="fr.cg95.cvq.service.request.school.impl.ChildCareCenterRegistrationRequestService" 
+	  parent="requestService">
+	<property name="homeFolderService" ref="homeFolderService" />
+    <property name="individualService" ref="individualService" />
+	  <property name="localReferentialFilename" value="local_referential_cccrr"/>
+    	<property name="label" value="Child Care Center Registration"/>
+    	<property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
+  	  <property name="defaultDisplayGroup" value="childCare" />
+    	<property name="filingDelay" value="12"/>
+	</bean>
+  
+  
   <bean id="paymentFilterAspect"
     class="fr.cg95.cvq.service.payment.aspect.PaymentFilterAspect" />
 

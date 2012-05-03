@@ -1,0 +1,148 @@
+cccrr.duration.value =
+
+cccrr.step.registrationSubject.label =
+cccrr.step.registrationSubject.desc =
+
+cccrr.step.registrationParams.label =
+cccrr.step.registrationParams.desc =
+
+cccrr.step.welcoming.label =
+cccrr.step.welcoming.desc =
+
+
+cccrr.property.subjectChoiceBirthDate.help =
+cccrr.property.subjectChoiceBirthDate.validationError =
+
+
+cccrr.property.subjectChoiceGender.help =
+cccrr.property.subjectChoiceGender.validationError =
+
+
+cccrr.property.registrationDate.help =
+cccrr.property.registrationDate.validationError =
+
+
+cccrr.property.mondayRegistrationParam.help =
+cccrr.property.mondayRegistrationParam.validationError =
+
+
+cccrr.property.mondayPeriod.help =
+cccrr.property.mondayPeriod.validationError =
+
+
+cccrr.property.mondayFirstPeriodBegining.help =
+cccrr.property.mondayFirstPeriodBegining.validationError =
+
+
+cccrr.property.mondayFirstPeriodEnding.help =
+cccrr.property.mondayFirstPeriodEnding.validationError =
+
+
+cccrr.property.mondaySecondPeriodBegining.help =
+cccrr.property.mondaySecondPeriodBegining.validationError =
+
+
+cccrr.property.mondaySecondPeriodEnding.help =
+cccrr.property.mondaySecondPeriodEnding.validationError =
+
+
+cccrr.property.tuesdayRegistrationParam.help =
+cccrr.property.tuesdayRegistrationParam.validationError =
+
+
+cccrr.property.tuesdayPeriod.help =
+cccrr.property.tuesdayPeriod.validationError =
+
+
+cccrr.property.tuesdayFirstPeriodBegining.help =
+cccrr.property.tuesdayFirstPeriodBegining.validationError =
+
+
+cccrr.property.tuesdayFirstPeriodEnding.help =
+cccrr.property.tuesdayFirstPeriodEnding.validationError =
+
+
+cccrr.property.tuesdaySecondPeriodBegining.help =
+cccrr.property.tuesdaySecondPeriodBegining.validationError =
+
+
+cccrr.property.tuesdaySecondPeriodEnding.help =
+cccrr.property.tuesdaySecondPeriodEnding.validationError =
+
+
+cccrr.property.wednesdayRegistrationParam.help =
+cccrr.property.wednesdayRegistrationParam.validationError =
+
+
+cccrr.property.wednesdayPeriod.help =
+cccrr.property.wednesdayPeriod.validationError =
+
+
+cccrr.property.wednesdayFirstPeriodBegining.help =
+cccrr.property.wednesdayFirstPeriodBegining.validationError =
+
+
+cccrr.property.wednesdayFirstPeriodEnding.help =
+cccrr.property.wednesdayFirstPeriodEnding.validationError =
+
+
+cccrr.property.wednesdaySecondPeriodBegining.help =
+cccrr.property.wednesdaySecondPeriodBegining.validationError =
+
+
+cccrr.property.wednesdaySecondPeriodEnding.help =
+cccrr.property.wednesdaySecondPeriodEnding.validationError =
+
+
+cccrr.property.thursdayRegistrationParam.help =
+cccrr.property.thursdayRegistrationParam.validationError =
+
+
+cccrr.property.thursdayPeriod.help =
+cccrr.property.thursdayPeriod.validationError =
+
+
+cccrr.property.thursdayFirstPeriodBegining.help =
+cccrr.property.thursdayFirstPeriodBegining.validationError =
+
+
+cccrr.property.thursdayFirstPeriodEnding.help =
+cccrr.property.thursdayFirstPeriodEnding.validationError =
+
+
+cccrr.property.thursdaySecondPeriodBegining.help =
+cccrr.property.thursdaySecondPeriodBegining.validationError =
+
+
+cccrr.property.thursdaySecondPeriodEnding.help =
+cccrr.property.thursdaySecondPeriodEnding.validationError =
+
+
+cccrr.property.fridayRegistrationParam.help =
+cccrr.property.fridayRegistrationParam.validationError =
+
+
+cccrr.property.fridayPeriod.help =
+cccrr.property.fridayPeriod.validationError =
+
+
+cccrr.property.fridayFirstPeriodBegining.help =
+cccrr.property.fridayFirstPeriodBegining.validationError =
+
+
+cccrr.property.fridayFirstPeriodEnding.help =
+cccrr.property.fridayFirstPeriodEnding.validationError =
+
+
+cccrr.property.fridaySecondPeriodBegining.help =
+cccrr.property.fridaySecondPeriodBegining.validationError =
+
+
+cccrr.property.fridaySecondPeriodEnding.help =
+cccrr.property.fridaySecondPeriodEnding.validationError =
+
+
+cccrr.property.welcomingChoice.help =
+cccrr.property.welcomingChoice.validationError =
+
+

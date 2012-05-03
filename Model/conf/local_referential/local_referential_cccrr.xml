@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <request>ChildCareCenterRegistrationRequest</request>
+    <data name="WelcomingChoice">
+        <label lang="fr">Structure ou type d'acceuil</label>
+        <label lang="en">Structure or mode of guard</label>
+    </data>
+</LocalReferential>

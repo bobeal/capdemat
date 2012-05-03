@@ -17,6 +17,25 @@
      </g:each>
    </ul>
 </g:if>
+<g:elseif test="${params.type == 'invoicePaid'}">
+   <h2><g:message code="payment.header.invoiceDetails" /></h2>
+   <ul>
+     <g:each var="record" in="${items}">
+       <li>
+         <h3>${record.label} <g:message code="message.for" /> ${record.subjectName}</h3>
+         <p>
+           <g:message code="payment.property.quantity" /> : ${record.quantity}
+           <g:if test="${record.unitPrice}">
+             (<g:message code="payment.header.unitPrice" /> : ${(record.unitPrice / 100).floatValue()} €)
+           </g:if>
+           <g:if test="${record.value}">
+             - <g:message code="payment.header.value" /> : ${(record.value / 100).floatValue()} €
+           </g:if>
+         </p>
+       </li>
+     </g:each>
+   </ul>
+</g:elseif>
 <g:elseif test="${params.type == 'deposit'}">
    <h2><g:message code="payment.header.depositAccountDetails" /></h2>
    <ul>

@@ -4,6 +4,7 @@
     
 ---------------------------------------------------------------*/
 
+
 body {
   margin: 0; padding: 0;
   font-family: arial,helvetica,clean,sans-serif;
@@ -44,3 +45,41 @@ div.response p  { margin: 0; }
 div.response ul { margin: 0; padding: 0; list-style-type: none; }
 div.response li { padding-right: .5em; display: inline; }
 
+.caseok{
+  		padding-left: 17px;
+  		padding-right:20px;
+  		/*display:block;*/
+  		background-image: url("caseok.png");
+  		background-repeat: no-repeat;
+  		background-position: left;
+  	}
+.casenok{
+  		padding-left: 17px;
+  		padding-right:20px;
+  		/*display:block;*/
+  		background-image: url("casenok.png");
+  		background-repeat: no-repeat;
+  		background-position: left;
+}
+
+	.national{
+		height:29.55cm;
+		background-image: url("national.png");
+		background-size : 29.55;
+		background-repeat: no-repeat;
+		background-position: top left;
+	}
+	
+	.european{
+		height:29.55cm;
+		background-image: url("european.png");
+		background-repeat: no-repeat;
+		background-position: top left;
+	}
+	
+	.municipal{
+		height:29.55cm;
+		background-image: url("municipal.png");
+		background-repeat: no-repeat;
+			background-position: top left;
+	}

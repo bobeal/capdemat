@@ -11,7 +11,12 @@
         <li>
             <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="payment.state" />
             <h3>
-              <g:message code="payment.property.payment" /> 
+              <g:if test="${record.amount < 0}">
+              	Report
+              </g:if>
+              <g:else>
+              	<g:message code="payment.property.payment" />
+               </g:else>
               <g:if test="${record.bankReference}">
                 ${record.bankReference}
               </g:if>

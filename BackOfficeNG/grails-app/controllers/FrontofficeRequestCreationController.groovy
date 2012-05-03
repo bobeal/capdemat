@@ -1,11 +1,20 @@
+
+
+import java.util.Map;
+
+import fr.cg95.cvq.business.users.Individual;
+
 import fr.cg95.cvq.business.document.Document
 import fr.cg95.cvq.business.document.DocumentBinary
 import fr.cg95.cvq.business.request.MeansOfContactEnum
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestNoteType
 import fr.cg95.cvq.business.request.RequestState
+import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.business.users.Adult
+import fr.cg95.cvq.business.users.Child
 import fr.cg95.cvq.business.users.RoleType
+import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.payment.Payment
 import fr.cg95.cvq.business.payment.InternalInvoiceItem
 import fr.cg95.cvq.business.payment.PaymentMode
@@ -35,6 +44,8 @@ import fr.cg95.cvq.util.translation.ITranslationService
 import fr.cg95.cvq.service.payment.IPaymentService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.util.DateUtils
+import fr.cg95.cvq.xml.request.school.RecreationActivityPolyRegistrationRequestDocument
+import fr.cg95.cvq.business.request.school.RecreationActivityPolyRegistrationRequest
 
 import grails.converters.JSON
 import net.sf.oval.Validator
@@ -93,6 +104,7 @@ class FrontofficeRequestCreationController {
         } else {
             cRequest = requestWorkflowService.getSkeletonRequest(params.label)
         }
+        
         if (cRequest == null) {
             redirect(uri: '/frontoffice/requestType')
             return false
@@ -146,6 +158,7 @@ class FrontofficeRequestCreationController {
         session[uuidString].individuals = individuals
         session[uuidString].draftVisible = false
         fillTicketBookingSession(uuidString, params.label)
+       
 
         def viewPath = "/frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestType.label)}/edit"
         render(view: viewPath, model: [
@@ -176,6 +189,7 @@ class FrontofficeRequestCreationController {
         }
 
         def uuidString = params.uuidString
+        println(uuidString)
         def requestTypeInfo = JSON.parse(params.requestTypeInfo)
 
         def submitAction = (params.keySet().find { it.startsWith('submit-') }).tokenize('-')
@@ -213,6 +227,22 @@ class FrontofficeRequestCreationController {
                 askConfirmCancel = true
             }
             else if (submitAction[1] == 'confirmCancelRequest') {
+                
+                // hack inexine about Child Care center registration
+                // remove abstract individual needed in this request if this is canceled
+                if(cRequest.requestType.label.equals("Child Care Center Registration")) {
+                    def isToBornExist = 0
+                    def childId
+                    for(Individual child: homeFolderService.getChildren(cRequest.homeFolderId)){
+                      if(child.lastName.equals("NOUVEL ENFANT") && child.firstName.equals("A NAITRE")){
+                        child.setHomeFolder(null)
+                        individualService.modify(child)
+                        childId = child.getId()
+                        isToBornExist = 1
+                        break
+                      }
+                    }
+                }
                 if (cRequest.id) requestLockService.release(cRequest.id)
                 session.removeAttribute(uuidString)
                 if (params.returnUrl != '')
@@ -573,6 +603,7 @@ class FrontofficeRequestCreationController {
                     } else if (requestTypeInfo.label == 'Home Folder Modification') {
                         // Hack to reset SecrityContext.currentEcitizen set by login
                         SecurityContext.setCurrentEcitizen((Adult)objectToBind.homeFolderResponsible)
+                        
                         requestWorkflowService.createAccountModificationRequest(cRequest, 
                                 objectToBind.individuals.adults, 
                                 objectToBind.individuals.children, 
@@ -589,6 +620,7 @@ class FrontofficeRequestCreationController {
                     } else {
                         cRequest.state = RequestState.PENDING
                         if (SecurityContext.currentEcitizen == null)
+                            
                             requestWorkflowService.create(cRequest, objectToBind.requester, docs)
                         else
                             requestWorkflowService.create(cRequest, docs)
@@ -757,6 +789,26 @@ class FrontofficeRequestCreationController {
         def result = [:]
         if (SecurityContext.currentEcitizen != null) {
             def authorizedSubjects = requestWorkflowService.getAuthorizedSubjects(cRequest)
+
+            // Child Care Center Hack on creation
+    	    if(cRequest.requestType.label.equals("Child Care Center Registration")) {
+        		def isToBornExist = 0
+        		for(Individual child: homeFolderService.getChildren(cRequest.homeFolderId)){
+        		  if(child.lastName.equals("NOUVEL ENFANT") && child.firstName.equals("A NAITRE")){
+        		    isToBornExist = 1
+        		    break
+        		  } 
+        		}
+        		if(isToBornExist != 1){
+        	          Child childToBorn = new Child()
+                      childToBorn.setLastName("NOUVEL ENFANT")
+                      childToBorn.setFirstName("A NAITRE")
+                      childToBorn.setBirthDate(new Date())                      
+                      individualService.create(childToBorn, homeFolderService.getById(cRequest.homeFolderId), homeFolderService.getById(cRequest.homeFolderId).getAdress(),false )
+                      authorizedSubjects << childToBorn.id
+                } 
+    	    }
+            
             authorizedSubjects.each {
                 def subject = individualService.getById(it)
                 result[it] = subject.lastName + ' ' + subject.firstName
@@ -851,7 +903,9 @@ class FrontofficeRequestCreationController {
                 invalidFields["validation"] = []
             invalidFields["validation"].add("useAcceptance")
         }
+            
         if (!invalidFields.isEmpty()) throw new CvqValidationException(invalidFields)
+        
     }
 
     private collectInvalidFields(violation, fields, prefix, stepName) {
@@ -1010,5 +1064,40 @@ class FrontofficeRequestCreationController {
         }
         return result
     }
-
+    
+    /**
+    * search about activity registered
+    */
+   
+   def getActivyRegistered = {
+       def numChild
+       (!params.par)?(numChild = 'no'):(numChild=params.par)
+       
+       Individual child = individualService.getById(numChild.toLong())
+       
+       def nomActivityDansLocalRef = []
+       List<RecreationActivityPolyRegistrationRequest> listRequestBySubject = requestSearchService.getByHomeFolderIdAndRequestLabel(child.getHomeFolder().getId(), "Recreation Activity Poly Registration", true)
+ 
+     
+       listRequestBySubject.each{ taz->
+           Request req = (Request) taz
+           if(taz.getSubjectId().equals(child.getId())){
+               req.getRecreationPolyActivity().name.each{
+                   if(it != null)
+                       nomActivityDansLocalRef<< it
+               }
+                
+           }
+       }
+       render(contentType:'text/xml') {
+          activities(){
+              nomActivityDansLocalRef.each{nom->
+                  if(nom != null)
+                      label(nom)
+              }
+          }
+       }
+      
+    }
+    
 }

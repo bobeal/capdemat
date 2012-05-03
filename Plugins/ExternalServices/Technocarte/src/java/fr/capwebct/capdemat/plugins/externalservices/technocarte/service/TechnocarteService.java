@@ -131,10 +131,9 @@ public class TechnocarteService extends ExternalProviderServiceAdapter implement
             } else {
                 Parameter soap_result = soap_response.getReturnValue();
                 Object value = soap_result.getValue();
-                String s = getValue(value);
-                if (!s.equals("")) {
+                if (value != null && !getValue(value).equals("")) {
                     rea.setStatus(RequestExternalAction.Status.ERROR);
-                    rea.setMessage(s);
+                    rea.setMessage(getValue(value));
                 }
             }
         } catch (MalformedURLException e) {
@@ -188,10 +187,9 @@ public class TechnocarteService extends ExternalProviderServiceAdapter implement
             } else {
                 Parameter soap_result = soap_response.getReturnValue();
                 Object value = soap_result.getValue();
-                String s = getValue(value);
-                if (!s.equals("")) {
+                if (value != null && !getValue(value).equals("")) {
                     uea.setStatus("Error");
-                    uea.setMessage(s);
+                    uea.setMessage(getValue(value));
                 }
             }
         } catch (MalformedURLException e) {

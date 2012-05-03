@@ -107,9 +107,9 @@
         zct.each(yus.query("#requestTabView div.date"), function() {
           adaptDateDays(this);
           zcv.complexRules["dateWidget"].pushFields(
-            yus.query(".year", this, true).name,
+            yus.query(".day", this, true).name,
             yus.query(".month", this, true).name,
-            yus.query(".day", this, true).name
+            yus.query(".year", this, true).name
           );
         });
         

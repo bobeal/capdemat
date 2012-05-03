@@ -29,7 +29,7 @@
                 <dt class="required condition-otherIntervention-trigger"><g:message code="tir.property.interventionType.label" /> * : </dt><dd id="interventionType" class="action-editField validate-localReferentialData required-true i18n-tir.property.interventionType data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'interventionType', 'lrEntries': lrTypes.interventionType?.entries, 
-                             'rqt':rqt, 'isMultiple':lrTypes.interventionType?.entriesSupportMultiple, 'depth':0]" />
+                             'rqt':rqt, 'isMultiple':lrTypes.interventionType?.isMultiple(), 'depth':0]" />
  
           </dd>
               </dl>

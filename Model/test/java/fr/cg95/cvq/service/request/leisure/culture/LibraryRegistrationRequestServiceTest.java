@@ -43,9 +43,7 @@ public class LibraryRegistrationRequestServiceTest extends RequestTestCase {
         
           
           
-            
-               request.setRegistrationNumber("RegistrationNumber");
-            
+               request.setAdultContentAuthorization(Boolean.valueOf(true));
           
         
           
@@ -55,16 +53,23 @@ public class LibraryRegistrationRequestServiceTest extends RequestTestCase {
         
           
           
-        
-          
-          
             
+               request.setRegistrationNumber("RegistrationNumber");
             
           
         
           
           
                request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+            
+          
+        
+          
           
         
         // Means Of Contact

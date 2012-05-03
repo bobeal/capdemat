@@ -30,7 +30,7 @@
       <label for="dhrSpouseFamilyStatus" class="required condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseFamilyStatus.label" /> *  <span><g:message code="dhr.property.dhrSpouseFamilyStatus.help" /></span></label>
             <select id="dhrSpouseFamilyStatus" name="dhrSpouseFamilyStatus" class="required condition-isCoupleRequest-filled  validate-not-first ${stepStates != null && stepStates['spouse']?.invalidFields?.contains('dhrSpouseFamilyStatus') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrSpouseFamilyStatus.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','PACS','Other']}">
+              <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','Separated','PACS','Other']}">
                 <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == rqt.dhrSpouseFamilyStatus?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrSpouseFamilyStatus" /></option>
               </g:each>
             </select>

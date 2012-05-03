@@ -80,9 +80,6 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         super.fillCommonXmlInfo(recreationActivityRegistrationRequest);
         int i = 0;
         
-        if (getRecreationCenter() != null)
-            recreationActivityRegistrationRequest.setRecreationCenter(RecreationCenter.modelToXml(getRecreationCenter()));
-      
         i = 0;
         if (getAuthorizedIndividuals() != null) {
             fr.cg95.cvq.xml.request.school.RecreationAuthorizedIndividualType[] authorizedIndividualsTypeTab = new fr.cg95.cvq.xml.request.school.RecreationAuthorizedIndividualType[getAuthorizedIndividuals().size()];
@@ -91,6 +88,12 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
             }
             recreationActivityRegistrationRequest.setAuthorizedIndividualsArray(authorizedIndividualsTypeTab);
         }
+      
+        if (getChildPhotoExploitationPermission() != null)
+            recreationActivityRegistrationRequest.setChildPhotoExploitationPermission(getChildPhotoExploitationPermission().booleanValue());
+      
+        if (getClassTripPermission() != null)
+            recreationActivityRegistrationRequest.setClassTripPermission(getClassTripPermission().booleanValue());
       
         i = 0;
         if (getContactIndividuals() != null) {
@@ -101,8 +104,8 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
             recreationActivityRegistrationRequest.setContactIndividualsArray(contactIndividualsTypeTab);
         }
       
-        if (getClassTripPermission() != null)
-            recreationActivityRegistrationRequest.setClassTripPermission(getClassTripPermission().booleanValue());
+        if (getHospitalizationPermission() != null)
+            recreationActivityRegistrationRequest.setHospitalizationPermission(getHospitalizationPermission().booleanValue());
       
         i = 0;
         if (getRecreationActivity() != null) {
@@ -113,11 +116,8 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
             recreationActivityRegistrationRequest.setRecreationActivityArray(recreationActivityTypeTab);
         }
       
-        if (getChildPhotoExploitationPermission() != null)
-            recreationActivityRegistrationRequest.setChildPhotoExploitationPermission(getChildPhotoExploitationPermission().booleanValue());
-      
-        if (getHospitalizationPermission() != null)
-            recreationActivityRegistrationRequest.setHospitalizationPermission(getHospitalizationPermission().booleanValue());
+        if (getRecreationCenter() != null)
+            recreationActivityRegistrationRequest.setRecreationCenter(RecreationCenter.modelToXml(getRecreationCenter()));
       
         if (getRulesAndRegulationsAcceptance() != null)
             recreationActivityRegistrationRequest.setRulesAndRegulationsAcceptance(getRulesAndRegulationsAcceptance().booleanValue());
@@ -140,14 +140,15 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         RecreationActivityRegistrationRequest recreationActivityRegistrationRequest = new RecreationActivityRegistrationRequest();
         recreationActivityRegistrationRequest.fillCommonModelInfo(recreationActivityRegistrationRequest, recreationActivityRegistrationRequestXml);
         
-        if (recreationActivityRegistrationRequestXml.getRecreationCenter() != null)
-            recreationActivityRegistrationRequest.setRecreationCenter(RecreationCenter.xmlToModel(recreationActivityRegistrationRequestXml.getRecreationCenter()));
-      
         List<fr.cg95.cvq.business.request.school.RecreationAuthorizedIndividual> authorizedIndividualsList = new ArrayList<fr.cg95.cvq.business.request.school.RecreationAuthorizedIndividual>(recreationActivityRegistrationRequestXml.sizeOfAuthorizedIndividualsArray());
         for (RecreationAuthorizedIndividualType object : recreationActivityRegistrationRequestXml.getAuthorizedIndividualsArray()) {
             authorizedIndividualsList.add(fr.cg95.cvq.business.request.school.RecreationAuthorizedIndividual.xmlToModel(object));
         }
         recreationActivityRegistrationRequest.setAuthorizedIndividuals(authorizedIndividualsList);
+      
+        recreationActivityRegistrationRequest.setChildPhotoExploitationPermission(Boolean.valueOf(recreationActivityRegistrationRequestXml.getChildPhotoExploitationPermission()));
+      
+        recreationActivityRegistrationRequest.setClassTripPermission(Boolean.valueOf(recreationActivityRegistrationRequestXml.getClassTripPermission()));
       
         List<fr.cg95.cvq.business.request.school.RecreationContactIndividual> contactIndividualsList = new ArrayList<fr.cg95.cvq.business.request.school.RecreationContactIndividual>(recreationActivityRegistrationRequestXml.sizeOfContactIndividualsArray());
         for (RecreationContactIndividualType object : recreationActivityRegistrationRequestXml.getContactIndividualsArray()) {
@@ -155,7 +156,7 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         }
         recreationActivityRegistrationRequest.setContactIndividuals(contactIndividualsList);
       
-        recreationActivityRegistrationRequest.setClassTripPermission(Boolean.valueOf(recreationActivityRegistrationRequestXml.getClassTripPermission()));
+        recreationActivityRegistrationRequest.setHospitalizationPermission(Boolean.valueOf(recreationActivityRegistrationRequestXml.getHospitalizationPermission()));
       
         List<fr.cg95.cvq.business.request.LocalReferentialData> recreationActivityList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(recreationActivityRegistrationRequestXml.sizeOfRecreationActivityArray());
         for (LocalReferentialDataType object : recreationActivityRegistrationRequestXml.getRecreationActivityArray()) {
@@ -163,9 +164,8 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         }
         recreationActivityRegistrationRequest.setRecreationActivity(recreationActivityList);
       
-        recreationActivityRegistrationRequest.setChildPhotoExploitationPermission(Boolean.valueOf(recreationActivityRegistrationRequestXml.getChildPhotoExploitationPermission()));
-      
-        recreationActivityRegistrationRequest.setHospitalizationPermission(Boolean.valueOf(recreationActivityRegistrationRequestXml.getHospitalizationPermission()));
+        if (recreationActivityRegistrationRequestXml.getRecreationCenter() != null)
+            recreationActivityRegistrationRequest.setRecreationCenter(RecreationCenter.xmlToModel(recreationActivityRegistrationRequestXml.getRecreationCenter()));
       
         recreationActivityRegistrationRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(recreationActivityRegistrationRequestXml.getRulesAndRegulationsAcceptance()));
       
@@ -175,15 +175,6 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
     }
 
   
-    public final void setRecreationCenter(final fr.cg95.cvq.business.authority.RecreationCenter recreationCenter) {
-        recreationActivityRegistrationRequestData.setRecreationCenter(recreationCenter);
-    }
-
-    
-    public final fr.cg95.cvq.business.authority.RecreationCenter getRecreationCenter() {
-        return recreationActivityRegistrationRequestData.getRecreationCenter();
-    }
-  
     public final void setAuthorizedIndividuals(final List<fr.cg95.cvq.business.request.school.RecreationAuthorizedIndividual> authorizedIndividuals) {
         recreationActivityRegistrationRequestData.setAuthorizedIndividuals(authorizedIndividuals);
     }
@@ -191,33 +182,6 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
     
     public final List<fr.cg95.cvq.business.request.school.RecreationAuthorizedIndividual> getAuthorizedIndividuals() {
         return recreationActivityRegistrationRequestData.getAuthorizedIndividuals();
-    }
-  
-    public final void setContactIndividuals(final List<fr.cg95.cvq.business.request.school.RecreationContactIndividual> contactIndividuals) {
-        recreationActivityRegistrationRequestData.setContactIndividuals(contactIndividuals);
-    }
-
-    
-    public final List<fr.cg95.cvq.business.request.school.RecreationContactIndividual> getContactIndividuals() {
-        return recreationActivityRegistrationRequestData.getContactIndividuals();
-    }
-  
-    public final void setClassTripPermission(final Boolean classTripPermission) {
-        recreationActivityRegistrationRequestData.setClassTripPermission(classTripPermission);
-    }
-
-    @IsRulesAcceptance
-    public final Boolean getClassTripPermission() {
-        return recreationActivityRegistrationRequestData.getClassTripPermission();
-    }
-  
-    public final void setRecreationActivity(final List<fr.cg95.cvq.business.request.LocalReferentialData> recreationActivity) {
-        recreationActivityRegistrationRequestData.setRecreationActivity(recreationActivity);
-    }
-
-    
-    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getRecreationActivity() {
-        return recreationActivityRegistrationRequestData.getRecreationActivity();
     }
   
     public final void setChildPhotoExploitationPermission(final Boolean childPhotoExploitationPermission) {
@@ -229,6 +193,24 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         return recreationActivityRegistrationRequestData.getChildPhotoExploitationPermission();
     }
   
+    public final void setClassTripPermission(final Boolean classTripPermission) {
+        recreationActivityRegistrationRequestData.setClassTripPermission(classTripPermission);
+    }
+
+    @IsRulesAcceptance
+    public final Boolean getClassTripPermission() {
+        return recreationActivityRegistrationRequestData.getClassTripPermission();
+    }
+  
+    public final void setContactIndividuals(final List<fr.cg95.cvq.business.request.school.RecreationContactIndividual> contactIndividuals) {
+        recreationActivityRegistrationRequestData.setContactIndividuals(contactIndividuals);
+    }
+
+    
+    public final List<fr.cg95.cvq.business.request.school.RecreationContactIndividual> getContactIndividuals() {
+        return recreationActivityRegistrationRequestData.getContactIndividuals();
+    }
+  
     public final void setHospitalizationPermission(final Boolean hospitalizationPermission) {
         recreationActivityRegistrationRequestData.setHospitalizationPermission(hospitalizationPermission);
     }
@@ -236,6 +218,24 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
     @IsRulesAcceptance
     public final Boolean getHospitalizationPermission() {
         return recreationActivityRegistrationRequestData.getHospitalizationPermission();
+    }
+  
+    public final void setRecreationActivity(final List<fr.cg95.cvq.business.request.LocalReferentialData> recreationActivity) {
+        recreationActivityRegistrationRequestData.setRecreationActivity(recreationActivity);
+    }
+
+    
+    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getRecreationActivity() {
+        return recreationActivityRegistrationRequestData.getRecreationActivity();
+    }
+  
+    public final void setRecreationCenter(final fr.cg95.cvq.business.authority.RecreationCenter recreationCenter) {
+        recreationActivityRegistrationRequestData.setRecreationCenter(recreationCenter);
+    }
+
+    
+    public final fr.cg95.cvq.business.authority.RecreationCenter getRecreationCenter() {
+        return recreationActivityRegistrationRequestData.getRecreationCenter();
     }
   
     public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {

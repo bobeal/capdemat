@@ -45,15 +45,15 @@ public class BulkyWasteCollectionRequestServiceTest extends RequestTestCase {
           
             
             
-              
-                request.setCollectionAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
-              
-            
           
         
           
           
             
+            
+              
+                request.setCollectionAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+              
             
           
         

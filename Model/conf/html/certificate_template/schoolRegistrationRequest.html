@@ -5,27 +5,27 @@
   import org.apache.commons.lang.StringUtils
   
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
-    def lrHtml = ''
     def currentLrDatas = rqt[javaName].collect{it.name}
-    if (lrTypes[javaName].entriesSupportMultiple) { 
-      lrHtml += "<ul ${depth==0 ? 'class="dataTree"' : ''}>"
-      lrEntries.eachWithIndex { entry, i -> 
-      if (entry.entries) { 
-        lrHtml += "<li>"
-        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
-        lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
-        lrHtml += "</li>"
-      } else {
-         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
-      } 
-    } 
-    lrHtml += "</ul>"
-    } else { 
-      lrEntries.each { entry -> 
-        lrHtml += "${currentLrDatas?.contains(entry.key) ? entry.labelsMap.fr: ''}"
-      } 
+    if (lrEntries.any{it.entries}) {
+      println "<ul ${depth==0 ? 'class="dataTree"' : ''}>"
+      
+      lrEntries.each { entry ->
+        println "<li>"
+        if (entry.entries) {
+          println "<em ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.label} :</em>"
+          localReferentialWidget(rqt, javaName, entry.entries, depth + 1)
+        } else {
+          println "<span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.label}</span>"
+        }
+        println "</li>"
+      }
+
+      println "</ul>"
+    } else {
+      lrEntries.eachWithIndex { entry, i ->
+        println "<span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.label}</span>${i + 1 < lrEntries.size() ? ', ' : ''}"
+      }
     }
-    println lrHtml
   }
 
 %>

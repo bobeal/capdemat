@@ -55,54 +55,169 @@ public class BirthDetailsRequestData implements Serializable {
 
   
     
+      @MaxLength(
+        
+          value = 32,
+        
+        
+        profiles = {"nature"},
+        message = "birthCity"
+      )
+    
       @NotNull(
         
         
-        profiles = {"type"},
-        message = "format"
+        profiles = {"nature"},
+        message = "birthCity"
       )
     
-    private fr.cg95.cvq.business.request.civil.BirthCertificateFormatType format;
+      @NotBlank(
+        
+        
+        profiles = {"nature"},
+        message = "birthCity"
+      )
+    
+    private String birthCity;
 
-    public final void setFormat(final fr.cg95.cvq.business.request.civil.BirthCertificateFormatType format) {
-        this.format = format;
+    public final void setBirthCity(final String birthCity) {
+        this.birthCity = birthCity;
     }
 
     /**
  
         * @hibernate.property
-        *  column="format"
-        
+        *  column="birth_city"
+        *  length="32"
       
     */
-    public final fr.cg95.cvq.business.request.civil.BirthCertificateFormatType getFormat() {
-        return this.format;
+    public final String getBirthCity() {
+        return this.birthCity;
     }
   
     
       @NotNull(
         
         
-        profiles = {"type"},
-        message = "copies"
+        profiles = {"nature"},
+        message = "birthDate"
       )
     
-    private java.math.BigInteger copies;
+    private java.util.Date birthDate;
 
-    public final void setCopies(final java.math.BigInteger copies) {
-        this.copies = copies;
+    public final void setBirthDate(final java.util.Date birthDate) {
+        this.birthDate = birthDate;
     }
 
     /**
  
         * @hibernate.property
-        *  column="copies"
-        *  type="serializable"
+        *  column="birth_date"
         
       
     */
-    public final java.math.BigInteger getCopies() {
-        return this.copies;
+    public final java.util.Date getBirthDate() {
+        return this.birthDate;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "birthFirstNames"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"nature"},
+        message = "birthFirstNames"
+      )
+    
+    private String birthFirstNames;
+
+    public final void setBirthFirstNames(final String birthFirstNames) {
+        this.birthFirstNames = birthFirstNames;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="birth_first_names"
+        
+      
+    */
+    public final String getBirthFirstNames() {
+        return this.birthFirstNames;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"nature"},
+        message = "birthLastName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "birthLastName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"nature"},
+        message = "birthLastName"
+      )
+    
+    private String birthLastName;
+
+    public final void setBirthLastName(final String birthLastName) {
+        this.birthLastName = birthLastName;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="birth_last_name"
+        *  length="38"
+      
+    */
+    public final String getBirthLastName() {
+        return this.birthLastName;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"nature"},
+        message = "birthMarriageName"
+      )
+    
+    private String birthMarriageName;
+
+    public final void setBirthMarriageName(final String birthMarriageName) {
+        this.birthMarriageName = birthMarriageName;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="birth_marriage_name"
+        *  length="38"
+      
+    */
+    public final String getBirthMarriageName() {
+        return this.birthMarriageName;
     }
   
     
@@ -186,166 +301,76 @@ public class BirthDetailsRequestData implements Serializable {
       @NotNull(
         
         
-        profiles = {"nature"},
-        message = "birthFirstNames"
+        profiles = {"type"},
+        message = "copies"
       )
     
-      @NotBlank(
-        
-        
-        profiles = {"nature"},
-        message = "birthFirstNames"
-      )
-    
-    private String birthFirstNames;
+    private java.math.BigInteger copies;
 
-    public final void setBirthFirstNames(final String birthFirstNames) {
-        this.birthFirstNames = birthFirstNames;
+    public final void setCopies(final java.math.BigInteger copies) {
+        this.copies = copies;
     }
 
     /**
  
         * @hibernate.property
-        *  column="birth_first_names"
+        *  column="copies"
+        *  type="serializable"
         
       
     */
-    public final String getBirthFirstNames() {
-        return this.birthFirstNames;
+    public final java.math.BigInteger getCopies() {
+        return this.copies;
     }
   
     
       @NotNull(
         
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['format'].test(_this.format.toString());" +
+                
+              
+            
+            "return active",
         
         profiles = {"type"},
-        message = "motive"
-      )
-    
-    private fr.cg95.cvq.business.request.civil.BirthCertificateMotiveType motive;
-
-    public final void setMotive(final fr.cg95.cvq.business.request.civil.BirthCertificateMotiveType motive) {
-        this.motive = motive;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="motive"
-        
-      
-    */
-    public final fr.cg95.cvq.business.request.civil.BirthCertificateMotiveType getMotive() {
-        return this.motive;
-    }
-  
-    
-    private String requesterQualityPrecision;
-
-    public final void setRequesterQualityPrecision(final String requesterQualityPrecision) {
-        this.requesterQualityPrecision = requesterQualityPrecision;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="requester_quality_precision"
-        
-      
-    */
-    public final String getRequesterQualityPrecision() {
-        return this.requesterQualityPrecision;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"nature"},
-        message = "birthDate"
-      )
-    
-    private java.util.Date birthDate;
-
-    public final void setBirthDate(final java.util.Date birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="birth_date"
-        
-      
-    */
-    public final java.util.Date getBirthDate() {
-        return this.birthDate;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"nature"},
-        message = "requesterQuality"
-      )
-    
-    private fr.cg95.cvq.business.request.civil.BirthRequesterQualityType requesterQuality;
-
-    public final void setRequesterQuality(final fr.cg95.cvq.business.request.civil.BirthRequesterQualityType requesterQuality) {
-        this.requesterQuality = requesterQuality;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="requester_quality"
-        
-      
-    */
-    public final fr.cg95.cvq.business.request.civil.BirthRequesterQualityType getRequesterQuality() {
-        return this.requesterQuality;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 32,
-        
-        
-        profiles = {"nature"},
-        message = "birthCity"
-      )
-    
-      @NotNull(
-        
-        
-        profiles = {"nature"},
-        message = "birthCity"
+        message = "fatherFirstNames"
       )
     
       @NotBlank(
         
         
-        profiles = {"nature"},
-        message = "birthCity"
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['format'].test(_this.format.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"type"},
+        message = "fatherFirstNames"
       )
     
-    private String birthCity;
+    private String fatherFirstNames;
 
-    public final void setBirthCity(final String birthCity) {
-        this.birthCity = birthCity;
+    public final void setFatherFirstNames(final String fatherFirstNames) {
+        this.fatherFirstNames = fatherFirstNames;
     }
 
     /**
  
         * @hibernate.property
-        *  column="birth_city"
-        *  length="32"
+        *  column="father_first_names"
+        
       
     */
-    public final String getBirthCity() {
-        return this.birthCity;
+    public final String getFatherFirstNames() {
+        return this.fatherFirstNames;
     }
   
     
@@ -417,80 +442,28 @@ public class BirthDetailsRequestData implements Serializable {
     }
   
     
-      @MaxLength(
-        
-          value = 38,
-        
-        
-        profiles = {"nature"},
-        message = "birthMarriageName"
-      )
-    
-    private String birthMarriageName;
-
-    public final void setBirthMarriageName(final String birthMarriageName) {
-        this.birthMarriageName = birthMarriageName;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="birth_marriage_name"
-        *  length="38"
-      
-    */
-    public final String getBirthMarriageName() {
-        return this.birthMarriageName;
-    }
-  
-    
       @NotNull(
         
         
-          when = "groovy:def active = true;" +
-          
-            
-            "active &= _this.conditions['format'].test(_this.format.toString());" +
-                
-              
-            
-            "return active",
-        
         profiles = {"type"},
-        message = "fatherFirstNames"
+        message = "format"
       )
     
-      @NotBlank(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            
-            "active &= _this.conditions['format'].test(_this.format.toString());" +
-                
-              
-            
-            "return active",
-        
-        profiles = {"type"},
-        message = "fatherFirstNames"
-      )
-    
-    private String fatherFirstNames;
+    private fr.cg95.cvq.business.request.civil.BirthCertificateFormatType format;
 
-    public final void setFatherFirstNames(final String fatherFirstNames) {
-        this.fatherFirstNames = fatherFirstNames;
+    public final void setFormat(final fr.cg95.cvq.business.request.civil.BirthCertificateFormatType format) {
+        this.format = format;
     }
 
     /**
  
         * @hibernate.property
-        *  column="father_first_names"
+        *  column="format"
         
       
     */
-    public final String getFatherFirstNames() {
-        return this.fatherFirstNames;
+    public final fr.cg95.cvq.business.request.civil.BirthCertificateFormatType getFormat() {
+        return this.format;
     }
   
     
@@ -541,47 +514,6 @@ public class BirthDetailsRequestData implements Serializable {
     */
     public final String getMotherFirstNames() {
         return this.motherFirstNames;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 38,
-        
-        
-        profiles = {"nature"},
-        message = "birthLastName"
-      )
-    
-      @NotNull(
-        
-        
-        profiles = {"nature"},
-        message = "birthLastName"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"nature"},
-        message = "birthLastName"
-      )
-    
-    private String birthLastName;
-
-    public final void setBirthLastName(final String birthLastName) {
-        this.birthLastName = birthLastName;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="birth_last_name"
-        *  length="38"
-      
-    */
-    public final String getBirthLastName() {
-        return this.birthLastName;
     }
   
     
@@ -650,6 +582,74 @@ public class BirthDetailsRequestData implements Serializable {
     */
     public final String getMotherMaidenName() {
         return this.motherMaidenName;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"type"},
+        message = "motive"
+      )
+    
+    private fr.cg95.cvq.business.request.civil.BirthCertificateMotiveType motive;
+
+    public final void setMotive(final fr.cg95.cvq.business.request.civil.BirthCertificateMotiveType motive) {
+        this.motive = motive;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="motive"
+        
+      
+    */
+    public final fr.cg95.cvq.business.request.civil.BirthCertificateMotiveType getMotive() {
+        return this.motive;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "requesterQuality"
+      )
+    
+    private fr.cg95.cvq.business.request.civil.BirthRequesterQualityType requesterQuality;
+
+    public final void setRequesterQuality(final fr.cg95.cvq.business.request.civil.BirthRequesterQualityType requesterQuality) {
+        this.requesterQuality = requesterQuality;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="requester_quality"
+        
+      
+    */
+    public final fr.cg95.cvq.business.request.civil.BirthRequesterQualityType getRequesterQuality() {
+        return this.requesterQuality;
+    }
+  
+    
+    private String requesterQualityPrecision;
+
+    public final void setRequesterQualityPrecision(final String requesterQualityPrecision) {
+        this.requesterQualityPrecision = requesterQualityPrecision;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="requester_quality_precision"
+        
+      
+    */
+    public final String getRequesterQualityPrecision() {
+        return this.requesterQualityPrecision;
     }
   
 }

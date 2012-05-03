@@ -82,8 +82,6 @@ public class SmsNotificationRequest extends Request implements Serializable {
         
         smsNotificationRequest.setCleverSmsContactId(getCleverSmsContactId());
       
-        smsNotificationRequest.setMobilePhone(getMobilePhone());
-      
         i = 0;
         if (getInterests() != null) {
             fr.cg95.cvq.xml.common.LocalReferentialDataType[] interestsTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[getInterests().size()];
@@ -92,6 +90,8 @@ public class SmsNotificationRequest extends Request implements Serializable {
             }
             smsNotificationRequest.setInterestsArray(interestsTypeTab);
         }
+      
+        smsNotificationRequest.setMobilePhone(getMobilePhone());
       
         if (getSubscription() != null)
             smsNotificationRequest.setSubscription(getSubscription().booleanValue());
@@ -114,13 +114,13 @@ public class SmsNotificationRequest extends Request implements Serializable {
         
         smsNotificationRequest.setCleverSmsContactId(smsNotificationRequestXml.getCleverSmsContactId());
       
-        smsNotificationRequest.setMobilePhone(smsNotificationRequestXml.getMobilePhone());
-      
         List<fr.cg95.cvq.business.request.LocalReferentialData> interestsList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(smsNotificationRequestXml.sizeOfInterestsArray());
         for (LocalReferentialDataType object : smsNotificationRequestXml.getInterestsArray()) {
             interestsList.add(fr.cg95.cvq.business.request.LocalReferentialData.xmlToModel(object));
         }
         smsNotificationRequest.setInterests(interestsList);
+      
+        smsNotificationRequest.setMobilePhone(smsNotificationRequestXml.getMobilePhone());
       
         smsNotificationRequest.setSubscription(Boolean.valueOf(smsNotificationRequestXml.getSubscription()));
       
@@ -137,15 +137,6 @@ public class SmsNotificationRequest extends Request implements Serializable {
         return smsNotificationRequestData.getCleverSmsContactId();
     }
   
-    public final void setMobilePhone(final String mobilePhone) {
-        smsNotificationRequestData.setMobilePhone(mobilePhone);
-    }
-
-    
-    public final String getMobilePhone() {
-        return smsNotificationRequestData.getMobilePhone();
-    }
-  
     public final void setInterests(final List<fr.cg95.cvq.business.request.LocalReferentialData> interests) {
         smsNotificationRequestData.setInterests(interests);
     }
@@ -153,6 +144,15 @@ public class SmsNotificationRequest extends Request implements Serializable {
     
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getInterests() {
         return smsNotificationRequestData.getInterests();
+    }
+  
+    public final void setMobilePhone(final String mobilePhone) {
+        smsNotificationRequestData.setMobilePhone(mobilePhone);
+    }
+
+    
+    public final String getMobilePhone() {
+        return smsNotificationRequestData.getMobilePhone();
     }
   
     public final void setSubscription(final Boolean subscription) {

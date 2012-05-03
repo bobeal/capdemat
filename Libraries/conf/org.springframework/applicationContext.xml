@@ -119,7 +119,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 
   <bean id="localReferentialService"
     class="fr.cg95.cvq.service.request.impl.LocalReferentialService">
-    <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
+    <property name="localReferentialDAO" ref="localReferentialDAO" />
   </bean>
   <bean id="localReferentialServiceToLocalReferentialCheckInjector"
     class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
@@ -748,5 +748,11 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
   <bean id="requestExternalActionDAO" class="fr.cg95.cvq.dao.request.external.hibernate.RequestExternalActionDAO" parent="genericDAO" />
   
   <bean id="ticketBookingDAO" class="fr.cg95.cvq.dao.request.hibernate.TicketBookingDAO" parent="genericDAO" />
+  
+  <bean id="localReferentialDAO" class="fr.cg95.cvq.dao.request.xml.LocalReferentialDAO">
+      <property name="requestServiceRegistry" ref="requestServiceRegistry" />
+      <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
+      <property name="translationService" ref="translationService" />
+  </bean>
 
 </beans>

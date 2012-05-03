@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.joda.time.LocalTime;
 
 import net.sf.oval.constraint.AssertValid;
 import org.apache.xmlbeans.XmlOptions;
@@ -72,6 +73,7 @@ public class LearningActivitiesDiscoveryRegistrationRequest extends Request impl
     public final LearningActivitiesDiscoveryRegistrationRequestDocument modelToXml() {
         
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         Date date = null;
         LearningActivitiesDiscoveryRegistrationRequestDocument learningActivitiesDiscoveryRegistrationRequestDoc = LearningActivitiesDiscoveryRegistrationRequestDocument.Factory.newInstance();
         LearningActivitiesDiscoveryRegistrationRequestDocument.LearningActivitiesDiscoveryRegistrationRequest learningActivitiesDiscoveryRegistrationRequest = learningActivitiesDiscoveryRegistrationRequestDoc.addNewLearningActivitiesDiscoveryRegistrationRequest();
@@ -98,6 +100,7 @@ public class LearningActivitiesDiscoveryRegistrationRequest extends Request impl
     public static LearningActivitiesDiscoveryRegistrationRequest xmlToModel(LearningActivitiesDiscoveryRegistrationRequestDocument learningActivitiesDiscoveryRegistrationRequestDoc) {
         LearningActivitiesDiscoveryRegistrationRequestDocument.LearningActivitiesDiscoveryRegistrationRequest learningActivitiesDiscoveryRegistrationRequestXml = learningActivitiesDiscoveryRegistrationRequestDoc.getLearningActivitiesDiscoveryRegistrationRequest();
         Calendar calendar = Calendar.getInstance();
+        LocalTime localTime = new LocalTime();
         List list = new ArrayList();
         LearningActivitiesDiscoveryRegistrationRequest learningActivitiesDiscoveryRegistrationRequest = new LearningActivitiesDiscoveryRegistrationRequest();
         learningActivitiesDiscoveryRegistrationRequest.fillCommonModelInfo(learningActivitiesDiscoveryRegistrationRequest, learningActivitiesDiscoveryRegistrationRequestXml);

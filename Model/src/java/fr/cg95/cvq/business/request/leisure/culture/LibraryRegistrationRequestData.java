@@ -36,6 +36,8 @@ public class LibraryRegistrationRequestData implements Serializable {
 
     public LibraryRegistrationRequestData() {
       
+        adultContentAuthorization = Boolean.valueOf(false);
+      
         parentalAuthorization = Boolean.valueOf(false);
       
         rulesAndRegulationsAcceptance = Boolean.valueOf(false);
@@ -57,21 +59,28 @@ public class LibraryRegistrationRequestData implements Serializable {
 
   
     
-    private String registrationNumber;
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "adultContentAuthorization"
+      )
+    
+    private Boolean adultContentAuthorization;
 
-    public final void setRegistrationNumber(final String registrationNumber) {
-        this.registrationNumber = registrationNumber;
+    public final void setAdultContentAuthorization(final Boolean adultContentAuthorization) {
+        this.adultContentAuthorization = adultContentAuthorization;
     }
 
     /**
  
         * @hibernate.property
-        *  column="registration_number"
+        *  column="adult_content_authorization"
         
       
     */
-    public final String getRegistrationNumber() {
-        return this.registrationNumber;
+    public final Boolean getAdultContentAuthorization() {
+        return this.adultContentAuthorization;
     }
   
     
@@ -100,28 +109,46 @@ public class LibraryRegistrationRequestData implements Serializable {
     }
   
     
-      @NotNull(
-        
-        
-        profiles = {"administration"},
-        message = "subscriptionPrice"
-      )
-    
-    private java.math.BigDecimal subscriptionPrice;
+    private String registrationNumber;
 
-    public final void setSubscriptionPrice(final java.math.BigDecimal subscriptionPrice) {
-        this.subscriptionPrice = subscriptionPrice;
+    public final void setRegistrationNumber(final String registrationNumber) {
+        this.registrationNumber = registrationNumber;
     }
 
     /**
  
         * @hibernate.property
-        *  column="subscription_price"
+        *  column="registration_number"
         
       
     */
-    public final java.math.BigDecimal getSubscriptionPrice() {
-        return this.subscriptionPrice;
+    public final String getRegistrationNumber() {
+        return this.registrationNumber;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "rulesAndRegulationsAcceptance"
+      )
+    
+    private Boolean rulesAndRegulationsAcceptance;
+
+    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
+        this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="rules_and_regulations_acceptance"
+        
+      
+    */
+    public final Boolean getRulesAndRegulationsAcceptance() {
+        return this.rulesAndRegulationsAcceptance;
     }
   
     
@@ -171,25 +198,25 @@ public class LibraryRegistrationRequestData implements Serializable {
       @NotNull(
         
         
-        profiles = {"rules"},
-        message = "rulesAndRegulationsAcceptance"
+        profiles = {"administration"},
+        message = "subscriptionPrice"
       )
     
-    private Boolean rulesAndRegulationsAcceptance;
+    private java.math.BigDecimal subscriptionPrice;
 
-    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
-        this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+    public final void setSubscriptionPrice(final java.math.BigDecimal subscriptionPrice) {
+        this.subscriptionPrice = subscriptionPrice;
     }
 
     /**
  
         * @hibernate.property
-        *  column="rules_and_regulations_acceptance"
+        *  column="subscription_price"
         
       
     */
-    public final Boolean getRulesAndRegulationsAcceptance() {
-        return this.rulesAndRegulationsAcceptance;
+    public final java.math.BigDecimal getSubscriptionPrice() {
+        return this.subscriptionPrice;
     }
   
 }

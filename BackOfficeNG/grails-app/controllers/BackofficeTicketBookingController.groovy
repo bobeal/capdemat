@@ -40,7 +40,7 @@ class BackofficeTicketBookingController {
     def entertainment = {
         def entertainment = params.id ? ticketBookingService.getEntertainmentById(Long.valueOf(params.id)) : null
         if (request.get) {
-            def categories = localReferentialService.getLocalReferentialDataByName('entertainmentCategories')
+            def categories = localReferentialService.getLocalReferentialType('Ticket Booking', 'entertainmentCategories')
             render(template:'entertainmentForm',  model:['entertainment':entertainment, 'categories':categories])
             return false
         } else if (request.post) {
@@ -182,16 +182,16 @@ class BackofficeTicketBookingController {
     }
 
     private localReferentialAsMap (requestTypeLabel, event) {
-        def referentials = localReferentialService.getLocalReferentialDataByRequestType(requestTypeLabel)
+        def referentials = localReferentialService.getLocalReferentialTypes(requestTypeLabel)
         def lrTypes = [:]
-        referentials.each {lrTypes.put(it.dataName, it)}
+        referentials.each {lrTypes.put(it.name, it)}
         
         def configuredPlaceCategories = []
         event.placeCategories.each {configuredPlaceCategories.add(it.name)}
         def it = lrTypes.placeCategories?.entries?.iterator()
         while (it.hasNext()) {
             def lre = it.next()
-            if (configuredPlaceCategories.contains(lre.labelsMap.fr))
+            if (configuredPlaceCategories.contains(lre.label))
                 it.remove()
         }
         return lrTypes

@@ -1,49 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-    <request>MusicSchoolRegistrationRequest</request>
-    <data name="Activity">
-        <label lang="fr">Activités</label>
-        <label lang="en">Activities</label>
-        <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
+    <data name="Activity" allowMultipleChoices="true">
+        <label>Activités</label>
+        <entries>
             <entry key="danse">
-                <label lang="fr">danse</label>
-                <message lang="fr"/>
-                <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+                <label>danse</label>
+                <message/>
+                <entries>
                     <entry key="danse-Orientale">
-                        <label lang="fr">Orientale</label>
-                        <message lang="fr"/>
+                        <label>Orientale</label>
+                        <message/>
                     </entry>
                     <entry key="danse-Rock">
-                        <label lang="fr">Rock</label>
-                        <message lang="fr"/>
+                        <label>Rock</label>
+                        <message/>
                     </entry>
                 </entries>
             </entry>
             <entry key="Instrument">
-                <label lang="fr">Instrument</label>
-                <message lang="fr"/>
-                <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+                <label>Instrument</label>
+                <message/>
+                <entries>
                     <entry key="Instrument-Violon">
-                        <label lang="fr">Violon</label>
-                        <message lang="fr"/>
+                        <label>Violon</label>
+                        <message/>
                     </entry>
                     <entry key="Instrument-Guitare">
-                        <label lang="fr">Guitare</label>
-                        <message lang="fr"/>
-                        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+                        <label>Guitare</label>
+                        <message/>
+                        <entries>
                             <entry key="Instrument-Guitare-Classique">
-                                <label lang="fr">Classique</label>
-                                <message lang="fr"/>
+                                <label>Classique</label>
+                                <message/>
                             </entry>
                             <entry key="Instrument-Guitare-Electrique">
-                                <label lang="fr">Electrique</label>
-                                <message lang="fr"/>
+                                <label>Electrique</label>
+                                <message/>
                             </entry>
                         </entries>
                     </entry>
                     <entry key="Instrument-Piano">
-                        <label lang="fr">Piano</label>
-                        <message lang="fr"/>
+                        <label>Piano</label>
+                        <message/>
                     </entry>
                 </entries>
             </entry>

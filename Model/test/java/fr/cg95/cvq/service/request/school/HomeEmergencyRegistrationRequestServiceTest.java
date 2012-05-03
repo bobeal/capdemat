@@ -43,16 +43,6 @@ public class HomeEmergencyRegistrationRequestServiceTest extends RequestTestCase
         
           
           
-            
-              if ("Telephone".length() > 10)
-                  request.setTelephone("Telephone".substring(0, 10));
-              else
-                  request.setTelephone("Telephone");
-            
-          
-        
-          
-          
                request.setDateDepart(new Date());
           
         
@@ -63,6 +53,16 @@ public class HomeEmergencyRegistrationRequestServiceTest extends RequestTestCase
                   request.setDuree("Duree".substring(0, 2));
               else
                   request.setDuree("Duree");
+            
+          
+        
+          
+          
+            
+              if ("Telephone".length() > 10)
+                  request.setTelephone("Telephone".substring(0, 10));
+              else
+                  request.setTelephone("Telephone");
             
           
         

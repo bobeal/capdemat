@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -52,18 +49,18 @@ public class ModelRequestObject {
     private String requestNamespaceLastParticle;
 
     /** a map of first-level elements with their properties */
-    private HashMap<String, ElementModelProperties> elementsPropertiesMap;
+    private SortedMap<String, ElementModelProperties> elementsPropertiesMap;
 
     /** a map of first-level elements with their model annotations */
-    private HashMap<String, ApplicationDocumentation> elementsModelInfoMap;
+    private SortedMap<String, ApplicationDocumentation> elementsModelInfoMap;
 
     /** the complex types defined locally (ie in the current request) */
-    private HashMap<String, ComplexType> complexTypesMap;
+    private SortedMap<String, ComplexType> complexTypesMap;
 
     public ModelRequestObject() {
-        elementsPropertiesMap = new HashMap<String, ElementModelProperties>();
-        elementsModelInfoMap = new HashMap<String, ApplicationDocumentation>();
-        complexTypesMap = new HashMap<String, ComplexType>();
+        elementsPropertiesMap = new TreeMap<String, ElementModelProperties>();
+        elementsModelInfoMap = new TreeMap<String, ApplicationDocumentation>();
+        complexTypesMap = new TreeMap<String, ComplexType>();
     }
 
     /**
@@ -460,7 +457,7 @@ public class ModelRequestObject {
         return this.elementsPropertiesMap;
     }
 
-    public HashMap<String, ComplexType> getComplexTypesMap() {
+    public Map<String, ComplexType> getComplexTypesMap() {
         return complexTypesMap;
     }
 }

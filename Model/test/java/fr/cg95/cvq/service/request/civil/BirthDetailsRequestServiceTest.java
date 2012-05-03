@@ -44,13 +44,43 @@ public class BirthDetailsRequestServiceTest extends RequestTestCase {
           
           
             
-              request.setFormat(BirthCertificateFormatType.FULL_COPY);
+              if ("BirthCity".length() > 32)
+                  request.setBirthCity("BirthCity".substring(0, 32));
+              else
+                  request.setBirthCity("BirthCity");
             
           
         
           
           
-               request.setCopies(BigInteger.valueOf(1));
+               request.setBirthDate(new Date());
+          
+        
+          
+          
+            
+               request.setBirthFirstNames("BirthFirstNames");
+            
+          
+        
+          
+          
+            
+              if ("BirthLastName".length() > 38)
+                  request.setBirthLastName("BirthLastName".substring(0, 38));
+              else
+                  request.setBirthLastName("BirthLastName");
+            
+          
+        
+          
+          
+            
+              if ("BirthMarriageName".length() > 38)
+                  request.setBirthMarriageName("BirthMarriageName".substring(0, 38));
+              else
+                  request.setBirthMarriageName("BirthMarriageName");
+            
           
         
           
@@ -75,44 +105,13 @@ public class BirthDetailsRequestServiceTest extends RequestTestCase {
         
           
           
-            
-               request.setBirthFirstNames("BirthFirstNames");
-            
+               request.setCopies(BigInteger.valueOf(1));
           
         
           
           
             
-              request.setMotive(BirthCertificateMotiveType.NOTARY_ACT);
-            
-          
-        
-          
-          
-            
-               request.setRequesterQualityPrecision("RequesterQualityPrecision");
-            
-          
-        
-          
-          
-               request.setBirthDate(new Date());
-          
-        
-          
-          
-            
-              request.setRequesterQuality(BirthRequesterQualityType.REQUESTER);
-            
-          
-        
-          
-          
-            
-              if ("BirthCity".length() > 32)
-                  request.setBirthCity("BirthCity".substring(0, 32));
-              else
-                  request.setBirthCity("BirthCity");
+               request.setFatherFirstNames("FatherFirstNames");
             
           
         
@@ -129,17 +128,7 @@ public class BirthDetailsRequestServiceTest extends RequestTestCase {
           
           
             
-              if ("BirthMarriageName".length() > 38)
-                  request.setBirthMarriageName("BirthMarriageName".substring(0, 38));
-              else
-                  request.setBirthMarriageName("BirthMarriageName");
-            
-          
-        
-          
-          
-            
-               request.setFatherFirstNames("FatherFirstNames");
+              request.setFormat(BirthCertificateFormatType.FULL_COPY);
             
           
         
@@ -153,20 +142,31 @@ public class BirthDetailsRequestServiceTest extends RequestTestCase {
           
           
             
-              if ("BirthLastName".length() > 38)
-                  request.setBirthLastName("BirthLastName".substring(0, 38));
+              if ("MotherMaidenName".length() > 38)
+                  request.setMotherMaidenName("MotherMaidenName".substring(0, 38));
               else
-                  request.setBirthLastName("BirthLastName");
+                  request.setMotherMaidenName("MotherMaidenName");
             
           
         
           
           
             
-              if ("MotherMaidenName".length() > 38)
-                  request.setMotherMaidenName("MotherMaidenName".substring(0, 38));
-              else
-                  request.setMotherMaidenName("MotherMaidenName");
+              request.setMotive(BirthCertificateMotiveType.NOTARY_ACT);
+            
+          
+        
+          
+          
+            
+              request.setRequesterQuality(BirthRequesterQualityType.REQUESTER);
+            
+          
+        
+          
+          
+            
+               request.setRequesterQualityPrecision("RequesterQualityPrecision");
             
           
         

@@ -21,7 +21,6 @@ class FrontofficeRequestController {
     RequestAdaptorService requestAdaptorService
     ITranslationService translationService
     DocumentAdaptorService documentAdaptorService
-    RequestTypeAdaptorService requestTypeAdaptorService
 
     IIndividualService individualService
     IRequestExternalService requestExternalService
@@ -96,7 +95,6 @@ class FrontofficeRequestController {
                 'requestNotes' : requestAdaptorService.prepareNotes(
                     requestNoteService.getNotes(Long.parseLong(params.id), null)),
                 'externalInformations' : requestExternalService.loadExternalInformations(rqt),
-                'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(rqt.requestType.label),
                 'documentTypes': documentAdaptorService.getDocumentTypes(rqt, null),
                 'validationTemplateDirectory':CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label),
                 'individuals':individuals

@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-    <request>BulkyWasteCollectionRequest</request>
-    <data name="BulkyWasteType">
-        <label lang="fr">Type d'encombrants</label>
-        <label lang="en">Kind of waste</label>
-        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+    <data name="BulkyWasteType" allowMultipleChoices="false">
+        <label>Type d'encombrants</label>
+        <entries>
             <entry key="Machines---laver">
-                <label lang="fr">Machines à laver</label>
-                <message lang="fr"/>
+                <label>Machines à laver</label>
+                <message/>
             </entry>
             <entry key="Canap-">
-                <label lang="fr">Canapé</label>
-                <message lang="fr">(angle ou droit)</message>
+                <label>Canapé</label>
+                <message>(angle ou droit)</message>
             </entry>
             <entry key="Cong-lateur">
-                <label lang="fr">Congélateur</label>
-                <message lang="fr"/>
+                <label>Congélateur</label>
+                <message/>
             </entry>
             <entry key="Meubles">
-                <label lang="fr">Meubles</label>
-                <message lang="fr"/>
+                <label>Meubles</label>
+                <message/>
             </entry>
             <entry key="M-tal">
-                <label lang="fr">Métal</label>
-                <message lang="fr"/>
+                <label>Métal</label>
+                <message/>
             </entry>
         </entries>
     </data>

@@ -44,8 +44,16 @@ public class DeathDetailsRequestServiceTest extends RequestTestCase {
           
           
             
-               request.setDeathFirstNames("DeathFirstNames");
+              if ("Comment".length() > 255)
+                  request.setComment("Comment".substring(0, 255));
+              else
+                  request.setComment("Comment");
             
+          
+        
+          
+          
+               request.setCopies(BigInteger.valueOf(1));
           
         
           
@@ -60,30 +68,23 @@ public class DeathDetailsRequestServiceTest extends RequestTestCase {
         
           
           
-            
-              request.setFormat(DeathCertificateFormatType.FULL_COPY);
-            
-          
-        
-          
-          
-               request.setCopies(BigInteger.valueOf(1));
+               request.setDeathDate(new Date());
           
         
           
           
             
-              if ("Comment".length() > 255)
-                  request.setComment("Comment".substring(0, 255));
+               request.setDeathFirstNames("DeathFirstNames");
+            
+          
+        
+          
+          
+            
+              if ("DeathLastName".length() > 38)
+                  request.setDeathLastName("DeathLastName".substring(0, 38));
               else
-                  request.setComment("Comment");
-            
-          
-        
-          
-          
-            
-              request.setMotive(DeathCertificateMotiveType.NOTARY_ACT);
+                  request.setDeathLastName("DeathLastName");
             
           
         
@@ -100,16 +101,15 @@ public class DeathDetailsRequestServiceTest extends RequestTestCase {
           
           
             
-              if ("DeathLastName".length() > 38)
-                  request.setDeathLastName("DeathLastName".substring(0, 38));
-              else
-                  request.setDeathLastName("DeathLastName");
+              request.setFormat(DeathCertificateFormatType.FULL_COPY);
             
           
         
           
           
-               request.setDeathDate(new Date());
+            
+              request.setMotive(DeathCertificateMotiveType.NOTARY_ACT);
+            
           
         
         // Means Of Contact

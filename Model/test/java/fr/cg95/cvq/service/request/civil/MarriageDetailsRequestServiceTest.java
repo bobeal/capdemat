@@ -44,7 +44,10 @@ public class MarriageDetailsRequestServiceTest extends RequestTestCase {
           
           
             
-              request.setFormat(MarriageCertificateFormatType.FULL_COPY);
+              if ("Comment".length() > 255)
+                  request.setComment("Comment".substring(0, 255));
+              else
+                  request.setComment("Comment");
             
           
         
@@ -56,17 +59,24 @@ public class MarriageDetailsRequestServiceTest extends RequestTestCase {
           
           
             
-               request.setMarriageHusbandFirstNames("MarriageHusbandFirstNames");
+               request.setFatherFirstNames("FatherFirstNames");
             
           
         
           
           
             
-              if ("Comment".length() > 255)
-                  request.setComment("Comment".substring(0, 255));
+              if ("FatherLastName".length() > 38)
+                  request.setFatherLastName("FatherLastName".substring(0, 38));
               else
-                  request.setComment("Comment");
+                  request.setFatherLastName("FatherLastName");
+            
+          
+        
+          
+          
+            
+              request.setFormat(MarriageCertificateFormatType.FULL_COPY);
             
           
         
@@ -82,47 +92,13 @@ public class MarriageDetailsRequestServiceTest extends RequestTestCase {
         
           
           
-            
-              if ("MarriageWifeLastName".length() > 38)
-                  request.setMarriageWifeLastName("MarriageWifeLastName".substring(0, 38));
-              else
-                  request.setMarriageWifeLastName("MarriageWifeLastName");
-            
-          
-        
-          
-          
-            
-              request.setMotive(MarriageCertificateMotiveType.NOTARY_ACT);
-            
-          
-        
-          
-          
-            
-               request.setRequesterQualityPrecision("RequesterQualityPrecision");
-            
-          
-        
-          
-          
-            
-              request.setRequesterQuality(MarriageRequesterQualityType.REQUESTER);
-            
-          
-        
-          
-          
                request.setMarriageDate(new Date());
           
         
           
           
             
-              if ("FatherLastName".length() > 38)
-                  request.setFatherLastName("FatherLastName".substring(0, 38));
-              else
-                  request.setFatherLastName("FatherLastName");
+               request.setMarriageHusbandFirstNames("MarriageHusbandFirstNames");
             
           
         
@@ -139,7 +115,10 @@ public class MarriageDetailsRequestServiceTest extends RequestTestCase {
           
           
             
-              request.setRelationship(MarriageRelationshipType.HUSBAND);
+              if ("MarriagePostalCode".length() > 2)
+                  request.setMarriagePostalCode("MarriagePostalCode".substring(0, 2));
+              else
+                  request.setMarriagePostalCode("MarriagePostalCode");
             
           
         
@@ -153,24 +132,17 @@ public class MarriageDetailsRequestServiceTest extends RequestTestCase {
           
           
             
-               request.setMotherFirstNames("MotherFirstNames");
-            
-          
-        
-          
-          
-            
-               request.setFatherFirstNames("FatherFirstNames");
-            
-          
-        
-          
-          
-            
-              if ("MarriagePostalCode".length() > 2)
-                  request.setMarriagePostalCode("MarriagePostalCode".substring(0, 2));
+              if ("MarriageWifeLastName".length() > 38)
+                  request.setMarriageWifeLastName("MarriageWifeLastName".substring(0, 38));
               else
-                  request.setMarriagePostalCode("MarriagePostalCode");
+                  request.setMarriageWifeLastName("MarriageWifeLastName");
+            
+          
+        
+          
+          
+            
+               request.setMotherFirstNames("MotherFirstNames");
             
           
         
@@ -181,6 +153,34 @@ public class MarriageDetailsRequestServiceTest extends RequestTestCase {
                   request.setMotherMaidenName("MotherMaidenName".substring(0, 38));
               else
                   request.setMotherMaidenName("MotherMaidenName");
+            
+          
+        
+          
+          
+            
+              request.setMotive(MarriageCertificateMotiveType.NOTARY_ACT);
+            
+          
+        
+          
+          
+            
+              request.setRelationship(MarriageRelationshipType.HUSBAND);
+            
+          
+        
+          
+          
+            
+              request.setRequesterQuality(MarriageRequesterQualityType.REQUESTER);
+            
+          
+        
+          
+          
+            
+               request.setRequesterQualityPrecision("RequesterQualityPrecision");
             
           
         

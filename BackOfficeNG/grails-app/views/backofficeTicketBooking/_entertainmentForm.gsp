@@ -20,8 +20,8 @@
     <g:if test="${categories}">
       <select name="category">
       <g:each var="lre" in="${categories?.entries}">
-      <option value="${lre.labelsMap.fr}" ${lre.labelsMap.fr == entertainment?.category ? 'selected="selected"' : ''}>
-        ${lre.labelsMap.fr}  
+      <option value="${lre.label}" ${lre.label == entertainment?.category ? 'selected="selected"' : ''}>
+        ${lre.label}  
       </option>
       </g:each>
       </select>

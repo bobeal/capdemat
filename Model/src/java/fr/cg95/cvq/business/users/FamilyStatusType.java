@@ -14,6 +14,7 @@ public final class FamilyStatusType extends PersistentStringEnum {
     public static final FamilyStatusType WIDOW = new FamilyStatusType("Widow");
     public static final FamilyStatusType MARRIED = new FamilyStatusType("Married");
     public static final FamilyStatusType COMMON_LAW_MARRIAGE = new FamilyStatusType("CommonLawMarriage");
+    public static final FamilyStatusType SEPARATED = new FamilyStatusType("Separated");
     public static final FamilyStatusType PACS = new FamilyStatusType("PACS");
     public static final FamilyStatusType OTHER = new FamilyStatusType("Other");
 
@@ -32,6 +33,7 @@ public final class FamilyStatusType extends PersistentStringEnum {
         WIDOW,
         MARRIED,
         COMMON_LAW_MARRIAGE,
+        SEPARATED,
         PACS,
         OTHER,
     };
@@ -54,6 +56,8 @@ public final class FamilyStatusType extends PersistentStringEnum {
             return MARRIED;
         else if (enumAsString.equals(COMMON_LAW_MARRIAGE.toString()))
             return COMMON_LAW_MARRIAGE;
+        else if (enumAsString.equals(SEPARATED.toString()))
+            return SEPARATED;
         else if (enumAsString.equals(PACS.toString()))
             return PACS;
         else if (enumAsString.equals(OTHER.toString()))

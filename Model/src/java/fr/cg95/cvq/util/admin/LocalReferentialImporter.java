@@ -1,13 +1,10 @@
 package fr.cg95.cvq.util.admin;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.log4j.Level;
@@ -16,7 +13,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import au.com.bytecode.opencsv.CSVReader;
 import fr.cg95.cvq.business.request.LocalReferentialEntry;
-import fr.cg95.cvq.business.request.LocalReferentialType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqLocalReferentialException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -33,38 +29,24 @@ public class LocalReferentialImporter {
 
     private static Set<String> authorizedLrTypeDataNames = new HashSet<String>();
     static {
-        authorizedLrTypeDataNames.add("TaxHouseholdCity");
-        authorizedLrTypeDataNames.add("CurrentSchoolName");
+        authorizedLrTypeDataNames.add("StudyGrantRequest/TaxHouseholdCity");
+        authorizedLrTypeDataNames.add("StudyGrantRequest/CurrentSchoolName");
     }
     
-    public void csvToLocalReferential(String csvFileName, String lrTypeDataName) {
+    public void csvToLocalReferential(String csvFileName, String rtLabel, String lrtName) {
         String localAuthorityName = SecurityContext.getCurrentSite().getName();
         logger.info("local authority= " + localAuthorityName);
         logger.info("csv file= " + csvFileName);
-        
-        if (!authorizedLrTypeDataNames.contains(lrTypeDataName)) {
-            System.out.println(" ERROR - args[2] must be one of : ");
-            for(String dataName : authorizedLrTypeDataNames)
-                System.out.println(" . " + dataName);
-            System.exit(0);
-        }
         
         File csvFile = new File(csvFileName);
         if (!csvFile.exists()) {
             System.out.println(" ERROR - " + csvFileName + " does not exist");
             System.exit(0);
         }
-                
+        
         try {
-            LocalReferentialType lrType = 
-                localReferentialService.getLocalReferentialDataByName(lrTypeDataName);
-            if (lrType.getEntries() != null) {
-                Set<LocalReferentialEntry> lrEntriesCopy = new HashSet<LocalReferentialEntry>(lrType.getEntries());
-                Iterator<LocalReferentialEntry> it = lrEntriesCopy.iterator();
-                while(it.hasNext()) {
-                    LocalReferentialEntry lrEntry = it.next();
-                    lrType.removeEntry(lrEntry, null);
-                }
+            for (String entryKey : localReferentialService.getLocalReferentialType(rtLabel, lrtName).getEntriesKeys()) {
+                localReferentialService.removeLocalReferentialEntry(rtLabel, lrtName, entryKey);
             }
             
             Reader csvFileReader = new StringReader(new String(FileUtils.getBytesFromFile(csvFile)));
@@ -73,18 +55,14 @@ public class LocalReferentialImporter {
             for (Object o : csvReader.readAll()) {
                 String[] line = (String[])o;
                 LocalReferentialEntry lrEntry = new LocalReferentialEntry();
-                if (line.length == 2) {
+                if (line.length == 2) { // line = {key, label}
                     logger.info(line[0] + " : " + line[1]);
-                    lrEntry.setKey(line[0]);
-                    lrEntry.addLabel("fr", line[1]);
-                } else {
+                    localReferentialService.addLocalReferentialEntry(rtLabel, lrtName, null, line[0], line[1], null);
+                } else { // line = {label}
                     logger.info(line[0]);
-                    lrEntry.addLabel("fr", line[0]);
+                    localReferentialService.addLocalReferentialEntry(rtLabel, lrtName, null, line[0], null);
                 }
-                lrType.addEntry(lrEntry, null);
             }
-            
-            localReferentialService.setLocalReferentialData(lrType);
         } catch (IOException ioe) {
             ioe.printStackTrace();
         } catch (CvqLocalReferentialException cvqlre) {
@@ -93,6 +71,16 @@ public class LocalReferentialImporter {
             cvqe.printStackTrace();
         }
         logger.info("Local referential import OK");
+    }
+    
+    private static void parseDataName(String dataName, StringBuffer requestTypeLabel, StringBuffer lrtName) {
+        String[] parts = dataName.split("/");
+        if (parts.length != 2) {
+            throw new IllegalArgumentException("Unable to parse the DATANAME");
+        }
+        logger.debug("DATANAME = " + parts[0] + " -> " + parts[1]);
+        requestTypeLabel.append(parts[0]);
+        lrtName.append(parts[1]);
     }
     
     public static void main(final String[] args) throws Exception {
@@ -115,13 +103,23 @@ public class LocalReferentialImporter {
         
         String config = args[0];
         String csvFileName = args[1];
-        String lrTypeDataName = args[2];
+        
+        if (!authorizedLrTypeDataNames.contains(args[2])) {
+            System.out.println(" ERROR - args[2] must be one of : ");
+            for(String dataName : authorizedLrTypeDataNames)
+                System.out.println(" . " + dataName);
+            System.exit(0);
+        }
+        
+        StringBuffer rtLabel = new StringBuffer();
+        StringBuffer lrtName = new StringBuffer();
+        parseDataName(args[2], rtLabel, lrtName);
         
         ClassPathXmlApplicationContext cpxa = SpringApplicationContextLoader.loadContext(config);
         localAuthorityRegistry = (LocalAuthorityRegistry)cpxa.getBean("localAuthorityRegistry");
         localReferentialService = (ILocalReferentialService)cpxa.getBean("localReferentialService");
         
         LocalReferentialImporter lrImporter = new LocalReferentialImporter();
-        localAuthorityRegistry.browseAndCallback(lrImporter, "csvToLocalReferential", new Object[]{csvFileName,lrTypeDataName});
+        localAuthorityRegistry.browseAndCallback(lrImporter, "csvToLocalReferential", new Object[]{csvFileName, rtLabel.toString(), lrtName.toString()});
     }
 }

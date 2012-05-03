@@ -64,6 +64,11 @@ public class SchoolRegistrationRequestServiceTest extends RequestTestCase {
         
           
           
+               request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
+          
+        
+          
+          
             
             
               request.setSchool(schoolService.getAll().iterator().next());
@@ -72,7 +77,9 @@ public class SchoolRegistrationRequestServiceTest extends RequestTestCase {
         
           
           
-               request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
+            
+              request.setSection(SectionType.BEFORE_FIRST_SECTION);
+            
           
         
           
@@ -82,13 +89,6 @@ public class SchoolRegistrationRequestServiceTest extends RequestTestCase {
                   request.setUrgencyPhone("UrgencyPhone".substring(0, 10));
               else
                   request.setUrgencyPhone("UrgencyPhone");
-            
-          
-        
-          
-          
-            
-              request.setSection(SectionType.BEFORE_FIRST_SECTION);
             
           
         

@@ -1,41 +1,25 @@
-import java.util.Collections;
-
-import fr.cg95.cvq.business.request.external.RequestExternalAction
-import fr.cg95.cvq.business.document.ContentType
 import fr.cg95.cvq.business.request.DataState
-import fr.cg95.cvq.business.request.RequestAction
 import fr.cg95.cvq.business.request.RequestActionType
 import fr.cg95.cvq.business.request.RequestNoteType
 import fr.cg95.cvq.business.request.RequestState
-import fr.cg95.cvq.business.users.Child;
-import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.request.external.RequestExternalAction
+import fr.cg95.cvq.business.users.Child
 import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.IAgentService
-import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.authority.IRecreationCenterService
 import fr.cg95.cvq.service.authority.ISchoolService
-import fr.cg95.cvq.service.request.ICategoryService
-import fr.cg95.cvq.service.request.IConditionService
-import fr.cg95.cvq.service.request.ILocalReferentialService
-import fr.cg95.cvq.service.request.IMeansOfContactService
-import fr.cg95.cvq.service.request.IRequestLockService
-import fr.cg95.cvq.service.request.IRequestNoteService
-import fr.cg95.cvq.service.request.IRequestSearchService
-import fr.cg95.cvq.service.request.IRequestTypeService
-import fr.cg95.cvq.service.request.IRequestWorkflowService
-import fr.cg95.cvq.service.request.IRequestActionService
-import fr.cg95.cvq.service.request.external.IRequestExternalService
 import fr.cg95.cvq.service.request.external.IRequestExternalActionService
+import fr.cg95.cvq.service.request.external.IRequestExternalService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.util.Critere
-
 import grails.converters.JSON
-
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
+import fr.cg95.cvq.service.request.*
+import fr.cg95.cvq.exception.CvqModelException
 
 class BackofficeRequestInstructionController {
 
@@ -100,10 +84,6 @@ class BackofficeRequestInstructionController {
         for (RequestState state : requestWorkflowService.getEditableStates())
             editableStates.add(state.toString())
         
-        def localReferentialTypes =
-            getLocalReferentialTypes(localReferentialService, rqt.requestType.label)
-        localReferentialTypes.each { lazyInit(rqt, it.key) }
-
         def externalProviderServiceLabel = null
         def externalTemplateName = null
         def lastTraceStatus = null
@@ -145,7 +125,7 @@ class BackofficeRequestInstructionController {
         return ([
             "rqt": rqt,
             "requestTypeLabel": rqt.requestType.label,
-            "lrTypes": localReferentialTypes,
+            "lrTypes": getLocalReferentialTypes(localReferentialService, rqt.requestType.label),
             "adults": adults,
             "children": children,
             "requester": requester,
@@ -168,16 +148,26 @@ class BackofficeRequestInstructionController {
     }
     
     // TODO - Mutualize with FrontOffice
-    def getLocalReferentialTypes(localReferentialService, requestTypeLabel) {
+    def getLocalReferentialTypes(lrService, requestTypeLabel) {
         def result = [:]
         if (requestTypeLabel == 'Ticket Booking')
             return result
         try {
-            localReferentialService.getLocalReferentialDataByRequestType(requestTypeLabel).each{
-                result.put(StringUtils.firstCase(it.dataName,'Lower'), it)
+            lrService.getLocalReferentialTypes(requestTypeLabel).each{
+                result.put(StringUtils.firstCase(it.name,'Lower'), it)
             }
         } catch (CvqException ce) { /* No localReferentialData found ! */ }
         return result
+    }
+    
+    def getLocalReferentialType(lrService, rtLabel, lrtName) {
+        def lrt = null
+        if (rtLabel != 'Ticket Booking') {
+            try {
+                lrt = lrService.getLocalReferentialType(rtLabel, StringUtils.firstCase(lrtName, 'Upper'))
+            } catch (CvqException ce) {}
+        }
+        return lrt
     }
     
     // FIXME - Modify lazy initialization policy in JavaBean ?
@@ -188,12 +178,12 @@ class BackofficeRequestInstructionController {
     
     def localReferentialData = {
         def rqt = requestSearchService.getById(Long.valueOf(params.requestId), true)
-        def lrTypes = getLocalReferentialTypes(localReferentialService, rqt.requestType.label)
+        def lrt = getLocalReferentialType(localReferentialService, rqt.requestType.label, params.javaName)
         render( template: '/backofficeRequestInstruction/widget/localReferentialDataStatic',
                 model: ['rqt':rqt,
                         'javaName':params.javaName, 
-                        'lrEntries':lrTypes[params.javaName]?.entries,
-                        'isMultiple':lrTypes[params.javaName]?.entriesSupportMultiple,
+                        'lrEntries':lrt.entries,
+                        'isMultiple':lrt.isMultiple(),
                         'depth':0 ])
     }
 
@@ -240,23 +230,23 @@ class BackofficeRequestInstructionController {
         }
         else if (propertyType == "localReferentialData") {
             def rqt = requestSearchService.getById(Long.valueOf(params.id), true)
-            def lrTypes = getLocalReferentialTypes(localReferentialService, rqt.requestType.label)
-            model['lrType'] = lrTypes[params.propertyName]
+            def lrt = getLocalReferentialType(localReferentialService, rqt.requestType.label, params.propertyName)
+            model['lrType'] = lrt
             model['lrDatas'] = rqt[params.propertyName].collect { it.name }
             flash[params.propertyName + 'Index'] = 0
             model["htmlClass"] =
-                (model["lrType"].entriesSupportMultiple ? "validate-localReferentialData " :
+                (model["lrType"].isMultiple() ? "validate-localReferentialData " :
                     (model["required"] != "" ? "validate-not-first " : "")) +
                 model["required"]
         }
         else if (propertyType == "school") {
-            model.schools = schoolService.getAll()
+            model.schools = schoolService.getActives()
             if (params.propertyValue != "null") {
                 propertyValue = Long.valueOf(params.propertyValue)
             }
         }
         else if (propertyType == "recreationCenter") {
-            model.recreationCenters = recreationCenterService.getAll()
+            model.recreationCenters = recreationCenterService.getActives()
             if (params.propertyValue != "null") {
                 propertyValue = Long.valueOf(params.propertyValue)
             }
@@ -290,9 +280,21 @@ class BackofficeRequestInstructionController {
             def requester = individualService.getById(rqt.requesterId)
             bindRequester(requester, params)
         } else if (params.keySet().contains('schoolId')) {
-            rqt.school = schoolService.getById(Long.valueOf(params.schoolId))
+            // TODO Move the logic in a business layer
+            def school = schoolService.getById(Long.valueOf(params.schoolId))
+            if (school?.active) {
+                rqt.school = school;
+            } else {
+                throw new CvqModelException("request.error.inactiveSchool")
+            }
         } else if (params.keySet().contains('recreationCenterId')) {
-            rqt.recreationCenter = recreationCenterService.getById(Long.valueOf(params.recreationCenterId))
+            // TODO move that in the business layer
+            def recreationCenter = recreationCenterService.getById(Long.valueOf(params.recreationCenterId))
+            if (recreationCenter?.active) { // Make sure the recreation center is active
+                rqt.recreationCenter = recreationCenter;
+            } else {
+                throw new CvqModelException("request.error.inactiveRecreationCenter")
+            }
         } else {
             DataBindingUtils.initBind(rqt, params)
             bind(rqt)

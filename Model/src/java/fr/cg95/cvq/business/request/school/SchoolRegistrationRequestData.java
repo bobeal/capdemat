@@ -113,6 +113,31 @@ public class SchoolRegistrationRequestData implements Serializable {
     }
   
     
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "rulesAndRegulationsAcceptance"
+      )
+    
+    private Boolean rulesAndRegulationsAcceptance;
+
+    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
+        this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="rules_and_regulations_acceptance"
+        
+      
+    */
+    public final Boolean getRulesAndRegulationsAcceptance() {
+        return this.rulesAndRegulationsAcceptance;
+    }
+  
+    
       @AssertValid(
         
         
@@ -142,25 +167,25 @@ public class SchoolRegistrationRequestData implements Serializable {
       @NotNull(
         
         
-        profiles = {"rules"},
-        message = "rulesAndRegulationsAcceptance"
+        profiles = {"registration"},
+        message = "section"
       )
     
-    private Boolean rulesAndRegulationsAcceptance;
+    private fr.cg95.cvq.business.users.SectionType section;
 
-    public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
-        this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+    public final void setSection(final fr.cg95.cvq.business.users.SectionType section) {
+        this.section = section;
     }
 
     /**
  
         * @hibernate.property
-        *  column="rules_and_regulations_acceptance"
-        
+        *  column="section"
+        *  length="32"
       
     */
-    public final Boolean getRulesAndRegulationsAcceptance() {
-        return this.rulesAndRegulationsAcceptance;
+    public final fr.cg95.cvq.business.users.SectionType getSection() {
+        return this.section;
     }
   
     
@@ -202,31 +227,6 @@ public class SchoolRegistrationRequestData implements Serializable {
     */
     public final String getUrgencyPhone() {
         return this.urgencyPhone;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"registration"},
-        message = "section"
-      )
-    
-    private fr.cg95.cvq.business.users.SectionType section;
-
-    public final void setSection(final fr.cg95.cvq.business.users.SectionType section) {
-        this.section = section;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="section"
-        *  length="32"
-      
-    */
-    public final fr.cg95.cvq.business.users.SectionType getSection() {
-        return this.section;
     }
   
 }

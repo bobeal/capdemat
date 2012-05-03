@@ -44,94 +44,17 @@ public class RemoteSupportRequestServiceTest extends RequestTestCase {
           
           
             
-              if ("TrusteePhone".length() > 10)
-                  request.setTrusteePhone("TrusteePhone".substring(0, 10));
+              if ("ContactFirstName".length() > 38)
+                  request.setContactFirstName("ContactFirstName".substring(0, 38));
               else
-                  request.setTrusteePhone("TrusteePhone");
-            
-          
-        
-          
-          
-               request.setSpouseIsDisabledPerson(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setSubjectBirthDate(new Date());
-          
-        
-          
-          
-               request.setSubjectIsAPABeneficiary(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              request.setSubjectResideWith(RsrSubjectResideWithType.ALONE);
-            
-          
-        
-          
-          
-               request.setSpouseBirthDate(new Date());
-          
-        
-          
-          
-            
-              if ("ContactPhone".length() > 10)
-                  request.setContactPhone("ContactPhone".substring(0, 10));
-              else
-                  request.setContactPhone("ContactPhone");
+                  request.setContactFirstName("ContactFirstName");
             
           
         
           
           
             
-              if ("SpouseLastName".length() > 38)
-                  request.setSpouseLastName("SpouseLastName".substring(0, 38));
-              else
-                  request.setSpouseLastName("SpouseLastName");
-            
-          
-        
-          
-          
-               request.setRequestInformationEmergency(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              request.setRequestInformationRequestKind(RsrRequestInformationRequestKindType.INDIVIDUAL);
-            
-          
-        
-          
-          
-               request.setSubjectIsDisabledPerson(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("SecondContactLastName".length() > 38)
-                  request.setSecondContactLastName("SecondContactLastName".substring(0, 38));
-              else
-                  request.setSecondContactLastName("SecondContactLastName");
-            
-          
-        
-          
-          
-            
-              if ("RequestInformationEmergencyMotive".length() > 180)
-                  request.setRequestInformationEmergencyMotive("RequestInformationEmergencyMotive".substring(0, 180));
-              else
-                  request.setRequestInformationEmergencyMotive("RequestInformationEmergencyMotive");
+              request.setContactKind(RsrContactKindType.REQUESTER);
             
           
         
@@ -148,15 +71,68 @@ public class RemoteSupportRequestServiceTest extends RequestTestCase {
           
           
             
-              request.setSpouseTitle(TitleType.MISTER);
+              if ("ContactPhone".length() > 10)
+                  request.setContactPhone("ContactPhone".substring(0, 10));
+              else
+                  request.setContactPhone("ContactPhone");
+            
+          
+        
+          
+          
+               request.setRequestInformationEmergency(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              if ("RequestInformationEmergencyMotive".length() > 180)
+                  request.setRequestInformationEmergencyMotive("RequestInformationEmergencyMotive".substring(0, 180));
+              else
+                  request.setRequestInformationEmergencyMotive("RequestInformationEmergencyMotive");
             
           
         
           
           
             
-              request.setSubjectTitle(TitleType.MISTER);
+              request.setRequestInformationRequestKind(RsrRequestInformationRequestKindType.INDIVIDUAL);
             
+          
+        
+          
+          
+            
+              if ("SecondContactFirstName".length() > 38)
+                  request.setSecondContactFirstName("SecondContactFirstName".substring(0, 38));
+              else
+                  request.setSecondContactFirstName("SecondContactFirstName");
+            
+          
+        
+          
+          
+            
+              if ("SecondContactLastName".length() > 38)
+                  request.setSecondContactLastName("SecondContactLastName".substring(0, 38));
+              else
+                  request.setSecondContactLastName("SecondContactLastName");
+            
+          
+        
+          
+          
+            
+              if ("SecondContactPhone".length() > 10)
+                  request.setSecondContactPhone("SecondContactPhone".substring(0, 10));
+              else
+                  request.setSecondContactPhone("SecondContactPhone");
+            
+          
+        
+          
+          
+               request.setSpouseBirthDate(new Date());
           
         
           
@@ -171,11 +147,57 @@ public class RemoteSupportRequestServiceTest extends RequestTestCase {
         
           
           
+               request.setSpouseIsDisabledPerson(Boolean.valueOf(true));
+          
+        
+          
+          
             
-              if ("ContactFirstName".length() > 38)
-                  request.setContactFirstName("ContactFirstName".substring(0, 38));
+              if ("SpouseLastName".length() > 38)
+                  request.setSpouseLastName("SpouseLastName".substring(0, 38));
               else
-                  request.setContactFirstName("ContactFirstName");
+                  request.setSpouseLastName("SpouseLastName");
+            
+          
+        
+          
+          
+            
+              request.setSpouseTitle(TitleType.MISTER);
+            
+          
+        
+          
+          
+               request.setSubjectBirthDate(new Date());
+          
+        
+          
+          
+               request.setSubjectIsAPABeneficiary(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setSubjectIsDisabledPerson(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setSubjectIsTaxable(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              request.setSubjectResideWith(RsrSubjectResideWithType.ALONE);
+            
+          
+        
+          
+          
+            
+              request.setSubjectTitle(TitleType.MISTER);
             
           
         
@@ -192,28 +214,6 @@ public class RemoteSupportRequestServiceTest extends RequestTestCase {
           
           
             
-              request.setContactKind(RsrContactKindType.REQUESTER);
-            
-          
-        
-          
-          
-            
-              if ("SecondContactFirstName".length() > 38)
-                  request.setSecondContactFirstName("SecondContactFirstName".substring(0, 38));
-              else
-                  request.setSecondContactFirstName("SecondContactFirstName");
-            
-          
-        
-          
-          
-               request.setSubjectIsTaxable(Boolean.valueOf(true));
-          
-        
-          
-          
-            
               if ("TrusteeLastName".length() > 38)
                   request.setTrusteeLastName("TrusteeLastName".substring(0, 38));
               else
@@ -224,10 +224,10 @@ public class RemoteSupportRequestServiceTest extends RequestTestCase {
           
           
             
-              if ("SecondContactPhone".length() > 10)
-                  request.setSecondContactPhone("SecondContactPhone".substring(0, 10));
+              if ("TrusteePhone".length() > 10)
+                  request.setTrusteePhone("TrusteePhone".substring(0, 10));
               else
-                  request.setSecondContactPhone("SecondContactPhone");
+                  request.setTrusteePhone("TrusteePhone");
             
           
         

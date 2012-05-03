@@ -279,11 +279,9 @@ public class LocalAuthorityRegistry
 
     @Override
     public File getReferentialResource(final Type type, final String filename) {
-        StringBuffer filePath = new StringBuffer().append(referentialBase)
-            .append(type.getFolder()).append('/').append(filename)
-            .append(type.getExtension());
-        logger.debug("getReferentialResource() searching file : " + filePath.toString());
-        File resourceFile = new File(filePath.toString());
+        String filePath = getReferentialFilePath(type, filename);
+        logger.debug("getReferentialResource() searching file : " + filePath);
+        File resourceFile = new File(filePath);
         if (!resourceFile.exists()) {
             logger.warn("getReferentialResource() did not find resource file : " + filename
                     + " of type " + type);
@@ -291,11 +289,22 @@ public class LocalAuthorityRegistry
         }
         return resourceFile;
     }
-
+    
+    private String getReferentialFilePath(final Type type, final String filename) {
+        return new StringBuffer().append(referentialBase)
+            .append(type.getFolder()).append('/').append(filename)
+            .append(type.getExtension()).toString();
+    }
+    
     @Override
     public File getLocalAuthorityResourceFile(final Type type, final String filename,
         final boolean fallbackToDefault) {
         return getAssetsFile(type, filename, fallbackToDefault);
+    }
+
+    @Override
+    public File getDefaultResourceFile(final Type type, final String filename) {
+        return new File(getReferentialFilePath(type, filename));
     }
 
     @Override

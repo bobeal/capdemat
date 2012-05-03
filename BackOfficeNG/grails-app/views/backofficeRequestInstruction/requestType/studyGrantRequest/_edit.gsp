@@ -113,7 +113,7 @@
                 <dt class="required condition-isTaxHouseholdCityOther-trigger"><g:message code="sgr.property.taxHouseholdCity.label" /> * : </dt><dd id="taxHouseholdCity" class="action-editField validate-localReferentialData required-true i18n-sgr.property.taxHouseholdCity data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'taxHouseholdCity', 'lrEntries': lrTypes.taxHouseholdCity?.entries, 
-                             'rqt':rqt, 'isMultiple':lrTypes.taxHouseholdCity?.entriesSupportMultiple, 'depth':0]" />
+                             'rqt':rqt, 'isMultiple':lrTypes.taxHouseholdCity?.isMultiple(), 'depth':0]" />
  
           </dd>
               </dl>
@@ -212,7 +212,7 @@
                   <dt class="required condition-isCurrentSchoolNameOther-trigger"><g:message code="sgr.property.currentSchoolName.label" /> * : </dt><dd id="currentSchoolName" class="action-editField validate-localReferentialData required-true i18n-sgr.property.currentSchoolName data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'currentSchoolName', 'lrEntries': lrTypes.currentSchoolName?.entries, 
-                             'rqt':rqt, 'isMultiple':lrTypes.currentSchoolName?.entriesSupportMultiple, 'depth':0]" />
+                             'rqt':rqt, 'isMultiple':lrTypes.currentSchoolName?.isMultiple(), 'depth':0]" />
  
           </dd>
                 

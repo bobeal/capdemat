@@ -16,7 +16,7 @@ else
   libDir="$CAPDEMAT_HOME/Model/lib"
   archivesDir="$CAPDEMAT_HOME/Model/build/archives"
   CLASSPATH="$CAPDEMAT_HOME/Model/build/test/"
-  for lib in $(find $archivesDir -name *.jar); do
+  for lib in $(find $archivesDir -name "*.jar"); do
     CLASSPATH="${CLASSPATH}:$lib"
   done
   CLASSPATH="$CLASSPATH:$CAPDEMAT_HOME/Model/conf/spring"
@@ -25,8 +25,9 @@ else
     done
 fi
 
+
 for dir in $(echo $CommonLibPath | sed 's/:/ /g'); do
-  for lib in $(find $dir -name *.jar); do
+  for lib in $(find $dir -name "*.jar"); do
     CLASSPATH="${CLASSPATH}:$lib"
   done
 done

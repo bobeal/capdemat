@@ -88,6 +88,15 @@ public interface ILocalAuthorityRegistry {
      */
     File getLocalAuthorityResourceFile(final Type type, final String filename,
         final boolean fallbackToDefault);
+    
+    /**
+     * Same as {@link #getLocalAuthorityResourceFile(Type, String, boolean)} but always return the default file and
+     * returns the file even if it does not exist yet.
+     * @param type
+     * @param filename
+     * @return The File object corresponding to a given resource, even if this file does net exist yet.
+     */
+    File getDefaultResourceFile(final Type type, final String filename);
 
     /**
      * Same as {@link #getLocalAuthorityResourceFile(Type, String, boolean)} but for the given

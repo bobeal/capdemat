@@ -49,7 +49,9 @@ public class SchoolCanteenRegistrationRequestServiceTest extends RequestTestCase
         
           
           
-               request.setFoodAllergy(Boolean.valueOf(true));
+            
+               request.setDoctorName("DoctorName");
+            
           
         
           
@@ -64,22 +66,12 @@ public class SchoolCanteenRegistrationRequestServiceTest extends RequestTestCase
         
           
           
-            
-               request.setDoctorName("DoctorName");
-            
+               request.setFoodAllergy(Boolean.valueOf(true));
           
         
           
           
             
-            
-          
-        
-          
-          
-            
-            
-              request.setSchool(schoolService.getAll().iterator().next());
             
           
         
@@ -96,6 +88,21 @@ public class SchoolCanteenRegistrationRequestServiceTest extends RequestTestCase
           
           
             
+            
+              request.setSchool(schoolService.getAll().iterator().next());
+            
+          
+        
+          
+          
+            
+              request.setSection(SectionType.BEFORE_FIRST_SECTION);
+            
+          
+        
+          
+          
+            
               if ("UrgencyPhone".length() > 10)
                   request.setUrgencyPhone("UrgencyPhone".substring(0, 10));
               else
@@ -106,7 +113,7 @@ public class SchoolCanteenRegistrationRequestServiceTest extends RequestTestCase
           
           
             
-              request.setSection(SectionType.BEFORE_FIRST_SECTION);
+               request.setWhichFoodAllergy("WhichFoodAllergy");
             
           
         

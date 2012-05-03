@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-    <request>CompostableWasteCollectionRequest</request>
-    <data name="CompostableWasteType">
-        <label lang="fr">Type de végétaux</label>
-        <label lang="en">Kind of waste</label>
-        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+    <data name="CompostableWasteType" allowMultipleChoices="false">
+        <label>Type de végétaux</label>
+        <entries>
             <entry key="Herbe">
-                <label lang="fr">Herbe</label>
-                <message lang="fr"/>
+                <label>Herbe</label>
+                <message/>
             </entry>
             <entry key="Arbres">
-                <label lang="fr">Arbres</label>
-                <message lang="fr"/>
+                <label>Arbres</label>
+                <message/>
             </entry>
             <entry key="Plante">
-                <label lang="fr">Plante</label>
-                <message lang="fr"/>
+                <label>Plante</label>
+                <message/>
             </entry>
         </entries>
     </data>

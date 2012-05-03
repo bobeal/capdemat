@@ -43,7 +43,44 @@ public class AlignmentNumberingConnectionRequestServiceTest extends RequestTestC
         
           
           
+               request.setArea(BigInteger.valueOf(1));
+          
+        
+          
+          
+               request.setIsAccountAddress(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setIsAlignment(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setIsConnection(Boolean.valueOf(true));
+          
+        
+          
+          
                request.setIsNumbering(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+               request.setLocality("Locality");
+            
+          
+        
+          
+          
+               request.setMoreThanTwoYears(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setNumber(BigInteger.valueOf(1));
           
         
           
@@ -59,32 +96,27 @@ public class AlignmentNumberingConnectionRequestServiceTest extends RequestTestC
           
           
             
+            
+              
+                request.setOwnerAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+              
+            
+          
+        
+          
+          
+            
                request.setOwnerFirstNames("OwnerFirstNames");
             
           
         
           
           
-               request.setNumber(BigInteger.valueOf(1));
-          
-        
-          
-          
-               request.setArea(BigInteger.valueOf(1));
-          
-        
-          
-          
-               request.setMoreThanTwoYears(Boolean.valueOf(true));
-          
-        
-          
-          
             
-            
-              
-                request.setOwnerAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
-              
+              if ("OwnerLastName".length() > 38)
+                  request.setOwnerLastName("OwnerLastName".substring(0, 38));
+              else
+                  request.setOwnerLastName("OwnerLastName");
             
           
         
@@ -106,38 +138,6 @@ public class AlignmentNumberingConnectionRequestServiceTest extends RequestTestC
           
             
                request.setTransportationRoute("TransportationRoute");
-            
-          
-        
-          
-          
-            
-               request.setLocality("Locality");
-            
-          
-        
-          
-          
-               request.setIsConnection(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setIsAccountAddress(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setIsAlignment(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("OwnerLastName".length() > 38)
-                  request.setOwnerLastName("OwnerLastName".substring(0, 38));
-              else
-                  request.setOwnerLastName("OwnerLastName");
             
           
         

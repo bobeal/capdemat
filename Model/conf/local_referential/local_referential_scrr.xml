@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-    <request>SchoolCanteenRegistrationRequest</request>
     <data name="FoodDiet">
-        <label lang="fr">Régime alimentaire</label>
+        <label>Régime alimentaire</label>
     </data>
     <data name="CanteenAttendingDays">
-        <label lang="fr">Jours de présence</label>
+        <label>Jours de présence</label>
     </data>
 </LocalReferential>

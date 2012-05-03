@@ -45,20 +45,11 @@ public class RecreationActivityRegistrationRequestServiceTest extends RequestTes
           
             
             
-              request.setRecreationCenter(recreationCenterService.getAll().get(0));
-            
           
         
           
           
-            
-            
-          
-        
-          
-          
-            
-            
+               request.setChildPhotoExploitationPermission(Boolean.valueOf(true));
           
         
           
@@ -74,12 +65,21 @@ public class RecreationActivityRegistrationRequestServiceTest extends RequestTes
         
           
           
-               request.setChildPhotoExploitationPermission(Boolean.valueOf(true));
+               request.setHospitalizationPermission(Boolean.valueOf(true));
           
         
           
           
-               request.setHospitalizationPermission(Boolean.valueOf(true));
+            
+            
+          
+        
+          
+          
+            
+            
+              request.setRecreationCenter(recreationCenterService.getAll().get(0));
+            
           
         
           

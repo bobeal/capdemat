@@ -43,124 +43,8 @@ public class DayCareCenterRegistrationRequestServiceTest extends RequestTestCase
         
           
           
-               request.setEstHorairesReguliersMere(Boolean.valueOf(true));
-          
-        
-          
-          
-               request.setEstHorairesReguliersPere(Boolean.valueOf(true));
-          
-        
-          
-          
             
-               request.setProfessionPere("ProfessionPere");
-            
-          
-        
-          
-          
-        
-          
-          
-            
-               request.setHorairesTravailVendrediPere("HorairesTravailVendrediPere");
-            
-          
-        
-          
-          
-            
-               request.setHorairesReguliersPere("HorairesReguliersPere");
-            
-          
-        
-          
-          
-            
-               request.setHorairesTravailMercrediMere("HorairesTravailMercrediMere");
-            
-          
-        
-          
-          
-            
-              request.setSituationActuellePere(ChoixSituationActuelle.PLEIN);
-            
-          
-        
-          
-          
-            
-              request.setPlageHoraireContact(PlageHoraireContactType.MATIN);
-            
-          
-        
-          
-          
-            
-               request.setHorairesTravailLundiMere("HorairesTravailLundiMere");
-            
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-            
-               request.setHorairesTravailVendrediMere("HorairesTravailVendrediMere");
-            
-          
-        
-          
-          
-            
-               request.setPrecisionAutreSituationActuelleMere("PrecisionAutreSituationActuelleMere");
-            
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-            
-               request.setPrecisionAutreSituationActuellePere("PrecisionAutreSituationActuellePere");
-            
-          
-        
-          
-          
-               request.setDatePlacementFin(new Date());
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-            
-              request.setModeAccueilChoixDeux(ModeAccueilType.COLLECTIF);
-            
-          
-        
-          
-          
-            
-               request.setHorairesTravailMardiPere("HorairesTravailMardiPere");
+               request.setAccueilAnterieur("AccueilAnterieur");
             
           
         
@@ -173,19 +57,6 @@ public class DayCareCenterRegistrationRequestServiceTest extends RequestTestCase
         
           
           
-        
-          
-          
-            
-               request.setCommuneLieuTravailPere("CommuneLieuTravailPere");
-            
-          
-        
-          
-          
-        
-          
-          
             
               request.setChoixTypeDatePlacementAccueilRegulier(ChoixDatePlacement.CONNUE);
             
@@ -193,149 +64,8 @@ public class DayCareCenterRegistrationRequestServiceTest extends RequestTestCase
         
           
           
-               request.setModeAccueil(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-               request.setHorairesReguliersMere("HorairesReguliersMere");
-            
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
             
               request.setChoixTypeRendezVous(RendezVousType.PHYSIQUE);
-            
-          
-        
-          
-          
-            
-              request.setSituationActuelleMere(ChoixSituationActuelle.PLEIN);
-            
-          
-        
-          
-          
-               request.setDixHuitMoisEnfant(new Date());
-          
-        
-          
-          
-        
-          
-          
-               request.setDatePlacementDebut(new Date());
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-            
-               request.setHorairesTravailMercrediPere("HorairesTravailMercrediPere");
-            
-          
-        
-          
-          
-        
-          
-          
-            
-               request.setHorairesTravailLundiPere("HorairesTravailLundiPere");
-            
-          
-        
-          
-          
-        
-          
-          
-            
-               request.setCommuneLieuTravailMere("CommuneLieuTravailMere");
-            
-          
-        
-          
-          
-            
-               request.setHorairesTravailJeudiPere("HorairesTravailJeudiPere");
-            
-          
-        
-          
-          
-            
-               request.setHorairesTravailJeudiMere("HorairesTravailJeudiMere");
-            
-          
-        
-          
-          
-            
-              if ("TelephoneContact".length() > 10)
-                  request.setTelephoneContact("TelephoneContact".substring(0, 10));
-              else
-                  request.setTelephoneContact("TelephoneContact");
-            
-          
-        
-          
-          
-            
-               request.setHorairesTravailMardiMere("HorairesTravailMardiMere");
-            
-          
-        
-          
-          
-            
-               request.setAccueilAnterieur("AccueilAnterieur");
-            
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-            
-               request.setProfessionMere("ProfessionMere");
-            
-          
-        
-          
-          
-            
-              request.setModeAccueilChoixUn(ModeAccueilType.COLLECTIF);
             
           
         
@@ -350,6 +80,276 @@ public class DayCareCenterRegistrationRequestServiceTest extends RequestTestCase
           
         
           
+          
+            
+               request.setCommuneLieuTravailMere("CommuneLieuTravailMere");
+            
+          
+        
+          
+          
+            
+               request.setCommuneLieuTravailPere("CommuneLieuTravailPere");
+            
+          
+        
+          
+          
+               request.setDatePlacementDebut(new Date());
+          
+        
+          
+          
+               request.setDatePlacementFin(new Date());
+          
+        
+          
+          
+               request.setDixHuitMoisEnfant(new Date());
+          
+        
+          
+          
+               request.setEstHorairesReguliersMere(Boolean.valueOf(true));
+          
+        
+          
+          
+               request.setEstHorairesReguliersPere(Boolean.valueOf(true));
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+               request.setHorairesReguliersMere("HorairesReguliersMere");
+            
+          
+        
+          
+          
+            
+               request.setHorairesReguliersPere("HorairesReguliersPere");
+            
+          
+        
+          
+          
+            
+               request.setHorairesTravailJeudiMere("HorairesTravailJeudiMere");
+            
+          
+        
+          
+          
+            
+               request.setHorairesTravailJeudiPere("HorairesTravailJeudiPere");
+            
+          
+        
+          
+          
+            
+               request.setHorairesTravailLundiMere("HorairesTravailLundiMere");
+            
+          
+        
+          
+          
+            
+               request.setHorairesTravailLundiPere("HorairesTravailLundiPere");
+            
+          
+        
+          
+          
+            
+               request.setHorairesTravailMardiMere("HorairesTravailMardiMere");
+            
+          
+        
+          
+          
+            
+               request.setHorairesTravailMardiPere("HorairesTravailMardiPere");
+            
+          
+        
+          
+          
+            
+               request.setHorairesTravailMercrediMere("HorairesTravailMercrediMere");
+            
+          
+        
+          
+          
+            
+               request.setHorairesTravailMercrediPere("HorairesTravailMercrediPere");
+            
+          
+        
+          
+          
+            
+               request.setHorairesTravailVendrediMere("HorairesTravailVendrediMere");
+            
+          
+        
+          
+          
+            
+               request.setHorairesTravailVendrediPere("HorairesTravailVendrediPere");
+            
+          
+        
+          
+          
+               request.setModeAccueil(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+              request.setModeAccueilChoixDeux(ModeAccueilType.COLLECTIF);
+            
+          
+        
+          
+          
+            
+              request.setModeAccueilChoixUn(ModeAccueilType.COLLECTIF);
+            
+          
+        
+          
+          
+            
+              request.setPlageHoraireContact(PlageHoraireContactType.MATIN);
+            
+          
+        
+          
+          
+            
+               request.setPrecisionAutreSituationActuelleMere("PrecisionAutreSituationActuelleMere");
+            
+          
+        
+          
+          
+            
+               request.setPrecisionAutreSituationActuellePere("PrecisionAutreSituationActuellePere");
+            
+          
+        
+          
+          
+            
+               request.setProfessionMere("ProfessionMere");
+            
+          
+        
+          
+          
+            
+               request.setProfessionPere("ProfessionPere");
+            
+          
+        
+          
+          
+            
+              request.setSituationActuelleMere(ChoixSituationActuelle.PLEIN);
+            
+          
+        
+          
+          
+            
+              request.setSituationActuellePere(ChoixSituationActuelle.PLEIN);
+            
+          
+        
+          
+          
+            
+              if ("TelephoneContact".length() > 10)
+                  request.setTelephoneContact("TelephoneContact".substring(0, 10));
+              else
+                  request.setTelephoneContact("TelephoneContact");
+            
           
         
         // Means Of Contact
@@ -425,7 +425,7 @@ public class DayCareCenterRegistrationRequestServiceTest extends RequestTestCase
         request.setRequesterId(SecurityContext.getCurrentUserId());
         request.setHomeFolderId(homeFolderId);
         DayCareCenterRegistrationRequestFeeder.setSubject(request, requestService.getSubjectPolicy(), null, homeFolder);
-        Long requestId = requestWorkflowService.create(request, null, null, null);
+        Long requestId = requestWorkflowService.create(request, null);
         DayCareCenterRegistrationRequest requestFromDb = (DayCareCenterRegistrationRequest) requestSearchService.getById(requestId, true);
         assertEquals(requestId, requestFromDb.getId());
         assertNotNull(requestFromDb.getRequesterId());

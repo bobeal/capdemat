@@ -36,25 +36,25 @@ public class MilitaryCensusRequestData implements Serializable {
 
     public MilitaryCensusRequestData() {
       
-        childStatus = fr.cg95.cvq.business.users.FamilyStatusType.OTHER;
-      
-        prefectPupil = Boolean.valueOf(false);
-      
-        childCountry = fr.cg95.cvq.business.users.FullNationalityType.FR;
-      
         affectionOrDisease = Boolean.valueOf(false);
-      
-        japdExemption = Boolean.valueOf(false);
-      
-        statePupil = Boolean.valueOf(false);
       
         childBirthCountry = fr.cg95.cvq.business.users.CountryType.FR;
       
-        motherNationality = fr.cg95.cvq.business.users.FullNationalityType.FR;
+        childCountry = fr.cg95.cvq.business.users.FullNationalityType.FR;
+      
+        childResidenceCountry = fr.cg95.cvq.business.users.CountryType.FR;
+      
+        childStatus = fr.cg95.cvq.business.users.FamilyStatusType.OTHER;
       
         highlyInfirm = Boolean.valueOf(false);
       
-        childResidenceCountry = fr.cg95.cvq.business.users.CountryType.FR;
+        japdExemption = Boolean.valueOf(false);
+      
+        motherNationality = fr.cg95.cvq.business.users.FullNationalityType.FR;
+      
+        prefectPupil = Boolean.valueOf(false);
+      
+        statePupil = Boolean.valueOf(false);
       
     }
 
@@ -73,256 +73,21 @@ public class MilitaryCensusRequestData implements Serializable {
 
   
     
-    private String fatherBirthCity;
+    private Boolean affectionOrDisease;
 
-    public final void setFatherBirthCity(final String fatherBirthCity) {
-        this.fatherBirthCity = fatherBirthCity;
+    public final void setAffectionOrDisease(final Boolean affectionOrDisease) {
+        this.affectionOrDisease = affectionOrDisease;
     }
 
     /**
  
         * @hibernate.property
-        *  column="father_birth_city"
+        *  column="affection_or_disease"
         
       
     */
-    public final String getFatherBirthCity() {
-        return this.fatherBirthCity;
-    }
-  
-    
-    private java.util.Date fatherBirthDate;
-
-    public final void setFatherBirthDate(final java.util.Date fatherBirthDate) {
-        this.fatherBirthDate = fatherBirthDate;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="father_birth_date"
-        
-      
-    */
-    public final java.util.Date getFatherBirthDate() {
-        return this.fatherBirthDate;
-    }
-  
-    
-    private fr.cg95.cvq.business.users.InseeDepartementCodeType fatherBirthDepartment;
-
-    public final void setFatherBirthDepartment(final fr.cg95.cvq.business.users.InseeDepartementCodeType fatherBirthDepartment) {
-        this.fatherBirthDepartment = fatherBirthDepartment;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="father_birth_department"
-        
-      
-    */
-    public final fr.cg95.cvq.business.users.InseeDepartementCodeType getFatherBirthDepartment() {
-        return this.fatherBirthDepartment;
-    }
-  
-    
-    private String childProfession;
-
-    public final void setChildProfession(final String childProfession) {
-        this.childProfession = childProfession;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="child_profession"
-        
-      
-    */
-    public final String getChildProfession() {
-        return this.childProfession;
-    }
-  
-    
-    private String childSpeciality;
-
-    public final void setChildSpeciality(final String childSpeciality) {
-        this.childSpeciality = childSpeciality;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="child_speciality"
-        
-      
-    */
-    public final String getChildSpeciality() {
-        return this.childSpeciality;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 38,
-        
-        
-        profiles = {"parentage"},
-        message = "fatherFirstName"
-      )
-    
-    private String fatherFirstName;
-
-    public final void setFatherFirstName(final String fatherFirstName) {
-        this.fatherFirstName = fatherFirstName;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="father_first_name"
-        *  length="38"
-      
-    */
-    public final String getFatherFirstName() {
-        return this.fatherFirstName;
-    }
-  
-    
-    private fr.cg95.cvq.business.users.FullNationalityType childOtherCountry;
-
-    public final void setChildOtherCountry(final fr.cg95.cvq.business.users.FullNationalityType childOtherCountry) {
-        this.childOtherCountry = childOtherCountry;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="child_other_country"
-        
-      
-    */
-    public final fr.cg95.cvq.business.users.FullNationalityType getChildOtherCountry() {
-        return this.childOtherCountry;
-    }
-  
-    
-    private String otherSituation;
-
-    public final void setOtherSituation(final String otherSituation) {
-        this.otherSituation = otherSituation;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="other_situation"
-        
-      
-    */
-    public final String getOtherSituation() {
-        return this.otherSituation;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"parentage"},
-        message = "motherBirthCity"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"parentage"},
-        message = "motherBirthCity"
-      )
-    
-    private String motherBirthCity;
-
-    public final void setMotherBirthCity(final String motherBirthCity) {
-        this.motherBirthCity = motherBirthCity;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="mother_birth_city"
-        
-      
-    */
-    public final String getMotherBirthCity() {
-        return this.motherBirthCity;
-    }
-  
-    
-    private fr.cg95.cvq.business.users.FullNationalityType fatherNationality;
-
-    public final void setFatherNationality(final fr.cg95.cvq.business.users.FullNationalityType fatherNationality) {
-        this.fatherNationality = fatherNationality;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="father_nationality"
-        
-      
-    */
-    public final fr.cg95.cvq.business.users.FullNationalityType getFatherNationality() {
-        return this.fatherNationality;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"parentage"},
-        message = "motherBirthDate"
-      )
-    
-    private java.util.Date motherBirthDate;
-
-    public final void setMotherBirthDate(final java.util.Date motherBirthDate) {
-        this.motherBirthDate = motherBirthDate;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="mother_birth_date"
-        
-      
-    */
-    public final java.util.Date getMotherBirthDate() {
-        return this.motherBirthDate;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"situation"},
-        message = "childStatus"
-      )
-    
-    private fr.cg95.cvq.business.users.FamilyStatusType childStatus;
-
-    public final void setChildStatus(final fr.cg95.cvq.business.users.FamilyStatusType childStatus) {
-        this.childStatus = childStatus;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="child_status"
-        
-      
-    */
-    public final fr.cg95.cvq.business.users.FamilyStatusType getChildStatus() {
-        return this.childStatus;
+    public final Boolean getAffectionOrDisease() {
+        return this.affectionOrDisease;
     }
   
     
@@ -349,268 +114,6 @@ public class MilitaryCensusRequestData implements Serializable {
     */
     public final java.math.BigInteger getAliveChildren() {
         return this.aliveChildren;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"situation"},
-        message = "prefectPupil"
-      )
-    
-    private Boolean prefectPupil;
-
-    public final void setPrefectPupil(final Boolean prefectPupil) {
-        this.prefectPupil = prefectPupil;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="prefect_pupil"
-        
-      
-    */
-    public final Boolean getPrefectPupil() {
-        return this.prefectPupil;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"situation"},
-        message = "childrenInCharge"
-      )
-    
-    private java.math.BigInteger childrenInCharge;
-
-    public final void setChildrenInCharge(final java.math.BigInteger childrenInCharge) {
-        this.childrenInCharge = childrenInCharge;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="children_in_charge"
-        *  type="serializable"
-        
-      
-    */
-    public final java.math.BigInteger getChildrenInCharge() {
-        return this.childrenInCharge;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"census"},
-        message = "childCountry"
-      )
-    
-    private fr.cg95.cvq.business.users.FullNationalityType childCountry;
-
-    public final void setChildCountry(final fr.cg95.cvq.business.users.FullNationalityType childCountry) {
-        this.childCountry = childCountry;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="child_country"
-        
-      
-    */
-    public final fr.cg95.cvq.business.users.FullNationalityType getChildCountry() {
-        return this.childCountry;
-    }
-  
-    
-    private Boolean affectionOrDisease;
-
-    public final void setAffectionOrDisease(final Boolean affectionOrDisease) {
-        this.affectionOrDisease = affectionOrDisease;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="affection_or_disease"
-        
-      
-    */
-    public final Boolean getAffectionOrDisease() {
-        return this.affectionOrDisease;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"exemption"},
-        message = "japdExemption"
-      )
-    
-    private Boolean japdExemption;
-
-    public final void setJapdExemption(final Boolean japdExemption) {
-        this.japdExemption = japdExemption;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="japd_exemption"
-        
-      
-    */
-    public final Boolean getJapdExemption() {
-        return this.japdExemption;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"situation"},
-        message = "childSituation"
-      )
-    
-    private fr.cg95.cvq.business.request.military.ChildSituationType childSituation;
-
-    public final void setChildSituation(final fr.cg95.cvq.business.request.military.ChildSituationType childSituation) {
-        this.childSituation = childSituation;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="child_situation"
-        
-      
-    */
-    public final fr.cg95.cvq.business.request.military.ChildSituationType getChildSituation() {
-        return this.childSituation;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 38,
-        
-        
-        profiles = {"parentage"},
-        message = "motherFirstName"
-      )
-    
-      @NotNull(
-        
-        
-        profiles = {"parentage"},
-        message = "motherFirstName"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"parentage"},
-        message = "motherFirstName"
-      )
-    
-    private String motherFirstName;
-
-    public final void setMotherFirstName(final String motherFirstName) {
-        this.motherFirstName = motherFirstName;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="mother_first_name"
-        *  length="38"
-      
-    */
-    public final String getMotherFirstName() {
-        return this.motherFirstName;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 38,
-        
-        
-        profiles = {"census"},
-        message = "maidenName"
-      )
-    
-    private String maidenName;
-
-    public final void setMaidenName(final String maidenName) {
-        this.maidenName = maidenName;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="maiden_name"
-        *  length="38"
-      
-    */
-    public final String getMaidenName() {
-        return this.maidenName;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"situation"},
-        message = "statePupil"
-      )
-    
-    private Boolean statePupil;
-
-    public final void setStatePupil(final Boolean statePupil) {
-        this.statePupil = statePupil;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="state_pupil"
-        
-      
-    */
-    public final Boolean getStatePupil() {
-        return this.statePupil;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"census"},
-        message = "childTitle"
-      )
-    
-    private fr.cg95.cvq.business.users.TitleType childTitle;
-
-    public final void setChildTitle(final fr.cg95.cvq.business.users.TitleType childTitle) {
-        this.childTitle = childTitle;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="child_title"
-        
-      
-    */
-    public final fr.cg95.cvq.business.users.TitleType getChildTitle() {
-        return this.childTitle;
     }
   
     
@@ -678,25 +181,86 @@ public class MilitaryCensusRequestData implements Serializable {
       @NotNull(
         
         
-        profiles = {"parentage"},
-        message = "motherNationality"
+        profiles = {"census"},
+        message = "childCountry"
       )
     
-    private fr.cg95.cvq.business.users.FullNationalityType motherNationality;
+    private fr.cg95.cvq.business.users.FullNationalityType childCountry;
 
-    public final void setMotherNationality(final fr.cg95.cvq.business.users.FullNationalityType motherNationality) {
-        this.motherNationality = motherNationality;
+    public final void setChildCountry(final fr.cg95.cvq.business.users.FullNationalityType childCountry) {
+        this.childCountry = childCountry;
     }
 
     /**
  
         * @hibernate.property
-        *  column="mother_nationality"
+        *  column="child_country"
         
       
     */
-    public final fr.cg95.cvq.business.users.FullNationalityType getMotherNationality() {
-        return this.motherNationality;
+    public final fr.cg95.cvq.business.users.FullNationalityType getChildCountry() {
+        return this.childCountry;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"situation"},
+        message = "childDiploma"
+      )
+    
+    private fr.cg95.cvq.business.request.military.ChildDiplomaType childDiploma;
+
+    public final void setChildDiploma(final fr.cg95.cvq.business.request.military.ChildDiplomaType childDiploma) {
+        this.childDiploma = childDiploma;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="child_diploma"
+        
+      
+    */
+    public final fr.cg95.cvq.business.request.military.ChildDiplomaType getChildDiploma() {
+        return this.childDiploma;
+    }
+  
+    
+    private String childMail;
+
+    public final void setChildMail(final String childMail) {
+        this.childMail = childMail;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="child_mail"
+        
+      
+    */
+    public final String getChildMail() {
+        return this.childMail;
+    }
+  
+    
+    private fr.cg95.cvq.business.users.FullNationalityType childOtherCountry;
+
+    public final void setChildOtherCountry(final fr.cg95.cvq.business.users.FullNationalityType childOtherCountry) {
+        this.childOtherCountry = childOtherCountry;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="child_other_country"
+        
+      
+    */
+    public final fr.cg95.cvq.business.users.FullNationalityType getChildOtherCountry() {
+        return this.childOtherCountry;
     }
   
     
@@ -741,6 +305,179 @@ public class MilitaryCensusRequestData implements Serializable {
     }
   
     
+    private String childProfession;
+
+    public final void setChildProfession(final String childProfession) {
+        this.childProfession = childProfession;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="child_profession"
+        
+      
+    */
+    public final String getChildProfession() {
+        return this.childProfession;
+    }
+  
+    
+    private fr.cg95.cvq.business.users.CountryType childResidenceCountry;
+
+    public final void setChildResidenceCountry(final fr.cg95.cvq.business.users.CountryType childResidenceCountry) {
+        this.childResidenceCountry = childResidenceCountry;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="child_residence_country"
+        
+      
+    */
+    public final fr.cg95.cvq.business.users.CountryType getChildResidenceCountry() {
+        return this.childResidenceCountry;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"situation"},
+        message = "childSituation"
+      )
+    
+    private fr.cg95.cvq.business.request.military.ChildSituationType childSituation;
+
+    public final void setChildSituation(final fr.cg95.cvq.business.request.military.ChildSituationType childSituation) {
+        this.childSituation = childSituation;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="child_situation"
+        
+      
+    */
+    public final fr.cg95.cvq.business.request.military.ChildSituationType getChildSituation() {
+        return this.childSituation;
+    }
+  
+    
+    private String childSpeciality;
+
+    public final void setChildSpeciality(final String childSpeciality) {
+        this.childSpeciality = childSpeciality;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="child_speciality"
+        
+      
+    */
+    public final String getChildSpeciality() {
+        return this.childSpeciality;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"situation"},
+        message = "childStatus"
+      )
+    
+    private fr.cg95.cvq.business.users.FamilyStatusType childStatus;
+
+    public final void setChildStatus(final fr.cg95.cvq.business.users.FamilyStatusType childStatus) {
+        this.childStatus = childStatus;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="child_status"
+        
+      
+    */
+    public final fr.cg95.cvq.business.users.FamilyStatusType getChildStatus() {
+        return this.childStatus;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"census"},
+        message = "childTitle"
+      )
+    
+    private fr.cg95.cvq.business.users.TitleType childTitle;
+
+    public final void setChildTitle(final fr.cg95.cvq.business.users.TitleType childTitle) {
+        this.childTitle = childTitle;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="child_title"
+        
+      
+    */
+    public final fr.cg95.cvq.business.users.TitleType getChildTitle() {
+        return this.childTitle;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"situation"},
+        message = "childrenInCharge"
+      )
+    
+    private java.math.BigInteger childrenInCharge;
+
+    public final void setChildrenInCharge(final java.math.BigInteger childrenInCharge) {
+        this.childrenInCharge = childrenInCharge;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="children_in_charge"
+        *  type="serializable"
+        
+      
+    */
+    public final java.math.BigInteger getChildrenInCharge() {
+        return this.childrenInCharge;
+    }
+  
+    
+    private String fatherBirthCity;
+
+    public final void setFatherBirthCity(final String fatherBirthCity) {
+        this.fatherBirthCity = fatherBirthCity;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="father_birth_city"
+        
+      
+    */
+    public final String getFatherBirthCity() {
+        return this.fatherBirthCity;
+    }
+  
+    
     private fr.cg95.cvq.business.users.CountryType fatherBirthCountry;
 
     public final void setFatherBirthCountry(final fr.cg95.cvq.business.users.CountryType fatherBirthCountry) {
@@ -759,21 +496,315 @@ public class MilitaryCensusRequestData implements Serializable {
     }
   
     
-    private String childMail;
+    private java.util.Date fatherBirthDate;
 
-    public final void setChildMail(final String childMail) {
-        this.childMail = childMail;
+    public final void setFatherBirthDate(final java.util.Date fatherBirthDate) {
+        this.fatherBirthDate = fatherBirthDate;
     }
 
     /**
  
         * @hibernate.property
-        *  column="child_mail"
+        *  column="father_birth_date"
         
       
     */
-    public final String getChildMail() {
-        return this.childMail;
+    public final java.util.Date getFatherBirthDate() {
+        return this.fatherBirthDate;
+    }
+  
+    
+    private fr.cg95.cvq.business.users.InseeDepartementCodeType fatherBirthDepartment;
+
+    public final void setFatherBirthDepartment(final fr.cg95.cvq.business.users.InseeDepartementCodeType fatherBirthDepartment) {
+        this.fatherBirthDepartment = fatherBirthDepartment;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="father_birth_department"
+        
+      
+    */
+    public final fr.cg95.cvq.business.users.InseeDepartementCodeType getFatherBirthDepartment() {
+        return this.fatherBirthDepartment;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"parentage"},
+        message = "fatherFirstName"
+      )
+    
+    private String fatherFirstName;
+
+    public final void setFatherFirstName(final String fatherFirstName) {
+        this.fatherFirstName = fatherFirstName;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="father_first_name"
+        *  length="38"
+      
+    */
+    public final String getFatherFirstName() {
+        return this.fatherFirstName;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"parentage"},
+        message = "fatherLastName"
+      )
+    
+    private String fatherLastName;
+
+    public final void setFatherLastName(final String fatherLastName) {
+        this.fatherLastName = fatherLastName;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="father_last_name"
+        *  length="38"
+      
+    */
+    public final String getFatherLastName() {
+        return this.fatherLastName;
+    }
+  
+    
+    private fr.cg95.cvq.business.users.FullNationalityType fatherNationality;
+
+    public final void setFatherNationality(final fr.cg95.cvq.business.users.FullNationalityType fatherNationality) {
+        this.fatherNationality = fatherNationality;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="father_nationality"
+        
+      
+    */
+    public final fr.cg95.cvq.business.users.FullNationalityType getFatherNationality() {
+        return this.fatherNationality;
+    }
+  
+    
+    private Boolean highlyInfirm;
+
+    public final void setHighlyInfirm(final Boolean highlyInfirm) {
+        this.highlyInfirm = highlyInfirm;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="highly_infirm"
+        
+      
+    */
+    public final Boolean getHighlyInfirm() {
+        return this.highlyInfirm;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"exemption"},
+        message = "japdExemption"
+      )
+    
+    private Boolean japdExemption;
+
+    public final void setJapdExemption(final Boolean japdExemption) {
+        this.japdExemption = japdExemption;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="japd_exemption"
+        
+      
+    */
+    public final Boolean getJapdExemption() {
+        return this.japdExemption;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"census"},
+        message = "maidenName"
+      )
+    
+    private String maidenName;
+
+    public final void setMaidenName(final String maidenName) {
+        this.maidenName = maidenName;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="maiden_name"
+        *  length="38"
+      
+    */
+    public final String getMaidenName() {
+        return this.maidenName;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"parentage"},
+        message = "motherBirthCity"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"parentage"},
+        message = "motherBirthCity"
+      )
+    
+    private String motherBirthCity;
+
+    public final void setMotherBirthCity(final String motherBirthCity) {
+        this.motherBirthCity = motherBirthCity;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="mother_birth_city"
+        
+      
+    */
+    public final String getMotherBirthCity() {
+        return this.motherBirthCity;
+    }
+  
+    
+    private fr.cg95.cvq.business.users.CountryType motherBirthCountry;
+
+    public final void setMotherBirthCountry(final fr.cg95.cvq.business.users.CountryType motherBirthCountry) {
+        this.motherBirthCountry = motherBirthCountry;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="mother_birth_country"
+        
+      
+    */
+    public final fr.cg95.cvq.business.users.CountryType getMotherBirthCountry() {
+        return this.motherBirthCountry;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"parentage"},
+        message = "motherBirthDate"
+      )
+    
+    private java.util.Date motherBirthDate;
+
+    public final void setMotherBirthDate(final java.util.Date motherBirthDate) {
+        this.motherBirthDate = motherBirthDate;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="mother_birth_date"
+        
+      
+    */
+    public final java.util.Date getMotherBirthDate() {
+        return this.motherBirthDate;
+    }
+  
+    
+    private fr.cg95.cvq.business.users.InseeDepartementCodeType motherBirthDepartment;
+
+    public final void setMotherBirthDepartment(final fr.cg95.cvq.business.users.InseeDepartementCodeType motherBirthDepartment) {
+        this.motherBirthDepartment = motherBirthDepartment;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="mother_birth_department"
+        
+      
+    */
+    public final fr.cg95.cvq.business.users.InseeDepartementCodeType getMotherBirthDepartment() {
+        return this.motherBirthDepartment;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"parentage"},
+        message = "motherFirstName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"parentage"},
+        message = "motherFirstName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"parentage"},
+        message = "motherFirstName"
+      )
+    
+    private String motherFirstName;
+
+    public final void setMotherFirstName(final String motherFirstName) {
+        this.motherFirstName = motherFirstName;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="mother_first_name"
+        *  length="38"
+      
+    */
+    public final String getMotherFirstName() {
+        return this.motherFirstName;
     }
   
     
@@ -821,88 +852,68 @@ public class MilitaryCensusRequestData implements Serializable {
       @NotNull(
         
         
-        profiles = {"situation"},
-        message = "childDiploma"
-      )
-    
-    private fr.cg95.cvq.business.request.military.ChildDiplomaType childDiploma;
-
-    public final void setChildDiploma(final fr.cg95.cvq.business.request.military.ChildDiplomaType childDiploma) {
-        this.childDiploma = childDiploma;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="child_diploma"
-        
-      
-    */
-    public final fr.cg95.cvq.business.request.military.ChildDiplomaType getChildDiploma() {
-        return this.childDiploma;
-    }
-  
-    
-    private Boolean highlyInfirm;
-
-    public final void setHighlyInfirm(final Boolean highlyInfirm) {
-        this.highlyInfirm = highlyInfirm;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="highly_infirm"
-        
-      
-    */
-    public final Boolean getHighlyInfirm() {
-        return this.highlyInfirm;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 38,
-        
-        
         profiles = {"parentage"},
-        message = "fatherLastName"
+        message = "motherNationality"
       )
     
-    private String fatherLastName;
+    private fr.cg95.cvq.business.users.FullNationalityType motherNationality;
 
-    public final void setFatherLastName(final String fatherLastName) {
-        this.fatherLastName = fatherLastName;
+    public final void setMotherNationality(final fr.cg95.cvq.business.users.FullNationalityType motherNationality) {
+        this.motherNationality = motherNationality;
     }
 
     /**
  
         * @hibernate.property
-        *  column="father_last_name"
-        *  length="38"
-      
-    */
-    public final String getFatherLastName() {
-        return this.fatherLastName;
-    }
-  
-    
-    private fr.cg95.cvq.business.users.CountryType motherBirthCountry;
-
-    public final void setMotherBirthCountry(final fr.cg95.cvq.business.users.CountryType motherBirthCountry) {
-        this.motherBirthCountry = motherBirthCountry;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="mother_birth_country"
+        *  column="mother_nationality"
         
       
     */
-    public final fr.cg95.cvq.business.users.CountryType getMotherBirthCountry() {
-        return this.motherBirthCountry;
+    public final fr.cg95.cvq.business.users.FullNationalityType getMotherNationality() {
+        return this.motherNationality;
+    }
+  
+    
+    private String otherSituation;
+
+    public final void setOtherSituation(final String otherSituation) {
+        this.otherSituation = otherSituation;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="other_situation"
+        
+      
+    */
+    public final String getOtherSituation() {
+        return this.otherSituation;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"situation"},
+        message = "prefectPupil"
+      )
+    
+    private Boolean prefectPupil;
+
+    public final void setPrefectPupil(final Boolean prefectPupil) {
+        this.prefectPupil = prefectPupil;
+    }
+
+    /**
+ 
+        * @hibernate.property
+        *  column="prefect_pupil"
+        
+      
+    */
+    public final Boolean getPrefectPupil() {
+        return this.prefectPupil;
     }
   
     
@@ -940,39 +951,28 @@ public class MilitaryCensusRequestData implements Serializable {
     }
   
     
-    private fr.cg95.cvq.business.users.CountryType childResidenceCountry;
-
-    public final void setChildResidenceCountry(final fr.cg95.cvq.business.users.CountryType childResidenceCountry) {
-        this.childResidenceCountry = childResidenceCountry;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="child_residence_country"
+      @NotNull(
         
-      
-    */
-    public final fr.cg95.cvq.business.users.CountryType getChildResidenceCountry() {
-        return this.childResidenceCountry;
-    }
-  
+        
+        profiles = {"situation"},
+        message = "statePupil"
+      )
     
-    private fr.cg95.cvq.business.users.InseeDepartementCodeType motherBirthDepartment;
+    private Boolean statePupil;
 
-    public final void setMotherBirthDepartment(final fr.cg95.cvq.business.users.InseeDepartementCodeType motherBirthDepartment) {
-        this.motherBirthDepartment = motherBirthDepartment;
+    public final void setStatePupil(final Boolean statePupil) {
+        this.statePupil = statePupil;
     }
 
     /**
  
         * @hibernate.property
-        *  column="mother_birth_department"
+        *  column="state_pupil"
         
       
     */
-    public final fr.cg95.cvq.business.users.InseeDepartementCodeType getMotherBirthDepartment() {
-        return this.motherBirthDepartment;
+    public final Boolean getStatePupil() {
+        return this.statePupil;
     }
   
 }

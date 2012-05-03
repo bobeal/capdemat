@@ -44,21 +44,22 @@ public class AlignmentCertificateRequestServiceTest extends RequestTestCase {
           
           
             
-              request.setRequesterQuality(AcrRequesterQualityType.OWNER);
+               request.setLocality("Locality");
             
           
         
           
           
-            
-               request.setSection("Section");
-            
+               request.setNumber(BigInteger.valueOf(1));
           
         
           
           
             
-               request.setTransportationRoute("TransportationRoute");
+            
+              
+                request.setOwnerAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+              
             
           
         
@@ -67,18 +68,6 @@ public class AlignmentCertificateRequestServiceTest extends RequestTestCase {
             
                request.setOwnerFirstNames("OwnerFirstNames");
             
-          
-        
-          
-          
-            
-               request.setLocality("Locality");
-            
-          
-        
-          
-          
-               request.setNumber(BigInteger.valueOf(1));
           
         
           
@@ -94,10 +83,21 @@ public class AlignmentCertificateRequestServiceTest extends RequestTestCase {
           
           
             
+              request.setRequesterQuality(AcrRequesterQualityType.OWNER);
             
-              
-                request.setOwnerAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
-              
+          
+        
+          
+          
+            
+               request.setSection("Section");
+            
+          
+        
+          
+          
+            
+               request.setTransportationRoute("TransportationRoute");
             
           
         

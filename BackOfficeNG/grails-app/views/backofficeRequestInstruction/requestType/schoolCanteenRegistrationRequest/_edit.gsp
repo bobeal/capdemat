@@ -51,7 +51,7 @@
                 <dt class="required"><g:message code="scrr.property.foodDiet.label" /> * : </dt><dd id="foodDiet" class="action-editField validate-localReferentialData required-true i18n-scrr.property.foodDiet data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'foodDiet', 'lrEntries': lrTypes.foodDiet?.entries, 
-                             'rqt':rqt, 'isMultiple':lrTypes.foodDiet?.entriesSupportMultiple, 'depth':0]" />
+                             'rqt':rqt, 'isMultiple':lrTypes.foodDiet?.isMultiple(), 'depth':0]" />
  
           </dd>
               </dl>
@@ -62,7 +62,7 @@
                 <dt class="required"><g:message code="scrr.property.canteenAttendingDays.label" /> * : </dt><dd id="canteenAttendingDays" class="action-editField validate-localReferentialData required-true i18n-scrr.property.canteenAttendingDays data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'canteenAttendingDays', 'lrEntries': lrTypes.canteenAttendingDays?.entries, 
-                             'rqt':rqt, 'isMultiple':lrTypes.canteenAttendingDays?.entriesSupportMultiple, 'depth':0]" />
+                             'rqt':rqt, 'isMultiple':lrTypes.canteenAttendingDays?.isMultiple(), 'depth':0]" />
  
           </dd>
               </dl>
@@ -70,7 +70,13 @@
             
               
               <dl>
-                <dt class="required"><g:message code="scrr.property.foodAllergy.label" /> * : </dt><dd id="foodAllergy" class="action-editField validate-boolean required-true i18n-scrr.property.foodAllergy" ><span class="value-${rqt?.foodAllergy}"><g:message code="message.${rqt?.foodAllergy ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required condition-foodAllergy-trigger"><g:message code="scrr.property.foodAllergy.label" /> * : </dt><dd id="foodAllergy" class="action-editField validate-boolean required-true i18n-scrr.property.foodAllergy" ><span class="value-${rqt?.foodAllergy}"><g:message code="message.${rqt?.foodAllergy ? 'yes' : 'no'}" /></span></dd>
+              </dl>
+              
+            
+              
+              <dl>
+                <dt class="required condition-foodAllergy-filled"><g:message code="scrr.property.whichFoodAllergy.label" /> * : </dt><dd id="whichFoodAllergy" class="action-editField validate-string required-true i18n-scrr.property.whichFoodAllergy" ><span>${rqt?.whichFoodAllergy}</span></dd>
               </dl>
               
             

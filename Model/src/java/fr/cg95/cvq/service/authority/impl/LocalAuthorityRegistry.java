@@ -6,9 +6,9 @@ import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -385,10 +385,10 @@ public class LocalAuthorityRegistry
         if (resourceFile == null || !resourceFile.exists())
             return null;
         
-        FileReader fileReader = null;
+        InputStreamReader fileReader = null;
         String result = null;
         try {
-            fileReader = new FileReader(resourceFile);
+            fileReader = new InputStreamReader(new FileInputStream(resourceFile), "UTF-8");
             char[] data = new char[(int) resourceFile.length()];
             fileReader.read(data);
             result = new String(data);

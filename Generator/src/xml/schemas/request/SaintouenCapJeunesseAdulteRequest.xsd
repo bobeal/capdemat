@@ -67,7 +67,7 @@
               </xs:annotation>
             </xs:element>
 
-            <xs:element name="Sexe" type="cvq:SexType">
+            <xs:element name="Sexe" type="scjar:ScjarSexeType">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Sexe
@@ -77,7 +77,6 @@
                   Sexe
                 </xs:documentation>
                 <xs:appinfo>
-                  <model namespace="users" isTiedToRequest="true" />
                   <common>
                     <step name="sujet" />
                   </common>
@@ -297,14 +296,10 @@
             <xs:element name="AutorisationMedicale" type="cvq:AcceptanceType" default="true" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  J'autorise la Direction du service municipal de la jeunesse à prendre en cas d'accident au cours d'activités, 
-                  toutes les mesures d'urgence en vue de m'assurer les soins médicaux avec, si nécessaire, le transport 
-                  à l'hôpital ou toute autre établissement de soins.
+                  J'autorise la Direction du service municipal de la jeunesse à prendre en cas d'accident au cours d'activités, toutes les mesures d'urgence en vue de m'assurer les soins médicaux avec, si nécessaire, le transport à l'hôpital ou toute autre établissement de soins.
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  J'autorise la Direction du service municipal de la jeunesse à prendre en cas d'accident au cours d'activités, 
-                  toutes les mesures d'urgence en vue de m'assurer les soins médicaux avec, si nécessaire, le transport 
-                  à l'hôpital ou toute autre établissement de soins.
+                  J'autorise la Direction du service municipal de la jeunesse à prendre en cas d'accident au cours d'activités, toutes les mesures d'urgence en vue de m'assurer les soins médicaux avec, si nécessaire, le transport à l'hôpital ou toute autre établissement de soins.
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -322,12 +317,10 @@
             <xs:element name="AutorisationImage" type="cvq:AcceptanceType" default="true" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  J'autorise le service municipal de la jeunesse à me photographier, filmer et utiliser 
-                  les documents uniquement pour les expositions et publications de la ville.
+                  J'autorise le service municipal de la jeunesse à me photographier, filmer et utiliser les documents uniquement pour les expositions et publications de la ville.
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  J'autorise le service municipal de la jeunesse à me photographier, filmer et utiliser 
-                  les documents uniquement pour les expositions et publications de la ville.
+                  J'autorise le service municipal de la jeunesse à me photographier, filmer et utiliser les documents uniquement pour les expositions et publications de la ville.
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -345,12 +338,10 @@
             <xs:element name="AcceptationReglement" type="cvq:AcceptanceType" default="false">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                 J'atteste avoir pris connaissance du règlement intérieur. Son non-respect entraînera 
-                 une sanction définie par l'équipe d'animation et sera communiquée à qui de droit (interessé, parents).
+                 J'atteste avoir pris connaissance du règlement intérieur. Son non-respect entraînera une sanction définie par l'équipe d'animation et sera communiquée à qui de droit (interessé, parents).
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  J'atteste avoir pris connaissance du règlement intérieur. Son non-respect entraînera 
-                  une sanction définie par l'équipe d'animation et sera communiquée à qui de droit (interessé, parents).
+                  J'atteste avoir pris connaissance du règlement intérieur. Son non-respect entraînera une sanction définie par l'équipe d'animation et sera communiquée à qui de droit (interessé, parents).
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -444,6 +435,25 @@
       <xs:enumeration value="Etudiant" />
       <xs:enumeration value="Salarie" />
       <xs:enumeration value="SansEmploi" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ScjarSexeType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Sexe type
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Sexe type
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Male" value="Masculin" />
+        <enum key="Female" value="Féminin" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Male" />
+      <xs:enumeration value="Female" />
     </xs:restriction>
   </xs:simpleType>
 

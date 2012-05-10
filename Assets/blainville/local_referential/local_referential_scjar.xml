@@ -23,6 +23,10 @@
                 <label>Michelet / Debain</label>
                 <message/>
             </entry>
+            <entry key="Hors-Saint-Ouen">
+                <label>Hors Saint-Ouen</label>
+                <message/>
+            </entry>
         </entries>
     </data>
 </LocalReferential>

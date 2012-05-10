@@ -52,7 +52,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="scjar.property.sexe.label" /> * : </dt><dd id="sexe" class="action-editField validate-capdematEnum required-true i18n-scjar.property.sexe javatype-fr.cg95.cvq.business.users.SexType" ><g:capdematEnumToField var="${rqt?.sexe}" i18nKeyPrefix="scjar.property.sexe" /></dd>
+                <dt class="required"><g:message code="scjar.property.sexe.label" /> * : </dt><dd id="sexe" class="action-editField validate-capdematEnum required-true i18n-scjar.property.sexe javatype-fr.cg95.cvq.business.request.school.ScjarSexeType" ><g:capdematEnumToField var="${rqt?.sexe}" i18nKeyPrefix="scjar.property.sexe" /></dd>
               </dl>
               
             

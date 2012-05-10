@@ -167,7 +167,7 @@ public class SaintouenCapJeunesseAdulteRequest extends Request implements Serial
         }
       
         if (getSexe() != null)
-            saintouenCapJeunesseAdulteRequest.setSexe(fr.cg95.cvq.xml.common.SexType.Enum.forString(getSexe().getLegacyLabel()));
+            saintouenCapJeunesseAdulteRequest.setSexe(fr.cg95.cvq.xml.request.school.ScjarSexeType.Enum.forString(getSexe().getLegacyLabel()));
       
         saintouenCapJeunesseAdulteRequest.setSignatureAdolescent(getSignatureAdolescent());
       
@@ -234,9 +234,9 @@ public class SaintouenCapJeunesseAdulteRequest extends Request implements Serial
         saintouenCapJeunesseAdulteRequest.setSecteurHabitation(secteurHabitationList);
       
         if (saintouenCapJeunesseAdulteRequestXml.getSexe() != null)
-            saintouenCapJeunesseAdulteRequest.setSexe(fr.cg95.cvq.business.users.SexType.forString(saintouenCapJeunesseAdulteRequestXml.getSexe().toString()));
+            saintouenCapJeunesseAdulteRequest.setSexe(fr.cg95.cvq.business.request.school.ScjarSexeType.forString(saintouenCapJeunesseAdulteRequestXml.getSexe().toString()));
         else
-            saintouenCapJeunesseAdulteRequest.setSexe(fr.cg95.cvq.business.users.SexType.getDefaultSexType());
+            saintouenCapJeunesseAdulteRequest.setSexe(fr.cg95.cvq.business.request.school.ScjarSexeType.getDefaultScjarSexeType());
       
         saintouenCapJeunesseAdulteRequest.setSignatureAdolescent(saintouenCapJeunesseAdulteRequestXml.getSignatureAdolescent());
       
@@ -419,12 +419,12 @@ public class SaintouenCapJeunesseAdulteRequest extends Request implements Serial
         return saintouenCapJeunesseAdulteRequestData.getSecteurHabitation();
     }
   
-    public final void setSexe(final fr.cg95.cvq.business.users.SexType sexe) {
+    public final void setSexe(final fr.cg95.cvq.business.request.school.ScjarSexeType sexe) {
         saintouenCapJeunesseAdulteRequestData.setSexe(sexe);
     }
 
     
-    public final fr.cg95.cvq.business.users.SexType getSexe() {
+    public final fr.cg95.cvq.business.request.school.ScjarSexeType getSexe() {
         return saintouenCapJeunesseAdulteRequestData.getSexe();
     }
   

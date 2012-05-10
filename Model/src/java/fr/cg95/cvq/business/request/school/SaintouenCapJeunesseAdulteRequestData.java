@@ -142,7 +142,7 @@ public class SaintouenCapJeunesseAdulteRequestData implements Serializable {
         if (sexe != null)
             result.setSexe(sexe);
         else
-            result.setSexe(fr.cg95.cvq.business.users.SexType.getDefaultSexType());
+            result.setSexe(fr.cg95.cvq.business.request.school.ScjarSexeType.getDefaultScjarSexeType());
       
           
         
@@ -603,9 +603,9 @@ public class SaintouenCapJeunesseAdulteRequestData implements Serializable {
         message = "sexe"
       )
     
-    private fr.cg95.cvq.business.users.SexType sexe;
+    private fr.cg95.cvq.business.request.school.ScjarSexeType sexe;
 
-    public void setSexe(final fr.cg95.cvq.business.users.SexType sexe) {
+    public void setSexe(final fr.cg95.cvq.business.request.school.ScjarSexeType sexe) {
         this.sexe = sexe;
     }
 
@@ -613,7 +613,7 @@ public class SaintouenCapJeunesseAdulteRequestData implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name="sexe"  )
       
-    public fr.cg95.cvq.business.users.SexType getSexe() {
+    public fr.cg95.cvq.business.request.school.ScjarSexeType getSexe() {
         return this.sexe;
     }
   

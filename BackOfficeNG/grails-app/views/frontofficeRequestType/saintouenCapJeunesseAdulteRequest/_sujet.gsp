@@ -77,7 +77,7 @@
   
     <label class="required"><g:message code="scjar.property.sexe.label" /> *  <span><g:message code="scjar.property.sexe.help" /></span></label>
             <ul class="required ${rqt.stepStates['sujet'].invalidFields.contains('sexe') ? 'validation-failed' : ''}">
-              <g:each in="${['MALE','FEMALE','UNKNOWN']}">
+              <g:each in="${['MALE','FEMALE']}">
               <li>
                 <input type="radio" id="sexe_${it}" class="required  validate-one-required" value="${it}" name="sexe" ${it == rqt.sexe.toString() ? 'checked="checked"': ''} title="<g:message code="scjar.property.sexe.validationError" />" />
                 <label for="sexe_${it}"><g:capdematEnumToText var="${it}" i18nKeyPrefix="scjar.property.sexe" /></label>

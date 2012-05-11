@@ -198,14 +198,14 @@ class BackofficeHomeFolderController {
             mode = 'static'
             DataBindingUtils.initBind(adult, params)
             bind(adult)
-            userWorkflowService.add(
-                userSearchService.getHomeFolderById(Long.valueOf(params.homeFolderId)), adult, false)
             def invalidFields = userService.validate(adult)
             if (!invalidFields.isEmpty()) {
                 session.doRollback = true
                 render (['invalidFields': invalidFields] as JSON)
                 return false
             }
+            userWorkflowService.add(
+                userSearchService.getHomeFolderById(Long.valueOf(params.homeFolderId)), adult, false)
             render (['status': 'success', 'type':'adult', 'id': adult.id] as JSON)
             return false
         }

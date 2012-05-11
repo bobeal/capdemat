@@ -214,6 +214,18 @@ public class DocumentBootstrapper {
 
         checkDocumentType("Autorisation Prelevement", 60,
                 DocumentUsageType.REUSABLE, 0, DocumentTypeValidity.UNLIMITED);
+
+        checkDocumentType("Attestation Annuelle Retraite", 61,
+                DocumentUsageType.REUSABLE, 1, DocumentTypeValidity.YEAR);
+
+        checkDocumentType("Attestation Retraite Complementaire", 62,
+                DocumentUsageType.REUSABLE, 1, DocumentTypeValidity.YEAR);
+
+        checkDocumentType("Attestation Pole Emploi", 63,
+                DocumentUsageType.REUSABLE, 1, DocumentTypeValidity.YEAR);
+
+        checkDocumentType("Attestation Honneur Pensions Alimentaires", 64,
+                DocumentUsageType.REUSABLE, 1, DocumentTypeValidity.YEAR);
     }
 
     public void setDocumentTypeDAO(IDocumentTypeDAO documentTypeDAO) {

@@ -67,6 +67,10 @@ public interface IDocumentTypeService {
     Integer FICHE_SANITAIRE_PESSAC_ANIMATION = new Integer(58);
     Integer JUSTIFICATIF_DIVORCE = new Integer(59);
     Integer AUTORISATION_PRELEVEMENT = new Integer(60);
+    Integer ATTESTATION_ANNUELLE_RETRAITE = new Integer(61);
+    Integer ATTESTATION_RETRAITE_COMPLEMENTAIRE = new Integer(62);
+    Integer ATTESTATION_POLE_EMPLOI = new Integer(63);
+    Integer ATTESTATION_HONNEUR_PENSIONS_ALIMENTAIRES = new Integer(64);
 
     /**
      * Get a document type by type id.

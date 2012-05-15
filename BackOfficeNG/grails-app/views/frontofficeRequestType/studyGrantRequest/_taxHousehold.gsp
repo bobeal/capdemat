@@ -38,7 +38,7 @@
   
     <label for="taxHouseholdIncome" class="required"><g:message code="sgr.property.taxHouseholdIncome.label" /> *  <span><g:message code="sgr.property.taxHouseholdIncome.help" /></span></label>
             <input type="text" id="taxHouseholdIncome" name="taxHouseholdIncome" value="${formatNumber(number: rqt.taxHouseholdIncome, type: 'number')}"
-                    class="required  validate-regex ${rqt.stepStates['taxHousehold'].invalidFields.contains('taxHouseholdIncome') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.taxHouseholdIncome.validationError" />" regex="^\d+(?:\.\d{1,2})?$"  />
+                    class="required  validate-regex ${rqt.stepStates['taxHousehold'].invalidFields.contains('taxHouseholdIncome') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.taxHouseholdIncome.validationError" />" regex="^\d+(?:\,\d{1,2})?$"  />
             
 
   

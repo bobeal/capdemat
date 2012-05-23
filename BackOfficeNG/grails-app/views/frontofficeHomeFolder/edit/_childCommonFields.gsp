@@ -40,13 +40,14 @@
     </option>
   </g:each>
 </select>
-<label class="required"><g:message code="homeFolder.individual.property.birthDate" /> *</label>
+<label class="required"><g:message code="homeFolder.individual.property.birthDate" /> * <span class="help"><g:message code="homeFolder.individual.property.birthDate.help" /></span></label>
 <script type="text/javascript">
   var zcf = zenexity.capdemat.fong;
   zcf.i18n = {};
-  zcf.i18n['child.expectedBirthDate'] = '<g:message code="homeFolder.individual.property.expectedBirthDate" /> *';
-  zcf.i18n['child.birthDate'] = '<g:message code="homeFolder.individual.property.birthDate" /> *';
+  zcf.i18n['child.expectedBirthDate'] = '<g:message code="homeFolder.individual.property.expectedBirthDate" /> * <span class="help"><g:message code="homeFolder.individual.property.birthDate.help" /></span>';
+  zcf.i18n['child.birthDate'] = '<g:message code="homeFolder.individual.property.birthDate" /> * <span class="help"><g:message code="homeFolder.individual.property.birthDate.help" />';
 </script>
+
 <div class="date required validate-date">
   <select id="birthDate_day" name="birthDate_day"
     class="day ${invalidFields?.contains('birthDate') ? 'validation-failed' : ''}">

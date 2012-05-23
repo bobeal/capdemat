@@ -14,7 +14,7 @@ form label {
 
 form label.required { font-weight: bold; }
 
-form label span.help { font-weight: normal; font-size: 0.85em; font-style: italic; color: #333; }
+form label span.help { font-size: 0.85em; font-style: italic; color: #333; }
 
 form input[type="text"],
 form input[type="password"],

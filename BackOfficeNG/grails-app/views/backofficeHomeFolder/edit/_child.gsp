@@ -33,7 +33,7 @@
           </g:each>
         </select>
       </dd>
-      <dt class="required">${message(code:'homeFolder.individual.property.birthDate')}</dt>
+      <dt class="required">${message(code:'homeFolder.individual.property.birthDate')} <span class="help"><g:message code="homeFolder.individual.property.birthDate.help" /></span></dt>
       <dd class="required">
         <input type="text" name="birthDate" value="${g.formatDate(formatName:'format.date', date: child.birthDate)}" />
       </dd>

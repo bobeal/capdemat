@@ -42,12 +42,12 @@
       </g:each>
     </select>
 
-    <label class="required">${message(code:'homeFolder.individual.property.birthDate')} *</label>
+    <label class="required">${message(code:'homeFolder.individual.property.birthDate')} *  <span class="help">${message(code:'homeFolder.individual.property.birthDate.help')}</span></label>
       <script type="text/javascript">
         var zcf = zenexity.capdemat.fong;
         zcf.i18n = {};
-        zcf.i18n['child.expectedBirthDate'] = "${message(code:'homeFolder.individual.property.expectedBirthDate')}";
-        zcf.i18n['child.birthDate'] = "${message(code:'homeFolder.individual.property.birthDate')}";
+        zcf.i18n['child.expectedBirthDate'] = "${message(code:'homeFolder.individual.property.expectedBirthDate')} * <span class='help'>${message(code:'homeFolder.individual.property.birthDate.help')}</span>";
+        zcf.i18n['child.birthDate'] = "${message(code:'homeFolder.individual.property.birthDate')} * <span class='help'>${message(code:'homeFolder.individual.property.birthDate.help')}</span>";
       </script>
       <div class="date required validate-date">
         <select id="birthDate_day" name="birthDate_day" class="day ${flash.invalidFields?.contains('birthDate') ? 'validation-failed' : ''}">

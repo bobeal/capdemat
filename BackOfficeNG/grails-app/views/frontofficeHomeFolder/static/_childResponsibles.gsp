@@ -1,13 +1,14 @@
 <!-- Hack for maintain the layout -->
 <style>
-  form p         { margin: 0 0 .5em !important; overflow: auto; }
-  form label      { float: left; width: 35%; }
+  form#childResponsibles p         { margin: 0 0 .5em !important; overflow: auto; }
+  form#childResponsibles label      { float: left; width: 35%; }
 </style>
 <a href="${createLink(action:'child', params:['id':child.id, 'fragment':'responsibles'])}#responsibles" class="modify">
   ${message(code:'action.modify')}
 </a>
 <g:each var="roleOwner" in="${roleOwners}">
-<!-- Hack for maintain the layout --><form>
+<!-- Hack for maintain the layout -->
+<form id="childResponsibles">
     <p>
       <label>
           ${roleOwner.adult.fullName} :

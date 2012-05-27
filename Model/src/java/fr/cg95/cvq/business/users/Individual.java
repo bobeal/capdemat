@@ -239,6 +239,7 @@ public abstract class Individual implements Serializable {
             roles.add(role);
         }
         setIndividualRoles(roles);
+        setExternalId(individualType.getExternalId());
     }
 
     public Long getId() {

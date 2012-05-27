@@ -759,14 +759,18 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
         CSVWriter failures = new CSVWriter(new OutputStreamWriter(failuresOutput));
         failures.writeNext(new String[] {
             translationService.translate("homeFolder.property.externalId"),
+            translationService.translate("homeFolder.individual.property.firstName"),
+            translationService.translate("homeFolder.individual.property.lastName"),
+            translationService.translate("homeFolder.individual.property.address"),
             translationService.translate("Error")
         });
         boolean hasFailures = false;
         String label = doc.getHomeFolderImport().getExternalServiceLabel();
         homeFolders : for (HomeFolderType homeFolder : doc.getHomeFolderImport().getHomeFolderArray()) {
             JpaUtil.init(emf);
+            Adult responsible = null;
+            Address homeFolderAddress = null;
             try {
-                Adult responsible = null;
                 List<Adult> adults = new ArrayList<Adult>();
                 List<Child> children = new ArrayList<Child>();
                 List<Individual> individuals = new ArrayList<Individual>();
@@ -774,7 +778,7 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
                 if (label != null && homeFolder.getExternalId() != null) {
                     homeFolderMapping = new HomeFolderMapping(label, null, homeFolder.getExternalId());
                 }
-                Address homeFolderAddress = Address.xmlToModel(homeFolder.getAddress());
+                homeFolderAddress = Address.xmlToModel(homeFolder.getAddress());
                 for (IndividualType individual : homeFolder.getIndividualsArray()) {
                     String email = null;
                     String phone = null;
@@ -850,10 +854,17 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
                     }
                 }
                 HibernateUtil.getSession().flush();
+                List<String> allErrors = new ArrayList<String>();
                 for (Individual i : individuals) {
                     List<String> errors = userService.validate(i);
-                    if (!errors.isEmpty()) throw new CvqValidationException(errors);
+                    if (!errors.isEmpty()) {
+                        String individualData = i.getExternalId() != null ?
+                                i.getFullName() + " (" + i.getExternalId() + ")" : i.getFullName();
+                        String individualErrors = individualData + " : " + StringUtils.join(errors, ",");
+                        allErrors.add(individualErrors);
+                    }
                 }
+                if (!allErrors.isEmpty()) throw new CvqValidationException(allErrors);
                 String password = authenticationService.generatePassword();
                 authenticationService.resetAdultPassword(responsible, password);
                 creations.writeNext(new String[] {
@@ -890,7 +901,16 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
                 JpaUtil.close(false);
                 hasCreations = true;
             } catch (Throwable t) {
-                failures.writeNext(new String[]{homeFolder.getExternalId(), t.getMessage()});
+                failures.writeNext(new String[]{
+                        homeFolder.getExternalId(),
+                        responsible != null ? responsible.getFirstName() : "",
+                        responsible != null ? responsible.getLastName() : "",
+                        homeFolderAddress.getStreetNumber() == null ?
+                            String.format("%s %s %s", homeFolderAddress.getStreetName(),
+                                homeFolderAddress.getPostalCode(), homeFolderAddress.getCity()) :
+                            String.format("%s %s %s %s", homeFolderAddress.getStreetNumber(),
+                                homeFolderAddress.getStreetName(), homeFolderAddress.getPostalCode(), homeFolderAddress.getCity()),
+                        t.getMessage()});
                 JpaUtil.close(true);
                 hasFailures = true;
             }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="systemPayPaymentProvider"
+    class="fr.capwebct.capdemat.plugins.paymentproviders.systempay.service.SystemPayService"
+    init-method="init">
+    <property name="label" value="SystemPay"></property>
+    <!-- Insert services you need here -->
+    <property name="paymentUrl" value="${plugins.paymentproviders.systempay.payment_url}" />
+    <property name="genericDAO" ref="genericDAO" />
+  </bean>
+
+  
+  
+</beans>

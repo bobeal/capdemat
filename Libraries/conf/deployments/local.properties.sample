@@ -90,6 +90,9 @@ plugins.externalservices.edemande.ssh.hostkey=AAAAB3NzaC1yc2EAAAABIwAAAQEA5iEnOB
 # PaymentProviders - Spplus
 plugins.paymentproviders.spplus.payment_url=https://www.spplus.net/IPaiement/initialiserPaiement.do?
 
+# PaymentProviders - SystemPay
+plugins.paymentproviders.systempay.payment_url=https://paiement.systempay.fr/vads-payment/
+
 # PaymentProviders - PayBoxSystem
 plugins.paymentproviders.paybox.payment_url=localhost
 

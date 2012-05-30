@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.message.interconnexiondila.externalservices.plugins.capdemat.capwebct.fr" xmlns="http://www.message.interconnexiondila.externalservices.plugins.capdemat.capwebct.fr" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="Message" type="MessageType"/>
+	<xs:complexType name="MessageType">
+		<xs:sequence>
+			<xs:element name="Entete" type="HeaderType"/>
+			<xs:element name="Corps" type="BodyType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HeaderType">
+		<xs:sequence>
+			<xs:element name="MessageId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Id du message</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DateEmission" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>Date et Heure de generation du present flux.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TypeDemande" type="TypeDemandeType">
+				<xs:annotation>
+					<xs:documentation>Nature decrivant le type du present flux</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IdOrigineApplication" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>L'origine de la demande, c'est a dire l'applicatif generant cette demande</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IdDestinataire" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>Id de l'application destinataire </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IdCommune" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>Id de l'organisation concernee par le message </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TypeDemandeType">
+		<xs:annotation>
+			<xs:documentation>Type de l'enveloppe contenant le corps de donnees</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Code">
+				<xs:annotation>
+					<xs:documentation>Code employe pour definir le type de l'enveloppe technique metier
+					Ceci peut être : 
+									- une demande d'acte d'etat civil
+									- une erreur technique de routage
+									- la demande d'acte d'etat civil liee à une erreur technique de routage.
+									- une demande de mise à jour de referentiel
+									- une demande de mails pour une organisation à destination du Hub d'echanges.
+									- un accuse reception de la demande.
+									- une demande qui doit être routee vers le back-office de l'Agent.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="REQUEST_EC"/>
+						<xs:enumeration value="ERROR_TECH"/>
+						<xs:enumeration value="ERROR_REQUEST"/>
+						<xs:enumeration value="UPDATE_DB"/>
+						<xs:enumeration value="MAIL_BATCH"/>
+						<xs:enumeration value="ACK_EC"/>
+						<xs:enumeration value="BO_AGENT_REQUEST_EC"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Libelle" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Le label defini pour le type l'enveloppe </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AckType">
+		<xs:annotation>
+			<xs:documentation>Definition de l'enveloppe pour les accuses receptions de demande d'acte d'etat civil </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DateAck" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>La Date Timestamp de la date d'emission de l'accuse-reception</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Commentaire" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Le label defini pour le type l'enveloppe </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		
+		</xs:complexType>
+	<xs:simpleType name="TypeCommunicationType">
+		<xs:annotation>
+			<xs:documentation>Definition de l'ensemble de protocoles susceptible d'être utilisé pour l'application Etat Civil</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="INTERFACE WEB"/>
+			<xs:enumeration value="MAIL SIGNE ET CHIFFRE"/>
+			<xs:enumeration value="SFTP"/>
+			<xs:enumeration value="PLATE-FORME EXTERNE"/>
+			<xs:enumeration value="FAX"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ErrorType">
+		<xs:annotation>
+			<xs:documentation>Definition de l'enveloppe des types d'erreur</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DateErreur" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>Date et TimeStamp de l'erreur émise</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IdError" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>Identifiant de l'erreur émise</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LabelError" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Label de l'erreur émise</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TypeCommunication" type="TypeCommunicationType">
+				<xs:annotation>
+					<xs:documentation>Caracterisation de l'erreur de communication (choix du protocole)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Commentaire" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Commentaire possible pour l'erreur émise</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UpdateDbType">
+		<xs:annotation>
+			<xs:documentation>Definition de l'enveloppe des mises à jour de bases de données pour une synchronisation du hub d'echanges</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DateUpdate" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>Date et timestamp de la demande de mise à jour émise</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Commentaire" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Commentaire possible pour la demande de mise à jour émise</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BatchMailType">
+		<xs:annotation>
+			<xs:documentation>Definition de l'enveloppe des envois de mail</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DateBatchMail" type="xs:time">
+				<xs:annotation>
+					<xs:documentation>Date et timestamp pour la demande de batch emise</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NombreDemandesEnAttente" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>Nombre de demandes en attente de traitement sur le back-office émise</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="UrlBackOffice" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Rappel de l'URL du back-office</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Commentaire" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Commentaire possible à ajouter dans le mail émise</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BodyType">
+		<xs:annotation>
+			<xs:documentation>Definition de l'enveloppe de donnees pour la demande d'acte d'etat civil</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="EnveloppeTechnique" type="EnveloppeTechniqueType">
+				<xs:annotation>
+					<xs:documentation>La sous enveloppe double technique</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EnveloppeMetier" type="EnveloppeMetierType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>La sous enveloppe double  metier</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EnveloppeTechniqueType">
+		<xs:annotation>
+			<xs:documentation>Definition de l'enveloppe des types techniques possibles pour remplacement de donnees metier</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="AckRequest" type="AckType">
+				<xs:annotation>
+					<xs:documentation>La sous enveloppe de donnees techniques pour l'accuse reception</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="UpdateDbRequest" type="UpdateDbType">
+				<xs:annotation>
+					<xs:documentation>La sous enveloppe de donnees techniques pour la mise a jour</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ErrorRequest" type="ErrorType">
+				<xs:annotation>
+					<xs:documentation>La sous enveloppe de donnees techniques pour les messages d'erreurs</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BatchMailRequest" type="BatchMailType">
+				<xs:annotation>
+					<xs:documentation>La sous enveloppe de donnees techniques pour l'envoi de mails</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="EnveloppeMetierType">
+		<xs:annotation>
+			<xs:documentation>Le type des enveloppes metier possible </xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="DemandeActe" type="DemandeActeType">
+				<xs:annotation>
+					<xs:documentation>Ceci concerne la demande d'acte d'etat civil global (naissance, mariage, deces)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="NatureActeType">
+		<xs:annotation>
+			<xs:documentation>Informations decrivant la nature d'une demande d'acte d'etat civil (pour un acte de naissance par exemple:
+					- copie integrale
+					- extrait avec filiation
+					- extrait sans filiation
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Code" type="xs:string"/>
+			<xs:element name="Libelle" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DemandeActeType">
+		<xs:annotation>
+			<xs:documentation>Informations decrivant une demande d'acte</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="TypeActe" type="TypeActeType">
+				<xs:annotation>
+					<xs:documentation>Type d'acte: Naissance, Mariage, Deces</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="natureActe" type="NatureActeType">
+				<xs:annotation>
+					<xs:documentation>Nautre de l'acte: copie intégrale, ...</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NombreExemplaires">
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:minInclusive value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="MotifDemande" type="MotifDemandeType"/>
+			<xs:element name="Demandeur" type="DemandeurType"/>
+			<xs:element name="Titulaire" type="IndividuType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LieuNaissanceType">
+		<xs:annotation>
+			<xs:documentation>Lieu de naissance d'un individu (Departement + Commune + Code Postal)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Commune" type="VilleType"/>
+			<xs:element name="Adresse" type="AdressePostaleType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="NomType">
+		<xs:annotation>
+			<xs:documentation>Type des elements de nom Etat Civil</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:complexType name="PrenomsType">
+		<xs:annotation>
+			<xs:documentation>Prenom(s) d'un individu</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Prenom" type="NomType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ParentType">
+		<xs:annotation>
+			<xs:documentation>Information concernant un parent d'un individu</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Nom" type="NomType" minOccurs="0"/>
+			<xs:element name="Prenoms" type="PrenomsType" minOccurs="0"/>
+			
+					</xs:sequence>
+		<xs:attribute name="Etat" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Connu"/>
+					<xs:enumeration value="Inconnu"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="FiliationType">
+		<xs:sequence>
+			<xs:element name="Pere" type="ParentType"/>
+			<xs:element name="Mere" type="ParentType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CodePostalType">
+		<xs:annotation>
+			<xs:documentation>Code postal selon norme de la poste</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+      <!--<xs:maxLength value="5"/>-->
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CodeCedexType">
+		<xs:annotation>
+			<xs:documentation>Code Cedex selon norme de la poste</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+      <!--<xs:maxLength value="5"/>-->
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NumeroVoieType">
+		<xs:annotation>
+			<xs:documentation>Numero de voie selon norme de la poste</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="5"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="VoieType">
+		<xs:sequence>
+			<xs:element name="Code">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="ALLEE"/>
+						<xs:enumeration value="AVENUE"/>
+						<xs:enumeration value="BOULEVARD"/>
+						<xs:enumeration value="CENTRE"/>
+						<xs:enumeration value="CENTRE-COMMERCIAL"/>
+						<xs:enumeration value="CHEMIN"/>
+						<xs:enumeration value="IMMEUBLE"/>
+						<xs:enumeration value="IMPASSE"/>
+						<xs:enumeration value="LIEU-DIT"/>
+						<xs:enumeration value="LOTISSEMENT"/>
+						<xs:enumeration value="PASSAGE"/>
+						<xs:enumeration value="PLACE"/>
+						<xs:enumeration value="QUAI"/>
+						<xs:enumeration value="RESIDENCE"/>
+						<xs:enumeration value="ROND-POINT"/>
+						<xs:enumeration value="ROUTE"/>
+						<xs:enumeration value="SENTIER"/>
+						<xs:enumeration value="SQUARE"/>
+						<xs:enumeration value="VILLA"/>
+						<xs:enumeration value="VILLAGE"/>
+						<xs:enumeration value="ZONE-ACTIVITE"/>
+						<xs:enumeration value="ZONE-AMENAGEMENT-CONCERTE"/>
+						<xs:enumeration value="ZONE-AMENAGEMENT-DIFFERE"/>
+						<xs:enumeration value="ZONE-INDUSTRIELLE"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Libelle" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DepartementType">
+		<xs:sequence>
+			<xs:element name="Code">
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+            <!-- <xs:maxLength value="3"/> -->
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Libelle" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="VilleType">
+		<xs:annotation>
+			<xs:documentation>Ville selon norme de la poste</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="32"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LigneAdresseType">
+		<xs:annotation>
+			<xs:documentation>Ligne d'adresse normalisee selon norme de la poste</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="38"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="AdressePostaleType">
+		<xs:sequence>
+			<xs:element name="PointRemise" type="LigneAdresseType" minOccurs="0"/>
+			<xs:element name="NumeroVoie" type="NumeroVoieType" minOccurs="0"/>
+			<xs:element name="ExtensionIndiceRepetition" type="LigneAdresseType" minOccurs="0"/>
+			<xs:element name="Voie" type="VoieType" minOccurs="0"/>
+			<xs:element name="LigneAdresse" type="LigneAdresseType" minOccurs="0"/>
+			<xs:element name="MentionsAdresseParticulieres" type="LigneAdresseType" minOccurs="0"/>
+			<xs:element name="CodePostal" type="CodePostalType" minOccurs="0"/>
+			<xs:element name="CodeCedex" type="CodeCedexType" minOccurs="0"/>
+			<xs:element name="Ville" type="VilleType" minOccurs="0"/>
+			<xs:element name="Pays" type="LigneAdresseType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="QualiteDemandeurType">
+		<xs:sequence>
+			<xs:element name="Code">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="TITULAIRE"/>
+						<xs:enumeration value="CONJOINT"/>
+						<xs:enumeration value="ENFANT"/>
+						<xs:enumeration value="PARENT"/>
+						<xs:enumeration value="PETIT-ENFANT"/>
+						<xs:enumeration value="GRAND-PARENT"/>
+						<xs:enumeration value="FRERE-OU-SOEUR"/>
+						<xs:enumeration value="REPRESENTANT-LEGAL"/>
+						<xs:enumeration value="HERITIER"/>
+						<xs:enumeration value="AUTRE"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Libelle" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MotifDemandeType">
+		<xs:sequence>
+			<xs:element name="Code">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="CNI"/>
+						<xs:enumeration value="PASSEPORT"/>
+						<xs:enumeration value="CERTIFICAT-NATIONALITE-FRANCAISE"/>
+						<xs:enumeration value="MARIAGE"/>
+						<xs:enumeration value="PENSION"/>
+						<xs:enumeration value="CONTENTIEUX"/>
+						<xs:enumeration value="SECURITE-SOCIALE"/>
+						<xs:enumeration value="SUCCESSION"/>
+						<xs:enumeration value="ACTE-NOTARIE"/>
+						<xs:enumeration value="CAF"/>
+						<xs:enumeration value="AUTRE"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Libelle" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TypeActeType">
+		<xs:sequence>
+			<xs:element name="Code">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="NAISSANCE"/>
+						<xs:enumeration value="MARIAGE"/>
+						<xs:enumeration value="DECES"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Libelle" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NatureActeNaissanceType">
+		<xs:sequence>
+			<xs:element name="Code">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="COPIE-INTEGRALE"/>
+						<xs:enumeration value="EXTRAIT-AVEC-FILIATION"/>
+						<xs:enumeration value="EXTRAIT-SANS-FILIATION"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Libelle" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IndividuType">
+		<xs:annotation>
+			<xs:documentation>Informations caracterisant un individu</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Nom" type="NomType"/>
+			<xs:element name="NomUsage" type="NomType"/>
+			<xs:element name="NomJeuneFille" type="NomType"/>
+			<xs:element name="Prenoms" type="PrenomsType"/>
+			<xs:element name="DateNaissance" type="xs:date"/>
+			<xs:element name="LieuNaissance" type="LieuNaissanceType"/>
+			<xs:element name="Filiation" type="FiliationType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DemandeurType">
+		<xs:annotation>
+			<xs:documentation>Informations caracterisant le demandeur de l'acte</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="QualiteDemandeur" type="QualiteDemandeurType"/>
+			<xs:element name="Nom" type="NomType"/>
+			<xs:element name="Prenom" type="NomType"/>
+			<xs:element name="Adresse" type="AdressePostaleType"/>
+			<xs:element name="Mail"/>
+			<xs:element name="Telephone"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

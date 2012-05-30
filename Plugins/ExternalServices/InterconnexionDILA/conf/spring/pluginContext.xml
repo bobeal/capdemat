@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="interconnexionDILAService" parent="externalProviderServiceAdapter"
+    class="fr.capwebct.capdemat.plugins.externalservices.interconnexiondila.service.InterconnexionDILAService">
+    <property name="label" value="InterconnexionDILA"></property>
+    <property name="mailService" ref="mailService" />
+    <property name="requestTypeService" ref="requestTypeService" />
+  </bean>
+</beans>

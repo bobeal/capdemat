@@ -23,4 +23,8 @@ public interface IMailService {
     void send(final String from, final String to, final String[] cc,
         final String subject, final String body, Map<String, byte[]> attachments)
         throws CvqException;
+    
+    void sendBase64Attachment(final String from, final String to, final String[] cc,
+            final String subject, final String body, final byte[] attachment,
+            final String attachmentName, final String attachmentType) throws CvqException;
 }

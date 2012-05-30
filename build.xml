@@ -52,6 +52,7 @@
     <ant dir="${plugins.externalservices.technocarte.dir}" target="clean" />
     <ant dir="${plugins.externalservices.restgeneric.dir}" target="clean" />
     <ant dir="${plugins.externalservices.cirilelections.dir}" target="clean" />
+    <ant dir="${plugins.externalservices.interconnexiondila.dir}" target="clean" />
   </target>
     
   <target name="prepare-configfiles-model" depends="init">
@@ -142,6 +143,7 @@
     <ant dir="${plugins.externalservices.technocarte.dir}" target="deploy" />
     <ant dir="${plugins.externalservices.restgeneric.dir}" target="deploy" />
     <ant dir="${plugins.externalservices.cirilelections.dir}" target="deploy" />
+    <ant dir="${plugins.externalservices.interconnexiondila.dir}" target="deploy" />
   </target>
 
   <target name="deploy-plugin-paylineV4" depends="compile-model">
@@ -190,6 +192,10 @@
 
   <target name="deploy-plugin-restgeneric" depends="init, compile-model">
     <ant dir="${plugins.externalservices.restgeneric.dir}" target="deploy" />
+  </target>
+
+  <target name="deploy-plugin-interconnexiondila" depends="init, compile-model">
+    <ant dir="${plugins.externalservices.interconnexiondila.dir}" target="deploy" />
   </target>
 
   <!-- ================================================================================= -->

@@ -79,6 +79,34 @@
             </property>
           </bean>
         </entry>
+        <!--
+        <entry>
+          <key>
+            <ref bean="interconnexionDILAService" />
+          </key>
+          <bean class="fr.cg95.cvq.external.ExternalServiceBean">
+            <property name="requestTypes">
+              <list>
+                <value>Birth Details</value>
+                <value>Marriage Details</value>
+                <value>Death Details</value>
+              </list>
+            </property>
+            <property name="serviceProperties">
+              <map>
+                <entry>
+                  <key><value>destinationEmailAddress</value></key>
+                  <value>capdemat-dev@zenexity.com</value>
+                </entry>
+                <entry>
+                  <key><value>codeCommune</value></key>
+                  <value>93070</value>
+                </entry>
+              </map>
+            </property>
+          </bean>
+        </entry>
+        -->
         <entry>
           <key>
             <ref bean="fakePointExternalService" />

@@ -1,17 +1,31 @@
 package fr.cg95.cvq.util.mail.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.mail.Address;
+import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.apache.log4j.Logger;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+
+import com.sun.istack.internal.ByteArrayDataSource;
 
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
@@ -100,5 +114,43 @@ public final class MailService implements IMailService {
 
     public void setSystemEmail(String systemEmail) {
         this.systemEmail = systemEmail;
+    }
+  
+    @Override
+    public void sendBase64Attachment(final String from, final String to, final String[] cc,
+            final String subject, final String body, final byte[] attachment,
+            final String attachmentName, final String attachmentType) throws CvqException {
+        try {
+            Session session = ((JavaMailSenderImpl) mailSender).getSession();
+            MimeMessage message = new MimeMessage(session);
+            message.addRecipients(Message.RecipientType.TO, to);
+            message.setFrom(new InternetAddress(from));
+            if (cc != null) {
+                for (int i = 0; i < cc.length; i++) {
+                    message.addRecipients(Message.RecipientType.CC, cc[i]);
+                }
+            }
+            message.setSentDate(new Date());
+            message.setSubject(subject);
+            message.setText(body);
+
+            DataSource source = new ByteArrayDataSource(attachment, attachmentType);
+            MimeBodyPart bodypart = new MimeBodyPart();
+            bodypart.setDataHandler(new DataHandler(source));
+            bodypart.setFileName(attachmentName);
+            bodypart.addHeader("Content-type", attachmentType + "; charset=utf-8");
+
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(bodypart);
+            message.setContent(multipart);
+            message.saveChanges();
+            bodypart.setHeader("Content-Transfer-Encoding", "base64");
+
+            Transport.send(message);
+        } catch (MessagingException e) {
+            logger.error(e.getMessage());
+            throw new CvqException("Unable to send email message");
+        }
+
     }
 }

@@ -69,12 +69,9 @@
     </p>
   </dd>
 </dl>
-<p style="margin-top: 1em;">
-  <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'document'])}">
-    ${message(code:'action.back')}
-  </a>
-</p>
-
+<a class="forward"
+   href="${createLink(controller:'frontofficeRequest', action:'edit', params:['id':rqt.id,'currentStep':'document'])}"
+   >${message(code:'document.action.validate&continue', args:[message(code:documentType.i18nKey)])}</a>
 <input type="hidden" name="requestId" value="${rqt.id}" />
 <input type="hidden" name="documentTypeId" value="${documentType.id}" />
 <input type="hidden" name="documentId" value="${document?.id}" />

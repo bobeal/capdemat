@@ -215,7 +215,10 @@
 #request #docs h4 { margin-bottom: 0; }
 #request #docs dd input[type=submit] { font-size: 1.2em !important; }
 #request #docs dd input[type=text]   { border-top-color: #bbb !important; }
-
+.forward { float: right;
+           font-weight: bold;
+           font-size: 1.1em;
+         }
 
 /* validation step
 --------------------------------------------------------------*/

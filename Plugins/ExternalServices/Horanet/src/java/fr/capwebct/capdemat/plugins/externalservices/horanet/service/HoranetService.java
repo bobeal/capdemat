@@ -64,8 +64,8 @@ import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItemDetail;
 import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
 import fr.cg95.cvq.business.payment.PurchaseItem;
-import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqRemoteException;
@@ -171,6 +171,8 @@ public class HoranetService extends ExternalProviderServiceAdapter {
             call.addParameter(new QName(HORANET_CVQ_NS, "ProcID"), Constants.XSD_STRING, ParameterMode.IN);
             call.addParameter(new QName(HORANET_CVQ_NS, "FamilyID"), Constants.XSD_STRING, ParameterMode.IN);
             call.addParameter(new QName(HORANET_CVQ_NS, "School"), Constants.XSD_STRING, ParameterMode.IN);
+            // This parameter is called "ChildID" for historical reasons.
+            // Subject's ID is now expected, even if he is an adult.
             call.addParameter(new QName(HORANET_CVQ_NS, "ChildID"), Constants.XSD_STRING, ParameterMode.IN);
 
             call.setReturnType(XMLType.AXIS_VOID);
@@ -193,12 +195,13 @@ public class HoranetService extends ExternalProviderServiceAdapter {
                 logger.debug("sendRequest() no school property for request " + request);
             }
 
-            // extract child information iff request's subject is of type child
-            Long subjectId = null;
-            if (request.getSubject() != null && request.getSubject().getChild() != null) {
-                subjectId = request.getSubject().getChild().getId();
+            String subjectId = null;
+            if (request.getSubject() != null && request.getSubject().getIndividual() != null) {
+                subjectId = String.valueOf(request.getSubject().getIndividual().getId());
             }
-            String childId = subjectId != null ? String.valueOf(subjectId) : "";
+            if (subjectId == null) {
+                subjectId = "";
+            }
             call.invoke(new Object[] {
                     SecurityContext.getCurrentSite().getPostalCode(),
                     request.getRequestTypeLabel(),
@@ -206,7 +209,7 @@ public class HoranetService extends ExternalProviderServiceAdapter {
                     Long.toString(request.getId()),
                     Long.toString(request.getHomeFolder().getId()),
                     schoolName,
-                    childId
+                    subjectId
             });
 
             logger.debug("sendRequest() request has been sent to Horanet");
@@ -516,11 +519,12 @@ public class HoranetService extends ExternalProviderServiceAdapter {
                 String childCsn = null;
                 if (nodeAttrs.getNamedItem("child-csn") != null)
                     childCsn = nodeAttrs.getNamedItem("child-csn").getNodeValue();
-                String childId = nodeAttrs.getNamedItem("child-id").getNodeValue();
+                // "child-id" is in fact an individual ID.
+                String subjectId = nodeAttrs.getNamedItem("child-id").getNodeValue();
 
-                Child child = userSearchService.getChildById(new Long(childId));
-                if (child == null) {
-                    logger.error("getHomeFolderAccounts() could not find child with id : " + childId);
+                Individual subject = userSearchService.getById(Long.valueOf(subjectId));
+                if (subject == null) {
+                    logger.error("getHomeFolderAccounts() could not find individual with id: " + subjectId);
                     continue;
                 }
 
@@ -547,7 +551,7 @@ public class HoranetService extends ExternalProviderServiceAdapter {
 
                         ExternalTicketingContractItem etci = 
                             new ExternalTicketingContractItem(contractLabel, 
-                                    null, getLabel(), contractId, child.getId(),
+                                    null, getLabel(), contractId, subject.getId(),
                                     Double.valueOf(buyPrice), Integer.valueOf(minBuy), 
                                     Integer.valueOf(maxBuy), null, contractDate, 
                                     Integer.valueOf(contractValue), null);

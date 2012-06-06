@@ -88,7 +88,7 @@
             <g:each var="season" in="${seasons}">
               <li>
                 <label>
-                    <input name="requestSeasonId" type="radio" value="${season.id}" />
+                    <input name="requestSeasonId" type="radio" value="${season.id}" <g:if test="${seasons.size() == 1}">checked="checked"</g:if> />
                     ${season.label}
                     <span class="help">
                       (${message(code : 'message.dateInterval', args : [

@@ -35,6 +35,9 @@
           <input type="password" id="password" name="password" value="" class="required"
             title="${message(code:'homeFolder.adult.property.password.validationError')}" />
           <input type="submit" value="${message(code:'action.login')}" />
+          <a href="${createLink(controller:'frontofficeHomeFolder', action:'resetPassword')}">
+            ${message(code:'account.message.forgottenPassword')}
+          </a>
         </form>
       </div>
       <div class="yui-u main-box">

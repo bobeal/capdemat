@@ -95,15 +95,17 @@
       
       test : function() {
           zct.val(yud.get('conditionsContainer'),ylj.stringify(zcf.Condition.triggers)||[]);
-          zct.doAjaxFormSubmitCall('conditionsForm',[],function(o) {
-              var json = ylj.parse(o.responseText);
+          zct.doAjaxFormSubmitCall('conditionsForm',[zcf.Condition.filleds, zcf.Condition.unfilleds],function(o) {
+              var json = ylj.parse(o.responseText),
+                  filled = this.argument[0],
+                  unfilled = this.argument[1];
               zct.each(json,function(i,el){
                   if (el.test) {
-                    zcf.Condition.active(zcf.Condition.filleds[i]);
-                    zcf.Condition.unactive(zcf.Condition.unfilleds[i]);
+                    zcf.Condition.active(filled[i]);
+                    zcf.Condition.unactive(unfilled[i]);
                   } else {
-                    zcf.Condition.unactive(zcf.Condition.filleds[i]);
-                    zcf.Condition.active(zcf.Condition.unfilleds[i]);
+                    zcf.Condition.unactive(filled[i]);
+                    zcf.Condition.active(unfilled[i]);
                   }
               });
               zcf.RequestCreation.resizeDatasBloc(); // hack RDJ
@@ -160,11 +162,15 @@
       },
       
       active : function(elArray) {
+        if (elArray) {
           zct.each(elArray, function() { listenerSwitch(this, true); });
+        }
       },
       
       unactive : function (elArray) {
+        if (elArray) {
           zct.each(elArray, function() { listenerSwitch(this, false); });
+        }
       }
       
     };

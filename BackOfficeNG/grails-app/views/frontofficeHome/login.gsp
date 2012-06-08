@@ -10,10 +10,10 @@
       <div class="success-box"><p>${flash.successMessage}</p></div>
     </g:if>
     <div class="box">
-      <div class="half1">
-        <g:if test="${commonInfo != null}">
+      <g:if test="${commonInfo != null}">
           <div class="information-box">${commonInfo}</div>
-        </g:if>
+      </g:if>
+      <div class="half1">
         <g:render template="/shared/services" model="['groups':groups[0]]" />
       </div>
       <div class="half2">

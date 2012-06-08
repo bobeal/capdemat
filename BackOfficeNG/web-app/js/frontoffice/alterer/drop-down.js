@@ -1,7 +1,6 @@
 /**
  * A drop-down augmented with methods:
  * * fill values from an URL
- * * select one
  * * empty values
  *
  * This file is DOM agnostic.
@@ -13,14 +12,15 @@
     , ylj  = YAHOO.lang.JSON
     , yud  = YAHOO.util.Dom
 
-  var fill = function(url, callback, callbackParams) {
-    var dropDown = this
-    zct.doAjaxCall(url, null, function(o) {
+  var fill = function(url) {
+    zct.doAjaxCall(url, this, function(o) {
       var json = ylj.parse(o.responseText)
+        , dropDown = this.argument
         , index = 1
-        , option
+        , previous = dropDown.value
 
       zct.each(json, function(key, object) {
+        var option
         if (Object.prototype.toString.call(object) == '[object String]') {
           var value = key
             , text = object
@@ -34,60 +34,63 @@
         dropDown.options[index++] = option
       })
 
-      dropDown.tail(index)
-      if (zct.isFunction(callback)) {
-        callback.apply(dropDown, callbackParams)
-      }
+      dropDown._tail(index)
+      dropDown._onfill()
+      dropDown._reselect(previous)
     }, true)
   }
 
   // Keep only n first options.
   var tail = function(n) {
-    this.selectedIndex = 0
     while (this.options.length > n) {
       this.options[n].parentNode.removeChild(this.options[n])
     }
-    this.changed()
   }
 
   var empty = function() {
-    this.tail(1)
+    var previous = this.value
+    this._tail(1)
+    this._reselect(previous)
   }
 
-  var select = function(value) {
-    var previous = this.selectedIndex,
-        i = 0
-    this.selectedIndex = 0
-    for (i; i<this.length; i++){
-      if (this.options[i].value === value) {
-        if (this.selectedIndex !== i) {
-          this.selectedIndex = i
-        }
+  // If the value is still among the options, select it.
+  // Trigger a 'change' event anyway (c.f.: #5162).
+  var reselect = function(previous) {
+    for (var i = 0; i < this.length; i++) {
+      if (this.options[i].value === previous) {
+        this.value = previous
         break
       }
     }
-    if (this.selectedIndex !== previous) {
-      this.changed()
-    }
+    zcte.changed.call(this)
   }
 
   /**
-   * Create the drop-down with:
-   * * an id, e.g. 'idLigne'
-   * * classes, e.g. 'required validate-not-first'
+   * 'options' is an object, e.g.: {
+   *   id: 'idLigne'
+   *   classes: 'required validate-not-first'
+   *   onfill: function() {…}
+   *   onchange: function() {…}
+   *   selected: new Option('text', 'value')
+   * }
    */
-  ui.DropDown = function(id, classes) {
+  ui.DropDown = function(options) {
     var dropDown = document.createElement('select')
-    dropDown.id = id
-    dropDown.className = classes
-    dropDown.name = id
+    dropDown.id        = options.id
+    dropDown.className = options.classes
+    dropDown.name      = options.id
     dropDown.options[0] = new Option('Choisissez…', '')
+    if (options.selected) {
+      dropDown.options[1] = options.selected
+      dropDown.value      = options.selected.value
+    }
     // Add methods
-    dropDown.fill    = fill
-    dropDown.tail    = tail
-    dropDown.empty   = empty
-    dropDown.select  = select
-    dropDown.changed = zcte.changed
+    dropDown.fill      = fill
+    dropDown.empty     = empty
+    dropDown._tail     = tail
+    dropDown._reselect = reselect
+    dropDown.onchange  = options.onchange
+    dropDown._onfill   = options.onfill
     return dropDown
   }
 

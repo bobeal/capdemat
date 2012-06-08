@@ -1,7 +1,7 @@
 /**
  * Alterer
  *
- * Methods here highly depends on the DOM (ids, classes, tag orders…)
+ * Methods here highly depends on the DOM (IDs, classes, tag order…)
  */
 ;(function(alterer) {
 
@@ -40,7 +40,6 @@
     // Collect inputs composing the complex type,
     zct.each( yus.query('input', fieldset)
             , function(i, field) {
-                field.changed = zcte.changed
                 fields[field.id.replace(element, '')] = field
               }
             )
@@ -55,44 +54,75 @@
     required = yud.hasClass(fields.id, 'required')
     help     = yud.getFirstChild(labels.id)
 
-    dropDown = new zctu.DropDown( 'id' + element
-                                , required ? 'required validate-not-first' : ''
-                                )
+    var onfill = function() {
+      if (required) {
+        if (dropDown.options.length === 1 && error.innerHTML) {
+          yud.removeClass(error, 'unactive')
+        } else {
+          yud.addClass(error, 'unactive')
+        }
+      }
+    }
+
+    var onchange = function(event) {
+      var updated = []
+      zct.each( fields
+              , function(key, field) {
+                  if (key !== 'id') {
+                    var previous = field.value
+
+                    if (dropDown.selectedIndex > 0) {
+                      var option = dropDown.options[dropDown.selectedIndex]
+                        , json = ylj.parse(option.getAttribute('data-json'))
+                      field.value = json[key]
+                    } else {
+                      field.value = ''
+                    }
+
+                    if (field.value !== previous) {
+                      updated.push(field)
+                    }
+                  }
+                }
+              )
+      zct.each( updated
+              , function(i, field) {
+                  zcte.changed.call(field)
+                }
+              )
+    }
+
+    var options = { id: 'id' + element
+                  , classes: required ? 'required validate-not-first' : ''
+                  , onfill: onfill
+                  , onchange: onchange
+                  , selected: new Option( fields.label.value
+                                        , fields.id.value
+                                        )
+                  }
+    dropDown = new zctu.DropDown(options)
 
     labels.id.innerHTML = legend.innerHTML + (required ? ' * ' : ' ')
     labels.id.appendChild(help)
 
-    // Hide all fields but 'id'.
-    fields.hide = function() {
-      zct.each( this
-              , function(key, field) {
-                  if (key !== 'id' &&
-                      key !== 'hide' &&
-                      key !== 'changed') {
-                    yud.addClass(field, 'unactive')
+    // Hide elements in the map, except the 'id' element.
+    var hide = function(map) {
+      zct.each( map
+              , function(key, element) {
+                  if (key !== 'id') {
+                    yud.addClass(element, 'unactive')
                   }
                 }
               )
     }
-    // Hide all labels but 'id'.
-    labels.hide = function() {
-      zct.each( this
-              , function(key, label) {
-                  if (key !== 'id' && key !== 'hide') {
-                    yud.addClass(label, 'unactive')
-                  }
-                }
-              )
-    }
+    hide(fields)
+    hide(labels)
     // Trick to hide the legend on all browsers (including IE8)
     legend.hide = function() {
       var text = this.innerHTML
       this.innerHTML = '<span class="unactive">' + text + '</span>'
       yud.setStyle(this, 'padding', '0')
     }
-
-    labels.hide()
-    fields.hide()
     legend.hide()
 
     fieldset.replaceChild(dropDown, fields.id)
@@ -104,54 +134,13 @@
       fieldset.appendChild(error)
     }
 
-    // Update hidden fields on 'change'.
-    yue.on(dropDown, 'change', function(event) {
-      zct.each( fields
-              , function(key, field) {
-                  if (key !== 'id' &&
-                      key !== 'hide' &&
-                      key !== 'changed') {
-                     var previous = field.value
-                     if (dropDown.selectedIndex > 0) {
-                       var option = dropDown.options[dropDown.selectedIndex]
-                         , json = ylj.parse(option.getAttribute('data-json'))
-                       field.value = json[key]
-                     } else {
-                       field.value = ''
-                     }
-                     if (field.value !== previous) {
-                       field.changed()
-                     }
-                  }
-                }
-              )
-    })
-
-    // Called once '.fill' is done.
-    //
-    // * Reselect last value, if any (when reopening a draft for example).
-    // * Display error if there's no option.
-    var filled = function() {
-      if (dropDown.options.length > 1) {
-         dropDown.select(fields.id.value)
-         if (required) {
-           yud.addClass(error, 'unactive')
-         }
-      } else {
-         if (required && error.innerHTML) {
-           yud.removeClass(error, 'unactive')
-         }
-      }
-    }
-
-    // Select saved value, if any (when reopening a draft for example).
     if (zct.val(trigger) !== '') {
-      dropDown.fill(url(), filled, [])
+      dropDown.fill(url())
     }
 
     yue.on(trigger.id, 'change', function(event) {
       if (zct.val(trigger) !== '') {
-        dropDown.fill(url(), filled, [])
+        dropDown.fill(url())
       } else {
         dropDown.empty()
         if (required) {

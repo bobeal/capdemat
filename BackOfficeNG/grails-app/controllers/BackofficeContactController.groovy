@@ -349,6 +349,7 @@ class BackofficeContactController {
                 "RQ_CDATE" : DateUtils.dateToFullString(rqt.creationDate),
                 "RQ_DVAL" : rqt.validationDate ? DateUtils.dateToFullString(rqt.validationDate) : '',
                 "RQ_OBSERV" : observations,
+                "RQ_SEASON" : rqt.requestSeason ? rqt.requestSeason.label : '',
                 "HF_ID" : requester.homeFolder.id,
                 "RR_FNAME" : requester.firstName,
                 "RR_LNAME" : requester.lastName,

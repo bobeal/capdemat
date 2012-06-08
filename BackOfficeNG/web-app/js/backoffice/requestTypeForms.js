@@ -29,6 +29,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           { text: '...', value:'0', checked: true },
           { text: '(TS) Identifiant', value:'#{RQ_ID}' },
           { text: '(TS) Label', value:'#{RQ_TP_LABEL}' },
+          { text: '(TS) Saison', value:'#{RQ_SEASON}' },
           { text: '(TS) Date de création', value:'#{RQ_CDATE}' },
           { text: '(TS) Date de validation', value:'#{RQ_DVAL}' },
           { text: '(TS) Observations', value:'#{RQ_OBSERV}' },

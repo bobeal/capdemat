@@ -3,7 +3,7 @@
 
 <beans>
 
-  <bean id="${pluginBeanName}"
+  <bean id="${pluginBeanName}" parent="externalProviderServiceAdapter"
     class="fr.capwebct.capdemat.plugins.${pluginType.toLowerCase()}.${pluginName.toLowerCase()}.service.${pluginName}Service"
     init-method="init">
     <property name="label" value="${pluginName}"></property>

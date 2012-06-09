@@ -14,6 +14,7 @@
                  xmlns:parr="http://www.cg95.fr/cvq/schema/parr"
                  xmlns:rarr="http://www.cg95.fr/cvq/schema/rarr"
                  xmlns:bdr="http://www.cg95.fr/cvq/schema/bdr"
+                 xmlns:serrr="http://www.cg95.fr/cvq/schema/serrr"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  targetNamespace="http://www.capwebct.fr/modules/payment/schema/sre"
                  elementFormDefault="qualified"
@@ -31,6 +32,8 @@
                     schemaLocation="http://people.zenexity.fr/~bor/capdemat/latest/request/RecreationActivityRegistrationRequest.xsd"/>
          <xs:import namespace="http://www.cg95.fr/cvq/schema/bdr"
                     schemaLocation="http://people.zenexity.fr/~bor/capdemat/latest/request/BirthDetailsRequest.xsd"/>
+         <xs:import namespace="http://www.cg95.fr/cvq/schema/serrr"
+                    schemaLocation="http://people.zenexity.fr/~bor/capdemat/latest/request/StandardElectoralRollRegistrationRequest.xsd"/>
 
          <xs:element name="SendRequestRequest">
             <xs:complexType>
@@ -48,6 +51,7 @@
                   <xs:element ref="parr:PerischoolActivityRegistrationRequest"/>
                   <xs:element ref="rarr:RecreationActivityRegistrationRequest"/>
                   <xs:element ref="bdr:BirthDetailsRequest"/>
+                  <xs:element ref="serrr:StandardElectoralRollRegistrationRequest"/>
                </xs:sequence>
             </xs:complexType>
          </xs:element>

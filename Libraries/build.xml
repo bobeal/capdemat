@@ -24,6 +24,7 @@
         <include name="CapDemat-Plugin-ExternalServices-Technocarte-*.jar" />
         <include name="CapDemat-Plugin-ExternalServices-RestGenericExternalService-*.jar" />
         <include name="soap.jar" />
+        <include name="CapDemat-Plugin-ExternalServices-CirilElections-*.jar" />
     </fileset>
 
     <target name="clean" depends="init">

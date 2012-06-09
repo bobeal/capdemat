@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="cirilElectionsExternalService" parent="externalProviderServiceAdapter"
+    class="fr.capwebct.capdemat.plugins.externalservices.cirilelections.service.CirilElectionsService">
+    <property name="label" value="CirilElections"></property>
+    <!-- Insert services you need here -->
+    <property name="webServiceTemplate" ref="soapExternalServiceTemplate" />
+  </bean>
+
+</beans>

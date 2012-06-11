@@ -34,6 +34,16 @@ provisioning.secret=changeme
 
 document.upload.maxSize = 0
 
+oauth2.authorization.server.public.key=MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAl8j1Vw4sNiNKF/6Qg91q+MYko8zJiXJP SI95Nh7SjR4rGT6meschgKwhS0tna7PoSe56gxSxsOJVWnZUfws0iSmha7bDsYe1HG98GoS9OkhW 8QK53lsAXAOm5LLCkJCFPZ5gHIsVznYQZIn/kica0kWzC7looTiC7M0GrA5jBrx7IxRgasLBzpqh XUIET6w4KijfPzLncz71+9KtbQYCUeekVevIJiwUI9s+E+CLmKlsGq/ugOu4yfzDuqI2Xn2mFhSp 2xtPYEuQTyya48whNtnLJGjhcjuEr1fTmrTxL4yLNE7B2vm8Fze2LmdXenMFgOce+kzTOgr+oRPR s8x6BsW+BtjYvf5zrqiYkchKQ9UDnRZHRo9tFoT+AWIVy8P1ICF9Ikw440+5tYR7wtR0HwBb7FKh hWN7/RCu71K6KLUN8LbOJ2A6wrBjvRfo6+VaVEPuF/zyZYwIRBAvaFISo+yq/nijSKcoPyq54nTN rmfIzSM2k0N1bKyL6c8ij2p3ibkytXTF8FFra/3fiLd4L57pF0lG56nQ4WUrrmOpKZS4UP/eSStQ o2XX5qT42n0uPsDhRbMyXlTABXrY3+YytvSojfkLGyTZiz5HfuQjZQYXbuygob5tmsQEAgg/ToBK SyJ1yORzbggcWTs/kGbiezO5okczcj9hMPrBuED8pX0CAwEAAQ==
+oauth2.authorization.server.authorize.uri=http://swarm:9000/oauth/authorize
+oauth2.authorization.server.token.uri=http://swarm:9000/oauth/accessToken
+oauth2.authorization.server.logout.uri=http://swarm:9000/logout
+oauth2.resource.server.name=capdemat
+oauth2.client.id=capdemat
+oauth2.client.password=aaaaaaaa
+oauth2.client.redirect.uri=http://localhost:8080/CapDemat/OAuth2/login
+oauth2.client.scope=ident
+
 ###############################################################################
 ######################### Plugins configuration ###############################
 ###############################################################################

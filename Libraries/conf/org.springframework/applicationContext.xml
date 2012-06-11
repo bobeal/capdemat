@@ -33,6 +33,24 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="individualDAO" ref="individualDAO" />
   </bean>
 
+  <bean id="oauth2Service" class="fr.cg95.cvq.oauth2.impl.OAuth2Service">
+    <property name="adultDAO" ref="adultDAO"/>
+    <property name="authorizationServerInfos" ref="authorizationServerInfosService"/>
+    <property name="resourceServerName" value="${oauth2.resource.server.name}"/>
+    <property name="clientId" value="${oauth2.client.id}"/>
+    <property name="password" value="${oauth2.client.password}"/>
+    <property name="redirectionUri" value="${oauth2.client.redirect.uri}"/>
+    <property name="identificationScope" value="${oauth2.client.scope}"/>
+  </bean>
+
+  <bean id="authorizationServerInfosService"
+    class="fr.cg95.cvq.oauth2.impl.AuthorizationServerInfosService">
+    <constructor-arg index="0" value="${oauth2.authorization.server.public.key}"/>
+    <property name="authorizationUri" value="${oauth2.authorization.server.authorize.uri}"/>
+    <property name="tokenUri" value="${oauth2.authorization.server.token.uri}"/>
+    <property name="logoutUri" value="${oauth2.authorization.server.logout.uri}"/>
+  </bean>
+
   <bean id="mailService" class="fr.cg95.cvq.util.mail.impl.MailService">
     <property name="mailSender">
       <ref bean="mailSender"/>

@@ -226,6 +226,9 @@ public class DocumentBootstrapper {
 
         checkDocumentType("Attestation Honneur Pensions Alimentaires", 64,
                 DocumentUsageType.REUSABLE, 1, DocumentTypeValidity.YEAR);
+
+        checkDocumentType("Attestation Preinscription Creche", 65,
+                DocumentUsageType.REUSABLE, 1, DocumentTypeValidity.YEAR);
     }
 
     public void setDocumentTypeDAO(IDocumentTypeDAO documentTypeDAO) {

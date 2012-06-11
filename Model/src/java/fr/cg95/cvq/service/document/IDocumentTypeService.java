@@ -71,6 +71,7 @@ public interface IDocumentTypeService {
     Integer ATTESTATION_RETRAITE_COMPLEMENTAIRE = new Integer(62);
     Integer ATTESTATION_POLE_EMPLOI = new Integer(63);
     Integer ATTESTATION_HONNEUR_PENSIONS_ALIMENTAIRES = new Integer(64);
+    Integer ATTESTATION_PREINSCRIPTION_CRECHE = new Integer(65);
 
     /**
      * Get a document type by type id.

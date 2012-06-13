@@ -774,7 +774,10 @@ public class TechnocarteService extends ExternalProviderServiceAdapter implement
 
         ListeActiviteDocument activities;
         try {
-            activities = getActivities("TRANS", request, child);
+            if (request.getRequestType().getLabel().equals("Leisure Center Registration"))
+                return getLeisureCenterTransportLines(request, child);
+            else
+                activities = getActivities("TRANS", request, child);
         } catch (Exception e) {
             logger.warn(e.getMessage());
             return lines;
@@ -796,7 +799,10 @@ public class TechnocarteService extends ExternalProviderServiceAdapter implement
         Map<String, String> stops = new HashMap<String, String>();
         ListeActiviteDocument activities;
         try {
-            activities = getActivities("TRANS", request, child);
+            if (request.getRequestType().getLabel().equals("Leisure Center Registration"))
+                return getLeisureCenterTransportStops(request, child, lineId);
+            else
+                activities = getActivities("TRANS", request, child);
         } catch (Exception e) {
             logger.warn(e.getMessage());
             return stops;

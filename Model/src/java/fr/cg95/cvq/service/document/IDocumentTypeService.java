@@ -64,6 +64,7 @@ public interface IDocumentTypeService {
     Integer MEDICAL_FORM_NEXT_YEAR = new Integer(55);
     Integer PLAN_COTE = new Integer(56);
     Integer PHOTO_LIEU_OCCUPATION = new Integer(57);
+    Integer FICHE_SANITAIRE_PESSAC_ANIMATION = new Integer(58);
 
     /**
      * Get a document type by type id.

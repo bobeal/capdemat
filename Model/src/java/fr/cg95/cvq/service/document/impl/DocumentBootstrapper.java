@@ -205,6 +205,9 @@ public class DocumentBootstrapper {
 
         checkDocumentType("Photo Lieu Occupation", 57,
                 DocumentUsageType.SINGLE_USE, 0, DocumentTypeValidity.UNLIMITED);
+
+        checkDocumentType("Fiche Sanitaire Pessac Animation", 58,
+                DocumentUsageType.REUSABLE, 1, DocumentTypeValidity.YEAR);
     }
 
     public void setDocumentTypeDAO(IDocumentTypeDAO documentTypeDAO) {

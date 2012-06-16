@@ -8,18 +8,32 @@
  */
 ;(function(ui) {
 
-  var zct = zenexity.capdemat.tools
-    , ylj = YAHOO.lang.JSON
-    , yud = YAHOO.util.Dom
+  var zct  = zenexity.capdemat.tools
+    , zcte = zct.events
+    , ylj  = YAHOO.lang.JSON
+    , yud  = YAHOO.util.Dom
 
   var fill = function(url, callback, callbackParams) {
     var dropDown = this
     zct.doAjaxCall(url, null, function(o) {
       var json = ylj.parse(o.responseText)
-      var index = 1
-      for (var key in json) {
-        dropDown.options[index++] = new Option(json[key], key)
-      }
+        , index = 1
+        , option
+
+      zct.each(json, function(key, object) {
+        if (Object.prototype.toString.call(object) == '[object String]') {
+          var value = key
+            , text = object
+          option = new Option(text, value)
+          option.setAttribute( 'data-json'
+                             , '{"id":"' + value + '", "label":"' + text + '"}')
+        } else {
+          option = new Option(object.label, object.id)
+          option.setAttribute('data-json', ylj.stringify(object))
+        }
+        dropDown.options[index++] = option
+      })
+
       dropDown.tail(index)
       if (zct.isFunction(callback)) {
         callback.apply(dropDown, callbackParams)
@@ -41,8 +55,9 @@
   }
 
   var select = function(value) {
+    var previous = this.selectedIndex,
+        i = 0
     this.selectedIndex = 0
-    var i = 0
     for (i; i<this.length; i++){
       if (this.options[i].value === value) {
         if (this.selectedIndex !== i) {
@@ -51,28 +66,14 @@
         break
       }
     }
-    this.changed()
-  }
-
-
-  /**
-   * Fire a 'change' event.
-   */
-  var changed = function() {
-    if (document.createEventObject) {
-      // IE
-      this.fireEvent('onchange', document.createEventObject())
-    } else {
-      // Others
-      var event = document.createEvent('HTMLEvents')
-      event.initEvent('change', true, true)
-      this.dispatchEvent(event)
+    if (this.selectedIndex !== previous) {
+      this.changed()
     }
   }
 
   /**
    * Create the drop-down with:
-   * * id, e.g. 'idLignes'
+   * * an id, e.g. 'idLigne'
    * * classes, e.g. 'required validate-not-first'
    */
   ui.DropDown = function(id, classes) {
@@ -86,7 +87,7 @@
     dropDown.tail    = tail
     dropDown.empty   = empty
     dropDown.select  = select
-    dropDown.changed = changed
+    dropDown.changed = zcte.changed
     return dropDown
   }
 

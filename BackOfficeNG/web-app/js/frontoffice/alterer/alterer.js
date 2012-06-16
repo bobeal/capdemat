@@ -6,83 +6,141 @@
 ;(function(alterer) {
 
   var zct  = zenexity.capdemat.tools
+    , zcte = zct.events
     , zctu = zct.ui
+    , ylj  = YAHOO.lang.JSON
     , yud  = YAHOO.util.Dom
-    , yus  = YAHOO.util.Selector
     , yue  = YAHOO.util.Event
+    , yus  = YAHOO.util.Selector
 
   /**
-   * `element` to be altered.
+   * 'element' to be altered.
    *           E.g.: 'Ligne' for a complex type named 'LigneType'
    *
-   * `url`: a function!
+   * 'url': a function!
    *        It will be evaluated to fill the drop-down from an endpoint.
    *        It must return a full URL.
    *
-   * `triggerId`: a field id.
-   *            Any time this field change, the drop-down will update.
+   * 'triggerId': a field id.
+   *              Any time this field changes, the drop-down will update.
    */
   alterer.toDropDown = function(element, url, triggerId) {
 
-    var labelInput = yud.get('label' + element)
-      , idInput    = yud.get('id' + element)
-      , fieldset   = idInput.parentNode
-      , labelLabel = yus.query('label[for="' + labelInput.id + '"]'
-                              ,fieldset
-                              ,true
-                              )
-      , idLabel    = yus.query('label[for="' + idInput.id + '"]'
-                              ,fieldset
-                              ,true)
-      , legend     = yud.getFirstChild(fieldset)
-      , trigger    = yud.get(triggerId)
-      , required   = yud.hasClass(idInput, 'required')
-      , helpSpan   = yud.getFirstChild(idLabel)
+    var fieldset = yud.get('id' + element).parentNode
+      , fields   = {}
+      , labels   = {}
+      , legend
+      , trigger  = yud.get(triggerId)
+      , required
+      , help
         // Elements added later on.
       , dropDown
       , error
 
-    dropDown = new zctu.DropDown('id' + element
-                                ,required ? 'required validate-not-first' : ''
+    // Collect inputs composing the complex type,
+    zct.each( yus.query('input', fieldset)
+            , function(i, field) {
+                field.changed = zcte.changed
+                fields[field.id.replace(element, '')] = field
+              }
+            )
+    // …and associated labels.
+    zct.each( yus.query('label', fieldset)
+            , function(i, label) {
+                labels[label.getAttribute('for').replace(element, '')] = label
+              }
+            )
+
+    legend   = yud.getFirstChild(fieldset)
+    required = yud.hasClass(fields.id, 'required')
+    help     = yud.getFirstChild(labels.id)
+
+    dropDown = new zctu.DropDown( 'id' + element
+                                , required ? 'required validate-not-first' : ''
                                 )
 
-    // Hide the label input and its label.
-    labelInput.type = 'hidden'
-    yud.addClass(labelLabel, 'unactive')
-    // Hide the legend.
-    yud.addClass(legend, 'unactive')
+    labels.id.innerHTML = legend.innerHTML + (required ? ' * ' : ' ')
+    labels.id.appendChild(help)
 
-    idLabel.innerHTML = legend.innerHTML + (required ? ' * ' : ' ')
-    idLabel.appendChild(helpSpan)
+    // Hide all fields but 'id'.
+    fields.hide = function() {
+      zct.each( this
+              , function(key, field) {
+                  if (key !== 'id' &&
+                      key !== 'hide' &&
+                      key !== 'changed') {
+                    yud.addClass(field, 'unactive')
+                  }
+                }
+              )
+    }
+    // Hide all labels but 'id'.
+    labels.hide = function() {
+      zct.each( this
+              , function(key, label) {
+                  if (key !== 'id' && key !== 'hide') {
+                    yud.addClass(label, 'unactive')
+                  }
+                }
+              )
+    }
+    // Trick to hide the legend on all browsers (including IE8)
+    legend.hide = function() {
+      var text = this.innerHTML
+      this.innerHTML = '<span class="unactive">' + text + '</span>'
+      yud.setStyle(this, 'padding', '0')
+    }
 
-    fieldset.replaceChild(dropDown, idInput)
+    labels.hide()
+    fields.hide()
+    legend.hide()
+
+    fieldset.replaceChild(dropDown, fields.id)
 
     if (required) {
       var error = document.createElement('p')
       error.className = 'error unactive'
-      error.innerHTML = idInput.title
+      error.innerHTML = fields.id.title
       fieldset.appendChild(error)
     }
 
-    // Update the label input on change.
+    // Update hidden fields on 'change'.
     yue.on(dropDown, 'change', function(event) {
-      if (this.selectedIndex > 0) {
-        labelInput.value = this.options[this.selectedIndex].innerHTML
-      } else {
-        labelInput.value = ''
-      }
+      zct.each( fields
+              , function(key, field) {
+                  if (key !== 'id' &&
+                      key !== 'hide' &&
+                      key !== 'changed') {
+                     var previous = field.value
+                     if (dropDown.selectedIndex > 0) {
+                       var option = dropDown.options[dropDown.selectedIndex]
+                         , json = ylj.parse(option.getAttribute('data-json'))
+                       field.value = json[key]
+                     } else {
+                       field.value = ''
+                     }
+                     if (field.value !== previous) {
+                       field.changed()
+                     }
+                  }
+                }
+              )
     })
 
-    // Called once `.fill` is done.
+    // Called once '.fill' is done.
     //
     // * Reselect last value, if any (when reopening a draft for example).
     // * Display error if there's no option.
     var filled = function() {
       if (dropDown.options.length > 1) {
-         dropDown.select(idInput.value)
-         if (required) yud.addClass(error, 'unactive')
+         dropDown.select(fields.id.value)
+         if (required) {
+           yud.addClass(error, 'unactive')
+         }
       } else {
-         if (required && error.innerHTML) yud.removeClass(error, 'unactive')
+         if (required && error.innerHTML) {
+           yud.removeClass(error, 'unactive')
+         }
       }
     }
 
@@ -96,7 +154,9 @@
         dropDown.fill(url(), filled, [])
       } else {
         dropDown.empty()
-        if (required) yud.addClass(error, 'unactive')
+        if (required) {
+          yud.addClass(error, 'unactive')
+        }
       }
     })
   }

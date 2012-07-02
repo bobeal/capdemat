@@ -7,6 +7,15 @@
  *
  * ----------------------------------------------------- */
 
+/* Uncomment these lines to invert the logo and the login bar.
+#hd:before {
+  content: url(../../localAuthorityResource/resource/logoFo)
+}
+#hd ~ h1 {
+  display: none;
+}
+*/
+
 /* global layout
  * ----------------------------------------------------- */
  

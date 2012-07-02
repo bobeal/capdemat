@@ -77,7 +77,8 @@ public class BankAccount implements Cloneable, Serializable {
     }
 
     public void setIBAN(String iBAN) {
-        IBAN = StringUtils.upperCase(StringUtils.deleteWhitespace(iBAN));
+        String IBANtemp = StringUtils.upperCase(StringUtils.deleteWhitespace(iBAN));
+        IBAN = IBANtemp.replaceAll("-", "");
     }
 
     @Override

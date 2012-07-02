@@ -18,6 +18,8 @@
       var iban = f.value;
       if (yl.isNull(iban)) return true;
       if (iban.length < 14 || iban.length > 34) return false;
+      iban = iban.replace(/ /g,"");
+      iban = iban.replace(/-/g,"");
       iban = iban.replace(/\s/, '').toUpperCase();
       iban = iban.slice(4, iban.length) + iban.slice(0, 4);
       var extended = "";

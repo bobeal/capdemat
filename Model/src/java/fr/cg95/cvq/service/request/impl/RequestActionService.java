@@ -19,6 +19,7 @@ import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.request.IRequestActionService;
+import fr.cg95.cvq.util.logging.impl.Log;
 
 /**
  *
@@ -85,6 +86,10 @@ public class RequestActionService implements IRequestActionService {
 
         addActionTrace(RequestActionType.STATE_CHANGE, null, note, date,
             resultingState, requestId, pdfData, null);
+
+        Log.logger(SecurityContext.getCurrentSite().getName()).info("CHANGE STATE : " 
+                + "[" + requestId + "]" 
+                + " to " + resultingState.name());
     }
 
     private void addActionTrace(final RequestActionType type, final String message,

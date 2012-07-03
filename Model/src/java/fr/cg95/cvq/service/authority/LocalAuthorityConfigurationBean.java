@@ -1,7 +1,9 @@
 package fr.cg95.cvq.service.authority;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -173,12 +175,15 @@ public final class LocalAuthorityConfigurationBean {
 		}
 	}
 
-    public boolean supportsPaymentsTab() {
-        return (paymentServices != null && !paymentServices.isEmpty());
-    }
-
-    public boolean supportsActivitiesTab() {
-        return escb.supportsActivitiesTab();
+    public List<String> getAdditionalTabs() {
+        List<String> tabs = new ArrayList<String>();
+        if (paymentServices != null && !paymentServices.isEmpty()) {
+            tabs.add("Payments");
+        }
+        if (escb.supportsActivitiesTab()) {
+            tabs.add("Activities");
+        }
+        return tabs;
     }
 
     public void setName(final String name) {

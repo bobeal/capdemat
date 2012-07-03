@@ -32,7 +32,7 @@ accesskey = 0
       <g:message code="menu.documents" />
     </span>
   </a>
-  <g:if test="${session.supportsActivitiesTab}">
+  <g:if test="${session.additionalTabs.contains('Activities')}">
     <a href="${createLink(controller : 'frontofficeActivity')}"
       class="${menu.current(elem : 'activity')}" accesskey="${accesskey++}">
       <span>
@@ -40,7 +40,7 @@ accesskey = 0
       </span>
     </a>
   </g:if>
-  <g:if test="${session.supportsPaymentsTab}">
+  <g:if test="${session.additionalTabs.contains('Payments')}">
     <a href="${createLink(controller : 'frontofficePayment')}"
       class="${menu.current(elem : 'payment')}" accesskey="${accesskey++}">
       <span>

@@ -2,6 +2,9 @@ package fr.cg95.cvq.generator.plugins.i18n;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -66,8 +69,8 @@ public class I18nPlugin implements IPluginGenerator {
         logger.warn("endRequest()");
         try {
             SimpleTemplateEngine templateEngine = new SimpleTemplateEngine();
-            Template template = templateEngine.createTemplate(new File(i18nTemplate));
-            Template template2 = templateEngine.createTemplate(new File(i18nTmpTemplate));
+            Template template = templateEngine.createTemplate(new BufferedReader(new InputStreamReader(new FileInputStream(i18nTemplate), "UTF8")));
+            Template template2 = templateEngine.createTemplate(new BufferedReader(new InputStreamReader(new FileInputStream(i18nTmpTemplate), "UTF8")));
             
             for (String lang: requestI18n.getI18nLabels().keySet()) {
                 String output = outputDir + requestI18n.getAcronym();
@@ -91,8 +94,6 @@ public class I18nPlugin implements IPluginGenerator {
             }
         } catch (CompilationFailedException cfe) {
             logger.error(cfe.getMessage()); 
-        } catch (ClassNotFoundException cnfe) {
-            logger.error(cnfe.getMessage()); 
         } catch (IOException ioe) {
             logger.error(ioe.getMessage()); 
         }

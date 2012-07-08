@@ -40,6 +40,7 @@ import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.users.IUserNotificationService
 import fr.cg95.cvq.service.users.IUserSearchService
+import fr.cg95.cvq.util.logging.impl.Log
 import fr.cg95.cvq.util.translation.ITranslationService
 import fr.cg95.cvq.xml.common.RequestSeasonType;
 
@@ -170,6 +171,8 @@ class ServiceRequestExternalController {
                 SecurityContext.getCurrentExternalService() + '.'
             if (params.message != null)
                 note += ' ' + message(code: 'request.message.changeReason') + ' ' + params.message
+            Log.logger(SecurityContext.getCurrentSite().getName())
+                .info("CHANGE STATE : [${params.long('requestId')}] to ${RequestState.forString(params.state)} by ${SecurityContext.getCurrentExternalService()}")
             requestWorkflowService.updateRequestState(params.long('requestId'),
                 RequestState.forString(params.state), note)
             render(text: 'Request ' + params.long('requestId') + ' changed to ' + params.state, status: 200)

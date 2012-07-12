@@ -278,7 +278,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
 
       zct.each(yus.query("#" + this.modalId + " .results > *"), function() {
         yue.on(this, "click", function(event) {
-          that.highlight.call(that, event.target);
+          that.highlight(this);
           that.selectHighlighted.call(that);
           if(that.eventTimer) {
             clearTimeout(that.eventTimer);

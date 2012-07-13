@@ -66,7 +66,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="tbr.property.totalPrice.label" /> * : </dt><dd id="totalPrice" class="validate-decimal required-true i18n-tbr.property.totalPrice" ><span>${rqt?.totalPrice}</span></dd>
+                <dt class="required"><g:message code="tbr.property.totalPrice.label" /> * : </dt><dd id="totalPrice" class="validate-decimal required-true i18n-tbr.property.totalPrice" ><span><g:formatNumber number="${rqt?.totalPrice}" type="number" format="#####,##" /> €</span></dd>
               </dl>
               
             

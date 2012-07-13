@@ -193,7 +193,7 @@ if (session.ticketBooking == null) {
                       <p class="error">${flash.tbrMessageError}</p>
                     </g:if>
                     ${fare.name}
-                    <strong>${fare.price} €</strong>
+                    <strong><g:formatNumber number="${ticket.price}" type="number" format="#####,##" /> €</strong>
                     <input type="text" name="placeNumber" value="" size="1" />
                     <input type="hidden" name="requestId" value="${rqt.id}" />
                     <input type="hidden" name="fareId" value="${fare.id}" />
@@ -250,7 +250,7 @@ if (session.ticketBooking == null) {
                   <img src="${createLinkTo(dir:'images/icons',file:'16-delete.png')}" />
                 </button>
               </form>
-              <strong><g:formatNumber number="${ticket.price}" type="number" format="#####.##" /> €</strong>
+              <strong><g:formatNumber number="${ticket.price}" type="number" format="#####,##" /> €</strong>
               ${ticket.eventName}
               <span class="cartDetail">
                 ${ticket.placeNumber} tickets (${ticket.placeCategory}) 
@@ -263,7 +263,7 @@ if (session.ticketBooking == null) {
         <p style="margin-top: 1em; text-align: right">
         <g:if test="${rqt.totalPrice != null && rqt.totalPrice > 0}">
           ${message(code:'tbr.label.total')} :
-          <strong><g:formatNumber number="${rqt?.totalPrice}" type="number" format="#####.##" /> €</strong>
+          <strong><g:formatNumber number="${rqt?.totalPrice}" type="number" format="#####,##" /> €</strong>
         </g:if>
         <g:else>
           <em>${message(code:'tbr.message.cartIsEmpty')}</em>

@@ -40,7 +40,7 @@
     
       <dt class="required"><g:message code="tbr.property.price.label" /> * : </dt>
       <dd id="tbrTicket[${listSize - 1 - index}].price" class="validate-decimal required-true i18n-tbr.property.price" >
-        <span>${it?.price}</span>
+        <span><g:formatNumber number="${it?.price}" type="number" format="#####,##" /> €</span>
       </dd>
     
   </dl>

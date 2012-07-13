@@ -49,7 +49,7 @@
         <dt>${message(code:'tbr.property.totalPrice.label')}</dt>
         <dd>
           <g:if test="${rqt?.tbrTicket}">
-            <strong>${rqt?.totalPrice}</strong>
+          <strong><g:formatNumber number="${rqt?.totalPrice}" type="number" format="#####,##" /> €</strong>
           </g:if>
           <g:else>
             ${message(code:'tbr.message.cartIsEmpty')}

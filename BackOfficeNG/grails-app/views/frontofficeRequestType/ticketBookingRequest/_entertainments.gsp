@@ -193,7 +193,7 @@ if (session.ticketBooking == null) {
                       <p class="error">${flash.tbrMessageError}</p>
                     </g:if>
                     ${fare.name}
-                    <strong><g:formatNumber number="${ticket.price}" type="number" format="#####,##" /> €</strong>
+                    <strong><g:formatNumber number="${fare?.price}" type="number" format="#####,##" /> €</strong>
                     <input type="text" name="placeNumber" value="" size="1" />
                     <input type="hidden" name="requestId" value="${rqt.id}" />
                     <input type="hidden" name="fareId" value="${fare.id}" />

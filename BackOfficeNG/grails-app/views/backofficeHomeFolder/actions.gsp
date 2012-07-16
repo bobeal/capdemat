@@ -1,3 +1,6 @@
+<style>
+  dl.action dd a:hover { background : blue; }
+</style>
 <ul id="userActions">
   <g:each var="action" in="${actions}">
     <li>
@@ -73,7 +76,12 @@
         </g:if>
         <g:if test="${action.merge}">
           <dt>${message(code : "property.target")}</dt>
-          <dd>${action.merge}</dd>
+          <dd>
+              ${action.merge}
+              <g:if test="${action.target.name.contains('Compte')}">
+                  (<a href="${createLink(action:'details',id:action.merge)}">${message(code : "homeFolder.header.goToAccount")}</a>)
+              </g:if>
+          </dd>
         </g:if>
       </dl>
     </li>

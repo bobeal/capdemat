@@ -4,13 +4,13 @@
     <li>
       <input name="${propertyName}" type="radio" value="true"
           class="validate-one-required ${required}"  
-          title="<g:message code="${i18nKeyPrefix}.validationError" />" ${propertyValue == 'true' ? 'checked="checked"' : ''} />
+          title="<g:message code=\"${i18nKeyPrefix}.validationError\" />" ${propertyValue == 'true' ? 'checked="checked"' : ''} />
       <span><g:message code="message.yes" /></span>
     </li>
     <li>
       <input name="${propertyName}" type="radio" value="false"
           class="validate-one-required ${required}"  
-          title="<g:message code="${i18nKeyPrefix}.validationError" />" ${propertyValue == 'false' ? 'checked="checked"' : ''} />
+          title="<g:message code=\"${i18nKeyPrefix}.validationError\" />" ${propertyValue == 'false' ? 'checked="checked"' : ''} />
       <span><g:message code="message.no" /></span>
     </li>
   </ul>

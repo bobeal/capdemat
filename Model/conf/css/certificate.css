@@ -39,6 +39,7 @@ div.response {
 
 div.response.choice span     { font-size: .75em; color: #777; }
 div.response.choice .checked { font-size: 1em; color: #000; }
+div.response.choice .unchecked { display: none; }
 
 div.response p  { margin: 0; }
 div.response ul { margin: 0; padding: 0; list-style-type: none; }

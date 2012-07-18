@@ -18,10 +18,9 @@
           """
           <div class="response choice">
             ${toGT('[true,false].each {')}
-              <span \${it == ${wrapper}.${element.javaFieldName} ? 'class="checked"': ''}>
+              <span \${it == ${wrapper}.${element.javaFieldName} ? 'class="checked"': 'class="unchecked"'}>
                 \${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              \${it ? ' / ' : ''}
             ${toGT('}')}
           </div>
           """
@@ -37,9 +36,9 @@
           """
           <div class="response choice">
             ${toGT(element.enumValuesAsString + '.eachWithIndex {it, i ->')}
-              <span \${it == ${wrapper}.${element.javaFieldName}.legacyLabel ? 'class="checked"': ''}>
+              <span \${it == ${wrapper}.${element.javaFieldName}.legacyLabel ? 'class="checked"': 'class="unchecked"'}>
                 \${esc(i18n.translate('${element.i18nPrefixCode}.' + StringUtils.uncapitalize(it)))}
-              </span>\${i + 1 < ${element.enumValuesAsString}?.size() ? ', ' : ''}
+              </span>
             ${toGT('}')}
           </div>
           """
@@ -154,10 +153,9 @@
           """
           <div class="response choice">
             ${toGT('[true,false].each {')}
-              <span \${it == ${wrapper}.${element.javaFieldName} ? 'class="checked"': ''}>
+              <span \${it == ${wrapper}.${element.javaFieldName} ? 'class="checked"': 'class="unchecked"'}>
                 \${i18n.translate('message.' + (it ? 'yes' : 'no'))}
               </span>
-              \${it ? ' / ' : ''}
             ${toGT('}')}
           </div>
           """
@@ -317,10 +315,10 @@ ${beginGT()}
       lrEntries.each { entry ->
         println "<li>"
         if (entry.entries) {
-          println "<em \${currentLrDatas?.contains(entry.key) ? 'class=\"checked\"' : ''}>\${entry.label} :</em>"
+          println "<em \${currentLrDatas?.contains(entry.key) ? 'class=\"checked\"' : 'class=\"unchecked\"'}>\${entry.label} :</em>"
           localReferentialWidget(rqt, javaName, entry.entries, depth + 1)
         } else {
-          println "<span \${currentLrDatas?.contains(entry.key) ? 'class=\"checked\"' : ''}>\${entry.label}</span>"
+          println "<span \${currentLrDatas?.contains(entry.key) ? 'class=\"checked\"' : 'class=\"unchecked\"'}>\${entry.label}</span>"
         }
         println "</li>"
       }
@@ -328,7 +326,7 @@ ${beginGT()}
       println "</ul>"
     } else {
       lrEntries.eachWithIndex { entry, i ->
-        println "<span \${currentLrDatas?.contains(entry.key) ? 'class=\"checked\"' : ''}>\${entry.label}</span>\${i + 1 < lrEntries.size() ? ', ' : ''}"
+        println "<span \${currentLrDatas?.contains(entry.key) ? 'class=\"checked\"' : 'class=\"unchecked\"'}>\${entry.label}</span>"
       }
     }
   }
@@ -386,9 +384,9 @@ ${endGT()}
   <div class="response choice">
     ${toGT('if (rqt.meansOfContact) {')}
       ${toGT('rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i ->')}
-        <span \${it == rqt.meansOfContact.type ? 'class=\"checked\"': ''}>
+        <span \${it == rqt.meansOfContact.type ? 'class=\"checked\"': 'class=\"unchecked\"'}>
           \${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.legacyLabel))}
-        </span>\${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
+        </span>
       ${toGT('}')}
     ${toGT('} else {')}
       <span class="checked">\${i18n.translate('meansOfContact.none')}</span>

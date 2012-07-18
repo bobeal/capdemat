@@ -164,12 +164,15 @@ class BackofficeStatisticController {
             	cdData.add(count.intValue())
 			}
         }
-
+        def sum = cdData.sum()
+        for(int i=0; i< cdData.size();i++){
+            cdData.set(i, (cdData.get(i)*100)/sum);
+        }
         def chart = new GoogleChartBuilder()
         def url = chart.pieChart {
             size(w:700,h:200)
             title() {
-                row("Total : ${cdData.sum()}")
+                row("Total : ${cdData.isEmpty() ? 0 : sum}")
             }
             data(encoding:'text') {
         		dataSet(cdData)
@@ -197,12 +200,15 @@ class BackofficeStatisticController {
             	cdData.add(count.intValue())
 			}
         }
-
+        def sum = cdData.sum()
+        for(int i=0; i< cdData.size();i++){
+            cdData.set(i, (cdData.get(i)*100)/sum);
+        }
         def chart = new GoogleChartBuilder()
         def url = chart.pieChart {
             size(w:700,h:300)
             title() {
-                row("Total : ${cdData.isEmpty() ? 0 : cdData.sum()}")
+                row("Total : ${cdData.isEmpty() ? 0 : sum}")
             }
             data(encoding:'text') {
         		dataSet(cdData)
@@ -233,7 +239,10 @@ class BackofficeStatisticController {
                 textLabels.add(v.intValue())
 			}
         }
-        
+        def sum = cdData.sum()
+        for(int i=0; i< cdData.size();i++){
+            cdData.set(i, (cdData.get(i)*100)/sum);
+        }
         def chart = new GoogleChartBuilder()
         def url = chart.pieChart {
             size(w:600,h:200)

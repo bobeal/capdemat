@@ -45,6 +45,7 @@
     <javac optimize="on"
            debug="on"
            deprecation="on"
+           encoding="UTF-8"
            verbose="off"
            srcdir="${basedir}/${src.java.dir}"
            includes="**/*.java"

@@ -65,7 +65,7 @@
 			new File(srcDir).mkdirs()
 			new File(testDir).mkdirs()
 		</groovy>
-
+		<touch file="${plugin-base}/test/java/.keep" />
 		<mkdir dir="${plugin-base}/src/java/META-INF" />
 		<copy file="${basedir}/manifest.mf.tpl" tofile="${plugin-base}/src/java/META-INF/manifest.mf" />
 

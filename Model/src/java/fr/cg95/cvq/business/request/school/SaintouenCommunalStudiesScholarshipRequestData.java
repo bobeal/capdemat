@@ -41,47 +41,13 @@ public class SaintouenCommunalStudiesScholarshipRequestData implements Serializa
       
         isOtherSituation = fr.cg95.cvq.business.request.school.SaintOuenSituationLogementType.TENANT;
       
-        isSubjectAccountHolder = Boolean.valueOf(true);
+        vousVivezAvec = fr.cg95.cvq.business.request.school.ScssrVousVivezAvezType.DEUX_PARENTS;
       
     }
 
     @Override
     public SaintouenCommunalStudiesScholarshipRequestData clone() {
         SaintouenCommunalStudiesScholarshipRequestData result = new SaintouenCommunalStudiesScholarshipRequestData();
-        
-          
-            
-        result.setAccountHolderBirthDate(accountHolderBirthDate);
-      
-          
-        
-          
-            
-        result.setAccountHolderFirstName(accountHolderFirstName);
-      
-          
-        
-          
-            
-        result.setAccountHolderLastName(accountHolderLastName);
-      
-          
-        
-          
-            
-        if (accountHolderTitle != null)
-            result.setAccountHolderTitle(accountHolderTitle);
-        else
-            result.setAccountHolderTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
-      
-          
-        
-          
-            
-        if (bankAccount != null)
-            result.setBankAccount(bankAccount.clone());
-      
-          
         
           
             
@@ -94,13 +60,25 @@ public class SaintouenCommunalStudiesScholarshipRequestData implements Serializa
         
           
             
-        result.setIsSubjectAccountHolder(isSubjectAccountHolder);
+        result.setMontantBourse(montantBourse);
       
           
         
           
             
-        result.setMontantBourse(montantBourse);
+        result.setNombreAdultesMajeurs(nombreAdultesMajeurs);
+      
+          
+        
+          
+            
+        result.setNombreEnfantsMineurs(nombreEnfantsMineurs);
+      
+          
+        
+          
+            
+        result.setPrecisionsCompositionFamille(precisionsCompositionFamille);
       
           
         
@@ -116,6 +94,12 @@ public class SaintouenCommunalStudiesScholarshipRequestData implements Serializa
           
             
         result.setSaintOuenEstablishmentLabel(saintOuenEstablishmentLabel);
+      
+          
+        
+          
+            
+        result.setSaintOuenEtablissementTelephone(saintOuenEtablissementTelephone);
       
           
         
@@ -152,6 +136,15 @@ public class SaintouenCommunalStudiesScholarshipRequestData implements Serializa
       
           
         
+          
+            
+        if (vousVivezAvec != null)
+            result.setVousVivezAvec(vousVivezAvec);
+        else
+            result.setVousVivezAvec(fr.cg95.cvq.business.request.school.ScssrVousVivezAvezType.getDefaultScssrVousVivezAvezType());
+      
+          
+        
         return result;
     }
 
@@ -165,224 +158,6 @@ public class SaintouenCommunalStudiesScholarshipRequestData implements Serializa
         return this.id;
     }
 
-  
-    
-      @NotNull(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"bankReference"},
-        message = "accountHolderBirthDate"
-      )
-    
-    private java.util.Date accountHolderBirthDate;
-
-    public void setAccountHolderBirthDate(final java.util.Date accountHolderBirthDate) {
-        this.accountHolderBirthDate = accountHolderBirthDate;
-    }
-
- 
-    @Column(name="account_holder_birth_date"  )
-      
-    public java.util.Date getAccountHolderBirthDate() {
-        return this.accountHolderBirthDate;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 38,
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"bankReference"},
-        message = "accountHolderFirstName"
-      )
-    
-      @NotNull(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"bankReference"},
-        message = "accountHolderFirstName"
-      )
-    
-      @NotBlank(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"bankReference"},
-        message = "accountHolderFirstName"
-      )
-    
-    private String accountHolderFirstName;
-
-    public void setAccountHolderFirstName(final String accountHolderFirstName) {
-        this.accountHolderFirstName = accountHolderFirstName;
-    }
-
- 
-    @Column(name="account_holder_first_name" , length=38 )
-      
-    public String getAccountHolderFirstName() {
-        return this.accountHolderFirstName;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 38,
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"bankReference"},
-        message = "accountHolderLastName"
-      )
-    
-      @NotNull(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"bankReference"},
-        message = "accountHolderLastName"
-      )
-    
-      @NotBlank(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"bankReference"},
-        message = "accountHolderLastName"
-      )
-    
-    private String accountHolderLastName;
-
-    public void setAccountHolderLastName(final String accountHolderLastName) {
-        this.accountHolderLastName = accountHolderLastName;
-    }
-
- 
-    @Column(name="account_holder_last_name" , length=38 )
-      
-    public String getAccountHolderLastName() {
-        return this.accountHolderLastName;
-    }
-  
-    
-      @NotNull(
-        
-        
-          when = "groovy:def active = true;" +
-          
-            "active &= !_this.conditions['isSubjectAccountHolder'].test(_this.isSubjectAccountHolder.toString());" +
-                
-              
-            
-            
-            "return active",
-        
-        profiles = {"bankReference"},
-        message = "accountHolderTitle"
-      )
-    
-    private fr.cg95.cvq.business.users.TitleType accountHolderTitle;
-
-    public void setAccountHolderTitle(final fr.cg95.cvq.business.users.TitleType accountHolderTitle) {
-        this.accountHolderTitle = accountHolderTitle;
-    }
-
- 
-    @Enumerated(EnumType.STRING)
-    @Column(name="account_holder_title"  )
-      
-    public fr.cg95.cvq.business.users.TitleType getAccountHolderTitle() {
-        return this.accountHolderTitle;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"bankReference"},
-        message = "bankAccount"
-      )
-    
-      @AssertValid(
-        
-        
-        profiles = {"bankReference"},
-        message = "bankAccount"
-      )
-    
-    private fr.cg95.cvq.business.users.BankAccount bankAccount;
-
-    public void setBankAccount(final fr.cg95.cvq.business.users.BankAccount bankAccount) {
-        this.bankAccount = bankAccount;
-    }
-
- 
-    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinColumn(name="bank_account_id")
-      
-    public fr.cg95.cvq.business.users.BankAccount getBankAccount() {
-        return this.bankAccount;
-    }
   
     
       @NotNull(
@@ -404,27 +179,6 @@ public class SaintouenCommunalStudiesScholarshipRequestData implements Serializa
       
     public fr.cg95.cvq.business.request.school.SaintOuenSituationLogementType getIsOtherSituation() {
         return this.isOtherSituation;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"bankReference"},
-        message = "isSubjectAccountHolder"
-      )
-    
-    private Boolean isSubjectAccountHolder;
-
-    public void setIsSubjectAccountHolder(final Boolean isSubjectAccountHolder) {
-        this.isSubjectAccountHolder = isSubjectAccountHolder;
-    }
-
- 
-    @Column(name="is_subject_account_holder"  )
-      
-    public Boolean getIsSubjectAccountHolder() {
-        return this.isSubjectAccountHolder;
     }
   
     
@@ -453,6 +207,112 @@ public class SaintouenCommunalStudiesScholarshipRequestData implements Serializa
       
     public String getMontantBourse() {
         return this.montantBourse;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"compositionFamille"},
+        message = "nombreAdultesMajeurs"
+      )
+    
+    private Long nombreAdultesMajeurs;
+
+    public void setNombreAdultesMajeurs(final Long nombreAdultesMajeurs) {
+        this.nombreAdultesMajeurs = nombreAdultesMajeurs;
+    }
+
+ 
+    @Column(name="nombre_adultes_majeurs"  )
+      
+    public Long getNombreAdultesMajeurs() {
+        return this.nombreAdultesMajeurs;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"compositionFamille"},
+        message = "nombreEnfantsMineurs"
+      )
+    
+    private Long nombreEnfantsMineurs;
+
+    public void setNombreEnfantsMineurs(final Long nombreEnfantsMineurs) {
+        this.nombreEnfantsMineurs = nombreEnfantsMineurs;
+    }
+
+ 
+    @Column(name="nombre_enfants_mineurs"  )
+      
+    public Long getNombreEnfantsMineurs() {
+        return this.nombreEnfantsMineurs;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 1024,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['vousVivezAvec'].test(_this.vousVivezAvec.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"compositionFamille"},
+        message = "precisionsCompositionFamille"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['vousVivezAvec'].test(_this.vousVivezAvec.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"compositionFamille"},
+        message = "precisionsCompositionFamille"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['vousVivezAvec'].test(_this.vousVivezAvec.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"compositionFamille"},
+        message = "precisionsCompositionFamille"
+      )
+    
+    private String precisionsCompositionFamille;
+
+    public void setPrecisionsCompositionFamille(final String precisionsCompositionFamille) {
+        this.precisionsCompositionFamille = precisionsCompositionFamille;
+    }
+
+ 
+    @Column(name="precisions_composition_famille" , length=1024 )
+      
+    public String getPrecisionsCompositionFamille() {
+        return this.precisionsCompositionFamille;
     }
   
     
@@ -503,6 +363,43 @@ public class SaintouenCommunalStudiesScholarshipRequestData implements Serializa
       
     public String getSaintOuenEstablishmentLabel() {
         return this.saintOuenEstablishmentLabel;
+    }
+  
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+        profiles = {"schoolingInformation"},
+        message = "saintOuenEtablissementTelephone"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"schoolingInformation"},
+        message = "saintOuenEtablissementTelephone"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"schoolingInformation"},
+        message = "saintOuenEtablissementTelephone"
+      )
+    
+    private String saintOuenEtablissementTelephone;
+
+    public void setSaintOuenEtablissementTelephone(final String saintOuenEtablissementTelephone) {
+        this.saintOuenEtablissementTelephone = saintOuenEtablissementTelephone;
+    }
+
+ 
+    @Column(name="saint_ouen_etablissement_telephone" , length=10 )
+      
+    public String getSaintOuenEtablissementTelephone() {
+        return this.saintOuenEtablissementTelephone;
     }
   
     
@@ -659,6 +556,28 @@ public class SaintouenCommunalStudiesScholarshipRequestData implements Serializa
       
     public java.util.Date getSubjectDomiciliationDate() {
         return this.subjectDomiciliationDate;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"compositionFamille"},
+        message = "vousVivezAvec"
+      )
+    
+    private fr.cg95.cvq.business.request.school.ScssrVousVivezAvezType vousVivezAvec;
+
+    public void setVousVivezAvec(final fr.cg95.cvq.business.request.school.ScssrVousVivezAvezType vousVivezAvec) {
+        this.vousVivezAvec = vousVivezAvec;
+    }
+
+ 
+    @Enumerated(EnumType.STRING)
+    @Column(name="vous_vivez_avec"  )
+      
+    public fr.cg95.cvq.business.request.school.ScssrVousVivezAvezType getVousVivezAvec() {
+        return this.vousVivezAvec;
     }
   
 }

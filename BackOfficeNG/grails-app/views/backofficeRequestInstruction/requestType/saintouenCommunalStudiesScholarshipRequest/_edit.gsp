@@ -13,7 +13,7 @@
     </li>
   
     <li class="">
-      <a href="#page2"><em><g:message code="scssr.step.bankReference.label" /></em></a>
+      <a href="#page2"><em><g:message code="scssr.step.compositionFamille.label" /></em></a>
     </li>
   
     <li class="administration ">
@@ -101,6 +101,12 @@
             
               
               <dl>
+                <dt class="required"><g:message code="scssr.property.saintOuenEtablissementTelephone.label" /> * : </dt><dd id="saintOuenEtablissementTelephone" class="action-editField validate-phone required-true i18n-scssr.property.saintOuenEtablissementTelephone maxLength-10" ><span>${rqt?.saintOuenEtablissementTelephone}</span></dd>
+              </dl>
+              
+            
+              
+              <dl>
                 <dt class="required condition-saintOuenIsInOtherStudies-trigger"><g:message code="scssr.property.saintOuenIsInOtherStudies.label" /> * : </dt><dd id="saintOuenIsInOtherStudies" class="action-editField validate-capdematEnum required-true i18n-scssr.property.saintOuenIsInOtherStudies javatype-fr.cg95.cvq.business.request.school.SaintOuenCurrentStudiesType" ><g:capdematEnumToField var="${rqt?.saintOuenIsInOtherStudies}" i18nKeyPrefix="scssr.property.saintOuenIsInOtherStudies" /></dd>
               </dl>
               
@@ -134,7 +140,7 @@
       <!-- step start -->
       <div id="page2">
         <h2><g:message code="property.form" />
-          <span><g:message code="scssr.step.bankReference.label" /></span>
+          <span><g:message code="scssr.step.compositionFamille.label" /></span>
         </h2>
         <div class="yui-g">
           
@@ -144,37 +150,13 @@
             
               
               <dl>
-                <dt class="required condition-isSubjectAccountHolder-trigger"><g:message code="scssr.property.isSubjectAccountHolder.label" /> * : </dt><dd id="isSubjectAccountHolder" class="action-editField validate-boolean required-true i18n-scssr.property.isSubjectAccountHolder" ><span class="value-${rqt?.isSubjectAccountHolder}"><g:message code="message.${rqt?.isSubjectAccountHolder ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required condition-vousVivezAvecAutre-trigger"><g:message code="scssr.property.vousVivezAvec.label" /> * : </dt><dd id="vousVivezAvec" class="action-editField validate-capdematEnum required-true i18n-scssr.property.vousVivezAvec javatype-fr.cg95.cvq.business.request.school.ScssrVousVivezAvezType" ><g:capdematEnumToField var="${rqt?.vousVivezAvec}" i18nKeyPrefix="scssr.property.vousVivezAvec" /></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required condition-isSubjectAccountHolder-unfilled"><g:message code="scssr.property.accountHolderTitle.label" /> * : </dt><dd id="accountHolderTitle" class="action-editField validate-capdematEnum required-true i18n-scssr.property.accountHolderTitle javatype-fr.cg95.cvq.business.users.TitleType" ><g:capdematEnumToField var="${rqt?.accountHolderTitle}" i18nKeyPrefix="scssr.property.accountHolderTitle" /></dd>
-              </dl>
-              
-            
-              
-              <dl>
-                <dt class="required condition-isSubjectAccountHolder-unfilled"><g:message code="scssr.property.accountHolderLastName.label" /> * : </dt><dd id="accountHolderLastName" class="action-editField validate-lastName required-true i18n-scssr.property.accountHolderLastName maxLength-38" ><span>${rqt?.accountHolderLastName}</span></dd>
-              </dl>
-              
-            
-              
-              <dl>
-                <dt class="required condition-isSubjectAccountHolder-unfilled"><g:message code="scssr.property.accountHolderFirstName.label" /> * : </dt><dd id="accountHolderFirstName" class="action-editField validate-firstName required-true i18n-scssr.property.accountHolderFirstName maxLength-38" ><span>${rqt?.accountHolderFirstName}</span></dd>
-              </dl>
-              
-            
-              
-              <dl>
-                <dt class="required condition-isSubjectAccountHolder-unfilled"><g:message code="scssr.property.accountHolderBirthDate.label" /> * : </dt><dd id="accountHolderBirthDate" class="action-editField validate-date required-true i18n-scssr.property.accountHolderBirthDate" ><span><g:formatDate formatName="format.date" date="${rqt?.accountHolderBirthDate}"/></span></dd>
-              </dl>
-              
-            
-              
-              <dl>
-                <dt class="required"><g:message code="scssr.property.bankAccount.label" /> * : </dt><dd id="bankAccount" class="action-editField validate-bankAccount required-true i18n-scssr.property.bankAccount" ><div><p>${rqt?.bankAccount?.BIC}</p><p>${rqt?.bankAccount?.IBAN}</p></div></dd>
+                <dt class="required condition-vousVivezAvecAutre-filled"><g:message code="scssr.property.precisionsCompositionFamille.label" /> * : </dt><dd id="precisionsCompositionFamille" class="action-editField validate-textarea required-true i18n-scssr.property.precisionsCompositionFamille rows-5 maxLength-1024" ><span>${rqt?.precisionsCompositionFamille}</span></dd>
               </dl>
               
             
@@ -183,6 +165,17 @@
           
           <!-- column start -->
           <div class="yui-u">
+            
+              
+              <h3><g:message code="scssr.property.nombreIndividusFoyer.label" /></h3>
+              <dl class="required">
+                
+                  <dt class="required"><g:message code="scssr.property.nombreAdultesMajeurs.label" /> * : </dt><dd id="nombreAdultesMajeurs" class="action-editField validate-long required-true i18n-scssr.property.nombreAdultesMajeurs" ><span>${rqt?.nombreAdultesMajeurs}</span></dd>
+                
+                  <dt class="required"><g:message code="scssr.property.nombreEnfantsMineurs.label" /> * : </dt><dd id="nombreEnfantsMineurs" class="action-editField validate-long required-true i18n-scssr.property.nombreEnfantsMineurs" ><span>${rqt?.nombreEnfantsMineurs}</span></dd>
+                
+              </dl>
+              
             
           </div>
           <!-- column end -->

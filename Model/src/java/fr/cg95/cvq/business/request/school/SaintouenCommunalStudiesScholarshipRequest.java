@@ -46,6 +46,13 @@ public class SaintouenCommunalStudiesScholarshipRequest extends Request implemen
         
           stepState = new HashMap<String, Object>(4);
           stepState.put("state", "uncomplete");
+          stepState.put("required", false);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          getStepStates().put("homeFolder", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
@@ -63,7 +70,7 @@ public class SaintouenCommunalStudiesScholarshipRequest extends Request implemen
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
-          getStepStates().put("bankReference", stepState);
+          getStepStates().put("compositionFamille", stepState);
         
           stepState = new HashMap<String, Object>(4);
           stepState.put("state", "unavailable");
@@ -125,34 +132,25 @@ public class SaintouenCommunalStudiesScholarshipRequest extends Request implemen
         super.fillCommonXmlInfo(saintouenCommunalStudiesScholarshipRequest);
         int i = 0;
         
-        date = getAccountHolderBirthDate();
-        if (date != null) {
-            calendar.setTime(date);
-            saintouenCommunalStudiesScholarshipRequest.setAccountHolderBirthDate(calendar);
-        }
-      
-        saintouenCommunalStudiesScholarshipRequest.setAccountHolderFirstName(getAccountHolderFirstName());
-      
-        saintouenCommunalStudiesScholarshipRequest.setAccountHolderLastName(getAccountHolderLastName());
-      
-        if (getAccountHolderTitle() != null)
-            saintouenCommunalStudiesScholarshipRequest.setAccountHolderTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getAccountHolderTitle().getLegacyLabel()));
-      
-        if (getBankAccount() != null)
-            saintouenCommunalStudiesScholarshipRequest.setBankAccount(BankAccount.modelToXml(getBankAccount()));
-      
         if (getIsOtherSituation() != null)
             saintouenCommunalStudiesScholarshipRequest.setIsOtherSituation(fr.cg95.cvq.xml.request.school.SaintOuenSituationLogementType.Enum.forString(getIsOtherSituation().getLegacyLabel()));
       
-        if (getIsSubjectAccountHolder() != null)
-            saintouenCommunalStudiesScholarshipRequest.setIsSubjectAccountHolder(getIsSubjectAccountHolder().booleanValue());
-      
         saintouenCommunalStudiesScholarshipRequest.setMontantBourse(getMontantBourse());
+        ScssrNombreIndividusFoyerType scssrNombreIndividusFoyerTypeNombreIndividusFoyer = saintouenCommunalStudiesScholarshipRequest.addNewNombreIndividusFoyer();
+        if (getNombreAdultesMajeurs() != null)
+            scssrNombreIndividusFoyerTypeNombreIndividusFoyer.setNombreAdultesMajeurs(getNombreAdultesMajeurs().longValue());
+      
+        if (getNombreEnfantsMineurs() != null)
+            scssrNombreIndividusFoyerTypeNombreIndividusFoyer.setNombreEnfantsMineurs(getNombreEnfantsMineurs().longValue());
+      
+        saintouenCommunalStudiesScholarshipRequest.setPrecisionsCompositionFamille(getPrecisionsCompositionFamille());
       
         if (getSaintOuenCurrentStudiesLevel() != null)
             saintouenCommunalStudiesScholarshipRequest.setSaintOuenCurrentStudiesLevel(fr.cg95.cvq.xml.request.school.SaintOuenCurrentStudiesLevelType.Enum.forString(getSaintOuenCurrentStudiesLevel().getLegacyLabel()));
       
         saintouenCommunalStudiesScholarshipRequest.setSaintOuenEstablishmentLabel(getSaintOuenEstablishmentLabel());
+      
+        saintouenCommunalStudiesScholarshipRequest.setSaintOuenEtablissementTelephone(getSaintOuenEtablissementTelephone());
       
         if (getSaintOuenIsInOtherStudies() != null)
             saintouenCommunalStudiesScholarshipRequest.setSaintOuenIsInOtherStudies(fr.cg95.cvq.xml.request.school.SaintOuenCurrentStudiesType.Enum.forString(getSaintOuenIsInOtherStudies().getLegacyLabel()));
@@ -173,6 +171,9 @@ public class SaintouenCommunalStudiesScholarshipRequest extends Request implemen
             saintouenCommunalStudiesScholarshipRequest.setSubjectDomiciliationDate(calendar);
         }
       
+        if (getVousVivezAvec() != null)
+            saintouenCommunalStudiesScholarshipRequest.setVousVivezAvec(fr.cg95.cvq.xml.request.school.ScssrVousVivezAvezType.Enum.forString(getVousVivezAvec().getLegacyLabel()));
+      
         return saintouenCommunalStudiesScholarshipRequestDoc;
     }
 
@@ -189,31 +190,20 @@ public class SaintouenCommunalStudiesScholarshipRequest extends Request implemen
         SaintouenCommunalStudiesScholarshipRequest saintouenCommunalStudiesScholarshipRequest = new SaintouenCommunalStudiesScholarshipRequest();
         saintouenCommunalStudiesScholarshipRequest.fillCommonModelInfo(saintouenCommunalStudiesScholarshipRequest, saintouenCommunalStudiesScholarshipRequestXml);
         
-        calendar = saintouenCommunalStudiesScholarshipRequestXml.getAccountHolderBirthDate();
-        if (calendar != null) {
-            saintouenCommunalStudiesScholarshipRequest.setAccountHolderBirthDate(calendar.getTime());
-        }
-      
-        saintouenCommunalStudiesScholarshipRequest.setAccountHolderFirstName(saintouenCommunalStudiesScholarshipRequestXml.getAccountHolderFirstName());
-      
-        saintouenCommunalStudiesScholarshipRequest.setAccountHolderLastName(saintouenCommunalStudiesScholarshipRequestXml.getAccountHolderLastName());
-      
-        if (saintouenCommunalStudiesScholarshipRequestXml.getAccountHolderTitle() != null)
-            saintouenCommunalStudiesScholarshipRequest.setAccountHolderTitle(fr.cg95.cvq.business.users.TitleType.forString(saintouenCommunalStudiesScholarshipRequestXml.getAccountHolderTitle().toString()));
-        else
-            saintouenCommunalStudiesScholarshipRequest.setAccountHolderTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
-      
-        if (saintouenCommunalStudiesScholarshipRequestXml.getBankAccount() != null)
-            saintouenCommunalStudiesScholarshipRequest.setBankAccount(BankAccount.xmlToModel(saintouenCommunalStudiesScholarshipRequestXml.getBankAccount()));
-      
         if (saintouenCommunalStudiesScholarshipRequestXml.getIsOtherSituation() != null)
             saintouenCommunalStudiesScholarshipRequest.setIsOtherSituation(fr.cg95.cvq.business.request.school.SaintOuenSituationLogementType.forString(saintouenCommunalStudiesScholarshipRequestXml.getIsOtherSituation().toString()));
         else
             saintouenCommunalStudiesScholarshipRequest.setIsOtherSituation(fr.cg95.cvq.business.request.school.SaintOuenSituationLogementType.getDefaultSaintOuenSituationLogementType());
       
-        saintouenCommunalStudiesScholarshipRequest.setIsSubjectAccountHolder(Boolean.valueOf(saintouenCommunalStudiesScholarshipRequestXml.getIsSubjectAccountHolder()));
-      
         saintouenCommunalStudiesScholarshipRequest.setMontantBourse(saintouenCommunalStudiesScholarshipRequestXml.getMontantBourse());
+      
+        if (saintouenCommunalStudiesScholarshipRequestXml.getNombreIndividusFoyer().getNombreAdultesMajeurs() != 0)
+            saintouenCommunalStudiesScholarshipRequest.setNombreAdultesMajeurs(new Long(saintouenCommunalStudiesScholarshipRequestXml.getNombreIndividusFoyer().getNombreAdultesMajeurs()));
+      
+        if (saintouenCommunalStudiesScholarshipRequestXml.getNombreIndividusFoyer().getNombreEnfantsMineurs() != 0)
+            saintouenCommunalStudiesScholarshipRequest.setNombreEnfantsMineurs(new Long(saintouenCommunalStudiesScholarshipRequestXml.getNombreIndividusFoyer().getNombreEnfantsMineurs()));
+      
+        saintouenCommunalStudiesScholarshipRequest.setPrecisionsCompositionFamille(saintouenCommunalStudiesScholarshipRequestXml.getPrecisionsCompositionFamille());
       
         if (saintouenCommunalStudiesScholarshipRequestXml.getSaintOuenCurrentStudiesLevel() != null)
             saintouenCommunalStudiesScholarshipRequest.setSaintOuenCurrentStudiesLevel(fr.cg95.cvq.business.request.school.SaintOuenCurrentStudiesLevelType.forString(saintouenCommunalStudiesScholarshipRequestXml.getSaintOuenCurrentStudiesLevel().toString()));
@@ -221,6 +211,8 @@ public class SaintouenCommunalStudiesScholarshipRequest extends Request implemen
             saintouenCommunalStudiesScholarshipRequest.setSaintOuenCurrentStudiesLevel(fr.cg95.cvq.business.request.school.SaintOuenCurrentStudiesLevelType.getDefaultSaintOuenCurrentStudiesLevelType());
       
         saintouenCommunalStudiesScholarshipRequest.setSaintOuenEstablishmentLabel(saintouenCommunalStudiesScholarshipRequestXml.getSaintOuenEstablishmentLabel());
+      
+        saintouenCommunalStudiesScholarshipRequest.setSaintOuenEtablissementTelephone(saintouenCommunalStudiesScholarshipRequestXml.getSaintOuenEtablissementTelephone());
       
         if (saintouenCommunalStudiesScholarshipRequestXml.getSaintOuenIsInOtherStudies() != null)
             saintouenCommunalStudiesScholarshipRequest.setSaintOuenIsInOtherStudies(fr.cg95.cvq.business.request.school.SaintOuenCurrentStudiesType.forString(saintouenCommunalStudiesScholarshipRequestXml.getSaintOuenIsInOtherStudies().toString()));
@@ -241,6 +233,11 @@ public class SaintouenCommunalStudiesScholarshipRequest extends Request implemen
             saintouenCommunalStudiesScholarshipRequest.setSubjectDomiciliationDate(calendar.getTime());
         }
       
+        if (saintouenCommunalStudiesScholarshipRequestXml.getVousVivezAvec() != null)
+            saintouenCommunalStudiesScholarshipRequest.setVousVivezAvec(fr.cg95.cvq.business.request.school.ScssrVousVivezAvezType.forString(saintouenCommunalStudiesScholarshipRequestXml.getVousVivezAvec().toString()));
+        else
+            saintouenCommunalStudiesScholarshipRequest.setVousVivezAvec(fr.cg95.cvq.business.request.school.ScssrVousVivezAvezType.getDefaultScssrVousVivezAvezType());
+      
         return saintouenCommunalStudiesScholarshipRequest;
     }
 
@@ -251,6 +248,13 @@ public class SaintouenCommunalStudiesScholarshipRequest extends Request implemen
         
           stepState = new HashMap<String, Object>(4);
           stepState.put("state", "uncomplete");
+          stepState.put("required", false);
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          clone.getStepStates().put("homeFolder", stepState);
+        
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "unavailable");
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
@@ -268,7 +272,7 @@ public class SaintouenCommunalStudiesScholarshipRequest extends Request implemen
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
-          clone.getStepStates().put("bankReference", stepState);
+          clone.getStepStates().put("compositionFamille", stepState);
         
           stepState = new HashMap<String, Object>(4);
           stepState.put("state", "unavailable");
@@ -295,51 +299,6 @@ public class SaintouenCommunalStudiesScholarshipRequest extends Request implemen
     }
 
   
-    public final void setAccountHolderBirthDate(final java.util.Date accountHolderBirthDate) {
-        saintouenCommunalStudiesScholarshipRequestData.setAccountHolderBirthDate(accountHolderBirthDate);
-    }
-
-    
-    public final java.util.Date getAccountHolderBirthDate() {
-        return saintouenCommunalStudiesScholarshipRequestData.getAccountHolderBirthDate();
-    }
-  
-    public final void setAccountHolderFirstName(final String accountHolderFirstName) {
-        saintouenCommunalStudiesScholarshipRequestData.setAccountHolderFirstName(accountHolderFirstName);
-    }
-
-    
-    public final String getAccountHolderFirstName() {
-        return saintouenCommunalStudiesScholarshipRequestData.getAccountHolderFirstName();
-    }
-  
-    public final void setAccountHolderLastName(final String accountHolderLastName) {
-        saintouenCommunalStudiesScholarshipRequestData.setAccountHolderLastName(accountHolderLastName);
-    }
-
-    
-    public final String getAccountHolderLastName() {
-        return saintouenCommunalStudiesScholarshipRequestData.getAccountHolderLastName();
-    }
-  
-    public final void setAccountHolderTitle(final fr.cg95.cvq.business.users.TitleType accountHolderTitle) {
-        saintouenCommunalStudiesScholarshipRequestData.setAccountHolderTitle(accountHolderTitle);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.TitleType getAccountHolderTitle() {
-        return saintouenCommunalStudiesScholarshipRequestData.getAccountHolderTitle();
-    }
-  
-    public final void setBankAccount(final fr.cg95.cvq.business.users.BankAccount bankAccount) {
-        saintouenCommunalStudiesScholarshipRequestData.setBankAccount(bankAccount);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.BankAccount getBankAccount() {
-        return saintouenCommunalStudiesScholarshipRequestData.getBankAccount();
-    }
-  
     public final void setIsOtherSituation(final fr.cg95.cvq.business.request.school.SaintOuenSituationLogementType isOtherSituation) {
         saintouenCommunalStudiesScholarshipRequestData.setIsOtherSituation(isOtherSituation);
     }
@@ -349,15 +308,6 @@ public class SaintouenCommunalStudiesScholarshipRequest extends Request implemen
         return saintouenCommunalStudiesScholarshipRequestData.getIsOtherSituation();
     }
   
-    public final void setIsSubjectAccountHolder(final Boolean isSubjectAccountHolder) {
-        saintouenCommunalStudiesScholarshipRequestData.setIsSubjectAccountHolder(isSubjectAccountHolder);
-    }
-
-    
-    public final Boolean getIsSubjectAccountHolder() {
-        return saintouenCommunalStudiesScholarshipRequestData.getIsSubjectAccountHolder();
-    }
-  
     public final void setMontantBourse(final String montantBourse) {
         saintouenCommunalStudiesScholarshipRequestData.setMontantBourse(montantBourse);
     }
@@ -365,6 +315,33 @@ public class SaintouenCommunalStudiesScholarshipRequest extends Request implemen
     
     public final String getMontantBourse() {
         return saintouenCommunalStudiesScholarshipRequestData.getMontantBourse();
+    }
+  
+    public final void setNombreAdultesMajeurs(final Long nombreAdultesMajeurs) {
+        saintouenCommunalStudiesScholarshipRequestData.setNombreAdultesMajeurs(nombreAdultesMajeurs);
+    }
+
+    
+    public final Long getNombreAdultesMajeurs() {
+        return saintouenCommunalStudiesScholarshipRequestData.getNombreAdultesMajeurs();
+    }
+  
+    public final void setNombreEnfantsMineurs(final Long nombreEnfantsMineurs) {
+        saintouenCommunalStudiesScholarshipRequestData.setNombreEnfantsMineurs(nombreEnfantsMineurs);
+    }
+
+    
+    public final Long getNombreEnfantsMineurs() {
+        return saintouenCommunalStudiesScholarshipRequestData.getNombreEnfantsMineurs();
+    }
+  
+    public final void setPrecisionsCompositionFamille(final String precisionsCompositionFamille) {
+        saintouenCommunalStudiesScholarshipRequestData.setPrecisionsCompositionFamille(precisionsCompositionFamille);
+    }
+
+    
+    public final String getPrecisionsCompositionFamille() {
+        return saintouenCommunalStudiesScholarshipRequestData.getPrecisionsCompositionFamille();
     }
   
     public final void setSaintOuenCurrentStudiesLevel(final fr.cg95.cvq.business.request.school.SaintOuenCurrentStudiesLevelType saintOuenCurrentStudiesLevel) {
@@ -383,6 +360,15 @@ public class SaintouenCommunalStudiesScholarshipRequest extends Request implemen
     
     public final String getSaintOuenEstablishmentLabel() {
         return saintouenCommunalStudiesScholarshipRequestData.getSaintOuenEstablishmentLabel();
+    }
+  
+    public final void setSaintOuenEtablissementTelephone(final String saintOuenEtablissementTelephone) {
+        saintouenCommunalStudiesScholarshipRequestData.setSaintOuenEtablissementTelephone(saintOuenEtablissementTelephone);
+    }
+
+    
+    public final String getSaintOuenEtablissementTelephone() {
+        return saintouenCommunalStudiesScholarshipRequestData.getSaintOuenEtablissementTelephone();
     }
   
     public final void setSaintOuenIsInOtherStudies(final fr.cg95.cvq.business.request.school.SaintOuenCurrentStudiesType saintOuenIsInOtherStudies) {
@@ -428,6 +414,15 @@ public class SaintouenCommunalStudiesScholarshipRequest extends Request implemen
     
     public final java.util.Date getSubjectDomiciliationDate() {
         return saintouenCommunalStudiesScholarshipRequestData.getSubjectDomiciliationDate();
+    }
+  
+    public final void setVousVivezAvec(final fr.cg95.cvq.business.request.school.ScssrVousVivezAvezType vousVivezAvec) {
+        saintouenCommunalStudiesScholarshipRequestData.setVousVivezAvec(vousVivezAvec);
+    }
+
+    
+    public final fr.cg95.cvq.business.request.school.ScssrVousVivezAvezType getVousVivezAvec() {
+        return saintouenCommunalStudiesScholarshipRequestData.getVousVivezAvec();
     }
   
 }

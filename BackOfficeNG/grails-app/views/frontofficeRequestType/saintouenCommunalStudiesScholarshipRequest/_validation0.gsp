@@ -2,6 +2,81 @@
 
 
   
+
+    <h3>${message(code:'scssr.step.homeFolder.label')}</h3>
+
+    
+            <dl>
+              <dt><g:capdematEnumToFlag var="${requester.title}" i18nKeyPrefix="homeFolder.adult.title" /> ${requester.fullName}</dt>
+              <dd>
+                <ul>
+                  <li>
+                    <span class="tag-homefolderresponsible tag-state">${message(code:'homeFolder.role.homeFolderResponsible')}</span>
+                  </li>
+                  <g:if test="${requester.homePhone}">
+                    <li>${requester.homePhone}</li>
+                  </g:if>
+                  <g:if test="${requester.mobilePhone}">
+                    <li>${requester.mobilePhone}</li>
+                  </g:if>
+                  <g:if test="${requester.email}">
+                    <li>${requester.email}</li>
+                  </g:if>
+                </ul>
+              </dd>
+            </dl>
+          
+
+
+    
+          <g:each in="${requester.getHomeFolder().getIndividuals().findAll{ !(it.getState().name.equals('Archived') || it.getState().name.equals('Invalid')) && (requester.getId() != it.getId()) }}" var="individual">
+            <g:if test="${individual.getClass() == fr.cg95.cvq.business.users.Adult.class}">
+              <dl>
+                <dt><g:capdematEnumToFlag var="${individual.title}" i18nKeyPrefix="homeFolder.adult.title" /> ${individual.fullName}</dt>
+                <dd>
+                  <ul>
+                    <g:if test="${individual.homePhone}">
+                      <li>${individual.homePhone}</li>
+                    </g:if>
+                    <g:if test="${individual.mobilePhone}">
+                      <li>${individual.mobilePhone}</li>
+                    </g:if>
+                    <g:if test="${individual.email}">
+                      <li>${individual.email}</li>
+                    </g:if>
+                  </ul>
+                </dd>
+              </dl>
+            </g:if>
+          </g:each>
+          
+
+
+    
+          <g:each in="${requester.getHomeFolder().getIndividuals().findAll{ !(it.getState().name.equals('Archived') || it.getState().name.equals('Invalid'))}}" var="individual">
+            <g:if test="${individual.getClass() == fr.cg95.cvq.business.users.Child.class}">
+              <dl class="${individual.state}">
+                <dt>
+                  <g:if test="${individual.born}">${individual.fullName}</g:if>
+                  <g:else>${message(code:'request.subject.childNoBorn', args:[individual.fullName])}</g:else>
+                <dd>
+                  <g:if test="${individual.born}">${message(code:'homeFolder.header.born')}</g:if>
+                  <g:else>${message(code:'homeFolder.header.noBorn')}</g:else>
+                  <g:if test="${individual.birthDate}">
+                    ${message(code:'homeFolder.header.on')}
+                    ${formatDate(date:individual.birthDate,formatName:'format.date')}
+                  </g:if>
+                </dd>
+              </dl>
+            </g:if>
+          </g:each>
+          
+
+
+  
+
+
+  
     <h3><g:message code="scssr.step.subject.label" /></h3>
     
       
@@ -52,12 +127,20 @@
     
   
 
+
   
     <h3><g:message code="scssr.step.schoolingInformation.label" /></h3>
     
       
       <dl>
         <dt><g:message code="scssr.property.saintOuenEstablishmentLabel.label" /></dt><dd>${rqt.saintOuenEstablishmentLabel?.toString()}</dd>
+
+      </dl>
+      
+    
+      
+      <dl>
+        <dt><g:message code="scssr.property.saintOuenEtablissementTelephone.label" /></dt><dd>${rqt.saintOuenEtablissementTelephone?.toString()}</dd>
 
       </dl>
       
@@ -97,24 +180,16 @@
     
   
 
-  
-    <h3><g:message code="scssr.step.bankReference.label" /></h3>
-    
-      
-      <dl>
-        <dt><g:message code="scssr.property.isSubjectAccountHolder.label" /></dt>
-          <dd><g:message code="message.${rqt.isSubjectAccountHolder ? 'yes' : 'no'}" /></dd>
-          
 
-      </dl>
-      
+  
+    <h3><g:message code="scssr.step.compositionFamille.label" /></h3>
     
       
       <dl>
-        <dt><g:message code="scssr.property.accountHolderTitle.label" /></dt>
+        <dt><g:message code="scssr.property.vousVivezAvec.label" /></dt>
           <dd>
-            <g:if test="${rqt.accountHolderTitle}">
-              <g:capdematEnumToField var="${rqt.accountHolderTitle}" i18nKeyPrefix="scssr.property.accountHolderTitle" />
+            <g:if test="${rqt.vousVivezAvec}">
+              <g:capdematEnumToField var="${rqt.vousVivezAvec}" i18nKeyPrefix="scssr.property.vousVivezAvec" />
             </g:if>
           </dd>
           
@@ -124,44 +199,26 @@
     
       
       <dl>
-        <dt><g:message code="scssr.property.accountHolderLastName.label" /></dt><dd>${rqt.accountHolderLastName?.toString()}</dd>
+        <dt><g:message code="scssr.property.precisionsCompositionFamille.label" /></dt><dd>${rqt.precisionsCompositionFamille?.toString()}</dd>
 
       </dl>
       
     
       
+      <h4><g:message code="scssr.property.nombreIndividusFoyer.label" /></h4>
       <dl>
-        <dt><g:message code="scssr.property.accountHolderFirstName.label" /></dt><dd>${rqt.accountHolderFirstName?.toString()}</dd>
+        
+          <dt><g:message code="scssr.property.nombreAdultesMajeurs.label" /></dt><dd>${rqt.nombreAdultesMajeurs?.toString()}</dd>
 
-      </dl>
-      
-    
-      
-      <dl>
-        <dt><g:message code="scssr.property.accountHolderBirthDate.label" /></dt>
-          <dd><g:formatDate formatName="format.date" date="${rqt.accountHolderBirthDate}"/></dd>
-          
+        
+          <dt><g:message code="scssr.property.nombreEnfantsMineurs.label" /></dt><dd>${rqt.nombreEnfantsMineurs?.toString()}</dd>
 
-      </dl>
-      
-    
-      
-      <dl>
-        <dt><g:message code="scssr.property.bankAccount.label" /></dt>
-          <dd>
-          <g:if test="${rqt.bankAccount}">
-            <p>
-              ${rqt.bankAccount?.BIC}
-              ${rqt.bankAccount?.IBAN}
-            </p>
-          </g:if>
-          </dd>
-          
-
+        
       </dl>
       
     
   
+
 
   
   <g:if test="${!documentsByTypes.isEmpty()}">
@@ -188,6 +245,7 @@
     </g:each>
   </g:if>
   
+
 
   
 

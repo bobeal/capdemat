@@ -10,6 +10,14 @@
   
 
   
+    <label for="saintOuenEtablissementTelephone" class="required"><g:message code="scssr.property.saintOuenEtablissementTelephone.label" /> *  <span><g:message code="scssr.property.saintOuenEtablissementTelephone.help" /></span></label>
+            <input type="text" id="saintOuenEtablissementTelephone" name="saintOuenEtablissementTelephone" value="${rqt.saintOuenEtablissementTelephone?.toString()}" 
+                    class="required  validate-phone ${rqt.stepStates['schoolingInformation'].invalidFields.contains('saintOuenEtablissementTelephone') ? 'validation-failed' : ''}" title="<g:message code="scssr.property.saintOuenEtablissementTelephone.validationError" />"  maxlength="10" />
+            
+
+  
+
+  
     <label for="saintOuenIsInOtherStudies" class="required"><g:message code="scssr.property.saintOuenIsInOtherStudies.label" /> *  <span><g:message code="scssr.property.saintOuenIsInOtherStudies.help" /></span></label>
             <select id="saintOuenIsInOtherStudies" name="saintOuenIsInOtherStudies" class="required condition-saintOuenIsInOtherStudies-trigger  validate-not-first ${rqt.stepStates['schoolingInformation'].invalidFields.contains('saintOuenIsInOtherStudies') ? 'validation-failed' : ''}" title="<g:message code="scssr.property.saintOuenIsInOtherStudies.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -33,7 +41,7 @@
     <label for="saintOuenCurrentStudiesLevel" class="required"><g:message code="scssr.property.saintOuenCurrentStudiesLevel.label" /> *  <span><g:message code="scssr.property.saintOuenCurrentStudiesLevel.help" /></span></label>
             <select id="saintOuenCurrentStudiesLevel" name="saintOuenCurrentStudiesLevel" class="required  validate-not-first ${rqt.stepStates['schoolingInformation'].invalidFields.contains('saintOuenCurrentStudiesLevel') ? 'validation-failed' : ''}" title="<g:message code="scssr.property.saintOuenCurrentStudiesLevel.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['FIRST_YEAR','SECOND_YEAR','THIRD_YEAR']}">
+              <g:each in="${['FIRST_YEAR','SECOND_YEAR','THIRD_YEAR','FOURTH_YEAR','FIRTH_YEAR']}">
                 <option value="${it}" ${it == rqt.saintOuenCurrentStudiesLevel?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="scssr.property.saintOuenCurrentStudiesLevel" /></option>
               </g:each>
             </select>

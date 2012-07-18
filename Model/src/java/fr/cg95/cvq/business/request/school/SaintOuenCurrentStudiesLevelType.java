@@ -7,7 +7,9 @@ public enum SaintOuenCurrentStudiesLevelType {
 
     FIRST_YEAR("firstYear"),
     SECOND_YEAR("secondYear"),
-    THIRD_YEAR("thirdYear");
+    THIRD_YEAR("thirdYear"),
+    FOURTH_YEAR("fourthYear"),
+    FIRTH_YEAR("firthYear");
 
 
     /**

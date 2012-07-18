@@ -8,8 +8,8 @@ scssr.step.subject.desc =
 scssr.step.schoolingInformation.label =
 scssr.step.schoolingInformation.desc =
 
-scssr.step.bankReference.label =
-scssr.step.bankReference.desc =
+scssr.step.compositionFamille.label =
+scssr.step.compositionFamille.desc =
 
 
 scssr.property.subjectBirthDate.help =
@@ -32,6 +32,10 @@ scssr.property.saintOuenEstablishmentLabel.help =
 scssr.property.saintOuenEstablishmentLabel.validationError =
 
 
+scssr.property.saintOuenEtablissementTelephone.help =
+scssr.property.saintOuenEtablissementTelephone.validationError =
+
+
 scssr.property.saintOuenIsInOtherStudies.help =
 scssr.property.saintOuenIsInOtherStudies.validationError =
 
@@ -44,31 +48,33 @@ scssr.property.saintOuenCurrentStudiesLevel.help =
 scssr.property.saintOuenCurrentStudiesLevel.validationError =
 
 
-scssr.property.isSubjectAccountHolder.help =
-scssr.property.isSubjectAccountHolder.validationError =
+scssr.property.vousVivezAvec.help =
+scssr.property.vousVivezAvec.validationError =
 
 
-scssr.property.accountHolderTitle.help =
-scssr.property.accountHolderTitle.validationError =
+scssr.property.precisionsCompositionFamille.help =
+scssr.property.precisionsCompositionFamille.validationError =
 
 
-scssr.property.accountHolderLastName.help =
-scssr.property.accountHolderLastName.validationError =
+scssr.property.nombreIndividusFoyer.help =
+scssr.property.nombreIndividusFoyer.validationError =
 
 
-scssr.property.accountHolderFirstName.help =
-scssr.property.accountHolderFirstName.validationError =
+scssr.property.nombreAdultesMajeurs.help =
+scssr.property.nombreAdultesMajeurs.validationError =
 
 
-scssr.property.accountHolderBirthDate.help =
-scssr.property.accountHolderBirthDate.validationError =
-
-
-scssr.property.bankAccount.help =
-scssr.property.bankAccount.validationError =
+scssr.property.nombreEnfantsMineurs.help =
+scssr.property.nombreEnfantsMineurs.validationError =
 
 
 scssr.property.montantBourse.help =
 scssr.property.montantBourse.validationError =
 
 
+
+scssr.step.homeFolder.label = Compte famille
+scssr.step.homeFolder.desc = Composition de votre compte famille
+
+scssr.incitationText.desc = <span style="font-weight: bold;">Avant de continuer votre demande, merci de :</span><br /> - vérifier l''exactitude des informations de votre compte et des membres qui le compose<br /> - compléter votre compte en ajoutant tous les membres de votre famille (responsables légaux et enfants).<br /><br /><a href="{0}">Je souhaite accéder à mon compte pour le mettre à jour.</a><br /><span style="font-style: italic; font-size: 0.9em;">(Vous pourrez reprendre votre demande après avoir mis à jour votre compte.)
+scssr.incitationText.desc2 = <a href="{0}">Je souhaite accéder à mon compte pour le mettre à jour.</a><br /><span style="font-style: italic; font-size: 0.9em;">(Vous pourrez reprendre votre demande après avoir mis à jour votre compte.)</span>

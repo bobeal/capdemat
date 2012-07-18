@@ -138,8 +138,7 @@ public class SaintouenCapJeunesseEnfantRequest extends Request implements Serial
       
         saintouenCapJeunesseEnfantRequest.setEtablissementScolaireAutre(getEtablissementScolaireAutre());
       
-        if (getEtablissementScolaireAutreAdresse() != null)
-            saintouenCapJeunesseEnfantRequest.setEtablissementScolaireAutreAdresse(Address.modelToXml(getEtablissementScolaireAutreAdresse()));
+        saintouenCapJeunesseEnfantRequest.setEtablissementScolaireAutreAdresse(getEtablissementScolaireAutreAdresse());
       
         saintouenCapJeunesseEnfantRequest.setEtablissementScolaireAutreNom(getEtablissementScolaireAutreNom());
       
@@ -210,8 +209,7 @@ public class SaintouenCapJeunesseEnfantRequest extends Request implements Serial
       
         saintouenCapJeunesseEnfantRequest.setEtablissementScolaireAutre(saintouenCapJeunesseEnfantRequestXml.getEtablissementScolaireAutre());
       
-        if (saintouenCapJeunesseEnfantRequestXml.getEtablissementScolaireAutreAdresse() != null)
-            saintouenCapJeunesseEnfantRequest.setEtablissementScolaireAutreAdresse(Address.xmlToModel(saintouenCapJeunesseEnfantRequestXml.getEtablissementScolaireAutreAdresse()));
+        saintouenCapJeunesseEnfantRequest.setEtablissementScolaireAutreAdresse(saintouenCapJeunesseEnfantRequestXml.getEtablissementScolaireAutreAdresse());
       
         saintouenCapJeunesseEnfantRequest.setEtablissementScolaireAutreNom(saintouenCapJeunesseEnfantRequestXml.getEtablissementScolaireAutreNom());
       
@@ -350,12 +348,12 @@ public class SaintouenCapJeunesseEnfantRequest extends Request implements Serial
         return saintouenCapJeunesseEnfantRequestData.getEtablissementScolaireAutre();
     }
   
-    public final void setEtablissementScolaireAutreAdresse(final fr.cg95.cvq.business.users.Address etablissementScolaireAutreAdresse) {
+    public final void setEtablissementScolaireAutreAdresse(final String etablissementScolaireAutreAdresse) {
         saintouenCapJeunesseEnfantRequestData.setEtablissementScolaireAutreAdresse(etablissementScolaireAutreAdresse);
     }
 
     
-    public final fr.cg95.cvq.business.users.Address getEtablissementScolaireAutreAdresse() {
+    public final String getEtablissementScolaireAutreAdresse() {
         return saintouenCapJeunesseEnfantRequestData.getEtablissementScolaireAutreAdresse();
     }
   

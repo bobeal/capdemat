@@ -109,18 +109,7 @@
     
       
       <dl>
-        <dt><g:message code="scjer.property.etablissementScolaireAutreAdresse.label" /></dt>
-          <dd>
-          <g:if test="${rqt.etablissementScolaireAutreAdresse}">
-              <p>${rqt.etablissementScolaireAutreAdresse?.additionalDeliveryInformation}</p>
-              <p>${rqt.etablissementScolaireAutreAdresse?.additionalGeographicalInformation}</p>
-              <p>${rqt.etablissementScolaireAutreAdresse?.streetNumber} ${rqt.etablissementScolaireAutreAdresse?.streetName}</p>
-              <p>${rqt.etablissementScolaireAutreAdresse?.placeNameOrService}</p>
-              <p>${rqt.etablissementScolaireAutreAdresse?.postalCode} ${rqt.etablissementScolaireAutreAdresse?.city}</p>
-              <p>${rqt.etablissementScolaireAutreAdresse?.countryName}</p>
-          </g:if>
-          </dd>
-          
+        <dt><g:message code="scjer.property.etablissementScolaireAutreAdresse.label" /></dt><dd>${rqt.etablissementScolaireAutreAdresse?.toString()}</dd>
 
       </dl>
       

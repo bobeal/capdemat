@@ -85,8 +85,7 @@ public class SaintouenCapJeunesseEnfantRequestData implements Serializable {
         
           
             
-        if (etablissementScolaireAutreAdresse != null)
-            result.setEtablissementScolaireAutreAdresse(etablissementScolaireAutreAdresse.clone());
+        result.setEtablissementScolaireAutreAdresse(etablissementScolaireAutreAdresse);
       
           
         
@@ -299,6 +298,24 @@ public class SaintouenCapJeunesseEnfantRequestData implements Serializable {
     }
   
     
+      @MaxLength(
+        
+          value = 1024,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['typeEtablissementScolaireFrenquente'].test('estEtablissementFrequenteAutre='+_this.typeEtablissementScolaireFrenquente.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"renseignements"},
+        message = "etablissementScolaireAutreAdresse"
+      )
+    
       @NotNull(
         
         
@@ -315,7 +332,7 @@ public class SaintouenCapJeunesseEnfantRequestData implements Serializable {
         message = "etablissementScolaireAutreAdresse"
       )
     
-      @AssertValid(
+      @NotBlank(
         
         
           when = "groovy:def active = true;" +
@@ -331,17 +348,16 @@ public class SaintouenCapJeunesseEnfantRequestData implements Serializable {
         message = "etablissementScolaireAutreAdresse"
       )
     
-    private fr.cg95.cvq.business.users.Address etablissementScolaireAutreAdresse;
+    private String etablissementScolaireAutreAdresse;
 
-    public void setEtablissementScolaireAutreAdresse(final fr.cg95.cvq.business.users.Address etablissementScolaireAutreAdresse) {
+    public void setEtablissementScolaireAutreAdresse(final String etablissementScolaireAutreAdresse) {
         this.etablissementScolaireAutreAdresse = etablissementScolaireAutreAdresse;
     }
 
  
-    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinColumn(name="etablissement_scolaire_autre_adresse_id")
+    @Column(name="etablissement_scolaire_autre_adresse" , length=1024 )
       
-    public fr.cg95.cvq.business.users.Address getEtablissementScolaireAutreAdresse() {
+    public String getEtablissementScolaireAutreAdresse() {
         return this.etablissementScolaireAutreAdresse;
     }
   

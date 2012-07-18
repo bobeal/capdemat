@@ -173,18 +173,7 @@
     
   
     
-      <p class="label">${esc(i18n.translate('scjer.property.etablissementScolaireAutreAdresse.label'))}</p>
-          <div class="response">
-            <% if(rqt.etablissementScolaireAutreAdresse) { %>
-              <p>${esc(StringUtils.defaultString(rqt.etablissementScolaireAutreAdresse?.additionalDeliveryInformation))}</p>
-              <p>${esc(StringUtils.defaultString(rqt.etablissementScolaireAutreAdresse?.additionalGeographicalInformation))}</p>
-              <p>${esc(StringUtils.defaultString(rqt.etablissementScolaireAutreAdresse?.streetNumber))} ${esc(StringUtils.defaultString(rqt.etablissementScolaireAutreAdresse?.streetName))}</p>
-              <p>${esc(StringUtils.defaultString(rqt.etablissementScolaireAutreAdresse?.placeNameOrService))}</p>
-              <p>${esc(StringUtils.defaultString(rqt.etablissementScolaireAutreAdresse?.postalCode))} ${esc(StringUtils.defaultString(rqt.etablissementScolaireAutreAdresse?.city))}</p>
-              <p>${esc(StringUtils.defaultString(rqt.etablissementScolaireAutreAdresse?.countryName))}</p>
-            <% } %>
-          </div>
-          
+      <p class="label">${esc(i18n.translate('scjer.property.etablissementScolaireAutreAdresse.label'))}</p><div class="response">${esc(StringUtils.defaultString(rqt.etablissementScolaireAutreAdresse?.toString()))}</div>
 
     
   

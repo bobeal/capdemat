@@ -1,0 +1,6 @@
+alter table saintouen_cap_jeunesse_enfant_request
+    drop constraint FKAFD6B68948ED1E61;
+ 
+alter table saintouen_cap_jeunesse_enfant_request drop column etablissement_scolaire_autre_adresse_id;
+alter table saintouen_cap_jeunesse_enfant_request add column etablissement_scolaire_autre_adresse varchar(1024);
+

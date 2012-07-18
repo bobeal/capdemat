@@ -401,9 +401,6 @@
     alter table saintouen_cap_jeunesse_adulte_request_secteur_habitation 
         drop constraint FKDBB8A0768F4FDC52;
 
-    alter table saintouen_cap_jeunesse_enfant_request 
-        drop constraint FKAFD6B68948ED1E61;
-
     alter table saintouen_cap_jeunesse_enfant_request_etablissement_scolaire_college 
         drop constraint FK5AF0DA3FC18B372A;
 
@@ -2549,6 +2546,7 @@
         autorisation_medicale bool,
         email varchar(255),
         etablissement_scolaire_autre varchar(255),
+        etablissement_scolaire_autre_adresse varchar(1024),
         etablissement_scolaire_autre_nom varchar(255),
         signature_adolescent varchar(255),
         signature_elu varchar(255),
@@ -2556,7 +2554,6 @@
         telephone_portable varchar(10),
         type_etablissement_scolaire_frenquente varchar(255),
         type_inscription varchar(255),
-        etablissement_scolaire_autre_adresse_id int8,
         primary key (id)
     );
 
@@ -3704,11 +3701,6 @@
         add constraint FKDBB8A0768F4FDC52 
         foreign key (secteur_habitation_id) 
         references local_referential_data;
-
-    alter table saintouen_cap_jeunesse_enfant_request 
-        add constraint FKAFD6B68948ED1E61 
-        foreign key (etablissement_scolaire_autre_adresse_id) 
-        references address;
 
     alter table saintouen_cap_jeunesse_enfant_request_etablissement_scolaire_college 
         add constraint FK5AF0DA3FC18B372A 

@@ -245,7 +245,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="EtablissementScolaireAutreAdresse" type="cvq:AddressType">
+            <xs:element name="EtablissementScolaireAutreAdresse">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Adresse de l'établissement fréquenté
@@ -254,31 +254,35 @@
                   Adresse de l'établissement fréquenté
                 </xs:documentation>
                 <xs:appinfo>
-                  <model namespace="users" isTiedToRequest="true" />
                   <common>
                     <step name="renseignements" />
                     <conditions>
                         <condition name="estEtablissementFrequenteAutre" type="filled" />
                     </conditions>
                   </common>
-                  <fo />
-                  <bo column="1" />
+                  <fo>
+                    <textarea rows="5" />
+                  </fo>
+                  <bo column="1">
+                    <textarea rows="5" />
+                  </bo>
                   <pdf />
                 </xs:appinfo>
               </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:maxLength value="1024" />
+                </xs:restriction>
+              </xs:simpleType>
             </xs:element>
 
             <xs:element name="AutorisationMedicale" type="cvq:AcceptanceType" default="true" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  J'autorise la Direction du service municipal de la jeunesse à prendre en cas d'accident au cours d'activités, 
-                  toutes les mesures d'urgence en vue d'assurer à mon enfant les soins médicaux avec, si nécessaire, son transport 
-                  à l'hôpital ou toute autre établissement de soins.
+                  J'autorise la Direction du service municipal de la jeunesse à prendre en cas d'accident au cours d'activités, toutes les mesures d'urgence en vue d'assurer à mon enfant les soins médicaux avec, si nécessaire, son transport à l'hôpital ou toute autre établissement de soins.
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  J'autorise la Direction du service municipal de la jeunesse à prendre en cas d'accident au cours d'activités, 
-                  toutes les mesures d'urgence en vue d'assurer à mon enfant les soins médicaux avec, si nécessaire, son transport 
-                  à l'hôpital ou toute autre établissement de soins.
+                  J'autorise la Direction du service municipal de la jeunesse à prendre en cas d'accident au cours d'activités, toutes les mesures d'urgence en vue d'assurer à mon enfant les soins médicaux avec, si nécessaire, son transport à l'hôpital ou toute autre établissement de soins.
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -296,12 +300,10 @@
             <xs:element name="AutorisationImage" type="cvq:AcceptanceType" default="true" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  J'autorise le service municipal de la jeunesse à photographier, filmer mon enfant et utiliser 
-                  les documents uniquement pour les expositions et publications de la ville.
+                  J'autorise le service municipal de la jeunesse à photographier, filmer mon enfant et utiliser les documents uniquement pour les expositions et publications de la ville.
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  J'autorise le service municipal de la jeunesse à photographier, filmer mon enfant et utiliser 
-                  les documents uniquement pour les expositions et publications de la ville.
+                  J'autorise le service municipal de la jeunesse à photographier, filmer mon enfant et utiliser les documents uniquement pour les expositions et publications de la ville.
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -319,12 +321,10 @@
             <xs:element name="AcceptationReglement" type="cvq:AcceptanceType" default="false">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                 J'atteste avoir pris connaissance du règlement intérieur. Son non-respect entraînera 
-                 une sanction définie par l'équipe d'animation et sera communiquée à qui de droit (interessé, parents).
+                 J'atteste avoir pris connaissance du règlement intérieur. Son non-respect entraînera une sanction définie par l'équipe d'animation et sera communiquée à qui de droit (interessé, parents).
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  J'atteste avoir pris connaissance du règlement intérieur. Son non-respect entraînera 
-                  une sanction définie par l'équipe d'animation et sera communiquée à qui de droit (interessé, parents).
+                  J'atteste avoir pris connaissance du règlement intérieur. Son non-respect entraînera une sanction définie par l'équipe d'animation et sera communiquée à qui de droit (interessé, parents).
                 </xs:documentation>
                 <xs:appinfo>
                   <common>

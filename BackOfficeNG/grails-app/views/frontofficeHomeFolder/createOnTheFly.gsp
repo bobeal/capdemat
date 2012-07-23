@@ -31,6 +31,9 @@
           <g:if test="${!temporary}">
             <span>${message(code:'homeFolder.action.createAccount')}</span>
           </g:if>
+          <g:else>
+            <span>${message(code:'homeFolder.action.createTemporaryAccount')}</span>
+          </g:else>
         </g:if>
         <g:else>
           ${message(code:'homeFolder.action.createAccount')}
@@ -60,6 +63,24 @@
           </ul>
         </div>
       </g:if>
+      <g:else>
+        <div class="steps">
+          <ul>
+            <li class="">
+              ${message(code:'homeFolder.message.whatTemporaryAccount')}
+              <p class="help">
+                ${message(code:'homeFolder.message.createTemporaryAccount')}
+              </p>
+            </li>
+            <li>
+              ${message(code:'homeFolder.message.whatFollowRequest')}
+              <p class="help">
+                ${message(code:'homeFolder.message.followRequestAdvantage')}
+              </p>
+            </li>
+          </ul>
+        </div>
+      </g:else>
     </div>
   </body>
 </html>

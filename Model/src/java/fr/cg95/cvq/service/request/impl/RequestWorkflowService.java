@@ -737,6 +737,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         /* Set all the states to pending */
         request.setState(RequestState.PENDING);
         request.setDataState(DataState.PENDING);
+        request.setCreationDate(date);
         updateDocumentsToPending(request);
 
         IRequestService requestService = requestServiceRegistry.getRequestService(request);

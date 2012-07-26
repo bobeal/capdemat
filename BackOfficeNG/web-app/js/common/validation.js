@@ -205,7 +205,13 @@
     'label': new me.rule('func',function(f){ return (f.value.length > 0); } ), // useless
     'alpha': new me.rule('regex', /^[a-zA-Z]+$/),
     'alphanum': new me.rule('regex', /\W/), //false
-    'date': new me.rule('func', function(f){ return !isNaN(new Date(f.value)); }),
+    'date': new me.rule('func', function(f){
+      var in_year = parseInt(f.value.split('/')[2]);
+      var in_month = parseInt(f.value.split('/')[1].replace(/^0+/g, ""));
+      var in_day = parseInt(f.value.split('/')[0].replace(/^0+/g, ""));
+      var d = new Date(in_year, in_month-1, in_day);
+      return (d.getFullYear() == in_year && d.getMonth()+1 == in_month && d.getDate() == in_day);
+    }),
     'email': new me.rule('regex', /\w{1,}[@][\w\-]{1,}([.]([\w\-]{1,})){1,3}$/),
     'url': new me.rule('regex', /^(http|https|ftp):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)(:(\d+))?\/?/i),
     'currency-dollar': new me.rule('regex', /^\$?\-?([1-9]{1}[0-9]{0,2}(\,[0-9]{3})*(\.[0-9]{0,2})?|[1-9]{1}\d*(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|(\.[0-9]{1,2})?)$/),
@@ -247,7 +253,7 @@
       for (i = 0; i < 3; i++) { count += arguments[i].value + ''; }
       if (required || count.length > 0) {
         return me.rules["date"].func({
-          "value" : arguments[1].value + '/' + arguments[0].value + '/' + arguments[2].value
+          "value" : arguments[0].value + '/' + arguments[1].value + '/' + arguments[2].value
         });
       } else {
         return true;

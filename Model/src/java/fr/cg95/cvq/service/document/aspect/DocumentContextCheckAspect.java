@@ -97,8 +97,8 @@ public class DocumentContextCheckAspect implements Ordered {
 
         // by-pass security checks for documents created in out-of-account requests
         if (ArrayUtils.contains(context.types(), ContextType.UNAUTH_ECITIZEN)
-                && SecurityContext.getCurrentEcitizen() == null
-                && SecurityContext.getCurrentContext().equals(SecurityContext.FRONT_OFFICE_CONTEXT)) {
+                && SecurityContext.getCurrentContext().equals(SecurityContext.FRONT_OFFICE_CONTEXT)
+                && SecurityContext.getCurrentEcitizen() == null) {
             if (document == null
                     || document.getHomeFolderId() != null
                     || document.getIndividualId() != null) {

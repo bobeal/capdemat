@@ -94,28 +94,29 @@ class BackofficeRequestInstructionController {
         def lastTraceStatus = null
         if (requestExternalService.hasMatchingExternalService(rqt.requestType.label)) {
             externalProviderServiceLabel = requestExternalService
-                .getExternalServiceByRequestType(rqt.requestType.label).label
+                    .getExternalServiceByRequestType(rqt.requestType.label).label
+            def criteriaSet = new HashSet<Critere>(2)
+            criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_KEY,
+                    String.valueOf(rqt.id), Critere.EQUALS))
+            def traces = requestExternalActionService.getTraces(criteriaSet,
+                    RequestExternalAction.SEARCH_BY_DATE, "desc", 1, 0)
+            if (!traces.isEmpty()) {
+                lastTraceStatus = CapdematUtils
+                        .adaptCapdematEnum(traces.get(0).status, "externalservice.trace.status")
+                if (traces.get(0).name) { // poor hack : mettre l'externalServiceLabel correct dans le cas de multiples services externes
+                    externalProviderServiceLabel = traces.get(0).name
+                }
+            }
             externalTemplateName = ["/backofficeRequestInstruction/external",
                 externalProviderServiceLabel, "_block"].join('/')
             def externalTemplate = groovyPagesTemplateEngine
-                .getResourceForUri(externalTemplateName)
+                    .getResourceForUri(externalTemplateName)
             if (!externalTemplate || !externalTemplate.file
-                || !externalTemplate.exists())
+            || !externalTemplate.exists())
                 externalTemplateName = null
             else
                 externalTemplateName = ["/backofficeRequestInstruction/external",
                     externalProviderServiceLabel, "block"].join('/')
-            def criteriaSet = new HashSet<Critere>(2)
-            criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_KEY,
-                String.valueOf(rqt.id), Critere.EQUALS))
-            criteriaSet.add(new Critere(RequestExternalAction.SEARCH_BY_NAME,
-                externalProviderServiceLabel, Critere.EQUALS))
-            def traces = requestExternalActionService.getTraces(criteriaSet,
-                RequestExternalAction.SEARCH_BY_DATE, "desc", 1, 0)
-            if (!traces.isEmpty()) {
-                lastTraceStatus = CapdematUtils
-                    .adaptCapdematEnum(traces.get(0).status, "externalservice.trace.status")
-            }
         }
 
         def lastActionNote

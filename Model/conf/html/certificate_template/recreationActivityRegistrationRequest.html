@@ -258,7 +258,7 @@
   
     
       <p class="label">${esc(i18n.translate('rarr.property.recreationCenter.label'))}</p>
-           <div class="response">${esc(rqt.recreationCenter?.name)}</div>
+           <div class="response">${esc((rqt.recreationCenter?.name != null)?rqt.recreationCenter?.name : ' ')}</div>
           
 
     

@@ -162,7 +162,7 @@
   
     
       <p class="label">${esc(i18n.translate('srr.property.school.label'))}</p>
-           <div class="response">${esc(rqt.school?.name)}</div>
+           <div class="response">${esc((rqt.school?.name != null)?rqt.school?.name : ' ')}</div>
           
 
     

@@ -108,11 +108,11 @@
           """
       ,'school' :
           """
-           <div class="response">\${esc(${wrapper}.${element.javaFieldName}?.name)}</div>
+           <div class="response">\${esc((${wrapper}.${element.javaFieldName}?.name != null)?${wrapper}.${element.javaFieldName}?.name : ' ')}</div>
           """
       ,'recreationCenter' :
           """
-           <div class="response">\${esc(${wrapper}.${element.javaFieldName}?.name)}</div>
+           <div class="response">\${esc((${wrapper}.${element.javaFieldName}?.name != null)?${wrapper}.${element.javaFieldName}?.name : ' ')}</div>
           """
       ,'requester' :
           """

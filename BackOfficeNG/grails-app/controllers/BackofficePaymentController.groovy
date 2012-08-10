@@ -95,7 +95,7 @@ class BackofficePaymentController {
         if(request.post) {
             def String content = (params.editor == null ? "" : params.editor.toString())
             localAuthorityRegistry.saveLocalAuthorityResource(Type.HTML, name,
-                content.getBytes());
+                content.getBytes("UTF-8"));
 
             render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } else {

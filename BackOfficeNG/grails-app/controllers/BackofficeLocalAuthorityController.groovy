@@ -93,7 +93,7 @@ class BackofficeLocalAuthorityController {
             ])
         } else if (request.post) {
             localAuthorityRegistry.saveLocalAuthorityResource(params.id,
-                params.editor.toString().bytes);
+                params.editor.toString().getBytes("UTF-8"));
             render([
                 status:"ok",
                 success_msg : message(code : "message.updateDone")

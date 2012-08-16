@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="tipiPaymentProvider"
+    class="fr.capwebct.capdemat.plugins.paymentproviders.tipi.service.TipiService"
+    init-method="init">
+    <property name="label" value="Tipi"></property>
+    <property name="paymentUrl" value="${plugins.paymentproviders.tipi.payment_url}" />
+    <property name="callbackUrl" value="${plugins.paymentproviders.tipi.callback_url}" />
+  </bean>
+
+  
+  
+</beans>

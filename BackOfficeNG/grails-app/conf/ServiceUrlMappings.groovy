@@ -4,6 +4,7 @@ class ServiceUrlMappings {
     "/service/fakePayment/$action?/$id?" (controller : "serviceFakePayment" )
     "/service/spplus/$action?/$id?" (controller : "serviceSpplus" )
     "/service/systempay/$action?/$id?" (controller : "serviceSystemPay" )
+    "/service/tipi" (controller : "serviceTipi", action: "index" )
     "/autocomplete/$action?" (controller: "serviceAutocomplete")
     "/service/request/$requestId/documents" (controller: "serviceRequestExternal", action: "requestDocuments")
     "/service/request/$requestId/document/$documentId?" (controller: "serviceRequestExternal", action: "requestDocument")

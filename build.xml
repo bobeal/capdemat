@@ -45,6 +45,7 @@
     <ant dir="${plugins.paymentproviders.wynid.dir}" target="clean" />
     <ant dir="${plugins.paymentproviders.payboxsystem.dir}" target="clean" />
     <ant dir="${plugins.paymentproviders.systempay.dir}" target="clean" />
+    <ant dir="${plugins.paymentproviders.tipi.dir}" target="clean" />
     <ant dir="${plugins.externalservices.clever.dir}" target="clean" />
     <ant dir="${plugins.externalservices.horanet.dir}" target="clean" />
     <ant dir="${plugins.externalservices.edemande.dir}" target="clean" />
@@ -138,6 +139,7 @@
     <ant dir="${plugins.paymentproviders.spplus.dir}" target="deploy" />
     <ant dir="${plugins.paymentproviders.systempay.dir}" target="deploy" />
     <ant dir="${plugins.paymentproviders.payboxsystem.dir}" target="deploy" />
+    <ant dir="${plugins.paymentproviders.tipi.dir}" target="deploy" />
     <ant dir="${plugins.externalservices.horanet.dir}" target="deploy" />
     <ant dir="${plugins.externalservices.edemande.dir}" target="deploy" />
     <ant dir="${plugins.externalservices.technocarte.dir}" target="deploy" />
@@ -164,6 +166,10 @@
 
   <target name="deploy-plugin-systempay" depends="compile-model">
     <ant dir="${plugins.paymentproviders.systempay.dir}" target="deploy" />
+  </target>
+
+  <target name="deploy-plugin-tipi" depends="compile-model">
+    <ant dir="${plugins.paymentproviders.tipi.dir}" target="deploy" />
   </target>
 
   <target name="deploy-plugin-horanet" depends="compile-model">

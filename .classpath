@@ -5,6 +5,7 @@
 	<classpathentry kind="src" path="Plugins/ExternalServices/RestGenericExternalService/src/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/InterconnexionDILA/build/classes" path="Plugins/ExternalServices/InterconnexionDILA/src/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/CirilElections/build/classes" path="Plugins/ExternalServices/CirilElections/src/java"/>
+	<classpathentry kind="src" output="Plugins/PaymentProviders/Tipi/build/classes" path="Plugins/PaymentProviders/Tipi/src/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/CirilNetEnfance/build/classes" path="Plugins/ExternalServices/CirilNetEnfance/src/java"/>
 	<classpathentry kind="src" output="Plugins/PaymentProviders/PayBoxSystem/build/classes" path="Plugins/PaymentProviders/PayBoxSystem/src/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Edemande/build/test" path="Plugins/ExternalServices/Edemande/test/java"/>

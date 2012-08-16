@@ -26,6 +26,7 @@
         <include name="soap.jar" />
         <include name="CapDemat-Plugin-ExternalServices-CirilElections-*.jar" />
         <include name="CapDemat-Plugin-ExternalServices-InterconnexionDILA-*.jar" />
+        <include name="CapDemat-Plugin-PaymentProviders-Tipi-*.jar" />
     </fileset>
 
     <target name="clean" depends="init">

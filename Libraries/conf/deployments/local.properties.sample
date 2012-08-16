@@ -110,3 +110,9 @@ plugins.paymentproviders.paybox.payment_url=localhost
 plugins.paymentproviders.paylinev4.return_url=/frontoffice/payment/status
 plugins.paymentproviders.paylinev4.cancel_url=/frontoffice/payment/status
 plugins.paymentproviders.paylinev4.default_uri=https://homologation.payline.com/V4/services/WebPaymentAPI
+
+# PaymentProviders - Tipi
+plugins.paymentproviders.tipi.payment_url=https://www.tipi.budget.gouv.fr/tpa/paiement.web?
+plugins.paymentproviders.tipi.callback_url=/frontoffice/service/tipi
+
+authentication.method=builtin

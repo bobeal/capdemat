@@ -11,6 +11,11 @@
         <g:if test="${displayedMessage}">
           <div class="information-box">${displayedMessage}</div>
         </g:if>
+        <g:if test="${paymentPopUp}">
+            <div class="information-box">
+                <g:message code="payment.message.checkPopup" />
+            </div>
+        </g:if>
         <g:else>
           <g:if test="${!invoices.isEmpty()}">
             <div id="invoices" class="list-box">
@@ -36,6 +41,9 @@
             </div>
           </g:if>
         </g:else>
+        <g:if test="${paymentPopUp}">
+          <script type="text/javascript">${paymentPopUp}</script>
+        </g:if>
       </div>
     </div>
     <!-- end of yui-main -->

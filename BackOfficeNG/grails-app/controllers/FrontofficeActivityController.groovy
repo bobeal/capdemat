@@ -24,7 +24,8 @@ class FrontofficeActivityController {
         result.currentMonth = calendar.get(Calendar.MONTH) + 1
         
         result.monthsNames = [:]
-        String[] months = new DateFormatSymbols().getMonths()
+
+        String[] months = new DateFormatSymbols(SecurityContext.getCurrentLocale()).getMonths()
         (0..11).each { it ->
             result.monthsNames[it+1] = months[it]
         }

@@ -12,10 +12,10 @@
   <xs:element name="StandardElectoralRollRegistrationRequest">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Demande d'inscription sur les listes électorales (CERFA)
+        Demande d'inscription sur les listes électorales
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Inscription sur les listes électorales (CERFA)
+        Inscription sur les listes électorales
       </xs:documentation>
       <xs:appinfo>
         <model namespace="election" />

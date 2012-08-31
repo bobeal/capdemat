@@ -49,7 +49,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
         if (!!zcbh.Details.homeFolderId) {
           initControls();
           zcb.Contact.init(yud.get("contactLink"), yud.get("contactPanel"), zcb.contactPanelUrl);
-          zca.advise("notify", new zca.Advice("afterReturn", zcbh.Details.refreshActions), zcb.Contact);
+          zca.advise("notify", new zca.Advice("afterReturn", function() {
+            zcb.Contact.hide();
+            zcbh.Details.refreshActions;
+          }
+          ), zcb.Contact);
         }
         if (!zcbh.Details.homeFolderId && !!zcc.AddressAutocomplete) {
           zcc.AddressAutocomplete.bind("address");
@@ -233,7 +237,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.homeFolder');
               this.set("cacheData", cacheData);
             }
           }, null);
-        this.refreshHomeFolderState();
+        zcbh.Details.refreshHomeFolderState();
       },
 
       add : function(e) {

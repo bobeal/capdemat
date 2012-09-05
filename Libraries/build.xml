@@ -22,6 +22,7 @@
         <include name="CapDemat-Plugin-PaymentProviders-PayBoxSystem-*.jar" />
         <!-- Technocarte deliverable and dependency -->
         <include name="CapDemat-Plugin-ExternalServices-Technocarte-*.jar" />
+        <include name="CapDemat-Plugin-ExternalServices-RestGenericExternalService-*.jar" />
         <include name="soap.jar" />
     </fileset>
 

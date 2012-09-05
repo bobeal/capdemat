@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Technocarte/build/classes" path="Plugins/ExternalServices/Technocarte/src/java"/>
 	<classpathentry kind="src" path="Plugins/PaymentProviders/SystemPay/src/java"/>
+	<classpathentry kind="src" path="Plugins/ExternalServices/RestGenericExternalService/src/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/CirilNetEnfance/build/classes" path="Plugins/ExternalServices/CirilNetEnfance/src/java"/>
 	<classpathentry kind="src" output="Plugins/PaymentProviders/PayBoxSystem/build/classes" path="Plugins/PaymentProviders/PayBoxSystem/src/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Edemande/build/test" path="Plugins/ExternalServices/Edemande/test/java"/>

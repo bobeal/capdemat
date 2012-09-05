@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="restGenericExternalService" parent="externalProviderServiceAdapter"
+    class="fr.capwebct.capdemat.plugins.externalservices.restgenericexternalservice.service.RestGenericExternalService">
+    <property name="label" value="RestGenericExternalService"></property>
+    <property name="requestExternalActionDAO" ref="requestExternalActionDAO"/>
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
+    <property name="requestActionService" ref="requestActionService" />
+  </bean>
+
+</beans>

@@ -50,6 +50,7 @@
     <ant dir="${plugins.externalservices.edemande.dir}" target="clean" />
     <ant dir="${plugins.externalservices.ciril.dir}" target="clean" />
     <ant dir="${plugins.externalservices.technocarte.dir}" target="clean" />
+    <ant dir="${plugins.externalservices.restgeneric.dir}" target="clean" />
   </target>
     
   <target name="prepare-configfiles-model" depends="init">
@@ -138,6 +139,7 @@
     <ant dir="${plugins.externalservices.horanet.dir}" target="deploy" />
     <ant dir="${plugins.externalservices.edemande.dir}" target="deploy" />
     <ant dir="${plugins.externalservices.technocarte.dir}" target="deploy" />
+    <ant dir="${plugins.externalservices.restgeneric.dir}" target="deploy" />
   </target>
 
   <target name="deploy-plugin-paylineV4" depends="compile-model">
@@ -178,6 +180,10 @@
 
   <target name="deploy-plugin-technocarte" depends="init, compile-model">
     <ant dir="${plugins.externalservices.technocarte.dir}" target="deploy" />
+  </target>
+
+  <target name="deploy-plugin-restgeneric" depends="init, compile-model">
+    <ant dir="${plugins.externalservices.restgeneric.dir}" target="deploy" />
   </target>
 
   <!-- ================================================================================= -->

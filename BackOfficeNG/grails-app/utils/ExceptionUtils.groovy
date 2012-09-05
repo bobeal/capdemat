@@ -1,6 +1,7 @@
 import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.exception.CvqConcurrentModificationException
 import fr.cg95.cvq.security.PermissionException
+import fr.cg95.cvq.oauth2.OAuth2Exception
 
 class ExceptionUtils {
     
@@ -25,6 +26,16 @@ class ExceptionUtils {
        }
        return false;
     }
+
+    def static isOAuth2Exception(ex) {
+        def cause = ex?.cause
+
+        while (cause) {
+            if (cause instanceof OAuth2Exception) return true;
+            cause = cause?.cause
+        }
+        return false;
+     }
 
     def static getModelI18nKey(ex) {
         def mex = ExceptionUtils.extractModelException(ex)

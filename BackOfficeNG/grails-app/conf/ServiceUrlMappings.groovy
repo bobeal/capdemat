@@ -14,5 +14,9 @@ class ServiceUrlMappings {
     "/service/requestType/$requestTypeLabel/season" (controller : "serviceRequestExternal"){action = [GET : "requestTypeSeason"]}
     "/service/templates/$filename?" (controller : "localAuthorityResource"){action = [PUT : "template"]}
     "/service/login" (controller : "serviceUser"){action = [GET : "login"]}
+    "/service/oauth/v$version/user" (controller : "serviceIndividual" )
+    "/service/oauth/v$version/home" (controller : "serviceHomeFolder" )
+    "/service/oauth/v$version/authority" (controller : "serviceLocalAuthority" )
+    "/service/oauth/v$version/request/$individual/$requestTypeLabel" (controller : "serviceRequest" )
   }
 }

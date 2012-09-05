@@ -50,7 +50,7 @@ public class OAuth2Service implements IOAuth2Service {
         try {
            accessToken = valide(token);
         } catch (InvalidTokenException e) {
-            logger.error("Authentication error : invalid token.", e);
+            logger.info("Authentication error : invalid token.", e);
             throw new CvqAuthenticationFailedException("Authentication error : invalid token.");
         }
 
@@ -90,7 +90,7 @@ public class OAuth2Service implements IOAuth2Service {
             }
             return accessToken;
         } catch (Exception e) {
-            logger.error("Invalid access token.", e);
+            logger.info("Invalid access token.", e);
             throw new InvalidTokenException();
         }
     }

@@ -62,4 +62,7 @@ public interface IExternalHomeFolderService {
     void deleteIndividualMapping(HomeFolderMapping homeFolderMapping, @IsUser Long individualId);
 
     IndividualMapping getIndividualMapping(@IsUser Individual individual, String externalServiceLabel);
+
+    IndividualMapping getIndividualMapping(String externalCapDematId);
+
 }

@@ -5,6 +5,8 @@ import fr.cg95.cvq.oauth2.IAuthorizationServerInfosService;
 import fr.cg95.cvq.oauth2.IOAuth2Service
 import fr.cg95.cvq.oauth2.model.Token
 
+import grails.converters.JSON
+
 class OAuth2Controller {
 
     def securityService
@@ -55,6 +57,14 @@ class OAuth2Controller {
             createLink(controller:'frontofficeHome').toString()
         redirect(url: authorizationServerInfosService.getLogoutUri() + "?callback=" + callbackUrl)
         return false
+    }
+
+    def invalidScope = {
+        log.info("Insufficient scope : the request requires higher privileges than provided by the access token.");
+        response.setStatus(403);
+        render([error : "insufficient_scope",
+            error_description : "The request requires higher privileges than provided by the access token."] as JSON);
+        return false;
     }
 
 }

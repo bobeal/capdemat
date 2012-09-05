@@ -1,6 +1,9 @@
 package fr.cg95.cvq.oauth2.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class AccessToken {
 
@@ -46,4 +49,13 @@ public class AccessToken {
             expiration > (new Date()).getTime();
     }
 
+    public boolean sufficientScope(String... requiredScopes) {
+        List<String> scopes = Arrays.asList(scope.split(" "));
+        for (String s: requiredScopes) {
+            if (!scopes.contains(s)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

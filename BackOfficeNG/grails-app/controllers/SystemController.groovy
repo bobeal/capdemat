@@ -20,7 +20,11 @@ public class SystemController {
             render(["status":"modelException", 
                     "message":exception.message, 
                     "i18nkey":message(code:'error.permission')] as JSON)
-        else if (session.frontContext) {
+        else if (ExceptionUtils.isOAuth2Exception(exception)) {
+            response.status = exception.getCause().getHttpErrorCode()
+            render(["error": exception.getCause().getErrorCode(), 
+                    "error_description": exception.getCause().getMessage()] as JSON)
+        } else if (session.frontContext) {
             def concurrentModificationException = ExceptionUtils.extractConcurrentModificationException(exception)
             if (concurrentModificationException != null) {
                 render(view : "concurrentModification", model : [

@@ -160,4 +160,11 @@ public class ExternalHomeFolderService implements IExternalHomeFolderService {
         this.genericDAO = genericDAO;
     }
 
+    @Override
+    @Context(types = {ContextType.EXTERNAL_SERVICE}, privilege = ContextPrivilege.READ)
+    public IndividualMapping getIndividualMapping(String externalCapDematId) {
+        return genericDAO.simpleSelect(IndividualMapping.class)
+                .and("externalCapDematId", externalCapDematId).unique();
+    }
+
 }

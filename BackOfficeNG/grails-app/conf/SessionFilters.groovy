@@ -1,22 +1,25 @@
-import fr.cg95.cvq.business.authority.LocalAuthority;
-import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.security.SecurityContext;
+import javax.persistence.EntityManagerFactory
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+
+import zdb.core.Store
+import edu.yale.its.tp.cas.client.CASAuthenticationException
+import edu.yale.its.tp.cas.client.CASReceipt
+import edu.yale.its.tp.cas.client.ProxyTicketValidator
+import fr.cg95.cvq.business.authority.LocalAuthority
+import fr.cg95.cvq.dao.jpa.JpaUtil
+import fr.cg95.cvq.exception.CvqException
+import fr.cg95.cvq.exception.CvqObjectNotFoundException
+import fr.cg95.cvq.oauth2.IOAuth2Service
+import fr.cg95.cvq.oauth2.OAuth2Exception
+import fr.cg95.cvq.oauth2.model.AccessToken
+import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.security.annotation.ContextType
-import fr.cg95.cvq.service.authority.IAgentService;
+import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean
 import fr.cg95.cvq.service.request.ICategoryService
-import fr.cg95.cvq.dao.jpa.JpaUtil;
 import fr.cg95.cvq.util.web.filter.CASFilter
-
-import edu.yale.its.tp.cas.client.CASReceipt
-import edu.yale.its.tp.cas.client.ProxyTicketValidator
-import edu.yale.its.tp.cas.client.CASAuthenticationException
-
-import javax.persistence.EntityManagerFactory;
-
-import zdb.core.Store
 
 class SessionFilters {
 
@@ -25,6 +28,7 @@ class SessionFilters {
     IAgentService agentService
     ICategoryService categoryService
     ILocalAuthorityRegistry localAuthorityRegistry
+    IOAuth2Service oauth2Service
 
     static filters = {
         
@@ -379,6 +383,41 @@ class SessionFilters {
         setProvisioningContext(uri: '/service/provisioning/**') {
             before = {
                 SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT)
+            }
+        }
+
+        oauth2(uri: '/service/oauth/**') {
+            before = {
+                try {
+                    String authHeader = ((HttpServletRequest) request).getHeader("Authorization");
+                    log.debug("Authorization header : " + authHeader);
+
+                    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                        log.debug("OAuth2 token is missing.");
+                        throw new OAuth2Exception();
+                    }
+
+                    String [] bearer = authHeader.split(" ", 2);
+                    AccessToken token = oauth2Service.valide(bearer[1]);
+                    request.setAttribute("accessToken", token);
+
+                    String [] scopeExternalServiceLabel = token?.getScope().split("esl:");
+                    if (scopeExternalServiceLabel?.length == 2) {
+                        String externalServiceLabel = scopeExternalServiceLabel[1].split(" ")[0].replaceAll("_", " ")
+                        SecurityContext.setCurrentContext(SecurityContext.EXTERNAL_SERVICE_CONTEXT);
+                        SecurityContext.setCurrentExternalService(externalServiceLabel);
+                    }
+                } catch (OAuth2Exception e) {
+                    log.info(e.getMessage(), e);
+                    response.setStatus(e.getHttpErrorCode())
+                    render e.getJson()
+                    return false;
+                } catch (Exception e) {
+                    log.error("Unexpected authorization exception.", e);
+                    response.setStatus(500)
+                    render "{\"error\":\"unexpected_exception.\", \"error_description\": \"Unexpected exception\"}"
+                    return false;
+                }
             }
         }
     }

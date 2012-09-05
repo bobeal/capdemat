@@ -23,6 +23,24 @@ public interface IRequestActionService {
     RequestAction getAction(@IsRequest final Long requestId, final Long id) throws CvqObjectNotFoundException;
 
     /**
+     * Get the last RequestAction by type.
+     * @param requestId
+     * @param type
+     * @param state
+     * @return
+     */
+    RequestAction getLastAction(@IsRequest final Long requestId, final RequestActionType type, final RequestState state);
+
+    /**
+     * Get the first RequestAction by type.
+     * @param requestId
+     * @param type
+     * @param state
+     * @return
+     */
+    RequestAction getFirstAction(@IsRequest final Long requestId, final RequestActionType type, final RequestState state);
+
+    /**
      * Return whether the given request has an action trace with the given type.
      */
     boolean hasAction(@IsRequest final Long requestId, final RequestActionType type)

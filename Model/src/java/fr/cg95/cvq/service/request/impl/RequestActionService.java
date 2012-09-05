@@ -44,6 +44,18 @@ public class RequestActionService implements IRequestActionService {
     }
 
     @Override
+    public RequestAction getLastAction(Long requestId, RequestActionType type, RequestState state) {
+        return requestActionDAO.getAction(requestId, type, state, false);
+    }
+
+
+    @Override
+    public RequestAction getFirstAction(Long requestId, RequestActionType type, RequestState state) {
+        return requestActionDAO.getAction(requestId, type, state, true);
+    }
+
+
+    @Override
     public boolean hasAction(final Long requestId, final RequestActionType type)
         throws CvqException {
         return requestActionDAO.hasAction(requestId, type);
@@ -135,4 +147,5 @@ public class RequestActionService implements IRequestActionService {
     public void setRequestDAO(IRequestDAO requestDAO) {
         this.requestDAO = requestDAO;
     }
+
 }

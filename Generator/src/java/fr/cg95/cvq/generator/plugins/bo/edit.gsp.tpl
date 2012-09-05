@@ -49,7 +49,7 @@
           ,"</div>"
           ].join()
       ,'boolean' :
-          "<span class=\"value-\${${wrapper}?.${element.javaFieldName}}\"><g:message code=\"message.\${${wrapper}?.${element.javaFieldName} ? 'yes' : 'no'}\" /></span>"
+          "<span class=\"value-\${${wrapper}?.${element.javaFieldName}}\"><g:message code=\"\${${wrapper}?.${element.javaFieldName} ? 'message.yes' : ${wrapper}?.${element.javaFieldName}==null ? '' : 'message.no'}\" /></span>"
       ,'acceptance' :
           "<span class=\"value-\${${wrapper}?.${element.javaFieldName}}\"><g:message code=\"message.\${${wrapper}?.${element.javaFieldName} ? 'yes' : 'no'}\" /></span>"
       ,'localReferentialData' :

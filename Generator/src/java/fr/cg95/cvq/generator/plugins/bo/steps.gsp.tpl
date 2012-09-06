@@ -83,7 +83,7 @@
         break
       case ['decimal', 'double', 'float']:
         output =
-          ["<dt class=\"${element.conditionsClass}\">\${message(code:'" + element.i18nPrefixCode + ".label')}${element.mandatory ? ' *' : ''} :</dt>"
+          ["<dt class=\"${element.conditionsClass}\">\${message(code:'" + element.i18nPrefixCode + ".label')}${element.mandatory ? '&nbsp;*' : ''}&nbsp;:</dt>"
           ,"<dd id=\"${element.javaFieldName}\" class=\"${element.htmlClass}\" ${element.jsRegexp}>"
           ,widgets['number']
           ,"</dd>"
@@ -91,7 +91,7 @@
           break
       default:
         output =
-          ["<dt class=\"${element.conditionsClass}\">\${message(code:'" + element.i18nPrefixCode + ".label')}${element.mandatory ? ' *' : ''} :</dt>"
+          ["<dt class=\"${element.conditionsClass}\">\${message(code:'" + element.i18nPrefixCode + ".label')}${element.mandatory ? '&nbsp;*' : ''}&nbsp;:</dt>"
           ,"<dd id=\"${element.javaFieldName}\" class=\"${element.htmlClass}\" ${element.jsRegexp}>"
           ,(widgets[element.widget] != null ? widgets[element.widget] : widgets['text'])
           ,"</dd>"

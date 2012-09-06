@@ -24,7 +24,7 @@
                        title="\${message(code:'${element.i18nPrefixCode}.validationError')}"
                        \${${valuePrefix}.${element.javaFieldName} ? 'checked="checked"' : ''} value="true" />
                 <label for="${IdRefNamePrefix}${element.javaFieldName}" class="${element.listenerConditionsClass}">
-                  \${message(code:'${element.i18nPrefixCode}.label')}${element.mandatory ? '*' : ''}
+                  \${message(code:'${element.i18nPrefixCode}.label')}${element.mandatory ? '&nbsp;*' : ''}
                   <g:if test="\${availableRules.contains('$validationNamePrefix${element.javaFieldName}')}">
                   <a target="_blank"
                      href="\${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':rqt.requestType.label, 'filename':'${element.javaFieldName}']).encodeAsXML()}">
@@ -174,7 +174,7 @@
               <g:render template="/frontofficeRequestType/widget/requester" model="['requester':requester, 'hasHomeFolder':hasHomeFolder]" />
             """
          ,'label' :
-            """<label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" />${element.mandatory ? ' *' : ''} <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>"""
+            """<label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" />${element.mandatory ? '&nbsp;*' : ''} <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>"""
          ,'labelWithFor' :
             """<label for="${IdRefNamePrefix}${element.javaFieldName}" class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> ${element.mandatory ? '*' : ''}  <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>"""
          ,'acceptance' :

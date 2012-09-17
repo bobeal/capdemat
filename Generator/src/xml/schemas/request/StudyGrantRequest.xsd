@@ -200,7 +200,7 @@
                   <model namespace="users" />
                   <common>
                     <step name="taxHousehold" />
-                    <validation jsregexp="^\d+(?:\,\d{1,2})?$" />
+                    <validation jsregexp="^[\d+\s?]+(?:(\.|,)\d{1,2})?$" />
                   </common>
                   <pdf />
                   <fo />

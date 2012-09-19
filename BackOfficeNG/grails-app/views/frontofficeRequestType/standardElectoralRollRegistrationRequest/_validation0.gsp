@@ -152,6 +152,7 @@
     
   
 
+
   
     <h3><g:message code="serrr.step.situation.label" /></h3>
     
@@ -189,6 +190,7 @@
     
   
 
+
   
     <h3><g:message code="serrr.step.radiation.label" /></h3>
     
@@ -213,6 +215,7 @@
       
     
   
+
 
   
   <g:if test="${!documentsByTypes.isEmpty()}">
@@ -239,6 +242,7 @@
     </g:each>
   </g:if>
   
+
 
   
 

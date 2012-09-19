@@ -40,9 +40,9 @@
               <h3><g:message code="hcrr.property.centreSejours.label" /></h3>
               <dl class="required">
                 
-                  <dt class="required">${message(code:'hcrr.property.idCentreSejours.label')} * :</dt><dd id="idCentreSejours" class="action-editField validate-string required-true i18n-hcrr.property.idCentreSejours" ><span>${rqt?.idCentreSejours}</span></dd>
+                  <dt class="required">${message(code:'hcrr.property.idCentreSejours.label')}&nbsp;*&nbsp;:</dt><dd id="idCentreSejours" class="action-editField validate-string required-true i18n-hcrr.property.idCentreSejours" ><span>${rqt?.idCentreSejours}</span></dd>
                 
-                  <dt class="required">${message(code:'hcrr.property.labelCentreSejours.label')} * :</dt><dd id="labelCentreSejours" class="action-editField validate-string required-true i18n-hcrr.property.labelCentreSejours" ><span>${rqt?.labelCentreSejours}</span></dd>
+                  <dt class="required">${message(code:'hcrr.property.labelCentreSejours.label')}&nbsp;*&nbsp;:</dt><dd id="labelCentreSejours" class="action-editField validate-string required-true i18n-hcrr.property.labelCentreSejours" ><span>${rqt?.labelCentreSejours}</span></dd>
                 
               </dl>
               
@@ -74,7 +74,7 @@
             
               
               <dl>
-                <dt class="">${message(code:'hcrr.property.acceptationReglementInterieur.label')} :</dt><dd id="acceptationReglementInterieur" class="action-editField validate-acceptance i18n-hcrr.property.acceptationReglementInterieur" ><span class="value-${rqt?.acceptationReglementInterieur}"><g:message code="message.${rqt?.acceptationReglementInterieur ? 'yes' : 'no'}" /></span></dd>
+                <dt class="">${message(code:'hcrr.property.acceptationReglementInterieur.label')}&nbsp;:</dt><dd id="acceptationReglementInterieur" class="action-editField validate-acceptance i18n-hcrr.property.acceptationReglementInterieur" ><span class="value-${rqt?.acceptationReglementInterieur}"><g:message code="message.${rqt?.acceptationReglementInterieur ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             

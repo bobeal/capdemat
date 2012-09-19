@@ -24,7 +24,7 @@
             
 
   
-    <label class="required"><g:message code="hcar.property.familyDependentBirthDate.label" /> *  <span><g:message code="hcar.property.familyDependentBirthDate.help" /></span></label>
+    <label class="required"><g:message code="hcar.property.familyDependentBirthDate.label" />&nbsp;* <span><g:message code="hcar.property.familyDependentBirthDate.help" /></span></label>
             <div class="date required  validate-date required ">
               <select class="day ${rqt.stepStates['subject'].invalidFields.contains('familyDependents['+collectionIndex+'].familyDependentBirthDate') ? 'validation-failed' : ''}"
                 id="familyDependents.${collectionIndex}.familyDependentBirthDate_day"

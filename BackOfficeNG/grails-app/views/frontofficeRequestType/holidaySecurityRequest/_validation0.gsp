@@ -32,6 +32,7 @@
     
   
 
+
   
     <h3><g:message code="hsr.step.rules.label" /></h3>
     
@@ -46,6 +47,7 @@
     
   
 
+
   
     <h3><g:message code="hsr.step.contactphone.label" /></h3>
     
@@ -57,6 +59,7 @@
       
     
   
+
 
   
     <h3><g:message code="hsr.step.contact.label" /></h3>
@@ -102,6 +105,7 @@
     
   
 
+
   
     <h3><g:message code="hsr.step.additional.label" /></h3>
     
@@ -124,6 +128,7 @@
       
     
   
+
 
   
   <g:if test="${!documentsByTypes.isEmpty()}">
@@ -150,6 +155,7 @@
     </g:each>
   </g:if>
   
+
 
   
 

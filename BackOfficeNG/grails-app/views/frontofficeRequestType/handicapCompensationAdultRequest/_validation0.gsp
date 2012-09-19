@@ -129,6 +129,7 @@
     
   
 
+
   
     <h3><g:message code="hcar.step.dwelling.label" /></h3>
     
@@ -206,6 +207,7 @@
     
   
 
+
   
     <h3><g:message code="hcar.step.socialSecurityAndPaymentAgency.label" /></h3>
     
@@ -282,6 +284,7 @@
       
     
   
+
 
   
     <h3><g:message code="hcar.step.occupationnalAndSchoolStatus.label" /></h3>
@@ -425,6 +428,7 @@
     
   
 
+
   
     <h3><g:message code="hcar.step.folders.label" /></h3>
     
@@ -492,6 +496,7 @@
       
     
   
+
 
   
     <h3><g:message code="hcar.step.benefits.label" /></h3>

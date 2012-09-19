@@ -76,6 +76,7 @@
     
   
 
+
   
     <h3><g:message code="sagr.step.president.label" /></h3>
     
@@ -113,6 +114,7 @@
     
   
 
+
   
     <h3><g:message code="sagr.step.bureau.label" /></h3>
     
@@ -147,6 +149,7 @@
       
     
   
+
 
   
     <h3><g:message code="sagr.step.activites.label" /></h3>
@@ -205,6 +208,7 @@
     
   
 
+
   
     <h3><g:message code="sagr.step.subvention.label" /></h3>
     
@@ -251,6 +255,7 @@
     
   
 
+
   
   <g:if test="${!documentsByTypes.isEmpty()}">
     <h3>${message(code:'request.step.document.label')}</h3>
@@ -276,6 +281,7 @@
     </g:each>
   </g:if>
   
+
 
   
 

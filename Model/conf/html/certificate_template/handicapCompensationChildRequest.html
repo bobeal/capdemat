@@ -5,6 +5,9 @@
   import org.apache.commons.lang.StringUtils
   import fr.cg95.cvq.util.EnumTool
   import java.text.NumberFormat
+  import fr.cg95.cvq.business.users.RoleType
+  import fr.cg95.cvq.business.users.IndividualRole
+
   def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -14,10 +17,10 @@
       lrEntries.each { entry ->
         println "<li>"
         if (entry.entries) {
-          println "<em ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.label} :</em>"
+          println "<em ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : 'class="unchecked"'}>${entry.label} :</em>"
           localReferentialWidget(rqt, javaName, entry.entries, depth + 1)
         } else {
-          println "<span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.label}</span>"
+          println "<span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : 'class="unchecked"'}>${entry.label}</span>"
         }
         println "</li>"
       }
@@ -25,7 +28,7 @@
       println "</ul>"
     } else {
       lrEntries.eachWithIndex { entry, i ->
-        println "<span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.label}</span>${i + 1 < lrEntries.size() ? ', ' : ''}"
+        println "<span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : 'class="unchecked"'}>${entry.label}</span>"
       }
     }
   }
@@ -141,10 +144,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.fatherActivityReduction.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.fatherActivityReduction ? 'class="checked"': ''}>
+              <span ${it == rqt.fatherActivityReduction ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -172,10 +174,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.motherActivityReduction.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.motherActivityReduction ? 'class="checked"': ''}>
+              <span ${it == rqt.motherActivityReduction ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -245,10 +246,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.referentFamilyDependents.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.referentFamilyDependents ? 'class="checked"': ''}>
+              <span ${it == rqt.referentFamilyDependents ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -309,10 +309,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.dwellingEstablishmentReception.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.dwellingEstablishmentReception ? 'class="checked"': ''}>
+              <span ${it == rqt.dwellingEstablishmentReception ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -347,10 +346,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.dwellingSocialReception.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.dwellingSocialReception ? 'class="checked"': ''}>
+              <span ${it == rqt.dwellingSocialReception ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -463,10 +461,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.schoolingEnrolment.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.schoolingEnrolment ? 'class="checked"': ''}>
+              <span ${it == rqt.schoolingEnrolment ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -492,10 +489,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.schoolingSendToSchool.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.schoolingSendToSchool ? 'class="checked"': ''}>
+              <span ${it == rqt.schoolingSendToSchool ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -513,10 +509,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.schoolingSpecializedGrade.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.schoolingSpecializedGrade ? 'class="checked"': ''}>
+              <span ${it == rqt.schoolingSpecializedGrade ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -540,10 +535,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.schoolingHomeSchooling.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.schoolingHomeSchooling ? 'class="checked"': ''}>
+              <span ${it == rqt.schoolingHomeSchooling ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -552,10 +546,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.schoolingPersonalizedSchoolingPlan.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.schoolingPersonalizedSchoolingPlan ? 'class="checked"': ''}>
+              <span ${it == rqt.schoolingPersonalizedSchoolingPlan ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -593,10 +586,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.schoolingExtraCurricular.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.schoolingExtraCurricular ? 'class="checked"': ''}>
+              <span ${it == rqt.schoolingExtraCurricular ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -615,10 +607,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.studiesHighSchool.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.studiesHighSchool ? 'class="checked"': ''}>
+              <span ${it == rqt.studiesHighSchool ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -647,10 +638,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.studiesAssistanceUnderDisability.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.studiesAssistanceUnderDisability ? 'class="checked"': ''}>
+              <span ${it == rqt.studiesAssistanceUnderDisability ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -731,10 +721,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.professionalStatusRegisterAsUnemployed.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.professionalStatusRegisterAsUnemployed ? 'class="checked"': ''}>
+              <span ${it == rqt.professionalStatusRegisterAsUnemployed ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -748,10 +737,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.professionalStatusIndemnified.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.professionalStatusIndemnified ? 'class="checked"': ''}>
+              <span ${it == rqt.professionalStatusIndemnified ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -765,10 +753,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.professionalStatusElectiveFunction.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.professionalStatusElectiveFunction ? 'class="checked"': ''}>
+              <span ${it == rqt.professionalStatusElectiveFunction ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -791,10 +778,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.foldersMdph.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.foldersMdph ? 'class="checked"': ''}>
+              <span ${it == rqt.foldersMdph ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -809,10 +795,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.foldersCotorep.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.foldersCotorep ? 'class="checked"': ''}>
+              <span ${it == rqt.foldersCotorep ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -827,10 +812,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.foldersCdes.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.foldersCdes ? 'class="checked"': ''}>
+              <span ${it == rqt.foldersCdes ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -845,10 +829,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.foldersOtherFolders.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.foldersOtherFolders ? 'class="checked"': ''}>
+              <span ${it == rqt.foldersOtherFolders ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -886,10 +869,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsDisabilityRecognition.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsDisabilityRecognition ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsDisabilityRecognition ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -901,10 +883,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsDisabilityCard.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsDisabilityCard ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsDisabilityCard ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -913,10 +894,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsPainfulStandingCard.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsPainfulStandingCard ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsPainfulStandingCard ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -925,10 +905,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsParkingCard.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsParkingCard ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsParkingCard ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -937,10 +916,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsDisabledWorkerRecognition.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsDisabledWorkerRecognition ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsDisabledWorkerRecognition ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -949,10 +927,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsProfessionalOrientation.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsProfessionalOrientation ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsProfessionalOrientation ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -964,10 +941,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsDisabledAdultAllocation.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsDisabledAdultAllocation ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsDisabledAdultAllocation ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -976,10 +952,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsIncreaseForIndependentLiving.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsIncreaseForIndependentLiving ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsIncreaseForIndependentLiving ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -988,10 +963,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsEducationAllocationOfDisabledChildren.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsEducationAllocationOfDisabledChildren ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsEducationAllocationOfDisabledChildren ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1000,10 +974,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsEducationOfDisabledChildren.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsEducationOfDisabledChildren ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsEducationOfDisabledChildren ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1015,10 +988,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsSupplementForSingleParents.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsSupplementForSingleParents ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsSupplementForSingleParents ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1027,10 +999,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsThirdPersonCompensatoryAllowance.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsThirdPersonCompensatoryAllowance ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsThirdPersonCompensatoryAllowance ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1039,10 +1010,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsThirdPartyCompensatoryAllowance.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsThirdPartyCompensatoryAllowance ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsThirdPartyCompensatoryAllowance ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1051,10 +1021,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsCompensatoryAllowanceForExpenses.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsCompensatoryAllowanceForExpenses ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsCompensatoryAllowanceForExpenses ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1063,10 +1032,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsDisabilityCompensation.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsDisabilityCompensation ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsDisabilityCompensation ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1075,10 +1043,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsDisabilityPension.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsDisabilityPension ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsDisabilityPension ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1090,10 +1057,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsWorkAccidentAnnuity.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsWorkAccidentAnnuity ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsWorkAccidentAnnuity ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1105,10 +1071,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsSocialWelfare.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsSocialWelfare ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsSocialWelfare ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1117,10 +1082,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsUnemploymentBenefits.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsUnemploymentBenefits ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsUnemploymentBenefits ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1129,10 +1093,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsDailyAllowances.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsDailyAllowances ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsDailyAllowances ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1141,10 +1104,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsThirdPartySupplement.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsThirdPartySupplement ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsThirdPartySupplement ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1153,10 +1115,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsSupportedByAnInstitution.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsSupportedByAnInstitution ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsSupportedByAnInstitution ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1168,10 +1129,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.benefitsOtherBenefits.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.benefitsOtherBenefits ? 'class="checked"': ''}>
+              <span ${it == rqt.benefitsOtherBenefits ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1221,10 +1181,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.isFamilyAssistance.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.isFamilyAssistance ? 'class="checked"': ''}>
+              <span ${it == rqt.isFamilyAssistance ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1258,10 +1217,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.homeInterventionHomeIntervenant.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.homeInterventionHomeIntervenant ? 'class="checked"': ''}>
+              <span ${it == rqt.homeInterventionHomeIntervenant ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1298,10 +1256,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.careCareServices.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.careCareServices ? 'class="checked"': ''}>
+              <span ${it == rqt.careCareServices ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1321,10 +1278,9 @@
         <p class="label">${esc(i18n.translate('hccr.property.careServiceCareServiceEmployer.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == collectionIt.careServiceCareServiceEmployer ? 'class="checked"': ''}>
+              <span ${it == collectionIt.careServiceCareServiceEmployer ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1358,10 +1314,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.facilitiesHousing.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.facilitiesHousing ? 'class="checked"': ''}>
+              <span ${it == rqt.facilitiesHousing ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1373,10 +1328,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.facilitiesTechnicalAssistance.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.facilitiesTechnicalAssistance ? 'class="checked"': ''}>
+              <span ${it == rqt.facilitiesTechnicalAssistance ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1388,10 +1342,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.facilitiesCustomCar.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.facilitiesCustomCar ? 'class="checked"': ''}>
+              <span ${it == rqt.facilitiesCustomCar ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1403,10 +1356,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.facilitiesAnimalAid.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.facilitiesAnimalAid ? 'class="checked"': ''}>
+              <span ${it == rqt.facilitiesAnimalAid ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1418,10 +1370,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.facilitiesSpecializedTransport.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.facilitiesSpecializedTransport ? 'class="checked"': ''}>
+              <span ${it == rqt.facilitiesSpecializedTransport ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1440,10 +1391,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.professionalSupportProfessionals.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.professionalSupportProfessionals ? 'class="checked"': ''}>
+              <span ${it == rqt.professionalSupportProfessionals ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1452,10 +1402,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.professionalSupportDealsWithSameProfessional.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.professionalSupportDealsWithSameProfessional ? 'class="checked"': ''}>
+              <span ${it == rqt.professionalSupportDealsWithSameProfessional ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1500,10 +1449,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.socialServiceSupport.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.socialServiceSupport ? 'class="checked"': ''}>
+              <span ${it == rqt.socialServiceSupport ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1540,10 +1488,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.healthFollowedByDoctor.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.healthFollowedByDoctor ? 'class="checked"': ''}>
+              <span ${it == rqt.healthFollowedByDoctor ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1558,10 +1505,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.healthFollowedByProfessional.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.healthFollowedByProfessional ? 'class="checked"': ''}>
+              <span ${it == rqt.healthFollowedByProfessional ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1576,10 +1522,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.healthFollowedByHospital.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.healthFollowedByHospital ? 'class="checked"': ''}>
+              <span ${it == rqt.healthFollowedByHospital ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1602,10 +1547,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsHandicapRecognition.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsHandicapRecognition ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsHandicapRecognition ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1614,10 +1558,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsDisabilityCard.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsDisabilityCard ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsDisabilityCard ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1626,10 +1569,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsDisabledPriorityCard.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsDisabledPriorityCard ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsDisabledPriorityCard ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1638,10 +1580,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsEuropeanParkingCard.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsEuropeanParkingCard ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsEuropeanParkingCard ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1650,10 +1591,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsDisabledAdultAllowance.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsDisabledAdultAllowance ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsDisabledAdultAllowance ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1662,10 +1602,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsIncreaseForIndependentLiving.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsIncreaseForIndependentLiving ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsIncreaseForIndependentLiving ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1674,10 +1613,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsEducationAllocationOfDisabledChildren.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsEducationAllocationOfDisabledChildren ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsEducationAllocationOfDisabledChildren ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1686,10 +1624,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsACTPRenewal.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsACTPRenewal ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsACTPRenewal ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1698,10 +1635,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsThirdPartyHelp.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsThirdPartyHelp ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsThirdPartyHelp ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1710,10 +1646,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsFreePensionMembership.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsFreePensionMembership ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsFreePensionMembership ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1722,10 +1657,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsTechnicalHelp.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsTechnicalHelp ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsTechnicalHelp ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1734,10 +1668,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsHousingFacilities.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsHousingFacilities ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsHousingFacilities ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1746,10 +1679,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsCustomCar.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsCustomCar ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsCustomCar ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1758,10 +1690,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsAssistance.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsAssistance ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsAssistance ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1770,10 +1701,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsTransportCostAllocation.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsTransportCostAllocation ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsTransportCostAllocation ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1782,10 +1712,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsDisabilityCostAllocation.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsDisabilityCostAllocation ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsDisabilityCostAllocation ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1794,10 +1723,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsDisabledWorkerRecognition.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsDisabledWorkerRecognition ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsDisabledWorkerRecognition ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1806,10 +1734,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsProfessionalOrientation.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsProfessionalOrientation ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsProfessionalOrientation ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1818,10 +1745,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsOrdinaryWorking.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsOrdinaryWorking ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsOrdinaryWorking ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1830,10 +1756,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsShelteredWork.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsShelteredWork ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsShelteredWork ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1842,10 +1767,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsVocationalTraining.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsVocationalTraining ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsVocationalTraining ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1854,10 +1778,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsInstitutionSupport.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsInstitutionSupport ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsInstitutionSupport ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1866,10 +1789,9 @@
           <p class="label">${esc(i18n.translate('hccr.property.projectRequestsOther.label'))}</p>
           <div class="response choice">
             <% [true,false].each { %>
-              <span ${it == rqt.projectRequestsOther ? 'class="checked"': ''}>
+              <span ${it == rqt.projectRequestsOther ? 'class="checked"': 'class="unchecked"'}>
                 ${esc(i18n.translate('message.' + (it ? 'yes' : 'no')))}
               </span>
-              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -1901,14 +1823,135 @@
   <div class="response choice">
     <% if (rqt.meansOfContact) { %>
       <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
-        <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
+        <span ${it == rqt.meansOfContact.type ? 'class="checked"': 'class="unchecked"'}>
           ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.legacyLabel))}
-        </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
+        </span>
       <% } %>
     <% } else { %>
       <span class="checked">${i18n.translate('meansOfContact.none')}</span>
     <% } %>
   </div>
+
+  
+          <% if (rqt.requestType.getStepAccountCompletion()){ %>
+              <h2>${i18n.translate('pdf.homeFolder.label')}</h2>
+
+            <% firstChild = true %>
+
+            <% responsibleId = requester.getHomeFolder().getIndividuals().findAll{ it.getHomeFolderRoles(requester.getHomeFolder().getId()).findAll{ it.getRole() == fr.cg95.cvq.business.users.RoleType.HOME_FOLDER_RESPONSIBLE }.size() > 0 }.get(0).getId()  %>
+
+            <% list = requester.getHomeFolder().getIndividuals().findAll{ !(it.getState().name.equals("Archived") || it.getState().name.equals("Invalid"))}.sort{a,b -> a.getClass() == fr.cg95.cvq.business.users.Adult.class ? (a.getId() == responsibleId ? -1 : 0) : 1 }  %>
+
+            <% list.each { individual -> %>
+
+              <% if (individual.getClass() == fr.cg95.cvq.business.users.Adult.class) { %>
+
+                <% if (individual.getId() == responsibleId) { %>
+                  <h3>${i18n.translate('homeFolder.property.responsible')}</h3>
+                <% } %>
+
+                <% if (list.indexOf(individual) == 1) { %>
+                  <h3>${i18n.translate('homeFolder.property.adults')}</h3>
+                <% } %>
+
+                <p class="label">
+                  ${i18n.translate('homeFolder.adult.property.title')}
+                  ${i18n.translate('homeFolder.individual.property.firstName')}
+                  ${i18n.translate('homeFolder.individual.property.lastName')}
+                </p>
+                <div class="response">
+                  <% if(individual?.title) { %>
+                    ${i18n.translate('homeFolder.adult.title.' + StringUtils.lowerCase(individual?.title.toString()))}
+                  <% } %>
+                  ${esc(individual?.firstName)}
+                  ${esc(individual?.lastName)}
+                </div>
+                <p class="label">${i18n.translate('homeFolder.individual.property.address')}</p>
+                <div class="response">
+                  <% if (individual?.address) { %>
+                    <p>${esc(StringUtils.defaultString(individual?.address?.additionalDeliveryInformation))}</p>
+                    <p>${esc(StringUtils.defaultString(individual?.address?.additionalGeographicalInformation))}</p>
+                    <p>${esc(StringUtils.defaultString(individual?.address?.streetNumber))} ${esc(StringUtils.defaultString(individual?.address?.streetName))}</p>
+                    <p>${esc(StringUtils.defaultString(individual?.address?.placeNameOrService))}</p>
+                    <p>${esc(StringUtils.defaultString(individual?.address?.postalCode))} ${esc(StringUtils.defaultString(individual?.address?.city))}</p>
+                    <p>${esc(StringUtils.defaultString(individual?.address?.countryName))}</p>
+                  <% } %>
+                </div>
+
+                <% if (individual?.email) { %>
+                  <p class="label">${i18n.translate('homeFolder.adult.property.email')}</p>
+                  <div class="response">${esc(StringUtils.defaultString(individual?.email))}</div>
+                <% } %>
+                <% if (individual?.homePhone) { %>
+                  <p class="label">${i18n.translate('homeFolder.adult.property.homePhone')}</p>
+                  <div class="response">${esc(StringUtils.defaultString(individual?.homePhone))}</div>
+                <% } %>
+                <% if (individual?.mobilePhone) { %>
+                  <p class="label">${i18n.translate('homeFolder.adult.property.mobilePhone')}</p>
+                  <div class="response">${esc(StringUtils.defaultString(individual?.mobilePhone))}</div>
+                <% } %>
+                <% if (individual?.officePhone) { %>
+                  <p class="label">${i18n.translate('homeFolder.adult.property.officePhone')}</p>
+                  <div class="response">${esc(StringUtils.defaultString(individual?.officePhone))}</div>
+                <% } %>
+                <hr />
+              <% } %>
+
+
+              <% if (individual.getClass() == fr.cg95.cvq.business.users.Child.class) { %>
+
+                <% if (firstChild){ %>
+                  <h3>${i18n.translate('homeFolder.property.children')}</h3>
+                <% firstChild=false } %>
+
+                <p class="label">
+                  ${i18n.translate('homeFolder.individual.property.firstName')}
+                  ${i18n.translate('homeFolder.individual.property.lastName')}
+                </p>
+                <div class="response">
+                  ${esc(individual?.firstName)}
+                  ${esc(individual?.lastName)}
+                </div>
+
+                <% if (individual?.isBorn()) { %>
+                  <p class="label">${i18n.translate('homeFolder.individual.property.birthDate')}</p>
+                <% } else { %>
+                  <p class="label">${i18n.translate('homeFolder.individual.property.expectedBirthDate')}</p>
+                <% } %>
+                <div class="response">
+                  ${String.format('%td/%<tm/%<tY',individual?.getBirthDate())}
+                </div>
+
+                <p class="label">${i18n.translate('homeFolder.child.property.sex')}</p>
+                <div class="response">
+                  ${i18n.translate('homeFolder.child.property.sex.'+StringUtils.lowerCase(individual?.getSex().getLegacyLabel()))}
+                </div>
+
+                <p class="label">${i18n.translate('homeFolder.child.property.legalResponsibles')}</p>
+
+                <div class="response">
+
+                <% requester.getHomeFolder().getIndividuals().each { indiv_2 ->  %>
+                  <% if (indiv_2.getClass() == fr.cg95.cvq.business.users.Adult.class) { %>
+                    <% indiv_2.getIndividualRoles().each{ indRole -> %>
+                      <% if((indRole.getRole().getLegacyLabel().equals("ClrMother") || indRole.getRole().getLegacyLabel().equals("ClrFather") || indRole.getRole().getLegacyLabel().equals("ClrTutor") || indRole.getRole().getLegacyLabel().equals("Tutor")) && indRole.getIndividualId() == individual.getId()){ %>
+
+                          ${esc(indiv_2?.firstName)}
+                          ${esc(indiv_2?.lastName)}
+
+                      <% } %>
+                    <% } %>
+                  <% } %>
+                <% } %>
+                </div>
+                <hr />
+
+              <% } %>
+            <% } %>
+          <% } %>
+          
+
+
 </body>
 </html>
 

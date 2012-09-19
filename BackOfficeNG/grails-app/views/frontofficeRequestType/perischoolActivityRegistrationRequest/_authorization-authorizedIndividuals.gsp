@@ -24,7 +24,7 @@
             
 
   
-    <label class="required"><g:message code="parr.property.address.label" /> *  <span><g:message code="parr.property.address.help" /></span></label>
+    <label class="required"><g:message code="parr.property.address.label" />&nbsp;* <span><g:message code="parr.property.address.help" /></span></label>
             <div class="address required  ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals['+collectionIndex+'].address') ? 'validation-failed' : ''}">
             <label for="authorizedIndividuals.${collectionIndex}.address.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals['+collectionIndex+'].address.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${currentCollectionItem?.address?.additionalDeliveryInformation}" maxlength="38" id="authorizedIndividuals.${collectionIndex}.address.additionalDeliveryInformation" name="authorizedIndividuals[${collectionIndex}].address.additionalDeliveryInformation" />  

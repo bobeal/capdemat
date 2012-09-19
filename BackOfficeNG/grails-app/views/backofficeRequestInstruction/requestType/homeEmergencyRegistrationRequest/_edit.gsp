@@ -34,7 +34,7 @@
             
               
               <dl>
-                <dt class="required">${message(code:'herr.property.telephone.label')} * :</dt><dd id="telephone" class="action-editField validate-phone required-true i18n-herr.property.telephone maxLength-10" ><span>${rqt?.telephone}</span></dd>
+                <dt class="required">${message(code:'herr.property.telephone.label')}&nbsp;*&nbsp;:</dt><dd id="telephone" class="action-editField validate-phone required-true i18n-herr.property.telephone maxLength-10" ><span>${rqt?.telephone}</span></dd>
               </dl>
               
             
@@ -46,13 +46,13 @@
             
               
               <dl>
-                <dt class="required">${message(code:'herr.property.dateDepart.label')} * :</dt><dd id="dateDepart" class="action-editField validate-date required-true i18n-herr.property.dateDepart" ><span><g:formatDate formatName="format.date" date="${rqt?.dateDepart}"/></span></dd>
+                <dt class="required">${message(code:'herr.property.dateDepart.label')}&nbsp;*&nbsp;:</dt><dd id="dateDepart" class="action-editField validate-date required-true i18n-herr.property.dateDepart" ><span><g:formatDate formatName="format.date" date="${rqt?.dateDepart}"/></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required">${message(code:'herr.property.duree.label')} * :</dt><dd id="duree" class="action-editField validate-regex required-true i18n-herr.property.duree maxLength-2" regex="[0-9]{1,2}$"><span>${rqt?.duree}</span></dd>
+                <dt class="required">${message(code:'herr.property.duree.label')}&nbsp;*&nbsp;:</dt><dd id="duree" class="action-editField validate-regex required-true i18n-herr.property.duree maxLength-2" regex="[0-9]{1,2}$"><span>${rqt?.duree}</span></dd>
               </dl>
               
             

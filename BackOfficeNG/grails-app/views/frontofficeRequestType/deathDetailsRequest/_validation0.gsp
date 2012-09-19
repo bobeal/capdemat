@@ -43,6 +43,7 @@
     
   
 
+
   
     <h3><g:message code="ddr.step.type.label" /></h3>
     
@@ -88,6 +89,7 @@
     
   
 
+
   
   <g:if test="${!documentsByTypes.isEmpty()}">
     <h3>${message(code:'request.step.document.label')}</h3>
@@ -113,6 +115,7 @@
     </g:each>
   </g:if>
   
+
 
   
 

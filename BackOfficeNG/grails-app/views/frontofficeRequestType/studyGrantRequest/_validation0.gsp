@@ -27,6 +27,7 @@
     
   
 
+
   
     <h3><g:message code="sgr.step.taxHousehold.label" /></h3>
     
@@ -72,6 +73,7 @@
     
   
 
+
   
     <h3><g:message code="sgr.step.otherHelps.label" /></h3>
     
@@ -112,6 +114,7 @@
       
     
   
+
 
   
     <h3><g:message code="sgr.step.currentStudies.label" /></h3>
@@ -229,6 +232,7 @@
     
   
 
+
   
     <h3><g:message code="sgr.step.bankReference.label" /></h3>
     
@@ -295,6 +299,7 @@
     
   
 
+
   
   <g:if test="${!documentsByTypes.isEmpty()}">
     <h3>${message(code:'request.step.document.label')}</h3>
@@ -320,6 +325,7 @@
     </g:each>
   </g:if>
   
+
 
   
 

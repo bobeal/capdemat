@@ -104,6 +104,7 @@
     
   
 
+
   
     <h3><g:message code="dhr.step.familyReferent.label" /></h3>
     
@@ -140,6 +141,7 @@
       
     
   
+
 
   
     <h3><g:message code="dhr.step.spouse.label" /></h3>
@@ -285,6 +287,7 @@
     
   
 
+
   
     <h3><g:message code="dhr.step.dwelling.label" /></h3>
     
@@ -396,6 +399,7 @@
       
     
   
+
 
   
     <h3><g:message code="dhr.step.resources.label" /></h3>
@@ -539,6 +543,7 @@
     
   
 
+
   
     <h3><g:message code="dhr.step.taxes.label" /></h3>
     
@@ -562,6 +567,7 @@
       
     
   
+
 
   
   <g:if test="${!documentsByTypes.isEmpty()}">
@@ -588,6 +594,7 @@
     </g:each>
   </g:if>
   
+
 
   
 

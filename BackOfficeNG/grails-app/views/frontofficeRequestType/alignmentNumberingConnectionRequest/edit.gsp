@@ -17,6 +17,9 @@
         <script type="text/javascript" src="${resource(dir:'js/common',file:'autocomplete.js')}"></script>
     </g:if>
     <g:if test="${customJS}">
+      <script src="${resource(dir:'js/common', file:'events.js')}"></script>
+      <script src="${resource(dir:'js/frontoffice/alterer', file:'drop-down.js')}"></script>
+      <script src="${resource(dir:'js/frontoffice/alterer', file:'alterer.js')}"></script>
       <script type="text/javascript" src="${resource(dir:customJS.dir,file:customJS.file)}"></script>
     </g:if>
     <script type="text/javascript">
@@ -52,7 +55,7 @@
       </div>
     </g:if>
     
-    <div id="request" class="main-box ${rqt.requestType.category.name}">
+    <div id="request" class="main-box ${rqt.requestType.displayGroup == null ? '' : rqt.requestType.displayGroup.name}">
       <h2>
         <g:if test="${temporary}">
           <a href="${createLink(controller : 'frontofficeHome', action : 'logout')}" class="button">
@@ -87,17 +90,24 @@
          <g:set var="requestTypeAcronym" value="ancr" scope="request" />
          <g:render template="/frontofficeRequestType/step" /> 
       </div>
-      
+
       <div  class="steps">
       <ul>
 
+
+      <g:set var="stepNumber" value="1"/>
+
+
   
+
+  
+
         <li class="${currentStep == 'address' ? 'current ' : ''}
           
             ${individual ? rqt.stepStates['address-' + params.type].state : rqt.stepStates['address'].state}
-          
-          ">
-          <span class="number">1</span>
+          "
+          >
+          <span class="number">${stepNumber++}</span>
           <a
             <g:if test="${currentStep != 'address' && rqt.stepStates['address'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'address'])}"
@@ -105,22 +115,32 @@
           >
             
               <g:message code="${individual ? 'homeFolder.action.add' + org.apache.commons.lang.StringUtils.capitalize(params.type) : 'ancr.step.address.label'}" />
-              ${individual ? '' : '*'}
+
+              
+                ${individual ? '' : '*'}
+              
+
               <span class="help">
                 <g:message code="request.step.message.${rqt.stepStates['address' + (individual ? '-' + params.type : '')].state}" />
               </span>
             
           </a>
-        </li>    
+        </li>
+
   
 
   
+
+  
+
+  
+
         <li class="${currentStep == 'cadastre' ? 'current ' : ''}
           
             ${rqt.stepStates['cadastre'].state}
-          
-          ">
-          <span class="number">2</span>
+          "
+          >
+          <span class="number">${stepNumber++}</span>
           <a
             <g:if test="${currentStep != 'cadastre' && rqt.stepStates['cadastre'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'cadastre'])}"
@@ -135,15 +155,21 @@
               </span>
             
           </a>
-        </li>    
+        </li>
+
   
 
   
+
+  
+
+  
+
         <li class="${currentStep == 'validation' ? 'current ' : ''}
           
             ${rqt.stepStates['validation'].state}
-          
-          ">
+          "
+          >
           <span class="number"></span>
           <a
             <g:if test="${currentStep != 'validation' && rqt.stepStates['validation'].state != 'unavailable'}">
@@ -164,7 +190,10 @@
               </span>
             
           </a>
-        </li>    
+        </li>
+
+  
+
   
 
 		 </ul>

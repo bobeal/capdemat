@@ -33,6 +33,7 @@
     
   
 
+
   
     <h3><g:message code="parr.step.contact.label" /></h3>
     
@@ -73,6 +74,7 @@
     
   
 
+
   
     <h3><g:message code="parr.step.authorization.label" /></h3>
     
@@ -112,6 +114,7 @@
       
     
   
+
 
   
     <h3><g:message code="parr.step.rules.label" /></h3>
@@ -154,6 +157,7 @@
     
   
 
+
   
   <g:if test="${!documentsByTypes.isEmpty()}">
     <h3>${message(code:'request.step.document.label')}</h3>
@@ -179,6 +183,7 @@
     </g:each>
   </g:if>
   
+
 
   
 

@@ -177,6 +177,7 @@
     
   
 
+
   
     <h3><g:message code="hccr.step.dwelling.label" /></h3>
     
@@ -254,6 +255,7 @@
     
   
 
+
   
     <h3><g:message code="hccr.step.socialSecurityAndPaymentAgency.label" /></h3>
     
@@ -330,6 +332,7 @@
       
     
   
+
 
   
     <h3><g:message code="hccr.step.occupationnalAndSchoolStatus.label" /></h3>
@@ -583,6 +586,7 @@
     
   
 
+
   
     <h3><g:message code="hccr.step.folders.label" /></h3>
     
@@ -650,6 +654,7 @@
       
     
   
+
 
   
     <h3><g:message code="hccr.step.benefits.label" /></h3>

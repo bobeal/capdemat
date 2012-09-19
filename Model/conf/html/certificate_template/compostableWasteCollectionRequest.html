@@ -5,6 +5,9 @@
   import org.apache.commons.lang.StringUtils
   import fr.cg95.cvq.util.EnumTool
   import java.text.NumberFormat
+  import fr.cg95.cvq.business.users.RoleType
+  import fr.cg95.cvq.business.users.IndividualRole
+
   def esc(s) { return org.apache.commons.lang3.StringEscapeUtils.escapeXml(s) }
   def localReferentialWidget(rqt, javaName, lrEntries, depth) {
     def currentLrDatas = rqt[javaName].collect{it.name}
@@ -14,10 +17,10 @@
       lrEntries.each { entry ->
         println "<li>"
         if (entry.entries) {
-          println "<em ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.label} :</em>"
+          println "<em ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : 'class="unchecked"'}>${entry.label} :</em>"
           localReferentialWidget(rqt, javaName, entry.entries, depth + 1)
         } else {
-          println "<span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.label}</span>"
+          println "<span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : 'class="unchecked"'}>${entry.label}</span>"
         }
         println "</li>"
       }
@@ -25,7 +28,7 @@
       println "</ul>"
     } else {
       lrEntries.eachWithIndex { entry, i ->
-        println "<span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.label}</span>${i + 1 < lrEntries.size() ? ', ' : ''}"
+        println "<span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : 'class="unchecked"'}>${entry.label}</span>"
       }
     }
   }
@@ -127,14 +130,135 @@
   <div class="response choice">
     <% if (rqt.meansOfContact) { %>
       <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
-        <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
+        <span ${it == rqt.meansOfContact.type ? 'class="checked"': 'class="unchecked"'}>
           ${i18n.translate('meansOfContact.' + StringUtils.uncapitalize(it.legacyLabel))}
-        </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
+        </span>
       <% } %>
     <% } else { %>
       <span class="checked">${i18n.translate('meansOfContact.none')}</span>
     <% } %>
   </div>
+
+  
+          <% if (rqt.requestType.getStepAccountCompletion()){ %>
+              <h2>${i18n.translate('pdf.homeFolder.label')}</h2>
+
+            <% firstChild = true %>
+
+            <% responsibleId = requester.getHomeFolder().getIndividuals().findAll{ it.getHomeFolderRoles(requester.getHomeFolder().getId()).findAll{ it.getRole() == fr.cg95.cvq.business.users.RoleType.HOME_FOLDER_RESPONSIBLE }.size() > 0 }.get(0).getId()  %>
+
+            <% list = requester.getHomeFolder().getIndividuals().findAll{ !(it.getState().name.equals("Archived") || it.getState().name.equals("Invalid"))}.sort{a,b -> a.getClass() == fr.cg95.cvq.business.users.Adult.class ? (a.getId() == responsibleId ? -1 : 0) : 1 }  %>
+
+            <% list.each { individual -> %>
+
+              <% if (individual.getClass() == fr.cg95.cvq.business.users.Adult.class) { %>
+
+                <% if (individual.getId() == responsibleId) { %>
+                  <h3>${i18n.translate('homeFolder.property.responsible')}</h3>
+                <% } %>
+
+                <% if (list.indexOf(individual) == 1) { %>
+                  <h3>${i18n.translate('homeFolder.property.adults')}</h3>
+                <% } %>
+
+                <p class="label">
+                  ${i18n.translate('homeFolder.adult.property.title')}
+                  ${i18n.translate('homeFolder.individual.property.firstName')}
+                  ${i18n.translate('homeFolder.individual.property.lastName')}
+                </p>
+                <div class="response">
+                  <% if(individual?.title) { %>
+                    ${i18n.translate('homeFolder.adult.title.' + StringUtils.lowerCase(individual?.title.toString()))}
+                  <% } %>
+                  ${esc(individual?.firstName)}
+                  ${esc(individual?.lastName)}
+                </div>
+                <p class="label">${i18n.translate('homeFolder.individual.property.address')}</p>
+                <div class="response">
+                  <% if (individual?.address) { %>
+                    <p>${esc(StringUtils.defaultString(individual?.address?.additionalDeliveryInformation))}</p>
+                    <p>${esc(StringUtils.defaultString(individual?.address?.additionalGeographicalInformation))}</p>
+                    <p>${esc(StringUtils.defaultString(individual?.address?.streetNumber))} ${esc(StringUtils.defaultString(individual?.address?.streetName))}</p>
+                    <p>${esc(StringUtils.defaultString(individual?.address?.placeNameOrService))}</p>
+                    <p>${esc(StringUtils.defaultString(individual?.address?.postalCode))} ${esc(StringUtils.defaultString(individual?.address?.city))}</p>
+                    <p>${esc(StringUtils.defaultString(individual?.address?.countryName))}</p>
+                  <% } %>
+                </div>
+
+                <% if (individual?.email) { %>
+                  <p class="label">${i18n.translate('homeFolder.adult.property.email')}</p>
+                  <div class="response">${esc(StringUtils.defaultString(individual?.email))}</div>
+                <% } %>
+                <% if (individual?.homePhone) { %>
+                  <p class="label">${i18n.translate('homeFolder.adult.property.homePhone')}</p>
+                  <div class="response">${esc(StringUtils.defaultString(individual?.homePhone))}</div>
+                <% } %>
+                <% if (individual?.mobilePhone) { %>
+                  <p class="label">${i18n.translate('homeFolder.adult.property.mobilePhone')}</p>
+                  <div class="response">${esc(StringUtils.defaultString(individual?.mobilePhone))}</div>
+                <% } %>
+                <% if (individual?.officePhone) { %>
+                  <p class="label">${i18n.translate('homeFolder.adult.property.officePhone')}</p>
+                  <div class="response">${esc(StringUtils.defaultString(individual?.officePhone))}</div>
+                <% } %>
+                <hr />
+              <% } %>
+
+
+              <% if (individual.getClass() == fr.cg95.cvq.business.users.Child.class) { %>
+
+                <% if (firstChild){ %>
+                  <h3>${i18n.translate('homeFolder.property.children')}</h3>
+                <% firstChild=false } %>
+
+                <p class="label">
+                  ${i18n.translate('homeFolder.individual.property.firstName')}
+                  ${i18n.translate('homeFolder.individual.property.lastName')}
+                </p>
+                <div class="response">
+                  ${esc(individual?.firstName)}
+                  ${esc(individual?.lastName)}
+                </div>
+
+                <% if (individual?.isBorn()) { %>
+                  <p class="label">${i18n.translate('homeFolder.individual.property.birthDate')}</p>
+                <% } else { %>
+                  <p class="label">${i18n.translate('homeFolder.individual.property.expectedBirthDate')}</p>
+                <% } %>
+                <div class="response">
+                  ${String.format('%td/%<tm/%<tY',individual?.getBirthDate())}
+                </div>
+
+                <p class="label">${i18n.translate('homeFolder.child.property.sex')}</p>
+                <div class="response">
+                  ${i18n.translate('homeFolder.child.property.sex.'+StringUtils.lowerCase(individual?.getSex().getLegacyLabel()))}
+                </div>
+
+                <p class="label">${i18n.translate('homeFolder.child.property.legalResponsibles')}</p>
+
+                <div class="response">
+
+                <% requester.getHomeFolder().getIndividuals().each { indiv_2 ->  %>
+                  <% if (indiv_2.getClass() == fr.cg95.cvq.business.users.Adult.class) { %>
+                    <% indiv_2.getIndividualRoles().each{ indRole -> %>
+                      <% if((indRole.getRole().getLegacyLabel().equals("ClrMother") || indRole.getRole().getLegacyLabel().equals("ClrFather") || indRole.getRole().getLegacyLabel().equals("ClrTutor") || indRole.getRole().getLegacyLabel().equals("Tutor")) && indRole.getIndividualId() == individual.getId()){ %>
+
+                          ${esc(indiv_2?.firstName)}
+                          ${esc(indiv_2?.lastName)}
+
+                      <% } %>
+                    <% } %>
+                  <% } %>
+                <% } %>
+                </div>
+                <hr />
+
+              <% } %>
+            <% } %>
+          <% } %>
+          
+
+
 </body>
 </html>
 

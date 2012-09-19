@@ -12,7 +12,7 @@
     </span>
   </h4>
   
-    <label class="required"><g:message code="dhr.property.dhrPreviousDwellingAddress.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingAddress.help" /></span></label>
+    <label class="required"><g:message code="dhr.property.dhrPreviousDwellingAddress.label" />&nbsp;* <span><g:message code="dhr.property.dhrPreviousDwellingAddress.help" /></span></label>
             <div class="address required  ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingAddress') ? 'validation-failed' : ''}">
             <label for="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${currentCollectionItem?.dhrPreviousDwellingAddress?.additionalDeliveryInformation}" maxlength="38" id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingAddress.additionalDeliveryInformation" name="dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingAddress.additionalDeliveryInformation" />  
@@ -44,7 +44,7 @@
             
 
   
-    <label class="required condition-isPreviousDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrPreviousDwellingStatus.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingStatus.help" /></span></label>
+    <label class="required condition-isPreviousDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrPreviousDwellingStatus.label" />&nbsp;* <span><g:message code="dhr.property.dhrPreviousDwellingStatus.help" /></span></label>
             <ul class="required condition-isPreviousDwellingPlaceOfResidence-filled ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingStatus') ? 'validation-failed' : ''}">
               <g:each in="${['OWNER','TENANT']}">
               <li>
@@ -56,7 +56,7 @@
             
 
   
-    <label class="required"><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.help" /></span></label>
+    <label class="required"><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.label" />&nbsp;* <span><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.help" /></span></label>
             <div class="date required  validate-date required ">
               <select class="day ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingArrivalDate') ? 'validation-failed' : ''}"
                 id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingArrivalDate_day"
@@ -96,7 +96,7 @@
             
 
   
-    <label class="required"><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.help" /></span></label>
+    <label class="required"><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.label" />&nbsp;* <span><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.help" /></span></label>
             <div class="date required  validate-date required ">
               <select class="day ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingDepartureDate') ? 'validation-failed' : ''}"
                 id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingDepartureDate_day"

@@ -42,7 +42,7 @@
             
               
               <dl>
-                <dt class="required">${message(code:'lrr.property.subscription.label')} * :</dt><dd id="subscription" class="action-editField validate-localReferentialData required-true i18n-lrr.property.subscription data-localReferentialData" >
+                <dt class="required">${message(code:'lrr.property.subscription.label')}&nbsp;*&nbsp;:</dt><dd id="subscription" class="action-editField validate-localReferentialData required-true i18n-lrr.property.subscription data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'subscription', 'lrEntries': lrTypes.subscription?.entries, 
                              'rqt':rqt, 'isMultiple':lrTypes.subscription?.isMultiple(), 'depth':0]" />
@@ -59,7 +59,7 @@
             
               
               <dl>
-                <dt class="">${message(code:'lrr.property.registrationNumber.label')} :</dt><dd id="registrationNumber" class="action-editField validate-string i18n-lrr.property.registrationNumber" ><span>${rqt?.registrationNumber}</span></dd>
+                <dt class="">${message(code:'lrr.property.registrationNumber.label')}&nbsp;:</dt><dd id="registrationNumber" class="action-editField validate-string i18n-lrr.property.registrationNumber" ><span>${rqt?.registrationNumber}</span></dd>
               </dl>
               
             
@@ -84,19 +84,19 @@
             
               
               <dl>
-                <dt class="">${message(code:'lrr.property.rulesAndRegulationsAcceptance.label')} :</dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance i18n-lrr.property.rulesAndRegulationsAcceptance" ><span class="value-${rqt?.rulesAndRegulationsAcceptance}"><g:message code="message.${rqt?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
+                <dt class="">${message(code:'lrr.property.rulesAndRegulationsAcceptance.label')}&nbsp;:</dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance i18n-lrr.property.rulesAndRegulationsAcceptance" ><span class="value-${rqt?.rulesAndRegulationsAcceptance}"><g:message code="message.${rqt?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="">${message(code:'lrr.property.parentalAuthorization.label')} :</dt><dd id="parentalAuthorization" class="action-editField validate-acceptance i18n-lrr.property.parentalAuthorization" ><span class="value-${rqt?.parentalAuthorization}"><g:message code="message.${rqt?.parentalAuthorization ? 'yes' : 'no'}" /></span></dd>
+                <dt class="">${message(code:'lrr.property.parentalAuthorization.label')}&nbsp;:</dt><dd id="parentalAuthorization" class="action-editField validate-acceptance i18n-lrr.property.parentalAuthorization" ><span class="value-${rqt?.parentalAuthorization}"><g:message code="message.${rqt?.parentalAuthorization ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="">${message(code:'lrr.property.adultContentAuthorization.label')} :</dt><dd id="adultContentAuthorization" class="action-editField validate-acceptance i18n-lrr.property.adultContentAuthorization" ><span class="value-${rqt?.adultContentAuthorization}"><g:message code="message.${rqt?.adultContentAuthorization ? 'yes' : 'no'}" /></span></dd>
+                <dt class="">${message(code:'lrr.property.adultContentAuthorization.label')}&nbsp;:</dt><dd id="adultContentAuthorization" class="action-editField validate-acceptance i18n-lrr.property.adultContentAuthorization" ><span class="value-${rqt?.adultContentAuthorization}"><g:message code="message.${rqt?.adultContentAuthorization ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
@@ -131,7 +131,7 @@
             
               
               <dl>
-                <dt class="required">${message(code:'lrr.property.subscriptionPrice.label')} * :</dt><dd id="subscriptionPrice" class="action-editField validate-subscriptionPrice required-true i18n-lrr.property.subscriptionPrice" ><span>${rqt?.subscriptionPrice}</span></dd>
+                <dt class="required">${message(code:'lrr.property.subscriptionPrice.label')}&nbsp;*&nbsp;:</dt><dd id="subscriptionPrice" class="action-editField validate-subscriptionPrice required-true i18n-lrr.property.subscriptionPrice" ><span>${rqt?.subscriptionPrice}</span></dd>
               </dl>
               
             

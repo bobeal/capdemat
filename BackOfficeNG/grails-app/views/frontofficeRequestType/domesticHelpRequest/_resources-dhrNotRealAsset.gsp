@@ -12,7 +12,7 @@
     </span>
   </h4>
   
-    <label class="required"><g:message code="dhr.property.dhrNotRealAssetType.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetType.help" /></span></label>
+    <label class="required"><g:message code="dhr.property.dhrNotRealAssetType.label" />&nbsp;* <span><g:message code="dhr.property.dhrNotRealAssetType.help" /></span></label>
             <ul class="required ${rqt.stepStates['resources'].invalidFields.contains('dhrNotRealAsset['+collectionIndex+'].dhrNotRealAssetType') ? 'validation-failed' : ''}">
               <g:each in="${['SHARE','GIFT','SALE']}">
               <li>
@@ -24,7 +24,7 @@
             
 
   
-    <label class="required"><g:message code="dhr.property.dhrNotRealAssetKind.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetKind.help" /></span></label>
+    <label class="required"><g:message code="dhr.property.dhrNotRealAssetKind.label" />&nbsp;* <span><g:message code="dhr.property.dhrNotRealAssetKind.help" /></span></label>
             <ul class="required ${rqt.stepStates['resources'].invalidFields.contains('dhrNotRealAsset['+collectionIndex+'].dhrNotRealAssetKind') ? 'validation-failed' : ''}">
               <g:each in="${['REAL_ESTATE','OTHER']}">
               <li>
@@ -36,7 +36,7 @@
             
 
   
-    <label class="required condition-isRealEstate-filled"><g:message code="dhr.property.dhrNotRealAssetAddress.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetAddress.help" /></span></label>
+    <label class="required condition-isRealEstate-filled"><g:message code="dhr.property.dhrNotRealAssetAddress.label" />&nbsp;* <span><g:message code="dhr.property.dhrNotRealAssetAddress.help" /></span></label>
             <div class="address required condition-isRealEstate-filled  ${rqt.stepStates['resources'].invalidFields.contains('dhrNotRealAsset['+collectionIndex+'].dhrNotRealAssetAddress') ? 'validation-failed' : ''}">
             <label for="dhrNotRealAsset.${collectionIndex}.dhrNotRealAssetAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['resources'].invalidFields.contains('dhrNotRealAsset['+collectionIndex+'].dhrNotRealAssetAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${currentCollectionItem?.dhrNotRealAssetAddress?.additionalDeliveryInformation}" maxlength="38" id="dhrNotRealAsset.${collectionIndex}.dhrNotRealAssetAddress.additionalDeliveryInformation" name="dhrNotRealAsset[${collectionIndex}].dhrNotRealAssetAddress.additionalDeliveryInformation" />  
@@ -70,7 +70,7 @@
             
 
   
-    <label class="required"><g:message code="dhr.property.dhrNotRealAssetBeneficiaryAddress.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetBeneficiaryAddress.help" /></span></label>
+    <label class="required"><g:message code="dhr.property.dhrNotRealAssetBeneficiaryAddress.label" />&nbsp;* <span><g:message code="dhr.property.dhrNotRealAssetBeneficiaryAddress.help" /></span></label>
             <div class="address required  ${rqt.stepStates['resources'].invalidFields.contains('dhrNotRealAsset['+collectionIndex+'].dhrNotRealAssetBeneficiaryAddress') ? 'validation-failed' : ''}">
             <label for="dhrNotRealAsset.${collectionIndex}.dhrNotRealAssetBeneficiaryAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['resources'].invalidFields.contains('dhrNotRealAsset['+collectionIndex+'].dhrNotRealAssetBeneficiaryAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${currentCollectionItem?.dhrNotRealAssetBeneficiaryAddress?.additionalDeliveryInformation}" maxlength="38" id="dhrNotRealAsset.${collectionIndex}.dhrNotRealAssetBeneficiaryAddress.additionalDeliveryInformation" name="dhrNotRealAsset[${collectionIndex}].dhrNotRealAssetBeneficiaryAddress.additionalDeliveryInformation" />  
@@ -98,7 +98,7 @@
             
 
   
-    <label class="required"><g:message code="dhr.property.dhrNotRealAssetDate.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetDate.help" /></span></label>
+    <label class="required"><g:message code="dhr.property.dhrNotRealAssetDate.label" />&nbsp;* <span><g:message code="dhr.property.dhrNotRealAssetDate.help" /></span></label>
             <div class="date required  validate-date required ">
               <select class="day ${rqt.stepStates['resources'].invalidFields.contains('dhrNotRealAsset['+collectionIndex+'].dhrNotRealAssetDate') ? 'validation-failed' : ''}"
                 id="dhrNotRealAsset.${collectionIndex}.dhrNotRealAssetDate_day"
@@ -144,7 +144,7 @@
             
 
   
-    <label class="required"><g:message code="dhr.property.dhrNotRealAssetNotaryAddress.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetNotaryAddress.help" /></span></label>
+    <label class="required"><g:message code="dhr.property.dhrNotRealAssetNotaryAddress.label" />&nbsp;* <span><g:message code="dhr.property.dhrNotRealAssetNotaryAddress.help" /></span></label>
             <div class="address required  ${rqt.stepStates['resources'].invalidFields.contains('dhrNotRealAsset['+collectionIndex+'].dhrNotRealAssetNotaryAddress') ? 'validation-failed' : ''}">
             <label for="dhrNotRealAsset.${collectionIndex}.dhrNotRealAssetNotaryAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['resources'].invalidFields.contains('dhrNotRealAsset['+collectionIndex+'].dhrNotRealAssetNotaryAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${currentCollectionItem?.dhrNotRealAssetNotaryAddress?.additionalDeliveryInformation}" maxlength="38" id="dhrNotRealAsset.${collectionIndex}.dhrNotRealAssetNotaryAddress.additionalDeliveryInformation" name="dhrNotRealAsset[${collectionIndex}].dhrNotRealAssetNotaryAddress.additionalDeliveryInformation" />  

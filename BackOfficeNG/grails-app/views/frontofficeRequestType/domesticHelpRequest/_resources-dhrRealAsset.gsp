@@ -12,7 +12,7 @@
     </span>
   </h4>
   
-    <label class="required"><g:message code="dhr.property.dhrRealAssetAddress.label" /> *  <span><g:message code="dhr.property.dhrRealAssetAddress.help" /></span></label>
+    <label class="required"><g:message code="dhr.property.dhrRealAssetAddress.label" />&nbsp;* <span><g:message code="dhr.property.dhrRealAssetAddress.help" /></span></label>
             <div class="address required  ${rqt.stepStates['resources'].invalidFields.contains('dhrRealAsset['+collectionIndex+'].dhrRealAssetAddress') ? 'validation-failed' : ''}">
             <label for="dhrRealAsset.${collectionIndex}.dhrRealAssetAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['resources'].invalidFields.contains('dhrRealAsset['+collectionIndex+'].dhrRealAssetAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${currentCollectionItem?.dhrRealAssetAddress?.additionalDeliveryInformation}" maxlength="38" id="dhrRealAsset.${collectionIndex}.dhrRealAssetAddress.additionalDeliveryInformation" name="dhrRealAsset[${collectionIndex}].dhrRealAssetAddress.additionalDeliveryInformation" />  

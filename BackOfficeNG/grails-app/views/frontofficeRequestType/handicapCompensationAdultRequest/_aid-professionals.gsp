@@ -24,7 +24,7 @@
             
 
   
-    <label class="required"><g:message code="hcar.property.professionalAddress.label" /> *  <span><g:message code="hcar.property.professionalAddress.help" /></span></label>
+    <label class="required"><g:message code="hcar.property.professionalAddress.label" />&nbsp;* <span><g:message code="hcar.property.professionalAddress.help" /></span></label>
             <div class="address required  ${rqt.stepStates['aid'].invalidFields.contains('professionals['+collectionIndex+'].professionalAddress') ? 'validation-failed' : ''}">
             <label for="professionals.${collectionIndex}.professionalAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['aid'].invalidFields.contains('professionals['+collectionIndex+'].professionalAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${currentCollectionItem?.professionalAddress?.additionalDeliveryInformation}" maxlength="38" id="professionals.${collectionIndex}.professionalAddress.additionalDeliveryInformation" name="professionals[${collectionIndex}].professionalAddress.additionalDeliveryInformation" />  

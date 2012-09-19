@@ -40,6 +40,7 @@
     
   
 
+
   
     <h3><g:message code="strr.step.autorisations.label" /></h3>
     
@@ -104,6 +105,7 @@
     
   
 
+
   
     <h3><g:message code="strr.step.reglements.label" /></h3>
     
@@ -117,6 +119,7 @@
       
     
   
+
 
   
   <g:if test="${!documentsByTypes.isEmpty()}">
@@ -143,6 +146,7 @@
     </g:each>
   </g:if>
   
+
 
   
 

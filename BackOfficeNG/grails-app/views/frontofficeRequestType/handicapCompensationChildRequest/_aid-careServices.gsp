@@ -18,7 +18,7 @@
             
 
   
-    <label class="required"><g:message code="hccr.property.careServiceCareServiceEmployer.label" /> *  <span><g:message code="hccr.property.careServiceCareServiceEmployer.help" /></span></label>
+    <label class="required"><g:message code="hccr.property.careServiceCareServiceEmployer.label" />&nbsp;* <span><g:message code="hccr.property.careServiceCareServiceEmployer.help" /></span></label>
             <ul class="yes-no required ${rqt.stepStates['aid'].invalidFields.contains('careServices['+collectionIndex+'].careServiceCareServiceEmployer') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
@@ -36,7 +36,7 @@
             
 
   
-    <label class="condition-isCareServiceEmployer-unfilled"><g:message code="hccr.property.careServiceProviderAddress.label" />   <span><g:message code="hccr.property.careServiceProviderAddress.help" /></span></label>
+    <label class="condition-isCareServiceEmployer-unfilled"><g:message code="hccr.property.careServiceProviderAddress.label" /> <span><g:message code="hccr.property.careServiceProviderAddress.help" /></span></label>
             <div class="address condition-isCareServiceEmployer-unfilled  ${rqt.stepStates['aid'].invalidFields.contains('careServices['+collectionIndex+'].careServiceProviderAddress') ? 'validation-failed' : ''}">
             <label for="careServices.${collectionIndex}.careServiceProviderAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['aid'].invalidFields.contains('careServices['+collectionIndex+'].careServiceProviderAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${currentCollectionItem?.careServiceProviderAddress?.additionalDeliveryInformation}" maxlength="38" id="careServices.${collectionIndex}.careServiceProviderAddress.additionalDeliveryInformation" name="careServices[${collectionIndex}].careServiceProviderAddress.additionalDeliveryInformation" />  

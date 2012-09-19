@@ -43,6 +43,7 @@
     
   
 
+
   
   <g:if test="${!documentsByTypes.isEmpty()}">
     <h3>${message(code:'request.step.document.label')}</h3>
@@ -68,6 +69,7 @@
     </g:each>
   </g:if>
   
+
 
   
 

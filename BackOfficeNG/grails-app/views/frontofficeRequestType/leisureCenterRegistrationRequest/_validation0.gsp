@@ -76,6 +76,7 @@
     
   
 
+
   
     <h3><g:message code="lcrr.step.reglements.label" /></h3>
     
@@ -89,6 +90,7 @@
       
     
   
+
 
   
   <g:if test="${!documentsByTypes.isEmpty()}">
@@ -115,6 +117,7 @@
     </g:each>
   </g:if>
   
+
 
   
 

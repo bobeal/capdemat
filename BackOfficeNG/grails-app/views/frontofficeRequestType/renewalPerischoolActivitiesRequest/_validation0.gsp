@@ -32,6 +32,7 @@
     
   
 
+
   
     <h3><g:message code="rpar.step.reglements.label" /></h3>
     
@@ -45,6 +46,7 @@
       
     
   
+
 
   
   <g:if test="${!documentsByTypes.isEmpty()}">
@@ -71,6 +73,7 @@
     </g:each>
   </g:if>
   
+
 
   
 

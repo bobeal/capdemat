@@ -34,19 +34,19 @@
             
               
               <dl>
-                <dt class="">${message(code:'par.property.telephoneSujet.label')} :</dt><dd id="telephoneSujet" class="action-editField validate-mobilePhone i18n-par.property.telephoneSujet maxLength-10" ><span>${rqt?.telephoneSujet}</span></dd>
+                <dt class="">${message(code:'par.property.telephoneSujet.label')}&nbsp;:</dt><dd id="telephoneSujet" class="action-editField validate-mobilePhone i18n-par.property.telephoneSujet maxLength-10" ><span>${rqt?.telephoneSujet}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="">${message(code:'par.property.emailSujet.label')} :</dt><dd id="emailSujet" class="action-editField validate-email i18n-par.property.emailSujet" ><span>${rqt?.emailSujet}</span></dd>
+                <dt class="">${message(code:'par.property.emailSujet.label')}&nbsp;:</dt><dd id="emailSujet" class="action-editField validate-email i18n-par.property.emailSujet" ><span>${rqt?.emailSujet}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="">${message(code:'par.property.acceptationReglementInterieur.label')} :</dt><dd id="acceptationReglementInterieur" class="action-editField validate-acceptance i18n-par.property.acceptationReglementInterieur" ><span class="value-${rqt?.acceptationReglementInterieur}"><g:message code="message.${rqt?.acceptationReglementInterieur ? 'yes' : 'no'}" /></span></dd>
+                <dt class="">${message(code:'par.property.acceptationReglementInterieur.label')}&nbsp;:</dt><dd id="acceptationReglementInterieur" class="action-editField validate-acceptance i18n-par.property.acceptationReglementInterieur" ><span class="value-${rqt?.acceptationReglementInterieur}"><g:message code="message.${rqt?.acceptationReglementInterieur ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             

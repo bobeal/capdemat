@@ -50,7 +50,7 @@
             
               
               <dl>
-                <dt class="required">${message(code:'rarr.property.recreationActivity.label')} * :</dt><dd id="recreationActivity" class="action-editField validate-localReferentialData required-true i18n-rarr.property.recreationActivity data-localReferentialData" >
+                <dt class="required">${message(code:'rarr.property.recreationActivity.label')}&nbsp;*&nbsp;:</dt><dd id="recreationActivity" class="action-editField validate-localReferentialData required-true i18n-rarr.property.recreationActivity data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'recreationActivity', 'lrEntries': lrTypes.recreationActivity?.entries, 
                              'rqt':rqt, 'isMultiple':lrTypes.recreationActivity?.isMultiple(), 'depth':0]" />
@@ -61,7 +61,7 @@
             
               
               <dl>
-                <dt class="required">${message(code:'rarr.property.urgencyPhone.label')} * :</dt><dd id="urgencyPhone" class="action-editField validate-phone required-true i18n-rarr.property.urgencyPhone maxLength-10" ><span>${rqt?.urgencyPhone}</span></dd>
+                <dt class="required">${message(code:'rarr.property.urgencyPhone.label')}&nbsp;*&nbsp;:</dt><dd id="urgencyPhone" class="action-editField validate-phone required-true i18n-rarr.property.urgencyPhone maxLength-10" ><span>${rqt?.urgencyPhone}</span></dd>
               </dl>
               
             
@@ -154,25 +154,25 @@
             
               
               <dl>
-                <dt class="">${message(code:'rarr.property.rulesAndRegulationsAcceptance.label')} :</dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance i18n-rarr.property.rulesAndRegulationsAcceptance" ><span class="value-${rqt?.rulesAndRegulationsAcceptance}"><g:message code="message.${rqt?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
+                <dt class="">${message(code:'rarr.property.rulesAndRegulationsAcceptance.label')}&nbsp;:</dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance i18n-rarr.property.rulesAndRegulationsAcceptance" ><span class="value-${rqt?.rulesAndRegulationsAcceptance}"><g:message code="message.${rqt?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="">${message(code:'rarr.property.classTripPermission.label')} :</dt><dd id="classTripPermission" class="action-editField validate-acceptance i18n-rarr.property.classTripPermission" ><span class="value-${rqt?.classTripPermission}"><g:message code="message.${rqt?.classTripPermission ? 'yes' : 'no'}" /></span></dd>
+                <dt class="">${message(code:'rarr.property.classTripPermission.label')}&nbsp;:</dt><dd id="classTripPermission" class="action-editField validate-acceptance i18n-rarr.property.classTripPermission" ><span class="value-${rqt?.classTripPermission}"><g:message code="message.${rqt?.classTripPermission ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="">${message(code:'rarr.property.childPhotoExploitationPermission.label')} :</dt><dd id="childPhotoExploitationPermission" class="action-editField validate-acceptance i18n-rarr.property.childPhotoExploitationPermission" ><span class="value-${rqt?.childPhotoExploitationPermission}"><g:message code="message.${rqt?.childPhotoExploitationPermission ? 'yes' : 'no'}" /></span></dd>
+                <dt class="">${message(code:'rarr.property.childPhotoExploitationPermission.label')}&nbsp;:</dt><dd id="childPhotoExploitationPermission" class="action-editField validate-acceptance i18n-rarr.property.childPhotoExploitationPermission" ><span class="value-${rqt?.childPhotoExploitationPermission}"><g:message code="message.${rqt?.childPhotoExploitationPermission ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="">${message(code:'rarr.property.hospitalizationPermission.label')} :</dt><dd id="hospitalizationPermission" class="action-editField validate-acceptance i18n-rarr.property.hospitalizationPermission" ><span class="value-${rqt?.hospitalizationPermission}"><g:message code="message.${rqt?.hospitalizationPermission ? 'yes' : 'no'}" /></span></dd>
+                <dt class="">${message(code:'rarr.property.hospitalizationPermission.label')}&nbsp;:</dt><dd id="hospitalizationPermission" class="action-editField validate-acceptance i18n-rarr.property.hospitalizationPermission" ><span class="value-${rqt?.hospitalizationPermission}"><g:message code="message.${rqt?.hospitalizationPermission ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
@@ -207,7 +207,7 @@
             
               
               <dl>
-                <dt class="">${message(code:'rarr.property.recreationCenter.label')} :</dt><dd id="recreationCenter" class="action-editField validate-recreationCenter i18n-rarr.property.recreationCenter" ><span class="value-${rqt?.recreationCenter?.id}">${rqt?.recreationCenter?.name}</span></dd>
+                <dt class="">${message(code:'rarr.property.recreationCenter.label')}&nbsp;:</dt><dd id="recreationCenter" class="action-editField validate-recreationCenter i18n-rarr.property.recreationCenter" ><span class="value-${rqt?.recreationCenter?.id}">${rqt?.recreationCenter?.name}</span></dd>
               </dl>
               
             

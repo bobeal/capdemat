@@ -68,6 +68,7 @@
     
   
 
+
   
     <h3><g:message code="gsrr.step.restauration.label" /></h3>
     
@@ -81,6 +82,7 @@
       
     
   
+
 
   
     <h3><g:message code="gsrr.step.periscolaire.label" /></h3>
@@ -96,6 +98,7 @@
     
   
 
+
   
     <h3><g:message code="gsrr.step.reglements.label" /></h3>
     
@@ -109,6 +112,7 @@
       
     
   
+
 
   
   <g:if test="${!documentsByTypes.isEmpty()}">
@@ -135,6 +139,7 @@
     </g:each>
   </g:if>
   
+
 
   
 

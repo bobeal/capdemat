@@ -104,7 +104,6 @@
           >
             
               <g:message code="${individual ? 'homeFolder.action.add' + org.apache.commons.lang.StringUtils.capitalize(params.type) : 'tbr.step.entertainments.label'}" />
-              }
               <span class="help">
                 <g:message code="request.step.message.${rqt.stepStates['entertainments' + (individual ? '-' + params.type : '')].state}" />
               </span>

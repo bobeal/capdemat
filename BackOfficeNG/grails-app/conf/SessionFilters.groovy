@@ -200,7 +200,7 @@ class SessionFilters {
             }
         }
 
-        emailCheck(controller: 'frontofficeHomeFolder', action: 'editImportedAccount', invert: true) {
+        emailCheck(controller: 'frontofficeHomeFolder|frontofficeHome', action: 'editImportedAccount|logout', invert: true) {
             before = {
                 if (!SecurityContext.isFrontOfficeContext())
                     return true

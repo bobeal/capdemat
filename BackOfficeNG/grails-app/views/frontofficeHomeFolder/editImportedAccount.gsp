@@ -61,7 +61,6 @@
 
           <p class="submit-form">
             <input type="submit" value="${message(code:'action.save')}" />
-            <input type="submit" name="cancel" value="${message(code:'action.cancel')}" />
           </p>
         </form>
       </div>

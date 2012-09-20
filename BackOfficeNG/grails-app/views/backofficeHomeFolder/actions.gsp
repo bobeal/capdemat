@@ -52,7 +52,7 @@
             <g:each var="field" in="${action.atom.fields}">
               <dt>${message(code:'user.atom.field.' + field.key)}</dt>
               <dd>
-                <span class="previous">${field.value.from}</span> ↪ ${field.value.to}
+                <span class="previous">${!(message(code:'user.atom.field.'+field.key+'.'+field.value.from.toLowerCase()).equals('user.atom.field.'+field.key+'.'+field.value.from.toLowerCase()))?message(code:'user.atom.field.'+field.key+'.'+field.value.from.toLowerCase()):field.value.from}</span> ↪ ${!(message(code:'user.atom.field.'+field.key+'.'+field.value.to.toLowerCase()).equals('user.atom.field.'+field.key+'.'+field.value.to.toLowerCase()))?message(code:'user.atom.field.'+field.key+'.'+field.value.to.toLowerCase()):field.value.to}
               </dd>
             </g:each>
             </dl>

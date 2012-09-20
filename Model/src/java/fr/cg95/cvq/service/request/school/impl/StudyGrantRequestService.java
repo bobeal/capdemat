@@ -75,8 +75,6 @@ public class StudyGrantRequestService extends RequestService implements ILocalAu
     private IUserSearchService userSearchService;
 
     private IRequestDAO requestDAO;
-    
-    private IGenericDAO genericDAO;
 
     private IRequestExternalActionDAO requestExternalActionDAO;
 

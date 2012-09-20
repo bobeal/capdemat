@@ -50,6 +50,8 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong");
                     { text: 'Trebuchet MS' },
                     { text: 'Verdana' }
                 ]},
+                { type: 'separator' },
+                { type: 'separator' },
                 { type: 'spin', label: '13', value: 'fontsize', range: [ 9, 75 ], disabled: true },
                 { type: 'separator' }
               ]

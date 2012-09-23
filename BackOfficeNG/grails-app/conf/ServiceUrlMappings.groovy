@@ -13,6 +13,7 @@ class ServiceUrlMappings {
     "/service/request/$requestId/state" (controller : "serviceRequestExternal"){action = [POST : "requestState"]}
     "/service/requestType/$requestTypeLabel/season" (controller : "serviceRequestExternal"){action = [GET : "requestTypeSeason"]}
     "/service/templates/$filename?" (controller : "localAuthorityResource"){action = [PUT : "template"]}
+    "/service/homefolder/$externalHomeFolderId/document" (controller : "serviceHomeFolderExternal"){action = [POST : "addDocument"]}
     "/service/login" (controller : "serviceUser"){action = [GET : "login"]}
     "/service/oauth/v$version/user" (controller : "serviceIndividual" )
     "/service/oauth/v$version/home" (controller : "serviceHomeFolder" )

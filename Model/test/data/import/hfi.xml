@@ -6,7 +6,6 @@
     <com:Individuals xsi:type="com:AdultType">
       <com:Id>0</com:Id>
       <com:ExternalId>i1ExtId</com:ExternalId>
-      <com:Login>firstname.lastname</com:Login>
       <com:LastName>LASTNAME</com:LastName>
       <com:FirstName>firstName</com:FirstName>
       <com:Address>
@@ -27,10 +26,10 @@
       <com:FamilyStatus>Single</com:FamilyStatus>
       <com:HomePhone>0111111111</com:HomePhone>
       <com:Email>capdemat-dev@zenexity.com</com:Email>
+      <com:Login>firstname.lastname</com:Login>
     </com:Individuals>
     <com:Individuals xsi:type="com:ChildType">
       <com:Id>0</com:Id>
-      <com:Login>emilie.moreau</com:Login>
       <com:LastName>MOREAU</com:LastName>
       <com:FirstName>Émilie</com:FirstName>
       <com:Address>
@@ -40,6 +39,7 @@
         <com:City>PARIS</com:City>
       </com:Address>
       <com:State>Valid</com:State>
+      <com:Born>true</com:Born>
     </com:Individuals>
     <com:Address>
       <com:Id>0</com:Id>

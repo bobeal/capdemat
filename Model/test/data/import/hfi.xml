@@ -32,6 +32,7 @@
       <com:Id>0</com:Id>
       <com:LastName>MOREAU</com:LastName>
       <com:FirstName>Émilie</com:FirstName>
+      <com:BirthDate>2010-01-01+01:00</com:BirthDate>
       <com:Address>
         <com:Id>0</com:Id>
         <com:StreetName>STREET</com:StreetName>
@@ -40,6 +41,7 @@
       </com:Address>
       <com:State>Valid</com:State>
       <com:Born>true</com:Born>
+      <com:Sex>Female</com:Sex>
     </com:Individuals>
     <com:Address>
       <com:Id>0</com:Id>

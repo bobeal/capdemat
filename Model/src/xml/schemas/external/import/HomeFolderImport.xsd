@@ -5,7 +5,7 @@
   elementFormDefault="qualified"
   attributeFormDefault="unqualified">
   <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
-    schemaLocation="../common/CVQCommonElements.xsd" />
+    schemaLocation="https://raw.github.com/bobeal/capdemat/V4_6-RB/Generator/src/xml/schemas/common/CVQCommonElements.xsd" />
   <xs:element name="HomeFolderImport">
     <xs:complexType>
       <xs:sequence>

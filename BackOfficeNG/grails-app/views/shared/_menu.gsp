@@ -34,7 +34,7 @@
     <a id="usersMenuItem" href="${createLink(controller:'backofficeUserSecurity', action:'index')}">
       <g:message code="menu.users" />
     </a>
-    <g:if test="${session.supportsPaymentsTab}">
+    <g:if test="${session.additionalTabs.contains('Payments')}">
       <a id="paymentMenuItem" href="${createLink(controller:'backofficePayment')}/>">
         <g:message code="menu.payments" />
       </a>

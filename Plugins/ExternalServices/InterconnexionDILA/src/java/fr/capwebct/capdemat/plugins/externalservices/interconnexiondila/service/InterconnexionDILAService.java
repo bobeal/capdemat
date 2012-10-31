@@ -580,4 +580,9 @@ class InterconnexionDILAService extends ExternalProviderServiceAdapter {
     public void setRequestTypeService(IRequestTypeService requestTypeService) {
         this.requestTypeService = requestTypeService;
     }
+
+    @Override
+    public String sendHomeFolderModification(XmlObject requestXml) throws CvqException {
+      return "";
+    }
 }

@@ -420,23 +420,7 @@ public class LocalAuthorityRegistry
             return;
         }
         File assetsFile = getAssetsFile(type, filename, false);
-        try {
-            if (!assetsFile.exists()) {
-                new File(assetsFile.getParent()).mkdirs();
-                assetsFile.createNewFile();
-            }
-            Writer out = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream(assetsFile), "UTF-8"));
-            out.write(new String(data,"UTF-8"));
-            out.flush();
-            out.close();
-        } catch (FileNotFoundException e) {
-            logger.error("saveLocalAuthorityResource() failed!" + e.getMessage());
-            throw new CvqException(e.getMessage());
-        } catch (IOException ioe) {
-            logger.error("saveLocalAuthorityResource() failed!" + ioe.getMessage());
-            throw new CvqException(ioe.getMessage());
-        }
+        writeLocalAuthorityResource(type, assetsFile, data);
     }
 
     @Override
@@ -448,19 +432,35 @@ public class LocalAuthorityRegistry
             return;
         }
         File assetsFile = getLocalAuthorityResourceFile(id, false);
+        writeLocalAuthorityResource(getLocalAuthorityResource(id).getType(), assetsFile, data);
+    }
+
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
+    private void writeLocalAuthorityResource(Type type, File assetsFile, byte[] data)
+        throws CvqException {
         try {
             if (!assetsFile.exists())
                 assetsFile.createNewFile();
-            Writer out = new BufferedWriter(new OutputStreamWriter(
+            if (type == LocalAuthorityResource.Type.IMAGE
+                    || type == LocalAuthorityResource.Type.DISPLAY_GROUP_IMAGE
+                    || type == LocalAuthorityResource.Type.PDF
+                    || type == LocalAuthorityResource.Type.REQUEST_ARCHIVE) {
+                FileOutputStream fos = new FileOutputStream(assetsFile);
+                fos.write(data);
+                fos.flush();
+                fos.close();
+            } else {
+                Writer out = new BufferedWriter(new OutputStreamWriter(
                     new FileOutputStream(assetsFile), "UTF-8"));
-            out.write(new String(data,"UTF-8"));
-            out.flush();
-            out.close();
+                out.write(new String(data,"UTF-8"));
+                out.flush();
+                out.close();
+            }
         } catch (FileNotFoundException e) {
-            logger.error("saveLocalAuthorityResource() failel !" + e.getMessage());
+            logger.error("writeLocalAuthorityResource() failel !" + e.getMessage());
             throw new CvqException(e.getMessage());
         } catch (IOException ioe) {
-            logger.error("saveLocalAuthorityResource() failel !" + ioe.getMessage());
+            logger.error("writeLocalAuthorityResource() failel !" + ioe.getMessage());
             throw new CvqException(ioe.getMessage());
         }
     }

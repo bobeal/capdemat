@@ -1,0 +1,550 @@
+{{toc}}
+
+h1. Installation de la plate-forme en typologie de production
+
+Sauf mention contraire, toutes les commandes données dans la suite de la documentation d'installation sont à exécuter en tant que l'utilisateur root.
+
+h1. Installation et configuration des serveurs
+
+h2. Général
+
+Configurer les serveurs de telle sorte que l'encodage des caractères soit en UTF-8.
+
+Sur la machine hébergeant la base de données, créer un utilisateur système capdemat :
+
+bq. adduser capdemat
+
+h2. Partitionnement
+
+h3. Serveur applicatif
+
+La partition qui doit être la plus importante est /var à cause des logs de Tomcat
+
+h3. Serveur frontal
+
+La partition qui doit être la plus importante est /var à cause des logs d'Apache
+
+Pour information, la base la plus volumineuse fait 800 Mo compressée. 
+
+h2. Ports utilisés
+
+Récapitulatif des ports utilisés par l'application et ses modules (cf Architecture physique) :
+
+* Apache : 80 et 443
+* Annuaire : 389
+* Base de données : 5432
+* Tomcat (console d'administration) : 8005
+* CapDémat, Provisioning et SSO : 8080 (connecteur standard)
+
+h1. Installation et configuration des composants systèmes
+
+CapDémat nécessite l'installation des services suivants :
+
+* Serveur applicatif :
+** PostgreSQL 8.4
+** Tomcat 6.0.x
+** Java 1.6
+** OpenLDAP 2.4.x
+* Serveur frontal :
+** Apache 2.2.x
+
+Note : l'installation et la configuration minimale des services listés ci-dessus n'est pas traitée dans le présent document. 
+
+h2. Installation et configuration du frontal Web
+
+h3. Installation et configuration sur Ubuntu
+
+h4. Installation et configuration d'Apache
+
+Installer Apache :
+
+bq. apt-get install apache2
+
+Si vous n'allez utiliser ce serveur que pour servir CapDémat, désactivez tous les modules et enlevez tous les sites inutiles :
+
+bq. cd  /etc/apache2/mods-enabled/
+rm auth*
+rm cgid*
+rm status*
+cd ../sites-enabled
+rm *
+cd ../sites-avaible
+rm *
+
+Activez les modules nécessaires
+
+bq. cd /etc/apache2/mods-avaible/
+a2enmod proxy
+a2enmod proxy_http
+a2enmod ssl
+a2enmod authz_host
+a2enmod headers
+a2enmod rewrite
+
+Dans le fichier /etc/apache2/ports.conf, vérifier qu'Apache écoute bien sur le port 80 et, donc, contient la ligne suivante :
+
+<pre>
+NameVirtualHost *:80
+Listen 80
+</pre>
+
+h4. Configuration SSL
+
+Dans le fichier /etc/apache2/ports.conf, rajouter, si elle n'existe pas, une ligne pour que Apache écoute sur le port 443 :
+
+<pre>
+Listen 443
+</pre>
+
+h4. Redémarrage d'Apache
+
+Redémarrer le serveur Apache pour qu'il prenne en compte la nouvelle configuration :
+
+bq. /etc/init.d/apache2 restart
+
+h2. Installation et configuration de l'annuaire
+
+h3. Installation et configuration sous Ubuntu
+
+Installer les paquets OpenLDAP :
+
+bq. apt-get install slapd ldap-utils
+
+*Penser à bien retenir le mot de passe demandé au cours de la configuration, il sera à renseigner plus tard au cours de l'installation.*
+
+h4. Configuration
+
+Si cela n'a pas été fait à l'installation des paquets, configurer l'annuaire (via la commande dpkg-reconfigure slapd) en renseignant notamment :
+* Nom de domaine : capdemat.fr
+* Organisation : capdemat
+* Support du protocole LDAP v2 : non 
+
+Initialiser les schémas :
+
+bq. ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/cosine.ldif
+ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/nis.ldif
+ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/inetorgperson.ldif
+
+Importer le schéma backend.capdemat.fr.ldif joint à cette page :
+
+bq. ldapadd -Y EXTERNAL -H ldapi:/// -f backend.capdemat.fr.ldif
+
+Passer le script d'import du DIT racine initial-import.ldif joint à cette page :
+
+bq. ldapadd -v -x -W -P 3 -h localhost -D "cn=admin,dc=capdemat,dc=fr" -f initial-import.ldif
+
+h2. Installation et configuration de la base de données
+
+Installer les paquets PostgreSQL 8.4 :
+
+bq. apt-get install postgresql-8.4
+
+h3. Déplacement du data_directory
+
+Si vous le souhaitez, vous pouvez déplacer le data_directory : 
+
+bq. /etc/init.d/postgresql stop
+vim /etc/postgresql/8.4/main/postgresql.conf _modifier data_directory_ : remplacer la valeur par  _/database/8.4/main_
+mv /var/lib/postgresql/8.4 /database/ (on part du principe que /database est déjà créé)
+/etc/init.d/postgresql start
+
+
+h3. Configuration
+
+Les fichiers de configuration à éditer dans cette section sont dans /etc/postgresql/8.4/main.
+
+Éditer le fichier pg_hba.conf, commenter les lignes existantes et :
+
+* Ajouter une ligne pour permettre le passage des scripts de mise à jour de la base en ligne de commande :
+
+<pre>
+# TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
+local   all         capdemat                                 md5
+</pre>
+
+* Si le serveur d'applications et la base de données sont sur la même machine, ajouter à la fin du fichier :
+
+<pre>
+local   all         postgres                                 ident
+host    all         capdemat       127.0.0.1/32              md5
+</pre>
+
+* Si le serveur d'applications et la base de données sont sur deux machines différentes, ajouter à la fin du fichier :
+
+<pre>
+local   all         postgres                                 ident
+host    all         capdemat       <code><ip_serveur_appli></code>/64     md5
+</pre>
+
+Enfin rajouter le support du langage plpgsql :
+
+bq. su - postgres -c "createlang plpgsql template1"
+
+Redémarrer le serveur pour qu'il prenne en compte les modifications :
+
+bq. service postgresql restart
+
+Créer l'utilisateur capdemat (au sens BD du terme) :
+
+bq. su - postgres -c "createuser -P capdemat"
+Enter password for new role: ******
+Enter it again: ******
+Shall the new role be a superuser? (y/n) n
+Shall the new user be allowed to create databases? (y/n) y
+Shall the new user be allowed to create more new users? (y/n) n
+
+h2. Installation de Java 6
+
+* Télécharger la dernière version du jdk 1.6,
+* Installer le jdk 1.6 dans le répertoire /home/bin/jdk
+
+*Attention*
+
+Bien vérifier que le jdk utilisé par le serveur d'applications est bien celui de Sun. Si ce n'est pas le cas vous pourriez rencontrer des problèmes avec la gestion du captcha 
+
+
+h3. installation alternative : utiliser les paquets Java6
+
+bq. apt-get install sun-java6-bin sun-java6-jre
+
+Vérifier que le JDK de Sun est bien le JDK par défaut de la machine. Sinon, le configurer
+
+bq. update-alternatives --config java
+
+
+
+h2. Installation du serveur d'applications Tomcat6
+
+* Télécharger la dernière version de tomcat 6
+* décompresser l'archive dans le répertoire /home/bin/tomcat 
+
+h3. installation alternative : avec les paquets
+
+bq. apt-get install tomcat6 tomcat6-common
+
+Dans le fichier /etc/init.d/tomcat6, désactiver le gestionnaire de sécurité de Tomcat en modifiant la variable TOMCAT6_SECURITY :
+
+<pre>
+TOMCAT6_SECURITY=no
+</pre>
+
+h3. Configuration
+
+Ajouter les paramètres suivants à la variable JAVA_OPTS :
+
+<pre>
+-Xms256m -Xmx768m -XX:MaxPermSize=256m
+</pre>
+
+h3. Codage de caractères
+
+Quel que soit le système d'exploitation utilisé, ajouter l'attribut URIEncoding="UTF-8" au connecteur dans le fichier server.xml.
+
+Exemple :
+
+<pre>
+<Connector port="8088" protocol="HTTP/1.1" connectionTimeout="20000" URIEncoding="UTF-8" useBodyEncodingForURI="true" />
+</pre>
+
+h3. Installation de shared-mime-info
+
+Afin d'éviter les stacktraces non pertinentes de la librairie OpendesktopMimeDetector (cf http://capdemat.capwebct.fr/ticket/661), installer le paquet shared-mime-info.
+
+h1. Installation et configuration de CapDémat
+
+h2. Livrables
+
+L'application est composée de trois livrables :
+
+* CapDemat-<code><version></code>-<code><date></code>.war : application Web comprenant le Back Office et le Front Office
+* CapDemat-admin-<code><version></code>-<code><date></code>.zip : package d'administration (utilitaires d'initialisation, de migration, d'administration et d'exploitation)
+* Assets : versionnées dans le dépôt Git du projet
+
+h2. Installation des webapps de CapDémat
+
+L'application Web tourne sur un serveur d'applications Tomcat 6.0.x. Vous devez donc avoir au préalable installé et configuré Tomcat6. Dans la suite de l'installation, on appellera $TOMCAT_HOME le répertoire d'installation de Tomcat.
+
+Donner les droits à tomcat sur le/les répertoire(s) :
+
+bq. chown -R capdemat:capdemat $TOMCAT_HOME/webapps/
+
+
+Supprimer l'application ROOT par défaut :
+
+bq. rm -rf $TOMCAT_HOME/webapps/ROOT/*
+
+Dé-zipper l'archive .war dans son répertoire :
+
+bq. unzip -d $TOMCAT_HOME/webapps/ROOT CapDemat-<version>-<date>.war
+
+h2. Installation du package d'administration
+
+Dé-zipper le package et mettre les bons droits sur le nouveau répertoire :
+
+bq. unzip -d /home/capdemat/data CapDemat-admin-<code><version></code>-<code><date></code>.zip
+
+Renommer l'exemple de fichier de propriétés de la plate-forme :
+
+bq. mv /home/capdemat/data/conf/spring/local.properties /home/capdemat/data/conf/spring/production.properties
+
+Éditer le pour configurer notamment les valeurs suivantes :
+* <code>assets.included_authorities</code> : remplacer blainville par le nom de domaine de la CT à déployer (cette valeur sera configurée dans la suite de cette page)
+* propriétés de connexion à votre serveur SMTP (<code>mail.*</code>)
+
+h2. Installation et instanciation du template d'asset
+
+h3. Terminologie et nommage
+
+Ci-dessous un certain nombre de termes et de conventions de nommage utilisés lors de l'instanciation d'une CT :
+
+* @localAuthority@ et <code><local_authority_name></code> : nom court sans apostrophe et concaténé de la collectivité à instancier (par exemple, jouylemoutier ou saintouenlaumone)
+* <code><local_authority_domain_name></code> et @localAuthorityDomainName@: nom de domaine de la collectivité à instancier (par exemple, vosdemarches.jouylemoutier.fr ou vosdemarches.saintouenlaumone.fr)
+* @localAuthorityFullName@ : nom complet de la collectivité (par exemple, Ville de Jouy le Moutier)
+* <code><certificate_name></code> : nom du certificat SSL de la collectivité 
+
+h3. Création de la structure d'annuaire
+
+Éditer le fichier LDIF template local_authority_template.ldif fourni et adapter le à la CT à instancier (substitution des marqueurs @localAuthority@ et @localAuthorityFullName@)
+
+Créer la structure de la ville dans l'annuaire :
+
+bq. ldapadd -v -x -W -P 3 -h localhost -D "cn=admin,dc=capdemat,dc=fr" -f <my_new_local_authority>.ldif
+
+h3. Génération du certificat SSL
+
+Toutes les connexions avec CapDémat étant sécurisées, vous devez au préalable obtenir un certificat SSL auprès d'une autorité de certification reconnue par les principaux navigateurs du marché. Il faudra ensuite déposer le certificat, sa clé privée et le certificat intermédiaire de l'AC sur le frontal Web.
+
+h3. Ajout du mapping sur le frontal Web
+
+Créer un fichier /etc/apache2/sites-available/<code><local_authority_name></code>-ssl et ajouter la section suivante (en remplaçant les valeurs entre crochets par les bonnes valeurs) :
+
+<pre>
+<VirtualHost *:443>
+        ServerAdmin jfp@zenexity.fr
+        ServerName capdemat
+        SSLEngine on
+        SSLCertificateFile /etc/ssl/vhosts/capdemat/capdemat.crt
+        SSLCertificateKeyFile /etc/ssl/vhosts/capdemat/capdemat.key
+        DocumentRoot /var/www
+        <Directory />
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride None
+                Order allow,deny
+                allow from all
+        </Directory>
+        ErrorLog /var/log/apache2/error-capdemat_ssl.log
+        LogLevel warn
+        CustomLog /var/log/apache2/access_ssl-capdemat.log combined
+        RewriteEngine On
+        RewriteRule ^/$ https://%{SERVER_NAME}/frontoffice/home [NE]
+        ProxyRequests Off
+        <Proxy *>
+                Order deny,allow
+                Allow from all
+        </Proxy>
+        #CapDemat
+        ProxyPass  / http://127.0.0.1:8088/
+        ProxyPassReverse  / http://127.0.0.1:8088/
+        RequestHeader set X-Forwarded-Proto https
+        ProxyPreserveHost on
+</VirtualHost>
+</pre>
+
+Copier le certificat, sa clé privée et le certificat de l'AC dans le répertoire /etc/apache2/ssl.
+
+Créer un fichier /etc/apache2/sites-available/<code><local_authority_name></code> et ajouter la section suivante (en remplaçant les valeurs entre crochets par les bonnes valeurs) :
+
+<pre>
+<VirtualHost *:80>
+        ServerAdmin jfp@zenexity.fr
+        ServerName capdemat
+        DocumentRoot /var/www
+        ErrorLog /var/log/apache2/error-capdemat.log
+        LogLevel warn
+        CustomLog /var/log/apache2/access-capdemat.log combined
+        ProxyRequests Off
+        <Proxy *>
+                Order deny,allow
+                Allow from all
+        </Proxy>
+        #redirect match
+        RewriteEngine On
+        RewriteLog /var/log/apache2/rewrite_log-capdemat
+        RewriteLogLevel 1
+        RewriteRule ^/$ https://%{SERVER_NAME}/frontoffice/home [NE]
+        RewriteRule ^/(.*) https://%{SERVER_NAME}/$1 [NE]
+</VirtualHost>
+</pre>
+
+Activer les deux nouveaux hôtes :
+
+bq. a2ensite <local_authority_name>
+a2ensite <local_authority_name>-ssl
+
+Redémarrer le serveur Web pour que les modifications soient prises en compte :
+
+bq. /etc/init.d/apache2 reload
+
+h3. Création et initialisation de la base de données
+
+bq. createdb -U capdemat -O capdemat capdemat_<local_authority_name>
+psql -U capdemat -W -f /home/capdemat/data/db/create_schema_pgsql.sql capdemat_<local_authority_name>
+
+Ne pas oublier la mise en place des sauvegardes automatiques
+
+h3. Déploiement du zip de l'asset et déclaration CAS
+
+Installer l'asset :
+
+bq. mkdir /home/capdemat/data/assets
+cd /home/capdemat/data/assets
+git clone git@code.zenexity.com:capdemat/capdemat-clients/<local_authority_name>.git
+
+Vérifier le contenu du fichier /home/capdemat/data/assets/<local_authority_name>/localAuthority-<local_authority_name>.xml
+
+Éditer le fichier /home/capdemat/data/conf/spring/production.properties et remplacer <code><local_authority_domain_name></code> par sa valeur, et changez le mot de passe utilisé par le module de provisioning pour la gestion des référentiels (clé provisioning.secret).
+
+Après avoir édité le fichier /home/capdemat/data/conf/spring/production.properties, copier-le dans la webapp de CapDémat :
+
+bq. cp /home/capdemat/data/conf/spring/production.properties /home/capdemat/bin/tomcat/webapps/ROOT/WEB-INF/classes/CapDemat-config.properties
+
+h2. Test
+
+Démarrer Tomcat :
+
+bq. /etc/init.d/tomcat6 start
+
+ou 
+
+bq. /home/capdemat/bin/tomcat/bin/startup.sh
+
+La première vérification est de regarder les logs de Tomcat (voir la documentation d'exploitation) pour s'assurer que l'application a correctement démarré. Si aucune erreur apparaît, tester le bon fonctionnement en vous connectant à la page d'accueil du Front Office :
+
+bq.  http://<local_authority_domain_name>/frontoffice/home/login 
+
+À ce stade de l'installation, le Back Office ne peut pas encore être testé car il nécessite l'installation du module de provisioning et du service de SSO. 
+
+h1. Installation et configuration du module de provisioning
+
+h2. Pré-requis
+
+h3. Livrables
+
+* L'archive .war de l'application (PlatformProvisioning.war) 
+
+h3. Composants système
+
+Ce service est une application Web tournant sur un serveur d'applications Tomcat 6.0.x. Vous devez donc avoir au préalable installé et configuré un serveur d'applications pour y déployer l'application de provisioning. Dans la suite de l'installation, on appellera $TOMCAT_HOME le répertoire d'installation de Tomcat. 
+
+h2. Installation
+
+Dé-zipper l'archive .war dans ce répertoire :
+
+bq. unzip -d $TOMCAT_HOME/webapps/PlatformProvisioning PlatformProvisioning.war
+
+Éditer le fichier $TOMCAT_HOME/webapps/PlatformProvisioning/WEB-INF/classes/PlatformProvisioning-config.properties et modifier / vérifier :
+* Les propriétés de connexion à l'annuaire (en particulier, le mot de passe de l'administrateur). 
+* Le mot de passe à utiliser pour s'authentifier auprès des webservices de provisioning (clé provisioning.secret dans le fichier de configuration de la webapp CapDémat), dans la clé cvq.service.password). 
+* Le chemin d'accès au service de provisionning
+
+h2. Test
+
+La première vérification est de regarder les logs de Tomcat (voir la documentation d'exploitation) pour s'assurer que l'application a correctement démarré. Si aucune erreur apparaît, tester le bon fonctionnement en vous connectant à l'URL suivante :
+
+bq.  http://<local_authority_domain_name>/PlatformProvisioning/ 
+
+Lors de la première connexion au module de provisioning, il faut se connecter en tant qu'administrateur de l'annuaire LDAP (l'identifiant est le cn de l'administrateur, ie admin, et le mot de passe est celui configuré lors de l'installation de l'annuaire) et cocher la case "super administrateur". Une fois connecté à l'application, créer au moins un agent administrateur et un agent contributeur afin de pouvoir utiliser l'intégralité des fonctionnalités du Back Office de CapDémat. 
+
+
+h1. Installation et configuration du service de SSO
+
+h2. Pré-Requis
+
+Le service de SSO est assuré par CAS (Central Authentication Service) : http://www.jasig.org/cas.
+
+Ce service est une application Web tournant sur un serveur d'applications Tomcat 6.0.x. Vous devez donc avoir au préalable installé et configuré un serveur d'applications pour y déployer le service de SSO. Dans la suite de l'installation, on appellera $TOMCAT_HOME le répertoire d'installation de Tomcat.
+
+Livrables :
+* cas-3.0.4.war
+* cas-extensions-1.2.0.zip 
+
+h2. Certificat
+
+Le service de SSO est un service transversal de la plate-forme qui dispose de son propre certificat. Par conséquent, pour qu'il soit bien pris en compte, il est nécessaire que ce service dispose d'une adresse IP spécifique.
+Définition de l'URL du service
+
+L'URL du service de SSO doit être résolvable depuis l'extérieur (redirection navigateur depuis le Back Office) mais aussi en interne (appel HTTP depuis le Back Office pour valider les tickets émis par le service). De plus, afin de ne pas perturber les utilisateurs, il est recommandé d'utiliser un nom de domaine plutôt qu'une adresse IP (afin d'éviter les suspicions de phishing) et d'utiliser un nom de domaine explicite (par exemple, vosdemarches-sso.capdemat.fr). Une fois un nom de domaine choisi, rajouter l'entrée correspondante dans le fichier /etc/hosts de la machine.
+
+Le nom de domaine choisi sera utilisé dans la suite de l'installation et lors de la configuration des applications utilisatrices du service de SSO. Dans la suite de l'installation, nous appellerons cette URL <code><url_service_sso></code> 
+
+h2. Installation
+
+Dé-zipper le fichier cas-3.0.4.war :
+
+bq. unzip -d $TOMCAT_HOME/webapps/cas cas-3.0.4.war
+
+Dé-zipper le paquet des extensions CAS spécifiques à CapDémat (répondre oui aux questions posées) :
+
+bq. unzip -o -d $TOMCAT_HOME/webapps/cas cas-extensions-1.2.0.zip
+
+h2. Configuration
+
+h3. Configuration de la webapp CAS
+
+Éditer le fichier $TOMCAT_HOME/webapps/cas/WEB-INF/ldap.properties et adapter les valeurs pour refléter votre installation (en particulier le mot de passe de l'administrateur de l'annuaire).
+
+Ajouter dans $TOMCAT_HOME/webapps/cas/WEB-INF/deployerConfigContext.xml :
+<pre>
+<bean class="fr.cg95.sso.cas.handler.StOuenAuthenticationHandler">
+     <property name="adminPassword"  value="${soah.adminPassword}"/>
+     <property name="userProvider"  value="${soah.userProvider}"/>
+     <property name="adminDn"  value="${soah.adminDn}"/>
+     <property name="ldapUrl"  value="${soah.ldapUrl}"/>
+     <property name="ditRoot" value="${soah.ditRoot}"></property>
+ </bean>
+</pre>
+
+h3. Ajout du certificat au truststore de Tomcat
+
+Ajouter le certificat du service de SSO au truststore de Tomcat (pour que les applications déployées puissent solliciter ce service afin de valider les jetons d'authentification) :
+
+bq. keytool -genkey -alias capdemat -keyalg RSA -keystore $TOMCAT_HOME/conf/truststore.jks
+keytool -delete -alias capdemat -keystore $TOMCAT_HOME/conf/truststore.jks
+keytool -import -v -trustcacerts -alias capdemat -file /<code><path_to_sso_certificate_on_apache></code>/<code><certificate_name></code> -keystore $TOMCAT_HOME/conf/truststore.jks
+
+Remarque : l'utilitaire keytool veut du format DER (en fait, il peut utiliser du format pem, mais expurgé du "superflu" : il ne faut laisser que les infos entre 'BEGIN CERTIFICATE' et 'END CERTIFICATE'). Pour des certificats au format PEM, il faut donc les transformer comme ceci :
+
+bq. openssl x509 -in ac-racine.pem -out ac-racine.der -outform DER 
+
+Dans le fichier /etc/init.d/tomcat6, ajouter les paramètres relatifs au truststore à la variable JAVA_OPTS :
+
+<pre>
+-Djavax.net.ssl.trustStore=$TOMCAT_HOME/conf/truststore.jks -Djavax.net.ssl.trustStorePassword=<code><mot_de_passe_du_truststore></code>
+</pre>
+
+h3. Verifier la configuration de la webapp Capdemat
+
+Vérifiez que vous avez bien rempli les champs dans le fichier /home/capdemat/data/conf/spring/production.properties :
+
+<pre>
+<code>cas_login_url = https://<nom_de_l_hote>/cas/login</code>
+<code>cas_validate_url = https://<nom_de_l_hote>/cas/proxyValidate</code>
+<code>cas_server_names = <nom_de_l_hote></code>
+<code>cas_authorized_proxies = https://<nom_de_l_hote>/@cas/proxyCallback</code>
+<code>cas_logout_url = https://<nom_de_l_hote>/cas/logout</code>
+</pre>
+
+avec un nom d'hote accessible depuis internet.
+
+De même, vérifier que la valeur de *cas_mocking* soit à *false*.
+
+Redémarrer Tomcat :
+
+bq. /etc/init.d/tomcat6 restart
+
+h2. Test
+
+La première vérification est de regarder les logs de Tomcat (voir la documentation d'exploitation) pour s'assurer que l'application a correctement démarré. Si aucune erreur apparaît, tester le bon fonctionnement en vous connectant au Back Office (en utilisant un des deux comptes agents créés lors de l'installation du module de provisioning) :
+
+bq. http://<local_authority_domain_name>/backoffice/home 
+

@@ -8,6 +8,7 @@ import java.util.Random;
 
 import org.apache.log4j.Logger;
 
+import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.Payment;
 import fr.cg95.cvq.business.payment.PaymentMode;
 import fr.cg95.cvq.exception.CvqConfigurationException;
@@ -48,7 +49,9 @@ public class TipiService implements IPaymentProviderService {
         String tipiExer = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
         urlParameters.append("&exer="+tipiExer);
         
-        String reference = payment.getHomeFolderId() + "S" + random.nextInt(Integer.MAX_VALUE);
+        if(!(payment.getPurchaseItems().iterator().next() instanceof ExternalAccountItem))
+            throw new CvqException("PurchaseItem is not an ExternalAccountItem and cannot be paid with Tipi");
+        String reference = ((ExternalAccountItem) payment.getPurchaseItems().iterator().next()).getExternalItemId();
         urlParameters.append("&refdet="+reference);
         payment.setCvqReference(reference);
 
@@ -89,7 +92,7 @@ public class TipiService implements IPaymentProviderService {
     public PaymentResultBean doCommitPayment(Map<String, String> parameters,
             PaymentServiceBean paymentServiceBean) throws CvqException {
         PaymentResultStatus returnStatus = getStateFromParameters(parameters, paymentServiceBean);
-        return new PaymentResultBean(returnStatus, parameters.get("cvqReference"), parameters.get("bankReference"));
+        return new PaymentResultBean(returnStatus, parameters.get("refdet"), parameters.get("bankReference"));
     }
 
     @Override

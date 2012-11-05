@@ -8,7 +8,7 @@ class ServiceTipiController {
 
     def index = {
         Map<String, String> parametersMap = new HashMap<String, String>()
-        parametersMap.put("cvqReference", params.refdet)
+        parametersMap.put("refdet", params.refdet)
         parametersMap.put("bankReference", params.numauto)
         parametersMap.put("resultrans", params.resultrans)
         parametersMap.put("objet", params.objet)

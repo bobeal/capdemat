@@ -35,7 +35,7 @@
       <g:message code="menu.users" />
     </a>
     <g:if test="${session.additionalTabs.contains('Payments')}">
-      <a id="paymentMenuItem" href="${createLink(controller:'backofficePayment')}/>">
+      <a id="paymentMenuItem" href="${createLink(controller:'backofficePayment')}">
         <g:message code="menu.payments" />
       </a>
     </g:if>

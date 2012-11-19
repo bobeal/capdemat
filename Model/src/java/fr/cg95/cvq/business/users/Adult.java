@@ -44,7 +44,7 @@ public class Adult extends Individual {
 
     @NotNull(message = "homePhone", when = "groovy:_this.mobilePhone == null && _this.officePhone == null")
     @NotEmpty(message = "homePhone")
-    @MatchPattern(pattern = "^0[1-59][0-9]{8}$", message = "homePhone")
+    @MatchPattern(pattern = "^0[1-5679][0-9]{8}$", message = "homePhone")
     @MaxLength(value=32, message="homePhone")
     @Column(name="home_phone",length=32)
     private String homePhone;

@@ -801,6 +801,10 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
                         individuals.add(a);
                     } else {
                         Child c = Child.xmlToModel((ChildType)individual);
+                        // HACK TC : set birth date to now if not set for not-born children
+                        if (!c.isBorn() && c.getBirthDate() == null)
+                            c.setBirthDate(new Date());
+                        // End HACK TC
                         children.add(c);
                         individuals.add(c);
                     }
@@ -841,8 +845,16 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
                         Iterator<IndividualRole> it = a.getIndividualRoles().iterator();
                         while (it.hasNext()) {
                             IndividualRole role = it.next();
-                            if (role.getIndividualName() != null
-                                    && c.getFullName().toUpperCase().equals(role.getIndividualName().toUpperCase())) {
+                            // HACK TC : remove unwanted characters in children's first & last names
+                            String individualNameRole = role.getIndividualName();
+                            if (individualNameRole != null) {
+                                individualNameRole = individualNameRole.replaceAll("-"," ");
+                                individualNameRole = individualNameRole.replaceAll(","," ");
+                                individualNameRole = individualNameRole.replaceAll("'"," ");
+                            }
+                            // End HACK TC
+                            if (individualNameRole != null
+                                    && c.getFullName().toUpperCase().equals(individualNameRole.toUpperCase())) {
                                 roles.add(role.getRole());
                                 it.remove();
                                 genericDAO.delete(role);

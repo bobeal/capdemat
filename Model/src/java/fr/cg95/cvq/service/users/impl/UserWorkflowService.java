@@ -74,6 +74,7 @@ import fr.cg95.cvq.service.users.IUserNotificationService;
 import fr.cg95.cvq.service.users.IUserSearchService;
 import fr.cg95.cvq.service.users.IUserService;
 import fr.cg95.cvq.service.users.IUserWorkflowService;
+import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.util.JSONUtils;
 import fr.cg95.cvq.util.UserUtils;
 import fr.cg95.cvq.util.development.BusinessObjectsFactory;
@@ -802,8 +803,10 @@ public class UserWorkflowService implements IUserWorkflowService, ApplicationEve
                     } else {
                         Child c = Child.xmlToModel((ChildType)individual);
                         // HACK TC : set birth date to now if not set for not-born children
-                        if (!c.isBorn() && c.getBirthDate() == null)
-                            c.setBirthDate(new Date());
+                        if (!c.isBorn() && c.getBirthDate() == null) {
+                            c.setBirthDate(DateUtils.parseIso("2020-01-01T00:00:00.000"));
+                            individualDAO.update(c);
+                        }
                         // End HACK TC
                         children.add(c);
                         individuals.add(c);
